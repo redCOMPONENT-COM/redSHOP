@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+    <name>Magic Magnify Plus module for Redshop</name>
+	<version>1.1</version>
+	<creationDate>11-03-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Magic Magnify&lt;sup&gt;&amp;#8482;&lt;/sup&gt; lets you add a magnifying glass effect to your images. Try out some customisation options http://www.magictoolbox.com/magicmagnify/#customization. By http://www.magictoolbox.com/.</description>
+    <files>
+        
+                <filename>core/cursor/zoomin.cur</filename>
+            
+                <filename>core/cursor/zoomout.cur</filename>
+            
+                <filename>core/graphics/controlbar.png</filename>
+            
+                <filename>core/graphics/loader.gif</filename>
+            
+                <filename>core/magicmagnifyplus.css</filename>
+            
+                <filename>core/magicmagnifyplus.js</filename>
+            
+                <filename>core/magicmagnifyplus.swf</filename>
+            
+                <filename>magicmagnifyplus.module.core.class.php</filename>
+            
+                <filename>magictoolbox.makethumb.class.php</filename>
+            
+                <filename>magictoolbox.params.class.php</filename>
+            
+                <filename module="mod_redmagicmagnifyplus">mod_redmagicmagnifyplus.php</filename>
+            
+                <filename>mod_redmagicmagnifyplus.xml</filename>
+            
+    </files>
+    <params>
+        <param name="zoom-color" type="text" default="6E8C0E" label="Magnifier color (RGB)" />
+<param name="border-color" type="text" default="6E8C0E" label="Border color (RGB)" />
+<param name="size" type="text" default="100" label="Magnifier size (in pixels)" description="Both width and height if sizeX/sizeY are not specified" />
+<param name="sizeX" type="text" default="0" label="Magnifier width (in pixels)" description="0 - to disable this option" />
+<param name="sizeY" type="text" default="0" label="Magnifier height (in pixels)" description="0 - to disable this option" />
+<param name="type" type="list" default="circle" label="Magnifier shape" >
+<option value="circle">circle</option>
+<option value="square">square</option>
+</param>
+<param name="line-thickness" type="text" default="1" label="Magnifier line thickness (in pixels)" />
+<param name="line-thickness-border" type="text" default="1" label="Border line thickness (in pixels)" />
+<param name="lenseUrl" type="text" default="" label="Relative/Absolute url of the custom image" description="Leave empty to disable this option (use 'none' value instead empty)" />
+<param name="lenseOffsetX" type="text" default="0" label="Custom image x-offset" />
+<param name="lenseOffsetY" type="text" default="0" label="Custom image y-offset" />
+<param name="lensePotition" type="list" default="top" label="Custom image position" description="top - above magnifier, bottom - under magnifier" >
+<option value="top">top</option>
+<option value="bottom">bottom</option>
+</param>
+<param name="linkUrl" type="text" default="" label="Custom link URL" description="Leave empty to disable this option (use 'none' value instead empty)" />
+<param name="linkWindow" type="list" default="_self" label="Window or HTML frame into which the document should load" >
+<option value="_self">_self</option>
+<option value="_blank">_blank</option>
+<option value="_parent">_parent</option>
+<option value="_top">_top</option>
+</param>
+<param name="disableAutoStart" type="radio" default="No" label="Disables magnify effect autostart" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="pauseOnClick" type="radio" default="No" label="Pause on click" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="thumb" type="radio" default="Yes" label="Enable thumb effect" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="show_message" type="radio" default="Yes" label="Show message under image?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="message" type="text" default="Move your mouse over image or click to enlarge" label="Message under images" description="use 'none' value instead empty" />
+<param name="show_caption" type="radio" default="Yes" label="Show caption?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="caption_slide_duration" type="text" default="0.5" label="Caption slide duration (in seconds)" />
+<param name="zoom_duration" type="text" default="0.5" label="Zoom duration (in seconds)" />
+<param name="restore_duration" type="text" default="0.3" label="Image restore duration (in seconds)" />
+<param name="position" type="list" default="center" label="Zoomed image position" >
+<option value="center">center</option>
+<option value="auto">auto</option>
+</param>
+<param name="keep_thumbnail" type="radio" default="Yes" label="Thumbnail visibility?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="allow_keyboard" type="radio" default="Yes" label="Allow keyboard navigation?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="use_ctrl_key" type="radio" default="No" label="Require to use Ctrl key with keyboard shortcuts to navigate between images?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="background_fading_opacity" type="text" default="0" label="Fading background opacity (1-100)" />
+<param name="background_fading_color" type="text" default="#000000" label="Fading background color (RGB)" />
+<param name="background_fading_duration" type="text" default="0.2" label="Fading background duration" />
+<param name="controlbar_enable" type="radio" default="Yes" label="Control bar enable?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</param>
+<param name="controlbar_position" type="list" default="top right" label="Control bar position" >
+<option value="top right">top right</option>
+<option value="bottom right">bottom right</option>
+<option value="bottom left">bottom left</option>
+<option value="top left">top left</option>
+</param>
+<param name="zindex" type="text" default="10001" label="Starting z-index" />
+    </params>
+</install>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+<name>Redshop Multi Currencies</name>
+<version>1.1.1</version>
+<creationDate>11-03-2011</creationDate>
+<author>redweb.dk</author>
+<authorEmail>email@redweb.dk</authorEmail>
+<copyright>redCOMPONENT.com</copyright>
+<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+<description>Shows a list of currencies, so your customers can select a currency for the prices.</description>
+<files>
+	<filename module="mod_redshop_currencies">mod_redshop_currencies.php</filename>
+	<filename module="mod_redshop_currencies">ip2locationlite.class.php</filename>
+</files>
+<params addpath="/administrator/components/com_redshop/elements">
+	<param name="text_before" type="textarea" cols="40" rows="3"
+		default="" label="Pre-text"
+		description="This is the Text or HTML that is displayed at the beginning of the Module" />
+	<param name="product_currency" type="currency" multiple="multiple" size="10" label="The currencies to display:"
+		description="The selected currencies are shown in the module so the customer can select one of those currencies." />
+	<param name="currency_mode" type="radio" default="0" label="Currency Mode" description="If static, all the currencies will be displayed, if Dynamic, you can manage which currency to apply to which country">
+		<option value="0">Static</option>
+		<option value="1">Dynamic</option>
+	</param>
+	<param name="cid" type="currency" default="0" label="Select Currency" description="If Currency Mode is Dynamic then select currency link" />
+	<param name="detect_country" type="radio" default="0" label="Detect Country by" description="Detect Country by ip address or Billing Address">
+		<option value="0">Ip Address</option>
+		<option value="1">Billing Address</option>
+	</param>		
+	<param name="cache" type="radio" default="0" label="Enable Cache" description="Select whether to cache the content of this module">
+		<option value="0">No</option>
+		<option value="1">Yes</option>
+	</param>
+	<param name="moduleclass_sfx" type="text" default=""
+		label="Module Class Suffix"
+		description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+	<param name="class_sfx" type="text" default=""
+		label="Menu Class Suffix"
+		description="A suffix to be applied to the css class of the menu items" />		
+</params>
+</install>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Orders Tracker Layout">
+		<message>
+			<![CDATA[Standard Orders Tracker Layout For Redshop Orders]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Orders Tracker</name>
+		<description>Standard Orders Tracker Layout For Redshop Orders</description>				
+	</state>
+</metadata>

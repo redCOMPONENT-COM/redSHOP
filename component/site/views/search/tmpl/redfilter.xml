@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Red Filter Layout">
+		<message>
+			<![CDATA[Standard Red Filter Layout For Redshop Search Filter Module]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Red Filter</name>
+		<description>Standard Red Filter Layout For Redshop Search Filter Module</description>	
+		<params addpath="/administrator/components/com_redshop/elements" >
+			<param name="categorytemplate" type="category" default="0" label="Enter Category Id For Templet" description="Category id for newest product search Template" />		
+			<param name="productlimit" type="text" size="4" default="" label="How Many products To Show" description="Enter No of Amount How Many products To Show" />			
+		</params>
+	</state>
+</metadata>

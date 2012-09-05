@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>Redshop Search Module</name>
+	<version>1.1.9</version>
+	<creationDate>12-08-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Redshop Search Module</description>
+	<files>
+		<filename module="mod_redshop_search">mod_redshop_search.php</filename>
+		<filename module="mod_redshop_search">index.html</filename>
+		<filename module="mod_redshop_search">tmpl/default.php</filename>
+		<filename module="mod_redshop_search">tmpl/index.html</filename>
+		<filename module="mod_redshop_search">js/search.js</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_search.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_search.ini</language>
+		<language tag="de-DE">language/de-DE/de-DE.mod_redshop_search.ini</language>
+		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.ini</language>
+  	</languages>
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="templateid" type="template" default="0" label="Select Template" description="Search result dispaly in selected category template" />
+		<param name="productperpage" type="text" default="" label="Product Per Page" description="How many Products will Display Per Page" />
+		<param name="enableAjaxsearch" type="radio" default="0" label="Enable Ajax Search" description="Product will be search by Ajax" >
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>	
+		<param name="modsearchitemid" type="text" default="" label="Enter Itemid" description="Enter Itemid" />
+		<param name="noofsearchresults" type="text" default="10" label="No. Of Search Results" description="Number of Search results to Display for Ajax Search" />	
+		<param name="defaultSearchType" type="searchtype" default="" label="Default Search Type" description="Select Default Search Type" />
+		<param name="showSearchTypeField" type="radio" default="yes" label="Show Search Type Field" description="Use Search Type Combobox" >
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		<param name="showSearchField" type="radio" default="yes" label="Show Search Field" description="Use Search Field Textbox" >
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		<param name="showCategory" type="radio" default="yes" label="Show Category Field" description="Use Category Field" >
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>		
+		<param name="showManufacturer" type="radio" default="yes" label="Show Manufacturer Field" description="Use Manufacturer Field" >
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>	
+		<param name="showProductsearchtitle" type="radio" default="yes" label="Show Product Search Title " description="Show Product search title" >
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>		
+		<param name="showKeywordtitle" type="radio" default="yes" label="Show Keyword Title " description="Show Keyword Title" >
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>	
+		<param name="stdsearchtext" type="text" default="" label="Standard Search Text" description="Standard Search Text" />				
+	</params>
+</install>

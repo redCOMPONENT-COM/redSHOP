@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>Redshop Letter Search Module</name>
+	<version>1.1.4</version>
+	<creationDate>11-03-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Redshop Letter Search  Module</description>
+	<files>
+		<filename module="mod_redshop_lettersearch">mod_redshop_lettersearch.php</filename>
+		<filename module="mod_redshop_lettersearch">index.html</filename>
+		<filename module="mod_redshop_lettersearch">tmpl/default.php</filename>
+		<filename module="mod_redshop_lettersearch">tmpl/index.html</filename>
+		<filename module="mod_redshop_lettersearch" >helper.php</filename>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_lettersearch.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redshop_lettersearch.ini</language>
+  	</languages>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="list_of_fields"  type="sql" query="SELECT field_id AS st_value, field_title AS st_title FROM #__redshop_fields WHERE  field_section =1"   key_field="st_value" value_field="st_title" label="SELECT_FIELDS" description="SELECT_FIELDS_DESC" />
+		<param name="number_of_columns" type="text" default="6" label="NUMBER_OF_COLUMNS" description="NUMBER_OF_COLUMNS_DESC" />
+		<param name="lettersearchtemplate"  type="sql" query="SELECT template_id AS st_value, template_name AS st_title  FROM #__redshop_template WHERE template_section = 'searchletter' AND published=1 ORDER BY template_name"   key_field="st_value" value_field="st_title"  default="" label="Letter Search Template" description="Letter Search Template"></param>
+	</params>
+</install>

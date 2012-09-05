@@ -1,0 +1,49 @@
+/**
+ * This <div> element is wrapped by red_product around the list
+ * and has the classname "red_product-container".
+ */
+.red_product-container {
+    position: relative;
+}
+
+.red_product-clip {
+    z-index: 2;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.red_product-list {
+    z-index: 1;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.red_product-list li,
+.red_product-item {
+    float: left;
+    list-style: none;
+    /* We set the width/height explicitly. No width/height causes infinite loops. */
+    width: 75px;
+    height: 75px;
+}
+
+/**
+ * The buttons are added dynamically by red_product before
+ * the <ul> list (inside the <div> described above) and
+ * have the classnames "red_product-next" and "red_product-prev".
+ */
+.red_product-next {
+    z-index: 3;
+    display: none;
+}
+
+.red_product-prev {
+    z-index: 3;
+    display: none;
+}

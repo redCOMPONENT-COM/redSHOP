@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Manufacturer Detail Layout">
+		<message>
+			<![CDATA[Displays the selected manufacturer's detail page]]>
+		</message>
+	</layout>
+	<state>	
+		<name>Standard Manufacturer Detail</name>
+		<description>Displays the selected manufacturer detail page</description>
+		<params addpath="/administrator/components/com_redshop/elements">
+			<param name="manufacturerid" type="manufacturer" default="0" label="Select Manufacturer" description="Displays the selected manufacturer's detail page" />
+		</params>		
+	</state>	
+</metadata>

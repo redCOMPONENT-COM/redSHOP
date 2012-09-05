@@ -1,0 +1,214 @@
+<?php
+/** 
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com 
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+JHTMLBehavior::modal();
+
+jimport('joomla.filesystem.file');
+
+$uri =& JURI::getInstance();
+$url= $uri->root();
+
+$option = JRequest::getVar('option');
+
+$model = $this->getModel ( 'media' );
+
+$media_id = JRequest::getInt('media_id');
+
+?><script language="javascript" type="text/javascript">
+	function submitbutton(pressbutton) {
+		var form = document.additionaladminForm;		
+		
+		if (pressbutton == 'save') {
+			form.submit();
+			return;
+		}
+		
+	}
+
+	function addNewRow(tableRef){
+		
+		var myTable = document.getElementById(tableRef);
+		var tBody = myTable.getElementsByTagName('tbody')[0];
+		var newTR = document.createElement('tr');
+		var newTD = document.createElement('td');
+		var newTD1 = document.createElement('td');
+		
+		newTD.innerHTML = '';
+		newTD1.innerHTML = '<input type="file" name="downloadfile[]" value="" id="downloadfile[]" size="75"><input value="Delete" onclick="deleteRow(this)" class="button" type="button" />';
+		newTR.appendChild (newTD);
+		newTR.appendChild (newTD1);
+		tBody.appendChild(newTR);
+		
+	}
+
+
+	//******************************** Delete Poperty Element ******************
+
+	function deleteRow(r) {
+		var i=r.parentNode.parentNode.rowIndex;
+		document.getElementById('admintable').deleteRow(i);
+	}	 
+</script>
+ 
+<fieldset class="adminform">
+<div style="float: right">
+<button type="button" onclick="submitbutton('save');">
+			<?php
+	echo JText::_ ( 'SAVE' );
+	?>
+		</button>
+<button type="button"
+	onclick="window.parent.document.getElementById('sbox-window').close();">
+			<?php
+	echo JText::_ ( 'CANCEL' );
+	?>
+		</button>
+</div>
+<div class="configuration"><?php
+	echo JText::_ ( 'ADDITIONAL_DOWNLOAD_FILES' );
+	?></div>
+</fieldset>
+
+<form action="<?php	echo JRoute::_ ( 'index.php' );?>" method="post" name="additionaladminForm" id="additionaladminForm" enctype="multipart/form-data">
+<div class="col50">
+<fieldset class="adminform">
+<table class="admintable" border="0" width="100%" id="admintable">
+	<tr>
+	 	<td class="key"><?php echo JText::_('DOWNLOAD_FOLDER');?></td>
+		<td><?php $down_ilink 	= JRoute::_( 'index3.php?option=com_redshop&view=media&layout=thumbs&fdownload=1' ); ?>
+		<div class="button2-left"><div class="image" style="padding-top: 0px !important"><a class="modal" title="Image" href="<?php echo $down_ilink;?>" rel="{handler: 'iframe', size: {x: 950, y: 450}}"><?php echo JText::_('FILE'); ?></a>
+		</div>
+		</div>
+		<div id='selected_file'></div>
+		<input type="hidden" name="hdn_download_file" id="hdn_download_file" />
+		<input type="hidden" name="hdn_download_file_path" id="hdn_download_file_path" />
+		</td>
+	</tr>		
+	<tr>
+		<td valign="top" align="right" class="key">
+		<label for="name"><?php echo JText::_ ( 'ADDITIONAL_FILES' ); ?>:</label>
+		</td>
+		<td>			
+		<input type="file" name="downloadfile[]" id="downloadfile[]" value="" size="75" />
+		<input type="button" name="addvalue" id="addvalue" class="button" Value="<?php echo JText::_( 'ADD' ); ?>" onclick="addNewRow('admintable');" />		
+		</td>
+	</tr>
+</table>
+</fieldset>
+</div>
+<div class="clr"></div>
+<input type="hidden" name="id" value="" />
+<input type="hidden" name="option" value="com_redshop" />
+<input type="hidden" name="media_id" value="<?php	echo $media_id;	?>" /> 
+<input type="hidden" name="task" value="saveAdditionalFiles" /> 
+<input type="hidden" name="view" value="media" />
+</form>
+<fieldset class="adminform">
+<legend><?php echo JText::_('FILES');?></legend>
+<?php   
+
+ 	$additionalfiles = $model->getAdditionalFiles($media_id);
+ 	$k=0;
+ 	for($i=0;$i<count($additionalfiles);$i++){
+ 		
+ 		$filename = $additionalfiles[$i]->name;
+ 		$fileId = $additionalfiles[$i]->id;
+ 		
+ 		$link = JURI::root().DS."components/com_redshop/assets/download/product/".$filename;
+ 		
+ 		$link_delete = "index3.php?option=com_redshop&view=media&task=deleteAddtionalFiles&fileId=".$fileId."&media_id=".$media_id;
+ 		
+ 		$path = JPATH_ROOT.DS.'components/com_redshop/assets/download/product/'.$filename;
+ 		
+ 		$fileExt = strtolower(JFile::getExt($filename));
+				
+ 		?>
+ 		<table class="adminlist" border="0" width="100%" id="admintable">
+	 		<tr class="<?php
+		echo "row$k";
+		?>"> 			
+	 			<td width="70%">
+	 			<?php 
+	 			if(is_file($path)){
+	 				
+	 				if ($fileExt == 'gif' || $fileExt== 'png' || $fileExt == 'jpg' || $fileExt == 'jpeg'){
+	 			?>	 			
+	 				<a href="<?php echo $link;?>" class="modal" rel="{handler: 'image', size: {}}"><?php echo $filename;?></a>	 				
+	 			<?php 
+	 					}else{
+	 						?>
+	 						<a href="<?php echo $link;?>"><?php echo $filename;?></a>
+	 						<?php 
+	 					}
+	 				}else{
+	 					echo $filename;
+	 				}?>
+	 			</td>	 	
+	 			<td ><a href="<?php echo $link_delete;?>"><?php echo JText::_('DELETE');?></a></td>		
+	 		</tr>
+ 		</table>
+ 		<?php
+ 		$k = 1-$k; 
+ 		$k++;
+ 	}
+ 	
+	/*$thumb=$mainImage->property_main_image;
+	$mainimg = '';
+	if(file_exists(JPATH_COMPONENT_SITE."/assets/images/property/".$thumb) && $thumb!='')
+	 {
+	     $mainimg .='<div align="center" style="100px;float:left; border:1px solid #ccc">';
+	 
+		 $mainimg .="<img src='".$url."/components/".$option."/helpers/thumb.php?filename=property/".$thumb."&newxsize=".PRODUCT_ADDITIONAL_IMAGE."&newysize=".PRODUCT_ADDITIONAL_IMAGE."'>
+		
+		 ";			
+		
+		 $mainimg .="</div>";
+		 
+		 echo '<div style="clear:both"><b>'.JText::_('MAIN_IMAGE').'</b></div>'; 
+			echo $mainimg;
+		
+	 }
+  if(count($images)){
+	echo '<div style="clear:both"><br><br><b>'.JText::_('ADDITIONAL_IMAGES').'</b></div>';
+	$more_images='';
+	for($i=0;$i<count($images);$i++){
+		$image = $images[$i];//print_r($image);
+		$thumb=$image->media_name;
+		if(file_exists(JPATH_COMPONENT_SITE."/assets/images/property/".$thumb) && $thumb!='')
+		 {
+		     $more_images .='<div align="center" style="100px;float:left; border:1px solid #ccc">';
+		 
+			 $more_images .="<img src='".$url."/components/".$option."/helpers/thumb.php?filename=property/".$thumb."&newxsize=".PRODUCT_ADDITIONAL_IMAGE."&newysize=".PRODUCT_ADDITIONAL_IMAGE."'>
+			 <br> <a href='index3.php?option=com_redshop&view=product_detail&section_id=".$section_id."&cid=".$product_id."&mediaid=".$image->media_id."&layout=property_images&showbuttons=1&task=deleteimage'>".JText::_('Delete')."</a>
+			 ";			
+			
+			 $more_images .="</div>";
+		 }
+	  
+		}
+	echo $more_images;	
+  }*/
+?>
+</fieldset>
+<script language="javascript">
+function jdownload_file(path,filename){
+	document.getElementById("selected_file").innerHTML =filename;
+	document.getElementById("hdn_download_file_path").value =path;
+	document.getElementById("hdn_download_file").value =filename; 
+}	 
+</script>

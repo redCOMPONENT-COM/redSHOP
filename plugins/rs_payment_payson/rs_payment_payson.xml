@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment"
+	method="upgrade">
+	<name>Payson Payments</name>
+	<version>1.1.3</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>Redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Payson payments</description>
+	<files>
+		<filename plugin="rs_payment_payson">rs_payment_payson.php</filename>
+		<folder>rs_payment_payson</folder>
+	</files>
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="payment_oprand" type="text" size="10" default="-"
+			label="Payment operand" description="Payment Operand" />
+		<param name="payment_price" type="text" size="30" default=""
+			label="Payment price" description="Payment price" />
+		<param name="payment_discount_is_percent" type="radio" default="1"
+			label="Discount Type: " description="Discount Type">
+			<option value="1">Percentage </option>
+			<option value="0">Total</option>
+		</param>
+		<param name="testMode" type="radio" size="30" default="1"
+			label="Payson testMode" description="Paypal Payson testMode Desc">
+			<option value="1">yes</option>
+			<option value="0">no</option>
+		</param>
+		<param name="pays_agentid" type="text" size="30" default=""
+			label="Payson AgentId" description="Payson AgentId Desc" />
+		<param name="pays_md5" type="text" size="30" default=""
+			label="Payson MD5 key" description="Payson MD5 key Desc" />
+		<param name="pays_selleremail" type="text" size="30" default=""
+			label="Payson Seller Email" description="Payson Seller Email Desc" />
+		<param name="pays_seller_first_name" type="text" size="30"
+			default="" label="Payson Seller Firstname" description="Payson Seller Firstname Desc" />
+		<param name="pays_seller_last_name" type="text" size="30"
+			default="" label="Payson Seller Lastname" description="Payson Seller Lastname Desc" />
+		<param name="pays_purchase_url" type="text" size="30" default=""
+			label="Payson purchase url" description="Payson PurchaseURL Desc" />
+		<param name="pays_description" type="text" size="30" default=""
+			label="Payson Description" description="Payson Description Desc" />
+		<param name="pays_shipping_type" type="text" size="30" default=""
+			label="Payson Shipping Type" description="Payson shipping Type Desc" />
+		<param name="pays_shipping_mode" type="text" size="30" default=""
+			label="Payson Shipping Mode" description="Payson Shipping Mode Desc" />
+		<param name="pays_cust_receipt" type="radio" size="30" default="True"
+			label="Payson Customer Receipt" description="Payson Customer Receipt Desc">
+			<option value="True">yes</option>
+			<option value="False">no</option>
+		</param>
+		<param name="pays_method" type="list" size="30" default="0"
+			label="Payson Business Account Email" description="Paypal Business Account Email Desc">
+			<option value="0">All payment options</option>
+			<option value="1">Map</option>
+			<option value="2">Internetbank (SEB, SHB, Nordea and Swedbank)
+			</option>
+			<option value="3">Moderate to Payson Account...</option>
+			<option value="4">Online Resources for Payson + Account</option>
+		</param>
+		<param name="verify_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="C"
+			label="Order Status for successful transactions"
+			description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+		</param>
+		<param name="invalid_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="P"
+			label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+		</param>
+	</params>
+	<params group="advanced">
+		<param name="private_person" type="radio" default="1"
+			label="Show on Private Person" description="Show on Private Person">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="business" type="radio" default="1" label="Show on Business"
+			description="Show on Business">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="is_creditcard" type="hidden" default="0" value="0" />
+		<param name="economic_payment_terms_id" type="text" default="2"
+			label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default=""
+			label="Enter E-conomic Design and Layout ID" />
+	</params>
+	
+</install>

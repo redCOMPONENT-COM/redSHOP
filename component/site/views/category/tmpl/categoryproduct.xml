@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Category Layout to Show all Category Product">
+		<message>
+			<![CDATA[Standard Category Layout to Show all Category Product For Redshop Category]]>
+		</message>
+	</layout>
+	<state>	
+		<name>Show all Category Product</name>
+		<description>Standard Category Layout to Show all Category Product For Redshop Category</description>
+		<url addpath="/administrator/components/com_redshop/elements">
+			<param name="cid" type="category" default="0" label="Select Category" description="Displays the selected category product" />
+		</url>
+		<params addpath="/administrator/components/com_redshop/elements">
+		<param name="maxcategory" type="text" size="4" default="5" label="HOW_MANY_CATEGROY_TO_DISPLAY_PER_PAGE_LBL" description="HOW_MANY_CATEGROY_TO_DISPLAY_PER_PAGE" />
+		<param name="maxproduct" type="text" size="4" default="5" label="HOW_MANY_PRODUCTS_TO_DISPLAY_PER_CATEGROY_LBL" description="HOW_MANY_PRODUCTS_TO_DISPLAY_PER_CATEGROY" />
+		<param name="order_by" type='productsearchtype' label="Product Sorting" description="Select Product Sorting" />
+		</params>		
+	</state>	
+</metadata>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment"
+	method="upgrade">
+	<name>EwayUK Gateway Payments</name>
+	<version>1.1.1</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard EwayUK Gateway payments
+	</description>
+
+	<files>
+		<filename plugin="rs_payment_ewayuk">rs_payment_ewayuk.php</filename>
+		<folder>rs_payment_ewayuk</folder>
+	</files>
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="payment_oprand" type="text" size="10" default="-"
+			label="Payment operand" description="Payment Operand" />
+		<param name="payment_price" type="text" size="30" default=""
+			label="Payment price" description="Payment price" />
+		
+		<param name="payment_discount_is_percent" type="radio" default="1"
+			label="Discount Type: " description="Discount Type">
+			<option value="1">Percentage </option>
+			<option value="0">Total</option>
+		</param>
+		<param name="debug_mode" type="radio" default="1" label="Debug Mode: "
+			description="Debug Mode">
+			<option value="1">Yes </option>
+			<option value="0">No</option>
+		</param>
+		<param name="customer_id" type="text" default="" label="Customer ID :"
+			description="Your eWAY Customer ID." />
+		<param name="username" type="text" default="" label="UserName :"
+			description=" Your eWAY Customer User Name." />
+		<param name="pagetitle" type="text" default="" label="Page Title :"
+			description="This is value will be displayed as the title of  the browser. Default: eWAY Hosted Payment Page." />
+		<param name="pagedescription" type="text" default=""
+			label="Page Description :"
+			description="This value will be displayed above the  Transaction Details.Default: Blank." />
+		<param name="pagefooter" type="text" default="" label="Page Footer :"
+			description="This value will be displayed below the Transaction Details." />
+		<param name="ewayuk_language" type="list" default="EN"
+			label="eWAY (UK) Language:" description="Select language for eWAY UK">
+			<option value="EN">English</option>
+			<option value="ES">Spanish</option>
+			<option value="FR">French</option>
+			<option value="DE">German</option>
+			<option value="NL">Dutch</option>
+		</param>
+		<param name="merchant_companyname" type="text" default=""
+			label="Merchant Company Name :"
+			description="This will be displayed as the company the customer is purchasing from, including this is highly recommended." />
+		<param name="verify_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="C"
+			label="Order Status for successful transactions"
+			description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+		</param>
+		<param name="invalid_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="P"
+			label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+		</param>
+		<param type="spacer" />
+		<param type="spacer" />
+		<param type="spacer" />
+	</params>
+	<params group="advanced">
+		<param name="private_person" type="radio" default="1"
+			label="Show on Private Person" description="Show on Private Person">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="business" type="radio" default="1" label="Show on Business"
+			description="Show on Business">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="is_creditcard" type="hidden" default="0" value="0" />
+		<param name="economic_payment_terms_id" type="text" default=""
+			label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default=""
+			label="Enter E-conomic Design and Layout ID" />
+		<param name="shopper_group_id" type="plugins" default="0"
+			label="Select Shopper Group" description="Displays the shopper groups" />
+	</params>
+</install>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Category Layout">
+		<message>
+			<![CDATA[Standard Category Layout For Redshop Category]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Category List</name>
+		<description>Standard Category Layout For Redshop Category</description>
+		<params addpath="/administrator/components/com_redshop/elements">
+			<param name="manufacturer_id" type="manufacturer" default="0" label="Select Manufacturer" description="Displays the selected manufacturer's detail page" />
+		</params>				
+	</state>
+</metadata>

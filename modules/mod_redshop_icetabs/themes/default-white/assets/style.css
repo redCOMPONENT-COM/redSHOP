@@ -1,0 +1,172 @@
+@charset "utf-8";
+
+/* CSS Document */
+.ice-slideshow-white	 { 
+	position:relative;
+	overflow:hidden; 
+	border:1px solid #E6E6E6;
+	background:#fff;
+	width:auto; 
+	height:auto;}
+	
+	.ice-slideshow-white li {
+		list-style-type:none!important;	}
+		
+/* main flash */
+.ice-slideshow-white .ice-main-wapper{ 
+	overflow:hidden;
+	position:relative;}
+	
+	.ice-slideshow-white .ice-main-wapper .ice-main-item { 
+		overflow:hidden;
+		padding:0px;
+		margin:0px; 
+		height:100%;
+		background:#fff;
+		width:100%;
+		position:absolute;}
+		
+		.ice-slideshow-white .ice-main-wapper .ice-main-item h3.ice-title { 
+			line-height:1.6em;
+			padding:0;
+			margin:0 0 .25em;}
+		
+		.ice-slideshow-white .ice-main-wapper .ice-main-item .ice-description{
+			padding:1em 1.25em}
+		
+		.ice-slideshow-white .ice-main-wapper .ice-main-item .ice-description img {
+			float:left;
+			margin:.2em 1em .8em 0}	
+			
+/* item navigator */
+.ice-slideshow-white .ice-navigator-wrapper { 
+	position:relative;}
+	
+	.ice-slideshow-white .ice-navigator-outer  { 
+		position:absolute; 
+		right:0;
+		top:0px;
+		z-index:3;
+		height:300px;
+		width:310px;
+		overflow:hidden }
+		 
+		.ice-slideshow-white  ul.ice-navigator { 
+			top:0;
+			padding:0; 
+			margin:0;
+			position:absolute;
+			width:100%;}
+			
+			.ice-slideshow-white  ul.ice-navigator li { 
+				cursor:hand;
+				cursor:pointer;
+				list-style:none!important;
+				width:100%;
+				border-bottom:1px solid #fff;
+				padding:0!important;
+				margin:0!important;
+				background:#f0f0f0 }
+			.ice-slideshow-white  ul.ice-navigator li:hover {
+				background-color:#E6E6E6}
+				
+				.ice-slideshow-white  ul.ice-navigator li div {
+					padding:1em 1.25em;}
+					
+				.ice-slideshow-white .ice-navigator li .ice-title {
+					 font-size:1em; 
+					 font-weight:normal;
+					 margin:0!important; }
+					 
+				.ice-slideshow-white .ice-navigator li div img {	
+					float:left;
+					margin:0 .75em .75em 0 }
+					
+			.ice-slideshow-white .ice-navigator li.active {
+				 background:#E6E6E6 url(current_tab.png) no-repeat center left }
+
+
+/**
+ * BUTTONS CONTROL
+ */
+.ice-slideshow-white .ice-buttons-control{
+	position:absolute; 
+	top:0px;
+	right:10px;
+	padding:3px 20px;
+	background:url(arrow_bg.png) no-repeat; 
+	height:19px;
+	width:30px}
+	
+	.ice-slideshow-white .ice-next, 
+	.ice-slideshow-white .ice-previous {
+		background:url(arrows.png) no-repeat;	
+		width:10px;
+		height:10px;
+		text-indent:-9999em;
+		position:relative;
+		z-index:10;
+		margin:0px;
+		cursor:hand; 
+		cursor:pointer;}
+		
+		.ice-slideshow-white .ice-next {
+			background-position:0 0;			
+			float:right;}
+			
+		.ice-slideshow-white .ice-previous {	
+			background-position:0 -20px;
+			float:left;}
+			
+		.ice-slideshow-white .ice-next:hover {
+			background-position:0 -10px;}
+			
+		.ice-slideshow-white .ice-previous:hover { 
+			background-position:0 -30px}
+/*
+ * css for override move the main wapper to the right side 
+ */
+ /* RIGHT ALIGMENT */
+.ice-right-sl-white .ice-navigator-wrapper { float:right; }
+.ice-right-sl-white .ice-main-wapper		  { margin-left:auto; margin-right:inherit; float:right }
+.ice-right-sl-white .ice-navigator-outer   { position:relative }
+ /* LEFT ALIGMENT */
+.ice-left-sl-white .ice-navigator-wrapper { float:left; }
+.ice-left-sl-white .ice-main-wapper		 { margin-left:auto; margin-right:inherit; float:left }
+.ice-left-sl-white .ice-navigator-outer	 { position:relative }
+.ice-left-sl-white .ice-navigator li.active { background-image:url(current_tab_l.png); background-position:center right;}
+				 
+ /* TOP, BOTTOm ALIGMENT */
+.ice-top-sl-white .ice-navigator-outer,  .ice-bottom-sl-white .ice-navigator-outer{ position:relative; float:left }
+.ice-top-sl-white .ice-navigator, 	    .ice-bottom-sl-white .ice-navigator 		{ width:9999em !important }
+.ice-top-sl-white .ice-navigator li,     .ice-bottom-sl-white .ice-navigator li 	{ display:block; float:left; border-bottom:none; border-right:1px solid #fff; }
+/* Top Aligment */
+.ice-top-sl-white .ice-navigator li.active { background-image:url(current_tab_t.png); background-position:center bottom;}
+.ice-top-sl-white .ice-buttons-control { background-image:url(arrow_bg_t.png); top:auto; bottom:0; padding-top:12px; height:10px}
+/* Bottom Aligment */
+.ice-bottom-sl-white .ice-navigator li.active { background-image:url(current_tab_b.png); background-position:center top;}
+
+
+/* VirtueMart Mode */
+.ice-vmimagearea {
+	float:left;
+	position:relative;
+	overflow:hidden}
+
+.ice-addtocart {
+	clear:left;}
+	
+.ice-vmimagearea img {
+	padding-bottom:2em;}
+	
+.ice-vmproductdesc {
+	float:left;
+	padding-left:15px;
+	text-align:left;}	
+	
+.ice-vmproductdesc ul {
+	margin:0;
+	padding:0}	
+
+.addtocart_button_module {
+	cursor:pointer;}	

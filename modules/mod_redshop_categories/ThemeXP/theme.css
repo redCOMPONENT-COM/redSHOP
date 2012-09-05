@@ -1,0 +1,116 @@
+/* Menu Style Sheet */
+
+.ThemeXPTreeLevel0,.ThemeXPTreeLevel1
+{
+	cursor: default;
+	white-space: nowrap;
+	border: 0;
+	padding: 0;
+	text-align: left;
+}
+
+.ThemeXPTreeLevel1
+{
+	display: none;
+}
+
+.ThemeXPTable
+{
+	cursor: default;
+
+	color:		inherit;
+	background-color:	inherit;
+
+	font-family:	Verdana, Arial, sans-serif;
+	font-size:	12px;
+
+	white-space: nowrap;
+
+	border-collapse:	separate;
+
+	border:		0;
+	padding:	0;
+}
+
+.ThemeXPRow,.ThemeXPRowHover,.ThemeXPRowActive,.ThemeXPRowSelected
+{
+	background-color: inherit;
+	white-space:	nowrap;
+
+	border:		0;
+	padding:	0;
+}
+
+.ThemeXPFolderSpacer,.ThemeXPItemSpacer,
+.ThemeXPFolderLeft,.ThemeXPItemLeft,
+.ThemeXPFolderText,.ThemeXPItemText,
+.ThemeXPFolderRight,.ThemeXPItemRight
+{
+	background-color: inherit;
+	white-space:	nowrap;
+
+	border:		0;
+	padding:	0;
+}
+
+/* it would be better that child selector > would work, but IE
+	doesn't support it :( */
+
+.ThemeXPFolderText a,
+.ThemeXPItemText a
+{
+	text-decoration:	none;
+	border:			0;
+	padding:		1px;
+	background-color:	inherit;
+}
+
+.ThemeXPRowHover .ThemeXPItemText a,
+.ThemeXPRowHover .ThemeXPFolderText a
+{
+	color:			#000084;
+	text-decoration:	underline;
+}
+
+.ThemeXPRowActive .ThemeXPItemText a,
+.ThemeXPRowActive .ThemeXPFolderText a,
+.ThemeXPRowSelected .ThemeXPItemText a,
+.ThemeXPRowSelected .ThemeXPFolderText a
+{
+	color:			white;
+	background-color:	#3169C6;
+	text-decoration:	none;
+}
+
+/* in strict mode of XHTML, this is a fix for image connections */
+
+.ThemeXPFolderSpacer img,
+.ThemeXPItemSpacer img,
+.ThemeXPFolderLeft img,
+.ThemeXPItemLeft img,
+.ThemeXPFolderRight img,
+.ThemeXPItemRight img
+{
+	vertical-align:	bottom;
+}
+
+/* no need to modify these two since they are generic. */
+/* they are used to coordinate the folder open/closing animation */
+
+.JSCookTreeFolderClosed
+{
+}
+
+.JSCookTreeFolderOpen
+{
+}
+
+#JSCookTreeFolderClosed .JSCookTreeFolderOpen
+{
+	display:	none;
+}
+
+#JSCookTreeFolderOpen .JSCookTreeFolderClosed
+{
+	display:	none;
+}

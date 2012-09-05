@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system" method="upgrade">
+<name>Zipcode validation for UK</name>
+<author>Author</author>
+<version>1.1.1</version>
+<creationDate>24-11-2011</creationDate>
+<author>Redweb.dk</author>
+<authorEmail>email@redweb.dk</authorEmail>
+<authorUrl>www.redweb.dk</authorUrl>
+<copyright>redCOMPONENT.com</copyright>
+<license>GNU General Public License v2</license>
+<description>This plugin validates zipcode for UK.</description>
+	<files>
+		<filename plugin="rs_postcodevalidation">rs_postcodevalidation.php</filename>
+		<folder>rs_postcodevalidation</folder>
+	</files>
+</install>

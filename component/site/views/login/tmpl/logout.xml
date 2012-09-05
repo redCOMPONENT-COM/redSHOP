@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Logout Layout">
+		<message>
+			<![CDATA[Standard Logout Layout For Redshop]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Layout</name>
+		<description>Standard Logout Layout For Redshop</description>
+		<params>
+			<param name="logout" type="menuitem" default="" disable="separator" label="LOGOUT_REDIRECTION_PAGE" description="PARAMLOGOUTREDIRECTURL" />
+		</params>				
+	</state>
+</metadata>

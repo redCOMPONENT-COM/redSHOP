@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_shipping"    method="upgrade">
+	<name>USPS</name>
+	<version>1.1.4</version>
+	<creationDate>31-03-2010</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<shipping_class>usps</shipping_class>
+	<shipping_method_code>usps</shipping_method_code>	  
+	<files>
+		<filename plugin="usps">usps.php</filename>	
+		<filename plugin="usps">usps.cfg.php</filename>		 
+	</files>
+</install>

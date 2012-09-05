@@ -1,0 +1,34 @@
+<?xml version="1.5" encoding="iso-8859-1"?>
+<install version="1.5" type="plugin" group="content" method="upgrade">
+	<name>Redshop Product Content Replacement Plugin</name>
+	<version>1.1.8</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Replaces product id with product layout.</description>
+	<files>
+		<filename plugin="redshop_product">redshop_product.php</filename>
+	</files>	
+  	<languages folder="language">
+      <language tag="en-GB">en-GB.plg_content_redshop_product.ini</language>
+      <language tag="da-DK">da-DK.plg_content_redshop_product.ini</language>
+   </languages>
+	<params>	
+			<param name="show_price" type="radio" default="0" label="SHOW_PRICE" description="SHOW_PRICE_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>			
+			<param name="show_discountpricelayout" type="radio" default="1" label="SHOW_DISCOUNT_PRICE_LAYOUT" description="SHOW_DISCOUNT_PRICE_LAYOUT">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+			<param name="show_price_with_vat" type="radio" default="1" label="SHOW_PRICE_WITH_VAT" description="SHOW_PRICE_WITH_VAT_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+			<param name="product_template"  type="sql" query="SELECT template_id AS tm_value, template_name AS tm_title FROM #__redshop_template WHERE template_section='product_content_template'"   key_field="tm_value" value_field="tm_title"  default="product" label="Product Template" description="Select Product Template.">
+		  	</param>
+					
+	</params> 
+</install>

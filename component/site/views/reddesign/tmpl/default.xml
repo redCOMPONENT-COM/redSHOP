@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Red Design Layout">
+		<message>
+			<![CDATA[Standard Red Design Layout For Redshop to Integrate redDESIGN]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Red Design</name>
+		<description>Standard Red Design Layout For Redshop to Integrate redDESIGN</description>				
+	</state>
+</metadata>

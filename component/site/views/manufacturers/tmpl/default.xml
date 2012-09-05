@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Manufacturers Layout">
+		<message>
+			<![CDATA[Standard Manufacturers Layout For Redshop Manufacturers List]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Manufacturers List</name>
+		<description>Standard Manufacturers Layout For Redshop Manufacturers List</description>
+		<params>
+			<param name="maxmanufacturer" type="text" size="4" default="5" label="HOW_MANY_MANUFACTURERS" description="HOW_MANY_MANUFACTURERS_DESCRIPTION" />
+		</params>					
+	</state>
+</metadata>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="search" method="upgrade">
+	<name>Search Plugin - Redshop Categorysearch</name>
+	<version>1.1</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Allows Searching of Redshop categories</description>
+	<files>
+		<filename plugin="redshop_categories">redshop_categories.php</filename>
+	</files>
+	<params>
+		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>
+	</params>
+</install>

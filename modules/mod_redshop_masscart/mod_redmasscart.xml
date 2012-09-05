@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>redMASSCART</name>
+	<version>1.1</version>
+	<creationDate>11-03-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>redMASSCART module places multiple product in the cart with Product Number.</description>
+	<files>
+		<filename module="mod_redmasscart">mod_redmasscart.php</filename>
+		<filename module="mod_redmasscart">index.html</filename>
+		<filename module="mod_redmasscart">css/style.css</filename>
+		<filename module="mod_redmasscart">tmpl/default.php</filename>
+		<filename module="mod_redmasscart">tmpl/index.html</filename>
+	</files>
+	<languages>
+	    <language tag="en-GB">language/en-GB/en-GB.mod_redmasscart.ini</language>
+	    <language tag="da-DK">language/da-DK/da-DK.mod_redmasscart.ini</language>
+	</languages>
+	<params>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	
+		
+		<param name="cartbtntitle" type="text" default="add to cart" label="PARAMMODCARTBTNTITLE" description="PARAMMODCARTBTNDESC" />
+		<param name="chk_quantity" type="radio" default="0" label="PARAMMODPRODUCTQUANTITY" description="PARAMMODPRODUCTQUANTITYDESC" >
+		<option value="1">YES</option>
+		<option value="0">NO</option>
+		</param>
+		<param name="textwidth" type="text" default="150" label="PARAMMODWOATITLE" description="PARAMMODWOADESC" />
+		<param name="textheight" type="text" default="100" label="PARAMMODHOATITLE" description="PARAMMODHOADESC" />
+		
+		
+		<param name="title" type="text" default="Product Number" label="PARAMMODTITLEOFINPUT" description="PARAMMODDESCOFINPUT" />
+		
+		<param name="info" type="textarea" rows="3" cols="40" default="place product number per line." label="PARAMMODINSTITLE" description="PARAMMODINSDESC" />
+	</params>
+</install>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment" method="upgrade">
+	<name>Amazon Checkout Payments</name>
+	<version>1.1.3</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Amazon Checkout payments</description>
+	
+	<files>
+		<filename plugin="rs_payment_amazoncheckout">rs_payment_amazoncheckout.php</filename>
+		 <folder>rs_payment_amazoncheckout</folder>
+			 
+	</files>
+		<params addpath="/administrator/components/com_redshop/elements">
+			<param name="payment_oprand" type="text" size="10" default="-" label="Payment operand" description="Payment Operand"/>
+			<param name="payment_price" type="text" size="30" default="" label="Payment price" description="Payment price"/>
+			<param name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: " description="Discount Type" >
+					<option value="1">Percentage </option>
+					<option value="0">Total</option>
+			</param>
+			<param name="amazon_is_test" type="radio" default="1" label="Test mode: " description="Test Mode" >
+					<option value="1">Yes </option>
+					<option value="0">No</option>
+			</param>
+			<param name="amazon_payment_method" type="list" default="STANDARD" label="Payment Method: " description="Using which payment method you want to use?" >
+					<option value="STANDARD">Standard </option>
+ 					<option value="MARKETPLACE">Marketplace </option>
+			</param>
+			<param name="amazon_signature" type="text"   default="YLusoJaVzb4+Y2RyG7FfPdUJLPpL23nMLePgUtU4eKc=" label="Amazon Signature" description=" Amazon Checkout Signature" />
+			<param name="amazon_signature_method" type="text"   default="HmacSHA256" label="Amazon Signature Method" description=" Amazon Checkout Signature Method" />
+			<param name="amazonPaymentsAccountId" type="text"   default="SHJYUFXKZTCI466UMU95SICXH5CLZLM3LMRG3Z" label="Amazon Payment Account Id" description="Put your   Amazon Payments Account Id here  " />
+			<param name="amazon_accessKey" type="text"   default="11SEM03K88SD016FS1G2" label="Access Key" description="Put your accessKey here  " />
+			<param name="amazon_recipientEmail" type="text"   default="" label="Recipient Email" description="This is the email Id associated with the Amazon payments account of the seller. Payment will be made to the seller who has registered this email Id with Amazon Payments. Note that the seller should have created an Amazon Payments Business account with this email Id for the payment to succeed." />
+
+			<param name="verify_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"   default="C" label="Order Status for successful transactions" description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+			</param>
+			<param name="invalid_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"  default="P" label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+		  	</param>
+			<param name="capture_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"  default="S" label="Capture Payment Status" description="Select an capture status for capturing payment."></param>
+		<param type="spacer" />
+		<param name="amazon_variable_marketplace_fee" type="text"   default="" label="Variable Marketplace fee" description="Only for Marketplace Method.Marketplace Fee. This is the fee that you want to charge to the sellers for using your website / application. The fee can either be fixed (e.g. 0.20 USD), variable (e.g. 4%) or a combination (e.g.4% + 0.20 USD). You can charge a different fee for every payment as long as it is lesser than the maximum fee specified in the fee policy accepted by the seller. If the marketplace fee is more than the fee accepted by the seller, you have to get the seller accept the updated fee policy before the transaction can succeed." />
+		<param name="amazon_fixed_marketplace_fee" type="text"   default="" label="Fixed Marketplace fee" description="Only for Marketplace Method.Marketplace Fee. This is the fee that you want to charge to the sellers for using your website / application. The fee can either be fixed (e.g. 0.20 USD), variable (e.g. 4%) or a combination (e.g.4% + 0.20 USD). You can charge a different fee for every payment as long as it is lesser than the maximum fee specified in the fee policy accepted by the seller. If the marketplace fee is more than the fee accepted by the seller, you have to get the seller accept the updated fee policy before the transaction can succeed." />
+		<param name="amazon_caller_reference" type="text"   default="" label="Caller Reference" description="Only for Marketplace Method." />
+  	 <param type="spacer" />
+<param type="spacer" />
+<param type="spacer" />
+	</params>
+	<params  group="advanced">
+		<param name="private_person" type="radio" default="1" label="Show on Private Person" description="Show on Private Person">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</param>
+	  	<param name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</param>
+		<param name="is_creditcard" type="hidden" default="0" value="0" />
+		<param name="economic_payment_terms_id" type="text"   default="" label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default="" label="Enter E-conomic Design and Layout ID" />
+		<param name="shopper_group_id"  type="plugins" default="0" label="Select Shopper Group" description="Displays the shopper groups" />
+	</params>
+</install>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>redSHOP ShopperGroup Product Module</name>
+	<version>1.1.5</version>
+	<creationDate>19-07-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Shoppergroup Product Module for redSHOP</description>
+	<files>
+		<filename module="mod_redshop_shoppergroup_product">mod_redshop_shoppergroup_product.php</filename>
+		<folder>tmpl</folder>
+		<folder>css</folder>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_shoppergroup_product.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redshop_shoppergroup_product.ini</language>
+  	</languages>
+	<params>
+			<param name="moduleclass_sfx" type="text" default="" label="CLASS_SUFFIX" description="CLASS_SFX_DESC" />
+ 		    <!-- <param name="category" type="text" size="40" label="Category" description="ENTER_CATEGORY" /> -->
+			<param name="count" type="text" default="5" size="10" label="NUMBER_OF_PRODUCT" description="NUMBER_OF_PRODUCT_DESC" />
+			
+			<param name="image" type="radio" default="0" label="SHOW_IMAGE" description="SHOW_IMAGE_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+			
+			<param name="thumbwidth" type="text" size="10" label="THUMB_IMAGE_WIDTH" description="THUMB_IMAGE_WIDTH" default="100" />
+			<param name="thumbheight" type="text" size="10" label="THUMB_IMAGE_HEIGHT" description="THUMB_IMAGE_HEIGHT" default="100" />
+			
+			<param name="show_price" type="radio" default="0" label="SHOW_PRICE" description="SHOW_PRICE_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+			<param name="show_vat" type="radio" default="1" label="SHOW_VAT" description="SHOW_VAT_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>			
+			<param name="show_short_description" type="radio" default="1" label="SHOW_SHORT_DESCRIPTION" description="SHOW_SHORT_DESCRIPTION_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+			<param name="show_readmore" type="radio" default="1" label="SHOW_READ_MORE" description="SHOW_READ_MORE_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+			<param name="show_addtocart" type="radio" default="1" label="SHOW_ADD_TO_CART" description="SHOW_ADD_TO_CART_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+			<param name="show_discountpricelayout" type="radio" default="1" label="SHOW_DISCOUNT_PRICE_LAYOUT" description="SHOW_DISCOUNT_PRICE_LAYOUT">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+	</params> 
+</install>

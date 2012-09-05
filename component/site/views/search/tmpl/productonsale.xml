@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Product On Sale Layout">
+		<message>
+			<![CDATA[Standard Product On Sale Layout For Redshop Search]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Product On Sale</name>
+		<description>Standard Product On Sale Layout For Redshop Search</description>	
+		<params addpath="/administrator/components/com_redshop/elements" >
+		    <param name="templateid" type="template" default="0" label="Select Template" description="Search result dispaly in selected category template" />
+			<param name="categorytemplate" type="category" default="0" label="Enter Category Id For Templet" description="Category id for newest product search Template" />		
+			<param name="productlimit" type="text" size="4" default="" label="How Many products To Show" description="Enter No of Amount How Many products To Show" />			
+		</params>
+	</state>
+</metadata>

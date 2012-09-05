@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<install type="module" version="1.5.0" method="upgrade">
+	<name>RedSHOP Featured Product</name>
+	<version>1.1.10</version>
+	<creationDate>12-08-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Featured Product Module for redSHOP</description>
+	<files>
+		<filename module="mod_redfeaturedproduct">mod_redfeaturedproduct.php</filename>
+		<folder module="mod_redfeaturedproduct">images</folder>
+		<folder module="mod_redfeaturedproduct">css</folder>
+		<folder module="mod_redfeaturedproduct">js</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.mod_redfeaturedproduct.ini</language>
+		<language tag="it-IT">language/it-IT/it-IT.mod_redfeaturedproduct.ini</language>
+  	</languages>	
+	<params>
+		<param name="pretext" type="text" default="" label="PRETEXT_LBL"
+			description="PRETEXT" />
+		<param name="NumberOfProducts" type="text" default="5"
+			label="NUMBER_OF_PRODUCT_LBL"
+			description="NUMBER_OF_PRODUCT_DESC" />		
+		<param name="ScrollSortMethod" type="radio" default="random"
+			label="SCROLL_SORT_METHOD_LBL"
+			description="SCROLL_SORT_METHOD_DESC">
+			<option value="newest">NEWEST</option>
+			<option value="oldest">OLDEST</option>
+			<option value="random">RANDOM</option>
+		</param>
+		<param name="show_product_name" type="radio" default="yes"
+			label="SHOW_PRODUCT_NAME_LBL"
+			description="SHOW_PRODUCT_NAME_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="show_addtocart" type="radio" default="yes"
+			label="SHOW_ADD_TO_CART_LBL"
+			description="SHOW_ADD_TO_CART_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="show_price" type="radio" default="yes"
+			label="SHOW_PRICE_LBL"
+			description="SHOW_PRICE_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="show_vatprice" type="radio" default="0"
+			label="SHOW_VATPRICE_LBL"
+			description="SHOW_VATPRICE_DESC">
+			<option value="0">YES</option>
+			<option value="1">NO</option>
+		</param>	
+		<param name="thumbwidth" type="text" size="10" label="THUMB_IMAGE_WIDTH" description="THUMB_IMAGE_WIDTH" default="100" />
+		<param name="thumbheight" type="text" size="10" label="THUMB_IMAGE_HEIGHT" description="THUMB_IMAGE_HEIGHT" default="100" />
+		<param name="scrollerheight" type="text" size="10" label="SCROLLER_HEIGHT" description="SCROLLER_HEIGHT" default="200" />
+		<param name="scrollerwidth" type="text" size="10" label="SCROLLER_WIDTH" description="SCROLLER_WIDTH" default="700" />
+		
+		<param name="product_title_max_chars" type="text" size="10" label="PRODUCT_TITLE_MAX_CHARS" description="PRODUCT_TITLE_MAX_CHARS" default="10" />
+		<param name="product_title_end_suffix" type="text" size="10" label="PRODUCT_TITLE_END_SUFFIX" description="PRODUCT_TITLE_END_SUFFIX" default="...." />	
+		<param name="show_discountpricelayout" type="radio" default="1" label="SHOW_DISCOUNT_PRICE_LAYOUT" description="SHOW_DISCOUNT_PRICE_LAYOUT">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</param>
+		<param name="moduleclass_sfx" type="text" default=""
+			label="MODULE_CLASS_SFX"
+			description="MODULE_CLASS_SFX_DESC" />
+		<param name="class_sfx" type="text" default=""
+			label="MENU_CLASS_SFX"
+			description="MENU_CLASS_SFX_DESC" />
+	</params>
+</install>

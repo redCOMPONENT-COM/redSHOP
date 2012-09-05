@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Product Layout">
+		<message>
+			<![CDATA[Standard Product Layout For Redshop ]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Product</name>
+		<description>Standard Product Layout For Redshop</description>
+		<url addpath="/administrator/components/com_redshop/elements">
+			<param name="pid" type="products" default="0" label="Select Products" description="A Product" />
+		</url>
+		<params>			
+		</params>					
+	</state>
+</metadata>
+ 

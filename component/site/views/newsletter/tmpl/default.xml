@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Newsletter Layout">
+		<message>
+			<![CDATA[Standard Newsletter Layout For Redshop Newsletter]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Newsletter</name>
+		<description>Standard Newsletter Layout For Redshop Newsletter</description>				
+	</state>
+</metadata>

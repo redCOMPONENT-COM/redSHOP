@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<install type="module" version="1.5.0" method="upgrade">
+	<name>RedSHOP Main Category Scroller</name>
+	<version>1.1</version>
+	<creationDate>16-06-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>redSHOP Main Category Scroller Module</description>
+	<files>
+		<filename module="mod_redcategoryscroller">mod_redcategoryscroller.php</filename>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redcategoryscroller.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redcategoryscroller.ini</language>
+  	</languages>
+	<params>
+		<param name="pretext" type="text" default="" label="PRETEXT_LBL"
+			description="PRETEXT" />
+		<param name="NumberOfCategory" type="text" default="5"
+			label="NUMBER_OF_CATEGORY_LBL"
+			description="NUMBER_OF_CATEGORY_DESC" />		
+		<param name="thumbwidth" type="text" size="10" label="THUMB_IMAGE_WIDTH" description="THUMB_IMAGE_WIDTH" default="100" />
+		<param name="thumbheight" type="text" size="10" label="THUMB_IMAGE_HEIGHT" description="THUMB_IMAGE_HEIGHT" default="100" />
+		<param name="boxwidth" type="text" size="10" label="BOX_WIDTH" description="BOX_WIDTH" default="100" />
+		<param name="ScrollSortMethod" type="radio" default="random"
+			label="SCROLL_SORT_METHOD_LBL"
+			description="SCROLL_SORT_METHOD_DESC">
+			<option value="newest">NEWEST</option>
+			<option value="oldest">OLDEST</option>
+			<option value="random">RANDOM</option>
+		</param>
+		<param name="show_category_name" type="radio" default="yes"
+			label="SHOW_CATEGORY_NAME_LBL"
+			description="SHOW_CATEGORY_NAME_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		
+		<param name="ScrollHeight" type="text" default="125"
+			label="SCROLL_HEIGHT" description="SCROLL_HEIGHT_DESC" />
+		<param name="ScrollWidth" type="text" default="150"
+			label="SCROLL_WIDTH" description="SCROLL_WIDTH_DESC" />
+		<param name="ScrollBehavior" type="list" default="scroll"
+			label="SCROLL_BEHAVIOR"
+			description="SCROLL_BEHAVIOR_DESC">
+			<option value="scroll">SCROLL</option>
+			<option value="slide">SLIDE</option>
+			<option value="alternate">ALTERNATE</option>
+		</param>
+		<param name="ScrollDirection" type="list" default="up"
+			label="SCROLL_DIRECTION"
+			description="SCROLL_DIRECTION_DESC">
+			<option value="up">SCROLL_UP</option>
+			<option value="down">SCROLL_DOWN</option>
+			<option value="left">SCROLL_LEFT</option>
+			<option value="right">SCROLL_RIGHT</option>
+		</param>
+		<param name="ScrollAmount" type="list" default="scroll"
+			label="SCROLL_AMOUNT"
+			description="SCROLL_AMOUNT_DESC">
+			<option value="1">1 line</option>
+			<option value="2">2 lines</option>
+			<option value="3">3 lines</option>
+			<option value="4">4 lines</option>
+			<option value="5">5 lines</option>
+		</param>
+		<param name="ScrollDelay" type="text" default="80"
+			label="SCROLL_DELAY"
+			description="SCROLL_DELAY_DESC" />
+		<param name="ScrollAlign" type="list" default="left"
+			label="SCROLL_ALIGN"
+			description="SCROLL_ALIGN_DESC">
+			<option value="left">LEFT_ALIGN</option>
+			<option value="right">RIGHT_ALIGN</option>
+			<option value="center">CENTER_ALIGN</option>
+			<option value="justify">JUSTIFY_ALIGN</option>
+		</param>
+		<param name="ScrollSpaceChar" type="text" default="&amp;nbsp;"
+			label="SCROLL_SPACECHAR"
+			description="SCROLL_SPACECHAR_DESC" />
+		<param name="ScrollSpaceCharTimes" type="list" default="5"
+			label="SCROLL_SPACECHAR_TIMES"
+			description="SCROLL_SPACECHAR_TIMES_DESC">
+			<option value="1">1 time</option>
+			<option value="2">2 times</option>
+			<option value="3">3 times</option>
+			<option value="4">4 times</option>
+			<option value="5">5 times</option>
+			<option value="6">6 times</option>
+			<option value="7">7 times</option>
+			<option value="8">8 times</option>
+			<option value="9">9 times</option>
+			<option value="10">10 times</option>
+		</param>
+		<param name="ScrollLineChar" type="list" default="&lt;br /&gt;"
+			label="SCROLL_LINECHAR"
+			description="SCROLL_LINECHAR_DESC">
+			<option value="&lt;br /&gt;">HTML_BREAK</option>
+			<option value="&lt;hr /&gt;">HTML_HORIZONTAL_RULE</option>
+		</param>
+		<param name="ScrollLineCharTimes" type="list" default="2"
+			label="SCROLL_LINECHAR_TIMES"
+			description="SCROLL_LINECHAR_TIMES_DESC">
+			<option value="1">1 time</option>
+			<option value="2">2 times</option>
+			<option value="3">3 times</option>
+			<option value="4">4 times</option>
+			<option value="5">5 times</option>
+			<option value="6">6 times</option>
+			<option value="7">7 times</option>
+			<option value="8">8 times</option>
+			<option value="9">9 times</option>
+			<option value="10">10 times</option>
+		</param>
+		<param name="ScrollCSSOverride" type="list" default="no"
+			label="OVERRIDE_CSS"
+			description="OVERRIDE_CSS_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="ScrollTextAlign" type="list" default="left"
+			label="SCROLL_TEXT_ALIGN"
+			description="SCROLL_TEXT_ALIGN_DESC">
+			<option value="left">LEFT_ALIGN</option>
+			<option value="right">RIGHT_ALIGN</option>
+			<option value="center">CENTER_ALIGN</option>
+			<option value="justify">JUSTIFY_ALIGN</option>
+		</param>
+		<param name="ScrollTextWeight" type="list" default="normal"
+			label="SCROLL_TEXT_WEIGHT" description="SCROLL_TEXT_WEIGHT_DESC">
+			<option value="normal">NORMAL</option>
+			<option value="bold">BOLD</option>
+			<option value="bolder">BOLDER</option>
+			<option value="lighter">LIGHTER</option>
+		</param>
+		<param name="ScrollTextSize" type="list" default="10"
+			label="SCROLL_TEXT_SIZE"
+			description="SCROLL_TEXT_SIZE_DESC">
+			<option value="7">7 px</option>
+			<option value="8">8 px</option>
+			<option value="9">9 px</option>
+			<option value="10">10 px</option>
+			<option value="11">11 px</option>
+			<option value="12">12 px</option>
+			<option value="13">13 px</option>
+			<option value="14">14 px</option>
+			<option value="15">15 px</option>
+			<option value="16">16 px</option>
+			<option value="17">17 px</option>
+			<option value="18">18 px</option>
+		</param>
+		
+		<param name="ScrollTextColor" type="text" default="#000000"
+			label="SCROLL_TEXT_COLOR"
+			description="SCROLL_TEXT_COLOR_DESC" />
+		<param name="ScrollBGColor" type="text" default="transparent"
+			label="SCROLL_BACKGROUND_COLOR"
+			description="SCROLL_BACKGROUND_COLOR_DESC" />
+		<param name="moduleclass_sfx" type="text" default=""
+			label="Module Class Suffix"
+			description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="class_sfx" type="text" default=""
+			label="Menu Class Suffix"
+			description="A suffix to be applied to the css class of the menu items" />
+	</params>
+</install>

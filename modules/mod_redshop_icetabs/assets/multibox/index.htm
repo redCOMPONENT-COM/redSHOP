@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>phatfusion : multibox</title>
+
+<link rel="stylesheet" href="../_common/css/main.css" type="text/css" media="all">
+
+<link href="multibox.css" rel="stylesheet" type="text/css" />
+<!--[if lte IE 6]><link rel="stylesheet" href="ie6.css" type="text/css" media="all" /><![endif]-->
+
+<script type="text/javascript" src="http://localhost/lofworks/Joomla/ja_lead/media/system/js/mootools.js"></script>
+<script type="text/javascript" src="overlay.js"></script>
+<script type="text/javascript" src="multibox.js"></script>
+
+<style type="text/css">
+
+#htmlElement {
+	padding: 10px;
+	background-color: #000;
+}
+
+</style>
+
+
+</head>
+<body>
+
+	<div id="container">
+	
+		<div id="logo"><h1>phatfusion</h1></div>
+		<div class="nav"><a href="../index.htm">home</a></div>
+		<p class="desc">javascript and flash development.</p>
+		
+		
+		<h2 class="multibox">multibox</h2>
+		<p class="version">version 1.3.1</p>
+		<p class="description">lightbox that supports images, flash, video, mp3s, html.</p>
+		
+		
+		<h3 class="example">example</h3>
+		<div id="example">
+			<a href="files/IMG_8966.jpg" id="mb1" class="mb" title="Image Title 1 (jpg)"><img src="files/tIMG_8966.jpg" alt="" border="0" /></a>
+  			<div class="multiBoxDesc mb1">This is my descrition text 1. It can support html.</div>
+  <a href="files/IMG_6608.jpg" id="mb2" class="mb" title="Image Title 2 (jpg)"><img src="files/tIMG_6608.jpg" alt="" border="0" /></a>
+  <div class="multiBoxDesc mb2">This is my descrition text 2. It can support html.</div>
+  <a href="files/IMG_7210.jpg" id="mb3" class="mb" title="Image Title 3 (jpg)"><img src="files/tIMG_7210.jpg" alt="" border="0" /></a>
+  <div class="multiBoxDesc mb3">This is my descrition text 3. It can support html.</div><br />
+  
+  <a href="files/curly.flv" rel="width:400,height:300" id="mb4" class="mb" title="Movie">flv example</a>
+  <div class="multiBoxDesc mb4">flv example</div><br />
+  
+  <a href="files/curly.mov" rel="width:400,height:310" id="mb5" class="mb" title="Movie">mov example</a>
+  <div class="multiBoxDesc mb5">mov example</div><br />
+  
+  <a href="files/curly.wmv" rel="width:400,height:350" id="mb6" class="mb" title="Movie">wmv example</a>
+  <div class="multiBoxDesc mb6">wmv example</div><br />
+  
+  <a href="files/curly.rmvb" rel="width:400,height:300" id="mb7" class="mb" title="Movie">real example</a>
+  <div class="multiBoxDesc mb7">real example</div><br />
+  
+  <a href="files/music.mp3" rel="" id="mb8" class="mb" title="Music">mp3 example</a>
+  <div class="multiBoxDesc mb8">mp3 example</div><br />
+  
+  <a href="blank.htm" rel="width:400,height:300" id="mb9" class="mb" title="iFrame">HTML page</a>
+  <div class="multiBoxDesc mb9">html</div><br />
+  
+  <a href="blank-ajax.htm" rel="width:400,height:300,ajax:true" id="mb10" class="mb" title="AJAX">HTML page (Ajax)</a>
+  <div class="multiBoxDesc mb10">html (ajax)</div><br />
+  
+  <a href="#htmlElement" rel="type:element" id="mb11" class="mb" title="HTML element">HTML</a>
+  <div class="multiBoxDesc mb11">html element</div><br />
+  <div id="htmlElement"><p>This is a snipet of html.</p><ul><li>list item 1</li><li>list item 2</li></ul></div>
+  
+  <a href="http://www.bbc.co.uk" rel="width:400,height:300" id="mb12" class="mb" title="iFrame">bbc.co.uk</a>
+  <div class="multiBoxDesc mb12">google</div><br />
+  
+		
+		<script type="text/javascript">
+			var box = {};
+			window.addEvent('domready', function(){
+				box = new MultiBox('mb', {descClassName: 'multiBoxDesc', useOverlay: true});
+			});
+		</script>
+		</div>
+		
+		<h3 class="features">features</h3>
+		<div id="features">
+			<ul>
+				<li>supports a range of multimedia formats</li>
+				<li>auto detects formats or you can specify the format, useful if your passing a querystring!</li>
+				<li>html descriptions</li>
+			</ul>
+		</div>
+		
+		<h3 class="usage">usage</h3>
+		<div id="usage">
+		<pre><code>new MultiBox('multibox', {
+	descClassName:'multiBoxDesc'
+});</code></pre>
+<p>the rel attribute allows for specific parameters for each item. the following example will make the box handle the item as an image.</p>
+<pre><code>rel="type:jpg"</code></pre>
+<p>others that can be used are:</p>
+<dl>
+	<dt>jpg / gif / png</dt>
+	<dd>these will make sure the box handles the item as an image.</dd>
+	<dt>swf</dt>
+	<dd>a flash movie</dd>
+	<dt>flv</dt>
+	<dd>a flash video file</dd>
+	<dt>mov</dt>
+	<dd>a quicktime movie</dd>
+	<dt>wmv</dt>
+	<dd>a windows media video</dd>
+	<dt>rv / rm / rmvb</dt>
+	<dd>real media format</dd>
+	<dt>mp3</dt>
+	<dd>mp3 format music file</dd>
+	<dt>element</dt>
+	<dd>an html element on the page</dd>
+</dl>
+<p>all others will be handled by default in an iFrame.</p>
+<p>other rel options are:</p>
+<pre>
+	<code>rel="width:400,height:300"</code>
+</pre>
+<p>ajax:true can also be used for urls so the content will be loaded into the page not in an iframe.</p>
+			<h3>options</h3>
+			<dl>
+				
+				<dt>useOverlay</dt>
+				<dd>use a semi-transparent background. default: false;</dd>
+				<dt>container</dt>
+				<dd>the containing element for the overlay if used. default: document.body</dd>
+				<dt>contentColor</dt>
+				<dd>the color of the background in the window. default: '#FFF'</dd>
+				<dt>showNumbers</dt>
+				<dd>shows 1 of 8. default: true</dd>
+				<dt>showControls</dt>
+				<dd>shows the control panel. default: true</dd>
+				<dt>descClassName</dt>
+				<dd>the class name of the description divs.</dd>
+				<dt>offset</dt>
+				<dd>object containing x,y offsets for the opened multibox. default: {x:0, y:0}</dd>
+				<dt>fixedTop</dt>
+				<dd>the value from the top that the box should open to.</dd>
+				<dt>openFromLink</dt>
+				<dd>should the box open from the link or from the center of the window. default: true</dd>
+				<dt>onOpen</dt>
+				<dd>a function to call when the box opens.</dd>
+				<dt>onClose</dt>
+				<dd>a function to call when the box closes.</dd>
+			</dl>
+		</div>
+		
+		<h3 class="compatibility">browser compatibility</h3>
+		<div id="compatibility">
+			<ul>
+				<li>Firefox 2 (mac / pc)</li>
+				<li>IE 7</li>
+				<li>IE 6</li>
+				<li>Safari (mac)</li>
+			</ul>
+		</div>
+		
+		<h3 class="requirements">requirements</h3>
+		<div id="requirements">
+			<ul>
+				<li><a href="http://www.mootools.net" target="_blank">mootools v1.11</a></li>
+			</ul>
+		</div>
+		
+		<h3 class="downloads">downloads</h3>
+		<div id="downloads">
+			<ul>
+				<li><a href="multibox.zip">multibox.zip</a></li>
+				<li><a href="../utils/overlay.js" target="_blank">overlay.js (optional)</a></li>
+			</ul>
+		</div>
+		
+		<div id="footer">
+			
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="image" src="https://www.paypal.com/en_GB/i/btn/x-click-but04.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+<img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+</form>
+<p>all code is released under the Open Source <a href="http://www.opensource.org/licenses/mit-license.php">MIT licence.</a></p>
+		<p>developer site: <a href="http://www.samuelbirch.com">www.samuelbirch.com</a></p>
+<p>If you appreciate these scripts, please feel free to donate and/or link back.</p>
+		</div>
+		
+		
+	</div>
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3333085-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+</body>
+</html>

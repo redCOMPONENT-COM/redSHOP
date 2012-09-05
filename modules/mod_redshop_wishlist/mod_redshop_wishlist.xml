@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>redSHOP WishList Module</name>
+	<version>1.1.3</version>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<creationDate>08-06-2011</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>WishList Module for redSHOP</description>
+	<files>
+		<filename module="mod_redshop_wishlist">mod_redshop_wishlist.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_wishlist.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redshop_wishlist.ini</language>
+  	</languages>
+	<params>
+			<param name="moduleclass_sfx" type="text" default="" label="CLASS_SUFFIX" description="CLASS_SFX_DESC" />			
+	</params> 
+</install>

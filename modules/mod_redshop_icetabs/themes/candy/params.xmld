@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<form version="1.5.0">
+	<params>
+		<param name="main_height" type="text" default="300" label="DISPLAY MAIN HEIGHT" description="DISPLAY MAIN HEIGHT DESC"></param>
+		<param name="main_width" type="text" default="650" label="DISPLAY MAIN WIDTH" description="DISPLAY MAIN WIDTH DESC"></param>
+
+		<param name="thumbnail_width" type="text" default="60" label="THUMBNAIL WIDTH" description="THUMBNAIL WIDTH DESC" />
+		<param name="thumbnail_height" type="text" default="60" label="THUMBNAIL HEIGHT" description="THUMBNAIL HEIGHT DESC" />
+			
+		<param name="navitem_height" type="text" default="100" label="NAVIGATOR ITEM HEIGHT" description="NAVIGATOR ITEM HEIGHT DESC"></param>
+		<param name="navitem_width" type="text" default="310" label="NAVIGATOR ITEM WIDTH" description="NAVIGATOR ITEM WIDTH DESC"></param>
+		
+		<param name="max_items_display" type="text" default="3" label="MAX ITEMS DISPLAY" description="MAX ITEMS DISPLAY DESC"></param>
+	</params>	
+</form>

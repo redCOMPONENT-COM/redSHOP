@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>Redshop Who Bought Module</name>
+	<version>1.1.4</version>
+	<creationDate>08-06-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Customers Who Bought This Item Also Bought</description>
+	<files>
+		<filename module="mod_redshop_who_bought">mod_redshop_who_bought.php</filename>
+		<filename module="mod_redshop_who_bought">index.html</filename>
+		<folder module="mod_redshop_who_bought">tmpl</folder>
+		<folder module="mod_redshop_who_bought">assets</folder>	
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_who_bought.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.ini</language>
+  	</languages>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="category" type="text" size="20" label="Category" description="ENTER_CATEGORY" />		
+		<param name="number_of_items" type="text" default="" label="NUMBER_OF_PRODUCT" description="NUMBER_OF_PRODUCT_DESC" />
+		<param name="sliderwidth" type="text" size="10" label="SLIDER_IMAGE_WIDTH" description="SLIDER_IMAGE_WIDTH_DESC" default="440" />
+		<param name="sliderheight" type="text" size="10" label="SLIDER_IMAGE_HEIGHT" description="SLIDER_IMAGE_HEIGHT_DESC" default="220" />
+
+		<param name="thumbwidth" type="text" size="10" label="THUMB_IMAGE_WIDTH" description="THUMB_IMAGE_WIDTH" default="100" />
+		<param name="thumbheight" type="text" size="10" label="THUMB_IMAGE_HEIGHT" description="THUMB_IMAGE_HEIGHT" default="100" />
+
+		<param name="show_product_image" type="radio" default="1" label="SHOW_IMAGE" description="SHOW_IMAGE_DESC">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_addtocart_button" type="radio" default="1" label="SHOW_ADD_TO_CART" description="SHOW_ADD_TO_CART_DESC">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_product_name" type="radio" default="1" label="SHOW_PRODUCT_NAME" description="SHOW_PRODUCT_NAME_DESC">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="product_title_linkable" type="radio" default="1" label="SHOW_PRODUCT_NAME_LINKABLE" description="SHOW_PRODUCT_NAME_LINKABLE_DESC">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_product_price" type="radio" default="1" label="SHOW_PRICE" description="SHOW_PRICE_DESC">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+ 	</params>
+</install>

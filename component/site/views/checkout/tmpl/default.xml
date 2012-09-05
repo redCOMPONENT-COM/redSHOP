@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Checkout Layout">
+		<message>
+			<![CDATA[Standard Checkout Layout For Redshop Checkout]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Checkout</name>
+		<description>Standard Checkout Layout For Redshop Checkout</description>				
+	</state>
+</metadata>

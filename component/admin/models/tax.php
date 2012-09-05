@@ -1,0 +1,107 @@
+<?php
+/** 
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com 
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport('joomla.application.component.model');
+
+class taxModeltax extends JModel
+{
+	var $_data = null;
+	var $_total = null;
+	var $_pagination = null;
+	var $_table_prefix = null;
+	var $_tax_group_id = null;
+	
+	function __construct()
+	{
+		parent::__construct();
+
+		global $mainframe, $context;
+		
+		$context = 'tax_rate_id';
+		
+	  	$this->_table_prefix = '#__'.TABLE_PREFIX.'_';			
+		$limit	= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0 );
+
+		$this->setState('limit', $limit);
+		$this->setState('limitstart', $limitstart);
+		$tax_group_id = JRequest::getVar('tax_group_id');
+		$this->setProductId((int)$tax_group_id);
+	}
+	function setProductId($id)
+	{
+		// Set employees_detail id and wipe data
+	 	$this->_tax_group_id	= $id;
+		$this->_data	= null;
+	}
+	function getProductId(){
+		return $this->_tax_group_id;
+	}
+	function getData()
+	{		
+		if (empty($this->_data))
+		{
+			$query = $this->_buildQuery();
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		}
+
+		return $this->_data;
+	}
+	function getTotal()
+	{
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+
+		return $this->_total;
+	}
+	function getPagination()
+	{
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+		}
+
+		return $this->_pagination;
+	}
+  	
+	function _buildQuery()
+	{
+		$where = $this->_buildContentWhere();
+		
+		$query = ' SELECT tr.*,tg.tax_group_name  '
+				 . ' FROM '.$this->_table_prefix.'tax_rate as tr'
+				 . ' LEFT JOIN '.$this->_table_prefix.'tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
+				 . $where
+				 ;
+		return $query;
+	}
+	
+	function _buildContentWhere()
+	{
+		global $mainframe, $context;
+		$where = 'WHERE tg.tax_group_id = \''.$this->_tax_group_id.'\' ';
+		
+		return $where;
+	}
+ 
+	
+}	
+

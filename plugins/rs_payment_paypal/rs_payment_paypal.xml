@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment"
+	method="upgrade">
+	<name>Paypal Payments</name>
+	<version>1.1.12</version>
+	<creationDate>12-08-2011</creationDate>
+	<author>Redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Paypal payments</description>
+	<files>
+		<filename plugin="rs_payment_paypal">rs_payment_paypal.php</filename>
+		<folder>rs_payment_paypal</folder>
+	</files>
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="payment_oprand" type="text" size="10" default="-"
+			label="Payment operand" description="Payment Operand" />
+		<param name="payment_price" type="text" size="30" default=""
+			label="Payment price" description="Payment price" />
+		<param name="debug_mode" type="radio" default="1" label="Debug Mode: "
+			description="Debug Mode">
+			<option value="1">Yes </option>
+			<option value="0">No</option>
+		</param>
+		<param name="payment_discount_is_percent" type="radio" default="1"
+			label="Discount Type: " description="Discount Type">
+			<option value="1">Percentage </option>
+			<option value="0">Total</option>
+		</param>
+		<param name="merchant_email" type="text" size="30" default=""
+			label="Paypal Business Account Email" description="Paypal Business Account Email Desc" />
+
+		<param name="verify_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="C"
+			label="Order Status for successful transactions"
+			description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+		</param>
+		<param name="invalid_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="P"
+			label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+		</param>
+
+		<param name="currency" type="list" default="0" label="Paypal Currency"
+			description="Paypal Currency Desc">
+			<option value="DKK">Danish Kroner (DKK)</option>
+			<option value="EUR">Euro (EUR)</option>
+			<option value="USD">US Dollar $ (USD)</option>
+			<option value="GBP">English Pound £ (GBP)</option>
+			<option value="SEK">Swedish Kroner (SEK)</option>
+			<option value="AUD">Australian Dollar (AUD)</option>
+			<option value="CAD">Canadian Dollar (CAD)</option>
+			<option value="ISK">Icelandic Kroner (ISK)</option>
+			<option value="JPY">Japanese Yen (JPY)</option>
+			<option value="NZD">New Zealand Dollar (NZD)</option>
+			<option value="NOK">Norwegian Kroner (NOK)</option>
+			<option value="CHF">Swiss Franc (CHF)</option>
+			<option value="TRY">Turkish Lire (TRY)</option>
+			<option value="ILS">New Israeli Shekel (ILS)</option>
+		</param>
+		<param type="spacer" />
+		<param name="sandbox" type="radio" default="0" label="Paypal Use"
+			description="Paypal Use Desc">
+			<option value="0">Live</option>
+			<option value="1">Sandbox</option>
+		</param>
+	</params>
+	<params group="advanced">
+		<param name="auto_return" type="radio" default="0"
+			label="Paypal Auto Return" description="PayPal Auto Return">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="auto_return_url" type="text" default=""
+			label="Enter Paypal Auto Return Url" description="Enter Paypal Auto Return Url" size="60" />
+		<param name="private_person" type="radio" default="1"
+			label="Show on Private Person" description="Show on Private Person">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="business" type="radio" default="1" label="Show on Business"
+			description="Show on Business">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="economic_payment_terms_id" type="text" default=""
+			label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default=""
+			label="Enter E-conomic Design and Layout ID" />
+		<param name="is_creditcard" type="hidden" default="0" value="0" />
+	</params>
+</install>

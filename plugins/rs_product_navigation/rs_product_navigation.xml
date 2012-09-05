@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" client="site" type="plugin" group="redshop_product_navigation" method="upgrade">
+	<name>Product Navigation</name>
+	<version>1.1</version>
+	<creationDate>04-04-2012</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin will use to navigate products.</description>	
+	<files>
+		<filename plugin="rs_product_navigation">rs_product_navigation.php</filename>
+	</files>
+   <config>
+ 	 </config >
+</install>

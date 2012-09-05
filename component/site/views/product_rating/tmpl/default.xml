@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Product Rating Layout">
+		<message>
+			<![CDATA[Standard Product Rating Layout For Redshop to Rate Product]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Product Rating</name>
+		<description>Standard Product Rating Layout For Redshop to Rate Product</description>				
+	</state>
+</metadata>

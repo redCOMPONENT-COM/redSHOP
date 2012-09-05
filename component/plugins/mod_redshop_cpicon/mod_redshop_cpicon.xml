@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" client="administrator" method="upgrade" version="1.5.0" >
+  <name>redShop control panel icon</name>
+  <author>redweb.dk</author>
+  <version>1.1.5</version>
+  <creationDate>18-05-2011</creationDate>
+  <copyright>redCOMPONENT.com</copyright>
+  <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+  <authorEmail>email@redweb.dk</authorEmail>
+  	<description>Quick access icon to reach redShop panel</description>
+	<files>
+		<filename module="mod_redshop_cpicon">mod_redshop_cpicon.php</filename>
+		<filename>index.html</filename>
+		<filename>styles.css</filename>
+	</files>
+	<params>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+	</params>
+</install>

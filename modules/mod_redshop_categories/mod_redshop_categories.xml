@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>redSHOP Category Module</name>
+	<version>1.1.13</version>
+	<creationDate>12-08-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Product Category for redSHOP with different display style</description>
+	<files>
+		<filename module="mod_redshop_categories">mod_redshop_categories.php</filename>
+		<filename module="mod_redshop_categories">JSCookTree.js</filename>
+		<filename module="mod_redshop_categories">JSCook.php</filename>
+		<filename module="mod_redshop_categories">dtree.php</filename>
+		<filename module="mod_redshop_categories">tigratree.php</filename>
+		<filename module="mod_redshop_categories">transmenu.php</filename>
+		<filename module="mod_redshop_categories" >helper.php</filename>
+		<folder module="mod_redshop_categories">ThemeNavy</folder>
+		<folder module="mod_redshop_categories">ThemeXP</folder>
+		<folder module="mod_redshop_categories">dtree</folder>
+		<folder module="mod_redshop_categories">tigratree</folder>
+		<folder module="mod_redshop_categories">transmenu</folder>
+		<folder module="mod_redshop_categories">elements</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_categories.ini</language>
+		<language tag="de-DE">language/de-DE/de-DE.mod_redshop_categories.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_categories.ini</language>
+		<language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_categories.ini</language>
+    </languages>
+    <params addpath="/modules/mod_redshop_categories/elements"/>
+	<params>
+		<param name="class_sfx" type="text" default="" label="CLASS_SFX_LABEL"
+			description="CLASS_SFX_DESC" />
+		<param name="moduleclass_sfx" type="text" default=""
+			label="MODULE_SFX_LABEL"
+			description="MODULE_SFX_DESC" />
+		<param name="pretext" type="textarea" rows="3" cols="30" default="" label="PRETEXT_DESC_LABEL"
+			description="PRETEXT_DESC" />
+
+
+		<param name="show_noofproducts" type="radio" default="yes"
+			label="SHOWNOOFPROD_LABEL"
+			description="SHOWNOOFPROD_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="use_shoppergroup" type="radio" default="yes"
+			label="USE_SHOPPERGROUP_LABEL"
+			description="USE_SHOPPERGROUP_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="redshop_category" type="redshopcategory" default="" label="CATEGORIES SELECTION"  description="CATEGORIES SELECTION DESC" />
+		<param name="redshop_category_remove" type="redshopcategoryremove" default="" label="CATEGORIES_SELECTION_REMOVE"  description="CATEGORIES_SELECTION_REMOVE_DESC" />	
+		<param name="menutype" type="list" default="links"
+			label="MENU_LABEL"
+			description="MENU_DESC">
+			<option value="links">LINKLIST</option>
+			<option value="tigratree">TIGRATEST</option>
+			<option value="jscook">JSCOOK</option>
+			<option value="transmenu">TRANSMENU</option>
+			<option value="dtree">DTREE</option>
+		</param>
+
+		<param name="categorysorttype" type="list" default="links"
+			label="CATSORT_LABEL"
+			description="CATSORT_DESC">
+			<option value="catnameasc">CATNAMEASC</option>
+			<option value="catnamedesc">CATNAMEDESC</option>
+			<option value="newest">NEWEST</option>
+			<option value="catorder">CATORDER</option>
+		</param>		
+		
+		<param name="jscook_type" type="list" default="menu" label="JSCOOKTYPE_LABEL"
+			description="JSCOOKTYPE_DESC">
+			<option value="menu">MENU</option>
+			<option value="tree">TREE</option>
+		</param>
+		<param name="jscookMenu_style" type="text" default="ThemeOffice"
+			label="JSCOOKSTYLE_LABEL"
+			description="JSCOOKSTYLE_DESC" />
+		<param name="menu_orientation" type="list" default="hbr"
+			label="MENUORIENT_LABEL"
+			description="MENUORIENT_DESC">
+			<option value="hbr">HORIZONTAL</option>
+			<option value="vbr">VERTICAL</option>
+		</param>
+		<param name="jscookTree_style" type="text" default="ThemeXP"
+			label="JSCOOKTREESTYLE_LABEL"
+			description="JSCOOKTREESTYLE_DESC" />
+		<param name="root_label" type="text" default="Shop"
+			label="ROOT_LABEL"
+			description="ROOT_DESC" />						
+		<param name="posttext" type="textarea" default="" rows="3" cols="30" label="POSTTEXT_LABEL"
+			description="POSTTEXT_DESC" />
+
+	</params>
+</install>

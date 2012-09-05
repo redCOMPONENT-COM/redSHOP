@@ -1,0 +1,61 @@
+/* 
+================================================
+redSHOP wizard styling
+================================================
+*/
+
+div.welcome_wizard
+{			
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 15px;	
+}
+
+div.wizard_welcome_terms
+{			
+	color: red;		
+}
+
+div.wizard_intro_text
+{
+	font-weight: bold;	
+}
+
+div.wizard_redshop_feature
+{			
+	
+}
+
+div.wizard_basic_info
+{			
+	
+}
+
+div.wizard_header
+{			
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 12px;	
+}
+
+table.admintable td.general_admin_email_info_txt,
+td.registration_intro_text,
+td.tandc_intro_text,
+td.welcomepage_intro_text,
+td.registration_page_intro_text,
+td.price_intro_text,
+td.vat_intro_text,
+td.apply_vat_discount_intro_text,
+td.discount_type_intro_text,
+td.discount_enable_intro_text,
+td.coupons_enable_intro_text,
+td.voucher_enable_intro_text
+{
+	font-weight: bold;	
+}
+
+div.discount_intro_text{
+	font-weight: bold;
+}
+
+table.admintable td.key{
+	width: 150px !important;
+}

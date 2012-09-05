@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment" method="upgrade">
+	<name>Authorize Direct Post Method</name>
+	<version>1.1</version>
+	<creationDate>18-07-2012</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables Authorize Direct Post Method</description>
+	
+	<files>
+		<filename plugin="rs_payment_authorize_dpm">rs_payment_authorize_dpm.php</filename>
+		 <folder>rs_payment_authorize_dpm</folder>			 
+	</files>
+
+	<params addpath="/administrator/components/com_redshop/elements">
+	
+		<param name="payment_oprand" type="text" size="10" default="-" label="Payment operand" description="Payment Operand"/>
+		<param name="payment_price" type="text" size="30" default="" label="Payment price" description="Payment price"/>
+		<param name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: " description="Discount Type" >
+				<option value="1">Percentage </option>
+				<option value="0">Total</option>
+		</param>
+		<param name="is_test" type="list" default="0" label="Test Mode?" description=" Select 'Yes' while testing. Select 'No' for enabling live transactions.">
+			<option value="FALSE">No</option>
+			<option value="TRUE">Yes</option>			 
+	  	</param>		
+		
+		<param name="access_id" type="text"   default="" label="Authorize.net Access ID code" description="This is your Authorize.Net Access ID code " /> 			
+		<param name="transaction_id" type="text"   default="" label="Authorize.net Transaction Key" description="This is your Authorize.net Transaction Key. " />
+			<param name="auth_type" type="list" default="0" label="Authentication Type" description="This is the eProcessingNetwork.com authentication type. ">
+			<option value="AUTH_CAPTURE">AUTH_CAPTURE</option>
+			<option value="AUTH_ONLY">AUTH_ONLY</option>			 
+	  	</param>
+		<param name="verify_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"   default="C" label="Order Status for successful transactions" description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+		 
+	  	</param>
+		<param name="invalid_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"  default="P" label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+	  	</param>
+		<param name="capture_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"  default="S" label="Capture Payment Status" description="Select an capture status for capturing payment."></param>
+		
+		
+	</params>
+
+	<params  group="advanced">
+	<param name="private_person" type="radio" default="1" label="Show on Private Person" description="Show on Private Person">
+		<option value="1">Yes</option>
+		<option value="0">No</option>
+	</param>
+  	<param name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
+		<option value="1">Yes</option>
+		<option value="0">No</option>
+	</param>
+	<param name="preloader" type="hidden" default="0" value="0"/>
+	<param name="is_creditcard" type="hidden" default="1" value="1" />
+	<param name="is_redirected" type="hidden" default="1" value="1" />
+	<param name="economic_payment_terms_id" type="text"   default="2" label="Enter E-conomic Payment Conditions ID" />
+	<param name="economic_design_layout" type="text" default="" label="Enter E-conomic Design and Layout ID" />
+	<param name="accepted_credict_card"  type="creditcards" default="0" label="Select Credit Cards" description="Displays the selected category product" />
+	<param name="shopper_group_id"  type="plugins" default="0" label="Select Shopper Group" description="Displays the shopper groups" />
+	</params>
+	
+</install>

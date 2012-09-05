@@ -1,0 +1,217 @@
+<?php
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+jimport ( 'joomla.application.component.controller' );
+
+class fields_detailController extends JController {
+	function __construct($default = array()) {
+		parent::__construct ( $default );
+		$this->registerTask ( 'add', 'edit' );
+	}
+	function edit() {
+		JRequest::setVar ( 'view', 'fields_detail' );
+		JRequest::setVar ( 'layout', 'default' );
+		JRequest::setVar ( 'hidemainmenu', 1 );
+		parent::display ();
+
+	}
+	function apply() {
+
+		$this->save(1);
+
+	}
+	function save($apply=0) {
+
+		$post = JRequest::get ( 'post' );
+		$field_desc = JRequest::getVar( 'field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW );
+		$post["field_desc"]=$field_desc;
+
+		$option = JRequest::getVar ('option');
+
+		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+
+		$post['field_name'] = strtolower($post['field_name']);
+
+		$post['field_name'] = str_replace(" ","_",$post['field_name']);
+
+		// set 'rs' prefix to field name
+		list($key)	=	explode("_",$post['field_name']);
+
+		if ($key != 'rs')
+			$post['field_name']	= "rs_".$post['field_name'];
+
+		// end
+
+		$post ['field_id'] = $cid [0];
+
+		$model = $this->getModel ( 'fields_detail' );
+
+		$fieldexists = $model->checkFieldname($post['field_name'],$post ['field_id']);
+
+		if ($fieldexists)
+		{
+			$msg = JText::_ ( 'FIELDS_ALLREADY_EXIST' );
+			$this->setRedirect ( 'index.php?option='.$option.'&view=fields_detail&task=edit&cid[]='.$cid[0], $msg );
+			return;
+		} else if ($row=$model->store ( $post )) {
+
+			if($post["field_type"]==0 || $post["field_type"]==1 ||  $post["field_type"]==2)
+			{
+				$aid[]=$row->field_id;
+					$model->field_delete($aid,'field_id');
+			}
+			else {
+			$model->field_save($row->field_id,$post);
+			}
+
+			$msg = JText::_ ( 'FIELDS_DETAIL_SAVED' );
+
+		} else {
+
+			$msg = JText::_ ( 'ERROR_SAVING_FIELDS_DETAIL' );
+		}
+		if($apply == 1){
+			$this->setRedirect ( 'index.php?option=' . $option . '&view=fields_detail&task=edit&cid[]='.$row->field_id, $msg );
+		}else{
+			$this->setRedirect ( 'index.php?option=' . $option . '&view=fields', $msg );
+		}
+
+	}
+
+
+	function remove() {
+
+		$option = JRequest::getVar ('option');
+
+		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+
+		if (! is_array ( $cid ) || count ( $cid ) < 1) {
+			JError::raiseError ( 500, JText::_ ( 'SELECT_AN_ITEM_TO_DELETE' ) );
+		}
+
+		$model = $this->getModel ( 'fields_detail' );
+		if (! $model->delete ( $cid )) {
+			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
+		}
+		$msg = JText::_ ( 'FIELD_DELETED_SUCCESSFULLY' );
+		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
+	}
+	function publish() {
+
+		$option = JRequest::getVar ('option');
+
+		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+
+		if (! is_array ( $cid ) || count ( $cid ) < 1) {
+			JError::raiseError ( 500, JText::_ ( 'SELECT_AN_ITEM_TO_PUBLISH' ) );
+		}
+
+		$model = $this->getModel ( 'fields_detail' );
+		if (! $model->publish ( $cid, 1 )) {
+			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
+		}
+		$msg = JText::_ ( 'FIELD_PUBLISHED_SUCCESSFULLY' );
+		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
+	}
+	function unpublish() {
+
+		$option = JRequest::getVar ('option');
+
+		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+
+		if (! is_array ( $cid ) || count ( $cid ) < 1) {
+			JError::raiseError ( 500, JText::_ ( 'SELECT_AN_ITEM_TO_UNPUBLISH' ) );
+		}
+
+		$model = $this->getModel ( 'fields_detail' );
+		if (! $model->publish ( $cid, 0 )) {
+			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
+		}
+		$msg = JText::_ ( 'FIELD_UNPUBLISHED_SUCCESSFULLY' );
+		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
+	}
+	function cancel() {
+
+		$option = JRequest::getVar ('option');
+		$msg = JText::_ ( 'FIELD_EDITING_CANCELLED' );
+		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
+	}
+
+	function saveorder()
+	{
+		$option = JRequest::getVar('option');
+		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+		$model = $this->getModel ( 'fields_detail' );
+		if ($model->saveorder($cid))
+		{
+			$msg = JText::_ ( 'NEW_ORDERING_SAVED' );
+		} else {
+			$msg = JText::_ ( 'NEW_ORDERING_ERROR' );
+		}
+		$this->setRedirect ( 'index.php?option=' .$option. '&view=fields', $msg );
+	}
+
+	/**
+	 * logic for orderup manufacturer
+	 *
+	 * @access public
+	 * @return void
+	 */
+	function orderup()
+	{
+		global $mainframe, $context;
+	    $option = JRequest::getVar('option');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+		$up = 1;
+		if(strtolower($filter_order_Dir)=="asc")
+		{
+			$up = -1;
+		}
+
+		$model = $this->getModel('fields_detail');
+		$model->move(-1);
+ 		//$model->orderup();
+		$msg = JText::_( 'NEW_ORDERING_SAVED' );
+		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
+	}
+	/**
+	 * logic for orderdown manufacturer
+	 *
+	 * @access public
+	 * @return void
+	 */
+	function orderdown()
+	{
+		global $mainframe, $context;
+		$option = JRequest::getVar('option');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+		$down = -1;
+		if(strtolower($filter_order_Dir)=="asc")
+		{
+			$down = 1;
+		}
+  		$model = $this->getModel('fields_detail');
+		$model->move(1);
+		//$model->orderdown();
+		$msg = JText::_( 'NEW_ORDERING_SAVED' );
+		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
+	}
+
+
+
+}

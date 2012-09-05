@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment"
+	method="upgrade">
+	<name>BBS Payments</name>
+	<version>1.1.3</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard BBS payments</description>
+
+	<files>
+		<filename plugin="rs_payment_bbs">rs_payment_bbs.php</filename>
+		<folder>rs_payment_bbs</folder>
+	</files>
+
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="payment_oprand" type="text" size="10" default="-"
+			label="Payment operand" description="Payment Operand" />
+		<param name="payment_price" type="text" size="30" default=""
+			label="Payment price" description="Payment price" />
+		<param name="payment_discount_is_percent" type="radio" default="1"
+			label="Discount Type: " description="Discount Type">
+			<option value="1">Percentage </option>
+			<option value="0">Total</option>
+		</param>
+		<param name="is_test" type="list" default="TRUE" label="Test Mode?"
+			description=" Select 'Yes' while testing. Select 'No' for enabling live transactions.">
+			<option value="FALSE">No</option>
+			<option value="TRUE">Yes</option>
+		</param>
+
+		<param name="access_id" type="text" default="" label="BBS Merchant ID"
+			description="This is your BBS Merchant ID " />
+		<param name="token_id" type="text" default="" label="BBS Token ID"
+			description="This is your  BBS Token ID. " />
+		<param name="auth_type" type="list" default="0"
+			label="Authentication Type" description="This is the eProcessingNetwork.com authentication type. ">
+			<option value="AUTH">AUTH_CAPTURE</option>
+			<option value="SALE">AUTH_ONLY</option>
+		</param>
+		<param name="verify_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="C"
+			label="Order Status for successful transactions"
+			description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+		</param>
+		<param name="invalid_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="P"
+			label="Order Status for failed transactions" description="Select an order status for failed payment transactions."></param>
+		<param name="capture_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="S"
+			label="Capture Payment Status" description="Select an capture status for capturing payment.">
+		</param>
+	</params>
+
+	<params group="advanced">
+		<param name="private_person" type="radio" default="1"
+			label="Show on Private Person" description="Show on Private Person">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="business" type="radio" default="1" label="Show on Business"
+			description="Show on Business">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="is_creditcard" type="hidden" default="0" value="0" />
+		<param name="economic_payment_terms_id" type="text" default=""
+			label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default=""
+			label="Enter E-conomic Design and Layout ID" />
+		<param name="shopper_group_id" type="plugins" default="0"
+			label="Select Shopper Group" description="Displays the shopper groups" />
+		<param name="order_status_capture" type="sql"
+			query="SELECT order_status_code AS value, order_status_name AS title FROM #__redshop_order_status "
+			default="S" key_field="value" value_field="title"
+			label="Order Status when capture the payment with BBS"
+			description="Set the status of to  capture the Payment with BBS Payment Gateway">
+		</param>
+	</params>
+</install>
