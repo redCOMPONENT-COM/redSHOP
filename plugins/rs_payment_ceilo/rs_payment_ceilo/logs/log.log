@@ -1,0 +1,220 @@
+**********************************************************
+2 WARNING - 2011-07-22 07:46:12 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 73)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-22 07:49:41 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 73)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-22 07:49:48 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 73)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-22 07:58:37 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 73)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-22 08:00:21 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 73)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-22 08:01:09 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 73)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+256 ERRO NA TRANSACAO - 2011-07-22 08:38:17 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/errorHandling.php(Linha 64)
+     MENSAGEM: 
+     Código do erro: 020
+     Mensagem: O status 'Pendente' não permite autorização.
+     XML de envio: 
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-tid id="1c71fbc8fe242c59565a2317357bb4a7" versao="1.1.0">
+  <tid>100173489805EF541001</tid>
+  <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-autorizacao-tid>
+
+**********************************************************
+256 ERRO NA TRANSACAO - 2011-07-22 08:38:43 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/errorHandling.php(Linha 64)
+     MENSAGEM: 
+     Código do erro: 003
+     Mensagem: Não foi encontrada transação para o Tid '100173489805EF541001'.
+     XML de envio: 
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-captura id="ebec8b55d2019bdf348f4b806c655a69" versao="1.1.0">
+   <tid>100173489805EF541001  	</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <valor>12</valor>
+</requisicao-captura>
+
+**********************************************************
+256 ERRO NA TRANSACAO - 2011-07-22 08:40:14 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/errorHandling.php(Linha 64)
+     MENSAGEM: 
+     Código do erro: 030
+     Mensagem: O status 'Criada' não permite captura.
+     XML de envio: 
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-captura id="02116f0eb4140a0ff5e7727b2fecf011" versao="1.1.0">
+   <tid>100173489805EF531001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <valor>10000</valor>
+</requisicao-captura>
+
+**********************************************************
+256 ERRO NA TRANSACAO - 2011-07-22 08:40:30 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/errorHandling.php(Linha 64)
+     MENSAGEM: 
+     Código do erro: 020
+     Mensagem: O status 'Pendente' não permite autorização.
+     XML de envio: 
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-tid id="5c2e1dc4d80048c70ef56600464eaba2" versao="1.1.0">
+  <tid>100173489805EF541001</tid>
+  <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-autorizacao-tid>
+
+**********************************************************
+256 ERRO NA TRANSACAO - 2011-07-22 08:40:56 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/errorHandling.php(Linha 64)
+     MENSAGEM: 
+     Código do erro: 020
+     Mensagem: O status 'Pendente' não permite autorização.
+     XML de envio: 
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-tid id="59f88f7b0a42b94870575b221826a8d9" versao="1.1.0">
+  <tid>100173489805EF561001</tid>
+  <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-autorizacao-tid>
+
+**********************************************************
+4096 CATCHABLE FATAL ERROR - 2011-07-22 08:49:33 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/retorno.php(Linha 6)
+     MENSAGEM: 
+Object of class ArrayObject could not be converted to string
+
+**********************************************************
+4096 CATCHABLE FATAL ERROR - 2011-07-22 08:50:00 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/retorno.php(Linha 6)
+     MENSAGEM: 
+Object of class ArrayObject could not be converted to string
+
+**********************************************************
+4096 CATCHABLE FATAL ERROR - 2011-07-22 08:50:02 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/retorno.php(Linha 6)
+     MENSAGEM: 
+Object of class ArrayObject could not be converted to string
+
+**********************************************************
+4096 CATCHABLE FATAL ERROR - 2011-07-22 08:50:11 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/retorno.php(Linha 6)
+     MENSAGEM: 
+Object of class ArrayObject could not be converted to string
+
+**********************************************************
+2 WARNING - 2011-07-25 04:18:07 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 77)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-25 04:18:46 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 77)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-25 04:19:04 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 77)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+2 WARNING - 2011-07-25 04:20:44 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/include.php(Linha 77)
+     MENSAGEM: 
+curl_error(): 9 is not a valid cURL handle resource
+
+**********************************************************
+8 RUNTIME NOTICE - 2011-07-25 05:48:38 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/carrinhoCartaoPagamento.php(Linha 15)
+     MENSAGEM: 
+Undefined index:  codigoBandeira
+
+**********************************************************
+8 RUNTIME NOTICE - 2011-07-25 05:49:08 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/carrinhoCartaoPagamento.php(Linha 15)
+     MENSAGEM: 
+Undefined index:  codigoBandeira
+
+**********************************************************
+8 RUNTIME NOTICE - 2011-07-25 05:50:02 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/carrinhoCartaoPagamento.php(Linha 15)
+     MENSAGEM: 
+Undefined index:  codigoBandeira
+
+**********************************************************
+8 RUNTIME NOTICE - 2011-07-25 05:50:24 (BRT)
+     ARQUIVO: /var/www/html/ceilo/pages/carrinhoCartaoPagamento.php(Linha 15)
+     MENSAGEM: 
+Undefined index:  codigoBandeira
+
+**********************************************************
+256 ERRO NA TRANSACAO - 2011-07-25 06:13:30 (BRT)
+     ARQUIVO: /var/www/html/ceilo/includes/errorHandling.php(Linha 64)
+     MENSAGEM: 
+     Código do erro: 010
+     Mensagem: O envio do cartão é obrigatório.
+     XML de envio: 
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="8862ec52adb8cf5e1b0b5ea41438af8b" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>3063328</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:13:27</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>true</capturar>
+</requisicao-transacao>
+

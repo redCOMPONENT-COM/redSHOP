@@ -1,0 +1,4 @@
+<?php define ('AUSTRALIAPOST_AUSEVICETYPE', 'Standard');
+define ('AUSTRALIAPOST_SEVICETYPE', 'Air');
+define ('AUSTRALIAPOST_PICKUPZIPCODE', '');
+?>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment" method="upgrade">
+	<name>Cash Sale Payments</name>
+	<version>1.1.3</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Cash Sale payments</description>
+	
+	<files>
+		<filename plugin="rs_payment_cashsale">rs_payment_cashsale.php</filename>		 
+	</files>
+
+	 
+
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="payment_oprand" type="text" size="10" default="-" label="Payment operand" description="Payment Operand"/>
+		<param name="payment_price" type="text" size="30" default="" label="Payment price" description="Payment price"/>
+		<param name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: " description="Discount Type" >
+				<option value="1">Percentage </option>
+				<option value="0">Total</option>
+		</param>
+		<param name="private_person" type="radio" default="1" label="Show on Private Person" description="Show on Private Person">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</param>
+	  	<param name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</param>
+		<param name="is_creditcard" type="hidden" default="0" value="0" />
+		<param name="economic_payment_terms_id" type="text"   default="" label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default="" label="Enter E-conomic Design and Layout ID" />
+		<param name="verify_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"   default="C" label="Order Status transactions" description="Select the order status to which the actual order is set.">
+		</param>
+		<param name="shopper_group_id"  type="plugins" default="Your Company Name , 101 Company Street, city" label="Select Shopper Group" description="Displays the shopper groups" />
+		<param name="txtextra_info"  type="extrainfo" default="Please enter your Extra Info" label="Enter Extra Info" description="Enter description for your extra info. You also can use HTML tags." />
+	</params>
+</install>

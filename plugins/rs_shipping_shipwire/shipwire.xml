@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_shipping"  method="upgrade">
+	<name>Shipwire</name>
+	<version>1.1</version>
+	<creationDate>12-08-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<shipping_class>shipwire</shipping_class>
+	<shipping_method_code>shipwire</shipping_method_code>	  
+	<files>
+		<filename plugin="shipwire">shipwire.php</filename>
+		<filename plugin="shipwire">shipwire.cfg.php</filename>	 
+	</files>
+</install>

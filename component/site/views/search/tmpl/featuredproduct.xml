@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Featured Product Layout">
+		<message>
+			<![CDATA[Standard Featured Product Layout For Redshop ]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Featured Product</name>
+		<description>Standard Featured Product Layout</description>	
+		<params addpath="/administrator/components/com_redshop/elements" >
+		    <param name="templateid" type="template" default="0" label="Select Template" description="Search result dispaly in selected category template" />		
+		</params>
+	</state>
+</metadata>

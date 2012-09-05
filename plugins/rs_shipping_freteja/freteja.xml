@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_shipping"  method="upgrade">
+	<name>Freteja</name>
+	<version>1.1</version>
+	<creationDate>21-07-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<shipping_class>freteja</shipping_class>
+	<shipping_method_code>freteja</shipping_method_code>	  
+	<files>
+		<filename plugin="freteja">freteja.php</filename>
+		<filename plugin="freteja">freteja.cfg.php</filename>	 
+	</files>
+</install>

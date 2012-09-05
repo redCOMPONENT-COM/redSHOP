@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_shipping" method="upgrade">
+	<name>FedEx</name>
+	<version>1.1.6</version>
+	<creationDate>31-03-2010</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<shipping_class>fedex</shipping_class>
+	<shipping_method_code>fedex</shipping_method_code>	  
+	<files>
+		
+		<filename plugin="fedex">fedex.php</filename>
+		<filename plugin="fedex">fedex.cfg.php</filename>	 
+		<filename plugin="fedex">RateService_v9.wsdl</filename>
+		<filename plugin="fedex">RateService_v9_test.wsdl</filename>
+	</files>
+	
+</install>

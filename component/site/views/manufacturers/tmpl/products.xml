@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Manufacturer Product Layout">
+		<message>
+			<![CDATA[Standard Manufacturer Product Layout For Redshop Manufacturer Product]]>
+		</message>
+	</layout>
+	<state>	
+		<name>Standard Manufacturer Product</name>
+		<description>Standard Manufacturer Product Layout For Redshop Manufacturer Product</description>
+		<params addpath="/administrator/components/com_redshop/elements">
+			<param name="manufacturerid" type="manufacturer" default="0" label="Select Manufacturer" description="Standard Manufacturer Product Layout For Redshop Manufacturer Product" />
+			<param name="maxproduct" type="text" size="4" default="" label="HOW_MANY_PRODUCTS" description="HOW_MANY_PRODUCTS_DESCRIPTION" />
+		</params>		
+	</state>	
+</metadata>

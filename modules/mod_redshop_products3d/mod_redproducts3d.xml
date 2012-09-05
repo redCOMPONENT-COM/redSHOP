@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>redSHOP Product 3D 360 Module</name>
+	<version>1.1.1</version>
+	<creationDate>15-06-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Product 3D 360 Module for redSHOP</description>
+	<files>
+		<filename module="mod_redproducts3d">mod_redproducts3d.php</filename>
+		<folder>tmpl</folder>
+		<folder>js</folder>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redproducts3d.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redproducts3d.ini</language>
+  	</languages>
+	<params>
+			<param name="moduleclass_sfx" type="text" default="" label="CLASS_SUFFIX" description="CLASS_SFX_DESC" />			
+ 		    <param name="category" type="text" size="40" label="Category" description="ENTER_CATEGORY" />
+			<param name="count" type="text" size="10" label="NUMBER_OF_PRODUCT" description="NUMBER_OF_PRODUCT_DESC" />
+			<param name="stageWidth" type="text" size="10" default="600" label="STAGE_WIDTH" description="STAGE_WIDTH_DESC" />
+			<param name="stageHeight" type="text" size="10" default="400" label="STAGE_HEIGHT" description="STAGE_HEIGHT_DESC" />
+			<param name="thumbwidth" type="text" size="10" label="THUMB_IMAGE_WIDTH" description="THUMB_IMAGE_WIDTH" default="100" />
+			<param name="thumbheight" type="text" size="10" label="THUMB_IMAGE_HEIGHT" description="THUMB_IMAGE_HEIGHT" default="100" />
+			<param name="radius" type="text" size="10" default="230" label="RADIUS" description="RADIUS_DESC" />
+			<param name="focalBlur" type="text" size="10" default="5" label="FOCALBLUR" description="FOCALBLUR_DESC" />
+			<param name="elevation" type="text" size="10" default="-50" label="ELEVATION" description="ELEVATION_DESC" />
+			<param name="enableImageReflection" type="radio"  size="10" label="IMAGE_REFLECTION" default="yes" description="IMAGE_REFLECTION_DESC" >
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+			</param>
+			<param name="enableimageStroke" type="radio" size="10" label="IMAGE_STROKE" default="yes"  description="IMAGE_STROKE_DESC" >
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+			</param>
+			<param name="enableMouseOverToolTip" type="radio" size="10" label="MOUSE_OVER_TOOLTIP"  default="yes" description="MOUSE_OVER_TOOLTIP_DESC" >
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+			</param>
+			<param name="enableMouseOverEffects" type="radio" size="10" label="MOUSE_OVER_EFFECTS" default="yes" description="MOUSE_OVER_EFFECTS_DESC" >
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+			</param>					
+	</params> 
+</install>

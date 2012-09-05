@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Orders Layout">
+		<message>
+			<![CDATA[Standard Orders Layout For Redshop Orders]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Orders</name>
+		<description>Standard Orders Layout For Redshop Orders</description>
+		<params addpath="/administrator/components/com_redshop/elements">
+			<param name="template_id" type="ordertemplatelist" default="0" label="SELECT_ORDERLIST_TEMPLATE" description="DISPLAY_ORDERLIST_TEMPLATE" />
+		</params>
+	</state>
+</metadata>

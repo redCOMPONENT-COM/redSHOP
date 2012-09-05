@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_custom_views" method='upgrade'>
+	<name>Custom Views By Date</name>
+	<version>1.1.4</version>
+	<creationDate>14-04-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin prints custom views for specific date</description>	
+	<files>
+		<filename plugin="rs_custom_views_date">rs_custom_views_date.php</filename>
+	</files>
+</install>

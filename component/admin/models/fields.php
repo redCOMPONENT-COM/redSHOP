@@ -1,0 +1,121 @@
+<?php
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport('joomla.application.component.model');
+
+class fieldsModelfields extends JModel
+{
+	var $_data = null;
+	var $_total = null;
+	var $_pagination = null;
+	var $_table_prefix = null;
+	function __construct()
+	{
+		parent::__construct();
+
+		global $mainframe, $context;
+		$context='field_id';
+	  	$this->_table_prefix = '#__redshop_';
+		$limit			= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0 );
+		$filter = $mainframe->getUserStateFromRequest( $context.'filter','filter',0);
+		$filtertype = $mainframe->getUserStateFromRequest( $context.'filtertypes','filtertypes',0);
+		$filtersection = $mainframe->getUserStateFromRequest( $context.'filtersection','filtersection',0);
+		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		
+		$this->setState('filter', $filter);
+		$this->setState('limit', $limit);
+		$this->setState('limitstart', $limitstart);
+		$this->setState('filtertype', $filtertype);
+		$this->setState('filtersection', $filtersection);
+	}
+	function getData()
+	{
+		if (empty($this->_data))
+		{
+			$query = $this->_buildQuery();
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		}
+		return $this->_data;
+	}
+	function getTotal()
+	{
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+		return $this->_total;
+	}
+	
+	function getPagination()
+	{
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+		}
+		return $this->_pagination;
+	}
+
+	function _buildQuery()
+	{
+		$orderby	= $this->_buildContentOrderBy();
+		$filter = $this->getState('filter');
+		$filtertype = $this->getState('filtertype');
+		$filtersection = $this->getState('filtersection');
+		
+		$where='';
+		if($filter)
+		{
+			$where .= " AND f.field_title like '%".$filter."%' ";
+		}
+		if($filtertype)
+		{
+			$where .= " AND f.field_type='".$filtertype."' ";
+		}
+		if($filtersection)
+		{
+			$where .= " AND f.field_section='".$filtersection."' ";
+		}
+		$query = "SELECT * FROM ".$this->_table_prefix."fields AS f "
+				."WHERE 1=1 "
+				.$where
+				.$orderby
+				;
+		return $query;
+	}
+
+	function _buildContentOrderBy()
+	{
+		global $mainframe, $context;
+
+		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'ordering' );
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+
+		if ($filter_order == 'ordering') {
+			$orderby = ' ORDER BY field_section, ordering '. $filter_order_Dir;
+		} else {
+			$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', field_section, ordering';
+		}
+
+		return $orderby;
+	}
+
+}
+

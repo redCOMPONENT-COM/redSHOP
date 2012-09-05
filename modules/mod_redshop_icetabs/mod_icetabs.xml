@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="1.5.0" method="upgrade">
+    <name>IceTabs Module</name>
+	<version>1.1.1</version>
+	<creationDate>15-04-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>IceTabs Module</description>
+     <files>
+         <filename module="mod_icetabs">mod_icetabs.php</filename>
+         <filename module="mod_icetabs">helper.php</filename>
+		 <filename module="mod_icetabs">index.html</filename>
+		  <filename module="mod_icetabs">CHANGELOG.php</filename>
+		  <filename module="mod_icetabs">LICENSE.php</filename>
+         <folder module="mod_icetabs">libs</folder>
+		  <folder module="mod_icetabs">assets</folder>
+         <folder module="mod_icetabs">tmpl</folder>
+		   <folder module="mod_icetabs">themes</folder>
+    </files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_icetabs.ini</language>
+	</languages>
+    <params addpath="/modules/mod_icetabs/libs/elements">
+		
+		 <param name="theme" type="lofgroupfolder" label="SELECT THEME" directory="modules/mod_icetabs/themes" default="default-white" filter="" exclude="" stripext="" />
+		 
+
+		<param name="module_height" type="text" default="auto" label="MODULE HEIGHT" description="MODULE HEIGHT DESC"></param>
+		<param name="module_width" type="text" default="auto" label="MODULE WIDTH" description="MODULE WIDTH DESC"></param>
+		<param name="display_button" type="radio" default="1" label="DISPLAY BUTTON" description="DISPLAY BUTTON DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+			
+		<param name="main_height" type="text" default="300" label="DISPLAY MAIN HEIGHT" description="DISPLAY MAIN HEIGHT DESC"></param>
+	
+		<param name="main_width" type="text" default="600" label="DISPLAY MAIN WIDTH" description="DISPLAY MAIN WIDTH DESC"></param>
+
+		
+		
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		
+		<param name="navigator_pos" type="list" default="right" label="NAVIGATOR POSITION" description="NAVIGATOR POSITION DESC">
+			<option value="0">DISABLE</option>
+			<option value="left">LEFT</option>
+			<option value="right">RIGHT</option>
+			<option value="top">TOP</option>
+			<option value="bottom">BOTTOM</option>
+		</param>
+ 			
+		<param name="navitem_height" type="text" default="100" label="NAVIGATOR ITEM HEIGHT" description="NAVIGATOR ITEM HEIGHT DESC"></param>
+		<param name="navitem_width" type="text" default="290" label="NAVIGATOR ITEM WIDTH" description="NAVIGATOR ITEM WIDTH DESC"></param>
+		 		
+		<param name="max_items_display" type="text" default="3" label="MAX ITEMS DISPLAY" description="MAX ITEMS DISPLAY DESC"></param>
+		<param name="auto_renderthumb" type="radio" default="1" label="RENDER THUMBNAIL" description="RENDER THUMBNAIL DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>		 
+			<param name="thumbnail_width" type="text" default="60" label="THUMBNAIL WIDTH" description="THUMBNAIL WIDTH DESC" />
+		<param name="thumbnail_height" type="text" default="60" label="THUMBNAIL HEIGHT" description="THUMBNAIL HEIGHT DESC" />
+		
+		
+		<param name="@spacer" type="spacer" default="" label="" description="" />		
+		
+	
+<param name="group" type="folderlist" default="redshop" label="SELECT GROUP" directory="modules/mod_icetabs/libs/groups/" filter="" exclude="" stripext="" />
+
+<param type="fgroup" title="START GROUP" group="start" for="content" />
+		<param name="source" type="radio" default="content_category" label="SOURCE FROM"  description="SOURCE FROM DESC" >
+			<option value="content_category">CATEGORY</option>
+			<option value="article_ids">ARTICLES IDS</option>
+		</param>
+		<param name="article_ids" type="text" default="" label="ARTICLES IDS"  description="ARTICLES IDS DESC" size="70" />
+		<param name="content_category" type="lofcategory" default="" label="CATEGORIES SELECTION"  description="CATEGORIES SELECTION DESC" />
+		
+		<param name="ordering" type="list" default="created_asc" label="ARTCILES SORTED BY" description="ARTCILES SORTED BY DESC">
+			<option value="ordering_asc">ORDERING - ASCENDING</option>
+			<option value="ordering_desc">ORDERING - DESCENDING</option>
+			<option value="hits_asc">HIT - ASCENDING</option>
+			<option value="hits_desc">HIT - DESCENDING</option>
+			<option value="created_desc">DATE - ASCENDING</option>
+			<option value="created_asc">DATE - DESCENDING</option>
+			<option value="rand_">RANDOM</option>
+		</param>
+		
+		
+
+<param type="fgroup" title="" group="end" />
+
+<param type="fgroup" title="START GROUP IMAGE" group="start" for="image"/>		
+         <param name="image_folder" type="text" default="" size="40" label="IMAGE FOLDER PATH" description="IMAGE FOLDER PATH DESC"></param>
+       
+	     <param name="image_category" type="category" default="" label="IMAGE CATEGORY" description="IMAGE CATEGORY DESC" />
+
+               
+		 <param name="image_ordering" type="list" default="" label="IMAGE SORTED BY" description="IMAGE SORTED BY DESC">
+			<option value="">NAME</option>
+			<option value="random">RANDOM</option>
+		</param>
+
+
+<param type="fgroup" title="END GROUP" group="end" />
+
+<param type="fgroup" title="START GROUP K2" group="start" for="k2"/>	
+		<param name="k2_source" type="radio" default="k2_category" label="K2 SOURCE FROM"  description="K2 SOURCE FROM DESC" >
+			<option value="k2_category">CATEGORY</option>
+			<option value="k2_items_ids">K2 ITEM IDS</option>
+		</param>
+		<param name="k2_items_ids" type="text" default="" label="K2 ITEMS IDS"  description="ARTICLES IDS DESC" size="70" />
+			
+       <param name="k2_category" type="k2category" default="" label="K2 CATEGORIES SELECTION"  description="CATEGORIES SELECTION DESC" />
+	    <param name="featured_items_show" type="list" default="1" label="FEATURED ITEMS SHOW" description="FEATURED ITEMS SHOW DESC">
+          <option value="0">HIDE</option>
+          <option value="1">SHOW</option>
+          <option value="2">ONLY FEATURED ITEMS</option>
+        </param>
+	   <param name="k2_ordering" type="list" default="created_asc" label="ARTCILES SORTED BY" description="ARTCILES SORTED BY DESC">
+			<option value="ordering_asc">ORDERING - ASCENDING</option>
+			<option value="ordering_desc">ORDERING - DESCENDING</option>
+			<option value="hits_asc">HIT - ASCENDING</option>
+			<option value="hits_desc">HIT - DESCENDING</option>
+			<option value="created_desc">DATE - ASCENDING</option>
+			<option value="created_asc">DATE - DESCENDING</option>
+		</param>
+			
+<param type="fgroup" title="END GROUP" group="end" />
+
+<param type="fgroup" title="START GROUP BANNER" group="start" for="banner"/>		
+      	<param name="clientids" type="bannerclient" default="" label="Banner client" description="PARAMSINGLECLIENT" />
+
+		<param name="banner_category" type="categories" section="com_banner" default="" label="CATEGORIES SELECTION" description="CATEGORIES SELECTION DESC" />
+		  <param name="banner_ordering" type="list" default="ordering_desc" label="BANNERS SORTED BY" description="BANNERS SORTED BY DESC">
+			<option value="ordering_asc">ORDERING - ASCENDING</option>
+			<option value="ordering_desc">ORDERING - DESCENDING</option>
+			<option value="rand_">RANDOM</option>
+		</param>
+	
+<param type="fgroup" title="END GROUP" group="end" />
+
+
+<param type="fgroup" title="START GROUP REDSHOP" group="start" for="redshop"/>
+		<param name="redshop_source" type="radio" default="redshop_category" label="REDSHOP SOURCE FROM"  description="REDSHOP SOURCE FROM DESC" >
+			<option value="redshop_category">CATEGORY</option>
+			<option value="redshop_items_ids">REDSHOP ITEM IDS</option>
+		</param>
+		<param name="redshop_items_ids" type="text" default="" label="REDSHOP ITEM IDS"  description="REDSHOP ITEM IDS DESC" size="70" />
+		<param name="redshop_category" type="redshopcategory" default="" label="CATEGORIES SELECTION"  description="CATEGORIES SELECTION DESC" />
+		 <param name="redshop_ordering" type="list" default="ordering_desc" label="REDSHOP SORTED BY" description="REDSHOP SORTED BY DESC">
+			<option value="cdate_asc">CREATION DATE - ASCENDING</option>
+			<option value="cdate_desc">CREATION DATE - DESCENDING</option>
+			<option value="ordering_asc">ORDERING - ASCENDING</option>
+			<option value="ordering_desc">SALES - DESCENDING</option>
+			<option value="rand_">RANDOM</option>
+		</param>
+		
+<param type="fgroup" title="END GROUP" group="end" />		
+		
+		
+		<param name="limit_items" type="text" default="5" label="LIMIT ITEMS" description="LIMIT ITEMS DESC" />
+		<param name="auto_strip_tags" type="radio" default="0" label="STRIP TAGS" description="STRIP TAGS DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+		<param name="title_max_chars" type="text" default="100" label="TITLE MAX CHARS" description="TITLE MAX CHARS DESC" />
+		<param name="description_max_chars" type="text" default="100" label="DESCIPTION MAX CHARS" description="DESCIPTION MAX CHARS DESC" />
+		
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		
+		<param type="spacer" default="EFFECT SETTING" />
+		
+		
+		<param name="layout_style" type="list" default="vrdown" label="PLAY STYLE" description="PLAY STYLE DESC">
+			<option value="hrleft">HORIZONTAL RIGHT TO LEFT</option>
+			<option value="hrright">HORIZONTAL LEFT TO RIGHT</option>
+			<option value="vrup">VERTICAL DOWN TO UP</option>
+			<option value="vrdown">VERTICAL UP TO DOWN</option>
+			<option value="replace">REPLACE</option>
+			<option value="opacity">OPACITY</option>
+		</param>
+		
+		<param name="interval" type="text" default="2000" label="INTERVAL" description="INTERVAL DESC" />
+		<param name="duration" type="text" default="700" label="ANIMATION DURATION" description="ANIMATION DURATION DESC" />
+		<param name="effect" type="list" default="Fx.Transitions.Sine.easeInOut" label="ANIMATION TRANSITION" description="ANIMATION TRANSITION DESC">
+		   <option value="Fx.Transitions.linear">linear</option>
+		    <option value="Fx.Transitions.quartOut">QuartOut</option>
+			<option value="Fx.Transitions.Quad.easeIn">Quad.easeIn</option>
+			<option value="Fx.Transitions.Quad.easeOut">Quad.easeOut</option>
+			<option value="Fx.Transitions.Quad.easeInOut">Quad.easeInOut</option>
+			<option value="Fx.Transitions.Cubic.easeIn">Cubic.easeIn</option>
+			<option value="Fx.Transitions.Cubic.easeOut">Cubic.easeOut</option>
+			<option value="Fx.Transitions.Cubic.easeInOut">Cubic.easeInOut</option>
+			<option value="Fx.Transitions.Quart.easeIn">Quart.easeIn</option>
+			<option value="Fx.Transitions.Quart.easeOut">Quart.easeOut</option>
+			<option value="Fx.Transitions.Quart.easeInOut">Quart.easeInOut</option>
+			<option value="Fx.Transitions.Quint.easeIn">Quint.easeIn</option>
+			<option value="Fx.Transitions.Quint.easeOut">Quint.easeOut</option>
+			<option value="Fx.Transitions.Quint.easeInOut">Quint.easeInOut</option>
+			<option value="Fx.Transitions.Pow.easeIn">Pow.easeIn</option>
+			<option value="Fx.Transitions.Pow.easeOut">Pow.easeOut</option>
+			<option value="Fx.Transitions.Pow.easeInOut">Pow.easeInOut</option>
+			<option value="Fx.Transitions.Expo.easeIn">Expo.easeIn</option>
+			<option value="Fx.Transitions.Expo.easeOut">Expo.easeOut</option>
+			<option value="Fx.Transitions.Expo.easeInOut">Expo.easeInOut</option>
+			<option value="Fx.Transitions.Circ.easeIn">Circ.easeIn</option>
+			<option value="Fx.Transitions.Circ.easeOut">Circ.easeOut</option>
+			<option value="Fx.Transitions.Circ.easeInOut">Circ.easeInOut</option>
+			<option value="Fx.Transitions.Sine.easeIn">Sine.easeIn</option>
+			<option value="Fx.Transitions.Sine.easeOut">Sine.easeOut</option>
+			<option value="Fx.Transitions.Sine.easeInOut">Sine.easeInOut</option>
+			<option value="Fx.Transitions.Back.easeIn">Back.easeIn</option>
+			<option value="Fx.Transitions.Back.easeOut">Back.easeOut</option>
+			<option value="Fx.Transitions.Back.easeInOut">Back.easeInOut</option>
+			<option value="Fx.Transitions.Bounce.easeIn">Bounce.easeIn</option>
+			<option value="Fx.Transitions.Bounce.easeOut">Bounce.easeOut</option>
+			<option value="Fx.Transitions.Bounce.easeInOut">Bounce.easeInOut</option>
+			<option value="Fx.Transitions.Elastic.easeIn">Elastic.easeIn</option>
+			<option value="Fx.Transitions.Elastic.easeOut">Elastic.easeOut</option>
+			<option value="Fx.Transitions.Elastic.easeInOut">Elastic.easeInOut</option>				  
+        </param> 
+		
+		<param name="auto_start" type="radio" default="1" label="AUTO START" description="AUTO START DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+
+	</params>
+	
+	<params group="advanced">
+		<param name="enable_cache" type="list" default="0" label="CACHING" description="CACHING DESC">
+			<option value="1">Use Cache Data</option>
+			<option value="0">Don't cache</option>
+		</param>
+		<param name="cache_time" type="text" default="15" label="CACHE TIME" description="CACHE TIME DESC" />
+		
+		<param name="open_target" type="list" default="_parent" label="CLICK LINK OPEN IN" description="CLICK LINK OPEN IN DESC">
+			  <option value="_blank">New window</option>
+			  <option value="_parent">Parent window</option>
+			  <option value="modalbox">IN MODAL BOX</option>
+		 </param>	
+		<param name="load_jslibs" type="list" default="modal" label="LOAD JS LIBS" description="LOAD JS LIBS DESC">
+			  <option value="">NO</option>
+			  <option value="modal">LOAD MODAL</option>
+		 </param>
+		 	<param name="modal_rel" type="text" default="width:800,height:350" label="MODALSIZE" description="MODALSIZE DESC" size="30"/>	
+	</params>
+		 	
+	<params group="other">
+		 <param name="moduleclass_sfx" type="text" default="" label="MODULE CLASS SUFFIX" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	
+		
+</install>

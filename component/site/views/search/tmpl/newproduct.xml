@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Newest Product Search Layout">
+		<message>
+			<![CDATA[Newest Product]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Newest Product Search Layout</name>
+		<description>Newest Product</description>
+		<params addpath="/administrator/components/com_redshop/elements">
+			<param name="categorytemplate" type="category" default="0" label="Select Category" description="Displays the selected category product" />							
+			<param name="newproduct" type="text" size="4" default="" label="Enter Number of Days to Find Newest Products" description="Enter No of Days For Find Newest Product" />
+			<param name="productlimit" type="text" size="4" default="" label="How Many products To Show" description="Enter No of Amount How Many products To Show" />
+		</params>
+	</state>
+</metadata>

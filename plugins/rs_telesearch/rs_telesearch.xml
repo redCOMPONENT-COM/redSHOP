@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="telesearch" method="upgrade">
+	<name>TeleSearch</name>
+	<version>1.1</version>
+	<creationDate>21-11-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>PROVIDES_TELESEARCH_INTEGRATION</description>
+	<files>
+		<filename plugin="rs_telesearch">rs_telesearch.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_telesearch_rs_telesearch.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_telesearch_rs_telesearch.ini</language>
+	</languages>
+	<params>
+		<param name="telesearch_serverurl" type="hidden" default="http://opslag.redhost.dk/" label="TELESEARCH_SERVERURL_LBL" description="DESC_TELESEARCH_SERVERURL_LBL"/>
+	</params>
+</install>

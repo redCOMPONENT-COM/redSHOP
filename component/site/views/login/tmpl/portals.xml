@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Portal Detail Layout">
+		<message>
+			<![CDATA[Standard Portal Detail Layout For Redshop Shopper Group]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Portal Detail</name>
+		<description>Standard Portal Detail Layout For Redshop Shopper Group</description>				
+	</state>
+</metadata>

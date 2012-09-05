@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_shipping"  method="upgrade">
+	<name>Norwegianposten</name>
+	<version>1.1.2</version>
+	<creationDate>11-03-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<shipping_class>bring</shipping_class>
+	<shipping_method_code>bring</shipping_method_code>	  
+	<files>
+		<filename plugin="bring">bring.php</filename>	
+		<filename plugin="bring">bring.cfg.php</filename>		 
+	</files>	 
+</install>

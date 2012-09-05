@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Account Layout">
+		<message>
+			<![CDATA[Account Layout For Redshop Account Information]]>
+		</message>
+	</layout>
+	<state>
+		<name>Account Information</name>
+		<description>Account Layout For Redshop Account Information</description>
+		<params>
+			<param name="logout" type="menuitem" default="" disable="separator" label="LOGOUT_REDIRECTION_PAGE" description="PARAMLOGOUTREDIRECTURL" />
+		</params>				
+	</state>
+</metadata>

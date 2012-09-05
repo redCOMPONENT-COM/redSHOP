@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<install type="module" version="1.5.0" method="upgrade">
+	<name>redSHOP Manufacturer</name>
+	<version>1.1.2</version>
+	<creationDate>08-06-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>redSHOP Manufactorer Scroller Moduler</description>
+	<files>
+		<filename module="mod_redmanufacturer">mod_redmanufacturer.php</filename>		
+		<folder module="mod_redmanufacturer">css</folder>
+		<folder module="mod_redmanufacturer">js</folder>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redmanufacturer.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redmanufacturer.ini</language>
+  	</languages>	
+	<params>
+		<param name="pretext" type="text" default="" label="PRETEXT_LBL"
+			description="PRETEXT" />								
+		<param name="moduleclass_sfx" type="text" default=""
+			label="CLASS_SUFFIX"
+			description="CLASS_SFX_DESC" />
+		<param name="class_sfx" type="text" default=""
+			label="MENU_SFX"
+			description="MENU_SFX_DESC" />
+		<param name="PageLink" type="list" default="detail"
+			label="IMG_LINK"
+			description="IMG_LINK_DESC" >
+			<option value="detail">MANUFACTURER_DETAIL</option>
+			<option value="products">MANUFACTURER_PRODUCT</option>			
+		</param>	
+		<param name="NumberOfProducts" type="text" default="2"
+			label="NUMBER_OF_MANUFACTURER"
+			description="NUMBER_OF_MANUFACTURER_DESC">			
+		</param>
+		<param name="ScrollBehavior" type="text" default="1"
+			label="SCROLL_BEHAVIOR"
+			description="SCROLL_BEHAVIOR_DESC">			
+		</param>		
+		<param name="ScrollAuto" type="text" default="1"
+			label="SCROLL_AUTO"
+			description="SCROLL_AUTO_DESC">			
+		</param>
+		<param name="ScrollWidth" type="text" default="130"
+			label="SCROLL_WIDTH"
+			description="SCROLL_WIDTH_DESC">			
+		</param>
+		<param name="ScrollHeight" type="text" default="120"
+			label="SCROLL_HEIGHT"
+			description="SCROLL_HEIGHT_DESC">			
+		</param>
+		<param name="ImageWidth" type="text" default="100"
+			label="THUMB_IMAGE_WIDTH"
+			description="IMAGE_WIDTH_DESC">			
+		</param>
+		<param name="ImageHeight" type="text" default="100"
+			label="THUMB_IMAGE_HEIGHT"
+			description="IMAGE_HEIGHT_DESC">			
+		</param>
+		<param name="ImageBorder" type="radio" default="yes"
+			label="MANUFACTURER_IMAGE_BORDER"
+			description="MANUFACTURER_IMAGE_BORDER_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="show_image" type="radio" default="1" label="SHOW_IMAGE" description="SHOW_IMAGE_DESC">
+		<option value="1">YES</option>
+		<option value="0">NO</option>
+		</param>
+		<param name="show_product_name" type="radio" default="0" label="SHOW_PRODUCT_NAME" description="SHOW_PRODUCT_NAME_DESC">
+		<option value="1">YES</option>
+		<option value="0">NO</option>
+		</param>
+		<param name="show_link_on_product_name" type="radio" default="0" label="SHOW_LINKON_PRODUCT_NAME" description="SHOW_LINKON_PRODUCT_NAME_DESC">
+		<option value="1">YES</option>
+		<option value="0">NO</option>
+		</param>
+		<param name="ScrollDirection" type="radio" default="no"
+			label="SCROLL_DIRECTION_VERTICAL"
+			description="SCROLL_DIRECTION_VERTICAL_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</param>
+		<param name="ScrollDelay" type="list" default="false"
+			label="SCROLL_DELAY"
+			description="SCROLL_DELAY_DESC" >
+			<option value="fast">FAST</option>
+			<option value="slow">SLOW</option>			
+		</param>
+		<param name="ScrollWrap" type="list" default="circular"
+			label="SCROLL_WRAP"
+			description="SCROLL_WRAP_DESC" >
+			<option value="circular">CIRCULAR</option>
+			<option value="last">LAST</option>			
+		</param>	
+			
+	</params>
+</install>

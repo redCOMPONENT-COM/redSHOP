@@ -1,0 +1,157 @@
+<?php 
+/**
+ * $ModDesc
+ * 
+ * @version		$Id: helper.php $Revision
+ * @package		modules
+ * @subpackage	$Subpackage
+ * @copyright	Copyright (C) May 2010 LandOfCoder.com <@emai:landofcoder@gmail.com>. All rights reserved.
+ * @website 	htt://landofcoder.com
+ * @license		GNU General Public License version 2
+ */
+if( !class_exists('LofSliderGroupRedshop') ) { 
+	
+
+
+	class LofSliderGroupRedshop extends LofSliderGroupBase{
+		/**
+		 * @var string $__name 
+		 *
+		 * @access private;
+		 */
+		var $__name = 'redshop';
+		
+		/**
+		 * override get List of Item by the module's parameters
+		 */
+		public function getListByParameters( $params ){
+			if( !LofSliderGroupredshop::isredshopExisted() ){
+				return array();
+			} 
+			return $this->__getList( $params );
+		}
+		
+		/**
+		 * check redshop is installed or not ?
+		 */
+		public function isredshopExisted(){
+			return  is_dir( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop' );
+		}
+		
+		/**
+		 * get list of product 
+		 *
+		 *
+		 * @access private
+		 */
+		public function __getList( $params ){
+			
+			global $mm_action_url;
+			require_once(JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'product.php');
+			
+			$db =& JFactory::getDBO();
+			$producthelper = new producthelper();
+			$ordering      = $params->get( 'redshop_ordering', 'publish_date_asc' ); 
+			$limit 	       = $params->get( 'redshop_limit_items', 4 );
+			$ordering      = str_replace( '_', '  ', $ordering );
+			$thumbWidth    = (int)$params->get( 'thumbnail_width', 35 );
+			$thumbHeight   = (int)$params->get( 'thumbnail_height', 60 );
+			$imageHeight   = (int)$params->get( 'main_height', 300 ) ;
+			$imageWidth    = (int)$params->get( 'main_width', 660 ) ;
+			$isThumb       = $params->get( 'auto_renderthumb',1);
+			
+			$extraURL 	   = $params->get('open_target')!='modalbox'?'':'&tmpl=component';
+
+			if( trim($ordering[0]) == 'rand' ){
+				$ordering = " RAND() ";
+			}
+			$condition = LofSliderGroupredshop::buildConditionQuery( $params );
+			// sql query
+			$query 	= ' SELECT p.*, p.product_id,p.publish_date as cdate, p.published, p.product_number, p.product_name,pc.ordering '
+					. ' 	, p.product_s_desc, product_thumb_image, product_full_image'
+					. ' 	, c.category_id'
+					. ' FROM #__redshop_product AS p '
+					. ' JOIN #__redshop_product_category_xref as pc ON p.product_id=pc.product_id ';
+			$query  .= $condition;
+			$query .= ' JOIN #__redshop_category as c ON pc.category_id=c.category_id ';
+			$query .= ' WHERE p.published = \'1\' AND c.published = \'1\' AND product_parent_id=0 ';
+		
+			$query .= ' ORDER BY  ' . $ordering;
+			$query .= ' LIMIT '. $limit; 
+			
+			$db->setQuery($query);						
+			$rows = $db->loadObjectList();
+			if( !empty($rows) ){
+				foreach( $rows as $key => $item ){
+					$tmpimage =  $rows[$key]->product_full_image;
+					if( !(strtolower(substr($tmpimage, 0, 4)) == 'http') ) {
+						$rows[$key]->product_image_url = JURI::root() . 'components/com_redshop/assets/images/product/' . $rows[$key]->product_full_image;
+					} else {
+						$rows[$key]->product_image_url =  $rows[$key]->product_full_image;
+					}
+					$cid = $rows[$key]->category_id;
+					$rows[$key]->description .= $rows[$key]->product_desc ;
+
+					$item_id = JRequest::getInt('Itemid');
+									
+					$extraURL = $item_id > 0 ? $extraURL.'&Itemid='.$item_id : '';
+					
+					$rows[$key]->link = '?option=com_redshop&view=product&pid=' . $rows[$key]->product_id.$extraURL;					
+					$rows[$key]->title = $rows[$key]->product_name;
+										
+					/*$rows[$key]->mainImage = $producthelper->getProductImage($rows[$key]->product_id,'',$imageWidth,$imageHeight,1);
+					
+					$rows[$key]->thumbnail = $producthelper->getProductImage($rows[$key]->product_id,'',$thumbWidth,$thumbHeight,1);
+					*/
+					$middlepath = "/components/com_redshop/assets/images/product/";
+					
+					if ($rows[$key]->product_full_image && file_exists ( JPATH_SITE.$middlepath.$rows[$key]->product_full_image )){
+						$image=self::renderThumb( $rows[$key]->product_image_url, $imageWidth, $imageHeight, $rows[$key]->title, $isThumb );
+						$rows[$key]->mainImage = $image;
+					}
+					
+					if ($rows[$key]->product_full_image && file_exists ( JPATH_SITE.$middlepath.$rows[$key]->product_full_image )){
+						$image=self::renderThumb( $rows[$key]->product_image_url, $thumbWidth, $thumbWidth, $rows[$key]->title, $isThumb );
+						$rows[$key]->thumbnail = $image;
+					}
+					
+					$url = "?option=com_redshop&view=cart&pid=" . $rows[$key]->product_id ;
+					$rows[$key]->addtocart_link = "#";
+					
+				}
+				return $rows;
+			}
+			return array();
+		}
+		
+		/**
+		 * build condition query base parameter  
+		 * 
+		 * @param JParameter $params;
+		 * @return string.
+		 */
+		  function buildConditionQuery( $params ){
+		  
+			$source = trim($params->get( 'redshop_source', 'redshop_category' ) );
+			if( $source == 'redshop_category' ){
+				$catids = $params->get( 'redshop_category','0');
+				
+				if( !$catids ){
+					return '';
+				}
+				$catids = !is_array($catids) ? $catids : '"'.implode('","',$catids).'"';
+				$condition = ' AND  pc.category_id IN( '.$catids.' )';
+			} else {
+				$ids = preg_split('/,/',$params->get( 'redshop_items_ids',''));	
+				$tmp = array();
+				foreach( $ids as $id ){
+					$tmp[] = (int) trim($id);
+				}
+				
+				$condition = " AND pc.product_id IN('". implode( "','", $tmp ) ."')";
+			}
+			return $condition;
+		}
+	}
+}
+?>

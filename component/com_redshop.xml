@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://www.joomla.org/xml/dtd/1.5/component-install.dtd">
+<install type="component" version="1.5.0" method="upgrade">
+	<name>redSHOP</name>
+	<creationDate>06th Aug 2012</creationDate>   
+	<author>Redweb.dk</author>
+	<authorEmail>email@redweb.dk</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<copyright>(c) Redweb.dk</copyright>
+	<license>GNU/GPL</license>
+	<version>1.1.11</version>
+	<description>redSHOP Joomla Webshop Component</description>
+	<installfile>install.redshop.php</installfile>
+	<uninstallfile>uninstall.redshop.php</uninstallfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>	
+	<subinstall>
+        <extension type="plugin" folder="redshop_payment" subdir="plugins/rs_payment_paypal" name="rs_payment_paypal" publish="true">
+            Paypal Payments
+        </extension>
+        <extension type="plugin" folder="redshop_payment" subdir="plugins/rs_payment_banktransfer" name="rs_payment_banktransfer" publish="true">
+           Bank Transfer Payments
+        </extension>
+        <extension type="plugin" folder="redshop_shipping" subdir="plugins/rs_shipping_redshopdefault" name="rs_shipping_redshopdefault" publish="true">
+           Default Redshop Shipping
+        </extension>          
+    </subinstall>
+    
+	<files folder="site">
+		<filename>index.html</filename>	
+		<filename>redshop.php</filename>
+		<filename>router.php</filename>
+		<folder>assets</folder>
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>templates</folder>
+		<folder>models</folder>	
+		<folder>views</folder>			
+	</files>
+	
+	<languages folder="site/languages">
+		<language tag="en-GB">en-GB.com_redshop.ini</language>		
+	</languages>
+	
+	<administration>
+		<menu img="components/com_redshop/assets/images/redshopcart16.png">redSHOP</menu>		
+		<files folder="admin">	 
+			<filename>index.html</filename>	
+			<filename>redshop.php</filename>
+			<filename>install.mysql.utf8.sql</filename>
+			<filename>uninstall.mysql.utf8.sql</filename>
+			<filename>config.xml</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>elements</folder>
+			<folder>extras</folder>
+			<folder>help</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>	
+			<folder>views</folder>								 
+		</files>
+	<languages folder="admin/languages">		
+		<language tag="en-GB">en-GB.com_redshop.ini</language>		
+	</languages>
+	</administration>
+</install>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Catalog Layout">
+		<message>
+			<![CDATA[Catalog Layout For Redshop Catalog Information]]>
+		</message>
+	</layout>
+	<state>
+		<name>Catalog Information</name>
+		<description>Catalog Layout For Redshop Catalog Information</description>				
+	</state>
+</metadata>

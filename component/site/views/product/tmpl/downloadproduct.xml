@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Product Download  Layout">
+		<message>
+			<![CDATA[Standard Product Download Layout For Redshop Product Downloading]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Product Download</name>
+		<description>Standard Product Download Layout For Redshop Product Downloading</description>				
+	</state>
+</metadata>
+ 

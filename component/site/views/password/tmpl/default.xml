@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Password Layout">
+		<message>
+			<![CDATA[Standard Password Layout For Redshop Users]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Password</name>
+		<description>Standard Password Layout For Redshop Password</description>				
+	</state>
+</metadata>

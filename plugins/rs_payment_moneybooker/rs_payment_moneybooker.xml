@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment"
+	method="upgrade">
+	<name>Money Booker Payments</name>
+	<version>1.1.1</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Money Booker payments
+	</description>
+
+	<files>
+		<filename plugin="rs_payment_moneybooker">rs_payment_moneybooker.php</filename>
+		<folder>rs_payment_moneybooker</folder>
+	</files>
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="payment_oprand" type="text" size="10" default="-"
+			label="Payment operand" description="Payment Operand" />
+		<param name="payment_price" type="text" size="30" default=""
+			label="Payment price" description="Payment price" />
+		<param name="payment_discount_is_percent" type="radio" default="1"
+			label="Discount Type: " description="Discount Type">
+			<option value="1">Percentage </option>
+			<option value="0">Total</option>
+		</param>
+		<param name="pay_to_email" type="text" default=""
+			label="Moneybooker Merchant Email:" description="Enter Moneybooker merchange email. " />
+		<param name="moneybooker_languages" type="list" default="EN"
+			label="Money Booker Language:" description="Select language for Moneybooker.">
+			<option value="EN">English</option>
+			<option value="DE">German</option>
+			<option value="FR">French</option>
+			<option value="ES">Spanish</option>
+			<option value="IT">Italian</option>
+			<option value="PL">Polish</option>
+			<option value="GR">Greek</option>
+			<option value="RO">Romanian</option>
+			<option value="RU">Russian</option>
+			<option value="TR">Turkish</option>
+			<option value="CN">Chinese</option>
+			<option value="CZ">Czech</option>
+			<option value="NL">Dutch</option>
+			<option value="DA">Danish</option>
+			<option value="SV">Swedish</option>
+			<option value="FI">Finnish</option>
+			<option value="BG">Bulgarian</option>
+		</param>
+		<param name="verify_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="C"
+			label="Order Status for successful transactions"
+			description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+		</param>
+		<param name="invalid_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="P"
+			label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+		</param>
+		<param type="spacer" />
+	</params>
+	<params group="advanced">
+		<param name="private_person" type="radio" default="1"
+			label="Show on Private Person" description="Show on Private Person">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="business" type="radio" default="1" label="Show on Business"
+			description="Show on Business">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="is_creditcard" type="hidden" default="0" value="0" />
+		<param name="economic_payment_terms_id" type="text" default=""
+			label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default=""
+			label="Enter E-conomic Design and Layout ID" />
+		<param name="shopper_group_id" type="plugins" default="0"
+			label="Select Shopper Group" description="Displays the shopper groups" />
+	</params>
+</install>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Registration Layout">
+		<message>
+			<![CDATA[Standard Registration Layout For Redshop User to Register]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Registration</name>
+		<description>Standard Registration Layout For Redshop User to Register</description>
+		<params>
+			<param name="registrationredirect" type="menuitem" default="" disable="separator" label="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE" description="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE_DESC" />			
+		</params>				
+	</state>
+</metadata>

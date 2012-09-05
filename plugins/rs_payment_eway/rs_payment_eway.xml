@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="redshop_payment"
+	method="upgrade">
+	<name>E-Way Payments</name>
+	<version>1.1.2</version>
+	<creationDate>20-07-2011</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard E-Way payments</description>
+
+	<files>
+		<filename plugin="rs_payment_eway">rs_payment_eway.php</filename>
+		<folder>rs_payment_eway</folder>
+	</files>
+	<params addpath="/administrator/components/com_redshop/elements">
+		<param name="payment_oprand" type="text" size="10" default="-"
+			label="Payment operand" description="Payment Operand" />
+		<param name="payment_price" type="text" size="30" default=""
+			label="Payment price" description="Payment price" />
+		<param name="payment_discount_is_percent" type="radio" default="1"
+			label="Discount Type: " description="Discount Type">
+			<option value="1">Percentage </option>
+			<option value="0">Total</option>
+		</param>
+		<param name="debug_mode" type="radio" default="1" label="Debug Mode: "
+			description="Debug Mode">
+			<option value="1">Yes </option>
+			<option value="0">No</option>
+		</param>
+		<param name="accepted_credict_card" type="creditcards" default="0"
+			label="Select Credit Cards" description="Displays the selected category product" />
+		<param name="eway_customer_id" type="text" default=""
+			label="EWay Customer Id" description=" EWay Customer Id" />
+		<param name="eway_method_type" type="list" default="REAL-TIME-CVN"
+			label="EWay Payment Method Type " description="EWay Diffrent Payment Method ">
+			<option value="REAL-TIME">Hosted Payments </option>
+			<option value="REAL-TIME-CVN">Merchant Hosted Payments CVN</option>
+			<option value="GEO-IP-ANTI-FRAUD">Beagle Anti-Fraud </option>
+		</param>
+		<param name="eway_live_gateway" type="list" default="0"
+			label="Use EWay Live Gateway "
+			description="Select Yes If you are using Live URLs , Use No is you are using testing URLs ">
+			<option value="1">Yes </option>
+			<option value="0">No</option>
+		</param>
+		<param name="eway_live_url" type="text"
+			default="https://www.eway.com.au/gateway/xmlpayment.asp" label="EWay Hosted Payments Live URL"
+			description="The eWAY Merchant Hosted Payment solution allows you to post an XML document containing customer and payment information to the eWAY payment gateway. This allows customers' to remain on your website at all times, while processing occurs behind the scenes." />
+		<param name="eway_testing_url" type="text"
+			default="https://www.eway.com.au/gateway/xmltest/testpage.asp" label="EWay Hosted Payments Testing URL"
+			description="" />
+		<param name="eway_cvn_live_url" type="text"
+			default="https://www.eway.com.au/gateway_cvn/xmlpayment.asp" label="EWay Merchant Hosted Payments CVN Live URL"
+			description="Further minimise your risk of fraudulent transactions by authenticating your customer’s credit card with CVN details during the payment process. The credit card CVN is a three digit verification number that is found on the back of a MasterCard or VISA credit card, or a four digit number for AMEX cards." />
+		<param name="eway_cvn_testing_url" type="text"
+			default="https://www.eway.com.au/gateway_cvn/xmltest/testpage.asp"
+			label="EWay Merchant Hosted Payments CVN Testing URL" description="" />
+		<param name="eway_antifraud_live_url" type="text"
+			default="https://www.eway.com.au/gateway_beagle/xmlbeagle.asp" label="EWay Beagle Anti-Fraud Live URL"
+			description="Beagle uses GEO-IP rules to block or flag potential fraudulent transactions. Rules are declared within the eWAY Business Centre and notifications are sent via e-mail for any transactions that do not pass the Anti-Fraud rules. Beagle is integrated by passing two additional fields (IP address and country code) while using the Merchant Hosted Payment solution." />
+		<param name="eway_antifraud_testing_url" type="text"
+			default="https://www.eway.com.au/gateway_beagle/test/xmlbeagle_test.asp"
+			label="EWay Beagle Anti-Fraud Testing URL" description="" />
+	</params>
+
+	<params group="advanced">
+		<param name="verify_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="C"
+			label="Order Status for successful transactions"
+			description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+		</param>
+		<param name="invalid_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="P"
+			label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+		</param>
+		<param name="capture_status" type="sql"
+			query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+			key_field="st_value" value_field="st_title" default="S"
+			label="Capture Payment Status" description="Select an capture status for capturing payment."></param>
+		<param name="private_person" type="radio" default="1"
+			label="Show on Private Person" description="Show on Private Person">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="business" type="radio" default="1" label="Show on Business"
+			description="Show on Business">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="is_creditcard" type="hidden" default="1" value="1" />
+		<param name="economic_payment_terms_id" type="text" default=""
+			label="Enter E-conomic Payment Conditions ID" />
+		<param name="economic_design_layout" type="text" default=""
+			label="Enter E-conomic Design and Layout ID" />
+		<param name="shopper_group_id" type="plugins" default="0"
+			label="Select Shopper Group" description="Displays the shopper groups" />
+	</params>
+
+</install>

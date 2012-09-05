@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install  version="1.5" type="plugin" group="redshop_shipping"   method="upgrade">
+	<name>UPS</name>
+	<version>1.1.4</version>
+	<creationDate>31-03-2010</creationDate>
+	<author>RedTeam</author>
+	<authorEmail>info@redhost.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<shipping_class>ups</shipping_class>
+	<shipping_method_code>ups</shipping_method_code>	  
+	<files>
+		<filename plugin="ups">ups.php</filename>	
+		<filename plugin="ups">ups.cfg.php</filename>		 
+	</files>
+	<params>
+	<param name="ups_debug" type="hidden" default="0" />
+	</params>
+</install>
