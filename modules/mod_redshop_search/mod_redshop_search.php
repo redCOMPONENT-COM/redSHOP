@@ -1,0 +1,116 @@
+<?php
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+$option=JRequest::getVar('option');
+
+$session =& JFactory::getSession();
+$cart = $session->get('cart');
+$count = 0;
+if(isset($cart['idx']))
+{
+	$count=$cart['idx'];
+}
+
+require_once(JPATH_ROOT.DS.'administrator/components/com_redshop'.DS.'helpers'.DS.'redshop.cfg.php');
+require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'configuration.php' );
+$Redconfiguration = new Redconfiguration();
+$Redconfiguration->defineDynamicVars();
+
+$user = JFactory::getUser();
+
+$document = JFactory::getDocument();
+$document->addScriptDeclaration("
+		var base_url = '".JURI::root()."';
+	");
+
+JHTML::Script('search.js', 'modules/mod_redshop_search/js/',false);
+
+$enableAjaxsearch		= trim( $params->get( 'enableAjaxsearch', '0' ) );
+
+$javaFun = "";
+if($enableAjaxsearch)
+{
+	$document->addScript(JURI::base()."administrator".DS."components".DS."com_redshop".DS."assets".DS."js".DS."search.js");
+	$document->addStyleSheet (JURI::base()."administrator".DS."components".DS."com_redshop".DS."assets".DS."css".DS."search.css");
+	$javaFun = "makeUrl();";
+}
+$db = JFactory::getDBO();
+
+if ($user->id >0)
+	$query = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = ".$user->id." GROUP BY sg.shopper_group_id  AND sg.shopper_group_portal=1";
+else
+	$query = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = '".SHOPPER_GROUP_DEFAULT_UNREGISTERED."' AND sg.shopper_group_portal=1";
+
+$db->setQuery($query);
+$shoppercatdata = $db->loadResult();
+
+$catAcl="";
+if($shoppercatdata)
+	$catAcl = " AND category_id IN(".$shoppercatdata.")";
+
+$query = "SELECT category_id as value,category_name as text FROM #__redshop_category WHERE published = 1 ".$catAcl." order by category_name asc";
+$db->setQuery($query);
+$catdata = $db->LoadObjectList();
+
+$manAcl="";
+if($shoppercatdata)
+	$manAcl = " AND manufacturer_id IN(".$shoppercatdata.")";
+$query = "SELECT manufacturer_id as value,manufacturer_name AS text FROM #__redshop_manufacturer WHERE published = 1 ".$manAcl;
+$db->setQuery($query);
+$manufacturedata = $db->LoadObjectList();
+
+
+$defaultSearchType		= trim( $params->get( 'defaultSearchType', 'product_name' ) );
+$showSearchTypeField	= trim( $params->get( 'showSearchTypeField' ) );
+$showSearchField	= trim( $params->get( 'showSearchField' ) );
+$showCategory	= trim( $params->get( 'showCategory' ) );
+$showManufacturer	= trim( $params->get( 'showManufacturer' ) );
+$showProductsearchtitle	= trim( $params->get( 'showProductsearchtitle' ) );
+$showKeywordtitle	= trim( $params->get( 'showKeywordtitle' ) );
+$standardkeyword  = trim( $params->get( 'stdsearchtext' ) );
+
+$search_type =  JRequest::getVar( 'search_type', $defaultSearchType );
+$cat_data =  ( JRequest::getVar( 'category_id', '' ) ); // Category Select Id
+$manufacture_data =  ( JRequest::getVar( 'manufacturer_id', '' ) ); // manufacturer_id Select Id
+
+$lists = array();
+$cat = array();
+$cat[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT_CATEGORIES'));
+$catdata = @array_merge($cat,$catdata);
+$lists['catdata'] = JHTML::_('select.genericlist',$catdata,'category_id','class="inputbox" style="width: 163px;" size="1" searchcategory="1" onChange="loadProducts(this.value);'.$javaFun.'" ','value','text',$cat_data);
+
+$manufacture = array();
+$manufacture[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+$manufacturedata = @array_merge($manufacture,$manufacturedata);
+$lists['manufacturedata'] = JHTML::_('select.genericlist',$manufacturedata,'manufacturer_id','class="inputbox" style="width: 163px;" size="1" searchmanufacturer="1"  ','value','text',$manufacture_data);
+
+
+
+$searchType = array();
+//$searchType[]   = JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
+$searchType[]   = JHTML::_('select.option', 'product_name', JText::_('COM_REDSHOP_PRODUCT_NAME'));
+$searchType[]   = JHTML::_('select.option', 'product_number', JText::_('COM_REDSHOP_PRODUCT_NUMBER'));
+$searchType[]   = JHTML::_('select.option', 'name_number', JText::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_NUMBER"));
+$searchType[]   = JHTML::_('select.option', 'product_desc', JText::_("COM_REDSHOP_PRODUCT_DESCRIPTION"));
+$searchType[]   = JHTML::_('select.option', 'virtual_product_num', JTEXT::_("COM_REDSHOP_VIRTUAL_PRODUCT_NUM"));
+$searchType[]   = JHTML::_('select.option', 'name_desc', JText::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION"));
+$searchType[]   = JHTML::_('select.option', 'name_number_desc', JTEXT::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION"));
+$lists['searchtypedata'] 	= JHTML::_('select.genericlist',$searchType,  'search_type', 'class="inputbox" style="width: 163px;" size="1" onchange="setSearchType();'.$javaFun.'" ', 'value', 'text',  $search_type );
+
+require(JModuleHelper::getLayoutPath('mod_redshop_search'));
+

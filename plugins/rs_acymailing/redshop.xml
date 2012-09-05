@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="plugin" version="2.5" method="upgrade" group="acymailing">
+	<name>AcyMailing Tag : redSHOP Products</name>
+	<version>1.1.3</version>
+	<creationDate>22-12-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin enables you to add redSHOP Products in your Newsletter</description>
+	<files>
+		<filename plugin="redshop">redshop.php</filename>
+	</files>
+	
+	<config>
+		<fields name="params" >
+			<fieldset name="basic">				
+				<field type="spacer" name="myspacer" label="&lt;b&gt;Note: &lt;/b&gt;  &lt;i&gt;  Available template tags for this plugin. &lt;b&gt;&lt;br&gt;{product_thumb_image} {product_name} {product_price}.&lt;/b&gt; &lt;/br&gt;No other tag will work with this plugin.&lt;/i&gt;" />
+				<field name="product_template" type="sql" default="product" label="Product Template" description="Select Product Template from Product Content template section" query="SELECT template_id AS tm_value, template_name AS tm_title FROM #__redshop_template WHERE template_section='product_content_template'" key_field="tm_value" value_field="tm_title" />
+			</fieldset>
+		</fields>
+	</config>
+</install>

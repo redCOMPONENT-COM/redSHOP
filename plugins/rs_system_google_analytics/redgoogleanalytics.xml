@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension   version="1.7" client="site" type="plugin" group="system" method="upgrade">
+    <name>Analytics Plugin - redSHOP Google Analytics</name>
+	<version>1.1.4</version>
+	<creationDate>22-12-2012</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Allows page tracking view Google API For Joomla</description>
+    <files>
+        <filename plugin="redgoogleanalytics">redgoogleanalytics.php</filename>
+    </files>
+   
+</extension>

@@ -1,0 +1,143 @@
+/* this is the clipping region for the menu. it's width and height get set by script, depending on the size of the items table */
+.transMenu {
+	position:absolute;
+	overflow:hidden;
+	left:-1000px;
+	top:-1000px;
+	}
+
+/* this is the main container for the menu itself. it's width and height get set by script, depending on the size of the items table */
+.transMenu .content {
+	position:absolute;
+	}
+
+/* this table comprises all menu items. each TR is one item. It is relatively positioned so that the shadow and background transparent divs can be positioned underneath it */
+.transMenu .items {
+	position:relative;
+	left:2px; top:0px;
+	z-index:2;
+	}
+
+.transMenu.top .items {
+	border-top:none;
+	}
+
+/* each TR.item is one menu item */
+.transMenu .item{
+    text-decoration:none;
+	/* this is a hack for mac/ie5, whom incorrectly cascades the border properties of the parent table to each row */
+	border:none;
+	cursor:pointer;
+	cursor:hand;
+	display: block;
+	background:inherit;
+	vertical-align: middle;
+	font-size: 11px;
+	font-weight: bold;
+	color: inherit;
+	text-align: left;
+	text-indent: 15px;
+	width: 100%;
+	border-bottom: 1px solid #FFF;
+	}
+.transMenu .item td{
+	font-size: 11px;
+	color: black;
+	
+}
+/* this DIV is the semi-transparent white background of each menu. the -moz-opacity is a proprietary way to get transparency in mozilla, the filter is for IE/windows 5.0+. */
+/* we set the background color in script because ie mac does not use it; that browser only uses a semi-transparent white PNG that the spacer gif inside this DIV is replaced by */
+.transMenu .background {
+	position:absolute;
+	border: 1px solid gray;
+	left:1px; top:0px;
+	z-index:1;
+	-moz-opacity:.8;
+	filter:alpha(opacity=80);
+	}
+
+/* same concept as .background, but this is the sliver of shadow on the right of the menu. It's left, height, and background are set by script. In IE5/mac, it uses a PNG */
+.transMenu .shadowRight {
+	position:absolute;
+	z-index:3;
+	top:3px; width:2px;
+	-moz-opacity:.4;
+	filter:alpha(opacity=40);
+	}
+
+/* same concept as .background, but this is the sliver of shadow on the bottom of the menu. It's top, width, and background are set by script. In IE5/mac, it uses a PNG */
+.transMenu .shadowBottom {
+	position:absolute;
+	z-index:1;
+	left:3px; height:2px;
+	-moz-opacity:.4;
+	filter:alpha(opacity=40);
+	}
+
+/* this is the class that is used when the mouse is over an item. script sets the row to this class when required. */
+.transMenu .item.hover {
+	color:black;
+	background:#F79A00;
+	
+}
+
+/* this is either the dingbat that indicates there is a submenu, or a spacer gif in it's place. We give it extra margin to create some space between the text and the dingbat */
+.transMenu .item img {
+	margin-left:10px;
+	}
+
+/* Added classes by Khanh - 050629 */
+#wrap {
+   margin: 0px;
+   padding: 0px;
+}
+#menu {
+   margin: 0px;
+   padding: 0px;
+   display:block;
+   width:100%;
+
+}
+.transMenu .item#active {
+	background: #F0E68C;
+	color: black;
+	-moz-opacity: .6;
+	filter: alpha(opacity=60);
+}
+.transMenu .item#active.hover {
+	background:#F79A00;
+	color:black;
+	}
+/* For first level menu.*/
+a.mainlevel-trans:link, a.mainlevel-trans:visited {
+	display: block;
+	vertical-align: middle;
+	font-size: 11px;
+	font-weight: bold;
+	color: inherit;
+	text-align: left;
+	padding-top: 5px;
+	padding-left: 18px;
+	width: 100%;
+	text-decoration: none;
+}
+a.mainlevel-trans:hover {
+ 	background-position: 0px -25px;
+	text-decoration: none;
+	color: #333333;
+}
+a.mainlevel_active-trans, a.mainlevel_active-trans:visited {
+   color:#FF6600;
+   line-height: 25px;
+   display: block;
+   height: 25px;
+   width:auto;
+   margin: 0px;
+   padding: 0px 15px 0px 29px;
+	text-decoration: none;
+}
+a.mainlevel_active-trans:hover {
+  color:#3366CC;
+}
+/* End added */
+

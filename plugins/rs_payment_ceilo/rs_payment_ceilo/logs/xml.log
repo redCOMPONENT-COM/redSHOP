@@ -1,0 +1,5166 @@
+***********************************************
+2011-07-22 07:46:12:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="830aa24268115dfded89fdbff01f3f0d" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>5178513</numero>
+      <valor>200000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T07:46:12</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 07:49:41:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="58c17abd2e5ad3522edc0547193d84a9" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>4914680</numero>
+      <valor>200000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T07:49:41</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 07:49:48:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="98a5e760f624f38b46ec0cb5ec916d5e" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>2382512</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T07:49:48</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 07:58:37:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="ebcb19f37c6f091072e40ce5c601d911" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>2649089</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T07:58:37</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:00:21:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="18560e62f5caa38378e5482d3ffd8fe1" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>9280645</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:00:21</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:01:09:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="16692a107a7dc1fa775d713899440db1" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>5568390</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:01:09</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:01:49:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="5c81986b2831b213b7c0fdd9a532c2f9" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>5649813</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:01:49</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:02:16:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="6a12e764b01d4df8ce619f74f78f5471" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>2933842</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:02:16</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:02:59:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="b49f2cdffce87230275bf97aed47117c" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>7724466</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:02:59</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:03:39:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="2ab004fea28b1e3a2b4289516daee13a" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>6518360</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:03:39</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:04:11:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="6232ae3b7e6a58900262f24a24f1e09e" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>3141363</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:04:11</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:04:13:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="6232ae3b7e6a58900262f24a24f1e09e" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF4F1001</tid>
+  <dados-pedido>
+    <numero>3141363</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:02:41.720-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=e941c4944bc273a87a3a7afbcdab2779</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:04:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="5736704afb641e18e6c20904cd3ecceb" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>6718398</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:04:46</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:04:48:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="5736704afb641e18e6c20904cd3ecceb" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF501001</tid>
+  <dados-pedido>
+    <numero>6718398</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:03:16.603-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=5cb53b5ff353583e7f538eeb4280782b</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:05:21:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="48438c9c2c3cbdbf44f1672df69ae3fc" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>6659326</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:05:21</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:05:24:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="48438c9c2c3cbdbf44f1672df69ae3fc" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF511001</tid>
+  <dados-pedido>
+    <numero>6659326</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:03:51.956-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=23dd86f63704dfa188c8d61be05c70c9</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:05:51:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="7e34e992e4275047daef0b026bd4e3d4" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>1074349</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:05:51</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:05:53:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="7e34e992e4275047daef0b026bd4e3d4" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF521001</tid>
+  <dados-pedido>
+    <numero>1074349</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:04:21.472-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=4b6f1b4aac828f6515276cd51e5b33d8</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:06:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="cb3fc3f181436a581fe2d75a30c4179b" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>2265823</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:06:32</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:06:34:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="cb3fc3f181436a581fe2d75a30c4179b" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF531001</tid>
+  <dados-pedido>
+    <numero>2265823</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:05:02.452-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=60039824cb37f037822bffa4edabc55a</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:06:52:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="c47f2c68e74c4c87f4c003ccc603cf84" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>5718715</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:06:52</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:06:54:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="c47f2c68e74c4c87f4c003ccc603cf84" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF541001</tid>
+  <dados-pedido>
+    <numero>5718715</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:05:21.889-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=7fa25fd0dea0c3e7950d06c073a7d676</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:08:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="4dd6efe73d53b7ba6889f199c8da997a" versao="1.1.0">
+   <tid>100173489805EF541001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-22 08:08:34:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="4dd6efe73d53b7ba6889f199c8da997a" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF541001</tid>
+  <pan>IqVz7P9zaIgTYdU41HaW/OB/d7Idwttqwb2vaTt8MT0=</pan>
+  <dados-pedido>
+    <numero>5718715</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:05:21.889-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-22T09:06:59.799-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-22T09:06:59.809-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>080700</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:12:54:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="9174af3d4f06e399f7901492d0740a45" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>9358696</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:12:54</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:12:56:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="9174af3d4f06e399f7901492d0740a45" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF561001</tid>
+  <dados-pedido>
+    <numero>9358696</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:11:24.752-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=9806bb17f110fb4f2cca5468de7e0f6e</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:13:27:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="33fb4609642988d3352859b84c02a8e5" versao="1.1.0">
+   <tid>100173489805EF561001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-22 08:13:29:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="33fb4609642988d3352859b84c02a8e5" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF561001</tid>
+  <pan>rTgjYLhJexlib7LSh69eYwDcaDdlpAkrD/dMUdF88c8=</pan>
+  <dados-pedido>
+    <numero>9358696</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:11:24.752-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-22T09:11:54.136-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-22T09:11:54.147-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>11</lr>
+    <arp>081154</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:15:39:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="282e7e21c3f83d1f4b0e5a5c4c99a76b" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>7995496</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:15:39</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:15:41:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="282e7e21c3f83d1f4b0e5a5c4c99a76b" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF581001</tid>
+  <dados-pedido>
+    <numero>7995496</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:14:09.620-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=0b382a62abb464cb0edb6cddd4c4aced</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:16:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="0df530504690bc54fa845b4a0c9f0a7d" versao="1.1.0">
+   <tid>100173489805EF581001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-22 08:16:28:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="0df530504690bc54fa845b4a0c9f0a7d" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF581001</tid>
+  <dados-pedido>
+    <numero>7995496</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:14:09.620-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>9</status>
+  <cancelamento>
+    <codigo>9</codigo>
+    <mensagem>Cancelamento solicitado pelo usuario</mensagem>
+    <data-hora>2011-07-22T09:14:53.719-02:00</data-hora>
+    <valor>10000</valor>
+  </cancelamento>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:35:21:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="7fe27d281075897b219252f3881e8bcd" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>4006490</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:35:21</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:35:24:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="7fe27d281075897b219252f3881e8bcd" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF621001</tid>
+  <dados-pedido>
+    <numero>4006490</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:33:52.563-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=5917cd2e82c867049aa0ec4c57352d55</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:35:36:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="6bb61d0db4da10758fb2fa6aadabc852" versao="1.1.0">
+   <tid>100173489805EF621001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-22 08:35:38:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="6bb61d0db4da10758fb2fa6aadabc852" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF621001</tid>
+  <dados-pedido>
+    <numero>4006490</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:33:52.563-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>9</status>
+  <cancelamento>
+    <codigo>9</codigo>
+    <mensagem>Cancelamento solicitado pelo usuario</mensagem>
+    <data-hora>2011-07-22T09:34:04.380-02:00</data-hora>
+    <valor>10000</valor>
+  </cancelamento>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:38:14:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Autorizacao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-tid id="1c71fbc8fe242c59565a2317357bb4a7" versao="1.1.0">
+  <tid>100173489805EF541001</tid>
+  <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-autorizacao-tid>
+
+***********************************************
+2011-07-22 08:38:17:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Autorizacao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<erro xmlns="http://ecommerce.cbmp.com.br"><codigo>020</codigo><mensagem>O status 'Pendente' não permite autorização.</mensagem></erro>
+
+
+***********************************************
+2011-07-22 08:38:41:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/executarTransacao.php
+OPERAÇÃO: Captura
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-captura id="ebec8b55d2019bdf348f4b806c655a69" versao="1.1.0">
+   <tid>100173489805EF541001  	</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <valor>12</valor>
+</requisicao-captura>
+
+***********************************************
+2011-07-22 08:38:43:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/executarTransacao.php
+OPERAÇÃO: Captura
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<erro xmlns="http://ecommerce.cbmp.com.br"><codigo>003</codigo><mensagem>Não foi encontrada transação para o Tid '100173489805EF541001'.</mensagem></erro>
+
+
+***********************************************
+2011-07-22 08:40:11:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Captura
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-captura id="02116f0eb4140a0ff5e7727b2fecf011" versao="1.1.0">
+   <tid>100173489805EF531001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <valor>10000</valor>
+</requisicao-captura>
+
+***********************************************
+2011-07-22 08:40:14:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Captura
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<erro xmlns="http://ecommerce.cbmp.com.br"><codigo>030</codigo><mensagem>O status 'Criada' não permite captura.</mensagem></erro>
+
+
+***********************************************
+2011-07-22 08:40:28:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Autorizacao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-tid id="5c2e1dc4d80048c70ef56600464eaba2" versao="1.1.0">
+  <tid>100173489805EF541001</tid>
+  <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-autorizacao-tid>
+
+***********************************************
+2011-07-22 08:40:30:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Autorizacao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<erro xmlns="http://ecommerce.cbmp.com.br"><codigo>020</codigo><mensagem>O status 'Pendente' não permite autorização.</mensagem></erro>
+
+
+***********************************************
+2011-07-22 08:40:54:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Autorizacao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-tid id="59f88f7b0a42b94870575b221826a8d9" versao="1.1.0">
+  <tid>100173489805EF561001</tid>
+  <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-autorizacao-tid>
+
+***********************************************
+2011-07-22 08:40:56:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/operacao.php
+OPERAÇÃO: Autorizacao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<erro xmlns="http://ecommerce.cbmp.com.br"><codigo>020</codigo><mensagem>O status 'Pendente' não permite autorização.</mensagem></erro>
+
+
+***********************************************
+2011-07-22 08:45:43:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="f75bd9e74dff9e1db5fab34af0dd0225" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>2996390</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:45:43</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:45:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="f75bd9e74dff9e1db5fab34af0dd0225" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF681001</tid>
+  <dados-pedido>
+    <numero>2996390</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:44:13.826-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=5429fce57bcc6a0a38e4092027237701</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:46:41:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="089487737e3cbd41db82834ad8030149" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>3281522</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:46:41</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:46:43:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="089487737e3cbd41db82834ad8030149" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF691001</tid>
+  <dados-pedido>
+    <numero>3281522</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:45:11.735-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=b9ae70b1ce90c592b03f0d05f4278eba</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:48:08:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="ea97fb930336b08dd0ec1bd846001d4e" versao="1.1.0">
+   <tid>100173489805EF691001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-22 08:48:10:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="ea97fb930336b08dd0ec1bd846001d4e" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF691001</tid>
+  <pan>rTgjYLhJexlib7LSh69eYwDcaDdlpAkrD/dMUdF88c8=</pan>
+  <dados-pedido>
+    <numero>3281522</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:45:11.735-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-22T09:46:34.077-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-22T09:46:34.093-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>11</lr>
+    <arp>084634</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:51:12:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="1e4d4beba5a8fac988d4ad340466373d" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>6802435</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-22T08:51:12</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-22 08:51:15:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="1e4d4beba5a8fac988d4ad340466373d" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF6B1001</tid>
+  <dados-pedido>
+    <numero>6802435</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:49:43.051-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=794c30c968b21b4c432c980c8b11b8d4</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 08:55:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="19ad45aa9d3813421b55339f927a758b" versao="1.1.0">
+   <tid>100173489805EF6B1001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-22 08:55:28:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="19ad45aa9d3813421b55339f927a758b" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF6B1001</tid>
+  <pan>rTgjYLhJexlib7LSh69eYwDcaDdlpAkrD/dMUdF88c8=</pan>
+  <dados-pedido>
+    <numero>6802435</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:49:43.051-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-22T09:50:22.580-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-22T09:50:22.589-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>11</lr>
+    <arp>085022</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-22 09:00:21:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="135a0544a586dd034b90004c324cdbaa" versao="1.1.0">
+   <tid>100173489805EF6B1001</tid>
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-22 09:00:24:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/retorno.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="135a0544a586dd034b90004c324cdbaa" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805EF6B1001</tid>
+  <pan>rTgjYLhJexlib7LSh69eYwDcaDdlpAkrD/dMUdF88c8=</pan>
+  <dados-pedido>
+    <numero>6802435</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-22T09:49:43.051-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-22T09:50:22.580-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-22T09:50:22.589-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>11</lr>
+    <arp>085022</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 04:18:07:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="df75f9e1c6e272e4c077d3690e2ae895" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:18:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="56404a314655abc9f7f8834a83cf5f61" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:19:04:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="6a07d6abd54edff1002bf39b20cbc20c" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:20:44:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="57f85efa524cacb8d8e4b760e9b6be11" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:20:59:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="a3bc9297b4ecdd08f30b22b30fa44528" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:21:02:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="a3bc9297b4ecdd08f30b22b30fa44528" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEA91001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 04:21:02:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="33e008555c487848d5c36424196d2643" versao ="1.1.0">
+<tid>10069930690FFEA91001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>1556343</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T04:21:02</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 04:21:06:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="33e008555c487848d5c36424196d2643" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEA91001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>1556343</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T05:19:27.768-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T05:19:27.820-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T05:19:27.833-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>041928</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 04:26:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="857457b46337689e3f4538a8d1ec4542" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:26:29:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="857457b46337689e3f4538a8d1ec4542" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAA1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 04:26:29:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="b673e6e4bfc2860c2785589eaec15189" versao ="1.1.0">
+<tid>10069930690FFEAA1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>5071293</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T04:26:29</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 04:26:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="b673e6e4bfc2860c2785589eaec15189" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAA1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>5071293</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T05:24:53.227-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T05:24:53.269-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T05:24:53.280-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>042453</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 04:26:50:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="d02c4c6bbf1c57a1abeff82b43c9b797" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:26:54:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="d02c4c6bbf1c57a1abeff82b43c9b797" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAB1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 04:26:54:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="6d16505918067376cf0412b3621cb8ab" versao ="1.1.0">
+<tid>10069930690FFEAB1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>8874077</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T04:26:54</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 04:26:57:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="6d16505918067376cf0412b3621cb8ab" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAB1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>8874077</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T05:25:18.348-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T05:25:18.391-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T05:25:18.401-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>042518</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 04:29:17:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="5c729252dee50a71a00b76978508e9c7" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:29:27:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="5c729252dee50a71a00b76978508e9c7" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAC1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 04:29:27:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="d7b50344b7d3a5ad3161a0b570be3ed1" versao ="1.1.0">
+<tid>10069930690FFEAC1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>4865035</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T04:29:27</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 04:29:30:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="d7b50344b7d3a5ad3161a0b570be3ed1" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAC1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>4865035</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T05:27:51.226-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T05:27:51.265-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T05:27:51.281-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>042751</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 04:30:33:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="447c15b15d2ae03048a5b6f43b6ce72c" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 04:30:36:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="447c15b15d2ae03048a5b6f43b6ce72c" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAD1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 04:30:36:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="9876a24564cd917314f75f4040ac1cfb" versao ="1.1.0">
+<tid>10069930690FFEAD1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>9928431</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T04:30:36</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>true</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 04:30:39:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="9876a24564cd917314f75f4040ac1cfb" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAD1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>9928431</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T05:29:00.274-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T05:29:00.339-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T05:29:00.355-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>042900</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T05:29:00.899-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:43:24:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="d06a854df81400e951579149a7b9a563" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 05:43:27:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="d06a854df81400e951579149a7b9a563" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAE1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 05:43:27:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="25dc7d89b8795800f69dbba447c63be3" versao ="1.1.0">
+<tid>10069930690FFEAE1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>4966605</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:43:27</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>true</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 05:43:31:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="25dc7d89b8795800f69dbba447c63be3" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAE1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>4966605</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:41:51.760-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:41:51.828-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:41:51.838-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054152</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T06:41:52.509-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:43:43:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="f1cf28c328a1544caa3ec883a2783eee" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 05:43:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="f1cf28c328a1544caa3ec883a2783eee" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAF1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 05:43:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="52130024af6bf63dd176e97111eda291" versao ="1.1.0">
+<tid>10069930690FFEAF1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>9747722</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:43:46</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>true</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 05:43:48:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="52130024af6bf63dd176e97111eda291" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEAF1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>9747722</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:42:09.648-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:42:09.690-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:42:09.698-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054209</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T06:42:10.234-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:44:02:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="f914f641e1ca6c4d008926c5daa25082" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 05:44:04:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="f914f641e1ca6c4d008926c5daa25082" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB01001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 05:44:04:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="c5f418ea7014b9a194059b9766d05bf2" versao ="1.1.0">
+<tid>10069930690FFEB01001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>2034393</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:44:04</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>true</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 05:44:09:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="c5f418ea7014b9a194059b9766d05bf2" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB01001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>2034393</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:42:28.511-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:42:28.563-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:42:28.570-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054228</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T06:42:29.309-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:44:33:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="812204b2efabbf0d7b19d30f77204092" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 05:44:37:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="812204b2efabbf0d7b19d30f77204092" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB11001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 05:44:37:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="ba25bc7b6bab2db307e18673ed74bb4c" versao ="1.1.0">
+<tid>10069930690FFEB11001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>9983072</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:44:37</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>true</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 05:44:39:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="ba25bc7b6bab2db307e18673ed74bb4c" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB11001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>9983072</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:43:00.627-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:43:00.664-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:43:00.678-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054300</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T06:43:01.294-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:47:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="523541848b87d7948258cc0fa5691ad9" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>3397686</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:47:46</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno></url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:47:49:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="523541848b87d7948258cc0fa5691ad9" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB21001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>3397686</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:46:10.798-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:46:10.844-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:46:10.869-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054611</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:48:35:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="23ba1a96cd0dd875a9e70dfbcdcf0f90" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>4298048</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:48:35</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno></url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:48:38:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="23ba1a96cd0dd875a9e70dfbcdcf0f90" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB31001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>4298048</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:46:59.705-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:46:59.740-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:46:59.747-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054659</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:50:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="2b71db35f97dd6fda4ed8cac8799da12" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>5492087</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:50:32</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno></url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:50:34:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="2b71db35f97dd6fda4ed8cac8799da12" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB41001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>5492087</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:48:55.779-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:48:55.819-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:48:55.827-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054855</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:50:55:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="0705e6534d657b65aa55bf9c58e73138" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>6106282</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:50:55</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno></url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:50:59:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="0705e6534d657b65aa55bf9c58e73138" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB51001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>6106282</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:49:20.156-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:49:20.190-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:49:20.207-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054920</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:51:11:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="68b29015480e4d84c762477e7fb98a5a" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>2444397</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:51:11</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno></url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:51:13:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="68b29015480e4d84c762477e7fb98a5a" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB61001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>2444397</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:49:35.024-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:49:35.078-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:49:35.086-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>054935</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:52:13:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="25be2cbbc898a6aaa3f29b2ad626d52c" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>9027081</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:52:13</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno></url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:52:17:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="25be2cbbc898a6aaa3f29b2ad626d52c" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB71001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>9027081</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:50:38.211-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:50:38.260-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:50:38.272-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>055038</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:53:00:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="b4631938decc034e2301dcb7013f761b" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>8231590</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:53:00</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:53:03:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="b4631938decc034e2301dcb7013f761b" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB81001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>8231590</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:51:24.230-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:51:24.281-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:51:24.295-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>055124</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:54:43:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="753f2feb8521e0d4623e0ebfd9e618a5" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>9117679</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:54:43</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:54:47:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="753f2feb8521e0d4623e0ebfd9e618a5" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEB91001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>9117679</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:53:08.374-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:53:08.412-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:53:08.421-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>055308</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:58:24:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="9e505023811afe9ead72c07cc2837ed2" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>3003267</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:58:24</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:58:28:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="9e505023811afe9ead72c07cc2837ed2" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEBA1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>3003267</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:56:49.404-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:56:49.461-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:56:49.468-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>055649</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 05:59:06:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="099aee2de40f515f46c8d29283d9c2ee" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>2941799</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T05:59:06</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 05:59:09:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="099aee2de40f515f46c8d29283d9c2ee" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEBB1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>2941799</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T06:57:30.620-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T06:57:30.661-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T06:57:30.668-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>055730</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:05:20:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="e2917c7bb7140fef1f805965ddbd9ebc" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>2672825</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:05:20</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:05:23:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="e2917c7bb7140fef1f805965ddbd9ebc" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEBC1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>2672825</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:03:44.657-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:03:44.702-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:03:44.803-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>060344</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:05:48:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="c97dcc3a15bc0174fcc7e5af6b9cfb43" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>3378887</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:05:48</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:05:50:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="c97dcc3a15bc0174fcc7e5af6b9cfb43" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEBD1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>3378887</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:04:11.961-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:04:12.007-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:04:12.013-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>060412</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:06:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="526abc8cfdc708e99e35f6e58f3c7136" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>6996716</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:06:32</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:06:35:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="526abc8cfdc708e99e35f6e58f3c7136" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEBE1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>6996716</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:04:56.963-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:04:57.010-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:04:57.016-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>060457</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:06:56:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="523b53d66b8a5bde0291c32493fc85f6" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>4918983</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:06:56</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:07:21:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="b4875c7dafa0f74d5c057f6bc6e10c3a" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>8858711</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:07:21</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:07:42:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="c5a4d11f15e2fd333cb09ba09dc57238" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>3303196</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:07:42</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:10:23:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="4b7af5a66d77c177a1ed092150ecf6e2" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>7720006</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:10:23</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:10:27:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="4b7af5a66d77c177a1ed092150ecf6e2" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805F5001001</tid>
+  <dados-pedido>
+    <numero>7720006</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:08:48.795-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=1eca964a300684e54546806ebb2263d6</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:13:27:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="8862ec52adb8cf5e1b0b5ea41438af8b" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>3063328</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:13:27</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>true</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:13:30:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<erro xmlns="http://ecommerce.cbmp.com.br"><codigo>010</codigo><mensagem>O envio do cartão é obrigatório.</mensagem></erro>
+
+
+***********************************************
+2011-07-25 06:13:51:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="5a0268d739b293363d834cb329a0c27c" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>3895238</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:13:51</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>true</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:13:54:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="5a0268d739b293363d834cb329a0c27c" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC11001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>3895238</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:12:15.157-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:12:15.204-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:12:15.213-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>061215</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:12:15.770-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:14:17:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="994b5a3d1d6a1e72a523593be82e90d4" versao="1.1.0">
+   <dados-ec>
+      <numero>1001734898</numero>
+      <chave>e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832</chave>
+   </dados-ec>
+   <dados-pedido>
+      <numero>3594898</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:14:17</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:14:19:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/novoPedidoAguarde.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="994b5a3d1d6a1e72a523593be82e90d4" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>100173489805F5011001</tid>
+  <dados-pedido>
+    <numero>3594898</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:12:41.233-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>0</status>
+  <url-autenticacao>https://qasecommerce.cielo.com.br/web/index.cbmp?id=32e1fba90988de40a657621986d59025</url-autenticacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:33:53:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="c50224ae7016ce27a47d7c50da52e37b" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 06:33:55:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="c50224ae7016ce27a47d7c50da52e37b" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC41001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 06:33:55:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="28f6ebdc9cecae920f0cf855fa53d541" versao ="1.1.0">
+<tid>10069930690FFEC41001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>3941047</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:33:55</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 06:33:58:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="28f6ebdc9cecae920f0cf855fa53d541" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC41001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>3941047</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:32:19.436-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:32:19.473-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:32:19.482-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063219</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:33:58:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="c6f5711ede51333af98d32d5f9ac081a" versao="1.1.0">
+   <tid>10069930690FFEC41001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:34:00:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="c6f5711ede51333af98d32d5f9ac081a" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC41001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>3941047</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:32:19.436-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:32:19.473-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:32:19.482-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063219</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:34:55:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="ebff60a54235016321510a678644fd4e" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>1127045</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:34:55</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:34:58:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="ebff60a54235016321510a678644fd4e" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC51001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>1127045</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:33:19.664-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:33:19.707-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:33:19.725-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063319</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:34:58:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="9cba92bcbc28d4343d5ae750f2c2f49c" versao="1.1.0">
+   <tid>10069930690FFEC51001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:35:00:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="9cba92bcbc28d4343d5ae750f2c2f49c" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC51001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>1127045</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:33:19.664-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:33:19.707-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:33:19.725-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063319</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:35:58:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="82ae9fe7ee47cedd1210dfae5a5ff2d9" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>9332916</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:35:58</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>false</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:36:01:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="82ae9fe7ee47cedd1210dfae5a5ff2d9" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC61001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>9332916</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:34:22.233-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:34:22.286-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:34:22.293-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063422</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:36:01:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="09a04df3dfab433f43cb30d3e3d171e6" versao="1.1.0">
+   <tid>10069930690FFEC61001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:36:04:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="09a04df3dfab433f43cb30d3e3d171e6" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC61001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>9332916</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:34:22.233-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:34:22.286-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:34:22.293-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063422</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:36:29:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="ee126fcef28d5c702fc9c3d887b8d711" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>4307998</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:36:29</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>true</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:36:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="ee126fcef28d5c702fc9c3d887b8d711" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC71001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>4307998</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:34:53.241-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:34:53.277-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:34:53.290-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063453</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:34:53.958-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:36:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="dcb0aa5418835cb5b4af24222c7c30b7" versao="1.1.0">
+   <tid>10069930690FFEC71001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:36:34:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="dcb0aa5418835cb5b4af24222c7c30b7" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC71001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>4307998</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:34:53.241-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:34:53.277-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:34:53.290-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063453</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:34:53.958-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:41:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="3ce1c8bf68b828adbc90826655579769" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>5503155</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:41:26</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>true</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:41:30:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="3ce1c8bf68b828adbc90826655579769" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC91001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>5503155</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:39:51.040-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:39:51.086-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:39:51.096-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063951</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:39:51.676-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:41:30:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="f40651f31ff58b3a1006bb62ee965926" versao="1.1.0">
+   <tid>10069930690FFEC91001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:41:32:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="f40651f31ff58b3a1006bb62ee965926" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFEC91001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>5503155</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:39:51.040-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:39:51.086-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:39:51.096-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>063951</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:39:51.676-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:46:18:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="557787f10166063ba5bc0ee4acae4081" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 06:46:21:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="557787f10166063ba5bc0ee4acae4081" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECA1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 06:46:21:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="ff6ea550589b406cd8f59f7eb05f9bea" versao ="1.1.0">
+<tid>10069930690FFECA1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>8041891</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:46:21</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 06:46:24:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="ff6ea550589b406cd8f59f7eb05f9bea" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECA1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>8041891</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:44:45.512-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:44:45.554-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:44:45.577-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>064445</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:46:24:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="770ec0df897aaaadd08c07b762152e93" versao="1.1.0">
+   <tid>10069930690FFECA1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:46:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="770ec0df897aaaadd08c07b762152e93" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECA1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>8041891</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:44:45.512-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:44:45.554-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:44:45.577-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>064445</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:49:42:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="5502f202a791a10228229c4fdfae313a" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 06:49:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="5502f202a791a10228229c4fdfae313a" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECB1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 06:49:46:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="83f4319d6e0249b754c2b46c4175193b" versao ="1.1.0">
+<tid>10069930690FFECB1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>7389123</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:49:46</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 06:49:48:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="83f4319d6e0249b754c2b46c4175193b" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECB1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>7389123</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:48:09.966-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:48:10.005-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:48:10.020-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>064810</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:49:48:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="0b06afeaaf19742f82a5b0fccbb2aa2e" versao="1.1.0">
+   <tid>10069930690FFECB1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:49:50:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="0b06afeaaf19742f82a5b0fccbb2aa2e" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECB1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>7389123</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:48:09.966-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:48:10.005-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:48:10.020-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>064810</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:51:05:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="8545e79d384c687fc22fe72c4a1d47ea" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 06:51:08:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="8545e79d384c687fc22fe72c4a1d47ea" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECC1001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 06:51:08:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="32815d98f0d51d709d485c064e68f773" versao ="1.1.0">
+<tid>10069930690FFECC1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>6534841</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:51:08</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>true</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 06:51:10:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="32815d98f0d51d709d485c064e68f773" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECC1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>6534841</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:49:31.639-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:49:31.669-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:49:31.692-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>064931</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:49:32.322-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:51:10:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="21ca6a4824a896a270952c5b1204a78a" versao="1.1.0">
+   <tid>10069930690FFECC1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:51:12:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="21ca6a4824a896a270952c5b1204a78a" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECC1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>6534841</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:49:31.639-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:49:31.669-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:49:31.692-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>064931</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:49:32.322-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:51:36:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-transacao id="8bc065f2667cb61b90e2e8329ef6ccaa" versao="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-portador>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-portador>
+   <dados-pedido>
+      <numero>6261282</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T06:51:36</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+   <url-retorno>http://localhost/ceilo/pages/retorno.php</url-retorno>
+   <autorizar>3</autorizar>
+   <capturar>true</capturar>
+</requisicao-transacao>
+
+***********************************************
+2011-07-25 06:51:39:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Transacao
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="8bc065f2667cb61b90e2e8329ef6ccaa" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECD1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>6261282</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:50:00.044-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:50:00.086-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:50:00.096-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>065000</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:50:00.630-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 06:51:39:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="b80d42143f995e86c7f4d02afe59a735" versao="1.1.0">
+   <tid>10069930690FFECD1001</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 06:51:41:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="b80d42143f995e86c7f4d02afe59a735" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECD1001</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>6261282</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T07:50:00.044-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>1</produto>
+    <parcelas>1</parcelas>
+  </forma-pagamento>
+  <status>6</status>
+  <autenticacao>
+    <codigo>6</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T07:50:00.086-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>6</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T07:50:00.096-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>065000</arp>
+  </autorizacao>
+  <captura>
+    <codigo>6</codigo>
+    <mensagem>Transacao capturada com sucesso</mensagem>
+    <data-hora>2011-07-25T07:50:00.630-02:00</data-hora>
+    <valor>10000</valor>
+  </captura>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 07:17:23:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="65168d424769b85833a41c2f5d041cad" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>2</produto>
+      <parcelas>12</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 07:17:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="65168d424769b85833a41c2f5d041cad" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECE2012</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 07:17:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-autorizacao-portador id="fdb79e38045d7e441fb7a3e378a1ad6c" versao ="1.1.0">
+<tid>10069930690FFECE2012</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <dados-cartao>
+      <numero>4551870000000183</numero>
+      <validade>201508</validade>
+      <indicador>1</indicador>
+      <codigo-seguranca>973</codigo-seguranca>
+   </dados-cartao>
+   <dados-pedido>
+      <numero>2489407</numero>
+      <valor>10000</valor>
+      <moeda>986</moeda>
+      <data-hora>2011-07-25T07:17:26</data-hora>
+      <idioma>PT</idioma>
+   </dados-pedido>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>2</produto>
+      <parcelas>12</parcelas>
+   </forma-pagamento>
+   <capturar-automaticamente>false</capturar-automaticamente>
+</requisicao-autorizacao-portador>
+
+***********************************************
+2011-07-25 07:17:29:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Autorizacao Portador
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="fdb79e38045d7e441fb7a3e378a1ad6c" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECE2012</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>2489407</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T08:15:50.454-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>2</produto>
+    <parcelas>12</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T08:15:50.497-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T08:15:50.514-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>071550</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 07:17:29:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-consulta id="31e94bb1c2a342ed65ab4c87ce1b2bad" versao="1.1.0">
+   <tid>10069930690FFECE2012</tid>
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+</requisicao-consulta>
+
+***********************************************
+2011-07-25 07:17:31:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Consulta
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<transacao id="31e94bb1c2a342ed65ab4c87ce1b2bad" versao="1.1.0" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFECE2012</tid>
+  <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
+  <dados-pedido>
+    <numero>2489407</numero>
+    <valor>10000</valor>
+    <moeda>986</moeda>
+    <data-hora>2011-07-25T08:15:50.454-02:00</data-hora>
+    <idioma>PT</idioma>
+  </dados-pedido>
+  <forma-pagamento>
+    <bandeira>visa</bandeira>
+    <produto>2</produto>
+    <parcelas>12</parcelas>
+  </forma-pagamento>
+  <status>4</status>
+  <autenticacao>
+    <codigo>4</codigo>
+    <mensagem>Transacao sem autenticacao</mensagem>
+    <data-hora>2011-07-25T08:15:50.497-02:00</data-hora>
+    <valor>10000</valor>
+    <eci>7</eci>
+  </autenticacao>
+  <autorizacao>
+    <codigo>4</codigo>
+    <mensagem>Transação autorizada</mensagem>
+    <data-hora>2011-07-25T08:15:50.514-02:00</data-hora>
+    <valor>10000</valor>
+    <lr>00</lr>
+    <arp>071550</arp>
+  </autorizacao>
+</transacao>
+
+
+
+***********************************************
+2011-07-25 08:27:06:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="84b208d4ce27cbf62d5d16f70e079ad3" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 08:27:09:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="84b208d4ce27cbf62d5d16f70e079ad3" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFED21001</tid>
+</retorno-tid>
+
+
+
+***********************************************
+2011-07-25 08:30:05:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="99cd793d0b42b961d3efaba12a12cfa6" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 08:43:25:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="3e1b7c2aa40179cda73ffca6e0f4ac9a" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 08:44:31:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="3877970fefd50dbc63a30d533afa1996" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 08:47:26:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+ENVIO: <?xml version="1.0" encoding="ISO-8859-1" ?>
+<requisicao-tid id="59ef1fba1043fb6ed24f57b072622bd9" versao ="1.1.0">
+   <dados-ec>
+      <numero>1006993069</numero>
+      <chave>25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3</chave>
+   </dados-ec>
+   <forma-pagamento>
+      <bandeira>visa</bandeira>
+      <produto>1</produto>
+      <parcelas>1</parcelas>
+   </forma-pagamento>
+</requisicao-tid>
+
+***********************************************
+2011-07-25 08:47:28:000000 (BRT)
+DO ARQUIVO: /ceilo/pages/carrinhoCartaoPagamento.php
+OPERAÇÃO: Requisicao Tid
+RESPOSTA: <?xml version="1.0" encoding="ISO-8859-1"?>
+<retorno-tid versao="1.1.0" id="59ef1fba1043fb6ed24f57b072622bd9" xmlns="http://ecommerce.cbmp.com.br">
+  <tid>10069930690FFED61001</tid>
+</retorno-tid>
+
+
+

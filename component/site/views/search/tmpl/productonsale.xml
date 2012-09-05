@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_REDSHOP_Standard_Product_On_Sale_Layout">
+		<message>
+			<![CDATA[Standard Product On Sale Layout For Redshop Search]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Product On Sale</name>
+		<description>COM_REDSHOP_Standard_Product_On_Sale_Layout_For_Redshop_Search</description>	
+		<params addpath="/administrator/components/com_redshop/elements" >
+		    <param name="templateid" type="template" default="0" label="COM_REDSHOP_Select_Template" description="COM_REDSHOP_Search_result_dispaly_in_selected_category_template" />
+			<param name="categorytemplate" type="category" default="0" label="COM_REDSHOP_Enter_Category_Id_For_Templet" description="COM_REDSHOP_Category_id_for_newest_product_search_Template" />		
+			<param name="productlimit" type="text" size="4" default="" label="COM_REDSHOP_How_Many_products_To_Show" description="COM_REDSHOP_Enter_No_of_Amount_How_Many_products_To_Show" />			
+		</params>
+	</state>
+</metadata>

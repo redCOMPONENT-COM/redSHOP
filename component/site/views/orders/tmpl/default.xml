@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_REDSHOP_Standard_Orders_Layout">
+		<message>
+			<![CDATA[Standard Orders Layout For Redshop Orders]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Orders</name>
+		<description>COM_REDSHOP_Standard_Orders_Layout_For_Redshop_Orders</description>
+		<fields name="request">
+			<fieldset name="request" addfieldpath="/administrator/components/com_redshop/elements">
+				<field name="template_id" type="ordertemplatelist" default="0" label="COM_REDSHOP_SELECT_ORDERLIST_TEMPLATE" description="COM_REDSHOP_SELECT_ORDERLIST_TEMPLATE" />
+			</fieldset>
+		</fields>				
+	</state>
+</metadata>

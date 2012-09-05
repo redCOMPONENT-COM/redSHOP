@@ -1,0 +1,159 @@
+.ThemeNavyTreeLevel0,.ThemeNavyTreeLevel1
+{
+	cursor:		default;
+
+	white-space: nowrap;
+
+	border:		0;
+	padding:	0;
+}
+
+.ThemeNavyTreeLevel0
+{
+/*	background-color:	#3333cc;*/
+}
+.ThemeNavyTreeLevel0 a:link, .ThemeNavyTreeLevel0 a:visited {
+
+	background: url(../../../../templates/rhuk_solarflare_ii/images/menu_bg.png) no-repeat;
+	vertical-align: middle;
+	font-size: 11px;
+	font-weight: bold;
+	color: #ffffff;
+	text-align: left;
+	padding-top: 5px;
+	padding-left: 18px;
+	height: 20px !important;
+	height: 25px;
+	width: 100%;
+	text-decoration: none;
+}
+.ThemeNavyTreeLevel0 a:hover
+{
+	background-position: 0px -25px;
+	text-decoration: none;
+	color: #333333;
+}
+
+.ThemeNavyTreeLevel1
+{
+/*	background-color:	#9999ff;*/
+	display: none;
+}
+
+.ThemeNavyTreeLevel1 a:link, .ThemeNavyTreeLevel1 a:visited
+{
+
+}
+.ThemeNavyTreeLevel1 a:hover
+{
+
+}
+.ThemeNavyTreeLevel1 #JSCookTreeItem
+{
+
+}
+
+.ThemeNavyTreeLevel1 #JSCookTreeItem a
+{
+	display:block;
+	padding-left: 20px;
+	vertical-align: middle;
+	font-size: 11px;
+	font-weight: bold;
+	color: white;
+	text-align: left;
+}
+
+.ThemeNavyTable
+{
+	cursor: default;
+	padding-left: -2px;
+	color:		inherit;
+	background-color:	inherit;
+
+	white-space: nowrap;
+
+	border-collapse:	collapse;
+	padding:	0;
+	width:		100%;
+}
+
+.ThemeNavyTreeLevel0 .ThemeNavyTable
+{
+	color:	white;
+}
+
+.ThemeNavyTreeLevel1 .ThemeNavyTable
+{
+	color:	white;
+}
+
+.ThemeNavyTreeLevel2 .ThemeNavyTable
+{
+	color:	black;
+}
+
+.ThemeNavyRow,.ThemeNavyRowHover,.ThemeNavyRowActive,.ThemeNavyRowSelected
+{
+	background-color: inherit;
+	white-space:	nowrap;
+
+	border:		0;
+	padding:	0;
+}
+
+.ThemeNavyFolderSpacer,.ThemeNavyItemSpacer,
+.ThemeNavyFolderLeft,.ThemeNavyItemLeft,
+.ThemeNavyFolderText,.ThemeNavyItemText,
+.ThemeNavyFolderRight,.ThemeNavyItemRight
+{
+	background-color: inherit;
+	white-space:	nowrap;
+
+	border:		0;
+	padding:	0;
+}
+
+.ThemeNavyFolderText,.ThemeNavyItemText
+{
+	width:		100%;
+}
+
+.ThemeNavyFolderText a,
+.ThemeNavyItemText a
+{
+	text-decoration:	none;
+	display:		block;
+	width:			100%;
+
+	border:			0;
+	color:			inherit;
+	background-color:	inherit;
+	white-space:		nowrap;
+}
+
+.ThemeNavyTable img
+{
+	vertical-align:	center;
+}
+
+/* no need to modify these two since they are generic. */
+/* they are used to coordinate the folder open/closing animation */
+
+.JSCookTreeFolderClosed
+{
+}
+
+.JSCookTreeFolderOpen
+{
+}
+
+#JSCookTreeFolderClosed .JSCookTreeFolderOpen
+{
+	display: none;
+}
+
+#JSCookTreeFolderOpen .JSCookTreeFolderClosed
+{
+	display: none;
+}

@@ -1,0 +1,72 @@
+
+.clearboth{
+	clear: both;
+}
+
+.input_text{
+	width: 100%;
+}
+div.hardwarelist_pricefilter{
+	background-color: #eae9e5;
+	padding: 9px;
+}
+
+div.hardwarelist_pricefilter div.pricetext{
+	float: left;
+	font-weight: bold;
+	width: 30px;
+	margin-top: 2px;
+}
+
+div.hardwarelist_pricefilter div.priceinput_from{
+	float: left;
+	width: 80px;
+	margin-left: 5px;
+}
+
+div.hardwarelist_pricefilter div.priceinput_to{
+	float: left;
+	width: 80px;
+}
+
+div.hardwarelist_pricefilter div.pricebar{
+	float: left;
+	width: 280px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+div.hardwarelist_pricefilter div.pricebar #pb_fullbar{
+	background-color: #0397d6;
+	width: 280px  !important;
+	position: relative;
+	height: 6px;
+	margin-top: 6px;
+}
+
+div.hardwarelist_pricefilter div.pricebar #pb_fullbar #pb_bar{
+	background: url("../images/pricebar_selector.png") 0 0 no-repeat;
+	width: 6px !important; 
+	height: 18px;
+	top: -5px;
+	left: 0px;
+	position: absolute;
+}
+
+div.hardwarelist_pricefilter div.pricebar #pb_fullbar #pb_bar_end{
+	background: url("../images/pricebar_selector.png") 0 0 no-repeat;
+	width: 6px  !important;
+	height: 18px;
+	position: absolute;
+	top: -5px;
+	left: 170px;
+}
+
+div.hardware_filterbox .description{
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.hardwarelist{
+	
+}

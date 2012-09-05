@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+	<channel><item>
+				<link>/redshop/index.php?option=com_redshop&amp;view=product&amp;pid=3&amp;Itemid=1</link>
+				<image>components/com_redshop/helpers/thumb.php?filename=product/1262876640_redFORM-box.jpg&amp;newxsize=200&amp;newysize=100&amp;swap=0</image>
+				<title>redFORM:  GBP69,00</title>
+				</item><item>
+				<link>/redshop/index.php?option=com_redshop&amp;view=product&amp;pid=2&amp;Itemid=1</link>
+				<image>components/com_redshop/helpers/thumb.php?filename=product/1262876620_redEVENT-box.jpg&amp;newxsize=200&amp;newysize=100&amp;swap=0</image>
+				<title>redEVENT2:  GBP69,00</title>
+				</item><item>
+				<link>/redshop/index.php?option=com_redshop&amp;view=product&amp;pid=4&amp;Itemid=1</link>
+				<image>components/com_redshop/helpers/thumb.php?filename=product/1262876656_redCOMPETITION-box.jpg&amp;newxsize=200&amp;newysize=100&amp;swap=0</image>
+				<title>redCOMPETITION:  GBP69,00</title>
+				</item><item>
+				<link>/redshop/index.php?option=com_redshop&amp;view=product&amp;pid=6&amp;Itemid=1</link>
+				<image>components/com_redshop/helpers/thumb.php?filename=product/1262876700_redARTICLEFINDER-box.jpg&amp;newxsize=200&amp;newysize=100&amp;swap=0</image>
+				<title>redARTICLEFINDER:  GBP69,00</title>
+				</item><item>
+				<link>/redshop/index.php?option=com_redshop&amp;view=product&amp;pid=7&amp;Itemid=1</link>
+				<image>components/com_redshop/helpers/thumb.php?filename=product/1262876715_redLINKER-box.jpg&amp;newxsize=200&amp;newysize=100&amp;swap=0</image>
+				<title>redLINKER:  GBP69,00</title>
+				</item>
+	</channel>
+	<config>
+		<roundCorner>0</roundCorner>
+		<autoPlayTime>8</autoPlayTime>
+		<isHeightQuality>false</isHeightQuality>
+		<blendMode>normal</blendMode>
+		<transDuration>1</transDuration>
+		<windowOpen>_blank</windowOpen>
+		<btnSetMargin>auto 5 5 auto</btnSetMargin>
+		<btnDistance>20</btnDistance>
+		<titleBgColor>0x000000</titleBgColor>
+		<titleTextColor>0xffffff</titleTextColor>
+		<titleBgAlpha>.4</titleBgAlpha>
+		<titleMoveDuration>1</titleMoveDuration>
+		<btnAlpha>.4</btnAlpha>
+		<btnTextColor>0xffffff</btnTextColor>
+		<btnDefaultColor>0x1B3433</btnDefaultColor>
+		<btnHoverColor>0xff9900</btnHoverColor>
+		<btnFocusColor>0xff6600</btnFocusColor>
+		<changImageMode>click</changImageMode>
+		<isShowBtn>true</isShowBtn>
+		<isShowTitle>true</isShowTitle>
+		<scaleMode>noScale</scaleMode>
+		<transform>blur</transform>
+		<isShowAbout>false</isShowAbout>
+		<titleFont>Tahoma</titleFont>
+	</config>
+</data>

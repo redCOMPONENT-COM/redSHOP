@@ -1,0 +1,1300 @@
+/* product Finder */
+
+.select_box_parent {
+	cursor: pointer;
+	display: block;
+}
+
+.select_box_child {
+	display: none;
+}
+
+/* Icon files 48px */
+
+/* redshop menu */
+.icon-48-redshop_redshopcart48 {
+
+   background-image: url(../images/redshopcart48.png);   
+}
+
+/* redshop statistics icon */
+.icon-48-redshop_statistic48 {
+
+   background-image: url(../images/statistic48.png);   
+}
+
+
+.icon-48-redshop_261-x-88 {
+
+   background-image: url(../images/261-x-88.png);   
+}
+
+/* catalog management */
+.icon-48-redshop_catalogmanagement48 {
+
+   background-image: url(../images/catalogmanagement48.png);   
+}
+
+/* category management */
+.icon-48-redshop_categories48 {
+
+   background-image: url(../images/categories48.png);   
+}
+
+/* configuration management */
+.icon-48-redshop_icon-48-settings {
+
+   background-image: url(../images/icon-48-settings.png);   
+   
+}
+
+/* configuration management */
+.icon-32-redshop_icon-32-settings {
+
+   background-image: url(../images/configuration_32.png);   
+   
+}
+
+/* configuration management */
+.icon-48-redshop_icon-48-giftcard {
+
+   background-image: url(../images/giftcard_48.png);   
+}
+/* country management */
+.icon-48-redshop_icon-48-country{
+
+   background-image: url(../images/country_48.png);   
+}
+/* state management */
+.icon-48-redshop_icon-48-region{
+
+   background-image: url(../images/region_48.png);   
+}
+/* currency management */
+.icon-48-redshop_icon-48-currencies{
+
+   background-image: url(../images/currencies_48.png);   
+}
+/* container management */
+.icon-48-redshop_container48 {
+
+   background-image: url(../images/container48.png);   
+}
+/* question management */
+.icon-48-redshop_question48 {
+
+   background-image: url(../images/question_48.jpg);   
+}
+/* quotation management */
+.icon-48-redshop_quotation48 {
+
+   background-image: url(../images/quotation_48.jpg);   
+}
+/* coupon management */
+.icon-48-redshop_coupon48 {
+
+   background-image: url(../images/coupon48.png);   
+}
+
+/* discount management */
+.icon-48-redshop_discountmanagmenet48 {
+
+   background-image: url(../images/discountmanagmenet48.png);   
+}
+
+/* export management */
+.icon-48-redshop_export48 {
+
+   background-image: url(../images/export48.png);   
+}
+
+/* Fields management */
+.icon-48-redshop_fields48 {
+
+   background-image: url(../images/fields48.png);   
+}
+
+/* Import management */
+.icon-48-redshop_mailcenter48 {
+
+   background-image: url(../images/import48.png);   
+}
+
+/* Mail management */
+.icon-48-redshop_mailcenter48 {
+
+   background-image: url(../images/mailcenter48.png);   
+}
+
+/* Manufacturer management */
+.icon-48-redshop_manufact48 {
+
+   background-image: url(../images/manufact48.png);   
+}
+/* Giftcard management */
+.icon-48-redshop_giftcard_48 {
+
+   background-image: url(../images/giftcard_48.png);   
+}
+/* Country management */
+.icon-48-redshop_country_48 {
+
+   background-image: url(../images/country_48.png);   
+}
+/* State management */
+.icon-48-redshop_region_48{
+
+   background-image: url(../images/region_48.png);   
+}
+/* Currency management */
+.icon-48-redshop_currencies_48 {
+
+   background-image: url(../images/currencies_48.png);   
+}
+/* Media management */
+.icon-48-redshop_media48 {
+
+   background-image: url(../images/media48.png);   
+}
+
+/* Newsletter management */
+.icon-48-redshop_newsletter48 {
+
+   background-image: url(../images/newsletter48.png);   
+}
+
+/* Order management */
+.icon-48-redshop_order48 {
+
+   background-image: url(../images/order48.png);   
+}
+
+/* Payment management */
+.icon-48-redshop_payment48 {
+
+   background-image: url(../images/payment48.png);   
+}
+
+/* Product management */
+.icon-48-redshop_products48 {
+
+   background-image: url(../images/products48.png);   
+}
+
+/* Import management */
+.icon-48-redshop_import48 {
+
+   background-image: url(../images/import48.png);   
+}
+
+/* Color Sample management */
+.icon-48-redshop_colorsample48 {
+
+   background-image: url(../images/colorsample48.png);   
+}
+
+/* Shipping management */
+.icon-48-redshop_shipping48 {
+
+   background-image: url(../images/shipping48.png);   
+}
+
+/* Shipping management */
+.icon-48-redshop_stockroom48 {
+
+   background-image: url(../images/stockroom48.png);   
+}
+
+/* Export management */
+.icon-48-redshop_vatgroup48 {
+
+   background-image: url(../images/vatgroup_48.png);   
+}
+
+/* Vat( tax ) management */
+.icon-48-redshop_vatrates48 {
+
+   background-image: url(../images/vatrates48.png);   
+}
+
+/* Templates management */
+.icon-48-redshop_templates48 {
+
+   background-image: url(../images/templates48.png);   
+}
+
+/* Textlibrary management */
+.icon-48-redshop_textlibrary48 {
+
+   background-image: url(../images/textlibrary48.png);   
+}
+
+/* Textlibrary management */
+.icon-48-redshop_user48 {
+
+   background-image: url(../images/user48.png);   
+}
+
+/* Voucher management */
+.icon-48-redshop_voucher48 {
+
+   background-image: url(../images/voucher48.png);   
+}
+
+/* Voucher management */
+.icon-48-redshop_rating48 {
+
+   background-image: url(../images/rating48.png);   
+}
+
+/* Vat management */
+.icon-48-redshop_vat48 {
+
+   background-image: url(../images/vatrates48.png);   
+}
+/* wrapper management */
+.icon-48-redshop_wrapper48 {
+
+   background-image: url(../images/wrapper48.png);   
+}
+
+/* Shipping Box management */
+.icon-48-redshop_shipping_box48 {
+
+   background-image: url(../images/shipping_boxes48.png);   
+}
+
+/* Icon files 32px */
+
+/* redshop menu */
+.icon-32-redshop_redshopcart32 {
+
+   background-image: url(../images/redshopcart32.png);   
+}
+
+/* Shipping Box management */
+.icon-48-redshop_shipping_box32 {
+
+   background-image: url(../images/shipping_boxes32.png);   
+}
+
+/* redshop statistics icon */
+.icon-32-redshop_statistic32 {
+
+   background-image: url(../images/statistic32.png);   
+}
+
+/* catalog management */
+.icon-32-redshop_catalogmanagement32 {
+
+   background-image: url(../images/catalogmanagement32.png);   
+}
+
+/* category management */
+.icon-32-redshop_categories32 {
+
+   background-image: url(../images/categories32.png);   
+}
+
+
+
+/* container management */
+.icon-32-redshop_container32 {
+
+   background-image: url(../images/container32.png);   
+}
+
+/* coupon management */
+.icon-32-redshop_coupon32 {
+
+   background-image: url(../images/coupon32.png);   
+}
+
+/* TaxGroup management */
+.icon-32-redshop_taxgroup_taxgroup32 {
+
+   background-image: url(../images/vatgroup_32.png);   
+}
+
+
+/* Tax management */
+.icon-32-redshop_tax_tax32 {
+
+   background-image: url(../images/vatrates32.png);   
+}
+
+
+/* discount management */
+.icon-32-redshop_discountmanagmenet32 {
+
+   background-image: url(../images/discountmanagmenet32.png);   
+}
+
+/* export management */
+.icon-32-redshop_export32 {
+
+   background-image: url(../images/export32.png);   
+}
+
+/* Fields management */
+.icon-32-redshop_fields32 {
+
+   background-image: url(../images/fields32.png);   
+}
+
+/* Import management */
+.icon-32-redshop_mailcenter32 {
+
+   background-image: url(../images/import32.png);   
+}
+
+/* Import management */
+.icon-32-redshop_import_import32 {
+
+   background-image: url(../images/import32.png);   
+}
+
+/* Export management */
+.icon-32-redshop_export_export32 {
+
+   background-image: url(../images/export32.png);   
+}
+
+
+
+
+/* Mail management */
+.icon-32-redshop_mailcenter32 {
+
+   background-image: url(../images/mailcenter32.png);   
+}
+
+/* Manufacturer management */
+.icon-32-redshop_manufact32 {
+
+   background-image: url(../images/manufact32.png);   
+}
+
+/* Media management */
+.icon-32-redshop_media32 {
+
+   background-image: url(../images/media32.png);   
+}
+
+/* Newsletter management */
+.icon-32-redshop_newsletter32 {
+
+   background-image: url(../images/newsletter32.png);   
+}
+
+/* Order management */
+.icon-32-redshop_order32 {
+
+   background-image: url(../images/order32.png);   
+}
+
+/* Payment management */
+.icon-32-redshop_payment32 {
+
+   background-image: url(../images/payment32.png);   
+}
+
+/* Product management */
+.icon-32-redshop_products32 {
+
+   background-image: url(../images/products32.png);   
+}
+
+/* Color Sample management */
+.icon-32-redshop_colorsample32 {
+
+   background-image: url(../images/colorsample32.png);   
+}
+
+/* Shipping management */
+.icon-32-redshop_shipping32 {
+
+   background-image: url(../images/shipping32.png);   
+}
+
+/* Shipping management */
+.icon-32-redshop_stockroom32 {
+
+   background-image: url(../images/stockroom32.png);   
+}
+
+/* Vat( tax ) management */
+.icon-32-redshop_vatrates32 {
+
+   background-image: url(../images/vatrates32.png);   
+}
+
+/* Templates management */
+.icon-32-redshop_templates32 {
+
+   background-image: url(../images/templates32.png);   
+}
+
+/* Textlibrary management */
+.icon-32-redshop_textlibrary32 {
+
+   background-image: url(../images/templates32.png);   
+}
+
+/* Textlibrary management */
+.icon-32-redshop_user32 {
+
+   background-image: url(../images/user32.png);   
+}
+
+/* Voucher management */
+.icon-32-redshop_voucher32 {
+
+   background-image: url(../images/voucher32.png);   
+}
+
+/* Voucher management */
+.icon-48-redshop_shipping_rates48 {
+
+   background-image: url(../images/shipping_rates_48.png);   
+}
+
+/* Voucher management */
+.icon-32-redshop_shipping_rates32 {
+
+   background-image: url(../images/shipping_rates_32.png);   
+}
+
+/* wrapper management */
+.icon-32-redshop_wrapper32 {
+
+   background-image: url(../images/wrapper32.png);   
+}
+
+/* attributeBank management */
+.icon-32-redshop_attribute_bank32 {
+
+   background-image: url(../images/attribute_bank32.png);   
+}
+
+/* Shipping management */
+.icon-48-redshop_attribute_bank48 {
+
+   background-image: url(../images/attribute_bank48.png);   
+}
+
+.selectedimg{
+	border:2px solid #000000;
+}
+
+.pointer{
+	cursor:pointer;
+}
+
+/* Accounting Group Icon*/
+.icon-48-redshop_accountgroup48 {
+	background-image: url(../images/accounting_group48.png);
+}
+
+.icon-32-redshop_accountgroup32 {
+
+   background-image: url(../images/accounting_group32.png);   
+}
+
+
+.icon-48-redshop_configwizrd48 {
+
+   background-image: url(../images/wizard_48.png);   
+}
+
+.icon-32-redshop_configwizrd32 {
+
+   background-image: url(../images/wizard_32.png);   
+}
+
+.distitle{
+     
+     font-family:inherit;
+     font-size: 12px;
+     color: gray;
+     padding-left:5px;
+     font-weight: bold;
+     height:30;
+  }
+  
+.icon-32-gbase{
+	background-image: url(../images/gbase.png);
+} 
+.icon-32-print_f2{
+	background-image: url(../images/print_f2.png);
+} 
+
+
+
+/* standard style for redSHOP */
+
+fieldset.adminform label.radiobtn,
+table.admintable label.radiobtn{
+	clear: none;
+	min-width: 45px;
+	float: left;
+	margin: 3px 0 0 5px;
+	
+}
+
+/* standard form style table */
+
+div.col50 fieldset{ 
+	background-color: #fff;
+	padding: 5px 17px 17px 17px;	
+}
+div.width-45 { width: 45%; }
+div.width-55 { width: 55%; }
+div.width-50 { width: 50%; }
+div.width-70 { width: 70%; }
+div.width-30 { width: 30%; }
+div.width-60 { width: 60%; }
+div.width-40 { width: 40%; }
+
+table.admintable td 					 { padding: 3px; }
+table.admintable td.key,
+table.admintable td.paramlist_key {
+	background-color: #f6f6f6;
+	/*text-align: right;
+	width: 140px;*/
+	text-align: left;
+	width: 180px;
+	color: #666;
+	font-weight: bold;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+}
+
+table.paramlist td.paramlist_description {
+	background-color: #f6f6f6;
+	text-align: left;
+	width: 170px;
+	color: #333;
+	font-weight: normal;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+}
+
+table.admintable td.key.vtop { vertical-align: top; }
+
+table.adminform {
+	background-color: #f9f9f9;
+	border: solid 1px #d5d5d5;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 8px 0 10px 0;
+	margin-bottom: 15px;
+	width: 100%;
+}
+table.adminform.nospace { margin-bottom: 0; }
+table.adminform tr.row0 { background-color: #f9f9f9; }
+table.adminform tr.row1 { background-color: #eeeeee; }
+
+table.adminform th {
+	font-size: 11px;
+	padding: 6px 2px 4px 4px;
+	text-align: left;
+	height: 25px;
+	color: #000;
+	background-repeat: repeat;
+}
+table.adminform td { padding: 3px; text-align: left; }
+
+table.adminform td.filter{
+	text-align: left;
+}
+
+table.adminform td.helpMenu{
+	text-align: right;
+}
+
+
+.sub_attribute{
+background:#f0f0f0;
+border:1px solid #ccc;
+}
+fieldset.adminform { border: 1px solid #ccc; margin: 0 10px 10px 10px; }
+
+hr{
+border: 1px solid #EDEDED;
+}
+.attribute_para{
+background:#e7eef4;
+border:1px solid #9FB3BE;
+line-height:9px;
+padding-bottom:5px;
+}
+.attribute_para td{
+padding: 0px 30px;
+
+}
+
+fieldset.adminform { border: 1px solid #ccc; margin: 0 10px 10px 10px; }
+
+.btn_attribute{
+
+background:url(../images/repeatbg.jpg) repeat-x top left;
+height:23px;
+
+padding:5px 10px;
+border:1px solid #ccc;
+color:#025A8D;
+}
+
+input.btn_attribute{
+color:#025A8D;
+background:url(../images/repeatbg.jpg) repeat-x top left;
+height:35px;
+border:1px solid #ccc;
+}
+
+.blue_area {border:1px solid #a5b6c0; background:#e7eef4; padding:7px;}
+.red_blue_blue {font-size:12px; font-weight:bold; color:#156394;}
+.grey_area { border-left:1px solid #d1d1d1;  border-bottom:1px solid #d1d1d1;  border-right:1px solid #d1d1d1;  padding:7px;}
+.speac-area {padding:0px; margin:7px 0px;}
+
+
+table.grey_solid_area {
+	width: 100%;
+	border-spacing: 1px;
+	background-color: #cccaca;
+	color: #666;
+}
+
+table.grey_solid_area td,
+table.grey_solid_area th { padding: 4px; }
+
+table.grey_solid_area thead th {
+	text-align: center;
+	background: #b2aeae;
+	color: #666;
+	border-bottom: 1px solid #b2aeae;
+	border-left: 1px solid #fff;
+}
+
+table.grey_solid_area thead a:hover { text-decoration: none; }
+
+table.grey_solid_area thead th img { vertical-align: middle; }
+
+table.grey_solid_area tbody th { font-weight: bold; }
+
+table.grey_solid_area tbody tr			{ background-color: #f0f0f0;  text-align: left; }
+
+
+.btn_attribute{
+
+background:url(../images/repeatbg.jpg) repeat-x top left;
+height:23px;
+
+padding:5px 10px;
+border:1px solid #ccc;
+color:#025A8D;
+}
+
+input.btn_attribute{
+color:#025A8D;
+background:url(../images/repeatbg.jpg) repeat-x top left;
+height:35px;
+border:1px solid #ccc;
+}
+
+.blue_area {border:1px solid #a5b6c0; background:#e7eef4; padding:7px;}
+.red_blue_blue {font-size:12px; font-weight:bold; color:#156394;}
+.grey_area { border-left:1px solid #d1d1d1;  border-bottom:1px solid #d1d1d1;  border-right:1px solid #d1d1d1;  padding:7px;}
+.speac-area {padding:0px; margin:7px 0px;}
+
+
+table.grey_solid_area {
+	width: 100%;
+	border-spacing: 1px;
+	background-color: #cccaca;
+	color: #666;
+	margin-top: 10px;
+}
+
+table.grey_solid_area td,
+table.grey_solid_area th { padding: 4px; }
+
+table.grey_solid_area thead th {
+	text-align: center;
+	background: #b2aeae;
+	color: #666;
+	border-bottom: 1px solid #b2aeae;
+	border-left: 1px solid #fff;
+}
+
+table.grey_solid_area thead a:hover { text-decoration: none; }
+
+table.grey_solid_area thead th img { vertical-align: middle; }
+
+table.grey_solid_area tbody th { font-weight: bold; }
+
+table.grey_solid_area tbody tr			{ background-color: #f0f0f0;  text-align: left; }
+
+.admintable span{ 
+	/*float:right !important; 
+	text-align: right;*/
+	}
+
+.btn_attribute span
+{
+	float: none !important; 
+}
+	
+table.grey_solid_area {
+	width: 100%;
+	border-spacing: 1px;
+	background-color: transparent;
+	color: #666;
+}
+
+table.grey_solid_area 
+{
+	background-color: #CCCACA\9;
+}
+
+.grey_area
+{
+	padding: 10px;
+}
+	
+.attr_tbody
+{
+	display: table;
+	margin-top: 10px;
+}
+
+.attr_tbody:first-child
+{
+	margin-top: 0px;
+}
+
+#attribute_table input, #attribute_table select
+{
+	float: none;
+}
+	
+#attribute_table input[type="text"]
+{
+	margin: 0px 0px 0px 3px !important; 
+}
+
+.attr_tbody, .attribute_parameter_tr, .sub_property
+{
+	display: table;
+	border: 1px solid #CCCACA;
+	width: 100%;
+}
+
+.attribute_parameter_tr, .attribute_parameter tr
+{
+	border-top: 0px;
+	background-color: #f7f7f7 !important;
+}
+
+.attribute_parameter tr, .attribute_parameter_tr tr
+{
+	background-color: #f7f7f7 !important;
+}
+
+.sub_property
+{
+	border-top: 0px;
+	background-color: #f7f7f7 !important;
+}
+
+.sub_property tr
+{
+	background-color: #f7f7f7 !important;
+
+}
+
+
+
+table.grey_solid_area td, table.grey_solid_area th, table.blue_area td, table.blue_area th 
+{
+	padding: 4px 0;
+	vertical-align: middle;
+}
+
+
+div.current select, div.current input, div.current textarea, div.current select
+{
+	margin: 0 !important;
+}
+
+.btn_attribute_remove
+{
+	cursor: pointer;
+}
+
+
+.arrowimg
+{
+	padding: 3px;
+	cursor: pointer;
+}
+
+.up_image td
+{
+	vertical-align: middle !important;
+}
+
+.sub_attribute_table > tbody > tr:last-child table.subattribute
+{
+	border-bottom: 0px !important;
+}
+
+#attribute_table td
+{
+	white-space: nowrap;
+	
+}
+
+.blue_area
+{
+	table-layout: fixed;
+}
+
+#attribute_table table 
+{
+	table-layout:fixed;
+	width: 100%;
+	
+}
+
+.attr_tbody:hover td, .attribute_parameter_tr:hover td, .subattribute tr:hover td
+{
+	background-color: #e8f6fe;
+}
+
+
+
+#attribute_table td.td1
+{
+	width: 10%;
+}
+	
+#attribute_table td.td2
+{
+	width: 13%;
+}
+	
+#attribute_table td.td3
+{
+	width: 5%;
+}
+	
+#attribute_table td.td4
+{
+	width: 10%;
+}
+	
+#attribute_table td.td5
+{
+	width: 12%;
+}
+	
+#attribute_table td.td6
+{
+	width: 15%;
+}
+
+
+#attribute_table td.td6 select
+{
+	width: 45%;
+}
+
+
+#attribute_table td.td7
+{
+	width: 35%;
+}
+
+.up_image
+{
+	width: 100% !important;
+}
+
+.up_image .td1
+{
+	width: 15% !important;
+	text-align: right !important;
+}
+	
+.up_image .td2
+{
+	width: 49% !important;
+	padding-left: 10px;
+}
+	
+.up_image .td3
+{
+	width: 12% !important;
+}
+	
+	
+.up_image .td4
+{
+	width: 13% !important;
+	text-align: center !important;
+}
+	
+	
+.up_image .td5
+{
+	width: 10% !important;
+}
+
+
+.input_t1
+{
+	width: 90%;
+}
+
+.input_t2
+{
+	width: 60%;
+}
+
+.input_t3
+{
+	width: 20px;
+}
+
+.input_t4
+{
+	width: 20px;
+}
+
+.input_t5
+{
+	width: 40%;
+}
+
+
+.repon
+{
+	position: relative; 
+	
+}
+
+.remove_attr
+{
+	position: relative;
+}
+
+.sub_property td.td1
+{
+	padding: 10px 0px !important;
+	text-align: center;
+}
+
+.up_image td.td1
+{
+	padding-right: 10px !important;
+}
+
+.button2-left .image
+{
+	margin-left: -4px !important;
+}
+
+.speac-area
+{
+	margin: 7px 0;
+}
+
+
+@media (max-width:1500px)
+{
+	
+	.up_image
+	{
+		width: 43% !important;
+	}
+
+	.repon
+	{
+		position: relative; 
+		margin-top: 40px;
+		margin-left: -773%;
+	}
+	
+	.remove_attr
+	{
+		position: relative;
+		margin-top: -55px;
+		left: 1370%;
+	}
+	
+	.attribute_value td, .subattribute td
+	{
+		vertical-align: top !important;
+		
+	}
+	
+	
+	#attribute_table td.td1
+	{
+		width: 12%;
+	}
+		
+	#attribute_table td.td2
+	{
+		width: 15%;
+	}
+		
+	#attribute_table td.td3
+	{
+		width: 15%;
+	}
+		
+	#attribute_table td.td4
+	{
+		width: 10%;
+	}
+		
+	#attribute_table td.td5
+	{
+		width: 15%;
+	}
+		
+	#attribute_table td.td6
+	{
+		width: 23%;
+	}
+		
+	#attribute_table td.td7
+	{
+		width: 10%;
+	}
+	
+	.up_image td
+	{ 
+		vertical-align: middle !important;
+	}
+	
+}
+
+@media (max-width:1400px)
+{
+	.up_image
+	{
+		width: 48% !important;
+	}
+	
+	.repon
+	{
+		position: relative; 
+		margin-top: 40px;
+		margin-left: -760%;
+	}
+	
+	.remove_attr
+	{
+		left: 1115%;
+	}
+	
+	
+	.input_t1
+	{
+		width: 83%;
+	}
+	
+	.input_t2
+	{
+		width: 60%;
+	}
+	
+	
+	#attribute_table td.td1
+	{
+		width: 12%;
+	}
+		
+	#attribute_table td.td2
+	{
+		width: 20%;
+	}
+		
+	#attribute_table td.td3
+	{
+		width: 10%;
+	}
+		
+	#attribute_table td.td4
+	{
+		width: 10%;
+	}
+		
+	#attribute_table td.td5
+	{
+		width: 15%;
+	}
+		
+	#attribute_table td.td6
+	{
+		width: 23%;
+	}
+		
+	#attribute_table td.td7
+	{
+		width: 10%;
+	}
+	
+}
+
+
+
+@media (max-width:1300px)
+{
+	.up_image
+	{
+		width: 52% !important;
+	}
+	
+	.repon
+	{
+		position: relative; 
+		margin-top: 40px;
+		margin-left: -765%;
+	}
+	
+	.remove_attr
+	{
+		left: 960%;
+	}
+	
+	.attribute_value td
+	{
+		vertical-align: middle;
+	}
+	
+	
+	#attribute_table td.td1
+	{
+		width: 12%;
+	}
+		
+	#attribute_table td.td2
+	{
+		width: 18%;
+	}
+		
+	#attribute_table td.td3
+	{
+		width: 8%;
+	}
+		
+	#attribute_table td.td4
+	{
+		width: 14%;
+	}
+		
+	#attribute_table td.td5
+	{
+		width: 15%;
+	}
+		
+	#attribute_table td.td6
+	{
+		width: 23%;
+	}
+		
+	#attribute_table td.td7
+	{
+		width: 10%;
+	}
+	
+	.up_image td
+	{ 
+		vertical-align: middle !important;
+	}
+	
+	.input_t1
+	{
+		width: 83%;
+	}
+	
+	.input_t2
+	{
+		width: 60%;
+	}
+	
+}
+
+@media (max-width:1100px)
+{
+	.up_image
+	{
+		width: 67% !important;
+	}
+	
+	.repon
+	{
+		position: relative; 
+		margin-top: 40px;
+		margin-left: -1085%;
+	}
+	
+	.remove_attr
+	{
+		left: 515%;
+		margin-top: -58px;
+	}
+	
+	#attribute_table td.td1
+	{
+		width: 14%;
+	}
+		
+	#attribute_table td.td2
+	{
+		width: 20%;
+	}
+
+	#attribute_table td.td3
+	{
+		width: 8%;
+	}
+		
+	#attribute_table td.td4
+	{
+		width: 15%;
+	}
+		
+	#attribute_table td.td5
+	{
+		width: 16%;
+	}
+		
+	#attribute_table td.td6
+	{
+		width: 20%;
+	}
+		
+	#attribute_table td.td7
+	{
+		width: 7%;
+	}
+	
+	.input_t1
+	{
+		width: 78%;
+	}
+	
+	.input_t2
+	{
+		width: 45%;
+	}
+
+}
+
+

@@ -1,0 +1,51 @@
+.adminform .content{
+	
+}
+
+.adminform .pane-sliders .panel h3{
+	color:#025A8D!important;
+
+}
+
+.adminform  .paramlist_key{
+	background:#FFF	!important;
+	border:none!important;
+}
+.lof-group{
+	background:#F3F3F3!important;	
+	color:#025A8D!important;
+	border-right:#CCC solid 5px;
+	border-left:#CCC solid 5px;
+	padding:5px 10px!important;
+}
+.icon-image .paramlist_key{
+	background:url(icon-image.png) no-repeat center center !important	
+	;
+	background-color:#FFF!important;
+}
+.icon-k2 .paramlist_key{
+	background:url(k2_logo.gif) no-repeat center center !important	
+	;
+	background-color:#FFF!important;
+}
+.icon-banner .paramlist_key{
+	background:url(shop-ad.jpg) no-repeat center center !important	
+	;
+	background-color:#FFF!important;
+}
+.icon-content .paramlist_key{
+	background:url(joomla.png) no-repeat center center !important	;
+	background-color:#FFF!important;
+}
+
+.icon-virtuemart .paramlist_key{
+	background:url(virtuemart.png) no-repeat center center  !important ;
+	background-color:#FFF!important;
+	
+}
+.paramlist_value{
+	background:#FFF	!important;
+}
+.lof-group-tr td{
+	color:#4D4D4D!important;	
+}

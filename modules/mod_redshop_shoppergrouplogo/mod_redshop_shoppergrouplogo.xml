@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>RedSHOP Shoppergroup Logo</name>
+	<version>1.1.1</version>
+	<creationDate>10-04-2012</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>redSHOP Shopper Group Logo Module</description>
+	<files>
+		<filename module="mod_redshop_shoppergrouplogo">mod_redshop_shoppergrouplogo.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_shoppergrouplogo.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redshop_shoppergrouplogo.ini</language>
+  	</languages>
+	<config><fields name="params"><fieldset name="basic">
+		<field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH" description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100" />
+		<field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100" />
+	</fieldset></fields></config>
+</extension>

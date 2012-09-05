@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_REDSHOP_Standard_Newest_Product_Search_Layout">
+		<message>
+			<![CDATA[Newest Product]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Newest Product Search Layout</name>
+		<description>COM_REDSHOP_Newest_Product</description>
+		<fields name="request" addfieldpath="/administrator/components/com_redshop/elements">
+			<fieldset name="request">
+			<field name="categorytemplate" type="category" label="Select Category" required="true" description="Displays the selected category product"/>							
+			<field name="newproduct" type="text" size="4" default="" label="COM_REDSHOP_Enter_Number_of_Days_to_Find_Newest_Products" description="COM_REDSHOP_Enter_No_of_Days_For_Find_Newest_Product" />
+			<field name="productlimit" type="text" size="4" default="" label="COM_REDSHOP_How_Many_products_To_Show" description="COM_REDSHOP_Enter_No_of_Amount_How_Many_products_To_Show" />
+		</fieldset>	
+		</fields>
+	</state>
+</metadata>
