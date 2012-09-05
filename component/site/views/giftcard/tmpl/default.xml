@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_REDSHOP_STANDARD_GIFTCARD_LIST">
+		<message>
+			<![CDATA[Standard Giftcard Layout For Redshop Giftcard]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Giftcard List</name>
+		<description>COM_REDSHOP_Standard_Giftcard_Layout_For_Redshop_Giftcard</description>
+								
+	</state>
+</metadata>

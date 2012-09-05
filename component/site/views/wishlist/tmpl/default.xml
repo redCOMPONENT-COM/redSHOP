@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_REDSHOP_Mywishlist">
+		<message>
+			<![CDATA[Mywishlist Layout For Redshop Mywishlists]]>
+		</message>
+	</layout>
+	<state>
+		<name>Mywishlist</name>
+		<description>COM_REDSHOP_Mywishlist_Layout_to_view_Wishlist</description>				
+	</state>
+</metadata>

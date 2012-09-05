@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_REDSHOP_Standard_Red_Filter_Layout">
+		<message>
+			<![CDATA[Standard Red Filter Layout For Redshop Search Filter Module]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Red Filter</name>
+		<description>COM_REDSHOP_Standard_Red_Filter_Layout_For_Redshop_Search_Filter_Module</description>	
+		<params addpath="/administrator/components/com_redshop/elements" >
+			<param name="categorytemplate" type="category" default="0" label="COM_REDSHOP_Enter_Category_Id_For_Templet" description="COM_REDSHOP_Category_id_for_newest_product_search_Template" />		
+			<param name="productlimit" type="text" size="4" default="" label="COM_REDSHOP_How_Many_products_To_Show" description="COM_REDSHOP_Enter_No_of_Amount_How_Many_products_To_Show" />			
+		</params>
+	</state>
+</metadata>

@@ -1,0 +1,94 @@
+/**
+ * IceTabs Module for Joomla 1.6 By IceTheme
+ * 
+ * 
+ * @copyright	Copyright (C) 2008 - 2011 IceTheme.com. All rights reserved.
+ * @license		GNU General Public License version 2
+ * 
+ * @Website 	http://www.icetheme.com/Joomla-Extensions/icetabs.html
+ * @Support 	http://www.icetheme.com/Forums/IceTabs/
+ *
+ */
+
+.adminform .content{
+	
+}
+
+.adminform .pane-sliders .panel h3{
+	color:#025A8D!important;
+
+}
+
+.adminform  .paramlist_key{
+	background:#FFF	!important;
+	border:none!important;
+}
+.lof-group{
+	background:none!important;	
+	color:#025A8D!important;
+	border-right:none;
+	border-left:none;
+	clear:both;
+	padding:5px 25px!important;
+}
+.icon-content .expand
+{
+	background:#F3F3F3 url(j_arrow_down.png) no-repeat scroll 5px 50% !important;
+	color:#025A8D !important;
+}
+.icon-image .paramlist_key{
+	background:url(icon-image.png) no-repeat center center !important	
+	;
+	background-color:#FFF!important;
+}
+.icon-k2 .paramlist_key{
+	background:url(k2_logo.gif) no-repeat center center !important	
+	;
+	background-color:#FFF!important;
+}
+.icon-banner .paramlist_key{
+	background:url(shop-ad.jpg) no-repeat center center !important	
+	;
+	background-color:#FFF!important;
+}
+.icon-content .paramlist_key{
+	background:url(joomla.png) no-repeat center center !important	;
+	background-color:#FFF!important;
+}
+
+.icon-virtuemart .paramlist_key{
+	background:url(virtuemart.png) no-repeat center center  !important ;
+	background-color:#FFF!important;
+	
+}
+.paramlist_value{
+	background:#FFF	!important;
+}
+.lof-group-tr td{
+	color:#4D4D4D!important;	
+}
+.lof-even  h3{ background:#f9f9f9!important;}
+
+.lof-odd:hover,.lof-even:hover{ border:#c8c8c8 solid 1px!important}
+.lof-odd:hover h3,.lof-even:hover h3{ background:#dcd9d9!important; color:#fff!important}
+
+.lof-header {
+	background:#EBEBEB !important;
+	color:#555 !important;
+	cursor:pointer;
+	font-weight:bold;
+	font-size:1.2em;
+	text-align:center;
+	clear:both;
+	padding:6px 20px !important;
+	margin:18px 0 7px;
+}
+
+
+
+span.spacer hr {
+	border:none;
+	border-top:1px dotted #ccc;
+	background:#fff;
+	padding-top:5px;
+	margin-top:11px;}

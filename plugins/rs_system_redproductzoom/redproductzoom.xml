@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system">
+	<name>plg_system_redproductzoom</name>
+	<author>redweb.dk</author>
+	<creationDate>10-04-2012</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>redCOMPONENT.com</authorUrl>
+	<version>1.1.1</version>
+	<description>RedProductZoom</description>
+	<files>
+		<filename plugin="redproductzoom">redproductzoom.php</filename>
+		<folder plugin="redproductzoom">css</folder>
+		<folder plugin="redproductzoom">js</folder>
+		<folder plugin="redproductzoom">ajax</folder>
+		<filename>index.html</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB.plg_system_redproductzoom.ini</language>
+	</languages>
+</extension>

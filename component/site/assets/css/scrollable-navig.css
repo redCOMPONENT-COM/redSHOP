@@ -1,0 +1,79 @@
+
+/* this makes it possible to add next button beside scrollable */
+
+/* prev, next, prevPage and nextPage buttons */
+a.prev, a.next, a.prevPage, a.nextPage {
+	display:block;
+	width:18px;
+	height:18px;
+	background:url(../images/left.png) no-repeat;
+	float:left;
+	margin:35px 10px;
+	cursor:pointer;
+	outline: none;
+
+}
+
+/* mouseover state */
+a.prev:hover, a.next:hover, a.prevPage:hover, a.nextPage:hover {
+	background-position:0px -18px;		
+	outline: none;
+
+}
+
+/* disabled navigational button */
+a.disabled {
+	visibility:hidden !important;		
+	outline: none;
+}
+
+/* next button uses another background image */
+a.next, a.nextPage {
+	background-image:url(../images/right.png);
+	clear:right;	
+	outline: none;
+}
+
+
+
+/*********** navigator ***********/
+
+
+/* position and dimensions of the navigator */
+div.navi {
+	margin-left:328px;
+	width:200px;
+	height:20px;
+	outline: none;
+}
+
+
+/* items inside navigator */
+div.navi a {
+	width:8px;
+	height:8px;
+	float:left;
+	margin:3px;
+	background:url(../images/navigator.png) 0 0 no-repeat;     
+	cursor:pointer;	
+	outline: none;
+}
+
+/* mouseover state */
+div.navi a:hover {
+	background-position:0 -8px; 
+	outline: none;     
+}
+
+/* active state (current page state) */
+div.navi a.active {
+	background-position:0 -16px;     
+	outline: none;
+}
+
+div.items div.active {	 
+	border:1px solid #ccc;		
+	background-color:#fff;
+	outline: none;
+ 				
+}

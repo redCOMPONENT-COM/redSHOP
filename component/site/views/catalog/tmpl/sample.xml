@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_REDSHOP_Sample_Layout">
+		<message>
+			<![CDATA[Sample Layout For Redshop Product Sample Information]]>
+		</message>
+	</layout>
+	<state>
+		<name>Sample Product</name>
+		<description>COM_REDSHOP_Sample_Layout_For_Redshop_Product_Sample_Information</description>				
+	</state>
+</metadata>
+ 

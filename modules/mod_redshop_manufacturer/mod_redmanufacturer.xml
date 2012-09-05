@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>redSHOP Manufacturer</name>
+	<version>1.1.2</version>
+	<creationDate>10-04-2012</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>redSHOP Manufactorer Scroller Moduler</description>
+	<files>
+		<filename module="mod_redmanufacturer">mod_redmanufacturer.php</filename>		
+		<folder module="mod_redmanufacturer">css</folder>
+		<folder module="mod_redmanufacturer">js</folder>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redmanufacturer.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redmanufacturer.ini</language>
+  	</languages>	
+	<config><fields name="params"><fieldset name="basic">
+		<field name="pretext" type="text" default="" label="COM_REDSHOP_PRETEXT_LBL"
+			description="COM_REDSHOP_PRETEXT" />								
+		<field name="moduleclass_sfx" type="text" default=""
+			label="COM_REDSHOP_CLASS_SUFFIX"
+			description="COM_REDSHOP_CLASS_SFX_DESC" />
+		<field name="class_sfx" type="text" default=""
+			label="COM_REDSHOP_MENU_SFX"
+			description="COM_REDSHOP_MENU_SFX_DESC" />
+		<field name="PageLink" type="list" default="detail"
+			label="COM_REDSHOP_IMG_LINK"
+			description="COM_REDSHOP_IMG_LINK_DESC" >
+			<option value="detail">MANUFACTURER_DETAIL</option>
+			<option value="products">MANUFACTURER_PRODUCT</option>			
+		</field>	
+		<field name="NumberOfProducts" type="text" default="2"
+			label="COM_REDSHOP_NUMBER_OF_MANUFACTURER"
+			description="COM_REDSHOP_NUMBER_OF_MANUFACTURER_DESC">			
+		</field>
+		<field name="ScrollBehavior" type="text" default="1"
+			label="COM_REDSHOP_SCROLL_BEHAVIOR"
+			description="COM_REDSHOP_SCROLL_BEHAVIOR_DESC">			
+		</field>		
+		<field name="ScrollAuto" type="text" default="1"
+			label="COM_REDSHOP_SCROLL_AUTO"
+			description="COM_REDSHOP_SCROLL_AUTO_DESC">			
+		</field>
+		<field name="ScrollWidth" type="text" default="130"
+			label="COM_REDSHOP_SCROLL_WIDTH"
+			description="COM_REDSHOP_SCROLL_WIDTH_DESC">			
+		</field>
+		<field name="ScrollHeight" type="text" default="120"
+			label="COM_REDSHOP_SCROLL_HEIGHT"
+			description="COM_REDSHOP_SCROLL_HEIGHT_DESC">			
+		</field>
+		<field name="ImageWidth" type="text" default="100"
+			label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+			description="COM_REDSHOP_IMAGE_WIDTH_DESC">			
+		</field>
+		<field name="ImageHeight" type="text" default="100"
+			label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+			description="COM_REDSHOP_IMAGE_HEIGHT_DESC">			
+		</field>
+		<field name="ImageBorder" type="radio" default="yes"
+			label="COM_REDSHOP_MANUFACTURER_IMAGE_BORDER"
+			description="COM_REDSHOP_MANUFACTURER_IMAGE_BORDER_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</field>
+		<field name="show_image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE" description="COM_REDSHOP_SHOW_IMAGE_DESC">
+		<option value="1">YES</option>
+		<option value="0">NO</option>
+		</field>
+		<field name="show_product_name" type="radio" default="0" label="COM_REDSHOP_SHOW_PRODUCT_NAME" description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
+		<option value="1">YES</option>
+		<option value="0">NO</option>
+		</field>
+		<field name="show_link_on_product_name" type="radio" default="0" label="COM_REDSHOP_SHOW_LINKON_PRODUCT_NAME" description="COM_REDSHOP_SHOW_LINKON_PRODUCT_NAME_DESC">
+		<option value="1">YES</option>
+		<option value="0">NO</option>
+		</field>
+		<field name="ScrollDirection" type="radio" default="no"
+			label="COM_REDSHOP_SCROLL_DIRECTION_VERTICAL"
+			description="COM_REDSHOP_SCROLL_DIRECTION_VERTICAL_DESC">
+			<option value="yes">YES</option>
+			<option value="no">NO</option>
+		</field>
+		<field name="ScrollDelay" type="list" default="false"
+			label="COM_REDSHOP_SCROLL_DELAY"
+			description="COM_REDSHOP_SCROLL_DELAY_DESC" >
+			<option value="fast">FAST</option>
+			<option value="slow">SLOW</option>			
+		</field>
+		<field name="ScrollWrap" type="list" default="circular"
+			label="COM_REDSHOP_SCROLL_WRAP"
+			description="COM_REDSHOP_SCROLL_WRAP_DESC" >
+			<option value="circular">CIRCULAR</option>
+			<option value="last">LAST</option>			
+		</field>	
+			
+	</fieldset></fields></config>
+</extension>
