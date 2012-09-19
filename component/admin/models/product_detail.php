@@ -276,9 +276,9 @@ class product_detailModelproduct_detail extends JModel
 		{
 			if($data['product_image'] !=null)
 			{
-				$image_split = preg_split('/',$data['product_image']);
+				$image_split = explode('/',$data['product_image']);
 				$image_name = $image_split[count($image_split)-1];
-				$image_name = preg_split("_",$image_name,2);
+				$image_name = explode("_",$image_name,2);
 				if(strlen($image_name[0]) == 10 && preg_match("/^(\d+)/",$image_name[0])){
 					$new_image_name = $image_name[1];
 				}else{
