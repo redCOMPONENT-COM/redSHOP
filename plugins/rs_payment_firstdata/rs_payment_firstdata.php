@@ -73,7 +73,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		 $order_total = round($data['order_total'], $cal_no);
 		 $order_shipping = round($data['order_shipping'], $cal_no);
 		 $order_tax = round($data['order_tax'], $cal_no);
-		 $order_subtotal = round(($data['order_subtotal']-$data['order_tax']), $cal_no);
+		 $order_subtotal = round(($data['order_subtotal']-$data['order_tax']-$data['odiscount']), $cal_no);
 		
 		// Get Params from Plugin
 		$is_test = $this->_params->get("is_test");

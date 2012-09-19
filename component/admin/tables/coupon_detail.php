@@ -27,6 +27,7 @@ class Tablecoupon_detail extends JTable
 	var $percent_or_total 	= 0;
 	var $coupon_value 		= 0;
 	var $coupon_type 		= 0;
+	var $subtotal			= 0;
 	var $userid 			= 0;
 	var $free_shipping		= 0;
 	var $coupon_left 		= 0;

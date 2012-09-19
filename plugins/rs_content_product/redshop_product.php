@@ -38,9 +38,10 @@ class plgContentredshop_product extends JPlugin
 				$currency_convert = $convertPrice->convert(1);
 			}
 			$document = & JFactory::getDocument ();
+			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/',false);
+			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/',false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/',false);
 			JHTML::Script('common.js', 'components/com_redshop/assets/js/',false);
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
 			JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
 			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 			JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');

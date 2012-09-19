@@ -77,6 +77,7 @@ class coupon_detailModelcoupon_detail extends JModel
 			$detail->free_shipping			= 0;
 			$detail->coupon_value			= null;
 			$detail->coupon_type			= null;
+			$detail->subtotal				= null;
 			$detail->userid					= null;
 			$detail->coupon_left					= null;
 			$detail->published				= 1;

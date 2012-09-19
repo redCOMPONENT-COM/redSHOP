@@ -149,7 +149,7 @@ else
 	$is_company = ($open_to_stretcher == 1 || (isset($post['is_company']) && $post['is_company']== 1)) ? 1 : 0;			?>
 
 	<div class="mystretchermy" id="register_div" <?php echo $newuserstyle;?>>
-	<div><span id="customer_registrationintro" <?php echo ($is_company==1) ? 'style="display:none;"':'';?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_INTROTEXT'); ?></span><span id="company_registrationintro" <?php echo ($is_company==1) ? '':'style="display:none;"';?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_COMPANY_INTROTEXT'); ?></span></div>
+	<div><span id="customer_registrationintro" <?php echo ($is_company==1) ? 'style="display:none;"':'';?>><?php echo REGISTRATION_INTROTEXT; ?></span><span id="company_registrationintro" <?php echo ($is_company==1) ? '':'style="display:none;"';?>><?php echo REGISTRATION_COMPANY_INTROTEXT; ?></span></div>
 	<table cellpadding="5" cellspacing="0" border="0">
 	<tr><td><span <?php echo $allowCustomer;?>><h4><input type="radio" name="togglerchecker" id="toggler1" class="toggler"
 		<?php if($is_company==0) {	?> checked="checked" <?php	}?> onclick="showCompanyOrCustomer(this);" value="0" />
