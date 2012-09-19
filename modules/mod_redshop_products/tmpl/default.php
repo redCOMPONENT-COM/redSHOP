@@ -33,7 +33,7 @@ require_once(JPATH_SITE. DS .'components'.DS.'com_redshop'.DS.'helpers'.DS.'reds
 // lightbox Javascript
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/',false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/',false);
-JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
+JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/',false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 

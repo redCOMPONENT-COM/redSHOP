@@ -642,7 +642,7 @@ class order_detailModelorder_detail extends JModel
 			$this->updateAttributeItem($order_item_id,$orderitemdata->product_quantity,$orderitemdata->stockroom_id);
 
 			// update Attribute stock room
-			$producthelper->makeAttributeOrder($order_item_id,0,$productid,1);
+			//$producthelper->makeAttributeOrder($order_item_id,0,$productid,1);
 			$query = "DELETE FROM `".$this->_table_prefix."order_attribute_item` "
 					."WHERE `order_item_id` = ".$order_item_id;
 			$this->_db->setQuery( $query );
@@ -801,7 +801,7 @@ class order_detailModelorder_detail extends JModel
 				/** product property STOCKROOM update start */
 				if($quantity>0)
 				{
-					$stockroomhelper->manageStockAmount($propitemdata->section_id,$quantity,$stockroom_id,"property");
+					$stockroomhelper->manageStockAmount($propitemdata->section_id,$quantity,$propArr[$k]->stockroom_id,"property");
 				}
 				elseif($quantity<0)
 				{
@@ -816,7 +816,7 @@ class order_detailModelorder_detail extends JModel
 
 					if($quantity>0)
 					{
-						$stockroomhelper->manageStockAmount($subpropitemdata->section_id,$quantity,$stockroom_id,"subproperty");
+						$stockroomhelper->manageStockAmount($subpropitemdata->section_id,$quantity,$subpropArr[$l]->stockroom_id,"subproperty");
 					}
 					elseif($quantity<0)
 					{
