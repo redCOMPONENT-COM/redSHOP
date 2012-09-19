@@ -250,7 +250,7 @@ document.write ("</table>");
 
 if ($this->_params->get("activate_callback") == "1")
 {?><input type="hidden" name="callbackurl" value="<?php echo JURI::base(); ?>index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epay&accept=1&sessionid=<?php echo $sessionid?>&Itemid=<?php echo $_REQUEST['Itemid']?>&orderid=<?php echo $data['order_id']?>">
-<input type="hidden" name="accepturl" value="<?php echo JURI::base(); ?>index.php?option=com_redshop&view=order_detail&Itemid=<?php echo $_REQUEST['Itemid']?>&oid=<?php echo $data['order_id'] ?>">
+<input type="hidden" name="accepturl" value="<?php echo JURI::base(); ?>index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=<?php echo $_REQUEST['Itemid']?>&oid=<?php echo $data['order_id']?>">
 <? } else {
 ?>
 <input type="hidden" name="accepturl" value="<?php echo JURI::base(); ?>index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epay&accept=1&sessionid=<?php echo $sessionid ?>&Itemid=<?php echo $_REQUEST['Itemid'] ?>&orderid=<?php echo $data['order_id'] ?>">
