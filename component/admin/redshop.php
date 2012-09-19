@@ -14,7 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 	defined ('_JEXEC') or die ('Restricted access');
- 	// reddesign
+ 	// reddesign -
    	if(JRequest::getVar('task','')=='downloaddesign') error_reporting(0);
 
 	$configpath = JPATH_COMPONENT.DS.'helpers'.DS.'redshop.cfg.php';
