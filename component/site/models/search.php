@@ -45,6 +45,8 @@ class searchModelsearch extends JModel
 	  	$perpageproduct=$module_params->get('productperpage',5);
 	  	if ($layout == 'default')
 	  		$limit = $perpageproduct;
+	  	else if($layout == 'productonsale') 
+	  		$limit = $params->get('productlimit',5);
 	  	else
 			$limit = $params->get('maxcategory',5);
 	  	$productlimit=0;
@@ -340,13 +342,33 @@ class searchModelsearch extends JModel
 
 	  	if($layout == 'productonsale')
 		{
-		  	$query = " SELECT * FROM ".$this->_table_prefix."product AS p "
+		  	$categoryid=$item->params->get('categorytemplate');
+			$cat_array ="";
+			$left_join="";
+			if($categoryid)
+			{
+				$cat_main = $category_helper->getCategoryTree($categoryid);
+				$cat_group_main = array();
+	
+				for($j=0;$j<count($cat_main);$j++)
+				{
+					$cat_group_main[$j] = $cat_main[$j]->category_id;
+				}
+				$cat_group_main[]=$categoryid;
+				$cat_group_main = join(',',$cat_group_main);
+				
+					$cat_array = " AND pcx.category_id in (".$cat_group_main.") AND pcx.product_id=p.product_id ";
+					$left_join=  " LEFT JOIN ".$this->_table_prefix."product_category_xref pcx ON pcx.product_id=p.product_id ";
+			}
+		    $query = " SELECT * FROM ".$this->_table_prefix."product AS p "
+					.$left_join
 					."WHERE p.published = 1 "
 					."AND p.product_on_sale=1 "
 					."AND p.expired=0 "
 					."AND p.product_parent_id=0 "
-					.$whereaclProduct
+					.$whereaclProduct.$cat_array
 					."order by ".$order_by;
+			
 
 		} 
 		else if($layout == 'featuredproduct')
@@ -459,7 +481,14 @@ class searchModelsearch extends JModel
 	  	$params = &JComponentHelper::getParams( 'com_redshop' );
 		$menu	=& $mainframe->getMenu();
         $item	=& $menu->getActive();
-	    $cid = ($layout=='newproduct' || $layout=='productonsale') ? $item->query['categorytemplate'] : 0;
+		if($layout=='newproduct')
+		{
+			$cid=$item->query['categorytemplate'];
+		}
+		else if($layout=='productonsale')
+		{
+			$cid=$item->params->get('categorytemplate');
+		}		
 		if($layout=='productonsale'  || $layout=='featuredproduct')
 		{
 		  	$templateid = $item->params->get('template_id');

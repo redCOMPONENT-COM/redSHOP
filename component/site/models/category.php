@@ -336,7 +336,7 @@ class categoryModelcategory extends JModel
 		$order_by=urldecode(JRequest::getVar ( 'order_by', '' ));
 		if ($order_by=='')
 		{
-			$order_by = (isset($item->query['order_by'])) ? $item->query['order_by'] : DEFAULT_PRODUCT_ORDERING_METHOD;
+			$order_by = (isset($item)) ?  $item->params->get('order_by') : DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
 		$orderby = " ORDER BY ".$order_by;
 

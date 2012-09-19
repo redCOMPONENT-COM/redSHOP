@@ -129,6 +129,16 @@ submitbutton = function(pressbutton) {
 		</tr>
 		<tr>
 			<td valign="top" align="right" class="key">
+				<label for="volume">
+					<?php echo JText::_('COM_REDSHOP_SUBTOTAL_LBL' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input type="text" name="subtotal" id="subtotal" value="<?php echo $this->detail->subtotal;?>" size="5"/>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right" class="key">
 				<?php echo JText::_('COM_REDSHOP_USER' ); ?>:
 			</td>
 			<td>

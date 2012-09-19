@@ -1926,7 +1926,7 @@ class producthelper
 //				$refererurl = $_SERVER['HTTP_REFERER'];
 				$res = $this->getMenuInformation($Itemid);
 
-				if(count($res)>0 && (strstr($res->params,"manufacturer") && !strstr($res->params,"manufacturer_id=0")))// || strstr($refererurl,"view=manufacturer")))
+				if(count($res)>0 && (strstr($res->params,"manufacturer") && !strstr($res->params,'"manufacturer_id":"0"')))// || strstr($refererurl,!"view=manufacturer")))
 				{
 					$custompathway = array();
 					$res = $this->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
@@ -2163,7 +2163,7 @@ class producthelper
 		$and = "";
 		if($link!="")
 		{
-			$and .= " AND link like '%".$link."%' ";
+			$and .= " AND link = '".$link."' ";
 		}
 
 		$query = "SELECT * FROM #__menu "
