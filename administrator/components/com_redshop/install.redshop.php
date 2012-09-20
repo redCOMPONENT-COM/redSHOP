@@ -67,18 +67,18 @@ class com_redshopInstallerScript
 		// $type is the type of change (install, update or discover_install)
 		#echo '<p>' . JText::_('COM_REDSHOP_PREFLIGHT_' . $type . '_TEXT') . '</p>';
 	}
-	
+
 /**
 	 * method to update schema table
 	 *
 	 * @return void
 	 */
-	function updateschema() 
+	function updateschema()
 	{
 		$db = &JFactory::getDBO();
 		$db->setQuery("SELECT extension_id FROM #__extensions WHERE element ='com_redshop' AND type = 'component'");
 		$component_Id = $db->loadResult();
-		
+
 		if($component_Id!="" && $component_Id!="0")
 		{
 			$db->setQuery("SELECT * FROM #__schemas WHERE extension_id ='".$component_Id."'");
