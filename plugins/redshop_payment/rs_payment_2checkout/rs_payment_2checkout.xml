@@ -9,11 +9,11 @@
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>This plugin enables standard 2Checkout payments</description>
-	
+
 	<files>
 		<filename plugin="rs_payment_2checkout">rs_payment_2checkout.php</filename>
 		 <folder>rs_payment_2checkout</folder>
-			 
+
 	</files>
 	<languages >
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_2checkout.ini</language>
@@ -24,9 +24,9 @@
     <config addfieldpath="/administrator/components/com_redshop/elements">
  	 <fields name="params" >
 	   <fieldset name="basic">
-	 
 
-				
+
+
 					<field name="payment_oprand" type="text" size="10" default="-" label="Payment operand" description="Payment Operand"/>
 					<field name="payment_price" type="text" size="30" default="" label="Payment price" description="Payment price"/>
 					<field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: " description="Discount Type" >
@@ -47,7 +47,7 @@
 				  	</field>
 					<field type="spacer" />
 			</fieldset>
-			
+
 			<fieldset  name="advanced">
 				<field name="private_person" type="radio" default="1" label="Show on Private Person" description="Show on Private Person">
 			          <option value="1">Yes</option>
@@ -61,7 +61,7 @@
 				<field name="economic_payment_terms_id" type="text" default="2" label="Enter E-conomic Payment Conditions ID" />
 				<field name="economic_design_layout" type="text" default="" label="Enter E-conomic Design and Layout ID" />
 				<field name="shopper_group_id"  type="plugins" default="0" label="Select Shopper Group" description="Displays the shopper groups" />
-			</fieldset>	
+			</fieldset>
 	</fields>
-     </config >
+     </config>
 </extension>

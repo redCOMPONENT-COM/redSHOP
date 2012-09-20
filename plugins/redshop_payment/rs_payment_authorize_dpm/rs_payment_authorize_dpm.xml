@@ -9,10 +9,10 @@
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>This plugin enables Authorize Direct Post Method</description>
-	
+
 	<files>
 		<filename plugin="rs_payment_authorize_dpm">rs_payment_authorize_dpm.php</filename>
-		 <folder>rs_payment_authorize_dpm</folder>			 
+		 <folder>rs_payment_authorize_dpm</folder>
 	</files>
 	<languages >
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_authorize_dpm.ini</language>
@@ -23,7 +23,7 @@
 	<config addfieldpath="/administrator/components/com_redshop/elements">
  	 <fields name="params" >
 	   <fieldset name="basic">
-	
+
 		<field name="payment_oprand" type="text" size="10" default="-" label="Payment operand" description="Payment Operand"/>
 		<field name="payment_price" type="text" size="30" default="" label="Payment price" description="Payment price"/>
 		<field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: " description="Discount Type" >
@@ -32,17 +32,17 @@
 		</field>
 		<field name="is_test" type="list" default="0" label="Test Mode?" description=" Select 'Yes' while testing. Select 'No' for enabling live transactions.">
 			<option value="FALSE">No</option>
-			<option value="TRUE">Yes</option>			 
-	  	</field>		
-		
-		<field name="access_id" type="text"   default="" label="Authorize.net Access ID code" description="This is your Authorize.Net Access ID code " /> 			
+			<option value="TRUE">Yes</option>
+	  	</field>
+
+		<field name="access_id" type="text"   default="" label="Authorize.net Access ID code" description="This is your Authorize.Net Access ID code " />
 		<field name="transaction_id" type="text"   default="" label="Authorize.net Transaction Key" description="This is your Authorize.net Transaction Key. " />
 			<field name="auth_type" type="list" default="0" label="Authentication Type" description="This is the eProcessingNetwork.com authentication type. ">
 			<option value="AUTH_CAPTURE">AUTH_CAPTURE</option>
-			<option value="AUTH_ONLY">AUTH_ONLY</option>			 
+			<option value="AUTH_ONLY">AUTH_ONLY</option>
 	  	</field>
 		<field name="verify_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"   default="C" label="Order Status for successful transactions" description="Select the order status to which the actual order is set, if the payment transaction was successful.">
-		 
+
 	  	</field>
 		<field name="invalid_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"  default="P" label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
 	  	</field>
@@ -64,7 +64,7 @@
 	<field name="economic_design_layout" type="text" default="" label="Enter E-conomic Design and Layout ID" />
 	<field name="accepted_credict_card"  type="creditcards" default="0" label="Select Credit Cards" description="Displays the selected category product" />
 	<field name="shopper_group_id"  type="plugins" default="0" label="Select Shopper Group" description="Displays the shopper groups" />
-		</fieldset>	
+		</fieldset>
 	</fields>
-     </config >
+     </config>
 </extension>

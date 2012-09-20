@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-	<name>RedSHOP Product Scroller</name>
-	<version>1.1.6</version>
-	<creationDate>10-04-2012</creationDate>
+	<name>RedSHOP Main Category Scroller</name>
+	<version>1.1</version>
+	<creationDate>09-09-2011</creationDate>
 	<author>redweb.dk</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>redSHOP Product Scroller Module</description>
+	<description>redSHOP Main Category Scroller Module</description>
 	<files>
-		<filename module="mod_redproductscroller">mod_redproductscroller.php</filename>
+		<filename module="mod_redshop_main_categoryscroller">mod_redshop_main_categoryscroller.php</filename>
 	</files>
 	<languages>
-    	<language tag="en-GB">language/en-GB/en-GB.mod_redproductscroller.ini</language>
-    	<language tag="da-DK">language/da-DK/da-DK.mod_redproductscroller.ini</language>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_main_categoryscroller.ini</language>
+    	<language tag="da-DK">language/da-DK/da-DK.mod_redshop_main_categoryscroller.ini</language>
   	</languages>
 	<config><fields name="params"><fieldset name="basic">
 		<field name="pretext" type="text" default="" label="COM_REDSHOP_PRETEXT_LBL"
 			description="COM_REDSHOP_PRETEXT" />
-		<field name="NumberOfProducts" type="text" default="5"
-			label="COM_REDSHOP_NUMBER_OF_PRODUCT_LBL"
-			description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC" />		
+		<field name="NumberOfCategory" type="text" default="5"
+			label="COM_REDSHOP_NUMBER_OF_CATEGORY_LBL"
+			description="COM_REDSHOP_NUMBER_OF_CATEGORY_DESC" />
 		<field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH" description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100" />
 		<field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100" />
 		<field name="boxwidth" type="text" size="10" label="COM_REDSHOP_BOX_WIDTH" description="COM_REDSHOP_BOX_WIDTH" default="100" />
@@ -31,28 +32,13 @@
 			<option value="oldest">OLDEST</option>
 			<option value="random">RANDOM</option>
 		</field>
-		<field name="show_product_name" type="radio" default="yes"
-			label="COM_REDSHOP_SHOW_PRODUCT_NAME_LBL"
-			description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
+		<field name="show_category_name" type="radio" default="yes"
+			label="COM_REDSHOP_SHOW_CATEGORY_NAME_LBL"
+			description="COM_REDSHOP_SHOW_CATEGORY_NAME_DESC">
 			<option value="yes">YES</option>
 			<option value="no">NO</option>
 		</field>
-		<field name="show_discountpricelayout" type="radio" default="1" label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
-			<option value="1">YES</option>
-			<option value="0">NO</option>
-			</field>
-		<field name="show_addtocart" type="radio" default="yes"
-			label="COM_REDSHOP_SHOW_ADD_TO_CART_LBL"
-			description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
-			<option value="yes">YES</option>
-			<option value="no">NO</option>
-		</field>
-		<field name="show_price" type="radio" default="yes"
-			label="COM_REDSHOP_SHOW_PRICE_LBL"
-			description="COM_REDSHOP_SHOW_PRICE_DESC">
-			<option value="yes">YES</option>
-			<option value="no">NO</option>
-		</field>
+
 		<field name="ScrollHeight" type="text" default="125"
 			label="COM_REDSHOP_SCROLL_HEIGHT" description="COM_REDSHOP_SCROLL_HEIGHT_DESC" />
 		<field name="ScrollWidth" type="text" default="150"
@@ -166,7 +152,7 @@
 			<option value="17">17 px</option>
 			<option value="18">18 px</option>
 		</field>
-		
+
 		<field name="ScrollTextColor" type="text" default="#000000"
 			label="COM_REDSHOP_SCROLL_TEXT_COLOR"
 			description="COM_REDSHOP_SCROLL_TEXT_COLOR_DESC" />
@@ -174,10 +160,10 @@
 			label="COM_REDSHOP_SCROLL_BACKGROUND_COLOR"
 			description="COM_REDSHOP_SCROLL_BACKGROUND_COLOR_DESC" />
 		<field name="moduleclass_sfx" type="text" default=""
-			label="COM_REDSHOP_CLASS_SUFFIX"
-			description="COM_REDSHOP_CLASS_SFX_DESC" />
+			label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
+			description="COM_REDSHOP_PARAMMODULECLASSSUFFIX_DESC" />
 		<field name="class_sfx" type="text" default=""
-			label="COM_REDSHOP_MENU_SFX"
-			description="COM_REDSHOP_MENU_SFX_DESC" />
+			label="COM_REDSHOP_MENU_CLASS"
+			description="COM_REDSHOP_MENU_CLASS_DESC" />
 	</fieldset></fields></config>
 </extension>

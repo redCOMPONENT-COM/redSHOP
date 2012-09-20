@@ -9,22 +9,22 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>Featured Product Module for redSHOP</description>
 	<files>
-		<filename module="mod_redfeaturedproduct">mod_redfeaturedproduct.php</filename>
-		<folder module="mod_redfeaturedproduct">images</folder>
-		<folder module="mod_redfeaturedproduct">css</folder>
-		<folder module="mod_redfeaturedproduct">js</folder>
+		<filename module="mod_redshop_featuredproduct">mod_redshop_featuredproduct.php</filename>
+		<folder module="mod_redshop_featuredproduct">images</folder>
+		<folder module="mod_redshop_featuredproduct">css</folder>
+		<folder module="mod_redshop_featuredproduct">js</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redfeaturedproduct.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redfeaturedproduct.ini</language>
-  	</languages>	
+		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_featuredproduct.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_featuredproduct.ini</language>
+		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_featuredproduct.ini</language>
+  	</languages>
 	<config><fields name="params"><fieldset name="basic">
 		<field name="pretext" type="text" default="" label="COM_REDSHOP_PRETEXT_LBL"
 			description="COM_REDSHOP_PRETEXT" />
 		<field name="NumberOfProducts" type="text" default="5"
 			label="COM_REDSHOP_NUMBER_OF_PRODUCT_LBL"
-			description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC" />		
+			description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC" />
 		<field name="ScrollSortMethod" type="radio" default="random"
 			label="COM_REDSHOP_SCROLL_SORT_METHOD_LBL"
 			description="COM_REDSHOP_SCROLL_SORT_METHOD_DESC">
@@ -60,9 +60,9 @@
 		<field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100" />
 		<field name="scrollerheight" type="text" size="10" label="COM_REDSHOP_SCROLLER_HEIGHT" description="COM_REDSHOP_SCROLLER_HEIGHT" default="200" />
 		<field name="scrollerwidth" type="text" size="10" label="COM_REDSHOP_SCROLLER_WIDTH" description="COM_REDSHOP_SCROLLER_WIDTH" default="700" />
-		
+
 		<field name="product_title_max_chars" type="text" size="10" label="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS" description="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS" default="10" />
-		<field name="product_title_end_suffix" type="text" size="10" label="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" description="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" default="...." />	
+		<field name="product_title_end_suffix" type="text" size="10" label="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" description="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" default="...." />
 		<field name="show_discountpricelayout" type="radio" default="1" label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
 			<option value="1">COM_REDSHOP_YES</option>
 			<option value="0">COM_REDSHOP_NO</option>
