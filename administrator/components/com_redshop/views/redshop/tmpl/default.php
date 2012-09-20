@@ -18,7 +18,7 @@ require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'helper.php' );
 
 $redhelper= new reddesignhelper();
 $expand_all=EXPAND_ALL;
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 $filteroption = JRequest::getVar ('filteroption');
 ?>
