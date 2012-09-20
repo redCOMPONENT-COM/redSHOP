@@ -20,6 +20,10 @@ nb-configuration.xml
 # PHPStorm
 .idea/
 
+#REDSHOP
+
+redshop.cfg.php
+
 # Eclipse
 *.pydevproject
 .project
@@ -499,7 +503,7 @@ templates/beez5/*
 templates/system/*
 templates/index.html
 tmp/*
-configuration.php
+./configuration.php
 index.php
 joomla.xml
 *.txt
