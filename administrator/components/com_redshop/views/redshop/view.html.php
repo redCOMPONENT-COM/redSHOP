@@ -35,7 +35,7 @@ class redshopViewredshop extends JView
 			JToolBarHelper::help( 'redshop', true );
    		}
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
    		if(ENABLE_BACKENDACCESS )
 		{
@@ -58,7 +58,7 @@ class redshopViewredshop extends JView
 		//$this->totturnover = $statsticmodel->getTotalTurnover();
 
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('http://www.google.com/jsapi');
 
 		$lists= array();
@@ -68,7 +68,7 @@ class redshopViewredshop extends JView
 		$option[]   = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
 		$option[]   = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
 		$option[]   = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
-		$lists['filteroption'] 	= JHTML::_('select.genericlist',$option, 'filteroption', 'class="inputbox" size="1" onchange="document.chartform.submit();"', 'value', 'text',  $filteroption );
+		$lists['filteroption'] = JHTML::_('select.genericlist',$option, 'filteroption', 'class="inputbox" size="1" onchange="document.chartform.submit();"', 'value', 'text',  $filteroption );
 
 		// end
 
@@ -88,7 +88,7 @@ class redshopViewredshop extends JView
 	function quickiconButton( $link, $image, $text, $modal = 0 )
 	{
 		//initialise variables
-		$lang 		= & JFactory::getLanguage();
+		$lang 		= JFactory::getLanguage();
   		?>
 
 		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
