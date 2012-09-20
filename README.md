@@ -9,6 +9,8 @@ Don't forget to pull from this repository to update your fork.
 
 Don't merge commits you didn't verify !
 
+Please update the CHANGELOG with a message of what you did.
+
 Developing
 ==========
 
@@ -19,6 +21,8 @@ Copy Joomla over your local fork.
 Install Joomla.
 
 Then go to Extension Manager => Discover. Select everything and click on Install.
+
+http://docs.joomla.org/Help16:Extensions_Extension_Manager_Discover
 
 Redshop + all modules and plugins will be installed.
 
