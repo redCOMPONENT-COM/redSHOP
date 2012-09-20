@@ -9,31 +9,31 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Magic Magnify&lt;sup&gt;&amp;#8482;&lt;/sup&gt; lets you add a magnifying glass effect to your images. Try out some customisation options http://www.magictoolbox.com/magicmagnify/#customization. By http://www.magictoolbox.com/.</description>
     <files>
-        
+
                 <filename>core/cursor/zoomin.cur</filename>
-            
+
                 <filename>core/cursor/zoomout.cur</filename>
-            
+
                 <filename>core/graphics/controlbar.png</filename>
-            
+
                 <filename>core/graphics/loader.gif</filename>
-            
+
                 <filename>core/magicmagnifyplus.css</filename>
-            
+
                 <filename>core/magicmagnifyplus.js</filename>
-            
+
                 <filename>core/magicmagnifyplus.swf</filename>
-            
+
                 <filename>magicmagnifyplus.module.core.class.php</filename>
-            
+
                 <filename>magictoolbox.makethumb.class.php</filename>
-            
+
                 <filename>magictoolbox.params.class.php</filename>
-            
-                <filename module="mod_redmagicmagnifyplus">mod_redmagicmagnifyplus.php</filename>
-            
-                <filename>mod_redmagicmagnifyplus.xml</filename>
-            
+
+                <filename module="mod_redshop_magicmagnifyplus">mod_redshop_magicmagnifyplus.php</filename>
+
+                <filename>mod_redshop_magicmagnifyplus.xml</filename>
+
     </files>
     <config><fields name="params"><fieldset name="basic">
         <field name="zoom-color" type="text" default="6E8C0E" label="Magnifier color (RGB)" />
