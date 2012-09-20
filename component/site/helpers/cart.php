@@ -3246,7 +3246,7 @@ class rsCarthelper {
 		$cart = (count($c_data)<=0) ? $this->_session->get( 'cart') : $c_data;
 		if($coupon_code!="")
 		{
-			$coupon = $this->getcouponData($coupon_code);
+			$coupon = $this->getcouponData($coupon_code,$cart['product_subtotal']);
 
 			if(count($coupon)>0)
 			{
@@ -3647,7 +3647,7 @@ class rsCarthelper {
 		return $voucher;
 	}
 
-	function getcouponData($coupon_code)
+	function getcouponData($coupon_code,$subtotal=0)
 	{
 		$current_time	= time();
 		$cart 			= $this->_session->get( 'cart') ;
@@ -3667,7 +3667,7 @@ class rsCarthelper {
 		if(count($coupon) <= 0 )
 		{
 			$query = "SELECT * FROM ".$this->_table_prefix."coupons   "
-					."WHERE published = 1 and coupon_code='".$coupon_code."' and (start_date<='".$current_time."' and end_date>='".$current_time."' ) AND coupon_left > 0 limit 0,1";
+					."WHERE published = 1 and coupon_code='".$coupon_code."' and (start_date<='".$current_time."' and end_date>='".$current_time."' ) AND coupon_left > 0 AND ( '".$subtotal."' >= subtotal OR subtotal = 0 OR subtotal = '' ) limit 0,1";
 			$this->_db->setQuery($query);
 			$coupon= $this->_db->loadObject();
 		}
