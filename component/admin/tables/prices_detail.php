@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -18,17 +18,17 @@ class Tableprices_detail extends JTable
 {
 	var $price_id = 0;
 	var $product_id = null;
-	var $product_price = null;	
-	var $product_currency = null;	
+	var $product_price = null;
+	var $product_currency = null;
 	var $shopper_group_id  = null;
-	var $price_quantity_start = 0; 
-	var $price_quantity_end = 0;	 
+	var $price_quantity_start = 0;
+	var $price_quantity_end = 0;
 	var $cdate  = null;
 	var $discount_price = 0;
 	var $discount_start_date = 0;
 	var $discount_end_date = 0;
-		
-	function Tableprices_detail(& $db) 
+
+	function Tableprices_detail(& $db)
 	{
 		$this->_table_prefix = '#__redshop_';
 		parent::__construct($this->_table_prefix.'product_price', 'price_id', $db);
@@ -43,18 +43,23 @@ class Tableprices_detail extends JTable
 		}
 		return parent::bind($array, $ignore);
 	}
-	
+
 	function check()
 	{
 		/**** check for valid name *****/
-		$query = 'SELECT price_id FROM '.$this->_table_prefix.'product_price WHERE shopper_group_id = "'.$this->shopper_group_id.'" AND product_id = ' .$this->product_id.' AND price_quantity_end >= '.$this->price_quantity_start;
+		$query = 'SELECT price_id FROM '.$this->_table_prefix.'product_price WHERE shopper_group_id = "'.$this->shopper_group_id.'" AND product_id = ' .$this->product_id.' AND price_quantity_start <= '.$this->price_quantity_start.' AND price_quantity_end >= '.$this->price_quantity_start.'';
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->price_id)) {
-			
+
+		$query_end = 'SELECT price_id FROM '.$this->_table_prefix.'product_price WHERE shopper_group_id = "'.$this->shopper_group_id.'" AND product_id = ' .$this->product_id.' AND price_quantity_start <= '.$this->price_quantity_end.' AND price_quantity_end >= '.$this->price_quantity_end.'';
+		$this->_db->setQuery($query_end);
+		$xid_end = intval($this->_db->loadResult());
+
+		if (($xid || $xid_end) && ($xid != intval($this->price_id) || $xid_end != intval($this->price_id)))
+		{
 			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
 			return false;
-		}
+		}		
 		return true;
 	}
 }?>
