@@ -80,6 +80,7 @@ class coupon_detailModelcoupon_detail extends JModel
 			$detail->userid					= null;
 			$detail->coupon_left					= null;
 			$detail->published				= 1;
+			$detail->subtotal				= null;
 			$this->_data		 			= $detail;
 			return (boolean) $this->_data;
 		}

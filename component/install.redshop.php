@@ -711,6 +711,12 @@ function com_install() {
 			$db->setQuery($q);
 			$db->query();
 		}
+		/* Check if we have the subtotal column */
+		if (!array_key_exists('subtotal', $cols)) {
+			$q = "ALTER IGNORE TABLE #__redshop_coupons ADD COLUMN subtotal INT NOT NULL ";
+			$db->setQuery($q);
+			$db->query();
+		}
 		/* Check if we have the order_id column */
 		if (!array_key_exists('order_id', $cols)) {
 			$q = "ALTER TABLE `#__redshop_coupons` ADD `order_id` INT NOT NULL ";

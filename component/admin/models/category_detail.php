@@ -146,7 +146,7 @@ class category_detailModelcategory_detail extends JModel
 		}else{
 			if(isset($data['category_image']) && $data['category_image'] !=null){
 
-				$image_split = preg_split('/',$data['category_image']);
+				$image_split = explode('/',$data['category_image']);
 
 				$filename = JPath::clean(time().'_'.$image_split[count($image_split)-1]); //Make the filename unique
 				$row->category_full_image=$filename;
