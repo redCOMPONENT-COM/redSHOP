@@ -41,7 +41,6 @@ local.properties
 .buildpath
 
 # Joomla 2.5
-
 .htaccess
 administrator/cache/*
 administrator/components/com_admin/*
