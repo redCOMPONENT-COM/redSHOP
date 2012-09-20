@@ -2233,7 +2233,7 @@ class producthelper
 		$and = "";
 		if($link!="")
 		{
-			$and .= " AND link like '%".$link."%' ";
+			$and .= " AND link = '".$link."' ";
 		}
 
 		$query = "SELECT * FROM #__menu "
