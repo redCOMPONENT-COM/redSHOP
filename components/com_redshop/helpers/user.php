@@ -36,8 +36,8 @@ class rsUserhelper
 	{
 		global $mainframe, $context;
 	  	$this->_table_prefix = '#__'.TABLE_PREFIX.'_';
-	  	$this->_session =& JFactory::getSession();
-	  	$this->_db = & JFactory :: getDBO();
+	  	$this->_session = JFactory::getSession();
+	  	$this->_db = JFactory :: getDBO();
 	}
 
 	/*
@@ -981,7 +981,7 @@ class rsUserhelper
 		$template_desc = str_replace("{country_style}", $countrystyle, $template_desc);
 		$template_desc = str_replace("{state_txtid}", "div_state_txt", $template_desc);
 		$template_desc = str_replace("{state_style}", $statestyle, $template_desc);
-				
+
 		$template_desc = str_replace("{country_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $template_desc);
 		$template_desc = str_replace("{country}", $lists['country_code'], $template_desc);
 		$template_desc = str_replace("{state_lbl}", JText::_ ( 'COM_REDSHOP_STATE' ), $template_desc);
@@ -1094,7 +1094,7 @@ class rsUserhelper
 		$template_desc = str_replace("{city_st}", '<input class="inputbox billingRequired valid" type="text" name="city_ST" '.$read_only.' id="city_ST" value="'.@$post['city_ST'].'" size="32" maxlength="250" />', $template_desc);
 		$template_desc = str_replace("{phone_st_lbl}", JText::_ ( 'COM_REDSHOP_PHONE' ), $template_desc);
 		$template_desc = str_replace("{phone_st}", '<input class="inputbox billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" value="'.@$post ["phone_ST"].'" onblur="return searchByPhone(this.value,\'ST\');" />', $template_desc);
-		
+
 		$template_desc = str_replace("{country_st_txtid}", "div_country_st_txt", $template_desc);
 		$template_desc = str_replace("{country_st_style}", $countrystyle, $template_desc);
 		$template_desc = str_replace("{state_st_txtid}", "div_state_st_txt", $template_desc);
@@ -1138,17 +1138,17 @@ class rsUserhelper
 		}
 		return $html;
 	}
-	
+
 	function getAskQuestionCaptcha()
 	{
-			$html = '';	
+			$html = '';
 			$html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
 			$html .= '<tr><td>&nbsp;</td>
 						<td align="left"><img src="'.JURI::base(true).'/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></td></tr>';
 			$html .= '<tr><td width="100" align="right"><label for="security_code">'.JText::_('COM_REDSHOP_SECURITY_CODE').'</label></td>
 						<td><input class="inputbox" id="security_code" name="security_code" type="text" /></td></tr>';
 			$html .= '</table>';
-		
+
 		return $html;
 	}
 
@@ -1185,7 +1185,7 @@ class rsUserhelper
 		$debtor->store();
 		return $debtor;
 	}
-	
+
 	function getShopperGroupManufacturers()
 	{
 		$user 			= JFactory::getUser();
