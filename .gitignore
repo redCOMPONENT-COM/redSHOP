@@ -20,8 +20,7 @@ nb-configuration.xml
 # PHPStorm
 .idea/
 
-#REDSHOP
-
+# REDSHOP
 redshop.cfg.php
 
 # Eclipse
@@ -75,7 +74,7 @@ administrator/components/com_weblinks/*
 administrator/components/index.html
 administrator/help/*
 administrator/includes/*
-administrator/language/en-GB/
+#administrator/language/en-GB/
 administrator/language/en-GB/en-GB.com_admin.ini
 administrator/language/en-GB/en-GB.com_admin.sys.ini
 administrator/language/en-GB/en-GB.com_banners.ini
