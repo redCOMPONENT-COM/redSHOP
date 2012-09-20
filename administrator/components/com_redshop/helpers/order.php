@@ -36,7 +36,7 @@ class order_functions
 		global $mainframe, $context;
 	  	$this->_table_prefix = '#__redshop_';
 	  	$this->_table_prefix_crm = '#__redcrm_';
-		$this->_db = & JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 	function resetOrderId()
@@ -69,7 +69,7 @@ class order_functions
 		$this->_db->setQuery ( $query );
 		$this->_db->query();
 	}
-	
+
 	/*
 	 * get order status Title
 	 *
@@ -126,11 +126,11 @@ class order_functions
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher =& JDispatcher::getInstance();
 			$data = $dispatcher->trigger('onCapture_Payment'.$result[0]->element,array( $result[0]->element, $values ));
-			$results= $data[0];	
-			
+			$results= $data[0];
+
 		 	if(!empty($data)){
 				$message 			= $results->message;
-				
+
 				$orderstatuslog 				= &  JTable::getInstance( 'order_status_log' ,'Table');
 				$orderstatuslog->order_id 		= $order_id;
 				$orderstatuslog->order_status 	= $order_status_code;
@@ -139,25 +139,25 @@ class order_functions
 				$orderstatuslog->store();
 			}
 		}
-		
+
 		// Refund Money while cancel the order
 		$refund_type = $paymentparams->get('refund','0');
 		if($newstatus == "X" && $refund_type == 1)
 		{
-			
+
 			$values["order_number"]         = $orderdetail->order_number;
 			$values["order_id"]             = $order_id;
 			$values["order_transactionid"]  = $result[0]->order_payment_trans_id;
 			$values["order_amount"]      	= $orderdetail->order_total+ $result[0]->order_transfee;
 			$values["order_userid"]      	= $values['billinginfo']->user_id;
-			
-			
+
+
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher =& JDispatcher::getInstance();
 			// get status and refund if capture/cancel if authorize (for quickpay only)
 			$data = $dispatcher->trigger('onStatus_Payment'.$result[0]->element,array( $result[0]->element, $values ));
-			$results= $data[0];	
-			
+			$results= $data[0];
+
 			if(!empty($data)){
 				$message 			= $results->message;
 				$orderstatuslog 				= &  JTable::getInstance( 'order_status_log' ,'Table');
@@ -167,7 +167,7 @@ class order_functions
 				$orderstatuslog->customer_note 	= $message;
 				$orderstatuslog->store();
 			}
-	
+
 		}
 	}
 
@@ -204,13 +204,13 @@ class order_functions
 		  $sql = "SELECT weight FROM ".$this->_table_prefix."product WHERE product_id ='". $orderproducts [$c]->product_id ."'";
 		  $this->_db->setQuery ( $sql );
 		  $weight = $this->_db->loadResult ();
-		  
+
 		   // Accessory Weight
 		  $orderAccItemdata = $this->getOrderItemAccessoryDetail($orderproducts[$c]->order_item_id);
 		  $acc_weight=0;
 	     	if(count($orderAccItemdata)>0)
 			{
-				
+
 				for($a=0;$a<count($orderAccItemdata);$a++)
 				{
 					$accessory_quantity = $orderAccItemdata[$a]->product_quantity;
@@ -451,14 +451,14 @@ class order_functions
 			 	require_once( JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models' . DS . 'checkout.php');
 				$checkoutModelcheckout = new checkoutModelcheckout();
 				$checkoutModelcheckout->sendGiftCard($order_id);
-				
+
 		     	// INVOICE MAIL SEND
 				if (INVOICE_MAIL_ENABLE)
 				{
 					$redshopMail = new redshopMail();
 					$redshopMail->sendInvoiceMail($order_id);
 				}
-				
+
 		     }
 		     if($data->order_payment_status_code == "Paid" && $data->order_status_code == "S")
 		     {
@@ -793,7 +793,7 @@ class order_functions
 				JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models' );
    			    $checkoutModelcheckout =& JModel::getInstance('checkout','checkoutModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
-				
+
 				// INVOICE MAIL SEND
 				if (INVOICE_MAIL_ENABLE)
 				{
@@ -999,7 +999,7 @@ class order_functions
 				JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models' );
    			    $checkoutModelcheckout =& JModel::getInstance('checkout','checkoutModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
-				
+
 				// INVOICE MAIL SEND
 				if (INVOICE_MAIL_ENABLE)
 				{
@@ -2061,7 +2061,7 @@ class order_functions
 			$orderdetailurl = JURI::root () . 'index.php?option=com_redshop&view=order_detail&oid=' . $order_id . '&encr=' . $orderdetail->encr_key;
 			$search[] = "{order_detail_link}";
 			$replace[] = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL" ) . "</a>";
-			
+
 			$details = explode ( "|", $shippinghelper->decryptShipping( str_replace(" ","+",$orderdetail->ship_method_id) ));
 			if(count($details)<=1)
 			{
@@ -2070,13 +2070,13 @@ class order_functions
 			$shopLocation = $orderdetail->shop_id;
 			if($details[0]!='plgredshop_shippingdefault_shipping_GLS')
 					$shopLocation = '';
-					
+
 			$arrLocationDetails 	= explode('|',$shopLocation);
 			$orderdetail->track_no 	= $arrLocationDetails[0];
 
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderdetail->track_no);
-			
+
 			$mailbody = str_replace($search,$replace,$maildata);
 			$mailsubject = str_replace($search,$replace,$mailsubject);
 

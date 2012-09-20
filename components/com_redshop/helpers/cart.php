@@ -38,7 +38,7 @@ class rsCarthelper {
 		global $mainframe, $context;
 		$this->_table_prefix = '#__'.TABLE_PREFIX.'_';
 	  	$this->_db = Jfactory::getDBO();
-	  	$this->_session =& JFactory::getSession();
+	  	$this->_session = JFactory::getSession();
 	  	$this->_order_functions = new order_functions();
 	  	$this->_extra_field = new extra_field();
 	  	$this->_extraFieldFront = new extraField();
@@ -1242,13 +1242,13 @@ class rsCarthelper {
 			}
 
 			$cart_mdata = str_replace ( "{product_name}", $product_name, $data );
-			
+
 			$catId	    = $this->_producthelper->getCategoryProduct($product_id);
 			$res 	    = $this->_producthelper->getSection("category",$catId);
 			if(count($res)>0)
 			{
 				$cname = $res->category_name;
-				$clink 	= JRoute::_( $url.'index.php?option=com_redshop&view=category&layout=detail&cid='.$catId); 
+				$clink 	= JRoute::_( $url.'index.php?option=com_redshop&view=category&layout=detail&cid='.$catId);
 
 			}
 			$category_path =  "<a href='".$clink."'>".$cname."</a>";

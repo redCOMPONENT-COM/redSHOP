@@ -42,7 +42,7 @@ class reddesignhelper {
 	 */
 	function CheckIfRedProduct($product_id)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if (!$user->guest) {
 			$db = JFactory::getDBO();
 			$query = "SELECT * FROM `#__reddesign_redshop` WHERE `product_id` = '".$product_id."'";

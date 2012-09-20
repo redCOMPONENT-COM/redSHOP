@@ -492,8 +492,8 @@ class Redconfiguration {
 
 	function showPrice() {
 
-		$user = & JFactory::getUser ();
-		$db = & JFactory::getDBO ();
+		$user = JFactory::getUser ();
+		$db = JFactory::getDBO ();
 		$userhelper = new rsUserhelper();
 
 		if (! $user->id) {
@@ -552,8 +552,8 @@ class Redconfiguration {
 
 	function getCatalog() {
 
-		$user = & JFactory::getUser ();
-		$db = & JFactory::getDBO ();
+		$user = JFactory::getUser ();
+		$db = JFactory::getDBO ();
 		$userhelper = new rsUserhelper();
 
 		if (! $user->id) {

@@ -41,7 +41,7 @@
    $Redconfiguration->defineDynamicVars();
 
 	$view = JRequest::getVar('view');
-	$user =& JFactory::getUser();
+	$user = JFactory::getUser();
 	$usertype= array_keys($user->groups);
 	$user->usertype=$usertype[0];
 	$user->gid=$user->groups[$user->usertype];
