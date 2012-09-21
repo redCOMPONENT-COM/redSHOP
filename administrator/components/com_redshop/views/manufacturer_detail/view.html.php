@@ -22,20 +22,19 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 {
 	function display($tpl = null)
 	{
-
-		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
+        require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL' ), 'redshop_manufact48' );
 
-		$uri 		=& JFactory::getURI();
-		$document = & JFactory::getDocument();
+		$uri 		= JFactory::getURI();
+		$document = JFactory::getDocument();
 		$option = JRequest::getVar('option');
 		$document->addScript ('components/'.$option.'/assets/js/validation.js');
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$model=  $this->getModel('manufacturer_detail');
 
@@ -67,7 +66,7 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 		$detail->excluding_category_list = explode(',',$detail->excluding_category_list);
 		$product_category = new product_category();
 		$lists['excluding_category_list'] = $product_category->list_all("excluding_category_list[]",0,$detail->excluding_category_list,10,false,true);
-		
+
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $detail->published );
 		$field = new extra_field();
 		//////// Extra field //////////
@@ -81,7 +80,4 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }
-
-?>

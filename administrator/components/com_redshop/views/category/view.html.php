@@ -35,7 +35,7 @@ class categoryViewcategory extends JView
 		$redTemplate = new Redtemplate();
 
 		$product_category = new product_category();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_CATEGORY') );
    		jimport('joomla.html.pagination');
 
@@ -49,7 +49,7 @@ class categoryViewcategory extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri	=& JFactory::getURI();
+		$uri	= JFactory::getURI();
 
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'c.ordering' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
@@ -61,9 +61,9 @@ class categoryViewcategory extends JView
 		 // $categories	= & $this->get( 'Data');
 		$GLOBALS['catlist'] = array();
 		$catid=JRequest::getVar('category_id',0,'');
-		$categories	= & $this->get( 'Data');
+		$categories	= $this->get( 'Data');
 
-		$pagination = & $this->get( 'Pagination' );
+		$pagination = $this->get( 'Pagination' );
 		$category_main_filter = $mainframe->getUserStateFromRequest( $context.'category_main_filter',  'category_main_filter', '' );
 		$optionsection = array();
 		$optionsection[]   = JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
@@ -73,6 +73,7 @@ class categoryViewcategory extends JView
 		$categories_parent = $category->getParentCategories();
 
 		$temps = array();
+        $temps[0] = new stdClass;
 		$temps[0]->category_id="0";
 		$temps[0]->category_name=JText::_('COM_REDSHOP_SELECT');
 		$categories_parent=@array_merge($temps,$categories_parent);
@@ -85,6 +86,7 @@ class categoryViewcategory extends JView
 	    */
 	    $templates	= $redTemplate->getTemplate('category');
 	    $temps = array();
+        $temps[0] = new stdClass;
 		$temps[0]->template_id="0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
 		$templates=@array_merge($temps,$templates);
@@ -103,4 +105,3 @@ class categoryViewcategory extends JView
    	 	parent::display($tpl);
   }
 }
-?>

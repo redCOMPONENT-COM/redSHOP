@@ -21,20 +21,20 @@ jimport('joomla.application.component.controller');
 
 class manufacturerController extends JController
 {
-	function __construct( $default = array())
+	/*function __construct( $default = array())
 	{
 		parent::__construct( $default );
-	}
+	}*/
 
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
 
-	function display()
+	/*function display()
     {
 		parent::display();
-	}
+	}*/
 
     /**
 	 * logic for save an order
