@@ -192,4 +192,4 @@ class user_detailController extends JController
 		$encoded = json_encode($json);
 		die($encoded);
 	}
-}	?>
+}

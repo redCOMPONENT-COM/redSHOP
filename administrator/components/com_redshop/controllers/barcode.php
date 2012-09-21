@@ -21,16 +21,6 @@ jimport('joomla.application.component.controller');
 
 class barcodeController extends JController
 {
-	function __construct()
-	{
-        parent::__construct();
-    }
-
-	function display()
-    {
-        parent::display();
-    }
-
 	function getsearch()
 	{
         $post = JRequest::get ( 'post' );

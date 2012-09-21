@@ -44,7 +44,6 @@ class order_detailController extends JController
     {
 		$post = JRequest::get ( 'post' );
 
-
 		$text_field = JRequest::getVar( 'text_field', '', 'post', 'string', JREQUEST_ALLOWRAW );
 		$post["text_field"]=$text_field;
 
@@ -561,4 +560,5 @@ class order_detailController extends JController
 			  $this->setRedirect('index.php?option='.$option.'&view=order_detail&cid[]='.$cid[0],$msg);
 		}
 	}
-}	?>
+}
+

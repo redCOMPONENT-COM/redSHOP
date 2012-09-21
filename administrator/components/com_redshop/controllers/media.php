@@ -22,20 +22,10 @@ jimport('joomla.filesystem.file');
 
 class mediaController extends JController
 {
-	/*function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}*/
-
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
-
-	/*function display()
-	{
-		parent::display();
-	}*/
 
 	function saveAdditionalFiles()
 	{

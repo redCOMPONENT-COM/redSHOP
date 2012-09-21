@@ -18,24 +18,27 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 
-class voucher_detailController extends JController {
-	function __construct($default = array()) {
+class voucher_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'voucher_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
-
-		$model = $this->getModel ( 'voucher_detail' );
 		parent::display ();
 	}
+
 	function apply()
 	{
 		$this->save(1);
 	}
+
 	function save($apply=0)
 	{
 		global $mainframe;
@@ -76,7 +79,9 @@ class voucher_detailController extends JController {
 		}
 
 	}
-	function remove() {
+
+	function remove()
+    {
 
 		$option = JRequest::getVar('option','','request','string');
 
@@ -93,9 +98,10 @@ class voucher_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=voucher',$msg );
 	}
-	function publish() {
 
-		$option = JRequest::getVar('option','','request','string');
+	function publish()
+    {
+        $option = JRequest::getVar('option','','request','string');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -110,9 +116,10 @@ class voucher_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=voucher',$msg );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar('option','','request','string');
+	function unpublish()
+    {
+        $option = JRequest::getVar('option','','request','string');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -127,11 +134,11 @@ class voucher_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=voucher',$msg );
 	}
-	function cancel() {
 
-		$option = JRequest::getVar('option','','request','string');
+	function cancel()
+    {
+        $option = JRequest::getVar('option','','request','string');
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=voucher',$msg );
 	}
-
 }

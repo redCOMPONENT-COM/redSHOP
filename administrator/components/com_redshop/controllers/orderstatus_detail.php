@@ -18,19 +18,23 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 
-class orderstatus_detailController extends JController {
-	function __construct($default = array()) {
+class orderstatus_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'orderstatus_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 
-		parent::display ();
+		parent::display();
 	}
+
 	function save()
 	{
 		$post = JRequest::get ( 'post' );
@@ -59,9 +63,10 @@ class orderstatus_detailController extends JController {
 		$link = $redhelper->sslLink($link,0);
 		$this->setRedirect ( $link, $msg );
 	}
-	function remove() {
 
-		$option = JRequest::getVar ('option');
+	function remove()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0), 'post', 'array' );
 
@@ -76,9 +81,10 @@ class orderstatus_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=orderstatus',$msg );
 	}
-	function publish() {
 
-		$option = JRequest::getVar ('option');
+	function publish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -93,9 +99,10 @@ class orderstatus_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=orderstatus',$msg );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar ('option');
+	function unpublish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -112,11 +119,10 @@ class orderstatus_detailController extends JController {
 	}
 
 
-	function cancel() {
-
-		$option = JRequest::getVar ('option');
+	function cancel()
+    {
+        $option = JRequest::getVar ('option');
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=orderstatus',$msg );
 	}
-
 }

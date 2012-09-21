@@ -56,6 +56,7 @@ class shippingcontroller extends JController
 		$msg = JText::_("COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC_SUCCESS");
 		$this->setRedirect( 'index.php?option=com_redshop&view=shipping',$msg );
 	}
+
 	/**
 	 * logic for save an order
 	 *
