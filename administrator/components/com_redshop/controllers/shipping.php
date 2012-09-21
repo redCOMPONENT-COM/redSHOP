@@ -21,17 +21,9 @@ jimport( 'joomla.application.component.controller' );
 
 class shippingcontroller extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
-	}
-	function display()
-	{
-		parent::display();
 	}
 
 	function importeconomic()
@@ -85,4 +77,4 @@ class shippingcontroller extends JController
 		$msg = JText::_('COM_REDSHOP_SHIPPING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping',$msg );
 	}
-}	?>
+}

@@ -21,11 +21,6 @@ jimport('joomla.application.component.controller');
 
 class importController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
@@ -36,10 +31,5 @@ class importController extends JController
 		ob_clean();
 		$model = $this->getModel ( 'import' );
 		$model->importdata ();
-	}
-
-	function display()
-    {
-		parent::display();
 	}
 }

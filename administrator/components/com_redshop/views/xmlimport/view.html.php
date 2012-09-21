@@ -46,7 +46,8 @@ class xmlimportViewxmlimport extends JView
 	    $this->assignRef('lists',		$lists);
 	  	$this->assignRef('data',		$data);
 	    $this->assignRef('pagination',	$pagination);
-	    $this->assignRef('request_url',	$uri->toString());
+	    //$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
 	}
 }
