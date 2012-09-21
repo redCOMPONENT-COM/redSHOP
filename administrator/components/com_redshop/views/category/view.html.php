@@ -88,11 +88,14 @@ class categoryViewcategory extends JView
 	    // End
 
 	  	$this->assignRef('category_main_filter',		$category_main_filter);
-    	$this->assignRef('user',		JFactory::getUser());
+    	//$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
     	$this->assignRef('lists',		$lists);
   		$this->assignRef('categories',	$categories);
     	$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
+   	 	//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
+
    	 	parent::display($tpl);
   }
 }

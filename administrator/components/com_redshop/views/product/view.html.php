@@ -123,11 +123,14 @@ class productViewproduct extends JView
 		$this->assignRef('list_in_products',		$list_in_products);
 		$this->assignRef('keyword',		$keyword);
 		$this->assignRef('search_field',		$search_field);
-    	$this->assignRef('user',		JFactory::getUser());
+    	//$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
     	$this->assignRef('lists',		$lists);
   		$this->assignRef('products',	$products);
     	$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
+   	 	//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
+
     	parent::display($tpl);
   }
 }
