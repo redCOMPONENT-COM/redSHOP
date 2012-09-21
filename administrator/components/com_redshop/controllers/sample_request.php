@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -19,28 +19,21 @@ jimport( 'joomla.application.component.controller' );
 
 class sample_requestController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}	
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
-	function display() {
-		
-		parent::display();
-	}
-	function publish() {
-		
+
+	function publish()
+    {
 		$option = JRequest::getVar ('option');
-		
+
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
 		}
-		
+
 		$model = $this->getModel ( 'sample_request' );
 		if (! $model->publish ( $cid, 1 )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
@@ -48,34 +41,36 @@ class sample_requestController extends JController
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_BLOCK_SUCCESFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=sample_request',$msg );
 	}
-	function remove() {
-				
-		$option = JRequest::getVar('option');
-		
+
+	function remove()
+    {
+        $option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
 		}
-		
+
 		$model = $this->getModel ( 'sample_request' );
-		
+
 		if (! $model->delete ( $cid )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
 		}
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=sample_request',$msg );
 	}
-	function unpublish() {
-		
-		$option = JRequest::getVar ('option');
-		
+
+	function unpublish()
+    {
+        $option = JRequest::getVar ('option');
+
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
 		}
-		
+
 		$model = $this->getModel ( 'sample_request' );
 		if (! $model->publish ( $cid, 0 )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";

@@ -35,7 +35,8 @@ class xmlexport_detailController extends JController
 
 	}
 
-	function xmlexport() {
+	function xmlexport()
+    {
 		$this->save(1);
 	}
 
@@ -331,4 +332,5 @@ class xmlexport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index'.$page.'.php?option='.$option.'&view=xmlexport',$msg );
 	}
-}?>
+}
+

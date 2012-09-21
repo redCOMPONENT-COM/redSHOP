@@ -33,9 +33,7 @@ class country_detailController extends JController
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 
-		$model = $this->getModel ( 'country_detail' );
-
-		parent::display ();
+        parent::display ();
 	}
 
 	function apply()

@@ -10,9 +10,7 @@ class state_detailController extends JController
 	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
-
-
-	}
+    }
 
 	function edit()
 	{
@@ -20,17 +18,17 @@ class state_detailController extends JController
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 
-		$model = $this->getModel ( 'state_detail' );
-
-		parent::display ();
+		//$model = $this->getModel ( 'state_detail' );
+        parent::display ();
 	}
 
-
-	function apply()
+    function apply()
 	{
        $this->save(1);
 	}
-	function save($apply=0) {
+
+	function save($apply=0)
+    {
 		$post = JRequest::get ( 'post' );
 
 		$state_name = JRequest::getVar( 'state_name', '', 'post', 'string', JREQUEST_ALLOWRAW );
@@ -42,8 +40,7 @@ class state_detailController extends JController
 		$row = $model->store ( $post );
 		if ($row)
 		{
-
-			$msg = JText::_('COM_REDSHOP_STATE_DETAIL_SAVED' );
+            $msg = JText::_('COM_REDSHOP_STATE_DETAIL_SAVED' );
 
 		} else
 		{
@@ -58,12 +55,11 @@ class state_detailController extends JController
 		}else {
 			$this->setRedirect ( 'index.php?option=' . $option . '&view=state', $msg);
 		}
+    }
 
-	}
-
-	function cancel() {
-
-		$option = JRequest::getVar ('option');
+	function cancel()
+    {
+        $option = JRequest::getVar ('option');
 
 		$model = $this->getModel('state_detail');
 		$model->checkin();
@@ -71,9 +67,9 @@ class state_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=state',$msg );
 	}
 
-	function remove() {
-
-		$option = JRequest::getVar ('option');
+	function remove()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -88,9 +84,4 @@ class state_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_state_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=state',$msg );
 	}
-
-
-
-
 }
-?>

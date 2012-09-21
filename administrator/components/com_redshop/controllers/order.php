@@ -25,11 +25,6 @@ require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helper
 
 class orderController extends JController
 {
-	/*function __construct($default = array())
-    {
-		parent::__construct ( $default );
-	}*/
-
 	function multiprint_order()
 	{
         $mypost=JRequest::getVar('cid');

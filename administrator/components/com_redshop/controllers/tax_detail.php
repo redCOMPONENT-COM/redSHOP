@@ -18,11 +18,14 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 
-class tax_detailController extends JController {
-	function __construct($default = array()) {
+class tax_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'tax_detail' );
@@ -31,9 +34,9 @@ class tax_detailController extends JController {
 
 		parent::display();
 	}
+
 	function save()
 	{
-
 		$post = JRequest::get ( 'post' );
 
 		$option = JRequest::getVar ('option');
@@ -63,9 +66,10 @@ class tax_detailController extends JController {
 			$this->setRedirect ( 'index.php?option=' . $option . '&view=tax&tax_group_id='.$tax_group_id, $msg );
 		}
 	}
-	function remove() {
 
-		$option = JRequest::getVar ('option');
+	function remove()
+    {
+        $option = JRequest::getVar ('option');
 
 		$tax_group_id = JRequest::getVar ('tax_group_id');
 		$cid = JRequest::getVar ( 'cid', array (0), 'post', 'array' );
@@ -84,12 +88,11 @@ class tax_detailController extends JController {
 		$this->setRedirect ( 'index.php?option='.$option.'&view=tax&tax_group_id='.$tax_group_id,$msg );
 	}
 
+    function removefromwizrd()
+    {
+        $option = JRequest::getVar ('option');
 
-      function removefromwizrd() {
-
-		$option = JRequest::getVar ('option');
-
-		$tax_group_id = JRequest::getVar ('tax_group_id');
+		//$tax_group_id = JRequest::getVar ('tax_group_id');
 		$cid = JRequest::getVar ( 'cid', array (0), 'request', 'array' );
 
 
@@ -101,18 +104,15 @@ class tax_detailController extends JController {
 		if (! $model->delete ( $cid )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
 		}
-		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY' );
-
-
-		$this->setRedirect ( 'index.php?option='.$option.'&step=4');
+		//$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY' );
+        $this->setRedirect ( 'index.php?option='.$option.'&step=4');
 	}
 
-	function cancel() {
-
-		$option = JRequest::getVar ('option');
+	function cancel()
+    {
+        $option = JRequest::getVar ('option');
 		$tax_group_id = JRequest::getVar ('tax_group_id');
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=tax&tax_group_id='.$tax_group_id,$msg );
 	}
-
 }
