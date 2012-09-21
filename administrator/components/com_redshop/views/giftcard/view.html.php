@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -22,40 +22,41 @@ class giftcardViewgiftcard extends JView {
 	function __construct($config = array()) {
 		parent::__construct ( $config );
 	}
-	
+
 	function display($tpl = null) {
 		global $mainframe, $context;
-		
-		$document = & JFactory::getDocument ();
+
+		$document = JFactory::getDocument ();
 		$document->setTitle ( JText::_('COM_REDSHOP_GIFTCARD' ) );
-		
+
 		JToolBarHelper::title ( JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT' ), 'redshop_giftcard_48' );
-		
-		 
+
+
 		JToolBarHelper::addNewX ();
 		JToolBarHelper::editListX ();
 		JToolBarHelper::customX ( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::deleteList ();
 		JToolBarHelper::publishList ();
 		JToolBarHelper::unpublishList ();
-		
-		$uri = & JFactory::getURI ();
-		
+
+		$uri = JFactory::getURI ();
+
 		$filter_order = $mainframe->getUserStateFromRequest ( $context . 'filter_order', 'filter_order', 'giftcard_id' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $context . 'filter_order_Dir', 'filter_order_Dir', '' );
-		
+
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$giftcard = & $this->get ( 'Data' );
-		$total = & $this->get ( 'Total' );
-		$pagination = & $this->get ( 'Pagination' );
-		
-		$this->assignRef ( 'user', JFactory::getUser () );
+		$giftcard = $this->get ( 'Data' );
+		$total = $this->get ( 'Total' );
+		$pagination = $this->get ( 'Pagination' );
+
+		//$this->assignRef ( 'user', JFactory::getUser () );
+        $this->user = JFactory::getUser();
 		$this->assignRef ( 'lists', $lists );
 		$this->assignRef ( 'giftcard', $giftcard );
 		$this->assignRef ( 'pagination', $pagination );
-		$this->assignRef ( 'request_url', $uri->toString () );
+		//$this->assignRef ( 'request_url', $uri->toString () );
+        $this->request_url = $uri->toString();
 		parent::display ( $tpl );
 	}
 }
-?>
