@@ -31,7 +31,7 @@ class mediaModelmedia extends JModel
 	var $_pagination = null;
 	var $_table_prefix = null;
 	var $_context = null;
-	
+
 	function __construct()
 	{
 		parent::__construct();
@@ -61,7 +61,7 @@ class mediaModelmedia extends JModel
 		}
 		return $this->_data;
 	}
-	
+
 	function getTotal()
 	{
 		if (empty($this->_total))
@@ -121,7 +121,7 @@ class mediaModelmedia extends JModel
 	}
 
 	// Media bank changes start
-	function getState($property = null)
+	function getState($property = null, $default = null)
 	{
 		static $set;
 		if (!$set)
@@ -134,7 +134,7 @@ class mediaModelmedia extends JModel
 			$this->setState('parent', $parent);
 			$set = true;
 		}
-		return parent::getState($property);
+		return parent::getState($property, $default);
 	}
 
 	function getImages()
@@ -217,6 +217,8 @@ class mediaModelmedia extends JModel
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
+                    $mediaHelper = new redMediahelper;
+
 					$ext = strtolower(JFile::getExt($file));
 					switch ($ext)
 					{
@@ -234,10 +236,10 @@ class mediaModelmedia extends JModel
 							$tmp->type		= @$info[2];
 							$tmp->mime		= @$info['mime'];
 
-							$filesize		= redMediahelper::parseSize($tmp->size);
+							$filesize		= $mediaHelper->parseSize($tmp->size);
 
 							if (($info[0] > 60) || ($info[1] > 60)) {
-								$dimensions = redMediahelper::imageResize($info[0], $info[1], 60);
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							} else {
@@ -246,7 +248,7 @@ class mediaModelmedia extends JModel
 							}
 
 							if (($info[0] > 16) || ($info[1] > 16)) {
-								$dimensions = redMediahelper::imageResize($info[0], $info[1], 16);
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 16);
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							} else {
@@ -283,7 +285,7 @@ class mediaModelmedia extends JModel
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = redMediahelper::countFiles($tmp->path);
+				$count = $mediaHelper->countFiles($tmp->path);
 				$tmp->files = $count[0];
 				$tmp->folders = $count[1];
 
@@ -338,7 +340,7 @@ class mediaModelmedia extends JModel
 	}
 	function saveorder($cid = array(), $order)
 	{
-		
+
 		$row =& $this->getTable('media_detail');
 		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
 		$conditions	= array ();
@@ -378,4 +380,5 @@ class mediaModelmedia extends JModel
 			$row->reorder($cond[1]);
 		}
 	}
-}	?>
+}
+

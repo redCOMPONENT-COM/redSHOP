@@ -26,7 +26,7 @@ class mediaViewmedia extends JView {
 	function display($tpl = null) {
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument ();
+		$document = JFactory::getDocument();
 		$document->setTitle ( JText::_('COM_REDSHOP_MEDIA' ) );
 		//$document->addStyleSheet('assets/medialist-thumbs.css');
 		$document->addStyleSheet( JURI::root().'administrator/components/com_redshop/assets/css/medialist-thumbs.css' );
@@ -40,7 +40,7 @@ class mediaViewmedia extends JView {
 		JToolBarHelper::publishList ();
 		JToolBarHelper::unpublishList ();
 
-		$uri = & JFactory::getURI ();
+		$uri = JFactory::getURI ();
 		$context = 'media';
 		$filter_order = $mainframe->getUserStateFromRequest ( $context . 'filter_order', 'filter_order', 'media_id' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $context . 'filter_order_Dir', 'filter_order_Dir', '' );
@@ -75,14 +75,14 @@ class mediaViewmedia extends JView {
 
 		$lists['section'] 	= JHTML::_('select.genericlist',$optionsection,  'media_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text',  $media_section );
 
-		$media = & $this->get ( 'Data' );
-		$total = & $this->get ( 'Total' );
-		$pagination = & $this->get ( 'Pagination' );
+		$media = $this->get ( 'Data' );
+		$total = $this->get ( 'Total' );
+		$pagination = $this->get ( 'Pagination' );
 
 		$this->assignRef ( 'lists', $lists );
 		$this->assignRef ( 'media', $media );
 		$this->assignRef ( 'pagination', $pagination );
-		$this->assignRef ( 'request_url', $uri->toString () );
+		$this->assignRef ( 'request_url', $uri->toString() );
 
 		$this->assign('baseURL', JURI::root());
 		$this->assignRef('images', $this->get('images'));
@@ -96,7 +96,7 @@ class mediaViewmedia extends JView {
 	function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index])) {
-			$this->_tmp_folder = &$this->folders[$index];
+			$this->_tmp_folder = $this->folders[$index];
 		} else {
 			$this->_tmp_folder = new JObject;
 		}
@@ -105,7 +105,7 @@ class mediaViewmedia extends JView {
 	function setImage($index = 0)
 	{
 		if (isset($this->images[$index])) {
-			$this->_tmp_img = &$this->images[$index];
+			$this->_tmp_img = $this->images[$index];
 		} else {
 			$this->_tmp_img = new JObject;
 		}
@@ -114,10 +114,9 @@ class mediaViewmedia extends JView {
 	function setDoc($index = 0)
 	{
 		if (isset($this->documents[$index])) {
-			$this->_tmp_doc = &$this->documents[$index];
+			$this->_tmp_doc = $this->documents[$index];
 		} else {
 			$this->_tmp_doc = new JObject;
 		}
 	}
 }
-?>

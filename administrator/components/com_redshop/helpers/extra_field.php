@@ -994,6 +994,4 @@ class extra_field {
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
-
-
-}	?>
+}
