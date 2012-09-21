@@ -1,0 +1,993 @@
+/* General Classes */
+.myupbutton{
+	color:#ffffff;
+	font-weight:bold;
+	padding-bottom:1px;
+	text-align:center;
+	border:0px;	
+	background: url(../images/up.png) no-repeat top left ;
+	width: 40px;
+	height: 15px;
+
+  	
+
+
+     
+}
+.mydownbutton{
+	color:#ffffff;
+	font-weight:bold;
+	padding:0px 5px 15px 0px;
+	margin:-10px 0px 0px 57px;
+	text-align:center;
+	border:0px;
+	background: url(../images/down.png) no-repeat bottom right;
+	width: 47px;
+	height: 15px;
+  	display:block;
+}
+
+
+a{
+	outline:none;
+}
+td.field_label
+{
+	font-weight: bold;	
+}
+
+/* --- redSHOP Category Frontpage View --- */
+
+.category_front,.category_front_wrap ,.categories, .kategori_front, .kategori {
+	margin:0;
+	padding:0;
+	width: auto !important;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 100px;
+	height: 100px;
+	float: left;
+	display: block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border: 1px solid #8e8d8d;
+	
+}
+.category_product__front{
+margin:0;
+	padding:0;
+	width: auto !important;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 100px;
+	height: 100px;
+	float: left;
+	display: block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+.category_front_image, .category_image, .kategori_front_billede, .kategori_billede {
+	padding-top: 4px;
+	padding-left: 4px;
+}
+.category_front_title, .category_title, .kategori_front_titel, .kategori_titel {
+	text-align: center;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 8px;
+}
+.category_front_title h3, .category_title h3, .kategori_front_titel h3, .kategori_titel h3 {
+	text-align: center;
+	display: inline;
+	line-height: 15px;
+}
+.category_front_title h3 a, .category_title h3 a, .kategori_front_titel h3 a, .kategori_titel h3 a {
+	font-size: 12px;
+	color: #C92128;
+	font-weight: bold;
+}
+
+.redshop_print{
+	text-align: right !important;
+	cursor: pointer;	
+}
+
+/* --- redSHOP Category View --- */
+
+.category_print, .kategori_print {
+	width: 100%;
+	height: 20px;
+	text-align: right;
+	margin-top: -30px;
+}
+.category_description p, .kategori_produkt_beskrivelse p {
+	margin:0;
+	padding:0;
+	height: 11px;
+	line-height: 13px;
+	font-size: 11px;
+	display: inline;
+}
+.category_order_by, div.kategori_orderform {
+	height: 30px;
+}
+.category_box_wrapper, .kategori_kasse_ramme {
+	margin:0px;
+	padding:0px;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 250px;
+	height: 250px;
+	width: 100%;
+	display: block;
+}
+.category_box_outside {
+	margin:0;
+	padding:0;
+	
+	_height: auto !important;
+	height: auto !important;
+	min-height: 100px;
+	height: 100px;
+	float: left;
+	display: block;
+	margin-left: 6px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	width: auto;
+	border: 1px solid #8e8d8d;
+}
+.category_product_box_outside {
+	margin:0;
+	padding:0;
+	
+	_height: auto !important;
+	height: auto !important;
+	min-height: 100px;
+	height: 100px;
+	float: left;
+	display: block;
+	margin: 0 8px 10px 8px;
+	padding: 0 13px 0 45px;
+	border: 1px solid #8e8d8d;
+}
+.category_box_inside, .kategori_kasse_ydre {
+	margin:0;
+	padding:0;
+	text-align: center;
+	padding: 5px;
+}
+.category_product_image, .kategori_produkt_billede {
+	margin:0;
+	padding:0;
+	padding-top: 10px;
+	width: 150px;
+	height: 120px;
+}
+.category_product_title, .kategori_produkt_titel {
+	height: 35px;
+	font-size: 10px;
+}
+.category_product_title h3, .kategori_produkt_titel h3 {
+	margin:0;
+	padding:0;
+	display: inline;
+	line-height: 15px;
+	font-size: 10px;
+}
+.category_product_title h3 a, .kategori_produkt_titel h3 a {
+	line-height: 15px;
+	font-size: 10px;
+}
+.category_product_price, .kategori_produkt_pris {
+	margin:0;
+	padding:0;
+	font-size: 11px;
+}
+.category_product_price span, .kategori_produkt_pris span {
+	margin:0;
+	padding:0;
+	font-weight: bold;
+	font-size: 12px;
+}
+.category_product_readmore, .kategori_produkt_laesmere {
+	margin:0;
+	padding:0;
+	height: 18px;
+	font-size: 11px;
+	color: #CA2128;
+}
+.category_product_readmore a:link, .category_product_readmore a:visited, .kategori_produkt_laesmere a:link, .kategori_produkt_laesmere a:visited {
+	font-size: 11px;
+	color: #CA2128;
+}
+.category_pagination, .kategori_navigering {
+	text-align:center;
+}
+.manufacturercategoryproducts {
+	height: 30px;
+	font-size: 13px;
+	color: #CA2128;
+}
+.category_product_bottom {
+	height: 1px;
+	width: 680px;
+}
+
+/* --- redSHOP Manufacturer List --- */
+
+.manufacturer_box_wrapper {
+	margin:0px;
+	padding:0px;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 250px;
+	height: 250px;
+	width: 100%;
+	display: block;
+}
+.manufacturer_box_outside {
+	margin:0;
+	padding:0;
+	width: 47%;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 100px;
+	height: 100px;
+	float: left;
+	display: block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border: 1px solid #8e8d8d;
+}
+.manufacturer_box_inside {
+	margin:0;
+	padding:0;
+	text-align: left;
+	padding: 5px;
+}
+.manufacturer_image{
+	margin:0;
+	padding:0;
+	padding-top: 10px;
+}
+.manufacturer_title {
+	height: 35px;
+	font-size: 10px;
+}
+.manufacturer_title h3 {
+	margin:0;
+	padding:0;
+	display: inline;
+	line-height: 15px;
+	font-size: 14px;
+	color: #CA2128;
+	font-weight: bold;
+}
+.manufacturer_title h3 a {
+	line-height: 15px;
+	font-size: 14px;
+	color: #CA2128;
+	font-weight: bold;
+}
+.manufacturer_desc {
+	margin:0;
+	padding:0;
+	font-size: 11px;
+	padding-bottom: 10px;
+}
+.manufacturer_desc p {
+	margin:0;
+	padding:0;
+	font-size: 11px;
+}
+.manufacturer_link {
+	margin:0;
+	padding:0;
+	height: 18px;
+	font-size: 11px;
+	color: #CA2128;
+}
+.manufacturer_link a:link, .manufacturer_link a:visited {
+	font-size: 11px;
+	color: #CA2128;
+}
+.manufacturer_product_link {
+	margin:0;
+	padding:0;
+	height: 18px;
+	font-size: 11px;
+	color: #CA2128;
+}
+.manufacturer_product_link a:link, .manufacturer_product_link a:visited {
+	font-size: 11px;
+	color: #CA2128;
+}
+
+/* --- redSHOP Product Content Visning --- */
+
+.product_print, .produkt_print {
+	width: 100%;
+	text-align: right;
+}
+div.prevbutton {
+	float:left; 
+	width:49%;	
+}
+div.nextbutton {
+	float:right;
+	width:50%; 
+	text-align: right !important;		
+}
+div.product_writereview {
+	padding-bottom: 5px;
+}
+#product_box, #produkt_kasse {
+	width: 100%;
+	clear: both;
+}
+.product_box_left, .produkt_kasse_venstre {
+	width: 39%;
+	min-height: 200px;
+	float: left;
+	padding-right: 10px;
+	display: block;
+}
+.product_box_right, .produkt_kasse_hoejre {
+	width: 59%;
+	float: left;
+	display: block;
+}
+.product_desc_wrapper {
+	clear:left;
+}
+.product_image, .produkt_kasse_billed {
+	margin:0;
+	padding:0;
+	border: 1px solid #8e8d8d;
+}
+.product_image img, .produkt_kasse_billed img {
+	margin:0;
+	padding:0;
+}
+.product_more_images, .produkt_kasse_billed_flere {
+	margin:0;
+	padding:0;
+}
+.product_more_images #additional_images, .produkt_kasse_billed_flere #additional_images {
+	width: 100%;
+	margin:0;
+	padding:0;
+	margin-top: 10px;
+	display: block;
+	min-height: 1px;
+}
+.product_more_images #additional_images div, .produkt_kasse_billed_flere #additional_images div {
+	margin:0;
+	padding:0;
+	float: left;
+	text-align: center;
+	display: block;
+	border: 1px solid #8e8d8d;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+.product_more_images #additional_images div img, .produkt_kasse_billed_flere #additional_images div img {
+	margin:0;
+	padding:5px;
+}
+.product_box_right h2, .product_title  h2, .produkt_kasse_hoejre h2, .produkt_beskrivelse  h2, #produkt_maal_overskrift h2 {
+	font-size: 14px;
+	font-weight: normal;
+	color: #CA2128;
+}
+.product_price, .produkt_kasse_hoejre_pris {
+	font-size: 14px;
+	font-weight: bold;
+	color: #686868;
+	height: 18px;
+}
+.product_attributter, .produkt_kasse_hoejre_attributter {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.product_attributter p, .produkt_kasse_hoejre_attributter p {
+	color: #686868;
+	font-weight: bold;
+}
+
+/* --- redSHOP Product Content View - Add-To-Cart --- */
+
+.cart-wrapper {
+	width: 100%;
+	height: 40px;
+	padding-top: 0;
+	margin-bottom: 10px;
+}
+.cart-quantity {
+	float: left;
+	width: 50%;
+	height: 40px;
+	margin-top: 5px;
+	text-align: left;
+}
+.cart-link {
+	float: right;
+	width: 150px;
+	height: auto !important;
+	text-align: left;
+}
+.cart-link img {
+	margin:0;
+	padding:0;
+	padding-left: 10px;
+}
+.cart-quantity input#quantity1 {
+	border: 1px solid #8e8d8d;
+	text-align: center;
+	height: 21px;
+	width: 30px;
+}
+
+/* --- redSHOP Product Content View - Accesories --- */
+
+.accessory {
+	width: 100%;
+}
+.accessory_info {
+	height: 50px;
+	clear: left;
+}
+.accessory_box {
+	width: 100%;
+	min-height: 1px;
+	border-bottom: 1px dashed #8e8d8d;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	display: block;
+}
+.accessory_left {
+	float: left; 
+	width: 100px;
+}
+.accessory_right {
+	margin:0;
+	padding:0;
+	float: left; 
+	width: 200px;
+}
+.accessory_image {
+	width: 80px;
+	text-align: center;
+	padding-bottom: 20px;
+	margin:0px;
+	padding-left:10px;
+}
+.accessory_title {
+	width: 200px;
+	font-weight: normal;
+}
+.accessory_title h3 {
+	font-weight: bold;
+	font-size: 13px;
+	display: inline;
+}
+.accessory_desc {
+	width: 200px;
+}
+.accessory_attr {
+	width: 200px;
+}
+.accessory_add {
+	width: 200px;
+}
+.accessory_add h2 {
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: normal;
+	color: #f8981d;
+}
+
+/* --- redSHOP Product Content View - Related Produkt--- */
+
+.related_product_wrapper, .related_produkt_ramme {
+	width: 100%;
+	border-top: 1px dashed #8e8d8d;
+	margin-top: 10px;
+	padding-top: 10px;
+	
+}
+.related_product_inside, .related_produkt_indre {
+	margin: 0;
+	padding: 5px;
+	border: 1px solid #8e8d8d;
+	margin-bottom: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 260px;
+	float: left;
+}
+.related_product_left, .related_produkt_venstre {
+	float: left;
+	width: 120px;
+}
+.related_product_right, .related_produkt_hoejre {
+	float: left;
+	width: 135px;
+}
+.related_product_bottom {
+	clear: left;
+	padding-top: 5px;
+	width: 260px;
+}
+.related_product_image, .related_produkt_billed_ramme {
+	width: 120px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.related_product_image_inside {
+	margin: 0;
+	padding: 0;
+}
+.related_product_name, .related_produkt_navn {
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: bold;
+	color: #000;
+	white-space: normal;
+	word-wrap: break-word;
+}
+.related_product_desc  {
+	width: 130px;
+	text-align: left;
+	white-space: normal;
+	word-wrap: break-word;
+}
+.related_product_price {
+	font-size: 12px;
+	line-height: 20px;
+	color: #ca2128;
+}
+.related_product_attr {
+	margin: 0;
+	padding: 0;
+	padding-left: 10px;
+}
+.related_product_addtocart {
+	margin: 0;
+	padding: 0;
+	height: 30px;
+	text-align: center;
+}
+.related_product_addtocart div.cart-wrapper div.cart-quantity {
+	width: 260px;
+	padding-left: 10px;
+	clear: left;
+}
+.related_product_addtocart div.cart-wrapper div.cart-link {
+	width: 260px;
+	clear: left;
+	
+	text-align: right;
+}
+.related_product_readmore, .related_product_readmore a, .related_produkt_laes_mere, .related_produkt_laes_mere a {
+	font-weight: normal;
+	color: #ca2128 !important;
+}
+
+/* Pro redSHOP Product Content - View Rating/Reviews */
+
+div.ratingblock {
+	width: 100%;	
+}
+div.rating_username {
+	float:left; 
+	width:78%;	
+	font-weight: bold;
+}
+div.rating_comments {
+	float:left; 
+	width:80%;
+	text-align: justify !important;
+	margin-bottom:10px;
+}
+div.rating_userrating {
+	float:right; 
+	width:15%;	
+}
+.ratingheading {
+	background-color: #cccccc;
+	line-height: 22px;
+	height: 22px;
+	padding:2px;
+	margin-bottom: 10px;
+	font-weight: bold;	
+}
+
+/*  redSHOP Cart View */
+
+.continueshoplink {
+	width:50%;
+	font-weight:bold;
+	font-size: 15px;
+}
+.checkoutlink {
+	width:50%;
+	font-weight:bold;
+	font-size: 15px;
+	text-align: right;
+}
+.delete_cart{
+	cursor:pointer;
+}
+.update_cart{
+	cursor:pointer;
+}
+ 
+table.tdborder{
+	border-left:0px solid #ccc !important;  
+	border-right:0px solid #ccc !important;        
+}
+.tdborder th{
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	border-bottom:1px solid #ccc;
+	border-left:0px solid #ccc !important;  
+	border-right:0px solid #ccc !important;
+}
+.tdborder td{
+    background:#e9e9e9;
+	border-bottom:1px solid #ccc;
+    padding:5px;
+}
+.tdborder td td{
+	border:0px none;
+}
+.tdborder div.product_image {
+	margin:0;
+	padding:0;
+	border: 0px solid #8e8d8d;
+}
+.singleline{
+	 width:110px;
+	 padding-top:15px;
+	 padding-bottom:15px;
+}
+.order_details p{
+	padding:5px;
+}
+.discount{
+	color:#FF0000;
+}
+.blackbutton{
+	color:#ffffff;
+	font-weight:bold;
+	background: url(../images/laegikurv.gif) #CA2128 repeat-x  bottom left;
+	border:0;
+	font-size:10px;
+	padding-bottom:3px;
+	width:100px;
+	height:20px;
+	text-align:center;
+	cursor:pointer;
+}
+.greenbutton{
+	color:#ffffff;
+	font-weight:bold;
+	padding-top:0px;
+	text-align:center;
+	width:150px;
+	height:20px;
+	border:0px;
+	background: url(../images/laegikurven.jpg) #CA2128 repeat-x  bottom left;
+	cursor:pointer;
+}
+img.orderhrimg {
+	margin-right: 5px;
+	border: 1px solid #000000;
+}
+.cartproducttitle div.product_name  a {
+	font-weight: bold;
+}
+
+div.cartaccessory {
+	padding-top: 5px;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 1px;
+	height: 1px;
+}
+
+table .billing_address td{
+	color:#000000; 
+}
+table .shipping_address td{
+	color:#000000;
+}
+
+td.cart_discount_form {
+	margin:0;
+	padding:0;
+	padding-top: 10px;
+}
+td.cart_discount_form div#coupon_label, td.cart_discount_form div#coupon_label.coupon_label, td.cart_discount_form div.update_cart {
+	margin:0;
+	padding:0;
+}
+td.cart_discount_form div.update_cart form {
+	display: inline;
+	margin:0;
+	padding:0;
+}
+
+/* --- redShop Price Format ---*/
+.redPriceLineThrough {
+	text-decoration:line-through;
+}
+/* --- redShop Product image in wishlist---*/
+.redProductWishlist {
+	float:left;
+	width:60px;
+	height:100px;
+	text-align:center;
+}
+/* --- redShop Product Attribute image in product detail---*/
+.redProductAttributeImage {
+	float:left;
+	width:500px;
+	margin-left:-10px;
+	border:0px solid #ff0000;
+}
+.redAttributeImage {
+	border:1px solid #ccc;
+}
+.redAddtocart {
+	cursor: pointer;
+}
+.redProductImageSelect {
+	border:1px solid #000;
+}
+.pointer{
+	cursor:pointer;
+}
+.selectedimg{
+	border:1px solid #000000;
+}
+
+/*  --- redSHOP Ajax Detail Cart Popup --- */
+
+.cbOverlay {
+	background-color: #000;
+}
+
+.cbContainer {
+	padding:5px;
+	background-color:white;
+	border: 2px solid gray;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 160px;
+	height: 160px ;
+	scrollbar: auto;
+}
+
+.cbBox h3 {
+	font-size: 18px;
+	margin-top:0px;
+	padding-top: 3px;
+	vertical-align: middle;
+	text-align:center;
+	background-color: #CA2128;	
+	color: #ffffff;
+	
+}
+.cbBox {
+	overflow: hidden;
+	_height: auto !important;
+	height: auto !important;
+	min-height: 160px;
+	max-height: 450px !important;
+}
+.cbBox p {
+	margin:3px;
+}
+.cbBox, .cbButtons {
+	text-align:center;
+}
+.cbButton {
+	margin: 3px;
+}
+.cbCloseButton {
+	top: 144px;
+	right:5px;
+}
+
+div#ajax-cart div#ajax-cart-attr div.attribute_wrapper  {
+	text-align: left;
+	border-bottom: 1px solid #CA2128;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+div#ajax-cart div#ajax-cart-access div.accessory {
+	text-align: left;
+	border-bottom: 1px solid #CA2128;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+div#ajax-cart div#ajax-cart-access div.accessory_info {
+	text-align: left;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+div#ajax-cart div#ajax-cart-access div.accessory_title h3 {
+	background-color: transparent !important;
+	color: #CA2128 !important;	
+}
+div#ajax-cart div#ajax-cart-user {
+	text-align: left;
+	border-bottom: 1px solid #CA2128;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+
+/*  --- redSHOP Ajax Cart Popup --- */
+
+#ajax_cart_show_button {
+	float: left;
+	width: 50%;
+	text-align: right;
+}
+#ajax_cart_continue_button {
+	float: left;
+	width: 50%;
+	text-align: left;
+}
+
+.checkout-bar-1  {
+	background: url(../images/checkout/one.jpg) no-repeat left center; 
+	padding-left: 40px;
+	height: 25px;
+}
+
+.checkout-bar-1-active  {
+	background: url(../images/checkout/one_on.jpg) no-repeat left center; 
+	padding-left: 40px;
+	height: 25px;
+}
+
+.checkout-bar-2  {
+	background: url(../images/checkout/two.jpg) no-repeat left center; 
+	padding-left: 40px;
+	height: 25px;
+}
+
+.checkout-bar-2-active  {
+	background: url(../images/checkout/two_on.jpg) no-repeat left center; 
+	padding-left: 40px;
+	height: 25px;
+}
+
+.checkout-bar-3  {
+	background: url(../images/checkout/three.jpg) no-repeat left center; 
+	padding-left: 40px;
+	height: 25px;
+}
+
+.checkout-bar-3-active  {
+	background: url(../images/checkout/three_on.jpg) no-repeat left center; 
+	padding-left: 40px;
+	height: 25px;
+}
+
+.redpagination-enable-style {
+	border: 1px solid ; 
+	padding-left: 5px; 
+	padding-right: 5px; 
+	background-color:#CCCCCC;	
+}
+.redpagination-style {
+	border: 1px solid ; 
+	padding-left: 5px; 
+	padding-right: 5px; 
+}
+
+
+a.imgtooltip:hover {background:#ffffff; text-decoration:none;} /*BG color is a must for IE6*/
+a.imgtooltip span {display:none; padding:2px 3px; margin-left:5px; width:130px;}
+a.imgtooltip:hover span{display:inline; position:absolute; background:#ffffff; border:1px solid #cccccc; color:#6c6c6c;}
+div.spnheader{background: #aaaaaa;color:#ffffff}
+
+
+td.current{
+background-color: #D2D2D2;
+}
+
+.block { display: block; }
+form#adminForm label.error { display: none;margin-bottom: 0px !important;}
+.error { margin-bottom: 0px !important; }
+form#adminForm2 label.error { display: none; }
+
+form#registration_adminForm label.error { display: none; }
+
+form#billship_adminForm label.error { display: none; }
+
+div.property_main_outer{
+	width: 100px;	
+	
+}
+div.property_image_inner{
+	width: 50px;
+	float: left;			
+}
+
+div.subproperty_main_outer{
+	width: 104px;	
+	
+}
+div.subproperty_image_inner{
+	width: 50px;
+	float: left;			
+}
+div.attribute_wrapper{
+	clear: both;
+	float: left;
+	width:105px;
+	
+}
+div.additional_image
+{
+	padding-bottom:0px;
+}
+.available_stock_cls
+{
+	color: green;
+	font-weight:bold;
+	background: url(../images/stockroom/icon_lock.gif) no-repeat left; 
+	padding-left: 20px;
+	float:left;
+	
+}
+.out_stock_cls
+{
+	color: red;
+	font-weight:bold;
+	background: url(../images/stockroom/icon_lock.gif) no-repeat left; 
+	padding-left: 20px;
+	
+}
+.pre_order_cls
+{
+	color: blue;
+	font-weight:bold;
+	background: url(../images/stockroom/icon_lock.gif) no-repeat left; 
+	padding-left: 20px;
+	
+}
+.clearfix:after {
+	clear: both;
+	display: block;
+	content: ".";
+	height: 0;
+	visibility: hidden;
+}
+
+* html>body .clearfix {
+	width: 100%;
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+div.attribute_multiselect_single
+{
+	min-height:20px;
+	clear:left;
+}

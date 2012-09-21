@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>redSHOP Product Tab Module</name>
+	<version>1.1.1</version>
+	<creationDate>10-04-2012</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Product Tab Module for redSHOP</description>
+	<files>
+		<filename module="mod_redshop_producttab">mod_redshop_producttab.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_producttab.ini</language>
+
+  	</languages>
+	<config><fields name="params"><fieldset name="basic">
+			<field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX" description="COM_REDSHOP_CLASS_SFX_DESC" />
+			<field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH" description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100" />
+			<field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100" />
+			<field name="show_newprd" type="radio" default="1" label="COM_REDSHOP_SHOW_NEWPRD" description="COM_REDSHOP_SHOW_NEWPRD_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="show_ltsprd" type="radio" default="1" label="COM_REDSHOP_SHOW_LTSPRD" description="COM_REDSHOP_SHOW_LTSPRD_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="show_soldprd" type="radio" default="1" label="COM_REDSHOP_SHOW_SOLDPRD" description="COM_REDSHOP_SHOW_SOLDPRD_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="show_splprd" type="radio" default="1" label="COM_REDSHOP_SHOW_SPLPRD" description="COM_REDSHOP_SHOW_SPLPRD_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="adjust_category" type="radio" default="1" label="COM_REDSHOP_ADJUST_TO_CATEGORY" description="COM_REDSHOP_ADJUST_CATEGORY">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="category" type="text" size="40" label="Category" description="COM_REDSHOP_ENTER_CATEGORY" />
+			<field name="count" type="text" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT" description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC" />
+			<field name="image" type="radio" default="0" label="COM_REDSHOP_SHOW_IMAGE" description="COM_REDSHOP_SHOW_IMAGE_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="show_price" type="radio" default="0" label="COM_REDSHOP_SHOW_PRICE" description="COM_REDSHOP_SHOW_PRICE_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="show_readmore" type="radio" default="1" label="COM_REDSHOP_SHOW_READ_MORE" description="COM_REDSHOP_SHOW_READ_MORE_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+			<field name="show_addtocart" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART" description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+			</field>
+	</fieldset></fields></config>
+</extension>

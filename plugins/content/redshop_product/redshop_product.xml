@@ -1,0 +1,38 @@
+<?xml version="1.5" encoding="iso-8859-1"?>
+<extension version="1.7.0" client="site" type="plugin" group="content" method="upgrade">
+	<name>Redshop Product Content Replacement Plugin</name>
+	<version>1.1.8</version>
+	<creationDate>27th July 2012</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Replaces product id with product layout.</description>
+	<files>
+		<filename plugin="redshop_product">redshop_product.php</filename>
+	</files>	
+  	<languages folder="language">
+      <language tag="en-GB">en-GB.plg_content_redshop_product.ini</language>
+      <language tag="da-DK">da-DK.plg_content_redshop_product.ini</language>
+   </languages>
+   <config >
+ 	 <fields name="params" >
+	   		<fieldset name="basic">
+					<field name="show_price" type="radio" default="0" label="COM_REDSHOP_SHOW_PRICE" description="SHOW_PRICE_DESC">
+					<option value="1">YES</option>
+					<option value="0">NO</option>
+					</field>			
+					<field name="show_discountpricelayout" type="radio" default="1" label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" description="SHOW_DISCOUNT_PRICE_LAYOUT">
+					<option value="1">YES</option>
+					<option value="0">NO</option>
+					</field>
+					<field name="show_price_with_vat" type="radio" default="1" label="COM_REDSHOP_SHOW_PRICE_WITH_VAT" description="SHOW_PRICE_WITH_VAT_DESC">
+					<option value="1">YES</option>
+					<option value="0">NO</option>
+					</field>
+					<field name="product_template"  type="sql" query="SELECT template_id AS tm_value, template_name AS tm_title FROM #__redshop_template WHERE template_section='product_content_template'"   key_field="tm_value" value_field="tm_title"  default="product" label="COM_REDSHOP_PRODUCT_TEMPLATE" description="COM_REDSHOP_PRODUCT_TEMPLATE">
+				  	</field>
+							
+			 </fieldset>	
+		</fields>
+      </config >
+</extension>
