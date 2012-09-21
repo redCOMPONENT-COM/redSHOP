@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -45,12 +45,12 @@ class answer_detailModelanswer_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-			
+
 		}else  $this->_initData();
 
 	   	return $this->_data;
 	}
-	
+
 	function _loadData()
 	{
 		$query = "SELECT q.* FROM ".$this->_table_prefix."customer_question AS q "
@@ -65,10 +65,10 @@ class answer_detailModelanswer_detail extends JModel
 		$list = $this->_getList($query);
 		return $list;
 	}
-	
+
 	function _initData()
 	{
-		$user	=& JFactory::getUser();
+		$user	= JFactory::getUser();
 		if (empty($this->_data))
 		{
 			$detail = new stdClass();
@@ -86,7 +86,7 @@ class answer_detailModelanswer_detail extends JModel
 		return true;
 	}
 	/**
-	 * Method to store the information 
+	 * Method to store the information
 	 *
 	 * @access public
 	 * @return boolean
@@ -109,7 +109,7 @@ class answer_detailModelanswer_detail extends JModel
 		return $row;
 	}
 	/**
-	 * Method to get max ordering 
+	 * Method to get max ordering
 	 *
 	 * @access public
 	 * @return boolean
@@ -122,7 +122,7 @@ class answer_detailModelanswer_detail extends JModel
 		return $this->_db->loadResult();
 	}
 	/**
-	 * Method to delete the records 
+	 * Method to delete the records
 	 *
 	 * @access public
 	 * @return boolean
@@ -132,7 +132,7 @@ class answer_detailModelanswer_detail extends JModel
 		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
-			
+
 			$query = 'DELETE FROM '.$this->_table_prefix.'customer_question '
 					.'WHERE question_id IN ('.$cids.')';
 			$this->_db->setQuery( $query );
@@ -144,17 +144,17 @@ class answer_detailModelanswer_detail extends JModel
 		return true;
 	}
 	/**
-	 * Method to publish the records 
+	 * Method to publish the records
 	 *
 	 * @access public
 	 * @return boolean
 	 */
 	function publish($cid = array(), $publish = 1)
-	{		
+	{
 		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
-			
+
 			$query = 'UPDATE '.$this->_table_prefix.'customer_question '
 					.' SET published = ' . intval( $publish )
 					.' WHERE question_id IN ( '.$cids.' )';
@@ -167,13 +167,13 @@ class answer_detailModelanswer_detail extends JModel
 		return true;
 	}
 	/**
-	 * Method to save order 
+	 * Method to save order
 	 *
 	 * @access public
 	 * @return boolean
 	 */
 	function saveorder($cid = array(), $order)
-	{  
+	{
 		$row =& $this->getTable('question_detail');
 		$order	= JRequest::getVar( 'order', array (0), 'post', 'array' );
 		$groupings = array();
@@ -181,14 +181,14 @@ class answer_detailModelanswer_detail extends JModel
 		// update ordering values
 		for( $i=0; $i < count($cid); $i++ )
 		{
-			$row->load( (int) $cid[$i] );			
+			$row->load( (int) $cid[$i] );
 			// track categories
 			$groupings[] = $row->question_id;
-						
+
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
-				if (!$row->store()) 
+				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
 					return false;
@@ -218,7 +218,7 @@ class answer_detailModelanswer_detail extends JModel
 		return true;
 	}
 	/**
-	 * Method to up order 
+	 * Method to up order
 	 *
 	 * @access public
 	 * @return boolean
@@ -227,9 +227,9 @@ class answer_detailModelanswer_detail extends JModel
 	{
 		$row =& $this->getTable('question_detail');
 		$row->load($this->_id);
-		$row->move( -1 , 'parent_id= '.(int) $row->parent_id);		
+		$row->move( -1 , 'parent_id= '.(int) $row->parent_id);
 		$row->store();
-		return true;	
+		return true;
 	}
 	 /**
 	  * Method to down the order
@@ -240,7 +240,7 @@ class answer_detailModelanswer_detail extends JModel
 	function orderdown()
 	{
    		$row =& $this->getTable('question_detail');
-		$row->load($this->_id);		
+		$row->load($this->_id);
 		$row->move( 1, 'parent_id = '.(int) $row->parent_id );
 		$row->store();
 		return true;

@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -23,36 +23,36 @@ class questionViewquestion extends JView
 	{
 		 parent::__construct( $config );
 	}
-    
+
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe, $context;
 		$context = 'question_id';
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_question') );
 		$model = $this->getModel('question');
-   		
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_QUESTION_MANAGEMENT' ), 'redshop_question48' );   		
+
+   		JToolBarHelper::title(   JText::_('COM_REDSHOP_QUESTION_MANAGEMENT' ), 'redshop_question48' );
    		JToolBarHelper::addNewX();
    		JToolBarHelper::editListX();
    		JToolBarHelper::deleteList();
    		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-   		
-	   	
-		$uri	=& JFactory::getURI();
-		
+
+
+		$uri	= JFactory::getURI();
+
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order', 	  'question_date' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir', 'DESC' );
 		$product_id = $mainframe->getUserStateFromRequest( $context.'product_id',		'product_id',	0 );
 
-		$lists['order'] 		= $filter_order;  
+		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-				
+
 		$question	= & $this->get( 'Data');
 		$total		= & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
-		
+
 		$option= $model->getProduct();
 		$optionsection = array();
 		$optionsection[0]->product_id = 0;
@@ -63,10 +63,10 @@ class questionViewquestion extends JView
 		}
 		$lists['product_id'] 	= JHTML::_('select.genericlist',$optionsection,  'product_id', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name',  $product_id );
 
-	    $this->assignRef('lists',		$lists);    
-	  	$this->assignRef('question',	$question); 		
+	    $this->assignRef('lists',		$lists);
+	  	$this->assignRef('question',	$question);
 	    $this->assignRef('pagination',	$pagination);
-	    $this->assignRef('request_url',	$uri->toString());    	
+	    $this->assignRef('request_url',	$uri->toString());
     	parent::display($tpl);
 	}
 }

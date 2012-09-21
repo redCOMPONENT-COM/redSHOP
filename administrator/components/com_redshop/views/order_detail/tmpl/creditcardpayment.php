@@ -33,8 +33,8 @@ $producthelper 		= new producthelper();
 $order_functions 	= new order_functions();
 $redhelper 			= new redhelper();
 $userhelper		 	= new rsUserhelper();
-$user 				= &JFactory::getUser();
-$session 			=& JFactory::getSession();
+$user 				= JFactory::getUser();
+$session 			= JFactory::getSession();
 $user_id 			= $user->id;
 // get redshop helper
 
@@ -104,7 +104,7 @@ $payment_amount 	= $paymentArray[1];
 
 if($is_creditcard == 1 && $ccinfo != '1')
 {
-	
+
 	$accepted_cc_list = array();
 	$accepted_cc_list=$accepted_credict_card;
 	if($accepted_credict_card!="")
@@ -317,7 +317,7 @@ if($is_creditcard == 1 && $ccinfo != '1')
 
 $values= array();
 JPluginHelper::importPlugin('redshop_payment');
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 $results = $dispatcher->trigger('onPrePayment',array( $request['plugin'], $values ));
 $paymentResponse = $results[0];
 

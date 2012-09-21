@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
 
-$now	=& JFactory::getDate();
+$now	= JFactory::getDate();
 
 ?>
 <script language="javascript" type="text/javascript">

@@ -27,22 +27,22 @@ class user_detailVIEWuser_detail extends JView
  		$Redconfiguration = new Redconfiguration();
  		$userhelper 	= new rsUserhelper();
  		$extra_field = new extra_field();
- 		
+
 		$shipping = JRequest::getVar( 'shipping', '', 'request', 'string');
 		$option = JRequest::getVar( 'option', '', 'request', 'string');
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript ('components/'.$option.'/assets/js/json.js');
 		$document->addScript ('components/'.$option.'/assets/js/validation.js');
 
-		$myuser		=& JFactory::getUser();
-		$acl		=& JFactory::getACL();
-		$uri 		=& JFactory::getURI();
+		$myuser		= JFactory::getUser();
+		$acl		= JFactory::getACL();
+		$uri 		= JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 		$isNew		= ($detail->users_info_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
 
@@ -65,13 +65,13 @@ class user_detailVIEWuser_detail extends JView
 		}
 		$model = $this->getModel('user_detail');
 		$pagination = & $this->get ( 'Pagination' );
-		
+
 		// get groups
-		
+
 		$user_groups = $userhelper->getUserGroupList($detail->users_info_id);
 		$detail->user_groups = $user_groups;
-		
-		
+
+
 
 		$shopper_detail = $userhelper->getShopperGroupList();
 		$temps = array();
@@ -111,7 +111,7 @@ class user_detailVIEWuser_detail extends JView
 		$lists['state_code'] = $statearray['state_dropdown'];
 		$showcountry = (count($countryarray['countrylist'])==1 && count($statearray['statelist'])==0) ? 0 : 1;
 		$showstates = ($statearray['is_states']<=0) ? 0 : 1;
-		
+
 		$this->assignRef('lists',			$lists);
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('request_url',	$uri->toString());

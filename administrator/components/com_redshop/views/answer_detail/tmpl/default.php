@@ -22,8 +22,8 @@ $producthelper = new producthelper();
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('answer_detail');
-$editor =& JFactory::getEditor();
-$uri = & JURI::getInstance ();
+$editor = JFactory::getEditor();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 
 $product = $producthelper->getProductById($this->qdetail->product_id);?>

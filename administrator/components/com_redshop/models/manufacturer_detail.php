@@ -35,7 +35,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 
 		$this->setId((int)$array[0]);
 	}
-	
+
 	function setId($id)
 	{
 		$this->_id		= $id;
@@ -90,7 +90,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		}
 		return true;
 	}
-	
+
   	function store($data)
 	{
 		$order_functions = new order_functions();
@@ -99,7 +99,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		{
 			$data['excluding_category_list'] =@ implode(',',$data['excluding_category_list']);
 		}
-		
+
 		$row =& $this->getTable();
 		$data['ordering'] = $this->MaxOrdering();
 
@@ -150,7 +150,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		}
 		return true;
 	}
-	
+
 	function copy($cid = array()){
 
 		if (count( $cid ))
@@ -179,7 +179,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		}
 		return true;
 	}
-	
+
 	function TemplateData()
 	{
 		$query = "SELECT template_id as value,template_name as text FROM ".$this->_table_prefix."template WHERE template_section ='manufacturer_products' and published=1";
@@ -187,7 +187,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		$this->_templatedata = $this->_db->loadObjectList();
 		return $this->_templatedata;
 	}
-	
+
 	function getMediaId($mid)
 	{
 		$query = 'SELECT media_id,media_name FROM '.$this->_table_prefix.'media '
@@ -225,18 +225,18 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		}
 		return true;
 	}*/
-	
+
 	function saveOrder( &$cid )
 	{
 		global $mainframe;
 		//$scope 		= JRequest::getCmd( 'scope' );
-		$db			=& JFactory::getDBO();
-		$row =& $this->getTable();
-	
+		$db			= JFactory::getDBO();
+		$row = $this->getTable();
+
 		$total		= count( $cid );
 		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($order, array(0));
-	
+
 		// update ordering values
 		for( $i=0; $i < $total; $i++ )
 		{
@@ -278,13 +278,13 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 	*/
 	function move($direction)
 	{
-		$row =& JTable::getInstance('manufacturer_detail', 'Table');
-		if (!$row->load( $this->_id ) ) 
+		$row = JTable::getInstance('manufacturer_detail', 'Table');
+		if (!$row->load( $this->_id ) )
 		{
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		if (!$row->move( $direction )) 
+		if (!$row->move( $direction ))
 		{
 			$this->setError($this->_db->getErrorMsg());
 			return false;

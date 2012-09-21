@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -24,36 +24,36 @@ class attributepricesViewattributeprices extends JView
 	}
 
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe, $context;
-		
+
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
-		
-		$document = & JFactory::getDocument();
+
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_ATTRIBUTE_PRICE') );
-   		
+
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_ATTRIBUTE_PRICE' ), 'redshop_vatrates48' );
-   		 
+
  		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();		
-		JToolBarHelper::deleteList();		
-		$uri	=& JFactory::getURI();
+ 		JToolBarHelper::editListX();
+		JToolBarHelper::deleteList();
+		$uri	= JFactory::getURI();
 
 		$limitstart     = $mainframe->getUserStateFromRequest( $context.'limitstart',      'limitstart', 	  '0' );
 		$limit = $mainframe->getUserStateFromRequest( $context.'limit',  'limit', '10' );
 
-	    $total = & $this->get( 'Total');
-	    $data = & $this->get( 'Data');
+	    $total = $this->get( 'Total');
+	    $data = $this->get( 'Data');
 		$pagination = new JPagination( $total, $limitstart, $limit);
-    	
-		$this->assignRef('user',		JFactory::getUser());	
+
+		$this->assignRef('user',		JFactory::getUser());
     	$this->assignRef('lists',		$lists);
     	$this->assignRef('data',		$data);
 		$this->assignRef('section_id',	$section_id);
-		$this->assignRef('section',		$section);   
+		$this->assignRef('section',		$section);
   		$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());    	
+   	 	$this->assignRef('request_url',	$uri->toString());
    	 	parent::display($tpl);
 	}
 }?>

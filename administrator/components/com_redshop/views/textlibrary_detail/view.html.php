@@ -23,16 +23,16 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_TEXTLIBRARY') );
 
-		$uri 		=& JFactory::getURI();
+		$uri 		= JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$isNew		= ($detail->textlibrary_id < 1);
 

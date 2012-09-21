@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -25,45 +25,44 @@ class tax_groupViewtax_group extends JView
 	{
 		 parent::__construct( $config );
 	}
-    
+
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe, $context;
 
-		
-		$document = & JFactory::getDocument();
+
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_TAX') );
    		jimport('joomla.html.pagination');
-   		
+
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT' ), 'redshop_vatgroup48' );
-   		
-     
-   		 
+
+
+
  		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();		
-		JToolBarHelper::deleteList();		
+ 		JToolBarHelper::editListX();
+		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();		
- 
-	   
-		$uri	=& JFactory::getURI();
-		
+		JToolBarHelper::unpublishList();
+
+
+		$uri	= JFactory::getURI();
+
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'tax_group_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );		
-		
-		$lists['order'] = $filter_order;  
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+
+		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		
-		
-	    $total = & $this->get( 'Total');
-	    $media			= & $this->get( 'Data');
-		$pagination = & $this->get('Pagination');
-    	$this->assignRef('user',		JFactory::getUser());	
+
+
+	    $total = $this->get( 'Total');
+	    $media = $this->get( 'Data');
+		$pagination = $this->get('Pagination');
+    	$this->assignRef('user',		JFactory::getUser());
     	$this->assignRef('lists',		$lists);
-    	$this->assignRef('media',		$media); 		    
+    	$this->assignRef('media',		$media);
   		$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());    	
+   	 	$this->assignRef('request_url',	$uri->toString());
    	 	parent::display($tpl);
   }
 }
-?>

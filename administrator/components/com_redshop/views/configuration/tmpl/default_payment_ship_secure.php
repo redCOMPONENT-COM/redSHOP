@@ -14,7 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 $addtocart_path="/components/com_redshop/assets/images/";
 ?>

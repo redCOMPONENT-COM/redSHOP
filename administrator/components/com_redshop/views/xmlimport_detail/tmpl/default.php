@@ -18,7 +18,7 @@ JHTML::_('behavior.tooltip');
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('xmlimport_detail');
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 
 $style = "none";
@@ -54,7 +54,7 @@ function checkSourcePath() {
 		form.element_name.focus();
 		return false;
 	}
-	
+
 	/*if (form.section_type.value=="product")
 	{
 		if (form.stock_element_name.value==""){
@@ -134,15 +134,15 @@ Joomla.submitbutton = function(pressbutton) {
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 {
 	var form = document.adminForm;
-	if (pressbutton == 'cancel') 
+	if (pressbutton == 'cancel')
 	{
 		submitform( pressbutton );
 		return;
 	}
-	if(document.getElementsByName("xmlfiletag[]")) 
+	if(document.getElementsByName("xmlfiletag[]"))
 	{
 		var xmltag = document.getElementsByName("xmlfiletag[]");
 		var totallen = document.getElementsByName("xmlfiletag[]").length;
@@ -168,7 +168,7 @@ submitbutton = function(pressbutton)
 			return false;
 		}
 	}
-	if(document.getElementsByName("xmlbillingtag[]")) 
+	if(document.getElementsByName("xmlbillingtag[]"))
 	{
 		var xmltag = document.getElementsByName("xmlbillingtag[]");
 		var totallen = xmltag.length;
@@ -197,7 +197,7 @@ submitbutton = function(pressbutton)
 			}
 		}
 	}
-	if(document.getElementsByName("xmlshippingtag[]")) 
+	if(document.getElementsByName("xmlshippingtag[]"))
 	{
 		var xmltag = document.getElementsByName("xmlshippingtag[]");
 		var totallen = xmltag.length;
@@ -226,7 +226,7 @@ submitbutton = function(pressbutton)
 			}
 		}
 	}
-	if(document.getElementsByName("xmlitemtag[]")) 
+	if(document.getElementsByName("xmlitemtag[]"))
 	{
 		var xmltag = document.getElementsByName("xmlitemtag[]");
 		var totallen = xmltag.length;
@@ -255,7 +255,7 @@ submitbutton = function(pressbutton)
 			}
 		}
 	}
-	if(document.getElementsByName("xmlstocktag[]")) 
+	if(document.getElementsByName("xmlstocktag[]"))
 	{
 		var xmltag = document.getElementsByName("xmlstocktag[]");
 		var totallen = xmltag.length;
@@ -284,7 +284,7 @@ submitbutton = function(pressbutton)
 			}
 		}
 	}
-	if(document.getElementsByName("xmlprdextrafieldtag[]")) 
+	if(document.getElementsByName("xmlprdextrafieldtag[]"))
 	{
 		var xmltag = document.getElementsByName("xmlprdextrafieldtag[]");
 		var totallen = xmltag.length;
@@ -374,7 +374,7 @@ if($this->detail->section_type!="")
 		<th><?php echo JText::_('COM_REDSHOP_XMLEXPORT_FILE_TAG_NAME' ); ?></th>
 		<th><?php echo JText::_('COM_REDSHOP_UPDATE_IMPORT_FIELD' ); ?></th></tr>
 <?php	if(count($this->xmlfiletag)>0)
-		{	
+		{
 			if($this->detail->section_type=="order")
 			{	?>
 			<tr><th><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?></th><th><?php echo JText::_('COM_REDSHOP_ORDER_IMPORT_NOTE');?></th></tr>

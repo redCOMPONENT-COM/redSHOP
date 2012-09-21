@@ -8,12 +8,12 @@ class zipcode_detailVIEWzipcode_detail extends JView
 	function __construct( $config = array())
 	{
 		parent::__construct( $config );
-		 
+
 	}
 	function display($tpl = null)
-	{	
+	{
 		$Redconfiguration = new Redconfiguration();
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$detail	=& $this->get('data');
 		$isNew = ($detail->zipcode_id < 1);
@@ -22,11 +22,11 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		JToolBarHelper::title(   JText::_( 'COM_REDSHOP_ZIPCODE_DETAIL' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_region_48' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-				
+
 		if ($isNew)  {
 			JToolBarHelper::cancel();
 		} else {
-		
+
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
 		$countryarray = $Redconfiguration->getCountryList((array)$detail);

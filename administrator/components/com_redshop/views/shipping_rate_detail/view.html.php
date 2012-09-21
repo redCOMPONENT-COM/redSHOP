@@ -29,16 +29,16 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$context = 'shipping_rate';
 		$shippinghelper = new shipping();
 		$userhelper 	= new rsUserhelper();
-		$uri 		=& JFactory::getURI();
+		$uri 		= JFactory::getURI();
 		$model = $this->getModel();
-		$db = & JFactory::getDBO ();
+		$db = JFactory::getDBO ();
 
 		$id     	= $mainframe->getUserStateFromRequest( $context.'extension_id',	'extension_id', '0' );
 		$shipping	= $shippinghelper->getShippingMethodById($id);
-		
+
 		$option = JRequest::getVar('option');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
 		$document->addStyleSheet ( 'components/'.$option.'/assets/css/search.css' );
 		$document->addScript ('components/'.$option.'/assets/js/search.js');
@@ -50,7 +50,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
  		$shipper_location = $myparams->get( 'shipper_location' );
 
  		$jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION' ) : JText::_('COM_REDSHOP_SHIPPING_RATE' );
-		
+
 		$this->setLayout('default');
 		$lists = array();
 		$detail	=& $this->get('data');
@@ -61,7 +61,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 	    JToolBarHelper::apply();
 		if ($isNew)  {
 			JToolBarHelper::cancel();
-		} else {		
+		} else {
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
 
@@ -93,14 +93,14 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 //		$tmp = @array_merge($tmp,$detail->shipping_rate_on_category);
 		$product_category = new product_category();
 		$lists['shipping_rate_on_category'] = $product_category->list_all("shipping_rate_on_category[]",0,$detail->shipping_rate_on_category,10,false,true);//JHTML::_('select.genericlist',$categoryData,'shipping_rate_on_category[]','class="inputbox" multiple="multiple" ','value','text',$detail->shipping_rate_on_category);
-		
+
 		$shoppergroup = $userhelper->getShopperGroupList();
 		$detail->shipping_rate_on_shopper_group = explode(',',$detail->shipping_rate_on_shopper_group);
 		$lists['shipping_rate_on_shopper_group'] = JHTML::_('select.genericlist', $shoppergroup,'shipping_rate_on_shopper_group[]','class="inputbox" multiple="multiple" ','value','text',$detail->shipping_rate_on_shopper_group);
 
 		$productData = array();
 		$result_container = array();
-		if($detail->shipping_rate_on_product) 
+		if($detail->shipping_rate_on_product)
 		{
 			$result_container = $model->GetProductListshippingrate($detail->shipping_rate_on_product);
 		}

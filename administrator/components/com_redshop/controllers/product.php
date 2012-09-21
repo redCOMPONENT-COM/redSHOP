@@ -68,7 +68,7 @@ class productController extends JController
 		if(ECONOMIC_INTEGRATION == 1)
 		{
 			$economic = new economic();
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$incNo = $cnt;
 			$query = 'SELECT p.* FROM #__redshop_product AS p '
 					.'LIMIT '.$cnt.', 10 ';
@@ -119,7 +119,7 @@ class productController extends JController
 		if(ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
 		{
 			$economic = new economic();
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$incNo = $cnt;
 			$query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
 					."FROM #__redshop_product_attribute_property AS ap "

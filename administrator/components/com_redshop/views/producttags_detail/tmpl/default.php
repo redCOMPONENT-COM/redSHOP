@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -17,21 +17,21 @@ defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
 
-$now	=& JFactory::getDate();
+$now	= JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function(pressbutton) {
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 	{
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform( pressbutton );
 			return;
 		}
-	
+
 		if (form.tags_name.value == ""){
 			alert( "<?php echo JText::_('COM_REDSHOP_TAGS_NAME_MUST_FILLED', true ); ?>" );
 		} else {
@@ -55,7 +55,7 @@ submitbutton = function(pressbutton)
 					<input class="text_area" type="text" name="tags_name" id="tags_name" size="32" maxlength="250" value="<?php echo $this->detail->tags_name;?>" />
 					<?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_TAGS_NAME' ), JText::_('COM_REDSHOP_TAGS_NAME' ), 'tooltip.png', '', '', false); ?>
 				</td>
-			</tr>						 
+			</tr>
 			<tr>
 				<td valign="top" align="right" class="key">
 					<?php echo JText::_('COM_REDSHOP_PUBLISHED' ); ?>:
@@ -63,7 +63,7 @@ submitbutton = function(pressbutton)
 				<td>
 					<?php echo $this->lists['published']; ?>
 				</td>
-			</tr>			
+			</tr>
 	</table>
 	</fieldset>
 </div>
