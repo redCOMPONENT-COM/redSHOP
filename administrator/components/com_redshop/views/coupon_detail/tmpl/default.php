@@ -18,14 +18,14 @@ require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
 $producthelper = new producthelper();
 
 $option = JRequest::getVar('option');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
 $url = JUri::base();
 
 $model = $this->getModel('coupon_detail');
 
-$date =& JFactory::getDate();
+$date = JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function(pressbutton) {

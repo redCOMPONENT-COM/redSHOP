@@ -21,7 +21,7 @@ JHTMLBehavior::modal();
 require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
 $producthelper = new producthelper();
 
-$now	=& JFactory::getDate();
+$now	= JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function(pressbutton) {
@@ -46,7 +46,7 @@ submitbutton = function(pressbutton) {
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onSubmit="return selectAll(this.elements['container_product[]']);">
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset'=>0));
+$myTabs = JPane::getInstance('tabs', array('startOffset'=>0));
 $output = '';
 
 //Create Pane
