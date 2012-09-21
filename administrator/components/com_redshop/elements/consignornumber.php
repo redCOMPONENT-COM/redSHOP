@@ -1,62 +1,53 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Elements
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
+
 /**
  * Renders a Productfinder Form
  *
- * @package		Joomla
- * @subpackage	Banners
- * @since		1.5
+ * @package        Joomla
+ * @subpackage     Banners
+ * @since          1.5
  */
 class JFormFieldconsignornumber extends JFormField
 {
-	/**
-	 * Element name
-	 *
-	 * @access	protected
-	 * @var		string
-	 */
+    /**
+     * Element name
+     *
+     * @access    protected
+     * @var        string
+     */
 
-	public $type = 'consignornumber';
+    public $type = 'consignornumber';
 
-	protected function getInput()
-	{
+    protected function getInput()
+    {
+        $db = JFactory::getDBO();
 
-		$db = JFactory::getDBO();
+        $query = 'SELECT s.* FROM #__extensions AS s ' . 'WHERE s.type="plugin" and s.folder="redshop_shipping" and enabled =1';
 
-		$query = 'SELECT s.* FROM #__extensions AS s '
-				.'WHERE s.type="plugin" and s.folder="redshop_shipping" and enabled =1';
+        $db->setQuery($query);
+        $options = $db->loadObjectList();
 
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
+        $html  = '<table border="0">';
+        $name  = $this->name;
+        $value = $this->value;
 
-		$html='<table border="0">';
-		$name		= $this->name;
-		$value	= $this->value;
+        for ($i = 0, $n = count($options); $i < $n; $i++)
+        {
+            $row = &$options[$i];
 
-		for ($i=0, $n=count( $options ); $i < $n; $i++)
-		{
-			$row = &$options[$i];
+            $html .= "<tr><td>" . $row->name . "</td><td><input type='text' id='" . $row->id . "' name='" . $name . "[]'  value='" . $value[$i] . "'   /></td></tr>";
+        }
 
-
-			$html.="<tr><td>".$row->name."</td><td><input type='text' id='".$row->id."' name='".$name."[]'  value='".$value[$i]."'   /></td></tr>";
-		}
-
-		$html.='</table>';
-		return $html;
-	}
+        $html .= '</table>';
+        return $html;
+    }
 }
