@@ -21,8 +21,8 @@ jimport('joomla.application.component.controller');
 
 class accessmanagerController extends JController
 {
-    function cancel()
-	{
-		$this->setRedirect( 'index.php' );
-	}
+    function cancel ()
+    {
+        $this->setRedirect('index.php ');
+    }
 }

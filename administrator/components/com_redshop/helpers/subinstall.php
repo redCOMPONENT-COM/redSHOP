@@ -2,8 +2,8 @@
 
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -15,9 +15,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-class SubInstaller extends JObject {
+class SubInstaller extends JObject
+{
 
     /**
      * var &object JInstaller
@@ -81,109 +82,112 @@ class SubInstaller extends JObject {
      *
      * @access protected
      **/
-    function __construct() {
+    function __construct ()
+    {
         // Since we are running from within the current installation,
         // we can use getInstance() to fetch the current installer and
         // thus get access to our own manifest.
-        $parent =& JInstaller::getInstance();
-        $manifest =& $parent->getManifest();
-        $this->_mainDb =& $parent->getDBO();
+        $parent            = JInstaller::getInstance();
+        $manifest          = $parent->getManifest();
+        $this->_mainDb     = $parent->getDBO();
         $this->_mainSource = $parent->getPath('source');
-        $this->_mysection =& $manifest->document->getElementByPath('subinstall');
-        $this->_app =& JFactory::getApplication();
+        $this->_mysection  = $manifest->document->getElementByPath('subinstall');
+        $this->_app        = JFactory::getApplication();
     }
 
     /**
      * Pushes a message into the main application
      * message queue.
      *
-     * @param msg string   The Message to display.
+     * @param msg   string   The Message to display.
      * @param mtype string The message type (message, warning ...)
      */
-    function _msg($msg, $mtype = 'message') {
+    function _msg ($msg, $mtype = 'message')
+    {
         if (!empty($msg)) {
-            $this->_app->enqueueMessage('SubInstall: '.$msg, $mtype);
+            $this->_app->enqueueMessage('SubInstall: ' . $msg, $mtype);
         }
     }
 
     /**
      * Fetches the ID of an extension from the database.
      *
-     * @param e object The extension object who's ID should be fetched.
+     * @param e    object The extension object who's ID should be fetched.
      * @param core int The value of the iscore field of the extension.
      *
      * @return int The ID of the extension, or null if not found.
      */
-    function _getExtID(&$e, $core) {
+    function _getExtID (&$e, $core)
+    {
         if (!is_object($e)) {
             return load;
         }
         $query = null;
         switch ($e->type) {
-        case 'module':
-            $name = $e->name;
-            if (strncmp($name, 'mod_', 4) != 0) {
-                $name = 'mod_' . $name;
-            }
-            $query = 'SELECT extension_id FROM #__extensions WHERE name = "'.
-                $name.'" AND protected = '.$core.' AND client_id = '.
-                $e->client.' GROUP BY module';
-            break;
-        case 'plugin':
-            $query = 'SELECT extension_id as id FROM #__extensions WHERE element = "'.
-                $e->name.'" AND protected = '.$core.' AND client_id = '.
-                $e->client.' AND folder = "'.$e->folder.'" GROUP BY folder, element';
-            break;
-        case 'component':
-            $name = $e->name;
-            if (strncmp($name, 'com_', 4) != 0) {
-                $name = 'com_' . $name;
-            }
-            $query = 'SELECT extension_id FROM #__extensions WHERE `option` = "'.
-                $name.'" AND protected = '.$core;
-            break;
-        case 'template':
-            // First, check if the template is active. If yes, then we return
-            // null, so no uninstall will happen.
-            $query = 'SELECT COUNT(*) FROM #__templates_menu WHERE template = "'.
-                $e->name.'" AND client_id = '.$e->client;
-            $this->_mainDb->setQuery($query);
-            if (!$this->_mainDb->query()) {
-                $this->_abort('Database query failed!');
-                return null;
-            }
-            if ($this->_mainDb->loadResult()) {
-                return null;
-            }
-            $tdirs = $e->client ? JFolder::folders(JPATH_ADMINISTRATOR.DS.'templates')
-                : JFolder::folders(JPATH_SITE.DS.'templates');
-            // return a value only if the language dir exists.
-            foreach ($tdirs as $tmpl) {
-                if ($tmpl == $e->name) {
-                    // The template uninstaller uses the name as ID
-                    return $e->name;
+            case 'module':
+                $name = $e->name;
+                if (strncmp($name, 'mod_', 4) != 0) {
+                    $name = 'mod_' . $name;
                 }
-            }
-            return null;
-            break;
-        case 'language':
-            // For the default language, we return null so it
-            // does not get uninstalled.
-            $p = JComponentHelper::getParams('com_languages');
-            if ($params->get($e->client, 'en-GB') == $e->name) {
-                return null;
-            }
-            $ldir = $e->client ? JLanguage::getLanguagePath(JPATH_ADMINISTRATOR)
-                : JLanguage::getLanguagePath(JPATH_SITE);
-            // return a value only if the language dir exists.
-            foreach (JFolder::folders($ldir) as $lang) {
-                if ($lang == $e->name) {
-                    // The language uninstaller uses the path as ID
-                    return $ldir.DS.$lang;
+                $query = 'SELECT extension_id FROM #__extensions WHERE name = "' .
+                    $name . '" AND protected = ' . $core . ' AND client_id = ' .
+                    $e->client . ' GROUP BY module';
+                break;
+            case 'plugin':
+                $query = 'SELECT extension_id as id FROM #__extensions WHERE element = "' .
+                    $e->name . '" AND protected = ' . $core . ' AND client_id = ' .
+                    $e->client . ' AND folder = "' . $e->folder . '" GROUP BY folder, element';
+                break;
+            case 'component':
+                $name = $e->name;
+                if (strncmp($name, 'com_', 4) != 0) {
+                    $name = 'com_' . $name;
                 }
-            }
-            return null;
-            break;
+                $query = 'SELECT extension_id FROM #__extensions WHERE `option` = "' .
+                    $name . '" AND protected = ' . $core;
+                break;
+            case 'template':
+                // First, check if the template is active. If yes, then we return
+                // null, so no uninstall will happen.
+                $query = 'SELECT COUNT(*) FROM #__templates_menu WHERE template = "' .
+                    $e->name . '" AND client_id = ' . $e->client;
+                $this->_mainDb->setQuery($query);
+                if (!$this->_mainDb->query()) {
+                    $this->_abort('Database query failed!');
+                    return null;
+                }
+                if ($this->_mainDb->loadResult()) {
+                    return null;
+                }
+                $tdirs = $e->client ? JFolder::folders(JPATH_ADMINISTRATOR . DS . 'templates')
+                    : JFolder::folders(JPATH_SITE . DS . 'templates');
+                // return a value only if the language dir exists.
+                foreach ($tdirs as $tmpl) {
+                    if ($tmpl == $e->name) {
+                        // The template uninstaller uses the name as ID
+                        return $e->name;
+                    }
+                }
+                return null;
+                break;
+            case 'language':
+                // For the default language, we return null so it
+                // does not get uninstalled.
+                $p = JComponentHelper::getParams('com_languages');
+                if ($params->get($e->client, 'en-GB') == $e->name) {
+                    return null;
+                }
+                $ldir = $e->client ? JLanguage::getLanguagePath(JPATH_ADMINISTRATOR)
+                    : JLanguage::getLanguagePath(JPATH_SITE);
+                // return a value only if the language dir exists.
+                foreach (JFolder::folders($ldir) as $lang) {
+                    if ($lang == $e->name) {
+                        // The language uninstaller uses the path as ID
+                        return $ldir . DS . $lang;
+                    }
+                }
+                return null;
+                break;
         }
         if ($query != null) {
             $this->_mainDb->setQuery($query);
@@ -199,12 +203,13 @@ class SubInstaller extends JObject {
     /**
      * Publish a plugin
      */
-    function _publish($id, $type = 'plugin') {
+    function _publish ($id, $type = 'plugin')
+    {
         $query = null;
         switch ($type) {
-        case 'plugin':
-            $query = 'UPDATE #__extensions SET enabled = 1 WHERE extension_id = '.$id;
-            break;
+            case 'plugin':
+                $query = 'UPDATE #__extensions SET enabled = 1 WHERE extension_id = ' . $id;
+                break;
         }
         if ($query != null) {
             $this->_mainDb->setQuery($query);
@@ -219,25 +224,26 @@ class SubInstaller extends JObject {
      * Set the iscore field of an extension in order to lock/unlock it
      * (If set, that extension can not be uninstalled).
      *
-     * @param id int      The ID of the extension to modify.
-     * @param type string The extension type (templates and languages are
+     * @param id          int      The ID of the extension to modify.
+     * @param type        string The extension type (templates and languages are
      *                    NOT supported).
-     * @param lock int    The new value if the iscore field.
+     * @param lock        int    The new value if the iscore field.
      *
      * @return            boolean true on success, false otherwise.
      */
-    function _setcore($id, $type, $lock) {
+    function _setcore ($id, $type, $lock)
+    {
         $query = null;
         switch ($type) {
-        case 'module':
-            $query = 'UPDATE #__extensions SET protected = '.$lock.' WHERE extension_id = '.$id;
-            break;
-        case 'plugin':
-            $query = 'UPDATE #__extensions SET protected = '.$lock.' WHERE extension_id = '.$id;
-            break;
-        case 'component':
-            $query = 'UPDATE #__extensions SET protected = '.$lock.' WHERE extension_id = '.$id;
-            break;
+            case 'module':
+                $query = 'UPDATE #__extensions SET protected = ' . $lock . ' WHERE extension_id = ' . $id;
+                break;
+            case 'plugin':
+                $query = 'UPDATE #__extensions SET protected = ' . $lock . ' WHERE extension_id = ' . $id;
+                break;
+            case 'component':
+                $query = 'UPDATE #__extensions SET protected = ' . $lock . ' WHERE extension_id = ' . $id;
+                break;
         }
         if ($query != null) {
             $this->_mainDb->setQuery($query);
@@ -259,7 +265,8 @@ class SubInstaller extends JObject {
      *
      * @return boolean false always
      */
-    function _abort($msg = null) {
+    function _abort ($msg = null)
+    {
         $this->_inabort++;
         $this->_msg($msg, 'error');
         if ($this->_mode && ($this->_inabort < 2)) {
@@ -290,7 +297,8 @@ class SubInstaller extends JObject {
      *
      * @return boolean the converted value.
      */
-    function _tobool($arg = null) {
+    function _tobool ($arg = null)
+    {
         if (!empty($arg)) {
             return ((strcasecmp($arg, 'true') == 0) || ($arg == '1'));
         }
@@ -305,8 +313,9 @@ class SubInstaller extends JObject {
      *
      * @return &object                    The object representing the extension.
      */
-    function &_parseAttributes(&$e) {
-        $ret = new stdClass();
+    function &_parseAttributes (&$e)
+    {
+        $ret       = new stdClass();
         $ret->skip = false;
         if ($e->name() != 'extension') {
             // skip unknown elements
@@ -320,38 +329,38 @@ class SubInstaller extends JObject {
         if (empty($ret->dname)) {
             $ret->dname = $ret->name;
         }
-        $ret->folder = $e->attributes('folder');
-        $ret->core = $this->_tobool($e->attributes('lock')) ? 1 : 0;
+        $ret->folder  = $e->attributes('folder');
+        $ret->core    = $this->_tobool($e->attributes('lock')) ? 1 : 0;
         $ret->publish = $this->_tobool($e->attributes('publish')) ? 1 : 0;
-        $optional = $this->_tobool($e->attributes('optional'));
-        $client = $e->attributes('client');
-        $subdir = $e->attributes('subdir');
-        $archive = $e->attributes('archive');
+        $optional     = $this->_tobool($e->attributes('optional'));
+        $client       = $e->attributes('client');
+        $subdir       = $e->attributes('subdir');
+        $archive      = $e->attributes('archive');
         if (!$ret->type) {
             $this->_abort('Missing type attribute in sub extension!');
             return null;
         }
         switch ($ret->type) {
-        case 'plugin':
-            if (!$ret->folder) {
-                $this->_abort('Missing folder attribute in sub extension!');
+            case 'plugin':
+                if (!$ret->folder) {
+                    $this->_abort('Missing folder attribute in sub extension!');
+                    return null;
+                }
+                $client = 'site';
+                break;
+            case 'component':
+                $client = 'site';
+                break;
+            case 'module':
+                break;
+            case 'template':
+            case 'language':
+                // Don't lock templates and languages (they don't have an iscore field)
+                $ret->core = 0;
+                break;
+            default:
+                $this->_abort('Unsupported sub install type "' . $ret->type . '"!');
                 return null;
-            }
-            $client = 'site';
-            break;
-        case 'component':
-            $client = 'site';
-            break;
-        case 'module':
-            break;
-        case 'template':
-        case 'language':
-            // Don't lock templates and languages (they don't have an iscore field)
-            $ret->core = 0;
-            break;
-        default:
-            $this->_abort('Unsupported sub install type "'.$ret->type.'"!');
-            return null;
         }
         if (!$ret->name) {
             $this->_abort('Missing name attribute in sub extension!');
@@ -366,38 +375,38 @@ class SubInstaller extends JObject {
                 return null;
             }
             if (!empty($subdir)) {
-                $ret->source = $this->_mainSource.DS.$subdir;
+                $ret->source = $this->_mainSource . DS . $subdir;
                 if (!is_dir($ret->source)) {
                     if ($optional) {
                         $ret->skip = true;
                         return $ret;
                     }
-                    $this->_abort('Could not find source directory for sub install "'.$ret->dname.'"!');
+                    $this->_abort('Could not find source directory for sub install "' . $ret->dname . '"!');
                     return null;
                 }
             }
             if (!empty($archive)) {
-                $ret->source = $this->_mainSource.DS.$archive;
+                $ret->source = $this->_mainSource . DS . $archive;
                 if (!is_file($ret->source)) {
                     if ($optional) {
                         $ret->skip = true;
                         return $ret;
                     }
-                    $this->_abort('Could not find source archive for sub install "'.$ret->dname.'"!');
+                    $this->_abort('Could not find source archive for sub install "' . $ret->dname . '"!');
                     return null;
                 }
             }
         }
         $ret->client = 0;
         switch ($client) {
-        case 'site':
-            break;
-        case 'admin':
-            $ret->client = 1;
-            break;
-        default:
-            $this->_abort('Unsupported sub install client "'.$client.'"!');
-            return null;
+            case 'site':
+                break;
+            case 'admin':
+                $ret->client = 1;
+                break;
+            default:
+                $this->_abort('Unsupported sub install client "' . $client . '"!');
+                return null;
         }
         return $ret;
     }
@@ -408,7 +417,8 @@ class SubInstaller extends JObject {
      *
      * @return boolean true on success, false otherwise.
      */
-    function install() {
+    function install ()
+    {
         $this->_mode = 1;
         if (is_a($this->_mysection, 'JSimpleXMLElement')) {
             $nodes = $this->_mysection->children();
@@ -432,7 +442,7 @@ class SubInstaller extends JObject {
                     $ext->source = $res['dir'];
                 }
                 $subInstaller = new JInstaller();
-                $result = $subInstaller->install($ext->source);
+                $result       = $subInstaller->install($ext->source);
                 if ($res) {
                     // Cleanup temporary extract dir.
                     if (is_dir($res['extractdir'])) {
@@ -440,7 +450,7 @@ class SubInstaller extends JObject {
                     }
                 }
                 $smsg = $subInstaller->get('message');
-                $msg = $subInstaller->get('extension.message');
+                $msg  = $subInstaller->get('extension.message');
                 if (!empty($msg)) {
                     echo $msg;
                 }
@@ -450,8 +460,9 @@ class SubInstaller extends JObject {
                     if ($ext->publish && ($ext->type == 'plugin')) {
                         $id = $this->_getExtID($ext, 0);
                         if ($id != null) {
-                            if (!$this->_publish($id))
+                            if (!$this->_publish($id)) {
                                 return false;
+                            }
                         }
                     }
                     // If the sub extension is to be locked (core), then
@@ -463,7 +474,7 @@ class SubInstaller extends JObject {
                         }
                     }
                     array_push($this->_rollback, $ext);
-                    $this->_msg('Successfully installed '.$ext->type.' "'.$ext->dname.'".');
+                    $this->_msg('Successfully installed ' . $ext->type . ' "' . $ext->dname . '".');
                 } else {
                     return $this->_abort($smsg);
                 }
@@ -478,7 +489,8 @@ class SubInstaller extends JObject {
      *
      * @return boolean true on success, false otherwise.
      */
-    function uninstall() {
+    function uninstall ()
+    {
         $this->_mode = 0;
         if (is_a($this->_mysection, 'JSimpleXMLElement')) {
             $nodes = $this->_mysection->children();
@@ -498,15 +510,15 @@ class SubInstaller extends JObject {
                         $this->_setcore($id, $ext->type, 0);
                     }
                     $subInstaller = new JInstaller();
-                    $result = $subInstaller->uninstall($ext->type, $id, 1);
-                    $msg = $subInstaller->get('message');
+                    $result       = $subInstaller->uninstall($ext->type, $id, 1);
+                    $msg          = $subInstaller->get('message');
                     $this->_msg($msg, $result ? 'message' : 'warning');
                     $msg = $subInstaller->get('extension.message');
                     if (!empty($msg)) {
                         echo $msg;
                     }
                     if ($result) {
-                        $this->_msg('Successfully removed '.$ext->type.' "'.$ext->dname.'".');
+                        $this->_msg('Successfully removed ' . $ext->type . ' "' . $ext->dname . '".');
                     }
                 }
             }
