@@ -413,7 +413,8 @@ class adminproducthelper {
 	}
 	function getProductrBySortedList()
 	{
-		$product_data = array();
+		//$product_data = array();
+        $product_data = array_fill(0, 9, new stdClass);
 		$product_data[0]->value="0";
 		$product_data[0]->text=JText::_('COM_REDSHOP_SELECT' );
 		$product_data[1]->value="p.published";
@@ -434,4 +435,5 @@ class adminproducthelper {
 		$product_data[8]->text=JText::_('COM_REDSHOP_PRODUCT_SOLD_OUT' );
 		return $product_data;
 	}
-}?>
+}
+

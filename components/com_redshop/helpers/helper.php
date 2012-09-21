@@ -23,19 +23,21 @@ class redhelper
 	var $_table_prefix = null;
 	var $_db = null;
 	var $_isredCRM = NULL;
+
 	function __construct()
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDBO();
 	}
+
 	/*
  	* add item to cart from db ...
  	*/
 	function dbtocart()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'cart.php');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 	    $user = JFactory::getUser();
 	    if($user->id && !isset($cart['idx']))
@@ -380,7 +382,8 @@ class redhelper
 
     function getPreOrderByList()
 	{
-		$preorder_data = array();
+		//$preorder_data = array();
+        $preorder_data = array_fill(0, 3, new stdClass);
 		$preorder_data[0]->value="global";
 		$preorder_data[0]->text=JText::_('COM_REDSHOP_GLOBAL' );
 		$preorder_data[1]->value="yes";
