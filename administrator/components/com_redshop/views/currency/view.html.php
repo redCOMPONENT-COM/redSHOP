@@ -15,7 +15,6 @@ class currencyViewcurrency extends JView
 
 		JToolBarHelper::title ( JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT' ), 'redshop_currencies_48' );
 		jimport('joomla.html.pagination');
-		global $mainframe, $context;
 		JToolbarHelper::addNewX();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
@@ -31,11 +30,13 @@ class currencyViewcurrency extends JView
 		$fields			= $this->get( 'Data');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user',		JFactory::getUser());
+		//$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('fields',		$fields);
 		$this->assignRef('lists',		$lists);
-  		$this->assignRef('request_url',	$uri->toString());
+  		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
 
   }
