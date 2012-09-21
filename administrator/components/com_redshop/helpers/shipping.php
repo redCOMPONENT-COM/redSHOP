@@ -25,7 +25,7 @@ class shipping
 		global $mainframe, $context;
 	  	$this->_table_prefix = '#__'.TABLE_PREFIX.'_';
 	  	$this->producthelper = new producthelper();
-	  	$this->_db = & JFactory::getDBO ();
+	  	$this->_db = JFactory::getDBO();
 	}
 
 	function getDeliveryTimeOfProduct($product_id)
@@ -49,7 +49,7 @@ class shipping
 
 	function getRegularDelivery()
 	{
-		$session = & JFactory::getSession ();
+		$session = JFactory::getSession ();
 		$cart = $session->get ( 'cart' );
 		if (! $cart)
 		{
@@ -105,7 +105,7 @@ class shipping
 
 	function getSplitDelivery() {
 
-		$session = & JFactory::getSession ();
+		$session = JFactory::getSession ();
 
 		$cart = $session->get ( 'cart' );
 
@@ -250,9 +250,9 @@ class shipping
 	function getDefaultShipping($d)
 	{
 		$userhelper 	= new rsUserhelper();
-		$session = & JFactory::getSession ();
+		$session = JFactory::getSession ();
 		$order_subtotal = $d ['order_subtotal'];
-		$user = & JFactory::getUser ();
+		$user = JFactory::getUser ();
 		$user_id = $user->id;
 
 		$totaldimention = $this->getCartItemDimention();
@@ -429,18 +429,18 @@ class shipping
 
 	/*
 	 *  function ******** To get Shipping rate for xmlexport
-	 */	
+	 */
 
 	function getDefaultShipping_xmlexport($d)
-	{	
+	{
 		$userhelper 	= new rsUserhelper();
 		$session = & JFactory::getSession ();
 		$order_subtotal = $d ['order_subtotal'];
 		$user = & JFactory::getUser ();
-		$user_id = $user->id;	
+		$user_id = $user->id;
 
 		$data = $this->producthelper->getProductById($d['product_id']);
-		
+
 		$totalQnt = '';
 		$weighttotal = $data->weight;
 		$volume = $data->product_volume ;
@@ -489,19 +489,19 @@ class shipping
 		}
 
 		$shippingArr = $this->getShopperGroupDefaultShipping ();
-	
+
 		$shopper_shipping = 0;
-		if (empty($shippingArr)){ 
-			
+		if (empty($shippingArr)){
+
 			$cart = $session->get ( 'cart' );
 			$idx = ( int ) ($cart ['idx']);
 			$totalVolume = 0;
 
 			$shippingrate = array ();
-			
+
 				$pwhere = 'AND ( FIND_IN_SET("' . $product_id . '", shipping_rate_on_product) )';
 				$newpwhere = str_replace("AND (","OR (",$pwhere);
-				
+
 				$sql = "SELECT * FROM ".$this->_table_prefix."shipping_rate as sr "
 						."LEFT JOIN #__extensions AS s ON sr.shipping_class = s.element
  	     				 WHERE s.folder='redshop_shipping' and  $wherecountry
@@ -512,11 +512,11 @@ class shipping
 						 $pwhere $wherestate $whereshopper
 						   ORDER BY sr.shipping_rate_priority  LIMIT 0,1";
 
-				$this->_db->setQuery ( $sql );				
+				$this->_db->setQuery ( $sql );
 				$shippingrate = $this->_db->loadObject ();
-				
+
 			if (! $shippingrate) {
-				
+
 					$product_id = $cart ['product_id'];
 					$sel = 'SELECT category_id FROM '.$this->_table_prefix.'product_category_xref WHERE product_id = ' . $product_id;
 					$this->_db->setQuery ( $sel );
@@ -549,9 +549,9 @@ class shipping
 									 $where $wherestate
 									ORDER BY sr.shipping_rate_priority  LIMIT 0,1";
 
-						$this->_db->setQuery ( $sql );						
+						$this->_db->setQuery ( $sql );
 						$shippingrate = $this->_db->loadObject ();
-					}				
+					}
 			}
 
 			if (! $shippingrate) {
@@ -569,15 +569,15 @@ class shipping
 						ORDER BY sr.shipping_rate_priority  LIMIT 0,1";
 
 
-				$this->_db->setQuery ( $sql );				
+				$this->_db->setQuery ( $sql );
 				$shippingrate = $this->_db->loadObject ();
-				
+
 			}
 
 			$total = 0;
 			$shipping_vat = 0;
-			
-			if ($shippingrate) { 
+
+			if ($shippingrate) {
 				$total = $shippingrate->shipping_rate_value;
 				if($shippingrate->apply_vat == 1)
 				{
@@ -594,13 +594,13 @@ class shipping
 
 			}
 			$shipArr['shipping_rate'] = $total;
-			$shipArr['shipping_vat'] = $shipping_vat;			
+			$shipArr['shipping_vat'] = $shipping_vat;
 			return $shipArr;
 		} else {
 			return $shippingArr;
 		}
 	}
-	
+
 	/*
 	 *  return only one shipping rate on cart page...
 	 * this function is called by ajax
@@ -1043,9 +1043,9 @@ class shipping
 				$end = $tmp_shippingrate->shipping_rate_zip_end;
 				if(trim($start) == "" && trim($end) == "")
 				{
-					
+
 					$shipping[$k++] = $tmp_shippingrate;
-				} else 
+				} else
 				{
 
 					$startzip_len = ($this->strposa($start,$numbers)!== false) ? ($this->strposa($start,$numbers)) : strlen($start);
@@ -1067,7 +1067,7 @@ class shipping
 					}
 					if($flag)
 						$shipping[$k++] = $tmp_shippingrate;
-					
+
 				}
 			}
 			if(count($shipping) <= 0)
@@ -1329,16 +1329,16 @@ class shipping
 			$acc_weight =0;
 			if(count($cart[$i]['cart_accessory'])>0)
 			{
-				
+
 				for($a=0;$a<count($cart[$i]['cart_accessory']);$a++)
 				{
 					$acc_id= $cart[$i]['cart_accessory'][$a]['accessory_id'];
 					$acc_qty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
 					$acc_data = $this->producthelper->getProductById($acc_id);
-					
+
 					$acc_weight  += ($acc_data->weight * $acc_qty);
 				}
-				
+
 			}
 			$totalQnt += $cart [$i] ['quantity'];
 			$totalWeight += (($data->weight * $cart [$i] ['quantity']) + $acc_weight) ;
@@ -1690,12 +1690,12 @@ class shipping
 				OR (shipping_rate_zip_start = "0" AND shipping_rate_zip_end = "0")
 				OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
 			}
-			
+
     		if($shipping_rate_id)
 			{
 				$where .= ' AND sr.shipping_rate_id = "'. $shipping_rate_id.'"';
 			}
-			
+
 			$sql = "SELECT * FROM ".$this->_table_prefix."shipping_rate as sr
 								 LEFT JOIN #__extensions AS s
 								 ON
