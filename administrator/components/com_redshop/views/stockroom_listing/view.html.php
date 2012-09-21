@@ -19,12 +19,10 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 jimport ( 'joomla.application.component.view' );
  $context = 'ddd';;
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'category.php' );
-class stockroom_listingViewstockroom_listing extends JView {
-	function __construct($config = array()) {
-		parent::__construct ( $config );
-	}
-
-	function display($tpl = null) {
+class stockroom_listingViewstockroom_listing extends JView
+{
+    function display($tpl = null)
+    {
 		global $mainframe, $context2;
 
 //		$container_get = JRequest::getVar ( 'container_list','0' );
@@ -71,20 +69,17 @@ class stockroom_listingViewstockroom_listing extends JView {
 
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$resultlisting = & $this->get ( 'Data' );
-		$stockroom = & $this->get ( 'Stockroom' );
+		$resultlisting = $this->get ( 'Data' );
+		$stockroom = $this->get ( 'Stockroom' );
 
-		$total = & $this->get ( 'Total' );
-
-//		$container_list = & $this->get ( 'Container' );
+		//		$container_list = & $this->get ( 'Container' );
 //		$supps = array();
 //		$supps[0]->value="0";
 //		$supps[0]->text=JText::_('COM_REDSHOP_SELECT');
 //		$container_list=@array_merge($supps,$container_list);
 //		$lists['container_list'] 	= JHTML::_('select.genericlist',$container_list,  'container_list', 'class="inputbox"  size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $container_get );
 
-
-		$pagination = & $this->get ( 'Pagination' );
+		$pagination = $this->get ( 'Pagination' );
 
 		$this->assignRef ( 'lists', $lists );
 		$this->assignRef ( 'keyword',	$keyword);
@@ -98,4 +93,3 @@ class stockroom_listingViewstockroom_listing extends JView {
 		parent::display ( $tpl );
 	}
 }
-?>

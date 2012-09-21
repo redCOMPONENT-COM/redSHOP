@@ -22,14 +22,7 @@ class tax_group_detailVIEWtax_group_detail extends JView
 {
 	function display($tpl = null)
 	{
-
-		$db = jFactory::getDBO();
-
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT_DETAIL' ), 'redshop_vatgroup48' );
-
-		$option = JRequest::getVar('option','','request','string');
-
-		$document = JFactory::getDocument();
+        JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT_DETAIL' ), 'redshop_vatgroup48' );
 
 	 	$uri = JFactory::getURI();
 
@@ -69,4 +62,4 @@ class tax_group_detailVIEWtax_group_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>
+

@@ -5,11 +5,6 @@ jimport( 'joomla.application.component.view' );
 
 class accountgroup_detailVIEWaccountgroup_detail extends JView
 {
-	/*function __construct( $config = array())
-	{
-		parent::__construct( $config );
-	}*/
-
 	function display($tpl = null)
 	{
 		$uri = JFactory::getURI();
@@ -39,4 +34,3 @@ class accountgroup_detailVIEWaccountgroup_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

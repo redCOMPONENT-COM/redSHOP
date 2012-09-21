@@ -21,18 +21,10 @@ jimport( 'joomla.application.component.view' );
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'category.php' );
 class product_categoryViewproduct_category extends JView
 {
-
-	var $_product = array();
-
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
+    var $_product = array();
 
 	function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_PRODUCT') );
    	    $task =  JRequest::getVar ( 'task' );
@@ -63,4 +55,3 @@ class product_categoryViewproduct_category extends JView
     	parent::display($tpl);
   	}
 }
-?>

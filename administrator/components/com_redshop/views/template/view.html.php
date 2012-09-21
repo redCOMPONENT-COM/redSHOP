@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class templateViewtemplate extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -40,7 +35,6 @@ class templateViewtemplate extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-
 		$uri	= JFactory::getURI();
 		$context = 'template';
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'template_id' );
@@ -52,7 +46,6 @@ class templateViewtemplate extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 		$templates			= & $this->get( 'Data');
 
-		$total				= & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
 
 		$redtemplate = new Redtemplate();
@@ -67,4 +60,4 @@ class templateViewtemplate extends JView
     	parent::display($tpl);
   }
 }
-?>
+

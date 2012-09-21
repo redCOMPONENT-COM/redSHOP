@@ -18,12 +18,11 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.view' );
 
-class manufacturerViewmanufacturer extends JView {
-	function __construct($config = array()) {
-		parent::__construct ( $config );
-	}
+class manufacturerViewmanufacturer extends JView
+{
 
-	function display($tpl = null) {
+	function display($tpl = null)
+    {
 		global $mainframe, $context;
 
 		$context='manufacturer_id';

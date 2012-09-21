@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class sampleViewsample extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -46,9 +41,8 @@ class sampleViewsample extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$catalog		= & $this->get( 'Data');
-		$total			= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$catalog		= $this->get( 'Data');
+		$pagination = $this->get( 'Pagination' );
 
     	$this->assignRef('lists',		$lists);
   		$this->assignRef('catalog',		$catalog);

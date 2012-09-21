@@ -23,11 +23,6 @@ require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'helper.php' );
 require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'helper.php' );
 class configurationViewconfiguration extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		$db = jFactory::getDBO();
@@ -631,4 +626,4 @@ class configurationViewconfiguration extends JView
 			return JText::_('COM_REDSHOP_N_A' );
 		}
 	}
-}?>
+}

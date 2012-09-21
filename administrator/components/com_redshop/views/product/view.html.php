@@ -23,13 +23,7 @@ require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'extra_field.php' );
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'product.php' );
 class productViewproduct extends JView
 {
-
-	var $_product = array();
-
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
+    public $_product = array();
 
 	function display($tpl = null)
 	{
@@ -42,7 +36,6 @@ class productViewproduct extends JView
 		$adminproducthelper = new adminproducthelper();
 
 		$list_in_products	=	$extra_field->list_all_field_in_product();
-
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_PRODUCT') );
@@ -110,9 +103,8 @@ class productViewproduct extends JView
 
 	    $lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-//		$total = & $this->get( 'Total');
-		$products	= $this->get( 'Data');
 
+		$products	= $this->get( 'Data');
 		$pagination = $this->get( 'Pagination' );
 
 		/*

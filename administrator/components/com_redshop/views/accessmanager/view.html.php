@@ -19,14 +19,9 @@ jimport( 'joomla.application.component.view' );
 
 class accessmanagerViewaccessmanager extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $mainframe;
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_ACCESS_MANAGER' ), 'redshop_catalogmanagement48' );
    		if(ENABLE_BACKENDACCESS){
@@ -37,4 +32,3 @@ class accessmanagerViewaccessmanager extends JView
    		}
 	}
 }
-?>

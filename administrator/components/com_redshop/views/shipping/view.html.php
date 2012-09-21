@@ -21,12 +21,7 @@ jimport( 'joomla.application.component.view' );
 
 class shippingViewshipping extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
-	function display($tpl = null)
+    function display($tpl = null)
 	{
 		global $mainframe, $context;
 

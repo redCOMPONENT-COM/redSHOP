@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class questionViewquestion extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -39,7 +34,6 @@ class questionViewquestion extends JView
    		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-
 		$uri	= JFactory::getURI();
 
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order', 	  'question_date' );
@@ -50,7 +44,6 @@ class questionViewquestion extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$question	= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
 
 		$option= $model->getProduct();
@@ -70,4 +63,3 @@ class questionViewquestion extends JView
     	parent::display($tpl);
 	}
 }
-?>

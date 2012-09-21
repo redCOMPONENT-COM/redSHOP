@@ -17,11 +17,6 @@ jimport( 'joomla.application.component.view' );
 
 class pricesViewprices extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
