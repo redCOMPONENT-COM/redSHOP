@@ -1,6 +1,6 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 ?>
 
@@ -29,19 +29,19 @@ submitbutton = function(pressbutton) {
 				alert( "<?php echo JText::_('COM_REDSHOP_ZIPCODE_MUST_HAVE_A_CODE', true ); ?>" );
 		}else if(form.zipcode_to.value != ""){
 				if(isNaN(form.zipcode.value))
-				{	
+				{
 					alert( "<?php echo JText::_('COM_REDSHOP_ZIPCODE_MUST_HAVE_A_NUMERIC_VALUE', true ); ?>" );
 				}
 				else if(isNaN(form.zipcode_to.value))
-				{	
+				{
 					alert( "<?php echo JText::_('COM_REDSHOP_ZIPCODE_TO_MUST_HAVE_A_NUMERIC_VALUE', true ); ?>" );
 				}
 				else if(form.zipcode_to.value<form.zipcode.value)
-				{	
+				{
 					alert( "<?php echo JText::_('COM_REDSHOP_ZIPCODE_TO_MUST_HAVE_A_GREATER_VALUE', true ); ?>" );
 				} else {
 					submitform( pressbutton );
-				}		
+				}
 		}else {
 			submitform( pressbutton );
 		}
@@ -71,17 +71,17 @@ submitbutton = function(pressbutton) {
 <td class="key" valign="top"><?php echo JText::_("COM_REDSHOP_ZIPCODE"); ?>:
 			</td>
 			<td>
-				
-				<?php 
+
+				<?php
 				if($this->detail->zipcode=="")
 				{echo JText::_('COM_REDSHOP_FROM');
 				?><input class="text_area" type="text" name="zipcode" id="zipcode" size="15" maxlength="10" value="<?php echo $this->detail->zipcode;?>" />&nbsp; <?php echo JText::_('COM_REDSHOP_TO');?> <input class="text_area" type="text" name="zipcode_to" id="zipcode_to" size="15" maxlength="10" value="" /><br></br><br></br>
 					<b><?php echo JText::_('COM_REDSHOP_NOTE');?> </b> <?php echo JText::_('COM_REDSHOP_ZIPCODE_NOTE_DESC');?>
-				<?php 
+				<?php
 				} else {
-				?>	
+				?>
 				<input class="text_area" type="text" name="zipcode" id="zipcode" size="15" maxlength="10" value="<?php echo $this->detail->zipcode;?>" /><input  type="hidden" name="zipcode_to" id="zipcode_to"  value="" />
-				<?php 
+				<?php
 				}
 				?>
 </td>

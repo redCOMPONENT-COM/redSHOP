@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -26,14 +26,14 @@ class orderModelorder extends JModel
 	var $_pagination = null;
 	var $_table_prefix = null;
 	var $_context =null;
-	
+
 	function __construct()
 	{
 		parent::__construct();
 
-		global $mainframe; 
+		global $mainframe;
 		$this->_context='order_id';
-	  	$this->_table_prefix = '#__redshop_';			
+	  	$this->_table_prefix = '#__redshop_';
 		$limit			= $mainframe->getUserStateFromRequest( $this->_context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest( $this->_context.'limitstart', 'limitstart', 0 );
 		$filter_status	  = $mainframe->getUserStateFromRequest( $this->_context.'filter_status','filter_status','','word' );
@@ -47,7 +47,7 @@ class orderModelorder extends JModel
 		$this->setState('filter_payment_status', $filter_payment_status);
 	}
 	function getData()
-	{		
+	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
@@ -75,19 +75,19 @@ class orderModelorder extends JModel
 
 		return $this->_pagination;
 	}
-  	
+
 	function _buildQuery()
 	{
-		$where = "";    
+		$where = "";
 	    $order_id = array();
-	   	
+
 	    $filter = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$order_id = implode(',',$cid);
 		$layout = JRequest::getVar('layout');
-		
+
 		$where[] = "1=1";
 		if ( $filter_status ) {
 			$where[] = "o.order_status ='".$filter_status."'";
@@ -95,9 +95,9 @@ class orderModelorder extends JModel
 		if ( $filter_payment_status ) {
 			$where[] = "o.order_payment_status = '".$filter_payment_status."'";
 		}
-		if($filter) 
+		if($filter)
 	    {
-	    	$where[] = "(  uf.firstname like '%".$filter."%' OR uf.lastname like '%".$filter."%' OR o.order_id like '%".$filter."%' OR o.order_number like '%".$filter."%' OR o.referral_code like '%".$filter."%'  OR uf.user_email like '%".$filter."%')";	    	    	
+	    	$where[] = "(  uf.firstname like '%".$filter."%' OR uf.lastname like '%".$filter."%' OR o.order_id like '%".$filter."%' OR o.order_number like '%".$filter."%' OR o.referral_code like '%".$filter."%'  OR uf.user_email like '%".$filter."%')";
 	    }
 	    if($cid[0]!=0){
 			$where[] = 	" o.order_id IN (".$order_id.")";
@@ -114,16 +114,16 @@ class orderModelorder extends JModel
 				.$orderby;
 		return $query;
 	}
-	
+
 	function _buildContentOrderBy()
 	{
 		global $mainframe;
-	
+
 		$filter_order     = $mainframe->getUserStateFromRequest( $this->_context.'filter_order',      'filter_order', 	  ' o.order_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $this->_context.'filter_order_Dir',  'filter_order_Dir', ' DESC ' );		
-					
-		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir;			
-		 		
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $this->_context.'filter_order_Dir',  'filter_order_Dir', ' DESC ' );
+
+		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
+
 		return $orderby;
 	}
 	function update_status()
@@ -131,39 +131,39 @@ class orderModelorder extends JModel
 		$order_functions = new order_functions();
 		$order_functions->update_status();
 	}
-	
+
 	function update_status_all()
 	{
 		$order_functions = new order_functions();
 		$order_functions->update_status_all();
 	}
-	
+
 	function export_data($cid)
 	{
 		//$query1 = $this->_buildQuery();
-		
-		$where = "";    
-	   
+
+		$where = "";
+
 		$order_id = implode(',',$cid);
-		
-		
+
+
 		$where[] = " 1=1";
-	
+
 		if($cid[0]!=0){
 			$where[] = 	" o.order_id IN (".$order_id.")";
 		}
 		$where		= count( $where ) ? '  ' . implode( ' AND ', $where ) : '';
 		$orderby	= " order by o.order_id DESC";
-		
+
   		$query = 'SELECT distinct(o.cdate),o.*,ouf.* FROM '.$this->_table_prefix.'orders AS o '
 				.'LEFT JOIN '.$this->_table_prefix.'order_users_info AS ouf ON o.order_id=ouf.order_id '
 				.'WHERE ouf.address_type LIKE "BT" '
 				.'AND '.$where.' '
 				.$orderby;
-		
+
 		return $this->_getList($query);
-	}	
-	
+	}
+
 	function updateDownloadSetting($did,$limit,$enddate){
 
 		$query = "UPDATE " . $this->_table_prefix."product_download "
@@ -225,7 +225,7 @@ function gls_export($cid)
 		if($cid[0]!=0){
 			$where = 	" WHERE order_id IN (".$oids.")";
 		}
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$q = "SELECT * FROM #__redshop_orders ".$where." ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr=$db->loadObjectList();
@@ -266,16 +266,16 @@ function gls_export($cid)
 						{
 							$totalWeight = 1;
 						}
-					
+
 						$parceltype='A';
 						$shopDetails_arr=explode("|",$gls_arr[$i]->shop_id);
-						
+
 						$userphoneArr=explode("###",$gls_arr[$i]->shop_id);
 
 						$shopDetails_temparr=explode("###",$shopDetails_arr[7]);
 						$shopDetails_arr[7]=$shopDetails_temparr[0];
 
-						
+
 						$shopDetails_arr[2]=str_replace(',', '-', $shopDetails_arr[2]);
 						$userDetail="";
 						if($shopDetails_arr[4]!='DK')
@@ -297,7 +297,7 @@ $shipmenttype='Z';
 					}
 		}exit;
 
-	
+
 	}
 	function business_gls_export($cid)
 	{
@@ -338,7 +338,7 @@ $shipmenttype='Z';
 		if($cid[0]!=0){
 			$where = " WHERE order_id IN (".$oids.")";
 		}
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$q = "SELECT * FROM #__redshop_orders ".$where." ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr=$db->loadObjectList();

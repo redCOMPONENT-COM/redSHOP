@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -14,9 +14,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 defined('_JEXEC') or die('Restricted access');
- 
+
 $option = JRequest::getVar('option');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
 $url = JUri::base();
@@ -51,7 +51,7 @@ submitbutton = function(pressbutton) {
 			alert( "<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_PRODUCT', true ); ?>" );
 			return false;
 		}
-		else 
+		else
 		{
 			submitform( pressbutton );
 		}
@@ -71,7 +71,7 @@ submitbutton = function(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="title" id="title" size="75" maxlength="250" value="<?php echo $this->detail->title;?>" /> 
+				<input class="text_area" type="text" name="title" id="title" size="75" maxlength="250" value="<?php echo $this->detail->title;?>" />
 			</td>
 		</tr>
 		<tr>
@@ -87,7 +87,7 @@ submitbutton = function(pressbutton) {
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/5.gif" border="0" align="absmiddle"><br />
 							<input type="radio" name="user_rating" id="user_rating5" value="5" <?php if($this->detail->user_rating==5) echo "checked='checked'"; ?>>
 						</td>
-						<td align="center"> 
+						<td align="center">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/4.gif" border="0" align="absmiddle"><br />
 							<input type="radio" name="user_rating" id="user_rating4" value="4" <?php if($this->detail->user_rating==4) echo "checked='checked'"; ?>>
 						</td>
@@ -118,7 +118,7 @@ submitbutton = function(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<textarea class="text_area" name="comment" id="comment" cols="32" rows="5" /><?php echo $this->detail->comment; ?></textarea> 
+				<textarea class="text_area" name="comment" id="comment" cols="32" rows="5" /><?php echo $this->detail->comment; ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -135,7 +135,7 @@ submitbutton = function(pressbutton) {
 				<?php echo JText::_('COM_REDSHOP_PRODUCT' ); ?>:
 			</td>
 			<td>
-			<input type="text" size="75" name="product" id="product" value="<?php if($product_data){ echo $product_data->product_name; }else{ if($this->detail->product_id) echo $this->detail->product_name;} ?>" 
+			<input type="text" size="75" name="product" id="product" value="<?php if($product_data){ echo $product_data->product_name; }else{ if($this->detail->product_id) echo $this->detail->product_name;} ?>"
 			<?php if($product_data){?>
 			disabled="disabled"
 			<?php }?>
@@ -164,7 +164,7 @@ submitbutton = function(pressbutton) {
 </div>
 
 <div class="clr"></div>
-<?php 
+<?php
 	if(JRequest::getVar('pid'))
 		$pid=JRequest::getVar('pid');
 	else
@@ -176,13 +176,13 @@ submitbutton = function(pressbutton) {
 <input type="hidden" name="view" value="rating_detail" />
 </form>
 <script type="text/javascript">
-		
+
 	var options = {
 			script:"index.php?tmpl=component&&option=com_redshop&view=search&user=1&json=true&",
 			varname:"input",
 			json:true,
 			shownoresults:false,
-			callback: function (obj) { document.getElementById('userid').value = obj.id; }				
+			callback: function (obj) { document.getElementById('userid').value = obj.id; }
 		};
 	var as_json = new bsn.AutoSuggest('username', options);
 
@@ -191,8 +191,8 @@ submitbutton = function(pressbutton) {
 			varname:"input",
 			json:true,
 			shownoresults:false,
-			callback: function (obj) { document.getElementById('product_id').value = obj.id; }				
+			callback: function (obj) { document.getElementById('product_id').value = obj.id; }
 		};
 	var as_json = new bsn.AutoSuggest('product', products);
-	
+
 </script>

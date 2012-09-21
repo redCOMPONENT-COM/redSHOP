@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -29,9 +29,9 @@ class manufacturerModelmanufacturer extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe; 
+		global $mainframe;
 		$this->_context='manufacturer_id';
-	  	$this->_table_prefix = '#__redshop_';			
+	  	$this->_table_prefix = '#__redshop_';
 		$limit			= $mainframe->getUserStateFromRequest( $this->_context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest( $this->_context.'limitstart', 'limitstart', 0 );
 		$filter = $mainframe->getUserStateFromRequest( $this->_context.'filter','filter',0);
@@ -42,7 +42,7 @@ class manufacturerModelmanufacturer extends JModel
 
 	}
 	function getData()
-	{		
+	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
@@ -74,51 +74,51 @@ class manufacturerModelmanufacturer extends JModel
 		$filter = $this->getState('filter');
 		$orderby	= $this->_buildContentOrderBy();
 		$where='';
-		if($filter) 
+		if($filter)
 		{
 			$where = " WHERE m.manufacturer_name like '%".$filter."%' ";
-		} 
-		
+		}
+
 		$query = 'SELECT  distinct(m.manufacturer_id),m.* FROM '.$this->_table_prefix.'manufacturer m '
 				.$where
 				.$orderby
 				;
 		return $query;
 	}
-	
+
 	function _buildContentOrderBy()
 	{
 		global $mainframe;
-	
+
 		$filter_order     = $mainframe->getUserStateFromRequest( $this->_context.'filter_order',      'filter_order', 	  'm.ordering' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $this->_context.'filter_order_Dir',  'filter_order_Dir', '' );		
-					
-		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir;			
-		 		
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $this->_context.'filter_order_Dir',  'filter_order_Dir', '' );
+
+		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
+
 		return $orderby;
 	}
 	function getMediaId($mid)
-	{	
+	{
 		$database = JFactory::getDBO();
-		
+
 		$query = ' SELECT media_id '
 			. ' FROM '.$this->_table_prefix.'media  WHERE media_section="manufacturer" AND section_id = '.$mid;
 
 		$database->setQuery($query);
-		return $database->loadResult();		
+		return $database->loadResult();
 	}
-	
+
 	function saveOrder( &$cid )
 	{
 		global $mainframe;
 		//$scope 		= JRequest::getCmd( 'scope' );
-		$db			=& JFactory::getDBO();
-		$row =& $this->getTable('manufacturer_detail');
-	
+		$db			= JFactory::getDBO();
+		$row = $this->getTable('manufacturer_detail');
+
 		$total		= count( $cid );
 		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($order, array(0));
-	
+
 		// update ordering values
 		for( $i=0; $i < $total; $i++ )
 		{
@@ -132,14 +132,14 @@ class manufacturerModelmanufacturer extends JModel
 				}
 			}
 		}
-	
+
 		$row->reorder( );
 		return true;
 		//$msg 	= JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		//$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
 	}
-	
-	
 
-}	
+
+
+}
 

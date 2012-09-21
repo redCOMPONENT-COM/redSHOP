@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ $option = JRequest::getVar('option');
 $section_type = JRequest::getVar('section_type');
 $parentsection = JRequest::getVar('parentsection');
 $model = $this->getModel('xmlexport_detail');
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();	?>
 
 <script language="javascript" type="text/javascript">
@@ -29,8 +29,8 @@ Joomla.submitbutton = function(pressbutton) {
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
-{	
+submitbutton = function(pressbutton)
+{
 	var form = document.adminForm;
 	if (form.element_name.value == ""){
 		alert( "<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_XMLEXPORT_CHILD_ELEMENT_NAME', true ); ?>" );
@@ -43,7 +43,7 @@ submitbutton = function(pressbutton)
 <div class="col50">
 	<table class="admintable">
 	<tr><td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_XMLEXPORT_ELEMENT_NAME' ); ?>:</td>
-		<td><input type="text" name="element_name" id="element_name" value="<?php echo $this->childname;?>" /></td></tr>	
+		<td><input type="text" name="element_name" id="element_name" value="<?php echo $this->childname;?>" /></td></tr>
 	<tr><th><?php echo JText::_('COM_REDSHOP_FIELD_NAME' ); ?></th><th><?php echo JText::_('COM_REDSHOP_XMLEXPORT_FILE_TAG_NAME' ); ?></th></tr>
 <?php	for($i=0;$i<count($this->columns);$i++)
 		{	?>

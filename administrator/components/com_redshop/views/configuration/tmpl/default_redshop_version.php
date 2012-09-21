@@ -15,7 +15,7 @@
  */
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 ?>
 <table width="100%" cellpadding="0" cellspacing="0">

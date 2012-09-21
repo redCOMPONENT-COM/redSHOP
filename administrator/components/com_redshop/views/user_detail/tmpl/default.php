@@ -98,7 +98,7 @@ submitbutton = function(pressbutton)
 			} else if (user_valid == 0) {
 				alert( "<?php echo JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE', true );?>" );
 				return false;
-			
+
 			} else if ((((form.password.value) != "") || (form.password2.value != "")) && (form.password.value != form.password2.value)){
 				alert( "<?php echo JText::_('COM_REDSHOP_PASSWORD_NOT_MATCH', true );?>" );
 				return false;
@@ -141,7 +141,7 @@ submitbutton = function(pressbutton)
 				return false;
 			}*/
 		}
-		
+
 		submitform( pressbutton );
 <?php
 	 }	?>
@@ -150,7 +150,7 @@ submitbutton = function(pressbutton)
 
 <form action="<?php echo JRoute::_ ( $this->request_url )?>" method="post" name="adminForm" id="adminForm">
 <?php
-$myTabs = & JPane::getInstance ( 'tabs', array ('startOffset' => $tab ) );
+$myTabs = JPane::getInstance ( 'tabs', array ('startOffset' => $tab ) );
 
 //Create Pane
 echo $myTabs->startPane ( 'pane' );

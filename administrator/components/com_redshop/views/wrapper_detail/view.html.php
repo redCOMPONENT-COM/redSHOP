@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -20,24 +20,24 @@ class wrapper_detailVIEWwrapper_detail extends JView
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-		
+
 		$context = "wrapper";
-	 	$uri =& JFactory::getURI();
+	 	$uri = JFactory::getURI();
 		$lists = array();
-		$detail	=& $this->get('data'); 
+		$detail	=& $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
 		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
-		$document = & JFactory::getDocument();
-		
+		$document = JFactory::getDocument();
+
 		$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
-		
+
 		$document->addStyleSheet ( 'components/'.$option.'/assets/css/search.css' );
-		
+
 		$document->addScript ('components/'.$option.'/assets/js/search.js');
 		$isNew = ($detail->wrapper_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
-		
+
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_WRAPPER' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_wrapper48' );
 		JToolBarHelper::save();
 		if ($isNew)  {
@@ -49,7 +49,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		$lists['use_to_all'] 		= JHTML::_('select.booleanlist',  'wrapper_use_to_all', 'class="inputbox"', $detail->wrapper_use_to_all );
 		$product_id = 0;
 		$category_id = 0;
-		
+
 		$showall = JRequest::getVar('showall','0');
 		if($showall)
 		{
@@ -62,7 +62,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 			$catid = explode(",", $detail->category_id);
 		}
 		$lists['category_name'] = $model->getMultiselectBox("categoryid[]",$category,$catid,"category_id","category_name",true);
-		
+
 		$product = $model->getProductInfo($product_id);
 		if( count($detail) > 0 )
 		{
@@ -73,12 +73,12 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		if(count($productData)>0)
 			$result_container = $productData;
 		else
-		$result_container = array(); 
-		
+		$result_container = array();
+
 		$lists['product_all'] = JHTML::_('select.genericlist',$productData,'product_all[]','class="inputbox" multiple="multiple" ','value','text',$detail->product_id);
-		
+
 		$lists['product_name'] 	= JHTML::_('select.genericlist',$result_container,  'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
-		
+
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('product',		$product);

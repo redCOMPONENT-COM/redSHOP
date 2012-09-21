@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -25,25 +25,25 @@ class answer_detailVIEWanswer_detail extends JView
 	{
 		$producthelper = new producthelper();
 		$option = JRequest::getVar('option');
-		
-		$document = & JFactory::getDocument();
+
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_ANSWER') );
-		
-		$uri	=& JFactory::getURI();
+
+		$uri	= JFactory::getURI();
 		$lists = array();
 		$model = $this->getModel();
-		
-		$detail	=& $this->get('data');
+
+		$detail	= $this->get('data');
 		$qdetail= $producthelper->getQuestionAnswer($detail->parent_id);
 		if(count($qdetail)>0)
 		{
 			$qdetail = $qdetail[0];
 		}
-		
+
 		$isNew = ($detail->question_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
-		
+
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ANSWER_DETAIL' ).': <small><small>[ '.$text.' ]</small></small>', 'redshop_question48' );
 		JToolBarHelper::save();
 		JToolBarHelper::custom( 'send','send.png','send.png',JText::_('COM_REDSHOP_SEND'),false);
@@ -52,7 +52,7 @@ class answer_detailVIEWanswer_detail extends JView
 		} else {
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
-		
+
 		$option= $model->getProduct();
 		$optionsection = array();
 		$optionsection[0]->product_id = 0;
@@ -68,7 +68,7 @@ class answer_detailVIEWanswer_detail extends JView
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('qdetail',		$qdetail);
 		$this->assignRef('request_url',	$uri->toString());
-		
+
 		parent::display($tpl);
 	}
 }	?>

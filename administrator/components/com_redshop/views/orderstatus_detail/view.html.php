@@ -23,8 +23,8 @@ class orderstatus_detailVIEWorderstatus_detail extends JView
 	{
 //		global $mainframe;
 //		$option	= JRequest::getVar('option');
-		
-		$uri =& JFactory::getURI();
+
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

@@ -306,7 +306,7 @@ class attribute_set_detailController extends JController
 
 	function media_bank()
     {
-        $uri =& JURI::getInstance();
+        $uri = JURI::getInstance();
 
 		$url= $uri->root();
 
@@ -441,7 +441,7 @@ class attribute_set_detailController extends JController
 	function property_more_img()
     {
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url= $uri->root();
 
@@ -476,7 +476,7 @@ class attribute_set_detailController extends JController
 	function deleteimage()
     {
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url= $uri->root();
 
@@ -495,7 +495,7 @@ class attribute_set_detailController extends JController
 	function subattribute_color()
     {
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url= $uri->root();
 

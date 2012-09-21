@@ -19,9 +19,9 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 JHTMLBehavior::modal();
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 
-$date =& JFactory::getDate();
+$date = JFactory::getDate();
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -61,7 +61,7 @@ if($this->detail->stockroom_id)
 <?php
 }
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset'=>0));
+$myTabs = JPane::getInstance('tabs', array('startOffset'=>0));
 $output = '';
 
 //Create Pane

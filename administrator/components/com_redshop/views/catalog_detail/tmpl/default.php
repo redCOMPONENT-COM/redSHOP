@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -17,11 +17,11 @@ defined('_JEXEC') or die('Restricted access');
 
 $option = JRequest::getVar('option');
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTML::_('behavior.modal');
- 
-$editor =& JFactory::getEditor();
-$uri =& JURI::getInstance();
+
+$editor = JFactory::getEditor();
+$uri = JURI::getInstance();
 $url= $uri->root();
 
 ?>
@@ -32,19 +32,19 @@ $url= $uri->root();
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) {		
+submitbutton = function(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform( pressbutton );
 			return;
 		}
-		
+
 		if (form.catalog_name.value==1)
 		{
 			alert( "<?php echo JText::_('COM_REDSHOP_ENTER_CATALOG_NAME', true ); ?>" );
 			return false;
-		} 
-		else 
+		}
+		else
 		{
 			submitform(pressbutton);
 		}
@@ -56,7 +56,7 @@ submitbutton = function(pressbutton) {
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 
 <div class="col50">
-	
+
 		<table class="admintable">
 		<tr>
 			<td valign="top" align="right" class="key">
@@ -67,7 +67,7 @@ submitbutton = function(pressbutton) {
 			<td>
 				<input class="text_area" type="text" name="catalog_name" id="catalog_name" size="75" maxlength="250" value="<?php echo $this->detail->catalog_name;?>" />
 			</td>
-		</tr>		 
+		</tr>
 		<tr>
 			<td valign="top" align="right" class="key">
 				<?php echo JText::_('COM_REDSHOP_PUBLISHED' ); ?>:
@@ -75,11 +75,11 @@ submitbutton = function(pressbutton) {
 			<td><?php echo $this->lists['published']; ?>
 			</td>
 		</tr>
-				
+
 	</table>
-	
+
 </div>
-	 
+
 <div class="clr"></div>
 <input type="hidden" value="0" name="total_extra" id="total_extra">
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->catalog_id; ?>" />

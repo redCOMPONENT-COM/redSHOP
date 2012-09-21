@@ -32,9 +32,9 @@ $params = JRequest::getVar('params');
 		<td>
 			<?php
 
-			$doc 		=& JFactory::getDocument();
+			$doc 		= JFactory::getDocument();
 
-			$article =& JTable::getInstance('content');
+			$article = JTable::getInstance('content');
 			$article_id = $this->temparray['terms_article_id'];
 			if ($article_id) {
 				$article->load($article_id);

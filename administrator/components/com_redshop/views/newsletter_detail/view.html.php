@@ -37,11 +37,11 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT_DETAIL' ), 'redshop_newsletter48' );
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$detail	=& $this->get('data');
 		$isNew = ($detail->newsletter_id < 1);

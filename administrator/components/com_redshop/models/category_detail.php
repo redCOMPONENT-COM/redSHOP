@@ -111,7 +111,7 @@ class category_detailModelcategory_detail extends JModel
 		$option = JRequest::getVar('option');
 
 		$filename = "";
-		$file =& JRequest::getVar('category_full_image', array(), 'files', 'array' );//Get File name, tmp_name
+		$file = JRequest::getVar('category_full_image', array(), 'files', 'array' );//Get File name, tmp_name
 
 		if(count($file)>0)
 		{
@@ -164,7 +164,7 @@ class category_detailModelcategory_detail extends JModel
 			}
 		}
 // upload back image
-		$backfile =& JRequest::getVar('category_back_full_image', '', 'files', 'array' );//Get File name, tmp_name
+		$backfile = JRequest::getVar('category_back_full_image', '', 'files', 'array' );//Get File name, tmp_name
 
 		if(isset($data['image_back_delete']))
 		{
