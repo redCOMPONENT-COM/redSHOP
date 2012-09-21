@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,29 +15,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class giftcard_detailController extends JController {
-	function __construct($default = array()) {
+class giftcard_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	function edit() {
+
+	function edit()
+    {
 		JRequest::setVar ( 'view', 'giftcard_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
+    }
 
-	}
 	function apply()
 	{
        $this->save(1);
 	}
-	function save($apply=0) {
 
-		$post = JRequest::get ( 'post',JREQUEST_ALLOWRAW );
+	function save($apply=0)
+    {
+        $post = JRequest::get ( 'post',JREQUEST_ALLOWRAW );
 
 		$giftcard_desc = JRequest::getVar( 'giftcard_desc', '', 'post', 'string', JREQUEST_ALLOWRAW );
 		$post["giftcard_desc"]=$giftcard_desc;
@@ -71,9 +77,10 @@ class giftcard_detailController extends JController {
 			</script>
 	<?php }
 	}
-	function remove() {
 
-		$option = JRequest::getVar('option');
+	function remove()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -88,7 +95,9 @@ class giftcard_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=giftcard' );
 	}
-	function publish() {
+
+	function publish()
+    {
 
 		$option = JRequest::getVar('option');
 
@@ -105,7 +114,9 @@ class giftcard_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=giftcard' );
 	}
-	function unpublish() {
+
+	function unpublish()
+    {
 
 		$option = JRequest::getVar('option');
 
@@ -122,15 +133,17 @@ class giftcard_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=giftcard' );
 	}
-	function cancel() {
 
-		$option = JRequest::getVar('option');
+	function cancel()
+    {
+        $option = JRequest::getVar('option');
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=giftcard' );
 	}
-	function copy(){
 
-		$option = JRequest::getVar('option');
+	function copy()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -147,5 +160,4 @@ class giftcard_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option=' .$option. '&view=giftcard', $msg );
 	}
-
 }
