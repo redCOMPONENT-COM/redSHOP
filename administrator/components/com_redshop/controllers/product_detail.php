@@ -23,27 +23,30 @@ jimport('joomla.filesystem.file');
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'thumbnail.php' );
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'product.php' );
 
-class product_detailController extends JController {
-	function __construct($default = array()) {
+class product_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'product_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
-
-		parent::display ();
+        parent::display();
 	}
+
 	function apply()
 	{
        $this->save(1);
 	}
+
 	function save($apply=0)
 	{
-
-		$post = JRequest::get ( 'post' );
+        $post = JRequest::get ( 'post' );
 
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -172,9 +175,10 @@ class product_detailController extends JController {
 			parent::display ();
 		}
 	}
-	function remove() {
 
-		$option = JRequest::getVar ('option');
+	function remove()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -194,9 +198,10 @@ class product_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
 	}
-	function publish() {
 
-		$option = JRequest::getVar ('option');
+	function publish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -211,9 +216,10 @@ class product_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar ('option');
+	function unpublish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -228,14 +234,16 @@ class product_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
 	}
-	function cancel() {
 
-		$option = JRequest::getVar ('option');
+	function cancel()
+    {
+        $option = JRequest::getVar ('option');
 		$model = $this->getModel('product_detail');
 		$model->checkin();
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
 	}
+
 	function copy(){
 
 		$option = JRequest::getVar('option');
@@ -256,7 +264,7 @@ class product_detailController extends JController {
 		$this->setRedirect ( 'index.php?option=' .$option. '&view=product', $msg );
 	}
 
-	function attribute_save($post,$row,$file)
+	function attribute_save($post,$row)
 	{
 		if(ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
 		{
@@ -264,11 +272,11 @@ class product_detailController extends JController {
 		}
 
 		$model 			= $this->getModel ( 'product_detail' );
-		$option 		= JRequest::getVar ('option');
-		$thumb 			= new thumbnail();
-		$obj_img 		= new thumbnail_images();
-		$n_width		= 50;
-		$n_height		= 50;
+		//$option 		= JRequest::getVar ('option');
+		//$thumb 			= new thumbnail();
+		//$obj_img 		= new thumbnail_images();
+		//$n_width		= 50;
+		//$n_height		= 50;
 
 		$attribute_save 	= array();
 		$property_save 		= array();
@@ -447,15 +455,11 @@ class product_detailController extends JController {
 		return array($width, $height);
 	}
 
-	function media_bank(){
-
-		$uri = JURI::getInstance();
-
+	function media_bank()
+    {
+        $uri = JURI::getInstance();
 		$url= $uri->root();
 
-		$tbl="";
-
-		$folder = JRequest::getVar('folder','');
 		$folder_path = JRequest::getVar('path','');
 		$dirpath = JRequest::getVar('dirpath','');
 
@@ -580,10 +584,10 @@ class product_detailController extends JController {
 			closedir($handle);
 		}
 	}
-	function property_more_img(){
 
-		$uri = JURI::getInstance();
-
+	function property_more_img()
+    {
+        $uri = JURI::getInstance();
 		$url= $uri->root();
 
 		$post = JRequest::get('post');
@@ -613,11 +617,11 @@ class product_detailController extends JController {
 			<?php
 		}
 	}
-	function deleteimage(){
 
-		$uri = JURI::getInstance();
-
-		$url= $uri->root();
+	function deleteimage()
+    {
+        $uri = JURI::getInstance();
+        $url= $uri->root();
 
 		$mediaid = JRequest::getVar('mediaid');
 		$section_id = JRequest::getVar('section_id');
@@ -630,12 +634,9 @@ class product_detailController extends JController {
 			$this->setRedirect ( $link, $msg );
 		}
 	}
-	function subattribute_color(){
 
-		$uri = JURI::getInstance();
-
-		$url= $uri->root();
-
+	function subattribute_color()
+    {
 		$post = JRequest::get('post');
 
 		$model = $this->getModel ( 'product_detail' );
@@ -656,10 +657,11 @@ class product_detailController extends JController {
 		</script>
 		<?php
 	}
-	// remove Property image
-	function removepropertyImage(){
 
-		$get = JRequest::get('get');
+	// remove Property image
+	function removepropertyImage()
+    {
+        $get = JRequest::get('get');
 
 		$pid = $get['pid'];
 
@@ -670,9 +672,10 @@ class product_detailController extends JController {
 
 		exit;
 	}
-	// remove subProperty image
-	function removesubpropertyImage(){
 
+	// remove subProperty image
+	function removesubpropertyImage()
+    {
 		$get = JRequest::get('get');
 
 		$pid = $get['pid'];
@@ -685,8 +688,8 @@ class product_detailController extends JController {
 		exit;
 	}
 
-	function saveAttributeStock(){
-
+	function saveAttributeStock()
+    {
 		$post = JRequest::get('post');
 
 		$model = $this->getModel();
@@ -712,8 +715,7 @@ class product_detailController extends JController {
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
-
-	}
+    }
 
 	function orderdown()
 	{
@@ -724,8 +726,7 @@ class product_detailController extends JController {
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
-
-	}
+    }
 
 	function saveorder()
 	{
@@ -741,8 +742,7 @@ class product_detailController extends JController {
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
-
-	}
+    }
 
 	function deleteProdcutSerialNumbers(){
 
@@ -755,8 +755,7 @@ class product_detailController extends JController {
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=product_detail&cid='.$product_id,$msg );
-
-	}
+    }
 
 	function delete_subprop()
 	{
@@ -779,6 +778,7 @@ class product_detailController extends JController {
 
 		$model->delete_attibute($get['product_id'],$get['attribute_id'],$get['attribute_set_id']);
 	}
+
 	function checkVirtualNumber()
 	{
 		$isExists = true;
@@ -840,10 +840,10 @@ class product_detailController extends JController {
 		//}
 		$this->setRedirect( 'index.php?option=com_redshop&view=product_detail&task=edit&cid[]='.$pid);
 	}
+
 	function ResetPreorderStockBank()
 	{
-
-		$model = $this->getModel('product_detail');
+        $model = $this->getModel('product_detail');
 		$stockroom_type =  JRequest::getVar ( 'stockroom_type', 'product');
 		$section_id = JRequest::getVar ( 'section_id');
 		//$pid = JRequest::getVar ( 'product_id');
@@ -856,6 +856,7 @@ class product_detailController extends JController {
 		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=".$section_id."&cid=".$cid."&layout=productstockroom&property=".$stockroom_type;
 		$this->setRedirect($link);
 	}
+
 	function getDynamicFields()
 	{
 		JRequest::setVar ( 'view', 'product_detail' );
@@ -864,6 +865,7 @@ class product_detailController extends JController {
 		parent::display ();
 
 	}
+
 	function DeleteMergeImages()
 	{
 		$dirname = REDSHOP_FRONT_IMAGES_RELPATH."mergeImages";

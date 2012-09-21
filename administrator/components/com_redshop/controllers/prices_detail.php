@@ -16,21 +16,23 @@
 
 jimport ( 'joomla.application.component.controller' );
 
-class prices_detailController extends JController {
+class prices_detailController extends JController
+{
 
-	function __construct($default = array()) {
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'prices_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
-		$model = $this->getModel ( 'prices_detail' );
-
 		parent::display ();
 	}
+
 	function save()
 	{
 		$post = JRequest::get ( 'post' );
@@ -44,14 +46,16 @@ class prices_detailController extends JController {
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 		$post ['price_id'] = $cid [0];
-		
+
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
+
 		if($post['discount_end_date'])
 		{
 			$post ['discount_end_date'] = strtotime($post['discount_end_date'])+(23*59*59);
 		}
 
 		$model = $this->getModel ( 'prices_detail' );
+
 		if($price_quantity_start==0 && $price_quantity_end==0)
 		{
 			if ($model->store ( $post )) {
@@ -68,14 +72,15 @@ class prices_detailController extends JController {
 					}
 			}else{
 					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL' );
-	
+
 			}
 		}
 		$this->setRedirect ( 'index.php?option=' . $option . '&view=prices&product_id='.$product_id, $msg );
 	}
-	function remove() {
 
-		$option = JRequest::getVar ('option');
+	function remove()
+    {
+        $option = JRequest::getVar ('option');
 		$product_id = JRequest::getVar ('product_id');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -91,12 +96,12 @@ class prices_detailController extends JController {
 		$this->setRedirect ( 'index.php?option='.$option.'&view=prices&product_id='.$product_id,$msg );
 	}
 
-	function cancel() {
-
-		$option = JRequest::getVar ('option');
+	function cancel()
+    {
+        $option = JRequest::getVar ('option');
 		$product_id = JRequest::getVar ('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=prices&product_id='.$product_id,$msg );
 	}
-}	?>
+}

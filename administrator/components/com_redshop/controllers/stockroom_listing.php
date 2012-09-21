@@ -21,16 +21,11 @@ jimport( 'joomla.application.component.controller' );
 
 class stockroom_listingController extends JController
 {
-
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
 	function cancel()
-
-	{
+    {
 		$this->setRedirect( 'index.php' );
 	}
+
 	function saveStock()
 	{
 		$model = $this->getModel('stockroom_listing');
@@ -42,7 +37,6 @@ class stockroom_listingController extends JController
 		$preorder_stock = JRequest::getVar ( 'preorder_stock', array (0 ), 'post', 'array' );
 		$ordered_preorder = JRequest::getVar ( 'ordered_preorder', array (0 ), 'post', 'array' );
 //
-
 		for($i=0;$i<count($sid);$i++)
 		{
 
@@ -64,10 +58,6 @@ class stockroom_listingController extends JController
 		$this->setRedirect( 'index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type='.$stockroom_type);
 	}
 
-	function display()
-	{
-		parent::display();
-	}
 	function export_data()
 	{
 		$model = $this->getModel('stockroom_listing');
@@ -110,7 +100,7 @@ class stockroom_listingController extends JController
    		if($cid !="" && $cid !=0)
     	{
     		$product_list = $model->getProductIdsfromCategoryid($cid);
-    		   		
+
     		for($p=0;$p<count($product_list);$p++)
     		{
     			$product_ids = implode(",", $product_list);
@@ -132,11 +122,12 @@ class stockroom_listingController extends JController
 			echo $data[$i]->quantity.",";
 			echo $data[$i]->quantity * $data[$i]->product_volume."\n";
 		}
-	
+
 		exit;
 	}
+
 	function print_data()
 	{
 		echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
 	}
-}?>
+}

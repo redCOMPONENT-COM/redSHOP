@@ -20,30 +20,30 @@ jimport ( 'joomla.application.component.controller' );
 
 jimport('joomla.filesystem.file');
 
-class shopper_group_detailController extends JController 
+class shopper_group_detailController extends JController
 {
-	function __construct($default = array()) 
+	function __construct($default = array())
 	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'shopper_group_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 
-		$model = $this->getModel ( 'shopper_group_detail' );
+		//$model = $this->getModel ( 'shopper_group_detail' );
 
 		parent::display ();
 	}
-	
+
 	function apply()
 	{
 		$this->save(1);
 	}
-	
+
 	function save($apply=0)
 	{
 		$option = JRequest::getVar ('option');
@@ -55,25 +55,25 @@ class shopper_group_detailController extends JController
 
 		if(isset($post['shopper_group_categories']) && count($post['shopper_group_categories'])>0)
 		{
-			$post["shopper_group_categories"] = implode(",",$post['shopper_group_categories']);	
+			$post["shopper_group_categories"] = implode(",",$post['shopper_group_categories']);
 		}
 		else
 		{
 			$post["shopper_group_categories"] = "";
 		}
-		
+
 		if(isset($post['shopper_group_manufactures']) && count($post['shopper_group_manufactures'])>0)
 		{
-			$post["shopper_group_manufactures"] = implode(",",$post['shopper_group_manufactures']);	
+			$post["shopper_group_manufactures"] = implode(",",$post['shopper_group_manufactures']);
 		}
 		else
 		{
 			$post["shopper_group_manufactures"] = "";
 		}
-		
+
 		$model = $this->getModel ( 'shopper_group_detail' );
 		$row = $model->store ( $post );
-		if ($row) 
+		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_SAVED' );
 		} else {
@@ -85,7 +85,7 @@ class shopper_group_detailController extends JController
 			$this->setRedirect ( 'index.php?option=' . $option . '&view=shopper_group', $msg );
 	}
 
-	function remove() 
+	function remove()
 	{
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -110,8 +110,8 @@ class shopper_group_detailController extends JController
 		}
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shopper_group',$msg );
 	}
-	
-	function publish() 
+
+	function publish()
 	{
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -125,8 +125,8 @@ class shopper_group_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shopper_group',$msg );
 	}
-	
-	function unpublish() 
+
+	function unpublish()
 	{
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -140,11 +140,12 @@ class shopper_group_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shopper_group',$msg );
 	}
-	
-	function cancel() 
+
+	function cancel()
 	{
 		$option = JRequest::getVar ('option');
 		$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shopper_group',$msg );
 	}
-}?>
+}
+
