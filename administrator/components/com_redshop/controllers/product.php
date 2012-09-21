@@ -21,19 +21,20 @@ jimport( 'joomla.application.component.controller' );
 
 class productController extends JController
 {
-	function __construct( $default = array())
+	/*public function __construct( $default = array())
 	{
 		parent::__construct( $default );
-	}
+	}*/
+
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
-	function display() {
 
+	/*function display()
+    {
 		parent::display();
-
-	}
+    }*/
 
 	/*
 	 * select A Product Element
@@ -155,7 +156,7 @@ class productController extends JController
 				}
 				$responcemsg .= "</div>";
 			}
-			
+
 			$query = "SELECT sp.*, ap.property_id, ap.property_name, p.product_id, p.accountgroup_id  FROM #__redshop_product_subattribute_color AS sp "
 					."LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
 					."LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
@@ -190,7 +191,7 @@ class productController extends JController
 				}
 				$responcemsg .= "</div>";
 			}
-			
+
 			if($totalprd>0)
 			{
 				$msg = $responcemsg;
