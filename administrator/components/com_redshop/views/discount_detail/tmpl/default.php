@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
 $producthelper = new producthelper();
-$now	=& JFactory::getDate();
+$now = JFactory::getDate();
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -36,7 +36,7 @@ submitbutton = function(pressbutton) {
 			alert( "<?php echo JText::_('COM_REDSHOP_DISCOUNT_AMOUNT_MUST_FILLED', true ); ?>" );
 		}else if(form.shopper_group_id.value == "" ){
 			alert( "<?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_MUST_BE_SELECTED', true ); ?>" );
-		} 
+		}
 		else {
 			submitform( pressbutton );
 		}
@@ -48,7 +48,7 @@ submitbutton = function(pressbutton) {
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_DETAILS' ); ?></legend>
 		<table class="admintable">
-					
+
 			<tr>
 				<td width="100" align="right" class="key">
 					<label for="name">
@@ -101,11 +101,11 @@ submitbutton = function(pressbutton) {
 				<?php
 					if($this->detail->start_date)
 						$datee = date("d-m-Y",$this->detail->start_date);
-					
+
 					echo JHTML::_('calendar',$datee , 'start_date', 'start_date',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'32',  'maxlength'=>'19')); ?>
 				</td>
 			</tr>
-			<tr>	
+			<tr>
 				<td valign="top" align="right" class="key">
 					<label for="deliverytime">
 						<?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE' ); ?>:
@@ -115,11 +115,11 @@ submitbutton = function(pressbutton) {
 				<?php
 					if($this->detail->end_date)
 						$datee = date("d-m-Y",$this->detail->end_date);
-					
+
 					echo JHTML::_('calendar',$datee , 'end_date', 'end_date',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'32',  'maxlength'=>'19')); ?>
 				</td>
 			</tr>
-			<tr>	
+			<tr>
 				<td valign="top" align="right" class="key">
 					<label for="deliverytime">
 						<?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP' ); ?>:
@@ -130,7 +130,7 @@ submitbutton = function(pressbutton) {
 						echo $this->lists['shopper_group_id'];
 					?>
 				</td>
-			</tr>					 
+			</tr>
 			<tr>
 				<td valign="top" align="right" class="key">
 					<?php echo JText::_('COM_REDSHOP_PUBLISHED' ); ?>:
@@ -138,7 +138,7 @@ submitbutton = function(pressbutton) {
 				<td>
 					<?php echo $this->lists['published']; ?>
 				</td>
-			</tr>			
+			</tr>
 	</table>
 	</fieldset>
 </div>
