@@ -19,22 +19,16 @@ jimport( 'joomla.application.component.view' );
 
 class orderVieworder extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-
 
 		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'order.php' );
 		$order_function = new order_functions();
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_ORDER') );
-   		$model = $this->getModel('order');
+
    		$layout = JRequest::getVar('layout');
 
    		if($layout == 'previewlog' )
@@ -67,7 +61,6 @@ class orderVieworder extends JView
 		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$orders			= $this->get( 'Data');
-		$total			= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status',$filter_status,'class="inputbox" size="1" onchange="document.adminForm.submit();"' );

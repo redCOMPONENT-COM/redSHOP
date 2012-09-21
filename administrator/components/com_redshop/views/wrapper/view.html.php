@@ -18,15 +18,8 @@ jimport('joomla.html.pagination');
 
 class wrapperViewwrapper extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$product_id = JRequest::getVar('product_id');
 //		$product_name = "";
 
@@ -56,4 +49,5 @@ class wrapperViewwrapper extends JView
    	 	$this->assignRef('request_url',	$uri->toString());
    	 	parent::display($tpl);
 	}
-}?>
+}
+

@@ -21,7 +21,7 @@ class question_detailVIEWquestion_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+		//$option = JRequest::getVar('option');
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_QUESTION') );
@@ -65,4 +65,4 @@ class question_detailVIEWquestion_detail extends JView
 
 		parent::display($tpl);
 	}
-}	?>
+}

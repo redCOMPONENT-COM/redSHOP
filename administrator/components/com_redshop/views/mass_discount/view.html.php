@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class mass_discountViewmass_discount extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -31,17 +26,13 @@ class mass_discountViewmass_discount extends JView
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_DISCOUNT') );
 
-		$layout = JRequest::getVar('layout');
-
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT' ), 'redshop_massdiscountmanagmenet48' );
-
 
  		JToolBarHelper::addNewX();
  		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
 
 		$uri	= JFactory::getURI();
-
 
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'mass_discount_id' );
 
@@ -50,9 +41,8 @@ class mass_discountViewmass_discount extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$discounts	= & $this->get( 'Data');
-		$total = & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$discounts	= $this->get( 'Data');
+		$pagination = $this->get( 'Pagination' );
 
     	$this->assignRef('user',		JFactory::getUser());
     	$this->assignRef('lists',		$lists);
@@ -62,4 +52,3 @@ class mass_discountViewmass_discount extends JView
     	parent::display($tpl);
   }
 }
-?>

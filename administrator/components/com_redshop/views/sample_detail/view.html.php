@@ -38,8 +38,7 @@ class sample_detailVIEWsample_detail extends JView
 		$document->addScript ('components/'.$option.'/assets/js/utils.js');
 		$document->addScript ('components/'.$option.'/assets/js/layout.js?ver=1.0.2');
 
-
-		$uri 		= JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
@@ -91,7 +90,5 @@ class sample_detailVIEWsample_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }
 
-?>

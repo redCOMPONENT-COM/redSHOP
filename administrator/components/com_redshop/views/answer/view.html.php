@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class answerViewanswer extends JView
 {
-	/*function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}*/
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -52,18 +47,19 @@ class answerViewanswer extends JView
 		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$question	= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$question	= $this->get( 'Data');
+		$pagination = $this->get( 'Pagination' );
 
 		$option= $model->getProduct();
 		$optionsection = array();
 		$optionsection[0]->product_id = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
+
 		if(count($option)>0)
 		{
 			$optionsection = @array_merge($optionsection,$option);
 		}
+
 		$lists['product_id'] 	= JHTML::_('select.genericlist',$optionsection,  'product_id', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name',  $product_id );
 
 	    $this->assignRef('lists',		$lists);
@@ -71,7 +67,7 @@ class answerViewanswer extends JView
 	  	$this->assignRef('question',	$question);
 	    $this->assignRef('pagination',	$pagination);
 	    $this->assignRef('request_url',	$uri->toString());
+
     	parent::display($tpl);
 	}
 }
-?>

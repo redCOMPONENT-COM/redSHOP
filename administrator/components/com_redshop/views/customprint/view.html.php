@@ -21,18 +21,10 @@ jimport( 'joomla.application.component.view' );
 
 class customprintViewcustomprint extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_CUSTOM_VIEWS') );
-
 
    		$customviews= & $this->get('Data');
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_CUSTOM_VIEWS' ), 'redshop_statistic48' );

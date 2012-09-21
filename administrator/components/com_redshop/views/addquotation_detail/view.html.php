@@ -39,9 +39,7 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$document->addScript ('components/'.$option.'/assets/js/search.js');
 		$session = JFactory::getSession();
 		$uri = JFactory::getURI();
-//		$layout = JRequest::getVar('layout');
 		$lists = array();
-		//$billing = array();
 		$model = $this->getModel();
 		$detail	= $this->get('data');
 		$Redconfiguration = new Redconfiguration();
@@ -90,3 +88,4 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		parent::display($tpl);
 	}
 }
+

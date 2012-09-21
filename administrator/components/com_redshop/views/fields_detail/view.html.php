@@ -89,5 +89,3 @@ class fields_detailVIEWfields_detail extends JView
 	}
 
 }
-
-?>

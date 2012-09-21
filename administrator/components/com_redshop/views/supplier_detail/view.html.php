@@ -23,7 +23,6 @@ class supplier_detailVIEWsupplier_detail extends JView
 {
 	function display($tpl = null)
 	{
-
 		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT_DETAIL' ), 'redshop_manufact48' );
@@ -35,8 +34,6 @@ class supplier_detailVIEWsupplier_detail extends JView
 		$lists = array();
 
 		$detail	= $this->get('data');
-
-		//$model=  $this->getModel('supplier_detail');
 
 		$isNew		= ($detail->supplier_id < 1);
 
@@ -54,7 +51,6 @@ class supplier_detailVIEWsupplier_detail extends JView
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
 
-
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $detail->published );
 
 		$this->assignRef('lists',			$lists);
@@ -63,7 +59,4 @@ class supplier_detailVIEWsupplier_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }
-
-?>

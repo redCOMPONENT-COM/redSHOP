@@ -71,4 +71,4 @@ class answer_detailVIEWanswer_detail extends JView
 
 		parent::display($tpl);
 	}
-}	?>
+}

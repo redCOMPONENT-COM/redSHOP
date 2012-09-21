@@ -5,12 +5,6 @@ jimport( 'joomla.application.component.view' );
 
 class countryViewcountry extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-
-	}
-
 	function display($tpl = null)
 	{
 		//$document = & JFactory::getDocument();
@@ -33,7 +27,6 @@ class countryViewcountry extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$fields			= & $this->get( 'Data');
-		$total = & $this->get( 'Total');
 		$pagination = & $this->get('Pagination');
 
 		$this->assignRef('user',		JFactory::getUser());
@@ -46,4 +39,3 @@ class countryViewcountry extends JView
   }
 
 }
-?>
