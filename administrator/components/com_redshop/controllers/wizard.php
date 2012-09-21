@@ -33,9 +33,9 @@ class wizardController extends JController
 		$this->_temp_file_dist = JPATH_BASE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'wizard'.DS.'redshop.cfg.tmp.dist.php';
 	}
 
-	function isTmpFile(){
-
-		if(file_exists($this->_temp_file)){
+	function isTmpFile()
+    {
+        if(file_exists($this->_temp_file)){
 
 			if ($this->isWritable()){
 				require_once ($this->_temp_file);
@@ -48,9 +48,9 @@ class wizardController extends JController
 		return false;
 	}
 
-	function isWritable(){
-
-		if (!is_writable($this->_temp_file)) {
+	function isWritable()
+    {
+        if (!is_writable($this->_temp_file)) {
 
 			JError::raiseWarning(21,JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
 			return false;
@@ -58,10 +58,9 @@ class wizardController extends JController
 		return true;
 	}
 
-	function WriteTmpFile() {
-
-
-		$html = "<?php \n";
+	function WriteTmpFile()
+    {
+        $html = "<?php \n";
 
 		$html .= 'global $temparray;'."\n".'$temparray = array();'."\n";
 
@@ -83,19 +82,18 @@ class wizardController extends JController
 	 *
 	 * Copy temparory distinct file for enable config variable support
 	 */
-	function copyTempFile(){
-
-		jimport( 'joomla.filesystem.file' );
+	function copyTempFile()
+    {
+        jimport( 'joomla.filesystem.file' );
 
 		JFile::copy($this->_temp_file_dist,$this->_temp_file);
 	}
 
-	function save(){
+	function save()
+    {
+        $post = JRequest::get('post');
 
-		$post = JRequest::get('post');
-
-
-		$substep = $post['substep'];
+        $substep = $post['substep'];
 		$go = $post['go'];
 
 		global $temparray;
@@ -156,9 +154,9 @@ class wizardController extends JController
 
 	}
 
-	function finish(){
-
-		$Redconfiguration = new Redconfiguration();
+	function finish()
+    {
+        $Redconfiguration = new Redconfiguration();
 
 		$post = JRequest::get('post');
 
@@ -195,9 +193,9 @@ class wizardController extends JController
 		$this->setRedirect($link,$msg);
 	}
 
-	function demoContentInsert() {
-
-		$post = JRequest::get('post');
+	function demoContentInsert()
+    {
+        //$post = JRequest::get('post');
 
 		$model = $this->getModel('redshop','redshopModel');
 

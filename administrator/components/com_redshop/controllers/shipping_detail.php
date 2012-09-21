@@ -18,27 +18,28 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 
-class shipping_detailController extends JController 
+class shipping_detailController extends JController
 {
-	function __construct($default = array()) {
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
 
-	function edit() {
+	function edit()
+    {
 		JRequest::setVar ( 'view', 'shipping_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
-
-	}
+    }
 
 	function apply()
 	{
        $this->save(1);
 	}
 
-	function save($apply=0) 
+	function save($apply=0)
 	{
 		$post = JRequest::get ( 'post' );
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -76,7 +77,7 @@ class shipping_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping' );
 	}
 
-	function unpublish() 
+	function unpublish()
 	{
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -91,7 +92,7 @@ class shipping_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping' );
 	}
 
-	function cancel() 
+	function cancel()
 	{
 		$option = JRequest::getVar ('option');
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping' );
@@ -112,6 +113,7 @@ class shipping_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping',$msg );
 	}
+
 	/**
 	 * logic for orderdown manufacturer
 	 *
@@ -149,4 +151,4 @@ class shipping_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_SHIPPING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping',$msg );
 	}
-}	?>
+}

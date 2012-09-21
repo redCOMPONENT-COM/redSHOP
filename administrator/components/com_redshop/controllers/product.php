@@ -21,20 +21,10 @@ jimport( 'joomla.application.component.controller' );
 
 class productController extends JController
 {
-	/*public function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}*/
-
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
-
-	/*function display()
-    {
-		parent::display();
-    }*/
 
 	/*
 	 * select A Product Element
@@ -46,17 +36,17 @@ class productController extends JController
 		parent::display ();
 	}
 
-	function ins_product(){
+	function ins_product()
+    {
 		 JRequest::setVar ( 'layout', 'ins_product' );
 		 JRequest::setVar ( 'hidemainmenu', 1 );
 		 parent::display ();
 	}
-	function listing(){
 
-
-		 JRequest::setVar ( 'layout', 'listing' );
-
-		  parent::display ();
+	function listing()
+    {
+        JRequest::setVar ( 'layout', 'listing' );
+        parent::display ();
 	}
 
 	function importeconomic()
@@ -205,50 +195,45 @@ class productController extends JController
 		die();
 	}
 
-	function saveprice(){
+	function saveprice()
+    {
+        $db = JFactory::getDBO();
+        $pid = JRequest::getVar ( 'pid', array (), 'post', 'array' );
+        $price = JRequest::getVar ( 'price', array (), 'post', 'array' );
 
-	 $db = JFactory::getDBO();
-	 $pid = JRequest::getVar ( 'pid', array (), 'post', 'array' );
-	 $price = JRequest::getVar ( 'price', array (), 'post', 'array' );
-
-
-	 for($i=0;$i<count($pid);$i++){
-
-	    $sql = "UPDATE #__redshop_product  SET product_price='".$price[$i]."' WHERE product_id='".$pid[$i]."'  ";
-
-	 	$db->setQuery($sql);
-	 	$db->Query();
-	 }
+        for($i=0;$i<count($pid);$i++) {
+            $sql = "UPDATE #__redshop_product  SET product_price='".$price[$i]."' WHERE product_id='".$pid[$i]."'  ";
+            $db->setQuery($sql);
+            $db->Query();
+        }
 
 	 $this->setRedirect( 'index.php?option=com_redshop&view=product&task=listing' );
-
 	}
-	function savediscountprice(){
 
-	 $db = JFactory::getDBO();
-	 $pid = JRequest::getVar ( 'pid', array (), 'post', 'array' );
-	 $discount_price = JRequest::getVar ( 'discount_price', array (), 'post', 'array' );
+    function savediscountprice()
+    {
+        $db = JFactory::getDBO();
+        $pid = JRequest::getVar ( 'pid', array (), 'post', 'array' );
+        $discount_price = JRequest::getVar ( 'discount_price', array (), 'post', 'array' );
 
+        for($i=0;$i<count($pid);$i++) {
+            $sql = "UPDATE #__redshop_product  SET discount_price='".$discount_price[$i]."' WHERE product_id='".$pid[$i]."'  ";
+            $db->setQuery($sql);
+            $db->Query();
+        }
 
-	 for($i=0;$i<count($pid);$i++){
+        $this->setRedirect( 'index.php?option=com_redshop&view=product&task=listing' );
+    }
 
-	    $sql = "UPDATE #__redshop_product  SET discount_price='".$discount_price[$i]."' WHERE product_id='".$pid[$i]."'  ";
-
-	 	$db->setQuery($sql);
-	 	$db->Query();
-	 }
-
-	 $this->setRedirect( 'index.php?option=com_redshop&view=product&task=listing' );
-
-	}
-	function template(){
-
-	    $template_id = JRequest::getVar( 'template_id', '');
+	function template()
+    {
+        $template_id = JRequest::getVar( 'template_id', '');
 	    $product_id  = JRequest::getVar( 'product_id', '');
 	    $section  = JRequest::getVar( 'section', '');
 		$model = $this->getModel ( 'product' );
 
 		$data_product = $model->product_template($template_id,$product_id,$section);
+
 		if(is_array($data_product))
 		{
 			for($i=0;$i<count($data_product);$i++)
@@ -260,9 +245,10 @@ class productController extends JController
 		}
 		exit;
 	}
-	function assignTemplate(){
 
-		$post = JRequest::get('post');
+	function assignTemplate()
+    {
+        $post = JRequest::get('post');
 
 		$model = $this->getModel('product');
 
@@ -273,8 +259,9 @@ class productController extends JController
 		}
 		$this->setRedirect( 'index.php?option=com_redshop&view=product',$msg );
 	}
-	function gbasefeed(){
-		global $mainframe;
+
+	function gbasefeed()
+    {
 		$post = JRequest::get('post');
 		$model = $this->getModel('product');
 
@@ -285,6 +272,7 @@ class productController extends JController
 		}
 		$this->setRedirect( 'index.php?option=com_redshop&view=product',$msg );
 	}
+
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
