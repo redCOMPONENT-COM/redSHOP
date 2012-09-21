@@ -30,12 +30,12 @@ class category_detailVIEWcategory_detail extends JView
 
 		$option = JRequest::getVar('option');
 		$this->setLayout('default');
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$model = $this->getModel ( 'category_detail' );
 		$categories	= $model->getcategories();
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT_DETAIL' ), 'redshop_categories48' );
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		//$document->addScript ('components/'.$option.'/assets/js/json.js');
 		$document->addScript ('components/'.$option.'/assets/js/validation.js');
 		//$document->addScript ('components/com_redshop/assets/js/search.js');
@@ -54,7 +54,7 @@ class category_detailVIEWcategory_detail extends JView
 
 		$document->addScript ('components/com_redshop/assets/js/related.js');
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 		$isNew = ($detail->category_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : $detail->category_name." - ".JText::_('COM_REDSHOP_EDIT' );
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_CATEGORY' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_categories48' );
@@ -91,9 +91,10 @@ class category_detailVIEWcategory_detail extends JView
 		$append_to_global_seo[] = JHTML::_('select.option','prepend',JText::_( 'COM_REDSHOP_PREPEND_TO_GLOBAL_SEO'));
 		$append_to_global_seo[] = JHTML::_('select.option','replace',JText::_( 'COM_REDSHOP_REPLACE_TO_GLOBAL_SEO'));
 		$lists['append_to_global_seo'] = JHTML::_('select.genericlist',$append_to_global_seo,'append_to_global_seo','class="inputbox" size="1" ','value','text',$detail->append_to_global_seo);
-		
+
 		//merging select option in the select box
 		$temps = array();
+        $temps[0] = new stdClass;
 		$temps[0]->template_id=0;
 		$temps[0]->template_name=JText::_('COM_REDSHOP_SELECT');
 		$templates=@array_merge($temps,$templates);
@@ -112,15 +113,13 @@ class category_detailVIEWcategory_detail extends JView
         //Select box for ProductCompareTemplate
 		$comparetemplate=$redTemplate->getTemplate('compare_product');
 		$temp=array();
+        $temp[0] = new stdClass;
 		$temp[0]->template_id=0;
 		$temp[0]->template_name=JText::_('COM_REDSHOP_SELECT');
 		$comparetemplate=@array_merge($temp,$comparetemplate);
 		$lists['compare_template_id'] = JHTML::_('select.genericlist',$comparetemplate,'compare_template_id','class="inputbox" size="1" ','template_id','template_name',$detail->compare_template_id);
 
-
-
 		$lists['published'] = JHTML::_('select.booleanlist','published', 'class="inputbox"', $detail->published );
-
 
 		// foe accessory of Category
 		$categroy_accessory_product = array();
@@ -129,9 +128,6 @@ class category_detailVIEWcategory_detail extends JView
 
 		$lists['categroy_accessory_product'] = $categroy_accessory_product;
 
-
-
-
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('request_url',	$uri->toString());
@@ -139,4 +135,3 @@ class category_detailVIEWcategory_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>
