@@ -36,7 +36,7 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL' ),'redshop_attribute_bank48');
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScriptDeclaration ("
 
