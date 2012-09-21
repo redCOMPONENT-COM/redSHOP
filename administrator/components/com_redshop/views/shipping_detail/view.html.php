@@ -62,4 +62,4 @@ class shipping_detailViewshipping_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>
+

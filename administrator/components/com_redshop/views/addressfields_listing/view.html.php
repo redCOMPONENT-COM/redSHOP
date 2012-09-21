@@ -21,11 +21,6 @@ jimport( 'joomla.application.component.view' );
 
 class addressfields_listingViewaddressfields_listing extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -43,11 +38,10 @@ class addressfields_listingViewaddressfields_listing extends JView
 		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$fields			= $this->get( 'Data');
-		$total			= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 
 		$section_id = $mainframe->getUserStateFromRequest( $context.'section_id','section_id',0 );
-		//$sectionlist	= $helpobj->getForumSectionList();
+
 		$sectionlist = array(
 		  JHTML::_('select.option', '7', JText::_('COM_REDSHOP_CUSTOMER_ADDRESS') ),
 		  JHTML::_('select.option', '8', JText::_('COM_REDSHOP_COMPANY_ADDRESS') ),
@@ -66,14 +60,13 @@ class addressfields_listingViewaddressfields_listing extends JView
 
 		$lists['addresssections']  = JHTML::_('select.genericlist',$option,  'section_id', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text',  $section_id );
 
-
-
-    $this->assignRef('user',		JFactory::getUser());
+    //$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
     $this->assignRef('lists',		$lists);
   	$this->assignRef('fields',		$fields);
     $this->assignRef('pagination',	$pagination);
-    $this->assignRef('request_url',	$uri->toString());
+    //$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
   }
 }
-?>

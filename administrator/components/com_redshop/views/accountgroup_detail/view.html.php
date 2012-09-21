@@ -5,11 +5,6 @@ jimport( 'joomla.application.component.view' );
 
 class accountgroup_detailVIEWaccountgroup_detail extends JView
 {
-	/*function __construct( $config = array())
-	{
-		parent::__construct( $config );
-	}*/
-
 	function display($tpl = null)
 	{
 		$uri = JFactory::getURI();
@@ -34,9 +29,9 @@ class accountgroup_detailVIEWaccountgroup_detail extends JView
 
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('lists',		$lists);
-		$this->assignRef('request_url',	$uri->toString());
+		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
 }
-?>

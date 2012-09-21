@@ -7,11 +7,6 @@ jimport( 'joomla.application.component.view' );
 
 class accountgroupViewaccountgroup extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -32,17 +27,13 @@ class accountgroupViewaccountgroup extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$detail	= & $this->get( 'Data');
-		$total = & $this->get( 'Total');
-		$pagination = & $this->get('Pagination');
+		$detail	= $this->get( 'Data');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('lists',		$lists);
   		$this->assignRef('request_url',	$uri->toString());
     	parent::display($tpl);
-
-  }
-
+    }
 }
-?>

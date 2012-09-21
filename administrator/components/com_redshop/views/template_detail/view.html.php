@@ -16,6 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'order.php');
+
 class template_detailVIEWtemplate_detail extends JView
 {
 	function display($tpl = null)
@@ -89,14 +90,14 @@ class template_detailVIEWtemplate_detail extends JView
 		$paymentMethod = $order_functions->getPaymentMethodInfo();
 
 		$payment_methods = explode(',',$detail->payment_methods);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp,$payment_methods);
+		//$tmp = new stdClass;
+		//$tmp = @array_merge($tmp,$payment_methods);
 		$lists['payment_methods'] 	= JHTML::_('select.genericlist',$paymentMethod,  'payment_methods[]', 'class="inputbox" multiple="multiple" size="4" ' , 'element', 'name',  $payment_methods );
 
 		$shippingMethod = $order_functions->getShippingMethodInfo();
 		$shipping_methods = explode(',',$detail->shipping_methods);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp,$shipping_methods);
+		//$tmp = new stdClass;
+		//$tmp = @array_merge($tmp,$shipping_methods);
 
 		$lists['shipping_methods'] 	= JHTML::_('select.genericlist',$shippingMethod,  'shipping_methods[]', 'class="inputbox" multiple="multiple" size="4" ' , 'element', 'name',  $shipping_methods );
 		$lists['order_status']=$order_functions->getstatuslist('order_status',$detail->order_status,'class="inputbox" multiple="multiple"');
@@ -107,4 +108,5 @@ class template_detailVIEWtemplate_detail extends JView
 
 		parent::display($tpl);
 	}
-}?>
+}
+

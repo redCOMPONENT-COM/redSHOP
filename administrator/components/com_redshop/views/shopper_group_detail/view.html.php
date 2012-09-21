@@ -22,7 +22,6 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 {
 	function display($tpl = null)
 	{
-
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT_DETAIL' ), 'redshop_manufact48' );
 
 		$shoppergroup = new shoppergroup();
@@ -113,4 +112,4 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>
+

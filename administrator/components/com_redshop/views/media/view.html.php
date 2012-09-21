@@ -18,12 +18,10 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.view' );
 
-class mediaViewmedia extends JView {
-	function __construct($config = array()) {
-		parent::__construct ( $config );
-	}
-
-	function display($tpl = null) {
+class mediaViewmedia extends JView
+{
+	function display($tpl = null)
+    {
 		global $mainframe, $context;
 
 		$document = JFactory::getDocument();
@@ -76,20 +74,30 @@ class mediaViewmedia extends JView {
 		$lists['section'] 	= JHTML::_('select.genericlist',$optionsection,  'media_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text',  $media_section );
 
 		$media = $this->get ( 'Data' );
-		$total = $this->get ( 'Total' );
+		//$total = $this->get ( 'Total' );
 		$pagination = $this->get ( 'Pagination' );
 
 		$this->assignRef ( 'lists', $lists );
 		$this->assignRef ( 'media', $media );
-		$this->assignRef ( 'pagination', $pagination );
-		$this->assignRef ( 'request_url', $uri->toString() );
+		$this->assignRef ( 'pagination', $pagination);
 
-		$this->assign('baseURL', JURI::root());
-		$this->assignRef('images', $this->get('images'));
-		$this->assignRef('documents', $this->get('documents'));
-		$this->assignRef('folders', $this->get('folders'));
-		$this->assignRef('state', $this->get('state'));
+		//$this->assignRef ( 'request_url', $uri->toString() );
+        $this->request_url = $uri->toString();
 
+		//$this->assign('baseURL', JURI::root());
+        $this->baseURL = JURI::root();
+
+		//$this->assignRef('images', $this->get('images'));
+        $this->images = $this->get('images');
+
+		//$this->assignRef('documents', $this->get('documents'));
+        $this->documents = $this->get('documents');
+
+		//$this->assignRef('folders', $this->get('folders'));
+        $this->folders = $this->get('folders');
+
+		//$this->assignRef('state', $this->get('state'));
+        $this->state = $this->get('state');
 
 		parent::display ( $tpl );
 	}

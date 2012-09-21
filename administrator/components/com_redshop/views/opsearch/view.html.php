@@ -16,25 +16,17 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
 jimport( 'joomla.application.component.view' );
 
 class opsearchViewopsearch extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
 
 		$model = $this->getModel ( 'opsearch' );
-		$document = JFactory::getDocument();
 		$order_function = new order_functions();
-   		//
-		$option = JRequest::getVar('option');
+
 		$document = JFactory::getDocument();
 		$document->addStyleSheet ( 'components/com_redshop/assets/css/search.css' );
 		$document->addScript ('components/com_redshop/assets/js/search.js');
@@ -50,7 +42,6 @@ class opsearchViewopsearch extends JView
 		$filter_status	  = $mainframe->getUserStateFromRequest( $context.'filter_status',		'filter_status',	0);
 
 		$products	= & $this->get( 'Data');
-		$total = & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
 
 		$lists['filter_user'] = $model->getuserlist('filter_user',$filter_user,'class="inputbox" size="1" onchange="document.adminForm.submit();"' );
@@ -63,4 +54,3 @@ class opsearchViewopsearch extends JView
     	parent::display($tpl);
   }
 }
-?>

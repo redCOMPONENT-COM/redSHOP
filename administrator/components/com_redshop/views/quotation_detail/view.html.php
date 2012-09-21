@@ -39,14 +39,12 @@ class quotation_detailVIEWquotation_detail extends JView
 
 		$uri	= JFactory::getURI();
 		$lists = array();
-		$model = $this->getModel();
 
 		if($layout!='default')
 		{
 			$this->setLayout($layout);
 		}
 		$detail	= $this->get('data');
-		$redconfig = new Redconfiguration();
 
 		$isNew = ($detail->quotation_id < 1);
 		$userarr = & $this->get('userdata');
@@ -72,4 +70,4 @@ class quotation_detailVIEWquotation_detail extends JView
 
 		parent::display($tpl);
 	}
-}	?>
+}

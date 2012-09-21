@@ -21,11 +21,6 @@ jimport( 'joomla.application.component.view' );
 
 class mailViewmail extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -56,19 +51,18 @@ class mailViewmail extends JView
 		$optionsection = $redtemplate->getMailSections();
 		$lists['mailsection'] 	= JHTML::_('select.genericlist',$optionsection,  'filter_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text',  $filter_section );
 
+	    $media			= $this->get( 'Data');
 
-	    $total = & $this->get( 'Total');
-	    $media			= & $this->get( 'Data');
+		$pagination = $this->get('Pagination');
 
-		$pagination = & $this->get('Pagination');
+    	//$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
 
-
-    	$this->assignRef('user',		JFactory::getUser());
     	$this->assignRef('lists',		$lists);
     	$this->assignRef('media',		$media);
   		$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
+   	 	//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
    	 	parent::display($tpl);
   }
 }
-?>
