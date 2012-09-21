@@ -43,11 +43,12 @@ class questionViewquestion extends JView
 		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$question	= & $this->get( 'Data');
-		$pagination = & $this->get( 'Pagination' );
+		$question	= $this->get( 'Data');
+		$pagination = $this->get( 'Pagination' );
 
 		$option= $model->getProduct();
 		$optionsection = array();
+        $optionsection[0] = new stdClass;
 		$optionsection[0]->product_id = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
 		if(count($option)>0)
@@ -59,7 +60,8 @@ class questionViewquestion extends JView
 	    $this->assignRef('lists',		$lists);
 	  	$this->assignRef('question',	$question);
 	    $this->assignRef('pagination',	$pagination);
-	    $this->assignRef('request_url',	$uri->toString());
+	    //$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
 	}
 }

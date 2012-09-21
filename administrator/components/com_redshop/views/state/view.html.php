@@ -50,14 +50,16 @@ class stateViewstate extends JView
                 $country_main_filter = $mainframe->getUserStateFromRequest( $context.'country_main_filter',  'country_main_filter', '' );
 
 
-		$fields			= & $this->get( 'Data');
-		$pagination = & $this->get('Pagination');
+		$fields			= $this->get( 'Data');
+		$pagination = $this->get('Pagination');
 		  $this->assignRef('country_main_filter',$country_main_filter);
-		$this->assignRef('user',		JFactory::getUser());
+		//$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('fields',		$fields);
 		$this->assignRef('lists',		$lists);
-  		$this->assignRef('request_url',	$uri->toString());
+  		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
     }
 }
