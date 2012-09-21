@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,40 +15,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 class addressfields_listingController extends JController
 {
-	function __construct( $default = array())
+	function __construct($default = array())
 	{
-		parent::__construct( $default );
+		parent::__construct($default);
 	}
+
 	function cancel()
 	{
-		$this->setRedirect( 'index.php' );
+		$this->setRedirect('index.php');
 	}
+
 	function display() {
 
 		parent::display();
 	}
 
-
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
-		$model = $this->getModel ( 'addressfields_listing' );
+		$cid = JRequest::getVar ('cid', array (0 ), 'post', 'array');
+		$order 	= JRequest::getVar('order', array(), 'post', 'array');
+		$model = $this->getModel ('addressfields_listing');
 		if ($model->saveorder($cid,$order))
 		{
-			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
+			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		} else {
-			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR' );
+			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
 		}
-		$this->setRedirect ( 'index.php?option=' .$option. '&view=addressfields_listing', $msg );
+		$this->setRedirect ('index.php?option=' .$option. '&view=addressfields_listing', $msg);
 	}
 
 	/**
@@ -74,6 +75,7 @@ class addressfields_listingController extends JController
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=addressfields_listing',$msg );
 	}
+
 	/**
 	 * logic for orderdown manufacturer
 	 *
@@ -97,7 +99,4 @@ class addressfields_listingController extends JController
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=addressfields_listing',$msg );
 	}
-
-
 }
-

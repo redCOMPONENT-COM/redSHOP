@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -13,15 +14,19 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-jimport ( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
 
-class newslettersubscr_detailController extends JController {
-	function __construct($default = array()) {
+jimport('joomla.application.component.controller');
+
+class newslettersubscr_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'newslettersubscr_detail' );
@@ -41,12 +46,15 @@ class newslettersubscr_detailController extends JController {
 
 		parent::display ();
 	}
-	function apply() {
+
+	function apply()
+    {
 		$this->save(1);
 	}
-	function save($apply=0) {
 
-		$post = JRequest::get ( 'post' );
+	function save($apply=0)
+    {
+        $post = JRequest::get ( 'post' );
 		$body = JRequest::getVar( 'body', '', 'post', 'string', JREQUEST_ALLOWRAW );
 		$post["body"] = $body;
 
@@ -76,9 +84,10 @@ class newslettersubscr_detailController extends JController {
 		else
 			$this->setRedirect ( 'index.php?option=' . $option . '&view=newslettersubscr', $msg );
 	}
-	function remove() {
 
-		$option = JRequest::getVar ('option');
+	function remove()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -93,9 +102,10 @@ class newslettersubscr_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=newslettersubscr',$msg );
 	}
-	function publish() {
 
-		$option = JRequest::getVar ('option');
+	function publish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -110,9 +120,10 @@ class newslettersubscr_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_PUBLISHED_SUCCESFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=newslettersubscr',$msg );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar ('option');
+	function unpublish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -127,15 +138,17 @@ class newslettersubscr_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_UNPUBLISHED_SUCCESFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=newslettersubscr',$msg );
 	}
-	function cancel() {
 
-		$option = JRequest::getVar ('option');
+	function cancel()
+    {
+        $option = JRequest::getVar ('option');
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=newslettersubscr',$msg );
 	}
-	function export_data(){
 
-		$model = $this->getModel('newslettersubscr_detail');
+	function export_data()
+    {
+        $model = $this->getModel('newslettersubscr_detail');
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
        	header("Content-type: text/x-csv");
@@ -159,7 +172,8 @@ class newslettersubscr_detailController extends JController {
     	exit;
 	}
 
-	function export_acy_data(){
+	function export_acy_data()
+    {
 		ob_clean();
 		$model = $this->getModel('newslettersubscr_detail');
 		$cid = JRequest::getVar ( 'cid', array (), 'post', 'array' );

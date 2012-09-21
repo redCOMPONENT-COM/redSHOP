@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,117 +15,105 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 class barcodeController extends JController
 {
-	function __construct( )
+	function __construct()
 	{
+        parent::__construct();
+    }
 
-		parent::__construct( );
-
-	}
-
-	function display() {
-
-		parent::display();
-
-	}
+	function display()
+    {
+        parent::display();
+    }
 
 	function getsearch()
 	{
         $post = JRequest::get ( 'post' );
 
-        if(strlen($post['barcode'])!=13)
+        if (strlen($post['barcode'])!= 13)
         {
-
-		           $msg = 'Invalid Barcode';
-		           JError::raiseWarning(0,$msg);
-		           parent::display();
+            $msg = 'Invalid Barcode';
+		    JError::raiseWarning(0,$msg);
+		    parent::display();
         }
+
         else
         {
+            $model = $this->getModel('barcode');
+            $barcode= $post['barcode'];
+            $barcode= substr($barcode, 0,12);
 
+            $user =& JFactory::getUser();
+            $uid= $user->get('id');
+            $mainframe = JFactory::getApplication();
+            $row = $model->checkorder($barcode);
 
-		          $model = $this->getModel('barcode');
-                  $barcode= $post['barcode'];
-                  $barcode= substr($barcode, 0,12);
+            if($row)
+            {
+                $post['search_date']=date("y-m-d H:i:s");
+                $post['user_id']=$uid;
+                $post['order_id']=$row->order_id;
 
-			      $user =& JFactory::getUser();
-			      $uid= $user->get('id');
-				  $mainframe = JFactory::getApplication();
-                  $row = $model->checkorder($barcode);
+                if ($model->save($post))
+                {
+                    $msg = JText::_('COM_REDSHOP_THANKS_FOR_YOUR_REVIEWS');
+                }
 
+                else
+                {
+                    $msg = JText::_('COM_REDSHOP_ERROR_PLEASE_TRY_AGAIN');
+                }
 
+                //return $log;
+                $this->setRedirect('index.php?option=com_redshop&view=barcode&order_id='.$row->order_id);
+            }
 
-						   if($row)
-						  {
+            else
+            {
+                $msg = 'Invalid Barcode';
+                JError::raiseWarning(0,$msg);
+                parent::display();
+            }
+        }
+    }
 
+	function changestatus()
+	{
+        $post = JRequest::get ( 'post' );
 
-						    $post['search_date']=date("y-m-d H:i:s");
-						    $post['user_id']=$uid;
-                            $post['order_id']=$row->order_id;
-
-							 if($model->save($post))
-							 {
-								$msg = JText::_('COM_REDSHOP_THANKS_FOR_YOUR_REVIEWS');
-							 }
-							 else
-							 {
-								$msg = JText::_('COM_REDSHOP_ERROR_PLEASE_TRY_AGAIN');
-							 }
-							//return $log;
-							 $this->setRedirect('index.php?option=com_redshop&view=barcode&order_id='.$row->order_id);
-
-						 }
-						 else
-						 {
-		                     $msg = 'Invalid Barcode';
-				             JError::raiseWarning(0,$msg);
-				             parent::display();
-						 }
-				 }
-
+        if(strlen($post['barcode'])!=13)
+        {
+            $msg = 'Invalid Barcode';
+            JError::raiseWarning(0,$msg);
+            $this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order');
         }
 
-		function changestatus()
-		{
-		
-			$post = JRequest::get ( 'post' );
+        else
+        {
+            $model = $this->getModel('barcode');
+            $barcode= $post['barcode'];
+            $barcode= substr($barcode, 0,12);
 
-	        if(strlen($post['barcode'])!=13)
-	        {
-	
-		           $msg = 'Invalid Barcode';
-		           JError::raiseWarning(0,$msg);
-		           $this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order');
-	        } else
-      		{
+            $mainframe = JFactory::getApplication();
+            $row = $model->checkorder($barcode);
 
-		          $model = $this->getModel('barcode');
-                  $barcode= $post['barcode'];
-                  $barcode= substr($barcode, 0,12);
+            if($row)
+            {
+                $update_status =  $model->updateorderstatus($barcode,$row->order_id);
+                $this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order',JText::_('ORDER_STATUS_CHANGED_TO_SHIPPED'));
+            }
 
-				  $mainframe = JFactory::getApplication();
-                  $row = $model->checkorder($barcode);
-			 	  if($row)
-				  {
-				    
-					 $update_status =  $model->updateorderstatus($barcode,$row->order_id);
-					 $this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order',JText::_('ORDER_STATUS_CHANGED_TO_SHIPPED'));
-
-				  }
-				  else
-				  {
-                     $msg = 'Invalid Barcode';
-		             JError::raiseWarning(0,$msg);
-		             $this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order');
-				  }
-			}
-		}
-
-
+            else
+            {
+                $msg = 'Invalid Barcode';
+                JError::raiseWarning(0,$msg);
+                $this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order');
+            }
+        }
+    }
 }

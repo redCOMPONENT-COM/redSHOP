@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -13,24 +14,29 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-jimport ( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.controller');
+
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-//require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'PDFMerger.php');
 
-class orderController extends JController {
-	function __construct($default = array()) {
+class orderController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 	}
+
 	function multiprint_order()
-	{	$mypost=JRequest::getVar('cid');
+	{
+        $mypost=JRequest::getVar('cid');
 		$mycid=implode(",",$mypost);
 		$option = JRequest::getVar ('option');
 		$order_function = new order_functions ();
-		
+
 		$invoicePdf= $order_function->createMultiprintInvoicePdf($mypost);
 		?>
 			<script type="text/javascript">
@@ -40,14 +46,14 @@ class orderController extends JController {
 			{
 			?>
 				window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invoicePdf?>.pdf");
-				
-			<?php } 
+
+			<?php }
 		}   for($i=0;$i<count($mypost);$i++) {
 		if(file_exists(JPATH_COMPONENT_SITE.DS."assets/labels/label_".$mypost[$i].".pdf"))
 		{
 		?>
 			window.open("<?php echo JURI::root()?>/components/com_redshop/assets/labels/label_<?php echo $mypost[$i]?>.pdf");
-			
+
 		<?php } } ?>
 		//window.open("index.php?tmpl=component&json=1&option=com_redshop&view=order&layout=multiprint_order&cid=<?php echo $mycid?>","mywindow","scrollbars=1","location=1");
 		window.parent.location = 'index.php?option=com_redshop&view=order';
@@ -62,29 +68,33 @@ class orderController extends JController {
 		$option = JRequest::getVar ('option');
 		$this->setRedirect ( 'index.php?option='.$option.'&view=order');
 	}
-	function display() {
+
+	function display()
+    {
 		parent::display ();
 	}
-	function update_status() {
+
+	function update_status()
+    {
 		$model = $this->getModel ( 'order' );
 		$model->update_status ();
 	}
 
-	function allstatus() 
+	function allstatus()
 	{
 		$session =& JFactory::getSession();
 		$post = JRequest::get ( 'post' );
 		$option = $post['option'];
 		$merge_invoice_arr = array();
-		
+
 		$session->clear( 'updateOrderIdPost');
 		$session->set( 'updateOrderIdPost',$post );
 		$session->set( 'merge_invoice_arr',$merge_invoice_arr );
-		
+
 		$this->setRedirect ( 'index.php?option='.$option.'&view=order&layout=previewlog');
 		return;
 	}
-	
+
 	function updateOrderStatus()
 	{
 		$session =& JFactory::getSession();
@@ -94,13 +104,13 @@ class orderController extends JController {
 		$order_functions = new order_functions();
 		$cnt 	= JRequest::getInt( 'cnt',0 );
 		$order_id = $post['cid'];
-		
+
 		$responcemsg = "";
 		for($i=$cnt,$j=0;$j<1;$j++)
 		{
-			if(!isset($order_id[$i])) 
+			if(!isset($order_id[$i]))
 			{
-				
+
 				$pdf = new PDFMerger;
 				$merge_invoice_arr = $session->get( 'merge_invoice_arr');
 				for($m=0;$m<count($merge_invoice_arr);$m++)
@@ -109,9 +119,9 @@ class orderController extends JController {
 					{
 						$pdf->addPDF(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . "shipped_".$merge_invoice_arr[$m] . ".pdf", 'all');
 					}
-					
+
 				}
-				
+
 				$pdf->merge('file', JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS .'shipped_'.$rand_invoice_name.'.pdf');
 
 				for($m=0;$m<count($merge_invoice_arr);$m++)
@@ -120,14 +130,14 @@ class orderController extends JController {
 					{
 						unlink(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . "shipped_".$merge_invoice_arr[$m] . ".pdf");
 					}
-					
+
 				}
-				
+
 				$session->set ( 'merge_invoice_arr', NULL );
 				break;
 			}
 			$returnmsg = $order_functions->orderStatusUpdate($order_id[$i],$post);
-			
+
 			// for shipped pdf generation
 			if($post['order_status_all'] == "S" && $post['order_paymentstatus'.$order_id[$i]]== "Paid")
 			{
@@ -140,7 +150,7 @@ class orderController extends JController {
 			    $pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 				$pdfObj->setHeaderFont ( array ($font, '', 8 ) );
 				$pdfObj->SetFont ( $font, "", 6 );
-				
+
 				$invoice = $order_functions->createShippedInvoicePdf($order_id[$i]);
 				$session->set( 'merge_invoice_arr', $order_id[$i]);
 				$pdfObj->AddPage ();
@@ -151,10 +161,10 @@ class orderController extends JController {
 				$session->set( 'merge_invoice_arr',$merge_invoice_arr );
 				$pdfObj->Output ( JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F" );
 			}
-			
+
 			$responcemsg .= "<div>".($i+1).": ".JText::_('COM_REDSHOP_ORDER_ID')." ".$order_id[$i]." -> ";
 			$errmsg = '';
-			
+
 			if($returnmsg)
 			{
 				$responcemsg .= "<span style='color: #00ff00'>".JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_UPDATED' ).$errmsg."</span>";
@@ -170,7 +180,7 @@ class orderController extends JController {
 		echo $responcemsg;
 		exit;
 	}
-	
+
 	function bookInvoice()
 	{
 		$post = JRequest::get ( 'post' );
@@ -233,7 +243,7 @@ class orderController extends JController {
 		}
 		$this->setRedirect ( 'index.php?option=com_redshop&view=order' );
 	}
-	
+
 	function export_fullorder_data()
 	{
 			$extrafile =  JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_redshop' . DS . 'extras' . DS . 'order_export.php';
@@ -280,12 +290,10 @@ class orderController extends JController {
 			$product_count [] = $no_products [$i]->noproduct;
 		}
 
-
-
 		$no_products = max ( $product_count );
 
-
 		$shipping_helper=new shipping();
+
 		ob_clean();
 		//echo "Order id,Buyer name,Address,Order Status,Order Date,";
 		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address, Shipping postalcode, Shipping city, Shipping country, Company name, Email ,Billing address, Billing postalcode, Billing city, Billing country, Billing User ,";
@@ -364,9 +372,9 @@ class orderController extends JController {
 		}
 		exit ();
 	}
-	
-	function export_data() {
 
+	function export_data()
+    {
 		/**
 		 * new order export for paid customer support
 		 */
@@ -382,7 +390,7 @@ class orderController extends JController {
 		$producthelper = new producthelper ();
 		$order_function = new order_functions ();
 		$model = $this->getModel ( 'order' );
-		
+
 		$product_count = array ();
 		$db = JFactory::getDBO ();
 
@@ -426,9 +434,10 @@ class orderController extends JController {
 			echo JText::_ ( 'PRODUCT_ATTRIBUTE' ) . $i . ',';
 			//			echo JText::_('PRODUCT_ACCESSORY').$i.',';
 		}
+
 		echo "Shipping Cost,Order Total\n";
 		for($i = 0; $i < count ( $data ); $i ++) {
-			
+
 			$shipping_address = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
 
 			echo $data [$i]->order_id . ",";
@@ -439,7 +448,7 @@ class orderController extends JController {
 			$user_address = strip_tags ( $user_address );
 			$user_shipping_address = str_replace ( ",", "<br/>", $shipping_address->address );
 			$user_shipping_address = strip_tags ( $user_shipping_address );
-			
+
 			echo trim ( $user_address ) . ",";
 			echo $data [$i]->city. ",";
 			echo $data [$i]->state_code. ",";
@@ -490,13 +499,14 @@ class orderController extends JController {
 		exit ();
 	}
 
-	function generateParcel() {
+	function generateParcel()
+    {
 		$order_function = new order_functions ();
 		$post = JRequest::get ( 'post' );
 		$specifiedSendDate = $post ['specifiedSendDate'];
 		$db = JFactory::getDBO ();
 		$order_id = JRequest::getCmd ( 'order_id' );
-		
+
 		$generate_label= $order_function->generateParcel($order_id,$specifiedSendDate);
 		if($generate_label == "success")
 		{
@@ -506,9 +516,9 @@ class orderController extends JController {
 		}
 	}
 
-	function download_token() {
-
-		$post = JRequest::get ( 'post' );
+	function download_token()
+    {
+        $post = JRequest::get ( 'post' );
 		$option = JRequest::getVar ( 'option', '', 'request', 'string' );
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -550,12 +560,14 @@ class orderController extends JController {
 
 		$this->setRedirect ( 'index.php?option=com_redshop&view=order_detail&cid[]=' . $cid [0] );
 	}
-function gls_export()
+
+    function gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$model = $this->getModel();
 		$model->gls_export($cid);
 	}
+
 	function business_gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
@@ -563,4 +575,3 @@ function gls_export()
 		$model->business_gls_export($cid);
 	}
 }
-?>

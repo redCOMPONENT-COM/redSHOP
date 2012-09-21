@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,28 +15,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 require_once( JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'product.php' );
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'mail.php' );
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'product.php' );
 
 
-class order_detailController extends JController {
-	function __construct($default = array()) {
+class order_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	function edit() {
+
+	function edit()
+    {
 		JRequest::setVar ( 'view', 'order_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
+    }
 
-	}
-	function save() {
+	function save()
+    {
 		$post = JRequest::get ( 'post' );
 
 
@@ -61,9 +67,10 @@ class order_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option=' . $option . '&view=order', $msg );
 	}
-	function remove() {
 
-		$option = JRequest::getVar('option','','request','string');
+	function remove()
+    {
+        $option = JRequest::getVar('option','','request','string');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -79,6 +86,7 @@ class order_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=order',$msg );
 	}
+
 	function cancel()
 	{
 		$option = JRequest::getVar('option','','request','string');
@@ -202,9 +210,9 @@ class order_detailController extends JController {
 
 	}
 
-	function update_discount() {
-
-		$post = JRequest::get('post');
+	function update_discount()
+    {
+        $post = JRequest::get('post');
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -218,9 +226,10 @@ class order_detailController extends JController {
 
 		$this->setRedirect('index.php?option='.$option.'&view=order_detail&cid[]='.$cid[0],$msg);
 	}
-	function special_discount(){
 
-		$post = JRequest::get('post');
+	function special_discount()
+    {
+        $post = JRequest::get('post');
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -236,9 +245,9 @@ class order_detailController extends JController {
 	}
 
 	// update shipping rates
-	function update_shippingrates(){
-
-		$post = JRequest::get('post');
+	function update_shippingrates()
+    {
+        $post = JRequest::get('post');
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -254,12 +263,11 @@ class order_detailController extends JController {
 	}
 
 	// update shipping address information
-	function updateShippingAdd(){
-
-		global $mainframe;
+	function updateShippingAdd()
+    {
+        global $mainframe;
 
 		$post = JRequest::get('post');
-
 
 		$option = JRequest::getVar('option','','request','string');
 		$suboption = JRequest::getVar('suboption','com_redshop','request','string');
@@ -529,16 +537,16 @@ class order_detailController extends JController {
 		$redirect_url = JRoute::_(JURI::base()."index.php?option=com_redshop&view=order_detail&task=edit&cid[]=".$request['orderid']);
 		$mainframe->redirect($redirect_url,$msg);
 	}
-	
+
 	function send_invoicemail()
 	{
 		global $mainframe;
 		$redshopMail = new redshopMail ();
-		
+
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'get', 'array' );
         $tmpl = JRequest::getVar('tmpl','','request','string');
-		
+
 
 		if ($redshopMail->sendInvoiceMail($cid[0])){
 			$msg = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');

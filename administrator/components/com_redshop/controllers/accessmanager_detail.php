@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,9 +15,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 class accessmanager_detailController extends JController
 {
@@ -25,6 +26,7 @@ class accessmanager_detailController extends JController
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit() {
 		JRequest::setVar ( 'view', 'answer_detail' );
 		JRequest::setVar ( 'layout', 'default' );
@@ -32,6 +34,7 @@ class accessmanager_detailController extends JController
 		parent::display ();
 
 	}
+
 	function save($apply)
 	{
 		$post = JRequest::get ( 'post' );
@@ -66,4 +69,4 @@ class accessmanager_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=accessmanager',$msg );
 	}
 
-}?>
+}

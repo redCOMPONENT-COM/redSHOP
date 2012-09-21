@@ -1,43 +1,58 @@
 <?php
+/**
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
+ * Developed by email@recomponent.com - redCOMPONENT.com
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 class accountgroup_detailController extends JController
  {
-	function __construct($default = array()) 
-	{ 
+	function __construct($default = array())
+	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	
-	function edit() 
+
+	function edit()
 	{
 		JRequest::setVar ( 'view', 'accountgroup_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
 	}
-		
-	function apply() 
+
+	function apply()
 	{
        $this->save(1);
 	}
-	
-	function save($apply=0) 
-	{	
+
+	function save($apply=0)
+	{
 		$post = JRequest::get ( 'post' );
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 		$post ['accountgroup_id'] = $cid [0];
 		$model = $this->getModel ( 'accountgroup_detail' );
-		$row = $model->store ( $post );	
-		if ($row) 
+		$row = $model->store ( $post );
+		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED' );
-		} 
-		else 
+		}
+		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL' );
 		}
@@ -45,21 +60,21 @@ class accountgroup_detailController extends JController
 		{
 			$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup_detail&task=edit&cid[]='.$row->accountgroup_id, $msg );
 		}
-		else 
+		else
 		{
 			$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup', $msg);
 		}
-	}	
-	
-	function cancel() 
+	}
+
+	function cancel()
 	{
 		$option = JRequest::getVar ('option');
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
 	}
-	
-	function remove() 
-	{		
+
+	function remove()
+	{
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
@@ -72,8 +87,8 @@ class accountgroup_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
 	}
-	
-	function publish() 
+
+	function publish()
 	{
 		$option = JRequest::getVar('option');
 
@@ -90,8 +105,8 @@ class accountgroup_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
 	}
-	
-	function unpublish() 
+
+	function unpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -106,4 +121,3 @@ class accountgroup_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
 	}
 }
-?>
