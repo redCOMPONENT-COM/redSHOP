@@ -57,14 +57,14 @@ class shippingViewshipping extends JView
 
 		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$shippings			= & $this->get( 'Data');
-		$total			= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$shippings			= $this->get( 'Data');
+		$pagination = $this->get( 'Pagination' );
 
 	    $this->assignRef('lists',		$lists);
   		$this->assignRef('shippings',		$shippings);
     	$this->assignRef('pagination',	$pagination);
-    	$this->assignRef('request_url',	$uri->toString());
+    	//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
   }
 }

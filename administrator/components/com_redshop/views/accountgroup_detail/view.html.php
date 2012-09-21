@@ -29,7 +29,8 @@ class accountgroup_detailVIEWaccountgroup_detail extends JView
 
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('lists',		$lists);
-		$this->assignRef('request_url',	$uri->toString());
+		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

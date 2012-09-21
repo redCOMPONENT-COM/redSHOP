@@ -36,8 +36,8 @@ class Redconfiguration {
 	function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		 
-		$this->_db = & JFactory::getDBO ();
+
+		$this->_db = JFactory::getDBO ();
 		$this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
 		$this->_config_dist_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.dist.php";
 		$this->_config_bkp_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.bkp.php";
@@ -462,7 +462,7 @@ class Redconfiguration {
 
 	function showPrice()
 	{
-		$user = & JFactory::getUser ();
+		$user = JFactory::getUser ();
 		$userhelper = new rsUserhelper();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 		if($user->id)
@@ -492,7 +492,7 @@ class Redconfiguration {
 
 	function getCatalog()
 	{
-		$user = & JFactory::getUser ();
+		$user = JFactory::getUser ();
 		$userhelper = new rsUserhelper();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 		if($user->id)

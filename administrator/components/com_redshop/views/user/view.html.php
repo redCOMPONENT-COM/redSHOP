@@ -80,6 +80,7 @@ class userViewuser extends JView
 //	 	$lists ['shipping'] = $shipping;
 
 	 	$temps = array();
+        $temps[0] = new stdClass;
 		$temps[0]->value=0;
 		$temps[0]->text=JText::_('COM_REDSHOP_SELECT');
 		$shopper_groups=array_merge($temps,$shopper_groups);
@@ -95,7 +96,8 @@ class userViewuser extends JView
 		$this->assignRef ( 'lists', $lists );
 		$this->assignRef ( 'user', $user );
 		$this->assignRef ( 'pagination', $pagination );
-		$this->assignRef ( 'request_url', $uri->toString () );
+		//$this->assignRef ( 'request_url', $uri->toString () );
+        $this->request_url = $uri->toString();
 		parent::display ( $tpl );
 	}
 }
