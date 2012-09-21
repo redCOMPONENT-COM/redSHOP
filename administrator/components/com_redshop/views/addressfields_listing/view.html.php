@@ -60,11 +60,13 @@ class addressfields_listingViewaddressfields_listing extends JView
 
 		$lists['addresssections']  = JHTML::_('select.genericlist',$option,  'section_id', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text',  $section_id );
 
-    $this->assignRef('user',		JFactory::getUser());
+    //$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
     $this->assignRef('lists',		$lists);
   	$this->assignRef('fields',		$fields);
     $this->assignRef('pagination',	$pagination);
-    $this->assignRef('request_url',	$uri->toString());
+    //$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
   }
 }
