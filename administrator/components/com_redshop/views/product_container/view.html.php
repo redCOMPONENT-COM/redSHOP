@@ -21,11 +21,6 @@ jimport( 'joomla.application.component.view' );
 
 class product_containerViewproduct_container extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -37,16 +32,9 @@ class product_containerViewproduct_container extends JView
 
    		$preorder = JRequest::getVar('preorder','','request',0);
 
-   		$newproducts = JRequest::getVar('newproducts','','request',0);
-
-   		$existingproducts = JRequest::getVar('existingproducts','','request',0);
-
-   		if($preorder == '1') {
-
-   			$tpl = 'preorder';
-
-
-   		}
+        if($preorder == '1') {
+            $tpl = 'preorder';
+        }
 
 		if($container == 1)
 		{
@@ -62,12 +50,6 @@ class product_containerViewproduct_container extends JView
 			$document->setTitle( JText::_('COM_REDSHOP_CONTAINER_PRE_ORDER') );
 			JToolBarHelper::custom('addcontainer' ,'new.png','new_f2.png','Add new container',false);
 		}
-
- 		/*JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();*/
 
 		$uri	= JFactory::getURI();
 
@@ -90,8 +72,6 @@ class product_containerViewproduct_container extends JView
 
 		$lists['filter_container'] = $model->getcontainerlist('filter_container',$filter_container,'class="inputbox" size="1" onchange="document.adminForm.submit();"' );
 
-
-
     	$this->assignRef('user',		JFactory::getUser());
     	$this->assignRef('lists',		$lists);
   		$this->assignRef('products',	$products);
@@ -102,4 +82,3 @@ class product_containerViewproduct_container extends JView
     	parent::display($tpl);
   }
 }
-?>

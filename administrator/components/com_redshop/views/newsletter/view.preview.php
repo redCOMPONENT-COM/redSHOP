@@ -20,11 +20,6 @@ require_once( JPATH_COMPONENT.DS.'helpers'.DS.'category.php' );
 
 class newsletterViewnewsletter extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -108,4 +103,3 @@ class newsletterViewnewsletter extends JView
     	parent::display($tpl);
   	}
 }
-?>

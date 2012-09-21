@@ -21,14 +21,11 @@ class orderstatus_detailVIEWorderstatus_detail extends JView
 {
 	function display($tpl = null)
 	{
-//		global $mainframe;
-//		$option	= JRequest::getVar('option');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$isNew = ($detail->order_status_id < 1);
 
@@ -39,7 +36,6 @@ class orderstatus_detailVIEWorderstatus_detail extends JView
 		JToolBarHelper::save();
 
 		if ($isNew)  {
-//			$mainframe->Redirect( 'index.php?option='.$option.'&view=orderstatus' );
 			JToolBarHelper::cancel();
 		} else {
 
@@ -55,4 +51,3 @@ class orderstatus_detailVIEWorderstatus_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

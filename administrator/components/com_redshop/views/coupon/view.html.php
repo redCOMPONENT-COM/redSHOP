@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class couponViewcoupon extends JView
 {
-	/*function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}*/
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -47,7 +42,6 @@ class couponViewcoupon extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$coupons		= $this->get( 'Data');
-		//$total			= $this->get( 'Total');
 		$pagination = $this->get('Pagination');
 
 

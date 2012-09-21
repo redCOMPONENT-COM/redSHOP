@@ -72,4 +72,5 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 
 		parent::display($tpl);
 	}
-}?>
+}
+

@@ -18,12 +18,10 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.view' );
 
-class mediaViewmedia extends JView {
-	function __construct($config = array()) {
-		parent::__construct ( $config );
-	}
-
-	function display($tpl = null) {
+class mediaViewmedia extends JView
+{
+	function display($tpl = null)
+    {
 		global $mainframe, $context;
 
 		$document = JFactory::getDocument();

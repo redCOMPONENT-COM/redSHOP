@@ -19,7 +19,6 @@ jimport('joomla.application.component.view');
 
 class redshopViewredshop extends JView
 {
-
    	function display ($tpl=null)
    	{
    		// for pie_cart of stastics
@@ -85,6 +84,7 @@ class redshopViewredshop extends JView
 
    		parent::display($tpl);
   	}
+
 	function quickiconButton( $link, $image, $text, $modal = 0 )
 	{
 		//initialise variables

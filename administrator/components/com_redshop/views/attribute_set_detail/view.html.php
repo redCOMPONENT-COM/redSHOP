@@ -21,16 +21,10 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$redTemplate = new Redtemplate();
-
 		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
-		$cfg = JFactory::getConfig();
-	    $dbPrefix = $cfg->getValue('config.dbprefix');
 		$lists = array();
 
 		$model = $this->getModel ( 'attribute_set_detail' );
-
 
 		$attributes = $model->getattributes();
 
@@ -60,19 +54,13 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 
 		$uri = JFactory::getURI();
 
-
-		//$this->setLayout('default');
-
-
-
-
-		$detail	=& $this->get('data');
+        $detail	= $this->get('data');
 
 		$isNew = ($detail->attribute_set_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
 
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_ATTRIBUTE_SET' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_attribute_bank48' );
+		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_attribute_bank48' );
 
 
 		JToolBarHelper::apply();
@@ -100,4 +88,3 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

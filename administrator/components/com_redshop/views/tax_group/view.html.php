@@ -21,15 +21,9 @@ jimport( 'joomla.application.component.view' );
 
 class tax_groupViewtax_group extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_TAX') );
@@ -37,14 +31,11 @@ class tax_groupViewtax_group extends JView
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT' ), 'redshop_vatgroup48' );
 
-
-
  		JToolBarHelper::addNewX();
  		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-
 
 		$uri	= JFactory::getURI();
 
@@ -54,8 +45,6 @@ class tax_groupViewtax_group extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-
-	    $total = $this->get( 'Total');
 	    $media = $this->get( 'Data');
 		$pagination = $this->get('Pagination');
     	$this->assignRef('user',		JFactory::getUser());

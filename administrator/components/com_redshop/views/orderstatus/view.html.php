@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class orderstatusVieworderstatus extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -46,9 +41,9 @@ class orderstatusVieworderstatus extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$orderstatus	= & $this->get( 'Data');
+		$orderstatus	= $this->get( 'Data');
 
-		$pagination = & $this->get( 'Pagination' );
+		$pagination = $this->get( 'Pagination' );
 
     	$this->assignRef('user',		JFactory::getUser());
     	$this->assignRef('lists',		$lists);
@@ -58,4 +53,3 @@ class orderstatusVieworderstatus extends JView
     	parent::display($tpl);
   }
 }
-?>

@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class discountViewdiscount extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;

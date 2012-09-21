@@ -20,7 +20,6 @@ jimport('joomla.html.pagination');
 
 class statisticViewstatistic extends JView
 {
-
    	function display ($tpl=null)
    	{
    		global $mainframe, $context;

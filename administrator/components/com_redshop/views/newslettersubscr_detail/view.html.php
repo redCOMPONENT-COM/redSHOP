@@ -71,4 +71,3 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

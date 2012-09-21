@@ -19,12 +19,12 @@ class wrapper_detailVIEWwrapper_detail extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$context = "wrapper";
 	 	$uri = JFactory::getURI();
 		$lists = array();
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
 		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
@@ -87,4 +87,5 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		$this->assignRef('request_url',	$uri->toString());
 		parent::display($tpl);
 	}
-}?>
+}
+

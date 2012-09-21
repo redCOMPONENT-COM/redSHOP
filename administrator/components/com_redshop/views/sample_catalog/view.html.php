@@ -21,14 +21,9 @@ class sample_catalogVIEWsample_catalog extends JView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-
-
-		$uri 		= JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
-
-		$lists = array();
 
 		$detail	= $this->get('data');
 
@@ -42,5 +37,4 @@ class sample_catalogVIEWsample_catalog extends JView
 
 		parent::display($tpl);
 	}
-
 }

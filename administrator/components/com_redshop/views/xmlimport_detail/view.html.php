@@ -215,4 +215,5 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 		parent::display($tpl);
 	}
-}	?>
+}
+

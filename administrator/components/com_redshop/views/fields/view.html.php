@@ -36,7 +36,6 @@ class fieldsViewfields extends JView
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_FIELDS_MANAGEMENT' ), 'redshop_fields48' );
 
-
  		JToolBarHelper::addNewX();
  		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
@@ -45,7 +44,6 @@ class fieldsViewfields extends JView
 
 		$uri	= JFactory::getURI();
 		$fields			= $this->get( 'Data');
-		$total			= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 		$optiontype = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
@@ -69,4 +67,3 @@ class fieldsViewfields extends JView
     	parent::display($tpl);
   }
 }
-?>

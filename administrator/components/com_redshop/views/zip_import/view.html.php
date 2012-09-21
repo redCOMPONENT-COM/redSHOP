@@ -19,20 +19,13 @@ jimport( 'joomla.application.component.view' );
 
 class zip_importViewzip_import extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
 		$layout	= JRequest::getVar('layout');
    		if($layout=='confirmupdate')
 		{
 			$this->setLayout('confirmupdate');
 		}else{
-			$model = $this->getModel('zip_import');
 			/* Load the data to export */
 			$result = $this->get('Data');
 	        $this->assignRef('result', $result);
@@ -40,4 +33,4 @@ class zip_importViewzip_import extends JView
     	parent::display($tpl);
   }
 }
-?>
+

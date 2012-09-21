@@ -21,11 +21,6 @@ jimport( 'joomla.application.component.view' );
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'shopper.php' );
 class shopper_groupViewshopper_group extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -36,7 +31,6 @@ class shopper_groupViewshopper_group extends JView
    		jimport('joomla.html.pagination');
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT' ), 'redshop_manufact48' );
-
 
  		JToolBarHelper::addNewX();
  		JToolBarHelper::editListX();
@@ -53,9 +47,6 @@ class shopper_groupViewshopper_group extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$groups = $shoppergroup->getshopperGroupListArray();
-	    $total = count($groups);//& $this->get( 'Total');
-
-	    $media			= $this->get( 'Data');
 
 		$pagination = $this->get('Pagination');
 		$this->assignRef('user',		JFactory::getUser());

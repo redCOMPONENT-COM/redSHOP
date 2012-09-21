@@ -22,12 +22,9 @@ class stockimage_detailVIEWstockimage_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getVar('option','','request','string');
-
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL' ), 'redshop_stockroom48' );
 
-		$document = JFactory::getDocument();
-		$uri 		= JFactory::getURI();
+		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
 		$lists = array();
@@ -62,4 +59,5 @@ class stockimage_detailVIEWstockimage_detail extends JView
 
 		parent::display($tpl);
 	}
-}	?>
+}
+
