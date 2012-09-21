@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -16,21 +16,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.controller' );
- 
+
 class questionController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}	
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
-	function display() 
-	{
-		parent::display();
-	}
+
 /**
 	 * logic for save an order
 	 *
