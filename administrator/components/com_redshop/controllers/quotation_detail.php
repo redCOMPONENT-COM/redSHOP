@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -22,33 +22,35 @@ require_once( JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'produ
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'quotation.php' );
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'product.php' );
 
-class quotation_detailController extends JController 
+class quotation_detailController extends JController
 {
-	function __construct($default = array()) 
+	function __construct($default = array())
 	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	function edit() {
+
+	function edit()
+    {
 		JRequest::setVar ( 'view', 'quotation_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
-	
-	}
-	function save($send=0) 
-	{ 
+    }
+
+	function save($send=0)
+	{
 		$quotationHelper = new quotationHelper();
 		$post = JRequest::get ( 'post' );
-		
+
 //		$text_field = JRequest::getVar( 'text_field', '', 'post', 'string', JREQUEST_ALLOWRAW );
 //		$post["text_field"]=$text_field;
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		$post['quotation_id'] = $cid [0];
 		$model = $this->getModel ( 'quotation_detail' );
-		
+
 		if($post['quotation_id']==0)
 		{
 			$post['quotation_cdate'] = time();
@@ -64,7 +66,7 @@ class quotation_detailController extends JController
 //		print_r($post);
 //		die();
 		foreach($post as $key=>$value)
-		{	
+		{
 			if(!strcmp("quotation_item_id",substr($key,0,17)))
 			{
 				$quotation_item[$i]->quotation_item_id = $value;
@@ -83,42 +85,44 @@ class quotation_detailController extends JController
 				$i++;
 			}
 		}
-		
+
 		$post['quotation_item'] = $quotation_item;
 		$row = $model->store ( $post );
-		if ($row) 
+		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED' );
 		} else {
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL' );
 		}
-		
+
 		$quotation_status  = $post['quotation_status'] > 0 ? $post['quotation_status'] : 2;
-		
+
 		$bool = $quotationHelper->updateQuotationStatus($row->quotation_id,$quotation_status);
-		
+
 		if($send==1)
 		{
-			if ($model->sendQuotationMail($row->quotation_id)) 
+			if ($model->sendQuotationMail($row->quotation_id))
 			{
-				$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT' );	
+				$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT' );
 			}
 		}
 		$this->setRedirect ( 'index.php?option='.$option.'&view=quotation', $msg );
 	}
-	function send() 
-	{ 
+
+	function send()
+	{
 		$this->save(1);
 	}
-	function remove() 
+
+	function remove()
 	{
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
 		}
-		
+
 		$model = $this->getModel ( 'quotation_detail' );
 		if (! $model->delete ( $cid )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
@@ -126,13 +130,13 @@ class quotation_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=quotation',$msg );
 	}
-	
-	function deleteitem() 
-	{	
+
+	function deleteitem()
+	{
 		$option = JRequest::getVar('option','','request','string');
 		$qitemid = JRequest::getVar('qitemid',0,'request','int');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'request', 'array' );
-		
+
 		$model = $this->getModel ( 'quotation_detail' );
 		if (! $model->deleteitem( $qitemid, $cid[0] )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
@@ -140,27 +144,27 @@ class quotation_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_QUOTATION_ITEM_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=quotation_detail&task=edit&cid[]='.$cid[0],$msg );
 	}
-	
-	function cancel() 
+
+	function cancel()
 	{
 		$option = JRequest::getVar('option','','request','string');
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=quotation',$msg );
 	}
-	
+
 	function newQuotationItem()
 	{
 		$adminproducthelper = new adminproducthelper();
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-				
+
 		$model = $this->getModel('quotation_detail');
-				
+
 		$quotationItem = $adminproducthelper->redesignProductItem($post);
 
 		$post['quotation_item'] = $quotationItem;
-		
+
 		if ($model->newQuotationItem($post))
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_ITEM_ADDED');
@@ -169,7 +173,7 @@ class quotation_detailController extends JController
 		}
 		$this->setRedirect('index.php?option='.$option.'&view=quotation_detail&cid[]='.$cid[0],$msg);
 	}
-	
+
 	function getQuotationPriceTax()
 	{
 		$producthelper = new producthelper();
@@ -185,4 +189,4 @@ class quotation_detailController extends JController
 		echo "<div id='newtax'>".$vatprice."</div>";
 		exit;
 	}
-}?>
+}

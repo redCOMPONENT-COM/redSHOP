@@ -21,18 +21,8 @@ jimport('joomla.application.component.controller');
 
 class mass_discountController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
-	}
-
-	function display()
-    {
-        parent::display();
 	}
 }

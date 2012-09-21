@@ -18,29 +18,28 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 
-class shipping_rate_detailController extends JController 
+class shipping_rate_detailController extends JController
 {
-	function __construct($default = array()) 
+	function __construct($default = array())
 	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
 
-	function edit() 
+	function edit()
 	{
 		JRequest::setVar ( 'view', 'shipping_rate_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
-
-	}
+    }
 
 	function apply()
 	{
        $this->save(1);
 	}
 
-	function save($apply=0) 
+	function save($apply=0)
 	{
 		$post = JRequest::get ( 'post' );
 
@@ -52,7 +51,7 @@ class shipping_rate_detailController extends JController
 		$post["shipping_location_info"] = JRequest::getVar( 'shipping_location_info', '', 'post', 'string', JREQUEST_ALLOWRAW );
 		$model = $this->getModel ( 'shipping_rate_detail' );
 
-		if ($row = $model->store ( $post )) 
+		if ($row = $model->store ( $post ))
 		{
 			$field = new extra_field();
 			$field->extra_field_save($post,"11", $row->shipping_rate_id); // field_section 11 :Shipping
@@ -67,13 +66,13 @@ class shipping_rate_detailController extends JController
 		}
 	}
 
-	function remove() 
+	function remove()
 	{
 		$post = JRequest::get ( 'post' );
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 		$model = $this->getModel ( 'shipping_rate_detail' );
-		if (! is_array ( $cid ) || count ( $cid ) < 1) 
+		if (! is_array ( $cid ) || count ( $cid ) < 1)
 		{
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
 		}
@@ -83,8 +82,8 @@ class shipping_rate_detailController extends JController
 		}
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping_rate&id='.$post['id'] );
 	}
-	
-	function publish() 
+
+	function publish()
 	{
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -98,7 +97,7 @@ class shipping_rate_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping_rate' );
 	}
 
-	function unpublish() 
+	function unpublish()
 	{
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -113,7 +112,7 @@ class shipping_rate_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=shipping_rate' );
 	}
 
-	function cancel() 
+	function cancel()
 	{
 		$post = JRequest::get ( 'post' );
 		$option = JRequest::getVar ('option');
@@ -138,8 +137,8 @@ class shipping_rate_detailController extends JController
 	{
 		$get = JRequest::get ( 'get' );
 		$model = $this->getModel ( 'shipping_rate_detail' );
-		$shipping_rate_state = $model->GetStateDropdown($get);
+		$model->GetStateDropdown($get);
 		exit;
 	}
 }
-?>
+

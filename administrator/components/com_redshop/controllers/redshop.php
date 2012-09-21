@@ -19,23 +19,13 @@ jimport( 'joomla.application.component.controller' );
 
 class redshopController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-
-	function demoContentInsert() {
-
-		$post = JRequest::get('post');
-
-		$model = $this->getModel();
+	function demoContentInsert()
+    {
+        $model = $this->getModel();
 
 		$model->demoContentInsert();
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED');
 
 		$this->setRedirect('index.php?option=com_redshop',$msg);
-
-	}
-
-
+    }
 }

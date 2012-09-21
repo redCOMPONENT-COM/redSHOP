@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -16,23 +16,18 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
 jimport( 'joomla.application.component.controller' );
- 
+
 class product_categoryController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-	function display() {
-		parent::display();		
-	}
-	function assignCategory(){
+	function assignCategory()
+    {
 		 JRequest::setVar ( 'hidemainmenu', 1 );
 		 parent::display ();
 	}
-	function saveProduct_Category(){
+
+	function saveProduct_Category()
+    {
 		global $mainframe;
 		$model = $this->getModel("product_category");
 		if($model->saveProduct_Category())
@@ -41,7 +36,9 @@ class product_categoryController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
 		$mainframe->redirect("index.php?option=com_redshop&view=product",$msg);
 	}
-	function removeProduct_Category(){
+
+	function removeProduct_Category()
+    {
 		global $mainframe;
 		$model = $this->getModel("product_category");
 		if($model->removeProduct_Category())
