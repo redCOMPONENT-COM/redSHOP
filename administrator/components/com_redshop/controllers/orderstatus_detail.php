@@ -1,128 +1,128 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die ('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 class orderstatus_detailController extends JController
 {
-	function __construct($default = array())
+    function __construct($default = array())
     {
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
-	function edit()
-	{
-		JRequest::setVar ( 'view', 'orderstatus_detail' );
-		JRequest::setVar ( 'layout', 'default' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-
-		parent::display();
-	}
-
-	function save()
-	{
-		$post = JRequest::get ( 'post' );
-
-		$option = JRequest::getVar ('option');
-		$redhelper = new redhelper();
-		$cid = JRequest::getVar ( 'cid', array (0), 'post', 'array' );
-
-		$post ['order_status_id'] = $cid[0];
-
-		$model = $this->getModel ( 'orderstatus_detail' );
-
-		if ($model->store ( $post ))
-		{
-			$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_SAVED' );
-
-		}elseif( JFactory::getACL()){
-
-			$msg = JText::_('COM_REDSHOP_ORDERSTATUS_CODE_IS_ALLREADY' );
-
-		}else{
-
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDERSTATUS_DETAIL' );
-		}
-		$link = 'index.php?option=' . $option . '&view=orderstatus';
-		$link = $redhelper->sslLink($link,0);
-		$this->setRedirect ( $link, $msg );
-	}
-
-	function remove()
+    function edit()
     {
-        $option = JRequest::getVar ('option');
+        JRequest::setVar('view', 'orderstatus_detail');
+        JRequest::setVar('layout', 'default');
+        JRequest::setVar('hidemainmenu', 1);
 
-		$cid = JRequest::getVar ( 'cid', array (0), 'post', 'array' );
+        parent::display();
+    }
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
-
-		$model = $this->getModel ( 'orderstatus_detail' );
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_DELETED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=orderstatus',$msg );
-	}
-
-	function publish()
+    function save()
     {
-        $option = JRequest::getVar ('option');
+        $post = JRequest::get('post');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $option    = JRequest::getVar('option');
+        $redhelper = new redhelper();
+        $cid       = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
+        $post ['order_status_id'] = $cid[0];
 
-		$model = $this->getModel ( 'orderstatus_detail' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_PUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=orderstatus',$msg );
-	}
+        $model = $this->getModel('orderstatus_detail');
 
-	function unpublish()
+        if ($model->store($post))
+        {
+            $msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_SAVED');
+        }
+        elseif (JFactory::getACL())
+        {
+
+            $msg = JText::_('COM_REDSHOP_ORDERSTATUS_CODE_IS_ALLREADY');
+        }
+        else
+        {
+
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDERSTATUS_DETAIL');
+        }
+        $link = 'index.php?option=' . $option . '&view=orderstatus';
+        $link = $redhelper->sslLink($link, 0);
+        $this->setRedirect($link, $msg);
+    }
+
+    function remove()
     {
-        $option = JRequest::getVar ('option');
+        $option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		$model = $this->getModel ( 'orderstatus_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=orderstatus',$msg );
-	}
+        $model = $this->getModel('orderstatus_detail');
+        if (!$model->delete($cid))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_DELETED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+    }
 
-
-	function cancel()
+    function publish()
     {
-        $option = JRequest::getVar ('option');
-		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=orderstatus',$msg );
-	}
+        $option = JRequest::getVar('option');
+
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+        }
+
+        $model = $this->getModel('orderstatus_detail');
+        if (!$model->publish($cid, 1))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_PUBLISHED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+    }
+
+    function unpublish()
+    {
+        $option = JRequest::getVar('option');
+
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+        }
+
+        $model = $this->getModel('orderstatus_detail');
+        if (!$model->publish($cid, 0))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+    }
+
+    function cancel()
+    {
+        $option = JRequest::getVar('option');
+        $msg    = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED');
+        $this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+    }
 }
