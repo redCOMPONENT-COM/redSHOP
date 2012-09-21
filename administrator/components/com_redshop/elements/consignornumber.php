@@ -30,17 +30,17 @@ class JFormFieldconsignornumber extends JFormField
 	 * @access	protected
 	 * @var		string
 	 */
-	
+
 	public $type = 'consignornumber';
 
 	protected function getInput()
 	{
-		
-		$db = &JFactory::getDBO();
+
+		$db = JFactory::getDBO();
 
 		$query = 'SELECT s.* FROM #__extensions AS s '
 				.'WHERE s.type="plugin" and s.folder="redshop_shipping" and enabled =1';
-				
+
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
@@ -51,11 +51,11 @@ class JFormFieldconsignornumber extends JFormField
 		for ($i=0, $n=count( $options ); $i < $n; $i++)
 		{
 			$row = &$options[$i];
-			
+
 
 			$html.="<tr><td>".$row->name."</td><td><input type='text' id='".$row->id."' name='".$name."[]'  value='".$value[$i]."'   /></td></tr>";
 		}
-		
+
 		$html.='</table>';
 		return $html;
 	}
