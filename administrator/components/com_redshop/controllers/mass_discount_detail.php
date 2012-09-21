@@ -82,7 +82,7 @@ class mass_discount_detailController extends JController
 	{
         $option = JRequest::getVar ('option');
 
-		$layout = JRequest::getVar('layout');
+		//$layout = JRequest::getVar('layout');
 
 		$cid = JRequest::getVar ( 'cid', array (0), 'post', 'array' );
 

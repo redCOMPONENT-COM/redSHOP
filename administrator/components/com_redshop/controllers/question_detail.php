@@ -26,13 +26,16 @@ class question_detailController extends JController
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	function edit() {
+
+	function edit()
+    {
 		JRequest::setVar ( 'view', 'question_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
 
 	}
+
 	function save($send=0)
 	{
 		$post = JRequest::get ( 'post' );
@@ -72,7 +75,6 @@ class question_detailController extends JController
 		$this->save(1);
 	}
 
-
 	function remove()
 	{
 		$option = JRequest::getVar('option','','request','string');
@@ -108,7 +110,8 @@ class question_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=question_detail&task=edit&cid[]='.$qid[0],$msg );
 	}
 
-	function sendanswer(){
+	function sendanswer()
+    {
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'aid', array (0 ), 'post', 'array' );
 		$qid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -127,9 +130,10 @@ class question_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=question',$msg );
 	}
-	function publish() {
 
-		$option = JRequest::getVar ('option');
+	function publish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -144,9 +148,10 @@ class question_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=question',$msg );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar ('option');
+	function unpublish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -161,6 +166,7 @@ class question_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=question',$msg );
 	}
+
 	/**
 	 * logic for orderup
 	 *
@@ -211,6 +217,4 @@ class question_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=question',$msg );
 	}
-
-
-}?>
+}

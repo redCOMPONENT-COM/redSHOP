@@ -20,23 +20,29 @@ jimport ( 'joomla.application.component.controller' );
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'template.php';
 
-class template_detailController extends JController {
-	function __construct($default = array()) {
+class template_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	function edit() {
+
+	function edit()
+    {
 		JRequest::setVar ( 'view', 'template_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
+    }
 
-	}
 	function apply()
 	{
        $this->save(1);
 	}
-	function save($apply=0) {
+
+	function save($apply=0)
+    {
 		$post = JRequest::get ( 'post' );
 		$showbuttons = JRequest::getVar('showbuttons');
 
@@ -70,9 +76,10 @@ class template_detailController extends JController {
 			</script>
 	<?php }
 	}
-	function remove() {
 
-		$option = JRequest::getVar('option');
+	function remove()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -87,9 +94,10 @@ class template_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=template' );
 	}
-	function publish() {
 
-		$option = JRequest::getVar('option');
+	function publish()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -104,9 +112,10 @@ class template_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=template' );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar('option');
+	function unpublish()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -121,18 +130,20 @@ class template_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=template' );
 	}
-	function cancel() {
 
-		$option = JRequest::getVar('option');
+	function cancel()
+    {
+        $option = JRequest::getVar('option');
 
 		$model = $this->getModel('template_detail');
 		$model->checkin();
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=template' );
 	}
-	function copy(){
 
-		$option = JRequest::getVar('option');
+	function copy()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -149,5 +160,4 @@ class template_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option=' .$option. '&view=template', $msg );
 	}
-
 }

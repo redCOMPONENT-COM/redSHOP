@@ -274,4 +274,4 @@ class stockroom_detailController extends JController
 		echo "<div id='sentresponse'>".$totalprd."`_`".$msg."</div>";
 		die();
 	}
-}	?>
+}

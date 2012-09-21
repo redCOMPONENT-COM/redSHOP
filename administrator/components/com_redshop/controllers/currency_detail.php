@@ -34,8 +34,6 @@ class currency_detailController extends JController
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 
-		$model = $this->getModel ( 'currency_detail' );
-
 		parent::display ();
 	}
 

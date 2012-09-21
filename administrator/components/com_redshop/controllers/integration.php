@@ -21,17 +21,6 @@ jimport('joomla.application.component.controller');
 
 class integrationController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-
-	function display()
-    {
-
-		parent::display();
-	}
-
 	function gbasedownload()
     {
 		global $mainframe;

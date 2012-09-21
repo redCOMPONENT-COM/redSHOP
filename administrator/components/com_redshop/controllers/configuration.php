@@ -354,7 +354,7 @@ class configurationController extends JController
 		$option = JRequest::getVar('option');
 		$this->setRedirect( 'index.php?option='.$option );
 	}
-	
+
 	function display()
 	{
 		$model = $this->getModel ( 'configuration' );
@@ -362,7 +362,7 @@ class configurationController extends JController
 		JRequest::setVar ( 'currency_data',$currency_data );
 		parent::display();
 	}
-	
+
 	function clearsef()
 	{
 		$model = $this->getModel ( 'configuration' );
@@ -370,7 +370,7 @@ class configurationController extends JController
 		echo $cleardata;
 		exit;
 	}
-	
+
 	function resetTemplate()
 	{
 		$model = $this->getModel ( 'configuration' );
@@ -387,11 +387,11 @@ class configurationController extends JController
      	$userhelper->updateUserTermsCondition();
 		die();
 	}
-	
+
 	function resetOrderId()
 	{
      	$order_functions = new order_functions();
      	$order_functions->resetOrderId();
 		die();
-	}	
-}?>
+	}
+}
