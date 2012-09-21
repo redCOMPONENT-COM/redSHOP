@@ -29,7 +29,7 @@ $model = $this->getModel('order');
 $redhelper = new redhelper();
 $shippinghelper	 		= new shipping();
 $stockroomhelper = new rsstockroomhelper();
-$dispatcher	=& JDispatcher::getInstance();
+$dispatcher	= JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 
 ?>

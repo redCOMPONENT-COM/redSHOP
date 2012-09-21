@@ -41,7 +41,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		$array = JRequest::getVar('cid',  0, '', 'array');
 		$this->setId((int)$array[0]);
 		$this->_order_functions	= new order_functions();
-		$this->_db = & JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 	function setId($id)
 	{
@@ -74,7 +74,7 @@ class addorder_detailModeladdorder_detail extends JModel
 	function setBilling()
 	{
 		$post = JRequest::get ( 'post' );
-		
+
 		$is_company = (DEFAULT_CUSTOMER_REGISTER_TYPE==2) ? 1 :0;
 		$detail = new stdClass();
 		$detail->users_info_id			= (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
@@ -97,11 +97,11 @@ class addorder_detailModeladdorder_detail extends JModel
 		$detail->tax_exempt				= (isset($post['tax_exempt'])) ? $post['tax_exempt'] : null;
 		return $detail;
 	}
-	
+
 	function setShipping()
 	{
 		$post = JRequest::get ( 'post' );
-				
+
 		$detail = new stdClass();
 		$detail->billisship				= (isset($post['billisship'])) ? $post['billisship'] : 1;
 		$detail->users_info_id			= (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
@@ -113,10 +113,10 @@ class addorder_detailModeladdorder_detail extends JModel
 		$detail->address				= (isset($post['address_ST'])) ? $post['address_ST'] : null;
 		$detail->city					= (isset($post['city_ST'])) ? $post['city_ST'] : null;
 		$detail->phone					= (isset($post['phone_ST'])) ? $post['phone_ST'] : null;
-		
+
 		return $detail;
 	}
-	
+
 	function _initData()
 	{
 		if (empty($this->_data))
@@ -210,7 +210,7 @@ class addorder_detailModeladdorder_detail extends JModel
 				{
 					$data['phone_ST'] = $data['phone'];
 				}
-		
+
 				$rowsh = $userhelper->storeRedshopUserShipping($data);
 				return $rowsh;
 			}
@@ -820,7 +820,7 @@ class addorder_detailModeladdorder_detail extends JModel
 	{
 		$extra_field = new extra_field();
 		$Redconfiguration = new Redconfiguration();
-		
+
 		$query = 'SELECT * FROM '.$this->_table_prefix.'users_info '
 				.'WHERE address_type like "ST" '
 				.'AND user_id="'.$user_id .'" '
@@ -848,7 +848,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 		$statearray = $Redconfiguration->getStateList((array)$shipping,"state_code_ST","country_code_ST","ST",1);
 		$lists['state_code_ST'] = $statearray['state_dropdown'];
-		
+
 		$htmlshipping= '<table class="adminlist" border="0" width="100%">';
 		$htmlshipping .= '<tr><td width="100" align="right">'.JText::_( 'FIRSTNAME' ).':</td>';
 		$htmlshipping .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="'.$shipping->firstname.'" /></td></tr>';
@@ -869,7 +869,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		$htmlshipping .= '<tr><td colspan="2"><div id="exCustomerFieldST" '.$allowCustomer.'>'.$lists['shipping_customer_field'].'</div>
 							<div id="exCompanyFieldST" '.$allowCompany.'>'.$lists['shipping_company_field'].'</div></td></tr>';
 		$htmlshipping .= '</table>';
-		
+
 		return $htmlshipping;
 	}
 }
