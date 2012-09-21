@@ -20,11 +20,6 @@ jimport ( 'joomla.application.component.view' );
 
 class stockimageViewstockimage extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct ( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -37,8 +32,6 @@ class stockimageViewstockimage extends JView
 		JToolBarHelper::addNewX ();
 		JToolBarHelper::editListX ();
 		JToolBarHelper::deleteList ();
-//		JToolBarHelper::publishList ();
-//		JToolBarHelper::unpublishList ();
 
 		$uri = JFactory::getURI ();
 
@@ -49,7 +42,6 @@ class stockimageViewstockimage extends JView
 		$lists ['order_Dir'] = $filter_order_Dir;
 
 		$data = $this->get ( 'Data' );
-		$total = $this->get ( 'Total' );
 		$pagination = $this->get ( 'Pagination' );
 
 		$this->assignRef ( 'lists', $lists );

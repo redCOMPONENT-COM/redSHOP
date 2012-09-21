@@ -21,11 +21,6 @@ jimport( 'joomla.application.component.view' );
 
 class taxViewtax extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -41,7 +36,6 @@ class taxViewtax extends JView
  		JToolBarHelper::addNewX();
  		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
-
 
 		$uri	= JFactory::getURI();
 

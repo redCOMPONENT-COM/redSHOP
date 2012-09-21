@@ -72,9 +72,8 @@ class userViewuser extends JView
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
 
-		$user = & $this->get ( 'Data' );
-		$total = & $this->get ( 'Total' );
-		$pagination = & $this->get ( 'Pagination' );
+		$user = $this->get ( 'Data' );
+		$pagination = $this->get ( 'Pagination' );
 		$shopper_groups = $userhelper->getShopperGroupList();
 
 //		$lists ['user_id'] = $user_id;
@@ -100,4 +99,3 @@ class userViewuser extends JView
 		parent::display ( $tpl );
 	}
 }
-?>

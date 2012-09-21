@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class ratingViewrating extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -46,16 +41,15 @@ class ratingViewrating extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$ratings		= & $this->get( 'Data');
-		$total			= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-
+		$ratings		= $this->get( 'Data');
+		$pagination = $this->get( 'Pagination' );
 
     	$this->assignRef('user',		JFactory::getUser());
     	$this->assignRef('lists',		$lists);
   		$this->assignRef('ratings',		$ratings);
     	$this->assignRef('pagination',	$pagination);
     	$this->assignRef('request_url',	$uri->toString());
+
     	parent::display($tpl);
   }
 }

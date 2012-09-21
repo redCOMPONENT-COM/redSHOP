@@ -25,15 +25,18 @@ class stockroom_detailVIEWstockroom_detail extends JView
 	function display($tpl = null)
 	{
 		$layout = JRequest::getVar('layout', '');
+
 		if($layout=='default_product')
 		{
 			$this->display_product();
 			return false;
 		}
+
 		$lists = array();
 		$uri 		= JFactory::getURI();
 		$option = JRequest::getVar('option','','request','string');
 		$model=  $this->getModel('stockroom_detail');
+
 		if($layout=='importstock')
 		{
 			$stockroom_name = $model->getStockRoomList();
@@ -47,6 +50,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 			$this->setLayout($layout);
 		}
+
 		else
 		{
 			$document = JFactory::getDocument();
@@ -125,4 +129,4 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		$this->assignRef('request_url',	$uri->toString());
 		parent::display($tpl);
 	}
-}?>
+}

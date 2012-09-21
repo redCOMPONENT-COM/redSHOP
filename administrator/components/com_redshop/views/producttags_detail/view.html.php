@@ -21,7 +21,6 @@ class producttags_detailVIEWproducttags_detail extends JView
 {
 	function display($tpl = null)
 	{
-
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL' ), 'redshop_textlibrary48' );
 
 		$uri = JFactory::getURI();
@@ -56,4 +55,3 @@ class producttags_detailVIEWproducttags_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

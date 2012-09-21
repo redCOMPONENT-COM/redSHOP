@@ -5,14 +5,10 @@ jimport( 'joomla.application.component.view' );
 
 class state_detailVIEWstate_detail extends JView
 {
-	function __construct( $config = array())
-	{
-		parent::__construct( $config );
-
-	}
 	function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
+        $mainframe = JFactory::getApplication();
+
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_STATE_DETAIL' ), 'redshop_region_48' );
 		$uri = JFactory::getURI();
 		$user 	= JFactory::getUser();
@@ -43,20 +39,16 @@ class state_detailVIEWstate_detail extends JView
 		$temps[0]->value="0";
 		$temps[0]->text=JText::_('COM_REDSHOP_SELECT');
 		$countries=@array_merge($temps,$countries);
-		$country_list = explode(',',COUNTRY_LIST);
+		//$country_list = explode(',',COUNTRY_LIST);
 
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp,$country_list);
-
-
+		//$tmp = new stdClass;
+		//$tmp = @array_merge($tmp,$country_list);
 
 		$lists['country_id'] 	= JHTML::_('select.genericlist',   $countries, 'country_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->country_id );
 
 		$state_data= $redhelper->getStateAbbrivationByList();
 
 		$lists['show_state'] 	= JHTML::_('select.genericlist',   $state_data, 'show_state', 'class="inputbox" size="1" ', 'value', 'text', $detail->show_state );
-
-
 
 		if ($isNew)  {
 			JToolBarHelper::cancel();
@@ -67,8 +59,8 @@ class state_detailVIEWstate_detail extends JView
 
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_state' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_region_48' );
 
+		JToolBarHelper::title(   JText::_('COM_REDSHOP_state' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_region_48' );
 
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('lists',		$lists);
@@ -77,4 +69,4 @@ class state_detailVIEWstate_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>
+

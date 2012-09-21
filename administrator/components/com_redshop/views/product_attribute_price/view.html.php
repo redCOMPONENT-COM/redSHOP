@@ -17,15 +17,8 @@ jimport( 'joomla.application.component.view' );
 
 class product_attribute_priceViewproduct_attribute_price extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$db = JFactory::getDBO();
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
