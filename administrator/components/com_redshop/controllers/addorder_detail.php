@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,9 +15,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
 require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'cart.php' );
@@ -40,7 +41,7 @@ class addorder_detailController extends JController
 	function save_without_sendmail(){
 		$this->save();
 	}
-	
+
 	function save($apply=0)
 	{
 		$post = JRequest::get ( 'post' );
@@ -100,7 +101,7 @@ class addorder_detailController extends JController
 				return;
 			}
 		}
-		
+
 		$order_total = $post['order_total'];
 		$odiscount = 0;
 		$order_shipping = explode ( "|", $shippinghelper->decryptShipping( str_replace(" ","+",$post['shipping_rate_id'])));
@@ -140,9 +141,9 @@ class addorder_detailController extends JController
 			}
 			if($update_discount!=0){
 					$order_total 				= $order_total - $update_discount ;
-			}	
+			}
 		}
-		
+
 		$special_discount = $post['special_discount'];
 		for($i=0;$i<count($orderItem);$i++)
 		{
@@ -154,13 +155,13 @@ class addorder_detailController extends JController
 		} else{
 			$amt = $subtotal_excl_vat;
 		}
-		
+
 		$discount_price = ($amt * $special_discount) / 100;
 		$post['special_discount'] = $special_discount;
 		$post['special_discount_amount'] = $discount_price;
 
 		$order_total = $order_total - $discount_price ;
-		
+
 		if(PAYMENT_CALCULATION_ON=='subtotal'){
 			$paymentAmount = $subtotal;
 		}else{
@@ -241,7 +242,7 @@ class addorder_detailController extends JController
 	   echo $htmlshipping;
        die();
 	}
-	
+
 	function getShippingRate()
 	{
 		$shippinghelper = new shipping();
@@ -261,4 +262,4 @@ class addorder_detailController extends JController
 		echo "<div id='resultShippingVat'>".$order_shipping_tax."</div>";
 		die();
 	}
-}?>
+}

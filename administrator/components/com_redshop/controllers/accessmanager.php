@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -13,9 +14,10 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.controller');
 
 class accessmanagerController extends JController
 {
@@ -23,10 +25,12 @@ class accessmanagerController extends JController
 	{
 		parent::__construct( $default );
 	}
+
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
+
 	function display()
 	{
 		parent::display();

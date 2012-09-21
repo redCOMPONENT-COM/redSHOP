@@ -1,8 +1,9 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -14,36 +15,37 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+jimport('joomla.application.component.controller');
 
-jimport( 'joomla.application.component.controller' );
- 
 class categoryController extends JController
 {
 	function __construct( $default = array())
 	{
 		parent::__construct( $default );
-	}	
+	}
+
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
-	function display() {
-		
+
+	function display()
+    {
 		parent::display();
 	}
-	
+
 	/*
 	 * assign template to multiple categories
-	 * 
+	 *
 	 */
-	function assignTemplate(){
-		
-		$post = JRequest::get('post');
-		
+	function assignTemplate()
+    {
+        $post = JRequest::get('post');
+
 		$model = $this->getModel('category');
-		
+
 		if($model->assignTemplate($post)){
 			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
 		}else {
@@ -51,6 +53,7 @@ class categoryController extends JController
 		}
 		$this->setRedirect( 'index.php?option=com_redshop&view=category',$msg );
 	}
+
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
@@ -67,7 +70,7 @@ class categoryController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=category',$msg );
 
 	}
-	
+
 	function autofillcityname()
 	{
 		$db = JFactory::getDBO();
@@ -78,5 +81,4 @@ class categoryController extends JController
 	    echo $db->loadResult();
 		exit;
 	}
-}	
-
+}
