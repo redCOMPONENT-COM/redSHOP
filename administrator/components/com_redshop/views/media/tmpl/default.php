@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@ JHTMLBehavior::modal();
 jimport('joomla.filesystem.file');
 
 $producthelper = new producthelper();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 //--------- For Add Media Detail ---------------
 $option = JRequest::getVar('option');
@@ -54,12 +54,12 @@ if($showbuttons==1)
 			$section_name = $sectionadata[0]->subattribute_color_name;
 			$sectiona_primary_image = $sectionadata[0]->subattribute_color_main_image;
 			$directory = 'subproperty';
-			break;	
+			break;
 	}
 }
 ?>
 <script language="javascript" type="text/javascript">
-Joomla.submitbutton = function(pressbutton) 
+Joomla.submitbutton = function(pressbutton)
 {
 	submitbutton(pressbutton);
 }
@@ -91,12 +91,12 @@ if($showbuttons==1)
 		</button>
 		<button type="button" onclick="Joomla.submitbutton('edit');">
 			<?php echo JText::_('COM_REDSHOP_EDIT' ); ?>
-		</button><?php 
+		</button><?php
 		if($media_section=='product' || $media_section=='property' || $media_section=='subproperty')
 		{	?>
 		<button type="button" onclick="Joomla.submitbutton('defaultmedia');">
 			<?php echo JText::_('COM_REDSHOP_DEFAULT_MEDIA' ); ?>
-		</button><?php 
+		</button><?php
 		}	?>
 		<button type="button" onclick="Joomla.submitbutton('remove');">
 			<?php echo JText::_('COM_REDSHOP_DELETE' ); ?>
@@ -122,12 +122,12 @@ else
 }?>
 <form action="<?php echo $action;?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
-<?php 
+<?php
 if($showbuttons !=1)
 {?>
-<table class="adminlist">		 
+<table class="adminlist">
 	<tr><td valign="top" align="right" class="key">
-		 <?php echo JText::_('COM_REDSHOP_MEDIA_TYPE' ); ?>:<?php echo $this->lists['type']; ?>&nbsp;				
+		 <?php echo JText::_('COM_REDSHOP_MEDIA_TYPE' ); ?>:<?php echo $this->lists['type']; ?>&nbsp;
 		<?php echo JText::_('COM_REDSHOP_MEDIA_SECTION' ); ?>:<?php echo $this->lists['section']; ?>&nbsp;
 		<button onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
 		</td>
@@ -135,7 +135,7 @@ if($showbuttons !=1)
 </table>
 <?php }?>
 <table class="adminlist">
-	<thead>	
+	<thead>
 		<tr><th width="5%"><?php echo JText::_ ( 'COM_REDSHOP_NUM' );?></th>
 			<th width="5%"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count ( $this->media );?>);" /></th>
 			<th width="15%" class="title"><?php		if($showbuttons==1)
@@ -160,7 +160,7 @@ if($showbuttons !=1)
 			<th width="5%" class="title"><?php echo JTEXT::_ ('COM_REDSHOP_PRIMARY_MEDIA' );?></th>
 			<?php }?>
 			<!-- ordering--><?php
-			if($showbuttons==1) 
+			if($showbuttons==1)
 			{?>
 			<th class="order" width="20%"><?php  echo JHTML::_('grid.order',  $this->media ); ?></th><?php }?>
 			<th width="5%" nowrap="nowrap"><?php
@@ -178,12 +178,12 @@ if($showbuttons !=1)
 <?php
 
 	$k = 0;
-	for($i = 0, $n = count($this->media); $i < $n; $i ++) 
+	for($i = 0, $n = count($this->media); $i < $n; $i ++)
 	{
 		$row = &$this->media[$i];
 		$row->id = $row->media_id;
 		$published = JHTML::_ ( 'grid.published', $row, $i );	?>
-        
+
         <tr class="<?php echo "row$k";?>">
         	<td align="center"><?php echo $this->pagination->getRowOffset ( $i );?></td>
         	<td align="center"><?php echo JHTML::_ ( 'grid.id', $i, $row->id );?></td>
@@ -199,10 +199,10 @@ if($showbuttons !=1)
 					echo $row->media_name;
 				}	?></td>
 			<td align="center" class="order"><?php echo $row->media_type;?></td>
-		<?php	if($showbuttons==1){	?>	
+		<?php	if($showbuttons==1){	?>
 				<td class="order"><?php
 					if($row->media_type == 'download')
-					{	
+					{
 						$additionalfiles = $model->getAdditionalFiles($row->id);	?>
 						<a href="index3.php?option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id;?>&showbuttons=1" class="modal" rel="{handler: 'iframe', size: {x: 1000, y: 400}}" title="<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES').'&nbsp;('.count($additionalfiles).')';?>" >
 						<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES').'&nbsp;('.count($additionalfiles).')';?></a>
@@ -218,10 +218,10 @@ if($showbuttons !=1)
 			if($showbuttons==1)
 			{ ?>
     	    <!--ordering-->
-        	<td align="center"><?php  echo $this->pagination->orderUpIcon( $i, true, 'orderup', 'Move Up', $row->ordering );  
+        	<td align="center"><?php  echo $this->pagination->orderUpIcon( $i, true, 'orderup', 'Move Up', $row->ordering );
 				echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $row->ordering );?>
 				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" /></td>
-	<?php 	}	?>			
+	<?php 	}	?>
 			<td align="center"><?php echo $published;?></td>
 			<td align="center"><?php echo $row->media_id;?></td>
 		</tr>
@@ -233,14 +233,14 @@ if($showbuttons !=1)
 	<input type="hidden" name="section_name" value="<?php echo $section_name;?>" />
 <?php
 if($showbuttons!=1)
-{ ?>	
+{ ?>
 <tfoot><td colspan="9"><?php echo $this->pagination->getListFooter ();?></td></tfoot>
 <?php }?>
 </table>
 </div>
-<input type="hidden" name="view" value="media" /> 
+<input type="hidden" name="view" value="media" />
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="boxchecked" value="0" /> 
+<input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists ['order'];?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir'];?>" />
 </form>
