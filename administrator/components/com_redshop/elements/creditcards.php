@@ -35,7 +35,7 @@ class JFormFieldcreditcards extends JFormField
 
 	protected function getInput()
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$cc_list = array();

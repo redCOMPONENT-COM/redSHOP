@@ -75,7 +75,7 @@ class com_redshopInstallerScript
 	 */
 	function updateschema()
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery("SELECT extension_id FROM #__extensions WHERE element ='com_redshop' AND type = 'component'");
 		$component_Id = $db->loadResult();
 
@@ -134,8 +134,8 @@ class com_redshopInstallerScript
    */
   private function InstallPlugin( $pluginFolder, $pluginElement, $sourcePath) {
 
-    $app = &JFactory::getApplication();
-    $db = &JFactory::getDBO();
+    $app = JFactory::getApplication();
+    $db = JFactory::getDBO();
 
     // use J! installer to fully install the plugin
     $installer = new JInstaller;
@@ -185,8 +185,8 @@ class com_redshopInstallerScript
    */
   private function InstallModule( $moduleElement, $modulePosition, $sourcePath) {
 
-    $app = &JFactory::getApplication();
-    $db = &JFactory::getDBO();
+    $app = JFactory::getApplication();
+    $db = JFactory::getDBO();
 
     // use J! installer to fully install the plugin
     $installer = new JInstaller;

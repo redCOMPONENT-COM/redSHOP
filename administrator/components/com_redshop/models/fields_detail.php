@@ -123,7 +123,7 @@ class fields_detailModelfields_detail extends JModel
 			$value_id=$post["value_id"];
 			if($post["field_type"]==11 || $post["field_type"]==13)
 			{
-				$extra_name = &JRequest::getVar('extra_name_file', '', 'files', 'array' );
+				$extra_name = JRequest::getVar('extra_name_file', '', 'files', 'array' );
 				$total = count($extra_name['name']);
 			} else {
 				//$extra_name = $post["extra_name"];

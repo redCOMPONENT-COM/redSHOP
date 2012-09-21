@@ -32,12 +32,12 @@ class JFormFieldextrainfo extends JFormField
 	 * @access	protected
 	 * @var		string
 	 */
-	
+
 	public $type =  'extrainfo';
 
 	protected function getInput()
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$html='';
 		$html.="<textarea  name='".$this->name."'[]'  id='".$this->name."'[]' rows='8' cols='20'>".$this->value."</textarea>";

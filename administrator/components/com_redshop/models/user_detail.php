@@ -266,7 +266,7 @@ class user_detailModeluser_detail extends JModel
 		if ($user->get('id') == $me->get('id'))
 		{
 			// Get an ACL object
-			$acl = &JFactory::getACL();
+			$acl = JFactory::getACL();
 
 			// Get the user group from the ACL
 			$grp = $acl->getAroGroup($user->get('id'));
@@ -284,7 +284,7 @@ class user_detailModeluser_detail extends JModel
 			// Set the usertype based on the ACL group name
 			$user->set('usertype', $grp->name);
 
-			$session = &JFactory::getSession();
+			$session = JFactory::getSession();
 			$session->set('user', $user);
 		}
 
