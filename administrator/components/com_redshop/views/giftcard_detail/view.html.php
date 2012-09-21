@@ -21,17 +21,17 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 	{
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT' ), 'redshop_giftcard_48' );
 
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		jimport('joomla.html.pane');
-		$pane = & JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 		$this->assignRef('pane',$pane);
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 
 		$isNew		= ($detail->giftcard_id < 1);
@@ -65,8 +65,9 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('detail',		$detail);
-		$this->assignRef('request_url',	$uri->toString());
+		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
-}?>
+}
