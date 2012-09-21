@@ -35,7 +35,7 @@ class opsearchViewopsearch extends JView
 		$order_function = new order_functions();
    		//
 		$option = JRequest::getVar('option');
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addStyleSheet ( 'components/com_redshop/assets/css/search.css' );
 		$document->addScript ('components/com_redshop/assets/js/search.js');
 

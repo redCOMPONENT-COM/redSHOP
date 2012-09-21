@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
- 
+
 defined('_JEXEC') or die( 'Restricted access' );
 
 /**
@@ -32,11 +32,11 @@ class JFormFieldmanufacturer extends JFormField
 	 * @var		string
 	 */
 	public $type = 'manufacturer';
-	
+
 
 	protected function getInput()
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$name = $this->name;
 		$control_name = $this->name;
 		// This might get a conflict with the dynamic translation - TODO: search for better solution

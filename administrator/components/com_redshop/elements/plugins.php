@@ -33,12 +33,12 @@ class JFormFieldplugins extends JFormField
 	 * @var		string
 	 */
 	public	$type = 'plugins';
-	
+
 
 	protected function getInput()
 	{
 
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT shopper_group_id,shopper_group_name ' .

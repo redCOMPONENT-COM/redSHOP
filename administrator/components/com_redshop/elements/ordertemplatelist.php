@@ -35,10 +35,10 @@ class JFormFieldordertemplatelist extends JFormField
 
 	protected function getInput()
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$query = 'SELECT template_id,template_name FROM #__redshop_template ' 
+		$query = 'SELECT template_id,template_name FROM #__redshop_template '
 				.'WHERE published=1 '
 				.'AND template_section="order_list" '
 				;
@@ -47,7 +47,5 @@ class JFormFieldordertemplatelist extends JFormField
 		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('COM_REDSHOP_SELECT_TEMPLATE').' -', 'template_id', 'template_name'));
 
 		return JHTML::_('select.genericlist',  $options, $this->name, 'class="inputbox"', 'template_id', 'template_name', $this->value, $this->id );
-
-
-	}
-}?>
+    }
+}
