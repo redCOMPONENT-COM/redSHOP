@@ -79,7 +79,7 @@ class extra_field {
 	function list_all_field($field_section="",$section_id=0,$field_name="",$table="",$template_desc="")
 	{
 		$option = JRequest::getVar ('option');
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url= $uri->root();
 		$q = "SELECT * FROM ".$this->_table_prefix."fields WHERE field_section='".$field_section."' AND published=1 ";
 		if($field_name!="")
@@ -223,10 +223,10 @@ class extra_field {
 								$textarea_value=$data_value->data_txt;
 								if ($media_type=='jpg' || $media_type=='jpeg' || $media_type=='png' || $media_type=='gif'){
 									$extra_field_value .='<div id ="mediadiv'.$i.'"><img width="100"  src="'.$media_image.'" border="0" />&nbsp;<a href="#123"   onclick="delimg(\''.$data_value->data_txt.'\', \'mediadiv'.$i.'\',\''.$dest_prefix_del.'\', \''.$data_value->data_id.'\');"> Remove Media</a><input class="'.$row_data[$i]->field_class.'" name="'.$row_data[$i]->field_name.'"  id="'.$row_data[$i]->field_name.'" value="'.$data_value->data_txt.'" type="hidden" /></div>';
-									
+
 								} else {
 									$extra_field_value .='<div id ="mediadiv'.$i.'"><a href="'.$media_image.'">'.$data_value->data_txt.'</a>&nbsp;<a href="#123"   onclick="delimg(\''.$data_value->data_txt.'\', \'mediadiv'.$i.'\',\''.$dest_prefix_del.'\', \''.$data_value->data_id.'\');"> Remove Media</a><input class="'.$row_data[$i]->field_class.'" name="'.$row_data[$i]->field_name.'"  id="'.$row_data[$i]->field_name.'" value="'.$data_value->data_txt.'" type="hidden" /></div>';
-									
+
 								}
 							} else {
 								$extra_field_value .=JText::_('COM_REDSHOP_FILE_NOT_EXIST');
@@ -268,10 +268,10 @@ class extra_field {
 							 	$media_type = strtolower(JFile::getExt($textarea_value));
 								if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif'){
 									$extra_field_value .='<div id="docdiv'.$i.'"><img width="100"  src="'.$media_image.'" border="0" />&nbsp;<a href="#123"   onclick="delimg(\''.$textarea_value.'\', \'docdiv'.$i.'\',\''.$dest_prefix_del.'\', \''.$data_value->data_id.'\');"> Remove Media</a><input class="'.$row_data[$i]->field_class.'"  name="'.$row_data[$i]->field_name.'"  id="'.$row_data[$i]->field_name.'" value="'.$textarea_value.'" type="hidden"  /><div>';
-									
+
 								}else{
 									$extra_field_value .='<div id="docdiv'.$i.'"><a href="'.$media_image.'">'.$textarea_value.'</a>&nbsp;<a href="#123"   onclick="delimg(\''.$textarea_value.'\', \'docdiv'.$i.'\',\''.$dest_prefix_del.'\', \''.$data_value->data_id.'\');"> Remove Media</a><input class="'.$row_data[$i]->field_class.'"  name="'.$row_data[$i]->field_name.'"  id="'.$row_data[$i]->field_name.'" value="'.$textarea_value.'" type="hidden"  /></div>';
-								    
+
 								}
 							}else{
 								$extra_field_value .=JText::_('COM_REDSHOP_FILE_NOT_EXIST');
@@ -986,14 +986,12 @@ class extra_field {
 
 
 	}
-	
+
 	function deleteExtraFieldData($data_id)
 	{
 		$query = "DELETE FROM ".$this->_table_prefix."fields_data "
 		."WHERE data_id='".$data_id."' ";
-		$this->_db->setQuery($query);	
+		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
-	
-	
-}	?>
+}

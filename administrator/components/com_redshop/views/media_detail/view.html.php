@@ -116,7 +116,4 @@ class media_detailVIEWmedia_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }
-
-?>
