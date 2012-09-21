@@ -24,7 +24,7 @@ class voucher_detailVIEWvoucher_detail extends JView
 		$option = JRequest::getVar('option');
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT_DETAIL' ), 'redshop_voucher48' );
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
 
@@ -32,13 +32,13 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 		$document->addScript ('components/'.$option.'/assets/js/search.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$isNew = ($detail->voucher_id < 1);
 
@@ -83,9 +83,9 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('detail',		$detail);
-		$this->assignRef('request_url',	$uri->toString());
+		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
 }
-?>
