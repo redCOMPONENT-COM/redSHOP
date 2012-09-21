@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -18,42 +18,42 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 
-class xmlimport_detailController extends JController 
+class xmlimport_detailController extends JController
 {
-	function __construct($default = array()) 
+	function __construct($default = array())
 	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	
-	function edit() 
+
+	function edit()
 	{
 		JRequest::setVar ( 'view', 'xmlimport_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
 	}
-	
-	function xmlimport() 
+
+	function xmlimport()
 	{
 		$this->save(1);
 	}
-	
-	function save($import=0) 
+
+	function save($import=0)
 	{
 		$post = JRequest::get ( 'post' );
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		$post['xmlimport_id'] = $cid [0];
 		$model = $this->getModel ( 'xmlimport_detail' );
-		
+
 		if($post['xmlimport_id']==0)
 		{
 			$post['xmlimport_date'] = time();
 		}
 		$row = $model->store ( $post, $import );
-		if ($row) 
+		if ($row)
 		{
 			if($import==1)
 			{
@@ -71,16 +71,16 @@ class xmlimport_detailController extends JController
 		}
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlimport', $msg );
 	}
-	
-	function remove() 
+
+	function remove()
 	{
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
 		}
-		
+
 		$model = $this->getModel ( 'xmlimport_detail' );
 		if (! $model->delete ( $cid )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
@@ -88,19 +88,19 @@ class xmlimport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlimport',$msg );
 	}
-	
-	function cancel() 
+
+	function cancel()
 	{
 		$option = JRequest::getVar('option','','request','string');
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlimport',$msg );
 	}
-	
-	function auto_syncpublish() 
+
+	function auto_syncpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE' ) );
 		}
@@ -111,12 +111,12 @@ class xmlimport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_ENABLE_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlimport',$msg );
 	}
-	
-	function auto_syncunpublish() 
+
+	function auto_syncunpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE' ) );
 		}
@@ -127,7 +127,7 @@ class xmlimport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_DISABLE_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlimport',$msg );
 	}
-	
+
 	/**
 	 * logic for publish
 	 *
@@ -168,4 +168,4 @@ class xmlimport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index'.$page.'.php?option='.$option.'&view=xmlimport',$msg );
 	}
-}?>
+}
