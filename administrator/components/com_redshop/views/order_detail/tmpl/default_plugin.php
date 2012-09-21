@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -13,9 +13,9 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined ('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die ('restricted access');
 
-$dispatcher	=& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 /**
  * @var $data
@@ -23,7 +23,7 @@ JPluginHelper::importPlugin('redshop_product');
  * Show content return by plugin directly into product page after display product title
  */
 $data->loadhtml = new stdClass();
-$results = $dispatcher->trigger('onBackendOrderDetailFooter', array (& $this ));
+$results        = $dispatcher->trigger('onBackendOrderDetailFooter', array(& $this));
 $data->loadhtml = trim(implode("\n", $results));
 
 echo $data->loadhtml;
