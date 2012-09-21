@@ -44,7 +44,7 @@ class productViewproduct extends JView
 		$list_in_products	=	$extra_field->list_all_field_in_product();
 
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_PRODUCT') );
    	    $layout =  JRequest::getVar ( 'layout' );
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT' ), 'redshop_products48' );
@@ -67,7 +67,7 @@ class productViewproduct extends JView
 			JToolBarHelper::back();
    		}
 
-		$uri	=& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$category_id = $mainframe->getUserStateFromRequest( $context.'category_id',  'category_id', '' );
 
@@ -98,27 +98,29 @@ class productViewproduct extends JView
 			$categories1[$key]->children =  $categories[$key]->children;
 		}
 		$temps = array();
+        $temps[0] = new stdClass;
 		$temps[0]->id="0";
 		$temps[0]->treename=JText::_('COM_REDSHOP_SELECT');
 		$categories1=@array_merge($temps,$categories1);
 		$lists['category'] 	= JHTML::_('select.genericlist',$categories1,  'category_id', 'class="inputbox" onchange="document.adminForm2.submit();" ', 'id', 'treename', $category_id );
-	    
+
 	    $product_sort=$adminproducthelper->getProductrBySortedList();
 	    $product_sort_select = JRequest::getVar( 'product_sort',0);
 	    $lists['product_sort'] =JHTML::_('select.genericlist',$product_sort, 'product_sort','class="inputbox"  onchange="document.adminForm2.submit();" ', 'value', 'text', $product_sort_select );
-		
+
 	    $lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 //		$total = & $this->get( 'Total');
-		$products	= & $this->get( 'Data');
+		$products	= $this->get( 'Data');
 
-		$pagination = & $this->get( 'Pagination' );
+		$pagination = $this->get( 'Pagination' );
 
 		/*
 	     * assign template
 	     */
 	    $templates	= $redTemplate->getTemplate('product');
 	    $temps = array();
+        $temps[0] = new stdClass;
 		$temps[0]->template_id="0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
 		$templates=@array_merge($temps,$templates);
@@ -137,4 +139,3 @@ class productViewproduct extends JView
     	parent::display($tpl);
   }
 }
-?>
