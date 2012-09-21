@@ -51,10 +51,10 @@ class producthelper
 	function __construct()
 	{
 		global  $context;
-		$this->_db = & JFactory :: getDBO();
+		$this->_db = JFactory::getDBO();
 	  	$this->_table_prefix 	= '#__'.TABLE_PREFIX.'_';
 	  	$this->_userhelper 		= new rsUserhelper();
-	  	$this->_session =& JFactory::getSession();
+	  	$this->_session = JFactory::getSession();
 //	  	$this->_carthelper 		= new rsCarthelper();
 	}
 
@@ -2236,7 +2236,7 @@ class producthelper
 		{
 			$and .= " AND p.manufacturer_id IN (".$shopper_group_manufactures.") ";
 		}
-		
+
 		$query = "SELECT p.product_id FROM ".$this->_table_prefix."product_category_xref pc"
 				." LEFT JOIN ".$this->_table_prefix."product AS p ON pc.product_id=p.product_id "
 				." WHERE category_id='".$id."' "
@@ -2846,21 +2846,21 @@ class producthelper
 		$list = $this->_db->loadObjectlist();
 		return $list;
 	}
-	
+
 	function getProductNavigator($accessory_id=0,$product_id=0,$child_product_id=0,$cid=0)
 	{
 		$orderby = "ORDER BY ordering ASC";
-		
+
 
 		$and = "";
 		$groupby="";
-		
+
 		if($product_id!=0)
 		{
 			$and .= "AND a.product_id IN (".$product_id.") ";
 		}
-		
-		
+
+
 		$query = "SELECT a.*, p.product_name, p.product_number "
 				."FROM ".$this->_table_prefix."product_navigator AS a "
 				."LEFT JOIN ".$this->_table_prefix."product AS p ON p.product_id = a.child_product_id "
@@ -5058,7 +5058,7 @@ class producthelper
 				$cartform .= "<input type='hidden' name='giftcard_id' id= 'giftcard_id' value='".$giftcard_id."'>
 							<input type='hidden' name='reciver_email' id='reciver_email' value='".@$cart['reciver_email']."'>
 							<input type='hidden' name='reciver_name' id='reciver_name' value='".@$cart['reciver_name']."'>";
-				if($product->customer_amount==1)		
+				if($product->customer_amount==1)
 						$cartform .= "<input type='hidden' name='customer_amount' id='customer_amount' value='".@$cart['customer_amount']."'>";
 			}
 			else
@@ -8081,13 +8081,13 @@ class producthelper
 	{
 		$stockroomhelper = new rsstockroomhelper();
 		$filter_products = array();
-	
-	
+
+
 		for($s=0;$s<count($products);$s++)
 		{
 		$product =$products[$s];
 		$pid= $product->product_id;
-	
+
 		$attributes_set = array();
 		if($product->attribute_set_id > 0){
 		$attributes_set = $this->getProductAttribute(0,$product->attribute_set_id,0,1);
@@ -8095,15 +8095,15 @@ class producthelper
 		$attributes = $this->getProductAttribute($product->product_id);
 		$attributes = array_merge($attributes,$attributes_set);
 		$totalatt = count($attributes);
-	
+
 		$stock_amount= $stockroomhelper ->getFinalStockofProduct($pid ,$totalatt);
 		if($stock_amount)
 		{
 		$filter_products[]= $products[$s];
 		}
 		}
-	
-	
+
+
 		return $filter_products;
 	}
 

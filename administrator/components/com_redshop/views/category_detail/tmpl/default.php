@@ -16,9 +16,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 JHTML::_('behavior.calendar');
 jimport('joomla.html.pane');
@@ -51,7 +51,7 @@ submitbutton = function(pressbutton) {
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset'=>0));
+$myTabs = JPane::getInstance('tabs', array('startOffset'=>0));
 $output = '';
 
 //Create Pane
@@ -330,7 +330,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5' );
 				$accessory_main_price = 0;
 				if($accessory_product[$f]->product_id && $accessory_product[$f]->accessory_id)
 				{
-					$accessory_main_price = $producthelper->getAccessoryPrice($accessory_product[$f]->product_id,$accessory_product[$f]->newaccessory_price,$accessory_product[$f]->accessory_main_price,1);	
+					$accessory_main_price = $producthelper->getAccessoryPrice($accessory_product[$f]->product_id,$accessory_product[$f]->newaccessory_price,$accessory_product[$f]->accessory_main_price,1);
 				}
 				$checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";	?>
 				<tr><td><?php echo $accessory_product[$f]->product_name;?>
