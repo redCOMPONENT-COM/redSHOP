@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -27,9 +27,9 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$option = JRequest::getVar('option');
 		$extra_field = new extra_field();
 		$order_functions = new order_functions();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT') );
-		
+
 		$document->addScript ('components/'.$option.'/assets/js/json.js');
 		$document->addScript ('components/'.$option.'/assets/js/validation.js');
 		$document->addScript ('components/'.$option.'/assets/js/order.js');
@@ -37,15 +37,15 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
 		$document->addStyleSheet ( 'components/'.$option.'/assets/css/search.css' );
 		$document->addScript ('components/'.$option.'/assets/js/search.js');
-		$session =& JFactory::getSession();
-		$uri 		=& JFactory::getURI();
+		$session = JFactory::getSession();
+		$uri = JFactory::getURI();
 //		$layout = JRequest::getVar('layout');
 		$lists = array();
-		$billing = array();
+		//$billing = array();
 		$model = $this->getModel();
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 		$Redconfiguration = new Redconfiguration();
-		
+
 		$user_id = JRequest::getVar('user_id', 0);
 		if($user_id!=0)
 		{
@@ -54,9 +54,11 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 			$billing = $model->setBilling();
 		}
 		$detail->user_id = $user_id;
-		
+
 		$session->set( 'offlineuser_id',$user_id );
-		
+
+        $userop = array();
+        $userop[0] = new stdClass;
 		$userop[0]->user_id = 0;
 		$userop[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$userlists = $model->getUserData(0,"BT");
@@ -64,11 +66,11 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$lists['userlist'] 	= JHTML::_('select.genericlist',$userlist, 'user_id', 'class="inputbox" onchange="showquotationUserDetail();" ' , 'user_id', 'text',  $user_id );
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT' ).': <small><small>[ '.JText::_('COM_REDSHOP_NEW' ).' ]</small></small>', 'redshop_order48' );
-		
+
 		JToolBarHelper::save();
 		JToolBarHelper::custom( 'send','send.png','send.png',JText::_('COM_REDSHOP_SEND'),false);
 		JToolBarHelper::cancel();
-		
+
 		// PRODUCT/ATTRIBUTE STOCK ROOM QUANTITY CHECKING IS IMPLEMENTED
 
 		$countryarray = $Redconfiguration->getCountryList((array)$billing);
@@ -77,13 +79,14 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$statearray = $Redconfiguration->getStateList((array)$billing);
 		$lists['state_code'] = $statearray['state_dropdown'];
 		$lists['quotation_extrafield'] = $extra_field->list_all_field(16, $billing->users_info_id);
-				
+
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('billing',		$billing);
 		$this->assignRef('userlist',	$userlists);
-		$this->assignRef('request_url',	$uri->toString());
+		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
+
 		parent::display($tpl);
 	}
 }
-?>
