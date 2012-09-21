@@ -25,10 +25,10 @@ require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helper
 
 class orderController extends JController
 {
-	function __construct($default = array())
+	/*function __construct($default = array())
     {
 		parent::__construct ( $default );
-	}
+	}*/
 
 	function multiprint_order()
 	{
@@ -69,10 +69,10 @@ class orderController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=order');
 	}
 
-	function display()
+	/*function display()
     {
 		parent::display ();
-	}
+	}*/
 
 	function update_status()
     {
