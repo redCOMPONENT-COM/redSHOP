@@ -17,9 +17,9 @@ defined('_JEXEC') or die('Restricted access');
 
 
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 jimport('joomla.html.pane');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'extra_field.php' );
@@ -277,7 +277,7 @@ submitbutton = function(pressbutton) {
 		<tr><td><?php echo JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL_HINT'); ?></td></tr>
 		</table>
 	<?php	echo $this->pane->endPanel();
-	
+
 	$title = JText::_('COM_REDSHOP_REVIEW_MAIL' );
 		echo $this->pane->startPanel( $title, 'reviewmail' );	?>
 		<table class="adminlist">

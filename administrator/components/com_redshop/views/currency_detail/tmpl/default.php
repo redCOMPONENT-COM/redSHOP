@@ -1,6 +1,6 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 ?>
 
@@ -10,10 +10,10 @@ $url= $uri->root();
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 	{
 		var form = document.adminForm;
-		
+
 		if (pressbutton == 'cancel') {
 			submitform( pressbutton );
 			return;
@@ -26,8 +26,8 @@ submitbutton = function(pressbutton)
 		{
 			alert( "<?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_MUST_HAVE_A_VALUE', true ); ?>" );
 		}
-		
-		else 
+
+		else
 		{
 			submitform( pressbutton );
 		}

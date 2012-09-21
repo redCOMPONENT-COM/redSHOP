@@ -26,19 +26,19 @@ class mail_detailVIEWmail_detail extends JView
 
 		$option = JRequest::getVar('option','','request','string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		//$document->addScript ('components/'.$option.'/assets/js/media.js');
 		$document->addScript ('components/'.$option.'/assets/js/json.js');
 		$document->addScript ('components/'.$option.'/assets/js/validation.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$isNew = ($detail->mail_id < 1);
 
@@ -57,7 +57,7 @@ class mail_detailVIEWmail_detail extends JView
 		}
 
 		$model = $this->getModel('mail_detail');
-		
+
 		if($detail->mail_section == 'order_status' && $detail->mail_section!='0')
 		{
 			$order_status  = $model->mail_section();
@@ -75,7 +75,7 @@ class mail_detailVIEWmail_detail extends JView
 
 		$lists['published'] = JHTML::_('select.booleanlist','published', 'class="inputbox"', $detail->published );
 
-		$pane = & JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 
 		$this->assignRef('pane',$pane);
 		$this->assignRef('lists',		$lists);
@@ -85,4 +85,3 @@ class mail_detailVIEWmail_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

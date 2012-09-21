@@ -15,7 +15,7 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');

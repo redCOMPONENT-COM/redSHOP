@@ -15,7 +15,7 @@
  */
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 $shopperlogo_path="components/com_redshop/assets/images/shopperlogo";
 ?>
@@ -135,7 +135,7 @@ $shopperlogo_path="components/com_redshop/assets/images/shopperlogo";
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
-		
+
 		<span class="editlinktip hasTip" title="<?php echo JText::_('COM_REDSHOP_NEW_SHOPPER_GROUP_GET_VALUE_FROM_LBL' ); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_NEW_SHOPPER_GROUP_GET_VALUE_FROM_LBL' ); ?>">
 		<?php
 		echo JText::_('COM_REDSHOP_NEW_SHOPPER_GROUP_GET_VALUE_FROM_LBL' );

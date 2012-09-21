@@ -170,7 +170,7 @@ class newsletterModelnewsletter extends JModel
 			$this->_db->setQuery($query);
 			$cityfieldid = $this->_db->loadResult();
 			// city field filter end
-			
+
 			$where=" AND f.fieldid in(".$cityfieldid.") AND f.section in(7) AND f.data_txt like '".$cityfilter."%' AND f.itemid=uf.users_info_id";
 		}
 		if($start_date && $end_date)
@@ -364,7 +364,7 @@ class newsletterModelnewsletter extends JModel
 		$db = JFactory::getDBO();
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url= $uri->root();
 
 		$mailfrom=$jconfig->mailfrom;
@@ -395,7 +395,7 @@ class newsletterModelnewsletter extends JModel
                	$o = new stdClass();
 				$o->text = $newsletter_body;
                 JPluginHelper::importPlugin('content');
-                $dispatcher = & JDispatcher::getInstance();
+                $dispatcher = JDispatcher::getInstance();
                 $x = array();
                 $results = $dispatcher->trigger('onPrepareContent', array (&$o, &$x, 1));
                 $newsletter_template2=$o->text;

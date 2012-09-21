@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@ $producthelper = new producthelper();
 $showall = JRequest::getVar('showall','0');
 $page = "";
 $option = JRequest::getVar('option','','request','string');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();?>
 <script language="javascript" type="text/javascript">
 Joomla.submitbutton = function(pressbutton) {submitbutton(pressbutton);}
@@ -32,7 +32,7 @@ submitbutton = function(pressbutton)
 		form.task.value=pressbutton;
 	}
     if ((pressbutton=='add') || (pressbutton=='edit') || (pressbutton=='remove')||(pressbutton=='publish')||(pressbutton=='unpublish')||(pressbutton=='enable_defaultpublish')||(pressbutton=='enable_defaultunpublish'))
-	{		 
+	{
 		form.view.value="wrapper_detail";
 	}
 	try {
@@ -43,7 +43,7 @@ submitbutton = function(pressbutton)
 }
 </script>
 <?php if($showall)
-{	
+{
 	$page = "3";?>
 <fieldset>
 	<div style="float: right">
@@ -82,7 +82,7 @@ submitbutton = function(pressbutton)
 			$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
 			$row->published = $row->wrapper_use_to_all;
 			$enable_default = JHTML::_ ( 'grid.published', $row, $i,'tick.png','publish_x.png','enable_default' );
-		
+
 			$link 	= JRoute::_( 'index'.$page.'.php?option='.$option.'&view=wrapper_detail&task=edit&product_id='.$this->product_id.'&cid[]='.$row->wrapper_id.'&showall='.$showall );?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
@@ -93,14 +93,14 @@ submitbutton = function(pressbutton)
 				if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$wimage_path)) {	?>
 				<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.$wimage_path;?>"	title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE' );?>"  rel="{handler: 'image', size: {}}">
 			<?php echo $row->wrapper_image;?></a>
-			<?php }	?>	
+			<?php }	?>
 			</td>
 			<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->wrapper_price);//CURRENCY_SYMBOL.number_format($row->wrapper_price,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR); ?></td>
 			<td align="center"><?php echo $enable_default; ?></td>
 			<td align="center"><?php echo $published;?></td>
 			<td align="center"><?php echo $row->id; ?></td></tr>
 	<?php		$k = 1 - $k;
-		}	?>	
+		}	?>
 <tfoot><td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td></tfoot>
 </table>
 </div>

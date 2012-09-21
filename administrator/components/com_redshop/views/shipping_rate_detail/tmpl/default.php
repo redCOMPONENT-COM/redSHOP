@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 $producthelper = new producthelper();	?>
 
 <script language="javascript" type="text/javascript">
@@ -68,7 +68,7 @@ if($this->shipper_location)
 <?php
 } else {
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset'=>0));
+$myTabs = JPane::getInstance('tabs', array('startOffset'=>0));
 $output = '';
 //Create Pane
 $output .= $myTabs->startPane( 'pane' );
@@ -363,7 +363,7 @@ echo $this->lists['shipping_product'];?>
 				<input type='checkbox' value='1' name='apply_vat' <?php if($this->detail->apply_vat) echo "checked='checked'"; ?> />
 			</td>
 		</tr>
-		
+
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="name">

@@ -48,7 +48,7 @@ $extra_field = new extra_field();
 
 
 
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 $redTemplate = new Redtemplate();
 

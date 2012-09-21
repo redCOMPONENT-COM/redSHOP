@@ -22,10 +22,10 @@ class shipping_detailViewshipping_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$uri 		=& JFactory::getURI();
+		$uri 		= JFactory::getURI();
 		$this->setLayout('default');
 		$lists = array();
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$isNew		= ($detail->extension_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );

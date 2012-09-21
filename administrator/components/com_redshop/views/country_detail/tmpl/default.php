@@ -1,6 +1,6 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 ?>
 
@@ -10,10 +10,10 @@ $url= $uri->root();
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 	{
 		var form = document.adminForm;
-		
+
 		if (pressbutton == 'cancel') {
 			submitform( pressbutton );
 			return;
@@ -39,7 +39,7 @@ submitbutton = function(pressbutton)
 			var stste=form.country_2_code.value;
 			form.country_2_code.value=stste.slice(0,2);
 		}
-		else 
+		else
 		{
 			submitform( pressbutton );
 		}

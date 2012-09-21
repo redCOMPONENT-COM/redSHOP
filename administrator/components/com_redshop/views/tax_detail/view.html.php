@@ -29,15 +29,15 @@ class tax_detailVIEWtax_detail extends JView
 
 		$option = JRequest::getVar('option','','request','string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
-	 	$uri =& JFactory::getURI();
+	 	$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$isNew = ($detail->tax_rate_id < 1);
 

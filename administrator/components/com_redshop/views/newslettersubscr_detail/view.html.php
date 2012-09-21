@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -22,48 +22,48 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 	function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
-		
+
 		$userlist = JRequest::getVar ('userlist');
-		
+
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR__MANAGEMENT_DETAIL' ), 'redshop_newsletter48' );
-		
-		$document = & JFactory::getDocument();
-		
+
+		$document = JFactory::getDocument();
+
 		$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
-		
+
 		$document->addStyleSheet ( 'components/'.$option.'/assets/css/search.css' );
-		
+
 		$document->addScript ('components/'.$option.'/assets/js/search.js');
-		
-		$uri =& JFactory::getURI();
-		
+
+		$uri = JFactory::getURI();
+
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 
 		$isNew = ($detail->subscription_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
-		
+
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_newsletter48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
-		
+
 		if ($isNew)  {
 			JToolBarHelper::cancel();
 		} else {
-		
+
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
-		
-		$model=  $this->getModel('newslettersubscr_detail');		
+
+		$model=  $this->getModel('newslettersubscr_detail');
 		$newsletters=$model->getnewsletters();
-		
+
 		$lists['newsletters'] = JHTML::_('select.genericlist',$newsletters,'newsletter_id','class="inputbox" size="1" ','value','text',$detail->newsletter_id);
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $detail->published );
-	
+
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('request_url',	$uri->toString());

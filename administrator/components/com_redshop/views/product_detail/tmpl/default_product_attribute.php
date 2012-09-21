@@ -14,7 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 JHTML::_('behavior.tooltip');
 //$editor =& JFactory::getEditor();
@@ -72,28 +72,28 @@ JHTMLBehavior::modal();
 
 				<tr>
 					<td colspan="5" align="right"><span id="atitle"
-						style="display: none;"><?php echo JText::_('COM_REDSHOP_TITLE' ); ?></span> 
-					<span id="atitlerequired" style="display: none;"> <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_REQUIRED');?></span> 
-					<span id="atitlepublished" style="display: none;"> <?php echo JText::_('COM_REDSHOP_PUBLISHED' ); ?></span> 
-					<span id="spn_allow_multiple_selection"	style="display: none;"> <?php echo JText::_('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION');?></span> 
-					<span id="spn_hide_attribute_price" style="display: none;"><?php echo JText::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE');?></span> 
-					
+						style="display: none;"><?php echo JText::_('COM_REDSHOP_TITLE' ); ?></span>
+					<span id="atitlerequired" style="display: none;"> <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_REQUIRED');?></span>
+					<span id="atitlepublished" style="display: none;"> <?php echo JText::_('COM_REDSHOP_PUBLISHED' ); ?></span>
+					<span id="spn_allow_multiple_selection"	style="display: none;"> <?php echo JText::_('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION');?></span>
+					<span id="spn_hide_attribute_price" style="display: none;"><?php echo JText::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE');?></span>
+
 					<span id="spn_display_type" style="display: none;"> <?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE');?></span>
-					<span id="aproperty" style="display: none;"> <?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE' ); ?></span> 
-					<span id="aprice" style="display: none;"> <?php echo JText::_('COM_REDSHOP_PRICE' ); ?></span> 
-					<span id="new_property" style="display: none;"> <?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE' ); ?></span> 
-					<span id="new_sub_property" style="display: none;"> <?php echo JText::_('COM_REDSHOP_NEW_SUB_PROPERTY' ); ?></span> 
-					<span id="sub_atitlerequired" style="display: none;"> <?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_REQUIRED');?></span> 
-					<span id="sub_multiselected" style="display: none;"> <?php echo JText::_ ( 'COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED' );?></span> 
-					<span id="delete_attribute" style="display: none;"> <?php echo JText::_('COM_REDSHOP_DELETE_ATTRIBUTE' ); ?></span> 
-					<span id="aimage" style="display: none;"> <?php echo JText::_('COM_REDSHOP_IMAGE_UPLOAD' ); ?></span> 
-					<span id="aordering" style="display: none;"> <?php echo JText::_('COM_REDSHOP_ORDERING' ); ?></span> 
-					<span id="adselected" style="display: none;"> <?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED' ); ?></span> 
+					<span id="aproperty" style="display: none;"> <?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE' ); ?></span>
+					<span id="aprice" style="display: none;"> <?php echo JText::_('COM_REDSHOP_PRICE' ); ?></span>
+					<span id="new_property" style="display: none;"> <?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE' ); ?></span>
+					<span id="new_sub_property" style="display: none;"> <?php echo JText::_('COM_REDSHOP_NEW_SUB_PROPERTY' ); ?></span>
+					<span id="sub_atitlerequired" style="display: none;"> <?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_REQUIRED');?></span>
+					<span id="sub_multiselected" style="display: none;"> <?php echo JText::_ ( 'COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED' );?></span>
+					<span id="delete_attribute" style="display: none;"> <?php echo JText::_('COM_REDSHOP_DELETE_ATTRIBUTE' ); ?></span>
+					<span id="aimage" style="display: none;"> <?php echo JText::_('COM_REDSHOP_IMAGE_UPLOAD' ); ?></span>
+					<span id="aordering" style="display: none;"> <?php echo JText::_('COM_REDSHOP_ORDERING' ); ?></span>
+					<span id="adselected" style="display: none;"> <?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED' ); ?></span>
 					<span id="showpropertytitlespan" style="display: none;"> <?php echo JText::_('COM_REDSHOP_SUBPROPERTY_TITLE' ); ?>					</span>
-					
-					
+
+
 					<span id="pathimages" style="display: none;"><?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?></span>
-					
+
 					</td>
 				</tr>
 
@@ -126,14 +126,14 @@ JHTMLBehavior::modal();
 
 
 					?>
-					
-				
+
+
 					<tr>
 						<td>
 							<table width="100%" border="0" cellspacing="0" cellpadding="0" id="<?php echo "attribute_table".$attribute_id;?>">
 								<tr>
 									<td>
-									
+
 									<table width="100%" border="0" cellspacing="0"
 											cellpadding="0" class="blue_area" id="attribute_table">
 											<tr>
@@ -141,27 +141,27 @@ JHTMLBehavior::modal();
 													<img class="arrowimg" id="arrowimg<?php echo $k ?>" onclick="showhidearrow('attribute_table_pro', '<?php echo $k ?>')" src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?>arrow.png" alt="img" />
 													<span><?php echo JText::_( 'COM_REDSHOP_TITLE' ); ?></span>
 												</td>
-												
+
 												<td align="right" class="td2">
 													<input type="text" class="text_area input_t1" size="22" name="attribute[<?php echo $k;?>][name]" value="<?php echo htmlspecialchars(urldecode($attibute_data['attribute_name'])); ?>">
 												</td>
-												
+
 												<td align="right" nowrap="nowrap" class="td3">
 													<span><?php echo JText::_( 'COM_REDSHOP_ORDERING' ); ?>:&nbsp;</span>
 													<input class="input_t4" type="text" name="attribute[<?php echo $k;?>][ordering]" size="2" value="<?php echo $attibute_data['ordering']; ?>">
 												</td>
-												
+
 												<td align="right" class="td4">
 													<span><?php echo JText::_('COM_REDSHOP_ATTRIBUTE_REQUIRED');?>:&nbsp;</span>
 													<input type="checkbox" class="text_area" size="55" name="attribute[<?php echo $k;?>][required]" <?php echo $checked_required;?> value="1">
 												</td>
-												
+
 												<td align="right" class="td5">
 													<span><?php echo JText::_('COM_REDSHOP_PUBLISHED');?>:&nbsp;</span>
 													<input type="checkbox" class="text_area" size="55" name="attribute[<?php echo $k;?>][published]" <?php echo $attribute_published;?> value="1"></td>
-													
+
 												<td class="td6">&nbsp;</td>
-													
+
 												<td align="right" class="td7">
 													<input
 														style="cursor: pointer; float: right;" class="btn_attribute"
@@ -171,12 +171,12 @@ JHTMLBehavior::modal();
 														name="attribute[<?php echo $k;?>][id]"
 														value="<?php echo $attibute_data['attribute_id']; ?>">
 												</td>
-												
-												
+
+
 											</tr>
 										</table>
-										
-										
+
+
 										</td>
 								</tr>
 								<tr>
@@ -187,29 +187,29 @@ JHTMLBehavior::modal();
 														<span><?php echo "+ "; echo JText::_( 'COM_REDSHOP_ADD_SUB_ATTRIBUTE' ); ?></span>
 													</a>
 												</td>
-												
+
 												<td align="right" class="td2">
 													<span> <?php echo JText::_('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION');?>:&nbsp;</span>
-													<input type="checkbox" size="5" 
+													<input type="checkbox" size="5"
 													name="attribute[<?php echo $k;?>][allow_multiple_selection]"
 													<?php echo $multiple_selection;?>><!-- &nbsp;&nbsp;<?php echo JHTML::tooltip(JText::_( 'COM_REDSHOP_TOOLTIP_ALLOW_MULTIPLE_PROPERTY_SELECTION' ), JText::_( 'COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION' ), 'tooltip.png', '', '', false); ?> -->
-									
+
 												</td>
-												
+
 												<td class="td3"></td>
 												<td class="td4"></td>
-												
-											
+
+
 												<td align="right" class="td5">
 													<span> <?php echo JText::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE');?>:&nbsp;</span>
 													<input type="checkbox" size="5"
 													name="attribute[<?php echo $k;?>][hide_attribute_price]"
 													<?php echo $hide_attribute_price;?>>
 												</td>
-												
-												
-												
-												
+
+
+
+
 												<td align="right" class="td6" nowrap="nowrap">
 													<?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE');?>:&nbsp;
 													<select
@@ -224,19 +224,19 @@ JHTMLBehavior::modal();
 															</option>
 													</select>
 												</td>
-												
-												
-												
-											
+
+
+
+
 												<td class="td7">&nbsp;&nbsp;</td>
 											</tr>
 											<tr>
 												<td colspan="12">
-													
+
 														<table width="100%" border="0" cellspacing="0"
 															cellpadding="0" class="grey_solid_area"
 															id="property_table<?php echo $k;?>">
-															
+
 															<tbody>
 															<?php
 															$y=0;
@@ -248,10 +248,10 @@ JHTMLBehavior::modal();
 																}else{
 																	$style='style="display:none;"';
 																}
-	
+
 																?>
-																
-															
+
+
 															<tr valign="top"  class="attr_tbody" id="attr_tbody<?php echo $k.$g;?>">
 																<td>
 																	<table class="attribute_value" width="100%" border="0"
@@ -259,7 +259,7 @@ JHTMLBehavior::modal();
 																		id="property_table<?php echo $property->property_id;?>">
 																		<tr valign="top">
 																			<td class="red_blue_blue td1" align="left">
-																				<img class="arrowimg" id="arrowimg<?php echo $k ?><?php echo $g;?>" onclick="showhidearrow('attribute_parameter_tr', '<?php echo $k ?><?php echo $g;?>'); showhidearrow('sub_property', '<?php echo $k ?><?php echo $g;?>')" src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?>arrow.png" alt="img" /> 
+																				<img class="arrowimg" id="arrowimg<?php echo $k ?><?php echo $g;?>" onclick="showhidearrow('attribute_parameter_tr', '<?php echo $k ?><?php echo $g;?>'); showhidearrow('sub_property', '<?php echo $k ?><?php echo $g;?>')" src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?>arrow.png" alt="img" />
 																				<span> <?php echo JText::_( 'COM_REDSHOP_SUB_ATTRIBUTE' ); ?></span>
 																			</td>
 																			<td  class="td2" align="right">
@@ -270,7 +270,7 @@ JHTMLBehavior::modal();
 																			</td>
 																			<td align="right" nowrap="nowrap" class="td3">
 																				<span> <?php echo JText::_( 'COM_REDSHOP_ORDERING' ); ?>:&nbsp;</span>
-	
+
 																				<input style="margin: 0px;" type="text" class="text_area input_t4"
 																				size="2"
 																				name="attribute[<?php echo $k;?>][property][<?php echo $g;?>][order]"
@@ -301,53 +301,53 @@ JHTMLBehavior::modal();
 																				value="<?php echo $property->property_price;?>"
 																				name="attribute[<?php echo $k;?>][property][<?php echo $g;?>][price]">
 																			</td>
-	
+
 																			<td align="right" class="td6"><?php
 																			$property_id = $property->property_id;
 																			if($property_id)
 																			{
 																				?> <span> <?php echo JText::_( 'COM_REDSHOP_PROPERTY_NUMBER' ); ?>:&nbsp;
-																			</span> <?php 
+																			</span> <?php
 																			}
 																			?>
 																			<?php
-	
+
 																			if($property_id)
 																			{
 																				?> <input type="text"
 																				value="<?php echo $property->property_number; ?>"
 																				name="attribute[<?php echo $k;?>][property][<?php echo $g;?>][number]"
 																				class="vpnrequired input_t5" size="14"><!-- &nbsp;&nbsp;<?php echo JHTML::tooltip(JText::_( 'COM_REDSHOP_TOOLTIP_PROPERTY_NUMBER' ), JText::_( 'COM_REDSHOP_PROPERTY_NUMBER' ), 'tooltip.png', '', '', false); ?> -->
-	
-																				<?php } 
+
+																				<?php }
 																				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=property&fid='.$k.$g.'&layout=thumbs');
 																				?>
 																			</td>
 																			<input type="hidden" name="attribute[<?php echo $k;?>][property][<?php echo $g;?>][property_id]" value="<?php echo $property_id;?>">
 																			<input type="hidden" name="imagetmp[<?php echo $k;?>][value][]" value="<?php echo $property->property_image;?>">
 																			<input type="hidden" name="attribute[<?php echo $k;?>][property][<?php echo $g;?>][mainImage]" id="propmainImage<?php echo $k.$g;?>" value="">
-	
-	
+
+
 																			<?php
 																			$property_id = $property->property_id;
 																			if($property_id)
 																			{
 																				$medialink 	= JRoute::_( 'index.php?tmpl=component&option=com_redshop&view=media&section_id='.$property_id.'&showbuttons=1&media_section=property' );
 																				/*index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;fsec=property&amp;section_id=<?php echo $property_id;?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=property_images&amp;showbuttons=1 */
-	
+
 																				?>
-	
+
 																			<?php } ?>
 																			<td align="left" colspan="12" class="td7">
 																				<div class="repon">
 																				<table width="100%" border="0" cellspacing="0"
 																					cellpadding="0" class="up_image">
-																					<?php 
+																					<?php
 																					$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=property&fid='.$k.$g.'&layout=thumbs');
 																					$property_id = $property->property_id;
 																					?>
 																					<tr valign="top">
-																						
+
 																						<td rowspan="1" align="right" nowrap="nowrap" class="td1" style="padding-right: 10px;"><a class="modal"
 																							rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 																							title="" href="<?php echo $medialink;?>"> <img
@@ -369,7 +369,7 @@ JHTMLBehavior::modal();
 																								align="absmiddle" alt="media">
 																						</a>
 																						</td>
-																						
+
 																						<td class="td2" align="left"><span>
 																								<div class="button2-left">
 																									<div class="image">
@@ -390,52 +390,52 @@ JHTMLBehavior::modal();
 																								$property->property_image;
 																								$impath =  REDSHOP_FRONT_IMAGES_ABSPATH.'product_attributes/'.$property->property_image;
 																								$impath_phy =  REDSHOP_FRONT_IMAGES_RELPATH.'product_attributes/'.$property->property_image;
-	
+
 																								if (is_file($impath_phy))
 																								{
 																									$is_img = false;
 																									?> <span id="property_image_<?php echo $property->property_id;?>">
-																								 
+
 																								<a class="modal" title="<?php echo $property->property_image;?>" rel="{handler: 'image', size: {}}" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.'product_attributes/'.$property->property_image; ?>">
 																									<img  id="propertyImage<?php echo $k.$g;?>" alt='' title='' src='<?php echo $url?>components/com_redshop/helpers/thumb.php?filename=product_attributes/<?php echo $property->property_image?>&newxsize=50&newysize=0&swap=1'>
 																								</a>
-																							</span> 
+																							</span>
 																						</td>
 																						<td class="td4" align="left">
 																							<input id="btn_attribute_remove_property_<?php echo $property->property_id;?>" value="Remove"
 																							class="btn_attribute_remove" type='button'
 																							width="0"
 																							onclick="javascript:removePropertyImage('<?php echo $property->property_id;?>','property');" />
-																							
+
 																							<?php
 																								}
 																							}
 																							$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=property&fid='.$k.$g.'&layout=thumbs');
 																							?>
-																							
+
 																							<?php if($is_img == true) { ?>
 																							&nbsp;</td>
 																							<td class="td4" align="left">
 																							<img id="propertyImage<?php echo $k.$g;?>" src="" style="display: none;" />
 																							<?php } ?>
 																						</td>
-																						
-																						
-																						
-																						
+
+
+
+
 																						<td align="right" class="td5" style="padding-right: 10px;">
 																						<div class="remove_attr">
 																						<input value="Delete"
 																							class="btn_attribute_remove" type='button'
 																							width="0"
 																							onclick="if(ajax_delete_property(<?php echo $attribute_id;?>,<?php echo $property_id;?>)){deleteRow_property('<?php echo 'property_table'.$property->property_id ;?>','property_table<?php echo $k;?>','sub_attribute_table<?php echo $k.$g;?>','<?php echo $k.$g;?>');}" />
-																							
+
 																							</div>
 																						</td>
 
-	
+
 																					</tr>
-	
+
 																				</table>
 																				</div>
 																			</td>
@@ -443,11 +443,11 @@ JHTMLBehavior::modal();
 																	</table>
 																</td>
 															</tr>
-	
+
 															<!-- START MY CODE -->
-															
+
 															<?php $total_subattr = count($attibute_data['property'][$g]->subvalue); ?>
-															
+
 															<tr class="attribute_parameter_tr" id="attribute_parameter_tr<?php echo $k.$g;?>" <?php echo ($total_subattr == 0 ? 'style="display:none"' : '') ?>>
 																<td>
 																	<table width="100%" border="0" cellspacing="0"
@@ -457,12 +457,12 @@ JHTMLBehavior::modal();
 																				<table width="100%" border="0" cellspacing="0"
 																					cellpadding="0">
 																					<tr valign="top">
-	
+
 																						<div <?php echo $style?>
 																							id='showsubproperty<?php echo $k.$g;?>'>
 																							<td class="red_blue_blue td1" align="left">
 																								<span style="padding-left: 10px;"><?php echo JText::_( 'COM_REDSHOP_TITLE' ); ?></span>
-	
+
 																							</td>
 																							<td class="td2" align="right"><input class="input_t1" type="text"
 																								name="attribute[<?php echo $k;?>][property][<?php echo $g?>][subproperty][title]"
@@ -504,24 +504,24 @@ JHTMLBehavior::modal();
 																									<?php if($property->setdisplay_type =="radio") {echo "selected";}?>>
 																										<?php echo JText::_('COM_REDSHOP_RADIOBOX');?>
 																									</option>
-	
+
 																							</select>
 																							</td>
-																			
+
 																							<td class="td7"></td>
 																						</div>
 																					</tr>
 																				</table>
 																			</td>
 																		</tr>
-	
-	
+
+
 																	</table>
 																</td>
 															</tr>
-															
-															
-	
+
+
+
 															<tr class="sub_property"  id="sub_property<?php echo $k.$g;?>">
 																<td style="padding:0px;">
 																	<table width="100%" border="0" cellspacing="0"
@@ -540,7 +540,7 @@ JHTMLBehavior::modal();
 																					cellpadding="0"
 																					id="sub_attribute_table<?php echo $k.$g;?>" class="sub_attribute_table">
 																					<?php
-																					
+
 																					if($total_subattr != 0)
 																					{
 																						$sub_inc = 0;
@@ -551,9 +551,9 @@ JHTMLBehavior::modal();
 																							$impath =  REDSHOP_FRONT_IMAGES_ABSPATH.'subcolor/'.$subvalue->subattribute_color_image;
 																							$impathphy =  REDSHOP_FRONT_IMAGES_RELPATH.'subcolor/'.$subvalue->subattribute_color_image;
 																							$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=subproperty&fid='.$k.$z.'&layout=thumbs');
-																							
-																							
-																							
+
+
+
 																							?>
 																					<tr>
 																						<td style="padding:0px;">
@@ -563,7 +563,7 @@ JHTMLBehavior::modal();
 																								id="sub_attribute_table<?php echo $subvalue->subattribute_color_id;?>"
 																								align="left" class="subattribute">
 																								<tr valign="top">
-																								
+
 																									<td class="td2" align="right" nowrap="nowrap">
 																										<?php echo JText::_( 'COM_REDSHOP_PARAMETER' ); ?>:
 																										<input type="text"
@@ -571,7 +571,7 @@ JHTMLBehavior::modal();
 																										name="attribute[<?php echo $k;?>][property][<?php echo $g;?>][subproperty][<?php echo $sp;?>][name]"
 																										value="<?php echo htmlspecialchars(urldecode($subvalue->subattribute_color_name));?>">
 																									</td>
-																									
+
 																									<td class="td3" align="right" nowrap="nowrap">
 																										<span><?php echo JText::_( 'COM_REDSHOP_ORDERING' ); ?>:</span>
 																										<input
@@ -603,7 +603,7 @@ JHTMLBehavior::modal();
 																										name="attribute[<?php echo $k;?>][property][<?php echo $g;?>][subproperty][<?php echo $sp;?>][price]"
 																										value="<?php echo $subvalue->subattribute_color_price;?>">
 																									</td>
-	
+
 																									<!-- START MY CODE -->
 																									<td  align="right"  class="td6" nowrap="nowrap"><?php if($subvalue->subattribute_color_id != 0)
 																									{?> <?php echo JText::_( 'COM_REDSHOP_SUBPROPERTY_NUMBER' ); ?>:&nbsp;
@@ -625,17 +625,17 @@ JHTMLBehavior::modal();
 																										value="">
 																									</td>
 																									<!-- END MY CODE -->
-																									
-																									
-																									
-	
+
+
+
+
 																									<td align="left" colspan="12" class="td7">
-																									
+
 																										<div class="repon">
 																										<table width="100%" border="0" cellspacing="0"
 																											cellpadding="0" class="up_image">
 																											<tr valign="top">
-																												
+
 																												<td rowspan="3" align="right" nowrap="nowrap" class="td1" style="padding-right: 10px;"><?php if($subvalue->subattribute_color_id != 0)
 																												{
 																													$medialink 	= JRoute::_( 'index.php?tmpl=component&option=com_redshop&view=media&section_id='.$subvalue->subattribute_color_id.'&showbuttons=1&media_section=subproperty' );
@@ -662,7 +662,7 @@ JHTMLBehavior::modal();
 																														align="absmiddle" alt="media">
 																												</a> <?php } ?>
 																												</td>
-																												
+
 																												<td class="td2"><span>
 																														<div class="button2-left">
 																															<div class="image">
@@ -674,10 +674,10 @@ JHTMLBehavior::modal();
 																												</span> <input type="file"
 																													name="attribute_<?php echo $k;?>_property_<?php echo $g;?>_subproperty_<?php echo $sp;?>_image"
 																													value="<?php echo $subvalue->subattribute_color_image;?>">
-	
+
 																												</td>
 																												<td class="td3" align="left">
-																												<?php if ($subvalue->subattribute_color_image != "" && is_file($impathphy)) { ?> 
+																												<?php if ($subvalue->subattribute_color_image != "" && is_file($impathphy)) { ?>
 																													<span
 																														id="subproperty_image_<?php echo $subvalue->subattribute_color_id;?>">
 																															<a class="modal"
@@ -687,28 +687,28 @@ JHTMLBehavior::modal();
 																																<img id="subpropertyImage<?php echo $k.$z;?>"
 																																src='<?php echo $url?>components/com_redshop/helpers/thumb.php?filename=subcolor/<?php echo $subvalue->subattribute_color_image;?>&newxsize=50&newysize=0&swap=1'
 																																alt='' title=''>
-																																
-																						
+
+
 																														</a>
-																													</span> 
+																													</span>
 																												</td>
-																												
+
 																												<td class="td4" align="left">
-																												
+
 																													<input value="Remove" type='button' width="0"
 																													onclick="javascript:removePropertyImage('<?php echo $subvalue->subattribute_color_id;?>','subproperty');"
 																													title="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE');?>"
 																													class="btn_attribute_remove" id="btn_attribute_remove_subproperty_<?php echo $subvalue->subattribute_color_id;?>" />
-																													
-																													
+
+
 																												<?php } else {?>
 																													&nbsp;</td><td class="td4" align="left">
 																													<img id="subpropertyImage<?php echo $k.$z;?>" src="" style="display: none;" />
 																												<?php } ?>
 																												</td>
-																												
-																												
-																												
+
+
+
 																												<td align="right" class="td5" style="padding-right: 10px;">
 																												<div class="remove_attr">
 																												<input
@@ -718,8 +718,8 @@ JHTMLBehavior::modal();
 																													</div>
 																												</td>
 																											</tr>
-	
-	
+
+
 																										</table>
 																										</div>
 																									</td>
@@ -736,7 +736,7 @@ JHTMLBehavior::modal();
 						{
 							$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=subproperty&fid='.$k.$z.'&layout=thumbs');
 	?>
-	
+
 																					<tr style="display: none;">
 																						<td><input type="text" class="text_area" size="40"
 																							name="property[<?php echo $k;?>][subvalue][][]"
@@ -766,7 +766,7 @@ JHTMLBehavior::modal();
 																									</div>
 																								</div>
 																						</span>
-																						
+
 																						<input type="file"
 																							name="image[<?php echo $k;?>][subvalue][][]"> <input
 																							value="Remove" class='button' type='button'
@@ -789,21 +789,21 @@ JHTMLBehavior::modal();
 																	</table>
 																</td>
 															</tr>
-	
+
 															</td>
 															</tr>
 															<!-- End MY CODE -->
-	
-															<?php 
-															
+
+															<?php
+
 															$g++;
-							} 
+							}
 						?>
 						</tbody>														</table>
-													
+
 												</td>
 											</tr>
-	
+
 										</table></td>
 								</tr>
 							</table>
@@ -811,7 +811,7 @@ JHTMLBehavior::modal();
 					</tr>
 
 				<?php $k++; } ?>
-				
+
 				<span id="delete_attribute" style="display: none;"><?php echo JText::_( 'COM_REDSHOP_DELETE_ATTRIBUTE' ); ?></span>
 				<span id="aimage" style="display: none"><?php echo JText::_( 'COM_REDSHOP_IMAGE_UPLOAD' ); ?>
 				</span>
@@ -841,7 +841,7 @@ JHTMLBehavior::modal();
 					</td>
 				</tr>
 			<?php } ?>
-			
+
 			</table>
 		</td>
 	</tr>

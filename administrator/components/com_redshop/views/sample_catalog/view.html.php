@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -22,27 +22,25 @@ class sample_catalogVIEWsample_catalog extends JView
 	function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
-		 
-			
-		$uri 		=& JFactory::getURI();
-		
+
+
+		$uri 		= JFactory::getURI();
+
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail	=& $this->get('data');
-		
+		$detail	= $this->get('data');
+
 		$model = $this->getModel ( 'sample_catalog' );
-		 
+
 		$sample	= $model->getsample($detail->colour_id);
-		
+
 		$this->assignRef('detail',		$detail);
 		$this->assignRef('sample',		$sample);
 		$this->assignRef('request_url',	$uri->toString());
 
 		parent::display($tpl);
 	}
-	
-}
 
-?>
+}

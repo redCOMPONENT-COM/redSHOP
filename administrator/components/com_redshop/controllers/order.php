@@ -82,7 +82,7 @@ class orderController extends JController
 
 	function allstatus()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$post = JRequest::get ( 'post' );
 		$option = $post['option'];
 		$merge_invoice_arr = array();
@@ -97,7 +97,7 @@ class orderController extends JController
 
 	function updateOrderStatus()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$post = $session->get( 'updateOrderIdPost');
 		$merge_invoice_arr = $session->get( 'merge_invoice_arr');
 		$rand_invoice_name = JRequest::getVar( 'rand_invoice_name','' );

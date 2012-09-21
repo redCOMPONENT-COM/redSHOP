@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
 JHTMLBehavior::modal();
-$mainframe =& JFactory::getApplication();
+$mainframe = JFactory::getApplication();
 $productobj = new producthelper();
 $option = JRequest::getVar('option','','request','string');
 

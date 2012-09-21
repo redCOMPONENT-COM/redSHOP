@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -18,27 +18,26 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 jimport( 'joomla.application.component.view' );
- 
+
 class customprintViewcustomprint extends JView
 {
 	function __construct( $config = array())
 	{
 		 parent::__construct( $config );
 	}
-    
+
 	function display($tpl = null)
-	{	
-		global $mainframe, $context; 
-		
-		$document = & JFactory::getDocument();
+	{
+		global $mainframe, $context;
+
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_CUSTOM_VIEWS') );
-		
-		   		 
+
+
    		$customviews= & $this->get('Data');
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_CUSTOM_VIEWS' ), 'redshop_statistic48' );
-		
-	    $this->assignRef('customviews',$customviews); 		
+
+	    $this->assignRef('customviews',$customviews);
     	parent::display($tpl);
   }
 }
-?>
