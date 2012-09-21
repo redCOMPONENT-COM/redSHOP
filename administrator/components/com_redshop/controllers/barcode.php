@@ -48,7 +48,7 @@ class barcodeController extends JController
             $barcode= $post['barcode'];
             $barcode= substr($barcode, 0,12);
 
-            $user =& JFactory::getUser();
+            $user = JFactory::getUser();
             $uid= $user->get('id');
             $mainframe = JFactory::getApplication();
             $row = $model->checkorder($barcode);

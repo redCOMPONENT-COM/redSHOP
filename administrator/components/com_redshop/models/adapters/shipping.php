@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -13,16 +13,16 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
- 
+
 class JInstallerShipping extends JObject
 {
- 
+
 	function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
 
- 
+
 	function install()
 	{
 		// Get a database connector object
@@ -31,13 +31,13 @@ class JInstallerShipping extends JObject
 		// Get the extension manifest object
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
- 
+
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$this->set('name', $name);
-		
- 
+
+
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
@@ -56,7 +56,7 @@ class JInstallerShipping extends JObject
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
-			$files =& $element->children(); 
+			$files =& $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
 					$pname = $file->attributes($type);
@@ -64,7 +64,7 @@ class JInstallerShipping extends JObject
 				}
 			}
 		}
-		
+
 		$shipping_class = $this->manifest->getElementByPath('shipping_class');
 	 	if (is_a($shipping_class, 'JSimpleXMLElement')) {
 			$this->set('shipping_class', $shipping_class->data());
@@ -72,7 +72,7 @@ class JInstallerShipping extends JObject
 		} else {
 			$this->set('shipping_class', '' );
 		}
-		
+
 		 $shipping_method_code = $this->manifest->getElementByPath('shipping_method_code');
 	 	if (is_a($shipping_method_code, 'JSimpleXMLElement')) {
 			$this->set('shipping_method_code', $shipping_method_code->data());
@@ -80,11 +80,11 @@ class JInstallerShipping extends JObject
 		} else {
 			$this->set('shipping_method_code', '' );
 		}
-		 
-		 
- 
-		 
-		if (!empty ($pname) && !empty($shipping_class)) {  
+
+
+
+
+		if (!empty ($pname) && !empty($shipping_class)) {
 			$this->parent->setPath('extension_root',JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'shippings');
 		} else {
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin').' '.JText::_('COM_REDSHOP_Install').': '.JText::_('COM_REDSHOP_NO_PLUGIN_FILE_OR_CLASS_NAME_SPECIFIED'));
@@ -131,9 +131,9 @@ class JInstallerShipping extends JObject
 		// Check to see if a plugin by the same name is already installed
 		 $query = 'SELECT `shipping_id`' .
 				' FROM `#__'.TABLE_PREFIX.'_shipping_method`' .
-				' WHERE plugin = "'.$pname.'" OR shipping_class = '.$db->Quote($shipping_class) 
+				' WHERE plugin = "'.$pname.'" OR shipping_class = '.$db->Quote($shipping_class)
 				 ;
-				 
+
 		$db->setQuery($query);
 		if (!$db->Query()) {
 			// Install failed, roll back changes
@@ -153,12 +153,12 @@ class JInstallerShipping extends JObject
 			}
 
 		} else {
-			//$row =& JTable::getTable('shipping_detail'); 
-			$row =& JTable::getInstance('shipping_detail', 'Table');
+			//$row =& JTable::getTable('shipping_detail');
+			$row = JTable::getInstance('shipping_detail', 'Table');
 	  		$row->shipping_name = $this->get('name');
 			$row->shipping_class = $this->get('shipping_class');
 			$row->shipping_method_code = $this->get('shipping_method_code');
-			$row->published = 1;			 
+			$row->published = 1;
 		 	$row->params = $this->parent->getParams();
  			$row->plugin = $pname;
 		   if (!$row->store()) {
@@ -170,7 +170,7 @@ class JInstallerShipping extends JObject
 			 	$this->parent->pushStep(array ('type' => 'plugin', 'shipping_id' => $row->shipping_id));
 		}
 
- 
+
 		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin').' '.JText::_('COM_REDSHOP_Install').': '.JText::_('COM_REDSHOP_COULD_NOT_COPY_SETUP_FILE'));
@@ -178,27 +178,27 @@ class JInstallerShipping extends JObject
 		}
 		return true;
 	}
- 
+
 	function uninstall($id, $clientId )
-	{  
+	{
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$db		=& $this->parent->getDBO();
+		$db		= $this->parent->getDBO();
 
-		$row =& JTable::getInstance('shipping_detail', 'Table'); 
+		$row = JTable::getInstance('shipping_detail', 'Table');
 		if ( !$row->load((int) $clientId) ) {
 			JError::raiseWarning(100, JText::_('COM_REDSHOP_ERRORUNKOWNEXTENSION'));
 			return false;
 		}
- 
+
 		// Set the plugin root path
 		$this->parent->setPath('extension_root',JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'shippings');
 
 		 $manifestFile = JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'shippings'.DS.$row->plugin.'.xml';
 		if (file_exists($manifestFile))
 		{
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
@@ -206,16 +206,16 @@ class JInstallerShipping extends JObject
 				return false;
 			}
 
-			 
-			$root =& $xml->document;
+
+			$root = $xml->document;
 			if ($root->name() != 'install' && $root->name() != 'mosinstall') {
 				JError::raiseWarning(100, JText::_('COM_REDSHOP_Plugin').' '.JText::_('COM_REDSHOP_Uninstall').': '.JText::_('COM_REDSHOP_INVALID_MANIFEST_FILE'));
 				return false;
 			}
 
-			 
+
 			JFile::delete($manifestFile);
- 
+
 		} else {
 			JError::raiseWarning(100, 'Plugin Uninstall: Manifest File invalid or not found');
 			//return false;
@@ -223,20 +223,20 @@ class JInstallerShipping extends JObject
 
 		// Now we will no longer need the plugin object, so lets delete it
 		$row->delete($row->shipping_id);
-		
+
 
 		// If the folder is empty, let's delete it
 		$files = JFolder::files($this->parent->getPath('extension_root').DS.$row->plugin);
-		
-	 
-		 $this->parent->getPath('extension_root').DS.$row->plugin; 
+
+
+		 $this->parent->getPath('extension_root').DS.$row->plugin;
 		//if (!count($files)) {
 			JFolder::delete($this->parent->getPath('extension_root').DS.$row->plugin);
 		//}
 		unset ($row);
 		return $retval;
 	}
- 
+
 	function _rollback_plugin($arg)
 	{
 		// Get database connector object

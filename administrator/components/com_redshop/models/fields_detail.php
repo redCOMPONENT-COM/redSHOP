@@ -312,7 +312,7 @@ class fields_detailModelfields_detail extends JModel
    */
   function move($direction)
   {
-    $row =& JTable::getInstance('fields_detail', 'Table');
+    $row = JTable::getInstance('fields_detail', 'Table');
 
     if (!$row->load( $this->_id ) ) {
       $this->setError($this->_db->getErrorMsg());

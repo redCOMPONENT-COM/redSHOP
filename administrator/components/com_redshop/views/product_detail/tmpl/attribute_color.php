@@ -20,7 +20,7 @@ require_once( JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'produ
 $producthelper = new producthelper();
 
 JHTMLBehavior::modal ();
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 $showbuttons = JRequest::getCmd ( 'showbuttons' );
 

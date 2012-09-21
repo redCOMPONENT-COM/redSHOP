@@ -24,14 +24,14 @@ class stockroom_detailVIEWstockroom_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$layout =& JRequest::getVar('layout', '');
+		$layout = JRequest::getVar('layout', '');
 		if($layout=='default_product')
 		{
 			$this->display_product();
 			return false;
 		}
 		$lists = array();
-		$uri 		=& JFactory::getURI();
+		$uri 		= JFactory::getURI();
 		$option = JRequest::getVar('option','','request','string');
 		$model=  $this->getModel('stockroom_detail');
 		if($layout=='importstock')
@@ -49,18 +49,18 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		}
 		else
 		{
-			$document = & JFactory::getDocument();
+			$document = JFactory::getDocument();
 			$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
 			$document->addStyleSheet ( 'components/com_redshop/assets/css/search.css' );
 			$document->addScript ('components/com_redshop/assets/js/search.js');
-	
+
 			$this->setLayout('default');
 			$detail	=& $this->get('data');
-			
+
 			$isNew		= ($detail->stockroom_id < 1);
 			$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
 			JToolBarHelper::title(   JText::_('COM_REDSHOP_STOCKROOM' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_stockroom48'  );
-	
+
 			//create the toolbar
 			JToolBarHelper::apply();
 			JToolBarHelper::save();
@@ -73,32 +73,32 @@ class stockroom_detailVIEWstockroom_detail extends JView
 			$model=  $this->getModel('stockroom_detail');
 			// Get stockroom container product data from the model
 			$stock_product_data = $model->stock_product_data($detail->stockroom_id);
-	
+
 			if(count($stock_product_data)>0)
 				$result_stock = $stock_product_data;
 			else
 				$result_stock = array();
-	
+
 			//get stockroom product
 			$lists['stockroom_product'] 	= JHTML::_('select.genericlist',$result_stock,  'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
-	
+
 			$result = array();
-	
+
 			//get all product
 			$lists['product_all'] 	= JHTML::_('select.genericlist',$result,  'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
-	
+
 			$lists['show_in_front'] = JHTML::_('select.booleanlist','show_in_front', 'class="inputbox"', $detail->show_in_front );
-	
+
 			$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $detail->published );
-	
+
 	 		$delivery_time= array();
 	 		$delivery_time['value']= "days";
 	 		$delivery_time['value'].= "weeks";
-	
+
 			$extra_field = new extra_field();
-	
+
 			$booleanlist = $extra_field->booleanlist('delivery_time',  'class="inputbox"', $detail->delivery_time ,$yes=JText::_('COM_REDSHOP_DAYS'),$no=JText::_('COM_REDSHOP_WEEKS'));
-	
+
 	        $this->assignRef('booleanlist',$booleanlist);
 			$this->assignRef('detail',		$detail);
 		}
@@ -118,7 +118,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		//assign stock room product template
 		$this->setLayout('default_product');
 
-		$uri 	=& JFactory::getURI();
+		$uri 	= JFactory::getURI();
 
 		//assign data to template
 		$this->assignRef('lists',$container);

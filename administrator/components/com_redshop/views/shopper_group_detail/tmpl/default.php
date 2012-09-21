@@ -16,9 +16,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();	?>
 <script language="javascript" type="text/javascript">
 Joomla.submitbutton = function(pressbutton) {
@@ -61,13 +61,13 @@ submitbutton = function(pressbutton)
 		<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_CATEGORY' ); ?>:</td>
 		<td><?php echo $this->lists['categories']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_CATEGORY' ), JText::_('COM_REDSHOP_SHOPPER_GROUP_CATEGORY' ), 'tooltip.png', '', '', false); ?>
 		</td></tr>
-	
-	<tr>																						
+
+	<tr>
 		<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE' ); ?>:</td>
 		<td><?php echo $this->lists['manufacturers']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_MANUFACTURE' ), JText::_('COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE' ), 'tooltip.png', '', '', false); ?>
 		</td>
-	</tr>	
-		
+	</tr>
+
 	<tr><td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_URL' ); ?>:</td>
 		<td><a href="<?php echo JURI::root()."index.php?option=com_redshop&view=login&layout=portal&protalid=".$this->detail->shopper_group_id."Itemid=".PORTAL_LOGIN_ITEMID;?>" target="_blank" ><?php echo JURI::root()."index.php?option=com_redshop&view=login&layout=portal&protalid=".$this->detail->shopper_group_id."Itemid=".PORTAL_LOGIN_ITEMID;?></a>
 		</td></tr>

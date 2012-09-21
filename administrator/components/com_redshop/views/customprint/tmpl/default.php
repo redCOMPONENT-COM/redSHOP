@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -21,10 +21,10 @@ Joomla.submitbutton = function(pressbutton) {
 	}
 
 
-function submitbutton(pressbutton) 
+function submitbutton(pressbutton)
 {
 	var form = document.adminForm;
-	
+
 	if(pressbutton == 'printall')
 	{
 		//var w = window.open('','Popup_Window',"width=900,height=800,toolbar=1,scrollbars=1,resizable=1");
@@ -35,16 +35,16 @@ function submitbutton(pressbutton)
 	return;
 }
 
-function printbutton(pressbutton) 
+function printbutton(pressbutton)
 {
 	var form = document.adminForm1;
-	
+
 	if(pressbutton == 'printall')
 	{
 		var w = window.open('','Popup_Window',"width=900,height=800,toolbar=1,scrollbars=1,resizable=1");
 		form.target = 'Popup_Window';
 		form.submit();
-		
+
 		return true;
 	}
 	return;
@@ -52,11 +52,11 @@ function printbutton(pressbutton)
 
 </script>
 <div id="editcell">
- 	<?php 
+ 	<?php
 	JPluginHelper::importPlugin( 'redshop_custom_views' );
-	$dispatcher =& JDispatcher::getInstance(); 
-			
-	
+	$dispatcher = JDispatcher::getInstance();
+
+
 	if(JRequest::getVar('printoption')!="" && JRequest::getVar('task')=="")
 	{
 		if(JRequest::getVar('printoption')=="rs_custom_views_date")
@@ -66,7 +66,7 @@ function printbutton(pressbutton)
 		if(JRequest::getVar('printoption')=="rs_custom_views_person")
 		{
 			$results = $dispatcher->trigger( 'onSelectedPerson');
-		}	
+		}
 		if(JRequest::getVar('printoption')=="rs_custom_views_company")
 		{
 			$results = $dispatcher->trigger( 'onSelectedCompany');
@@ -85,7 +85,7 @@ function printbutton(pressbutton)
 			$results_date = $dispatcher->trigger( 'onSelectedDate');
 		  }
 		    $results = $dispatcher->trigger( 'onSelectedDateValue');
-			
+
 		}
 		if(JRequest::getVar('printoption')=="rs_custom_views_person")
 		{

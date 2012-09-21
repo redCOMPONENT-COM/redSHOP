@@ -34,7 +34,7 @@ $model = $this->getModel('quotation_detail');
 $extra_field = new extra_field();
 $quotation = $this->quotation;
 
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 
 $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id);	?>
@@ -46,7 +46,7 @@ Joomla.submitbutton = function(pressbutton) {
 	submitbutton(pressbutton);
 }
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {

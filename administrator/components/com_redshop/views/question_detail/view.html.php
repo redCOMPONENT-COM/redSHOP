@@ -23,16 +23,16 @@ class question_detailVIEWquestion_detail extends JView
 	{
 		$option = JRequest::getVar('option');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_QUESTION') );
 
-		$uri	=& JFactory::getURI();
+		$uri	= JFactory::getURI();
 		$lists = array();
 		$model = $this->getModel();
 
-		$detail	=& $this->get('data');
-		$answers	=& $this->get('answers');
-		$pagination = & $this->get( 'Pagination' );
+		$detail	= $this->get('data');
+		$answers	= $this->get('answers');
+		$pagination = $this->get( 'Pagination' );
 		$isNew = ($detail->question_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );

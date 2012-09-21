@@ -55,7 +55,7 @@ submitbutton = function(pressbutton) {
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset'=>0));
+$myTabs = JPane::getInstance('tabs', array('startOffset'=>0));
 $output = '';
 
 //Create Pane

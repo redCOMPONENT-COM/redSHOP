@@ -30,21 +30,21 @@ class addressfields_listingViewaddressfields_listing extends JView
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_FIELDS') );
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_ADDRESS_FIELD_MANAGEMENT' ), 'redshop_fields48' );
 
- 		$uri	=& JFactory::getURI();
+ 		$uri	= JFactory::getURI();
 
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'field_id' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
 
 		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$fields			= & $this->get( 'Data');
-		$total			= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$fields			= $this->get( 'Data');
+		$total			= $this->get( 'Total');
+		$pagination = $this->get( 'Pagination' );
 
 		$section_id = $mainframe->getUserStateFromRequest( $context.'section_id','section_id',0 );
 		//$sectionlist	= $helpobj->getForumSectionList();

@@ -29,7 +29,7 @@ class stockroom_listingViewstockroom_listing extends JView {
 
 //		$container_get = JRequest::getVar ( 'container_list','0' );
 
-		$document = & JFactory::getDocument ();
+		$document = JFactory::getDocument ();
 		$document->setTitle ( JText::_('COM_REDSHOP_STOCKROOM_LISTING' ) );
 		JToolBarHelper::title ( JText::_('COM_REDSHOP_STOCKROOM_LISTING_MANAGEMENT' ), 'redshop_stockroom48' );
 
@@ -39,7 +39,7 @@ class stockroom_listingViewstockroom_listing extends JView {
 	 	$stockroom_type = $mainframe->getUserStateFromRequest( $context2.'stockroom_type','stockroom_type','product');
 		//$stock_type = $mainframe->getUserStateFromRequest( $context2.'stock_type','stock_type',0 );
 //		$atttype = $mainframe->getUserStateFromRequest( $context2.'atttype','atttype','property' );
-		$uri = & JFactory::getURI ();
+		$uri = JFactory::getURI ();
 		$filter_order = $mainframe->getUserStateFromRequest( $context2.'filter_order', 'filter_order', 'p.product_id' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $context2.'filter_order_Dir', 'filter_order_Dir', '' );
 		$search_field = $mainframe->getUserStateFromRequest( $context2.'search_field',  'search_field', '' );
@@ -49,7 +49,7 @@ class stockroom_listingViewstockroom_listing extends JView {
 		//stockroom type and attribute type
 		$optiontype = array();
 
-		$optiontype[]   = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
+        $optiontype[]   = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
 		$optiontype[]   = JHTML::_('select.option', 'property', JText::_('COM_REDSHOP_PROPERTY'));
 		$optiontype[]   = JHTML::_('select.option', 'subproperty', JText::_('COM_REDSHOP_SUBPROPERTY'));
 		//JHTML::_('select.option', 'product_attribute', JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE'));

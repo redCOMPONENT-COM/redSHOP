@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -14,12 +14,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 defined('_JEXEC') or die('Restricted access');
- 
+
 
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 jimport('joomla.html.pane');
 ?>
@@ -38,7 +38,7 @@ submitbutton = function(pressbutton) {
 			submitform( pressbutton );
 			return;
 		}
-	
+
 		if (form.tax_group_name.value == ""){
 			alert( "<?php echo JText::_('COM_REDSHOP_TAX_GROUP_MUST_HAVE_VALUE', true ); ?>" );
 		} else {
@@ -61,10 +61,10 @@ submitbutton = function(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="tax_group_name" id="tax_group_name" size="10" maxlength="100" value="<?php echo $this->detail->tax_group_name;?>" />  
+				<input class="text_area" type="text" name="tax_group_name" id="tax_group_name" size="10" maxlength="100" value="<?php echo $this->detail->tax_group_name;?>" />
 				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_TAX_GROUP_NAME_LBL' ), JText::_('COM_REDSHOP_TAX_GROUP_NAME_LBL' ), 'tooltip.png', '', '', false); ?>
 			</td>
-			
+
 		</tr>
 		<tr>
 			<td width="100" align="right" class="key">
@@ -73,14 +73,14 @@ submitbutton = function(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['published']; ?>  
+				<?php echo $this->lists['published']; ?>
 				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_TAX_GROUP_PUBLISH_LBL' ), JText::_('COM_REDSHOP_TAX_GROUP_PUBLISH_LBL' ), 'tooltip.png', '', '', false); ?>
 			</td>
 		</tr>
-		 
+
 	</table>
 	</fieldset>
-	 
+
 </div>
 
 <div class="clr"></div>

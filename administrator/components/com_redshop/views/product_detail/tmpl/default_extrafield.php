@@ -15,7 +15,7 @@
  */
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-$db =& JFactory::getDBO();
+$db = JFactory::getDBO();
 //$model = $this->getModel();
 $template_id = $this->detail->product_template;
 $product_id  = $this->detail->product_id;

@@ -15,7 +15,7 @@
  */
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 $ord_path="/components/com_redshop/assets/images/";
 

@@ -30,13 +30,13 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
 		$option = JRequest::getVar('option','','request','string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		//$document->addScript ('components/'.$option.'/assets/js/media.js');
 		$document->addScript ('components/'.$option.'/assets/js/json.js');
 		$document->addScript ('components/'.$option.'/assets/js/validation.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
@@ -92,7 +92,7 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
 		$categories = $shoppergroup_category->list_all("shopper_group_categories[]",0,$shopper_group_categories,20,true,true,array(),250);
 		$lists['categories'] =$categories;
-		
+
 		$shopper_group_manufactures = $detail->shopper_group_manufactures;
 		$shopper_group_manufactures = explode(",",$shopper_group_manufactures);
 		$manufacturers	= $model->getmanufacturers();

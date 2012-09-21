@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -16,34 +16,34 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view' );
- 
+
 class deliveryViewdelivery extends JView
 {
 	function __construct( $config = array())
 	{
 		 parent::__construct( $config );
 	}
-    
+
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe, $context;
-	 	
-		$document = & JFactory::getDocument();
+
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_DELIVERY_LIST') );
- 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_DELIVERY_LIST' ), 'redshop_redshopcart48' );   		
+
+   		JToolBarHelper::title(   JText::_('COM_REDSHOP_DELIVERY_LIST' ), 'redshop_redshopcart48' );
    		JToolBarHelper::custom('export_data','save.png','save_f2.png',JText::_('COM_REDSHOP_EXPORT_DATA_LBL' ),false);
-	   	
-		$uri	=& JFactory::getURI();
+
+		$uri	= JFactory::getURI();
 		$context = 'delivery';
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'order_id' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
-						  
-		$lists['order'] 		= $filter_order;  
+
+		$lists['order'] 		= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		
+
 		$this->assignRef('lists',		$lists);
-	    $this->assignRef('request_url',	$uri->toString());    	
+	    $this->assignRef('request_url',	$uri->toString());
     	parent::display($tpl);
   }
-}?>
+}

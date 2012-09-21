@@ -42,7 +42,7 @@ class importModelimport extends JModel
 	{
 		ob_clean();
 		global $mainframe;
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$files = JRequest::get('files');
 		$files = $files[$post['task'].$post['import']];
@@ -89,7 +89,7 @@ class importModelimport extends JModel
 		ob_clean();
 		$thumb = new thumbnail();
 		$obj_img = new thumbnail_images();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		/* Get all posted data */
 		$new_line = JRequest::getVar ( 'new_line' );
 		$post = $session->get( 'ImportPost');
@@ -1438,9 +1438,9 @@ class importModelimport extends JModel
 
 						//////////////////////// Start data into user table //////////////////////////
 						// Initialize some variables
-						$db			= & JFactory::getDBO();
-						$me			= & JFactory::getUser();
-						$acl		= & JFactory::getACL();
+						$db			= JFactory::getDBO();
+						$me			= JFactory::getUser();
+						$acl		= JFactory::getACL();
 						$MailFrom	= $mainframe->getCfg('mailfrom');
 						$FromName	= $mainframe->getCfg('fromname');
 						$SiteName	= $mainframe->getCfg('sitename');
@@ -1457,7 +1457,7 @@ class importModelimport extends JModel
 						// Set some initial user values
 						$user->set('usertype',$rawdata['usertype']);
 						$user->set('gid', $rawdata['gid']);
-						$date =& JFactory::getDate();
+						$date = JFactory::getDate();
 						$user->set('registerDate', $date->toMySQL());
 						if ($user->save())
 						{
@@ -2712,7 +2712,7 @@ class importModelimport extends JModel
 
 
 		//$start_micro_time = $_SESSION['start_micro_time'];
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$start_micro_time = $session->get( 'start_micro_time');
 
 		 $start_micro_time;
