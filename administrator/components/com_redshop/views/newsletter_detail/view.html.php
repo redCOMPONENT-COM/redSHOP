@@ -71,8 +71,6 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
 
-		$model=  $this->getModel('newsletter_detail');
-
 		$lists['newsletter_template'] = JHTML::_('select.genericlist',$templates,'template_id','class="inputbox" size="1" ','value','text',$detail->template_id);
 
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $detail->published );
@@ -84,4 +82,3 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

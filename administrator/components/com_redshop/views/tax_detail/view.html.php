@@ -22,14 +22,9 @@ class tax_detailVIEWtax_detail extends JView
 {
 	function display($tpl = null)
 	{
-
-		$db = jFactory::getDBO();
+        $db = jFactory::getDBO();
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_MANAGEMENT_DETAIL' ), 'redshop_vat48' );
-
-		$option = JRequest::getVar('option','','request','string');
-
-		$document = JFactory::getDocument();
 
 	 	$uri = JFactory::getURI();
 
@@ -140,4 +135,4 @@ class tax_detailVIEWtax_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>
+

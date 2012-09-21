@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class catalog_requestViewcatalog_request extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -32,9 +27,6 @@ class catalog_requestViewcatalog_request extends JView
 		$document->setTitle( JText::_('COM_REDSHOP_CATALOG_REQUEST') );
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_CATALOG_REQUEST_MANAGEMENT' ), 'redshop_catalogmanagement48' );
-
- 	//	JToolBarHelper::addNewX();
- 	//	JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -46,9 +38,9 @@ class catalog_requestViewcatalog_request extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$catalog		= & $this->get( 'Data');
-		$total			= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$catalog		= $this->get( 'Data');
+		$total			= $this->get( 'Total');
+		$pagination = $this->get( 'Pagination' );
 
 
     	$this->assignRef('user',		JFactory::getUser());

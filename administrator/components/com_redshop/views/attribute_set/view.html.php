@@ -20,11 +20,6 @@ jimport( 'joomla.application.component.view' );
 
 class attribute_setViewattribute_set extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -50,8 +45,8 @@ class attribute_setViewattribute_set extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$products	= & $this->get( 'Data');
-		$pagination = & $this->get( 'Pagination' );
+		$products	= $this->get( 'Data');
+		$pagination = $this->get( 'Pagination' );
 
     	$this->assignRef('lists',		$lists);
   		$this->assignRef('products',	$products);
@@ -60,4 +55,3 @@ class attribute_setViewattribute_set extends JView
     	parent::display($tpl);
   }
 }
-?>

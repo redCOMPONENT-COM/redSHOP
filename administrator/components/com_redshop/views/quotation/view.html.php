@@ -22,11 +22,6 @@ require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'quotation.php' );
 
 class quotationViewquotation extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -35,14 +30,13 @@ class quotationViewquotation extends JView
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_quotation') );
-		$model = $this->getModel('quotation');
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT' ), 'redshop_quotation48' );
    		JToolBarHelper::addNewX();
    		JToolBarHelper::editListX();
    		JToolBarHelper::deleteList();
 
-		$uri	= JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order', 	  'quotation_cdate' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir', 'DESC' );
@@ -52,7 +46,6 @@ class quotationViewquotation extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$quotation	= $this->get( 'Data');
-		$total		= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 
 		$optionsection = $quotationHelper->getQuotationStatusList();

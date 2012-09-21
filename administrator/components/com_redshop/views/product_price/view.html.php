@@ -18,15 +18,8 @@ require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
 
 class product_priceViewproduct_price extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$db = JFactory::getDBO();
 		$product_id = JRequest::getVar('pid');
 		$document = JFactory::getDocument();
@@ -53,4 +46,5 @@ class product_priceViewproduct_price extends JView
 
    	 	parent::display($tpl);
 	}
-}?>
+}
+

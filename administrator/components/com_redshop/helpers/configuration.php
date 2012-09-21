@@ -25,13 +25,19 @@ class Redconfiguration {
 	var $_config_bkp_path = null;
 	var $_config_tmp_path = null;
 	var $_cfgdata = null;
-	var $_table_prefix = "redshop";
+	var $_country_list = null;
+	var $_table_prefix = null;
+	var $_db = null;
 
 	/**
 	 * define default path
+	 *
 	 */
-	function __construct() {
+	function __construct()
+	{
+		$this->_table_prefix = '#__redshop_';
 
+		$this->_db = JFactory::getDBO ();
 		$this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
 		$this->_config_dist_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.dist.php";
 		$this->_config_bkp_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.bkp.php";
@@ -54,6 +60,14 @@ class Redconfiguration {
 		{
 			define ( 'REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT.DS.'components/com_redshop/assets/images/' );
 		}
+		if (! defined ( 'REDSHOP_FRONT_DOCUMENT_ABSPATH' ))
+		{
+			define ( 'REDSHOP_FRONT_DOCUMENT_ABSPATH', JURI::root().'components/com_redshop/assets/document/' );
+		}
+		if (! defined ( 'REDSHOP_FRONT_DOCUMENT_RELPATH' ))
+		{
+			define ( 'REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT.DS.'components/com_redshop/assets/document/' );
+		}
 	}
 
 	/**
@@ -61,14 +75,12 @@ class Redconfiguration {
 	 *
 	 * @return boolean
 	 */
-	function isCFGFile() {
-
+	function isCFGFile()
+	{
 		if (! file_exists ( $this->_configpath )) {
 			return false;
 		}
-
 		require_once ($this->_configpath);
-
 		return true;
 	}
 
@@ -77,18 +89,15 @@ class Redconfiguration {
 	 *
 	 * @return boolean
 	 */
-	function isCFGTable() {
-
-		$db = & JFactory::getDBO ();
-
-		$query = 'show tables like "' . $db->getPrefix () . 'redshop_configuration"';
-		$db->setQuery ( $query );
-		$result = $db->loadResult ();
-
-		if (count ( $result ) <= 0) {
+	function isCFGTable()
+	{
+		$query = 'show tables like "' . $this->_db->getPrefix () . 'redshop_configuration"';
+		$this->_db->setQuery ( $query );
+		$result = $this->_db->loadResult ();
+		if (count ( $result ) <= 0)
+		{
 			return false;
 		}
-
 		return true;
 	}
 
@@ -99,28 +108,21 @@ class Redconfiguration {
 	 *
 	 * @param array $org
 	 */
-	function setCFGTableData($org = array()) {
-
-		$db = & JFactory::getDBO ();
-
+	function setCFGTableData($org = array())
+	{
 		// getData From table
-		$query = "SELECT * FROM #__redshop_configuration WHERE id = 1";
-		$db->setQuery ( $query );
-		$cfgdata = $db->loadAssoc ();
+		$query = "SELECT * FROM ".$this->_table_prefix."configuration WHERE id = 1";
+		$this->_db->setQuery ( $query );
+		$cfgdata = $this->_db->loadAssoc ();
 
 		// prepare data from table
 		$data = $this->redshopCFGData ( $cfgdata );
-
-		if (count ( $org ) > 0) {
+		if (count ( $org ) > 0)
+		{
 			$data = array_merge ( $org, $data );
 		}
-
 		$this->defineCFGVars ( $data );
 		$this->writeCFGFile ();
-
-	# defination file for wizard
-	/*$this->_def_array = $cfgdata;
-		$this->WriteDefFile();*/
 	}
 
 	/**
@@ -128,10 +130,10 @@ class Redconfiguration {
 	 *
 	 * @return boolean
 	 */
-	function loadDefaultCFGFile() {
-
-		if ($this->isCFGFile ()) {
-
+	function loadDefaultCFGFile()
+	{
+		if ($this->isCFGFile ())
+		{
 			if (copy ( $this->_configpath, $this->_config_bkp_path ))
 				if (! copy ( $this->_config_dist_path, $this->_configpath ))
 					return false;
@@ -139,7 +141,6 @@ class Redconfiguration {
 			if (! copy ( $this->_config_dist_path, $this->_configpath ))
 				return false;
 		}
-
 		return true;
 	}
 
@@ -149,22 +150,19 @@ class Redconfiguration {
 	 * @param array $org
 	 * @return boolean
 	 */
-	function manageCFGFile($org = array()) {
-
-		if ($this->isCFGFile ()) {
-
-			if (count ( $org ) > 0) {
-
+	function manageCFGFile($org = array())
+	{
+		if ($this->isCFGFile ())
+		{
+			if (count ( $org ) > 0)
+			{
 				$this->defineCFGVars ( $org );
 				$this->updateCFGFile ();
 			}
-
 		} else {
-
-			if ($this->isCFGTable ()) {
-
+			if ($this->isCFGTable ())
+			{
 				$this->setCFGTableData ( $org );
-
 			} else {
 				$this->loadDefaultCFGFile ();
 			}
@@ -172,24 +170,22 @@ class Redconfiguration {
 		return true;
 	}
 
-	function WriteDefFile($def = array()) {
-
+	function WriteDefFile($def = array())
+	{
 		if (count ( $def ) <= 0)
 			$def = $this->_def_array;
 
 		$html = "<?php \n";
-
 		$html .= 'global $defaultarray;' . "\n" . '$defaultarray = array();' . "\n";
-
-		foreach ( $def as $key => $val ) {
+		foreach ( $def as $key => $val )
+		{
 			$html .= '$defaultarray["' . $key . '"] = \'' . addslashes ( $val ) . "';\n";
 		}
 		$html .= "?>";
-
 		if (! $this->isDEFFile ())
 			return false;
-
-		if ($fp = fopen ( $this->_config_def_path, "w" )) {
+		if ($fp = fopen ( $this->_config_def_path, "w" ))
+		{
 			fwrite ( $fp, $html, strlen ( $html ) );
 			fclose ( $fp );
 			return true;
@@ -198,25 +194,23 @@ class Redconfiguration {
 		}
 	}
 
-	function defineCFGVars($data, $bypass = false) {
-
+	function defineCFGVars($data, $bypass = false)
+	{
 		$this->_cfgdata = "";
-
 		$this->_cfgdata .= "<?php\n";
-
-		foreach ( $data as $key => $value ) {
-
+		foreach ( $data as $key => $value )
+		{
 			if (! defined ( $key ) || $bypass)
 				$this->_cfgdata .= "define ('" . $key . "', '" . addslashes ( $value ) . "');\n";
 		}
 		$this->_cfgdata .= '?>';
-
 		return;
 	}
 
-	function writeCFGFile() {
-
-		if ($fp = fopen ( $this->_configpath, "w" )) {
+	function writeCFGFile()
+	{
+		if ($fp = fopen ( $this->_configpath, "w" ))
+		{
 			fputs ( $fp, $this->_cfgdata, strlen ( $this->_cfgdata ) );
 			fclose ( $fp );
 			return true;
@@ -225,9 +219,10 @@ class Redconfiguration {
 		}
 	}
 
-	function updateCFGFile() {
-
-		if ($fp = fopen ( $this->_configpath, "a" )) {
+	function updateCFGFile()
+	{
+		if ($fp = fopen ( $this->_configpath, "a" ))
+		{
 			fputs ( $fp, $this->_cfgdata, strlen ( $this->_cfgdata ) );
 			fclose ( $fp );
 			return true;
@@ -236,25 +231,23 @@ class Redconfiguration {
 		}
 	}
 
-	function backupCFGFile() {
-
-		if ($this->isCFGFile ()) {
-
+	function backupCFGFile()
+	{
+		if ($this->isCFGFile ())
+		{
 			if (! copy ( $this->_configpath, $this->_config_bkp_path ))
 				return false;
-
 		} else {
 			if (! copy ( $this->_config_dist_path, $this->_configpath ))
 				return false;
 		}
-
 		return true;
 	}
 
-	function isTmpFile() {
-
-		if (file_exists ( $this->_config_tmp_path )) {
-
+	function isTmpFile()
+	{
+		if (file_exists ( $this->_config_tmp_path ))
+		{
 			if ($this->isTMPFileWritable ()) {
 				require_once ($this->_config_tmp_path);
 				return true;
@@ -262,66 +255,59 @@ class Redconfiguration {
 		} else {
 			JError::raiseWarning ( 21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND' ) );
 		}
-
 		return false;
 	}
 
-	function isTMPFileWritable() {
-
-		if (! is_writable ( $this->_config_tmp_path )) {
-
+	function isTMPFileWritable()
+	{
+		if (! is_writable ( $this->_config_tmp_path ))
+		{
 			JError::raiseWarning ( 21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE' ) );
 			return false;
 		}
 		return true;
 	}
 
-	function isDEFFile() {
-
-		if (file_exists ( $this->_config_def_path )) {
-
-			if ($this->isDEFFileWritable ()) {
+	function isDEFFile()
+	{
+		if (file_exists ( $this->_config_def_path ))
+		{
+			if ($this->isDEFFileWritable ())
+			{
 				require_once ($this->_config_def_path);
 				return true;
 			}
 		} else {
 			JError::raiseWarning ( 21, JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND' ) );
 		}
-
 		return false;
 	}
 
-	function isDEFFileWritable() {
-
-		if (! is_writable ( $this->_config_def_path )) {
-
+	function isDEFFileWritable()
+	{
+		if (! is_writable ( $this->_config_def_path ))
+		{
 			JError::raiseWarning ( 21, JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE' ) );
 			return false;
 		}
 		return true;
 	}
 
-	function storeFromTMPFile() {
-
+	function storeFromTMPFile()
+	{
 		global $temparray;
-
 		global $defaultarray;
-
-		if ($this->isTmpFile () && $this->isDEFFile ()) {
-
+		if ($this->isTmpFile () && $this->isDEFFile ())
+		{
 			$ncfgdata = array_merge ( $defaultarray, $temparray );
-
 			$config_array = $this->redshopCFGData ( $ncfgdata );
-
 			$this->defineCFGVars ( $config_array, true );
-
 			$this->backupCFGFile ();
-
-			if (! $this->writeCFGFile ()) {
+			if (! $this->writeCFGFile ())
+			{
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -329,13 +315,13 @@ class Redconfiguration {
 	{
 		$d['booking_order_status'] = (isset($d['booking_order_status'])) ? $d['booking_order_status'] : 0;
 
-		$config_array = array ("PI" => 3.14, "ADMINISTRATOR_EMAIL" => $d ["administrator_email"], "THUMB_WIDTH" => $d ["thumb_width"], "THUMB_HEIGHT" => $d ["thumb_height"], "THUMB_WIDTH_2" => $d ["thumb_width_2"], "THUMB_HEIGHT_2" => $d ["thumb_height_2"], "THUMB_WIDTH_3" => $d ["thumb_width_3"], "THUMB_HEIGHT_3" => $d ["thumb_height_3"], "CATEGORY_PRODUCT_THUMB_WIDTH" => $d ["category_product_thumb_width"], "CATEGORY_PRODUCT_THUMB_HEIGHT" => $d ["category_product_thumb_height"], "CATEGORY_PRODUCT_THUMB_WIDTH_2" => $d ["category_product_thumb_width_2"], "CATEGORY_PRODUCT_THUMB_HEIGHT_2" => $d ["category_product_thumb_height_2"], "CATEGORY_PRODUCT_THUMB_WIDTH_3" => $d ["category_product_thumb_width_3"], "CATEGORY_PRODUCT_THUMB_HEIGHT_3" => $d ["category_product_thumb_height_3"], "RELATED_PRODUCT_THUMB_WIDTH" => $d ["related_product_thumb_width"], "RELATED_PRODUCT_THUMB_HEIGHT" => $d ["related_product_thumb_height"], "RELATED_PRODUCT_THUMB_WIDTH_2" => $d ["related_product_thumb_width_2"], "RELATED_PRODUCT_THUMB_HEIGHT_2" => $d ["related_product_thumb_height_2"], "RELATED_PRODUCT_THUMB_WIDTH_3" => $d ["related_product_thumb_width_3"], "RELATED_PRODUCT_THUMB_HEIGHT_3" => $d ["related_product_thumb_height_3"], "ATTRIBUTE_SCROLLER_THUMB_WIDTH" => $d ["attribute_scroller_thumb_width"], "ATTRIBUTE_SCROLLER_THUMB_HEIGHT" => $d ["attribute_scroller_thumb_height"], "ACCESSORY_PRODUCT_IN_LIGHTBOX" => $d ["accessory_product_in_lightbox"],"COMPARE_PRODUCT_THUMB_WIDTH" => $d ["compare_product_thumb_width"], "COMPARE_PRODUCT_THUMB_HEIGHT" => $d ["compare_product_thumb_height"],
+		$config_array = array ("PI" => 3.14, "ADMINISTRATOR_EMAIL" => $d ["administrator_email"], "THUMB_WIDTH" => $d ["thumb_width"], "THUMB_HEIGHT" => $d ["thumb_height"], "THUMB_WIDTH_2" => $d ["thumb_width_2"], "THUMB_HEIGHT_2" => $d ["thumb_height_2"], "THUMB_WIDTH_3" => $d ["thumb_width_3"], "THUMB_HEIGHT_3" => $d ["thumb_height_3"], "CATEGORY_PRODUCT_THUMB_WIDTH" => $d ["category_product_thumb_width"], "CATEGORY_PRODUCT_THUMB_HEIGHT" => $d ["category_product_thumb_height"], "CATEGORY_PRODUCT_THUMB_WIDTH_2" => $d ["category_product_thumb_width_2"], "CATEGORY_PRODUCT_THUMB_HEIGHT_2" => $d ["category_product_thumb_height_2"], "CATEGORY_PRODUCT_THUMB_WIDTH_3" => $d ["category_product_thumb_width_3"], "CATEGORY_PRODUCT_THUMB_HEIGHT_3" => $d ["category_product_thumb_height_3"], "RELATED_PRODUCT_THUMB_WIDTH" => $d ["related_product_thumb_width"], "RELATED_PRODUCT_THUMB_HEIGHT" => $d ["related_product_thumb_height"], "RELATED_PRODUCT_THUMB_WIDTH_2" => $d ["related_product_thumb_width_2"], "RELATED_PRODUCT_THUMB_HEIGHT_2" => $d ["related_product_thumb_height_2"], "RELATED_PRODUCT_THUMB_WIDTH_3" => $d ["related_product_thumb_width_3"], "RELATED_PRODUCT_THUMB_HEIGHT_3" => $d ["related_product_thumb_height_3"], "ATTRIBUTE_SCROLLER_THUMB_WIDTH" => $d ["attribute_scroller_thumb_width"], "ATTRIBUTE_SCROLLER_THUMB_HEIGHT" => $d ["attribute_scroller_thumb_height"], "COMPARE_PRODUCT_THUMB_WIDTH" => $d ["compare_product_thumb_width"], "COMPARE_PRODUCT_THUMB_HEIGHT" => $d ["compare_product_thumb_height"],
 
 		"ACCESSORY_THUMB_HEIGHT" => $d ["accessory_thumb_height"], "ACCESSORY_THUMB_WIDTH" => $d ["accessory_thumb_width"], "ACCESSORY_THUMB_HEIGHT_2" => $d ["accessory_thumb_height_2"], "ACCESSORY_THUMB_WIDTH_2" => $d ["accessory_thumb_width_2"], "ACCESSORY_THUMB_HEIGHT_3" => $d ["accessory_thumb_height_3"], "ACCESSORY_THUMB_WIDTH_3" => $d ["accessory_thumb_width_3"],
 
 		"DEFAULT_AJAX_DETAILBOX_TEMPLATE" => $d ["default_ajax_detailbox_template"], "ASTERISK_POSITION" => 0, "MANUFACTURER_THUMB_WIDTH" => $d ["manufacturer_thumb_width"], "MANUFACTURER_THUMB_HEIGHT" => $d ["manufacturer_thumb_height"], "MANUFACTURER_PRODUCT_THUMB_WIDTH" => $d ["manufacturer_product_thumb_width"], "MANUFACTURER_PRODUCT_THUMB_HEIGHT" => $d ["manufacturer_product_thumb_height"], "MANUFACTURER_PRODUCT_THUMB_WIDTH_2" => $d ["manufacturer_product_thumb_width_2"], "MANUFACTURER_PRODUCT_THUMB_HEIGHT_2" => $d ["manufacturer_product_thumb_height_2"], "MANUFACTURER_PRODUCT_THUMB_WIDTH_3" => $d ["manufacturer_product_thumb_width_3"], "MANUFACTURER_PRODUCT_THUMB_HEIGHT_3" => $d ["manufacturer_product_thumb_height_3"],
 
-		"CART_THUMB_WIDTH" => $d ["cart_thumb_width"], "CART_THUMB_HEIGHT" => $d ["cart_thumb_height"],
+		"CART_THUMB_WIDTH" => $d ["cart_thumb_width"], "CART_THUMB_HEIGHT" => $d ["cart_thumb_height"], "SHOW_TERMS_AND_CONDITIONS" => $d ["show_terms_and_conditions"],
 
 		"GIFTCARD_THUMB_WIDTH" => $d ["giftcard_thumb_width"], "GIFTCARD_THUMB_HEIGHT" => $d ["giftcard_thumb_height"], "GIFTCARD_LIST_THUMB_WIDTH" => $d ["giftcard_list_thumb_width"], "GIFTCARD_LIST_THUMB_HEIGHT" => $d ["giftcard_list_thumb_height"],
 
@@ -343,7 +329,7 @@ class Redconfiguration {
 
 		"PRODUCT_ADDITIONAL_IMAGE" => $d ["product_additional_image"], "PRODUCT_ADDITIONAL_IMAGE_HEIGHT" => $d ["product_additional_image_height"], "PRODUCT_ADDITIONAL_IMAGE_2" => $d ["product_additional_image_2"], "PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2" => $d ["product_additional_image_height_2"], "PRODUCT_ADDITIONAL_IMAGE_3" => $d ["product_additional_image_3"], "PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3" => $d ["product_additional_image_height_3"],
 
-		"PRODUCT_PREVIEW_IMAGE_WIDTH" => $d ["product_preview_image_width"], "PRODUCT_PREVIEW_IMAGE_HEIGHT" => $d ["product_preview_image_height"],
+		"PRODUCT_PREVIEW_IMAGE_WIDTH" => $d ["product_preview_image_width"], "PRODUCT_PREVIEW_IMAGE_HEIGHT" => $d ["product_preview_image_height"],"DEFAULT_STOCKAMOUNT_THUMB_WIDTH" => $d['default_stockamount_thumb_width'], "DEFAULT_STOCKAMOUNT_THUMB_HEIGHT" => $d['default_stockamount_thumb_height'],
 
 		"CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH" => $d ["category_product_preview_image_width"], "CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT" => $d ["category_product_preview_image_height"],
 
@@ -363,9 +349,9 @@ class Redconfiguration {
 
 		"RATING_MSG" => $d ["rating_msg"], "DISCOUNT_DURATION" => $d ["discount_duration"], "SPECIAL_DISCOUNT_MAIL_SEND" => $d ["special_discount_mail_send"], "DISCOUNT_PERCENTAGE" => $d ["discount_percentage"], "CATALOG_DAYS" => $d ["catalog_days"], "CATALOG_REMINDER_1" => $d ["catalog_reminder_1"], "CATALOG_REMINDER_2" => $d ["catalog_reminder_2"], "FAVOURED_REVIEWS" => $d ["favoured_reviews"], "COLOUR_SAMPLE_REMAINDER_1" => $d ["colour_sample_remainder_1"], "COLOUR_SAMPLE_REMAINDER_2" => $d ["colour_sample_remainder_2"], "COLOUR_SAMPLE_REMAINDER_3" => $d ["colour_sample_remainder_3"], "COLOUR_COUPON_DURATION" => $d ["colour_coupon_duration"], "COLOUR_DISCOUNT_PERCENTAGE" => $d ["colour_discount_percentage"], "COLOUR_SAMPLE_DAYS" => $d ["colour_sample_days"], "CATEGORY_FRONTPAGE_INTROTEXT" => $d ["category_frontpage_introtext"], "REGISTRATION_INTROTEXT" => $d ["registration_introtext"], "REGISTRATION_COMPANY_INTROTEXT" => $d ["registration_comp_introtext"], "VAT_INTROTEXT" => $d ["vat_introtext"], "ORDER_LIST_INTROTEXT" => $d ["order_lists_introtext"], "ORDER_DETAIL_INTROTEXT" => $d ["order_detail_introtext"], "ORDER_RECEIPT_INTROTEXT" => $d ["order_receipt_introtext"], "DELIVERY_RULE" => $d ["delivery_rule"], "GOOGLE_ANA_TRACKER_KEY" => $d ["google_ana_tracker"], "AUTOGENERATED_SEO" => $d ["autogenerated_seo"], "ENABLE_SEF_PRODUCT_NUMBER" => $d ["enable_sef_product_number"], "ENABLE_SEF_NUMBER_NAME" => $d ["enable_sef_number_name"],
 
-		"DEFAULT_CUSTOMER_REGISTER_TYPE" => $d ["default_customer_register_type"], "ADDTOCART_BEHAVIOUR" => $d ["addtocart_behaviour"], "WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART" => $d ["wanttoshowattributeimage"],
+		"DEFAULT_CUSTOMER_REGISTER_TYPE" => $d ["default_customer_register_type"], "ADDTOCART_BEHAVIOUR" => $d ["addtocart_behaviour"], "WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART" => $d ["wanttoshowattributeimage"], "SHOW_PRODUCT_DETAIL" => $d ["show_product_detail"],
 
-		"ALLOW_CUSTOMER_REGISTER_TYPE" => $d ["allow_customer_register_type"],
+		"ALLOW_CUSTOMER_REGISTER_TYPE" => $d ["allow_customer_register_type"], "REQUIRED_VAT_NUMBER" => $d ["required_vat_number"],
 
 		"OPTIONAL_SHIPPING_ADDRESS" => $d ["optional_shipping_address"], "SHIPPING_METHOD_ENABLE" => $d ["shipping_method_enable"],
 
@@ -375,12 +361,13 @@ class Redconfiguration {
 
 		"COUPONINFO" => $d ["couponinfo"], "MY_TAGS" => $d ["my_tags"], "MY_WISHLIST" => $d ["my_wishlist"], "COMARE_PRODUCTS" => $d ["compare_products"],
 
-		"REGISTER_METHOD" => $d ["register_method"], "ZERO_PRICE_REPLACE" => $d ["zero_price_replacement"], "ZERO_PRICE_REPLACE_URL" => $d ["zero_price_replacement_url"], "PRICE_REPLACE" => $d ["price_replacement"], "PRICE_REPLACE_URL" => $d ["price_replacement_url"], "PAYMENT_CALCULATION_ON" => $d ["payment_calculation_on"], "PORTAL_SHOP" => $d ["portal_shop"], "DEFAULT_PORTAL_NAME" => $d ["default_portal_name"], "DEFAULT_PORTAL_LOGO" => $d ["default_portal_logo"], "SHOPPER_GROUP_DEFAULT_PRIVATE" => $d ["shopper_group_default_private"], "SHOPPER_GROUP_DEFAULT_COMPANY" => $d ["shopper_group_default_company"], "NEW_SHOPPER_GROUP_GET_VALUE_FROM" => $d ["new_shopper_group_get_value_from"], //			"SHOPPER_GROUP_DEFAULT_TAX_EXEMPT" => $d["shopper_group_default_tax_exempt"],
-
+		"REGISTER_METHOD" => $d ["register_method"], "ZERO_PRICE_REPLACE" => $d ["zero_price_replacement"], "ZERO_PRICE_REPLACE_URL" => $d ["zero_price_replacement_url"], "PRICE_REPLACE" => $d ["price_replacement"], "PRICE_REPLACE_URL" => $d ["price_replacement_url"], "PAYMENT_CALCULATION_ON" => $d ["payment_calculation_on"], "PORTAL_SHOP" => $d ["portal_shop"], "DEFAULT_PORTAL_NAME" => $d ["default_portal_name"], "DEFAULT_PORTAL_LOGO" => $d ["default_portal_logo"], "SHOPPER_GROUP_DEFAULT_PRIVATE" => $d ["shopper_group_default_private"], "SHOPPER_GROUP_DEFAULT_COMPANY" => $d ["shopper_group_default_company"], "NEW_SHOPPER_GROUP_GET_VALUE_FROM" => $d ["new_shopper_group_get_value_from"], "SHOPPER_GROUP_DEFAULT_UNREGISTERED" => $d["shopper_group_default_unregistered"],
 
 		"PRODUCT_EXPIRE_TEXT" => $d ["product_expire_text"], "TERMS_ARTICLE_ID" => $d ["terms_article_id"],
 
-		"INVOICE_NUMBER_TEMPLATE" => $d ["invoice_number_template"], "FIRST_INVOICE_NUMBER" => $d ["first_invoice_number"], "DEFAULT_CATEGORY_ORDERING_METHOD" => $d ["default_category_ordering_method"], "DEFAULT_PRODUCT_ORDERING_METHOD" => $d ["default_product_ordering_method"], "DEFAULT_RELATED_ORDERING_METHOD" => $d ["default_related_ordering_method"], "DEFAULT_ACCESSORY_ORDERING_METHOD" => $d ["default_accessory_ordering_method"], "DEFAULT_MANUFACTURER_ORDERING_METHOD" => $d ["default_manufacturer_ordering_method"], "DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD" => $d ["default_manufacturer_product_ordering_method"], "WELCOMEPAGE_INTROTEXT" => $d ["welcomepage_introtext"], "NEW_CUSTOMER_SELECTION" => $d ["new_customer_selection"], "AJAX_CART_BOX" => $d ["ajax_cart_box"], "IS_PRODUCT_RESERVE" => $d ["is_product_reserve"], "CART_RESERVATION_MESSAGE" => $d ["cart_reservation_message"], "WITHOUT_VAT_TEXT_INFO" => $d ["without_vat_text_info"], "WITH_VAT_TEXT_INFO" => $d ["with_vat_text_info"], "DEFAULT_STOCKROOM" => $d ["default_stockroom"], "DEFAULT_CART_CHECKOUT_ITEMID" => $d ["default_cart_checkout_itemid"], "USE_IMAGE_SIZE_SWAPPING" => $d ["use_image_size_swapping"], "DEFAULT_WRAPPER_THUMB_WIDTH" => $d ["default_wrapper_thumb_width"], "DEFAULT_WRAPPER_THUMB_HEIGHT" => $d ["default_wrapper_thumb_height"], "DEFAULT_QUANTITY" => $d ["default_quantity"], "DEFAULT_QUANTITY_SELECTBOX_VALUE" => $d ["default_quantity_selectbox_value"], "AUTO_SCROLL_WRAPPER" => $d ["auto_scroll_wrapper"], "MAXCATEGORY" => $d ["maxcategory"], "ECONOMIC_INVOICE_DRAFT" => $d ["economic_invoice_draft"], "BOOKING_ORDER_STATUS" => $d ["booking_order_status"],
+		"INVOICE_NUMBER_TEMPLATE" => $d ["invoice_number_template"], "FIRST_INVOICE_NUMBER" => $d ["first_invoice_number"], "DEFAULT_CATEGORY_ORDERING_METHOD" => $d ["default_category_ordering_method"], "DEFAULT_PRODUCT_ORDERING_METHOD" => $d ["default_product_ordering_method"], "DEFAULT_RELATED_ORDERING_METHOD" => $d ["default_related_ordering_method"], "DEFAULT_ACCESSORY_ORDERING_METHOD" => $d ["default_accessory_ordering_method"], "DEFAULT_MANUFACTURER_ORDERING_METHOD" => $d ["default_manufacturer_ordering_method"], "DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD" => $d ["default_manufacturer_product_ordering_method"], "WELCOMEPAGE_INTROTEXT" => $d ["welcomepage_introtext"], "NEW_CUSTOMER_SELECTION" => $d ["new_customer_selection"], "AJAX_CART_BOX" => $d ["ajax_cart_box"], "IS_PRODUCT_RESERVE" => $d ["is_product_reserve"], "CART_RESERVATION_MESSAGE" => $d ["cart_reservation_message"], "WITHOUT_VAT_TEXT_INFO" => $d ["without_vat_text_info"], "WITH_VAT_TEXT_INFO" => $d ["with_vat_text_info"], "DEFAULT_STOCKROOM" => $d ["default_stockroom"], "DEFAULT_CART_CHECKOUT_ITEMID" => $d ["default_cart_checkout_itemid"], "USE_IMAGE_SIZE_SWAPPING" => $d ["use_image_size_swapping"], "DEFAULT_WRAPPER_THUMB_WIDTH" => $d ["default_wrapper_thumb_width"], "DEFAULT_WRAPPER_THUMB_HEIGHT" => $d ["default_wrapper_thumb_height"], "DEFAULT_QUANTITY" => $d ["default_quantity"], "DEFAULT_QUANTITY_SELECTBOX_VALUE" => $d ["default_quantity_selectbox_value"], "AUTO_SCROLL_WRAPPER" => $d ["auto_scroll_wrapper"], "MAXCATEGORY" => $d ["maxcategory"],
+
+		"ECONOMIC_INVOICE_DRAFT" => $d ["economic_invoice_draft"], "BOOKING_ORDER_STATUS" => $d ["booking_order_status"],"ECONOMIC_BOOK_INVOICE_NUMBER" => $d ["economic_book_invoice_number"],
 
 		"PORTAL_LOGIN_ITEMID" => $d ["portal_login_itemid"], "PORTAL_LOGOUT_ITEMID" => $d ["portal_logout_itemid"], "APPLY_VAT_ON_DISCOUNT" => $d ["apply_vat_on_discount"], "CONTINUE_REDIRECT_LINK" => $d ["continue_redirect_link"],
 
@@ -388,9 +375,9 @@ class Redconfiguration {
 
 		"DISCOUNT_ENABLE" => $d ["discount_enable"], "DISCOUNT_TYPE" => $d ["discount_type"], "INVOICE_MAIL_ENABLE" => $d ["invoice_mail_enable"], "ENABLE_BACKENDACCESS" => $d ["enable_backendaccess"], "WISHLIST_LOGIN_REQUIRED" => $d ["wishlist_login_required"],
 
-		"INVOICE_MAIL_SEND_OPTION" => $d ["invoice_mail_send_option"], "MINIMUM_ORDER_TOTAL" => $d ["minimum_order_total"], "MANUFACTURER_TITLE_MAX_CHARS" => $d ["manufacturer_title_max_chars"], "MANUFACTURER_TITLE_END_SUFFIX" => $d ["manufacturer_title_end_suffix"],
+		"INVOICE_MAIL_SEND_OPTION" => $d ["invoice_mail_send_option"], "ACCESSORY_PRODUCT_IN_LIGHTBOX" => $d ["accessory_product_in_lightbox"],"MINIMUM_ORDER_TOTAL" => $d ["minimum_order_total"], "MANUFACTURER_TITLE_MAX_CHARS" => $d ["manufacturer_title_max_chars"], "MANUFACTURER_TITLE_END_SUFFIX" => $d ["manufacturer_title_end_suffix"],
 
-		"DEFAULT_VOLUME_UNIT" => $d ["default_volume_unit"], "DEFAULT_WEIGHT_UNIT" => $d ["default_weight_unit"],
+		"DEFAULT_VOLUME_UNIT" => $d ["default_volume_unit"], "DEFAULT_WEIGHT_UNIT" => $d ["default_weight_unit"],"WEBPACK_ENABLE_SMS" => $d ["webpack_enable_sms"],"WEBPACK_ENABLE_EMAIL_TRACK" => $d ["webpack_enable_email_track"],
 
 		"NEWSLETTER_ENABLE" => $d ["newsletter_enable"], "NEWSLETTER_CONFIRMATION" => $d ["newsletter_confirmation"], "WATERMARK_IMAGE" => $d ["watermark_image"],
 
@@ -400,9 +387,13 @@ class Redconfiguration {
 
 		'PRODUCT_HOVER_IMAGE_ENABLE' => $d ["product_hover_image_enable"], 'PRODUCT_HOVER_IMAGE_WIDTH' => $d ["product_hover_image_width"], 'PRODUCT_HOVER_IMAGE_HEIGHT' => $d ["product_hover_image_height"], 'ADDITIONAL_HOVER_IMAGE_ENABLE' => $d ["additional_hover_image_enable"], 'ADDITIONAL_HOVER_IMAGE_WIDTH' => $d ["additional_hover_image_width"], 'ADDITIONAL_HOVER_IMAGE_HEIGHT' => $d ["additional_hover_image_height"], 'SSL_ENABLE_IN_BACKEND' => $d ["ssl_enable_in_backend"], "SHOW_PRICE_SHOPPER_GROUP_LIST" => $d ["show_price_shopper_group_list"], "SHOW_PRICE_USER_GROUP_LIST" => $d ["show_price_user_group_list"], "SHIPPING_AFTER" => $d ["shipping_after"], "ENABLE_ADDRESS_DETAIL_IN_SHIPPING" => $d ["enable_address_detail_in_shipping"],
 
-		"CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS" => $d ['category_product_short_desc_max_chars'], "CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX" => $d ['category_product_short_desc_end_suffix'], "RELATED_PRODUCT_SHORT_DESC_MAX_CHARS" => $d ['related_product_short_desc_max_chars'], "RELATED_PRODUCT_SHORT_DESC_END_SUFFIX" => $d ['related_product_short_desc_end_suffix'], "CALCULATE_VAT_ON" => $d ['calculate_vat_on'], "REMOTE_UPDATE_DOMAIN_URL" => 'http://dev.redcomponent.com/', "ONESTEP_CHECKOUT_ENABLE" => $d ["onestep_checkout_enable"], "SHOW_TAX_EXEMPT_INFRONT" => $d ["show_tax_exempt_infront"], "NOOF_THUMB_FOR_SCROLLER" => $d ["noof_thumb_for_scroller"], "NOOF_SUBATTRIB_THUMB_FOR_SCROLLER" => $d ["noof_subattrib_thumb_for_scroller"], "INDIVIDUAL_ADD_TO_CART_ENABLE" => $d ["individual_add_to_cart_enable"], "ACCESSORY_AS_PRODUCT_IN_CART_ENABLE" => $d ["accessory_as_product_in_cart_enable"], "POSTDK_CUSTOMER_NO" => $d ["postdk_customer_no"], "POSTDK_CUSTOMER_PASSWORD" => $d ["postdk_customer_password"], "POSTDK_INTEGRATION" => $d ["postdk_integration"], "POSTDANMARK_MODE" => $d ["postdk_testmode"], "POSTDANMARK_ADDRESS" => $d ["postdk_address"], "POSTDANMARK_POSTALCODE" => $d ["postdk_postalcode"], "POSTDK_LABEL_REMARK" => $d["postdk_label_remark"], "QUICKLINK_ICON" => $d ["quicklink_icon"], "DISPLAY_NEW_ORDERS" => $d ["display_new_orders"], "DISPLAY_NEW_CUSTOMERS" => $d ["display_new_customers"], "DISPLAY_STATISTIC" => $d ['display_statistic'], "EXPAND_ALL" => $d ['expand_all'], "AJAX_CART_DISPLAY_TIME" => $d ['ajax_cart_display_time'], "IMAGE_QUALITY_OUTPUT" => $d ['image_quality_output'], "SEND_CATALOG_REMINDER_MAIL" => $d ['send_catalog_reminder_mail'], "CATEGORY_IN_SEF_URL" => $d ['category_in_sef_url'], "USE_BLANK_AS_INFINITE" => $d ['use_blank_as_infinite'], "USE_ENCODING" => $d ['use_encoding'], "CREATE_ACCOUNT_CHECKBOX" => $d ['create_account_checkbox'], "SHOW_QUOTATION_PRICE" => $d ['show_quotation_price'], "CHILDPRODUCT_DROPDOWN" => $d ['childproduct_dropdown'], "PURCHASE_PARENT_WITH_CHILD" => $d ['purchase_parent_with_child'],"ADDTOCART_DELETE" => $d["addtocart_delete"],
-			"ADDTOCART_UPDATE" => $d["addtocart_update"], "DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA" => $d['display_out_of_stock_attribute_data'] )
+		"CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS" => $d ['category_product_short_desc_max_chars'], "CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX" => $d ['category_product_short_desc_end_suffix'], "RELATED_PRODUCT_SHORT_DESC_MAX_CHARS" => $d ['related_product_short_desc_max_chars'], "RELATED_PRODUCT_SHORT_DESC_END_SUFFIX" => $d ['related_product_short_desc_end_suffix'], "CALCULATE_VAT_ON" => $d ['calculate_vat_on'], "REMOTE_UPDATE_DOMAIN_URL" => 'http://dev.redcomponent.com/', "ONESTEP_CHECKOUT_ENABLE" => $d ["onestep_checkout_enable"], "SHOW_TAX_EXEMPT_INFRONT" => $d ["show_tax_exempt_infront"], "NOOF_THUMB_FOR_SCROLLER" => $d ["noof_thumb_for_scroller"], "NOOF_SUBATTRIB_THUMB_FOR_SCROLLER" => $d ["noof_subattrib_thumb_for_scroller"],
 
+		"INDIVIDUAL_ADD_TO_CART_ENABLE" => $d ["individual_add_to_cart_enable"], "ACCESSORY_AS_PRODUCT_IN_CART_ENABLE" => $d ["accessory_as_product_in_cart_enable"], "POSTDK_CUSTOMER_NO" => $d ["postdk_customer_no"], "POSTDK_CUSTOMER_PASSWORD" => $d ["postdk_customer_password"], "POSTDK_INTEGRATION" => $d ["postdk_integration"], "POSTDANMARK_MODE" => $d ["postdk_testmode"], "POSTDANMARK_ADDRESS" => $d ["postdk_address"], "POSTDANMARK_POSTALCODE" => $d ["postdk_postalcode"],
+
+		"QUICKLINK_ICON" => $d ["quicklink_icon"], "DISPLAY_NEW_ORDERS" => $d ["display_new_orders"], "DISPLAY_NEW_CUSTOMERS" => $d ["display_new_customers"], "DISPLAY_STATISTIC" => $d ['display_statistic'], "EXPAND_ALL" => $d ['expand_all'], "AJAX_CART_DISPLAY_TIME" => $d ['ajax_cart_display_time'], "IMAGE_QUALITY_OUTPUT" => $d ['image_quality_output'], "SEND_CATALOG_REMINDER_MAIL" => $d ['send_catalog_reminder_mail'], "CATEGORY_IN_SEF_URL" => $d ['category_in_sef_url'], "USE_BLANK_AS_INFINITE" => $d ['use_blank_as_infinite'], "USE_ENCODING" => $d ['use_encoding'], "CREATE_ACCOUNT_CHECKBOX" => $d ['create_account_checkbox'],
+
+		"SHOW_QUOTATION_PRICE" => $d ['show_quotation_price'], "CHILDPRODUCT_DROPDOWN" => $d ['childproduct_dropdown'], "PURCHASE_PARENT_WITH_CHILD" => $d ['purchase_parent_with_child'],"ADDTOCART_DELETE" => $d["addtocart_delete"],	"ADDTOCART_UPDATE" => $d["addtocart_update"] , "DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA" => $d["display_out_of_stock_attribute_data"])
 		;
 
 		if ($d ["cart_timeout"] <= 0) {
@@ -410,19 +401,6 @@ class Redconfiguration {
 		} else {
 			$config_array ["CART_TIMEOUT"] = $d ["cart_timeout"];
 		}
-
-		/*if($d["default_quotation_mode"]==1)
-		{
-			$config_array["DEFAULT_QUOTATION_MODE"] = $this->setQuotationMode($d);
-		} else {
-			$config_array["DEFAULT_QUOTATION_MODE"] = $d["default_quotation_mode"];
-		}*/
-
-		/*if($d["show_price"] == 1){
-			$config_array["SHOW_PRICE"] = $this->showPrice($d);
-		}else{
-			$config_array["SHOW_PRICE"] = $d["show_price"];
-		}*/
 
 		$config_array ["DEFAULT_QUOTATION_MODE_PRE"] = $d ["default_quotation_mode"];
 
@@ -449,35 +427,26 @@ class Redconfiguration {
 	 *
 	 * IMPORTANT: we need to call this function in plugin or module manually to see the effect of this variables
 	 */
-	function defineDynamicVars() {
-
-		/*if (!defined('SHOW_PRICE')){
-			if(SHOW_PRICE_PRE == 1){
-				define ('SHOW_PRICE', $this->showPrice());
-			}else{
-				define ('SHOW_PRICE', SHOW_PRICE_PRE);
-			}
-		}*/
-
-		if (! defined ( 'SHOW_PRICE' )) {
-
+	function defineDynamicVars()
+	{
+		if (! defined ( 'SHOW_PRICE' ))
+		{
 			define ( 'SHOW_PRICE', $this->showPrice () );
 			define ( 'USE_AS_CATALOG', $this->getCatalog () );
-			//	echo SHOW_PRICE;die();
-
-
 		}
-
-		if (! defined ( 'DEFAULT_QUOTATION_MODE' )) {
-			if (DEFAULT_QUOTATION_MODE_PRE == 1) {
+		if (! defined ( 'DEFAULT_QUOTATION_MODE' ))
+		{
+			if (DEFAULT_QUOTATION_MODE_PRE == 1)
+			{
 				define ( 'DEFAULT_QUOTATION_MODE', $this->setQuotationMode () );
 			} else {
 				define ( 'DEFAULT_QUOTATION_MODE', DEFAULT_QUOTATION_MODE_PRE );
 			}
 		}
-
-		if (! defined ( 'MAGIC_MAGNIFYPLUS' )) {
-			if (MAGIC_MAGNIFYPLUS_PRE == 0) {
+		if (! defined ( 'MAGIC_MAGNIFYPLUS' ))
+		{
+			if (MAGIC_MAGNIFYPLUS_PRE == 0)
+			{
 				define ( 'MAGIC_MAGNIFYPLUS', $this->checkMagicMagnity () );
 			} else {
 				define ( 'MAGIC_MAGNIFYPLUS', MAGIC_MAGNIFYPLUS_PRE );
@@ -485,284 +454,225 @@ class Redconfiguration {
 		}
 	}
 
-	function checkMagicMagnity() {
+	function checkMagicMagnity()
+	{
 		jimport ( 'joomla.application.module.helper' );
 		return JModuleHelper::isEnabled ( 'redmagicmagnifyplus' );
 	}
 
-	function showPrice() {
-
+	function showPrice()
+	{
 		$user = JFactory::getUser ();
-		$db = JFactory::getDBO ();
 		$userhelper = new rsUserhelper();
-
-		if (! $user->id) {
-
-			$q_shopper_grp = "select show_price,is_logged_in FROM  #__" . $this->_table_prefix . "_shopper_group where shopper_group_id ='" . SHOPPER_GROUP_DEFAULT_PRIVATE . "'";
-			$db->setQuery ( $q_shopper_grp );
-			$r_shopper_grp = $db->loadObject ();
-			if ($r_shopper_grp) {
-				if ($r_shopper_grp->is_logged_in == 0) {
-					return 0;
-				}
-
-				if (($r_shopper_grp->show_price == "yes") || ($r_shopper_grp->show_price == "global" && SHOW_PRICE_PRE == 1) || ($r_shopper_grp->show_price == "" && SHOW_PRICE_PRE == 1)) {
-					return 1;
-				} else {
-					return 0;
-				}
-			} else {
-
-				return SHOW_PRICE_PRE;
-			}
-
-		} else {
-
-		     $getShopperGroupID= $userhelper->getShopperGroup($user->id);
-
-
-
-			//$sql = "SELECT shopper_group_id FROM  #__" . $this->_table_prefix . "_users_info AS ui   WHERE user_id = " . $user->id . " AND address_type='BT' ";
-			//die();
-			//$db->setQuery ( $sql );
-			//$shopper_group = $db->loadObject ();
-;
+		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+		if($user->id)
+		{
+			$getShopperGroupID= $userhelper->getShopperGroup($user->id);
 			if($getShopperGroupID)
 			{
-				$q_shopper_grp = "select show_price FROM  #__" . $this->_table_prefix . "_shopper_group where shopper_group_id ='" . $getShopperGroupID . "'";
-				$db->setQuery ( $q_shopper_grp );
-				$r_shopper_grp = $db->loadObject ();
-				if ($r_shopper_grp)
-				{
-					if (($r_shopper_grp->show_price == "yes") || ($r_shopper_grp->show_price == "global" && SHOW_PRICE_PRE == 1) || ($r_shopper_grp->show_price == "" && SHOW_PRICE_PRE == 1)) {
-						return 1;
-					} else {
-						return 0;
-					}
-				} else {
-					return SHOW_PRICE_PRE;
-				}
-			}
-			else
-			{
-				return SHOW_PRICE_PRE;
+				$shopper_group_id = $getShopperGroupID;
 			}
 		}
-	}
-
-	function getCatalog() {
-
-		$user = JFactory::getUser ();
-		$db = JFactory::getDBO ();
-		$userhelper = new rsUserhelper();
-
-		if (! $user->id) {
-
-			$q_catalog = "select use_as_catalog, is_logged_in FROM  #__" . $this->_table_prefix . "_shopper_group where shopper_group_id ='" . SHOPPER_GROUP_DEFAULT_PRIVATE . "'";
-			$db->setQuery ( $q_catalog );
-			$r_catalog = $db->loadObject ();
-			if ($r_catalog) {
-
-				if ($r_catalog->is_logged_in == 0) {
-					return 0;
-				}
-
-				if (($r_catalog->use_as_catalog == "yes") || ($r_catalog->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1) || ($r_catalog->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1)) {
-					return 1;
-				} else {
-					return 0;
-				}
-			} else {
-				return PRE_USE_AS_CATALOG;
-			}
-
-		} else {
-
-  			$getShopperGroupID= $userhelper->getShopperGroup($user->id);
-			//$sql = "SELECT shopper_group_id FROM  #__" . $this->_table_prefix . "_users_info AS ui   WHERE user_id = " . $user->id . " AND address_type='BT' ";
-
-			//$db->setQuery ( $sql );
-			//$shopper_group = $db->loadObject ();
-			if($getShopperGroupID)
+		$qurey = "SELECT show_price FROM ".$this->_table_prefix."shopper_group "
+				."WHERE shopper_group_id='".$shopper_group_id."'";
+		$this->_db->setQuery($qurey);
+		$list = $this->_db->loadObject();
+		if($list)
+		{
+			if (($list->show_price == "yes") || ($list->show_price == "global" && SHOW_PRICE_PRE == 1) || ($list->show_price == "" && SHOW_PRICE_PRE == 1))
 			{
-				$q_catalog = "select use_as_catalog FROM  #__" . $this->_table_prefix . "_shopper_group where shopper_group_id ='" . $getShopperGroupID . "'";
-				$db->setQuery ( $q_catalog );
-				$r_catalog = $db->loadObject ();
-				if ($r_catalog) {
-
-					if (($r_catalog->use_as_catalog == "yes") || ($r_catalog->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1) || ($r_catalog->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1)) {
-						return 1;
-					} else {
-						return 0;
-					}
-				} else {
-					return PRE_USE_AS_CATALOG;
-				}
-			} else {
-				return PRE_USE_AS_CATALOG;
-			}
-		}
-
-	}
-
-	/*function showPrice(){
-
-		$user	=& JFactory::getUser();
-		$db = & JFactory :: getDBO();
-		$user_group=array();
-		$filter_user_group=array();
-	    $show_price_shopper_group_list = SHOW_PRICE_SHOPPER_GROUP_LIST ? SHOW_PRICE_SHOPPER_GROUP_LIST:0;
-
-		if( SHOW_PRICE_USER_GROUP_LIST =='' && SHOW_PRICE_SHOPPER_GROUP_LIST =='' ){
-
-	    	return 1;
-
-	    }else{
-
-	    	if(!$user->id){
-
-	    		$sql = " SELECT FIND_IN_SET('".SHOPPER_GROUP_DEFAULT_PRIVATE."', '".SHOW_PRICE_SHOPPER_GROUP_LIST."') as chk ";
-
-			    $db->setQuery($sql);
-				$user_group = $db->loadObject();
-
-			   	if($user_group->chk > 0){
-			   		return 1;
-			   	}else{
-			   		return 0;
-			   	}
-	    	}
-
-		    $sql = "SELECT shopper_group_id FROM  #__".$this->_table_prefix."_users_info AS ui   WHERE user_id = ".$user->id. " AND address_type='BT' ";
-
-			$db->setQuery($sql);
-			$shopper_group = $db->loadObject();
-
-
-			$sql = "SELECT FIND_IN_SET('".$user->gid."', '".SHOW_PRICE_USER_GROUP_LIST."') as user_group UNION "
-		    			. " SELECT FIND_IN_SET('".$shopper_group->shopper_group_id."', '".SHOW_PRICE_SHOPPER_GROUP_LIST."') ";
-
-		    $db->setQuery($sql);
-			$filter_user_group = $db->loadAssocList();
-
-		   if(array_key_exists("user_group",$filter_user_group[0]))
-			{
-				if(count($filter_user_group)==1 && @$filter_user_group[0]->user_group == 0){
-		   			return 0;
-		   		}else{
-		   			return 1;
-		   		}
-			}
-		   	else{
-		   		return 1;
-		   	}
-	    }
-	}*/
-
-	function setQuotationMode() {
-		$user = & JFactory::getUser ();
-		$db = & JFactory::getDBO ();
-
-		$shopper_group_quotation = 0;
-		if (! $user->id) {
-			$sql = "SELECT * FROM #__" . $this->_table_prefix . "_shopper_group AS sg " . "WHERE shopper_group_id=" . SHOPPER_GROUP_DEFAULT_PRIVATE;
-			$db->setQuery ( $sql );
-			$shopper_group = $db->loadObject ();
-			if (count ( $shopper_group ) > 0) {
-				$shopper_group_quotation = $shopper_group->shopper_group_quotation_mode;
-			}
-			if ($shopper_group_quotation == 1) {
 				return 1;
 			} else {
-
 				return 0;
 			}
-		}
-		$sql = "SELECT * FROM #__" . $this->_table_prefix . "_users_info AS ui " . "LEFT JOIN #__" . $this->_table_prefix . "_shopper_group AS sg ON sg.shopper_group_id=ui.shopper_group_id " . "WHERE user_id=" . $user->id . " AND address_type='BT' ";
-		$db->setQuery ( $sql );
-		$shopper_group = $db->loadObject ();
-		if (count ( $shopper_group ) > 0) {
-			$shopper_group_quotation = $shopper_group->shopper_group_quotation_mode;
 		} else {
+			return SHOW_PRICE_PRE;
+		}
+	}
 
+	function getCatalog()
+	{
+		$user = JFactory::getUser ();
+		$userhelper = new rsUserhelper();
+		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+		if($user->id)
+		{
+			$getShopperGroupID= $userhelper->getShopperGroup($user->id);
+			if($getShopperGroupID)
+			{
+				$shopper_group_id = $getShopperGroupID;
+			}
+		}
+		$qurey = "SELECT use_as_catalog FROM ".$this->_table_prefix."shopper_group "
+				."WHERE shopper_group_id='".$shopper_group_id."'";
+		$this->_db->setQuery($qurey);
+		$list = $this->_db->loadObject();
+		if ($list)
+		{
+			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1) || ($list->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1))
+			{
+				return 1;
+			} else {
+				return 0;
+			}
+		} else {
+			return PRE_USE_AS_CATALOG;
+		}
+	}
+
+	function setQuotationMode()
+	{
+		$user = & JFactory::getUser ();
+		$userhelper = new rsUserhelper();
+		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+		if($user->id)
+		{
+			$getShopperGroupID= $userhelper->getShopperGroup($user->id);
+			if($getShopperGroupID)
+			{
+				$shopper_group_id = $getShopperGroupID;
+			}
+		}
+		$qurey = "SELECT * FROM ".$this->_table_prefix."shopper_group "
+				."WHERE shopper_group_id='".$shopper_group_id."'";
+		$this->_db->setQuery($qurey);
+		$list = $this->_db->loadObject();
+		if ($list)
+		{
+			if($list->shopper_group_quotation_mode)
+			{
+				return 1;
+			} else {
+				return 0;
+			}
+		} else {
 			return DEFAULT_QUOTATION_MODE_PRE;
 		}
-		if ($shopper_group_quotation == 1) {
-			return 1;
-		} else {
-
-			return 0;
-		}
 	}
 
-	function countryList($countryList) {
-		$country_list = explode ( ',', $countryList );
-		$tmp = new stdClass ();
-		$tmp = @array_merge ( $tmp, $country_list );
-		$country_listCode = '';
-		$i = '';
-		if ($country_list) {
-			foreach ( $country_list as $key => $value ) {
-				$country_listCode .= "'" . $value . "'";
-				$i ++;
-				if ($i < count ( $country_list )) {
-					$country_listCode .= ',';
-				}
-
-			}
-			return $country_listCode;
-		}
-	}
-	function maxchar($desc = '', $maxchars = 0, $suffix = '') {
-
+	function maxchar($desc = '', $maxchars = 0, $suffix = '')
+	{
 		$strdesc = '';
-
-		if (( int ) $maxchars <= 0) {
-
+		if (( int ) $maxchars <= 0)
+		{
 			$strdesc = $desc;
-
-		} else {
-			$strdesc = $this->substrws ( $desc, $maxchars );
-			//$strdesc = substr($desc,0,$maxchars) ;
-			if (strlen ( $desc ) >= $maxchars) {
-
-				$strdesc .= $suffix;
-			}
-
+		}
+		else
+		{
+			$strdesc = $this->substrws ( $desc, $maxchars, $suffix);
 		}
 		return $strdesc;
 	}
 
-	function substrws($text, $len = 50) {
+	function substrws($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
+	{
+		if ($considerHtml)
+		{
+            if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length)
+            {
+                return $text;
+            }
+            $totalLength = strlen(strip_tags($ending));
+            $openTags = array();
+            $truncate = '';
 
-		if ((strlen ( $text ) > $len)) {
+            preg_match_all('/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER);
+            foreach ($tags as $tag)
+            {
+                if (!preg_match('/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2]))
+                {
+                    if (preg_match('/<[\w]+[^>]*>/s', $tag[0]))
+                    {
+                        array_unshift($openTags, $tag[2]);
+                    }
+                    else if (preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag))
+                    {
+                        $pos = array_search($closeTag[1], $openTags);
+                        if ($pos !== false)
+                        {
+                            array_splice($openTags, $pos, 1);
+                        }
+                    }
+                }
+                $truncate .= $tag[1];
 
-			$whitespaceposition = strpos ( $text, " ", $len ) - 1;
-
-			if ($whitespaceposition > 0)
-				$text = substr ( $text, 0, ($whitespaceposition + 1) );
-
-			// close unclosed html tags
-			if (preg_match_all ( "|<([a-zA-Z]+)>|", $text, $aBuffer )) {
-
-				if (! empty ( $aBuffer [1] )) {
-
-					preg_match_all ( "|</([a-zA-Z]+)>|", $text, $aBuffer2 );
-
-					if (count ( $aBuffer [1] ) != count ( $aBuffer2 [1] )) {
-
-						foreach ( $aBuffer [1] as $index => $tag ) {
-
-							if (empty ( $aBuffer2 [1] [$index] ) || $aBuffer2 [1] [$index] != $tag)
-								$text .= '</' . $tag . '>';
-						}
-					}
-				}
-			}
-		}
-
-		return $text;
+                $contentLength = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3]));
+                if ($contentLength + $totalLength > $length)
+                {
+                    $left = $length - $totalLength;
+                    $entitiesLength = 0;
+                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE))
+                    {
+                        foreach ($entities[0] as $entity)
+                        {
+                            if ($entity[1] + 1 - $entitiesLength <= $left)
+                            {
+                                $left--;
+                                $entitiesLength += strlen($entity[0]);
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    $truncate .= substr($tag[3], 0 , $left + $entitiesLength);
+                    break;
+                }
+                else
+                {
+                    $truncate .= $tag[3];
+                    $totalLength = $contentLength;
+                }
+                if ($totalLength >= $length)
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if (strlen($text) <= $length)
+            {
+                return $text;
+            }
+            else
+            {
+                $truncate = substr($text, 0, $length - strlen($ending));
+            }
+        }
+		if (!$exact)
+		{
+            $spacepos = strrpos($truncate, ' ');
+            if (isset($spacepos))
+            {
+                if ($considerHtml)
+                {
+                    $bits = substr($truncate, $spacepos);
+                    preg_match_all('/<\/([a-z])>/', $bits, $droppedTags, PREG_SET_ORDER);
+                    if (!empty($droppedTags))
+                    {
+                        foreach ($droppedTags as $closingTag)
+                        {
+                            if (!in_array($closingTag[1], $openTags))
+                            {
+                                array_unshift($openTags, $closingTag[1]);
+                            }
+                        }
+                    }
+                }
+                $truncate = substr($truncate, 0, $spacepos);
+            }
+        }
+        $truncate .= $ending;
+		if ($considerHtml)
+		{
+            foreach ($openTags as $tag)
+            {
+                $truncate .= '</'.$tag.'>';
+            }
+        }
+        return $truncate;
 	}
+
 	/**
 	 * Method to get date format
 	 *
@@ -819,9 +729,11 @@ class Redconfiguration {
 	function convertDateFormat($date)
 	{
 		$JApp =& JFactory::getApplication();
-		#$dateobj=& JFactory::getDate($date);
-		#$dateobj->setOffset($JApp->getCfg('offset'));
-		#$date = strtotime($dateobj->toFormat());
+		if($date<=0)
+		$date = time();
+		$dateobj=& JFactory::getDate($date);
+		$dateobj->setOffset($JApp->getCfg('offset'));
+		//$date = strtotime($dateobj->toFormat());
 		if (DEFAULT_DATEFORMAT)
 		{
 			$convertformat = date ( DEFAULT_DATEFORMAT, $date);
@@ -880,32 +792,32 @@ class Redconfiguration {
 		return $convertformat;
 	}
 
-	function getCountryId($conid) {
-		$db = & JFactory::getDBO ();
-		$query = 'SELECT country_id FROM #__' . TABLE_PREFIX . '_country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
-		$db->setQuery ( $query );
-		return $db->loadResult ();
+	function getCountryId($conid)
+	{
+		$query = 'SELECT country_id FROM '.$this->_table_prefix.'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
+		$this->_db->setQuery ( $query );
+		return $this->_db->loadResult ();
 	}
 
-	function getCountryCode2($conid) {
-		$db = & JFactory::getDBO ();
-		$query = 'SELECT country_2_code FROM #__' . TABLE_PREFIX . '_country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
-		$db->setQuery ( $query );
-		return $db->loadResult ();
+	function getCountryCode2($conid)
+	{
+		$query = 'SELECT country_2_code FROM '.$this->_table_prefix.'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
+		$this->_db->setQuery ( $query );
+		return $this->_db->loadResult ();
 	}
 
-	function getStateCode2($conid) {
-		$db = & JFactory::getDBO ();
-		$query = 'SELECT state_2_code FROM #__' . TABLE_PREFIX . '_state ' . 'WHERE state_3_code LIKE "' . $conid . '"';
-		$db->setQuery ( $query );
-		return $db->loadResult ();
+	function getStateCode2($conid)
+	{
+		$query = 'SELECT state_2_code FROM '.$this->_table_prefix.'state ' . 'WHERE state_3_code LIKE "' . $conid . '"';
+		$this->_db->setQuery ( $query );
+		return $this->_db->loadResult ();
 	}
 
-	function getStateCode($conid, $tax_code) {
-		$db = & JFactory::getDBO ();
-		$query = 'SELECT  state_3_code , show_state FROM #__' . TABLE_PREFIX . '_state ' . 'WHERE state_2_code LIKE "' . $tax_code . '" and country_id="' . $conid . '"';
-		$db->setQuery ( $query );
-		$rslt_data = $db->loadObjectList ();
+	function getStateCode($conid, $tax_code)
+	{
+		$query = 'SELECT  state_3_code , show_state FROM '.$this->_table_prefix.'state ' . 'WHERE state_2_code LIKE "' . $tax_code . '" and country_id="' . $conid . '"';
+		$this->_db->setQuery ( $query );
+		$rslt_data = $this->_db->loadObjectList ();
 
 		if ($rslt_data [0]->show_state == 3) {
 			$state_code = $rslt_data [0]->state_3_code;
@@ -915,108 +827,324 @@ class Redconfiguration {
 		return $state_code;
 	}
 
-	function getCountryList($setcountry_code = 0, $country_codename = "country_code") {
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+	function countryList()
+	{
+		if(empty($this->_country_list))
+		{
+			require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+			$redhelper = new redhelper();
 
-		$redhelper = new redhelper ();
-		$db = jFactory::getDBO ();
-		$country_listCode = $this->countryList ( COUNTRY_LIST );
+			$countries = array();
+			if(COUNTRY_LIST)
+			{
+				$country_list = explode(',',COUNTRY_LIST);
+				if(count($country_list)>0)
+				{
+					$country_listCode = implode("','",$country_list);
+					$country_listCode = "'".$country_listCode."'";
 
-		$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext ' . 'FROM #__' . TABLE_PREFIX . '_country ' . 'WHERE country_3_code IN (' . $country_listCode . ') ' . 'ORDER BY country_name ASC';
-		$db->setQuery ( $q );
-		$countries = $db->loadObjectList ();
-		$countries = $redhelper->convertLanguageString ( $countries );
-
-		$stylecountry = '';
-		$totalcountries = count ( $countries );
-		if (count ( $countries ) == 1) {
-
-			$setcountry_code = $countries [0]->value;
-			$totalcountries = 1;
+					$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM '.$this->_table_prefix.'country '
+						.'WHERE country_3_code IN ('.$country_listCode.') '
+						.'ORDER BY country_name ASC';
+					$this->_db->setQuery($q);
+					$countries = $this->_db->loadObjectList();
+					$countries = $redhelper->convertLanguageString($countries);
+				}
+			}
+			$this->_country_list = $countries;
 		}
-		$temps = array ();
-		$temps [0]->value = "0";
-		$temps [0]->text = JText::_('COM_REDSHOP_SELECT' );
-		$countries = @array_merge ( $temps, $countries );
-		return JHTML::_ ( 'select.genericlist', $countries, $country_codename, 'class="inputbox" onchange="changeStateList' . $country_codename . '();"', 'value', 'text', $setcountry_code );
+		return $this->_country_list;
 	}
 
-	function getStateList($setstate_code = 0, $setcountry_code = 0, $state_codename = "state_code", $country_codename = "country_code") {
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+	function getCountryList($post=array(), $country_codename="country_code", $address_type="BT", $country_class="inputbox")
+	{
+		$address_type = ($address_type=="ST") ? "_ST" : "";
+		$countries = $this->countryList();
+		if(count($countries)==1)
+		{
+			$post['country_code'.$address_type] = $countries[0]->value;
+		} elseif(!isset($post['country_code'.$address_type])) {
+			$post['country_code'.$address_type] = SHOP_COUNTRY;
+		}
+		$temps = array();
+		$temps[0]->value = '';
+		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$temps = array_merge($temps, $countries);
 
-		$redhelper = new redhelper ();
-		$db = jFactory::getDBO ();
+		$selectedcnt = '';
+		for($i=0;$i<count($countries);$i++)
+		{
+			if($countries[$i]->value==$post['country_code'.$address_type])
+			{
+				$selectedcnt = $post['country_code'.$address_type];
+			}
+		}
+		$return = array();
+		$return['countrylist'] = $countries;
+		$return['country_code'.$address_type] = $selectedcnt;
+		$return['country_dropdown'] = JHTML::_('select.genericlist', $temps, $country_codename, 'class="'.$country_class.'" onchange="changeStateList'.$country_codename.'(this.form,this.id);"', 'value', 'text', @$post['country_code'.$address_type]);
+		return $return;
+	}
 
-		$country_listCode = $this->countryList ( COUNTRY_LIST );
+	function getStateList($post=array(), $state_codename="state_code", $country_codename="country_code", $address_type="BT", $isAdmin=0, $state_class="inputbox")
+	{
+		$selected_country_code = ($address_type=="ST") ? @$post['country_code_ST'] : @$post['country_code'];
+		$selected_state_code= ($address_type=="ST") ? @$post['state_code_ST'] : @$post['state_code'];
+		if(empty($selected_state_code))
+		{
+			$selected_state_code = "originalPos";
+		}
+		else
+		{
+			$selected_state_code = "'".$selected_state_code."'";
+		}
 		$varState = array ();
+		$states = array();
+		if(COUNTRY_LIST)
+		{
+			$country_list = explode(',',COUNTRY_LIST);
+			if(count($country_list)>0)
+			{
+				$country_listCode = implode("','",$country_list);
+				$country_listCode = "'".$country_listCode."'";
 
-		$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext ' . 'FROM #__' . TABLE_PREFIX . '_country ' . 'WHERE country_3_code IN (' . $country_listCode . ') ' . 'ORDER BY country_name ASC';
-		$db->setQuery ( $q );
-		$countries = $db->loadObjectList ();
-		$totalcountries = count ( $countries );
-		if ($totalcountries == 1 && $setcountry_code == 0) {
-			$setcountry_code = $countries [0]->value;
+				$q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM '.$this->_table_prefix.'country AS c '
+					.','.$this->_table_prefix.'state s '
+					.'WHERE (c.country_id=s.country_id OR s.country_id IS NULL) '
+					.'AND c.country_3_code IN ('.$country_listCode.') '
+					.'ORDER BY c.country_id, s.state_name ';
+				$this->_db->setQuery($q);
+				$states = $this->_db->loadObjectList();
+			}
 		}
 
-		$db->setQuery ( "SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__" . TABLE_PREFIX . "_country c,#__" . TABLE_PREFIX . "_state s
-						WHERE (c.country_id=s.country_id OR s.country_id IS NULL)
-						AND (c.country_3_code in (" . $country_listCode . "))
-						ORDER BY c.country_id, s.state_name" );
-		$states = $db->loadObjectList ();
+		$q = 'SELECT count(state_id) FROM '.$this->_table_prefix.'state AS s '
+			.','.$this->_table_prefix.'country AS c '
+			.'WHERE c.country_id = s.country_id '
+			.'AND c.country_3_code="'.$selected_country_code.'" ';
+		$this->_db->setQuery($q);
+		$is_states = $this->_db->loadResult();
+
 		// Build the State lists for each Country
-		$script = "<script language=\"javascript\" type=\"text/javascript\">";
-		$script .= "var originalPos = '$setcountry_code';\n";
-		$script .= "var states = new Array();\n";
+		$script = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
+		$script .= "<!--\n";
+		$script .= "var originalOrder = '1';\n";
+		$script .= "var originalPos = '$selected_country_code';\n";
+		$script .= "var states".$address_type." = new Array();	// array in the format [key,value,text]\n";
 		$i = 0;
 		$prev_country = '';
-
-		for($j = 0; $j < count ( $states ); $j ++) {
-			$state = $states [$j];
-			$country_3_code = $state->country_3_code;
-			if ($state->state_name) {
-				if ($prev_country != $country_3_code) {
-					$script .= "states[" . $i ++ . "] = new Array( '" . $country_3_code . "','',' -= " . JText::_ ( "SELECT" ) . " =-' );\n";
-					$varState [0]->value = 0;
-					$varState [0]->text = JText::_ ( "SELECT" );
+		for($j=0;$j<count($states );$j++)
+		{
+		    $state = $states[$j];
+			$country_3_code =  $state->country_3_code;
+			if( $state->state_name)
+			{
+				if( $prev_country != $country_3_code )
+				{
+					$script .= "states".$address_type."[".$i++."] = new Array( '".$country_3_code."','','".JText::_("COM_REDSHOP_SELECT")."' );\n";
+					$varState[0]->value = '';
+					$varState[0]->text = JText::_ ( "COM_REDSHOP_SELECT" );
 				}
 				$prev_country = $country_3_code;
 				// array in the format [key,value,text]
-				$script .= "states[" . $i ++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes ( JText::_ ( $state->state_name ) ) . "' );\n";
-				if ($country_3_code == $setcountry_code) {
-					$varState [$i]->value = $state->state_2_code;
-					$varState [$i]->text = JText::_ ( $state->state_name );
+				$script .= "states".$address_type."[".$i++."] = new Array( '".$country_3_code."','".$state->state_2_code."','".addslashes($state->state_name)."' );\n";
+				if ($country_3_code == $selected_country_code)
+				{
+					$varState[$i]->value = $state->state_2_code;
+					$varState[$i]->text = JText::_($state->state_name);
 				}
-			} else {
-				$script .= "states[" . $i ++ . "] = new Array( '" . $country_3_code . "','','" . JText::_ ( "NONE" ) . "' );\n";
+			}
+			else
+			{
+				$script .= "states".$address_type."[".$i++."] = new Array( '".$country_3_code."','','".JText::_("COM_REDSHOP_NONE")."' );\n";
 			}
 		}
-		$j = 0;
-		$script .= "\nvar stated = new Array();\n";
-		foreach($states as $maybe)
-		{
-			if(!$stated[$maybe->country_3_code] == $maybe->country_3_code){
-			$script .= "stated[".$j++."] = new Array( '".$maybe->country_3_code."','','" . JText::_ ( "NONE" ) . "'  );\n";
-			}
-			$stated[$maybe->country_3_code] = $maybe->country_3_code;
-		}
-
 		$script .= "
-		function changeStateList" . $country_codename . "() {
-		  var selected_country = null;
-		  for (var i=0; i<document.adminForm." . $country_codename . ".length; i++)
-		  {
-		  	if (document.adminForm." . $country_codename . "[i].selected)
-		  	{
-				selected_country = document.adminForm." . $country_codename . "[i].value;
+		function writeDynaList".$country_codename."( selectParams, source, key, orig_key, orig_val )
+		{
+			var html = '<select ' + selectParams + '>';
+	        var i = 0;
+	        for (x in source)
+	        {
+                if (source[x][0] == key)
+                {
+                	var selected = '';
+                    if ((orig_key == key && orig_val == source[x][1]) || (i == 0 && orig_key != key)) {
+                    	selected = 'selected=\"selected\"';
+	                }
+	                html += '<option value=\"'+source[x][1]+'\" '+selected+'>'+source[x][2]+'</option>';
+                }
+                i++;
+        	}
+        	html += '</select>';
+			document.writeln( html );
+		}
+		function changeDynaList".$country_codename."( form, listname, source, key, orig_key, orig_val )
+		{
+			var list = document.getElementById(listname);
+			//var list = eval( 'form.' + listname );
+			// empty the list
+			for (i in list.options.length)
+			{
+				list.options[i] = null;
 			}
-		  }
-		  eval(changeDynaList('" . $state_codename . "',states,selected_country, originalPos, 1));
-	 	}
-		</script>";
-		$script .= JHTML::_ ( 'select.genericlist', $varState, $state_codename, 'class="inputbox" ', 'value', 'text', $setstate_code );
-		return $script;
-	}
+			i = 0;
+			for (x in source)
+			{
+				if (source[x][0] == key)
+				{
+					opt = new Option();
+					opt.value = source[x][1];
+					opt.text = source[x][2];
 
-}
-?>
+					if ((orig_key == key && orig_val == opt.value) || i == 0) {
+						opt.selected = true;
+					}
+					list.options[i++] = opt;
+				}
+			}
+			list.length = i;
+			if(list.length <=0 )
+			{
+				if(listname=='state_code_ST')
+				{
+					if(document.getElementById('div_state_st_lbl'))
+					{
+						document.getElementById('div_state_st_lbl').style.display='none';
+					}
+					if(document.getElementById('div_state_st_txt'))
+					{
+						document.getElementById('div_state_st_txt').style.display='none';
+					}
+					if(document.getElementById('div_state_st_req'))
+					{
+						document.getElementById('div_state_st_req').style.display='none';
+					}
+				}
+				else
+				{
+					if(document.getElementById('div_state_lbl'))
+					{
+						document.getElementById('div_state_lbl').style.display='none';
+					}
+					if(document.getElementById('div_state_txt'))
+					{
+						document.getElementById('div_state_txt').style.display='none';
+					}
+					if(document.getElementById('div_state_req'))
+					{
+						document.getElementById('div_state_req').style.display='none';
+					}
+				}
+			}
+			else
+			{
+				if(listname=='state_code_ST')
+				{
+					if(document.getElementById('div_state_st_lbl'))
+					{
+						document.getElementById('div_state_st_lbl').style.display='';
+					}
+					if(document.getElementById('div_state_st_txt'))
+					{
+						document.getElementById('div_state_st_txt').style.display='';
+					}
+					if(document.getElementById('div_state_st_req'))
+					{
+						document.getElementById('div_state_st_req').style.display='';
+					}
+				}
+				else
+				{
+					if(document.getElementById('div_state_lbl'))
+					{
+						document.getElementById('div_state_lbl').style.display='';
+					}
+					if(document.getElementById('div_state_txt'))
+					{
+						document.getElementById('div_state_txt').style.display='';
+					}
+					if(document.getElementById('div_state_req'))
+					{
+						document.getElementById('div_state_req').style.display='';
+					}
+				}
+			}
+		}
+		function changeStateList".$country_codename."(form,objId)
+		{
+			var newlist = document.getElementById('".$country_codename."');
+			var selected_country = newlist.value;
+			//var selected_country = null;
+			//for (var i=0; i<form.".$country_codename.".length; i++)
+			//{
+			//	if (form.".$country_codename."[i].selected)
+			//	{
+			//		selected_country = form.".$country_codename."[i].value;
+			//	}
+			//}
+
+			if(objId=='country_code_ST')
+			{
+				if(document.getElementById('zipcode_ST'))
+				{
+					if(selected_country=='IRL')
+					{
+						document.getElementById('zipcode_ST').className='inputbox required valid';
+					}
+					else
+					{
+						document.getElementById('zipcode_ST').className='inputbox required error';
+					}
+				}
+			}
+			else
+			{
+				if(document.getElementById('zipcode'))
+				{
+					if(selected_country=='IRL')
+					{
+						document.getElementById('zipcode').className='inputbox required valid';
+					}
+					else
+					{
+						document.getElementById('zipcode').className='inputbox required error';
+					}
+				}
+			}
+			labels = document.getElementsByTagName('label');
+			var labels;
+			for (var i = 0; i < labels.length; i++)
+			{
+    			if((objId=='country_code_ST' && labels[i].htmlFor == 'zipcode_ST') || (objId=='country_code' && labels[i].htmlFor == 'zipcode'))
+    			{
+    				if(selected_country=='IRL')
+					{
+						labels[i].style.display='';
+					}
+					else
+					{
+						labels[i].style.display='inline';
+					}
+				}
+			}
+			eval(changeDynaList".$country_codename."(form,'".$state_codename."',states".$address_type.",selected_country, originalPos, originalOrder));
+	 	}";
+		if(!$isAdmin)
+		{
+			$script .= "writeDynaList".$country_codename."( 'class=\"".$state_class."\" name=\"".$state_codename."\" size=\"1\" id=\"".$state_codename."\"', states".$address_type.", originalPos, originalPos, $selected_state_code ); ";
+		}
+		$script .= "//-->
+		//]]></script>";
+		if($isAdmin)
+		{
+			$script .= JHTML::_ ( 'select.genericlist', $varState, $state_codename, 'class="'.$state_class.'" ', 'value', 'text', $selected_state_code );
+		}
+
+		$return = array();
+		$return['statelist'] = $states;
+		$return['is_states'] = $is_states;
+		$return['state_dropdown'] = $script;
+		return $return;
+	}
+}?>

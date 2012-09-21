@@ -36,7 +36,6 @@ class fieldsViewfields extends JView
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_FIELDS_MANAGEMENT' ), 'redshop_fields48' );
 
-
  		JToolBarHelper::addNewX();
  		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
@@ -45,7 +44,6 @@ class fieldsViewfields extends JView
 
 		$uri	= JFactory::getURI();
 		$fields			= $this->get( 'Data');
-		$total			= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 		$optiontype = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
@@ -61,12 +59,13 @@ class fieldsViewfields extends JView
 		$lists['type'] 		= JHTML::_('select.genericlist',$optiontype,  'filtertypes', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text',$filtertypes);
 		$lists['section'] 	= JHTML::_('select.genericlist',$optionsection,  'filtersection', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text',  $filtersection );
 
-	    $this->assignRef('user',		JFactory::getUser());
+	    //$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
 	    $this->assignRef('lists',		$lists);
 	  	$this->assignRef('fields',		$fields);
 	    $this->assignRef('pagination',	$pagination);
-	    $this->assignRef('request_url',	$uri->toString());
+	    //$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
   }
 }
-?>

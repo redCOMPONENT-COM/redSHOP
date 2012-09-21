@@ -23,9 +23,6 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$producthelper = new producthelper();
-		$option = JRequest::getVar('option');
-
 		$section = JRequest::getVar('section');
 		$model = $this->getModel ( 'accessmanager_detail' );
 		$accessmanager	= $model->getaccessmanager();
@@ -71,11 +68,10 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 			return null;
 		}
 
-
-
 		return ($groups);
 
 	}
+
 	function formatGroup($groups)
 	{	$returnable=array();
 		foreach($groups as $key=>$val)
@@ -84,4 +80,4 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 		}
 		return $returnable;
 	}
-}	?>
+}

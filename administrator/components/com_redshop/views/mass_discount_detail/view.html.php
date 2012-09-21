@@ -23,7 +23,6 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 {
 	function display($tpl = null)
 	{
-
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT_DETAIL' ), 'redshop_discountmanagmenet48' );
 
 		$uri = JFactory::getURI();
@@ -115,4 +114,3 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>

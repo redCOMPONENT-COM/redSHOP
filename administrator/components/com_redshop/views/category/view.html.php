@@ -21,11 +21,6 @@ jimport( 'joomla.application.component.view' );
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'category.php' );
 class categoryViewcategory extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -53,14 +48,11 @@ class categoryViewcategory extends JView
 
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'c.ordering' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
-		$limitstart     = $mainframe->getUserStateFromRequest( $context.'limitstart',      'limitstart', 	  '0' );
-		$limit = $mainframe->getUserStateFromRequest( $context.'limit',  'limit', '10' );
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		 // $categories	= & $this->get( 'Data');
+
 		$GLOBALS['catlist'] = array();
-		$catid=JRequest::getVar('category_id',0,'');
 		$categories	= $this->get( 'Data');
 
 		$pagination = $this->get( 'Pagination' );
@@ -68,7 +60,7 @@ class categoryViewcategory extends JView
 		$optionsection = array();
 		$optionsection[]   = JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
 		$category_id = $mainframe->getUserStateFromRequest( $context.'category_id',  'category_id', '' );
-		$category_name = $mainframe->getUserStateFromRequest( $context.'category_name','category_name',0 );
+
 		$category = new product_category();
 		$categories_parent = $category->getParentCategories();
 
@@ -95,13 +87,15 @@ class categoryViewcategory extends JView
 
 	    // End
 
-
 	  	$this->assignRef('category_main_filter',		$category_main_filter);
-    	$this->assignRef('user',		JFactory::getUser());
+    	//$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
     	$this->assignRef('lists',		$lists);
   		$this->assignRef('categories',	$categories);
     	$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
+   	 	//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
+
    	 	parent::display($tpl);
   }
 }

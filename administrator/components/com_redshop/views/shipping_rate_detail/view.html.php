@@ -143,4 +143,5 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 
 		parent::display($tpl);
 	}
-}?>
+}
+

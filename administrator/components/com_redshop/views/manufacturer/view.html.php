@@ -18,12 +18,11 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.view' );
 
-class manufacturerViewmanufacturer extends JView {
-	function __construct($config = array()) {
-		parent::__construct ( $config );
-	}
+class manufacturerViewmanufacturer extends JView
+{
 
-	function display($tpl = null) {
+	function display($tpl = null)
+    {
 		global $mainframe, $context;
 
 		$context='manufacturer_id';
@@ -51,11 +50,13 @@ class manufacturerViewmanufacturer extends JView {
 		$total = $this->get ( 'Total' );
 		$pagination = $this->get ( 'Pagination' );
 
-		$this->assignRef ( 'user', JFactory::getUser());
+		//$this->assignRef ( 'user', JFactory::getUser());
+        $this->user = JFactory::getUser();
 		$this->assignRef ( 'lists', $lists );
 		$this->assignRef ( 'manufacturer', $manufacturer );
 		$this->assignRef ( 'pagination', $pagination );
-		$this->assignRef ( 'request_url', $uri->toString () );
+		//$this->assignRef ( 'request_url', $uri->toString () );
+        $this->request_url = $uri->toString();
 		parent::display ($tpl);
 	}
 }

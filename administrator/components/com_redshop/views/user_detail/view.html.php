@@ -35,9 +35,7 @@ class user_detailVIEWuser_detail extends JView
 		$document->addScript ('components/'.$option.'/assets/js/json.js');
 		$document->addScript ('components/'.$option.'/assets/js/validation.js');
 
-		$myuser		= JFactory::getUser();
-		$acl		= JFactory::getACL();
-		$uri 		= JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
@@ -63,15 +61,13 @@ class user_detailVIEWuser_detail extends JView
 			JToolBarHelper::customX ( 'order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
 			JToolBarHelper::cancel ( 'cancel', 'Close' );
 		}
-		$model = $this->getModel('user_detail');
+
 		$pagination = & $this->get ( 'Pagination' );
 
 		// get groups
 
 		$user_groups = $userhelper->getUserGroupList($detail->users_info_id);
 		$detail->user_groups = $user_groups;
-
-
 
 		$shopper_detail = $userhelper->getShopperGroupList();
 		$temps = array();
@@ -109,8 +105,8 @@ class user_detailVIEWuser_detail extends JView
 		$lists['country_code'] = $countryarray['country_dropdown'];
 		$statearray = $Redconfiguration->getStateList((array)$detail);
 		$lists['state_code'] = $statearray['state_dropdown'];
-		$showcountry = (count($countryarray['countrylist'])==1 && count($statearray['statelist'])==0) ? 0 : 1;
-		$showstates = ($statearray['is_states']<=0) ? 0 : 1;
+		//$showcountry = (count($countryarray['countrylist'])==1 && count($statearray['statelist'])==0) ? 0 : 1;
+		//$showstates = ($statearray['is_states']<=0) ? 0 : 1;
 
 		$this->assignRef('lists',			$lists);
 		$this->assignRef('detail',		$detail);
@@ -118,4 +114,5 @@ class user_detailVIEWuser_detail extends JView
 		$this->assignRef('pagination', $pagination );
 		parent::display($tpl);
 	}
-}	?>
+}
+

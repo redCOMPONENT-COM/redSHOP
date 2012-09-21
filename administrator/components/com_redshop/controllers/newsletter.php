@@ -21,24 +21,14 @@ jimport('joomla.application.component.controller');
 
 class newsletterController extends JController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-
 	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
 
-	function display()
-    {
-        parent::display();
-	}
-
 	function send_newsletter_preview()
 	{
-		$view = & $this->getView('newsletter', 'preview');
+		//$view = & $this->getView('newsletter', 'preview');
         parent::display();
 	}
 

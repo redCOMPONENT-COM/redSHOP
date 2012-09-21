@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class barcodeViewbarcode extends JView
 {
-	function __construct( )
-	{
-		 parent::__construct( );
-	}
-
 	function display($tpl = null)
 	{
         JToolBarHelper::title(JText::_('COM_REDSHOP_BARCODE' ),'redshop_order48');
@@ -37,4 +32,3 @@ class barcodeViewbarcode extends JView
     	parent::display($tpl);
     }
 }
-?>

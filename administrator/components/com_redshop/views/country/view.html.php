@@ -5,15 +5,8 @@ jimport( 'joomla.application.component.view' );
 
 class countryViewcountry extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-
-	}
-
 	function display($tpl = null)
 	{
-		//$document = & JFactory::getDocument();
 		$document = JFactory::getDocument ();
 		$document->setTitle ( JText::_('COM_REDSHOP_COUNTRY' ) );
 
@@ -32,18 +25,18 @@ class countryViewcountry extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$fields			= & $this->get( 'Data');
-		$total = & $this->get( 'Total');
-		$pagination = & $this->get('Pagination');
+		$fields			= $this->get( 'Data');
+		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user',		JFactory::getUser());
+		//$this->assignRef('user',		JFactory::getUser());
+        $this->user = JFactory::getUser();
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('fields',		$fields);
 		$this->assignRef('lists',		$lists);
-  		$this->assignRef('request_url',	$uri->toString());
+  		//$this->assignRef('request_url',	$uri->toString());
+        $this->request_url = $uri->toString();
     	parent::display($tpl);
 
   }
 
 }
-?>
