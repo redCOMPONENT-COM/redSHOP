@@ -45,10 +45,10 @@ class configurationModelconfiguration extends JModel
 			//$value = htmlspecialchars($name, ENT_QUOTES);
 			$filetype = JFile::getExt($name);
 			$values = preg_replace("/[&'#]/","",$name);
-			
-			
+
+
 			 $valuess = str_replace('_', 'and', $values);
-			
+
 			if(strlen($valuess)==0)
 			{
 				$valuess=$id;
@@ -58,7 +58,7 @@ class configurationModelconfiguration extends JModel
 			{
 				 $filename = JPath::clean(time().'_'.$valuess); //Make the filename unique
 			}
-			
+
 			return $filename;
 	}
   	function store($data)
@@ -670,7 +670,7 @@ class configurationModelconfiguration extends JModel
 		$mailfromname = $data['news_from_name'];
 		$to = $data['newsletter_test_email'];
 		$producthelper = new producthelper();
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url= $uri->root();
 
 		// Getting newsletter content
@@ -689,7 +689,7 @@ class configurationModelconfiguration extends JModel
 		$o = new stdClass();
 		$o->text = $newsletter_body;
         JPluginHelper::importPlugin('content');
-        $dispatcher = & JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         $x = array();
         $results = $dispatcher->trigger('onPrepareContent', array (&$o, &$x, 0));
         $newsletter_template2=$o->text;

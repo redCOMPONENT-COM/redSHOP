@@ -29,14 +29,14 @@ class fields_detailVIEWfields_detail extends JView
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL' ), 'redshop_fields48' );
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript ('components/'.$option.'/assets/js/fields.js');
 
-		$uri 		=& JFactory::getURI();
+		$uri 		= JFactory::getURI();
 		$this->setLayout('default');
 		$lists = array();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 		$model = $this->getModel ( 'fields_detail' );
 
 		$filed_data	= $extra_field->getFieldValue($detail->field_id);
@@ -75,9 +75,9 @@ class fields_detailVIEWfields_detail extends JView
 		{
 			$disable = "disabled='disabled' ";
 		}
-		
+
 		$lists['section'] 	= JHTML::_('select.genericlist',$optionsection,  'field_section', 'class="inputbox" size="1" '.$disable.' onchange="sectionValidation(this.value)"', 'value', 'text',  $detail->field_section );
-		
+
 
 		$lists['extra_data']=$filed_data;
 

@@ -18,7 +18,7 @@ JHTML::_('behavior.tooltip');
 
 require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
 $producthelper = new producthelper();
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 
 $post = JRequest::get ( 'get' );
 

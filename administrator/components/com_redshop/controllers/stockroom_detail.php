@@ -18,22 +18,22 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 
-class stockroom_detailController extends JController 
+class stockroom_detailController extends JController
 {
-	function __construct($default = array()) 
+	function __construct($default = array())
 	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	
-	function edit() 
+
+	function edit()
 	{
 		JRequest::setVar ( 'view', 'stockroom_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
 	}
-	
+
 	function preview()
 	{
 		JRequest::setVar ( 'view', 'stockroom_detail' );
@@ -41,13 +41,13 @@ class stockroom_detailController extends JController
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
 	}
-	
-	function apply() 
+
+	function apply()
 	{
 		$this->save(1);
 	}
-	
-	function save($apply=0) 
+
+	function save($apply=0)
 	{
 		$post = JRequest::get ( 'post' );
 		$stockroom_desc = JRequest::getVar( 'stockroom_desc', '', 'post', 'string', JREQUEST_ALLOWRAW );
@@ -64,7 +64,7 @@ class stockroom_detailController extends JController
 		$model = $this->getModel ( 'stockroom_detail' );
 		$post['stockroom_name']=htmlspecialchars($post['stockroom_name']);
 
-		if ($row=$model->store ( $post )) 
+		if ($row=$model->store ( $post ))
 		{
 			$msg = JText::_('COM_REDSHOP_STOCKROOM_DETAIL_SAVED' );
 		} else {
@@ -75,8 +75,8 @@ class stockroom_detailController extends JController
 		else
 			$this->setRedirect ( 'index.php?option=' .$option . '&view=stockroom', $msg );
 	}
-	
-	function remove() 
+
+	function remove()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -93,7 +93,7 @@ class stockroom_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
 	}
 
-	function publish() 
+	function publish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -110,7 +110,7 @@ class stockroom_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
 	}
 
-	function unpublish() 
+	function unpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -127,7 +127,7 @@ class stockroom_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
 	}
 
-	function frontpublish() 
+	function frontpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -144,7 +144,7 @@ class stockroom_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
 	}
 
-	function frontunpublish() 
+	function frontunpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -161,19 +161,19 @@ class stockroom_detailController extends JController
 		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
 	}
 
-	function cancel() 
+	function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
 	}
-	
+
 	function copy()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 		$model = $this->getModel ( 'stockroom_detail' );
-		if ($model->copy($cid)) 
+		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_COPIED' );
 		} else {
@@ -226,7 +226,7 @@ class stockroom_detailController extends JController
 		if(ECONOMIC_INTEGRATION == 1)
 		{
 			$economic = new economic();
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$incNo = $cnt;
 			$query = 'SELECT p.* FROM #__redshop_product AS p '
 					.'LIMIT '.$cnt.', 10 ';

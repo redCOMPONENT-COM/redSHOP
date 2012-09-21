@@ -169,7 +169,7 @@ $product_category = new product_category;
 		 	shRemoveFromGETVarsList('texpricemax');
 		 	shRemoveFromGETVarsList('texpricemin');
 			shRemoveFromGETVarsList('maxproduct');
-		 	
+
 	  	   break;
 
 		case 'product':
@@ -319,7 +319,7 @@ $product_category = new product_category;
 				{
 					$title[] = $layout;
 					if($layout=='portal'){
-						$user =& JFactory::getUser();
+						$user = JFactory::getUser();
 						if($user->id > 0){
 							$title[] = $sh_LANG[$shLangIso]['_REDSHOP_PORTAL_AFTERLOGIN'];
 						}

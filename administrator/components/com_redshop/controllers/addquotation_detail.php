@@ -42,7 +42,7 @@ class addquotation_detailController extends JController
 
 		global $mainframe;
 
-		$acl	= & JFactory::getACL();
+		$acl	= JFactory::getACL();
 
 		if(!$post['users_info_id'])
 		{
@@ -55,12 +55,12 @@ class addquotation_detailController extends JController
 			$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 			$post['gid'] = $acl->get_group_id( '', 'Registered', 'ARO' );
 
-			$date =& JFactory::getDate();
+			$date = JFactory::getDate();
 			$post['registerDate'] = $date->toMySQL();
 			$post['block'] = 0;
 
 			# get Admin order detail Model Object
-			$usermodel = & JModel::getInstance('user_detail', 'user_detailModel');
+			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
 
 			# call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);

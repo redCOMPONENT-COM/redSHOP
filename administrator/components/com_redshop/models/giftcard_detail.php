@@ -98,7 +98,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		}
 		//------------ Start Giftcard Image insertion --------------------
 
-		$giftcardfile =& JRequest::getVar('giftcard_image', '', 'files', 'array' );
+		$giftcardfile = JRequest::getVar('giftcard_image', '', 'files', 'array' );
 		$giftcardimg = "";
 		if($giftcardfile['name']!="")
 		{
@@ -116,7 +116,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 
 		//------------ Start Giftcard BgImage insertion --------------------
 
-		$giftcardbgfile =& JRequest::getVar('giftcard_bgimage', '', 'files', 'array' );
+		$giftcardbgfile = JRequest::getVar('giftcard_bgimage', '', 'files', 'array' );
 		$giftcardbgimg = "";
 		if($giftcardbgfile['name']!="")
 		{

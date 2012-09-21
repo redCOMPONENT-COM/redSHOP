@@ -32,7 +32,7 @@ class Redaccesslevel
 
 	function checkaccessofuser($group_id)
 	{
-        $mainframe =& JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDBO();
@@ -59,7 +59,7 @@ class Redaccesslevel
 	}
 
 	function getgroup_access($view , $group_id){
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDBO();
@@ -76,7 +76,7 @@ class Redaccesslevel
 	}
 
 	function getgroup_accesstaskadd($view , $task , $group_id){
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT *  FROM  ".$this->_table_prefix."accessmanager"
 				." WHERE `section_name` = '".str_replace('_detail','',$view)."' AND `gid` = '".$group_id."'";
@@ -90,7 +90,7 @@ class Redaccesslevel
 	}
 
 	function getgroup_accesstaskedit($view , $task , $group_id){
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT *  FROM  ".$this->_table_prefix."accessmanager"
 				." WHERE `section_name` = '".str_replace('_detail','',$view)."' AND `gid` = '".$group_id."'";
@@ -104,7 +104,7 @@ class Redaccesslevel
 	}
 
 	function getgroup_accesstaskdelete($view , $task , $group_id){
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT *  FROM  ".$this->_table_prefix."accessmanager"
 				." WHERE `section_name` = '".str_replace('_detail','',$view)."' AND `gid` = '".$group_id."'";

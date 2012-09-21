@@ -16,7 +16,7 @@
 defined ('_JEXEC') or die ('restricted access');
 
 $adminproducthelper = new adminproducthelper();
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 
 $ordertotal = $session->get('ordertotal');
 $ordersubtotal = $session->get('ordersubtotal');
@@ -33,5 +33,3 @@ $d['order_subtotal'] = $ordersubtotal;
 $responce = $adminproducthelper->replaceShippingMethod($d,$shipp_users_info_id,0,$shipping_box_post_id);
 
 echo $responce;
-
-?>

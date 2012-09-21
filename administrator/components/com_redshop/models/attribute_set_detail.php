@@ -597,7 +597,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
  function  attribute_empty(){
 
-  	$database =& JFactory::getDBO();
+  	$database = JFactory::getDBO();
   	$producthelper = new producthelper();
 
   	if($this->_id){
@@ -682,7 +682,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	// store stockroom product xref
   function SaveAttributeStockroom($post)
   {
-  	$database =& JFactory::getDBO();
+  	$database = JFactory::getDBO();
 	$query = "DELETE FROM ".$this->_table_prefix."product_attribute_stockroom_xref"
 		     			. "\n  WHERE section_id = ".$post['section_id']." AND section = '".$post['section']."'";
 

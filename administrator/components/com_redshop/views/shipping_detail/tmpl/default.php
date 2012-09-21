@@ -26,14 +26,14 @@ Joomla.submitbutton = function(pressbutton) {
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 {
 	var form = document.adminForm;
 	if(pressbutton=='shipping_rate')
 	{
 		form.view.value="shipping_rate";
 	}
-	if (pressbutton == 'cancel') 
+	if (pressbutton == 'cancel')
 	{
 		submitform( pressbutton );
 		return;
@@ -49,7 +49,7 @@ submitbutton = function(pressbutton)
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset'=>0));
+$myTabs = JPane::getInstance('tabs', array('startOffset'=>0));
 $output = $myTabs->startPane( 'pane' );
 //Create 1st Tab
 echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1' );
@@ -91,7 +91,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CONFIG'), 'tab2' );
 ?>
 <div align="left"><?php
 	JPluginHelper::importPlugin('redshop_shipping');
-	$dispatcher=& JDispatcher::getInstance();
+	$dispatcher= JDispatcher::getInstance();
 	$payment = $dispatcher->trigger('onShowconfig',array($this->detail));
 ?>
 </div>

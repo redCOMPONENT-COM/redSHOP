@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -24,33 +24,33 @@ class product_priceViewproduct_price extends JView
 	}
 
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe, $context;
-		
+
 		$db = JFactory::getDBO();
 		$product_id = JRequest::getVar('pid');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_PRODUCT_PRICE') );
    		jimport('joomla.html.pagination');
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_PRODUCT_PRICE' ), 'redshop_vatrates48' );
-   		
+
    		$sql = "SELECT * FROM #__redshop_product WHERE product_id = '$product_id'";
  	 	$db->setQuery($sql);
-	 	$product = $db->loadObject(); 
-   		
+	 	$product = $db->loadObject();
+
    		$sql = "SELECT g.*,p.product_price,p.price_id,p.price_quantity_end,p.price_quantity_start FROM #__redshop_shopper_group g LEFT JOIN #__redshop_product_price p ON g.shopper_group_id = p.shopper_group_id   AND product_id = '$product_id'";
  	 	$db->setQuery($sql);
-	 	$prices = $db->loadObjectList(); 
-		$uri	=& JFactory::getURI();
- 	 
+	 	$prices = $db->loadObjectList();
+		$uri	= JFactory::getURI();
+
 		$this->assignRef('product',		$product);
-		
+
     	$this->assignRef('prices',		$prices);
-    	 
-		$this->assignRef('pid',	$product_id);   
-  		 
-   	 	$this->assignRef('request_url',	$uri->toString());   
-   	 	 	
+
+		$this->assignRef('pid',	$product_id);
+
+   	 	$this->assignRef('request_url',	$uri->toString());
+
    	 	parent::display($tpl);
 	}
 }?>

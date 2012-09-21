@@ -27,7 +27,7 @@ class media_detailVIEWmedia_detail extends JView
 
 		JToolBarHelper::title(   JText::_('COM_REDSHOP_MEDIAS_MANAGEMENT_DETAIL' ), 'redshop_media48' );
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript ('components/'.$option.'/assets/js/media.js');
 
@@ -35,7 +35,7 @@ class media_detailVIEWmedia_detail extends JView
 
 		$document->addScript ('components/'.$option.'/assets/js/search.js');
 
-		$uri 		=& JFactory::getURI();
+		$uri 		= JFactory::getURI();
 
 		$this->setLayout('default');
 

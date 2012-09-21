@@ -17,7 +17,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
-$uri = & JURI::getInstance ();
+$uri = JURI::getInstance ();
 $url = $uri->root ();
 ?>
 <script language="javascript" type="text/javascript">
@@ -25,7 +25,7 @@ Joomla.submitbutton = function(pressbutton) {
 	submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
@@ -71,7 +71,7 @@ submitbutton = function(pressbutton)
 			<td><input type="file" name="stock_amount_image" />
 				<div><img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.'stockroom'.DS.$this->detail->stock_amount_image; ?>" width="150px" height="90px" /></div>
 			<input type="hidden" name="stock_image" value="<?php echo $this->detail->stock_amount_image; ?>" /></td>
-		</tr>		
+		</tr>
 	</table>
 	</fieldset>
 </div>

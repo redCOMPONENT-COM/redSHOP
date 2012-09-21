@@ -26,22 +26,22 @@ class order_detailVIEWorder_detail extends JView
 	function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_ORDER') );
 		$order_functions = new order_functions();
 		$redhelper = new redhelper();
 
-		$uri 		=& JFactory::getURI();
-		
-		
+		$uri 		= JFactory::getURI();
+
+
 		// Load language file
    		$payment_lang_list= $redhelper->getPlugins("redshop_payment");
-   		
-    	$language =& JFactory::getLanguage();
+
+    	$language = JFactory::getLanguage();
    		$base_dir =  JPATH_ADMINISTRATOR;
   		$language_tag = $language->getTag();
-   		
-   		
+
+
    		for($l=0;$l<count($payment_lang_list);$l++)
    		{
 			$extension = 'plg_redshop_payment_'.$payment_lang_list[$l]->element;
@@ -85,7 +85,7 @@ class order_detailVIEWorder_detail extends JView
 			}
 			$this->setLayout($layout);
 			$Redconfiguration = new Redconfiguration();
-			
+
 			$countryarray = $Redconfiguration->getCountryList((array)$shipping);
 			$shipping->country_code = $countryarray['country_code'];
 			$lists['country_code'] = $countryarray['country_dropdown'];
@@ -93,7 +93,7 @@ class order_detailVIEWorder_detail extends JView
 			$lists['state_code'] = $statearray['state_dropdown'];
 			$showcountry = (count($countryarray['countrylist'])==1 && count($statearray['statelist'])==0) ? 0 : 1;
 			$showstate = ($statearray['is_states']<=0) ? 0 : 1;
-			
+
 			$this->assignRef('showcountry',$showcountry);
 			$this->assignRef('showstate',$showstate);
 		}

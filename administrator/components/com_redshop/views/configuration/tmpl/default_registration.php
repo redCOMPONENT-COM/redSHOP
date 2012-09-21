@@ -64,7 +64,7 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 	<tr><td colspan="2"><hr /></td></tr>
 
 	<tr>
-	
+
 		<td width="100" align="right" class="key">
 			<span class="editlinktip hasTip" title="<?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL' ); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_TERMS_AND_CONDITIONS_LBL' ); ?>">
 			<label for="showprice"><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL' );?></label></span>
@@ -72,9 +72,9 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 		<td>
 			<?php
 
-			$doc 		=& JFactory::getDocument();
+			$doc 		= JFactory::getDocument();
 
-			$article =& JTable::getInstance('content');
+			$article = JTable::getInstance('content');
 			$article_id = TERMS_ARTICLE_ID;
 			if ($article_id) {
 				$article->load($article_id);

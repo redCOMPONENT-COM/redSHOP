@@ -157,7 +157,7 @@ class com_redshopInstallerScript
 	    	$overrides = array( 'ordering' => 1, 'enabled' => 1);
 
 		    jimport( 'joomla.database.table.extension');
-		    $extension = & JTable::getInstance( 'Extension');
+		    $extension = JTable::getInstance( 'Extension');
 		    $extension->load( $pluginId);
 		    $extension->bind( $overrides);
 		    $status = $extension->store();
@@ -208,7 +208,7 @@ class com_redshopInstallerScript
 	    	$overrides = array( 'ordering' => 1, 'enabled' => 1);
 
 		    jimport( 'joomla.database.table.extension');
-		    $extension = & JTable::getInstance( 'Extension');
+		    $extension = JTable::getInstance( 'Extension');
 		    $extension->load( $pluginId);
 		    $extension->bind( $overrides);
 		    $status = $extension->store();
@@ -226,7 +226,7 @@ class com_redshopInstallerScript
 
 			    // Store position of the module
 			    jimport( 'joomla.database.table.module');
-			    $modules = & JTable::getInstance( 'Module');
+			    $modules = JTable::getInstance( 'Module');
 			    $modules->load( $moduleId);
 
 			    # Module Overrides
@@ -3542,17 +3542,16 @@ class com_redshopInstallerScript
 
 	  if ($result) {
 	    // get a db instance
-	    $db = & JFactory::getDBO();
+	    $db = JFactory::getDBO();
 	    $query = "UPDATE #__extensions SET position='icon', ordering=9, enabled=1 WHERE element=" . $db->Quote( $module);
-	    $db = &JFactory::getDBO();
+	    $db = JFactory::getDBO();
 	    $db->setQuery($query);
 	    $db->query();
 
 	  } else {
-	    $app = &JFactory::getApplication();
+	    $app = JFactory::getApplication();
 	    $app->enqueueMessage( 'Error installing redSHOP module: ' . $module);
 	  }
 	  return $result;
 	}
 }
-?>

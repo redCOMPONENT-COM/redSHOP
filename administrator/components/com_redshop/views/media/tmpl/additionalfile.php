@@ -20,7 +20,7 @@ JHTMLBehavior::modal();
 
 jimport('joomla.filesystem.file');
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url= $uri->root();
 
 $option = JRequest::getVar('option');

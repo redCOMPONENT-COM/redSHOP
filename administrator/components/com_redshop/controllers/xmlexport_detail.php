@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -19,44 +19,44 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 jimport ( 'joomla.application.component.controller' );
 
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'xmlhelper.php');
-class xmlexport_detailController extends JController 
+class xmlexport_detailController extends JController
 {
-	function __construct($default = array()) 
+	function __construct($default = array())
 	{
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
-	
+
 	function edit() {
 		JRequest::setVar ( 'view', 'xmlexport_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
-	
+
 	}
-	
+
 	function xmlexport() {
 		$this->save(1);
 	}
-	
-	function save($export=0) 
+
+	function save($export=0)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$xmlhelper = new xmlHelper();
 		$post = JRequest::get ( 'post' );
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		$post['xmlexport_id'] = $cid [0];
 		$model = $this->getModel ( 'xmlexport_detail' );
-		
+
 		if($post['xmlexport_id']==0)
 		{
 			$post['xmlexport_date'] = time();
 		}
-				
+
 		$childelement = $session->get('childelement');
-		
+
 		if(isset($childelement['orderdetail']))
 		{
 			$post['element_name'] = ($childelement['orderdetail'][0]) ? $childelement['orderdetail'][0] : "orderdetail";
@@ -67,7 +67,7 @@ class xmlexport_detailController extends JController
 			$post['element_name'] = ($childelement['productdetail'][0]) ? $childelement['productdetail'][0] : "productdetail";
 			$post['xmlexport_filetag'] = $childelement['productdetail'][1];
 		}
-		
+
 		if(isset($childelement['billingdetail']))
 		{
 			$post['billing_element_name'] = ($childelement['billingdetail'][0]) ? $childelement['billingdetail'][0] : "billingdetail";
@@ -93,9 +93,9 @@ class xmlexport_detailController extends JController
 			$post['prdextrafield_element_name'] = ($childelement['prdextrafield'][0]) ? $childelement['prdextrafield'][0] : "prdextrafield";
 			$post['xmlexport_prdextrafieldtag'] = $childelement['prdextrafield'][1];
 		}
-		
+
 		$row = $model->store ( $post, $export );
-		if ($row) 
+		if ($row)
 		{
 			if($export==1)
 			{
@@ -111,26 +111,26 @@ class xmlexport_detailController extends JController
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_XMLEXPORT_DETAIL' );
 			}
 		}
-		
+
 		$session->set ( 'childelement', NULL );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport', $msg );
 	}
-	
-	function setChildElement() 
+
+	function setChildElement()
 	{
 		JHTMLBehavior::modal();
-		
+
 		$xmlhelper = new xmlHelper();
 		$post = JRequest::get ( 'post' );
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$childelement = $session->get('childelement');
-		
+
 		$model = $this->getModel ( 'xmlexport_detail' );
-		
+
 		$resarray = array();
 		$uarray = array();
 		$columns = $xmlhelper->getSectionColumnList($post['section_type'],$post['parentsection']);
-		
+
 		for($i=0;$i<count($columns);$i++)
 		{
 			if(trim($post[$columns[$i]->Field])!="")
@@ -166,27 +166,27 @@ class xmlexport_detailController extends JController
 		<script language="javascript">
 			window.parent.SqueezeBox.close();
 		</script>
-<?php	 
+<?php
 	}
-	
-	function removeIpAddress() 
+
+	function removeIpAddress()
 	{
 		$xmlexport_ip_id = JRequest::getVar ( 'xmlexport_ip_id',0 );
-		
+
 		$model = $this->getModel ( 'xmlexport_detail' );
 		$model->deleteIpAddress ( $xmlexport_ip_id );
 		die();
 	}
-	
-	function remove() 
+
+	function remove()
 	{
 		$option = JRequest::getVar('option','','request','string');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
 		}
-		
+
 		$model = $this->getModel ( 'xmlexport_detail' );
 		if (! $model->delete ( $cid )) {
 			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
@@ -194,26 +194,26 @@ class xmlexport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport',$msg );
 	}
-	
-	function cancel() 
+
+	function cancel()
 	{
 		$option = JRequest::getVar('option','','request','string');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set ( 'childelement', NULL );
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport',$msg );
 	}
 	/**
-	 * logic for auto synchronize  
+	 * logic for auto synchronize
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function auto_syncpublish() 
+	function auto_syncpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE' ) );
 		}
@@ -224,18 +224,18 @@ class xmlexport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_ENABLE_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport',$msg );
 	}
-	
+
 	/**
 	 * logic for disable auto sync
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function auto_syncunpublish() 
+	function auto_syncunpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE' ) );
 		}
@@ -246,18 +246,18 @@ class xmlexport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_DISABLE_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport',$msg );
 	}
-	
+
 	/**
 	 * logic for use to all user
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function usetoallpublish() 
+	function usetoallpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL' ) );
 		}
@@ -268,18 +268,18 @@ class xmlexport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_EXPORTFILE_USE_TO_ALL_ENABLE_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport',$msg );
 	}
-	
+
 	/**
 	 * logic for disable use to all user
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function usetoallunpublish() 
+	function usetoallunpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		
+
 		if (! is_array ( $cid ) || count ( $cid ) < 1) {
 			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL' ) );
 		}
@@ -290,7 +290,7 @@ class xmlexport_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_EXPORTFILE_USE_TO_ALL_DISABLE_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport',$msg );
 	}
-	
+
 	/**
 	 * logic for publish
 	 *
