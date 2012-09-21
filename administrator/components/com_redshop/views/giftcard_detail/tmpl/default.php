@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 $model = $this->getModel('giftcard_detail');
 $showbuttons = JRequest::getVar('showbuttons');
 $producthelper = new producthelper();
