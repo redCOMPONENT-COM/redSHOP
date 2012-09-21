@@ -5,11 +5,6 @@ jimport( 'joomla.application.component.view' );
 
 class zipcode_detailVIEWzipcode_detail extends JView
 {
-	function __construct( $config = array())
-	{
-		parent::__construct( $config );
-
-	}
 	function display($tpl = null)
 	{
 		$Redconfiguration = new Redconfiguration();
@@ -42,4 +37,4 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		parent::display($tpl);
 	}
 }
-?>
+

@@ -21,16 +21,9 @@ require_once 'components'.DS.'com_redshop'.DS.'views'.DS.'configuration'.DS.'vie
 
 class wizardViewwizard extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-
-	}
-
 	function display($tpl = null)
 	{
-
-		$config = JPATH_BASE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'wizard'.DS.'redshop.cfg.php';
+        $config = JPATH_BASE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'wizard'.DS.'redshop.cfg.php';
 		if(file_exists($config)){
 
 			if (is_readable($config)){
@@ -41,6 +34,7 @@ class wizardViewwizard extends JView
 		$temparray_config = JPATH_BASE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'wizard'.DS.'redshop.cfg.tmp.php';
 
 		global $temparray;
+
 		if(file_exists($temparray_config)){
 
 			if (is_readable($temparray_config)){
@@ -261,7 +255,7 @@ class wizardViewwizard extends JView
      	$lists['calculate_vat_on']  = $extra_field->rs_booleanlist('calculate_vat_on',  'class="inputbox"', $calculate_vat_on ,$yes=JText::_('COM_REDSHOP_BILLING_ADDRESS_LBL'),$no=JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'),'','BT','ST');
 
 
-     	$this->taxrates =& $this->get('TaxRates');
+     	$this->taxrates = $this->get('TaxRates');
 
 		$this->assignRef('lists',		$lists);
    	 	$this->assignRef('request_url',	$uri->toString());
@@ -269,4 +263,4 @@ class wizardViewwizard extends JView
     	parent::display($tpl);
 	}
 }
-?>
+

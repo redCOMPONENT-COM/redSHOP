@@ -126,8 +126,8 @@ class order_detailVIEWorder_detail extends JView
 		// Section can be added from here
 		$option = array();
 		$option[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
-		$products = $model->getProducts($detail->order_id);
-		$products = array_merge($option,$products);
+		//$products = $model->getProducts($detail->order_id);
+		//$products = array_merge($option,$products);
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('detail',		$detail);
@@ -139,4 +139,4 @@ class order_detailVIEWorder_detail extends JView
 
 		parent::display($tpl);
 	}
-}?>
+}

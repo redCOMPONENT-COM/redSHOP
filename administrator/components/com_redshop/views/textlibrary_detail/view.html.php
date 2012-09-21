@@ -66,4 +66,3 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 	}
 
 }
-?>

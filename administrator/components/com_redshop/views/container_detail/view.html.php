@@ -134,5 +134,3 @@ class container_detailVIEWcontainer_detail extends JView
 	}
 
 }
-
-?>

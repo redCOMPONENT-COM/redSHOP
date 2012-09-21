@@ -20,11 +20,6 @@ jimport( 'joomla.application.component.view' );
 
 class shipping_rateViewshipping_rate extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -39,7 +34,6 @@ class shipping_rateViewshipping_rate extends JView
 		$shipping		= $shippinghelper->getShippingMethodById($id);
 
 		$shipping_rates	= & $this->get( 'Data');
-		$total			= & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
 
 		$shippingpath=JPATH_ROOT.DS.'plugins'.DS.$shipping->folder.DS.$shipping->element.'.xml';
@@ -67,4 +61,4 @@ class shipping_rateViewshipping_rate extends JView
     	parent::display($tpl);
   }
 }
-?>
+

@@ -19,18 +19,12 @@ jimport( 'joomla.application.component.view' );
 
 class xmlimportViewxmlimport extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_xmlimport') );
-		$model = $this->getModel('xmlimport');
 
    		JToolBarHelper::title(   JText::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT' ), 'redshop_import48' );
    		JToolBarHelper::addNewX();
@@ -47,7 +41,6 @@ class xmlimportViewxmlimport extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$data	= $this->get( 'Data');
-		$total		= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 
 	    $this->assignRef('lists',		$lists);
@@ -57,4 +50,4 @@ class xmlimportViewxmlimport extends JView
     	parent::display($tpl);
 	}
 }
-?>
+

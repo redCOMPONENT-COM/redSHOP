@@ -143,4 +143,3 @@ class payment_detailViewpayment_detail extends JView
 	}
 
 }
-?>

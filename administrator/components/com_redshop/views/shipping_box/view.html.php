@@ -19,11 +19,6 @@ jimport( 'joomla.application.component.view' );
 
 class shipping_boxViewshipping_box extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-	}
-
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -39,7 +34,6 @@ class shipping_boxViewshipping_box extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-
 		$uri	= JFactory::getURI();
 		$context = 'shipping_box_id';
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'shipping_box_id' );
@@ -48,7 +42,6 @@ class shipping_boxViewshipping_box extends JView
 		$lists['order'] 	= $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$shipping_box			= $this->get( 'Data');
-		$total				= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 
 

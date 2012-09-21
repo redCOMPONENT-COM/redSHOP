@@ -5,12 +5,6 @@ jimport( 'joomla.application.component.view' );
 
 class stateViewstate extends JView
 {
-	function __construct( $config = array())
-	{
-		 parent::__construct( $config );
-
-	}
-
 	function display($tpl = null)
 	{
 		$document = JFactory::getDocument ();
@@ -18,7 +12,6 @@ class stateViewstate extends JView
 
 		JToolBarHelper::title ( JText::_('COM_REDSHOP_STATE_MANAGEMENT' ), 'redshop_region_48' );
 
-		//$document = & JFactory::getDocument();
 		jimport('joomla.html.pagination');
 		global $mainframe, $context;
 		$context = 'state_id';
@@ -27,7 +20,6 @@ class stateViewstate extends JView
 		JToolbarHelper::deleteList();
 
 		$uri = JFactory::getURI();
-
 
 		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'state_id' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
@@ -46,10 +38,10 @@ class stateViewstate extends JView
 		$temps[0]->value="0";
 		$temps[0]->text=JText::_('COM_REDSHOP_SELECT');
 		$countries=@array_merge($temps,$countries);
-		$country_list = explode(',',COUNTRY_LIST);
+		//$country_list = explode(',',COUNTRY_LIST);
 
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp,$country_list);
+		//$tmp = new stdClass;
+		//$tmp = @array_merge($tmp,$country_list);
 
                 $country_id_filter = $mainframe->getUserStateFromRequest( $context.'country_id_filter',  'country_id_filter', '' );
 
@@ -59,7 +51,6 @@ class stateViewstate extends JView
 
 
 		$fields			= & $this->get( 'Data');
-		$total = & $this->get( 'Total');
 		$pagination = & $this->get('Pagination');
 		  $this->assignRef('country_main_filter',$country_main_filter);
 		$this->assignRef('user',		JFactory::getUser());
@@ -68,8 +59,6 @@ class stateViewstate extends JView
 		$this->assignRef('lists',		$lists);
   		$this->assignRef('request_url',	$uri->toString());
     	parent::display($tpl);
-
-  }
-
+    }
 }
-?>
+

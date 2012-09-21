@@ -5,14 +5,7 @@ jimport( 'joomla.application.component.view' );
 
 class currencyViewcurrency extends JView
 {
-	function __construct( $config = array())
-	{
-			$context = 'redshop.currency.';
-		 parent::__construct( $config );
-
-	}
-
-	function display($tpl = null)
+    function display($tpl = null)
 	{
 		//$document = & JFactory::getDocument();
 		global $mainframe, $context;
@@ -36,7 +29,6 @@ class currencyViewcurrency extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$fields			= $this->get( 'Data');
-		$total = $this->get( 'Total');
 		$pagination = $this->get('Pagination');
 
 		$this->assignRef('user',		JFactory::getUser());
@@ -49,4 +41,3 @@ class currencyViewcurrency extends JView
   }
 
 }
-?>
