@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,20 +15,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 jimport('joomla.filesystem.file');
 
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'thumbnail.php' );
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'thumbnail.php');
 
-class attribute_set_detailController extends JController {
+class attribute_set_detailController extends JController
+{
 
-	function __construct($default = array()) {
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'attribute_set_detail' );
@@ -36,14 +40,15 @@ class attribute_set_detailController extends JController {
 
 		parent::display ();
 	}
+
 	function apply()
 	{
        $this->save(1);
 	}
+
 	function save($apply=0)
 	{
-
-		$post = JRequest::get ( 'post' );
+        $post = JRequest::get ( 'post' );
 
 		$option = JRequest::getVar ('option');
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -101,7 +106,9 @@ class attribute_set_detailController extends JController {
 			$this->setRedirect ( 'index.php?option=' . $option . '&view=attribute_set', $msg );
 		}
 	}
-	function remove() {
+
+	function remove()
+    {
 
 		$option = JRequest::getVar ('option');
 
@@ -118,7 +125,9 @@ class attribute_set_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=attribute_set',$msg );
 	}
-	function publish() {
+
+	function publish()
+    {
 
 		$option = JRequest::getVar ('option');
 
@@ -135,9 +144,10 @@ class attribute_set_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=attribute_set',$msg );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar ('option');
+	function unpublish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -152,7 +162,9 @@ class attribute_set_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=attribute_set',$msg );
 	}
-	function cancel() {
+
+	function cancel()
+    {
 
 		$option = JRequest::getVar ('option');
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED' );
@@ -292,9 +304,9 @@ class attribute_set_detailController extends JController {
 		return array($width, $height);
 	}
 
-	function media_bank(){
-
-		$uri =& JURI::getInstance();
+	function media_bank()
+    {
+        $uri =& JURI::getInstance();
 
 		$url= $uri->root();
 
@@ -425,7 +437,9 @@ class attribute_set_detailController extends JController {
 			closedir($handle);
 		}
 	}
-	function property_more_img(){
+
+	function property_more_img()
+    {
 
 		$uri =& JURI::getInstance();
 
@@ -458,7 +472,9 @@ class attribute_set_detailController extends JController {
 			<?php
 		}
 	}
-	function deleteimage(){
+
+	function deleteimage()
+    {
 
 		$uri =& JURI::getInstance();
 
@@ -475,7 +491,9 @@ class attribute_set_detailController extends JController {
 			$this->setRedirect ( $link, $msg );
 		}
 	}
-	function subattribute_color(){
+
+	function subattribute_color()
+    {
 
 		$uri =& JURI::getInstance();
 
@@ -501,8 +519,10 @@ class attribute_set_detailController extends JController {
 		</script>
 		<?php
 	}
+
 	// remove Property image
-	function removepropertyImage(){
+	function removepropertyImage()
+    {
 
 		$get = JRequest::get('get');
 
@@ -515,8 +535,10 @@ class attribute_set_detailController extends JController {
 
 		exit;
 	}
+
 	// remove subProperty image
-	function removesubpropertyImage(){
+	function removesubpropertyImage()
+    {
 
 		$get = JRequest::get('get');
 
@@ -530,7 +552,8 @@ class attribute_set_detailController extends JController {
 		exit;
 	}
 
-	function saveAttributeStock(){
+	function saveAttributeStock()
+    {
 
 		$post = JRequest::get('post');
 
@@ -560,9 +583,4 @@ class attribute_set_detailController extends JController {
 		}
 		$this->setRedirect ( 'index.php?option=' .$option. '&view=attribute_set', $msg );
 	}
-
-
-
-
 }
-

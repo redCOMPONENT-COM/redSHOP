@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,15 +15,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class category_detailController extends JController {
-	function __construct($default = array()) {
+class category_detailController extends JController
+{
+
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit()
 	{
 		JRequest::setVar ( 'view', 'category_detail' );
@@ -31,14 +36,15 @@ class category_detailController extends JController {
 
 		parent::display ();
 	}
+
 	function apply()
 	{
        $this->save(1);
 	}
+
 	function save($apply=0)
 	{
 		$post = JRequest::get ( 'post' );
-
 
 		$category_description = JRequest::getVar( 'category_description', '', 'post', 'string', JREQUEST_ALLOWRAW );
 		$category_short_description = JRequest::getVar( 'category_short_description', '', 'post', 'string', JREQUEST_ALLOWRAW );
@@ -70,9 +76,10 @@ class category_detailController extends JController {
 			$this->setRedirect ( 'index.php?option=' . $option . '&view=category', $msg );
 		}
 	}
-	function remove() {
 
-		$option = JRequest::getVar('option');
+	function remove()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -92,9 +99,10 @@ class category_detailController extends JController {
 
 		$this->setRedirect ( 'index.php?option='.$option.'&view=category',$msg );
 	}
-	function publish() {
 
-		$option = JRequest::getVar('option');
+	function publish()
+    {
+        $option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -109,7 +117,9 @@ class category_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=category',$msg );
 	}
-	function unpublish() {
+
+	function unpublish()
+    {
 
 		$option = JRequest::getVar('option');
 
@@ -126,7 +136,9 @@ class category_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=category',$msg );
 	}
-	function cancel() {
+
+	function cancel()
+    {
 
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_EDITING_CANCELLED' );
@@ -147,7 +159,7 @@ class category_detailController extends JController {
 
 	function orderdown()
 	{
-		 $option = JRequest::getVar('option');
+        $option = JRequest::getVar('option');
 
 		$model = $this->getModel('category_detail');
 		//$model->move(1);
@@ -171,8 +183,8 @@ class category_detailController extends JController {
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=category',$msg );
+    }
 
-	}
 	function copy()
 	{
 		$option = JRequest::getVar('option');
@@ -186,4 +198,4 @@ class category_detailController extends JController {
 		}
 		$this->setRedirect ( 'index.php?option=' .$option. '&view=category', $msg );
 	}
-}?>
+}

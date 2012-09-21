@@ -1,7 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *
  * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
@@ -14,30 +15,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class fields_detailController extends JController {
-	function __construct($default = array()) {
+class fields_detailController extends JController
+{
+	function __construct($default = array())
+    {
 		parent::__construct ( $default );
 		$this->registerTask ( 'add', 'edit' );
 	}
+
 	function edit() {
 		JRequest::setVar ( 'view', 'fields_detail' );
 		JRequest::setVar ( 'layout', 'default' );
 		JRequest::setVar ( 'hidemainmenu', 1 );
 		parent::display ();
+    }
 
-	}
-	function apply() {
+	function apply()
+    {
+        $this->save(1);
+    }
 
-		$this->save(1);
-
-	}
-	function save($apply=0) {
-
-		$post = JRequest::get ( 'post' );
+	function save($apply=0)
+    {
+        $post = JRequest::get ( 'post' );
 		$field_desc = JRequest::getVar( 'field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW );
 		$post["field_desc"]=$field_desc;
 
@@ -93,10 +97,9 @@ class fields_detailController extends JController {
 
 	}
 
-
-	function remove() {
-
-		$option = JRequest::getVar ('option');
+	function remove()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -111,9 +114,10 @@ class fields_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_FIELD_DELETED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
 	}
-	function publish() {
 
-		$option = JRequest::getVar ('option');
+	function publish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -128,9 +132,10 @@ class fields_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_FIELD_PUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
 	}
-	function unpublish() {
 
-		$option = JRequest::getVar ('option');
+	function unpublish()
+    {
+        $option = JRequest::getVar ('option');
 
 		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
 
@@ -145,9 +150,10 @@ class fields_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_FIELD_UNPUBLISHED_SUCCESSFULLY' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
 	}
-	function cancel() {
 
-		$option = JRequest::getVar ('option');
+	function cancel()
+    {
+        $option = JRequest::getVar ('option');
 		$msg = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
 	}
@@ -189,6 +195,7 @@ class fields_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
 	}
+
 	/**
 	 * logic for orderdown manufacturer
 	 *
@@ -211,7 +218,4 @@ class fields_detailController extends JController {
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		$this->setRedirect ( 'index.php?option='.$option.'&view=fields',$msg );
 	}
-
-
-
 }
