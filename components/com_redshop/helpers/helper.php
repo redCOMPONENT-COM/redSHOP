@@ -63,7 +63,7 @@ class redhelper
 			$this->_db->setQuery( $query_plg );
 			$plg_ship_elm	=	$this->_db->loadResultArray();
 
-			$diff_ship		=	sort(array_diff($data,$plg_ship_elm));
+			$diff_ship = sort(array_diff($data, $plg_ship_elm));
 
 			for($i=0;$i<count($diff_ship);$i++)
 			{
@@ -257,7 +257,7 @@ class redhelper
 	 */
 	function getShopperGroupCategory($cid=0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		# if user is not logged in than take shoppergroup id from configuration
 		$where = "AND `shopper_group_id`='".SHOPPER_GROUP_DEFAULT_UNREGISTERED."' ";
@@ -278,7 +278,7 @@ class redhelper
 
 	function getShopperGroupProductCategory($pid=0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$query = "SELECT p.product_id,cx.category_id FROM `".$this->_table_prefix."product` AS p "
 				."LEFT JOIN ".$this->_table_prefix."product_category_xref AS cx ON p.product_id=cx.product_id "
