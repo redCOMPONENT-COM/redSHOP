@@ -613,7 +613,8 @@ class order_detailModelorder_detail extends JModel
 	{
 		$producthelper = new producthelper();
 		$stockroomhelper = new rsstockroomhelper();
-
+		$order_functions = new order_functions();
+		
 		$productid = $data['productid'];
 
 		$order_item_id = $data['order_item_id'];
@@ -654,9 +655,24 @@ class order_detailModelorder_detail extends JModel
 			$this->_db->setQuery( $query );
 			$this->_db->query();
 
+			$OrderItems 	= $order_functions->getOrderItemDetail($this->_id);
 
-			$tmpArr['special_discount'] = $orderdata->special_discount;
-			$this->special_discount($tmpArr,true);
+			for($i=0;$i<count($OrderItems);$i++)
+			{
+				if($order_item_id != $OrderItems[$i]->order_item_id)
+				{
+					$subtotal_excl_vat = $subtotal_excl_vat + ($OrderItems[$i]->product_item_price_excl_vat * $OrderItems[$i]->product_quantity);
+					$subtotal = $subtotal + ($OrderItems[$i]->product_item_price * $OrderItems[$i]->product_quantity);
+				}
+			}
+			
+
+			$order_total = $subtotal +  $orderdata->order_shipping - $orderdata->special_discount_amount - $orderdata->order_discount;
+			$orderdata->order_total = $order_total;
+			$orderdata->mdate = time();
+			if (!$orderdata->store()){
+				return false;
+			}
 			// Economic Integration start for invoice generate
 			if(ECONOMIC_INTEGRATION==1)
 			{
