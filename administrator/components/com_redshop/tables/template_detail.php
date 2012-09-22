@@ -1,61 +1,60 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Tables
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
 class Tabletemplate_detail extends JTable
 {
-	var $template_id = null;
-	var $template_name = null;
-	var $template_section = null;
-	var $template_desc = null;
-	var $shipping_methods = null;
-	var $payment_methods = null;
-	var $order_status = null;
-	var $published = null;
+    public $template_id = null;
 
-	/**
-	 * @var boolean
-	 */
-	var $checked_out = 0;
+    public $template_name = null;
 
-	/**
-	 * @var time
-	 */
-	var $checked_out_time = 0;
+    public $template_section = null;
 
-	function Tabletemplate_detail(& $db)
-	{
-	  $this->_table_prefix = '#__redshop_';
+    public $template_desc = null;
 
-		parent::__construct($this->_table_prefix.'template', 'template_id', $db);
-	}
+    public $shipping_methods = null;
 
-	function bind($array, $ignore = '')
-	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
+    public $payment_methods = null;
 
-		return parent::bind($array, $ignore);
-	}
+    public $order_status = null;
 
+    public $published = null;
+
+    /**
+     * @public boolean
+     */
+    public $checked_out = 0;
+
+    /**
+     * @public time
+     */
+    public $checked_out_time = 0;
+
+    public function __construct(& $db)
+    {
+        $this->_table_prefix = '#__redshop_';
+
+        parent::__construct($this->_table_prefix . 'template', 'template_id', $db);
+    }
+
+    public function bind($array, $ignore = '')
+    {
+        if (key_exists('params', $array) && is_array($array['params']))
+        {
+            $registry = new JRegistry();
+            $registry->loadArray($array['params']);
+            $array['params'] = $registry->toString();
+        }
+
+        return parent::bind($array, $ignore);
+    }
 }
-?>
