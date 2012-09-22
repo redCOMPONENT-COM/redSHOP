@@ -1,41 +1,43 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) {
+
+if (!defined('_VALID_MOS') && !defined('_JEXEC'))
+{
     die ('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 }
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
 
 class Redconfiguration
 {
-
     var $_def_array = null;
+
     var $_configpath = null;
+
     var $_config_dist_path = null;
+
     var $_config_bkp_path = null;
+
     var $_config_tmp_path = null;
+
     var $_cfgdata = null;
+
     var $_country_list = null;
+
     var $_table_prefix = null;
+
     var $_db = null;
 
     /**
      * define default path
      *
      */
-    function __construct ()
+    function __construct()
     {
         $this->_table_prefix = '#__redshop_';
 
@@ -46,22 +48,28 @@ class Redconfiguration
         $this->_config_tmp_path  = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.tmp.php";
         $this->_config_def_path  = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.def.php";
 
-        if (!defined('JSYSTEM_IMAGES_PATH')) {
+        if (!defined('JSYSTEM_IMAGES_PATH'))
+        {
             define ('JSYSTEM_IMAGES_PATH', JURI::root() . 'media/system/images/');
         }
-        if (!defined('REDSHOP_ADMIN_IMAGES_ABSPATH')) {
+        if (!defined('REDSHOP_ADMIN_IMAGES_ABSPATH'))
+        {
             define ('REDSHOP_ADMIN_IMAGES_ABSPATH', JURI::root() . 'administrator/components/com_redshop/assets/images/');
         }
-        if (!defined('REDSHOP_FRONT_IMAGES_ABSPATH')) {
+        if (!defined('REDSHOP_FRONT_IMAGES_ABSPATH'))
+        {
             define ('REDSHOP_FRONT_IMAGES_ABSPATH', JURI::root() . 'components/com_redshop/assets/images/');
         }
-        if (!defined('REDSHOP_FRONT_IMAGES_RELPATH')) {
+        if (!defined('REDSHOP_FRONT_IMAGES_RELPATH'))
+        {
             define ('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/images/');
         }
-        if (!defined('REDSHOP_FRONT_DOCUMENT_ABSPATH')) {
+        if (!defined('REDSHOP_FRONT_DOCUMENT_ABSPATH'))
+        {
             define ('REDSHOP_FRONT_DOCUMENT_ABSPATH', JURI::root() . 'components/com_redshop/assets/document/');
         }
-        if (!defined('REDSHOP_FRONT_DOCUMENT_RELPATH')) {
+        if (!defined('REDSHOP_FRONT_DOCUMENT_RELPATH'))
+        {
             define ('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/document/');
         }
     }
@@ -71,9 +79,10 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function isCFGFile ()
+    function isCFGFile()
     {
-        if (!file_exists($this->_configpath)) {
+        if (!file_exists($this->_configpath))
+        {
             return false;
         }
         require_once ($this->_configpath);
@@ -85,12 +94,13 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function isCFGTable ()
+    function isCFGTable()
     {
         $query = 'show tables like "' . $this->_db->getPrefix() . 'redshop_configuration"';
         $this->_db->setQuery($query);
         $result = $this->_db->loadResult();
-        if (count($result) <= 0) {
+        if (count($result) <= 0)
+        {
             return false;
         }
         return true;
@@ -103,7 +113,7 @@ class Redconfiguration
      *
      * @param array $org
      */
-    function setCFGTableData ($org = array())
+    function setCFGTableData($org = array())
     {
         // getData From table
         $query = "SELECT * FROM " . $this->_table_prefix . "configuration WHERE id = 1";
@@ -112,7 +122,8 @@ class Redconfiguration
 
         // prepare data from table
         $data = $this->redshopCFGData($cfgdata);
-        if (count($org) > 0) {
+        if (count($org) > 0)
+        {
             $data = array_merge($org, $data);
         }
         $this->defineCFGVars($data);
@@ -124,16 +135,22 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function loadDefaultCFGFile ()
+    function loadDefaultCFGFile()
     {
-        if ($this->isCFGFile()) {
-            if (copy($this->_configpath, $this->_config_bkp_path)) {
-                if (!copy($this->_config_dist_path, $this->_configpath)) {
+        if ($this->isCFGFile())
+        {
+            if (copy($this->_configpath, $this->_config_bkp_path))
+            {
+                if (!copy($this->_config_dist_path, $this->_configpath))
+                {
                     return false;
                 }
             }
-        } else {
-            if (!copy($this->_config_dist_path, $this->_configpath)) {
+        }
+        else
+        {
+            if (!copy($this->_config_dist_path, $this->_configpath))
+            {
                 return false;
             }
         }
@@ -147,53 +164,68 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function manageCFGFile ($org = array())
+    function manageCFGFile($org = array())
     {
-        if ($this->isCFGFile()) {
-            if (count($org) > 0) {
+        if ($this->isCFGFile())
+        {
+            if (count($org) > 0)
+            {
                 $this->defineCFGVars($org);
                 $this->updateCFGFile();
             }
-        } else {
-            if ($this->isCFGTable()) {
+        }
+        else
+        {
+            if ($this->isCFGTable())
+            {
                 $this->setCFGTableData($org);
-            } else {
+            }
+            else
+            {
                 $this->loadDefaultCFGFile();
             }
         }
         return true;
     }
 
-    function WriteDefFile ($def = array())
+    function WriteDefFile($def = array())
     {
-        if (count($def) <= 0) {
+        if (count($def) <= 0)
+        {
             $def = $this->_def_array;
         }
 
         $html = "<?php \n";
         $html .= 'global $defaultarray;' . "\n" . '$defaultarray = array();' . "\n";
-        foreach ($def as $key => $val) {
+        foreach ($def as $key => $val)
+        {
             $html .= '$defaultarray["' . $key . '"] = \'' . addslashes($val) . "';\n";
         }
         $html .= "?>";
-        if (!$this->isDEFFile()) {
+        if (!$this->isDEFFile())
+        {
             return false;
         }
-        if ($fp = fopen($this->_config_def_path, "w")) {
+        if ($fp = fopen($this->_config_def_path, "w"))
+        {
             fwrite($fp, $html, strlen($html));
             fclose($fp);
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
 
-    function defineCFGVars ($data, $bypass = false)
+    function defineCFGVars($data, $bypass = false)
     {
         $this->_cfgdata = "";
         $this->_cfgdata .= "<?php\n";
-        foreach ($data as $key => $value) {
-            if (!defined($key) || $bypass) {
+        foreach ($data as $key => $value)
+        {
+            if (!defined($key) || $bypass)
+            {
                 $this->_cfgdata .= "define ('" . $key . "', '" . addslashes($value) . "');\n";
             }
         }
@@ -201,103 +233,126 @@ class Redconfiguration
         return;
     }
 
-    function writeCFGFile ()
+    function writeCFGFile()
     {
-        if ($fp = fopen($this->_configpath, "w")) {
+        if ($fp = fopen($this->_configpath, "w"))
+        {
             fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
             fclose($fp);
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
 
-    function updateCFGFile ()
+    function updateCFGFile()
     {
-        if ($fp = fopen($this->_configpath, "a")) {
+        if ($fp = fopen($this->_configpath, "a"))
+        {
             fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
             fclose($fp);
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
 
-    function backupCFGFile ()
+    function backupCFGFile()
     {
-        if ($this->isCFGFile()) {
-            if (!copy($this->_configpath, $this->_config_bkp_path)) {
+        if ($this->isCFGFile())
+        {
+            if (!copy($this->_configpath, $this->_config_bkp_path))
+            {
                 return false;
             }
-        } else {
-            if (!copy($this->_config_dist_path, $this->_configpath)) {
+        }
+        else
+        {
+            if (!copy($this->_config_dist_path, $this->_configpath))
+            {
                 return false;
             }
         }
         return true;
     }
 
-    function isTmpFile ()
+    function isTmpFile()
     {
-        if (file_exists($this->_config_tmp_path)) {
-            if ($this->isTMPFileWritable()) {
+        if (file_exists($this->_config_tmp_path))
+        {
+            if ($this->isTMPFileWritable())
+            {
                 require_once ($this->_config_tmp_path);
                 return true;
             }
-        } else {
+        }
+        else
+        {
             JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'));
         }
         return false;
     }
 
-    function isTMPFileWritable ()
+    function isTMPFileWritable()
     {
-        if (!is_writable($this->_config_tmp_path)) {
+        if (!is_writable($this->_config_tmp_path))
+        {
             JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
             return false;
         }
         return true;
     }
 
-    function isDEFFile ()
+    function isDEFFile()
     {
-        if (file_exists($this->_config_def_path)) {
-            if ($this->isDEFFileWritable()) {
+        if (file_exists($this->_config_def_path))
+        {
+            if ($this->isDEFFileWritable())
+            {
                 require_once ($this->_config_def_path);
                 return true;
             }
-        } else {
+        }
+        else
+        {
             JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND'));
         }
         return false;
     }
 
-    function isDEFFileWritable ()
+    function isDEFFileWritable()
     {
-        if (!is_writable($this->_config_def_path)) {
+        if (!is_writable($this->_config_def_path))
+        {
             JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE'));
             return false;
         }
         return true;
     }
 
-    function storeFromTMPFile ()
+    function storeFromTMPFile()
     {
         global $temparray;
         global $defaultarray;
-        if ($this->isTmpFile() && $this->isDEFFile()) {
+        if ($this->isTmpFile() && $this->isDEFFile())
+        {
             $ncfgdata     = array_merge($defaultarray, $temparray);
             $config_array = $this->redshopCFGData($ncfgdata);
             $this->defineCFGVars($config_array, true);
             $this->backupCFGFile();
-            if (!$this->writeCFGFile()) {
+            if (!$this->writeCFGFile())
+            {
                 return false;
             }
         }
         return true;
     }
 
-    function redshopCFGData ($d)
+    function redshopCFGData($d)
     {
         $d['booking_order_status'] = (isset($d['booking_order_status'])) ? $d['booking_order_status'] : 0;
 
@@ -381,9 +436,12 @@ class Redconfiguration
 
                               "SHOW_QUOTATION_PRICE"                  => $d ['show_quotation_price'], "CHILDPRODUCT_DROPDOWN" => $d ['childproduct_dropdown'], "PURCHASE_PARENT_WITH_CHILD" => $d ['purchase_parent_with_child'], "ADDTOCART_DELETE" => $d["addtocart_delete"], "ADDTOCART_UPDATE" => $d["addtocart_update"], "DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA" => $d["display_out_of_stock_attribute_data"]);
 
-        if ($d ["cart_timeout"] <= 0) {
+        if ($d ["cart_timeout"] <= 0)
+        {
             $config_array ["CART_TIMEOUT"] = 20;
-        } else {
+        }
+        else
+        {
             $config_array ["CART_TIMEOUT"] = $d ["cart_timeout"];
         }
 
@@ -393,10 +451,12 @@ class Redconfiguration
 
         $config_array ["MAGIC_MAGNIFYPLUS_PRE"] = 0;
 
-        if ($d ["newsletter_mail_chunk"] == 0) {
+        if ($d ["newsletter_mail_chunk"] == 0)
+        {
             $d ["newsletter_mail_chunk"] = 1;
         }
-        if ($d ["newsletter_mail_pause_time"] == 0) {
+        if ($d ["newsletter_mail_pause_time"] == 0)
+        {
             $d ["newsletter_mail_pause_time"] = 1;
         }
         $config_array ["NEWSLETTER_MAIL_CHUNK"]      = $d ["newsletter_mail_chunk"];
@@ -412,127 +472,162 @@ class Redconfiguration
      *
      * IMPORTANT: we need to call this function in plugin or module manually to see the effect of this variables
      */
-    function defineDynamicVars ()
+    function defineDynamicVars()
     {
-        if (!defined('SHOW_PRICE')) {
+        if (!defined('SHOW_PRICE'))
+        {
             define ('SHOW_PRICE', $this->showPrice());
             define ('USE_AS_CATALOG', $this->getCatalog());
         }
-        if (!defined('DEFAULT_QUOTATION_MODE')) {
-            if (DEFAULT_QUOTATION_MODE_PRE == 1) {
+        if (!defined('DEFAULT_QUOTATION_MODE'))
+        {
+            if (DEFAULT_QUOTATION_MODE_PRE == 1)
+            {
                 define ('DEFAULT_QUOTATION_MODE', $this->setQuotationMode());
-            } else {
+            }
+            else
+            {
                 define ('DEFAULT_QUOTATION_MODE', DEFAULT_QUOTATION_MODE_PRE);
             }
         }
-        if (!defined('MAGIC_MAGNIFYPLUS')) {
-            if (MAGIC_MAGNIFYPLUS_PRE == 0) {
+        if (!defined('MAGIC_MAGNIFYPLUS'))
+        {
+            if (MAGIC_MAGNIFYPLUS_PRE == 0)
+            {
                 define ('MAGIC_MAGNIFYPLUS', $this->checkMagicMagnity());
-            } else {
+            }
+            else
+            {
                 define ('MAGIC_MAGNIFYPLUS', MAGIC_MAGNIFYPLUS_PRE);
             }
         }
     }
 
-    function checkMagicMagnity ()
+    function checkMagicMagnity()
     {
         jimport('joomla.application.module.helper');
         return JModuleHelper::isEnabled('redmagicmagnifyplus');
     }
 
-    function showPrice ()
+    function showPrice()
     {
         $user             = JFactory::getUser();
         $userhelper       = new rsUserhelper();
         $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-        if ($user->id) {
+        if ($user->id)
+        {
             $getShopperGroupID = $userhelper->getShopperGroup($user->id);
-            if ($getShopperGroupID) {
+            if ($getShopperGroupID)
+            {
                 $shopper_group_id = $getShopperGroupID;
             }
         }
-        $qurey = "SELECT show_price FROM " . $this->_table_prefix . "shopper_group "
-            . "WHERE shopper_group_id='" . $shopper_group_id . "'";
+        $qurey = "SELECT show_price FROM " . $this->_table_prefix . "shopper_group " . "WHERE shopper_group_id='" . $shopper_group_id . "'";
         $this->_db->setQuery($qurey);
         $list = $this->_db->loadObject();
-        if ($list) {
-            if (($list->show_price == "yes") || ($list->show_price == "global" && SHOW_PRICE_PRE == 1) || ($list->show_price == "" && SHOW_PRICE_PRE == 1)) {
+        if ($list)
+        {
+            if (($list->show_price == "yes") || ($list->show_price == "global" && SHOW_PRICE_PRE == 1) || ($list->show_price == "" && SHOW_PRICE_PRE == 1))
+            {
                 return 1;
-            } else {
+            }
+            else
+            {
                 return 0;
             }
-        } else {
+        }
+        else
+        {
             return SHOW_PRICE_PRE;
         }
     }
 
-    function getCatalog ()
+    function getCatalog()
     {
         $user             = JFactory::getUser();
         $userhelper       = new rsUserhelper();
         $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-        if ($user->id) {
+        if ($user->id)
+        {
             $getShopperGroupID = $userhelper->getShopperGroup($user->id);
-            if ($getShopperGroupID) {
+            if ($getShopperGroupID)
+            {
                 $shopper_group_id = $getShopperGroupID;
             }
         }
-        $qurey = "SELECT use_as_catalog FROM " . $this->_table_prefix . "shopper_group "
-            . "WHERE shopper_group_id='" . $shopper_group_id . "'";
+        $qurey = "SELECT use_as_catalog FROM " . $this->_table_prefix . "shopper_group " . "WHERE shopper_group_id='" . $shopper_group_id . "'";
         $this->_db->setQuery($qurey);
         $list = $this->_db->loadObject();
-        if ($list) {
-            if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1) || ($list->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1)) {
+        if ($list)
+        {
+            if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1) || ($list->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1))
+            {
                 return 1;
-            } else {
+            }
+            else
+            {
                 return 0;
             }
-        } else {
+        }
+        else
+        {
             return PRE_USE_AS_CATALOG;
         }
     }
 
-    function setQuotationMode ()
+    function setQuotationMode()
     {
         $user             = & JFactory::getUser();
         $userhelper       = new rsUserhelper();
         $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-        if ($user->id) {
+        if ($user->id)
+        {
             $getShopperGroupID = $userhelper->getShopperGroup($user->id);
-            if ($getShopperGroupID) {
+            if ($getShopperGroupID)
+            {
                 $shopper_group_id = $getShopperGroupID;
             }
         }
-        $qurey = "SELECT * FROM " . $this->_table_prefix . "shopper_group "
-            . "WHERE shopper_group_id='" . $shopper_group_id . "'";
+        $qurey = "SELECT * FROM " . $this->_table_prefix . "shopper_group " . "WHERE shopper_group_id='" . $shopper_group_id . "'";
         $this->_db->setQuery($qurey);
         $list = $this->_db->loadObject();
-        if ($list) {
-            if ($list->shopper_group_quotation_mode) {
+        if ($list)
+        {
+            if ($list->shopper_group_quotation_mode)
+            {
                 return 1;
-            } else {
+            }
+            else
+            {
                 return 0;
             }
-        } else {
+        }
+        else
+        {
             return DEFAULT_QUOTATION_MODE_PRE;
         }
     }
 
-    function maxchar ($desc = '', $maxchars = 0, $suffix = '')
+    function maxchar($desc = '', $maxchars = 0, $suffix = '')
     {
         $strdesc = '';
-        if (( int )$maxchars <= 0) {
+        if (( int )$maxchars <= 0)
+        {
             $strdesc = $desc;
-        } else {
+        }
+        else
+        {
             $strdesc = $this->substrws($desc, $maxchars, $suffix);
         }
         return $strdesc;
     }
 
-    function substrws ($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
+    function substrws($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
     {
-        if ($considerHtml) {
-            if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
+        if ($considerHtml)
+        {
+            if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length)
+            {
                 return $text;
             }
             $totalLength = strlen(strip_tags($ending));
@@ -540,14 +635,20 @@ class Redconfiguration
             $truncate    = '';
 
             preg_match_all('/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER);
-            foreach ($tags as $tag) {
-                if (!preg_match('/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2])) {
-                    if (preg_match('/<[\w]+[^>]*>/s', $tag[0])) {
+            foreach ($tags as $tag)
+            {
+                if (!preg_match('/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2]))
+                {
+                    if (preg_match('/<[\w]+[^>]*>/s', $tag[0]))
+                    {
                         array_unshift($openTags, $tag[2]);
-                    } else {
-                        if (preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag)) {
+                    }
+                    else {
+                        if (preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag))
+                        {
                             $pos = array_search($closeTag[1], $openTags);
-                            if ($pos !== false) {
+                            if ($pos !== false)
+                            {
                                 array_splice($openTags, $pos, 1);
                             }
                         }
@@ -556,45 +657,65 @@ class Redconfiguration
                 $truncate .= $tag[1];
 
                 $contentLength = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3]));
-                if ($contentLength + $totalLength > $length) {
+                if ($contentLength + $totalLength > $length)
+                {
                     $left           = $length - $totalLength;
                     $entitiesLength = 0;
-                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE)) {
-                        foreach ($entities[0] as $entity) {
-                            if ($entity[1] + 1 - $entitiesLength <= $left) {
+                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE))
+                    {
+                        foreach ($entities[0] as $entity)
+                        {
+                            if ($entity[1] + 1 - $entitiesLength <= $left)
+                            {
                                 $left--;
                                 $entitiesLength += strlen($entity[0]);
-                            } else {
+                            }
+                            else
+                            {
                                 break;
                             }
                         }
                     }
                     $truncate .= substr($tag[3], 0, $left + $entitiesLength);
                     break;
-                } else {
+                }
+                else
+                {
                     $truncate .= $tag[3];
                     $totalLength = $contentLength;
                 }
-                if ($totalLength >= $length) {
+                if ($totalLength >= $length)
+                {
                     break;
                 }
             }
-        } else {
-            if (strlen($text) <= $length) {
+        }
+        else
+        {
+            if (strlen($text) <= $length)
+            {
                 return $text;
-            } else {
+            }
+            else
+            {
                 $truncate = substr($text, 0, $length - strlen($ending));
             }
         }
-        if (!$exact) {
+        if (!$exact)
+        {
             $spacepos = strrpos($truncate, ' ');
-            if (isset($spacepos)) {
-                if ($considerHtml) {
+            if (isset($spacepos))
+            {
+                if ($considerHtml)
+                {
                     $bits = substr($truncate, $spacepos);
                     preg_match_all('/<\/([a-z])>/', $bits, $droppedTags, PREG_SET_ORDER);
-                    if (!empty($droppedTags)) {
-                        foreach ($droppedTags as $closingTag) {
-                            if (!in_array($closingTag[1], $openTags)) {
+                    if (!empty($droppedTags))
+                    {
+                        foreach ($droppedTags as $closingTag)
+                        {
+                            if (!in_array($closingTag[1], $openTags))
+                            {
                                 array_unshift($openTags, $closingTag[1]);
                             }
                         }
@@ -604,8 +725,10 @@ class Redconfiguration
             }
         }
         $truncate .= $ending;
-        if ($considerHtml) {
-            foreach ($openTags as $tag) {
+        if ($considerHtml)
+        {
+            foreach ($openTags as $tag)
+            {
                 $truncate .= '</' . $tag . '>';
             }
         }
@@ -619,7 +742,7 @@ class Redconfiguration
      * @return    array
      * @since     1.5
      */
-    function getDateFormat ()
+    function getDateFormat()
     {
         $option = array();
         $mon    = JText::_(strtoupper(date("M")));
@@ -665,18 +788,21 @@ class Redconfiguration
      * @return    array
      * @since     1.5
      */
-    function convertDateFormat ($date)
+    function convertDateFormat($date)
     {
         $JApp = JFactory::getApplication();
-        if ($date <= 0) {
+        if ($date <= 0)
+        {
             $date = time();
         }
         $dateobj = JFactory::getDate($date);
         $dateobj->setOffset($JApp->getCfg('offset'));
         //$date = strtotime($dateobj->toFormat());
-        if (DEFAULT_DATEFORMAT) {
+        if (DEFAULT_DATEFORMAT)
+        {
             $convertformat = date(DEFAULT_DATEFORMAT, $date);
-            if (strstr(DEFAULT_DATEFORMAT, "M")) {
+            if (strstr(DEFAULT_DATEFORMAT, "M"))
+            {
                 $convertformat = str_replace("Jan", JText::_('COM_REDSHOP_JAN'), $convertformat);
                 $convertformat = str_replace("Feb", JText::_('COM_REDSHOP_FEB'), $convertformat);
                 $convertformat = str_replace("Mar", JText::_('COM_REDSHOP_MAR'), $convertformat);
@@ -690,7 +816,8 @@ class Redconfiguration
                 $convertformat = str_replace("Nov", JText::_('COM_REDSHOP_NOV'), $convertformat);
                 $convertformat = str_replace("Dec", JText::_('COM_REDSHOP_DEC'), $convertformat);
             }
-            if (strstr(DEFAULT_DATEFORMAT, "F")) {
+            if (strstr(DEFAULT_DATEFORMAT, "F"))
+            {
                 $convertformat = str_replace("January", JText::_('COM_REDSHOP_JANUARY'), $convertformat);
                 $convertformat = str_replace("February", JText::_('COM_REDSHOP_FEBRUARY'), $convertformat);
                 $convertformat = str_replace("March", JText::_('COM_REDSHOP_MARCH'), $convertformat);
@@ -704,7 +831,8 @@ class Redconfiguration
                 $convertformat = str_replace("November", JText::_('COM_REDSHOP_NOVEMBER'), $convertformat);
                 $convertformat = str_replace("December", JText::_('COM_REDSHOP_DECEMBER'), $convertformat);
             }
-            if (strstr(DEFAULT_DATEFORMAT, "D")) {
+            if (strstr(DEFAULT_DATEFORMAT, "D"))
+            {
                 $convertformat = str_replace("Mon", JText::_('COM_REDSHOP_MON'), $convertformat);
                 $convertformat = str_replace("Tue", JText::_('COM_REDSHOP_TUE'), $convertformat);
                 $convertformat = str_replace("Wed", JText::_('COM_REDSHOP_WED'), $convertformat);
@@ -713,7 +841,8 @@ class Redconfiguration
                 $convertformat = str_replace("Sat", JText::_('COM_REDSHOP_SAT'), $convertformat);
                 $convertformat = str_replace("Sun", JText::_('COM_REDSHOP_SUN'), $convertformat);
             }
-            if (strstr(DEFAULT_DATEFORMAT, "l")) {
+            if (strstr(DEFAULT_DATEFORMAT, "l"))
+            {
                 $convertformat = str_replace("Monday", JText::_('COM_REDSHOP_MONDAY'), $convertformat);
                 $convertformat = str_replace("Tuesday", JText::_('COM_REDSHOP_TUESDAY'), $convertformat);
                 $convertformat = str_replace("Wednesday", JText::_('COM_REDSHOP_WEDNESDAY'), $convertformat);
@@ -722,40 +851,43 @@ class Redconfiguration
                 $convertformat = str_replace("Saturday", JText::_('COM_REDSHOP_SATURDAY'), $convertformat);
                 $convertformat = str_replace("Sunday", JText::_('COM_REDSHOP_SUNDAY'), $convertformat);
             }
-        } else {
+        }
+        else
+        {
             $convertformat = date("Y-m-d", $date);
         }
         return $convertformat;
     }
 
-    function getCountryId ($conid)
+    function getCountryId($conid)
     {
         $query = 'SELECT country_id FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getCountryCode2 ($conid)
+    function getCountryCode2($conid)
     {
         $query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getStateCode2 ($conid)
+    function getStateCode2($conid)
     {
         $query = 'SELECT state_2_code FROM ' . $this->_table_prefix . 'state ' . 'WHERE state_3_code LIKE "' . $conid . '"';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getStateCode ($conid, $tax_code)
+    function getStateCode($conid, $tax_code)
     {
         $query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state ' . 'WHERE state_2_code LIKE "' . $tax_code . '" and country_id="' . $conid . '"';
         $this->_db->setQuery($query);
         $rslt_data = $this->_db->loadObjectList();
 
-        if ($rslt_data [0]->show_state == 3) {
+        if ($rslt_data [0]->show_state == 3)
+        {
             $state_code = $rslt_data [0]->state_3_code;
             return $state_code;
         }
@@ -763,22 +895,23 @@ class Redconfiguration
         return $state_code;
     }
 
-    function countryList ()
+    function countryList()
     {
-        if (empty($this->_country_list)) {
+        if (empty($this->_country_list))
+        {
             require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
             $redhelper = new redhelper();
 
             $countries = array();
-            if (COUNTRY_LIST) {
+            if (COUNTRY_LIST)
+            {
                 $country_list = explode(',', COUNTRY_LIST);
-                if (count($country_list) > 0) {
+                if (count($country_list) > 0)
+                {
                     $country_listCode = implode("','", $country_list);
                     $country_listCode = "'" . $country_listCode . "'";
 
-                    $q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM ' . $this->_table_prefix . 'country '
-                        . 'WHERE country_3_code IN (' . $country_listCode . ') '
-                        . 'ORDER BY country_name ASC';
+                    $q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code IN (' . $country_listCode . ') ' . 'ORDER BY country_name ASC';
                     $this->_db->setQuery($q);
                     $countries = $this->_db->loadObjectList();
                     $countries = $redhelper->convertLanguageString($countries);
@@ -789,13 +922,16 @@ class Redconfiguration
         return $this->_country_list;
     }
 
-    function getCountryList ($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
+    function getCountryList($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
     {
         $address_type = ($address_type == "ST") ? "_ST" : "";
         $countries    = $this->countryList();
-        if (count($countries) == 1) {
+        if (count($countries) == 1)
+        {
             $post['country_code' . $address_type] = $countries[0]->value;
-        } elseif (!isset($post['country_code' . $address_type])) {
+        }
+        elseif (!isset($post['country_code' . $address_type]))
+        {
             $post['country_code' . $address_type] = SHOP_COUNTRY;
         }
         $temps           = array();
@@ -804,8 +940,10 @@ class Redconfiguration
         $temps           = array_merge($temps, $countries);
 
         $selectedcnt = '';
-        for ($i = 0; $i < count($countries); $i++) {
-            if ($countries[$i]->value == $post['country_code' . $address_type]) {
+        for ($i = 0; $i < count($countries); $i++)
+        {
+            if ($countries[$i]->value == $post['country_code' . $address_type])
+            {
                 $selectedcnt = $post['country_code' . $address_type];
             }
         }
@@ -816,37 +954,35 @@ class Redconfiguration
         return $return;
     }
 
-    function getStateList ($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
+    function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
     {
         $selected_country_code = ($address_type == "ST") ? @$post['country_code_ST'] : @$post['country_code'];
         $selected_state_code   = ($address_type == "ST") ? @$post['state_code_ST'] : @$post['state_code'];
-        if (empty($selected_state_code)) {
+        if (empty($selected_state_code))
+        {
             $selected_state_code = "originalPos";
-        } else {
+        }
+        else
+        {
             $selected_state_code = "'" . $selected_state_code . "'";
         }
         $varState = array();
         $states   = array();
-        if (COUNTRY_LIST) {
+        if (COUNTRY_LIST)
+        {
             $country_list = explode(',', COUNTRY_LIST);
-            if (count($country_list) > 0) {
+            if (count($country_list) > 0)
+            {
                 $country_listCode = implode("','", $country_list);
                 $country_listCode = "'" . $country_listCode . "'";
 
-                $q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM ' . $this->_table_prefix . 'country AS c '
-                    . ',' . $this->_table_prefix . 'state s '
-                    . 'WHERE (c.country_id=s.country_id OR s.country_id IS NULL) '
-                    . 'AND c.country_3_code IN (' . $country_listCode . ') '
-                    . 'ORDER BY c.country_id, s.state_name ';
+                $q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM ' . $this->_table_prefix . 'country AS c ' . ',' . $this->_table_prefix . 'state s ' . 'WHERE (c.country_id=s.country_id OR s.country_id IS NULL) ' . 'AND c.country_3_code IN (' . $country_listCode . ') ' . 'ORDER BY c.country_id, s.state_name ';
                 $this->_db->setQuery($q);
                 $states = $this->_db->loadObjectList();
             }
         }
 
-        $q = 'SELECT count(state_id) FROM ' . $this->_table_prefix . 'state AS s '
-            . ',' . $this->_table_prefix . 'country AS c '
-            . 'WHERE c.country_id = s.country_id '
-            . 'AND c.country_3_code="' . $selected_country_code . '" ';
+        $q = 'SELECT count(state_id) FROM ' . $this->_table_prefix . 'state AS s ' . ',' . $this->_table_prefix . 'country AS c ' . 'WHERE c.country_id = s.country_id ' . 'AND c.country_3_code="' . $selected_country_code . '" ';
         $this->_db->setQuery($q);
         $is_states = $this->_db->loadResult();
 
@@ -858,11 +994,14 @@ class Redconfiguration
         $script .= "var states" . $address_type . " = new Array();	// array in the format [key,value,text]\n";
         $i            = 0;
         $prev_country = '';
-        for ($j = 0; $j < count($states); $j++) {
+        for ($j = 0; $j < count($states); $j++)
+        {
             $state          = $states[$j];
             $country_3_code = $state->country_3_code;
-            if ($state->state_name) {
-                if ($prev_country != $country_3_code) {
+            if ($state->state_name)
+            {
+                if ($prev_country != $country_3_code)
+                {
                     $script .= "states" . $address_type . "[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_SELECT") . "' );\n";
                     $varState[0]->value = '';
                     $varState[0]->text  = JText::_("COM_REDSHOP_SELECT");
@@ -870,11 +1009,14 @@ class Redconfiguration
                 $prev_country = $country_3_code;
                 // array in the format [key,value,text]
                 $script .= "states" . $address_type . "[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes($state->state_name) . "' );\n";
-                if ($country_3_code == $selected_country_code) {
+                if ($country_3_code == $selected_country_code)
+                {
                     $varState[$i]->value = $state->state_2_code;
                     $varState[$i]->text  = JText::_($state->state_name);
                 }
-            } else {
+            }
+            else
+            {
                 $script .= "states" . $address_type . "[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_NONE") . "' );\n";
             }
         }
@@ -1049,12 +1191,14 @@ class Redconfiguration
 			}
 			eval(changeDynaList" . $country_codename . "(form,'" . $state_codename . "',states" . $address_type . ",selected_country, originalPos, originalOrder));
 	 	}";
-        if (!$isAdmin) {
+        if (!$isAdmin)
+        {
             $script .= "writeDynaList" . $country_codename . "( 'class=\"" . $state_class . "\" name=\"" . $state_codename . "\" size=\"1\" id=\"" . $state_codename . "\"', states" . $address_type . ", originalPos, originalPos, $selected_state_code ); ";
         }
         $script .= "//-->
 		//]]></script>";
-        if ($isAdmin) {
+        if ($isAdmin)
+        {
             $script .= JHTML::_('select.genericlist', $varState, $state_codename, 'class="' . $state_class . '" ', 'value', 'text', $selected_state_code);
         }
 
