@@ -1,19 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-//Import filesystem libraries. Perhaps not necessary, but does not hurt
+
 jimport('joomla.filesystem.file');
 
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
@@ -126,7 +119,8 @@ class economic
                         }
                     }
                 }
-                else {
+                else
+                {
                     if (count($emailarray) > 0)
                     {
 
@@ -163,7 +157,8 @@ class economic
         {
             $accountgroup = $this->_redhelper->getEconomicAccountGroup($row->accountgroup_id);
         }
-        else {
+        else
+        {
             if (DEFAULT_ECONOMIC_ACCOUNT_GROUP != 0)
             {
                 $accountgroup = $this->_redhelper->getEconomicAccountGroup(DEFAULT_ECONOMIC_ACCOUNT_GROUP);
@@ -233,7 +228,8 @@ class economic
      */
     function createProductInEconomic($row = array())
     {
-        if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0) {
+        if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0)
+        {
             return;
         }
 
@@ -401,7 +397,6 @@ class economic
         {
             # Supplier order helper object
             $crmSupplierOrderHelper = new crmSupplierOrderHelper();
-
 
             # get subattribute info for property id
             $subattributeData = $this->_producthelper->getAttibuteSubProperty($row->subattribute_color_id);
@@ -606,7 +601,8 @@ class economic
      */
     function createInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
     {
-        if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2) {
+        if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+        {
             return;
         }
 
@@ -1101,7 +1097,8 @@ class economic
                                 {
                                     return $file;
                                 }
-                                else {
+                                else
+                                {
                                     if ($bookinvoicepdf != "")
                                     {
                                         $file = JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . 'rsInvoice_' . $order_id . '.pdf';
