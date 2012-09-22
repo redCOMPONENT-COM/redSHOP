@@ -1,40 +1,49 @@
 <?php
-// No direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+/**
+ * @package     redSHOP
+ * @subpackage  Tables
+ *
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
+ */
+
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Barcode reder/generator Model
  *
- * @package	redSHOP
- * @version	1.2
+ * @package    redSHOP
+ * @version    1.2
  */
 class TableBarcode extends JTable
 {
-	/**
-	 * Primary Key
-	 *
-	 * @var int
-	 */
-	var $log_id = null;
+    /**
+     * Primary Key
+     *
+     * @var int
+     */
+    public $log_id = null;
 
-	/**
-	 * @var string
-	 */
-	var $order_id = null;
+    /**
+     * @var string
+     */
+    public $order_id = null;
 
-	var $user_id = null;
-	var $barcode = null;
-	var $search_date = null;
+    public $user_id = null;
 
+    public $barcode = null;
 
-	/**
-	 * Constructor
-	 *
-	 * @param object Database connector object
-	 */
-	function TableBarcode(& $db) {
+    public $search_date = null;
 
-		$this->_table_prefix = '#__redshop_';
-		parent::__construct($this->_table_prefix.'orderbarcode_log', 'log_id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param object Database connector object
+     */
+    public function __construct(&$db)
+    {
+
+        $this->_table_prefix = '#__redshop_';
+        parent::__construct($this->_table_prefix . 'orderbarcode_log', 'log_id', $db);
+    }
 }
