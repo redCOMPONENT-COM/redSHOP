@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -24,11 +17,14 @@ jimport('joomla.filesystem.file');
 class shipping_rate_detailModelShipping_rate_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
+
     var $_copydata = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -37,26 +33,28 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
-
 
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id="' . $this->_id . '" ';
             $this->_db->setQuery($query);
             $this->_data = $this->_db->loadObject();
@@ -65,9 +63,10 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         return true;
     }
 
-    function _initData ()
+    function _initData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail                                 = new stdClass();
             $detail->shipping_rate_id               = 0;
             $detail->shipping_rate_name             = null;
@@ -105,7 +104,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         return true;
     }
 
-    function store ($data)
+    function store($data)
     {
         $data['shipping_rate_country']          = @ implode(',', $data['shipping_rate_country']);
         $data['shipping_rate_on_product']       = @ implode(',', $data['shipping_rate_on_product']);
@@ -114,7 +113,8 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         $data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
 
         $row = $this->getTable();
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -133,21 +133,24 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         if (!$row->company_only) {
             $row->company_only = 0;
         }
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
         return $row;
     }
 
-    function delete ($cid = array())
+    function delete($cid = array())
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -155,54 +158,51 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         return true;
     }
 
-    function GetProductListshippingrate ($d)
+    function GetProductListshippingrate($d)
     {
         $and = '';
         //if($d!='')
         //{
         $and .= 'AND product_id IN (' . $d . ')';
         //}
-        $query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product '
-            . 'WHERE published=1 '
-            . $and;
+        $query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product ' . 'WHERE published=1 ' . $and;
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function GetProductList ()
+    function GetProductList()
     {
         $query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function GetCategoryList ()
+    function GetCategoryList()
     {
         $query = 'SELECT category_name as text,category_id as value FROM ' . $this->_table_prefix . 'category WHERE published = 1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function GetStateList ($country_codes)
+    function GetStateList($country_codes)
     {
-        $query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s '
-            . 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.country_id = s.country_id '
-            . 'WHERE find_in_set( c.country_3_code, "' . $country_codes . '" ) '
-            . 'ORDER BY s.state_name ASC';
+        $query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s ' . 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.country_id = s.country_id ' . 'WHERE find_in_set( c.country_3_code, "' . $country_codes . '" ) ' . 'ORDER BY s.state_name ASC';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function copy ($cid = array())
+    function copy($cid = array())
     {
         $copydata = array();
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids  = implode(',', $cid);
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
             $copydata = $this->_db->loadObjectList();
         }
-        for ($i = 0; $i < count($copydata); $i++) {
+        for ($i = 0; $i < count($copydata); $i++)
+        {
             $row = $this->getTable();
 
             $pdata = &$copydata[$i];
@@ -237,22 +237,22 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         return $result;
     }
 
-//	function getShippingMethod($shipping_id=0) {
-//		$query = 'SELECT * FROM '.$this->_table_prefix.'shipping_method '
-//	    		.'WHERE shipping_id='.$shipping_id;
-//		$this->_db->setQuery($query);
-//		$list = $this->_db->loadObject();
-//		return $list;
-//	}
+    //	function getShippingMethod($shipping_id=0) {
+    //		$query = 'SELECT * FROM '.$this->_table_prefix.'shipping_method '
+    //	    		.'WHERE shipping_id='.$shipping_id;
+    //		$this->_db->setQuery($query);
+    //		$list = $this->_db->loadObject();
+    //		return $list;
+    //	}
 
-    function getVatGroup ()
+    function getVatGroup()
     {
         $query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ORDER BY tax_group_id ASC";
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function GetStateDropdown ($data)
+    function GetStateDropdown($data)
     {
         $coutry_code      = $data['country_codes'];
         $shipping_rate_id = $data['shipping_rate_id'];

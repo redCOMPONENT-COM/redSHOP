@@ -643,7 +643,8 @@ class Redconfiguration
                     {
                         array_unshift($openTags, $tag[2]);
                     }
-                    else {
+                    else
+                    {
                         if (preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag))
                         {
                             $pos = array_search($closeTag[1], $openTags);
@@ -1209,5 +1210,3 @@ class Redconfiguration
         return $return;
     }
 }
-
-?>

@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -24,11 +17,14 @@ jimport('joomla.filesystem.file');
 class shipping_detailModelshipping_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
+
     var $_copydata = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -39,19 +35,19 @@ class shipping_detailModelshipping_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
         $this->_loadData();
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
         $query = 'SELECT * FROM #__extensions WHERE folder="redshop_shipping" and extension_id ="' . $this->_id . '" ';
         $this->_db->setQuery($query);
@@ -59,15 +55,13 @@ class shipping_detailModelshipping_detail extends JModel
         return (boolean)$this->_data;
     }
 
-    function store ($data)
+    function store($data)
     {
-        $query = 'UPDATE #__extensions '
-            . 'SET name="' . $data['name'] . '" '
-            . ',enabled ="' . intval($data['published']) . '" '
-            . 'WHERE element="' . $data['element'] . '" ';
+        $query = 'UPDATE #__extensions ' . 'SET name="' . $data['name'] . '" ' . ',enabled ="' . intval($data['published']) . '" ' . 'WHERE element="' . $data['element'] . '" ';
         $this->_db->setQuery($query);
         $this->_db->query();
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -77,15 +71,15 @@ class shipping_detailModelshipping_detail extends JModel
         return true;
     }
 
-    function publish ($cid = array(), $publish = 1)
+    function publish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids  = implode(',', $cid);
-            $query = 'UPDATE #__extensions'
-                . ' SET enabled = ' . intval($publish)
-                . ' WHERE  extension_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE #__extensions' . ' SET enabled = ' . intval($publish) . ' WHERE  extension_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -94,7 +88,7 @@ class shipping_detailModelshipping_detail extends JModel
         return true;
     }
 
-    function saveOrder (&$cid)
+    function saveOrder(&$cid)
     {
         global $mainframe;
         //$scope 		= JRequest::getCmd( 'scope' );
@@ -106,11 +100,14 @@ class shipping_detailModelshipping_detail extends JModel
         JArrayHelper::toInteger($order, array(0));
 
         // update ordering values
-        for ($i = 0; $i < $total; $i++) {
+        for ($i = 0; $i < $total; $i++)
+        {
             $row->load((int)$cid[$i]);
-            if ($row->ordering != $order[$i]) {
+            if ($row->ordering != $order[$i])
+            {
                 $row->ordering = $order[$i];
-                if (!$row->store()) {
+                if (!$row->store())
+                {
                     JError::raiseError(500, $db->getErrorMsg());
                 }
             }
@@ -125,7 +122,7 @@ class shipping_detailModelshipping_detail extends JModel
      * @access public
      * @return boolean
      */
-    function MaxOrdering ()
+    function MaxOrdering()
     {
         $query = "SELECT (max(ordering)+1) FROM #__extensions where folder='redshop_shipping'";
         $this->_db->setQuery($query);
@@ -139,17 +136,19 @@ class shipping_detailModelshipping_detail extends JModel
      * @return  boolean True on success
      * @since   0.9
      */
-    function move ($direction)
+    function move($direction)
     {
 
         $row = JTable::getInstance('shipping_detail', 'Table');
 
-        if (!$row->load($this->_id)) {
+        if (!$row->load($this->_id))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
 
-        if (!$row->move($direction)) {
+        if (!$row->move($direction))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
