@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -22,10 +16,12 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 class question_detailModelquestion_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
 
-    function __construct ()
+    function __construct()
     {
         global $mainframe, $context;
         parent::__construct();
@@ -35,34 +31,36 @@ class question_detailModelquestion_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getanswers ()
+    function &getanswers()
     {
-        if ($this->_loadAnswer()) {
-        } else  {
+        if ($this->_loadAnswer())
+        {
+        }
+        else  {
             $this->_initAnswer();
         }
         return $this->_answers;
     }
 
-    function _loadAnswer ()
+    function _loadAnswer()
     {
-        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-            . "WHERE q.parent_id=" . $this->_id;
+        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.parent_id=" . $this->_id;
         $this->_db->setQuery($query);
         $this->_answers = $this->_db->loadObjectList();
         return $this->_answers;
     }
 
-    function _initAnswer ()
+    function _initAnswer()
     {
         $user = JFactory::getUser();
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail              = new stdClass();
             $detail->question_id = 0;
             $detail->product_id  = null;
@@ -79,45 +77,46 @@ class question_detailModelquestion_detail extends JModel
         return true;
     }
 
-
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
-        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-            . "WHERE q.question_id=" . $this->_id;
+        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.question_id=" . $this->_id;
         $this->_db->setQuery($query);
         $this->_data = $this->_db->loadObject();
         return (boolean)$this->_data;
     }
 
-    function getTotal ()
+    function getTotal()
     {
-        if (empty($this->_total)) {
+        if (empty($this->_total))
+        {
             $query        = $this->_buildQuery();
             $this->_total = $this->_getListCount($query);
         }
         return $this->_total;
     }
 
-    function _buildQuery ()
+    function _buildQuery()
     {
-        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-            . "WHERE q.parent_id=" . $this->_id;
+        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.parent_id=" . $this->_id;
         return $query;
     }
 
-    function getPagination ()
+    function getPagination()
     {
-        if (empty($this->_pagination)) {
+        if (empty($this->_pagination))
+        {
             jimport('joomla.html.pagination');
             $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
         }
@@ -125,18 +124,18 @@ class question_detailModelquestion_detail extends JModel
         return $this->_pagination;
     }
 
-
-    function getProduct ()
+    function getProduct()
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product ";
         $list  = $this->_data = $this->_getList($query);
         return $list;
     }
 
-    function _initData ()
+    function _initData()
     {
         $user = JFactory::getUser();
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail              = new stdClass();
             $detail->question_id = 0;
             $detail->product_id  = null;
@@ -158,27 +157,31 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function store ($data)
+    function store($data)
     {
         $user = JFactory::getUser();
         $db   = JFactory::getDBO();
         $row  = $this->getTable();
 
-        if (!$data['question_id']) {
+        if (!$data['question_id'])
+        {
             $data['ordering'] = $this->MaxOrdering();
         }
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
 
         $time             = time();
         $data['ordering'] = $this->MaxOrdering();
-        if (isset($data['answer'])) {
+        if (isset($data['answer']))
+        {
             $query = "INSERT INTO " . $this->_table_prefix . "customer_question (`parent_id`,`product_id`,`question`,`user_id`,`user_name`,`user_email`,`published`,`question_date`,`ordering`)";
             $query .= " VALUES ('" . $data['question_id'] . "' , '" . $data['product_id'] . "','" . $data['answer'] . "','" . $user->id . "', ";
             $query .= "'" . $user->username . "', '" . $user->email . "',1, '" . $time . "', '" . $data['ordering'] . "')";
@@ -196,10 +199,9 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function MaxOrdering ()
+    function MaxOrdering()
     {
-        $query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question "
-            . "WHERE parent_id=0 ";
+        $query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question " . "WHERE parent_id=0 ";
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
@@ -210,23 +212,24 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function delete ($cid = array())
+    function delete($cid = array())
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question '
-                . 'WHERE parent_id IN (' . $cids . ')';
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question ' . 'WHERE parent_id IN (' . $cids . ')';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question '
-                . 'WHERE question_id IN (' . $cids . ')';
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question ' . 'WHERE question_id IN (' . $cids . ')';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -240,16 +243,16 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function publish ($cid = array(), $publish = 1)
+    function publish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            $query = 'UPDATE ' . $this->_table_prefix . 'customer_question '
-                . ' SET published = ' . intval($publish)
-                . ' WHERE question_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE ' . $this->_table_prefix . 'customer_question ' . ' SET published = ' . intval($publish) . ' WHERE question_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -263,21 +266,24 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function saveorder ($cid = array(), $order)
+    function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable();
         $order     = JRequest::getVar('order', array(0), 'post', 'array');
         $groupings = array();
 
         // update ordering values
-        for ($i = 0; $i < count($cid); $i++) {
+        for ($i = 0; $i < count($cid); $i++)
+        {
             $row->load((int)$cid[$i]);
             // track categories
             $groupings[] = $row->question_id;
 
-            if ($row->ordering != $order[$i]) {
+            if ($row->ordering != $order[$i])
+            {
                 $row->ordering = $order[$i];
-                if (!$row->store()) {
+                if (!$row->store())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
@@ -285,7 +291,8 @@ class question_detailModelquestion_detail extends JModel
         }
         // execute updateOrder for each parent group
         $groupings = array_unique($groupings);
-        foreach ($groupings as $group) {
+        foreach ($groupings as $group)
+        {
             $row->reorder((int)$group);
         }
         return true;
@@ -297,7 +304,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function orderup ()
+    function orderup()
     {
         $row = $this->getTable();
         $row->load($this->_id);
@@ -312,7 +319,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function orderdown ()
+    function orderdown()
     {
         $row = $this->getTable();
         $row->load($this->_id);
@@ -321,7 +328,7 @@ class question_detailModelquestion_detail extends JModel
         return true;
     }
 
-    function sendMailForAskQuestion ($ansid)
+    function sendMailForAskQuestion($ansid)
     {
         $redshopMail = new redshopMail();
         $rs          = $redshopMail->sendAskQuestionMail($ansid);

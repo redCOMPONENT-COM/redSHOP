@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -20,10 +14,12 @@ jimport('joomla.application.component.model');
 class sample_detailModelsample_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -31,24 +27,27 @@ class sample_detailModelsample_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_sample WHERE sample_id="' . $this->_id . '" ';
             $this->_db->setQuery($query);
             $this->_data = $this->_db->loadObject();
@@ -57,9 +56,10 @@ class sample_detailModelsample_detail extends JModel
         return true;
     }
 
-    function _initData ()
+    function _initData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail = new stdClass();
 
             $detail->sample_id   = null;
@@ -72,29 +72,32 @@ class sample_detailModelsample_detail extends JModel
         return true;
     }
 
-    function store ($data)
+    function store($data)
     {
         $row = $this->getTable();
 
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
-        } else {
+        }
+        else
+        {
             $total_loop = count($data["colour_id"]);
-            $sql        = "DELETE FROM " . $this->_table_prefix . "catalog_colour "
-                . "WHERE sample_id='" . $row->sample_id . "' ";
+            $sql        = "DELETE FROM " . $this->_table_prefix . "catalog_colour " . "WHERE sample_id='" . $row->sample_id . "' ";
             $this->_db->setQuery($sql);
             $this->_db->query();
-            if ($total_loop > 0) {
+            if ($total_loop > 0)
+            {
                 $h = 0;
-                foreach ($data["colour_id"] as $cp) {
-                    $sql = "INSERT INTO " . $this->_table_prefix . "catalog_colour "
-                        . "(sample_id,code_image,is_image) "
-                        . "VALUE ('" . $row->sample_id . "','" . $data["code_image"][$h] . "','" . $data["is_image"][$h] . "') ";
+                foreach ($data["colour_id"] as $cp)
+                {
+                    $sql = "INSERT INTO " . $this->_table_prefix . "catalog_colour " . "(sample_id,code_image,is_image) " . "VALUE ('" . $row->sample_id . "','" . $data["code_image"][$h] . "','" . $data["is_image"][$h] . "') ";
                     $this->_db->setQuery($sql);
                     $this->_db->query();
                     $h++;
@@ -104,13 +107,15 @@ class sample_detailModelsample_detail extends JModel
         return $row;
     }
 
-    function delete ($cid = array())
+    function delete($cid = array())
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids  = implode(',', $cid);
             $query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_sample WHERE sample_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -118,15 +123,15 @@ class sample_detailModelsample_detail extends JModel
         return true;
     }
 
-    function publish ($cid = array(), $publish = 1)
+    function publish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'catalog_sample'
-                . ' SET published = ' . intval($publish)
-                . ' WHERE sample_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE ' . $this->_table_prefix . 'catalog_sample' . ' SET published = ' . intval($publish) . ' WHERE sample_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -134,14 +139,11 @@ class sample_detailModelsample_detail extends JModel
         return true;
     }
 
-    function color_Data ($sample_id)
+    function color_Data($sample_id)
     {
-        $query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour '
-            . 'WHERE sample_id="' . $sample_id . '" ';
+        $query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour ' . 'WHERE sample_id="' . $sample_id . '" ';
         $this->_db->setQuery($query);
         $list = $this->_db->loadObjectlist();
         return $list;
     }
 }
-
-?>
