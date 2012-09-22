@@ -1,26 +1,21 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
 
 /*** access Joomla's configuration file ***/
 $my_path = dirname(__FILE__);
-if (file_exists($my_path . "/../../../../configuration.php")) {
+if (file_exists($my_path . "/../../../../configuration.php"))
+{
     $absolute_path = dirname($my_path . "/../../../../configuration.php");
     require_once($my_path . "/../../../../configuration.php");
-} else {
+}
+else
+{
     die("Joomla Configuration File not found!");
 }
 $absolute_path = realpath($absolute_path);
@@ -45,70 +40,63 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlcron
 {
-
-    function xmlcron ()
+    function xmlcron()
     {
         $this->_table_prefix = '#__redshop_';
         xmlcron::xmlExportFileUpdate();
         xmlcron::xmlImportFileUpdate();
     }
 
-    function xmlExportFileUpdate ()
+    function xmlExportFileUpdate()
     {
         $currenttime = time();
         $xmlHelper   = new xmlHelper();
 
         $db    = JFactory::getDBO();
-        $query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x "
-            . "WHERE x.published=1 "
-            . "AND x.auto_sync=1 "
-            . "AND x.sync_on_request=0 "
-            . "AND x.auto_sync_interval!=0 ";
+        $query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x " . "WHERE x.published=1 " . "AND x.auto_sync=1 " . "AND x.sync_on_request=0 " . "AND x.auto_sync_interval!=0 ";
         $db->setQuery($query);
         $exportlist = $db->loadObjectlist();
 
-        for ($i = 0; $i < count($exportlist); $i++) {
+        for ($i = 0; $i < count($exportlist); $i++)
+        {
             $db    = JFactory::getDBO();
-            $query = "SELECT * FROM " . $this->_table_prefix . "xml_export_log AS xl "
-                . "WHERE xl.xmlexport_id='" . $exportlist[$i]->xmlexport_id . "' "
-                . "ORDER BY xl.xmlexport_date DESC ";
+            $query = "SELECT * FROM " . $this->_table_prefix . "xml_export_log AS xl " . "WHERE xl.xmlexport_id='" . $exportlist[$i]->xmlexport_id . "' " . "ORDER BY xl.xmlexport_date DESC ";
             $db->setQuery($query);
             $lastrs = $db->loadObject();
-            if (count($lastrs) > 0) {
+            if (count($lastrs) > 0)
+            {
                 $difftime = $currenttime - $lastrs->xmlexport_date;
                 $hours    = $difftime / (60 * 60);
-                if ($exportlist[$i]->auto_sync_interval < $hours) {
+                if ($exportlist[$i]->auto_sync_interval < $hours)
+                {
                     $xmlHelper->writeXMLExportFile($lastrs->xmlexport_id);
                 }
             }
         }
     }
 
-    function xmlImportFileUpdate ()
+    function xmlImportFileUpdate()
     {
         $currenttime = time();
         $xmlHelper   = new xmlHelper();
 
         $db    = JFactory::getDBO();
-        $query = "SELECT * FROM " . $this->_table_prefix . "xml_import AS x "
-            . "WHERE x.published=1 "
-            . "AND x.auto_sync=1 "
-            . "AND x.sync_on_request=0 "
-            . "AND x.auto_sync_interval!=0 ";
+        $query = "SELECT * FROM " . $this->_table_prefix . "xml_import AS x " . "WHERE x.published=1 " . "AND x.auto_sync=1 " . "AND x.sync_on_request=0 " . "AND x.auto_sync_interval!=0 ";
         $db->setQuery($query);
         $importlist = $db->loadObjectlist();
 
-        for ($i = 0; $i < count($importlist); $i++) {
+        for ($i = 0; $i < count($importlist); $i++)
+        {
             $db    = JFactory::getDBO();
-            $query = "SELECT * FROM " . $this->_table_prefix . "xml_import_log AS xl "
-                . "WHERE xl.xmlimport_id='" . $importlist[$i]->xmlimport_id . "' "
-                . "ORDER BY xl.xmlimport_date DESC ";
+            $query = "SELECT * FROM " . $this->_table_prefix . "xml_import_log AS xl " . "WHERE xl.xmlimport_id='" . $importlist[$i]->xmlimport_id . "' " . "ORDER BY xl.xmlimport_date DESC ";
             $db->setQuery($query);
             $lastrs = $db->loadObject();
-            if (count($lastrs) > 0) {
+            if (count($lastrs) > 0)
+            {
                 $difftime = $currenttime - $lastrs->xmlimport_date;
                 $hours    = $difftime / (60 * 60);
-                if ($importlist[$i]->auto_sync_interval < $hours) {
+                if ($importlist[$i]->auto_sync_interval < $hours)
+                {
                     $xmlHelper->importXMLFile($lastrs->xmlimport_id);
                 }
             }
