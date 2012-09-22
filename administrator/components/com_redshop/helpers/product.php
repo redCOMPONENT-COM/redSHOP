@@ -1,51 +1,47 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
+
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-//require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'order.php');
 
 class adminproducthelper
 {
-
     var $_data = null;
+
     var $_table_prefix = null;
+
     var $_product_level = 0;
 
-    function __construct ()
+    function __construct()
     {
         global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
     }
 
-    function replaceAccessoryData ($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
+    function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
     {
-        $uri           = & JURI::getInstance();
-        $url           = $uri->root();
+        //$uri           = & JURI::getInstance();
+        //$url           = $uri->root();
         $redconfig     = new Redconfiguration();
         $producthelper = new producthelper();
 
-        $product        = $producthelper->getProductById($product_id);
+        //$product        = $producthelper->getProductById($product_id);
         $totalAccessory = count($accessory);
         $accessorylist  = "";
 
-        if ($totalAccessory > 0) {
+        if ($totalAccessory > 0)
+        {
             $accessorylist .= "<tr><th>" . JText::_('COM_REDSHOP_ACCESSORY_PRODUCT') . "</th></tr>";
-            for ($a = 0; $a < count($accessory); $a++) {
+            for ($a = 0; $a < count($accessory); $a++)
+            {
                 $ac_id    = $accessory [$a]->child_product_id;
                 $c_p_data = $producthelper->getProductById($ac_id);
 
@@ -63,7 +59,8 @@ class adminproducthelper
 
                 /////////////////////////////////// Accessory attribute  Start ///////////////////////////////
                 $attributes_set = array();
-                if ($c_p_data->attribute_set_id > 0) {
+                if ($c_p_data->attribute_set_id > 0)
+                {
                     $attributes_set = $producthelper->getProductAttribute(0, $c_p_data->attribute_set_id);
                 }
                 $attributes = $producthelper->getProductAttribute($ac_id);
@@ -79,31 +76,38 @@ class adminproducthelper
         return $accessorylist;
     }
 
-    function replaceAttributeData ($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
+    function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
     {
-        $uri           = & JURI::getInstance();
-        $url           = $uri->root();
+        //$uri           = & JURI::getInstance();
+        //$url           = $uri->root();
         $producthelper = new producthelper();
         $attributelist = "";
 
         $product = $producthelper->getProductById($product_id);
 
-        if ($accessory_id != 0) {
+        if ($accessory_id != 0)
+        {
             $prefix = $uniqueid . "acc_";
-        } else {
+        }
+        else
+        {
             $prefix = $uniqueid . "prd_";
         }
 
         $attributelist .= '<span id="att_lebl" style="display:none;">' . JText::_('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') . '</span>';
-        for ($a = 0; $a < count($attributes); $a++) {
+        for ($a = 0; $a < count($attributes); $a++)
+        {
             $property = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
-            if ($attributes[$a]->text != "" && count($property) > 0) {
+            if ($attributes[$a]->text != "" && count($property) > 0)
+            {
                 $commonid    = $prefix . $product_id . '_' . $accessory_id . '_' . $attributes[$a]->attribute_id;
                 $hiddenattid = 'attribute_id_' . $prefix . $product_id . '_' . $accessory_id;
                 $propertyid  = 'property_id_' . $commonid;
-                for ($i = 0; $i < count($property); $i++) {
+                for ($i = 0; $i < count($property); $i++)
+                {
                     $attributes_property_vat = 0;
-                    if ($property [$i]->property_price > 0) {
+                    if ($property [$i]->property_price > 0)
+                    {
                         /*
                                * get product vat to include
                                */
@@ -111,7 +115,9 @@ class adminproducthelper
                         $property [$i]->property_price += $attributes_property_vat;
                         // End
                         $property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand . $producthelper->getProductFormattedPrice($property [$i]->property_price) . ")";
-                    } else {
+                    }
+                    else
+                    {
                         $property[$i]->text = urldecode($property[$i]->property_name);
                     }
                     $attributelist .= '<input type="hidden" id="' . $propertyid . '_oprand' . $property [$i]->value . '" value="' . $property [$i]->oprand . '" />';
@@ -125,25 +131,35 @@ class adminproducthelper
                 $new_property = array_merge($tmp_array, $property);
                 $at_id        = $product->product_id;
                 $chklist      = "";
-                if ($attributes [$a]->allow_multiple_selection) {
-                    for ($chk = 0; $chk < count($property); $chk++) {
-                        if ($attributes[$a]->attribute_required == 1) {
+                if ($attributes [$a]->allow_multiple_selection)
+                {
+                    for ($chk = 0; $chk < count($property); $chk++)
+                    {
+                        if ($attributes[$a]->attribute_required == 1)
+                        {
                             $required = "required='" . $attributes[$a]->attribute_required . "'";
-                        } else {
+                        }
+                        else
+                        {
                             $required = "";
                         }
                         $chklist .= "<br /><input type='checkbox' value='" . $property[$chk]->value . "' name='" . $propertyid . "[]' id='" . $propertyid . "' class='inputbox' attribute_name='" . $attributes [$a]->attribute_name . "' required='" . $attributes[$a]->attribute_required . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $product_id . "\",\"" . $accessory_id . "\",\"" . $attributes[$a]->attribute_id . "\",\"" . $uniqueid . "\");'  />&nbsp;" . $property[$chk]->text;
                     }
-                } else {
+                }
+                else
+                {
                     $chklist = JHTML::_('select.genericlist', $new_property, $propertyid . '[]', 'id="' . $propertyid . '"  class="inputbox" size="1" attribute_name="' . $attributes[$a]->attribute_name . '" required="' . $attributes [$a]->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $attributes[$a]->attribute_id . '\',\'' . $uniqueid . '\');" ', 'value', 'text', '');
                 }
                 $lists ['property_id'] = $chklist;
 
                 $attributelist .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";
-                if ($attributes [$a]->attribute_required > 0) {
+                if ($attributes [$a]->attribute_required > 0)
+                {
                     $pos        = ASTERISK_POSITION > 0 ? urldecode($attributes [$a]->text) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode($attributes[$a]->text);
                     $attr_title = $pos;
-                } else {
+                }
+                else
+                {
                     $attr_title = urldecode($attributes[$a]->text);
                 }
                 $attributelist .= "<tr><td>" . $attr_title . " : " . $lists ['property_id'] . "</td></tr>";
@@ -153,20 +169,23 @@ class adminproducthelper
         return $attributelist;
     }
 
-    function replaceWrapperData ($product_id = 0, $user_id, $uniqueid = "")
+    function replaceWrapperData($product_id = 0, $user_id, $uniqueid = "")
     {
         $producthelper = new producthelper();
         $wrapperlist   = "";
 
         $wrapper = $producthelper->getWrapper($product_id, 0, 1);
-        if (count($wrapper) > 0) {
+        if (count($wrapper) > 0)
+        {
             $warray                   = array();
             $warray [0]->wrapper_id   = 0;
             $warray [0]->wrapper_name = JText::_('COM_REDSHOP_SELECT');
             $commonid                 = $product_id . $uniqueid;
-            for ($i = 0; $i < count($wrapper); $i++) {
+            for ($i = 0; $i < count($wrapper); $i++)
+            {
                 $wrapper_vat = 0;
-                if ($wrapper[$i]->wrapper_price > 0) {
+                if ($wrapper[$i]->wrapper_price > 0)
+                {
                     $wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[$i]->wrapper_price, $user_id);
                 }
                 $wrapper[$i]->wrapper_price += $wrapper_vat;
@@ -182,7 +201,7 @@ class adminproducthelper
         return $wrapperlist;
     }
 
-    function getProductItemInfo ($product_id = 0, $quantity = 1, $unique_id = "", $user_id = 0, $newproduct_price = 0)
+    function getProductItemInfo($product_id = 0, $quantity = 1, $unique_id = "", $user_id = 0, $newproduct_price = 0)
     {
         $producthelper = new producthelper();
 
@@ -193,19 +212,24 @@ class adminproducthelper
         $product_price          = 0;
         $product_price_excl_vat = 0;
         $producttax             = 0;
-        if ($product_id) {
+        if ($product_id)
+        {
             $productInfo = $producthelper->getProductById($product_id);
-            if ($newproduct_price != 0) {
+            if ($newproduct_price != 0)
+            {
                 $product_price_excl_vat = $newproduct_price;
                 $producttax             = $producthelper->getProductTax($product_id, $newproduct_price, $user_id);
-            } else {
+            }
+            else
+            {
                 $productArr             = $producthelper->getProductNetPrice($product_id, $user_id, $quantity);
                 $product_price_excl_vat = $productArr['productPrice'];
                 $producttax             = $productArr['productVat'];
 
                 // Attribute start
                 $attributes_set = array();
-                if ($productInfo->attribute_set_id > 0) {
+                if ($productInfo->attribute_set_id > 0)
+                {
                     $attributes_set = $producthelper->getProductAttribute(0, $productInfo->attribute_set_id, 0, 1);
                 }
                 $attributes    = $producthelper->getProductAttribute($product_id);
@@ -240,12 +264,13 @@ class adminproducthelper
         return $displayrespoce;
     }
 
-    function replaceShippingMethod ($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0, $shipping_box_post_id = 0)
+    function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0, $shipping_box_post_id = 0)
     {
         $producthelper   = new producthelper();
         $order_functions = new order_functions();
 
-        if ($shipp_users_info_id > 0) {
+        if ($shipp_users_info_id > 0)
+        {
             $shippingmethod = $order_functions->getShippingMethodInfo();
 
             JPluginHelper::importPlugin('redshop_shipping');
@@ -254,11 +279,14 @@ class adminproducthelper
 
             $ratearr = array();
             $r       = 0;
-            for ($s = 0; $s < count($shippingmethod); $s++) {
+            for ($s = 0; $s < count($shippingmethod); $s++)
+            {
                 $rate = $shippingrate[$s];
-                if (count($rate) > 0) {
+                if (count($rate) > 0)
+                {
                     $rs = $shippingmethod[$s];
-                    for ($i = 0; $i < count($rate); $i++) {
+                    for ($i = 0; $i < count($rate); $i++)
+                    {
                         $displayrate        = ($rate[$i]->rate > 0) ? " (" . $producthelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";
                         $ratearr[$r]->text  = $rs->name . " - " . $rate[$i]->text . $displayrate;
                         $ratearr[$r]->value = $rate[$i]->value;
@@ -266,71 +294,94 @@ class adminproducthelper
                     }
                 }
             }
-            if (count($ratearr) > 0) {
-                if (!$shipping_rate_id) {
+            if (count($ratearr) > 0)
+            {
+                if (!$shipping_rate_id)
+                {
                     $shipping_rate_id = $ratearr[0]->value;
                 }
                 $displayrespoce = JHTML::_('select.genericlist', $ratearr, 'shipping_rate_id', 'class="inputbox" onchange="calculateOfflineShipping();" ', 'value', 'text', $shipping_rate_id);
-            } else {
+            }
+            else
+            {
                 $displayrespoce = JText::_('COM_REDSHOP_NO_SHIPPING_METHODS_TO_DISPLAY');
             }
-        } else {
+        }
+        else
+        {
             $displayrespoce = '<div class="shipnotice">' . JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS') . '</div>';
         }
         return $displayrespoce;
     }
 
-    function redesignProductItem ($post = array())
+    function redesignProductItem($post = array())
     {
         $orderItem = array();
         $i         = 0;
-        foreach ($post as $key=> $value) {
-            if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10) {
+        foreach ($post as $key=> $value)
+        {
+            if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10)
+            {
                 $orderItem[$i]->product_id = $value;
             }
-            if (!strcmp("attribute_dataproduct", substr($key, 0, 21))) {
+            if (!strcmp("attribute_dataproduct", substr($key, 0, 21)))
+            {
                 $orderItem[$i]->attribute_data = $value;
             }
-            if (!strcmp("property_dataproduct", substr($key, 0, 20))) {
+            if (!strcmp("property_dataproduct", substr($key, 0, 20)))
+            {
                 $orderItem[$i]->property_data = $value;
             }
-            if (!strcmp("subproperty_dataproduct", substr($key, 0, 23))) {
+            if (!strcmp("subproperty_dataproduct", substr($key, 0, 23)))
+            {
                 $orderItem[$i]->subproperty_data = $value;
             }
-            if (!strcmp("accessory_dataproduct", substr($key, 0, 21))) {
+            if (!strcmp("accessory_dataproduct", substr($key, 0, 21)))
+            {
                 $orderItem[$i]->accessory_data = $value;
             }
-            if (!strcmp("acc_attribute_dataproduct", substr($key, 0, 25))) {
+            if (!strcmp("acc_attribute_dataproduct", substr($key, 0, 25)))
+            {
                 $orderItem[$i]->acc_attribute_data = $value;
             }
-            if (!strcmp("acc_property_dataproduct", substr($key, 0, 24))) {
+            if (!strcmp("acc_property_dataproduct", substr($key, 0, 24)))
+            {
                 $orderItem[$i]->acc_property_data = $value;
             }
-            if (!strcmp("acc_subproperty_dataproduct", substr($key, 0, 27))) {
+            if (!strcmp("acc_subproperty_dataproduct", substr($key, 0, 27)))
+            {
                 $orderItem[$i]->acc_subproperty_data = $value;
             }
-            if (!strcmp("extrafieldId", substr($key, 0, 12))) {
+            if (!strcmp("extrafieldId", substr($key, 0, 12)))
+            {
                 $orderItem[$i]->extrafieldId = $value;
             }
-            if (!strcmp("extrafieldname", substr($key, 0, 14))) {
+            if (!strcmp("extrafieldname", substr($key, 0, 14)))
+            {
                 $orderItem[$i]->extrafieldname = $value;
             }
-            if (!strcmp("wrapper_dataproduct", substr($key, 0, 19))) {
+            if (!strcmp("wrapper_dataproduct", substr($key, 0, 19)))
+            {
                 $orderItem[$i]->wrapper_data = $value;
             }
-            if (!strcmp("quantityproduct", substr($key, 0, 15))) {
+            if (!strcmp("quantityproduct", substr($key, 0, 15)))
+            {
                 $orderItem[$i]->quantity = $value;
             }
-            if (!strcmp("prdexclpriceproduct", substr($key, 0, 19))) {
+            if (!strcmp("prdexclpriceproduct", substr($key, 0, 19)))
+            {
                 $orderItem[$i]->prdexclprice = $value;
             }
-            if (!strcmp("taxpriceproduct", substr($key, 0, 15))) {
+            if (!strcmp("taxpriceproduct", substr($key, 0, 15)))
+            {
                 $orderItem[$i]->taxprice = $value;
             }
-            if (!strcmp("productpriceproduct", substr($key, 0, 19))) {
+            if (!strcmp("productpriceproduct", substr($key, 0, 19)))
+            {
                 $orderItem[$i]->productprice = $value;
             }
-            if (!strcmp("requiedAttributeproduct", substr($key, 0, 23))) {
+            if (!strcmp("requiedAttributeproduct", substr($key, 0, 23)))
+            {
                 $orderItem[$i]->requiedAttributeproduct = $value;
                 $i++;
             }
@@ -338,7 +389,7 @@ class adminproducthelper
         return $orderItem;
     }
 
-    function replaceUserfield ($product_id = 0, $template_id = 0, $unique_id = "")
+    function replaceUserfield($product_id = 0, $template_id = 0, $unique_id = "")
     {
         $producthelper = new producthelper();
         $redTemplate   = new Redtemplate();
@@ -348,10 +399,12 @@ class adminproducthelper
 
         $commonid           = $product_id . $unique_id;
         $product_userfileds = "<table>";
-        for ($ui = 0; $ui < count($returnArr[1]); $ui++) {
+        for ($ui = 0; $ui < count($returnArr[1]); $ui++)
+        {
             $result_arr = $extraField->list_all_user_fields($returnArr[1][$ui], 12, "", $commonid);
             $hidden_arr = $extraField->list_all_user_fields($returnArr[1][$ui], 12, "hidden", $commonid);
-            if ($result_arr[0] != "") {
+            if ($result_arr[0] != "")
+            {
                 $product_userfileds .= "<tr><td>" . $result_arr[0] . "</td><td>" . $result_arr[1] . $hidden_arr[1] . "</td></tr>";
             }
         }
@@ -359,17 +412,15 @@ class adminproducthelper
         return $product_userfileds;
     }
 
-    function admin_insertProdcutUserfield ($field_id = 0, $order_item_id = 0, $section_id = 12, $value = '')
+    function admin_insertProdcutUserfield($field_id = 0, $order_item_id = 0, $section_id = 12, $value = '')
     {
         $db  = JFactory::getDbo();
-        $sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
-            . "(fieldid,data_txt,itemid,section) "
-            . "value ('" . $field_id . "','" . $value . "','" . $order_item_id . "','" . $section_id . "')";
+        $sql = "INSERT INTO " . $this->_table_prefix . "fields_data " . "(fieldid,data_txt,itemid,section) " . "value ('" . $field_id . "','" . $value . "','" . $order_item_id . "','" . $section_id . "')";
         $db->setQuery($sql);
         $db->query();
     }
 
-    function getProductrBySortedList ()
+    function getProductrBySortedList()
     {
         //$product_data = array();
         $product_data           = array_fill(0, 9, new stdClass);
