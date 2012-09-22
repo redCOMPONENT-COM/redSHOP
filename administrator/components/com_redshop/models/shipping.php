@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -21,12 +14,16 @@ jimport('joomla.application.component.model');
 class shippingModelShipping extends JModel
 {
     var $_data = null;
+
     var $_total = null;
+
     var $_pagination = null;
+
     var $_table_prefix = null;
+
     var $_context = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
         global $mainframe;
@@ -40,44 +37,44 @@ class shippingModelShipping extends JModel
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData ()
+    function getData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $query       = $this->_buildQuery();
             $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
         }
         return $this->_data;
     }
 
-    function getTotal ()
+    function getTotal()
     {
-        if (empty($this->_total)) {
+        if (empty($this->_total))
+        {
             $query       = $this->_buildQuery();
             $this->_data = $this->_getListCount($query);
         }
         return $this->_total;
     }
 
-    function getPagination ()
+    function getPagination()
     {
-        if (empty($this->_pagination)) {
+        if (empty($this->_pagination))
+        {
             jimport('joomla.html.pagination');
             $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
         }
         return $this->_pagination;
     }
 
-    function _buildQuery ()
+    function _buildQuery()
     {
         $orderby = $this->_buildContentOrderBy();
-        $query   = 'SELECT s.* FROM #__extensions AS s '
-            . 'WHERE s.folder="redshop_shipping" '
-            . $orderby;
+        $query   = 'SELECT s.* FROM #__extensions AS s ' . 'WHERE s.folder="redshop_shipping" ' . $orderby;
         return $query;
     }
 
-
-    function _buildContentOrderBy ()
+    function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -87,7 +84,7 @@ class shippingModelShipping extends JModel
         return $orderby;
     }
 
-    function saveOrder (&$cid)
+    function saveOrder(&$cid)
     {
         global $mainframe;
         //$scope 		= JRequest::getCmd( 'scope' );
@@ -99,11 +96,14 @@ class shippingModelShipping extends JModel
         JArrayHelper::toInteger($order, array(0));
 
         // update ordering values
-        for ($i = 0; $i < $total; $i++) {
+        for ($i = 0; $i < $total; $i++)
+        {
             $row->load((int)$cid[$i]);
-            if ($row->ordering != $order[$i]) {
+            if ($row->ordering != $order[$i])
+            {
                 $row->ordering = $order[$i];
-                if (!$row->store()) {
+                if (!$row->store())
+                {
                     JError::raiseError(500, $db->getErrorMsg());
                 }
             }
@@ -112,5 +112,3 @@ class shippingModelShipping extends JModel
         return true;
     }
 }
-
-?>

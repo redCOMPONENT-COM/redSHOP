@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -28,11 +22,14 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.ph
 class addquotation_detailModeladdquotation_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
+
     var $_copydata = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -40,13 +37,13 @@ class addquotation_detailModeladdquotation_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function setBilling ()
+    function setBilling()
     {
         $detail                = new stdClass();
         $detail->users_info_id = 0;
@@ -64,16 +61,18 @@ class addquotation_detailModeladdquotation_detail extends JModel
         return $detail;
     }
 
-    function storeShipping ($data)
+    function storeShipping($data)
     {
         $data['address_type'] = 'BT';
 
         $row = & $this->getTable('user_detail');
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -81,11 +80,13 @@ class addquotation_detailModeladdquotation_detail extends JModel
         $data['address_type'] = 'ST';
 
         $rowsh = & $this->getTable('user_detail');
-        if (!$rowsh->bind($data)) {
+        if (!$rowsh->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$rowsh->store()) {
+        if (!$rowsh->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return 0;
         }
@@ -93,14 +94,14 @@ class addquotation_detailModeladdquotation_detail extends JModel
         return $row; //$row->users_info_id;
     }
 
-    function sendRegistrationMail ($post)
+    function sendRegistrationMail($post)
     {
 
         $redshopMail = new redshopMail();
         $redshopMail->sendRegistrationMail($post);
     }
 
-    function store ($data)
+    function store($data)
     {
         $extra_field     = new extra_field();
         $quotationHelper = new quotationHelper();
@@ -121,12 +122,14 @@ class addquotation_detailModeladdquotation_detail extends JModel
         $data['quotation_tax']       = $data['order_tax'];
         $data['quotation_ipaddress'] = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER ['REMOTE_ADDR'] : 'unknown';
 
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
         $row->quotation_status = 2;
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -135,7 +138,8 @@ class addquotation_detailModeladdquotation_detail extends JModel
         $quotation_id = $row->quotation_id;
         $user_id      = $row->user_id;
         $item         = $data['order_item'];
-        for ($i = 0; $i < count($item); $i++) {
+        for ($i = 0; $i < count($item); $i++)
+        {
             $product_id         = $item[$i]->product_id;
             $quantity           = $item[$i]->quantity;
             $product_excl_price = $item[$i]->prdexclprice;
@@ -154,8 +158,10 @@ class addquotation_detailModeladdquotation_detail extends JModel
             $wrapper_price = 0;
             $wrapper_vat   = 0;
             $wrapper       = $producthelper->getWrapper($product_id, $item[$i]->wrapper_data);
-            if (count($wrapper) > 0) {
-                if ($wrapper[0]->wrapper_price > 0) {
+            if (count($wrapper) > 0)
+            {
+                if ($wrapper[0]->wrapper_price > 0)
+                {
                     $wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
                 }
                 $wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
@@ -178,12 +184,14 @@ class addquotation_detailModeladdquotation_detail extends JModel
             $quotation_item[$i]->wrapper_price       = $wrapper_price;
             $quotation_item[$i]->product_quantity    = $quantity;
 
-            if (!$rowitem->bind($quotation_item[$i])) {
+            if (!$rowitem->bind($quotation_item[$i]))
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
 
-            if (!$rowitem->store()) {
+            if (!$rowitem->store())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -191,25 +199,30 @@ class addquotation_detailModeladdquotation_detail extends JModel
             // store userfields
             $userfields    = JRequest::getVar('extrafields' . $product_id);
             $userfields_id = JRequest::getVar('extrafields_id_' . $product_id);
-            for ($ui = 0; $ui < count($userfields); $ui++) {
+            for ($ui = 0; $ui < count($userfields); $ui++)
+            {
                 $quotationHelper->insertQuotationUserfield($userfields_id[$ui], $rowitem->quotation_item_id, 12, $userfields[$ui]);
             }
 
             /** my accessory save in table start */
-            if (count($generateAccessoryCart) > 0) {
+            if (count($generateAccessoryCart) > 0)
+            {
                 $attArr = $generateAccessoryCart;
-                for ($a = 0; $a < count($attArr); $a++) {
+                for ($a = 0; $a < count($attArr); $a++)
+                {
                     $accessory_vat_price = 0;
                     $accessory_attribute = "";
                     $accessory_id        = $attArr[$a]['accessory_id'];
                     $accessory_name      = $attArr[$a]['accessory_name'];
                     $accessory_price     = $attArr[$a]['accessory_price'];
                     $accessory_org_price = $accessory_price;
-                    if ($accessory_price > 0) {
+                    if ($accessory_price > 0)
+                    {
                         $accessory_vat_price = $producthelper->getProductTax($rowitem->product_id, $accessory_price, $user_id);
                     }
                     $attchildArr = $attArr[$a]['accessory_childs'];
-                    for ($j = 0; $j < count($attchildArr); $j++) {
+                    for ($j = 0; $j < count($attchildArr); $j++)
+                    {
                         $attribute_id = $attchildArr[$j]['attribute_id'];
                         $accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
@@ -221,17 +234,21 @@ class addquotation_detailModeladdquotation_detail extends JModel
                         $rowattitem->parent_section_id     = $accessory_id;
                         $rowattitem->section_name          = $attchildArr[$j]['attribute_name'];
                         $rowattitem->is_accessory_att      = 1;
-                        if ($attribute_id > 0) {
-                            if (!$rowattitem->store()) {
+                        if ($attribute_id > 0)
+                        {
+                            if (!$rowattitem->store())
+                            {
                                 $this->setError($this->_db->getErrorMsg());
                                 return false;
                             }
                         }
 
                         $propArr = $attchildArr[$j]['attribute_childs'];
-                        for ($k = 0; $k < count($propArr); $k++) {
+                        for ($k = 0; $k < count($propArr); $k++)
+                        {
                             $section_vat = 0;
-                            if ($propArr[$k]['property_price'] > 0) {
+                            if ($propArr[$k]['property_price'] > 0)
+                            {
                                 $section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price'], $user_id);
                             }
                             $property_id = $propArr[$k]['property_id'];
@@ -249,16 +266,20 @@ class addquotation_detailModeladdquotation_detail extends JModel
                             $rowattitem->section_vat           = $section_vat;
                             $rowattitem->section_oprand        = $propArr[$k]['property_oprand'];
                             $rowattitem->is_accessory_att      = 1;
-                            if ($property_id > 0) {
-                                if (!$rowattitem->store()) {
+                            if ($property_id > 0)
+                            {
+                                if (!$rowattitem->store())
+                                {
                                     $this->setError($this->_db->getErrorMsg());
                                     return false;
                                 }
                             }
 
-                            for ($l = 0; $l < count($subpropArr); $l++) {
+                            for ($l = 0; $l < count($subpropArr); $l++)
+                            {
                                 $section_vat = 0;
-                                if ($subpropArr[$l]['subproperty_price'] > 0) {
+                                if ($subpropArr[$l]['subproperty_price'] > 0)
+                                {
                                     $section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
                                 }
                                 $subproperty_id = $subpropArr[$l]['subproperty_id'];
@@ -275,8 +296,10 @@ class addquotation_detailModeladdquotation_detail extends JModel
                                 $rowattitem->section_vat           = $section_vat;
                                 $rowattitem->section_oprand        = $subpropArr[$l]['subproperty_oprand'];
                                 $rowattitem->is_accessory_att      = 1;
-                                if ($subproperty_id > 0) {
-                                    if (!$rowattitem->store()) {
+                                if ($subproperty_id > 0)
+                                {
+                                    if (!$rowattitem->store())
+                                    {
                                         $this->setError($this->_db->getErrorMsg());
                                         return false;
                                     }
@@ -286,7 +309,8 @@ class addquotation_detailModeladdquotation_detail extends JModel
                     }
 
                     $accdata = & $this->getTable('accessory_detail');
-                    if ($accessory_id > 0) {
+                    if ($accessory_id > 0)
+                    {
                         $accdata->load($accessory_id);
                     }
                     $accProductinfo                    = $producthelper->getProductById($accdata->child_product_id);
@@ -302,8 +326,10 @@ class addquotation_detailModeladdquotation_detail extends JModel
                     $rowaccitem->accessory_item_price  = $accessory_price;
                     $rowaccitem->accessory_final_price = ($accessory_price * $rowitem->product_quantity);
                     $rowaccitem->accessory_attribute   = $accessory_attribute;
-                    if ($accessory_id > 0) {
-                        if (!$rowaccitem->store()) {
+                    if ($accessory_id > 0)
+                    {
+                        if (!$rowaccitem->store())
+                        {
                             $this->setError($this->_db->getErrorMsg());
                             return false;
                         }
@@ -312,9 +338,11 @@ class addquotation_detailModeladdquotation_detail extends JModel
             }
 
             /** my attribute save in table start */
-            if (count($generateAttributeCart) > 0) {
+            if (count($generateAttributeCart) > 0)
+            {
                 $attArr = $generateAttributeCart;
-                for ($j = 0; $j < count($attArr); $j++) {
+                for ($j = 0; $j < count($attArr); $j++)
+                {
                     $attribute_id = $attArr[$j]['attribute_id'];
 
                     $rowattitem                        = & $this->getTable('quotation_attribute_item');
@@ -325,22 +353,26 @@ class addquotation_detailModeladdquotation_detail extends JModel
                     $rowattitem->parent_section_id     = $rowitem->product_id;
                     $rowattitem->section_name          = $attArr[$j]['attribute_name'];
                     $rowattitem->is_accessory_att      = 0;
-                    if ($attribute_id > 0) {
-                        if (!$rowattitem->store()) {
+                    if ($attribute_id > 0)
+                    {
+                        if (!$rowattitem->store())
+                        {
                             $this->setError($this->_db->getErrorMsg());
                             return false;
                         }
                     }
 
                     $propArr = $attArr[$j]['attribute_childs'];
-                    for ($k = 0; $k < count($propArr); $k++) {
+                    for ($k = 0; $k < count($propArr); $k++)
+                    {
                         $section_vat = 0;
-                        if ($propArr[$k]['property_price'] > 0) {
+                        if ($propArr[$k]['property_price'] > 0)
+                        {
                             $section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price'], $user_id);
                         }
                         $property_id = $propArr[$k]['property_id'];
                         /** product property STOCKROOM update start */
-//						$producthelper->updateAttributeStockRoom($property_id,"property",$rowitem->product_quantity);
+                        //						$producthelper->updateAttributeStockRoom($property_id,"property",$rowitem->product_quantity);
                         $updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $rowitem->product_quantity, "property");
 
                         $rowattitem                        = & $this->getTable('quotation_attribute_item');
@@ -354,22 +386,26 @@ class addquotation_detailModeladdquotation_detail extends JModel
                         $rowattitem->section_vat           = $section_vat;
                         $rowattitem->section_oprand        = $propArr[$k]['property_oprand'];
                         $rowattitem->is_accessory_att      = 0;
-                        if ($property_id > 0) {
-                            if (!$rowattitem->store()) {
+                        if ($property_id > 0)
+                        {
+                            if (!$rowattitem->store())
+                            {
                                 $this->setError($this->_db->getErrorMsg());
                                 return false;
                             }
                         }
 
                         $subpropArr = $propArr[$k]['property_childs'];
-                        for ($l = 0; $l < count($subpropArr); $l++) {
+                        for ($l = 0; $l < count($subpropArr); $l++)
+                        {
                             $section_vat = 0;
-                            if ($subpropArr[$l]['subproperty_price'] > 0) {
+                            if ($subpropArr[$l]['subproperty_price'] > 0)
+                            {
                                 $section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
                             }
                             $subproperty_id = $subpropArr[$l]['subproperty_id'];
                             /** product subproperty STOCKROOM update start */
-//							$producthelper->updateAttributeStockRoom($subproperty_id,"subproperty",$rowitem->product_quantity);
+                            //							$producthelper->updateAttributeStockRoom($subproperty_id,"subproperty",$rowitem->product_quantity);
                             $updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $rowitem->product_quantity, "subproperty");
 
                             $rowattitem                        = & $this->getTable('quotation_attribute_item');
@@ -383,8 +419,10 @@ class addquotation_detailModeladdquotation_detail extends JModel
                             $rowattitem->section_vat           = $section_vat;
                             $rowattitem->section_oprand        = $subpropArr[$l]['subproperty_oprand'];
                             $rowattitem->is_accessory_att      = 0;
-                            if ($subproperty_id > 0) {
-                                if (!$rowattitem->store()) {
+                            if ($subproperty_id > 0)
+                            {
+                                if (!$rowattitem->store())
+                                {
                                     $this->setError($this->_db->getErrorMsg());
                                     return false;
                                 }
@@ -397,27 +435,29 @@ class addquotation_detailModeladdquotation_detail extends JModel
         return $row;
     }
 
-    function sendQuotationMail ($quotaion_id)
+    function sendQuotationMail($quotaion_id)
     {
         $redshopMail = new redshopMail();
         $send        = $redshopMail->sendQuotationMail($quotaion_id);
         return $send;
     }
 
-    function getUserData ($user_id = 0, $billing = "", $user_info_id = 0)
+    function getUserData($user_id = 0, $billing = "", $user_info_id = 0)
     {
         $and = '';
-        if ($user_id != 0) {
+        if ($user_id != 0)
+        {
             $and .= ' AND ui.user_id="' . $user_id . '" ';
         }
-        if ($billing != "") {
+        if ($billing != "")
+        {
             $and .= ' AND ui.address_type like "' . $billing . '" ';
         }
-        if ($user_info_id != 0) {
+        if ($user_info_id != 0)
+        {
             $and .= ' AND ui.users_info_id= "' . $user_info_id . '" ';
         }
-        $query = 'SELECT *,CONCAT(ui.firstname," ",ui.lastname) AS text FROM ' . $this->_table_prefix . 'users_info AS ui '
-//				.'LEFT JOIN #__users AS u ON u.id=ui.user_id '
+        $query = 'SELECT *,CONCAT(ui.firstname," ",ui.lastname) AS text FROM ' . $this->_table_prefix . 'users_info AS ui ' //				.'LEFT JOIN #__users AS u ON u.id=ui.user_id '
             . 'WHERE 1=1 ' //'u.block=0 '
             . $and//				.'GROUP BY ui.user_id '
         ;
@@ -426,35 +466,43 @@ class addquotation_detailModeladdquotation_detail extends JModel
         return $list;
     }
 
-
-    function replaceSubPropertyData ($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $user_id, $uniqueid = "")
+    function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $user_id, $uniqueid = "")
     {
         $producthelper = new producthelper ();
 
         $subproperty = array();
-        if ($property_id != 0 && $attribute_id != 0) {
+        if ($property_id != 0 && $attribute_id != 0)
+        {
             $attributes  = $producthelper->getProductAttribute(0, 0, $attribute_id);
             $attributes  = $attributes[0];
             $subproperty = $producthelper->getAttibuteSubProperty(0, $property_id);
         }
-        if ($accessory_id != 0) {
+        if ($accessory_id != 0)
+        {
             $prefix = $uniqueid . "acc_";
-        } else {
+        }
+        else
+        {
             $prefix = $uniqueid . "prd_";
         }
 
         $product       = $producthelper->getProductById($product_id);
         $attributelist = "";
-        if (count($subproperty) > 0) {
+        if (count($subproperty) > 0)
+        {
             $commonid      = $prefix . $product_id . '_' . $accessory_id . '_' . $attribute_id . '_' . $property_id;
             $subpropertyid = 'subproperty_id_' . $commonid;
-            for ($i = 0; $i < count($subproperty); $i++) {
+            for ($i = 0; $i < count($subproperty); $i++)
+            {
                 $attributes_subproperty_vat = 0;
-                if ($subproperty [$i]->subattribute_color_price > 0) {
+                if ($subproperty [$i]->subattribute_color_price > 0)
+                {
                     $attributes_subproperty_vat = $producthelper->getProducttax($product_id, $subproperty[$i]->subattribute_color_price);
                     $subproperty [$i]->subattribute_color_price += $attributes_subproperty_vat;
                     $subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . $producthelper->getProductFormattedPrice($subproperty [$i]->subattribute_color_price) . ")";
-                } else {
+                }
+                else
+                {
                     $subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name);
                 }
                 $attributelist .= '<input type="hidden" id="' . $subpropertyid . '_oprand' . $subproperty [$i]->value . '" value="' . $subproperty [$i]->oprand . '" />';
@@ -468,26 +516,28 @@ class addquotation_detailModeladdquotation_detail extends JModel
             $new_subproperty = array_merge($tmp_array, $subproperty);
             $chklist         = "";
 
-            if ($attributes->allow_multiple_selection) {
-                for ($chk = 0; $chk < count($subproperty); $chk++) {
+            if ($attributes->allow_multiple_selection)
+            {
+                for ($chk = 0; $chk < count($subproperty); $chk++)
+                {
                     $chklist .= "<br /><input type='checkbox' value='" . $subproperty[$chk]->value . "' name='" . $subpropertyid . "[]'  id='" . $subpropertyid . "' class='inputbox' onchange='javascript:calculateOfflineTotalPrice(\"" . $uniqueid . "\");' />&nbsp;" . $subproperty[$chk]->text;
                 }
-            } else {
+            }
+            else
+            {
                 $chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="' . $subpropertyid . '" class="inputbox" size="1" onchange="javascript:calculateOfflineTotalPrice(\'' . $uniqueid . '\');" ', 'value', 'text', '');
             }
             $lists ['subproperty_id'] = $chklist;
 
-//			if ($stock)
-//			{
-//				$attribute_table = str_replace ( "{property_title}", "", $attribute_table );
-//				$attribute_table = str_replace ( "{subproperty_dropdown}", "", $attribute_table );
-//				//$attribute_table = str_replace ( "{subproperty_dropdown}", JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE' ), $attribute_table );
-//			} else {
+            //			if ($stock)
+            //			{
+            //				$attribute_table = str_replace ( "{property_title}", "", $attribute_table );
+            //				$attribute_table = str_replace ( "{subproperty_dropdown}", "", $attribute_table );
+            //				//$attribute_table = str_replace ( "{subproperty_dropdown}", JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE' ), $attribute_table );
+            //			} else {
             $attributelist .= "<tr><td>" . urldecode($subproperty[0]->property_name) . " : " . $lists ['subproperty_id'];
-//			}
+            //			}
         }
         return $attributelist;
     }
 }
-
-?>

@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -22,10 +16,12 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 class xmlexport_detailModelxmlexport_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -34,34 +30,36 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
-        $query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
-            . "WHERE x.xmlexport_id=" . $this->_id;
+        $query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x " . "WHERE x.xmlexport_id=" . $this->_id;
         $this->_db->setQuery($query);
         $this->_data = $this->_db->loadObject();
         return (boolean)$this->_data;
     }
 
-    function _initData ()
+    function _initData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail                             = new stdClass();
             $detail->xmlexport_id               = 0;
             $detail->filename                   = null;
@@ -99,14 +97,15 @@ class xmlexport_detailModelxmlexport_detail extends JModel
      * @access public
      * @return boolean
      */
-    function store ($data, $export = 0)
+    function store($data, $export = 0)
     {
         $resarray  = array();
         $xmlhelper = new xmlHelper();
 
         $data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
         $row                           = $this->getTable();
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -115,30 +114,32 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         }
         $row->published = $data['xmlpublished'];
 
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
         $xmlexport_ip_id  = $data['xmlexport_ip_id'];
         $access_ipaddress = $data['access_ipaddress'];
-        for ($i = 0; $i < count($xmlexport_ip_id); $i++) {
-            if ($access_ipaddress[$i] != "") {
-                if ($xmlexport_ip_id[$i] != 0) {
-                    $query = "UPDATE " . $this->_table_prefix . "xml_export_ipaddress "
-                        . "SET access_ipaddress='" . $access_ipaddress[$i] . "' "
-                        . "WHERE xmlexport_ip_id='" . $xmlexport_ip_id[$i] . "' ";
-                } else {
-                    $query = "INSERT INTO " . $this->_table_prefix . "xml_export_ipaddress "
-                        . "(xmlexport_id, access_ipaddress) "
-                        . "VALUES "
-                        . "('" . $row->xmlexport_id . "', '" . $access_ipaddress[$i] . "') ";
+        for ($i = 0; $i < count($xmlexport_ip_id); $i++)
+        {
+            if ($access_ipaddress[$i] != "")
+            {
+                if ($xmlexport_ip_id[$i] != 0)
+                {
+                    $query = "UPDATE " . $this->_table_prefix . "xml_export_ipaddress " . "SET access_ipaddress='" . $access_ipaddress[$i] . "' " . "WHERE xmlexport_ip_id='" . $xmlexport_ip_id[$i] . "' ";
+                }
+                else
+                {
+                    $query = "INSERT INTO " . $this->_table_prefix . "xml_export_ipaddress " . "(xmlexport_id, access_ipaddress) " . "VALUES " . "('" . $row->xmlexport_id . "', '" . $access_ipaddress[$i] . "') ";
                 }
                 $this->_db->setQuery($query);
                 $this->_db->query();
             }
         }
 
-        if ($export == 1) {
+        if ($export == 1)
+        {
             $filename = $xmlhelper->writeXMLExportFile($row->xmlexport_id);
         }
         return $row;
@@ -150,40 +151,43 @@ class xmlexport_detailModelxmlexport_detail extends JModel
      * @access public
      * @return boolean
      */
-    function delete ($cid = array())
+    function delete($cid = array())
     {
         $xmlhelper = new xmlHelper();
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            for ($i = 0; $i < count($cid); $i++) {
+            for ($i = 0; $i < count($cid); $i++)
+            {
                 $result   = $xmlhelper->getXMLExportInfo($cid[$i]);
                 $rootpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/export" . DS . $result->filename;
-                if (is_file($rootpath)) {
+                if (is_file($rootpath))
+                {
                     unlink($rootpath);
                 }
             }
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_log '
-                . 'WHERE xmlexport_id IN (' . $cids . ')';
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_log ' . 'WHERE xmlexport_id IN (' . $cids . ')';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress '
-                . 'WHERE xmlexport_id IN (' . $cids . ')';
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress ' . 'WHERE xmlexport_id IN (' . $cids . ')';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export '
-                . 'WHERE xmlexport_id IN (' . $cids . ')';
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export ' . 'WHERE xmlexport_id IN (' . $cids . ')';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -191,28 +195,28 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return true;
     }
 
-    function deleteIpAddress ($xmlexport_ip_id = 0)
+    function deleteIpAddress($xmlexport_ip_id = 0)
     {
-        $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress '
-            . 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
+        $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress ' . 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
         $this->_db->setQuery($query);
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
         return true;
     }
 
-    function auto_syncpublish ($cid = array(), $publish = 1)
+    function auto_syncpublish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            $query = 'UPDATE ' . $this->_table_prefix . 'xml_export '
-                . ' SET auto_sync = ' . intval($publish)
-                . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE ' . $this->_table_prefix . 'xml_export ' . ' SET auto_sync = ' . intval($publish) . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -220,16 +224,16 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return true;
     }
 
-    function usetoallpublish ($cid = array(), $publish = 1)
+    function usetoallpublish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            $query = 'UPDATE ' . $this->_table_prefix . 'xml_export '
-                . ' SET use_to_all_users = ' . intval($publish)
-                . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE ' . $this->_table_prefix . 'xml_export ' . ' SET use_to_all_users = ' . intval($publish) . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -243,16 +247,16 @@ class xmlexport_detailModelxmlexport_detail extends JModel
      * @access public
      * @return boolean
      */
-    function publish ($cid = array(), $publish = 1)
+    function publish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            $query = ' UPDATE ' . $this->_table_prefix . 'xml_export '
-                . ' SET published = ' . intval($publish)
-                . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
+            $query = ' UPDATE ' . $this->_table_prefix . 'xml_export ' . ' SET published = ' . intval($publish) . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -260,14 +264,11 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return true;
     }
 
-    function getCategoryList ()
+    function getCategoryList()
     {
-        $query = 'SELECT category_name AS text,category_id AS value FROM ' . $this->_table_prefix . 'category '
-            . 'WHERE published=1 ';
+        $query = 'SELECT category_name AS text,category_id AS value FROM ' . $this->_table_prefix . 'category ' . 'WHERE published=1 ';
         $this->_db->setQuery($query);
         $list = $this->_db->loadObjectList();
         return $list;
     }
 }
-
-?>
