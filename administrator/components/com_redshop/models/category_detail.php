@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -27,10 +21,12 @@ jimport('joomla.filesystem.file');
 class category_detailModelcategory_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -39,25 +35,28 @@ class category_detailModelcategory_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $query = 'SELECT c.*,p.category_parent_id FROM ' . $this->_table_prefix . 'category as c left join ' . $this->_table_prefix . 'category_xref as p ON p.category_child_id=c.category_id  WHERE category_id = "' . $this->_id . '" ';
             $this->_db->setQuery($query);
             $this->_data = $this->_db->loadObject();
@@ -66,9 +65,10 @@ class category_detailModelcategory_detail extends JModel
         return true;
     }
 
-    function _initData ()
+    function _initData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail                             = new stdClass();
             $detail->category_id                = 0;
             $detail->category_name              = null;
@@ -97,12 +97,13 @@ class category_detailModelcategory_detail extends JModel
         return true;
     }
 
-    function store ($data)
+    function store($data)
     {
 
         $row = $this->getTable();
 
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -113,12 +114,14 @@ class category_detailModelcategory_detail extends JModel
         $filename = "";
         $file     = JRequest::getVar('category_full_image', array(), 'files', 'array'); //Get File name, tmp_name
 
-        if (count($file) > 0) {
+        if (count($file) > 0)
+        {
             $filename = JPath::clean(time() . '_' . $file['name']); //Make the filename unique
             $filename = str_replace(" ", "_", $filename);
         }
 
-        if (isset($data['image_delete'])) {
+        if (isset($data['image_delete']))
+        {
 
             unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $data['old_image']);
             unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['old_image']);
@@ -127,7 +130,8 @@ class category_detailModelcategory_detail extends JModel
             $this->_db->setQuery($query);
             $this->_db->query();
         }
-        if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "") {
+        if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "")
+        {
             $newwidth  = THUMB_WIDTH;
             $newheight = THUMB_HEIGHT;
 
@@ -140,8 +144,11 @@ class category_detailModelcategory_detail extends JModel
             $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename; //specific path of the file
 
             JFile::upload($src, $dest);
-        } else {
-            if (isset($data['category_image']) && $data['category_image'] != null) {
+        }
+        else
+        {
+            if (isset($data['category_image']) && $data['category_image'] != null)
+            {
 
                 $image_split = explode('/', $data['category_image']);
 
@@ -160,10 +167,11 @@ class category_detailModelcategory_detail extends JModel
                 copy($src, $dest);
             }
         }
-// upload back image
+        // upload back image
         $backfile = JRequest::getVar('category_back_full_image', '', 'files', 'array'); //Get File name, tmp_name
 
-        if (isset($data['image_back_delete'])) {
+        if (isset($data['image_back_delete']))
+        {
 
             unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $data['old_back_image']);
             unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['old_back_image']);
@@ -172,7 +180,8 @@ class category_detailModelcategory_detail extends JModel
             $this->_db->setQuery($query);
             $this->_db->query();
         }
-        if (count($backfile) > 0 && $backfile['name'] != "") {
+        if (count($backfile) > 0 && $backfile['name'] != "")
+        {
             $filename                      = JPath::clean(time() . '_' . $backfile['name']); //Make the filename unique
             $row->category_back_full_image = $filename;
 
@@ -183,27 +192,37 @@ class category_detailModelcategory_detail extends JModel
 
             JFile::upload($src, $dest);
         }
-// upload back image end
-        if (!$row->store()) {
+        // upload back image end
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
 
-        if (!$data['category_id']) {
+        if (!$data['category_id'])
+        {
             $newcatid = $this->_db->insertid();
-            if (isset($_POST['category_parent_id'])) {
+            if (isset($_POST['category_parent_id']))
+            {
                 $parentcat = $_POST['category_parent_id'];
-            } else {
+            }
+            else
+            {
                 $parentcat = $data['category_parent_id'];
             }
             $query = 'INSERT INTO ' . $this->_table_prefix . 'category_xref(category_parent_id,category_child_id) VALUES ("' . $parentcat . '","' . $newcatid . '");';
             $this->_db->setQuery($query);
             $this->_db->query();
-        } else {
+        }
+        else
+        {
             $newcatid = $data['category_id'];
-            if (isset($_POST['category_parent_id'])) {
+            if (isset($_POST['category_parent_id']))
+            {
                 $parentcat = $_POST['category_parent_id'];
-            } else {
+            }
+            else
+            {
                 $parentcat = $data['category_parent_id'];
             }
 
@@ -212,7 +231,8 @@ class category_detailModelcategory_detail extends JModel
             $this->_db->query();
 
             //cheking for the image at the updation time
-            if ($_FILES['category_full_image']['name'] != "") {
+            if ($_FILES['category_full_image']['name'] != "")
+            {
                 @unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $_POST['old_image']);
                 @unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $_POST['old_image']);
             }
@@ -222,20 +242,23 @@ class category_detailModelcategory_detail extends JModel
         $field->extra_field_save($data, 2, $newcatid); /// field_section 2 :- Category
         /// Extra Field Data Saved ////////////////////////
 
-
         //------------ Start Accessory Product --------------------
-        if (count($data['product_accessory']) > 0 && is_array($data['product_accessory'])) {
+        if (count($data['product_accessory']) > 0 && is_array($data['product_accessory']))
+        {
             $data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 
             $product_category = new product_category();
             $product_list     = $product_category->getCategoryProductList($newcatid);
-            for ($p = 0; $p < count($product_list); $p++) {
+            for ($p = 0; $p < count($product_list); $p++)
+            {
                 $product_id = $product_list[$p]->id;
-                for ($a = 0; $a < count($data['product_accessory']); $a++) {
+                for ($a = 0; $a < count($data['product_accessory']); $a++)
+                {
                     $acc = $data['product_accessory'][$a];
 
                     $accessory_id = $product_category->CheckAccessoryExists($product_id, $acc['child_product_id']);
-                    if ($product_id != $acc['child_product_id']) {
+                    if ($product_id != $acc['child_product_id'])
+                    {
                         $accdetail = $this->getTable('accessory_detail');
 
                         $accdetail->accessory_id        = $accessory_id;
@@ -246,7 +269,8 @@ class category_detailModelcategory_detail extends JModel
                         $accdetail->oprand              = $acc['oprand'];
                         $accdetail->ordering            = $acc['ordering'];
                         $accdetail->setdefault_selected = (isset($acc['setdefault_selected']) && $acc['setdefault_selected'] == 1) ? 1 : 0;
-                        if (!$accdetail->store()) {
+                        if (!$accdetail->store())
+                        {
                             $this->setError($this->_db->getErrorMsg());
                             return false;
                         }
@@ -258,10 +282,11 @@ class category_detailModelcategory_detail extends JModel
         return $row;
     }
 
-    function delete ($cid = array())
+    function delete($cid = array())
     {
         $noError = true;
-        for ($i = 0; $i < count($cid); $i++) {
+        for ($i = 0; $i < count($cid); $i++)
+        {
 
             $query = 'SELECT count( * ) as ctotal,c.category_name
 						FROM `' . $this->_table_prefix . 'category_xref` as cx LEFT JOIN `' . $this->_table_prefix . 'category` as c ON c.category_id = "' . $cid[$i] . '"
@@ -269,7 +294,8 @@ class category_detailModelcategory_detail extends JModel
             $this->_db->setQuery($query);
             $childs = $this->_db->loadObject();
 
-            if ($childs->ctotal > 0) {
+            if ($childs->ctotal > 0)
+            {
                 $noError  = false;
                 $errorMSG = sprintf(JText::_('COM_REDSHOP_CATEGORY_PARENT_ERROR_MSG'), $childs->category_name, $cid[$i]);
                 $this->setError($errorMSG);
@@ -286,10 +312,12 @@ class category_detailModelcategory_detail extends JModel
             $thumb_path      = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $cat_thumb_image;
             $full_image_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $cat_full_image;
 
-            if (file_exists($thumb_path)) {
+            if (file_exists($thumb_path))
+            {
                 @unlink($thumb_path);
             }
-            if (file_exists($full_image_path)) {
+            if (file_exists($full_image_path))
+            {
                 @unlink($full_image_path);
             }
 
@@ -308,16 +336,16 @@ class category_detailModelcategory_detail extends JModel
         return $noError;
     }
 
-    function publish ($cid = array(), $publish = 1)
+    function publish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            $query = 'UPDATE ' . $this->_table_prefix . 'category'
-                . ' SET published = "' . intval($publish) . '" '
-                . ' WHERE category_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE ' . $this->_table_prefix . 'category' . ' SET published = "' . intval($publish) . '" ' . ' WHERE category_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -325,44 +353,48 @@ class category_detailModelcategory_detail extends JModel
         return true;
     }
 
-    function getcategories ()
+    function getcategories()
     {
         $query = 'SELECT category_id as value,category_name as text FROM ' . $this->_table_prefix . 'category  WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function move ($direction)
+    function move($direction)
     {
         $row = $this->getTable();
-        if (!$row->load($this->_id)) {
+        if (!$row->load($this->_id))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->move($direction, ' category_id = ' . (int)$row->category_id . ' AND published >= 0 ')) {
+        if (!$row->move($direction, ' category_id = ' . (int)$row->category_id . ' AND published >= 0 '))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
         return true;
     }
 
-
-    function saveorder ($cid = array(), $order)
+    function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable();
         $groupings = array();
 
         // update ordering values
-        for ($i = 0; $i < count($cid); $i++) {
+        for ($i = 0; $i < count($cid); $i++)
+        {
             $row->load((int)$cid[$i]);
 
             // track categories
             $groupings[] = $row->category_id;
 
-            if ($row->ordering != $order[$i]) {
+            if ($row->ordering != $order[$i])
+            {
                 $row->ordering = $order[$i];
 
-                if (!$row->store()) {
+                if (!$row->store())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
@@ -376,12 +408,13 @@ class category_detailModelcategory_detail extends JModel
         return true;
     }
 
-    function updateorder ($oprand, $cat_id = 0)
+    function updateorder($oprand, $cat_id = 0)
     {
 
         $q = "UPDATE " . $this->_table_prefix . "category ";
         $q .= "SET ordering=ordering" . $oprand . "1 ";
-        if ($cat_id) {
+        if ($cat_id)
+        {
             $q .= " WHERE ordering != 0 ";
         }
 
@@ -389,7 +422,7 @@ class category_detailModelcategory_detail extends JModel
         $this->_db->query();
     }
 
-    function orderup ()
+    function orderup()
     {
 
         $cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -412,7 +445,8 @@ class category_detailModelcategory_detail extends JModel
 
         $morder = $this->getmaxminOrder('min');
 
-        if ($currentpos > $morder) {
+        if ($currentpos > $morder)
+        {
             $q = "UPDATE " . $this->_table_prefix . "category ";
             $q .= "SET ordering=ordering-1 ";
             $q .= "WHERE category_id='" . $cid . "'";
@@ -427,7 +461,7 @@ class category_detailModelcategory_detail extends JModel
         }
     }
 
-    function orderdown ()
+    function orderdown()
     {
 
         $cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -451,7 +485,8 @@ class category_detailModelcategory_detail extends JModel
 
         $morder = $this->getmaxminOrder('max');
 
-        if ($currentpos < $morder) {
+        if ($currentpos < $morder)
+        {
             $q = "UPDATE " . $this->_table_prefix . "category ";
             $q .= "SET ordering=ordering+1 ";
             $q .= "WHERE category_id='" . $cid . "' ";
@@ -466,7 +501,7 @@ class category_detailModelcategory_detail extends JModel
         }
     }
 
-    function getmaxminOrder ($type)
+    function getmaxminOrder($type)
     {
 
         $q = "SELECT " . $type . "(ordering) as morder FROM " . $this->_table_prefix . "category";
@@ -476,23 +511,24 @@ class category_detailModelcategory_detail extends JModel
         return $cat;
     }
 
-    function getProductCompareTemplate ()
+    function getProductCompareTemplate()
     {
         $query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix . "template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function copy ($cid = array())
+    function copy($cid = array())
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids  = implode(',', $cid);
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'category WHERE category_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
             $copydata = $this->_db->loadObjectList();
-            for ($i = 0; $i < count($copydata); $i++) {
-                $query = 'SELECT category_parent_id FROM ' . $this->_table_prefix . 'category_xref '
-                    . 'WHERE category_child_id="' . $copydata[$i]->category_id . '" ';
+            for ($i = 0; $i < count($copydata); $i++)
+            {
+                $query = 'SELECT category_parent_id FROM ' . $this->_table_prefix . 'category_xref ' . 'WHERE category_child_id="' . $copydata[$i]->category_id . '" ';
                 $this->_db->setQuery($query);
                 $category_parent_id = $this->_db->loadResult();
 
@@ -525,7 +561,8 @@ class category_detailModelcategory_detail extends JModel
                 $src  = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $copydata[$i]->category_full_image;
                 $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $post['category_full_image'];
 
-                if (is_file($src)) {
+                if (is_file($src))
+                {
                     JFile::upload($src, $dest);
                 }
                 $row = $this->store($post);
@@ -534,5 +571,3 @@ class category_detailModelcategory_detail extends JModel
         return true;
     }
 }
-
-?>

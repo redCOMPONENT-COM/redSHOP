@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -20,12 +14,16 @@ jimport('joomla.application.component.model');
 class categoryModelcategory extends JModel
 {
     var $_data = null;
+
     var $_total = null;
+
     var $_pagination = null;
+
     var $_table_prefix = null;
+
     var $_context = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
         global $mainframe;
@@ -43,27 +41,28 @@ class categoryModelcategory extends JModel
         $this->setState('category_id', $category_id);
     }
 
-    function getData ()
+    function getData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $this->_data = $this->_buildQuery();
         }
         return $this->_data;
     }
 
-    function getPagination ()
+    function getPagination()
     {
-        if ($this->_pagination == null) {
+        if ($this->_pagination == null)
+        {
             $this->_buildQuery();
         }
         return $this->_pagination;
     }
 
-    function _buildQuery ()
+    function _buildQuery()
     {
         global $mainframe;
-        $view = JRequest::getVar('view');
-        $db   = jFactory::getDBO();
+        $db = jFactory::getDBO();
 
         $category_id          = $this->getState('category_id');
         $category_main_filter = $this->getState('category_main_filter');
@@ -72,25 +71,25 @@ class categoryModelcategory extends JModel
 
         $orderby = $this->_buildContentOrderBy();
         $and     = "";
-        if ($category_main_filter) {
+        if ($category_main_filter)
+        {
             $and .= " AND category_name like '%" . $category_main_filter . "%' ";
         }
-        if ($category_id != 0) {
-//			$and .= " AND cx.category_parent_id='$category_id' ";
+        if ($category_id != 0)
+        {
+            //			$and .= " AND cx.category_parent_id='$category_id' ";
         }
-        $q = "SELECT c.category_id, cx.category_child_id, cx.category_child_id AS id, cx.category_parent_id, cx.category_parent_id AS parent_id,c.category_name, c.category_name AS title,c.category_description,c.published,ordering "
-            . "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
-            . "WHERE c.category_id=cx.category_child_id "
-            . $and
-            . $orderby;
+        $q = "SELECT c.category_id, cx.category_child_id, cx.category_child_id AS id, cx.category_parent_id, cx.category_parent_id AS parent_id,c.category_name, c.category_name AS title,c.category_description,c.published,ordering " . "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx " . "WHERE c.category_id=cx.category_child_id " . $and . $orderby;
         $db->setQuery($q);
         $rows = $db->loadObjectList();
 
-        if (!$category_main_filter) {
+        if (!$category_main_filter)
+        {
             // establish the hierarchy of the menu
             $children = array();
             // first pass - collect children
-            foreach ($rows as $v) {
+            foreach ($rows as $v)
+            {
                 $pt   = $v->parent_id;
                 $list = @$children[$pt] ? $children[$pt] : array();
                 array_push($list, $v);
@@ -100,7 +99,9 @@ class categoryModelcategory extends JModel
             $treelist = JHTML::_('menu.treerecurse', $category_id, '', array(), $children, 9999);
 
             $total = count($treelist);
-        } else {
+        }
+        else
+        {
             $total    = count($rows);
             $treelist = $rows;
         }
@@ -113,7 +114,7 @@ class categoryModelcategory extends JModel
         return $items;
     }
 
-    function _buildContentOrderBy ()
+    function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -124,7 +125,7 @@ class categoryModelcategory extends JModel
         return $orderby;
     }
 
-    function getProducts ($cid)
+    function getProducts($cid)
     {
         $query = 'SELECT count(category_id) FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id="' . $cid . '" ';
         $this->_db->setQuery($query);
@@ -136,20 +137,20 @@ class categoryModelcategory extends JModel
       * @prams: $data, post variable	array
       * @return: boolean
       */
-    function assignTemplate ($data)
+    function assignTemplate($data)
     {
 
         $cid = $data['cid'];
 
         $category_template = $data['category_template'];
 
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'category'
-                . ' SET `category_template` = "' . intval($category_template) . '" '
-                . ' WHERE category_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE ' . $this->_table_prefix . 'category' . ' SET `category_template` = "' . intval($category_template) . '" ' . ' WHERE category_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -157,22 +158,25 @@ class categoryModelcategory extends JModel
         return true;
     }
 
-    function saveorder ($cid = array(), $order)
+    function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable('category_detail');
         $groupings = array();
 
         // update ordering values
-        for ($i = 0; $i < count($cid); $i++) {
+        for ($i = 0; $i < count($cid); $i++)
+        {
             $row->load((int)$cid[$i]);
 
             // track categories
             $groupings[] = $row->category_id;
 
-            if ($row->ordering != $order[$i]) {
+            if ($row->ordering != $order[$i])
+            {
                 $row->ordering = $order[$i];
 
-                if (!$row->store()) {
+                if (!$row->store())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
@@ -186,5 +190,3 @@ class categoryModelcategory extends JModel
         return true;
     }
 }
-
-?>

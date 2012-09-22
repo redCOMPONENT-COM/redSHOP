@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -21,12 +14,16 @@ jimport('joomla.application.component.model');
 class fieldsModelfields extends JModel
 {
     var $_data = null;
+
     var $_total = null;
+
     var $_pagination = null;
+
     var $_table_prefix = null;
+
     var $_context = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -47,34 +44,37 @@ class fieldsModelfields extends JModel
         $this->setState('filtersection', $filtersection);
     }
 
-    function getData ()
+    function getData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $query       = $this->_buildQuery();
             $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
         }
         return $this->_data;
     }
 
-    function getTotal ()
+    function getTotal()
     {
-        if (empty($this->_total)) {
+        if (empty($this->_total))
+        {
             $query        = $this->_buildQuery();
             $this->_total = $this->_getListCount($query);
         }
         return $this->_total;
     }
 
-    function getPagination ()
+    function getPagination()
     {
-        if (empty($this->_pagination)) {
+        if (empty($this->_pagination))
+        {
             jimport('joomla.html.pagination');
             $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
         }
         return $this->_pagination;
     }
 
-    function _buildQuery ()
+    function _buildQuery()
     {
         $orderby       = $this->_buildContentOrderBy();
         $filter        = $this->getState('filter');
@@ -82,80 +82,90 @@ class fieldsModelfields extends JModel
         $filtersection = $this->getState('filtersection');
 
         $where = '';
-        if ($filter) {
+        if ($filter)
+        {
             $where .= " AND f.field_title like '%" . $filter . "%' ";
         }
-        if ($filtertype) {
+        if ($filtertype)
+        {
             $where .= " AND f.field_type='" . $filtertype . "' ";
         }
-        if ($filtersection) {
+        if ($filtersection)
+        {
             $where .= " AND f.field_section='" . $filtersection . "' ";
         }
-        $query = "SELECT * FROM " . $this->_table_prefix . "fields AS f "
-            . "WHERE 1=1 "
-            . $where
-            . $orderby;
+        $query = "SELECT * FROM " . $this->_table_prefix . "fields AS f " . "WHERE 1=1 " . $where . $orderby;
         return $query;
     }
 
-    function _buildContentOrderBy ()
+    function _buildContentOrderBy()
     {
         global $mainframe;
 
         $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
         $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-        if ($filter_order == 'ordering') {
+        if ($filter_order == 'ordering')
+        {
             $orderby = ' ORDER BY field_section, ordering ' . $filter_order_Dir;
-        } else {
+        }
+        else
+        {
             $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ', field_section, ordering';
         }
 
         return $orderby;
     }
 
-    function saveorder ($cid = array(), $order)
+    function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable('fields_detail');
         $groupings  = array();
         $conditions = array();
 
         // update ordering values
-        for ($i = 0; $i < count($cid); $i++) {
+        for ($i = 0; $i < count($cid); $i++)
+        {
             $row->load((int)$cid[$i]);
             // track categories
             $groupings[] = $row->field_id;
 
-            if ($row->ordering != $order[$i]) {
+            if ($row->ordering != $order[$i])
+            {
                 $row->ordering = $order[$i];
-                if (!$row->store()) {
+                if (!$row->store())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
                 // remember to updateOrder this group
                 $condition = 'field_section = ' . (int)$row->field_section;
                 $found     = false;
-                foreach ($conditions as $cond) {
-                    if ($cond[1] == $condition) {
+                foreach ($conditions as $cond)
+                {
+                    if ($cond[1] == $condition)
+                    {
                         $found = true;
                         break;
                     }
                 }
-                if (!$found) {
+                if (!$found)
+                {
                     $conditions[] = array($row->field_id, $condition);
                 }
             }
         }
         // execute updateOrder for each group
-        foreach ($conditions as $cond) {
+        foreach ($conditions as $cond)
+        {
             $row->load($cond[0]);
             $row->reorder($cond[1]);
         }
-//		// execute updateOrder for each parent group
-//		$groupings = array_unique( $groupings );
-//		foreach ($groupings as $group){
-//			$row->reorder((int) $group);
-//		}
+        //		// execute updateOrder for each parent group
+        //		$groupings = array_unique( $groupings );
+        //		foreach ($groupings as $group){
+        //			$row->reorder((int) $group);
+        //		}
         return true;
     }
 }

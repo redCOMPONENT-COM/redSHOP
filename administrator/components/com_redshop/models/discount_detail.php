@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -20,11 +14,14 @@ jimport('joomla.application.component.model');
 class discount_detailModeldiscount_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_shoppers = null;
+
     var $_table_prefix = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -35,30 +32,36 @@ class discount_detailModeldiscount_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
         $layout = JRequest::getVar('layout');
 
-        if (empty($this->_data)) {
-            if (isset($layout) && $layout == 'product') {
+        if (empty($this->_data))
+        {
+            if (isset($layout) && $layout == 'product')
+            {
                 $query = 'SELECT * FROM ' . $this->_table_prefix . 'discount_product WHERE discount_product_id = ' . $this->_id;
-            } else {
+            }
+            else
+            {
                 $query = 'SELECT * FROM ' . $this->_table_prefix . 'discount WHERE discount_id = ' . $this->_id;
             }
 
@@ -69,10 +72,10 @@ class discount_detailModeldiscount_detail extends JModel
         return true;
     }
 
-
-    function _initData ()
+    function _initData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail = new stdClass();
 
             $detail->discount_id         = 0;
@@ -92,23 +95,26 @@ class discount_detailModeldiscount_detail extends JModel
         return true;
     }
 
-    function store ($data)
+    function store($data)
     {
         $row = $this->getTable('discount_detail');
 
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
 
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
         // Remove Relation With Shoppers
         $sdel = "DELETE FROM " . $this->_table_prefix . "discount_shoppers WHERE discount_id = " . $row->discount_id;
         $this->_db->setQuery($sdel);
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -116,20 +122,25 @@ class discount_detailModeldiscount_detail extends JModel
         return $row;
     }
 
-    function delete ($cid = array())
+    function delete($cid = array())
     {
         $layout = JRequest::getVar('layout');
 
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
-            if (isset($layout) && $layout == 'product') {
+            if (isset($layout) && $layout == 'product')
+            {
                 $query = 'DELETE FROM ' . $this->_table_prefix . 'discount_product WHERE discount_product_id IN ( ' . $cids . ' )';
-            } else {
+            }
+            else
+            {
                 $query = 'DELETE FROM ' . $this->_table_prefix . 'discount WHERE discount_id IN ( ' . $cids . ' )';
             }
 
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -138,25 +149,26 @@ class discount_detailModeldiscount_detail extends JModel
         return true;
     }
 
-    function publish ($cid = array(), $publish = 1)
+    function publish($cid = array(), $publish = 1)
     {
         $layout = JRequest::getVar('layout');
 
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            if (isset($layout) && $layout == 'product') {
-                $query = 'UPDATE ' . $this->_table_prefix . 'discount_product'
-                    . ' SET published = ' . intval($publish)
-                    . ' WHERE discount_product_id IN ( ' . $cids . ' )';
-            } else {
-                $query = 'UPDATE ' . $this->_table_prefix . 'discount'
-                    . ' SET published = ' . intval($publish)
-                    . ' WHERE discount_id IN ( ' . $cids . ' )';
+            if (isset($layout) && $layout == 'product')
+            {
+                $query = 'UPDATE ' . $this->_table_prefix . 'discount_product' . ' SET published = ' . intval($publish) . ' WHERE discount_product_id IN ( ' . $cids . ' )';
+            }
+            else
+            {
+                $query = 'UPDATE ' . $this->_table_prefix . 'discount' . ' SET published = ' . intval($publish) . ' WHERE discount_id IN ( ' . $cids . ' )';
             }
 
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -165,7 +177,7 @@ class discount_detailModeldiscount_detail extends JModel
         return true;
     }
 
-    function &getShoppers ()
+    function &getShoppers()
     {
         $query = 'SELECT shopper_group_id as value,shopper_group_name as text FROM ' . $this->_table_prefix . 'shopper_group WHERE published = 1';
         $this->_db->setQuery($query);
@@ -174,56 +186,59 @@ class discount_detailModeldiscount_detail extends JModel
         return $this->_shoppers;
     }
 
-    function selectedShoppers ()
+    function selectedShoppers()
     {
         $layout = JRequest::getVar('layout');
-        if (isset($layout) && $layout == 'product') {
-            $query = "SELECT s.shopper_group_id as value,s.shopper_group_name as text "
-                . " FROM " . $this->_table_prefix . "discount_product_shoppers as ds "
-                . " left join " . $this->_table_prefix . "shopper_group as s on s.shopper_group_id = ds.shopper_group_id "
-                . " WHERE ds.discount_product_id = " . $this->_id;
-        } else {
-
-            $query = "SELECT s.shopper_group_id as value,s.shopper_group_name as text "
-                . " FROM " . $this->_table_prefix . "discount_shoppers as ds "
-                . " left join " . $this->_table_prefix . "shopper_group as s on s.shopper_group_id = ds.shopper_group_id "
-                . " WHERE ds.discount_id = " . $this->_id;
+        if (isset($layout) && $layout == 'product')
+        {
+            $query = "SELECT s.shopper_group_id as value,s.shopper_group_name as text " . " FROM " . $this->_table_prefix . "discount_product_shoppers as ds " . " left join " . $this->_table_prefix . "shopper_group as s on s.shopper_group_id = ds.shopper_group_id " . " WHERE ds.discount_product_id = " . $this->_id;
         }
+        else
+        {
 
+            $query = "SELECT s.shopper_group_id as value,s.shopper_group_name as text " . " FROM " . $this->_table_prefix . "discount_shoppers as ds " . " left join " . $this->_table_prefix . "shopper_group as s on s.shopper_group_id = ds.shopper_group_id " . " WHERE ds.discount_id = " . $this->_id;
+        }
 
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function saveShoppers ($did, $sids)
+    function saveShoppers($did, $sids)
     {
         $layout = JRequest::getVar('layout');
 
-        foreach ($sids as $sid) {
-            if (isset($layout) && $layout == 'product') {
+        foreach ($sids as $sid)
+        {
+            if (isset($layout) && $layout == 'product')
+            {
                 $query = "INSERT INTO #__redshop_discount_product_shoppers VALUES('" . $did . "','" . $sid . "')";
-            } else {
+            }
+            else
+            {
                 $query = "INSERT INTO #__redshop_discount_shoppers VALUES('" . $did . "','" . $sid . "')";
             }
 
             $this->_db->setQuery($query);
-            if (!$this->_db->Query()) {
+            if (!$this->_db->Query())
+            {
                 return false;
             }
         }
         return true;
     }
 
-    function storeDiscountProduct ($data)
+    function storeDiscountProduct($data)
     {
         $dprow = $this->getTable('discount_product');
 
-        if (!$dprow->bind($data)) {
+        if (!$dprow->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
 
-        if (!$dprow->store()) {
+        if (!$dprow->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -231,7 +246,8 @@ class discount_detailModeldiscount_detail extends JModel
         // 	Remove Relation With Shoppers
         $del = "DELETE FROM " . $this->_table_prefix . "discount_product_shoppers WHERE discount_product_id = " . $dprow->discount_product_id;
         $this->_db->setQuery($del);
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -239,5 +255,3 @@ class discount_detailModeldiscount_detail extends JModel
         return $dprow;
     }
 }
-
-?>
