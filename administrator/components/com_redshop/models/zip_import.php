@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -24,14 +17,15 @@ jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
-//require_once( JPATH_COMPONENT.DS.'helpers'.DS.'reader.php' );
-
 
 class zip_importModelzip_import extends JModel
 {
     var $_data = null;
+
     var $_total = null;
+
     var $_pagination = null;
+
     var $_table_prefix = null;
 
     var $_table = null;
@@ -39,8 +33,7 @@ class zip_importModelzip_import extends JModel
     /** @var object JTable object */
     var $_url = null;
 
-
-    function getData ()
+    function getData()
     {
         $thumb = new thumbnail();
         global $mainframe;
@@ -55,8 +48,7 @@ class zip_importModelzip_import extends JModel
         $mainframe->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
     }
 
-
-    function getzipfilescount ()
+    function getzipfilescount()
     {
         $x   = 5;
         $url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_reviews&domainname=" . $_SERVER['HTTP_HOST'] . "";
@@ -79,7 +71,7 @@ class zip_importModelzip_import extends JModel
         return $x;
     }
 
-    function getzipfilenames ()
+    function getzipfilenames()
     {
         $live_path = JURI::base();
         $user      = JFactory::getUser();
@@ -95,7 +87,6 @@ class zip_importModelzip_import extends JModel
         //Execute the fetch
         $data = curl_exec($ch);
 
-
         //Close the connection
         preg_match_all("#<span id='zip'>(.*?)</span>#is", $data, $out);
         curl_close($ch);
@@ -104,19 +95,18 @@ class zip_importModelzip_import extends JModel
         fwrite($fp, $data);
         fclose($fp);
 
-
         $filename                = JURI::base() . '/tmp/com_jcomments_new.zip';
         $_SESSION['filename'][0] = $filename;
     }
 
     // 	related product sync
 
-
-    function install ()
+    function install()
     {
         global $mainframe;
         $fileType = "url";
-        switch ($fileType) {
+        switch ($fileType)
+        {
             case 'url':
                 $package = $this->_getPackageFromUrl();
                 break;
@@ -128,7 +118,8 @@ class zip_importModelzip_import extends JModel
         }
 
         // Was the package unpacked?
-        if (!$package) {
+        if (!$package)
+        {
             $this->setState('message', 'Unable to find install package');
             $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
             $mainframe->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
@@ -139,13 +130,16 @@ class zip_importModelzip_import extends JModel
         $installer = JInstaller::getInstance();
 
         // Install the package
-        if (!$installer->install($package['dir'])) {
+        if (!$installer->install($package['dir']))
+        {
             ?>
         <script type="text/javascript" language="javascript">
             window.location = "index.php?option=com_redshop&view=zip_import&msg=err";
         </script>
         <?php
-        } else {
+        }
+        else
+        {
             $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
             $mainframe->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
         }
@@ -158,7 +152,8 @@ class zip_importModelzip_import extends JModel
         $this->setState('extension.message', $installer->get('extension.message'));
 
         // Cleanup the install files
-        if (!is_file($package['packagefile'])) {
+        if (!is_file($package['packagefile']))
+        {
             $config                 = JFactory::getConfig();
             $package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
         }
@@ -172,7 +167,6 @@ class zip_importModelzip_import extends JModel
         return $result;
     }
 
-
     /**
      * Install an extension from a URL
      *
@@ -180,7 +174,7 @@ class zip_importModelzip_import extends JModel
      * @return boolean True on success
      * @since 1.5
      */
-    function _getPackageFromUrl ()
+    function _getPackageFromUrl()
     {
         // Get a database connector
 
@@ -192,7 +186,8 @@ class zip_importModelzip_import extends JModel
 
         // Did you give us a URL?
 
-        if (!$url) {
+        if (!$url)
+        {
             JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PLEASE_ENTER_A_URL'));
             ?>
         <script type='text/javascript' language='javascript'>
@@ -204,9 +199,9 @@ class zip_importModelzip_import extends JModel
         // Download the package at the URL given
         $p_file = JInstallerHelper::downloadPackage(trim(strip_tags($url)));
 
-
         // Was the package downloaded?
-        if (!$p_file) {
+        if (!$p_file)
+        {
             JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_INVALID_URL'));
 
             ?>
@@ -215,7 +210,7 @@ class zip_importModelzip_import extends JModel
         </script>
         <?php
         }
-/////////////////////////////////// Comment add on 28-7-2010 /////////////////////////////////////////
+        /////////////////////////////////// Comment add on 28-7-2010 /////////////////////////////////////////
         $config   = JFactory::getConfig();
         $tmp_dest = $config->getValue('config.tmp_path');
 
@@ -230,14 +225,14 @@ class zip_importModelzip_import extends JModel
         return $package;
     }
 
-
-    function _getPackageFromFolder ()
+    function _getPackageFromFolder()
     {
         $p_dir = JRequest::getString('install_directory');
         $p_dir = JPath::clean($p_dir);
 
         // Did you give us a valid directory?
-        if (!is_dir($p_dir)) {
+        if (!is_dir($p_dir))
+        {
             JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
             return false;
         }
@@ -246,7 +241,8 @@ class zip_importModelzip_import extends JModel
         $type = JInstallerHelper::detectType($p_dir);
 
         // Did you give us a valid package?
-        if (!$type) {
+        if (!$type)
+        {
             JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
             return false;
         }
@@ -259,6 +255,4 @@ class zip_importModelzip_import extends JModel
         return $package;
     }
 }
-
-?>
 

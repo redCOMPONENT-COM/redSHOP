@@ -1,31 +1,27 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-
 class textlibrary_detailModeltextlibrary_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
+
     var $_copydata = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -36,25 +32,28 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id = ' . $this->_id;
             $this->_db->setQuery($query);
             $this->_data = $this->_db->loadObject();
@@ -63,10 +62,10 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
         return true;
     }
 
-
-    function _initData ()
+    function _initData()
     {
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail                 = new stdClass();
             $detail->textlibrary_id = 0;
             $detail->text_name      = null;
@@ -80,15 +79,17 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
         return true;
     }
 
-    function store ($data)
+    function store($data)
     {
         $row = $this->getTable();
 
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->store()) {
+        if (!$row->store())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -96,14 +97,16 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
         return $row;
     }
 
-    function delete ($cid = array())
+    function delete($cid = array())
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -112,16 +115,16 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
         return true;
     }
 
-    function publish ($cid = array(), $publish = 1)
+    function publish($cid = array(), $publish = 1)
     {
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
-            $query = 'UPDATE ' . $this->_table_prefix . 'textlibrary'
-                . ' SET published = ' . intval($publish)
-                . ' WHERE textlibrary_id IN ( ' . $cids . ' )';
+            $query = 'UPDATE ' . $this->_table_prefix . 'textlibrary' . ' SET published = ' . intval($publish) . ' WHERE textlibrary_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -130,17 +133,19 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
         return true;
     }
 
-    function copy ($cid = array())
+    function copy($cid = array())
     {
 
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
 
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
             $this->_copydata = $this->_db->loadObjectList();
         }
-        foreach ($this->_copydata as $cdata) {
+        foreach ($this->_copydata as $cdata)
+        {
 
             $post['textlibrary_id'] = 0;
             $post['text_name']      = 'Copy Of ' . $cdata->text_name;

@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -27,11 +21,14 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 class quotation_detailModelquotation_detail extends JModel
 {
     var $_id = null;
+
     var $_data = null;
+
     var $_table_prefix = null;
+
     var $_copydata = null;
 
-    function __construct ()
+    function __construct()
     {
         parent::__construct();
 
@@ -40,26 +37,27 @@ class quotation_detailModelquotation_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId ($id)
+    function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData ()
+    function &getData()
     {
-        if ($this->_loadData()) {
-        } else  {
+        if ($this->_loadData())
+        {
+        }
+        else  {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData ()
+    function _loadData()
     {
-        $query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
-//			."LEFT JOIN ".$this->_table_prefix."users_info AS u ON u.user_id=q.user_id "
+        $query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q " //			."LEFT JOIN ".$this->_table_prefix."users_info AS u ON u.user_id=q.user_id "
             . "WHERE q.quotation_id='" . $this->_id . "' "//			."AND u.address_type Like 'BT' "
         ;
         $this->_db->setQuery($query);
@@ -68,13 +66,16 @@ class quotation_detailModelquotation_detail extends JModel
         return (boolean)$this->_data;
     }
 
-    function &getuserdata ()
+    function &getuserdata()
     {
         $producthelper = new producthelper();
-        if ($this->_data->user_id) {
+        if ($this->_data->user_id)
+        {
             $userdata                = $producthelper->getUserInformation($this->_data->user_id);
             $this->_data->user_email = $userdata->user_email;
-        } else {
+        }
+        else
+        {
             $detail                        = new stdClass();
             $detail->users_info_id         = 0;
             $detail->user_id               = 0;
@@ -114,10 +115,11 @@ class quotation_detailModelquotation_detail extends JModel
         return $userdata;
     }
 
-    function _initData ()
+    function _initData()
     {
         $quotationHelper = new quotationHelper();
-        if (empty($this->_data)) {
+        if (empty($this->_data))
+        {
             $detail                      = new stdClass();
             $detail->quotation_id        = 0;
             $detail->user_id             = 0;
@@ -149,32 +151,37 @@ class quotation_detailModelquotation_detail extends JModel
         return true;
     }
 
-    function store ($data)
+    function store($data)
     {
 
         $row = $this->getTable();
-        if (!$row->bind($data)) {
+        if (!$row->bind($data))
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->store()) {
+        if (!$row->store())
+        {
 
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-
 
         $quotation_item = $data['quotation_item'];
 
-        for ($i = 0; $i < count($quotation_item); $i++) {
-            if (array_key_exists("quotation_item_id", $quotation_item[$i])) {
+        for ($i = 0; $i < count($quotation_item); $i++)
+        {
+            if (array_key_exists("quotation_item_id", $quotation_item[$i]))
+            {
                 $rowitem                          = & $this->getTable('quotation_item_detail');
                 $quotation_item[$i]->quotation_id = $row->quotation_id;
-                if (!$rowitem->bind($quotation_item[$i])) {
+                if (!$rowitem->bind($quotation_item[$i]))
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
-                if (!$rowitem->store()) {
+                if (!$rowitem->store())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
@@ -183,58 +190,61 @@ class quotation_detailModelquotation_detail extends JModel
         return $row;
     }
 
-    function sendQuotationMail ($quotaion_id)
+    function sendQuotationMail($quotaion_id)
     {
         $redshopMail = new redshopMail();
         $send        = $redshopMail->sendQuotationMail($quotaion_id);
         return $send;
     }
 
-    function delete ($cid = array())
+    function delete($cid = array())
     {
         $quotationHelper = new quotationHelper();
-        if (count($cid)) {
+        if (count($cid))
+        {
             $cids = implode(',', $cid);
             $db   = & JFactory::getDBO();
 
             $items = $quotationHelper->getQuotationProduct($cids);
-            for ($i = 0; $i < count($items); $i++) {
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
-                    . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
+            for ($i = 0; $i < count($items); $i++)
+            {
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
                 $this->_db->setQuery($query);
-                if (!$this->_db->query()) {
+                if (!$this->_db->query())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
 
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
-                    . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
                 $this->_db->setQuery($query);
-                if (!$this->_db->query()) {
+                if (!$this->_db->query())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
 
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
-                    . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
                 $this->_db->setQuery($query);
-                if (!$this->_db->query()) {
+                if (!$this->_db->query())
+                {
                     $this->setError($this->_db->getErrorMsg());
                     return false;
                 }
             }
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
-                . 'WHERE quotation_id IN ( ' . $cids . ' )';
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item ' . 'WHERE quotation_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
-            if (!$this->_db->query()) {
+            if (!$this->_db->query())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
@@ -242,7 +252,7 @@ class quotation_detailModelquotation_detail extends JModel
         return true;
     }
 
-    function deleteitem ($cids = 0, $quotation_id = 0)
+    function deleteitem($cids = 0, $quotation_id = 0)
     {
         $quotationHelper = new quotationHelper();
         $quotation       = $this->getTable();
@@ -253,50 +263,55 @@ class quotation_detailModelquotation_detail extends JModel
         $quoteitemdata->load($cids);
 
         $itemTax = ($quoteitemdata->product_price - $quoteitemdata->product_excl_price) * $quoteitemdata->product_quantity;
-        if ($quotation->quotation_tax > 0) {
+        if ($quotation->quotation_tax > 0)
+        {
             $quotation->quotation_tax = $quotation->quotation_tax - $itemTax;
         }
-        if ($quotation->quotation_total > 0) {
+        if ($quotation->quotation_total > 0)
+        {
             $quotation->quotation_total = $quotation->quotation_total - $quoteitemdata->product_final_price;
         }
-        if ($quotation->quotation_subtotal > 0) {
+        if ($quotation->quotation_subtotal > 0)
+        {
             $quotation->quotation_subtotal = $quotation->quotation_subtotal - $quoteitemdata->product_final_price;
         }
         $discount = $quotation->quotation_total - $quotation->quotation_subtotal;
-        if ($quotation->quotation_discount > 0) {
+        if ($quotation->quotation_discount > 0)
+        {
             $quotation->quotation_discount = $quotation->quotation_discount - $discount;
         }
         $quotation->quotation_mdate = time();
-        if (!$quotation->store()) {
+        if (!$quotation->store())
+        {
             return false;
         }
 
-        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
-            . 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
+        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data ' . 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
         $this->_db->setQuery($query);
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
 
-        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
-            . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
+        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item ' . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
         $this->_db->setQuery($query);
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
-            . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
+        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item ' . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
         $this->_db->setQuery($query);
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
-            . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
+        $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item ' . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
         $this->_db->setQuery($query);
-        if (!$this->_db->query()) {
+        if (!$this->_db->query())
+        {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
@@ -304,7 +319,7 @@ class quotation_detailModelquotation_detail extends JModel
     }
 
     // add new Quotation Item
-    function newQuotationItem ($data)
+    function newQuotationItem($data)
     {
         $quotationHelper = new quotationHelper();
         $rsCarthelper    = new rsCarthelper();
@@ -319,7 +334,8 @@ class quotation_detailModelquotation_detail extends JModel
         $user_id = $quotationdata->user_id;
         // set Order Item Info
         $qitemdata = $this->getTable('quotation_item_detail');
-        for ($i = 0; $i < count($item); $i++) {
+        for ($i = 0; $i < count($item); $i++)
+        {
             $product_id         = $item[$i]->product_id;
             $quantity           = $item[$i]->quantity;
             $product_excl_price = $item[$i]->prdexclprice;
@@ -340,8 +356,10 @@ class quotation_detailModelquotation_detail extends JModel
             $wrapper_price = 0;
             $wrapper_vat   = 0;
             $wrapper       = $producthelper->getWrapper($product_id, $item[$i]->wrapper_data);
-            if (count($wrapper) > 0) {
-                if ($wrapper[0]->wrapper_price > 0) {
+            if (count($wrapper) > 0)
+            {
+                if ($wrapper[0]->wrapper_price > 0)
+                {
                     $wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
                 }
                 $wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
@@ -363,25 +381,30 @@ class quotation_detailModelquotation_detail extends JModel
             $qitemdata->wrapper_price       = $wrapper_price;
             $qitemdata->product_quantity    = $quantity;
 
-            if (!$qitemdata->store()) {
+            if (!$qitemdata->store())
+            {
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
             /** my accessory save in table start */
-            if (count($generateAccessoryCart) > 0) {
+            if (count($generateAccessoryCart) > 0)
+            {
                 $attArr = $generateAccessoryCart;
-                for ($a = 0; $a < count($attArr); $a++) {
+                for ($a = 0; $a < count($attArr); $a++)
+                {
                     $accessory_vat_price = 0;
                     $accessory_attribute = "";
                     $accessory_id        = $attArr[$a]['accessory_id'];
                     $accessory_name      = $attArr[$a]['accessory_name'];
                     $accessory_price     = $attArr[$a]['accessory_price'];
                     $accessory_org_price = $accessory_price;
-                    if ($accessory_price > 0) {
+                    if ($accessory_price > 0)
+                    {
                         $accessory_vat_price = $producthelper->getProductTax($qitemdata->product_id, $accessory_price, $user_id);
                     }
                     $attchildArr = $attArr[$a]['accessory_childs'];
-                    for ($j = 0; $j < count($attchildArr); $j++) {
+                    for ($j = 0; $j < count($attchildArr); $j++)
+                    {
                         $attribute_id = $attchildArr[$j]['attribute_id'];
                         $accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
@@ -393,17 +416,21 @@ class quotation_detailModelquotation_detail extends JModel
                         $rowattitem->parent_section_id     = $accessory_id;
                         $rowattitem->section_name          = $attchildArr[$j]['attribute_name'];
                         $rowattitem->is_accessory_att      = 1;
-                        if ($attribute_id > 0) {
-                            if (!$rowattitem->store()) {
+                        if ($attribute_id > 0)
+                        {
+                            if (!$rowattitem->store())
+                            {
                                 $this->setError($this->_db->getErrorMsg());
                                 return false;
                             }
                         }
 
                         $propArr = $attchildArr[$j]['attribute_childs'];
-                        for ($k = 0; $k < count($propArr); $k++) {
+                        for ($k = 0; $k < count($propArr); $k++)
+                        {
                             $section_vat = 0;
-                            if ($propArr[$k]['property_price'] > 0) {
+                            if ($propArr[$k]['property_price'] > 0)
+                            {
                                 $section_vat = $producthelper->getProducttax($qitemdata->product_id, $propArr[$k]['property_price'], $user_id);
                             }
                             $property_id = $propArr[$k]['property_id'];
@@ -421,16 +448,20 @@ class quotation_detailModelquotation_detail extends JModel
                             $rowattitem->section_vat           = $section_vat;
                             $rowattitem->section_oprand        = $propArr[$k]['property_oprand'];
                             $rowattitem->is_accessory_att      = 1;
-                            if ($property_id > 0) {
-                                if (!$rowattitem->store()) {
+                            if ($property_id > 0)
+                            {
+                                if (!$rowattitem->store())
+                                {
                                     $this->setError($this->_db->getErrorMsg());
                                     return false;
                                 }
                             }
 
-                            for ($l = 0; $l < count($subpropArr); $l++) {
+                            for ($l = 0; $l < count($subpropArr); $l++)
+                            {
                                 $section_vat = 0;
-                                if ($subpropArr[$l]['subproperty_price'] > 0) {
+                                if ($subpropArr[$l]['subproperty_price'] > 0)
+                                {
                                     $section_vat = $producthelper->getProducttax($qitemdata->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
                                 }
                                 $subproperty_id = $subpropArr[$l]['subproperty_id'];
@@ -447,8 +478,10 @@ class quotation_detailModelquotation_detail extends JModel
                                 $rowattitem->section_vat           = $section_vat;
                                 $rowattitem->section_oprand        = $subpropArr[$l]['subproperty_oprand'];
                                 $rowattitem->is_accessory_att      = 1;
-                                if ($subproperty_id > 0) {
-                                    if (!$rowattitem->store()) {
+                                if ($subproperty_id > 0)
+                                {
+                                    if (!$rowattitem->store())
+                                    {
                                         $this->setError($this->_db->getErrorMsg());
                                         return false;
                                     }
@@ -458,7 +491,8 @@ class quotation_detailModelquotation_detail extends JModel
                     }
 
                     $accdata = & $this->getTable('accessory_detail');
-                    if ($accessory_id > 0) {
+                    if ($accessory_id > 0)
+                    {
                         $accdata->load($accessory_id);
                     }
                     $accProductinfo                    = $producthelper->getProductById($accdata->child_product_id);
@@ -474,8 +508,10 @@ class quotation_detailModelquotation_detail extends JModel
                     $rowaccitem->accessory_item_price  = $accessory_price;
                     $rowaccitem->accessory_final_price = ($accessory_price * $qitemdata->product_quantity);
                     $rowaccitem->accessory_attribute   = $accessory_attribute;
-                    if ($accessory_id > 0) {
-                        if (!$rowaccitem->store()) {
+                    if ($accessory_id > 0)
+                    {
+                        if (!$rowaccitem->store())
+                        {
                             $this->setError($this->_db->getErrorMsg());
                             return false;
                         }
@@ -484,9 +520,11 @@ class quotation_detailModelquotation_detail extends JModel
             }
 
             /** my attribute save in table start */
-            if (count($generateAttributeCart) > 0) {
+            if (count($generateAttributeCart) > 0)
+            {
                 $attArr = $generateAttributeCart;
-                for ($j = 0; $j < count($attArr); $j++) {
+                for ($j = 0; $j < count($attArr); $j++)
+                {
                     $attribute_id = $attArr[$j]['attribute_id'];
 
                     $rowattitem                        = & $this->getTable('quotation_attribute_item');
@@ -497,22 +535,26 @@ class quotation_detailModelquotation_detail extends JModel
                     $rowattitem->parent_section_id     = $qitemdata->product_id;
                     $rowattitem->section_name          = $attArr[$j]['attribute_name'];
                     $rowattitem->is_accessory_att      = 0;
-                    if ($attribute_id > 0) {
-                        if (!$rowattitem->store()) {
+                    if ($attribute_id > 0)
+                    {
+                        if (!$rowattitem->store())
+                        {
                             $this->setError($this->_db->getErrorMsg());
                             return false;
                         }
                     }
 
                     $propArr = $attArr[$j]['attribute_childs'];
-                    for ($k = 0; $k < count($propArr); $k++) {
+                    for ($k = 0; $k < count($propArr); $k++)
+                    {
                         $section_vat = 0;
-                        if ($propArr[$k]['property_price'] > 0) {
+                        if ($propArr[$k]['property_price'] > 0)
+                        {
                             $section_vat = $producthelper->getProducttax($qitemdata->product_id, $propArr[$k]['property_price'], $user_id);
                         }
                         $property_id = $propArr[$k]['property_id'];
                         /** product property STOCKROOM update start */
-//						$producthelper->updateAttributeStockRoom($property_id,"property",$rowitem->product_quantity);
+                        //						$producthelper->updateAttributeStockRoom($property_id,"property",$rowitem->product_quantity);
                         $updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $qitemdata->product_quantity, "property");
 
                         $rowattitem                        = & $this->getTable('quotation_attribute_item');
@@ -526,22 +568,26 @@ class quotation_detailModelquotation_detail extends JModel
                         $rowattitem->section_vat           = $section_vat;
                         $rowattitem->section_oprand        = $propArr[$k]['property_oprand'];
                         $rowattitem->is_accessory_att      = 0;
-                        if ($property_id > 0) {
-                            if (!$rowattitem->store()) {
+                        if ($property_id > 0)
+                        {
+                            if (!$rowattitem->store())
+                            {
                                 $this->setError($this->_db->getErrorMsg());
                                 return false;
                             }
                         }
 
                         $subpropArr = $propArr[$k]['property_childs'];
-                        for ($l = 0; $l < count($subpropArr); $l++) {
+                        for ($l = 0; $l < count($subpropArr); $l++)
+                        {
                             $section_vat = 0;
-                            if ($subpropArr[$l]['subproperty_price'] > 0) {
+                            if ($subpropArr[$l]['subproperty_price'] > 0)
+                            {
                                 $section_vat = $producthelper->getProducttax($qitemdata->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
                             }
                             $subproperty_id = $subpropArr[$l]['subproperty_id'];
                             /** product subproperty STOCKROOM update start */
-//							$producthelper->updateAttributeStockRoom($subproperty_id,"subproperty",$rowitem->product_quantity);
+                            //							$producthelper->updateAttributeStockRoom($subproperty_id,"subproperty",$rowitem->product_quantity);
                             $updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $qitemdata->product_quantity, "subproperty");
 
                             $rowattitem                        = & $this->getTable('quotation_attribute_item');
@@ -555,8 +601,10 @@ class quotation_detailModelquotation_detail extends JModel
                             $rowattitem->section_vat           = $section_vat;
                             $rowattitem->section_oprand        = $subpropArr[$l]['subproperty_oprand'];
                             $rowattitem->is_accessory_att      = 0;
-                            if ($subproperty_id > 0) {
-                                if (!$rowattitem->store()) {
+                            if ($subproperty_id > 0)
+                            {
+                                if (!$rowattitem->store())
+                                {
                                     $this->setError($this->_db->getErrorMsg());
                                     return false;
                                 }
@@ -569,12 +617,14 @@ class quotation_detailModelquotation_detail extends JModel
             // store userfields
             $userfields    = JRequest::getVar('extrafields' . $qitemdata->product_id);
             $userfields_id = JRequest::getVar('extrafields_id_' . $qitemdata->product_id);
-            for ($ui = 0; $ui < count($userfields); $ui++) {
+            for ($ui = 0; $ui < count($userfields); $ui++)
+            {
                 $quotationHelper->insertQuotationUserfield($userfields_id[$ui], $qitemdata->quotation_item_id, 12, $userfields[$ui]);
             }
         }
         // store order item data
-        if ($qitemdata->quotation_item_id > 0) {
+        if ($qitemdata->quotation_item_id > 0)
+        {
             $totalItemVat                 = $qitemdata->product_price - $qitemdata->product_excl_price;
             $quotationdata->quotation_tax = $quotationdata->quotation_tax + ($totalItemVat * $qitemdata->product_quantity);
 
@@ -586,14 +636,15 @@ class quotation_detailModelquotation_detail extends JModel
             $quotationdata->quotation_mdate    = time();
 
             // update order detail
-            if (!$quotationdata->store()) {
+            if (!$quotationdata->store())
+            {
                 return false;
             }
-        } else {
+        }
+        else
+        {
             return false;
         }
         return true;
     }
 }
-
-?>
