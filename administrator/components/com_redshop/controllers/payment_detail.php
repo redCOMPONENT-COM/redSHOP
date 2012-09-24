@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
-
 define('WARNSAME', "There is already a file called '%s'.");
 define('INSTALLEXT', 'Install %s %s');
 
-class payment_detailController extends JController
+class payment_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

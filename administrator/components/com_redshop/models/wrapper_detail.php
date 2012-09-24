@@ -7,11 +7,10 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class wrapper_detailModelwrapper_detail extends JModel
+class wrapper_detailModelwrapper_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -42,7 +41,8 @@ class wrapper_detailModelwrapper_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

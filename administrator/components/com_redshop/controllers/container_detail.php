@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class container_detailController extends JController
+class container_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {
@@ -33,10 +31,7 @@ class container_detailController extends JController
     function addcontainer()
     {
         $conid = JRequest::getVar('cid', array(0), 'post', 'array');
-
         JRequest::setVar('conid', $conid);
-
-        $cid = JRequest::setVar('cid', array(0));
 
         parent::display();
     }
@@ -72,8 +67,6 @@ class container_detailController extends JController
         $post["container_desc"] = $container_desc;
 
         $option = JRequest::getVar('option');
-
-        //	$post ['container_id'] = $cid [0];
 
         $post ['creation_date'] = strtotime($post ['creation_date']);
 

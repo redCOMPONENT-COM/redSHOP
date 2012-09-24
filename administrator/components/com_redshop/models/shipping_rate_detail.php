@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
-class shipping_rate_detailModelShipping_rate_detail extends JModel
+class shipping_rate_detailModelShipping_rate_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -44,7 +42,8 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -118,19 +117,24 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->shipping_rate_on_product) {
+        if (!$row->shipping_rate_on_product)
+        {
             $row->shipping_rate_on_product = '';
         }
-        if (!$row->shipping_rate_on_category) {
+        if (!$row->shipping_rate_on_category)
+        {
             $row->shipping_rate_on_category = '';
         }
-        if (!$row->shipping_rate_state) {
+        if (!$row->shipping_rate_state)
+        {
             $row->shipping_rate_state = '';
         }
-        if (!$row->shipping_rate_on_shopper_group) {
+        if (!$row->shipping_rate_on_shopper_group)
+        {
             $row->shipping_rate_on_shopper_group = '';
         }
-        if (!$row->company_only) {
+        if (!$row->company_only)
+        {
             $row->company_only = 0;
         }
         if (!$row->store())

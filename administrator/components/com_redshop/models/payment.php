@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class paymentModelpayment extends JModel
+class paymentModelpayment extends JModelLegacy
 {
     var $_data = null;
 

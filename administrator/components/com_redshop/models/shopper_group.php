@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class shopper_groupModelshopper_group extends JModel
+class shopper_groupModelshopper_group extends JModelLegacy
 {
     var $_data = null;
 

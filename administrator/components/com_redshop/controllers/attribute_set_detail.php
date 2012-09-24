@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 
-class attribute_set_detailController extends JController
+class attribute_set_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {
@@ -41,8 +40,6 @@ class attribute_set_detailController extends JController
         $post = JRequest::get('post');
 
         $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-        //$post ['attribute_set_id'] = $cid [0];
 
         ////////// include extra field class  /////////////////////////////////////
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
@@ -55,11 +52,8 @@ class attribute_set_detailController extends JController
 
             $file = JRequest::getVar('image', 'array', 'files', 'array');
 
-            $newpost = array();
-            //			if (isset($post['attribute_id'])){
-            //				$newpost['attribute_id'] = $post['attribute_id'];
-            //				$newpost['title'] = $post['title'];
-            //			}
+            //$newpost = array();
+
             $this->attribute_save($post, $row, $file);
             /*if (isset($post['property'])){
                    $newpost['hdn_del_attribute'] = $post['hdn_del_attribute'];
@@ -87,11 +81,12 @@ class attribute_set_detailController extends JController
             /// Extra Field Data Saved ////////////////////////
             $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL_SAVED');
         }
+
         if ($apply == 1)
         {
             $this->setRedirect('index.php?option=' . $option . '&view=attribute_set_detail&task=edit&cid[]=' . $row->attribute_set_id, $msg);
-            // index.php?option=com_redshop&view=product_detail&task=edit&cid[]=12
         }
+
         else
         {
             $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
@@ -171,12 +166,12 @@ class attribute_set_detailController extends JController
     function attribute_save($post, $row, $file)
     {
 
-        $model    = $this->getModel('attribute_set_detail');
-        $option   = JRequest::getVar('option');
-        $thumb    = new thumbnail();
-        $obj_img  = new thumbnail_images();
-        $n_width  = 50;
-        $n_height = 50;
+        $model = $this->getModel('attribute_set_detail');
+        //$option   = JRequest::getVar('option');
+        //$thumb    = new thumbnail();
+        //$obj_img  = new thumbnail_images();
+        //$n_width  = 50;
+        //$n_height = 50;
 
         $attribute_save   = array();
         $property_save    = array();

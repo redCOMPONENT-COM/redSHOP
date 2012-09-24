@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 
-class orderController extends JController
+class orderController extends JControllerLegacy
 {
     function multiprint_order()
     {
@@ -43,7 +41,8 @@ class orderController extends JController
                 ?>
             window.open("<?php echo JURI::root()?>/components/com_redshop/assets/labels/label_<?php echo $mypost[$i]?>.pdf");
 
-                <?php }
+                <?php
+            }
         } ?>
         //window.open("index.php?tmpl=component&json=1&option=com_redshop&view=order&layout=multiprint_order&cid=<?php echo $mycid?>","mywindow","scrollbars=1","location=1");
         window.parent.location = 'index.php?option=com_redshop&view=order';

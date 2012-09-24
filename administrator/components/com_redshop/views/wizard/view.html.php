@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
 require_once 'components' . DS . 'com_redshop' . DS . 'views' . DS . 'configuration' . DS . 'view.html.php';
 
-class wizardViewwizard extends JView
+class wizardViewwizard extends JViewLegacy
 {
     function display($tpl = null)
     {

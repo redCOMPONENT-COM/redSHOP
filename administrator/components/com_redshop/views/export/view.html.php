@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class exportViewexport extends JView
+class exportViewexport extends JViewLegacy
 {
     function display($tpl = null)
     {

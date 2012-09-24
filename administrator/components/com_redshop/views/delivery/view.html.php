@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class deliveryViewdelivery extends JView
+class deliveryViewdelivery extends JViewLegacy
 {
     function display($tpl = null)
     {

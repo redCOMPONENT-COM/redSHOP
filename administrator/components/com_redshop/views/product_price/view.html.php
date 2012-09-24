@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class product_priceViewproduct_price extends JView
+class product_priceViewproduct_price extends JViewLegacy
 {
     function display($tpl = null)
     {

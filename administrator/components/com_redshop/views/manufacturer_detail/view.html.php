@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class manufacturer_detailVIEWmanufacturer_detail extends JView
+class manufacturer_detailVIEWmanufacturer_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

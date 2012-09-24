@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class giftcardModelgiftcard extends JModel
+class giftcardModelgiftcard extends JModelLegacy
 {
     var $_data = null;
 

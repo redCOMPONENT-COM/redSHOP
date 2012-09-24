@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class addressfields_listingController extends JController
+class addressfields_listingController extends JControllerLegacy
 {
     function cancel()
     {

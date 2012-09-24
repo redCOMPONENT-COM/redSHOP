@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class voucherModelvoucher extends JModel
+class voucherModelvoucher extends JModelLegacy
 {
     var $_data = null;
 

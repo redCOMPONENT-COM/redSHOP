@@ -8,9 +8,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.application.component.view');
 
-class stateViewstate extends JView
+class stateViewstate extends JViewLegacy
 {
     function display($tpl = null)
     {

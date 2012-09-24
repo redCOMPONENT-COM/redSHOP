@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
@@ -17,7 +16,7 @@ jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class attribute_set_detailModelattribute_set_detail extends JModel
+class attribute_set_detailModelattribute_set_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -51,7 +50,8 @@ class attribute_set_detailModelattribute_set_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
