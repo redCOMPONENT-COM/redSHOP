@@ -1,207 +1,224 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_BASE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'configuration.php';
+jimport('joomla.application.component.controller');
+
+require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 
 class wizardController extends JController
 {
-	var $_temp_file = null;
-	var $_temp_array = null;
-	var $_temp_file_dist = null;
+    var $_temp_file = null;
 
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
+    var $_temp_array = null;
 
-		$this->_temp_file = JPATH_BASE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'wizard'.DS.'redshop.cfg.tmp.php';
-		$this->_temp_file_dist = JPATH_BASE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'wizard'.DS.'redshop.cfg.tmp.dist.php';
-	}
+    var $_temp_file_dist = null;
 
-	function isTmpFile()
+    function __construct($default = array())
     {
-        if(file_exists($this->_temp_file)){
+        parent::__construct($default);
 
-			if ($this->isWritable()){
-				require_once ($this->_temp_file);
-				return true;
-			}
-		}else{
-			JError::raiseWarning(21,JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'));
-		}
+        $this->_temp_file      = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.php';
+        $this->_temp_file_dist = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.dist.php';
+    }
 
-		return false;
-	}
-
-	function isWritable()
+    function isTmpFile()
     {
-        if (!is_writable($this->_temp_file)) {
+        if (file_exists($this->_temp_file))
+        {
 
-			JError::raiseWarning(21,JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
-			return false;
-		}
-		return true;
-	}
+            if ($this->isWritable())
+            {
+                require_once ($this->_temp_file);
+                return true;
+            }
+        }
+        else
+        {
+            JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'));
+        }
 
-	function WriteTmpFile()
+        return false;
+    }
+
+    function isWritable()
+    {
+        if (!is_writable($this->_temp_file))
+        {
+
+            JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
+            return false;
+        }
+        return true;
+    }
+
+    function WriteTmpFile()
     {
         $html = "<?php \n";
 
-		$html .= 'global $temparray;'."\n".'$temparray = array();'."\n";
+        $html .= 'global $temparray;' . "\n" . '$temparray = array();' . "\n";
 
-		foreach ($this->_temp_array as $key=>$val){
-			$html .= '$temparray["'.$key.'"] = \''.addslashes($val)."';\n";
-		}
-		$html .= "?>";
+        foreach ($this->_temp_array as $key=> $val)
+        {
+            $html .= '$temparray["' . $key . '"] = \'' . addslashes($val) . "';\n";
+        }
+        $html .= "?>";
 
-		if ($fp = fopen($this->_temp_file, "w")) {
-			fwrite($fp, $html, strlen($html));
-		    fclose ($fp);
-		    return true;
-		}else {
-			return false;
-		}
-	}
+        if ($fp = fopen($this->_temp_file, "w"))
+        {
+            fwrite($fp, $html, strlen($html));
+            fclose($fp);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-	/**
-	 *
-	 * Copy temparory distinct file for enable config variable support
-	 */
-	function copyTempFile()
+    /**
+     *
+     * Copy temparory distinct file for enable config variable support
+     */
+    function copyTempFile()
     {
-        jimport( 'joomla.filesystem.file' );
+        jimport('joomla.filesystem.file');
 
-		JFile::copy($this->_temp_file_dist,$this->_temp_file);
-	}
+        JFile::copy($this->_temp_file_dist, $this->_temp_file);
+    }
 
-	function save()
+    function save()
     {
         $post = JRequest::get('post');
 
         $substep = $post['substep'];
-		$go = $post['go'];
+        $go      = $post['go'];
 
-		global $temparray;
+        global $temparray;
 
-		$this->isTmpFile();
+        $this->isTmpFile();
 
-		if($substep == 2){
+        if ($substep == 2)
+        {
 
-			$country_list = JRequest::getVar('country_list');
+            $country_list = JRequest::getVar('country_list');
 
-			$i= 0;
-			$country_listCode = '';
-			if($country_list){
-				foreach ($country_list as $key=>$value){
+            $i                = 0;
+            $country_listCode = '';
+            if ($country_list)
+            {
+                foreach ($country_list as $key=> $value)
+                {
 
-					$country_listCode .=  $value;
-					$i++;
-					if($i<count($country_list))
-					{
-					$country_listCode .= ',';
-					}
+                    $country_listCode .= $value;
+                    $i++;
+                    if ($i < count($country_list))
+                    {
+                        $country_listCode .= ',';
+                    }
+                }
+            }
+            $post['country_list'] = $country_listCode;
+        }
 
-				}
-			}
-			$post['country_list'] = $country_listCode;
-		}
+        $post = array_merge($temparray, $post);
 
-		$post = array_merge($temparray,$post);
+        $this->_temp_array = $post;
 
-		$this->_temp_array = $post;
+        if ($this->WriteTmpFile())
+        {
 
-		if ($this->WriteTmpFile()){
+            $msg = JText::_('COM_REDSHOP_STEP_SAVED');
 
-			$msg = JText::_('COM_REDSHOP_STEP_SAVED');
+            if ($go == 'pre')
+            {
+                $substep = $substep - 2;
+            }
+        }
+        else
+        {
 
-			if($go == 'pre')
-				$substep = $substep -2;
+            $substep = $substep - 1;
+            $msg     = JText::_('COM_REDSHOP_ERROR_SAVING_STEP_DETAIL');
+        }
 
-		}else{
+        if ($post['vatremove'] == 1)
+        {
 
-			$substep = $substep -1;
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STEP_DETAIL');
-		}
-
-		if($post['vatremove']==1)
-		{
-
-           $tax_rate_id= $post['vattax_rate_id'];
-           $vatlink= 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]='.$tax_rate_id.'&tax_group_id=1';
+            $tax_rate_id = $post['vattax_rate_id'];
+            $vatlink     = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $tax_rate_id . '&tax_group_id=1';
 
             $this->setRedirect($vatlink);
+        }
+        else
+        {
 
-		} else {
+            $link = 'index.php?option=com_redshop&step=' . $substep;
+            $this->setRedirect($link);
+        }
+    }
 
-			$link = 'index.php?option=com_redshop&step='.$substep;
-			$this->setRedirect($link);
-		}
-
-	}
-
-	function finish()
+    function finish()
     {
         $Redconfiguration = new Redconfiguration();
 
-		$post = JRequest::get('post');
+        $post = JRequest::get('post');
 
-		$msg = "";
+        $msg = "";
 
-		/**
-		*	install sample data
-		*/
-		if(isset($post['installcontent']))
-			if($this->demoContentInsert())
-				$msg .= JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED')."<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        /**
+         *    install sample data
+         */
+        if (isset($post['installcontent']))
+        {
+            if ($this->demoContentInsert())
+            {
+                $msg .= JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED') . "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            }
+        }
 
+        $substep = $post['substep'];
 
-		$substep = $post['substep'];
+        global $temparray;
 
-		global $temparray;
+        $this->isTmpFile();
 
-		$this->isTmpFile();
+        if ($Redconfiguration->storeFromTMPFile())
+        {
 
-		if ($Redconfiguration->storeFromTMPFile()){
+            $msg .= JText::_('COM_REDSHOP_FINISH_WIZARD');
 
-			$msg .= JText::_('COM_REDSHOP_FINISH_WIZARD');
+            $link = 'index.php?option=com_redshop';
+        }
+        else
+        {
 
-			$link = 'index.php?option=com_redshop';
+            $substep = 4;
+            $msg .= JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
 
-		}else{
+            $link = 'index.php?option=com_redshop&step=' . $substep;
+        }
 
-			$substep = 4;
-			$msg .= JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
+        $this->setRedirect($link, $msg);
+    }
 
-			$link = 'index.php?option=com_redshop&step='.$substep;
-		}
-
-		$this->setRedirect($link,$msg);
-	}
-
-	function demoContentInsert()
+    function demoContentInsert()
     {
         //$post = JRequest::get('post');
 
-		$model = $this->getModel('redshop','redshopModel');
+        $model = $this->getModel('redshop', 'redshopModel');
 
-		if(!$model->demoContentInsert()){
-			return false;
-		}
-		return true;
-	}
+        if (!$model->demoContentInsert())
+        {
+            return false;
+        }
+        return true;
+    }
 }
