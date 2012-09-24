@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class answer_detailController extends JController
+class answer_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

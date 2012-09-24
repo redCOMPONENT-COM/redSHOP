@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class integrationController extends JController
+class integrationController extends JControllerLegacy
 {
     function gbasedownload()
     {

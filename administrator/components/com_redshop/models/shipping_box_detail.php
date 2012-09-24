@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class shipping_box_detailModelshipping_box_detail extends JModel
+class shipping_box_detailModelshipping_box_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -43,7 +41,8 @@ class shipping_box_detailModelshipping_box_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

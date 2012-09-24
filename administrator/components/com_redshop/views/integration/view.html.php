@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-class integrationViewintegration extends JView
+class integrationViewintegration extends JViewLegacy
 {
     function display($tpl = null)
     {

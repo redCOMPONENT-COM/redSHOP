@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class manufacturer_detailModelmanufacturer_detail extends JModel
+class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -45,7 +43,8 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -110,7 +109,8 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
         }
         if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
         {
-            if (!$row->excluding_category_list) {
+            if (!$row->excluding_category_list)
+            {
                 $row->excluding_category_list = '';
             }
         }

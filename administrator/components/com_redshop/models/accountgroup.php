@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class accountgroupModelaccountgroup extends JModel
+class accountgroupModelaccountgroup extends JModelLegacy
 {
     var $_context = null;
 

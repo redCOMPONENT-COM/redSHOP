@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class textlibrary_detailModeltextlibrary_detail extends JModel
+class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -43,7 +41,8 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

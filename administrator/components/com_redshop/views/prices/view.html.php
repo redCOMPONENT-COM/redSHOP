@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.view');
-
-class pricesViewprices extends JView
+class pricesViewprices extends JViewLegacy
 {
     function display($tpl = null)
     {

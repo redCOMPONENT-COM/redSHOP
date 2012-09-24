@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.view');
-
-class attributeprices_detailVIEWattributeprices_detail extends JView
+class attributeprices_detailVIEWattributeprices_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

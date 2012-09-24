@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
-class payment_detailModelpayment_detail extends JModel
+class payment_detailModelpayment_detail extends JModelLegacy
 {
     var $_id = null;
 

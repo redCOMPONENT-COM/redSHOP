@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.view');
-
-class wrapper_detailVIEWwrapper_detail extends JView
+class wrapper_detailVIEWwrapper_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

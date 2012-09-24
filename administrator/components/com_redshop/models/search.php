@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class searchModelsearch extends JModel
+class searchModelsearch extends JModelLegacy
 {
     var $_id = null;
 

@@ -8,9 +8,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.application.component.view');
 
-class currencyViewcurrency extends JView
+class currencyViewcurrency extends JViewLegacy
 {
     function display($tpl = null)
     {

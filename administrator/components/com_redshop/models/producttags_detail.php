@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class producttags_detailModelproducttags_detail extends JModel
+class producttags_detailModelproducttags_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -41,7 +39,8 @@ class producttags_detailModelproducttags_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

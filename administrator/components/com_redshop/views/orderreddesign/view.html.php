@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class orderreddesignVieworderreddesign extends JView
+class orderreddesignVieworderreddesign extends JViewLegacy
 {
     function display($tpl = null)
     {

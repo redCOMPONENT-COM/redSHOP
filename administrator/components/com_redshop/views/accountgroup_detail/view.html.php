@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class accountgroup_detailVIEWaccountgroup_detail extends JView
+class accountgroup_detailVIEWaccountgroup_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

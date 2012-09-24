@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class barcodeController extends JController
+class barcodeController extends JControllerLegacy
 {
     function getsearch()
     {
@@ -30,10 +28,10 @@ class barcodeController extends JController
             $barcode = $post['barcode'];
             $barcode = substr($barcode, 0, 12);
 
-            $user      = JFactory::getUser();
-            $uid       = $user->get('id');
-            $mainframe = JFactory::getApplication();
-            $row       = $model->checkorder($barcode);
+            $user = JFactory::getUser();
+            $uid  = $user->get('id');
+            //$mainframe = JFactory::getApplication();
+            $row = $model->checkorder($barcode);
 
             if ($row)
             {
@@ -52,7 +50,7 @@ class barcodeController extends JController
                 }
 
                 //return $log;
-                $this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id);
+                $this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id, $msg);
             }
 
             else
@@ -80,9 +78,7 @@ class barcodeController extends JController
             $model   = $this->getModel('barcode');
             $barcode = $post['barcode'];
             $barcode = substr($barcode, 0, 12);
-
-            $mainframe = JFactory::getApplication();
-            $row       = $model->checkorder($barcode);
+            $row     = $model->checkorder($barcode);
 
             if ($row)
             {

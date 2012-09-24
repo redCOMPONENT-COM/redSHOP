@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 
-class xmlimport_detailModelxmlimport_detail extends JModel
+class xmlimport_detailModelxmlimport_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -42,7 +40,8 @@ class xmlimport_detailModelxmlimport_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
         if (isset($post['display_filename']))
@@ -125,7 +124,8 @@ class xmlimport_detailModelxmlimport_detail extends JModel
             $xmlimport_url              = $post['xmlimport_url'];
             $this->_data->xmlimport_url = $post['xmlimport_url'];
         }
-        else {
+        else
+        {
             if (array_key_exists("name", $file) && $file['name'] != "" && $file['type'] == "text/xml")
             {
                 $src      = $file['tmp_name'];
