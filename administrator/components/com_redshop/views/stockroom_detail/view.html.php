@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -22,11 +15,12 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.
 
 class stockroom_detailVIEWstockroom_detail extends JView
 {
-    function display ($tpl = null)
+    function display($tpl = null)
     {
         $layout = JRequest::getVar('layout', '');
 
-        if ($layout == 'default_product') {
+        if ($layout == 'default_product')
+        {
             $this->display_product();
             return false;
         }
@@ -36,7 +30,8 @@ class stockroom_detailVIEWstockroom_detail extends JView
         $option = JRequest::getVar('option', '', 'request', 'string');
         $model  = $this->getModel('stockroom_detail');
 
-        if ($layout == 'importstock') {
+        if ($layout == 'importstock')
+        {
             $stockroom_name        = $model->getStockRoomList();
             $op                    = array();
             $op[0]->value          = 0;
@@ -47,7 +42,9 @@ class stockroom_detailVIEWstockroom_detail extends JView
             JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC'), 'redshop_stockroom48');
             JToolBarHelper::cancel('cancel', 'Close');
             $this->setLayout($layout);
-        } else {
+        }
+        else
+        {
             $document = JFactory::getDocument();
             $document->addScript('components/' . $option . '/assets/js/select_sort.js');
             $document->addStyleSheet('components/com_redshop/assets/css/search.css');
@@ -63,9 +60,12 @@ class stockroom_detailVIEWstockroom_detail extends JView
             //create the toolbar
             JToolBarHelper::apply();
             JToolBarHelper::save();
-            if ($isNew) {
+            if ($isNew)
+            {
                 JToolBarHelper::cancel();
-            } else {
+            }
+            else
+            {
                 JToolBarHelper::cancel('cancel', 'Close');
             }
             // Get data from the model
@@ -73,9 +73,12 @@ class stockroom_detailVIEWstockroom_detail extends JView
             // Get stockroom container product data from the model
             $stock_product_data = $model->stock_product_data($detail->stockroom_id);
 
-            if (count($stock_product_data) > 0) {
+            if (count($stock_product_data) > 0)
+            {
                 $result_stock = $stock_product_data;
-            } else {
+            }
+            else
+            {
                 $result_stock = array();
             }
 
@@ -103,11 +106,11 @@ class stockroom_detailVIEWstockroom_detail extends JView
             $this->assignRef('detail', $detail);
         }
         $this->assignRef('lists', $lists);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
         parent::display($tpl);
     }
 
-    function display_product ($tpl = null)
+    function display_product($tpl = null)
     {
         $id = JRequest::getVar('id', '');
 
