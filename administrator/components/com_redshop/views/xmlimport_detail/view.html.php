@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
@@ -21,7 +15,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlimport_detailVIEWxmlimport_detail extends JView
 {
-    function display ($tpl = null)
+    function display($tpl = null)
     {
         $option    = JRequest::getVar('option');
         $xmlhelper = new xmlHelper();
@@ -60,9 +54,12 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
         JToolBarHelper::title(JText::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_import48');
         JToolBarHelper::custom('xmlimport', 'redshop_import_import32.png', JText::_('COM_REDSHOP_XML_IMPORT'), JText::_('COM_REDSHOP_XML_IMPORT'), false, false);
         JToolBarHelper::save();
-        if ($isNew) {
+        if ($isNew)
+        {
             JToolBarHelper::cancel();
-        } else {
+        }
+        else
+        {
             JToolBarHelper::cancel('cancel', 'Close');
         }
         $section_type                = $xmlhelper->getSectionTypeList();
@@ -73,7 +70,8 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
         $lists['override_existing']  = JHTML::_('select.booleanlist', 'override_existing', 'class="inputbox" size="1"', $detail->override_existing);
         $lists['xmlpublished']       = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
 
-        if ($xmlimport_url != "") {
+        if ($xmlimport_url != "")
+        {
             $filedetail          = $xmlhelper->readXMLImportFile($xmlimport_url, $detail);
             $xmlfiletag          = $filedetail['xmlsectionarray'];
             $xmlbillingtag       = $filedetail['xmlbillingarray'];
@@ -85,10 +83,12 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
         $lists['section_type'] = JHTML::_('select.genericlist', $section_type, 'section_type', 'class="inputbox" size="1" onchange="setExportSectionType();" ', 'value', 'text', $detail->section_type);
 
-        if ($detail->section_type != "") {
+        if ($detail->section_type != "")
+        {
             $cols    = array();
             $columns = $xmlhelper->getSectionColumnList($detail->section_type);
-            for ($i = 0; $i < count($columns); $i++) {
+            for ($i = 0; $i < count($columns); $i++)
+            {
                 $cols[$i]->value = $columns[$i]->Field;
                 $cols[$i]->text  = $columns[$i]->Field;
             }
@@ -97,76 +97,92 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
             $op[0]->text  = JText::_('COM_REDSHOP_SELECT');
             $columns      = array_merge($op, $cols);
 
-            for ($i = 0; $i < count($xmlfiletag); $i++) {
+            for ($i = 0; $i < count($xmlfiletag); $i++)
+            {
                 $colvalue               = $xmlhelper->getXMLFileTag($xmlfiletag[$i], $detail->xmlimport_filetag);
                 $updatefiletag[$i]      = $colvalue[1];
                 $lists[$xmlfiletag[$i]] = JHTML::_('select.genericlist', $columns, $xmlfiletag[$i], 'class="inputbox" size="1" ', 'value', 'text', $colvalue[0]);
             }
-            if (count($xmlbillingtag) > 0) {
+            if (count($xmlbillingtag) > 0)
+            {
                 $cols    = array();
                 $columns = $xmlhelper->getSectionColumnList($detail->section_type, "billingdetail");
-                for ($i = 0; $i < count($columns); $i++) {
+                for ($i = 0; $i < count($columns); $i++)
+                {
                     $cols[$i]->value = $columns[$i]->Field;
                     $cols[$i]->text  = $columns[$i]->Field;
                 }
                 $columns = array_merge($op, $cols);
-                for ($i = 0; $i < count($xmlbillingtag); $i++) {
+                for ($i = 0; $i < count($xmlbillingtag); $i++)
+                {
                     $colvalue                            = $xmlhelper->getXMLFileTag($xmlbillingtag[$i], $detail->xmlimport_billingtag);
                     $updatebillingtag[$i]                = $colvalue[1];
                     $lists["bill_" . $xmlbillingtag[$i]] = JHTML::_('select.genericlist', $columns, "bill_" . $xmlbillingtag[$i], 'class="inputbox" size="1" ', 'value', 'text', $colvalue[0]);
                 }
             }
-            if (count($xmlshippingtag) > 0) {
+            if (count($xmlshippingtag) > 0)
+            {
                 $cols    = array();
                 $columns = $xmlhelper->getSectionColumnList($detail->section_type, "shippingdetail");
-                for ($i = 0; $i < count($columns); $i++) {
+                for ($i = 0; $i < count($columns); $i++)
+                {
                     $cols[$i]->value = $columns[$i]->Field;
                     $cols[$i]->text  = $columns[$i]->Field;
                 }
                 $columns = array_merge($op, $cols);
-                for ($i = 0; $i < count($xmlshippingtag); $i++) {
+                for ($i = 0; $i < count($xmlshippingtag); $i++)
+                {
                     $colvalue                              = $xmlhelper->getXMLFileTag($xmlshippingtag[$i], $detail->xmlimport_shippingtag);
                     $updateshippingtag[$i]                 = $colvalue[1];
                     $lists["shipp_" . $xmlshippingtag[$i]] = JHTML::_('select.genericlist', $columns, "shipp_" . $xmlshippingtag[$i], 'class="inputbox" size="1" ', 'value', 'text', $colvalue[0]);
                 }
             }
-            if (count($xmlitemtag) > 0) {
+            if (count($xmlitemtag) > 0)
+            {
                 $cols    = array();
                 $columns = $xmlhelper->getSectionColumnList($detail->section_type, "orderitem");
-                for ($i = 0; $i < count($columns); $i++) {
+                for ($i = 0; $i < count($columns); $i++)
+                {
                     $cols[$i]->value = $columns[$i]->Field;
                     $cols[$i]->text  = $columns[$i]->Field;
                 }
                 $columns = array_merge($op, $cols);
-                for ($i = 0; $i < count($xmlitemtag); $i++) {
+                for ($i = 0; $i < count($xmlitemtag); $i++)
+                {
                     $colvalue                         = $xmlhelper->getXMLFileTag($xmlitemtag[$i], $detail->xmlimport_orderitemtag);
                     $updateitemtag[$i]                = $colvalue[1];
                     $lists["item_" . $xmlitemtag[$i]] = JHTML::_('select.genericlist', $columns, "item_" . $xmlitemtag[$i], 'class="inputbox" size="1" ', 'value', 'text', $colvalue[0]);
                 }
             }
-            if (count($xmlstocktag) > 0) {
+            if (count($xmlstocktag) > 0)
+            {
                 $cols    = array();
                 $columns = $xmlhelper->getSectionColumnList($detail->section_type, "stockdetail");
-                for ($i = 0; $i < count($columns); $i++) {
+                for ($i = 0; $i < count($columns); $i++)
+                {
                     $cols[$i]->value = $columns[$i]->Field;
                     $cols[$i]->text  = $columns[$i]->Field;
                 }
                 $columns = array_merge($op, $cols);
-                for ($i = 0; $i < count($xmlstocktag); $i++) {
+                for ($i = 0; $i < count($xmlstocktag); $i++)
+                {
                     $colvalue                           = $xmlhelper->getXMLFileTag($xmlstocktag[$i], $detail->xmlimport_stocktag);
                     $updatestocktag[$i]                 = $colvalue[1];
                     $lists["stock_" . $xmlstocktag[$i]] = JHTML::_('select.genericlist', $columns, "stock_" . $xmlstocktag[$i], 'class="inputbox" size="1" ', 'value', 'text', $colvalue[0]);
                 }
             }
-            if (count($xmlprdextrafieldtag) > 0) {
+            if (count($xmlprdextrafieldtag) > 0)
+            {
                 $cols    = array();
                 $columns = $xmlhelper->getSectionColumnList($detail->section_type, "prdextrafield");
-                for ($i = 0; $i < count($columns); $i++) {
+                for ($i = 0; $i < count($columns); $i++)
+                {
                     $cols[$i]->value = $columns[$i]->Field;
                     $cols[$i]->text  = $columns[$i]->Field;
                 }
                 $columns = array_merge($op, $cols);
-                for ($i = 0; $i < count($xmlprdextrafieldtag); $i++) {
+                for ($i = 0; $i < count($xmlprdextrafieldtag); $i++)
+                {
                     $colvalue                                    = $xmlhelper->getXMLFileTag($xmlprdextrafieldtag[$i], $detail->xmlimport_prdextrafieldtag);
                     $updateprdexttag[$i]                         = $colvalue[1];
                     $lists["prdext_" . $xmlprdextrafieldtag[$i]] = JHTML::_('select.genericlist', $columns, "prdext_" . $xmlprdextrafieldtag[$i], 'class="inputbox" size="1" ', 'value', 'text', $colvalue[0]);
@@ -191,7 +207,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
         $this->assignRef('updatestocktag', $updatestocktag);
         $this->assignRef('updateprdexttag', $updateprdexttag);
         $this->assignRef('tmpxmlimport_url', $xmlimport_url);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }
