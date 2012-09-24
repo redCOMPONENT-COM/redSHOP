@@ -504,7 +504,8 @@ class redshopMail
             {
                 $orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
             }
-            else {
+            else
+            {
                 if (trim($OrdersDetail[0]->order_payment_status) == 'Unpaid')
                 {
                     $orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
@@ -927,7 +928,7 @@ class redshopMail
             $message = str_replace($search, $replace, $message);
 
             $message = $this->imginmail($message);
-            $user    = & JFactory::getUser();
+            $user    = JFactory::getUser();
             //$billingaddresses=$this->_order_functions->getBillingAddress ( $user->id );
             $billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
             $email            = $billingaddresses->user_email;
@@ -1027,7 +1028,7 @@ class redshopMail
 
         $message = str_replace($search, $replace, $message);
         $message = $this->imginmail($message);
-        $user    = & JFactory::getUser();
+        $user    = JFactory::getUser();
         //$billingaddresses=$this->_order_functions->getBillingAddress ( $user->id );
         $billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
         $email            = $billingaddresses->user_email;
@@ -1104,15 +1105,12 @@ class redshopMail
     {
         global $mainframe;
 
-        $acl = & JFactory::getACL();
-        $db  = & JFactory::getDBO();
-        $me  = & JFactory::getUser();
+        $me = JFactory::getUser();
 
         $mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
         $MailFrom = $mainframe->getCfg('mailfrom');
         $FromName = $mainframe->getCfg('fromname');
-        $SiteName = $mainframe->getCfg('sitename');
 
         /*
 	 	 * Time for the email magic so get ready to sprinkle the magic dust...
@@ -1395,7 +1393,7 @@ class redshopMail
     function sendQuotationMail($quotation_id, $status = 0)
     {
 
-        $uri = & JURI::getInstance();
+        $uri = JURI::getInstance();
 
         $url = $uri->root();
 
@@ -1828,7 +1826,7 @@ class redshopMail
     function sendAskQuestionMail($ansid)
     {
         $producthelper = new producthelper ();
-        $uri           = & JURI::getInstance();
+        $uri           = JURI::getInstance();
         $url           = $uri->root();
         $option        = JRequest::getVar('option');
         $subject       = "";

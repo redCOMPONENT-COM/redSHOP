@@ -490,10 +490,12 @@ class configurationModelconfiguration extends JModel
 
         $data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
         $data["show_price_shopper_group_list"] = $data["show_price_shopper_group_list"] ? $data["show_price_shopper_group_list"] : '';
-        if ($data['image_quality_output'] <= 10) {
+        if ($data['image_quality_output'] <= 10)
+        {
             $data['image_quality_output'] = 100;
         }
-        if ($data['image_quality_output'] >= 100) {
+        if ($data['image_quality_output'] >= 100)
+        {
             $data['image_quality_output'] = 100;
         }
 
@@ -756,7 +758,7 @@ class configurationModelconfiguration extends JModel
         $o       = new stdClass();
         $o->text = $newsletter_body;
         JPluginHelper::importPlugin('content');
-        $dispatcher           = & JDispatcher::getInstance();
+        $dispatcher           = JDispatcher::getInstance();
         $x                    = array();
         $results              = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
         $newsletter_template2 = $o->text;

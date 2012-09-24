@@ -52,7 +52,8 @@ class order_detailModelorder_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -137,8 +138,8 @@ class order_detailModelorder_detail extends JModel
                     $invoiceHandle = $economic->deleteInvoiceInEconomic($orderdata);
                 }
             }
-            $cids       = implode(',', $cid);
-            $db         = & JFactory::getDBO();
+            $cids = implode(',', $cid);
+
             $order_item = $order_functions->getOrderItemDetail($cids);
             for ($i = 0; $i < count($order_item); $i++)
             {
@@ -357,7 +358,7 @@ class order_detailModelorder_detail extends JModel
                         $attribute_id = $attchildArr[$j]['attribute_id'];
                         $accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-                        $rowattitem                    = & $this->getTable('order_attribute_item');
+                        $rowattitem                    = $this->getTable('order_attribute_item');
                         $rowattitem->order_att_item_id = 0;
                         $rowattitem->order_item_id     = $orderitemdata->order_item_id;
                         $rowattitem->section_id        = $attribute_id;
@@ -386,7 +387,7 @@ class order_detailModelorder_detail extends JModel
                             $accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
                             $subpropArr = $propArr[$k]['property_childs'];
 
-                            $rowattitem                    = & $this->getTable('order_attribute_item');
+                            $rowattitem                    = $this->getTable('order_attribute_item');
                             $rowattitem->order_att_item_id = 0;
                             $rowattitem->order_item_id     = $orderitemdata->order_item_id;
                             $rowattitem->section_id        = $property_id;
@@ -416,7 +417,7 @@ class order_detailModelorder_detail extends JModel
                                 $subproperty_id = $subpropArr[$l]['subproperty_id'];
                                 $accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-                                $rowattitem                    = & $this->getTable('order_attribute_item');
+                                $rowattitem                    = $this->getTable('order_attribute_item');
                                 $rowattitem->order_att_item_id = 0;
                                 $rowattitem->order_item_id     = $orderitemdata->order_item_id;
                                 $rowattitem->section_id        = $subproperty_id;
@@ -439,13 +440,13 @@ class order_detailModelorder_detail extends JModel
                         }
                     }
 
-                    $accdata = & $this->getTable('accessory_detail');
+                    $accdata = $this->getTable('accessory_detail');
                     if ($accessory_id > 0)
                     {
                         $accdata->load($accessory_id);
                     }
                     $accessoryproduct                    = $producthelper->getProductById($accdata->child_product_id);
-                    $rowaccitem                          = & $this->getTable('order_acc_item');
+                    $rowaccitem                          = $this->getTable('order_acc_item');
                     $rowaccitem->order_item_acc_id       = 0;
                     $rowaccitem->order_item_id           = $orderitemdata->order_item_id;
                     $rowaccitem->product_id              = $accessory_id;
@@ -476,7 +477,7 @@ class order_detailModelorder_detail extends JModel
                 {
                     $attribute_id = $attArr[$j]['attribute_id'];
 
-                    $rowattitem                    = & $this->getTable('order_attribute_item');
+                    $rowattitem                    = $this->getTable('order_attribute_item');
                     $rowattitem->order_att_item_id = 0;
                     $rowattitem->order_item_id     = $orderitemdata->order_item_id;
                     $rowattitem->section_id        = $attribute_id;
@@ -505,7 +506,7 @@ class order_detailModelorder_detail extends JModel
                         /** product property STOCKROOM update start */
                         $updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
 
-                        $rowattitem                    = & $this->getTable('order_attribute_item');
+                        $rowattitem                    = $this->getTable('order_attribute_item');
                         $rowattitem->order_att_item_id = 0;
                         $rowattitem->order_item_id     = $orderitemdata->order_item_id;
                         $rowattitem->section_id        = $property_id;
@@ -537,7 +538,7 @@ class order_detailModelorder_detail extends JModel
                             /** product subproperty STOCKROOM update start */
                             $updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
-                            $rowattitem                    = & $this->getTable('order_attribute_item');
+                            $rowattitem                    = $this->getTable('order_attribute_item');
                             $rowattitem->order_att_item_id = 0;
                             $rowattitem->order_item_id     = $orderitemdata->order_item_id;
                             $rowattitem->section_id        = $subproperty_id;
@@ -1143,10 +1144,12 @@ class order_detailModelorder_detail extends JModel
     function getvar($name)
     {
         global $_GET, $_POST;
-        if (isset($_GET[$name])) {
+        if (isset($_GET[$name]))
+        {
             return $_GET[$name];
         }
-        else {
+        else
+        {
             if (isset($_POST[$name]))
             {
                 return $_POST[$name];

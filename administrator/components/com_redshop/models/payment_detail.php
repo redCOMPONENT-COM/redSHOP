@@ -46,7 +46,8 @@ class payment_detailModelpayment_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -189,7 +190,7 @@ class payment_detailModelpayment_detail extends JModel
 
         // Get an installer object for the extension type
         jimport('joomla.installer.installer');
-        $installer = & JInstaller::getInstance();
+        $installer = JInstaller::getInstance();
 
         // Uninstall the chosen extensions
         foreach ($eid as $id => $clientId)
@@ -816,7 +817,7 @@ class JInstaller extends JObject
     function parseQueries($element)
     {
         // Get the database connector object
-        $db = & $this->_db;
+        $db = $this->_db;
 
         if (!is_a($element, 'JSimpleXMLElement') || !count($element->children()))
         {
@@ -860,7 +861,7 @@ class JInstaller extends JObject
     {
         // Initialize variables
         $queries  = array();
-        $db       = & $this->_db;
+        $db       = $this->_db;
         $dbDriver = strtolower($db->get('name'));
         if ($dbDriver == 'mysqli')
         {

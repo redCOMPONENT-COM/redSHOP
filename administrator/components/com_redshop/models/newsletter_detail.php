@@ -38,7 +38,8 @@ class newsletter_detailModelnewsletter_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
         return $this->_data;
@@ -153,7 +154,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
             for ($j = 0; $j < count($subscriberdata); $j++)
             {
-                $rowsubscr                  = & $this->getTable('newslettersubscr_detail');
+                $rowsubscr                  = $this->getTable('newslettersubscr_detail');
                 $rowsubscr->subscription_id = 0;
                 $rowsubscr->user_id         = $subscriberdata[$j]->user_id;
                 $rowsubscr->date            = time();
