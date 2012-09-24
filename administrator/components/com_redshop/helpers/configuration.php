@@ -577,7 +577,7 @@ class Redconfiguration
 
     function setQuotationMode()
     {
-        $user             = & JFactory::getUser();
+        $user             = JFactory::getUser();
         $userhelper       = new rsUserhelper();
         $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
         if ($user->id)
