@@ -40,7 +40,8 @@ class state_detailModelstate_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -155,7 +156,7 @@ class state_detailModelstate_detail extends JModel
                 $uid  = (int)$user->get('id');
             }
             // Lets get to it and checkout the thing...
-            $state_detail = & $this->getTable('state_detail');
+            $state_detail = $this->getTable('state_detail');
 
             if (!$state_detail->checkout($uid, $this->_id))
             {
@@ -179,7 +180,7 @@ class state_detailModelstate_detail extends JModel
     {
         if ($this->_id)
         {
-            $state_detail = & $this->getTable('state_detail');
+            $state_detail = $this->getTable('state_detail');
             if (!$state_detail->checkin($this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());

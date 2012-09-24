@@ -43,7 +43,8 @@ class shopper_group_detailModelshopper_group_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
         return $this->_data;
@@ -54,7 +55,8 @@ class shopper_group_detailModelshopper_group_detail extends JModel
         if (empty($this->_data))
         {
             $shoppergroup_id = NEW_SHOPPER_GROUP_GET_VALUE_FROM;
-            if ($shoppergroup_id <= 0) {
+            if ($shoppergroup_id <= 0)
+            {
                 return false;
             }
             if ($this->_id)
@@ -62,7 +64,8 @@ class shopper_group_detailModelshopper_group_detail extends JModel
                 $shoppergroup_id = $this->_id;
             }
 
-            if ($shoppergroup_id <= 0) {
+            if ($shoppergroup_id <= 0)
+            {
                 return false;
             }
 
@@ -194,7 +197,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
                 $product_data['shopper_group_id'] = $row->shopper_group_id;
                 $product_data['cdate']            = date("Y-m-d");
 
-                $prdrow = & JTable::getInstance('prices_detail', 'Table');
+                $prdrow = JTable::getInstance('prices_detail', 'Table');
                 if (!$prdrow->bind($product_data))
                 {
                     $this->setError($this->_db->getErrorMsg());
@@ -218,7 +221,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
                 $attribute_data['shopper_group_id'] = $row->shopper_group_id;
                 $attribute_data['cdate']            = time();
 
-                $attrow = & JTable::getInstance('attributeprices_detail', 'Table');
+                $attrow = JTable::getInstance('attributeprices_detail', 'Table');
                 if (!$attrow->bind($attribute_data))
                 {
                     $this->setError($this->_db->getErrorMsg());

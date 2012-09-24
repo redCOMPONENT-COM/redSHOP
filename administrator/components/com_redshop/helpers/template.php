@@ -238,7 +238,7 @@ class Redtemplate
         $o->text = $string;
         JPluginHelper::importPlugin('content');
 
-        $dispatcher = & JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
 
         $x = array();
 

@@ -52,7 +52,8 @@ class addorder_detailModeladdorder_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -260,7 +261,7 @@ class addorder_detailModeladdorder_detail extends JModel
             $postdata['debitor_id'] = $postdata['user_info_id'];
             JTable :: addIncludePath(REDCRM_ADMIN . DS . 'tables');
 
-            $crmorder = & $this->getTable('crm_order');
+            $crmorder = $this->getTable('crm_order');
 
             if (!$crmorder->bind($postdata))
             {
@@ -291,7 +292,7 @@ class addorder_detailModeladdorder_detail extends JModel
         }
         $order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 
-        $rowOrderStatus                = & $this->getTable('order_status_log');
+        $rowOrderStatus                = $this->getTable('order_status_log');
         $rowOrderStatus->order_id      = $row->order_id;
         $rowOrderStatus->order_status  = $row->order_status;
         $rowOrderStatus->date_changed  = time();
@@ -361,7 +362,7 @@ class addorder_detailModeladdorder_detail extends JModel
             }
             $product = $producthelper->getProductById($product_id);
 
-            $rowitem = & $this->getTable('order_item_detail');
+            $rowitem = $this->getTable('order_item_detail');
             if (!$rowitem->bind($postdata))
             {
                 $this->setError($this->_db->getErrorMsg());
@@ -442,7 +443,7 @@ class addorder_detailModeladdorder_detail extends JModel
                         $attribute_id = $attchildArr[$j]['attribute_id'];
                         $accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-                        $rowattitem                    = & $this->getTable('order_attribute_item');
+                        $rowattitem                    = $this->getTable('order_attribute_item');
                         $rowattitem->order_att_item_id = 0;
                         $rowattitem->order_item_id     = $rowitem->order_item_id;
                         $rowattitem->section_id        = $attribute_id;
@@ -471,7 +472,7 @@ class addorder_detailModeladdorder_detail extends JModel
                             $accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
                             $subpropArr = $propArr[$k]['property_childs'];
 
-                            $rowattitem                    = & $this->getTable('order_attribute_item');
+                            $rowattitem                    = $this->getTable('order_attribute_item');
                             $rowattitem->order_att_item_id = 0;
                             $rowattitem->order_item_id     = $rowitem->order_item_id;
                             $rowattitem->section_id        = $property_id;
@@ -501,7 +502,7 @@ class addorder_detailModeladdorder_detail extends JModel
                                 $subproperty_id = $subpropArr[$l]['subproperty_id'];
                                 $accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-                                $rowattitem                    = & $this->getTable('order_attribute_item');
+                                $rowattitem                    = $this->getTable('order_attribute_item');
                                 $rowattitem->order_att_item_id = 0;
                                 $rowattitem->order_item_id     = $rowitem->order_item_id;
                                 $rowattitem->section_id        = $subproperty_id;
@@ -524,13 +525,13 @@ class addorder_detailModeladdorder_detail extends JModel
                         }
                     }
 
-                    $accdata = & $this->getTable('accessory_detail');
+                    $accdata = $this->getTable('accessory_detail');
                     if ($accessory_id > 0)
                     {
                         $accdata->load($accessory_id);
                     }
                     $accProductinfo                      = $producthelper->getProductById($accdata->child_product_id);
-                    $rowaccitem                          = & $this->getTable('order_acc_item');
+                    $rowaccitem                          = $this->getTable('order_acc_item');
                     $rowaccitem->order_item_acc_id       = 0;
                     $rowaccitem->order_item_id           = $rowitem->order_item_id;
                     $rowaccitem->product_id              = $accessory_id;
@@ -561,7 +562,7 @@ class addorder_detailModeladdorder_detail extends JModel
                 {
                     $attribute_id = $attArr[$j]['attribute_id'];
 
-                    $rowattitem                    = & $this->getTable('order_attribute_item');
+                    $rowattitem                    = $this->getTable('order_attribute_item');
                     $rowattitem->order_att_item_id = 0;
                     $rowattitem->order_item_id     = $rowitem->order_item_id;
                     $rowattitem->section_id        = $attribute_id;
@@ -590,7 +591,7 @@ class addorder_detailModeladdorder_detail extends JModel
                         /** product property STOCKROOM update start */
                         $updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
 
-                        $rowattitem                    = & $this->getTable('order_attribute_item');
+                        $rowattitem                    = $this->getTable('order_attribute_item');
                         $rowattitem->order_att_item_id = 0;
                         $rowattitem->order_item_id     = $rowitem->order_item_id;
                         $rowattitem->section_id        = $property_id;
@@ -622,7 +623,7 @@ class addorder_detailModeladdorder_detail extends JModel
                             /** product subproperty STOCKROOM update start */
                             $updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
-                            $rowattitem                    = & $this->getTable('order_attribute_item');
+                            $rowattitem                    = $this->getTable('order_attribute_item');
                             $rowattitem->order_att_item_id = 0;
                             $rowattitem->order_item_id     = $rowitem->order_item_id;
                             $rowattitem->section_id        = $subproperty_id;
@@ -704,7 +705,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
         }
 
-        $rowpayment = & $this->getTable('order_payment');
+        $rowpayment = $this->getTable('order_payment');
         if (!$rowpayment->bind($postdata))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -722,9 +723,9 @@ class addorder_detailModeladdorder_detail extends JModel
         }
 
         # add billing Info
-        $userrow = & $this->getTable('user_detail');
+        $userrow = $this->getTable('user_detail');
         $userrow->load($billingaddresses->users_info_id);
-        $orderuserrow = & $this->getTable('order_user_detail');
+        $orderuserrow = $this->getTable('order_user_detail');
         if (!$orderuserrow->bind($userrow))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -739,12 +740,12 @@ class addorder_detailModeladdorder_detail extends JModel
         }
 
         # add shipping Info
-        $userrow = & $this->getTable('user_detail');
+        $userrow = $this->getTable('user_detail');
         if (isset($shippingaddresses->users_info_id))
         {
             $userrow->load($shippingaddresses->users_info_id);
         }
-        $orderuserrow = & $this->getTable('order_user_detail');
+        $orderuserrow = $this->getTable('order_user_detail');
         if (!$orderuserrow->bind($userrow))
         {
             $this->setError($this->_db->getErrorMsg());
