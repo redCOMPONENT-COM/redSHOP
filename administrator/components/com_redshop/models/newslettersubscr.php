@@ -1,129 +1,134 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
 class newslettersubscrModelnewslettersubscr extends JModel
 {
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_context = null;
+    var $_data = null;
 
-	function __construct()
-	{
-		parent::__construct();
+    var $_total = null;
 
-		global $mainframe;
-		$this->_context='subscription_id';
-	  	$this->_table_prefix = '#__redshop_';
-		$limit			= $mainframe->getUserStateFromRequest( $this->_context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest( $this->_context.'limitstart', 'limitstart', 0 );
-		$filter     = $mainframe->getUserStateFromRequest( $this->_context.'filter','filter',0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-		$this->setState('filter', $filter);
-	}
-	function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-		return $this->_data;
-	}
-	function getTotal()
-	{
-		if (empty($this->_total))
-		{
-		 	$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-		return $this->_total;
-	}
-	function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
-		}
+    var $_pagination = null;
 
-		return $this->_pagination;
-	}
+    var $_table_prefix = null;
 
-	function _buildQuery()
-	{
-		$filter = $this->getState('filter');
-		$where='';
-		if($filter)
-	    {
-	    	$where = " AND (ns.name like '%".$filter."%' OR ns.email like '%".$filter."%') ";
-	    }
+    var $_context = null;
 
-		$orderby	= $this->_buildContentOrderBy();
-		$query = 'SELECT  distinct(ns.subscription_id),ns.*,n.name as n_name FROM '.$this->_table_prefix.'newsletter_subscription as ns '
-				.','.$this->_table_prefix.'newsletter as n '
-				.'WHERE ns.newsletter_id=n.newsletter_id '
-				.$where
-				.$orderby;
-		return $query;
-	}
+    function __construct()
+    {
+        parent::__construct();
 
-	function _buildContentOrderBy()
-	{
-		global $mainframe;
+        global $mainframe;
+        $this->_context      = 'subscription_id';
+        $this->_table_prefix = '#__redshop_';
+        $limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+        $limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter              = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $this->setState('limit', $limit);
+        $this->setState('limitstart', $limitstart);
+        $this->setState('filter', $filter);
+    }
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $this->_context.'filter_order',      'filter_order', 	  'subscription_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $this->_context.'filter_order_Dir',  'filter_order_Dir', '' );
+    function getData()
+    {
+        if (empty($this->_data))
+        {
+            $query       = $this->_buildQuery();
+            $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+        }
+        return $this->_data;
+    }
 
-		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
+    function getTotal()
+    {
+        if (empty($this->_total))
+        {
+            $query        = $this->_buildQuery();
+            $this->_total = $this->_getListCount($query);
+        }
+        return $this->_total;
+    }
 
-		return $orderby;
-	}
-	function getnewslettername($nid)
-	{
-		$query = 'SELECT name FROM '.$this->_table_prefix.'newsletter WHERE newsletter_id='.$nid;
-		$this->_db->setQuery($query);
-		return $this->_db->loadResult();
-	}
-	function getnewsletters()
-	{
-		$query = 'SELECT newsletter_id as value,name as text FROM '.$this->_table_prefix.'newsletter WHERE published=1';
-		$this->_db->setQuery( $query );
-		return $this->_db->loadObjectlist();
-	}
-	function importdata($nid,$name,$email){
+    function getPagination()
+    {
+        if (empty($this->_pagination))
+        {
+            jimport('joomla.html.pagination');
+            $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+        }
 
-	if(trim($nid)!=null && (trim($name)!=null) && (trim($email)!=null))
-		{
-		$query = "INSERT INTO ".$this->_table_prefix."newsletter_subscription (subscription_id,user_id,newsletter_id,name,email) VALUES ('','0','".$nid."','".$name."','".$email."' )";
+        return $this->_pagination;
+    }
 
-		$this->_db->setQuery( $query );
+    function _buildQuery()
+    {
+        $filter = $this->getState('filter');
+        $where  = '';
+        if ($filter)
+        {
+            $where = " AND (ns.name like '%" . $filter . "%' OR ns.email like '%" . $filter . "%') ";
+        }
 
-		if(!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-		}else{
-			return true;
-		}
-		}
-	}
-}	?>
+        $orderby = $this->_buildContentOrderBy();
+        $query   = 'SELECT  distinct(ns.subscription_id),ns.*,n.name as n_name FROM ' . $this->_table_prefix . 'newsletter_subscription as ns ' . ',' . $this->_table_prefix . 'newsletter as n ' . 'WHERE ns.newsletter_id=n.newsletter_id ' . $where . $orderby;
+        return $query;
+    }
+
+    function _buildContentOrderBy()
+    {
+        global $mainframe;
+
+        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'subscription_id');
+        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+        $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
+        return $orderby;
+    }
+
+    function getnewslettername($nid)
+    {
+        $query = 'SELECT name FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id=' . $nid;
+        $this->_db->setQuery($query);
+        return $this->_db->loadResult();
+    }
+
+    function getnewsletters()
+    {
+        $query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
+        $this->_db->setQuery($query);
+        return $this->_db->loadObjectlist();
+    }
+
+    function importdata($nid, $name, $email)
+    {
+
+        if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))
+        {
+            $query = "INSERT INTO " . $this->_table_prefix . "newsletter_subscription (subscription_id,user_id,newsletter_id,name,email) VALUES ('','0','" . $nid . "','" . $name . "','" . $email . "' )";
+
+            $this->_db->setQuery($query);
+
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+}
+

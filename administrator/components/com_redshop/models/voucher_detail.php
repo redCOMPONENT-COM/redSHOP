@@ -1,186 +1,183 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
 class voucher_detailModelvoucher_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+    var $_id = null;
 
-	function __construct()
-	{
-		parent::__construct();
+    var $_data = null;
 
-		$this->_table_prefix = '#__redshop_';
+    var $_table_prefix = null;
 
-		$array = JRequest::getVar('cid',  0, '', 'array');
+    function __construct()
+    {
+        parent::__construct();
 
-		$this->setId((int)$array[0]);
+        $this->_table_prefix = '#__redshop_';
 
-	}
-	function setId($id)
-	{
-		$this->_id		= $id;
-		$this->_data	= null;
-	}
+        $array = JRequest::getVar('cid', 0, '', 'array');
 
-	function &getData()
-	{
-		if ($this->_loadData())
-		{
+        $this->setId((int)$array[0]);
+    }
 
-		}else  $this->_initData();
+    function setId($id)
+    {
+        $this->_id   = $id;
+        $this->_data = null;
+    }
 
-	   	return $this->_data;
-	}
+    function &getData()
+    {
+        if ($this->_loadData())
+        {
+        }
+        else  {
+            $this->_initData();
+        }
 
-	function _loadData()
-	{
-		if (empty($this->_data))
-		{
-			$query = 'SELECT * FROM '.$this->_table_prefix.'product_voucher WHERE voucher_id = '. $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
+        return $this->_data;
+    }
 
+    function _loadData()
+    {
+        if (empty($this->_data))
+        {
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id = ' . $this->_id;
+            $this->_db->setQuery($query);
+            $this->_data = $this->_db->loadObject();
+            return (boolean)$this->_data;
+        }
+        return true;
+    }
 
-	function _initData()
-	{
-		if (empty($this->_data))
-		{
-			$detail = new stdClass();
-			$detail->voucher_id			= 0;
-			$detail->voucher_code			= 0;
-			$detail->amount				= 0;
-			$detail->voucher_type		= null;
-			$detail->start_date			= null;
-			$detail->end_date			= null;
-			$detail->free_shipping		= 0;
-			$detail->voucher_left       = 0;
-			$detail->published			= 1;
-			$this->_data		 		= $detail;
+    function _initData()
+    {
+        if (empty($this->_data))
+        {
+            $detail                = new stdClass();
+            $detail->voucher_id    = 0;
+            $detail->voucher_code  = 0;
+            $detail->amount        = 0;
+            $detail->voucher_type  = null;
+            $detail->start_date    = null;
+            $detail->end_date      = null;
+            $detail->free_shipping = 0;
+            $detail->voucher_left  = 0;
+            $detail->published     = 1;
+            $this->_data           = $detail;
 
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
-  	function store($data)
-	{
-		$row =& $this->getTable();
+            return (boolean)$this->_data;
+        }
+        return true;
+    }
 
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+    function store($data)
+    {
+        $row = $this->getTable();
 
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+        if (!$row->bind($data))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-		////////////// voucher product add //////////////////////
-		$voucher_id=$row->voucher_id;
+        if (!$row->store())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-		$sql="delete from ".$this->_table_prefix."product_voucher_xref where voucher_id='".$voucher_id."' ";
-		$this->_db->setQuery($sql);
-		$this->_db->query();
+        ////////////// voucher product add //////////////////////
+        $voucher_id = $row->voucher_id;
 
-		$products_list=$data["container_product"];
+        $sql = "delete from " . $this->_table_prefix . "product_voucher_xref where voucher_id='" . $voucher_id . "' ";
+        $this->_db->setQuery($sql);
+        $this->_db->query();
 
-		if(count($products_list)>0)
-		{
-			foreach($products_list as $cp)
-			{
-				$sql="insert into ".$this->_table_prefix."product_voucher_xref (voucher_id,product_id) value ('".$voucher_id."','".$cp."')";
-				$this->_db->setQuery($sql);
-				$this->_db->query();
-			}
-		}
-		///////////////////////////////////////////////////////////
+        $products_list = $data["container_product"];
 
+        if (count($products_list) > 0)
+        {
+            foreach ($products_list as $cp)
+            {
+                $sql = "insert into " . $this->_table_prefix . "product_voucher_xref (voucher_id,product_id) value ('" . $voucher_id . "','" . $cp . "')";
+                $this->_db->setQuery($sql);
+                $this->_db->query();
+            }
+        }
+        ///////////////////////////////////////////////////////////
 
-		return $row;
-	}
+        return $row;
+    }
 
-	function delete($cid = array())
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
+    function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
 
-			$query = 'DELETE FROM '.$this->_table_prefix.'product_voucher WHERE voucher_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	function publish($cid = array(), $publish = 1)
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
+    function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
 
-			$query = 'UPDATE '.$this->_table_prefix.'product_voucher'
-				. ' SET published = ' . intval( $publish )
-				. ' WHERE voucher_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
+            $query = 'UPDATE ' . $this->_table_prefix . 'product_voucher' . ' SET published = ' . intval($publish) . ' WHERE voucher_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
 
-		return true;
-	}
-	function product_data()
-	{
-	   	$query = "SELECT pv.product_id,p.product_name FROM ".$this->_table_prefix."product_voucher_xref as pv,".$this->_table_prefix."product as p where voucher_id=".$voucher_id." and pv.product_id = p.product_id";
-		$this->_db->setQuery($query);
-		$this->_productdata = $this->_db->loadObjectList();
-		return $this->_productdata;
-	}
-	function voucher_products_sel($voucher_id)
-	{
-		$query = "SELECT cp.product_id as value,p.product_name as text FROM ".$this->_table_prefix."product as p , ".$this->_table_prefix."product_voucher_xref as cp  WHERE cp.voucher_id=".$voucher_id." and cp.product_id=p.product_id ";
-		$this->_db->setQuery($query);
-		$this->_productdata = $this->_db->loadObjectList();
-		return $this->_productdata;
-	}
+        return true;
+    }
 
-	function checkduplicate($discount_code){
+    function product_data()
+    {
+        $query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv," . $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
+        $this->_db->setQuery($query);
+        $this->_productdata = $this->_db->loadObjectList();
+        return $this->_productdata;
+    }
 
-		$query="SELECT count(*) as code from ".$this->_table_prefix."coupons"
-			." LEFT JOIN ".$this->_table_prefix."product_voucher ON coupon_code=voucher_code"
-			." where voucher_code='".$discount_code."' OR coupon_code='".$discount_code."'";
+    function voucher_products_sel($voucher_id)
+    {
+        $query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
+        $this->_db->setQuery($query);
+        $this->_productdata = $this->_db->loadObjectList();
+        return $this->_productdata;
+    }
 
-		$this->_db->setQuery($query);
-		return $this->_db->loadResult();
-	}
+    function checkduplicate($discount_code)
+    {
+
+        $query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons" . " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code" . " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
+
+        $this->_db->setQuery($query);
+        return $this->_db->loadResult();
+    }
 }
-?>

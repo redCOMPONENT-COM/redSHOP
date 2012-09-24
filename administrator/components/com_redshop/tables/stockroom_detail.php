@@ -1,53 +1,54 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     redSHOP
+ * @subpackage  Tables
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
 class Tablestockroom_detail extends JTable
 {
-	var $stockroom_id = null;
-	var $stockroom_name = null;
-	var $min_stock_amount = 0;
-	var $stockroom_desc = null;
-	var $creation_date = null;
-	var $min_del_time = null;
-	var $max_del_time = null;
-	var $show_in_front = 0;
-	var $delivery_time = 'Days';
-	var $published = null;
-		
-	function Tablestockroom_detail(& $db) 
-	{
-	  $this->_table_prefix = '#__redshop_';
-			
-		parent::__construct($this->_table_prefix.'stockroom', 'stockroom_id', $db);
-	}
+    public $stockroom_id = null;
 
-	function bind($array, $ignore = '')
-	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
+    public $stockroom_name = null;
 
-		return parent::bind($array, $ignore);
-	}
-	
+    public $min_stock_amount = 0;
+
+    public $stockroom_desc = null;
+
+    public $creation_date = null;
+
+    public $min_del_time = null;
+
+    public $max_del_time = null;
+
+    public $show_in_front = 0;
+
+    public $delivery_time = 'Days';
+
+    public $published = null;
+
+    public function __construct(& $db)
+    {
+        $this->_table_prefix = '#__redshop_';
+
+        parent::__construct($this->_table_prefix . 'stockroom', 'stockroom_id', $db);
+    }
+
+    public function bind($array, $ignore = '')
+    {
+        if (key_exists('params', $array) && is_array($array['params']))
+        {
+            $registry = new JRegistry();
+            $registry->loadArray($array['params']);
+            $array['params'] = $registry->toString();
+        }
+
+        return parent::bind($array, $ignore);
+    }
 }
-?>
