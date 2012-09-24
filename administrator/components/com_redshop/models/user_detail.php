@@ -61,7 +61,8 @@ class user_detailModeluser_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
         return $this->_data;
@@ -171,9 +172,9 @@ class user_detailModeluser_detail extends JModel
         $redshopMail = new redshopMail();
         // Start data into user table
         // Initialize some variables
-        $db  = & JFactory::getDBO();
-        $me  = & JFactory::getUser();
-        $acl = & JFactory::getACL();
+        $db  = JFactory::getDBO();
+        $me  = JFactory::getUser();
+        $acl = JFactory::getACL();
 
         // Create a new JUser object
         $user         = new JUser($post['id']);

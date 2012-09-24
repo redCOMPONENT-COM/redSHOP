@@ -363,14 +363,11 @@ class order_detailController extends JController
 
     function createpdf()
     {
-        $view = & $this->getView('order_detail', 'tcpdf');
         parent::display();
     }
 
     function createpdfstocknote()
     {
-
-        $view = & $this->getView('order_detail', 'stocknotepdf');
         parent::display();
     }
 
