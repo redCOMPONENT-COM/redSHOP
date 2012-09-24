@@ -936,6 +936,7 @@ class Redconfiguration
             $post['country_code' . $address_type] = SHOP_COUNTRY;
         }
         $temps           = array();
+        $temps[0]        = new stdClass;
         $temps[0]->value = '';
         $temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $temps           = array_merge($temps, $countries);
@@ -995,6 +996,9 @@ class Redconfiguration
         $script .= "var states" . $address_type . " = new Array();	// array in the format [key,value,text]\n";
         $i            = 0;
         $prev_country = '';
+
+        $varState = array();
+
         for ($j = 0; $j < count($states); $j++)
         {
             $state          = $states[$j];
@@ -1004,6 +1008,7 @@ class Redconfiguration
                 if ($prev_country != $country_3_code)
                 {
                     $script .= "states" . $address_type . "[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_SELECT") . "' );\n";
+                    $varState[0]        = new stdClass;
                     $varState[0]->value = '';
                     $varState[0]->text  = JText::_("COM_REDSHOP_SELECT");
                 }
@@ -1012,6 +1017,7 @@ class Redconfiguration
                 $script .= "states" . $address_type . "[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes($state->state_name) . "' );\n";
                 if ($country_3_code == $selected_country_code)
                 {
+                    $varState[$i]        = new stdClass;
                     $varState[$i]->value = $state->state_2_code;
                     $varState[$i]->text  = JText::_($state->state_name);
                 }
