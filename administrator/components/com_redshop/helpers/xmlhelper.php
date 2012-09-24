@@ -350,7 +350,7 @@ class xmlHelper
     {
         $config        = new Redconfiguration();
         $shipping      = new shipping();
-        $uri           = & JURI::getInstance();
+        $uri           = JURI::getInstance();
         $url           = $uri->root();
         $xmlarray      = array();
         $xmlexportdata = $this->getXMLExportInfo($xmlexport_id);

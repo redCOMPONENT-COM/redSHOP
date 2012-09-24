@@ -37,7 +37,7 @@ class barcodeModelbarcode extends JModel
     ///var $_hellos=null;
     function save($data)
     {
-        $row = & $this->getTable('barcode');
+        $row = $this->getTable('barcode');
 
         if (!$row->bind($data))
         {

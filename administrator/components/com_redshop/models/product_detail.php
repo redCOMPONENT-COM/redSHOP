@@ -57,7 +57,8 @@ class product_detailModelproduct_detail extends JModel
                 $this->_initData();
             }
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -191,7 +192,7 @@ class product_detailModelproduct_detail extends JModel
      */
     function store($data)
     {
-        $dispatcher = & JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
 
         $catorder    = array();
         $oldcategory = array();
@@ -714,7 +715,8 @@ class product_detailModelproduct_detail extends JModel
                 {
                     $calcunit = pow($unit, 3);
                 }
-                else {
+                else
+                {
                     if ($data['discount_calc_method'] == 'area')
                     {
                         $calcunit = pow($unit, 2);
@@ -951,7 +953,8 @@ class product_detailModelproduct_detail extends JModel
         {
             $cids = implode(',', $cid);
 
-            if ($cids == "") {
+            if ($cids == "")
+            {
                 return;
             }
 
@@ -982,7 +985,8 @@ class product_detailModelproduct_detail extends JModel
 
                 $cids = implode(',', $cid);
 
-                if ($cids == "") {
+                if ($cids == "")
+                {
                     return;
                 }
             }
@@ -1792,7 +1796,8 @@ class product_detailModelproduct_detail extends JModel
         {
             $cids = implode(',', $cid);
 
-            if ($cids == "") {
+            if ($cids == "")
+            {
                 return;
             }
 
@@ -1846,7 +1851,8 @@ class product_detailModelproduct_detail extends JModel
         {
             $cids = implode(',', $cid);
 
-            if ($cids == "") {
+            if ($cids == "")
+            {
                 return;
             }
 
@@ -1899,7 +1905,8 @@ class product_detailModelproduct_detail extends JModel
         {
             $cids = implode(',', $cid);
 
-            if ($cids == "") {
+            if ($cids == "")
+            {
                 return;
             }
 
@@ -2264,7 +2271,8 @@ class product_detailModelproduct_detail extends JModel
      */
     function getAssociation()
     {
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
@@ -2279,7 +2287,8 @@ class product_detailModelproduct_detail extends JModel
     function Associations()
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
@@ -2299,7 +2308,8 @@ class product_detailModelproduct_detail extends JModel
     public function TypeTagList()
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
@@ -2331,7 +2341,8 @@ class product_detailModelproduct_detail extends JModel
     public function AssociationTagNames()
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
@@ -2362,7 +2373,8 @@ class product_detailModelproduct_detail extends JModel
     function Tags()
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
@@ -2383,13 +2395,15 @@ class product_detailModelproduct_detail extends JModel
     public function AssociationTags($id)
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
         //$id = JRequest::getVar('association_id', false);
 
-        if (!$id) {
+        if (!$id)
+        {
             return array();
         }
         else
@@ -2408,7 +2422,8 @@ class product_detailModelproduct_detail extends JModel
     function SaveAssociations($product_id, $post)
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
@@ -2452,10 +2467,12 @@ class product_detailModelproduct_detail extends JModel
                 {
                     /* Split tag to type ID and tag ID */
                     list($type_id, $tag_id) = explode('.', $tag);
-                    if (empty($qs[$type_id . '.' . $tag_id])) {
+                    if (empty($qs[$type_id . '.' . $tag_id]))
+                    {
                         $qs_id = 0;
                     }
-                    else {
+                    else
+                    {
                         $qs_id = $qs[$type_id . '.' . $tag_id];
                     }
 
@@ -2478,7 +2495,8 @@ class product_detailModelproduct_detail extends JModel
     public function getQualityScores()
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
         $association = $this->getAssociation();
@@ -2498,7 +2516,8 @@ class product_detailModelproduct_detail extends JModel
     function RemoveAssociation($cid)
     {
 
-        if (!$this->CheckRedProductFinder()) {
+        if (!$this->CheckRedProductFinder())
+        {
             return array();
         }
 
@@ -3382,7 +3401,7 @@ class product_detailModelproduct_detail extends JModel
                 $uid  = (int)$user->get('id');
             }
             // Lets get to it and checkout the thing...
-            $product_detail = & $this->getTable('product_detail');
+            $product_detail = $this->getTable('product_detail');
             if (!$product_detail->checkout($uid, $this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());
@@ -3404,7 +3423,7 @@ class product_detailModelproduct_detail extends JModel
     {
         if ($this->_id)
         {
-            $product_detail = & $this->getTable('product_detail');
+            $product_detail = $this->getTable('product_detail');
             if (!$product_detail->checkin($this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());
@@ -3743,7 +3762,8 @@ class product_detailModelproduct_detail extends JModel
             {
                 $calcunit = pow($unit, 3);
             }
-            else {
+            else
+            {
                 if ($discount_calc_method == 'area')
                 {
                     $calcunit = pow($unit, 2);
