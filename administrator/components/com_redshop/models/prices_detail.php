@@ -7,13 +7,12 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class prices_detailModelprices_detail extends JModel
+class prices_detailModelprices_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -55,7 +54,8 @@ class prices_detailModelprices_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

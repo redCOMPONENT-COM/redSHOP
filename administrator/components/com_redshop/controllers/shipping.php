@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class shippingcontroller extends JController
+class shippingcontroller extends JControllerLegacy
 {
     function cancel()
     {
@@ -26,7 +24,7 @@ class shippingcontroller extends JController
         {
             $economic = new economic();
 
-            $query = "SELECT s.*, r.* FROM #__redshop_shipping_rate r " . "LEFT JOIN #__extensions s ON r.shipping_class = s.element " . "WHERE s.enabled=1 and s.folder='redshop_shipping'"//					."AND r.apply_vat=1"
+            $query = "SELECT s.*, r.* FROM #__redshop_shipping_rate r " . "LEFT JOIN #__extensions s ON r.shipping_class = s.element " . "WHERE s.enabled=1 and s.folder='redshop_shipping'" //					."AND r.apply_vat=1"
             ;
             $db->setQuery($query);
             $shipping = $db->loadObjectList();

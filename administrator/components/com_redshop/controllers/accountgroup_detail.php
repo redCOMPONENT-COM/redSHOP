@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class accountgroup_detailController extends JController
+class accountgroup_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

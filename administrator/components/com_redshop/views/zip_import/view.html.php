@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class zip_importViewzip_import extends JView
+class zip_importViewzip_import extends JViewLegacy
 {
     function display($tpl = null)
     {

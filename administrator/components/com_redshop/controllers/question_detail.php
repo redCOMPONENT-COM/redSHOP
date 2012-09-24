@@ -10,9 +10,7 @@
 defined('_JEXEC') or die ('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
-jimport('joomla.application.component.controller');
-
-class question_detailController extends JController
+class question_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

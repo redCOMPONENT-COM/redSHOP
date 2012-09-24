@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class fields_detailController extends JController
+class fields_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

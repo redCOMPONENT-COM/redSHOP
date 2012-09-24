@@ -15,10 +15,9 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class newsletterViewnewsletter extends JView
+class newsletterViewnewsletter extends JViewLegacy
 {
     function display($tpl = null)
     {

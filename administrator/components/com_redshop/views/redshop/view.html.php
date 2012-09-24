@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-jimport('joomla.application.component.view');
-
-class redshopViewredshop extends JView
+class redshopViewredshop extends JViewLegacy
 {
     function display($tpl = null)
     {

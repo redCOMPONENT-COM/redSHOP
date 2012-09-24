@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class producttags_detailVIEWproducttags_detail extends JView
+class producttags_detailVIEWproducttags_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

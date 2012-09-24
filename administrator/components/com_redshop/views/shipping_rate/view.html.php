@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class shipping_rateViewshipping_rate extends JView
+class shipping_rateViewshipping_rate extends JViewLegacy
 {
     function display($tpl = null)
     {

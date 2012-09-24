@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class supplier_detailVIEWsupplier_detail extends JView
+class supplier_detailVIEWsupplier_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

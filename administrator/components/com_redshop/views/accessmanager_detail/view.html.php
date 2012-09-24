@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class accessmanager_detailVIEWaccessmanager_detail extends JView
+class accessmanager_detailVIEWaccessmanager_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

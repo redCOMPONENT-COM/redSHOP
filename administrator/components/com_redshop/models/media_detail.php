@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class media_detailModelmedia_detail extends JModel
+class media_detailModelmedia_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -42,7 +40,8 @@ class media_detailModelmedia_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

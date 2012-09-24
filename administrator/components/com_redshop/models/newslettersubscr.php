@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class newslettersubscrModelnewslettersubscr extends JModel
+class newslettersubscrModelnewslettersubscr extends JModelLegacy
 {
     var $_data = null;
 

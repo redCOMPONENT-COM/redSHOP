@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class addressfields_listingViewaddressfields_listing extends JView
+class addressfields_listingViewaddressfields_listing extends JViewLegacy
 {
     function display($tpl = null)
     {

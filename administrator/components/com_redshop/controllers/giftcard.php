@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class giftcardController extends JController
+class giftcardController extends JControllerLegacy
 {
     function cancel()
     {

@@ -8,11 +8,9 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 
-class fields_detailModelfields_detail extends JModel
+class fields_detailModelfields_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -44,7 +42,8 @@ class fields_detailModelfields_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
