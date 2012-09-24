@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -56,8 +49,6 @@ class product_containerViewproduct_container extends JView
 
         $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
         $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-        //$filter_manufacturer	  = $mainframe->getUserStateFromRequest( $context.'filter_manufacturer',		'filter_manufacturer',		0);
         $filter_supplier  = $mainframe->getUserStateFromRequest($context . 'filter_supplier', 'filter_supplier', 0);
         $filter_container = $mainframe->getUserStateFromRequest($context . 'filter_container', 'filter_container', 0);
 
@@ -66,19 +57,18 @@ class product_containerViewproduct_container extends JView
         $products           = $this->get('Data');
         $pagination         = $this->get('Pagination');
 
-        //$lists['filter_manufacturer'] = $model->getmanufacturelist('filter_manufacturer',$filter_manufacturer,'class="inputbox" size="1" onchange="document.adminForm.submit();"' );
-
         $lists['filter_supplier'] = $model->getsupplierlist('filter_supplier', $filter_supplier, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
 
         $lists['filter_container'] = $model->getcontainerlist('filter_container', $filter_container, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
 
-        $this->assignRef('user', JFactory::getUser());
+        $this->user = JFactory::getUser();
         $this->assignRef('lists', $lists);
         $this->assignRef('products', $products);
         $this->assignRef('filter_container', $filter_container);
         $this->assignRef('filter_manufacturer', $filter_manufacturer);
         $this->assignRef('pagination', $pagination);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
+
         parent::display($tpl);
     }
 }
