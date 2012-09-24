@@ -10,9 +10,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.html.pagination');
-jimport('joomla.application.component.view');
 
-class accountgroupViewaccountgroup extends JView
+class accountgroupViewaccountgroup extends JViewLegacy
 {
     function display($tpl = null)
     {

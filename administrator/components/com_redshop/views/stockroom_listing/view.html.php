@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.view');
 $context = 'ddd';
 ;
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class stockroom_listingViewstockroom_listing extends JView
+class stockroom_listingViewstockroom_listing extends JViewLegacy
 {
     function display($tpl = null)
     {

@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class wrapperModelwrapper extends JModel
+class wrapperModelwrapper extends JModelLegacy
 {
     var $_productid = 0;
 

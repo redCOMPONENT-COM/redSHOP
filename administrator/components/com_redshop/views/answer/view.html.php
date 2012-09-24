@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class answerViewanswer extends JView
+class answerViewanswer extends JViewLegacy
 {
     function display($tpl = null)
     {

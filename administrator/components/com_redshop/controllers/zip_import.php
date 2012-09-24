@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class zip_importController extends JController
+class zip_importController extends JControllerLegacy
 {
     function cancel()
     {

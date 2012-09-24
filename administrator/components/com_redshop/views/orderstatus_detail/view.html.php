@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class orderstatus_detailVIEWorderstatus_detail extends JView
+class orderstatus_detailVIEWorderstatus_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class statisticViewstatistic extends JView
+class statisticViewstatistic extends JViewLegacy
 {
     function display($tpl = null)
     {

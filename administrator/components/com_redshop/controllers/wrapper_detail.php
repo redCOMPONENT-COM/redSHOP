@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.controller');
-
-class wrapper_detailController extends JController
+class wrapper_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

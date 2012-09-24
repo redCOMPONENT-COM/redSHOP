@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class sample_requestModelsample_request extends JModel
+class sample_requestModelsample_request extends JModelLegacy
 {
     var $_data = null;
 

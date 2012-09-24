@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class ratingViewrating extends JView
+class ratingViewrating extends JViewLegacy
 {
     function display($tpl = null)
     {

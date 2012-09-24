@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
 
-class shopper_groupViewshopper_group extends JView
+class shopper_groupViewshopper_group extends JViewLegacy
 {
     function display($tpl = null)
     {

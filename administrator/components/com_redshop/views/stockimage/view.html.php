@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class stockimageViewstockimage extends JView
+class stockimageViewstockimage extends JViewLegacy
 {
     function display($tpl = null)
     {

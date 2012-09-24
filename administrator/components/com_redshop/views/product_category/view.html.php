@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
-class product_categoryViewproduct_category extends JView
+class product_categoryViewproduct_category extends JViewLegacy
 {
     var $_product = array();
 

@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
-class question_detailModelquestion_detail extends JModel
+class question_detailModelquestion_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -42,7 +40,8 @@ class question_detailModelquestion_detail extends JModel
         if ($this->_loadAnswer())
         {
         }
-        else  {
+        else
+        {
             $this->_initAnswer();
         }
         return $this->_answers;
@@ -82,7 +81,8 @@ class question_detailModelquestion_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

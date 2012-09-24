@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class sample_catalogVIEWsample_catalog extends JView
+class sample_catalogVIEWsample_catalog extends JViewLegacy
 {
     function display($tpl = null)
     {

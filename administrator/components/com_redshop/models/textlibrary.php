@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class textlibraryModeltextlibrary extends JModel
+class textlibraryModeltextlibrary extends JModelLegacy
 {
     var $_data = null;
 

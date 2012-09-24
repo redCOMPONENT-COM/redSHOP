@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class discount_detailModeldiscount_detail extends JModel
+class discount_detailModeldiscount_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -43,7 +41,8 @@ class discount_detailModeldiscount_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

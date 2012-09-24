@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class product_categoryController extends JController
+class product_categoryController extends JControllerLegacy
 {
     function assignCategory()
     {

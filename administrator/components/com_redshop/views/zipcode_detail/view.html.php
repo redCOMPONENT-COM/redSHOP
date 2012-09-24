@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class zipcode_detailVIEWzipcode_detail extends JView
+class zipcode_detailVIEWzipcode_detail extends JViewLegacy
 {
     function display($tpl = null)
     {
