@@ -234,7 +234,8 @@ class rsstockroomhelper
                     {
                         $getstockdata->product_id = $section_id;
                     }
-                    else {
+                    else
+                    {
                         if ($section == "property")
                         {
 
@@ -342,7 +343,8 @@ class rsstockroomhelper
                     {
                         $getstockdata->product_id = $section_id;
                     }
-                    else {
+                    else
+                    {
                         if ($section == "property")
                         {
 
@@ -540,7 +542,7 @@ class rsstockroomhelper
         $table = "product";
         if (USE_STOCKROOM == 1)
         {
-            $db = & JFactory :: getDBO();
+            $db = JFactory :: getDBO();
             if ($section != "product")
             {
                 $table = "product_attribute";
@@ -570,7 +572,7 @@ class rsstockroomhelper
         $table = "product";
         if (USE_STOCKROOM == 1)
         {
-            $db = & JFactory :: getDBO();
+            $db = JFactory :: getDBO();
             if ($section != "product")
             {
                 $table = "product_attribute";
@@ -599,7 +601,7 @@ class rsstockroomhelper
     {
         if (USE_STOCKROOM == 1)
         {
-            $db    = & JFactory :: getDBO();
+            $db    = JFactory :: getDBO();
             $and   = "";
             $table = "product";
             if ($section != "product")

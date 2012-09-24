@@ -129,7 +129,7 @@ class order_functions
             {
                 $message = $results->message;
 
-                $orderstatuslog                = &  JTable::getInstance('order_status_log', 'Table');
+                $orderstatuslog                = JTable::getInstance('order_status_log', 'Table');
                 $orderstatuslog->order_id      = $order_id;
                 $orderstatuslog->order_status  = $order_status_code;
                 $orderstatuslog->date_changed  = time();
@@ -158,7 +158,7 @@ class order_functions
             if (!empty($data))
             {
                 $message                       = $results->message;
-                $orderstatuslog                = &  JTable::getInstance('order_status_log', 'Table');
+                $orderstatuslog                = JTable::getInstance('order_status_log', 'Table');
                 $orderstatuslog->order_id      = $order_id;
                 $orderstatuslog->order_status  = $newstatus;
                 $orderstatuslog->date_changed  = time();
@@ -421,21 +421,9 @@ class order_functions
     {
         $helper = new redhelper();
 
-        $mainframe = & JFactory::getApplication('site');
-        $user      = JFactory::getUser();
-
         $order_id = $data->order_id;
 
         $pos = strpos(JURI::base(), 'plugins');
-        if ($pos !== false)
-        {
-            $explode = explode("plugins", JURI::base());
-            $uri     = $explode[0];
-        }
-        else
-        {
-            $uri = JURI::base();
-        }
 
         $data->order_status_code         = trim($data->order_status_code);
         $data->order_payment_status_code = trim($data->order_payment_status_code);
@@ -456,8 +444,7 @@ class order_functions
             $this->_db->SetQuery($query);
             $this->_db->Query();
 
-            $statusmsg = $data->msg;
-            $query     = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = '" . $data->order_status_code . "' ,order_payment_status ='" . $data->order_payment_status_code . "', date_changed='" . time() . "',order_id = " . $order_id . ",customer_note = '" . $data->log . "'";
+            $query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = '" . $data->order_status_code . "' ,order_payment_status ='" . $data->order_payment_status_code . "', date_changed='" . time() . "',order_id = " . $order_id . ",customer_note = '" . $data->log . "'";
             $this->_db->SetQuery($query);
             $this->_db->Query();
             $this->changeOrderStatusMail($order_id, $data->order_status_code);
@@ -1217,7 +1204,7 @@ class order_functions
 
     function getUserOrderDetails($user_id = 0, $order_id = 0)
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1489,7 +1476,7 @@ class order_functions
     function getUserFullname($user_id)
     {
         $fullname = "";
-        $user     = &JFactory::getUser();
+        $user     = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -2126,7 +2113,7 @@ class order_functions
         $redconfig     = new Redconfiguration ();
         $producthelper = new producthelper ();
         $extra_field   = new extra_field ();
-        $config        = &JFactory::getConfig();
+        $config        = JFactory::getConfig();
         $redTemplate   = new Redtemplate();
         $carthelper    = new rsCarthelper();
         $redshopMail   = new redshopMail();
@@ -2183,7 +2170,7 @@ class order_functions
         $message = str_replace($search, $replace, $message);
 
         $message          = $redshopMail->imginmail($message);
-        $user             = & JFactory::getUser();
+        $user             = JFactory::getUser();
         $billingaddresses = $this->getOrderBillingUserInfo($order_id);
         $email            = $billingaddresses->user_email;
         $userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
