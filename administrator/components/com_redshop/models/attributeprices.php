@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class attributepricesModelattributeprices extends JModel
+class attributepricesModelattributeprices extends JModelLegacy
 {
     var $_sectionid = 0;
 

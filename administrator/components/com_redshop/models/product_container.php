@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class product_containerModelproduct_container extends JModel
+class product_containerModelproduct_container extends JModelLegacy
 {
     var $_data = null;
 

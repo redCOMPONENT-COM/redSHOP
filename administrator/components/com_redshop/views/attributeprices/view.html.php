@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class attributepricesViewattributeprices extends JView
+class attributepricesViewattributeprices extends JViewLegacy
 {
     function display($tpl = null)
     {

@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'media.php');
 
-class mediaModelmedia extends JModel
+class mediaModelmedia extends JModelLegacy
 {
     var $_data = null;
 

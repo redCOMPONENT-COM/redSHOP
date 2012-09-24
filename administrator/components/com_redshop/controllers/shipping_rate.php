@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class shipping_ratecontroller extends JController
+class shipping_ratecontroller extends JControllerLegacy
 {
     function cancel()
     {

@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class accessmanagerModelaccessmanager extends JModel
+class accessmanagerModelaccessmanager extends JModelLegacy
 {
     var $_context = null;
 

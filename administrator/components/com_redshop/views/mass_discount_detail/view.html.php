@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class mass_discount_detailVIEWmass_discount_detail extends JView
+class mass_discount_detailVIEWmass_discount_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

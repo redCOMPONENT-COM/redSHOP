@@ -8,9 +8,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.application.component.view');
 
-class countryViewcountry extends JView
+class countryViewcountry extends JViewLegacy
 {
     function display($tpl = null)
     {

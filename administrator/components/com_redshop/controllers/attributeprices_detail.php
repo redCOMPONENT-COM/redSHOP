@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class attributeprices_detailController extends JController
+class attributeprices_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {
@@ -24,19 +22,17 @@ class attributeprices_detailController extends JController
         JRequest::setVar('view', 'attributeprices_detail');
         JRequest::setVar('layout', 'default');
         JRequest::setVar('hidemainmenu', 1);
-        $model = $this->getModel('attributeprices_detail');
-
         parent::display();
     }
 
     function save()
     {
-        $post                 = JRequest::get('post');
-        $option               = JRequest::getVar('option');
-        $section_id           = JRequest::getVar('section_id');
-        $section              = JRequest::getVar('section');
-        $price_quantity_start = JRequest::getVar('price_quantity_start');
-        $price_quantity_end   = JRequest::getVar('price_quantity_end');
+        $post       = JRequest::get('post');
+        $option     = JRequest::getVar('option');
+        $section_id = JRequest::getVar('section_id');
+        $section    = JRequest::getVar('section');
+        //$price_quantity_start = JRequest::getVar('price_quantity_start');
+        //$price_quantity_end   = JRequest::getVar('price_quantity_end');
 
         $post['product_currency']    = CURRENCY_CODE;
         $post['cdate']               = time();

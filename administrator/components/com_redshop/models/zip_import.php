@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 
@@ -18,7 +17,7 @@ jimport('joomla.filesystem.file');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
 
-class zip_importModelzip_import extends JModel
+class zip_importModelzip_import extends JModelLegacy
 {
     var $_data = null;
 

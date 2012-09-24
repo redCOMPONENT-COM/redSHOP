@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 
-class order_detailController extends JController
+class order_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

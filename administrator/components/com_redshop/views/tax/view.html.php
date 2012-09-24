@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class taxViewtax extends JView
+class taxViewtax extends JViewLegacy
 {
     function display($tpl = null)
     {

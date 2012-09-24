@@ -9,15 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class importModelimport extends JModel
+class importModelimport extends JModelLegacy
 {
     var $_data = null;
 
@@ -168,7 +166,8 @@ class importModelimport extends JModel
                                     }
                                 }
                             }
-                            else {
+                            else
+                            {
                                 if ($headers[$key] == 'sitepath' && $post['import'] == 'products')
                                 {
                                     $this->sitepath = $rawdata[$headers[$key]] = $name;
@@ -1520,7 +1519,8 @@ class importModelimport extends JModel
                                             $ret = $this->_db->insertObject($this->_table_prefix . 'users_info', $reduser, 'users_info_id');
                                         }
                                     }
-                                    if ($ret) {
+                                    if ($ret)
+                                    {
                                         $correctlines++;
                                     }
                                 }
@@ -1560,7 +1560,8 @@ class importModelimport extends JModel
                                     $reduser->set('users_info_id', $rawdata['users_info_id']);
                                     $ret = $this->_db->insertObject($this->_table_prefix . 'users_info', $reduser, 'users_info_id');
                                 }
-                                if ($ret) {
+                                if ($ret)
+                                {
                                     $correctlines++;
                                 }
                             }
@@ -1594,7 +1595,8 @@ class importModelimport extends JModel
                                     $reduser->set('users_info_id', 0);
                                     $ret = $this->_db->insertObject($this->_table_prefix . 'users_info', $reduser, 'users_info_id');
 
-                                    if ($ret) {
+                                    if ($ret)
+                                    {
                                         $correctlines++;
                                     }
                                 }
@@ -2613,7 +2615,8 @@ class importModelimport extends JModel
         $data['section_id'] = ($section == 'property') ? $data['property_id'] : $data['subattribute_color_id'];
         $data['section']    = $section;
 
-        if ($data['section_id'] <= 0) {
+        if ($data['section_id'] <= 0)
+        {
             return;
         }
 
@@ -2750,7 +2753,8 @@ function checkkeys($item, $keyproduct, &$newkeys)
 {
 
     $pattern = '/rs_/';
-    if (preg_match($pattern, $keyproduct)) {
+    if (preg_match($pattern, $keyproduct))
+    {
         $newkeys[] = $keyproduct;
     }
 }

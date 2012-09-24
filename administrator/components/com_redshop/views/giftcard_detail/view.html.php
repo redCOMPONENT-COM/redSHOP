@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.application.component.view');
-class giftcard_detailVIEWgiftcard_detail extends JView
+
+class giftcard_detailVIEWgiftcard_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

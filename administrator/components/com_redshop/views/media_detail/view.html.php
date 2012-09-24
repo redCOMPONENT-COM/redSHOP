@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class media_detailVIEWmedia_detail extends JView
+class media_detailVIEWmedia_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

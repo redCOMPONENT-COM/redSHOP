@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class newsletter_detailVIEWnewsletter_detail extends JView
+class newsletter_detailVIEWnewsletter_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

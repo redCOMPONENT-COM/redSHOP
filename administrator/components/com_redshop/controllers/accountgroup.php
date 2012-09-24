@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class accountgroupController extends JController
+class accountgroupController extends JControllerLegacy
 {
 }

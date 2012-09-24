@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class textlibraryController extends JController
+class textlibraryController extends JControllerLegacy
 {
     function cancel()
     {

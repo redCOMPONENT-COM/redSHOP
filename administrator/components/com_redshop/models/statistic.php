@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class statisticModelstatistic extends JModel
+class statisticModelstatistic extends JModelLegacy
 {
     var $_table_prefix = null;
 
@@ -100,7 +98,7 @@ class statisticModelstatistic extends JModel
         $this->_db->setQuery($query);
         $mindate = $this->_db->loadResult();
 
-        $query              = 'SELECT count(oi.product_id) AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate ' . ', p.product_id, p.product_name, p.product_price ' . 'FROM ' . $this->_table_prefix . 'order_item as oi ' . 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=oi.product_id '//				.'WHERE oi.order_status = "C" '
+        $query              = 'SELECT count(oi.product_id) AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate ' . ', p.product_id, p.product_name, p.product_price ' . 'FROM ' . $this->_table_prefix . 'order_item as oi ' . 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=oi.product_id ' //				.'WHERE oi.order_status = "C" '
         ;
         $query1             = ' GROUP BY oi.product_id ' . 'ORDER BY totalproduct desc ';
         $this->_bestsallers = $this->_getList($query . $query1);
@@ -360,7 +358,7 @@ class statisticModelstatistic extends JModel
         $mindate = $this->_db->loadResult();
 
         $query              = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate ' . ', COUNT(o.user_id) AS totalorder ' . 'FROM ' . $this->_table_prefix . 'orders AS o ' . 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id ' . 'AND address_type LIKE "BT" ' . 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-        $query1             = ' GROUP BY o.user_id ' . 'ORDER BY totalorder desc '//				.'LIMIT 0,5 '
+        $query1             = ' GROUP BY o.user_id ' . 'ORDER BY totalorder desc ' //				.'LIMIT 0,5 '
         ;
         $this->_amountorder = $this->_getList($query . $query1);
 
@@ -397,7 +395,7 @@ class statisticModelstatistic extends JModel
         $mindate = $this->_db->loadResult();
 
         $query             = 'SELECT section, section_id, count(*) as totalpage ' . ', FROM_UNIXTIME(created_date,"' . $formate . '") AS viewdate ' . 'FROM ' . $this->_table_prefix . 'pageviewer ' . 'WHERE section_id != 0 ';
-        $query1            = ' GROUP BY `section`,`section_id` ' . 'ORDER BY totalpage DESC '//				.'LIMIT 0,5'
+        $query1            = ' GROUP BY `section`,`section_id` ' . 'ORDER BY totalpage DESC ' //				.'LIMIT 0,5'
         ;
         $this->_pageviewer = $this->_getList($query . $query1);
 

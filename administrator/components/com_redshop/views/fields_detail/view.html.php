@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 
-class fields_detailVIEWfields_detail extends JView
+class fields_detailVIEWfields_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

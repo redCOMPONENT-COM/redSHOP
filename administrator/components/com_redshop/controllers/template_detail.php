@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
-
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'template.php';
 
-class template_detailController extends JController
+class template_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

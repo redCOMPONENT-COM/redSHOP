@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class customprintViewcustomprint extends JView
+class customprintViewcustomprint extends JViewLegacy
 {
     function display($tpl = null)
     {
