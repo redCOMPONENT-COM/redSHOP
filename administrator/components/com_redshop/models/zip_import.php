@@ -176,11 +176,6 @@ class zip_importModelzip_import extends JModel
      */
     function _getPackageFromUrl()
     {
-        // Get a database connector
-
-        $db     = & JFactory::getDBO();
-        $tempno = $_SESSION['zipno'];
-
         // Get the URL of the package to install
         $url = trim(strip_tags(str_replace('administrator//', '', $_SESSION['filename'][0])));
 

@@ -44,7 +44,8 @@ class template_detailModeltemplate_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -264,7 +265,7 @@ class template_detailModeltemplate_detail extends JModel
                 $uid  = (int)$user->get('id');
             }
             // Lets get to it and checkout the thing...
-            $template_detail = & $this->getTable('template_detail');
+            $template_detail = $this->getTable('template_detail');
 
             if (!$template_detail->checkout($uid, $this->_id))
             {
@@ -288,7 +289,7 @@ class template_detailModeltemplate_detail extends JModel
     {
         if ($this->_id)
         {
-            $template_detail = & $this->getTable('template_detail');
+            $template_detail = $this->getTable('template_detail');
             if (!$template_detail->checkin($this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());
