@@ -35,7 +35,7 @@ class plgEconomicEconomic extends JPlugin
 	var $debtorGroupHandles = null;
 	var $ecoparams = null;
 
-	function plgEconomicEconomic( &$subject, $config = array() )
+	function __construct( &$subject, $config = array() )
 	{
 		parent::__construct( $subject, $config );
 		$isEnabled =& JPluginHelper::isEnabled('economic');
