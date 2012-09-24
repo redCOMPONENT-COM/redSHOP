@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -74,27 +67,18 @@ class user_detailVIEWuser_detail extends JView
 
         $shopper_detail         = $userhelper->getShopperGroupList();
         $temps                  = array();
+        $temps[0]               = new stdClass;
         $temps[0]->value        = 0;
         $temps[0]->text         = JText::_('COM_REDSHOP_SELECT');
         $shopper_detail         = array_merge($temps, $shopper_detail);
         $lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_detail, 'shopper_group_id', '', 'value', 'text', $detail->shopper_group_id);
 
-        //$gtree = $acl->get_group_children_tree( null, 'USERS', false );
-        //$lists['gid'] 	= JHTML::_('select.genericlist',   $gtree, 'gid', 'size="10"', 'value', 'text', $detail->gid );
-
-        $lists['tax_exempt'] = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $detail->tax_exempt);
-
-        $lists['block'] = JHTML::_('select.booleanlist', 'block', 'class="inputbox"', $detail->block);
-
-        $lists['tax_exempt_approved'] = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $detail->tax_exempt_approved);
-
+        $lists['tax_exempt']            = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $detail->tax_exempt);
+        $lists['block']                 = JHTML::_('select.booleanlist', 'block', 'class="inputbox"', $detail->block);
+        $lists['tax_exempt_approved']   = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $detail->tax_exempt_approved);
         $lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $detail->requesting_tax_exempt);
-
-        //		$lists['approved'] 			= JHTML::_('select.booleanlist',  'approved', 'class="inputbox"', $detail->approved );
-
-        $lists['is_company'] = JHTML::_('select.booleanlist', 'is_company', 'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ', $detail->is_company, JText::_('COM_REDSHOP_USER_COMPANY'), JText::_('COM_REDSHOP_USER_CUSTOMER'));
-
-        $lists['sendEmail'] = JHTML::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $detail->sendEmail);
+        $lists['is_company']            = JHTML::_('select.booleanlist', 'is_company', 'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ', $detail->is_company, JText::_('COM_REDSHOP_USER_COMPANY'), JText::_('COM_REDSHOP_USER_CUSTOMER'));
+        $lists['sendEmail']             = JHTML::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $detail->sendEmail);
 
         $lists['extra_field']             = $extra_field->list_all_field(6, $detail->users_info_id); /// field_section 6 :Userinformations
         $lists['customer_field']          = $extra_field->list_all_field(7, $detail->users_info_id); /// field_section 7 :Customer Address
@@ -107,13 +91,12 @@ class user_detailVIEWuser_detail extends JView
         $lists['country_code'] = $countryarray['country_dropdown'];
         $statearray            = $Redconfiguration->getStateList((array)$detail);
         $lists['state_code']   = $statearray['state_dropdown'];
-        //$showcountry = (count($countryarray['countrylist'])==1 && count($statearray['statelist'])==0) ? 0 : 1;
-        //$showstates = ($statearray['is_states']<=0) ? 0 : 1;
 
         $this->assignRef('lists', $lists);
         $this->assignRef('detail', $detail);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
         $this->assignRef('pagination', $pagination);
+
         parent::display($tpl);
     }
 }
