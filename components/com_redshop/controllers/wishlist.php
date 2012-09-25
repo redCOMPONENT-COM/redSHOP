@@ -23,7 +23,7 @@ class wishlistController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function createsave()
+    public function createsave()
     {
         $user  = &JFactory::getUser();
         $model = & $this->getModel("wishlist");
@@ -60,7 +60,7 @@ class wishlistController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function savewishlist()
+    public function savewishlist()
     {
         global $mainframe;
         $cid    = JRequest :: getInt('cid');
@@ -88,7 +88,7 @@ class wishlistController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function delwishlist()
+    public function delwishlist()
     {
         global $mainframe;
 
@@ -124,7 +124,7 @@ class wishlistController extends JControllerLegacy
         $mainframe->redirect($link, $msg);
     }
 
-    function mysessdelwishlist()
+    public function mysessdelwishlist()
     {
         $post                = array();
         $post['wishlist_id'] = JRequest :: getVar('wishlist_id');

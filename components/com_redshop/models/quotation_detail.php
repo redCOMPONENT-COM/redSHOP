@@ -22,13 +22,13 @@ class quotation_detailModelquotation_detail extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
     }
 
-    function checkAuthorization($quoid, $encr)
+    public function checkAuthorization($quoid, $encr)
     {
         $query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation " . "WHERE quotation_id='" . $quoid . "' " . "AND quotation_encrkey LIKE '" . $encr . "' ";
         $this->_db->setQuery($query);
@@ -36,7 +36,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         return $record;
     }
 
-    function addtocart($data = array())
+    public function addtocart($data = array())
     {
         $session =& JFactory::getSession();
 
@@ -188,7 +188,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         $session->set('cart', $cart);
     }
 
-    function modifyQuotation($user_id = 0)
+    public function modifyQuotation($user_id = 0)
     {
         $session    =& JFactory::getSession();
         $carthelper = new rsCarthelper();

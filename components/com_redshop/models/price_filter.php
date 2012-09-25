@@ -17,13 +17,13 @@ class price_filterModelprice_filter extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $category = JRequest::getVar('category');
         $catfld   = '';
@@ -36,7 +36,7 @@ class price_filterModelprice_filter extends JModelLegacy
         return $sql;
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {

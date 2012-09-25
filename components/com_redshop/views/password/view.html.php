@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 class passwordViewpassword extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $layout = JRequest::getVar('layout');
         $uid    = JRequest::getInt('uid', 0);

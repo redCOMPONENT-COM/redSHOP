@@ -24,7 +24,7 @@ class product_miniController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }

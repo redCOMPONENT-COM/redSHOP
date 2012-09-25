@@ -80,7 +80,7 @@ class FPDF_TPL extends FPDF
      *
      * @return int The ID of new created Template
      */
-    function beginTemplate($x = null, $y = null, $w = null, $h = null)
+    public function beginTemplate($x = null, $y = null, $w = null, $h = null)
     {
         if ($this->page <= 0)
         {
@@ -129,7 +129,7 @@ class FPDF_TPL extends FPDF
      *
      * @return mixed If a template is opened, the ID is returned. If not a false is returned.
      */
-    function endTemplate()
+    public function endTemplate()
     {
         if ($this->_intpl)
         {
@@ -169,7 +169,7 @@ class FPDF_TPL extends FPDF
      *
      * @retrun array The height and width of the template
      */
-    function useTemplate($tplidx, $_x = null, $_y = null, $_w = 0, $_h = 0)
+    public function useTemplate($tplidx, $_x = null, $_y = null, $_w = 0, $_h = 0)
     {
         if ($this->page <= 0)
         {
@@ -227,7 +227,7 @@ class FPDF_TPL extends FPDF
      *
      * @return array The height and width of the template
      */
-    function getTemplateSize($tplidx, $_w = 0, $_h = 0)
+    public function getTemplateSize($tplidx, $_w = 0, $_h = 0)
     {
         if (!$this->tpls[$tplidx])
         {
@@ -259,7 +259,7 @@ class FPDF_TPL extends FPDF
     /**
      * See FPDF/TCPDF-Documentation ;-)
      */
-    function SetFont($family, $style = '', $size = 0, $fontfile = '')
+    public function SetFont($family, $style = '', $size = 0, $fontfile = '')
     {
         if (!is_subclass_of($this, 'TCPDF') && func_num_args() > 3)
         {
@@ -290,7 +290,7 @@ class FPDF_TPL extends FPDF
     /**
      * See FPDF/TCPDF-Documentation ;-)
      */
-    function Image($file, $x, $y, $w = 0, $h = 0, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0)
+    public function Image($file, $x, $y, $w = 0, $h = 0, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0)
     {
         if (!is_subclass_of($this, 'TCPDF') && func_num_args() > 7)
         {
@@ -313,7 +313,7 @@ class FPDF_TPL extends FPDF
      *
      * AddPage is not available when you're "in" a template.
      */
-    function AddPage($orientation = '', $format = '')
+    public function AddPage($orientation = '', $format = '')
     {
         if ($this->_intpl)
         {
@@ -325,7 +325,7 @@ class FPDF_TPL extends FPDF
     /**
      * Preserve adding Links in Templates ...won't work
      */
-    function Link($x, $y, $w, $h, $link, $spaces = 0)
+    public function Link($x, $y, $w, $h, $link, $spaces = 0)
     {
         if (!is_subclass_of($this, 'TCPDF') && func_num_args() > 5)
         {
@@ -339,7 +339,7 @@ class FPDF_TPL extends FPDF
         parent::Link($x, $y, $w, $h, $link, $spaces);
     }
 
-    function AddLink()
+    public function AddLink()
     {
         if ($this->_intpl)
         {
@@ -348,7 +348,7 @@ class FPDF_TPL extends FPDF
         return parent::AddLink();
     }
 
-    function SetLink($link, $y = 0, $page = -1)
+    public function SetLink($link, $y = 0, $page = -1)
     {
         if ($this->_intpl)
         {
@@ -360,7 +360,7 @@ class FPDF_TPL extends FPDF
     /**
      * Private Method that writes the form xobjects
      */
-    function _putformxobjects()
+    public function _putformxobjects()
     {
         $filter = ($this->compress) ? '/Filter /FlateDecode ' : '';
         reset($this->tpls);
@@ -427,13 +427,13 @@ class FPDF_TPL extends FPDF
      * Overwritten to add _putformxobjects() after _putimages()
      *
      */
-    function _putimages()
+    public function _putimages()
     {
         parent::_putimages();
         $this->_putformxobjects();
     }
 
-    function _putxobjectdict()
+    public function _putxobjectdict()
     {
         parent::_putxobjectdict();
 
@@ -449,7 +449,7 @@ class FPDF_TPL extends FPDF
     /**
      * Private Method
      */
-    function _out($s)
+    public function _out($s)
     {
         if ($this->state == 2 && $this->_intpl)
         {

@@ -5,7 +5,7 @@ class CaptchaSecurityImages
 {
     public $font = 'components/com_redshop/assets/captcha/monofont.ttf';
 
-    function generateCode($characters)
+    public function generateCode($characters)
     {
         /* list all possible characters, similar looking characters and vowels have been removed */
         $possible = '23456789bcdfghjkmnpqrstvwxyz';
@@ -19,7 +19,7 @@ class CaptchaSecurityImages
         return $code;
     }
 
-    function CaptchaSecurityImages($width = '120', $height = '40', $characters = '6', $captchaname = 'security_code')
+    public function CaptchaSecurityImages($width = '120', $height = '40', $characters = '6', $captchaname = 'security_code')
     {
         $session =& JFactory::getSession();
 

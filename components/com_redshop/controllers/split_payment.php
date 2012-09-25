@@ -23,7 +23,7 @@ class split_paymentController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function payremaining()
+    public function payremaining()
     {
         parent::display();
     }

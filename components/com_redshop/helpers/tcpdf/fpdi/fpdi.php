@@ -82,7 +82,7 @@ class FPDI extends FPDF_TPL
      *
      * @return int number of available pages
      */
-    function setSourceFile($filename)
+    public function setSourceFile($filename)
     {
         $this->current_filename = $filename;
         $fn                     =& $this->current_filename;
@@ -103,7 +103,7 @@ class FPDI extends FPDF_TPL
      *
      * @return int Index of imported page - to use with fpdf_tpl::useTemplate()
      */
-    function importPage($pageno, $boxName = '/CropBox')
+    public function importPage($pageno, $boxName = '/CropBox')
     {
         if ($this->_intpl)
         {
@@ -189,12 +189,12 @@ class FPDI extends FPDF_TPL
         return $this->tpl;
     }
 
-    function getLastUsedPageBox()
+    public function getLastUsedPageBox()
     {
         return $this->lastUsedPageBox;
     }
 
-    function useTemplate($tplidx, $_x = null, $_y = null, $_w = 0, $_h = 0, $adjustPageSize = false)
+    public function useTemplate($tplidx, $_x = null, $_y = null, $_w = 0, $_h = 0, $adjustPageSize = false)
     {
         if ($adjustPageSize == true && is_null($_x) && is_null($_y))
         {
@@ -221,7 +221,7 @@ class FPDI extends FPDF_TPL
     /**
      * Private method, that rebuilds all needed objects of source files
      */
-    function _putimportedobjects()
+    public function _putimportedobjects()
     {
         if (is_array($this->parsers) && count($this->parsers) > 0)
         {
@@ -258,7 +258,7 @@ class FPDI extends FPDF_TPL
     /**
      * Private Method that writes the form xobjects
      */
-    function _putformxobjects()
+    public function _putformxobjects()
     {
         $filter = ($this->compress) ? '/Filter /FlateDecode ' : '';
         reset($this->tpls);
@@ -377,7 +377,7 @@ class FPDI extends FPDF_TPL
     /**
      * Rewritten to handle existing own defined objects
      */
-    function _newobj($obj_id = false, $onlynewobj = false)
+    public function _newobj($obj_id = false, $onlynewobj = false)
     {
         if (!$obj_id)
         {
@@ -400,7 +400,7 @@ class FPDI extends FPDF_TPL
      *
      * @param mixed $value A PDF-Value. Structure of values see cases in this method
      */
-    function pdf_write_value(&$value)
+    public function pdf_write_value(&$value)
     {
         if (is_subclass_of($this, 'TCPDF'))
         {
@@ -508,7 +508,7 @@ class FPDI extends FPDF_TPL
     /**
      * Modified so not each call will add a newline to the output.
      */
-    function _straightOut($s)
+    public function _straightOut($s)
     {
         if (!is_subclass_of($this, 'TCPDF'))
         {
@@ -548,7 +548,7 @@ class FPDI extends FPDF_TPL
      * rewritten to close opened parsers
      *
      */
-    function _enddoc()
+    public function _enddoc()
     {
         parent::_enddoc();
         $this->_closeParsers();
@@ -557,7 +557,7 @@ class FPDI extends FPDF_TPL
     /**
      * close all files opened by parsers
      */
-    function _closeParsers()
+    public function _closeParsers()
     {
         if ($this->state > 2 && count($this->parsers) > 0)
         {
