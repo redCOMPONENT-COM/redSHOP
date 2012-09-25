@@ -12,7 +12,9 @@ defined('_JEXEC') or die ('Restricted access');
 define('WARNSAME', "There is already a file called '%s'.");
 define('INSTALLEXT', 'Install %s %s');
 
-class payment_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class payment_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {

@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class shopper_group_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class shopper_group_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {
@@ -22,8 +24,6 @@ class shopper_group_detailController extends JControllerLegacy
         JRequest::setVar('view', 'shopper_group_detail');
         JRequest::setVar('layout', 'default');
         JRequest::setVar('hidemainmenu', 1);
-
-        //$model = $this->getModel ( 'shopper_group_detail' );
 
         parent::display();
     }

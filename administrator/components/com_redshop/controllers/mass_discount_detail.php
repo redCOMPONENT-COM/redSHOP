@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class mass_discount_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class mass_discount_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {

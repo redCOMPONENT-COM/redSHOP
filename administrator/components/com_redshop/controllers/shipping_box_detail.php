@@ -10,8 +10,9 @@
 defined('_JEXEC') or die ('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'template.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class shipping_box_detailController extends JControllerLegacy
+class shipping_box_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {

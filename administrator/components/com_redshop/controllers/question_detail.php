@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class question_detailController extends JControllerLegacy
+class question_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {
