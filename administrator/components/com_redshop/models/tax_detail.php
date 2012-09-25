@@ -15,13 +15,13 @@ JClientHelper::setCredentialsFromRequest('ftp');
 
 class tax_detailModeltax_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_tax_group_id = null;
+    public $_tax_group_id = null;
 
     function __construct()
     {

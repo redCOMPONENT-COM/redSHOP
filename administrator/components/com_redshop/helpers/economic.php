@@ -15,19 +15,19 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class economic
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_db = null;
+    public $_db = null;
 
-    var $_producthelper = null;
+    public $_producthelper = null;
 
-    var $_shippinghelper = null;
+    public $_shippinghelper = null;
 
-    var $_order_functions = null;
+    public $_order_functions = null;
 
-    var $_stockroomhelper = null;
+    public $_stockroomhelper = null;
 
-    var $_dispatcher = null;
+    public $_dispatcher = null;
 
     function economic()
     {

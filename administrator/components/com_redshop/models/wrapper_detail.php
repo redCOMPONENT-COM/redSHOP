@@ -11,13 +11,13 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class wrapper_detailModelwrapper_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_productid = null;
+    public $_productid = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

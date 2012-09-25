@@ -15,19 +15,19 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class user_detailModeluser_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_uid = null;
+    public $_uid = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    var $_context = null;
+    public $_context = null;
 
     function __construct()
     {

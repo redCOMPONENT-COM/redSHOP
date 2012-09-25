@@ -11,15 +11,15 @@ defined('_JEXEC') or die('Restricted access');
 
 class stockroom_detailModelstockroom_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    var $_containerdata = null;
+    public $_containerdata = null;
 
     function __construct()
     {

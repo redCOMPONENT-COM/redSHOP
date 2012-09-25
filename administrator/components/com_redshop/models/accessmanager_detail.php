@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

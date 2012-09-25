@@ -24,7 +24,7 @@ class JElementstockroom extends JElement
      * @access    protected
      * @var        string
      */
-    var $_name = 'stockroom';
+    public $_name = 'stockroom';
 
     function fetchElement($name, $value, &$node, $control_name)
     {
