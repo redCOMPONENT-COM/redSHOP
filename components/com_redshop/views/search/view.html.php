@@ -15,14 +15,14 @@ class searchViewsearch extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe;
+        $app = &JFactory::getApplication();
 
         $redTemplate = new Redtemplate();
         $lists       = array();
 
         $uri = JFactory::getURI();
 
-        $params   = $mainframe->getParams('com_redshop');
+        $params   = $app->getParams('com_redshop');
         $document = JFactory::getDocument();
 
         $layout = JRequest::getVar('layout', '');
@@ -92,7 +92,7 @@ class searchViewsearch extends JViewLegacy
             {
                 $mypid = JRequest::getVar('pid', 0);
 
-                $mainframe->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
+                $app->redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
             }
             //$this->setLayout('redfilter');
         }
@@ -155,7 +155,11 @@ class searchViewsearch extends JViewLegacy
             $query = 'SELECT category_name' . ' FROM #__redshop_category  ' . 'WHERE category_id=' . JRequest::getInt('cid');
             $db->setQuery($query);
             $catname_array = $db->loadObjectList();
-            $cat_name      = $catname_array[0]->category_name;
+            $cat_name = '';
+            if(!empty($catname_array[0]))
+            {
+                $cat_name      = $catname_array[0]->category_name;
+            }
 
             $session    = & JFactory::getSession();
             $model      = $this->getModel('search');
@@ -260,7 +264,7 @@ class searchViewsearch extends JViewLegacy
                 {
                     include_once(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php");
                     $redproductfinder_helper = new redproductfinder_helper();
-                    $hdnFields               = array('texpricemin'=> '0', 'texpricemax'=> '0', 'manufacturer_id'=> $filter_by, 'category_template'=> $templateid);
+                    $hdnFields               = array('texpricemin'=> '0', 'texpricemax'=> '0', 'manufacturer_id'=> $manufacturer_id, 'category_template'=> $templateid);
                     $hide_filter_flag        = false;
                     if ($this->_id)
                     {
@@ -366,7 +370,7 @@ class searchViewsearch extends JViewLegacy
 
                 # redSHOP Product Plugin
                 JPluginHelper::importPlugin('redshop_product');
-                $results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, & $params, $this->search[$i]));
+                $results = $dispatcher->trigger('onPrepareProduct', array($data_add, $this->params, $this->search[$i]));
                 # End
 
                 if (strstr($data_add, "{product_delivery_time}"))
@@ -500,6 +504,7 @@ class searchViewsearch extends JViewLegacy
                 $returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
                 $template_userfield = $returnArr[0];
                 $userfieldArr       = $returnArr[1];
+                $count_no_user_field = 0;
                 if ($template_userfield != "")
                 {
                     $ufield = "";
@@ -537,7 +542,7 @@ class searchViewsearch extends JViewLegacy
                     $returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
                     $template_userfield = $returnArr[0];
                     $userfieldArr       = $returnArr[1];
-
+                    $count_no_user_field = 0;
                     if ($template_userfield != "")
                     {
                         $ufield = "";
