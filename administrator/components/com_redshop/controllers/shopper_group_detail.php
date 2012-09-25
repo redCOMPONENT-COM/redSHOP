@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 class shopper_group_detailController extends JControllerLegacy
 {
     function __construct($default = array())

@@ -12,7 +12,6 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
-jimport('joomla.filesystem.file');
 
 class shopper_group_detailModelshopper_group_detail extends JModelLegacy
 {
