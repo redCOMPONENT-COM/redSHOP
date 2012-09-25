@@ -1,59 +1,40 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die ('restricted access');
 
-jimport('joomla.application.component.view');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'category.php');
-
-class send_friendViewsend_friend extends JView
+class send_friendViewsend_friend extends JViewLegacy
 {
+    function display($tpl = null)
+    {
+        global $mainframe;
 
-   	function display ($tpl=null)
-   	{
-   		global $mainframe;
+        $params = $mainframe->getParams('com_redshop');
 
-		// Request variables
-		$id		= JRequest::getVar('id', null, '', 'int');
-		$option	= JRequest::getVar('option', 'com_redshop');
-		$Itemid	= JRequest::getVar('Itemid');
-		$pid	= JRequest::getInt('pid');
+        // Include Javascript
 
+        JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+        JHTML::Script('json.js', 'components/com_redshop/assets/js/', false);
+        JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+        $data = $this->get('data');
 
-		$params = &$mainframe->getParams('com_redshop');
+        $template =& $this->get('template');
 
-		$pathway =& $mainframe->getPathway();
-		$document = & JFactory::getDocument();
+        // Next/Prev navigation end
 
-		// Include Javascript
+        $this->assignRef('data', $data);
+        $this->assignRef('template', $template);
 
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/',false);
-		JHTML::Script('json.js', 'components/com_redshop/assets/js/',false);
-		//JHTML::Stylesheet('scrollable-minimal.css', 'components/com_redshop/assets/css/');
-		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
-		$data	=& $this->get('data');
+        $this->assignRef('params', $params);
 
-		$template =& $this->get('template');
-
-		// Next/Prev navigation end
-
-		$this->assignRef('data',		$data);
-		$this->assignRef('template',	$template);
-
-		$this->assignRef('params',$params);
-   		parent::display($tpl);
-  	}
+        parent::display($tpl);
+    }
 }
