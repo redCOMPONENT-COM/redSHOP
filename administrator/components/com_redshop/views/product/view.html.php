@@ -16,7 +16,7 @@ class productViewproduct extends JViewLegacy
 {
     public $_product = array();
 
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 

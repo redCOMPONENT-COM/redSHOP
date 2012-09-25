@@ -12,7 +12,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library
 
 class categoryViewcategory extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
 
         //echo SHOW_PRICE;die();

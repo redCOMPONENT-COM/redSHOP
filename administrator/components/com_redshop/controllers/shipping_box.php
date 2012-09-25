@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class shipping_boxController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }

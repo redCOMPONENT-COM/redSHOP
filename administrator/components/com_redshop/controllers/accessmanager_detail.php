@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class accessmanager_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'answer_detail');
         JRequest::setVar('layout', 'default');
@@ -25,7 +25,7 @@ class accessmanager_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save($apply)
+    public function save($apply)
     {
         $post = JRequest::get('post');
 
@@ -51,12 +51,12 @@ class accessmanager_detailController extends JControllerLegacy
         }
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');

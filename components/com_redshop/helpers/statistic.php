@@ -22,7 +22,7 @@ class statistic
 
     public $_db = null;
 
-    function statistic()
+    public function statistic()
     {
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
         $this->_db           = & JFactory :: getDBO();
@@ -30,7 +30,7 @@ class statistic
         statistic::reshop_pageview();
     }
 
-    function reshop_visitors()
+    public function reshop_visitors()
     {
         $sid  = session_id();
         $user = & JFactory::getUser();
@@ -50,7 +50,7 @@ class statistic
         }
     }
 
-    function reshop_pageview()
+    public function reshop_pageview()
     {
         $sid     = session_id();
         $user    = & JFactory::getUser();

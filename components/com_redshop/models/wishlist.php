@@ -26,13 +26,13 @@ class wishlistModelwishlist extends JModelLegacy
 
     public $_cdate = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
     }
 
-    function getUserWishlist()
+    public function getUserWishlist()
     {
         $user = &JFactory::getUser();
         $db   = JFactory::getDBO();
@@ -43,7 +43,7 @@ class wishlistModelwishlist extends JModelLegacy
         return $db->loadObjectlist();
     }
 
-    function getWishlistProduct()
+    public function getWishlistProduct()
     {
         $user = &JFactory::getUser();
         $db   = JFactory::getDBO();
@@ -80,7 +80,7 @@ class wishlistModelwishlist extends JModelLegacy
         }
     }
 
-    function getWishlistProductFromSession()
+    public function getWishlistProductFromSession()
     {
         $db      = JFactory::getDBO();
         $prod_id = "";
@@ -104,7 +104,7 @@ class wishlistModelwishlist extends JModelLegacy
         return $rows;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row =& $this->getTable();
 
@@ -167,7 +167,7 @@ class wishlistModelwishlist extends JModelLegacy
         return true;
     }
 
-    function savewishlist()
+    public function savewishlist()
     {
 
         $cid        = JRequest :: getVar('cid', '', 'request', 'array');
@@ -196,7 +196,7 @@ class wishlistModelwishlist extends JModelLegacy
         return true;
     }
 
-    function check_user_wishlist_authority($userid, $wishlist_id)
+    public function check_user_wishlist_authority($userid, $wishlist_id)
     {
         $db    = JFactory::getDBO();
         $query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist " . " WHERE wishlist_id=" . $wishlist_id . " AND user_id=" . $userid;
@@ -213,7 +213,7 @@ class wishlistModelwishlist extends JModelLegacy
         }
     }
 
-    function delwishlist($userid, $wishlist_id)
+    public function delwishlist($userid, $wishlist_id)
     {
         $db    = JFactory::getDBO();
         $query = "DELETE FROM " . $this->_table_prefix . "wishlist_product " . " WHERE wishlist_id=" . $wishlist_id;
@@ -242,7 +242,7 @@ class wishlistModelwishlist extends JModelLegacy
         }
     }
 
-    function mysessdelwishlist($wishlist_id)
+    public function mysessdelwishlist($wishlist_id)
     {
 
         if (!empty($_SESSION["no_of_prod"]))

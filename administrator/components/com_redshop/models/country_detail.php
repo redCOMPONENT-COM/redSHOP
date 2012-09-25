@@ -17,7 +17,7 @@ class country_detailModelcountry_detail extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -27,13 +27,13 @@ class country_detailModelcountry_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -46,7 +46,7 @@ class country_detailModelcountry_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -58,7 +58,7 @@ class country_detailModelcountry_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -77,7 +77,7 @@ class country_detailModelcountry_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
 
         $row = $this->getTable();
@@ -103,7 +103,7 @@ class country_detailModelcountry_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {

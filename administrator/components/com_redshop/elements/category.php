@@ -40,7 +40,7 @@ class JFormFieldcategory extends JFormField
         return JHTML::_('select.genericlist', $categories, $name, 'class="inputbox"', 'category_id', 'category_name', $this->value, $name);
     }
 
-    function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
+    public function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
     {
 
         $db = jFactory::getDBO();

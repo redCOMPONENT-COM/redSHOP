@@ -11,20 +11,20 @@ defined('_JEXEC') or die ('Restricted access');
 
 class sample_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'sample_detail');
         JRequest::setVar('hidemainmenu', 1);
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post = JRequest::get('post');
 
@@ -51,7 +51,7 @@ class sample_detailController extends JControllerLegacy
         $this->setRedirect($link, $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
         //$layout = JRequest::getVar ('layout');
@@ -72,7 +72,7 @@ class sample_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
         //$layout = JRequest::getVar ('layout');
@@ -93,7 +93,7 @@ class sample_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
         //$layout = JRequest::getVar ('layout');
@@ -115,7 +115,7 @@ class sample_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         //$layout = JRequest::getVar ('layout');

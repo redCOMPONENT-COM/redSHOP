@@ -40,7 +40,7 @@ class cartModelcart extends JModelLegacy
 
     public $_objshipping = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -99,7 +99,7 @@ class cartModelcart extends JModelLegacy
         }
     }
 
-    function emptyExpiredCartProducts()
+    public function emptyExpiredCartProducts()
     {
         if (IS_PRODUCT_RESERVE)
         {
@@ -142,7 +142,7 @@ class cartModelcart extends JModelLegacy
     /*
       * Empty cart
       */
-    function empty_cart()
+    public function empty_cart()
     {
         $session         =& JFactory::getSession();
         $stockroomhelper = new rsstockroomhelper();
@@ -155,7 +155,7 @@ class cartModelcart extends JModelLegacy
         $stockroomhelper->deleteCartAfterEmpty();
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -180,7 +180,7 @@ class cartModelcart extends JModelLegacy
     }
 
     ///////////////// Update cart ///////////////////////////
-    function update($data)
+    public function update($data)
     {
         $session =& JFactory::getSession();
         $cart    = $session->get('cart');
@@ -273,7 +273,7 @@ class cartModelcart extends JModelLegacy
         $session->set('cart', $cart);
     }
 
-    function update_all($data)
+    public function update_all($data)
     {
         $session =& JFactory::getSession();
         $cart    = $session->get('cart');
@@ -367,7 +367,7 @@ class cartModelcart extends JModelLegacy
         $session->set('cart', $cart);
     }
 
-    function delete($cartElement)
+    public function delete($cartElement)
     {
         $stockroomhelper = new rsstockroomhelper();
         $session         =& JFactory::getSession();
@@ -393,17 +393,17 @@ class cartModelcart extends JModelLegacy
         $session->set('cart', $cart);
     }
 
-    function coupon($c_data = array())
+    public function coupon($c_data = array())
     {
         return $this->_carthelper->coupon();
     }
 
-    function voucher($v_data = array())
+    public function voucher($v_data = array())
     {
         return $this->_carthelper->voucher();
     }
 
-    function redmasscart($post)
+    public function redmasscart($post)
     {
         $data            = array();
         $products_number = explode("\n", $post["numbercart"]);
@@ -464,7 +464,7 @@ class cartModelcart extends JModelLegacy
     /*
       * check if attribute tag is present in product template
       */
-    function checkifTagAvailable($product_id)
+    public function checkifTagAvailable($product_id)
     {
         $db          = &JFactory :: getDBO();
         $redTemplate = new redTemplate();
@@ -488,7 +488,7 @@ class cartModelcart extends JModelLegacy
     /*
       * 	shipping rate calculator
       */
-    function shippingrate_calc()
+    public function shippingrate_calc()
     {
         $document = & JFactory :: getDocument();
         JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
@@ -514,7 +514,7 @@ class cartModelcart extends JModelLegacy
         return $shipping_calc;
     }
 
-    function updateAccessoryPriceArray($data = array(), $newquantity = 1)
+    public function updateAccessoryPriceArray($data = array(), $newquantity = 1)
     {
         $attArr = $data['cart_accessory'];
         for ($i = 0; $i < count($attArr); $i++)
@@ -565,7 +565,7 @@ class cartModelcart extends JModelLegacy
         return $attArr;
     }
 
-    function updateAttributePriceArray($data = array(), $newquantity = 1)
+    public function updateAttributePriceArray($data = array(), $newquantity = 1)
     {
         $attArr = $data['cart_attribute'];
 
@@ -606,7 +606,7 @@ class cartModelcart extends JModelLegacy
         return $attArr;
     }
 
-    function getCartProductPrice($product_id, $cart, $voucher_left)
+    public function getCartProductPrice($product_id, $cart, $voucher_left)
     {
         $productArr             = array();
         $affected_product_idArr = array();
@@ -640,7 +640,7 @@ class cartModelcart extends JModelLegacy
         return $productArr;
     }
 
-    function changeAttribute($data)
+    public function changeAttribute($data)
     {
         $imagename = '';
         $type      = '';

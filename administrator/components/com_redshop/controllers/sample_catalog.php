@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 class sample_catalogController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         JRequest::setVar('view', 'sample_catalog');

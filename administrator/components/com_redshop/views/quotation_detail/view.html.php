@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.ph
 
 class quotation_detailVIEWquotation_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $quotationHelper = new quotationHelper();
         $option          = JRequest::getVar('option');

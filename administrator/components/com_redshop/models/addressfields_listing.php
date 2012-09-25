@@ -21,7 +21,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -37,7 +37,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -47,7 +47,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
 
         $query = $this->_buildQuerycount();
@@ -59,7 +59,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -70,7 +70,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuerycount()
+    public function _buildQuerycount()
     {
         $filter = $this->getState('section_id');
         $where  = '';
@@ -89,7 +89,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
         return $query;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $filter  = $this->getState('section_id');
         $orderby = $this->_buildContentOrderBy();
@@ -114,7 +114,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -133,7 +133,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
         return $orderby;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable("fields_detail");
         $groupings  = array();
@@ -195,7 +195,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
       * @access public
       * @return boolean
       */
-    function MaxOrdering()
+    public function MaxOrdering()
     {
         $query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
         $this->_db->setQuery($query);
@@ -209,7 +209,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
      * @return  boolean True on success
      * @since   0.9
      */
-    function move($direction, $field_id)
+    public function move($direction, $field_id)
     {
         $row = $this->getTable("fields_detail");
 

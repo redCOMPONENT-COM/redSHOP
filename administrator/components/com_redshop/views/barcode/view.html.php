@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class barcodeViewbarcode extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_BARCODE'), 'redshop_order48');
 

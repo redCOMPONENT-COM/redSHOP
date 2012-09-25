@@ -40,7 +40,7 @@ class convertPrice
      *
      * @return mixed
      */
-    function init()
+    public function init()
     {
         global $mainframe;
 
@@ -151,7 +151,7 @@ class convertPrice
         return true;
     }
 
-    function convert($amountA, $currA = '', $currB = '')
+    public function convert($amountA, $currA = '', $currB = '')
     {
 
         $config = new Redconfiguration();

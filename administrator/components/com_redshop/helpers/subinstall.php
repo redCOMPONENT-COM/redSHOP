@@ -73,7 +73,7 @@ class SubInstaller extends JObject
      *
      * @access protected
      **/
-    function __construct()
+    public function __construct()
     {
         // Since we are running from within the current installation,
         // we can use getInstance() to fetch the current installer and
@@ -93,7 +93,7 @@ class SubInstaller extends JObject
      * @param msg   string   The Message to display.
      * @param mtype string The message type (message, warning ...)
      */
-    function _msg($msg, $mtype = 'message')
+    public function _msg($msg, $mtype = 'message')
     {
         if (!empty($msg))
         {
@@ -109,7 +109,7 @@ class SubInstaller extends JObject
      *
      * @return int The ID of the extension, or null if not found.
      */
-    function _getExtID(&$e, $core)
+    public function _getExtID(&$e, $core)
     {
         if (!is_object($e))
         {
@@ -200,7 +200,7 @@ class SubInstaller extends JObject
     /**
      * Publish a plugin
      */
-    function _publish($id, $type = 'plugin')
+    public function _publish($id, $type = 'plugin')
     {
         $query = null;
         switch ($type)
@@ -231,7 +231,7 @@ class SubInstaller extends JObject
      *
      * @return            boolean true on success, false otherwise.
      */
-    function _setcore($id, $type, $lock)
+    public function _setcore($id, $type, $lock)
     {
         $query = null;
         switch ($type)
@@ -269,7 +269,7 @@ class SubInstaller extends JObject
      *
      * @return boolean false always
      */
-    function _abort($msg = null)
+    public function _abort($msg = null)
     {
         $this->_inabort++;
         $this->_msg($msg, 'error');
@@ -305,7 +305,7 @@ class SubInstaller extends JObject
      *
      * @return boolean the converted value.
      */
-    function _tobool($arg = null)
+    public function _tobool($arg = null)
     {
         if (!empty($arg))
         {
@@ -322,7 +322,7 @@ class SubInstaller extends JObject
      *
      * @return &object                    The object representing the extension.
      */
-    function &_parseAttributes(&$e)
+    public function &_parseAttributes(&$e)
     {
         $ret       = new stdClass();
         $ret->skip = false;
@@ -442,7 +442,7 @@ class SubInstaller extends JObject
      *
      * @return boolean true on success, false otherwise.
      */
-    function install()
+    public function install()
     {
         $this->_mode = 1;
         if (is_a($this->_mysection, 'JSimpleXMLElement'))
@@ -532,7 +532,7 @@ class SubInstaller extends JObject
      *
      * @return boolean true on success, false otherwise.
      */
-    function uninstall()
+    public function uninstall()
     {
         $this->_mode = 0;
         if (is_a($this->_mysection, 'JSimpleXMLElement'))

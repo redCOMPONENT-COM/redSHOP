@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class supplierController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }

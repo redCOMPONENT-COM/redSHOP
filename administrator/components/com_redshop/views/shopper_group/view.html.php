@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
 
 class shopper_groupViewshopper_group extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 

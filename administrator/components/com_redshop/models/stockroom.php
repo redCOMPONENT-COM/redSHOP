@@ -21,7 +21,7 @@ class stockroomModelstockroom extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -37,7 +37,7 @@ class stockroomModelstockroom extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -47,7 +47,7 @@ class stockroomModelstockroom extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -57,7 +57,7 @@ class stockroomModelstockroom extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -68,7 +68,7 @@ class stockroomModelstockroom extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $filter  = $this->getState('filter');
         $orderby = $this->_buildContentOrderBy();
@@ -82,7 +82,7 @@ class stockroomModelstockroom extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 

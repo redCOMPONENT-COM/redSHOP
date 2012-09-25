@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 class pluginViewplugin extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         ob_clean();
         parent::display($tpl);

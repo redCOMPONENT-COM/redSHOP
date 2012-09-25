@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 class mediaViewmedia extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 
@@ -76,7 +76,7 @@ class mediaViewmedia extends JViewLegacy
         parent::display($tpl);
     }
 
-    function setFolder($index = 0)
+    public function setFolder($index = 0)
     {
         if (isset($this->folders[$index]))
         {
@@ -88,7 +88,7 @@ class mediaViewmedia extends JViewLegacy
         }
     }
 
-    function setImage($index = 0)
+    public function setImage($index = 0)
     {
         if (isset($this->images[$index]))
         {
@@ -100,7 +100,7 @@ class mediaViewmedia extends JViewLegacy
         }
     }
 
-    function setDoc($index = 0)
+    public function setDoc($index = 0)
     {
         if (isset($this->documents[$index]))
         {

@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 
 class reddesignViewreddesign extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
         $document = JFactory::getDocument();

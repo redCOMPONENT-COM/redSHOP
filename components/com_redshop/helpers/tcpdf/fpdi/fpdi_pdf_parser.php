@@ -70,7 +70,7 @@ class fpdi_pdf_parser extends pdf_parser
      * @param string $filename  Source-Filename
      * @param object $fpdi      Object of type fpdi
      */
-    function fpdi_pdf_parser($filename, &$fpdi)
+    public function fpdi_pdf_parser($filename, &$fpdi)
     {
         $this->fpdi =& $fpdi;
 
@@ -91,7 +91,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @param string $msg  Error-Message
      */
-    function error($msg)
+    public function error($msg)
     {
         $this->fpdi->error($msg);
     }
@@ -101,7 +101,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return int
      */
-    function getPageCount()
+    public function getPageCount()
     {
         return $this->page_count;
     }
@@ -111,7 +111,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @param int $pageno Pagenumber to use
      */
-    function setPageno($pageno)
+    public function setPageno($pageno)
     {
         $pageno = ((int)$pageno) - 1;
 
@@ -128,7 +128,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return array
      */
-    function getPageResources()
+    public function getPageResources()
     {
         return $this->_getPageResources($this->pages[$this->pageno]);
     }
@@ -138,7 +138,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @param array $obj Array of pdf-data
      */
-    function _getPageResources($obj)
+    public function _getPageResources($obj)
     { // $obj = /Page
         $obj = $this->pdf_resolve_object($this->c, $obj);
 
@@ -180,7 +180,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return string
      */
-    function getContent()
+    public function getContent()
     {
         $buffer = '';
 
@@ -203,7 +203,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return array
      */
-    function _getPageContent($content_ref)
+    public function _getPageContent($content_ref)
     {
         $contents = array();
 
@@ -237,7 +237,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return string
      */
-    function _rebuildContentStream($obj)
+    public function _rebuildContentStream($obj)
     {
         $filters = array();
 
@@ -305,7 +305,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return array
      */
-    function getPageBox($page, $box_index)
+    public function getPageBox($page, $box_index)
     {
         $page = $this->pdf_resolve_object($this->c, $page);
         $box  = null;
@@ -335,7 +335,7 @@ class fpdi_pdf_parser extends pdf_parser
         }
     }
 
-    function getPageBoxes($pageno)
+    public function getPageBoxes($pageno)
     {
         return $this->_getPageBoxes($this->pages[$pageno - 1]);
     }
@@ -347,7 +347,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return array
      */
-    function _getPageBoxes($page)
+    public function _getPageBoxes($page)
     {
         $boxes = array();
 
@@ -369,12 +369,12 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @return array
      */
-    function getPageRotation($pageno)
+    public function getPageRotation($pageno)
     {
         return $this->_getPageRotation($this->pages[$pageno - 1]);
     }
 
-    function _getPageRotation($obj)
+    public function _getPageRotation($obj)
     { // $obj = /Page
         $obj = $this->pdf_resolve_object($this->c, $obj);
         if (isset ($obj[1][1]['/Rotate']))
@@ -411,7 +411,7 @@ class fpdi_pdf_parser extends pdf_parser
      * @param array  /Pages
      * @param array  the result-array
      */
-    function read_pages(&$c, &$pages, &$result)
+    public function read_pages(&$c, &$pages, &$result)
     {
         // Get the kids dictionary
         $kids = $this->pdf_resolve_object($c, $pages[1][1]['/Kids']);
@@ -441,7 +441,7 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * And reset the PDF Version used in FPDI if needed
      */
-    function getPDFVersion()
+    public function getPDFVersion()
     {
         parent::getPDFVersion();
         $this->fpdi->PDFVersion = max($this->fpdi->PDFVersion, $this->pdfVersion);

@@ -13,13 +13,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 
 class attribute_set_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'attribute_set_detail');
         JRequest::setVar('layout', 'default');
@@ -28,12 +28,12 @@ class attribute_set_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -91,7 +91,7 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
 
         $option = JRequest::getVar('option');
@@ -112,7 +112,7 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function publish()
+    public function publish()
     {
 
         $option = JRequest::getVar('option');
@@ -133,7 +133,7 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -153,7 +153,7 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
 
         $option = JRequest::getVar('option');
@@ -161,7 +161,7 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function attribute_save($post, $row, $file)
+    public function attribute_save($post, $row, $file)
     {
 
         $model = $this->getModel('attribute_set_detail');
@@ -274,7 +274,7 @@ class attribute_set_detailController extends JControllerLegacy
         return;
     }
 
-    function _imageResize($width, $height, $target)
+    public function _imageResize($width, $height, $target)
     {
         if ($width > $height)
         {
@@ -300,7 +300,7 @@ class attribute_set_detailController extends JControllerLegacy
         return array($width, $height);
     }
 
-    function media_bank()
+    public function media_bank()
     {
         $uri = JURI::getInstance();
 
@@ -458,7 +458,7 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function property_more_img()
+    public function property_more_img()
     {
 
         $uri = JURI::getInstance();
@@ -494,7 +494,7 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function deleteimage()
+    public function deleteimage()
     {
 
         $uri = JURI::getInstance();
@@ -514,7 +514,7 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function subattribute_color()
+    public function subattribute_color()
     {
 
         $uri = JURI::getInstance();
@@ -543,7 +543,7 @@ class attribute_set_detailController extends JControllerLegacy
     }
 
     // remove Property image
-    function removepropertyImage()
+    public function removepropertyImage()
     {
 
         $get = JRequest::get('get');
@@ -561,7 +561,7 @@ class attribute_set_detailController extends JControllerLegacy
     }
 
     // remove subProperty image
-    function removesubpropertyImage()
+    public function removesubpropertyImage()
     {
 
         $get = JRequest::get('get');
@@ -578,7 +578,7 @@ class attribute_set_detailController extends JControllerLegacy
         exit;
     }
 
-    function saveAttributeStock()
+    public function saveAttributeStock()
     {
 
         $post = JRequest::get('post');
@@ -599,7 +599,7 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect($link, $msg);
     }
 
-    function copy()
+    public function copy()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');

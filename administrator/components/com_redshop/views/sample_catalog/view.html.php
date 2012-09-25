@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class sample_catalogVIEWsample_catalog extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $uri = JFactory::getURI();
 

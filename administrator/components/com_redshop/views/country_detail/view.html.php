@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class country_detailVIEWcountry_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
 

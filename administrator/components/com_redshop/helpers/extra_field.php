@@ -55,14 +55,14 @@ class extra_field
 
     public $_db = null;
 
-    function __construct()
+    public function __construct()
     {
         global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
         $this->_db           = JFactory::getDbo();
     }
 
-    function list_all_field_in_product($section = 1)
+    public function list_all_field_in_product($section = 1)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "fields " . "WHERE field_section=" . $section . " " . "AND display_in_product=1 " . "AND `published`=1 " . "ORDER BY ordering ";
         $this->_db->setQuery($query);
@@ -70,7 +70,7 @@ class extra_field
         return $row_data;
     }
 
-    function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
+    public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
     {
         $option = JRequest::getVar('option');
         $uri    = JURI::getInstance();
@@ -493,7 +493,7 @@ class extra_field
         return $ex_field;
     }
 
-    function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
+    public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
     {
         $option = JRequest::getVar('option');
         $q      = "SELECT * FROM " . $this->_table_prefix . "fields " . "WHERE field_section IN (" . $field_section . ") " . "AND published=1 ";
@@ -643,7 +643,7 @@ class extra_field
         }
     }
 
-    function chk_extrafieldValidation($field_section = "", $section_id = 0)
+    public function chk_extrafieldValidation($field_section = "", $section_id = 0)
     {
         $row_data = $this->getSectionFieldList($field_section);
 
@@ -659,7 +659,7 @@ class extra_field
         return false;
     }
 
-    function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "")
+    public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "")
     {
         $row_data = $this->getSectionFieldList($field_section);
 
@@ -794,7 +794,7 @@ class extra_field
         return $ex_field;
     }
 
-    function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $unique_id)
+    public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $unique_id)
     {
         $url = JURI::base();
 
@@ -927,19 +927,19 @@ class extra_field
         return $ex;
     }
 
-    function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
+    public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
     {
         $arr = array(JHTML::_('select.option', "Days", JText::_($yes)), JHTML::_('select.option', "Weeks", JText::_($no)));
         return JHTML::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
     }
 
-    function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yes_value, $no_value)
+    public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yes_value, $no_value)
     {
         $arr = array(JHTML::_('select.option', $yes_value, JText::_($yes)), JHTML::_('select.option', $no_value, JText::_($no)));
         return JHTML::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
     }
 
-    function getFieldValue($id)
+    public function getFieldValue($id)
     {
         $q = "SELECT * FROM " . $this->_table_prefix . "fields_value " . "WHERE field_id='" . $id . "' " . "ORDER BY value_id ASC ";
         $this->_db->setQuery($q);
@@ -947,7 +947,7 @@ class extra_field
         return $list;
     }
 
-    function getSectionFieldList($section = 12, $front = 1)
+    public function getSectionFieldList($section = 12, $front = 1)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "fields " . "WHERE published=1 " . "AND field_show_in_front='" . $front . "' " . "AND field_section='" . $section . "'  ORDER BY ordering";
         $this->_db->setQuery($query);
@@ -955,7 +955,7 @@ class extra_field
         return $list;
     }
 
-    function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
+    public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "fields_data " . "WHERE itemid='" . $orderitemid . "' " . "AND fieldid='" . $fieldid . "' " . "AND user_email='" . $user_email . "' " . "AND section='" . $section . "' ";
         $this->_db->setQuery($query);
@@ -963,7 +963,7 @@ class extra_field
         return $list;
     }
 
-    function copy_product_extra_field($oldproduct_id, $newPid)
+    public function copy_product_extra_field($oldproduct_id, $newPid)
     {
 
         $query = "SELECT * FROM " . $this->_table_prefix . "fields_data " . "WHERE itemid='" . intval($oldproduct_id) . "' " . "AND (section='1' or section = '12' or section = '17') ";
@@ -980,7 +980,7 @@ class extra_field
         }
     }
 
-    function deleteExtraFieldData($data_id)
+    public function deleteExtraFieldData($data_id)
     {
         $query = "DELETE FROM " . $this->_table_prefix . "fields_data " . "WHERE data_id='" . $data_id . "' ";
         $this->_db->setQuery($query);

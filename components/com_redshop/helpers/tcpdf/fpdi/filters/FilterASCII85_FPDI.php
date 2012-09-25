@@ -23,12 +23,12 @@ class FilterASCII85_FPDI extends FilterASCII85
 {
     public $fpdi;
 
-    function FPDI_FilterASCII85(&$fpdi)
+    public function FPDI_FilterASCII85(&$fpdi)
     {
         $this->fpdi =& $fpdi;
     }
 
-    function error($msg)
+    public function error($msg)
     {
         $this->fpdi->error($msg);
     }

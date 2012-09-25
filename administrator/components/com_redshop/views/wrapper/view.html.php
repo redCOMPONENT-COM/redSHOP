@@ -11,7 +11,7 @@ jimport('joomla.html.pagination');
 
 class wrapperViewwrapper extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $product_id = JRequest::getVar('product_id');
 

@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class stockroom_listingController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function saveStock()
+    public function saveStock()
     {
         $model          = $this->getModel('stockroom_listing');
         $stockroom_type = JRequest::getVar('stockroom_type', 'product', 'post', 'string');
@@ -35,7 +35,7 @@ class stockroom_listingController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
     }
 
-    function ResetPreorderStock()
+    public function ResetPreorderStock()
     {
         $model          = $this->getModel('stockroom_listing');
         $stockroom_type = JRequest::getVar('stockroom_type', 'product');
@@ -47,7 +47,7 @@ class stockroom_listingController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('stockroom_listing');
         $cid   = JRequest::getVar('category_id');
@@ -125,7 +125,7 @@ class stockroom_listingController extends JControllerLegacy
         exit;
     }
 
-    function print_data()
+    public function print_data()
     {
         echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
     }

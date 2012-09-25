@@ -24,7 +24,7 @@ class checkoutController extends JControllerLegacy
 
     public $_shippinghelper = null;
 
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         $this->_order_functions = new order_functions();
         $this->_shippinghelper  = new shipping();
@@ -36,7 +36,7 @@ class checkoutController extends JControllerLegacy
      *  Method to store user detail
      *  when user do checkout.
      */
-    function checkoutprocess()
+    public function checkoutprocess()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option');
@@ -60,7 +60,7 @@ class checkoutController extends JControllerLegacy
     /**
      *  Method for checkout second step
      */
-    function checkoutnext()
+    public function checkoutnext()
     {
         global $mainframe;
         $session       = & JFactory::getSession();
@@ -143,7 +143,7 @@ class checkoutController extends JControllerLegacy
         }
     }
 
-    function updateGLSLocation()
+    public function updateGLSLocation()
     {
         $get = JRequest::get('get');
         JPluginHelper::importPlugin('rs_labels_GLS');
@@ -164,7 +164,7 @@ class checkoutController extends JControllerLegacy
         exit;
     }
 
-    function chkvalidation($users_info_id)
+    public function chkvalidation($users_info_id)
     {
 
         $model             = $this->getModel('checkout');
@@ -330,9 +330,9 @@ class checkoutController extends JControllerLegacy
     }
 
     /*
-      *  Checkout final step function
+      *  Checkout final step public function
       */
-    function checkoutfinal()
+    public function checkoutfinal()
     {
         global $mainframe;
 
@@ -468,7 +468,7 @@ class checkoutController extends JControllerLegacy
         }
     }
 
-    function setcreditcardInfo()
+    public function setcreditcardInfo()
     {
         $model             = $this->getModel('checkout');
         $session           =& JFactory::getSession();
@@ -497,7 +497,7 @@ class checkoutController extends JControllerLegacy
         return $errormsg;
     }
 
-    function oneStepCheckoutProcess()
+    public function oneStepCheckoutProcess()
     {
         $producthelper   = new producthelper();
         $redTemplate     = new Redtemplate();
@@ -579,7 +579,7 @@ class checkoutController extends JControllerLegacy
         die();
     }
 
-    function displaycreditcard()
+    public function displaycreditcard()
     {
         $carthelper = new rsCarthelper();
         $get        = JRequest::get('get');
@@ -595,7 +595,7 @@ class checkoutController extends JControllerLegacy
         die();
     }
 
-    function captcha()
+    public function captcha()
     {
 
         require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');

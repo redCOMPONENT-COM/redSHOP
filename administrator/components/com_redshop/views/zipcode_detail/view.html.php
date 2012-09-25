@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class zipcode_detailVIEWzipcode_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $Redconfiguration = new Redconfiguration();
         $uri              = JFactory::getURI();

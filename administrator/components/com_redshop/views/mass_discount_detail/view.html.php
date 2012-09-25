@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class mass_discount_detailVIEWmass_discount_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT_DETAIL'), 'redshop_discountmanagmenet48');
 

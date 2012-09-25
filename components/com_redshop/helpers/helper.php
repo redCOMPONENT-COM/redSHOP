@@ -26,7 +26,7 @@ class redhelper
 
     public $_isredCRM = NULL;
 
-    function __construct()
+    public function __construct()
     {
         global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
@@ -36,7 +36,7 @@ class redhelper
     /*
       * add item to cart from db ...
       */
-    function dbtocart()
+    public function dbtocart()
     {
         require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
         $session = JFactory::getSession();
@@ -52,7 +52,7 @@ class redhelper
     /*
     * Delete shipping rate when shipping method is not available
     */
-    function removeShippingRate()
+    public function removeShippingRate()
     {
 
         $query = "SELECT DISTINCT(shipping_class)  FROM " . $this->_table_prefix . "shipping_rate ";
@@ -78,7 +78,7 @@ class redhelper
         }
     }
 
-    function getPlugins($folder = 'redshop')
+    public function getPlugins($folder = 'redshop')
     {
         $query = "SELECT * FROM #__extensions " . "WHERE  enabled = '1' " . "AND LOWER(`folder`) = '" . strtolower($folder) . "' " . "ORDER BY ordering ASC ";
         $this->_db->setQuery($query);
@@ -86,7 +86,7 @@ class redhelper
         return $data;
     }
 
-    function getallPlugins($folder = 'redshop')
+    public function getallPlugins($folder = 'redshop')
     {
         $query = "SELECT * FROM #__extensions " . "WHERE LOWER(`folder`) = '" . strtolower($folder) . "' " . "ORDER BY ordering ASC ";
         $this->_db->setQuery($query);
@@ -94,7 +94,7 @@ class redhelper
         return $data;
     }
 
-    function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+    public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
     {
         $res   = false;
         $query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` " . "WHERE `order_id` = '" . $this->_db->getEscaped($order_id) . "' " . "AND order_payment_trans_id = '" . $this->_db->getEscaped($tid) . "' ";
@@ -107,7 +107,7 @@ class redhelper
         return $res;
     }
 
-    function getItemid($product_id = '', $cat_id = 0)
+    public function getItemid($product_id = '', $cat_id = 0)
     {
         $producthelper = new producthelper();
         $catDetailmenu = false;
@@ -160,7 +160,7 @@ class redhelper
         return $Itemid;
     }
 
-    function getCategoryItemid($category_id = 0)
+    public function getCategoryItemid($category_id = 0)
     {
         if ($category_id)
         {
@@ -178,7 +178,7 @@ class redhelper
         return $Itemid;
     }
 
-    function convertLanguageString($arr)
+    public function convertLanguageString($arr)
     {
         for ($i = 0; $i < count($arr); $i++)
         {
@@ -218,7 +218,7 @@ class redhelper
      * shopper Group portal info
      *
      */
-    function getShopperGroupPortal()
+    public function getShopperGroupPortal()
     {
         $user =& JFactory::getUser();
 
@@ -238,7 +238,7 @@ class redhelper
     /**
      * shopper Group category ACL
      */
-    function getShopperGroupCategory($cid = 0)
+    public function getShopperGroupCategory($cid = 0)
     {
         $user = JFactory::getUser();
 
@@ -255,7 +255,7 @@ class redhelper
         return $shoppercatdata;
     }
 
-    function getShopperGroupProductCategory($pid = 0)
+    public function getShopperGroupProductCategory($pid = 0)
     {
         $user = JFactory::getUser();
 
@@ -276,7 +276,7 @@ class redhelper
     }
 
     // 	order by list
-    function getOrderByList()
+    public function getOrderByList()
     {
         $order_data           = array();
         $order_data[0]->value = "p.product_name ASC";
@@ -294,7 +294,7 @@ class redhelper
         return $order_data;
     }
 
-    function getManufacturerOrderByList()
+    public function getManufacturerOrderByList()
     {
         $order_data           = array();
         $order_data[0]->value = "mn.manufacturer_name ASC";
@@ -306,7 +306,7 @@ class redhelper
         return $order_data;
     }
 
-    function getRelatedOrderByList()
+    public function getRelatedOrderByList()
     {
         $order_data           = array();
         $order_data[0]->value = "p.product_name ASC";
@@ -333,7 +333,7 @@ class redhelper
         return $order_data;
     }
 
-    function getAccessoryOrderByList()
+    public function getAccessoryOrderByList()
     {
         $order_data           = array();
         $order_data[0]->value = "child_product_id ASC";
@@ -357,7 +357,7 @@ class redhelper
 
     //  function to get preorder option list
 
-    function getPreOrderByList()
+    public function getPreOrderByList()
     {
         //$preorder_data = array();
         $preorder_data           = array_fill(0, 3, new stdClass);
@@ -373,7 +373,7 @@ class redhelper
 
     //  function to get child product option list
 
-    function getChildProductOption()
+    public function getChildProductOption()
     {
         $childproduct_data           = array();
         $childproduct_data[0]->value = "product_name";
@@ -386,7 +386,7 @@ class redhelper
 
     //  function to get state abbrivation option list
 
-    function getStateAbbrivationByList()
+    public function getStateAbbrivationByList()
     {
         $state_data           = array();
         $state_data[0]        = new stdClass;
@@ -400,7 +400,7 @@ class redhelper
     }
 
     // get checkout Itemid
-    function getCheckoutItemid()
+    public function getCheckoutItemid()
     {
         $userhelper         = new rsUserhelper();
         $Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
@@ -417,7 +417,7 @@ class redhelper
     }
 
     // get cart Itemid
-    function getCartItemid($Itemid)
+    public function getCartItemid($Itemid)
     {
         $userhelper         = new rsUserhelper();
         $Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
@@ -437,7 +437,7 @@ class redhelper
      * Check That reddesign is installed or not
      */
 
-    function CheckIfRedDesign()
+    public function CheckIfRedDesign()
     {
         $query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
         $this->_db->setQuery($query);
@@ -447,7 +447,7 @@ class redhelper
     /*
       *  Get redDESIGN information from redDESIGN order table
       */
-    function getRedDesignOrderInfo($order_item_id)
+    public function getRedDesignOrderInfo($order_item_id)
     {
         if ($this->CheckIfRedDesign())
         {
@@ -461,7 +461,7 @@ class redhelper
      * Check That reddesigh is assigned to product or not & only redirect if user belongs to that shopper.
      */
 
-    function CheckIfRedProduct($product_id)
+    public function CheckIfRedProduct($product_id)
     {
         $userhelper = new rsUserhelper();
 
@@ -480,28 +480,28 @@ class redhelper
         return false;
     }
 
-    function getDesignType($id)
+    public function getDesignType($id)
     {
         $query = "SELECT * FROM #__reddesign_designtype " . "WHERE designtype_id = " . $id;
         $this->_db->setQuery($query);
         return $this->_db->loadObject();
     }
 
-    function getDesignTypeTemplate($tempid)
+    public function getDesignTypeTemplate($tempid)
     {
         $query = "SELECT template_desc FROM #__reddesign_template " . "WHERE template_id = " . $tempid;
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getImagePath($image_id)
+    public function getImagePath($image_id)
     {
         $query = "SELECT image_name FROM #__reddesign_image " . "WHERE image_id = " . $image_id;
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getselectedAdminlist()
+    public function getselectedAdminlist()
     {
         $Query = "SELECT u.id,u.name,u.email FROM #__users AS u,#__reddesign_config AS c WHERE find_in_set(u.id, c.send_user_mail )";
         $this->_db->setQuery($Query);
@@ -518,7 +518,7 @@ class redhelper
       * $filename = image name
      */
 
-    function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
+    public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
     {
         $url    = JURI::root();
         $option = 'com_redshop';
@@ -651,7 +651,7 @@ class redhelper
         }
     }
 
-    function clickatellSMS($order_id)
+    public function clickatellSMS($order_id)
     {
         if (CLICKATELL_ENABLE <= 0)
         {
@@ -711,7 +711,7 @@ class redhelper
         }
     }
 
-    function sendmessage($text, $to)
+    public function sendmessage($text, $to)
     {
         $user     = CLICKATELL_USERNAME; //	clickatell_username
         $password = CLICKATELL_PASSWORD; //  clickatell_password
@@ -745,7 +745,7 @@ class redhelper
         }
     }
 
-    function replaceMessage($message, $orderData, $paymentName)
+    public function replaceMessage($message, $orderData, $paymentName)
     {
         $shippinghelper  = new shipping();
         $shipping_method = '';
@@ -799,7 +799,7 @@ class redhelper
             return $users;
         }
     */
-    function getsslLink($link, $applySSL)
+    public function getsslLink($link, $applySSL)
     {
         $uri =& JURI::getInstance($link);
         if ($applySSL)
@@ -815,7 +815,7 @@ class redhelper
         return $link;
     }
 
-    function sslLink($link, $applySSL = 1)
+    public function sslLink($link, $applySSL = 1)
     {
         if (!SSL_ENABLE_IN_BACKEND || $applySSL == 0)
         {
@@ -830,7 +830,7 @@ class redhelper
         return $link;
     }
 
-    function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)
+    public function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)
     {
         $and = '';
         if ($accountgroup_id != 0)
@@ -847,7 +847,7 @@ class redhelper
         return $list;
     }
 
-    function isredProductfinder()
+    public function isredProductfinder()
     {
         $user =& JFactory::getUser();
         // get redshop from joomla component table
@@ -875,7 +875,7 @@ class redhelper
      * @return   boolean
      * @since    1.0
      */
-    function isredCRM()
+    public function isredCRM()
     {
         $session =& JFactory::getSession();
         // get redshop from joomla component table

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class manufacturerController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
@@ -22,7 +22,7 @@ class manufacturerController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
 

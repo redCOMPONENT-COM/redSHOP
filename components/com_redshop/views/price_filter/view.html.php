@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 class price_filterViewprice_filter extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $prdlist = $this->get('Data');
         $this->assignRef('prdlist', $prdlist);

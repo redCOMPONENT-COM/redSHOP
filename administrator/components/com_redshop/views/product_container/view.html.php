@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class product_containerViewproduct_container extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 
