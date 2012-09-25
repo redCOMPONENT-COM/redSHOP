@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class shopper_groupController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class shopper_groupController extends RedshopCoreController
 {
     public function cancel()
     {

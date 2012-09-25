@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class accountgroup_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class accountgroup_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {
@@ -19,9 +21,13 @@ class accountgroup_detailController extends JControllerLegacy
 
     public function edit()
     {
-        JRequest::setVar('view', 'accountgroup_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        //JRequest::setVar('view', 'accountgroup_detail');
+        $this->input->set('view', 'accountgroup_detail');
+        //JRequest::setVar('layout', 'default');
+        $this->input->set('layout', 'default');
+        //JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('hidemainmenu', 1);
+
         parent::display();
     }
 
@@ -32,12 +38,17 @@ class accountgroup_detailController extends JControllerLegacy
 
     public function save($apply = 0)
     {
-        $post                     = JRequest::get('post');
-        $option                   = JRequest::getVar('option');
-        $cid                      = JRequest::getVar('cid', array(0), 'post', 'array');
+        //$post                     = JRequest::get('post');
+        $post = $this->input->get('post');
+        //$option                   = JRequest::getVar('option');
+        $option = $this->input->get('option');
+        //$cid                      = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->getArray('cid', array(0));
+
         $post ['accountgroup_id'] = $cid [0];
         $model                    = $this->getModel('accountgroup_detail');
         $row                      = $model->store($post);
+
         if ($row)
         {
             $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED');
@@ -46,6 +57,7 @@ class accountgroup_detailController extends JControllerLegacy
         {
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL');
         }
+
         if ($apply == 1)
         {
             $this->setRedirect('index.php?option=' . $option . '&view=accountgroup_detail&task=edit&cid[]=' . $row->accountgroup_id, $msg);
@@ -58,33 +70,43 @@ class accountgroup_detailController extends JControllerLegacy
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
+        //$option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $msg    = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
     }
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        //$option = JRequest::getVar('option');
+        $option = $this->input->get('option');
+
+        //$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->getArray('cid', array(0));
+
         if (!is_array($cid) || count($cid) < 1)
         {
             JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
+
         $model = $this->getModel('accountgroup_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
     }
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
+        //$option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        //$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->getArray('cid', array(0));
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -92,27 +114,35 @@ class accountgroup_detailController extends JControllerLegacy
         }
 
         $model = $this->getModel('accountgroup_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        //$option = JRequest::getVar('option');
+        $option = $this->input->get('option');
+
+        //$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->getArray('cid', array(0));
+
         if (!is_array($cid) || count($cid) < 1)
         {
             JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
         $model = $this->getModel('accountgroup_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
     }

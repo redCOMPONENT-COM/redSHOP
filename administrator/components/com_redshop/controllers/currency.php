@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class currencyController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class currencyController extends RedshopCoreController
 {
 }
