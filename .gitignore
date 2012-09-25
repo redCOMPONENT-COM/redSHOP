@@ -82,6 +82,7 @@ components/com_redshop/views/registration/tmpl/private_billing_template/*
 components/com_redshop/views/registration/tmpl/shipping_template/*
 components/com_redshop/views/wishlist/tmpl/wishlist_mail_template/*
 components/com_redshop/views/wishlist/tmpl/wishlist_template/*
+administrator/components/com_redshop/helpers/wizard/redshop.cfg.bkp.php
 
 # Eclipse
 *.pydevproject
