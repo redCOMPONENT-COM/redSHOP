@@ -1,304 +1,277 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-
-jimport( 'joomla.application.component.controller' );
-
-class productController extends JController
+class productController extends JControllerLegacy
 {
-	/*public function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}*/
-
-	function cancel()
-	{
-		$this->setRedirect( 'index.php' );
-	}
-
-	/*function display()
+    function cancel()
     {
-		parent::display();
-    }*/
+        $this->setRedirect('index.php');
+    }
 
-	/*
-	 * select A Product Element
-	 */
-	function element(){
+    /*
+      * select A Product Element
+      */
+    function element()
+    {
 
-		JRequest::setVar ( 'layout', 'element' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-		parent::display ();
-	}
+        JRequest::setVar('layout', 'element');
+        JRequest::setVar('hidemainmenu', 1);
+        parent::display();
+    }
 
-	function ins_product(){
-		 JRequest::setVar ( 'layout', 'ins_product' );
-		 JRequest::setVar ( 'hidemainmenu', 1 );
-		 parent::display ();
-	}
-	function listing(){
+    function ins_product()
+    {
+        JRequest::setVar('layout', 'ins_product');
+        JRequest::setVar('hidemainmenu', 1);
+        parent::display();
+    }
 
+    function listing()
+    {
+        JRequest::setVar('layout', 'listing');
+        parent::display();
+    }
 
-		 JRequest::setVar ( 'layout', 'listing' );
+    function importeconomic()
+    {
+        #Add product to economic
+        $cnt      = JRequest::getInt('cnt', 0);
+        $totalprd = 0;
+        $msg      = '';
+        if (ECONOMIC_INTEGRATION == 1)
+        {
+            $economic = new economic();
+            $db       = JFactory::getDBO();
+            $incNo    = $cnt;
+            $query    = 'SELECT p.* FROM #__redshop_product AS p ' . 'LIMIT ' . $cnt . ', 10 ';
+            $db->setQuery($query);
+            $prd         = $db->loadObjectlist();
+            $totalprd    = count($prd);
+            $responcemsg = '';
+            for ($i = 0; $i < count($prd); $i++)
+            {
+                $incNo++;
+                $ecoProductNumber = $economic->createProductInEconomic($prd[$i]);
+                $responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
+                if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
+                {
+                    $responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC_SUCCESS') . "</span>";
+                }
+                else
+                {
+                    $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
+                    if (JError::isError(JError::getError()))
+                    {
+                        $error  = JError::getError();
+                        $errmsg = $error->message;
+                    }
+                    $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
+                }
+                $responcemsg .= "</div>";
+            }
+            if ($totalprd > 0)
+            {
+                $msg = $responcemsg;
+            }
+            else
+            {
+                $msg = JText::_("COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_IS_COMPLETED");
+            }
+        }
+        echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
+        die();
+    }
 
-		  parent::display ();
-	}
+    function importatteco()
+    {
+        #Add product attribute to economic
+        $cnt      = JRequest::getInt('cnt', 0);
+        $totalprd = 0;
+        $msg      = '';
+        if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
+        {
+            $economic = new economic();
+            $db       = JFactory::getDBO();
+            $incNo    = $cnt;
+            $query    = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id " . "FROM #__redshop_product_attribute_property AS ap " . "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id " . "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id " . "WHERE p.published=1 " . "AND p.product_id!='' " . "AND ap.property_number!='' " . "LIMIT " . $cnt . ", 10 ";
+            $db->setQuery($query);
+            $list        = $db->loadObjectlist();
+            $totalprd    = count($list);
+            $responcemsg = '';
+            for ($i = 0; $i < count($list); $i++)
+            {
+                $incNo++;
+                $prdrow->product_id      = $list[$i]->product_id;
+                $prdrow->accountgroup_id = $list[$i]->accountgroup_id;
+                $ecoProductNumber        = $economic->createPropertyInEconomic($prdrow, $list[$i]);
+                $responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PROPERTY_NUMBER') . " " . $list[$i]->property_number . " -> ";
+                if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
+                {
+                    $responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
+                }
+                else
+                {
+                    $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
+                    if (JError::isError(JError::getError()))
+                    {
+                        $error  = JError::getError();
+                        $errmsg = $error->message;
+                    }
+                    $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
+                }
+                $responcemsg .= "</div>";
+            }
 
-	function importeconomic()
-	{
-		#Add product to economic
-		$cnt 	= JRequest::getInt( 'cnt',0 );
-		$totalprd = 0;
-		$msg = '';
-		if(ECONOMIC_INTEGRATION == 1)
-		{
-			$economic = new economic();
-			$db = JFactory::getDBO();
-			$incNo = $cnt;
-			$query = 'SELECT p.* FROM #__redshop_product AS p '
-					.'LIMIT '.$cnt.', 10 ';
-			$db->setQuery($query);
-			$prd = $db->loadObjectlist();
-			$totalprd = count($prd);
-			$responcemsg = '';
-			for($i=0;$i<count($prd);$i++)
-			{
-				$incNo++;
-				$ecoProductNumber = $economic->createProductInEconomic($prd[$i]);
-				$responcemsg .= "<div>".$incNo.": ".JText::_('COM_REDSHOP_PRODUCT_NUMBER')." ".$prd[$i]->product_number." -> ";
-				if(count($ecoProductNumber)>0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
-				{
-					$responcemsg .= "<span style='color: #00ff00'>".JText::_('COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC_SUCCESS' )."</span>";
-				}
-				else
-				{
-					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC' );
-					if(JError::isError(JError::getError()))
-					{
-						$error = JError::getError();
-						$errmsg = $error->message;
-					}
-					$responcemsg .= "<span style='color: #ff0000'>".$errmsg."</span>";
-				}
-				$responcemsg .= "</div>";
-			}
-			if($totalprd>0)
-			{
-				$msg = $responcemsg;
-			}
-			else
-			{
-				$msg = JText::_("COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_IS_COMPLETED");
-			}
-		}
-		echo "<div id='sentresponse'>".$totalprd."`_`".$msg."</div>";
-		die();
-	}
+            $query = "SELECT sp.*, ap.property_id, ap.property_name, p.product_id, p.accountgroup_id  FROM #__redshop_product_subattribute_color AS sp " . "LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id " . "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id " . "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id " . "WHERE p.published=1 " . "AND p.product_id!='' " . "AND sp.subattribute_color_number!='' " . "LIMIT " . $cnt . ", 10 ";
+            $db->setQuery($query);
+            $list     = $db->loadObjectlist();
+            $totalprd = $totalprd + count($list);
+            for ($i = 0; $i < count($list); $i++)
+            {
+                $incNo++;
+                $prdrow->product_id      = $list[$i]->product_id;
+                $prdrow->accountgroup_id = $list[$i]->accountgroup_id;
+                $ecoProductNumber        = $economic->createSubpropertyInEconomic($prdrow, $list[$i]);
+                $responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " " . $list[$i]->subattribute_color_number . " -> ";
+                if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
+                {
+                    $responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
+                }
+                else
+                {
+                    $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
+                    if (JError::isError(JError::getError()))
+                    {
+                        $error  = JError::getError();
+                        $errmsg = $error->message;
+                    }
+                    $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
+                }
+                $responcemsg .= "</div>";
+            }
 
-	function importatteco()
-	{
-		#Add product attribute to economic
-		$cnt 	= JRequest::getInt( 'cnt',0 );
-		$totalprd = 0;
-		$msg = '';
-		if(ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
-		{
-			$economic = new economic();
-			$db = JFactory::getDBO();
-			$incNo = $cnt;
-			$query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
-					."FROM #__redshop_product_attribute_property AS ap "
-					."LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-					."LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
-					."WHERE p.published=1 "
-					."AND p.product_id!='' "
-					."AND ap.property_number!='' "
-					."LIMIT ".$cnt.", 10 ";
-			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-			$totalprd = count($list);
-			$responcemsg = '';
-			for($i=0;$i<count($list);$i++)
-			{
-				$incNo++;
-				$prdrow->product_id = $list[$i]->product_id;
-				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createPropertyInEconomic($prdrow,$list[$i]);
-				$responcemsg .= "<div>".$incNo.": ".JText::_('COM_REDSHOP_PROPERTY_NUMBER')." ".$list[$i]->property_number." -> ";
-				if(count($ecoProductNumber)>0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
-				{
-					$responcemsg .= "<span style='color: #00ff00'>".JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS' )."</span>";
-				}
-				else
-				{
-					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC' );
-					if(JError::isError(JError::getError()))
-					{
-						$error = JError::getError();
-						$errmsg = $error->message;
-					}
-					$responcemsg .= "<span style='color: #ff0000'>".$errmsg."</span>";
-				}
-				$responcemsg .= "</div>";
-			}
+            if ($totalprd > 0)
+            {
+                $msg = $responcemsg;
+            }
+            else
+            {
+                $msg = JText::_("COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_IS_COMPLETED");
+            }
+        }
+        echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
+        die();
+    }
 
-			$query = "SELECT sp.*, ap.property_id, ap.property_name, p.product_id, p.accountgroup_id  FROM #__redshop_product_subattribute_color AS sp "
-					."LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
-					."LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-					."LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
-					."WHERE p.published=1 "
-					."AND p.product_id!='' "
-					."AND sp.subattribute_color_number!='' "
-					."LIMIT ".$cnt.", 10 ";
-			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-			$totalprd = $totalprd + count($list);
-			for($i=0;$i<count($list);$i++)
-			{
-				$incNo++;
-				$prdrow->product_id = $list[$i]->product_id;
-				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createSubpropertyInEconomic($prdrow,$list[$i]);
-				$responcemsg .= "<div>".$incNo.": ".JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER')." ".$list[$i]->subattribute_color_number." -> ";
-				if(count($ecoProductNumber)>0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
-				{
-					$responcemsg .= "<span style='color: #00ff00'>".JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS' )."</span>";
-				}
-				else
-				{
-					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC' );
-					if(JError::isError(JError::getError()))
-					{
-						$error = JError::getError();
-						$errmsg = $error->message;
-					}
-					$responcemsg .= "<span style='color: #ff0000'>".$errmsg."</span>";
-				}
-				$responcemsg .= "</div>";
-			}
+    function saveprice()
+    {
+        $db    = JFactory::getDBO();
+        $pid   = JRequest::getVar('pid', array(), 'post', 'array');
+        $price = JRequest::getVar('price', array(), 'post', 'array');
 
-			if($totalprd>0)
-			{
-				$msg = $responcemsg;
-			}
-			else
-			{
-				$msg = JText::_("COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_IS_COMPLETED");
-			}
-		}
-		echo "<div id='sentresponse'>".$totalprd."`_`".$msg."</div>";
-		die();
-	}
+        for ($i = 0; $i < count($pid); $i++)
+        {
+            $sql = "UPDATE #__redshop_product  SET product_price='" . $price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
+            $db->setQuery($sql);
+            $db->Query();
+        }
 
-	function saveprice(){
+        $this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
+    }
 
-	 $db = JFactory::getDBO();
-	 $pid = JRequest::getVar ( 'pid', array (), 'post', 'array' );
-	 $price = JRequest::getVar ( 'price', array (), 'post', 'array' );
+    function savediscountprice()
+    {
+        $db             = JFactory::getDBO();
+        $pid            = JRequest::getVar('pid', array(), 'post', 'array');
+        $discount_price = JRequest::getVar('discount_price', array(), 'post', 'array');
 
+        for ($i = 0; $i < count($pid); $i++)
+        {
+            $sql = "UPDATE #__redshop_product  SET discount_price='" . $discount_price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
+            $db->setQuery($sql);
+            $db->Query();
+        }
 
-	 for($i=0;$i<count($pid);$i++){
+        $this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
+    }
 
-	    $sql = "UPDATE #__redshop_product  SET product_price='".$price[$i]."' WHERE product_id='".$pid[$i]."'  ";
+    function template()
+    {
+        $template_id = JRequest::getVar('template_id', '');
+        $product_id  = JRequest::getVar('product_id', '');
+        $section     = JRequest::getVar('section', '');
+        $model       = $this->getModel('product');
 
-	 	$db->setQuery($sql);
-	 	$db->Query();
-	 }
+        $data_product = $model->product_template($template_id, $product_id, $section);
 
-	 $this->setRedirect( 'index.php?option=com_redshop&view=product&task=listing' );
+        if (is_array($data_product))
+        {
+            for ($i = 0; $i < count($data_product); $i++)
+            {
+                echo $data_product[$i];
+            }
+        }
+        else
+        {
+            echo $data_product;
+        }
+        exit;
+    }
 
-	}
-	function savediscountprice(){
+    function assignTemplate()
+    {
+        $post = JRequest::get('post');
 
-	 $db = JFactory::getDBO();
-	 $pid = JRequest::getVar ( 'pid', array (), 'post', 'array' );
-	 $discount_price = JRequest::getVar ( 'discount_price', array (), 'post', 'array' );
+        $model = $this->getModel('product');
 
+        if ($model->assignTemplate($post))
+        {
+            $msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
+        }
+        $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+    }
 
-	 for($i=0;$i<count($pid);$i++){
+    function gbasefeed()
+    {
+        $post  = JRequest::get('post');
+        $model = $this->getModel('product');
 
-	    $sql = "UPDATE #__redshop_product  SET discount_price='".$discount_price[$i]."' WHERE product_id='".$pid[$i]."'  ";
+        if ($model->gbasefeed($post))
+        {
+            $msg = JText::_('COM_REDSHOP_GBASE_XML_IS_GENERATED_SUCCESSFULLY');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_IN_GENERATING_GBASE_XML');
+        }
+        $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+    }
 
-	 	$db->setQuery($sql);
-	 	$db->Query();
-	 }
+    function saveorder()
+    {
+        $option = JRequest::getVar('option');
 
-	 $this->setRedirect( 'index.php?option=com_redshop&view=product&task=listing' );
+        $cid   = JRequest::getVar('cid', array(), 'post', 'array');
+        $order = JRequest::getVar('order', array(), 'post', 'array');
+        JArrayHelper::toInteger($cid);
+        JArrayHelper::toInteger($order);
 
-	}
-	function template(){
+        $model = $this->getModel('product');
+        $model->saveorder($cid, $order);
 
-	    $template_id = JRequest::getVar( 'template_id', '');
-	    $product_id  = JRequest::getVar( 'product_id', '');
-	    $section  = JRequest::getVar( 'section', '');
-		$model = $this->getModel ( 'product' );
-
-		$data_product = $model->product_template($template_id,$product_id,$section);
-		if(is_array($data_product))
-		{
-			for($i=0;$i<count($data_product);$i++)
-			{
-				echo $data_product[$i];
-			}
-		}else{
-			echo $data_product;
-		}
-		exit;
-	}
-	function assignTemplate(){
-
-		$post = JRequest::get('post');
-
-		$model = $this->getModel('product');
-
-		if($model->assignTemplate($post)){
-			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
-		}else {
-			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
-		}
-		$this->setRedirect( 'index.php?option=com_redshop&view=product',$msg );
-	}
-	function gbasefeed(){
-		global $mainframe;
-		$post = JRequest::get('post');
-		$model = $this->getModel('product');
-
-		if($model->gbasefeed($post)){
-			$msg = JText::_('COM_REDSHOP_GBASE_XML_IS_GENERATED_SUCCESSFULLY');
-		}else {
-			$msg = JText::_('COM_REDSHOP_ERROR_IN_GENERATING_GBASE_XML');
-		}
-		$this->setRedirect( 'index.php?option=com_redshop&view=product',$msg );
-	}
-	function saveorder()
-	{
-		$option = JRequest::getVar('option');
-
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
-
-		$model = $this->getModel('product');
-		$model->saveorder($cid, $order);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=product',$msg );
-
-	}
+        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+    }
 }

@@ -1,135 +1,130 @@
 <?php
 /**
- * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class catalog_detailController extends JController
+class catalog_detailController extends JControllerLegacy
 {
-	function __construct($default = array())
+    function __construct($default = array())
     {
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
-	function edit()
-    {
-
-		JRequest::setVar ( 'view', 'catalog_detail' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-		parent::display ();
-
-	}
-
-	function save()
+    function edit()
     {
 
-		$post = JRequest::get ( 'post' );
-        $option = JRequest::getVar ('option');
+        JRequest::setVar('view', 'catalog_detail');
+        JRequest::setVar('hidemainmenu', 1);
+        parent::display();
+    }
 
-		$cid = JRequest::getVar ('cid', array (0), 'post', 'array');
+    function save()
+    {
 
-		$post ['catalog_id'] = $cid [0];
-		$link = 'index.php?option=' . $option . '&view=catalog';
-		$model = $this->getModel ('catalog_detail');
+        $post   = JRequest::get('post');
+        $option = JRequest::getVar('option');
 
-		if ($model->store ($post))
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+        $post ['catalog_id'] = $cid [0];
+        $link                = 'index.php?option=' . $option . '&view=catalog';
+        $model               = $this->getModel('catalog_detail');
+
+        if ($model->store($post))
         {
 
-			$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_SAVED');
+            $msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_SAVED');
+        }
+        else
+        {
 
-		} else {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_CATALOG_DETAIL');
+        }
 
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_CATALOG_DETAIL');
-		}
-
-		$this->setRedirect ($link, $msg);
-	}
-
-	function remove()
-    {
-        $option = JRequest::getVar ('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
-
-		$model = $this->getModel ( 'catalog_detail' );
-
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_DELETED_SUCCESSFULLY' );
-
-		$this->setRedirect ( 'index.php?option='.$option.'&view=catalog',$msg );
+        $this->setRedirect($link, $msg);
     }
 
-	function publish()
+    function remove()
     {
-        $option = JRequest::getVar ('option');
+        $option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		$model = $this->getModel ( 'catalog_detail' );
+        $model = $this->getModel('catalog_detail');
 
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
+        if (!$model->delete($cid))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_PUBLISHED_SUCCESFULLY' );
+        $msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect ( 'index.php?option='.$option.'&view=catalog',$msg );
+        $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
     }
 
-	function unpublish()
+    function publish()
     {
-        $option = JRequest::getVar ('option');
-		$layout = JRequest::getVar ('layout');
+        $option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+        }
 
-		$model = $this->getModel ( 'catalog_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_UNPUBLISHED_SUCCESFULLY' );
+        $model = $this->getModel('catalog_detail');
 
+        if (!$model->publish($cid, 1))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$this->setRedirect ( 'index.php?option='.$option.'&view=catalog',$msg );
+        $msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_PUBLISHED_SUCCESFULLY');
+
+        $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
     }
 
-	function cancel()
+    function unpublish()
     {
-        $option = JRequest::getVar ('option');
-		$layout = JRequest::getVar ('layout');
-		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED' );
+        $option = JRequest::getVar('option');
+        $layout = JRequest::getVar('layout');
 
-		$this->setRedirect ( 'index.php?option='.$option.'&view=catalog',$msg );
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+        }
+
+        $model = $this->getModel('catalog_detail');
+        if (!$model->publish($cid, 0))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_UNPUBLISHED_SUCCESFULLY');
+
+        $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
+    }
+
+    function cancel()
+    {
+        $option = JRequest::getVar('option');
+        $layout = JRequest::getVar('layout');
+        $msg    = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
+
+        $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
     }
 }

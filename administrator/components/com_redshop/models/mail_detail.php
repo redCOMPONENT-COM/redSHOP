@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -13,155 +13,160 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'thumbnail.php' );
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class mail_detailModelmail_detail extends JModel
+class mail_detailModelmail_detail extends JModelLegacy
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+    var $_id = null;
 
-	function __construct()
-	{
-		parent::__construct();
+    var $_data = null;
 
-		$this->_table_prefix = '#__'.TABLE_PREFIX.'_';
+    var $_table_prefix = null;
 
-		$array = JRequest::getVar('cid',  0, '', 'array');
+    function __construct()
+    {
+        parent::__construct();
 
-		$this->setId((int)$array[0]);
+        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-	}
-	function setId($id)
-	{
-		$this->_id		= $id;
-		$this->_data	= null;
-	}
+        $array = JRequest::getVar('cid', 0, '', 'array');
 
-	function &getData()
-	{
-		if ($this->_loadData())
-		{
+        $this->setId((int)$array[0]);
+    }
 
-		}else  $this->_initData();
+    function setId($id)
+    {
+        $this->_id   = $id;
+        $this->_data = null;
+    }
 
-	   	return $this->_data;
-	}
+    function &getData()
+    {
+        if ($this->_loadData())
+        {
+        }
+        else
+        {
+            $this->_initData();
+        }
 
-	function _loadData()
-	{
-		if (empty($this->_data))
-		{
-			$query = 'SELECT * FROM '.$this->_table_prefix.'mail WHERE mail_id = '. $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
+        return $this->_data;
+    }
 
+    function _loadData()
+    {
+        if (empty($this->_data))
+        {
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'mail WHERE mail_id = ' . $this->_id;
+            $this->_db->setQuery($query);
+            $this->_data = $this->_db->loadObject();
+            return (boolean)$this->_data;
+        }
+        return true;
+    }
 
-	function _initData()
-	{
-		if (empty($this->_data))
-		{
-			$detail = new stdClass();
-			$detail->mail_id			= 0;
-			$detail->mail_name			= null;
-			$detail->mail_subject		= null;
-			$detail->mail_section		= 0;
-			$detail->mail_order_status	= null;
-			$detail->mail_body			= null;
-			$detail->published			= 1;
-			$detail->mail_bcc			= null;
-			$this->_data		 		= $detail;
+    function _initData()
+    {
+        if (empty($this->_data))
+        {
+            $detail                    = new stdClass();
+            $detail->mail_id           = 0;
+            $detail->mail_name         = null;
+            $detail->mail_subject      = null;
+            $detail->mail_section      = 0;
+            $detail->mail_order_status = null;
+            $detail->mail_body         = null;
+            $detail->published         = 1;
+            $detail->mail_bcc          = null;
+            $this->_data               = $detail;
 
-			return (boolean) $this->_data;
-		}
+            return (boolean)$this->_data;
+        }
 
-		return true;
-	}
-  	function store($data)
-	{
-		$row =& $this->getTable();
+        return true;
+    }
 
-		if (!$row->bind($data)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+    function store($data)
+    {
+        $row = $this->getTable();
 
-		if (!$row->store()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+        if (!$row->bind($data))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-		return $row;
-	}
+        if (!$row->store())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-	function delete($cid = array())
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
+        return $row;
+    }
 
-			$query = 'DELETE FROM '.$this->_table_prefix.'mail WHERE mail_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
+    function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
 
-		return true;
-	}
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'mail WHERE mail_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
 
-	function publish($cid = array(), $publish = 1)
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
+        return true;
+    }
 
-			$query = 'UPDATE '.$this->_table_prefix.'mail'
-				. ' SET published = ' . intval( $publish )
-				. ' WHERE mail_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
+    function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
 
-		return true;
-	}
-	function mail_section()	{
+            $query = 'UPDATE ' . $this->_table_prefix . 'mail' . ' SET published = ' . intval($publish) . ' WHERE mail_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
 
-		$query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM '.$this->_table_prefix.'order_status  where published=1';
+        return true;
+    }
 
-		$this->_db->setQuery( $query );
+    function mail_section()
+    {
 
-		return $this->_db->loadObjectList();
-	}
-	function order_statusHtml($order_status){
+        $query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM ' . $this->_table_prefix . 'order_status  where published=1';
 
-		$select = array();
+        $this->_db->setQuery($query);
 
-		$select[]   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
+        return $this->_db->loadObjectList();
+    }
 
-		$merge = array_merge($select,$order_status);
+    function order_statusHtml($order_status)
+    {
 
-		return JHTML::_('select.genericlist',$merge,  'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text' );
+        $select = array();
 
+        $select[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
+        $merge = array_merge($select, $order_status);
 
-	}
-
-
+        return JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text');
+    }
 }
+
 ?>

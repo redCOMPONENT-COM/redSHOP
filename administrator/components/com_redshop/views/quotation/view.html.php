@@ -1,63 +1,53 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
 
-require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'quotation.php' );
-
-class quotationViewquotation extends JView
+class quotationViewquotation extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
+    function display($tpl = null)
+    {
+        global $mainframe, $context;
 
-		$quotationHelper = new quotationHelper();
+        $quotationHelper = new quotationHelper();
 
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_quotation') );
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_quotation'));
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT' ), 'redshop_quotation48' );
-   		JToolBarHelper::addNewX();
-   		JToolBarHelper::editListX();
-   		JToolBarHelper::deleteList();
+        JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
 
-		$uri = JFactory::getURI();
+        $uri = JFactory::getURI();
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order', 	  'quotation_cdate' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir', 'DESC' );
-		$filter_status	  = $mainframe->getUserStateFromRequest( $context.'filter_status',		'filter_status',	0 );
+        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');
+        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+        $filter_status    = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
 
-		$lists['order'] 		= $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
 
-		$quotation	= $this->get( 'Data');
-		$pagination = $this->get( 'Pagination' );
+        $quotation  = $this->get('Data');
+        $pagination = $this->get('Pagination');
 
-		$optionsection = $quotationHelper->getQuotationStatusList();
-		$lists['filter_status'] 	= JHTML::_('select.genericlist',$optionsection,  'filter_status', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text',  $filter_status );
+        $optionsection          = $quotationHelper->getQuotationStatusList();
+        $lists['filter_status'] = JHTML::_('select.genericlist', $optionsection, 'filter_status', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_status);
 
-	    $this->assignRef('lists',		$lists);
-	  	$this->assignRef('quotation',	$quotation);
-	    $this->assignRef('pagination',	$pagination);
-	    //$this->assignRef('request_url',	$uri->toString());
+        $this->assignRef('lists', $lists);
+        $this->assignRef('quotation', $quotation);
+        $this->assignRef('pagination', $pagination);
         $this->request_url = $uri->toString();
 
-    	parent::display($tpl);
-  }
+        parent::display($tpl);
+    }
 }
 
