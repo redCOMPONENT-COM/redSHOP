@@ -13,15 +13,15 @@ jimport('joomla.html.pagination');
 
 class manufacturersModelmanufacturers extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_productlimit = null;
+    public $_productlimit = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
     function __construct()
     {
@@ -200,7 +200,7 @@ class manufacturersModelmanufacturers extends JModelLegacy
         {
             $and = "AND c.category_id NOT IN (" . $tblobj->excluding_category_list . ") ";
         }
-        $query = "SELECT DISTINCT(c.category_id), c.category_name,c.category_short_description,c.category_description " . "FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id " . "WHERE p.published=1 " . "AND p.manufacturer_id='" . $mid . "' " . "AND p.expired=0 " . "AND p.product_parent_id=0 " . $and//			 	."GROUP BY p.product_id "
+        $query = "SELECT DISTINCT(c.category_id), c.category_name,c.category_short_description,c.category_description " . "FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id " . "WHERE p.published=1 " . "AND p.manufacturer_id='" . $mid . "' " . "AND p.expired=0 " . "AND p.product_parent_id=0 " . $and //			 	."GROUP BY p.product_id "
         ;
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();

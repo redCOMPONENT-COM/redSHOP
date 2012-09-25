@@ -16,16 +16,16 @@ require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS 
 
 class productModelproduct extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null; // product data
-    var $_table_prefix = null;
+    public $_product = null; // product data
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_catid = null;
+    public $_catid = null;
 
     function __construct()
     {

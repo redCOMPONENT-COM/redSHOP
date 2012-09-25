@@ -15,16 +15,16 @@ require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS 
 
 class wishlistModelwishlist extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_name = null;
+    public $_name = null;
 
-    var $_userid = null; // product data
-    var $_table_prefix = null;
+    public $_userid = null; // product data
+    public $_table_prefix = null;
 
-    var $_comment = null;
+    public $_comment = null;
 
-    var $_cdate = null;
+    public $_cdate = null;
 
     function __construct()
     {

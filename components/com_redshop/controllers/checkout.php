@@ -20,9 +20,9 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
  */
 class checkoutController extends JControllerLegacy
 {
-    var $_order_functions = null;
+    public $_order_functions = null;
 
-    var $_shippinghelper = null;
+    public $_shippinghelper = null;
 
     function __construct($default = array())
     {

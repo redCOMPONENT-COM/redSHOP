@@ -18,9 +18,9 @@ defined('_JEXEC') or die('Restricted access');
 
 class newsletterModelnewsletter extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_db = null;
+    public $_db = null;
 
     function __construct()
     {
