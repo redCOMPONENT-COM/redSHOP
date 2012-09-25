@@ -11,8 +11,9 @@ defined('_JEXEC') or die ('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class product_detailController extends JControllerLegacy
+class product_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {

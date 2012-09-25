@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class textlibraryController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class textlibraryController extends RedshopCoreController
 {
     public function cancel()
     {
