@@ -276,7 +276,7 @@ class redhelper
     }
 
     // 	order by list
-    public function getOrderByList()
+    public static function getOrderByList()
     {
         $order_data           = array();
         $order_data[0]->value = "p.product_name ASC";
