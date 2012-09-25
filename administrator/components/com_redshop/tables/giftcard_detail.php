@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablegiftcard_detail extends JTable
 {
     public $giftcard_id = null;

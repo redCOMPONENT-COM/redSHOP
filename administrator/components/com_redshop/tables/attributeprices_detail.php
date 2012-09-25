@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.model');
-
 class Tableattributeprices_detail extends JTable
 {
     public $price_id = 0;

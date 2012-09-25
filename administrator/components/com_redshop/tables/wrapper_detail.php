@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.model');
-
 class Tablewrapper_detail extends JTable
 {
     var $wrapper_id = 0;

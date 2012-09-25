@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableshipping_rate_detail extends JTable
 {
     public $shipping_rate_id = null;
