@@ -11,18 +11,18 @@ defined('_JEXEC') or die ('Restricted access');
 
 class giftcardModelgiftcard extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null; /// product data
-    var $_table_prefix = null;
+    public $_product = null; /// product data
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_limit = null;
+    public $_limit = null;
 
-    function __construct()
+    public function __construct()
     {
         global $mainframe;
         parent::__construct();
@@ -33,13 +33,13 @@ class giftcardModelgiftcard extends JModelLegacy
         $this->setId(( int )$Id);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         global $mainframe;
 
@@ -52,7 +52,7 @@ class giftcardModelgiftcard extends JModelLegacy
         return $query;
     }
 
-    function getData()
+    public function getData()
     {
         if (empty ($this->_data))
         {
@@ -62,7 +62,7 @@ class giftcardModelgiftcard extends JModelLegacy
         return $this->_data;
     }
 
-    function getGiftcardTemplate()
+    public function getGiftcardTemplate()
     {
         global $mainframe, $context;
 

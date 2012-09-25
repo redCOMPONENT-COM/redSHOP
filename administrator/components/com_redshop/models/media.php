@@ -9,23 +9,21 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'media.php');
 
 class mediaModelmedia extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -45,7 +43,7 @@ class mediaModelmedia extends JModelLegacy
         $this->setState('media_type', $media_type);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -55,7 +53,7 @@ class mediaModelmedia extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -65,7 +63,7 @@ class mediaModelmedia extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -75,7 +73,7 @@ class mediaModelmedia extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $where         = "";
         $media_section = $this->getState('media_section');
@@ -100,7 +98,7 @@ class mediaModelmedia extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -111,7 +109,7 @@ class mediaModelmedia extends JModelLegacy
     }
 
     // Media bank changes start
-    function getState($property = null, $default = null)
+    public function getState($property = null, $default = null)
     {
         static $set;
         if (!$set)
@@ -127,19 +125,19 @@ class mediaModelmedia extends JModelLegacy
         return parent::getState($property, $default);
     }
 
-    function getImages()
+    public function getImages()
     {
         $list = $this->getList();
         return $list['images'];
     }
 
-    function getFolders()
+    public function getFolders()
     {
         $list = $this->getList();
         return $list['folders'];
     }
 
-    function getDocuments()
+    public function getDocuments()
     {
         $list = $this->getList();
         return $list['docs'];
@@ -152,7 +150,7 @@ class mediaModelmedia extends JModelLegacy
      *
      * @since 1.5
      */
-    function getList()
+    public function getList()
     {
         static $list;
 
@@ -313,7 +311,7 @@ class mediaModelmedia extends JModelLegacy
         return $list;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable('media_download');
         if (!$row->bind($data))
@@ -329,13 +327,13 @@ class mediaModelmedia extends JModelLegacy
         return $row;
     }
 
-    function getAdditionalFiles($media_id)
+    public function getAdditionalFiles($media_id)
     {
         $query = "SELECT * FROM `" . $this->_table_prefix . "media_download` " . "WHERE `media_id`='" . $media_id . "' ";
         return $this->_getList($query);
     }
 
-    function deleteAddtionalFiles($fileId)
+    public function deleteAddtionalFiles($fileId)
     {
         $query = "SELECT name FROM `" . $this->_table_prefix . "media_download` " . "WHERE `id`='" . $fileId . "' ";
         $this->_db->setQuery($query);
@@ -355,7 +353,7 @@ class mediaModelmedia extends JModelLegacy
         return true;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
 
         $row        = $this->getTable('media_detail');

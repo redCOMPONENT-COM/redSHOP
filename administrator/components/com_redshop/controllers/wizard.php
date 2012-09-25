@@ -10,16 +10,17 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class wizardController extends JControllerLegacy
+class wizardController extends RedshopCoreController
 {
-    var $_temp_file = null;
+    public $_temp_file = null;
 
-    var $_temp_array = null;
+    public $_temp_array = null;
 
-    var $_temp_file_dist = null;
+    public $_temp_file_dist = null;
 
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
 
@@ -27,7 +28,7 @@ class wizardController extends JControllerLegacy
         $this->_temp_file_dist = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.dist.php';
     }
 
-    function isTmpFile()
+    public function isTmpFile()
     {
         if (file_exists($this->_temp_file))
         {
@@ -46,7 +47,7 @@ class wizardController extends JControllerLegacy
         return false;
     }
 
-    function isWritable()
+    public function isWritable()
     {
         if (!is_writable($this->_temp_file))
         {
@@ -57,7 +58,7 @@ class wizardController extends JControllerLegacy
         return true;
     }
 
-    function WriteTmpFile()
+    public function WriteTmpFile()
     {
         $html = "<?php \n";
 
@@ -85,14 +86,13 @@ class wizardController extends JControllerLegacy
      *
      * Copy temparory distinct file for enable config variable support
      */
-    function copyTempFile()
+    public function copyTempFile()
     {
-        jimport('joomla.filesystem.file');
 
         JFile::copy($this->_temp_file_dist, $this->_temp_file);
     }
 
-    function save()
+    public function save()
     {
         $post = JRequest::get('post');
 
@@ -163,7 +163,7 @@ class wizardController extends JControllerLegacy
         }
     }
 
-    function finish()
+    public function finish()
     {
         $Redconfiguration = new Redconfiguration();
 
@@ -207,7 +207,7 @@ class wizardController extends JControllerLegacy
         $this->setRedirect($link, $msg);
     }
 
-    function demoContentInsert()
+    public function demoContentInsert()
     {
         //$post = JRequest::get('post');
 

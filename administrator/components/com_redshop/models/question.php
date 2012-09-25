@@ -11,17 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 class questionModelquestion extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -42,7 +42,7 @@ class questionModelquestion extends JModelLegacy
         $this->setState('product_id', $product_id);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -52,7 +52,7 @@ class questionModelquestion extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -62,7 +62,7 @@ class questionModelquestion extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -73,14 +73,14 @@ class questionModelquestion extends JModelLegacy
         return $this->_pagination;
     }
 
-    function getProduct()
+    public function getProduct()
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product ";
         $list  = $this->_data = $this->_getList($query);
         return $list;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $where      = "";
         $filter     = $this->getState('filter');
@@ -99,7 +99,7 @@ class questionModelquestion extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -116,7 +116,7 @@ class questionModelquestion extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable('question_detail');
         $order     = JRequest::getVar('order', array(0), 'post', 'array');

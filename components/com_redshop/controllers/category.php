@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class categoryController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
     }
@@ -26,7 +26,7 @@ class categoryController extends JControllerLegacy
     /*
       *  Method to Export XML file
       */
-    function download()
+    public function download()
     {
         $option              = JRequest::getVar('option', 'com_redshop', 'request', 'string');
         $filename            = JRequest::getVar('file', '', 'request', 'string');
@@ -133,7 +133,7 @@ class categoryController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function downloadFile($fil, $p = null)
+    public function downloadFile($fil, $p = null)
     {
         // only show errors and remove warnings from corrupting file
         error_reporting(E_ERROR);
@@ -240,7 +240,7 @@ class categoryController extends JControllerLegacy
         return ((connection_status() == 0) and !connection_aborted());
     }
 
-    function autofillcityname()
+    public function autofillcityname()
     {
         $db = JFactory::getDBO();
         ob_clean();
@@ -251,7 +251,7 @@ class categoryController extends JControllerLegacy
         exit;
     }
 
-    function generateXMLExportFile()
+    public function generateXMLExportFile()
     {
         global $mainframe;
         $option       = JRequest::getVar('option', 'com_redshop', 'request', 'string');

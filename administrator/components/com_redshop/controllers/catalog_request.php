@@ -9,14 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class catalog_requestController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class catalog_requestController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function publish()
+    public function publish()
     {
 
         $option = JRequest::getVar('option');
@@ -37,7 +39,7 @@ class catalog_requestController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -58,7 +60,7 @@ class catalog_requestController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 

@@ -12,15 +12,17 @@ defined('_JEXEC') or die ('Restricted access');
 define('WARNSAME', "There is already a file called '%s'.");
 define('INSTALLEXT', 'Install %s %s');
 
-class payment_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class payment_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function install()
+    public function install()
     {
         $model = $this->getModel('payment_detail');
 
@@ -32,7 +34,7 @@ class payment_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'payment_detail');
         JRequest::setVar('layout', 'default');
@@ -40,7 +42,7 @@ class payment_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post = JRequest::get('post');
 
@@ -70,7 +72,7 @@ class payment_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=payment', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -92,7 +94,7 @@ class payment_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=payment');
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -112,7 +114,7 @@ class payment_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=payment');
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -132,7 +134,7 @@ class payment_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=payment');
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $this->setRedirect('index.php?option=' . $option . '&view=payment');
@@ -144,7 +146,7 @@ class payment_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderup()
+    public function orderup()
     {
         $option = JRequest::getVar('option');
 
@@ -161,7 +163,7 @@ class payment_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderdown()
+    public function orderdown()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('payment_detail');
@@ -177,7 +179,7 @@ class payment_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
 

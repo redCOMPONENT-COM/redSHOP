@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class xmlimport_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class xmlimport_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'xmlimport_detail');
         JRequest::setVar('layout', 'default');
@@ -25,12 +27,12 @@ class xmlimport_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function xmlimport()
+    public function xmlimport()
     {
         $this->save(1);
     }
 
-    function save($import = 0)
+    public function save($import = 0)
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -69,7 +71,7 @@ class xmlimport_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -88,14 +90,14 @@ class xmlimport_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $msg    = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
     }
 
-    function auto_syncpublish()
+    public function auto_syncpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -113,7 +115,7 @@ class xmlimport_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
     }
 
-    function auto_syncunpublish()
+    public function auto_syncunpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -137,7 +139,7 @@ class xmlimport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -160,7 +162,7 @@ class xmlimport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');

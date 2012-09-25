@@ -14,7 +14,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
 class addquotation_detailVIEWaddquotation_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $option          = JRequest::getVar('option');
         $extra_field     = new extra_field();

@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class newslettersubscr_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class newslettersubscr_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'newslettersubscr_detail');
         JRequest::setVar('layout', 'default');
@@ -37,12 +39,12 @@ class newslettersubscr_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post         = JRequest::get('post');
         $body         = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -81,7 +83,7 @@ class newslettersubscr_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -101,7 +103,7 @@ class newslettersubscr_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -121,7 +123,7 @@ class newslettersubscr_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -141,14 +143,14 @@ class newslettersubscr_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('newslettersubscr_detail');
 
@@ -174,7 +176,7 @@ class newslettersubscr_detailController extends JControllerLegacy
         exit;
     }
 
-    function export_acy_data()
+    public function export_acy_data()
     {
         ob_clean();
         $model          = $this->getModel('newslettersubscr_detail');

@@ -20,7 +20,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
  */
 class productController extends JControllerLegacy
 {
-    function displayProductaddprice()
+    public function displayProductaddprice()
     {
         ob_clean();
         $get  = JRequest::get('get');
@@ -74,7 +74,7 @@ class productController extends JControllerLegacy
         exit;
     }
 
-    function displaySubProperty()
+    public function displaySubProperty()
     {
         $propid        = $subpropid = array();
         $get           = JRequest::get('get');
@@ -105,7 +105,7 @@ class productController extends JControllerLegacy
         exit;
     }
 
-    function displayAdditionImage()
+    public function displayAdditionImage()
     {
         $url           = JURI::base();
         $get           = JRequest::get('get');
@@ -160,7 +160,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function addtowishlist()
+    public function addtowishlist()
     {
         ob_clean();
         global $mainframe;
@@ -339,7 +339,7 @@ class productController extends JControllerLegacy
      * @return void
      */
 
-    function addProductTags()
+    public function addProductTags()
     {
 
         global $mainframe;
@@ -435,7 +435,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return product compare list through ajax
      */
-    function addtocompare()
+    public function addtocompare()
     {
 
         ob_clean();
@@ -496,7 +496,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function removecompare()
+    public function removecompare()
     {
         $post = JRequest::get('REQUEST');
 
@@ -513,7 +513,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function downloadProduct()
+    public function downloadProduct()
     {
         $Itemid = JRequest::getVar('Itemid');
         $model  = $this->getModel('product');
@@ -559,7 +559,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function Download()
+    public function Download()
     {
         $post = JRequest::get('POST');
 
@@ -683,7 +683,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return file data
      */
-    function readfile_chunked($filename, $retbytes = true)
+    public function readfile_chunked($filename, $retbytes = true)
     {
 
         $chunksize = 10 * (1024 * 1024); // how many bytes per chunk
@@ -721,7 +721,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return filename on successfull file upload
      */
-    function ajaxupload()
+    public function ajaxupload()
     {
         $uploaddir  = JPATH_COMPONENT_SITE . DS . 'assets' . DS . 'document' . DS . 'product' . DS;
         $name       = JRequest::getVar('mname');
@@ -746,7 +746,7 @@ class productController extends JControllerLegacy
      * @access public
      * @return filename on successfull file download
      */
-    function downloadDocument()
+    public function downloadDocument()
     {
         $fname = JRequest::getVar('fname', '', 'request', 'string');
         $fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
@@ -833,7 +833,7 @@ class productController extends JControllerLegacy
         $this->setRedirect($link);
     }
 
-    function gotonavproduct()
+    public function gotonavproduct()
     {
 
         $producthelper = new producthelper();

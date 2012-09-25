@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class container_detailModelcontainer_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -28,13 +28,13 @@ class container_detailModelcontainer_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -47,7 +47,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -59,7 +59,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -81,7 +81,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return true;
     }
 
-    function cancel()
+    public function cancel()
     {
 
         $sql = "DELETE FROM  " . $this->_table_prefix . "container_product_xref   where container_id= 0";
@@ -89,7 +89,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         $this->_db->query();
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -169,7 +169,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return $row;
     }
 
-    function saveanddisplay($data)
+    public function saveanddisplay($data)
     {
 
         $container_id = $data['container_id'];
@@ -214,7 +214,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return $container_id;
     }
 
-    function deleteProduct($data)
+    public function deleteProduct($data)
     {
 
         $container_id = $data['container_id'];
@@ -225,7 +225,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         $this->_db->query();
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -250,7 +250,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -268,7 +268,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return true;
     }
 
-    function Container_Product_Data($container_id)
+    public function Container_Product_Data($container_id)
     {
 
         $query = "SELECT cp.product_id,cp.quantity,p.product_name,p.product_volume,cp.container_id FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "container_product_xref as cp  WHERE cp.container_id=$container_id and cp.product_id=p.product_id ";
@@ -277,7 +277,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return $this->_productdata;
     }
 
-    function Container_newProduct($conid)
+    public function Container_newProduct($conid)
     {
         $conid = implode(",", $conid);
         $query = "SELECT  op.order_item_id, op.product_id,p.product_name,p.product_volume,op.product_quantity as quantity,p.supplier_id FROM " . $this->_table_prefix . "product as p, " . $this->_table_prefix . "order_item as op WHERE   op.product_id = p.product_id  and op.order_item_id in ($conid)  ";
@@ -286,7 +286,7 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return $this->_productdata;
     }
 
-    function stockroom_Data($id)
+    public function stockroom_Data($id)
     {
         if ($id == 0)
         {
@@ -300,14 +300,14 @@ class container_detailModelcontainer_detail extends JModelLegacy
         return $this->_db->loadObjectList();
     }
 
-    function getmanufacturers()
+    public function getmanufacturers()
     {
         $query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getsupplier()
+    public function getsupplier()
     {
         $query = 'SELECT supplier_id as value,supplier_name as text FROM ' . $this->_table_prefix . 'supplier ';
         $this->_db->setQuery($query);

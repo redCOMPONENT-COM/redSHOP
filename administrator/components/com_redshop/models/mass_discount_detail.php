@@ -12,15 +12,15 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class mass_discount_detailModelmass_discount_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_shoppers = null;
+    public $_shoppers = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -31,13 +31,13 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -50,7 +50,7 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
 
         if (empty($this->_data))
@@ -65,7 +65,7 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -87,7 +87,7 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $producthelper = new producthelper();
 
@@ -337,7 +337,7 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $layout        = JRequest::getVar('layout');
         $producthelper = new producthelper();
@@ -383,7 +383,7 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         return true;
     }
 
-    function customImplode($productArr)
+    public function customImplode($productArr)
     {
         $pArr = array(0);
         for ($i = 0; $i < count($productArr); $i++)
@@ -393,7 +393,7 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         return implode(',', $pArr);
     }
 
-    function updateProduct($productId)
+    public function updateProduct($productId)
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" where product_id in (' . $productId . ')';
         $this->_db->setQuery($query);
@@ -405,21 +405,21 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         }
     }
 
-    function getmanufacturers()
+    public function getmanufacturers()
     {
         $query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function GetProductmanufacturer($id)
+    public function GetProductmanufacturer($id)
     {
         $query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product   WHERE manufacturer_id="' . $id . '" ';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function GetProductListshippingrate($d)
+    public function GetProductListshippingrate($d)
     {
 
         if ($d != '')
@@ -434,7 +434,7 @@ class mass_discount_detailModelmass_discount_detail extends JModelLegacy
         return $this->_db->loadObjectList();
     }
 
-    function GetProductList()
+    public function GetProductList()
     {
         $query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
         $this->_db->setQuery($query);

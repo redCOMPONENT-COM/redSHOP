@@ -9,26 +9,28 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class orderreddesignController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class orderreddesignController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function update_status()
+    public function update_status()
     {
         $model = $this->getModel('orderreddesign');
         $model->update_status();
     }
 
-    function allstatus()
+    public function allstatus()
     {
         $model = $this->getModel('orderreddesign');
         $model->update_status_all();
     }
 
-    function export_data()
+    public function export_data()
     {
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 
@@ -58,7 +60,7 @@ class orderreddesignController extends JControllerLegacy
         exit;
     }
 
-    function downloaddesign()
+    public function downloaddesign()
     {
         $filename = JRequest::getVar('filename');
         $type     = JRequest::getVar('type');

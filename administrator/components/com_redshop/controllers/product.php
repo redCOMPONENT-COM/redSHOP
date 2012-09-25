@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class productController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class productController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
@@ -19,7 +21,7 @@ class productController extends JControllerLegacy
     /*
       * select A Product Element
       */
-    function element()
+    public function element()
     {
 
         JRequest::setVar('layout', 'element');
@@ -27,20 +29,20 @@ class productController extends JControllerLegacy
         parent::display();
     }
 
-    function ins_product()
+    public function ins_product()
     {
         JRequest::setVar('layout', 'ins_product');
         JRequest::setVar('hidemainmenu', 1);
         parent::display();
     }
 
-    function listing()
+    public function listing()
     {
         JRequest::setVar('layout', 'listing');
         parent::display();
     }
 
-    function importeconomic()
+    public function importeconomic()
     {
         #Add product to economic
         $cnt      = JRequest::getInt('cnt', 0);
@@ -90,7 +92,7 @@ class productController extends JControllerLegacy
         die();
     }
 
-    function importatteco()
+    public function importatteco()
     {
         #Add product attribute to economic
         $cnt      = JRequest::getInt('cnt', 0);
@@ -171,7 +173,7 @@ class productController extends JControllerLegacy
         die();
     }
 
-    function saveprice()
+    public function saveprice()
     {
         $db    = JFactory::getDBO();
         $pid   = JRequest::getVar('pid', array(), 'post', 'array');
@@ -187,7 +189,7 @@ class productController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
     }
 
-    function savediscountprice()
+    public function savediscountprice()
     {
         $db             = JFactory::getDBO();
         $pid            = JRequest::getVar('pid', array(), 'post', 'array');
@@ -203,7 +205,7 @@ class productController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
     }
 
-    function template()
+    public function template()
     {
         $template_id = JRequest::getVar('template_id', '');
         $product_id  = JRequest::getVar('product_id', '');
@@ -226,7 +228,7 @@ class productController extends JControllerLegacy
         exit;
     }
 
-    function assignTemplate()
+    public function assignTemplate()
     {
         $post = JRequest::get('post');
 
@@ -243,7 +245,7 @@ class productController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
-    function gbasefeed()
+    public function gbasefeed()
     {
         $post  = JRequest::get('post');
         $model = $this->getModel('product');
@@ -259,7 +261,7 @@ class productController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
 

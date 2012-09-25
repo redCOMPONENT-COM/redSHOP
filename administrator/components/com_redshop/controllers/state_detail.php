@@ -9,30 +9,31 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class state_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class state_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'state_detail');
         JRequest::setVar('layout', 'default');
         JRequest::setVar('hidemainmenu', 1);
 
-        //$model = $this->getModel ( 'state_detail' );
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -63,7 +64,7 @@ class state_detailController extends JControllerLegacy
         }
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
 
@@ -73,7 +74,7 @@ class state_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 

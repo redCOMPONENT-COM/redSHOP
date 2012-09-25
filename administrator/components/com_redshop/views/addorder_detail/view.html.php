@@ -15,7 +15,7 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class addorder_detailVIEWaddorder_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $option           = JRequest::getVar('option');
         $extra_field      = new extra_field();

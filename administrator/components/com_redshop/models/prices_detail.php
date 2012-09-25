@@ -10,21 +10,20 @@
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
-jimport('joomla.filesystem.file');
 
 class prices_detailModelprices_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_prodid = null;
+    public $_prodid = null;
 
-    var $_prodname = null;
+    public $_prodname = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -36,20 +35,20 @@ class prices_detailModelprices_detail extends JModelLegacy
         $this->setProductName();
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function setProductName()
+    public function setProductName()
     {
         $query = ' SELECT prd.product_name ' . ' FROM ' . $this->_table_prefix . 'product as prd ' . ' WHERE prd.product_id = ' . $this->_prodid;
         $this->_db->setQuery($query);
         $this->_prodname = $this->_db->loadObject()->product_name;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -62,7 +61,7 @@ class prices_detailModelprices_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -74,7 +73,7 @@ class prices_detailModelprices_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -97,7 +96,7 @@ class prices_detailModelprices_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
         if (!$row->bind($data))
@@ -118,7 +117,7 @@ class prices_detailModelprices_detail extends JModelLegacy
         return true;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {

@@ -25,23 +25,23 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php
 
 class checkoutModelcheckout extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $discount_type = null;
+    public $discount_type = null;
 
-    var $_userhelper = null;
+    public $_userhelper = null;
 
-    var $_carthelper = null;
+    public $_carthelper = null;
 
-    var $_shippinghelper = null;
+    public $_shippinghelper = null;
 
-    var $_order_functions = null;
+    public $_order_functions = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -90,7 +90,7 @@ class checkoutModelcheckout extends JModelLegacy
         $this->_carthelper->carttodb();
     }
 
-    function store($data)
+    public function store($data)
     {
         $captcha = $this->_userhelper->checkCaptcha($data);
         if (!$captcha)
@@ -113,7 +113,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $reduser;
     }
 
-    function orderplace()
+    public function orderplace()
     {
         global $mainframe;
 
@@ -1250,7 +1250,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $row;
     }
 
-    function sendGiftCard($order_id)
+    public function sendGiftCard($order_id)
     {
         $url               =& JURI::root();
         $giftcardmail_body = '';
@@ -1356,7 +1356,7 @@ class checkoutModelcheckout extends JModelLegacy
         }
     }
 
-    function billingaddresses()
+    public function billingaddresses()
     {
         $user    =& JFactory::getUser();
         $session =& JFactory::getSession();
@@ -1375,7 +1375,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $list;
     }
 
-    function shipaddress($users_info_id)
+    public function shipaddress($users_info_id)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info ' . 'WHERE users_info_id = "' . $users_info_id . '" ';
         $this->_db->setQuery($query);
@@ -1383,7 +1383,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $list;
     }
 
-    function shippingaddresses()
+    public function shippingaddresses()
     {
         $user    =& JFactory::getUser();
         $session =& JFactory::getSession();
@@ -1402,7 +1402,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $list;
     }
 
-    function getpaymentmethod()
+    public function getpaymentmethod()
     {
         $user          =& JFactory::getUser();
         $shopper_group = $this->_order_functions->getBillingAddress($user->id);
@@ -1411,7 +1411,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $this->_db->loadObjectlist();
     }
 
-    function validatepaymentccinfo()
+    public function validatepaymentccinfo()
     {
         $session =& JFactory::getSession();
         $ccdata  = $session->get('ccdata');
@@ -1468,7 +1468,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $validpayment;
     }
 
-    function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
+    public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
     {
 
         // Define the cards we support. You may add additional card types.
@@ -1631,7 +1631,7 @@ class checkoutModelcheckout extends JModelLegacy
         return true;
     }
 
-    function validateCC($cc_num, $type)
+    public function validateCC($cc_num, $type)
     {
         if ($type == "American")
         {
@@ -1729,7 +1729,7 @@ class checkoutModelcheckout extends JModelLegacy
         }
     }
 
-    function resetcart()
+    public function resetcart()
     {
         $session = & JFactory::getSession();
         setcookie("redSHOPcart", "", time() - 3600, "/");
@@ -1741,7 +1741,7 @@ class checkoutModelcheckout extends JModelLegacy
         $this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
     }
 
-    function getCouponPrice()
+    public function getCouponPrice()
     {
         $session =& JFactory::getSession();
         $cart    = $session->get('cart');
@@ -1762,7 +1762,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $coupon_amount;
     }
 
-    function getCategoryNameByProductId($pid)
+    public function getCategoryNameByProductId($pid)
     {
         $query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id " . "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
 
@@ -1770,7 +1770,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $this->_db->loadResult();
     }
 
-    function voucher()
+    public function voucher()
     {
         $session     =& JFactory::getSession();
         $cart        = $session->get('cart');
@@ -1825,7 +1825,7 @@ class checkoutModelcheckout extends JModelLegacy
         return;
     }
 
-    function coupon()
+    public function coupon()
     {
         $session    =& JFactory::getSession();
         $cart       = $session->get('cart');
@@ -1883,7 +1883,7 @@ class checkoutModelcheckout extends JModelLegacy
         return;
     }
 
-    function calculateShipping($shipping_rate_id)
+    public function calculateShipping($shipping_rate_id)
     {
         $order_shipping_rate = 0;
         $shippingVatRate     = 0;
@@ -1900,7 +1900,7 @@ class checkoutModelcheckout extends JModelLegacy
         return $shipArr;
     }
 
-    function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
+    public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
     {
 
         $session  =& JFactory::getSession();
@@ -2138,7 +2138,7 @@ class checkoutModelcheckout extends JModelLegacy
      * Delete order number track
      *
      */
-    function deleteOrdernumberTrack()
+    public function deleteOrdernumberTrack()
     {
         $query = "TRUNCATE TABLE " . $this->_table_prefix . "ordernumber_track";
 
@@ -2155,7 +2155,7 @@ class checkoutModelcheckout extends JModelLegacy
      * Count order number track
      *
      */
-    function getOrdernumberTrack()
+    public function getOrdernumberTrack()
     {
         $query = "SELECT trackdatetime FROM " . $this->_table_prefix . "ordernumber_track";
         $this->_db->setQuery($query);
@@ -2166,7 +2166,7 @@ class checkoutModelcheckout extends JModelLegacy
      * Insert order number track
      *
      */
-    function insertOrdernumberTrack()
+    public function insertOrdernumberTrack()
     {
 
         $query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
@@ -2184,7 +2184,7 @@ class checkoutModelcheckout extends JModelLegacy
      * Get Unique order number
      *
      */
-    function getOrdernumber()
+    public function getOrdernumber()
     {
         $order_functions = new order_functions();
         $trackid_time    = $this->getOrdernumberTrack();
@@ -2219,9 +2219,9 @@ class checkoutModelcheckout extends JModelLegacy
 class MYPDF extends TCPDF
 {
     //Page header
-    var $img_file;
+    public $img_file;
 
-    public function Header()
+    public public function Header()
     {
         // Full background image
         $auto_page_break = $this->AutoPageBreak;

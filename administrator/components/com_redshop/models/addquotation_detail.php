@@ -19,15 +19,15 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.ph
 
 class addquotation_detailModeladdquotation_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -35,13 +35,13 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function setBilling()
+    public function setBilling()
     {
         $detail                = new stdClass();
         $detail->users_info_id = 0;
@@ -59,7 +59,7 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
         return $detail;
     }
 
-    function storeShipping($data)
+    public function storeShipping($data)
     {
         $data['address_type'] = 'BT';
 
@@ -92,14 +92,14 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
         return $row; //$row->users_info_id;
     }
 
-    function sendRegistrationMail($post)
+    public function sendRegistrationMail($post)
     {
 
         $redshopMail = new redshopMail();
         $redshopMail->sendRegistrationMail($post);
     }
 
-    function store($data)
+    public function store($data)
     {
         $extra_field     = new extra_field();
         $quotationHelper = new quotationHelper();
@@ -433,14 +433,14 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
         return $row;
     }
 
-    function sendQuotationMail($quotaion_id)
+    public function sendQuotationMail($quotaion_id)
     {
         $redshopMail = new redshopMail();
         $send        = $redshopMail->sendQuotationMail($quotaion_id);
         return $send;
     }
 
-    function getUserData($user_id = 0, $billing = "", $user_info_id = 0)
+    public function getUserData($user_id = 0, $billing = "", $user_info_id = 0)
     {
         $and = '';
         if ($user_id != 0)
@@ -464,7 +464,7 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
         return $list;
     }
 
-    function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $user_id, $uniqueid = "")
+    public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $user_id, $uniqueid = "")
     {
         $producthelper = new producthelper ();
 

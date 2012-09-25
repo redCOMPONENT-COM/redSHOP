@@ -9,19 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 class template_detailModeltemplate_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -32,13 +30,13 @@ class template_detailModeltemplate_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -51,7 +49,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $red_template = new Redtemplate();
         if (empty($this->_data))
@@ -79,7 +77,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -98,7 +96,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $red_template = new Redtemplate();
 
@@ -153,7 +151,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $red_template = new Redtemplate();
         if (count($cid))
@@ -183,7 +181,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -200,7 +198,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return true;
     }
 
-    function copy($cid = array())
+    public function copy($cid = array())
     {
 
         if (count($cid))
@@ -228,7 +226,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return true;
     }
 
-    function availabletexts($section)
+    public function availabletexts($section)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE published=1 AND section like "' . $section . '"';
         $this->_db->setQuery($query);
@@ -236,7 +234,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
         return $this->textdata;
     }
 
-    function availableaddtocart($section)
+    public function availableaddtocart($section)
     {
         $query = 'SELECT template_name FROM ' . $this->_table_prefix . 'template WHERE published=1 AND template_section = "' . $section . '"';
         $this->_db->setQuery($query);
@@ -253,7 +251,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
      * @return    boolean    True on success
      * @since     1.5
      */
-    function checkout($uid = null)
+    public function checkout($uid = null)
     {
         if ($this->_id)
         {
@@ -284,7 +282,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
      * @return    boolean    True on success
      * @since     1.5
      */
-    function checkin()
+    public function checkin()
     {
         if ($this->_id)
         {
@@ -308,7 +306,7 @@ class template_detailModeltemplate_detail extends JModelLegacy
      * @return    boolean    True if checked out
      * @since     1.5
      */
-    function isCheckedOut($uid = 0)
+    public function isCheckedOut($uid = 0)
     {
         if ($this->_loadData())
         {

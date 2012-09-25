@@ -9,7 +9,7 @@
 
 class prices_detailVIEWprices_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $db = JFactory::getDBO();
         JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE_MANAGEMENT_DETAIL'), 'redshop_vatrates48');
