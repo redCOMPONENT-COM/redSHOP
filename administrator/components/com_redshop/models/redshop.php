@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class redshopModelredshop extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

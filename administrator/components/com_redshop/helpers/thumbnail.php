@@ -65,16 +65,16 @@ class thumbnail
 class thumbnail_images
 {
     // get
-    var $PathImgOld;
+    public $PathImgOld;
 
-    var $PathImgNew;
+    public $PathImgNew;
 
-    var $NewWidth;
+    public $NewWidth;
 
-    var $NewHeight;
+    public $NewHeight;
 
     // tmp
-    var $mime;
+    public $mime;
 
     function imagejpeg_new($NewImg, $path_img)
     {

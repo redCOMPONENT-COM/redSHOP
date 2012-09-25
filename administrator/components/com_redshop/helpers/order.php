@@ -22,17 +22,17 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class order_functions
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_db = null;
+    public $_db = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_carthelper = null;
+    public $_carthelper = null;
 
-    var $_orderstatuslist = null;
+    public $_orderstatuslist = null;
 
-    var $_customorderstatuslist = null;
+    public $_customorderstatuslist = null;
 
     function __construct()
     {

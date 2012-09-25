@@ -11,9 +11,9 @@ defined('_JEXEC') or die('Restricted access');
 
 class customprintModelcustomprint extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

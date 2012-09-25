@@ -17,13 +17,13 @@ defined('_JEXEC') or die();
  */
 class barcodeModelbarcode extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_loglist = null;
+    public $_loglist = null;
 
     function __construct()
     {
@@ -32,7 +32,7 @@ class barcodeModelbarcode extends JModelLegacy
         $this->_table_prefix = '#__redshop_';
     }
 
-    ///var $_hellos=null;
+    ///public $_hellos=null;
     function save($data)
     {
         $row = $this->getTable('barcode');
