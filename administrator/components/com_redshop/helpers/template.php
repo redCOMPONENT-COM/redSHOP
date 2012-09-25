@@ -13,7 +13,6 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 }
 
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
 
 class Redtemplate
 {

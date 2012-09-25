@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
 
 class media_detailController extends JControllerLegacy
