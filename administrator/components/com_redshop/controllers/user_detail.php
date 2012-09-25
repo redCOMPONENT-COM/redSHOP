@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class user_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class user_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {

@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class product_attribute_priceController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class product_attribute_priceController extends RedshopCoreController
 {
     public function cancel()
     {

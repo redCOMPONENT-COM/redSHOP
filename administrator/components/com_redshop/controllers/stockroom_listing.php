@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class stockroom_listingController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class stockroom_listingController extends RedshopCoreController
 {
     public function cancel()
     {

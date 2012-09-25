@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class shipping_ratecontroller extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class shipping_ratecontroller extends RedshopCoreController
 {
     public function cancel()
     {

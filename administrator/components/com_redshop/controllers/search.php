@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class searchController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class searchController extends RedshopCoreController
 {
     public function cancel()
     {
