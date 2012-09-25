@@ -11,7 +11,9 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 
-class attribute_set_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class attribute_set_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {
@@ -50,33 +52,8 @@ class attribute_set_detailController extends JControllerLegacy
 
             $file = JRequest::getVar('image', 'array', 'files', 'array');
 
-            //$newpost = array();
-
             $this->attribute_save($post, $row, $file);
-            /*if (isset($post['property'])){
-                   $newpost['hdn_del_attribute'] = $post['hdn_del_attribute'];
-                   $newpost['hdn_del_property'] = $post['hdn_del_property'];
-                   $newpost['hdn_del_subproperty'] = $post['hdn_del_subproperty'];
-                   $newpost['property'] = $post['property'];
-                   $newpost['subattribute_color_title'] = $post['subattribute_color_title'];
-                   $newpost['price'] = $post['price'];
-                   $newpost['oprand'] = $post['oprand'];
-                   $newpost['property_number'] = $post['property_number'];
-                   $newpost['propordering'] = $post['propordering'];
-                   $newpost['propdselected'] = $post['propdselected'];
-                   $newpost['property_id'] = $post['property_id'];
-                   $newpost['imagetmp'] = $post['imagetmp'];
-                   $newpost['mainImage'] = $post['mainImage'];
-                   $newpost['propdselected'] = $post['propdselected'];
-                   $newpost['propdselected'] = $post['propdselected'];
-                   $newpost['propsub_attdselected'] = $post['propsub_attdselected'];
-               }*/
-            /*if (count($newpost)>0)
-                   $this->attribute_save($newpost,$row,$file);
-               else
-                   $model->attribute_empty();*/
 
-            /// Extra Field Data Saved ////////////////////////
             $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL_SAVED');
         }
 
@@ -93,7 +70,6 @@ class attribute_set_detailController extends JControllerLegacy
 
     public function remove()
     {
-
         $option = JRequest::getVar('option');
 
         $cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -125,10 +101,12 @@ class attribute_set_detailController extends JControllerLegacy
         }
 
         $model = $this->getModel('attribute_set_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
@@ -145,10 +123,12 @@ class attribute_set_detailController extends JControllerLegacy
         }
 
         $model = $this->getModel('attribute_set_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
@@ -163,27 +143,23 @@ class attribute_set_detailController extends JControllerLegacy
 
     public function attribute_save($post, $row, $file)
     {
-
         $model = $this->getModel('attribute_set_detail');
-        //$option   = JRequest::getVar('option');
-        //$thumb    = new thumbnail();
-        //$obj_img  = new thumbnail_images();
-        //$n_width  = 50;
-        //$n_height = 50;
 
         $attribute_save   = array();
         $property_save    = array();
         $subproperty_save = array();
+
         if (!is_array($post['attribute']))
         {
             return;
         }
+
         $attribute = array_merge(array(), $post['attribute']);
 
         $files = JRequest::get('files');
+
         for ($a = 0; $a < count($attribute); $a++)
         {
-
             $attribute_save['attribute_id']             = $attribute[$a]['id'];
             $attribute_save['attribute_set_id']         = $row->attribute_set_id;
             $attribute_save['attribute_name']           = urldecode($attribute[$a]['name']); // encode url for allow special char

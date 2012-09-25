@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class redshopController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class redshopController extends RedshopCoreController
 {
     public function demoContentInsert()
     {
