@@ -12,7 +12,6 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
     die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 }
 JHTML::_('behavior.tooltip');
-jimport('joomla.filesystem.file');
 
 class extra_field
 {
@@ -510,7 +509,8 @@ class extra_field
                 {
                     $data_txt = $data['text_' . $row_data[$i]->field_name] . "\n" . $data[$row_data[$i]->field_name];
                 }
-                else {
+                else
+                {
                     if ($row_data[$i]->field_type == 8 || $row_data[$i]->field_type == 1 || $row_data[$i]->field_type == 2)
                     {
                         $data_txt = JRequest::getVar($row_data[$i]->field_name, '', ' ', 'string', JREQUEST_ALLOWRAW);
