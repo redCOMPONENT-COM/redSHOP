@@ -18,14 +18,14 @@ class ask_questionModelask_question extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
         $this->setId((int)JRequest::getInt('pid', 0));
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id = $id;
     }
@@ -36,7 +36,7 @@ class ask_questionModelask_question extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function store($data)
+    public function store($data)
     {
         $user                  = JFactory::getUser();
         $data['user_id']       = $user->id;
@@ -69,14 +69,14 @@ class ask_questionModelask_question extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function MaxOrdering()
+    public function MaxOrdering()
     {
         $query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question " . "WHERE parent_id=0 ";
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function sendMailForAskQuestion($data)
+    public function sendMailForAskQuestion($data)
     {
         $this->store($data);
         $producthelper = new producthelper();
