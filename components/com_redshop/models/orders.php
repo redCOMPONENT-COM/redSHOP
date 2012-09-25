@@ -11,17 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 class ordersModelorders extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_limitstart = null;
+    public $_limitstart = null;
 
-    var $_limit = null;
+    public $_limit = null;
 
     function __construct()
     {

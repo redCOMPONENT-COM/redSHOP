@@ -20,11 +20,11 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class redhelper
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_db = null;
+    public $_db = null;
 
-    var $_isredCRM = NULL;
+    public $_isredCRM = NULL;
 
     function __construct()
     {

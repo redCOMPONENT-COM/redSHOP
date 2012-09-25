@@ -19,15 +19,17 @@
 
 require_once('FilterASCII85.php');
 
-class FilterASCII85_FPDI extends FilterASCII85 {
+class FilterASCII85_FPDI extends FilterASCII85
+{
+    public $fpdi;
 
-    var $fpdi;
-    
-    function FPDI_FilterASCII85(&$fpdi) {
+    function FPDI_FilterASCII85(&$fpdi)
+    {
         $this->fpdi =& $fpdi;
     }
 
-    function error($msg) {
+    function error($msg)
+    {
         $this->fpdi->error($msg);
     }
 }
