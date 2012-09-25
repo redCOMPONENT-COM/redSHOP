@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablemedia_download extends JTable
 {
     public $id = null;

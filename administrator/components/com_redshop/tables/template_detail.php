@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tabletemplate_detail extends JTable
 {
     public $template_id = null;

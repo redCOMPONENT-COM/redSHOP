@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableproduct_serial_number extends JTable
 {
     public $serial_id = null;

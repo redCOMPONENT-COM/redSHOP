@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableusercart_attribute_item extends JTable
 {
     public $cart_att_item_id = 0;

@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablerating_detail extends JTable
 {
     public $rating_id = 0;

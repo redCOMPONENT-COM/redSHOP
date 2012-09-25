@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableorder_user_detail extends JTable
 {
     public $order_info_id = null;

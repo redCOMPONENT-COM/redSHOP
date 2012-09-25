@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablenavigator_detail extends JTable
 {
     public $navigator_id = null;

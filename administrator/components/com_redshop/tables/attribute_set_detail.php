@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableattribute_set_detail extends JTable
 {
     public $attribute_set_id = null;
