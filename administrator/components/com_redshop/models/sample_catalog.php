@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class sample_catalogModelsample_catalog extends JModel
+class sample_catalogModelsample_catalog extends JModelLegacy
 {
     var $_id = null;
 
@@ -41,7 +39,8 @@ class sample_catalogModelsample_catalog extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

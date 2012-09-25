@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 
-class product_detailController extends JController
+class product_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

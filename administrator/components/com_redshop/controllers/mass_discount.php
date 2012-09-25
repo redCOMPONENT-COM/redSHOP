@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class mass_discountController extends JController
+class mass_discountController extends JControllerLegacy
 {
     function cancel()
     {

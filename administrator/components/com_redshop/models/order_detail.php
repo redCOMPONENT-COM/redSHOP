@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
@@ -20,7 +18,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 
-class order_detailModelorder_detail extends JModel
+class order_detailModelorder_detail extends JModelLegacy
 {
     var $_id = null;
 

@@ -9,10 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-class orderModelorder extends JModel
+class orderModelorder extends JModelLegacy
 {
     var $_data = null;
 

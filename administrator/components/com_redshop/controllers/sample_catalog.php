@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class sample_catalogController extends JController
+class sample_catalogController extends JControllerLegacy
 {
     function __construct($default = array())
     {

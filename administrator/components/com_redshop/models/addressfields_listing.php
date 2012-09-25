@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class addressfields_listingModeladdressfields_listing extends JModel
+class addressfields_listingModeladdressfields_listing extends JModelLegacy
 {
     var $_context = null;
 

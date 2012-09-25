@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class redshopModelredshop extends JModel
+class redshopModelredshop extends JModelLegacy
 {
     var $_table_prefix = null;
 

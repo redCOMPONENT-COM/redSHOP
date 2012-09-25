@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class exportModelexport extends JModel
+class exportModelexport extends JModelLegacy
 {
     var $_data = null;
 

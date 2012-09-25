@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class currencyModelcurrency extends JModel
+class currencyModelcurrency extends JModelLegacy
 {
     var $_data = null;
 

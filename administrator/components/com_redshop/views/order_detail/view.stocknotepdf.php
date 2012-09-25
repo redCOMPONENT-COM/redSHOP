@@ -1,46 +1,37 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.view');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 //
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-class order_detailVIEWorder_detail extends JView
+class order_detailVIEWorder_detail extends JViewLegacy
 {
-    function display ($tpl = null)
+    function display($tpl = null)
     {
 
-        $config = new Redconfiguration();
-        //$redTemplate = new Redtemplate();
+        $config          = new Redconfiguration();
         $order_functions = new order_functions();
         $producthelper   = new producthelper();
         $model           = $this->getModel();
-        //$redTemplate = new Redtemplate();
-        $detail     = $this->get('data');
-        $carthelper = new rsCarthelper();
-        //$shippinghelper = new shipping();
-        $products = $order_functions->getOrderItemDetail($detail->order_id);
-        $template = $model->getStockNoteTemplate();
-        if (count($template) > 0 && $template->template_desc != "") {
+        $detail          = $this->get('data');
+        $carthelper      = new rsCarthelper();
+        $products        = $order_functions->getOrderItemDetail($detail->order_id);
+        $template        = $model->getStockNoteTemplate();
+        if (count($template) > 0 && $template->template_desc != "")
+        {
             $html_template = $template->template_desc;
-        } else {
+        }
+        else
+        {
             $html_template = '<table border="0" cellspacing="2" cellpadding="2" width="100%"><tr><td>{order_id_lbl} : {order_id}</td><td> {order_date_lbl} : {order_date}</td></tr></table>
                        <table border="1" cellspacing="0" cellpadding="0" width="100%"><tbody><tr style="background-color: #d7d7d4"><th align="center">{product_name_lbl}</th> <th align="center">{product_number_lbl}</th> <th align="center">{product_quantity_lbl}</th></tr>
 						{product_loop_start}
@@ -59,7 +50,8 @@ class order_detailVIEWorder_detail extends JView
 						</table>';
         }
         ob_start();
-        if (strstr($html_template, "{product_loop_start}") && strstr($html_template, "{product_loop_end}")) {
+        if (strstr($html_template, "{product_loop_start}") && strstr($html_template, "{product_loop_end}"))
+        {
 
             $template_sdata  = explode('{product_loop_start}', $html_template);
             $template_start  = $template_sdata[0];
@@ -68,7 +60,8 @@ class order_detailVIEWorder_detail extends JView
             $template_middle = $template_edata[0];
 
             $middle_data = '';
-            for ($p = 0; $p < count($products); $p++) {
+            for ($p = 0; $p < count($products); $p++)
+            {
                 $middle_data .= $template_middle;
 
                 $product_detail = $producthelper->getProductById($products[$p]->product_id);
@@ -95,7 +88,6 @@ class order_detailVIEWorder_detail extends JView
         $html_template = str_replace("{requisition_number}", $detail->requisition_number, $html_template);
         $html_template = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $html_template);
 
-
         // start pdf code
         $pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
         $pdfObj->SetTitle("Order StockNote: " . $detail->order_id);
@@ -107,13 +99,9 @@ class order_detailVIEWorder_detail extends JView
 
         $pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
         $pdfObj->setHeaderFont(array($font, '', 10));
-        //$pdfObj->setFooterFont(array($font, '', 8));
         $pdfObj->SetFont($font, "", 10);
 
-
-        //$pdfObj->AliasNbPages();
         $pdfObj->AddPage();
-
 
         $pdfObj->WriteHTML($html_template);
 
@@ -121,5 +109,3 @@ class order_detailVIEWorder_detail extends JView
         exit;
     }
 }
-
-?>

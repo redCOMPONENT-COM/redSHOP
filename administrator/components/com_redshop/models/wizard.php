@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once 'components' . DS . 'com_redshop' . DS . 'models' . DS . 'configuration.php';
 
 class wizardModelwizard extends configurationModelconfiguration
