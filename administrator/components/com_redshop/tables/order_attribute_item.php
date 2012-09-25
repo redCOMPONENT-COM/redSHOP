@@ -11,29 +11,29 @@ defined('_JEXEC') or die('Restricted access');
 
 class Tableorder_attribute_item extends JTable
 {
-    var $order_att_item_id = null;
+    public $order_att_item_id = null;
 
-    var $order_item_id = null;
+    public $order_item_id = null;
 
-    var $section_id = null;
+    public $section_id = null;
 
-    var $section = null;
+    public $section = null;
 
-    var $parent_section_id = null;
+    public $parent_section_id = null;
 
-    var $section_name = null;
+    public $section_name = null;
 
-    var $section_vat = null;
+    public $section_vat = null;
 
-    var $section_price = null;
+    public $section_price = null;
 
-    var $section_oprand = null;
+    public $section_oprand = null;
 
-    var $is_accessory_att = null;
+    public $is_accessory_att = null;
 
-    var $stockroom_id = null;
+    public $stockroom_id = null;
 
-    var $stockroom_quantity = null;
+    public $stockroom_quantity = null;
 
     public function __construct(& $db)
     {

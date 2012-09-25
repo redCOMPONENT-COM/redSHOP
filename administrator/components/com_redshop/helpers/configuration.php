@@ -15,23 +15,23 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class Redconfiguration
 {
-    var $_def_array = null;
+    public $_def_array = null;
 
-    var $_configpath = null;
+    public $_configpath = null;
 
-    var $_config_dist_path = null;
+    public $_config_dist_path = null;
 
-    var $_config_bkp_path = null;
+    public $_config_bkp_path = null;
 
-    var $_config_tmp_path = null;
+    public $_config_tmp_path = null;
 
-    var $_cfgdata = null;
+    public $_cfgdata = null;
 
-    var $_country_list = null;
+    public $_country_list = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_db = null;
+    public $_db = null;
 
     /**
      * define default path

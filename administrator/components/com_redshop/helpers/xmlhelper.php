@@ -17,11 +17,11 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlHelper
 {
-    var $_db = null;
+    public $_db = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

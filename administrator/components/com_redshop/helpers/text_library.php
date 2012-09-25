@@ -15,11 +15,11 @@ JHTML::_('behavior.tooltip');
 
 class text_library
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_db = null;
+    public $_db = null;
 
     function __construct()
     {

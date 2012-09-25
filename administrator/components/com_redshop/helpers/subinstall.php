@@ -12,27 +12,27 @@ defined('_JEXEC') or die('Restricted access');
 class SubInstaller extends JObject
 {
     /**
-     * var &object JInstaller
+     * public &object JInstaller
      *
      * Reference to the currently running
      * main installer.
      */
-    var $_mainSource = null;
+    public $_mainSource = null;
 
     /**
-     * var &object JDatabase
+     * public &object JDatabase
      *
      * Reference to the database of the
      * currently running main installer.
      */
-    var $_mainDb = null;
+    public $_mainDb = null;
 
     /**
      * var &object JApplication
      *
      * Reference to the current application.
      */
-    var $_app = null;
+    public $_app = null;
 
     /**
      * var array of &object stdClass
@@ -40,7 +40,7 @@ class SubInstaller extends JObject
      * Stores each successfully installed sub extension
      * in case a rollback has to be performed later.
      */
-    var $_rollback = array();
+    public $_rollback = array();
 
     /**
      * var &object JSimpleXMLElement
@@ -48,7 +48,7 @@ class SubInstaller extends JObject
      * Reference to you <subinstall> section in the
      * main manifest.
      */
-    var $_mysection = null;
+    public $_mysection = null;
 
     /**
      * var int
@@ -57,7 +57,7 @@ class SubInstaller extends JObject
      *   0 = performing uninstall
      *   1 = performing install
      */
-    var $_mode = 0;
+    public $_mode = 0;
 
     /**
      * var int
@@ -66,7 +66,7 @@ class SubInstaller extends JObject
      * _abort method (If _abort is called from
      * inside _abort).
      */
-    var $_inabort = 0;
+    public $_inabort = 0;
 
     /**
      * Constructor

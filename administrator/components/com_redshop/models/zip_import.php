@@ -17,18 +17,18 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
 
 class zip_importModelzip_import extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_table = null;
+    public $_table = null;
 
     /** @var object JTable object */
-    var $_url = null;
+    public $_url = null;
 
     function getData()
     {

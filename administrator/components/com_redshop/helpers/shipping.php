@@ -21,7 +21,7 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 include_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 class shipping
 {
-    var $_db;
+    public $_db;
 
     function __construct()
     {

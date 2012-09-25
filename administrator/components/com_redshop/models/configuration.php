@@ -13,17 +13,17 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
 class configurationModelconfiguration extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_configpath = null;
+    public $_configpath = null;
 
-    var $_configdata = null;
+    public $_configdata = null;
 
-    var $Redconfiguration = null;
+    public $Redconfiguration = null;
 
     function __construct()
     {

@@ -11,31 +11,31 @@ defined('_JEXEC') or die('Restricted access');
 
 class statisticModelstatistic extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_startdate = null;
+    public $_startdate = null;
 
-    var $_enddate = null;
+    public $_enddate = null;
 
-    var $_filteroption = null;
+    public $_filteroption = null;
 
-    var $_mostpopular = null;
+    public $_mostpopular = null;
 
-    var $_bestsallers = null;
+    public $_bestsallers = null;
 
-    var $_newproducts = null;
+    public $_newproducts = null;
 
-    var $_neworders = null;
+    public $_neworders = null;
 
-    var $_amountprice = null;
+    public $_amountprice = null;
 
-    var $_amountorder = null;
+    public $_amountorder = null;
 
-    var $_turnover = 0;
+    public $_turnover = 0;
 
-    var $_siteviewer = 0;
+    public $_siteviewer = 0;
 
-    var $_pageviewer = 0;
+    public $_pageviewer = 0;
 
     function __construct()
     {
