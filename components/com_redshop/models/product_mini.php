@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class product_miniModelproduct_mini extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

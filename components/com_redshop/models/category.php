@@ -11,25 +11,25 @@ defined('_JEXEC') or die ('Restricted access');
 
 class categoryModelcategory extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null;
+    public $_product = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_limit = null;
+    public $_limit = null;
 
-    var $_slidercount = 0;
+    public $_slidercount = 0;
 
-    var $count_no_user_field = 0;
+    public $count_no_user_field = 0;
 
-    var $minmaxArr = array(0, 0);
+    public $minmaxArr = array(0, 0);
 
-    var $_context = null;
+    public $_context = null;
 
     function __construct()
     {

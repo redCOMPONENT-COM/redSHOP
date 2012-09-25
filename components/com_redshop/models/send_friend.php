@@ -14,14 +14,14 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class send_friendModelsend_friend extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null; // product data
-    var $_table_prefix = null;
+    public $_product = null; // product data
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
     function __construct()
     {
