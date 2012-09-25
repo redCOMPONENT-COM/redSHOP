@@ -14,9 +14,9 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class ask_questionModelask_question extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

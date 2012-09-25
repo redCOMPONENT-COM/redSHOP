@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class passwordModelpassword extends JModelLegacy
 {
-    var $_db = null;
+    public $_db = null;
 
     function __construct()
     {
