@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableorderstatus_detail extends JTable
 {
     public $order_status_id = null;

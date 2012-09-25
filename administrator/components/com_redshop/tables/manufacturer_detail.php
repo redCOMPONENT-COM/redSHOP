@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablemanufacturer_detail extends JTable
 {
     public $manufacturer_id = null;

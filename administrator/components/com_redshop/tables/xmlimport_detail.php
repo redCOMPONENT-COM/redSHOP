@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablexmlimport_detail extends JTable
 {
     public $xmlimport_id = null;

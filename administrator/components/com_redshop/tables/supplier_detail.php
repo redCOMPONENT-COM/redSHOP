@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablesupplier_detail extends JTable
 {
     public $supplier_id = null;
