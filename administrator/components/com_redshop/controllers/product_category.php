@@ -21,7 +21,6 @@ class product_categoryController extends RedshopCoreController
 
     public function saveProduct_Category()
     {
-        global $mainframe;
         $model = $this->getModel("product_category");
         if ($model->saveProduct_Category())
         {
@@ -31,13 +30,14 @@ class product_categoryController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
         }
-        $mainframe->redirect("index.php?option=com_redshop&view=product", $msg);
+
+        $this->app->redirect("index.php?option=com_redshop&view=product", $msg);
     }
 
     public function removeProduct_Category()
     {
-        global $mainframe;
         $model = $this->getModel("product_category");
+
         if ($model->removeProduct_Category())
         {
             $msg = JText::_('COM_REDSHOP_CATEGORY_REMOVED_FROM_PRODUCT_SUCCESSFULLY');
@@ -46,6 +46,6 @@ class product_categoryController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_WHILE_REMOVING_CATEGORY_FROM_PRODUCT');
         }
-        $mainframe->redirect("index.php?option=com_redshop&view=product", $msg);
+        $this->app->redirect("index.php?option=com_redshop&view=product", $msg);
     }
 }

@@ -189,18 +189,11 @@ class fields_detailController extends RedshopCoreController
      */
     public function orderup()
     {
-        global $mainframe, $context;
-        $option           = JRequest::getVar('option');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-        $up               = 1;
-        if (strtolower($filter_order_Dir) == "asc")
-        {
-            $up = -1;
-        }
+        $option = JRequest::getVar('option');
 
         $model = $this->getModel('fields_detail');
         $model->move(-1);
-        //$model->orderup();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
     }
@@ -213,17 +206,11 @@ class fields_detailController extends RedshopCoreController
      */
     public function orderdown()
     {
-        global $mainframe, $context;
-        $option           = JRequest::getVar('option');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-        $down             = -1;
-        if (strtolower($filter_order_Dir) == "asc")
-        {
-            $down = 1;
-        }
+        $option = JRequest::getVar('option');
+
         $model = $this->getModel('fields_detail');
         $model->move(1);
-        //$model->orderdown();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
     }
