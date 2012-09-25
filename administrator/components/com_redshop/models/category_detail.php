@@ -17,11 +17,11 @@ JClientHelper::setCredentialsFromRequest('ftp');
 
 class category_detailModelcategory_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

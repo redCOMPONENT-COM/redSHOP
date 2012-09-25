@@ -9,15 +9,15 @@
 
 class attributeprices_detailModelattributeprices_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_sectionid = null;
+    public $_sectionid = null;
 
-    var $_section = null;
+    public $_section = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {
