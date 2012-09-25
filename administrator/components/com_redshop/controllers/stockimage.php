@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class stockimageController extends JController
+class stockimageController extends JControllerLegacy
 {
     function cancel()
     {

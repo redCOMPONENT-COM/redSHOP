@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class orderreddesignController extends JController
+class orderreddesignController extends JControllerLegacy
 {
     function cancel()
     {

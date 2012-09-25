@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
-class accessmanager_detailModelaccessmanager_detail extends JModel
+class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
 {
     var $_table_prefix = null;
 

@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class tax_group_detailModeltax_group_detail extends JModel
+class tax_group_detailModeltax_group_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -46,7 +44,8 @@ class tax_group_detailModeltax_group_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

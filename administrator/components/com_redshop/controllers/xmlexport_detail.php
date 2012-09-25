@@ -9,10 +9,8 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
-
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
-class xmlexport_detailController extends JController
+class xmlexport_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

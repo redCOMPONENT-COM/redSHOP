@@ -1,26 +1,20 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
-jimport('joomla.application.component.view');
+
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class shopper_group_detailVIEWshopper_group_detail extends JView
+class shopper_group_detailVIEWshopper_group_detail extends JViewLegacy
 {
-    function display ($tpl = null)
+    function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 
@@ -30,8 +24,6 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
         $option = JRequest::getVar('option', '', 'request', 'string');
 
         $document = JFactory::getDocument();
-
-        //$document->addScript ('components/'.$option.'/assets/js/media.js');
         $document->addScript('components/' . $option . '/assets/js/json.js');
         $document->addScript('components/' . $option . '/assets/js/validation.js');
 
@@ -53,9 +45,12 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
         JToolBarHelper::save();
 
-        if ($isNew) {
+        if ($isNew)
+        {
             JToolBarHelper::cancel();
-        } else {
+        }
+        else
+        {
 
             JToolBarHelper::cancel('cancel', 'Close');
         }
@@ -72,11 +67,11 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
         $lists['portal']           = JHTML::_('select.booleanlist', 'shopper_group_portal', 'class="inputbox"', $detail->shopper_group_portal);
         $lists['default_shipping'] = JHTML::_('select.booleanlist', 'default_shipping', 'class="inputbox"', $detail->default_shipping);
         $lists['published']        = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-//		$lists['tax_exempt'] = JHTML::_('select.booleanlist','tax_exempt', 'class="inputbox"', $detail->tax_exempt );
-//		$lists['tax_exempt_on_shipping'] = JHTML::_('select.booleanlist','tax_exempt_on_shipping', 'class="inputbox"', $detail->tax_exempt_on_shipping );
+        //		$lists['tax_exempt'] = JHTML::_('select.booleanlist','tax_exempt', 'class="inputbox"', $detail->tax_exempt );
+        //		$lists['tax_exempt_on_shipping'] = JHTML::_('select.booleanlist','tax_exempt_on_shipping', 'class="inputbox"', $detail->tax_exempt_on_shipping );
         $lists['show_price_without_vat'] = JHTML::_('select.booleanlist', 'show_price_without_vat', 'class="inputbox"', $detail->show_price_without_vat);
 
-//		$lists['apply_product_price_vat'] = JHTML::_('select.booleanlist','apply_product_price_vat', 'class="inputbox"', $detail->apply_product_price_vat );
+        //		$lists['apply_product_price_vat'] = JHTML::_('select.booleanlist','apply_product_price_vat', 'class="inputbox"', $detail->apply_product_price_vat );
         $lists['shopper_group_quotation_mode'] = JHTML::_('select.booleanlist', 'shopper_group_quotation_mode', 'class="inputbox"', $detail->shopper_group_quotation_mode);
 
         // for individual show_price and catalog
@@ -107,7 +102,7 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
         $this->assignRef('lists', $lists);
         $this->assignRef('detail', $detail);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }

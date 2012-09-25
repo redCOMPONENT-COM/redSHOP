@@ -1,214 +1,202 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.application.component.model' );
 
-require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'quotation.php');
+defined('_JEXEC') or die('Restricted access');
+
+require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 
-class quotation_detailModelquotation_detail extends JModel
+class quotation_detailModelquotation_detail extends JModelLegacy
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+    var $_id = null;
 
-	function __construct()
-	{
-		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
-	}
+    var $_data = null;
 
-	function checkAuthorization($quoid,$encr)
-	{
-		$query = "SELECT COUNT(quotation_id) FROM ".$this->_table_prefix."quotation "
-				."WHERE quotation_id='".$quoid."' "
-				."AND quotation_encrkey LIKE '".$encr."' ";
-		$this->_db->setQuery($query);
-		$record = $this->_db->loadResult();
-		return $record;
-	}
+    var $_table_prefix = null;
 
-	function addtocart($data=array())
-	{
-		global $mainframe;
+    function __construct()
+    {
+        parent::__construct();
+        $this->_table_prefix = '#__redshop_';
+    }
 
-		$Itemid = JRequest::getVar("Itemid");
-		$session =& JFactory::getSession();
-		$db = JFactory::getDbo();
-//		$user = &JFactory::getUser();
+    function checkAuthorization($quoid, $encr)
+    {
+        $query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation " . "WHERE quotation_id='" . $quoid . "' " . "AND quotation_encrkey LIKE '" . $encr . "' ";
+        $this->_db->setQuery($query);
+        $record = $this->_db->loadResult();
+        return $record;
+    }
 
-		$carthelper	= new rsCarthelper();
-		$producthelper = new producthelper();
-		$quotationHelper = new quotationHelper();
+    function addtocart($data = array())
+    {
+        $session =& JFactory::getSession();
 
-		$cart = $session->get( 'cart');
+        $carthelper      = new rsCarthelper();
+        $producthelper   = new producthelper();
+        $quotationHelper = new quotationHelper();
 
-		$idx = (int)($cart['idx']);
+        $cart = $session->get('cart');
 
-		$row_data = $quotationHelper->getQuotationUserfield($data->quotation_item_id);
-		$quotation_acc_data = $quotationHelper->getQuotationItemAccessoryDetail($data->quotation_item_id);
-		$quotation_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id,0,"attribute",$data->product_id);
-		/*
-		 * set session for giftcard
-		 */
-		if($data->is_giftcard==1)
-		{
-			if($carthelper->rs_recursiveArraySearch($cart,$data->product_id))
-			{
-				$cart[$idx]['quantity'] += 1;
-				$session->set( 'cart',$cart );
-				return;
-			}else{
-				$cart[$idx]['quantity'] = 1;
-			}
+        $idx = (int)($cart['idx']);
 
-			$cart[$idx]['quantity'] = $data->product_quantity;
-			$cart[$idx]['giftcard_id'] = $data->product_id;
-			$cart[$idx]['product_price'] = $data->product_price;
-			$cart[$idx]['product_vat'] = 0;
-			$cart[$idx]['product_id'] = '';
-			$cart['discount_type']=0;
-			$cart['discount']=0;
-			$cart['discount2']=0;
-			$cart['reciver_email'] = '';
-			$cart['reciver_name'] = '';
+        $row_data           = $quotationHelper->getQuotationUserfield($data->quotation_item_id);
+        $quotation_acc_data = $quotationHelper->getQuotationItemAccessoryDetail($data->quotation_item_id);
+        $quotation_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "attribute", $data->product_id);
+        /*
+           * set session for giftcard
+           */
+        if ($data->is_giftcard == 1)
+        {
+            if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))
+            {
+                $cart[$idx]['quantity'] += 1;
+                $session->set('cart', $cart);
+                return;
+            }
+            else
+            {
+                $cart[$idx]['quantity'] = 1;
+            }
 
-			for($i=0;$i<count($row_data);$i++)
-			{
-		    	$field_name=$row_data[$i]->field_name;
-		    	$cart[$idx][$field_name] = $row_data[$i]->data_txt;
-			}
-			$cart['idx'] = $idx+1;
-			$session->set( 'cart',$cart );
-			return;
-		}
-		//end
+            $cart[$idx]['quantity']      = $data->product_quantity;
+            $cart[$idx]['giftcard_id']   = $data->product_id;
+            $cart[$idx]['product_price'] = $data->product_price;
+            $cart[$idx]['product_vat']   = 0;
+            $cart[$idx]['product_id']    = '';
+            $cart['discount_type']       = 0;
+            $cart['discount']            = 0;
+            $cart['discount2']           = 0;
+            $cart['reciver_email']       = '';
+            $cart['reciver_name']        = '';
 
-		$cart[$idx]['product_id'] =  $data->product_id;
-		$cart[$idx]['product_price'] =  $data->product_price;
-		$cart[$idx]['quantity'] = $data->product_quantity;
+            for ($i = 0; $i < count($row_data); $i++)
+            {
+                $field_name              = $row_data[$i]->field_name;
+                $cart[$idx][$field_name] = $row_data[$i]->data_txt;
+            }
+            $cart['idx'] = $idx + 1;
+            $session->set('cart', $cart);
+            return;
+        }
+        //end
 
-		if($data->product_excl_price)
-		{
-			$getprotax = $producthelper->getProductTax($cart[$idx]['product_id'],$data->product_excl_price);
-			$cart[$idx]['product_price'] = $data->product_excl_price + $getprotax;
-			$cart[$idx]['product_price'] += $data->wrapper_price;
-			$cart[$idx]['product_subtotal'] = $cart[$idx]['quantity'] * $cart[$idx]['product_price'];
-		}
+        $cart[$idx]['product_id']    = $data->product_id;
+        $cart[$idx]['product_price'] = $data->product_price;
+        $cart[$idx]['quantity']      = $data->product_quantity;
 
-		$generateAccessoryCart = array();
-		for($i=0;$i<count($quotation_acc_data);$i++)
-		{
-			$generateAccessoryCart[$i]['accessory_id'] = $quotation_acc_data[$i]->accessory_id;
-			$generateAccessoryCart[$i]['accessory_name'] = $quotation_acc_data[$i]->accessory_item_name;
-			$generateAccessoryCart[$i]['accessory_oprand'] = "+";
-			$generateAccessoryCart[$i]['accessory_price'] = $quotation_acc_data[$i]->accessory_price;
+        if ($data->product_excl_price)
+        {
+            $getprotax                   = $producthelper->getProductTax($cart[$idx]['product_id'], $data->product_excl_price);
+            $cart[$idx]['product_price'] = $data->product_excl_price + $getprotax;
+            $cart[$idx]['product_price'] += $data->wrapper_price;
+            $cart[$idx]['product_subtotal'] = $cart[$idx]['quantity'] * $cart[$idx]['product_price'];
+        }
 
-			$acc_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id,1,"attribute",$quotation_acc_data[$i]->accessory_id);
+        $generateAccessoryCart = array();
+        for ($i = 0; $i < count($quotation_acc_data); $i++)
+        {
+            $generateAccessoryCart[$i]['accessory_id']     = $quotation_acc_data[$i]->accessory_id;
+            $generateAccessoryCart[$i]['accessory_name']   = $quotation_acc_data[$i]->accessory_item_name;
+            $generateAccessoryCart[$i]['accessory_oprand'] = "+";
+            $generateAccessoryCart[$i]['accessory_price']  = $quotation_acc_data[$i]->accessory_price;
 
-			$accAttributeCart = array();
-			for($ia=0;$ia < count($acc_att_data);$ia++)
-			{
-				$accPropertyCart = array();
-				$accAttributeCart[$ia]['attribute_id'] = $acc_att_data[$ia]->section_id;
-				$accAttributeCart[$ia]['attribute_name'] = $acc_att_data[$ia]->section_name;
+            $acc_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "attribute", $quotation_acc_data[$i]->accessory_id);
 
-				$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id,1,"property",$acc_att_data[$ia]->section_id);
-				for($ip=0;$ip<count($acc_prop_data);$ip++)
-				{
-					$accSubpropertyCart = array();
-					$accPropertyCart[$ip]['property_id'] = $acc_prop_data[$ip]->section_id;
-					$accPropertyCart[$ip]['property_name'] = $acc_prop_data[$ip]->section_name;
-					$accPropertyCart[$ip]['property_oprand'] =$acc_prop_data[$ip]->section_oprand;
-					$accPropertyCart[$ip]['property_price'] = $acc_prop_data[$ip]->section_price;
+            $accAttributeCart = array();
+            for ($ia = 0; $ia < count($acc_att_data); $ia++)
+            {
+                $accPropertyCart                         = array();
+                $accAttributeCart[$ia]['attribute_id']   = $acc_att_data[$ia]->section_id;
+                $accAttributeCart[$ia]['attribute_name'] = $acc_att_data[$ia]->section_name;
 
-					$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id,1,"subproperty",$acc_prop_data[$ip]->section_id);
-					for($isp=0;$isp<count($acc_subpro_data);$isp++)
-					{
-						$accSubpropertyCart[$isp]['subproperty_id'] = $acc_subpro_data[$isp]->section_id;
-						$accSubpropertyCart[$isp]['subproperty_name'] = $acc_subpro_data[$isp]->section_name;
-						$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
-						$accSubpropertyCart[$isp]['subproperty_price'] = $acc_subpro_data[$isp]->section_price;
-					}
-					$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
-				}
-				$accAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
-			}
-			$generateAccessoryCart[$i]['accessory_childs'] = $accAttributeCart;
-		}
+                $acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "property", $acc_att_data[$ia]->section_id);
+                for ($ip = 0; $ip < count($acc_prop_data); $ip++)
+                {
+                    $accSubpropertyCart                      = array();
+                    $accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
+                    $accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
+                    $accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
+                    $accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;
 
-		$generateAttributeCart = array();
-		for($ia=0;$ia < count($quotation_att_data);$ia++)
-		{
-			$accPropertyCart = array();
-			$generateAttributeCart[$ia]['attribute_id'] = $quotation_att_data[$ia]->section_id;
-			$generateAttributeCart[$ia]['attribute_name'] = $quotation_att_data[$ia]->section_name;
+                    $acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "subproperty", $acc_prop_data[$ip]->section_id);
+                    for ($isp = 0; $isp < count($acc_subpro_data); $isp++)
+                    {
+                        $accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
+                        $accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
+                        $accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
+                        $accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
+                    }
+                    $accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
+                }
+                $accAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
+            }
+            $generateAccessoryCart[$i]['accessory_childs'] = $accAttributeCart;
+        }
 
-			$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id,0,"property",$quotation_att_data[$ia]->section_id);
-			for($ip=0;$ip<count($acc_prop_data);$ip++)
-			{
-				$accSubpropertyCart = array();
-				$accPropertyCart[$ip]['property_id'] = $acc_prop_data[$ip]->section_id;
-				$accPropertyCart[$ip]['property_name'] = $acc_prop_data[$ip]->section_name;
-				$accPropertyCart[$ip]['property_oprand'] =$acc_prop_data[$ip]->section_oprand;
-				$accPropertyCart[$ip]['property_price'] = $acc_prop_data[$ip]->section_price;
+        $generateAttributeCart = array();
+        for ($ia = 0; $ia < count($quotation_att_data); $ia++)
+        {
+            $accPropertyCart                              = array();
+            $generateAttributeCart[$ia]['attribute_id']   = $quotation_att_data[$ia]->section_id;
+            $generateAttributeCart[$ia]['attribute_name'] = $quotation_att_data[$ia]->section_name;
 
-				$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id,0,"subproperty",$acc_prop_data[$ip]->section_id);
-				for($isp=0;$isp<count($acc_subpro_data);$isp++)
-				{
-					$accSubpropertyCart[$isp]['subproperty_id'] = $acc_subpro_data[$isp]->section_id;
-					$accSubpropertyCart[$isp]['subproperty_name'] = $acc_subpro_data[$isp]->section_name;
-					$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
-					$accSubpropertyCart[$isp]['subproperty_price'] = $acc_subpro_data[$isp]->section_price;
-				}
-				$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
-			}
-			$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
-		}
+            $acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "property", $quotation_att_data[$ia]->section_id);
+            for ($ip = 0; $ip < count($acc_prop_data); $ip++)
+            {
+                $accSubpropertyCart                      = array();
+                $accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
+                $accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
+                $accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
+                $accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;
 
+                $acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "subproperty", $acc_prop_data[$ip]->section_id);
+                for ($isp = 0; $isp < count($acc_subpro_data); $isp++)
+                {
+                    $accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
+                    $accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
+                    $accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
+                    $accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
+                }
+                $accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
+            }
+            $generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
+        }
 
-     	$cart[$idx]['cart_attribute'] =  $generateAttributeCart;//$data->product_attribute;
-		$cart[$idx]['cart_accessory'] =  $generateAccessoryCart;//$data->product_accessory;
-//     	$cart[$idx]['mycart_accessory'] =  $data->mycart_accessory;
-//	    $cart[$idx]['category_id'] = $data['category_id'];
-	    $cart[$idx]['wrapper_id'] =  $data->product_wrapperid;
-	    $cart[$idx]['wrapper_price'] = $data->wrapper_price;
-	    $cart[$idx]['product_price_excl_vat']=$data->product_excl_price;
+        $cart[$idx]['cart_attribute'] = $generateAttributeCart; //$data->product_attribute;
+        $cart[$idx]['cart_accessory'] = $generateAccessoryCart; //$data->product_accessory;
+        //     	$cart[$idx]['mycart_accessory'] =  $data->mycart_accessory;
+        //	    $cart[$idx]['category_id'] = $data['category_id'];
+        $cart[$idx]['wrapper_id']             = $data->product_wrapperid;
+        $cart[$idx]['wrapper_price']          = $data->wrapper_price;
+        $cart[$idx]['product_price_excl_vat'] = $data->product_excl_price;
 
-	    $cart['idx'] = $idx+1;
-		for($i=0;$i<count($row_data);$i++)
-		{
-	    	$field_name=$row_data[$i]->field_name;
-	    	$cart[$idx][$field_name] = $row_data[$i]->data_txt;
-		}
-		$session->set( 'cart',$cart );
-	}
+        $cart['idx'] = $idx + 1;
+        for ($i = 0; $i < count($row_data); $i++)
+        {
+            $field_name              = $row_data[$i]->field_name;
+            $cart[$idx][$field_name] = $row_data[$i]->data_txt;
+        }
+        $session->set('cart', $cart);
+    }
 
-	function modifyQuotation($user_id=0)
-	{
-		$session =& JFactory::getSession();
-		$carthelper	= new rsCarthelper();
-		$cart = $session->get( 'cart');
+    function modifyQuotation($user_id = 0)
+    {
+        $session    =& JFactory::getSession();
+        $carthelper = new rsCarthelper();
+        $cart       = $session->get('cart');
 
-		$cart = $carthelper->modifyCart($cart,$user_id);
+        $cart = $carthelper->modifyCart($cart, $user_id);
 
-		$session->set( 'cart',$cart );
-		$carthelper->cartFinalCalculation(false);
-	}
-}	?>
+        $session->set('cart', $cart);
+        $carthelper->cartFinalCalculation(false);
+    }
+}

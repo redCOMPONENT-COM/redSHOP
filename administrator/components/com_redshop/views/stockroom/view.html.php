@@ -1,59 +1,49 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-//ccc
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-jimport ( 'joomla.application.component.view' );
+defined('_JEXEC') or die ('Restricted access');
 
-class stockroomViewstockroom extends JView
+class stockroomViewstockroom extends JViewLegacy
 {
     function display($tpl = null)
     {
-		global $mainframe, $context;
+        global $mainframe, $context;
 
-		$document = JFactory::getDocument ();
-		$document->setTitle ( JText::_('COM_REDSHOP_STOCKROOM' ) );
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_STOCKROOM'));
 
-		JToolBarHelper::title ( JText::_('COM_REDSHOP_STOCKROOM_MANAGEMENT' ), 'redshop_stockroom48' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM_MANAGEMENT'), 'redshop_stockroom48');
 
-	 	//JToolBarHelper::preview('index.php?tmpl=component&option=com_redshop&view=stockroom_detail&id=0');
+        JToolBarHelper::customX('listing', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_LISTING'), false);
 
-	 	JToolBarHelper::customX('listing','copy.png','copy_f2.png',JText::_('COM_REDSHOP_LISTING'),false);
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+        JToolBarHelper::deleteList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
 
-		JToolBarHelper::addNewX ();
-		JToolBarHelper::editListX ();
-		JToolBarHelper::customX ( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JToolBarHelper::deleteList ();
-		JToolBarHelper::publishList ();
-		JToolBarHelper::unpublishList ();
+        $uri = JFactory::getURI();
 
-		$uri = JFactory::getURI ();
+        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stockroom_id');
+        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$filter_order = $mainframe->getUserStateFromRequest ( $context . 'filter_order', 'filter_order', 'stockroom_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $context . 'filter_order_Dir', 'filter_order_Dir', '' );
+        $lists ['order']     = $filter_order;
+        $lists ['order_Dir'] = $filter_order_Dir;
+        $stockroom           = $this->get('Data');
+        $pagination          = $this->get('Pagination');
 
-		$lists ['order'] = $filter_order;
-		$lists ['order_Dir'] = $filter_order_Dir;
-		$stockroom = $this->get ( 'Data' );
-		$pagination = $this->get ( 'Pagination' );
+        $this->assignRef('lists', $lists);
+        $this->assignRef('stockroom', $stockroom);
+        $this->assignRef('pagination', $pagination);
+        $this->request_url = $uri->toString();
 
-		$this->assignRef ( 'lists', $lists );
-		$this->assignRef ( 'stockroom', $stockroom );
-		$this->assignRef ( 'pagination', $pagination );
-		$this->assignRef ( 'request_url', $uri->toString () );
-		parent::display ( $tpl );
-	}
+        parent::display($tpl);
+    }
 }

@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class voucher_detailController extends JController
+class voucher_detailController extends JControllerLegacy
 {
     function __construct($default = array())
     {

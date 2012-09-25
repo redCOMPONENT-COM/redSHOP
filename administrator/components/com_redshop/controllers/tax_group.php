@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class tax_groupController extends JController
+class tax_groupController extends JControllerLegacy
 {
     function cancel()
     {

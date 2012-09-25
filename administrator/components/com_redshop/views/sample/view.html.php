@@ -1,53 +1,45 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-class sampleViewsample extends JView
+class sampleViewsample extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
-		$context = 'sample_id';
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_CATALOG') );
+    function display($tpl = null)
+    {
+        global $mainframe, $context;
+        $context  = 'sample_id';
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_CATALOG'));
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_PRODUCT_SAMPLE' ), 'redshop_catalogmanagement48' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_catalogmanagement48');
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
-		//$context = "rating";
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'sample_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+        $uri              = JFactory::getURI();
+        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'sample_id');
+        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$catalog		= $this->get( 'Data');
-		$pagination = $this->get( 'Pagination' );
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
+        $catalog            = $this->get('Data');
+        $pagination         = $this->get('Pagination');
 
-    	$this->assignRef('lists',		$lists);
-  		$this->assignRef('catalog',		$catalog);
-    	$this->assignRef('pagination',	$pagination);
-    	$this->assignRef('request_url',	$uri->toString());
-    	parent::display($tpl);
-  }
+        $this->assignRef('lists', $lists);
+        $this->assignRef('catalog', $catalog);
+        $this->assignRef('pagination', $pagination);
+        $this->request_url = $uri->toString();
+
+        parent::display($tpl);
+    }
 }

@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 
-class xmlexport_detailModelxmlexport_detail extends JModel
+class xmlexport_detailModelxmlexport_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -41,7 +39,8 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
@@ -109,7 +108,8 @@ class xmlexport_detailModelxmlexport_detail extends JModel
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->xmlexport_on_category) {
+        if (!$row->xmlexport_on_category)
+        {
             $row->xmlexport_on_category = '';
         }
         $row->published = $data['xmlpublished'];

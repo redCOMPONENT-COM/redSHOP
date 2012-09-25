@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class country_detailModelcountry_detail extends JModel
+class country_detailModelcountry_detail extends JModelLegacy
 {
     var $_id = null;
 
@@ -40,7 +38,8 @@ class country_detailModelcountry_detail extends JModel
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

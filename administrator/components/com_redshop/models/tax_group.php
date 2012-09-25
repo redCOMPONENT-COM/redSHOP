@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class tax_groupModeltax_group extends JModel
+class tax_groupModeltax_group extends JModelLegacy
 {
     var $_data = null;
 

@@ -1,69 +1,64 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-class discountViewdiscount extends JView
+class discountViewdiscount extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
+    function display($tpl = null)
+    {
+        global $mainframe, $context;
 
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_DISCOUNT') );
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
 
-		$layout = JRequest::getVar('layout');
-		if(isset($layout) && $layout == 'product')
-			$context = 'discount_product_id';
-		else
-			$context = 'discount_id';
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT' ), 'redshop_discountmanagmenet48' );
+        $layout = JRequest::getVar('layout');
+        if (isset($layout) && $layout == 'product')
+        {
+            $context = 'discount_product_id';
+        }
+        else
+        {
+            $context = 'discount_id';
+        }
+        JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_discountmanagmenet48');
 
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+        $uri = JFactory::getURI();
 
-		$uri = JFactory::getURI();
+        if (isset($layout) && $layout == 'product')
+        {
+            $this->setLayout('product');
+            $filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_product_id');
+        }
+        else
+        {
+            $filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_id');
+        }
 
-		if(isset($layout) && $layout == 'product'){
-			$this->setLayout('product');
-			$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'discount_product_id' );
-		}else{
-			$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'discount_id' );
-		}
+        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
+        $discounts          = $this->get('Data');
+        $pagination         = $this->get('Pagination');
 
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$discounts	= $this->get( 'Data');
-		$total = $this->get( 'Total');
-		$pagination = $this->get( 'Pagination' );
-
-    	//$this->assignRef('user',		JFactory::getUser());
         $this->user = JFactory::getUser();
-    	$this->assignRef('lists',		$lists);
-  		$this->assignRef('discounts',	$discounts);
-    	$this->assignRef('pagination',	$pagination);
-   	 	//$this->assignRef('request_url',	$uri->toString());
+        $this->assignRef('lists', $lists);
+        $this->assignRef('discounts', $discounts);
+        $this->assignRef('pagination', $pagination);
         $this->request_url = $uri->toString();
-    	parent::display($tpl);
-  }
+        parent::display($tpl);
+    }
 }

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class currencyController extends JController
+class currencyController extends JControllerLegacy
 {
 }

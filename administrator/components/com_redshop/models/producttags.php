@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class producttagsModelproducttags extends JModel
+class producttagsModelproducttags extends JModelLegacy
 {
     var $_data = null;
 
