@@ -26,7 +26,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
 
     public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -35,13 +35,13 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -54,7 +54,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q " //			."LEFT JOIN ".$this->_table_prefix."users_info AS u ON u.user_id=q.user_id "
             . "WHERE q.quotation_id='" . $this->_id . "' "//			."AND u.address_type Like 'BT' "
@@ -65,7 +65,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         return (boolean)$this->_data;
     }
 
-    function &getuserdata()
+    public function &getuserdata()
     {
         $producthelper = new producthelper();
         if ($this->_data->user_id)
@@ -114,7 +114,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         return $userdata;
     }
 
-    function _initData()
+    public function _initData()
     {
         $quotationHelper = new quotationHelper();
         if (empty($this->_data))
@@ -150,7 +150,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
 
         $row = $this->getTable();
@@ -189,14 +189,14 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         return $row;
     }
 
-    function sendQuotationMail($quotaion_id)
+    public function sendQuotationMail($quotaion_id)
     {
         $redshopMail = new redshopMail();
         $send        = $redshopMail->sendQuotationMail($quotaion_id);
         return $send;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $quotationHelper = new quotationHelper();
         if (count($cid))
@@ -251,7 +251,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
         return true;
     }
 
-    function deleteitem($cids = 0, $quotation_id = 0)
+    public function deleteitem($cids = 0, $quotation_id = 0)
     {
         $quotationHelper = new quotationHelper();
         $quotation       = $this->getTable();
@@ -318,7 +318,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
     }
 
     // add new Quotation Item
-    function newQuotationItem($data)
+    public function newQuotationItem($data)
     {
         $quotationHelper = new quotationHelper();
         $rsCarthelper    = new rsCarthelper();

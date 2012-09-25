@@ -33,7 +33,7 @@ class Img2Thumb
      */
     public $fileout;
 
-    function Img2Thumb($filename, $newxsize = 60, $newysize = 60, $fileout = '', $thumbMaxSize = 0, $bgred = 0, $bggreen = 0, $bgblue = 0, $swap)
+    public function Img2Thumb($filename, $newxsize = 60, $newysize = 60, $fileout = '', $thumbMaxSize = 0, $bgred = 0, $bggreen = 0, $bgblue = 0, $swap)
     {
 
         //	New modification - checks color int to be sure within range
@@ -78,7 +78,7 @@ class Img2Thumb
      *    private function - do not call
      *
      */
-    function NewImgCreate($filename, $newxsize, $newysize, $fileout, $swap)
+    public function NewImgCreate($filename, $newxsize, $newysize, $fileout, $swap)
     {
 
         $type = $this->GetImgType($filename);
@@ -136,7 +136,7 @@ class Img2Thumb
      *    private function - do not call
      *    includes function ImageCreateTrueColor and ImageCopyResampled which are available only under GD 2.0.1 or higher !
      */
-    function NewImgResize($orig_img, $newxsize, $newysize, $filename, $swap)
+    public function NewImgResize($orig_img, $newxsize, $newysize, $filename, $swap)
     {
         //getimagesize returns array
         // [0] = width in pixels
@@ -310,7 +310,7 @@ class Img2Thumb
      *    private function - do not call
      *
      */
-    function NewImgSave($new_img, $fileout, $type)
+    public function NewImgSave($new_img, $fileout, $type)
     {
         if (!@is_dir(dirname($fileout)))
         {
@@ -386,7 +386,7 @@ class Img2Thumb
      *    private function - do not call
      *
      */
-    function NewImgShow($new_img, $type)
+    public function NewImgShow($new_img, $type)
     {
         switch ($type)
         {
@@ -424,7 +424,7 @@ class Img2Thumb
      *   9 = JPC, 10 = JP2, 11 = JPX,
      *   12 = JB2, 13 = SWC, 14 = IFF
      */
-    function GetImgType($filename)
+    public function GetImgType($filename)
     {
         $info = getimagesize($filename);
         switch ($info[2])

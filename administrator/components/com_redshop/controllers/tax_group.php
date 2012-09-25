@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class tax_groupController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $this->setRedirect('index.php?option=' . $option . '&view=tax_group');

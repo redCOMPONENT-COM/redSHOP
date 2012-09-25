@@ -23,7 +23,7 @@ class wrapperModelwrapper extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         global $mainframe;
@@ -41,13 +41,13 @@ class wrapperModelwrapper extends JModelLegacy
         $this->setProductId((int)$product_id);
     }
 
-    function setProductId($id)
+    public function setProductId($id)
     {
         $this->_productid = $id;
         $this->_data      = null;
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -57,7 +57,7 @@ class wrapperModelwrapper extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -67,7 +67,7 @@ class wrapperModelwrapper extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -77,7 +77,7 @@ class wrapperModelwrapper extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         //$orderby	= $this->_buildContentOrderBy();
         $showall = JRequest::getVar('showall', '0');

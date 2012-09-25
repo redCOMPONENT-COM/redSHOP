@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class importController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function importdata()
+    public function importdata()
     {
         ob_clean();
         $model = $this->getModel('import');

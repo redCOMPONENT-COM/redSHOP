@@ -23,7 +23,7 @@ class category_detailModelcategory_detail extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -32,13 +32,13 @@ class category_detailModelcategory_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -51,7 +51,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -63,7 +63,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -95,7 +95,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
 
         $row = $this->getTable();
@@ -280,7 +280,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $noError = true;
         for ($i = 0; $i < count($cid); $i++)
@@ -334,7 +334,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         return $noError;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -351,14 +351,14 @@ class category_detailModelcategory_detail extends JModelLegacy
         return true;
     }
 
-    function getcategories()
+    public function getcategories()
     {
         $query = 'SELECT category_id as value,category_name as text FROM ' . $this->_table_prefix . 'category  WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function move($direction)
+    public function move($direction)
     {
         $row = $this->getTable();
         if (!$row->load($this->_id))
@@ -374,7 +374,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         return true;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable();
         $groupings = array();
@@ -406,7 +406,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         return true;
     }
 
-    function updateorder($oprand, $cat_id = 0)
+    public function updateorder($oprand, $cat_id = 0)
     {
 
         $q = "UPDATE " . $this->_table_prefix . "category ";
@@ -420,7 +420,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         $this->_db->query();
     }
 
-    function orderup()
+    public function orderup()
     {
 
         $cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -459,7 +459,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         }
     }
 
-    function orderdown()
+    public function orderdown()
     {
 
         $cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -499,7 +499,7 @@ class category_detailModelcategory_detail extends JModelLegacy
         }
     }
 
-    function getmaxminOrder($type)
+    public function getmaxminOrder($type)
     {
 
         $q = "SELECT " . $type . "(ordering) as morder FROM " . $this->_table_prefix . "category";
@@ -509,14 +509,14 @@ class category_detailModelcategory_detail extends JModelLegacy
         return $cat;
     }
 
-    function getProductCompareTemplate()
+    public function getProductCompareTemplate()
     {
         $query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix . "template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function copy($cid = array())
+    public function copy($cid = array())
     {
         if (count($cid))
         {

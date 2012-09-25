@@ -10,7 +10,7 @@
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 class cartViewcart extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
         // Request variables

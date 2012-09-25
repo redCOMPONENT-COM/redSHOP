@@ -12,13 +12,13 @@ defined('_JEXEC') or die ('Restricted access');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 class xmlexport_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'xmlexport_detail');
         JRequest::setVar('layout', 'default');
@@ -26,12 +26,12 @@ class xmlexport_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function xmlexport()
+    public function xmlexport()
     {
         $this->save(1);
     }
 
-    function save($export = 0)
+    public function save($export = 0)
     {
         $session   = JFactory::getSession();
         $xmlhelper = new xmlHelper();
@@ -114,7 +114,7 @@ class xmlexport_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
     }
 
-    function setChildElement()
+    public function setChildElement()
     {
         JHTMLBehavior::modal();
 
@@ -167,7 +167,7 @@ class xmlexport_detailController extends JControllerLegacy
     <?php
     }
 
-    function removeIpAddress()
+    public function removeIpAddress()
     {
         $xmlexport_ip_id = JRequest::getVar('xmlexport_ip_id', 0);
 
@@ -176,7 +176,7 @@ class xmlexport_detailController extends JControllerLegacy
         die();
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -195,7 +195,7 @@ class xmlexport_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option  = JRequest::getVar('option', '', 'request', 'string');
         $session = JFactory::getSession();
@@ -210,7 +210,7 @@ class xmlexport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function auto_syncpublish()
+    public function auto_syncpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -234,7 +234,7 @@ class xmlexport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function auto_syncunpublish()
+    public function auto_syncunpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -258,7 +258,7 @@ class xmlexport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function usetoallpublish()
+    public function usetoallpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -282,7 +282,7 @@ class xmlexport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function usetoallunpublish()
+    public function usetoallunpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -306,7 +306,7 @@ class xmlexport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -329,7 +329,7 @@ class xmlexport_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');

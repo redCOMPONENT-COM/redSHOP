@@ -15,13 +15,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 
 class order_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'order_detail');
         JRequest::setVar('layout', 'default');
@@ -29,7 +29,7 @@ class order_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post = JRequest::get('post');
 
@@ -58,7 +58,7 @@ class order_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
 
@@ -78,14 +78,14 @@ class order_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $msg    = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
     }
 
-    function neworderitem()
+    public function neworderitem()
     {
         $adminproducthelper = new adminproducthelper();
         $stockroomhelper    = new rsstockroomhelper();
@@ -162,7 +162,7 @@ class order_detailController extends JControllerLegacy
         }
     }
 
-    function delete_item()
+    public function delete_item()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -197,7 +197,7 @@ class order_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
     }
 
-    function updateItem()
+    public function updateItem()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -224,7 +224,7 @@ class order_detailController extends JControllerLegacy
         }
     }
 
-    function update_discount()
+    public function update_discount()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -244,7 +244,7 @@ class order_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
     }
 
-    function special_discount()
+    public function special_discount()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -265,7 +265,7 @@ class order_detailController extends JControllerLegacy
     }
 
     // update shipping rates
-    function update_shippingrates()
+    public function update_shippingrates()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -286,7 +286,7 @@ class order_detailController extends JControllerLegacy
     }
 
     // update shipping address information
-    function updateShippingAdd()
+    public function updateShippingAdd()
     {
         global $mainframe;
 
@@ -324,7 +324,7 @@ class order_detailController extends JControllerLegacy
     }
 
     // update billing address information
-    function updateBillingAdd()
+    public function updateBillingAdd()
     {
 
         global $mainframe;
@@ -359,22 +359,22 @@ class order_detailController extends JControllerLegacy
         exit;
     }
 
-    function createpdf()
+    public function createpdf()
     {
         parent::display();
     }
 
-    function createpdfstocknote()
+    public function createpdfstocknote()
     {
         parent::display();
     }
 
-    function ccdetail()
+    public function ccdetail()
     {
         parent::display();
     }
 
-    function send_downloadmail()
+    public function send_downloadmail()
     {
         global $mainframe;
 
@@ -401,7 +401,7 @@ class order_detailController extends JControllerLegacy
         }
     }
 
-    function displayProductItemInfo()
+    public function displayProductItemInfo()
     {
         $producthelper      = new producthelper();
         $adminproducthelper = new adminproducthelper();
@@ -418,7 +418,7 @@ class order_detailController extends JControllerLegacy
         exit;
     }
 
-    function checkoutnext()
+    public function checkoutnext()
     {
 
         global $mainframe;
@@ -537,7 +537,7 @@ class order_detailController extends JControllerLegacy
     /*
       * Notify payment function
       */
-    function notify_payment()
+    public function notify_payment()
     {
         $mainframe = JFactory::getApplication('site');
         $db        = jFactory::getDBO();
@@ -559,7 +559,7 @@ class order_detailController extends JControllerLegacy
         $mainframe->redirect($redirect_url, $msg);
     }
 
-    function send_invoicemail()
+    public function send_invoicemail()
     {
         global $mainframe;
         $redshopMail = new redshopMail ();

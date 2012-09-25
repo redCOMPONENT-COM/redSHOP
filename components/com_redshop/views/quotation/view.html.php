@@ -10,7 +10,7 @@ defined('_JEXEC') or die ('restricted access');
 
 class quotationViewquotation extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
 

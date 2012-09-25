@@ -13,7 +13,7 @@ jimport('joomla.html.pane');
 
 class mail_detailVIEWmail_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT_DETAIL'), 'redshop_mailcenter48');
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class producttagsViewproducttags extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
         $context  = 't.tags_id';

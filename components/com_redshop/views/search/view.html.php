@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 
 class searchViewsearch extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
 
@@ -121,7 +121,7 @@ class searchViewsearch extends JViewLegacy
     /*
     * generate product search output
     */
-    function onRSProductSearch()
+    public function onRSProductSearch()
     {
         if (count($this->search) > 0)
         {

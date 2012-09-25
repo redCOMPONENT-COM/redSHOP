@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class currency_detailVIEWcurrency_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_currency_MANAGEMENT'), 'redshop_currencies_48');
 

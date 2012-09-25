@@ -25,7 +25,7 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
  */
 class order_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->_producthelper   = new producthelper();
@@ -40,7 +40,7 @@ class order_detailController extends JControllerLegacy
     /*
       *  bookinvoice function
       */
-    function bookinvoice()
+    public function bookinvoice()
     {
         // Economic Integration start for invoice generate and book current invoice
         //		if(ECONOMIC_INTEGRATION==1)
@@ -59,7 +59,7 @@ class order_detailController extends JControllerLegacy
     /*
       *  process payment function for creditcard payment
       */
-    function process_payment()
+    public function process_payment()
     {
 
         global $mainframe;
@@ -164,7 +164,7 @@ class order_detailController extends JControllerLegacy
     /*
       * Notify payment function
       */
-    function notify_payment()
+    public function notify_payment()
     {
 
         $mainframe = & JFactory::getApplication('site');
@@ -207,7 +207,7 @@ class order_detailController extends JControllerLegacy
         }
     }
 
-    function copyorderitemtocart()
+    public function copyorderitemtocart()
     {
         global $mainframe;
         $order_item_id = JRequest::getInt('order_item_id');
@@ -271,7 +271,7 @@ class order_detailController extends JControllerLegacy
         }
     }
 
-    function reorder()
+    public function reorder()
     {
         global $mainframe;
         $session  =& JFactory::getSession();
@@ -361,7 +361,7 @@ class order_detailController extends JControllerLegacy
     /*
       *  payment function
       */
-    function payment()
+    public function payment()
     {
         global $mainframe;
         $redconfig = new Redconfiguration();

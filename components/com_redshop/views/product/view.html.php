@@ -17,7 +17,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 
 class productViewproduct extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $mainframe     = JFactory::getApplication();
         $prodhelperobj = new producthelper();

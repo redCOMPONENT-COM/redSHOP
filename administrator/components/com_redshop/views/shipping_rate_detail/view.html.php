@@ -15,7 +15,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class shipping_rate_detailViewshipping_rate_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
         $context        = 'shipping_rate';

@@ -179,7 +179,7 @@ class rsUserhelper
         return count($users);
     }
 
-    function validate_email($email, $id = 0)
+    public function validate_email($email, $id = 0)
     {
         $query = "SELECT email FROM #__users " . "WHERE email = '" . $email . "' " . "AND id!='" . $id . "' ";
         $this->_db->setQuery($query);
@@ -187,7 +187,7 @@ class rsUserhelper
         return count($emails);
     }
 
-    function updateJoomlaUser($data)
+    public function updateJoomlaUser($data)
     {
         $app = JFactory::getApplication();
         if (!$app->isAdmin())
@@ -299,7 +299,7 @@ class rsUserhelper
         return $user;
     }
 
-    function createJoomlaUser($data, $createuser = 0)
+    public function createJoomlaUser($data, $createuser = 0)
     {
         global $mainframe;
 
@@ -416,7 +416,7 @@ class rsUserhelper
         return true;
     }
 
-    function checkCaptcha($data)
+    public function checkCaptcha($data)
     {
         if (SHOW_CAPTCHA)
         {
@@ -432,7 +432,7 @@ class rsUserhelper
         return true;
     }
 
-    function storeRedshopUser($data, $user_id = 0, $admin = 0)
+    public function storeRedshopUser($data, $user_id = 0, $admin = 0)
     {
         $redshopMail = new redshopMail();
         $extra_field = new extra_field();
@@ -640,7 +640,7 @@ class rsUserhelper
         return $row;
     }
 
-    function storeRedshopUserShipping($data)
+    public function storeRedshopUserShipping($data)
     {
         $extra_field = new extra_field();
 
@@ -690,7 +690,7 @@ class rsUserhelper
         return $rowShip;
     }
 
-    function userSynchronization()
+    public function userSynchronization()
     {
         $query = "SELECT u.* FROM #__users AS u " . "LEFT JOIN " . $this->_table_prefix . "users_info AS ru ON ru.user_id = u.id " . "WHERE ru.user_id IS NULL ";
         $this->_db->setQuery($query);
@@ -712,7 +712,7 @@ class rsUserhelper
         return count($jusers);
     }
 
-    function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
+    public function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
     {
         $newsletter = 1;
         $user       =& JFactory::getUser();
@@ -774,7 +774,7 @@ class rsUserhelper
         return true;
     }
 
-    function newsletterUnsubscribe($email = "")
+    public function newsletterUnsubscribe($email = "")
     {
         $user =& JFactory::getUser();
         $and  = "";
@@ -798,7 +798,7 @@ class rsUserhelper
         return true;
     }
 
-    function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
+    public function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
     {
         $redTemplate = new Redtemplate();
 
@@ -930,7 +930,7 @@ class rsUserhelper
         return $template_desc;
     }
 
-    function replaceBillingCommonFields($template_desc, $post = array(), $lists)
+    public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
     {
         $Redconfiguration = new Redconfiguration();
 
@@ -988,7 +988,7 @@ class rsUserhelper
         return $template_desc;
     }
 
-    function replacePrivateCustomer($template_desc, $post = array(), $lists)
+    public function replacePrivateCustomer($template_desc, $post = array(), $lists)
     {
         $template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
         if (strstr($template_desc, "{private_extrafield}"))
@@ -999,7 +999,7 @@ class rsUserhelper
         return $template_desc;
     }
 
-    function replaceCompanyCustomer($template_desc, $post = array(), $lists)
+    public function replaceCompanyCustomer($template_desc, $post = array(), $lists)
     {
         $template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
 
@@ -1047,7 +1047,7 @@ class rsUserhelper
         return $template_desc;
     }
 
-    function getShippingTable($post = array(), $is_company = 0, $lists)
+    public function getShippingTable($post = array(), $is_company = 0, $lists)
     {
         $Redconfiguration  = new Redconfiguration();
         $redTemplate       = new Redtemplate();
@@ -1124,7 +1124,7 @@ class rsUserhelper
         return $template_desc;
     }
 
-    function getCaptchaTable()
+    public function getCaptchaTable()
     {
         $html = '';
         if (SHOW_CAPTCHA)
@@ -1140,7 +1140,7 @@ class rsUserhelper
         return $html;
     }
 
-    function getAskQuestionCaptcha()
+    public function getAskQuestionCaptcha()
     {
         $html = '';
         $html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
@@ -1156,7 +1156,7 @@ class rsUserhelper
     /**
      * function to store redCRM user
      */
-    function setoreredCRMDebtor($row)
+    public function setoreredCRMDebtor($row)
     {
         $this->_db->setQuery("SELECT debitor_id FROM #__redcrm_debitors WHERE users_info_id = '" . $row->users_info_id . "'");
         $row->debitor_id = $this->_db->loadResult();
@@ -1194,7 +1194,7 @@ class rsUserhelper
         return $debtor;
     }
 
-    function getShopperGroupManufacturers()
+    public function getShopperGroupManufacturers()
     {
         $user                       = JFactory::getUser();
         $user_id                    = $user->id;
@@ -1204,5 +1204,3 @@ class rsUserhelper
         return $shopper_group_manufactures;
     }
 }
-
-?>

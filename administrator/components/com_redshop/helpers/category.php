@@ -18,13 +18,13 @@ class product_category
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
     }
 
-    function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
+    public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
     {
 
         $db   = jFactory::getDBO();
@@ -54,7 +54,7 @@ class product_category
         return $html;
     }
 
-    function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(), $disabledFields = Array(), $html = '')
+    public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(), $disabledFields = Array(), $html = '')
     {
 
         $db = jFactory::getDBO();
@@ -107,7 +107,7 @@ class product_category
         return $html;
     }
 
-    function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
+    public function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
     {
 
         global $context;
@@ -173,7 +173,7 @@ class product_category
         return $this->_cats;
     }
 
-    function getCategoryListReverceArray($cid = '0')
+    public function getCategoryListReverceArray($cid = '0')
     {
 
         $db = jFactory::getDBO();
@@ -191,7 +191,7 @@ class product_category
         return $GLOBALS['catlist_reverse'];
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe, $context;
 
@@ -201,7 +201,7 @@ class product_category
         return $orderby;
     }
 
-    function getParentCategories()
+    public function getParentCategories()
     {
         $db    = jFactory::getDBO();
         $query = 'SELECT DISTINCT c.category_name, c.category_id' . ' FROM ' . $this->_table_prefix . 'category c ' . ' LEFT JOIN ' . $this->_table_prefix . 'category_xref AS x ON c.category_id = x.category_child_id ' . 'WHERE x.category_parent_id=0 ';
@@ -218,7 +218,7 @@ class product_category
      *
      */
 
-    function getCategoryTree($cid = '0')
+    public function getCategoryTree($cid = '0')
     {
 
         $db = jFactory::getDBO();
@@ -238,7 +238,7 @@ class product_category
         return $GLOBALS['catlist'];
     }
 
-    function getCategoryProductList($cid) // pass category id
+    public function getCategoryProductList($cid) // pass category id
     {
         $db    = jFactory::getDBO();
         $query = "SELECT p.product_id AS id " . "FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id " . "WHERE 1=1 AND c.category_id = '" . $cid . "' and p.published =1 ";
@@ -251,7 +251,7 @@ class product_category
         return $result;
     }
 
-    function CheckAccessoryExists($product_id, $accessory_id)
+    public function CheckAccessoryExists($product_id, $accessory_id)
     {
 
         $db = jFactory::getDBO();

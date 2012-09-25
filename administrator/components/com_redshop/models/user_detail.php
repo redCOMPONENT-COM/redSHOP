@@ -29,7 +29,7 @@ class user_detailModeluser_detail extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         global $mainframe;
         parent::__construct();
@@ -48,13 +48,13 @@ class user_detailModeluser_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -66,7 +66,7 @@ class user_detailModeluser_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -87,7 +87,7 @@ class user_detailModeluser_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -163,7 +163,7 @@ class user_detailModeluser_detail extends JModelLegacy
       * @ it canbe use in redSHOP with diffrent purpose
       * @ author: gunjan
       */
-    function storeUser($post)
+    public function storeUser($post)
     {
 
         global $mainframe;
@@ -288,7 +288,7 @@ class user_detailModeluser_detail extends JModelLegacy
         return $user;
     }
 
-    function store($post)
+    public function store($post)
     {
         $userhelper = new rsUserhelper();
 
@@ -322,7 +322,7 @@ class user_detailModeluser_detail extends JModelLegacy
         return $reduser;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -338,7 +338,7 @@ class user_detailModeluser_detail extends JModelLegacy
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -355,7 +355,7 @@ class user_detailModeluser_detail extends JModelLegacy
         return true;
     }
 
-    function validate_user($user, $uid)
+    public function validate_user($user, $uid)
     {
         $query = "SELECT username FROM #__users WHERE username='" . $user . "' AND id !=" . $uid;
         $this->_db->setQuery($query);
@@ -363,7 +363,7 @@ class user_detailModeluser_detail extends JModelLegacy
         return count($users);
     }
 
-    function validate_email($email, $uid)
+    public function validate_email($email, $uid)
     {
         $query = "SELECT email FROM #__users WHERE email = '" . $email . "' AND id !=" . $uid;
         $this->_db->setQuery($query);
@@ -371,20 +371,20 @@ class user_detailModeluser_detail extends JModelLegacy
         return count($emails);
     }
 
-    function userOrders()
+    public function userOrders()
     {
         $query = $this->_buildUserorderQuery();
         $list  = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
         return $list;
     }
 
-    function _buildUserorderQuery()
+    public function _buildUserorderQuery()
     {
         $query = "SELECT * FROM `" . $this->_table_prefix . "orders` " . "WHERE `user_id`='" . $this->_uid . "' " . "ORDER BY order_id DESC ";
         return $query;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if ($this->_id)
         {
@@ -394,7 +394,7 @@ class user_detailModeluser_detail extends JModelLegacy
         }
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {

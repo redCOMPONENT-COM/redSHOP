@@ -19,7 +19,7 @@ class ordertrackerModelordertracker extends JModelLegacy
 
     public $_template = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 

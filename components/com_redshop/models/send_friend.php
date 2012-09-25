@@ -23,7 +23,7 @@ class send_friendModelsend_friend extends JModelLegacy
 
     public $_template = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -32,13 +32,13 @@ class send_friendModelsend_friend extends JModelLegacy
         $this->setId((int)JRequest::getVar('pid', 0));
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
+    public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
     {
         $producthelper = new producthelper();
         $redshopMail   = new redshopMail();

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class shipping_ratecontroller extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $post = JRequest::get('post');
         $this->setRedirect('index.php?option=' . $post['option'] . '&view=shipping_detail&task=edit&cid[]=' . $post['id']);

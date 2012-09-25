@@ -11,19 +11,19 @@ defined('_JEXEC') or die('Restricted access');
 
 class product_priceController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function listing()
+    public function listing()
     {
         JRequest::setVar('layout', 'listing');
         JRequest::setVar('hidemainmenu', 1);
         parent::display();
     }
 
-    function saveprice()
+    public function saveprice()
     {
         $db                   = JFactory::getDBO();
         $product_id           = JRequest::getVar('pid');
@@ -75,7 +75,7 @@ class product_priceController extends JControllerLegacy
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=product_price&pid=' . $product_id);
     }
 
-    function template()
+    public function template()
     {
         $template_id = JRequest::getVar('template_id', '');
         $product_id  = JRequest::getVar('product_id', '');

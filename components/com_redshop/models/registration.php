@@ -21,14 +21,14 @@ class registrationModelregistration extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
     }
 
-    function store(&$data)
+    public function store(&$data)
     {
         $userhelper = new rsUserhelper();
         $captcha    = $userhelper->checkCaptcha($data);

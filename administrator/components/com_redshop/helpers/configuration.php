@@ -37,7 +37,7 @@ class Redconfiguration
      * define default path
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->_table_prefix = '#__redshop_';
 
@@ -79,7 +79,7 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function isCFGFile()
+    public function isCFGFile()
     {
         if (!file_exists($this->_configpath))
         {
@@ -94,7 +94,7 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function isCFGTable()
+    public function isCFGTable()
     {
         $query = 'show tables like "' . $this->_db->getPrefix() . 'redshop_configuration"';
         $this->_db->setQuery($query);
@@ -113,7 +113,7 @@ class Redconfiguration
      *
      * @param array $org
      */
-    function setCFGTableData($org = array())
+    public function setCFGTableData($org = array())
     {
         // getData From table
         $query = "SELECT * FROM " . $this->_table_prefix . "configuration WHERE id = 1";
@@ -135,7 +135,7 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function loadDefaultCFGFile()
+    public function loadDefaultCFGFile()
     {
         if ($this->isCFGFile())
         {
@@ -164,7 +164,7 @@ class Redconfiguration
      *
      * @return boolean
      */
-    function manageCFGFile($org = array())
+    public function manageCFGFile($org = array())
     {
         if ($this->isCFGFile())
         {
@@ -188,7 +188,7 @@ class Redconfiguration
         return true;
     }
 
-    function WriteDefFile($def = array())
+    public function WriteDefFile($def = array())
     {
         if (count($def) <= 0)
         {
@@ -218,7 +218,7 @@ class Redconfiguration
         }
     }
 
-    function defineCFGVars($data, $bypass = false)
+    public function defineCFGVars($data, $bypass = false)
     {
         $this->_cfgdata = "";
         $this->_cfgdata .= "<?php\n";
@@ -233,7 +233,7 @@ class Redconfiguration
         return;
     }
 
-    function writeCFGFile()
+    public function writeCFGFile()
     {
         if ($fp = fopen($this->_configpath, "w"))
         {
@@ -247,7 +247,7 @@ class Redconfiguration
         }
     }
 
-    function updateCFGFile()
+    public function updateCFGFile()
     {
         if ($fp = fopen($this->_configpath, "a"))
         {
@@ -261,7 +261,7 @@ class Redconfiguration
         }
     }
 
-    function backupCFGFile()
+    public function backupCFGFile()
     {
         if ($this->isCFGFile())
         {
@@ -280,7 +280,7 @@ class Redconfiguration
         return true;
     }
 
-    function isTmpFile()
+    public function isTmpFile()
     {
         if (file_exists($this->_config_tmp_path))
         {
@@ -297,7 +297,7 @@ class Redconfiguration
         return false;
     }
 
-    function isTMPFileWritable()
+    public function isTMPFileWritable()
     {
         if (!is_writable($this->_config_tmp_path))
         {
@@ -307,7 +307,7 @@ class Redconfiguration
         return true;
     }
 
-    function isDEFFile()
+    public function isDEFFile()
     {
         if (file_exists($this->_config_def_path))
         {
@@ -324,7 +324,7 @@ class Redconfiguration
         return false;
     }
 
-    function isDEFFileWritable()
+    public function isDEFFileWritable()
     {
         if (!is_writable($this->_config_def_path))
         {
@@ -334,7 +334,7 @@ class Redconfiguration
         return true;
     }
 
-    function storeFromTMPFile()
+    public function storeFromTMPFile()
     {
         global $temparray;
         global $defaultarray;
@@ -352,7 +352,7 @@ class Redconfiguration
         return true;
     }
 
-    function redshopCFGData($d)
+    public function redshopCFGData($d)
     {
         $d['booking_order_status'] = (isset($d['booking_order_status'])) ? $d['booking_order_status'] : 0;
 
@@ -472,7 +472,7 @@ class Redconfiguration
      *
      * IMPORTANT: we need to call this function in plugin or module manually to see the effect of this variables
      */
-    function defineDynamicVars()
+    public function defineDynamicVars()
     {
         if (!defined('SHOW_PRICE'))
         {
@@ -503,13 +503,13 @@ class Redconfiguration
         }
     }
 
-    function checkMagicMagnity()
+    public function checkMagicMagnity()
     {
         jimport('joomla.application.module.helper');
         return JModuleHelper::isEnabled('redmagicmagnifyplus');
     }
 
-    function showPrice()
+    public function showPrice()
     {
         $user             = JFactory::getUser();
         $userhelper       = new rsUserhelper();
@@ -542,7 +542,7 @@ class Redconfiguration
         }
     }
 
-    function getCatalog()
+    public function getCatalog()
     {
         $user             = JFactory::getUser();
         $userhelper       = new rsUserhelper();
@@ -575,7 +575,7 @@ class Redconfiguration
         }
     }
 
-    function setQuotationMode()
+    public function setQuotationMode()
     {
         $user             = JFactory::getUser();
         $userhelper       = new rsUserhelper();
@@ -608,7 +608,7 @@ class Redconfiguration
         }
     }
 
-    function maxchar($desc = '', $maxchars = 0, $suffix = '')
+    public function maxchar($desc = '', $maxchars = 0, $suffix = '')
     {
         $strdesc = '';
         if (( int )$maxchars <= 0)
@@ -622,7 +622,7 @@ class Redconfiguration
         return $strdesc;
     }
 
-    function substrws($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
+    public function substrws($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
     {
         if ($considerHtml)
         {
@@ -743,7 +743,7 @@ class Redconfiguration
      * @return    array
      * @since     1.5
      */
-    function getDateFormat()
+    public function getDateFormat()
     {
         $option = array();
         $mon    = JText::_(strtoupper(date("M")));
@@ -789,7 +789,7 @@ class Redconfiguration
      * @return    array
      * @since     1.5
      */
-    function convertDateFormat($date)
+    public function convertDateFormat($date)
     {
         $JApp = JFactory::getApplication();
         if ($date <= 0)
@@ -860,28 +860,28 @@ class Redconfiguration
         return $convertformat;
     }
 
-    function getCountryId($conid)
+    public function getCountryId($conid)
     {
         $query = 'SELECT country_id FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getCountryCode2($conid)
+    public function getCountryCode2($conid)
     {
         $query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getStateCode2($conid)
+    public function getStateCode2($conid)
     {
         $query = 'SELECT state_2_code FROM ' . $this->_table_prefix . 'state ' . 'WHERE state_3_code LIKE "' . $conid . '"';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getStateCode($conid, $tax_code)
+    public function getStateCode($conid, $tax_code)
     {
         $query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state ' . 'WHERE state_2_code LIKE "' . $tax_code . '" and country_id="' . $conid . '"';
         $this->_db->setQuery($query);
@@ -896,7 +896,7 @@ class Redconfiguration
         return $state_code;
     }
 
-    function countryList()
+    public function countryList()
     {
         if (empty($this->_country_list))
         {
@@ -923,7 +923,7 @@ class Redconfiguration
         return $this->_country_list;
     }
 
-    function getCountryList($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
+    public function getCountryList($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
     {
         $address_type = ($address_type == "ST") ? "_ST" : "";
         $countries    = $this->countryList();
@@ -956,7 +956,7 @@ class Redconfiguration
         return $return;
     }
 
-    function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
+    public function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
     {
         $selected_country_code = ($address_type == "ST") ? @$post['country_code_ST'] : @$post['country_code'];
         $selected_state_code   = ($address_type == "ST") ? @$post['state_code_ST'] : @$post['state_code'];

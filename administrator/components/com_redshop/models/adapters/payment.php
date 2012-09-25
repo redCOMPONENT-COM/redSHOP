@@ -16,12 +16,12 @@
 
 class JInstallerPayment extends JObject
 {
-    function __construct(&$parent)
+    public function __construct(&$parent)
     {
         $this->parent =& $parent;
     }
 
-    function install()
+    public function install()
     {
         // Get a database connector object
         $db = $this->parent->getDBO();
@@ -243,7 +243,7 @@ class JInstallerPayment extends JObject
         return true;
     }
 
-    function uninstall($id, $clientId)
+    public function uninstall($id, $clientId)
     {
         // Initialize variables
         $row    = null;
@@ -301,7 +301,7 @@ class JInstallerPayment extends JObject
         return $retval;
     }
 
-    function _rollback_plugin($arg)
+    public function _rollback_plugin($arg)
     {
         // Get database connector object
         $db = $this->parent->getDBO();

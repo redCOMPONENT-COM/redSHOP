@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class newsletter_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'newsletter_detail');
         JRequest::setVar('layout', 'default');
@@ -26,12 +26,12 @@ class newsletter_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post         = JRequest::get('post');
         $body         = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -66,7 +66,7 @@ class newsletter_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -103,7 +103,7 @@ class newsletter_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -123,7 +123,7 @@ class newsletter_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
 
         $option = JRequest::getVar('option');
@@ -144,14 +144,14 @@ class newsletter_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
-    function copy()
+    public function copy()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');

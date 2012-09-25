@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class searchViewsearch extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $doc = JFactory::getDocument();
 

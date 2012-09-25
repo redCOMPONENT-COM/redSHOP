@@ -22,7 +22,7 @@ class thumbnail
     // $n_width = thumbnail output width
     // $n_height = thumbnail output height
 
-    function CreatThumb($filetype, $tsrc, $dest, $n_width, $n_height)
+    public function CreatThumb($filetype, $tsrc, $dest, $n_width, $n_height)
     {
 
         if ($filetype == "gif")
@@ -76,7 +76,7 @@ class thumbnail_images
     // tmp
     public $mime;
 
-    function imagejpeg_new($NewImg, $path_img)
+    public function imagejpeg_new($NewImg, $path_img)
     {
         if ($this->mime == 'image/jpeg' or $this->mime == 'image/pjpeg')
         {
@@ -97,7 +97,7 @@ class thumbnail_images
         return (true);
     }
 
-    function imagecreatefromjpeg_new($path_img)
+    public function imagecreatefromjpeg_new($path_img)
     {
         if ($this->mime == 'image/jpeg' or $this->mime == 'image/pjpeg')
         {
@@ -118,7 +118,7 @@ class thumbnail_images
         return ($OldImg);
     }
 
-    function create_thumbnail_images()
+    public function create_thumbnail_images()
     {
         $PathImgOld = $this->PathImgOld;
         $PathImgNew = $this->PathImgNew;

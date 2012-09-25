@@ -39,7 +39,7 @@ class FilterLZW
 
     public $andTable = array(511, 1023, 2047, 4095);
 
-    function error($msg)
+    public function error($msg)
     {
         die($msg);
     }
@@ -49,7 +49,7 @@ class FilterLZW
      *
      * @param string data    The compressed data.
      */
-    function decode($data)
+    public function decode($data)
     {
 
         if ($data[0] == 0x00 && $data[1] == 0x01)
@@ -118,7 +118,7 @@ class FilterLZW
     /**
      * Initialize the string table.
      */
-    function initsTable()
+    public function initsTable()
     {
         $this->sTable = array();
 
@@ -134,7 +134,7 @@ class FilterLZW
     /**
      * Add a new string to the string table.
      */
-    function addStringToTable($oldString, $newString = '')
+    public function addStringToTable($oldString, $newString = '')
     {
         $string = $oldString . $newString;
 
@@ -156,7 +156,7 @@ class FilterLZW
     }
 
     // Returns the next 9, 10, 11 or 12 bits
-    function getNextCode()
+    public function getNextCode()
     {
         if ($this->bytePointer == $this->dataLength)
         {
@@ -178,7 +178,7 @@ class FilterLZW
         return $code;
     }
 
-    function encode($in)
+    public function encode($in)
     {
         $this->error("LZW encoding not implemented.");
     }
