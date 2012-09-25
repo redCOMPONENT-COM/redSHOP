@@ -148,13 +148,14 @@ class redPagination extends JPagination
     public function getPagesCounter()
     {
         // Initialize variables
-        return;
-        $html = null;
+
+        $html = '';
         if ($this->get('pages.total') > 1)
         {
             $html .= JText::_('COM_REDSHOP_Page') . " " . $this->get('pages.current') . " " . JText::_('COM_REDSHOP_of') . " " . $this->get('pages.total');
         }
-        //return $html;
+
+        return $html;
     }
 
     public function _list_footer($list)
@@ -240,7 +241,7 @@ class redPagination extends JPagination
       * @return   string  HTML link
       * @since    11.1
       */
-    protected public function _item_active_redshop(&$item)
+    public function _item_active_redshop(&$item)
     {
         if ($item->text > 0)
         {
@@ -260,7 +261,7 @@ class redPagination extends JPagination
       * @return   string  HTML link
       * @since    11.1
       */
-    protected public function _item_active_joomla(&$item)
+    public function _item_active_joomla(&$item)
     {
         $app = JFactory::getApplication();
         if ($app->isAdmin())
@@ -288,7 +289,7 @@ class redPagination extends JPagination
       * @return   string
       * @since    11.1
       */
-    protected public function _item_inactive_redshop(&$item)
+    public function _item_inactive_redshop(&$item)
     {
         if ($item->text > 0)
         {
@@ -308,7 +309,7 @@ class redPagination extends JPagination
       * @return   string
       * @since    11.1
       */
-    protected public function _item_inactive_joomla(&$item)
+    public function _item_inactive_joomla(&$item)
     {
         $app = JFactory::getApplication();
         if ($app->isAdmin())

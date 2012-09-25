@@ -25,19 +25,25 @@ class searchModelsearch extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        global $mainframe, $context;
+        global $context;
         $context = 'search';
+        $app = &JFactory::getApplication();
 
         $this->_table_prefix = '#__redshop_';
-        $params              = &$mainframe->getParams('com_redshop');
-        $menu                =& $mainframe->getMenu();
-        $item                =& $menu->getActive();
+        $params              = $app->getParams('com_redshop');
+        $menu                = $app->getMenu();
+        $item                = $menu->getActive();
 
-        //$perpageproduct  = $mainframe->getUserStateFromRequest( $context.'perpageproduct', 'perpageproduct',   '5');
-        $layout         = $mainframe->getUserStateFromRequest($context . 'layout', 'layout', 'default');
-        $module         = JModuleHelper::getModule('redshop_search');
-        $module_params  = new JRegistry($module->params);
-        $perpageproduct = $module_params->get('productperpage', 5);
+        $layout         = $app->getUserStateFromRequest($context . 'layout', 'layout', 'default');
+        $module         = JModuleHelper::getModule('mod_redshop_search');
+        $module_params  = '';
+        $perpageproduct = 5;
+        if(!empty($module->params))
+        {
+            $module_params  = new JRegistry($module->params);
+            $perpageproduct = $module_params->get('productperpage', 5);
+        }
+
         if ($layout == 'default')
         {
             $limit = $perpageproduct;
@@ -55,11 +61,11 @@ class searchModelsearch extends JModelLegacy
         {
             $productlimit = $item->query['productlimit'];
         }
-        //$limit			= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $limit, 5);
+
         $limitstart = JRequest::getVar('limitstart', 0);
         $this->setState('productperpage', $perpageproduct);
         $this->setState('limit', $limit);
-        $productlimit = $mainframe->getUserStateFromRequest($context . 'productlimit', 'productlimit', $productlimit, 8);
+        $productlimit = $app->getUserStateFromRequest($context . 'productlimit', 'productlimit', $productlimit, 8);
         $this->setState('productlimit', $productlimit);
         $this->setState('limitstart', $limitstart);
     }
@@ -122,8 +128,8 @@ class searchModelsearch extends JModelLegacy
 
     public function getProductPerPage()
     {
-        global $mainframe;
-        $redconfig   = &$mainframe->getParams();
+        $app = &JFactory::getApplication();
+        $redconfig   = $app->getParams();
         $redTemplate = new Redtemplate();
         $template    = $this->getCategoryTemplet();
         for ($i = 0; $i < count($template); $i++)
@@ -166,11 +172,9 @@ class searchModelsearch extends JModelLegacy
 
     public function getTotal()
     {
-        global $mainframe;
         $context      = 'search';
         $productlimit = $this->getstate('productlimit');
 
-        //$layout			= $mainframe->getUserStateFromRequest( $context.'layout', 'layout',   'default');
         $layout = JRequest::getCmd('layout', 'default');
 
         if (empty($this->_total))
@@ -203,23 +207,19 @@ class searchModelsearch extends JModelLegacy
     public function _buildQuery($manudata = 0)
     {
 
-        global $mainframe;
+        $app = &JFactory::getApplication();
         $context = 'search';
 
-        $keyword = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
-        //$defaultSearchType	= $mainframe->getUserStateFromRequest( $context.'defaultSearchType', 'defaultSearchType','');
-        //$keyword=$manudata['keyword'];
+        $keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+
         $defaultSearchType = '';
+        $defaultSearchType_tmp = '';
         if (!empty($manudata['search_type']))
         {
             $defaultSearchType     = $manudata['search_type'];
             $defaultSearchType_tmp = $manudata['search_type'];
         }
-        //		$arr_keyword=array();
-        //		if(trim($keyword)!='')
-        //		{
-        //			$arr_keyword = explode('',$keyword)  ;
-        //		}
+
         $product_s_desc_srch = '';
 
         if ($defaultSearchType == "")
@@ -288,7 +288,7 @@ class searchModelsearch extends JModelLegacy
             $defaultSearchType .= " OR (" . $product_s_desc_srch . ") ";
         }
 
-        $redconfig  = &$mainframe->getParams();
+        $redconfig  = $app->getParams();
         $getorderby = JRequest::getVar('order_by', '');
 
         $order_by = $getorderby;
@@ -328,10 +328,14 @@ class searchModelsearch extends JModelLegacy
         }
         $params = &JComponentHelper::getParams('com_redshop');
 
-        $menu =& $mainframe->getMenu();
-        $item =& $menu->getActive();
+        $menu = $app->getMenu();
+        $item = $menu->getActive();
 
-        $days        = $item->query['newproduct'];
+        $days = 0;
+        if(!empty($item->query['newproduct']))
+        {
+            $days        = $item->query['newproduct'];
+        }
         $today       = date('Y-m-d H:i:s', time());
         $days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
         $aclProducts = $producthelper->loadAclProducts();
@@ -459,10 +463,11 @@ class searchModelsearch extends JModelLegacy
 
     public function _buildContentOrderBy()
     {
-        global $mainframe, $context;
+        global $context;
+        $app = &JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
@@ -471,15 +476,16 @@ class searchModelsearch extends JModelLegacy
 
     public function getCategoryTemplet()
     {
-        global $mainframe;
+        $app = &JFactory::getApplication();
         $context = 'search';
 
-        $layout     = $mainframe->getUserStateFromRequest($context . 'layout', 'layout', '');
-        $templateid = $mainframe->getUserStateFromRequest($context . 'templateid', 'templateid', '');
+        $layout     = $app->getUserStateFromRequest($context . 'layout', 'layout', '');
+        $templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
 
-        $params = &JComponentHelper::getParams('com_redshop');
-        $menu   =& $mainframe->getMenu();
-        $item   =& $menu->getActive();
+        $params = JComponentHelper::getParams('com_redshop');
+        $menu   = $app->getMenu();
+        $item   = $menu->getActive();
+        $cid = 0;
         if ($layout == 'newproduct')
         {
             $cid = $item->query['categorytemplate'];
@@ -497,7 +503,7 @@ class searchModelsearch extends JModelLegacy
             }
             if ($templateid == 0 && $cid == 0)
             {
-                $templateid = $mainframe->getUserStateFromRequest($context . 'templateid', 'templateid', '');
+                $templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
             }
         }
         if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
