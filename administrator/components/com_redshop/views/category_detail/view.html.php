@@ -15,7 +15,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class category_detailVIEWcategory_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $redTemplate      = new Redtemplate();
         $product_category = new product_category();

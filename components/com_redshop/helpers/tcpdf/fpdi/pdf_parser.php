@@ -124,7 +124,7 @@ if (!class_exists('pdf_parser'))
          *
          * @param string $filename  Source-Filename
          */
-        function pdf_parser($filename)
+        public function pdf_parser($filename)
         {
             $this->filename = $filename;
 
@@ -153,7 +153,7 @@ if (!class_exists('pdf_parser'))
         /**
          * Close the opened file
          */
-        function closeFile()
+        public function closeFile()
         {
             if (isset($this->f) && is_resource($this->f))
             {
@@ -167,7 +167,7 @@ if (!class_exists('pdf_parser'))
          *
          * @param string $msg  Error-Message
          */
-        function error($msg)
+        public function error($msg)
         {
             die('<b>PDF-Parser Error:</b> ' . $msg);
         }
@@ -175,7 +175,7 @@ if (!class_exists('pdf_parser'))
         /**
          * Check Trailer for Encryption
          */
-        function getEncryption()
+        public function getEncryption()
         {
             if (isset($this->xref['trailer'][1]['/Encrypt']))
             {
@@ -188,7 +188,7 @@ if (!class_exists('pdf_parser'))
          *
          * @return array
          */
-        function pdf_find_root()
+        public function pdf_find_root()
         {
             if ($this->xref['trailer'][1]['/Root'][0] != PDF_TYPE_OBJREF)
             {
@@ -201,7 +201,7 @@ if (!class_exists('pdf_parser'))
         /**
          * Read the /Root
          */
-        function pdf_read_root()
+        public function pdf_read_root()
         {
             // read root
             $this->root = $this->pdf_resolve_object($this->c, $this->pdf_find_root());
@@ -212,7 +212,7 @@ if (!class_exists('pdf_parser'))
          *
          * And reset the PDF Version used in FPDI if needed
          */
-        function getPDFVersion()
+        public function getPDFVersion()
         {
             fseek($this->f, 0);
             preg_match('/\d\.\d/', fread($this->f, 16), $m);
@@ -226,7 +226,7 @@ if (!class_exists('pdf_parser'))
         /**
          * Find the xref-Table
          */
-        function pdf_find_xref()
+        public function pdf_find_xref()
         {
             $toRead = 1500;
 
@@ -254,7 +254,7 @@ if (!class_exists('pdf_parser'))
          * @param array   $result Array of xref-table
          * @param integer $offset of xref-table
          */
-        function pdf_read_xref(&$result, $offset)
+        public function pdf_read_xref(&$result, $offset)
         {
 
             fseek($this->f, $o_pos = $offset - 20); // set some bytes backwards to fetch errorious docs
@@ -393,7 +393,7 @@ if (!class_exists('pdf_parser'))
          *
          * @return mixed
          */
-        function pdf_read_value(&$c, $token = null)
+        public function pdf_read_value(&$c, $token = null)
         {
             if (is_null($token))
             {
@@ -629,7 +629,7 @@ if (!class_exists('pdf_parser'))
          * @param array   $obj_spec    The object-data
          * @param boolean $encapsulate Must set to true, cause the parsing and fpdi use this method only without this para
          */
-        function pdf_resolve_object(&$c, $obj_spec, $encapsulate = true)
+        public function pdf_resolve_object(&$c, $obj_spec, $encapsulate = true)
         {
             // Exit if we get invalid data
             if (!is_array($obj_spec))
@@ -717,7 +717,7 @@ if (!class_exists('pdf_parser'))
          *
          * @return mixed
          */
-        function pdf_read_token(&$c)
+        public function pdf_read_token(&$c)
         {
             // If there is a token available
             // on the stack, pop it out and

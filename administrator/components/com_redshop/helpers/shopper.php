@@ -14,7 +14,7 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 
 class shoppergroup
 {
-    function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array())
+    public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array())
     {
 
         $db   = jFactory::getDBO();
@@ -45,7 +45,7 @@ class shoppergroup
         return $html;
     }
 
-    function list_tree($shopper_group_id = "", $cid = '0', $level = '0', $selected_groups = Array(), $disabledFields = Array(), $html = '')
+    public function list_tree($shopper_group_id = "", $cid = '0', $level = '0', $selected_groups = Array(), $disabledFields = Array(), $html = '')
     {
 
         $db = jFactory::getDBO();
@@ -96,7 +96,7 @@ class shoppergroup
         return $html;
     }
 
-    function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
+    public function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
     {
 
         $db = jFactory::getDBO();
@@ -130,7 +130,7 @@ class shoppergroup
         return $GLOBALS['grouplist'];
     }
 
-    function getCategoryListReverceArray($cid = '0')
+    public function getCategoryListReverceArray($cid = '0')
     {
 
         $db = jFactory::getDBO();

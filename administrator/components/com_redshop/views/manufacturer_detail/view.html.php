@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class manufacturer_detailVIEWmanufacturer_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 

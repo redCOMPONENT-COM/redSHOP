@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php
 
 class product_miniViewproduct_mini extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 

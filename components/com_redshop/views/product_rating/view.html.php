@@ -12,7 +12,7 @@ defined('_JEXEC') or die ('restricted access');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 class product_ratingViewproduct_rating extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
         $producthelper = new producthelper();

@@ -12,7 +12,7 @@ defined('_JEXEC') or die ('restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 class account_billtoViewaccount_billto extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
         $extra_field = new extraField();

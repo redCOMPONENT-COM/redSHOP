@@ -22,7 +22,7 @@ class ask_questionController extends JControllerLegacy
      * Method to send Ask Question Mail.
      *
      */
-    function sendaskquestionmail()
+    public function sendaskquestionmail()
     {
         $post        = JRequest::get('post');
         $product_id  = $post['pid'];

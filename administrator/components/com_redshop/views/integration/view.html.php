@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class integrationViewintegration extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_INTEGRATION'), 'redshop_products48');
 

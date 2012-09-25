@@ -15,13 +15,13 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php'
 
 class quotation_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'quotation_detail');
         JRequest::setVar('layout', 'default');
@@ -29,7 +29,7 @@ class quotation_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save($send = 0)
+    public function save($send = 0)
     {
         $quotationHelper = new quotationHelper();
         $post            = JRequest::get('post');
@@ -102,12 +102,12 @@ class quotation_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
-    function send()
+    public function send()
     {
         $this->save(1);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -126,7 +126,7 @@ class quotation_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
-    function deleteitem()
+    public function deleteitem()
     {
         $option  = JRequest::getVar('option', '', 'request', 'string');
         $qitemid = JRequest::getVar('qitemid', 0, 'request', 'int');
@@ -141,14 +141,14 @@ class quotation_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $cid[0], $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $msg    = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
-    function newQuotationItem()
+    public function newQuotationItem()
     {
         $adminproducthelper = new adminproducthelper();
         $post               = JRequest::get('post');
@@ -172,7 +172,7 @@ class quotation_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&cid[]=' . $cid[0], $msg);
     }
 
-    function getQuotationPriceTax()
+    public function getQuotationPriceTax()
     {
         $producthelper = new producthelper();
         $get           = JRequest::get('get');

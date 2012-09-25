@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class accountgroup_detailVIEWaccountgroup_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $uri = JFactory::getURI();
 

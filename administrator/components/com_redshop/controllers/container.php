@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class containerController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('container');
 
@@ -42,7 +42,7 @@ class containerController extends JControllerLegacy
         exit;
     }
 
-    function print_data()
+    public function print_data()
     {
         echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
     }

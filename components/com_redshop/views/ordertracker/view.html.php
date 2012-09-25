@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 class ordertrackerViewordertracker extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
 

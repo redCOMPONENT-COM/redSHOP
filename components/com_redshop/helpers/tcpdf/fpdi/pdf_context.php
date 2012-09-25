@@ -38,7 +38,7 @@ class pdf_context
 
     // Constructor
 
-    function pdf_context(&$f)
+    public function pdf_context(&$f)
     {
         $this->file =& $f;
         if (is_string($this->file))
@@ -52,7 +52,7 @@ class pdf_context
     // pointer to a new location
     // and reset the buffered data
 
-    function reset($pos = null, $l = 100)
+    public function reset($pos = null, $l = 100)
     {
         if ($this->_mode == 0)
         {
@@ -83,7 +83,7 @@ class pdf_context
     // from attempting to access data that does
     // not exist
 
-    function ensure_content()
+    public function ensure_content()
     {
         if ($this->offset >= $this->length - 1)
         {
@@ -97,7 +97,7 @@ class pdf_context
 
     // Forcefully read more data into the buffer
 
-    function increase_length($l = 100)
+    public function increase_length($l = 100)
     {
         if ($this->_mode == 0 && feof($this->file))
         {

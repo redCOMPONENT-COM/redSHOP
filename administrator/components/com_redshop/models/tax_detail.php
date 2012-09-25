@@ -23,7 +23,7 @@ class tax_detailModeltax_detail extends JModelLegacy
 
     public $_tax_group_id = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -35,14 +35,14 @@ class tax_detailModeltax_detail extends JModelLegacy
         $this->setId((int)$array[0], $_tax_group_id);
     }
 
-    function setId($id, $_tax_group_id)
+    public function setId($id, $_tax_group_id)
     {
         $this->_id           = $id;
         $this->_tax_group_id = $_tax_group_id;
         $this->_data         = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -55,7 +55,7 @@ class tax_detailModeltax_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -68,7 +68,7 @@ class tax_detailModeltax_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -89,7 +89,7 @@ class tax_detailModeltax_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -108,7 +108,7 @@ class tax_detailModeltax_detail extends JModelLegacy
         return true;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {

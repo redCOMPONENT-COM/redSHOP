@@ -22,7 +22,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
 
     public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -33,19 +33,19 @@ class shipping_detailModelshipping_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         $this->_loadData();
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $query = 'SELECT * FROM #__extensions WHERE folder="redshop_shipping" and extension_id ="' . $this->_id . '" ';
         $this->_db->setQuery($query);
@@ -53,7 +53,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
         return (boolean)$this->_data;
     }
 
-    function store($data)
+    public function store($data)
     {
         $query = 'UPDATE #__extensions ' . 'SET name="' . $data['name'] . '" ' . ',enabled ="' . intval($data['published']) . '" ' . 'WHERE element="' . $data['element'] . '" ';
         $this->_db->setQuery($query);
@@ -69,7 +69,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -86,7 +86,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
         return true;
     }
 
-    function saveOrder(&$cid)
+    public function saveOrder(&$cid)
     {
         global $mainframe;
         //$scope 		= JRequest::getCmd( 'scope' );
@@ -120,7 +120,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function MaxOrdering()
+    public function MaxOrdering()
     {
         $query = "SELECT (max(ordering)+1) FROM #__extensions where folder='redshop_shipping'";
         $this->_db->setQuery($query);
@@ -134,7 +134,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
      * @return  boolean True on success
      * @since   0.9
      */
-    function move($direction)
+    public function move($direction)
     {
 
         $row = JTable::getInstance('shipping_detail', 'Table');

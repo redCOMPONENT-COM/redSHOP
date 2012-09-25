@@ -11,13 +11,13 @@ defined('_JEXEC') or die ('Restricted access');
 
 class shipping_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'shipping_detail');
         JRequest::setVar('layout', 'default');
@@ -25,12 +25,12 @@ class shipping_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post   = JRequest::get('post');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -56,7 +56,7 @@ class shipping_detailController extends JControllerLegacy
         }
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -74,7 +74,7 @@ class shipping_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping');
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -91,7 +91,7 @@ class shipping_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping');
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $this->setRedirect('index.php?option=' . $option . '&view=shipping');
@@ -103,7 +103,7 @@ class shipping_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderup()
+    public function orderup()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('shipping_detail');
@@ -119,7 +119,7 @@ class shipping_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderdown()
+    public function orderdown()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('shipping_detail');
@@ -135,7 +135,7 @@ class shipping_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(), 'post', 'array');

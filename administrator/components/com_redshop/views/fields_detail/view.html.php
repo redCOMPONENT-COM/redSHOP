@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.
 
 class fields_detailVIEWfields_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $extra_field = new extra_field();
         $option      = JRequest::getVar('option', '', 'request', 'string');

@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php
 
 class send_friendViewsend_friend extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
 

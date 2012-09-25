@@ -14,7 +14,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
 class checkoutViewcheckout extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
         $model     = $this->getModel('checkout');

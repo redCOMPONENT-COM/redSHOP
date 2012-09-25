@@ -23,12 +23,12 @@ class FilterLZW_FPDI extends FilterLZW
 {
     public $fpdi;
 
-    function FilterLZW_FPDI(&$fpdi)
+    public function FilterLZW_FPDI(&$fpdi)
     {
         $this->fpdi =& $fpdi;
     }
 
-    function error($msg)
+    public function error($msg)
     {
         $this->fpdi->error($msg);
     }

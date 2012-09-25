@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 class stateController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
     }

@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 class split_paymentViewsplit_payment extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe;
 

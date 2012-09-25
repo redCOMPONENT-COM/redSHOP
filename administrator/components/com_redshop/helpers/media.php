@@ -18,7 +18,7 @@ class redMediahelper
      *
      * @return boolean
      */
-    function isImage($fileName)
+    public function isImage($fileName)
     {
         static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
         return preg_match("/$imageTypes/i", $fileName);
@@ -31,13 +31,13 @@ class redMediahelper
      *
      * @return boolean
      */
-    function getTypeIcon($fileName)
+    public function getTypeIcon($fileName)
     {
         // Get file extension
         return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
     }
 
-    function parseSize($size)
+    public function parseSize($size)
     {
         if ($size < 1024)
         {
@@ -56,7 +56,7 @@ class redMediahelper
         }
     }
 
-    function imageResize($width, $height, $target)
+    public function imageResize($width, $height, $target)
     {
         //takes the larger size of the width and height and applies the
         //formula accordingly...this is so this script will work
@@ -77,7 +77,7 @@ class redMediahelper
         return array($width, $height);
     }
 
-    function countFiles($dir)
+    public function countFiles($dir)
     {
         $total_file = 0;
         $total_dir  = 0;

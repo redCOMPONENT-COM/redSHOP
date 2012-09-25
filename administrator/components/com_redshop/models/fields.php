@@ -21,7 +21,7 @@ class fieldsModelfields extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -42,7 +42,7 @@ class fieldsModelfields extends JModelLegacy
         $this->setState('filtersection', $filtersection);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -52,7 +52,7 @@ class fieldsModelfields extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -62,7 +62,7 @@ class fieldsModelfields extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -72,7 +72,7 @@ class fieldsModelfields extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $orderby       = $this->_buildContentOrderBy();
         $filter        = $this->getState('filter');
@@ -96,7 +96,7 @@ class fieldsModelfields extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -115,7 +115,7 @@ class fieldsModelfields extends JModelLegacy
         return $orderby;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable('fields_detail');
         $groupings  = array();

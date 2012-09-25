@@ -9,7 +9,7 @@
 
 class attributeprices_detailVIEWattributeprices_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $uri = JFactory::getURI();
 

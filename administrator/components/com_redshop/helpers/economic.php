@@ -29,7 +29,7 @@ class economic
 
     public $_dispatcher = null;
 
-    function economic()
+    public function economic()
     {
         $db                     = JFactory::getDbo();
         $this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
@@ -50,7 +50,7 @@ class economic
      * @access public
      * @return array
      */
-    function createUserInEconomic($row = array(), $data = array())
+    public function createUserInEconomic($row = array(), $data = array())
     {
         $eco['user_id']      = $row->user_id;
         $eco['user_info_id'] = $row->users_info_id;
@@ -145,7 +145,7 @@ class economic
      * @access public
      * @return array
      */
-    function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
+    public function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
     {
         $ecoProductGroupNumber         = new stdclass();
         $ecoProductGroupNumber->Number = 1;
@@ -224,7 +224,7 @@ class economic
      * @access public
      * @return array
      */
-    function createProductInEconomic($row = array())
+    public function createProductInEconomic($row = array())
     {
         if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0)
         {
@@ -273,7 +273,7 @@ class economic
         return $ecoProductNumber;
     }
 
-    function getTotalProperty($productId)
+    public function getTotalProperty($productId)
     {
 
         $producthelper = new producthelper();
@@ -293,7 +293,7 @@ class economic
      * @access public
      * @return array
      */
-    function createPropertyInEconomic($prdrow = array(), $row = array())
+    public function createPropertyInEconomic($prdrow = array(), $row = array())
     {
         $eco['product_desc']   = '';
         $eco['product_s_desc'] = '';
@@ -355,7 +355,7 @@ class economic
      * @access public
      * @return array
      */
-    function createSubpropertyInEconomic($prdrow = array(), $row = array())
+    public function createSubpropertyInEconomic($prdrow = array(), $row = array())
     {
         $eco['product_desc']   = '';
         $eco['product_s_desc'] = '';
@@ -413,7 +413,7 @@ class economic
         return $ecoProductNumber;
     }
 
-    function importStockFromEconomic($prdrow = array())
+    public function importStockFromEconomic($prdrow = array())
     {
         $eco['product_number'] = $prdrow->product_number;
         $ecoStockNumber        = $this->_dispatcher->trigger('getProductStock', array($eco));
@@ -426,7 +426,7 @@ class economic
      * @access public
      * @return array
      */
-    function createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate = 0, $isvat = 1)
+    public function createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate = 0, $isvat = 1)
     {
         $eco['product_desc']   = "";
         $eco['product_s_desc'] = "";
@@ -464,7 +464,7 @@ class economic
      * @access public
      * @return array
      */
-    function getMaxDebtorInEconomic()
+    public function getMaxDebtorInEconomic()
     {
         $ecoMaxNumber = $this->_dispatcher->trigger('getMaxDebtor');
         return $ecoMaxNumber;
@@ -476,7 +476,7 @@ class economic
      * @access public
      * @return array
      */
-    function getMaxOrderNumberInEconomic()
+    public function getMaxOrderNumberInEconomic()
     {
         $ecoMaxInvoiceNumber = $this->_dispatcher->trigger('getMaxInvoiceNumber');
         $ecoMaxDraftNumber   = $this->_dispatcher->trigger('getMaxDraftInvoiceNumber');
@@ -491,7 +491,7 @@ class economic
      * @access public
      * @return array
      */
-    function createInvoiceInEconomic($order_id, $data = array())
+    public function createInvoiceInEconomic($order_id, $data = array())
     {
         $orderdetail = $this->_order_functions->getOrderDetails($order_id);
 
@@ -597,7 +597,7 @@ class economic
      * @access public
      * @return array
      */
-    function createInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
+    public function createInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
     {
         if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
         {
@@ -689,7 +689,7 @@ class economic
      * @access public
      * @return array
      */
-    function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
+    public function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
     {
 
         $product                 = new stdClass();
@@ -724,7 +724,7 @@ class economic
      * @access public
      * @return array
      */
-    function createInvoiceLineInEconomicAsProduct($orderitem = array(), $invoice_no = "", $user_id = 0)
+    public function createInvoiceLineInEconomicAsProduct($orderitem = array(), $invoice_no = "", $user_id = 0)
     {
         for ($i = 0; $i < count($orderitem); $i++)
         {
@@ -805,7 +805,7 @@ class economic
      * @access public
      * @return array
      */
-    function createInvoiceShippingLineInEconomic($ship_method_id = "", $invoice_no = "")
+    public function createInvoiceShippingLineInEconomic($ship_method_id = "", $invoice_no = "")
     {
         if ($ship_method_id != "")
         {
@@ -853,7 +853,7 @@ class economic
      * @access public
      * @return array
      */
-    function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0, $isVatDiscount = 0)
+    public function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0, $isVatDiscount = 0)
     {
         if (DEFAULT_ECONOMIC_ACCOUNT_GROUP)
         {
@@ -910,7 +910,7 @@ class economic
      * @access public
      * @return array
      */
-    function renewInvoiceInEconomic($orderdata)
+    public function renewInvoiceInEconomic($orderdata)
     {
         $invoiceHandle = array();
         if ($orderdata->is_booked == 0 && $orderdata->invoice_no)
@@ -949,7 +949,7 @@ class economic
      * @access public
      * @return array
      */
-    function deleteInvoiceInEconomic($orderdata = array())
+    public function deleteInvoiceInEconomic($orderdata = array())
     {
         if ($orderdata->invoice_no)
         {
@@ -965,7 +965,7 @@ class economic
      * @access public
      * @return array
      */
-    function checkInvoiceDraftorBookInEconomic($orderdetail)
+    public function checkInvoiceDraftorBookInEconomic($orderdetail)
     {
         $eco ['invoiceHandle'] = $orderdetail->invoice_no;
         $eco ['order_number']  = $orderdetail->order_number;
@@ -998,7 +998,7 @@ class economic
      * @access public
      * @return array
      */
-    function updateInvoiceDateInEconomic($orderdetail, $bookinvoicedate = 0)
+    public function updateInvoiceDateInEconomic($orderdetail, $bookinvoicedate = 0)
     {
         $eco ['invoiceHandle'] = $orderdetail->invoice_no;
         if ($bookinvoicedate != 0)
@@ -1025,7 +1025,7 @@ class economic
      * @access public
      * @return array
      */
-    function bookInvoiceInEconomic($order_id, $checkOrderStatus = 1, $rmaCRMOrder = 0, $bookinvoicedate = 0)
+    public function bookInvoiceInEconomic($order_id, $checkOrderStatus = 1, $rmaCRMOrder = 0, $bookinvoicedate = 0)
     {
         $file = '';
         if (ECONOMIC_INTEGRATION == 1)
@@ -1117,28 +1117,28 @@ class economic
         return $file;
     }
 
-    function updateInvoiceNumber($order_id = 0, $invoice_no = 0)
+    public function updateInvoiceNumber($order_id = 0, $invoice_no = 0)
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET invoice_no="' . $invoice_no . '" ' . 'WHERE order_id="' . $order_id . '" ';
         $this->_db->setQuery($query);
         $this->_db->Query($query);
     }
 
-    function updateBookInvoice($order_id = 0)
+    public function updateBookInvoice($order_id = 0)
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET is_booked="1" ' . 'WHERE order_id="' . $order_id . '" ';
         $this->_db->setQuery($query);
         $this->_db->Query($query);
     }
 
-    function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
+    public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET bookinvoice_number="' . $bookinvoice_number . '" ' . 'WHERE order_id="' . $order_id . '" ';
         $this->_db->setQuery($query);
         $this->_db->Query($query);
     }
 
-    function getProductByNumber($product_number = '')
+    public function getProductByNumber($product_number = '')
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product ' . 'WHERE product_number="' . $product_number . '" ';
         $this->_db->setQuery($query);
@@ -1146,7 +1146,7 @@ class economic
         return $result;
     }
 
-    function makeAccessoryOrder($invoice_no, $orderItem, $user_id = 0)
+    public function makeAccessoryOrder($invoice_no, $orderItem, $user_id = 0)
     {
         $displayaccessory = "";
         $retPrice         = 0;
@@ -1209,7 +1209,7 @@ class economic
         return $displayaccessory;
     }
 
-    function makeAttributeOrder($invoice_no, $orderItem, $is_accessory = 0, $parent_section_id = 0, $user_id = 0)
+    public function makeAttributeOrder($invoice_no, $orderItem, $is_accessory = 0, $parent_section_id = 0, $user_id = 0)
     {
         $displayattribute = "";
         $retPrice         = 0;
@@ -1308,7 +1308,7 @@ class economic
         return $displayattribute;
     }
 
-    function createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem)
+    public function createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem)
     {
         for ($i = 0; $i < count($orderAttitem); $i++)
         {
@@ -1332,7 +1332,7 @@ class economic
           $InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLineArray', array($eco,$ecoarray));*/
     }
 
-    function getEconomicTaxZone($country_code = "")
+    public function getEconomicTaxZone($country_code = "")
     {
         if ($country_code == SHOP_COUNTRY)
         {
@@ -1349,7 +1349,7 @@ class economic
         return $taxzone;
     }
 
-    function isEUCountry($country)
+    public function isEUCountry($country)
     {
         $eu_country = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST', 'FIN', 'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU', 'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
         return in_array($country, $eu_country);

@@ -22,14 +22,14 @@ class quotationModelquotation extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -42,7 +42,7 @@ class quotationModelquotation extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $order_functions = new order_functions();
         $user            = JFactory::getUser();
@@ -56,7 +56,7 @@ class quotationModelquotation extends JModelLegacy
         //		return (boolean) $this->_data;
     }
 
-    function _initData()
+    public function _initData()
     {
         $detail                        = new stdClass();
         $detail->user_info_id          = 0;
@@ -77,7 +77,7 @@ class quotationModelquotation extends JModelLegacy
         $this->_data                   = $detail;
     }
 
-    function store($data, $post)
+    public function store($data, $post)
     {
         $this->_loadData();
         $quotationHelper = new quotationHelper();
@@ -399,7 +399,7 @@ class quotationModelquotation extends JModelLegacy
         return $row;
     }
 
-    function usercreate($data)
+    public function usercreate($data)
     {
         $redshopMail     = new redshopMail();
         $order_functions = new order_functions();
@@ -592,14 +592,14 @@ class quotationModelquotation extends JModelLegacy
         return;
     }
 
-    function sendQuotationMail($quotaion_id)
+    public function sendQuotationMail($quotaion_id)
     {
         $redshopMail = new redshopMail();
         $send        = $redshopMail->sendQuotationMail($quotaion_id);
         return $send;
     }
 
-    function getUserIdByEmail($email)
+    public function getUserIdByEmail($email)
     {
         $q = "SELECT * FROM " . $this->_table_prefix . "users_info " . "WHERE user_email='" . $email . "' " . "AND address_type='BT' ";
         $this->_db->setQuery($q);

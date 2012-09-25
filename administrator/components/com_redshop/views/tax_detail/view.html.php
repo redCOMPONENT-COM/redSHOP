@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class tax_detailVIEWtax_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $db = jFactory::getDBO();
 

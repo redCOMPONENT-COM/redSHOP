@@ -27,7 +27,7 @@ class productModelproduct extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -51,7 +51,7 @@ class productModelproduct extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -60,7 +60,7 @@ class productModelproduct extends JModelLegacy
         return $this->_data;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if ($this->_pagination == null)
         {
@@ -69,7 +69,7 @@ class productModelproduct extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         global $mainframe;
 
@@ -239,7 +239,7 @@ class productModelproduct extends JModelLegacy
         return $items;
     }
 
-    function getFinalProductStock($product_stock)
+    public function getFinalProductStock($product_stock)
     {
         if (count($product_stock) > 0)
         {
@@ -256,7 +256,7 @@ class productModelproduct extends JModelLegacy
         }
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -275,21 +275,21 @@ class productModelproduct extends JModelLegacy
         return $orderby;
     }
 
-    function MediaDetail($pid)
+    public function MediaDetail($pid)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function listedincats($pid)
+    public function listedincats($pid)
     {
         $query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' . $this->_table_prefix . 'category as c WHERE product_id ="' . $pid . '" AND ref.category_id=c.category_id ORDER BY c.category_name';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function product_template($template_id, $product_id, $section)
+    public function product_template($template_id, $product_id, $section)
     {
         $redTemplate = new Redtemplate();
         if ($section == 1 || $section == 12)
@@ -354,14 +354,14 @@ class productModelproduct extends JModelLegacy
         }
     }
 
-    function getmanufacturername($mid)
+    public function getmanufacturername($mid)
     {
         $query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id="' . $mid . '" ';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function assignTemplate($data)
+    public function assignTemplate($data)
     {
 
         $cid = $data['cid'];
@@ -382,7 +382,7 @@ class productModelproduct extends JModelLegacy
         return true;
     }
 
-    function gbasefeed($data)
+    public function gbasefeed($data)
     {
 
         $producthelper    = new producthelper();
@@ -603,7 +603,7 @@ class productModelproduct extends JModelLegacy
         return false;
     }
 
-    function getCategoryList()
+    public function getCategoryList()
     {
         if ($this->_categorytreelist)
         {
@@ -635,7 +635,7 @@ class productModelproduct extends JModelLegacy
         return $this->_categorytreelist;
     }
 
-    function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0)
+    public function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0)
     {
         if (@$children[$id] && $level <= $maxlevel)
         {
@@ -668,7 +668,7 @@ class productModelproduct extends JModelLegacy
       * $order = product current ordring
       * @return: boolean
       */
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         global $mainframe;
         // get global category id

@@ -21,7 +21,7 @@ class stateModelstate extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -42,7 +42,7 @@ class stateModelstate extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -54,7 +54,7 @@ class stateModelstate extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -65,7 +65,7 @@ class stateModelstate extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -75,7 +75,7 @@ class stateModelstate extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $orderby             = $this->_buildContentOrderBy();
         $country_id_filter   = $this->getState('country_id_filter');
@@ -114,7 +114,7 @@ class stateModelstate extends JModelLegacy
         //return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
         $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
@@ -123,7 +123,7 @@ class stateModelstate extends JModelLegacy
         return $orderby;
     }
 
-    function getCountryName($country_id)
+    public function getCountryName($country_id)
     {
         $query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
         $this->_db->setQuery($query);

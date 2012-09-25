@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class addressfields_listingController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -39,7 +39,7 @@ class addressfields_listingController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderup()
+    public function orderup()
     {
         global $mainframe, $context;
         $cid              = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -64,7 +64,7 @@ class addressfields_listingController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderdown()
+    public function orderdown()
     {
         global $mainframe, $context;
         $option           = JRequest::getVar('option');

@@ -14,13 +14,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 
 class addquotation_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         JRequest::setVar('hidemainmenu', 1);
     }
 
-    function save($send = 0)
+    public function save($send = 0)
     {
         $post               = JRequest::get('post');
         $adminproducthelper = new adminproducthelper();
@@ -52,7 +52,7 @@ class addquotation_detailController extends JControllerLegacy
             # get Admin order detail Model Object
             $usermodel = JModel::getInstance('user_detail', 'user_detailModel');
 
-            # call Admin order detail Model store function for Billing
+            # call Admin order detail Model store public function for Billing
             $user = $usermodel->storeUser($post);
 
             if (!$user)
@@ -96,19 +96,19 @@ class addquotation_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
-    function send()
+    public function send()
     {
         $this->save(1);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $msg    = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
-    function displayOfflineSubProperty()
+    public function displayOfflineSubProperty()
     {
         $get   = JRequest::get('get');
         $model = $this->getModel('addquotation_detail');
