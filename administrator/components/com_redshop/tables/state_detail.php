@@ -1,96 +1,90 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Tables
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-
 class Tablestate_detail extends JTable
 {
-	var $state_id = null;
-	var $state_name = null;
-	var $state_3_code = null;
-	var $state_2_code = null;
-	var $show_state = 2;
-	var $country_id=null;
+    public $state_id = null;
 
-	/**
-	 * @var boolean
-	 */
-	var $checked_out = 0;
+    public $state_name = null;
 
-	/**
-	 * @var time
-	 */
-	var $checked_out_time = 0;
+    public $state_3_code = null;
 
+    public $state_2_code = null;
 
-	function Tablestate_detail(& $db)
-	{
-	  $this->_table_prefix = '#__redshop_';
+    public $show_state = 2;
 
-		parent::__construct($this->_table_prefix.'state', 'state_id', $db);
-	}
+    public $country_id = null;
 
-	function bind($array, $ignore = '')
-	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
-		return parent::bind($array, $ignore);
-	}
+    /**
+     * @public boolean
+     */
+    public $checked_out = 0;
 
-	function check()
-	{
+    /**
+     * @public time
+     */
+    public $checked_out_time = 0;
 
-		$db = JFactory::getDBO();
+    public function __construct(& $db)
+    {
+        $this->_table_prefix = '#__redshop_';
 
-		$q =  "SELECT state_id,state_3_code  FROM ".$this->_table_prefix."state"." WHERE state_3_code = '".$this->state_3_code."' AND state_id !=  ".$this->state_id." AND country_id ='".$this->country_id."'";
+        parent::__construct($this->_table_prefix . 'state', 'state_id', $db);
+    }
 
-		$db->setQuery($q);
+    public function bind($array, $ignore = '')
+    {
+        if (key_exists('params', $array) && is_array($array['params']))
+        {
+            $registry = new JRegistry();
+            $registry->loadArray($array['params']);
+            $array['params'] = $registry->toString();
+        }
+        return parent::bind($array, $ignore);
+    }
 
-		$xid = intval($db->loadResult());
-		if ($xid)
-		{
+    public function check()
+    {
 
-			 $this->_error = JText::_('COM_REDSHOP_STATE_CODE3_ALREADY_EXISTS' );
-			 JError::raiseWarning('', $this->_error );
-			 return false;
-	  	}else{
+        $db = JFactory::getDBO();
 
-			$q =  "SELECT state_id,state_3_code,state_2_code  FROM ".$this->_table_prefix."state"." WHERE state_2_code = '".$this->state_2_code."' AND state_id !=  ".$this->state_id." AND country_id ='".$this->country_id."'";
+        $q = "SELECT state_id,state_3_code  FROM " . $this->_table_prefix . "state" . " WHERE state_3_code = '" . $this->state_3_code . "' AND state_id !=  " . $this->state_id . " AND country_id ='" . $this->country_id . "'";
 
-			$db->setQuery($q);
-			$xid = intval($db->loadResult());
-			if ($xid)
-			{
-				 $this->_error = JText::_('COM_REDSHOP_STATE_CODE2_ALREADY_EXISTS' );
-				 JError::raiseWarning('', $this->_error );
-				 return false;
-			 }
-		}
-  		return true;
+        $db->setQuery($q);
 
-	}
+        $xid = intval($db->loadResult());
+        if ($xid)
+        {
 
+            $this->_error = JText::_('COM_REDSHOP_STATE_CODE3_ALREADY_EXISTS');
+            JError::raiseWarning('', $this->_error);
+            return false;
+        }
+        else
+        {
 
+            $q = "SELECT state_id,state_3_code,state_2_code  FROM " . $this->_table_prefix . "state" . " WHERE state_2_code = '" . $this->state_2_code . "' AND state_id !=  " . $this->state_id . " AND country_id ='" . $this->country_id . "'";
 
-
+            $db->setQuery($q);
+            $xid = intval($db->loadResult());
+            if ($xid)
+            {
+                $this->_error = JText::_('COM_REDSHOP_STATE_CODE2_ALREADY_EXISTS');
+                JError::raiseWarning('', $this->_error);
+                return false;
+            }
+        }
+        return true;
+    }
 }
-?>
 

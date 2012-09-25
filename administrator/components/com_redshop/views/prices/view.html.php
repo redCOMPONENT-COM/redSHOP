@@ -1,49 +1,43 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-jimport( 'joomla.application.component.view' );
 
-class pricesViewprices extends JView
+class pricesViewprices extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
+    function display($tpl = null)
+    {
+        global $mainframe, $context;
 
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_PRODUCT_PRICE') );
-   		jimport('joomla.html.pagination');
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_PRODUCT_PRICE' ), 'redshop_vatrates48' );
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
+        jimport('joomla.html.pagination');
+        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
-		$uri	= JFactory::getURI();
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
+        $uri = JFactory::getURI();
 
-		$limitstart     = $mainframe->getUserStateFromRequest( $context.'limitstart',      'limitstart', 	  '0' );
-		$limit = $mainframe->getUserStateFromRequest( $context.'limit',  'limit', '10' );
+        $limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+        $limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-	    $total = $this->get( 'Total');
-	    $media = $this->get( 'Data');
-		$product_id = $this->get('ProductId');
-		$pagination = new JPagination( $total, $limitstart, $limit);
-    	$this->assignRef('user',		JFactory::getUser());
-    	$this->assignRef('lists',		$lists);
-    	$this->assignRef('media',		$media);
-		$this->assignRef('product_id',	$product_id);
-  		$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
-   	 	parent::display($tpl);
-	}
+        $total      = $this->get('Total');
+        $media      = $this->get('Data');
+        $product_id = $this->get('ProductId');
+        $pagination = new JPagination($total, $limitstart, $limit);
+
+        $this->user = JFactory::getUser();
+        $this->assignRef('lists', $lists);
+        $this->assignRef('media', $media);
+        $this->assignRef('product_id', $product_id);
+        $this->assignRef('pagination', $pagination);
+        $this->request_url = $uri->toString();
+
+        parent::display($tpl);
+    }
 }

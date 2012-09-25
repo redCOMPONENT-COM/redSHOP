@@ -1,53 +1,48 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-class orderstatus_detailVIEWorderstatus_detail extends JView
+class orderstatus_detailVIEWorderstatus_detail extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		$uri = JFactory::getURI();
+    function display($tpl = null)
+    {
+        $uri = JFactory::getURI();
 
-		$this->setLayout('default');
+        $this->setLayout('default');
 
-		$detail	= $this->get('data');
+        $detail = $this->get('data');
 
-		$isNew = ($detail->order_status_id < 1);
+        $isNew = ($detail->order_status_id < 1);
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
+        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_ORDER_STATUS' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_order48' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_STATUS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_order48');
 
-		JToolBarHelper::save();
+        JToolBarHelper::save();
 
-		if ($isNew)  {
-			JToolBarHelper::cancel();
-		} else {
+        if ($isNew)
+        {
+            JToolBarHelper::cancel();
+        }
+        else
+        {
 
-			JToolBarHelper::cancel( 'cancel', 'Close' );
-		}
+            JToolBarHelper::cancel('cancel', 'Close');
+        }
 
-		$lists['published'] = JHTML::_('select.booleanlist','published', 'class="inputbox"', $detail->published );
+        $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('detail',		$detail);
-		$this->assignRef('request_url',	$uri->toString());
+        $this->assignRef('lists', $lists);
+        $this->assignRef('detail', $detail);
+        $this->request_url = $uri->toString();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -14,84 +14,91 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
+defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 // standard plugin initialize function - don't change
 
 global $sh_LANG, $sefConfig;
 
-$sefConfig = & shRouter::shGetConfig();
+$sefConfig = shRouter::shGetConfig();
 
-$db = jFactory::getDBO();
-$shLangName = '';
-$shLangIso = '';
-$title = array();
+$db             = jFactory::getDBO();
+$shLangName     = '';
+$shLangIso      = '';
+$title          = array();
 $shItemidString = '';
-$dosef = shInitializePlugin( $lang='', $shLangName, $shLangIso, $option);
+$dosef          = shInitializePlugin($lang = '', $shLangName, $shLangIso, $option);
 
-if(!defined('TABLE_PREFIX'))
+if (!defined('TABLE_PREFIX'))
 {
-	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'helpers'.DS.'configuration.php');
-	$config = new Redconfiguration();
-	$config->config();
+    require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'helpers' . DS . 'configuration.php');
+    $config = new Redconfiguration();
+    $config->config();
 }
 
-if ($dosef == false) return;
+if ($dosef == false)
+{
+    return;
+}
 
+if (isset($limitstart)) // V 1.2.4.r
+{
+    shRemoveFromGETVarsList('limitstart');
+} // limitstart can be zero
 
-  if (isset($limitstart))  // V 1.2.4.r
-    shRemoveFromGETVarsList('limitstart'); // limitstart can be zero
+//$title[] = getMenuTitle($option, (isset($task) ? @$task : null));
+//$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_SEARCH'];
+$view = isset($view) ? @$view : null;
+$cid  = isset($cid) ? @$cid : null;
+$mid  = isset($mid) ? @$mid : null;
+$pid  = isset($pid) ? @$pid : null;
+$task = isset($task) ? @$task : null;
 
-  //$title[] = getMenuTitle($option, (isset($task) ? @$task : null));
-	//$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_SEARCH'];
-	$view = isset($view) ? @$view : null;
-	$cid = isset($cid) ? @$cid : null;
-	$mid = isset($mid) ? @$mid : null;
-	$pid = isset($pid) ? @$pid : null;
-	$task = isset($task) ? @$task : null;
+switch ($view)
+{
 
-  switch ($view)
-  {
+    case 'category':
+        if ($cid)
+        {
 
-	  case 'category':
-	  	   if($cid){
-
-	  	    $sql = "SELECT pagetitle FROM #__redshop_category WHERE category_id = '$cid'";
-	  	   	$db->setQuery($sql);
-	  	    $category = $db->loadObject();
+            $sql = "SELECT pagetitle FROM #__redshop_category WHERE category_id = '$cid'";
+            $db->setQuery($sql);
+            $category = $db->loadObject();
 
             $shCustomTitleTag = $category->pagetitle;
-	  	   }
-	  	   break;
+        }
+        break;
 
- 	 	case 'product':
-	  	   if($pid){
+    case 'product':
+        if ($pid)
+        {
 
-	  	    $sql = "SELECT pagetitle FROM #__redshop_product WHERE product_id = '$pid'";
-	  	   	$db->setQuery($sql);
-	  	    $product = $db->loadObject();
+            $sql = "SELECT pagetitle FROM #__redshop_product WHERE product_id = '$pid'";
+            $db->setQuery($sql);
+            $product = $db->loadObject();
 
             $shCustomTitleTag = $product->pagetitle;
+        }
+        break;
 
-	  	   }
-   		 break;
+    case 'manufacturers':
+        if ($mid && $task == 'manufacturer_detail')
+        {
 
-   		case 'manufacturers':
-	  	   if($mid && $task=='manufacturer_detail'){
+            $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
+            $db->setQuery($sql);
+            $url              = $db->loadObject();
+            $shCustomTitleTag = $url->pagetitle;
+        }
 
-	  	    $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
-	  	   	$db->setQuery($sql);
-	  	    $url = $db->loadObject();
-	  	    $shCustomTitleTag = $url->pagetitle;
-	  	   }
+    case 'manufacturer_products':
+        if ($mid)
+        {
 
-  		 case 'manufacturer_products':
-	  	   if($mid){
-
-	  	    $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
-	  	   	$db->setQuery($sql);
-	  	    $url = $db->loadObject();
-	  	    $shCustomTitleTag = $url->pagetitle;
-	  	   }
-  }
+            $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
+            $db->setQuery($sql);
+            $url              = $db->loadObject();
+            $shCustomTitleTag = $url->pagetitle;
+        }
+}
 ?>

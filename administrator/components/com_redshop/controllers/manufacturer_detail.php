@@ -1,217 +1,219 @@
 <?php
 /**
- * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
-
-class manufacturer_detailController extends JController
+class manufacturer_detailController extends JControllerLegacy
 {
-	function __construct($default = array())
+    function __construct($default = array())
     {
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
-
-	function edit()
-    {
-		JRequest::setVar ( 'view', 'manufacturer_detail' );
-		JRequest::setVar ( 'layout', 'default' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-		parent::display ();
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
     }
 
-	function apply()
-	{
-       $this->save(1);
-	}
-
-	function save($apply=0)
+    function edit()
     {
-        $post = JRequest::get ( 'post',JREQUEST_ALLOWRAW );
-		$manufacturer_desc = JRequest::getVar( 'manufacturer_desc', '', 'post', 'string', JREQUEST_ALLOWRAW );
-		$post["manufacturer_desc"]=$manufacturer_desc;
-
-		$option = JRequest::getVar ('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		$post ['manufacturer_id'] = $cid [0];
-
-		$model = $this->getModel ( 'manufacturer_detail' );
-
-		if ($row=$model->store ( $post )) {
-
- 			$field = new extra_field();
-			$field->extra_field_save($post,"10", $row->manufacturer_id); /// field_section 6 :Userinformations
-
-
-			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED' );
-
-		} else {
-
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MANUFACTURER_DETAIL' );
-		}
-
-		if($apply==1){
-			$this->setRedirect ( 'index.php?option=' . $option . '&view=manufacturer_detail&task=edit&cid[]='.$row->manufacturer_id, $msg );
-			//option=com_redshop&view=manufacturer_detail&task=edit&cid[]=1
-
-		} else {
-			$this->setRedirect ( 'index.php?option=' . $option . '&view=manufacturer', $msg );
-		}
+        JRequest::setVar('view', 'manufacturer_detail');
+        JRequest::setVar('layout', 'default');
+        JRequest::setVar('hidemainmenu', 1);
+        parent::display();
     }
 
-	function remove()
+    function apply()
     {
-        $option = JRequest::getVar ('option');
+        $this->save(1);
+    }
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
-
-		$model = $this->getModel ( 'manufacturer_detail' );
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_DELETED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=manufacturer',$msg );
-	}
-
-	function publish()
+    function save($apply = 0)
     {
-        $option = JRequest::getVar ('option');
+        $post                      = JRequest::get('post', JREQUEST_ALLOWRAW);
+        $manufacturer_desc         = JRequest::getVar('manufacturer_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post["manufacturer_desc"] = $manufacturer_desc;
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $option = JRequest::getVar('option');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$model = $this->getModel ( 'manufacturer_detail' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_PUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=manufacturer',$msg );
-	}
+        $post ['manufacturer_id'] = $cid [0];
 
-	function unpublish()
+        $model = $this->getModel('manufacturer_detail');
+
+        if ($row = $model->store($post))
+        {
+
+            $field = new extra_field();
+            $field->extra_field_save($post, "10", $row->manufacturer_id); /// field_section 6 :Userinformations
+
+            $msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
+        }
+        else
+        {
+
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_MANUFACTURER_DETAIL');
+        }
+
+        if ($apply == 1)
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=manufacturer_detail&task=edit&cid[]=' . $row->manufacturer_id, $msg);
+            //option=com_redshop&view=manufacturer_detail&task=edit&cid[]=1
+
+        }
+        else
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+        }
+    }
+
+    function remove()
     {
-        $option = JRequest::getVar ('option');
+        $option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		$model = $this->getModel ( 'manufacturer_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=manufacturer',$msg );
-	}
+        $model = $this->getModel('manufacturer_detail');
+        if (!$model->delete($cid))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_DELETED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
 
-	function cancel()
+    function publish()
     {
-		$option = JRequest::getVar ('option');
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_EDITING_CANCELLED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=manufacturer',$msg );
-	}
+        $option = JRequest::getVar('option');
 
-	function copy()
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+        }
+
+        $model = $this->getModel('manufacturer_detail');
+        if (!$model->publish($cid, 1))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_PUBLISHED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
+
+    function unpublish()
     {
-        $option = JRequest::getVar ('option');
+        $option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$model = $this->getModel ( 'manufacturer_detail' );
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+        }
 
-		if ($model->copy($cid)) {
+        $model = $this->getModel('manufacturer_detail');
+        if (!$model->publish($cid, 0))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
 
-			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_COPIED' );
+    function cancel()
+    {
+        $option = JRequest::getVar('option');
+        $msg    = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_EDITING_CANCELLED');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
 
-		} else {
+    function copy()
+    {
+        $option = JRequest::getVar('option');
 
-			$msg = JText::_('COM_REDSHOP_ERROR_COPING_MANUFACTURER_DETAIL' );
-		}
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$this->setRedirect ( 'index.php?option=' . $option . '&view=manufacturer', $msg );
-	}
+        $model = $this->getModel('manufacturer_detail');
 
-	/**
-	 * logic for orderup manufacturer
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function orderup()
-	{
-	    $option = JRequest::getVar('option');
+        if ($model->copy($cid))
+        {
 
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(-1);
- 		//$model->orderup();
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=manufacturer',$msg );
-	}
+            $msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_COPIED');
+        }
+        else
+        {
 
-	/**
-	 * logic for orderdown manufacturer
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function orderdown()
-	{
-		$option = JRequest::getVar('option');
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(1);
-		//$model->orderdown();
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=manufacturer',$msg );
-	}
+            $msg = JText::_('COM_REDSHOP_ERROR_COPING_MANUFACTURER_DETAIL');
+        }
 
-	/**
-	 * logic for save an order
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function saveorder()
-	{
-		$option = JRequest::getVar('option');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+    /**
+     * logic for orderup manufacturer
+     *
+     * @access public
+     * @return void
+     */
+    function orderup()
+    {
+        $option = JRequest::getVar('option');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+        $model = $this->getModel('manufacturer_detail');
+        $model->move(-1);
+        //$model->orderup();
+        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
 
-		$model = $this->getModel('manufacturer_detail');
-		$model->saveorder($cid);
+    /**
+     * logic for orderdown manufacturer
+     *
+     * @access public
+     * @return void
+     */
+    function orderdown()
+    {
+        $option = JRequest::getVar('option');
+        $model  = $this->getModel('manufacturer_detail');
+        $model->move(1);
+        //$model->orderdown();
+        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
 
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=manufacturer',$msg );
-	}
+    /**
+     * logic for save an order
+     *
+     * @access public
+     * @return void
+     */
+    function saveorder()
+    {
+        $option = JRequest::getVar('option');
+
+        $cid   = JRequest::getVar('cid', array(), 'post', 'array');
+        $order = JRequest::getVar('order', array(), 'post', 'array');
+
+        JArrayHelper::toInteger($cid);
+        JArrayHelper::toInteger($order);
+
+        $model = $this->getModel('manufacturer_detail');
+        $model->saveorder($cid);
+
+        $msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
+        $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+    }
 }

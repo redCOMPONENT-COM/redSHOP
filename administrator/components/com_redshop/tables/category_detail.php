@@ -1,61 +1,75 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Tables
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
 class Tablecategory_detail extends JTable
 {
-	var $category_id = null;
-	var $category_name = null;
-	var $category_short_description = null;
-	var $category_description = null;
-	var $category_template = 0;
-	var $category_more_template = 0;
-	var $category_full_image = null;
-	var $category_thumb_image = null;
-	var $category_back_full_image = null;
-	var $metakey = null;
-	var	$metadesc = null;
-	var	$metalanguage_setting = null;
-	var	$metarobot_info = null;
-	var	$append_to_global_seo 	= 'append';
-	var	$pagetitle = null;
-	var	$pageheading = null;
-	var	$sef_url = null;
-	var $published = null;
-	var $products_per_page = null;
-	var $ordering 			= null;
-	var $compare_template_id = 0;
-	function Tablecategory_detail(& $db)
-	{
-	  $this->_table_prefix = '#__redshop_';
+    public $category_id = null;
 
-		parent::__construct($this->_table_prefix.'category', 'category_id', $db);
-	}
+    public $category_name = null;
 
-	function bind($array, $ignore = '')
-	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
-		return parent::bind($array, $ignore);
-	}
+    public $category_short_description = null;
 
+    public $category_description = null;
+
+    public $category_template = 0;
+
+    public $category_more_template = 0;
+
+    public $category_full_image = null;
+
+    public $category_thumb_image = null;
+
+    public $category_back_full_image = null;
+
+    public $metakey = null;
+
+    public $metadesc = null;
+
+    public $metalanguage_setting = null;
+
+    public $metarobot_info = null;
+
+    public $append_to_global_seo = 'append';
+
+    public $pagetitle = null;
+
+    public $pageheading = null;
+
+    public $sef_url = null;
+
+    public $published = null;
+
+    public $products_per_page = null;
+
+    public $ordering = null;
+
+    public $compare_template_id = 0;
+
+    public function __construct(& $db)
+    {
+        $this->_table_prefix = '#__redshop_';
+
+        parent::__construct($this->_table_prefix . 'category', 'category_id', $db);
+    }
+
+    public function bind($array, $ignore = '')
+    {
+        if (key_exists('params', $array) && is_array($array['params']))
+        {
+            $registry = new JRegistry();
+            $registry->loadArray($array['params']);
+            $array['params'] = $registry->toString();
+        }
+        return parent::bind($array, $ignore);
+    }
 }
-?>
