@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 class newslettersubscrController extends JControllerLegacy
 {
     function cancel()

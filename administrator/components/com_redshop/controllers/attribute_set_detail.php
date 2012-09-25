@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 
 class attribute_set_detailController extends JControllerLegacy

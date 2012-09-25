@@ -39,17 +39,6 @@ class Tableattributeprices_detail extends JTable
         parent::__construct($this->_table_prefix . 'product_attribute_price', 'price_id', $db);
     }
 
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-        return parent::bind($array, $ignore);
-    }
-
     public function check()
     {
         /**** check for valid name *****/

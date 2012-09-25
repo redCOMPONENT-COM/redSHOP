@@ -14,7 +14,6 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
-jimport('joomla.filesystem.file');
 
 class category_detailModelcategory_detail extends JModelLegacy
 {

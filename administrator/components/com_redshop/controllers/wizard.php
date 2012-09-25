@@ -87,7 +87,6 @@ class wizardController extends JControllerLegacy
      */
     function copyTempFile()
     {
-        jimport('joomla.filesystem.file');
 
         JFile::copy($this->_temp_file_dist, $this->_temp_file);
     }

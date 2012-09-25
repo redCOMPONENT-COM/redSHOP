@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
-jimport('joomla.filesystem.file');
+
 class payment_detailModelpayment_detail extends JModelLegacy
 {
     var $_id = null;
@@ -315,7 +315,7 @@ class payment_detailModelpayment_detail extends JModelLegacy
         $tmp_src  = $userfile['tmp_name'];
 
         // Move uploaded file
-        jimport('joomla.filesystem.file');
+
         $uploaded = JFile::upload($tmp_src, $tmp_dest);
 
         // Unpack the downloaded package file
