@@ -32,7 +32,7 @@ class barcodeController extends RedshopCoreController
 
             $user = JFactory::getUser();
             $uid  = $user->get('id');
-            //$mainframe = JFactory::getApplication();
+
             $row = $model->checkorder($barcode);
 
             if ($row)
