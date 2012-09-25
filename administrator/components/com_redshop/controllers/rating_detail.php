@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class rating_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class rating_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'rating_detail');
         JRequest::setVar('layout', 'default');
@@ -33,7 +35,7 @@ class rating_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post            = JRequest::get('post');
         $comment         = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -61,7 +63,7 @@ class rating_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -81,7 +83,7 @@ class rating_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -101,7 +103,7 @@ class rating_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -121,7 +123,7 @@ class rating_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
     }
 
-    function fv_publish()
+    public function fv_publish()
     {
         $option = JRequest::getVar('option');
 
@@ -141,7 +143,7 @@ class rating_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
     }
 
-    function fv_unpublish()
+    public function fv_unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -161,7 +163,7 @@ class rating_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');

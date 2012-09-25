@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class pricesController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class pricesController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }

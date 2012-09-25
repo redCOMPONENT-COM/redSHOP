@@ -9,20 +9,22 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class newsletterController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class newsletterController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function send_newsletter_preview()
+    public function send_newsletter_preview()
     {
         //$view = & $this->getView('newsletter', 'preview');
         parent::display();
     }
 
-    function send_newsletter()
+    public function send_newsletter()
     {
         $session = JFactory::getSession();
         $option  = JRequest::getVar('option');
@@ -46,7 +48,7 @@ class newsletterController extends JControllerLegacy
         return;
     }
 
-    function sendRecursiveNewsletter()
+    public function sendRecursiveNewsletter()
     {
         $session       = JFactory::getSession();
         $newsletter_id = JRequest::getVar('newsletter_id');

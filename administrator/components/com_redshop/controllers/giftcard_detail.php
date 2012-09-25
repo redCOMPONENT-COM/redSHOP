@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class giftcard_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class giftcard_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'giftcard_detail');
         JRequest::setVar('layout', 'default');
@@ -25,12 +27,12 @@ class giftcard_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post', JREQUEST_ALLOWRAW);
 
@@ -74,7 +76,7 @@ class giftcard_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -94,7 +96,7 @@ class giftcard_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function publish()
+    public function publish()
     {
 
         $option = JRequest::getVar('option');
@@ -115,7 +117,7 @@ class giftcard_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function unpublish()
+    public function unpublish()
     {
 
         $option = JRequest::getVar('option');
@@ -136,14 +138,14 @@ class giftcard_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
 
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function copy()
+    public function copy()
     {
         $option = JRequest::getVar('option');
 

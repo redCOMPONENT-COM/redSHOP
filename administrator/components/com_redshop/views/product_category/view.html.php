@@ -14,7 +14,7 @@ class product_categoryViewproduct_category extends JViewLegacy
 {
     var $_product = array();
 
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));

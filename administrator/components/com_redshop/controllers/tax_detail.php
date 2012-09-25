@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class tax_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class tax_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'tax_detail');
         JRequest::setVar('layout', 'default');
@@ -26,7 +28,7 @@ class tax_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post = JRequest::get('post');
 
@@ -63,7 +65,7 @@ class tax_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -85,7 +87,7 @@ class tax_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
     }
 
-    function removefromwizrd()
+    public function removefromwizrd()
     {
         $option = JRequest::getVar('option');
 
@@ -106,7 +108,7 @@ class tax_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&step=4');
     }
 
-    function cancel()
+    public function cancel()
     {
         $option       = JRequest::getVar('option');
         $tax_group_id = JRequest::getVar('tax_group_id');

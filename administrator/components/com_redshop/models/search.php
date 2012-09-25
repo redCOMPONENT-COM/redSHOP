@@ -11,26 +11,26 @@ defined('_JEXEC') or die('Restricted access');
 
 class searchModelsearch extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_container_id = null;
+    public $_container_id = null;
 
-    var $_stockroom_id = null;
+    public $_stockroom_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_search = null;
+    public $_search = null;
 
-    var $_product = null; /// product data
-    var $_table_prefix = null;
+    public $_product = null; /// product data
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_limit = null;
+    public $_limit = null;
 
-    var $_iscompany = null;
+    public $_iscompany = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -103,14 +103,14 @@ class searchModelsearch extends JModelLegacy
         $this->_products = $products;
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
         //$this->_search	= null;
     }
 
-    function getData()
+    public function getData()
     {
         if ($this->_alert == 'termsarticle')
         {
@@ -123,7 +123,7 @@ class searchModelsearch extends JModelLegacy
         return $this->_data;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
 
         //Media secion

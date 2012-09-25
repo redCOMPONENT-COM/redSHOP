@@ -13,13 +13,13 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlimport_detailModelxmlimport_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -28,13 +28,13 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         $post = JRequest::get('post');
         if ($this->_loadData())
@@ -99,7 +99,7 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $query = "SELECT x.* FROM " . $this->_table_prefix . "xml_import AS x " . "WHERE x.xmlimport_id=" . $this->_id;
         $this->_db->setQuery($query);
@@ -107,12 +107,12 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
         return (boolean)$this->_data;
     }
 
-    function getXMLImporturl()
+    public function getXMLImporturl()
     {
         return $this->_data->xmlimport_url;
     }
 
-    function updateFile()
+    public function updateFile()
     {
         $post = JRequest::get('post');
 
@@ -148,7 +148,7 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
         return $xmlimport_url;
     }
 
-    function _initData()
+    public function _initData()
     {
         //$user	=& JFactory::getUser();
         if (empty($this->_data))
@@ -189,7 +189,7 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function store($data, $import = 0)
+    public function store($data, $import = 0)
     {
         //		echo "<pre>";
         //		print_r($data);
@@ -311,7 +311,7 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $xmlhelper = new xmlHelper();
         if (count($cid))
@@ -347,7 +347,7 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
         return true;
     }
 
-    function auto_syncpublish($cid = array(), $publish = 1)
+    public function auto_syncpublish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -370,7 +370,7 @@ class xmlimport_detailModelxmlimport_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {

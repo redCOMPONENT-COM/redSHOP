@@ -9,7 +9,7 @@
 
 class product_attribute_priceViewproduct_attribute_price extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $db         = JFactory::getDBO();
         $section_id = JRequest::getVar('section_id');

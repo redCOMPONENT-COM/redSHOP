@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class ratingsModelratings extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         global $mainframe;
         parent::__construct();
@@ -30,13 +30,13 @@ class ratingsModelratings extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $query = "SELECT distinct(p.product_id),p.product_name FROM  " . $this->_table_prefix . "product p" . ", " . $this->_table_prefix . "product_rating AS r " . "WHERE p.published=1 AND r.published=1 AND p.product_id=r.product_id ";
         return $query;
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -46,7 +46,7 @@ class ratingsModelratings extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -56,7 +56,7 @@ class ratingsModelratings extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -66,7 +66,7 @@ class ratingsModelratings extends JModelLegacy
         return $this->_pagination;
     }
 
-    function getProductreviews($pid)
+    public function getProductreviews($pid)
     {
         $query = "SELECT pr.*,uf.firstname,uf.lastname FROM  " . $this->_table_prefix . "product_rating as pr" . ", " . $this->_table_prefix . "users_info as uf " . "WHERE published=1 AND product_id='" . $pid . "' " . "AND uf.address_type LIKE 'BT' AND pr.userid=uf.user_id " . "ORDER BY favoured DESC";
         $this->_db->setQuery($query);

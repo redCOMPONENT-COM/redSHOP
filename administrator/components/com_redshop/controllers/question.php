@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class questionController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class questionController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
@@ -22,7 +24,7 @@ class questionController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(), 'post', 'array');

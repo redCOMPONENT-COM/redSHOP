@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class taxController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class taxController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $this->setRedirect('index.php?option=' . $option . '&view=tax');

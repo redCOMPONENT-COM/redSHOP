@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class product_categoryController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class product_categoryController extends RedshopCoreController
 {
-    function assignCategory()
+    public function assignCategory()
     {
         JRequest::setVar('hidemainmenu', 1);
         parent::display();
     }
 
-    function saveProduct_Category()
+    public function saveProduct_Category()
     {
         global $mainframe;
         $model = $this->getModel("product_category");
@@ -32,7 +34,7 @@ class product_categoryController extends JControllerLegacy
         $mainframe->redirect("index.php?option=com_redshop&view=product", $msg);
     }
 
-    function removeProduct_Category()
+    public function removeProduct_Category()
     {
         global $mainframe;
         $model = $this->getModel("product_category");

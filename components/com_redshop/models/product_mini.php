@@ -11,15 +11,15 @@ defined('_JEXEC') or die('Restricted access');
 
 class product_miniModelproduct_mini extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -35,7 +35,7 @@ class product_miniModelproduct_mini extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -45,7 +45,7 @@ class product_miniModelproduct_mini extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         global $mainframe, $context;
 
@@ -79,7 +79,7 @@ class product_miniModelproduct_mini extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -90,7 +90,7 @@ class product_miniModelproduct_mini extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         global $mainframe, $context;
 
@@ -125,7 +125,7 @@ class product_miniModelproduct_mini extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe, $context;
 

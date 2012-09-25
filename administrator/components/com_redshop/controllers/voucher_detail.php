@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class voucher_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class voucher_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'voucher_detail');
         JRequest::setVar('layout', 'default');
@@ -25,12 +27,12 @@ class voucher_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         global $mainframe;
         $post               = JRequest::get('post');
@@ -74,7 +76,7 @@ class voucher_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
 
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -95,7 +97,7 @@ class voucher_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
 
@@ -115,7 +117,7 @@ class voucher_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
 
@@ -135,7 +137,7 @@ class voucher_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $msg    = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');

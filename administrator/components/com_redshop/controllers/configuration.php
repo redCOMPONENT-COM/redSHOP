@@ -11,21 +11,22 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'currency.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class configurationController extends JControllerLegacy
+class configurationController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->_configpath1 = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "newtxt.php";
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -276,7 +277,7 @@ class configurationController extends JControllerLegacy
      * for Image quality percentage change variable IMAGE_QUALITY_OUTPUT
      *
      */
-    function removeThumbImages()
+    public function removeThumbImages()
     {
         $thumb_folder = array('product', 'category', 'manufacturer', 'product_attributes', 'property', 'subcolor', 'wrapper', 'shopperlogo');
 
@@ -312,7 +313,7 @@ class configurationController extends JControllerLegacy
         }
     }
 
-    function removeimg()
+    public function removeimg()
     {
         ob_clean();
         $imname      = JRequest::getString('imname', '');
@@ -331,13 +332,13 @@ class configurationController extends JControllerLegacy
         exit;
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $this->setRedirect('index.php?option=' . $option);
     }
 
-    function display()
+    public function display()
     {
         $model         = $this->getModel('configuration');
         $currency_data = $model->getCurrency();
@@ -345,7 +346,7 @@ class configurationController extends JControllerLegacy
         parent::display();
     }
 
-    function clearsef()
+    public function clearsef()
     {
         $model     = $this->getModel('configuration');
         $cleardata = $model->cleardata();
@@ -353,7 +354,7 @@ class configurationController extends JControllerLegacy
         exit;
     }
 
-    function resetTemplate()
+    public function resetTemplate()
     {
         $model         = $this->getModel('configuration');
         $option        = JRequest::getVar('option');
@@ -363,14 +364,14 @@ class configurationController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option, $msg);
     }
 
-    function resetTermsCondition()
+    public function resetTermsCondition()
     {
         $userhelper = new rsUserhelper();
         $userhelper->updateUserTermsCondition();
         die();
     }
 
-    function resetOrderId()
+    public function resetOrderId()
     {
         $order_functions = new order_functions();
         $order_functions->resetOrderId();

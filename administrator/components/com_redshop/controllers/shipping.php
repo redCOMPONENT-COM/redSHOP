@@ -9,14 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class shippingcontroller extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class shippingcontroller extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function importeconomic()
+    public function importeconomic()
     {
         $db = JFactory::getDBO();
         #Add product to economic
@@ -52,7 +54,7 @@ class shippingcontroller extends JControllerLegacy
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(), 'post', 'array');

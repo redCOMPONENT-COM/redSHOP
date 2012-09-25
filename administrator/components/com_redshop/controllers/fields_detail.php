@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class fields_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class fields_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'fields_detail');
         JRequest::setVar('layout', 'default');
@@ -25,12 +27,12 @@ class fields_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post               = JRequest::get('post');
         $field_desc         = JRequest::getVar('field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -96,7 +98,7 @@ class fields_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -116,7 +118,7 @@ class fields_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -136,7 +138,7 @@ class fields_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -156,14 +158,14 @@ class fields_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
     }
 
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -185,7 +187,7 @@ class fields_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderup()
+    public function orderup()
     {
         global $mainframe, $context;
         $option           = JRequest::getVar('option');
@@ -209,7 +211,7 @@ class fields_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderdown()
+    public function orderdown()
     {
         global $mainframe, $context;
         $option           = JRequest::getVar('option');

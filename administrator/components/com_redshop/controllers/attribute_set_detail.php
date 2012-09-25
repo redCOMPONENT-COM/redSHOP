@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 
-class attribute_set_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class attribute_set_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'attribute_set_detail');
         JRequest::setVar('layout', 'default');
@@ -30,12 +30,12 @@ class attribute_set_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -52,33 +52,8 @@ class attribute_set_detailController extends JControllerLegacy
 
             $file = JRequest::getVar('image', 'array', 'files', 'array');
 
-            //$newpost = array();
-
             $this->attribute_save($post, $row, $file);
-            /*if (isset($post['property'])){
-                   $newpost['hdn_del_attribute'] = $post['hdn_del_attribute'];
-                   $newpost['hdn_del_property'] = $post['hdn_del_property'];
-                   $newpost['hdn_del_subproperty'] = $post['hdn_del_subproperty'];
-                   $newpost['property'] = $post['property'];
-                   $newpost['subattribute_color_title'] = $post['subattribute_color_title'];
-                   $newpost['price'] = $post['price'];
-                   $newpost['oprand'] = $post['oprand'];
-                   $newpost['property_number'] = $post['property_number'];
-                   $newpost['propordering'] = $post['propordering'];
-                   $newpost['propdselected'] = $post['propdselected'];
-                   $newpost['property_id'] = $post['property_id'];
-                   $newpost['imagetmp'] = $post['imagetmp'];
-                   $newpost['mainImage'] = $post['mainImage'];
-                   $newpost['propdselected'] = $post['propdselected'];
-                   $newpost['propdselected'] = $post['propdselected'];
-                   $newpost['propsub_attdselected'] = $post['propsub_attdselected'];
-               }*/
-            /*if (count($newpost)>0)
-                   $this->attribute_save($newpost,$row,$file);
-               else
-                   $model->attribute_empty();*/
 
-            /// Extra Field Data Saved ////////////////////////
             $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL_SAVED');
         }
 
@@ -93,9 +68,8 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
-
         $option = JRequest::getVar('option');
 
         $cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -114,7 +88,7 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function publish()
+    public function publish()
     {
 
         $option = JRequest::getVar('option');
@@ -127,15 +101,17 @@ class attribute_set_detailController extends JControllerLegacy
         }
 
         $model = $this->getModel('attribute_set_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -147,15 +123,17 @@ class attribute_set_detailController extends JControllerLegacy
         }
 
         $model = $this->getModel('attribute_set_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
 
         $option = JRequest::getVar('option');
@@ -163,29 +141,25 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    function attribute_save($post, $row, $file)
+    public function attribute_save($post, $row, $file)
     {
-
         $model = $this->getModel('attribute_set_detail');
-        //$option   = JRequest::getVar('option');
-        //$thumb    = new thumbnail();
-        //$obj_img  = new thumbnail_images();
-        //$n_width  = 50;
-        //$n_height = 50;
 
         $attribute_save   = array();
         $property_save    = array();
         $subproperty_save = array();
+
         if (!is_array($post['attribute']))
         {
             return;
         }
+
         $attribute = array_merge(array(), $post['attribute']);
 
         $files = JRequest::get('files');
+
         for ($a = 0; $a < count($attribute); $a++)
         {
-
             $attribute_save['attribute_id']             = $attribute[$a]['id'];
             $attribute_save['attribute_set_id']         = $row->attribute_set_id;
             $attribute_save['attribute_name']           = urldecode($attribute[$a]['name']); // encode url for allow special char
@@ -276,7 +250,7 @@ class attribute_set_detailController extends JControllerLegacy
         return;
     }
 
-    function _imageResize($width, $height, $target)
+    public function _imageResize($width, $height, $target)
     {
         if ($width > $height)
         {
@@ -302,7 +276,7 @@ class attribute_set_detailController extends JControllerLegacy
         return array($width, $height);
     }
 
-    function media_bank()
+    public function media_bank()
     {
         $uri = JURI::getInstance();
 
@@ -460,7 +434,7 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function property_more_img()
+    public function property_more_img()
     {
 
         $uri = JURI::getInstance();
@@ -496,7 +470,7 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function deleteimage()
+    public function deleteimage()
     {
 
         $uri = JURI::getInstance();
@@ -516,7 +490,7 @@ class attribute_set_detailController extends JControllerLegacy
         }
     }
 
-    function subattribute_color()
+    public function subattribute_color()
     {
 
         $uri = JURI::getInstance();
@@ -545,7 +519,7 @@ class attribute_set_detailController extends JControllerLegacy
     }
 
     // remove Property image
-    function removepropertyImage()
+    public function removepropertyImage()
     {
 
         $get = JRequest::get('get');
@@ -563,7 +537,7 @@ class attribute_set_detailController extends JControllerLegacy
     }
 
     // remove subProperty image
-    function removesubpropertyImage()
+    public function removesubpropertyImage()
     {
 
         $get = JRequest::get('get');
@@ -580,7 +554,7 @@ class attribute_set_detailController extends JControllerLegacy
         exit;
     }
 
-    function saveAttributeStock()
+    public function saveAttributeStock()
     {
 
         $post = JRequest::get('post');
@@ -601,7 +575,7 @@ class attribute_set_detailController extends JControllerLegacy
         $this->setRedirect($link, $msg);
     }
 
-    function copy()
+    public function copy()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');

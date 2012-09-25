@@ -13,20 +13,20 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
 class split_paymentModelsplit_payment extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
     }
 
-    function getordersdetail($oid)
+    public function getordersdetail($oid)
     {
         $query = "SELECT * FROM  " . $this->_table_prefix . "orders WHERE order_id = '" . $oid . "' ";
         $this->_db->setQuery($query);
@@ -34,14 +34,14 @@ class split_paymentModelsplit_payment extends JModelLegacy
         return $order_detail;
     }
 
-    function getuseraccountinfo($uid)
+    public function getuseraccountinfo($uid)
     {
         $query = 'SELECT uf.*,u.email FROM ' . $this->_table_prefix . 'users_info as uf, #__users as u WHERE user_id=' . $uid . ' AND uf.user_id=u.id';
         $this->_db->setQuery($query);
         return $this->_db->loadObject();
     }
 
-    function orderplace()
+    public function orderplace()
     {
 
         global $mainframe;
@@ -210,7 +210,7 @@ class split_paymentModelsplit_payment extends JModelLegacy
          return $this->_db->loadObject ();
      }*/
 
-    function validatepaymentccinfo()
+    public function validatepaymentccinfo()
     {
         $validpayment [0] = 1;
         $validpayment [1] = '';
@@ -251,7 +251,7 @@ class split_paymentModelsplit_payment extends JModelLegacy
         return $validpayment;
     }
 
-    function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
+    public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
     {
 
         // Define the cards we support. You may add additional card types.
@@ -412,7 +412,7 @@ class split_paymentModelsplit_payment extends JModelLegacy
         return true;
     }
 
-    function validateCC($cc_num, $type)
+    public function validateCC($cc_num, $type)
     {
 
         if ($type == "American")

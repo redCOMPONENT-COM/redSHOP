@@ -11,17 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 class zipcodeModelzipcode extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -37,7 +37,7 @@ class zipcodeModelzipcode extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -47,7 +47,7 @@ class zipcodeModelzipcode extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -58,7 +58,7 @@ class zipcodeModelzipcode extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -69,7 +69,7 @@ class zipcodeModelzipcode extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
 
         //$filter = $this->getState('filter');
@@ -80,7 +80,7 @@ class zipcodeModelzipcode extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -92,7 +92,7 @@ class zipcodeModelzipcode extends JModelLegacy
         return $orderby;
     }
 
-    function getCountryName($country_id)
+    public function getCountryName($country_id)
     {
         $query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
         $this->_db->setQuery($query);

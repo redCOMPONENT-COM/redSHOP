@@ -11,18 +11,18 @@ defined('_JEXEC') or die('Restricted access');
 
 class customprintModelcustomprint extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__';
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -32,7 +32,7 @@ class customprintModelcustomprint extends JModelLegacy
         return $this->_data;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $where = " where folder='redshop_custom_views' and published=1";
         $query = ' SELECT p.* FROM ' . $this->_table_prefix . 'plugins p' . $where;

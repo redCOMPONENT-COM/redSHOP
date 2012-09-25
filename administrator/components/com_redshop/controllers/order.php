@@ -12,10 +12,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class orderController extends JControllerLegacy
+class orderController extends RedshopCoreController
 {
-    function multiprint_order()
+    public function multiprint_order()
     {
         $mypost         = JRequest::getVar('cid');
         $mycid          = implode(",", $mypost);
@@ -51,7 +52,7 @@ class orderController extends JControllerLegacy
         //$this->setRedirect ( 'index.php?option=com_redshop&view=order');
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $this->setRedirect('index.php?option=' . $option . '&view=order');
@@ -62,13 +63,13 @@ class orderController extends JControllerLegacy
          parent::display ();
      }*/
 
-    function update_status()
+    public function update_status()
     {
         $model = $this->getModel('order');
         $model->update_status();
     }
 
-    function allstatus()
+    public function allstatus()
     {
         $session           = JFactory::getSession();
         $post              = JRequest::get('post');
@@ -83,7 +84,7 @@ class orderController extends JControllerLegacy
         return;
     }
 
-    function updateOrderStatus()
+    public function updateOrderStatus()
     {
         $session           = JFactory::getSession();
         $post              = $session->get('updateOrderIdPost');
@@ -167,7 +168,7 @@ class orderController extends JControllerLegacy
         exit;
     }
 
-    function bookInvoice()
+    public function bookInvoice()
     {
         $post            = JRequest::get('post');
         $bookInvoiceDate = $post ['bookInvoiceDate'];
@@ -189,7 +190,7 @@ class orderController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg);
     }
 
-    function createInvoice()
+    public function createInvoice()
     {
         if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
         {
@@ -230,7 +231,7 @@ class orderController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=order');
     }
 
-    function export_fullorder_data()
+    public function export_fullorder_data()
     {
         $extrafile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'extras' . DS . 'order_export.php';
         if (file_exists($extrafile))
@@ -355,7 +356,7 @@ class orderController extends JControllerLegacy
         exit ();
     }
 
-    function export_data()
+    public function export_data()
     {
         /**
          * new order export for paid customer support
@@ -482,7 +483,7 @@ class orderController extends JControllerLegacy
         exit ();
     }
 
-    function generateParcel()
+    public function generateParcel()
     {
         $order_function    = new order_functions ();
         $post              = JRequest::get('post');
@@ -501,7 +502,7 @@ class orderController extends JControllerLegacy
         }
     }
 
-    function download_token()
+    public function download_token()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -546,14 +547,14 @@ class orderController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid [0]);
     }
 
-    function gls_export()
+    public function gls_export()
     {
         $cid   = JRequest::getVar('cid', array(0), 'method', 'array');
         $model = $this->getModel();
         $model->gls_export($cid);
     }
 
-    function business_gls_export()
+    public function business_gls_export()
     {
         $cid   = JRequest::getVar('cid', array(0), 'method', 'array');
         $model = $this->getModel();

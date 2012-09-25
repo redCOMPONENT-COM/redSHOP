@@ -14,15 +14,15 @@ require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helper
 
 class searchModelsearch extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         global $mainframe, $context;
@@ -64,7 +64,7 @@ class searchModelsearch extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         $post = JRequest::get('POST');
 
@@ -120,7 +120,7 @@ class searchModelsearch extends JModelLegacy
         return $this->_data;
     }
 
-    function getProductPerPage()
+    public function getProductPerPage()
     {
         global $mainframe;
         $redconfig   = &$mainframe->getParams();
@@ -164,7 +164,7 @@ class searchModelsearch extends JModelLegacy
         return $limit;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         global $mainframe;
         $context      = 'search';
@@ -191,7 +191,7 @@ class searchModelsearch extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -200,7 +200,7 @@ class searchModelsearch extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery($manudata = 0)
+    public function _buildQuery($manudata = 0)
     {
 
         global $mainframe;
@@ -457,7 +457,7 @@ class searchModelsearch extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe, $context;
 
@@ -469,7 +469,7 @@ class searchModelsearch extends JModelLegacy
         return $orderby;
     }
 
-    function getCategoryTemplet()
+    public function getCategoryTemplet()
     {
         global $mainframe;
         $context = 'search';
@@ -523,7 +523,7 @@ class searchModelsearch extends JModelLegacy
     }
 
     // red Product Filter
-    function getRedFilterProduct($remove = 0)
+    public function getRedFilterProduct($remove = 0)
     {
         // get seeion filter data
 
@@ -686,7 +686,7 @@ class searchModelsearch extends JModelLegacy
         return $products;
     }
 
-    function mod_redProductfilter($Itemid)
+    public function mod_redProductfilter($Itemid)
     {
 
         $query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
@@ -815,7 +815,8 @@ class searchModelsearch extends JModelLegacy
                         $lists['type' . $key] = $tagname;
                     }
                 }
-                else {
+                else
+                {
                     unset($types[$key]);
                 }
             }
@@ -862,7 +863,8 @@ class searchModelsearch extends JModelLegacy
                                 $filteredlists['type' . $key] = $tagname;
                             }
                         }
-                        else {
+                        else
+                        {
                             unset($types[$key]);
                         }
                     }
@@ -940,7 +942,7 @@ class searchModelsearch extends JModelLegacy
         }
     }
 
-    function getTagsDetail($id, $all = 1)
+    public function getTagsDetail($id, $all = 1)
     {
         // for session
         $session      = JSession::getInstance('none', array());
@@ -988,7 +990,7 @@ class searchModelsearch extends JModelLegacy
     }
 
     // get Category products selected in search Module
-    function loadCatProductsManufacturer($cid)
+    public function loadCatProductsManufacturer($cid)
     {
         $db    =& JFactory::getDBO();
         $query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx " . ", " . $this->_table_prefix . "product AS p " . "WHERE cx.category_id='" . $cid . "' " . "AND p.product_id=cx.product_id ";
@@ -1010,7 +1012,7 @@ class searchModelsearch extends JModelLegacy
         return $db->loadObjectList();
     }
 
-    function getajaxData()
+    public function getajaxData()
     {
         jimport('joomla.application.module.helper');
         $module      = JModuleHelper::getModule('redshop_search');

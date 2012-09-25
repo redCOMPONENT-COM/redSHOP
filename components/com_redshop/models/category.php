@@ -11,27 +11,27 @@ defined('_JEXEC') or die ('Restricted access');
 
 class categoryModelcategory extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null;
+    public $_product = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_limit = null;
+    public $_limit = null;
 
-    var $_slidercount = 0;
+    public $_slidercount = 0;
 
-    var $count_no_user_field = 0;
+    public $count_no_user_field = 0;
 
-    var $minmaxArr = array(0, 0);
+    public $minmaxArr = array(0, 0);
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         global $mainframe;
         parent::__construct();
@@ -58,13 +58,13 @@ class categoryModelcategory extends JModelLegacy
         $this->setId(( int )$Id);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         global $mainframe;
         $menu            =& $mainframe->getMenu();
@@ -85,7 +85,7 @@ class categoryModelcategory extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
         $menu =& $mainframe->getMenu();
@@ -101,7 +101,7 @@ class categoryModelcategory extends JModelLegacy
         return $orderby;
     }
 
-    function _loadCategory()
+    public function _loadCategory()
     {
         $this->_maincat = array();
         if ($this->_id)
@@ -113,7 +113,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_maincat;
     }
 
-    function getProductPerPage()
+    public function getProductPerPage()
     {
         global $mainframe;
         $menu =& $mainframe->getMenu();
@@ -146,7 +146,7 @@ class categoryModelcategory extends JModelLegacy
         return $limit;
     }
 
-    function getCategorylistProduct($category_id = 0)
+    public function getCategorylistProduct($category_id = 0)
     {
         global $context, $mainframe;
         $menu  =& $mainframe->getMenu();
@@ -161,7 +161,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_product;
     }
 
-    function getCategoryProduct($minmax = 0, $isSlider = false)
+    public function getCategoryProduct($minmax = 0, $isSlider = false)
     {
         // $minmax = 0 (all products), $minmax=1 (min/max product)
         global $mainframe, $context;
@@ -281,7 +281,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_product;
     }
 
-    function columnSort($unsorted, $column, $sort)
+    public function columnSort($unsorted, $column, $sort)
     {
         $sorted = $unsorted;
 
@@ -318,7 +318,7 @@ class categoryModelcategory extends JModelLegacy
         return $sorted;
     }
 
-    function _buildProductOrderBy()
+    public function _buildProductOrderBy()
     {
         global $mainframe, $context;
         $params   = &$mainframe->getParams("com_redshop");
@@ -334,7 +334,7 @@ class categoryModelcategory extends JModelLegacy
         return $orderby;
     }
 
-    function getData()
+    public function getData()
     {
         global $mainframe, $context;
         $endlimit   = $this->getProductPerPage();
@@ -378,7 +378,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_data;
     }
 
-    function getCategoryPagination()
+    public function getCategoryPagination()
     {
         $endlimit          = $this->getProductPerPage();
         $limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
@@ -387,7 +387,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_pagination;
     }
 
-    function getCategoryProductPagination()
+    public function getCategoryProductPagination()
     {
         global $mainframe, $context;
         $menu     =& $mainframe->getMenu();
@@ -400,14 +400,14 @@ class categoryModelcategory extends JModelLegacy
         return $this->_pagination;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         $query        = $this->_buildQuery();
         $this->_total = $this->_getListCount($query);
         return $this->_total;
     }
 
-    function getCategoryTemplate()
+    public function getCategoryTemplate()
     {
         global $mainframe;
 
@@ -442,7 +442,7 @@ class categoryModelcategory extends JModelLegacy
         return $alltemplate;
     }
 
-    function loadCategoryTemplate()
+    public function loadCategoryTemplate()
     {
         global $mainframe, $context;
 
@@ -474,7 +474,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_template;
     }
 
-    function getManufacturer($mid = 0)
+    public function getManufacturer($mid = 0)
     {
         $and = "";
         $cid = JRequest::getVar('cid');
@@ -494,23 +494,23 @@ class categoryModelcategory extends JModelLegacy
         return $list;
     }
 
-    function setMaxMinProductPrice($minmax = array(0, 0))
+    public function setMaxMinProductPrice($minmax = array(0, 0))
     {
         $this->minmaxArr = $minmax;
     }
 
-    function getMaxMinProductPrice()
+    public function getMaxMinProductPrice()
     {
         return $this->minmaxArr;
     }
 
     /*
-      * function to get Product List Array with searched Letter
+      * public function to get Product List Array with searched Letter
       *
       * @return: array
       */
 
-    function getAllproductArrayListwithfirst($letter, $fieldid)
+    public function getAllproductArrayListwithfirst($letter, $fieldid)
     {
         $endlimit = $this->getProductPerPage();
 
@@ -529,7 +529,7 @@ class categoryModelcategory extends JModelLegacy
         return $product_lists;
     }
 
-    function _buildfletterQuery($letter, $fieldid)
+    public function _buildfletterQuery($letter, $fieldid)
     {
         $query = "SELECT p.*, fd.* FROM " . $this->_table_prefix . "product AS p ";
         $query .= " LEFT JOIN #__redshop_fields_data AS fd ON fd.itemid = p.product_id";
@@ -537,7 +537,7 @@ class categoryModelcategory extends JModelLegacy
         return $query;
     }
 
-    function getfletterPagination($letter, $fieldid)
+    public function getfletterPagination($letter, $fieldid)
     {
         $endlimit          = $this->getProductPerPage();
         $limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
@@ -546,7 +546,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_pagination;
     }
 
-    function getfletterTotal($letter, $fieldid)
+    public function getfletterTotal($letter, $fieldid)
     {
         if (empty ($this->_total))
         {
@@ -556,8 +556,8 @@ class categoryModelcategory extends JModelLegacy
         return $this->_total;
     }
 
-    // function for redproductfinder
-    function getredproductfindertags()
+    // public function for redproductfinder
+    public function getredproductfindertags()
     {
         global $mainframe, $context;
 
