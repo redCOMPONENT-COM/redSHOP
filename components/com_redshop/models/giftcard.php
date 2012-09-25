@@ -11,16 +11,16 @@ defined('_JEXEC') or die ('Restricted access');
 
 class giftcardModelgiftcard extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null; /// product data
-    var $_table_prefix = null;
+    public $_product = null; /// product data
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_limit = null;
+    public $_limit = null;
 
     function __construct()
     {

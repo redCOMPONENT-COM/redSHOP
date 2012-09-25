@@ -16,11 +16,11 @@ include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class quotationModelquotation extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {
@@ -34,7 +34,8 @@ class quotationModelquotation extends JModelLegacy
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 

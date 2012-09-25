@@ -17,28 +17,28 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
 
 class cartModelcart extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null; /// product data
-    var $_table_prefix = null;
+    public $_product = null; /// product data
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_r_voucher = 0;
+    public $_r_voucher = 0;
 
-    var $_c_remain = 0;
+    public $_c_remain = 0;
 
-    var $_globalvoucher = 0;
+    public $_globalvoucher = 0;
 
-    var $_producthelper = null;
+    public $_producthelper = null;
 
-    var $_carthelper = null;
+    public $_carthelper = null;
 
-    var $_userhelper = null;
+    public $_userhelper = null;
 
-    var $_objshipping = null;
+    public $_objshipping = null;
 
     function __construct()
     {

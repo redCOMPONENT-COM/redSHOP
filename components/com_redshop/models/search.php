@@ -14,13 +14,13 @@ require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helper
 
 class searchModelsearch extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {
@@ -815,7 +815,8 @@ class searchModelsearch extends JModelLegacy
                         $lists['type' . $key] = $tagname;
                     }
                 }
-                else {
+                else
+                {
                     unset($types[$key]);
                 }
             }
@@ -862,7 +863,8 @@ class searchModelsearch extends JModelLegacy
                                 $filteredlists['type' . $key] = $tagname;
                             }
                         }
-                        else {
+                        else
+                        {
                             unset($types[$key]);
                         }
                     }

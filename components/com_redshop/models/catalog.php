@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class catalogModelcatalog extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {
