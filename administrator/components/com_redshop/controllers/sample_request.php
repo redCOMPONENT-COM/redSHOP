@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class sample_requestController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -36,7 +36,7 @@ class sample_requestController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -57,7 +57,7 @@ class sample_requestController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 

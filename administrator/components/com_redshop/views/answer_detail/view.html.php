@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class answer_detailVIEWanswer_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $producthelper = new producthelper();
         $option        = JRequest::getVar('option');

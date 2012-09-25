@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class product_containerController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function template()
+    public function template()
     {
         $json = JRequest::getVar('json', '');
 
@@ -35,7 +35,7 @@ class product_containerController extends JControllerLegacy
         die($encoded);
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('product_container');
 
@@ -64,7 +64,7 @@ class product_containerController extends JControllerLegacy
         exit;
     }
 
-    function print_data()
+    public function print_data()
     {
         echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
     }

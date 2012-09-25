@@ -22,14 +22,14 @@ class exportModelexport extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
     }
 
-    function getData()
+    public function getData()
     {
         global $mainframe;
 
@@ -120,7 +120,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the products for export
      */
-    private function loadProducts()
+    private public function loadProducts()
     {
         $db = JFactory::getDBO();
 
@@ -651,7 +651,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the categories for export
      */
-    private function loadCategories()
+    private public function loadCategories()
     {
         $db = JFactory::getDBO();
         $q  = "SELECT c.*,cx.category_parent_id
@@ -721,7 +721,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the attributes for export
      */
-    private function loadAttributes()
+    private public function loadAttributes()
     {
 
         $producthelper = new producthelper();
@@ -859,7 +859,7 @@ class exportModelexport extends JModelLegacy
         }
     }
 
-    private function loadManufacturer()
+    private public function loadManufacturer()
     {
         $db    = JFactory::getDBO();
         $query = "SELECT m.* " . "FROM `" . $this->_table_prefix . "manufacturer` AS m ";
@@ -913,7 +913,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the Related Products for export
      */
-    private function loadRelatedProducts()
+    private public function loadRelatedProducts()
     {
         $db      = JFactory::getDBO();
         $relsku  = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`related_id`";
@@ -971,7 +971,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the fields for export
      */
-    private function loadFields()
+    private public function loadFields()
     {
         $extra_field   = new extra_field();
         $producthelper = new producthelper();
@@ -1013,7 +1013,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the users for export
      */
-    private function loadUsers()
+    private public function loadUsers()
     {
 
         $db    = JFactory::getDBO();
@@ -1076,7 +1076,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the Shipping Address for export
      */
-    private function loadshippingaddress()
+    private public function loadshippingaddress()
     {
         $db    = JFactory::getDBO();
         $query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname, ui.lastname, ui.address, ui.city, ui.state_code, ui.zipcode, ui.country_code, ui.phone
@@ -1131,7 +1131,7 @@ class exportModelexport extends JModelLegacy
         }
     }
 
-    function loadShoppergroupPrice()
+    public function loadShoppergroupPrice()
     {
         $db    = JFactory::getDBO();
         $query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price, price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date " . "FROM `" . $this->_table_prefix . "product_price` AS pp " . "LEFT JOIN `" . $this->_table_prefix . "product` AS p ON p.product_id = pp.product_id " . "LEFT JOIN `" . $this->_table_prefix . "shopper_group` AS s ON s.shopper_group_id = pp.shopper_group_id " . "WHERE p.product_number!='' ";
@@ -1221,7 +1221,7 @@ class exportModelexport extends JModelLegacy
         }
     }
 
-    function getmanufacturers()
+    public function getmanufacturers()
     {
         $query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
         $this->_db->setQuery($query);
@@ -1234,7 +1234,7 @@ class exportModelexport extends JModelLegacy
      * @return array $fieldExport
      *
      */
-    function getProductExtrafield()
+    public function getProductExtrafield()
     {
 
         $query = "SELECT field_id, field_name FROM " . $this->_table_prefix . "fields " . "WHERE field_section=1 " . "ORDER BY ordering ";

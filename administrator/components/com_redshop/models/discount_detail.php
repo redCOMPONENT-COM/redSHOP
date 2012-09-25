@@ -19,7 +19,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -30,13 +30,13 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -49,7 +49,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $layout = JRequest::getVar('layout');
 
@@ -71,7 +71,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -94,7 +94,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable('discount_detail');
 
@@ -121,7 +121,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $layout = JRequest::getVar('layout');
 
@@ -148,7 +148,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         $layout = JRequest::getVar('layout');
 
@@ -176,7 +176,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return true;
     }
 
-    function &getShoppers()
+    public function &getShoppers()
     {
         $query = 'SELECT shopper_group_id as value,shopper_group_name as text FROM ' . $this->_table_prefix . 'shopper_group WHERE published = 1';
         $this->_db->setQuery($query);
@@ -185,7 +185,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return $this->_shoppers;
     }
 
-    function selectedShoppers()
+    public function selectedShoppers()
     {
         $layout = JRequest::getVar('layout');
         if (isset($layout) && $layout == 'product')
@@ -202,7 +202,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return $this->_db->loadObjectList();
     }
 
-    function saveShoppers($did, $sids)
+    public function saveShoppers($did, $sids)
     {
         $layout = JRequest::getVar('layout');
 
@@ -226,7 +226,7 @@ class discount_detailModeldiscount_detail extends JModelLegacy
         return true;
     }
 
-    function storeDiscountProduct($data)
+    public function storeDiscountProduct($data)
     {
         $dprow = $this->getTable('discount_product');
 

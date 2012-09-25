@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class integrationController extends JControllerLegacy
 {
-    function gbasedownload()
+    public function gbasedownload()
     {
         global $mainframe;
         $model = $this->getModel("integration");

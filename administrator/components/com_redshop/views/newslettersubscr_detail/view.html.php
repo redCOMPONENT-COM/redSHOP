@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class newslettersubscr_detailVIEWnewslettersubscr_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $option = JRequest::getVar('option');
 

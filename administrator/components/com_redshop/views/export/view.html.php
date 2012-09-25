@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class exportViewexport extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $task             = JRequest::getVar('task');
         $product_category = new product_category();

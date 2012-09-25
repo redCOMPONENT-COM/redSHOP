@@ -11,13 +11,13 @@ defined('_JEXEC') or die ('Restricted access');
 
 class shopper_group_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'shopper_group_detail');
         JRequest::setVar('layout', 'default');
@@ -28,12 +28,12 @@ class shopper_group_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $option                     = JRequest::getVar('option');
         $cid                        = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -80,7 +80,7 @@ class shopper_group_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -116,7 +116,7 @@ class shopper_group_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -133,7 +133,7 @@ class shopper_group_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -150,7 +150,7 @@ class shopper_group_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_EDITING_CANCELLED');

@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class accessmanager_detailVIEWaccessmanager_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $section       = JRequest::getVar('section');
         $model         = $this->getModel('accessmanager_detail');
@@ -41,7 +41,7 @@ class accessmanager_detailVIEWaccessmanager_detail extends JViewLegacy
         parent::display($tpl);
     }
 
-    function getGroup()
+    public function getGroup()
     {
 
         // Compute usergroups
@@ -64,7 +64,7 @@ class accessmanager_detailVIEWaccessmanager_detail extends JViewLegacy
         return ($groups);
     }
 
-    function formatGroup($groups)
+    public function formatGroup($groups)
     {
         $returnable = array();
         foreach ($groups as $key=> $val)

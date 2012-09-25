@@ -13,7 +13,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlimport_detailVIEWxmlimport_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $option    = JRequest::getVar('option');
         $xmlhelper = new xmlHelper();

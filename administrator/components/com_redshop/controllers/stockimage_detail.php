@@ -11,13 +11,13 @@ defined('_JEXEC') or die ('Restricted access');
 
 class stockimage_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'stockimage_detail');
         JRequest::setVar('layout', 'default');
@@ -25,7 +25,7 @@ class stockimage_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post                     = JRequest::get('post');
         $option                   = JRequest::getVar('option');
@@ -45,7 +45,7 @@ class stockimage_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -62,7 +62,7 @@ class stockimage_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
     }
 
-    /*function publish()
+    /*public function publish()
      {
          $option = JRequest::getVar('option');
          $cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -76,7 +76,7 @@ class stockimage_detailController extends JControllerLegacy
          $msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_PUBLISHED_SUCCESSFULLY' );
          $this->setRedirect ( 'index.php?option='.$option.'&view=stockimage',$msg );
      }
-     function unpublish()
+     public function unpublish()
      {
          $option = JRequest::getVar('option');
          $cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
@@ -91,7 +91,7 @@ class stockimage_detailController extends JControllerLegacy
          $this->setRedirect ( 'index.php?option='.$option.'&view=stockimage',$msg );
      }*/
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_EDITING_CANCELLED');

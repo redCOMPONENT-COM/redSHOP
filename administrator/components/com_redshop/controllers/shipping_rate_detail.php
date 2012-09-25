@@ -10,13 +10,13 @@ defined('_JEXEC') or die ('Restricted access');
 
 class shipping_rate_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'shipping_rate_detail');
         JRequest::setVar('layout', 'default');
@@ -24,12 +24,12 @@ class shipping_rate_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -61,7 +61,7 @@ class shipping_rate_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option');
@@ -79,7 +79,7 @@ class shipping_rate_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -95,7 +95,7 @@ class shipping_rate_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate');
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -112,14 +112,14 @@ class shipping_rate_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate');
     }
 
-    function cancel()
+    public function cancel()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option');
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
     }
 
-    function copy()
+    public function copy()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option');
@@ -136,7 +136,7 @@ class shipping_rate_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id'], $msg);
     }
 
-    function GetStateDropdown()
+    public function GetStateDropdown()
     {
         $get   = JRequest::get('get');
         $model = $this->getModel('shipping_rate_detail');

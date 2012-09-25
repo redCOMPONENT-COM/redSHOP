@@ -23,13 +23,13 @@ class importModelimport extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
     }
 
-    function getData()
+    public function getData()
     {
         ob_clean();
         global $mainframe;
@@ -74,7 +74,7 @@ class importModelimport extends JModelLegacy
         return;
     }
 
-    function importdata()
+    public function importdata()
     {
         ob_clean();
         $thumb   = new thumbnail();
@@ -1703,7 +1703,7 @@ class importModelimport extends JModelLegacy
         exit;
     }
 
-    function importShopperGroupPrice($rawdata)
+    public function importShopperGroupPrice($rawdata)
     {
         if (trim($rawdata['product_number']) != "")
         {
@@ -1776,7 +1776,7 @@ class importModelimport extends JModelLegacy
         return false;
     }
 
-    function check_vm()
+    public function check_vm()
     {
         // Check Virtual Mart Is Install or Not
         $query_check = "SELECT extension_id FROM #__extensions WHERE `element` = 'com_virtuemart' ";
@@ -1807,7 +1807,7 @@ class importModelimport extends JModelLegacy
         // End Check
     }
 
-    function Product_sync()
+    public function Product_sync()
     {
         // Insert VM Product into Redshop
         $query = "SELECT vmp.*,vmp.cdate as publish_date,vmp.mdate as update_date,vmp.`product_name`,vmp.`product_tax_id`,rdp.product_number as red_product_number,rdp.product_id as rdp_product_id,rdp.product_full_image AS rdp_product_full_image,vpp.product_price
@@ -2028,7 +2028,7 @@ class importModelimport extends JModelLegacy
         }
     }
 
-    function Category_sync($product_array)
+    public function Category_sync($product_array)
     {
         //$category_array = array();
         $k = 0;
@@ -2199,7 +2199,7 @@ class importModelimport extends JModelLegacy
         return $k;
     }
 
-    function Shopper_Group_Insert()
+    public function Shopper_Group_Insert()
     {
         $query = "SELECT vmsg.shopper_group_id,vmsg.shopper_group_name,vmsg.shopper_group_desc,rdsg.shopper_group_name as rdsp_shopper_group_name FROM `#__vm_shopper_group` as vmsg left join " . $this->_table_prefix . "shopper_group as rdsg on  rdsg.shopper_group_name = vmsg.shopper_group_name";
         $this->_db->setQuery($query);
@@ -2242,7 +2242,7 @@ class importModelimport extends JModelLegacy
     /*
 	 * import customer information From VM
 	 */
-    function customerInformation()
+    public function customerInformation()
     {
         $order_functions = new order_functions();
         $query           = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui " . "LEFT JOIN #__vm_shopper_vendor_xref AS vmsvx ON vmui.user_id = vmsvx.user_id ";
@@ -2325,7 +2325,7 @@ class importModelimport extends JModelLegacy
         return $k;
     }
 
-    function Orders_insert()
+    public function Orders_insert()
     {
         $producthelper   = new producthelper();
         $order_functions = new order_functions();
@@ -2481,7 +2481,7 @@ class importModelimport extends JModelLegacy
         return $k;
     }
 
-    function Order_status_insert()
+    public function Order_status_insert()
     {
         $query = "SELECT vmos.*,rdos.order_status_code as rdcode FROM `#__vm_order_status` AS vmos " . "LEFT JOIN " . $this->_table_prefix . "order_status AS rdos ON vmos.order_status_code = rdos.order_status_code ";
         $this->_db->setQuery($query);
@@ -2510,7 +2510,7 @@ class importModelimport extends JModelLegacy
         return $k;
     }
 
-    function Manufacturer_insert()
+    public function Manufacturer_insert()
     {
         $query = "SELECT vmmf.*,vmpmf.product_id,vmp.product_sku,rdp.product_id as rdp_product_id,rdmf.manufacturer_id as rdmf_manufacturer_id,rdmf.manufacturer_name as rdmf_manufacturer_name  FROM (((`#__vm_manufacturer` as vmmf LEFT JOIN #__vm_product_mf_xref as vmpmf ON vmmf.`manufacturer_id` = vmpmf.manufacturer_id) LEFT JOIN #__vm_product as vmp ON vmpmf.product_id = vmp.product_id) LEFT JOIN " . $this->_table_prefix . "product as rdp ON rdp.product_number = vmp.product_sku) " . "LEFT JOIN " . $this->_table_prefix . "manufacturer AS rdmf ON rdmf.manufacturer_name = vmmf.`mf_name` ";
         $this->_db->setQuery($query);
@@ -2566,7 +2566,7 @@ class importModelimport extends JModelLegacy
     }
 
     // 	related product sync
-    function related_product_sync($vmproarr, $redproarr)
+    public function related_product_sync($vmproarr, $redproarr)
     {
         // vmproduct loop for product inter realtion
         for ($v = 0; $v < count($vmproarr); $v++)
@@ -2599,7 +2599,7 @@ class importModelimport extends JModelLegacy
         return true;
     }
 
-    function getProductIdByNumber($product_number)
+    public function getProductIdByNumber($product_number)
     {
         $q = "SELECT product_id FROM `" . $this->_table_prefix . "product` " . "WHERE `product_number`='" . $product_number . "' ";
         $this->_db->setQuery($q);
@@ -2607,7 +2607,7 @@ class importModelimport extends JModelLegacy
         return $product_id;
     }
 
-    function storePropertyStockPosition($data, $section = 'property')
+    public function storePropertyStockPosition($data, $section = 'property')
     {
         JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'tables');
         $data['section_id'] = ($section == 'property') ? $data['property_id'] : $data['subattribute_color_id'];
@@ -2651,7 +2651,7 @@ class importModelimport extends JModelLegacy
      * @param array $keyproduct
      * @param array $newkeys - reference variable
      */
-    function importProductExtrafieldData($fieldname, $rawdata, $product_id)
+    public function importProductExtrafieldData($fieldname, $rawdata, $product_id)
     {
 
         $value = $rawdata[$fieldname];
@@ -2703,7 +2703,7 @@ class importModelimport extends JModelLegacy
         return;
     }
 
-    function getTimeLeft()
+    public function getTimeLeft()
     {
         if (@function_exists('ini_get'))
         {
@@ -2747,6 +2747,7 @@ class importModelimport extends JModelLegacy
  * @param array $keyproduct
  * @param array $newkeys - reference variable
  */
+public
 function checkkeys($item, $keyproduct, &$newkeys)
 {
 

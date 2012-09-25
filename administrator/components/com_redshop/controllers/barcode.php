@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class barcodeController extends JControllerLegacy
 {
-    function getsearch()
+    public function getsearch()
     {
         $post = JRequest::get('post');
 
@@ -62,7 +62,7 @@ class barcodeController extends JControllerLegacy
         }
     }
 
-    function changestatus()
+    public function changestatus()
     {
         $post = JRequest::get('post');
 

@@ -40,14 +40,14 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlcron
 {
-    function xmlcron()
+    public function xmlcron()
     {
         $this->_table_prefix = '#__redshop_';
         xmlcron::xmlExportFileUpdate();
         xmlcron::xmlImportFileUpdate();
     }
 
-    function xmlExportFileUpdate()
+    public function xmlExportFileUpdate()
     {
         $currenttime = time();
         $xmlHelper   = new xmlHelper();
@@ -75,7 +75,7 @@ class xmlcron
         }
     }
 
-    function xmlImportFileUpdate()
+    public function xmlImportFileUpdate()
     {
         $currenttime = time();
         $xmlHelper   = new xmlHelper();

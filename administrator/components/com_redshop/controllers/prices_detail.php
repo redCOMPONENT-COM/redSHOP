@@ -9,13 +9,13 @@
 
 class prices_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'prices_detail');
         JRequest::setVar('layout', 'default');
@@ -23,7 +23,7 @@ class prices_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post                 = JRequest::get('post');
         $option               = JRequest::getVar('option');
@@ -78,7 +78,7 @@ class prices_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option     = JRequest::getVar('option');
         $product_id = JRequest::getVar('product_id');
@@ -98,7 +98,7 @@ class prices_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option     = JRequest::getVar('option');
         $product_id = JRequest::getVar('product_id');

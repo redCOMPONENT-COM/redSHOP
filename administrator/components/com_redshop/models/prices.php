@@ -23,7 +23,7 @@ class pricesModelprices extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         global $mainframe;
@@ -41,19 +41,19 @@ class pricesModelprices extends JModelLegacy
         $this->setProductId((int)$pid);
     }
 
-    function setProductId($id)
+    public function setProductId($id)
     {
         // Set employees_detail id and wipe data
         $this->_prodid = $id;
         $this->_data   = null;
     }
 
-    function getProductId()
+    public function getProductId()
     {
         return $this->_prodid;
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -63,7 +63,7 @@ class pricesModelprices extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -73,7 +73,7 @@ class pricesModelprices extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -83,7 +83,7 @@ class pricesModelprices extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $query = ' SELECT p.*, ' . ' g.shopper_group_name, prd.product_name ' . ' FROM ' . $this->_table_prefix . 'product_price as p ' . ' LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id ' . ' LEFT JOIN ' . $this->_table_prefix . 'product as prd ON p.product_id = prd.product_id ' . 'WHERE p.product_id = \'' . $this->_prodid . '\' ';
         return $query;
