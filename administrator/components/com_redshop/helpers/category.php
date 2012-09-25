@@ -14,9 +14,9 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 
 class product_category
 {
-    var $_cats = array();
+    public $_cats = array();
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

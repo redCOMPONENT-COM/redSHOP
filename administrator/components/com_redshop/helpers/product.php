@@ -14,11 +14,11 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class adminproducthelper
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_product_level = 0;
+    public $_product_level = 0;
 
     function __construct()
     {

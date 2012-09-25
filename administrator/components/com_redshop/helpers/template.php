@@ -16,7 +16,7 @@ jimport('joomla.filesystem.folder');
 
 class Redtemplate
 {
-    var $redshop_template_path;
+    public $redshop_template_path;
 
     function __construct()
     {

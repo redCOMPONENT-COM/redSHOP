@@ -11,15 +11,15 @@ defined('_JEXEC') or die('Restricted access');
 
 class media_detailModelmedia_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_mediadata = null;
+    public $_mediadata = null;
 
-    var $_mediatypedata = null;
+    public $_mediatypedata = null;
 
     function __construct()
     {

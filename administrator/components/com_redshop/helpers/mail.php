@@ -20,13 +20,13 @@ require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS 
 
 class redshopMail
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $db = null;
+    public $db = null;
 
-    var $_carthelper = null;
+    public $_carthelper = null;
 
-    var $_redhelper = null;
+    public $_redhelper = null;
 
     function __construct()
     {

@@ -13,15 +13,15 @@ JClientHelper::setCredentialsFromRequest('ftp');
 
 class prices_detailModelprices_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_prodid = null;
+    public $_prodid = null;
 
-    var $_prodname = null;
+    public $_prodname = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
     function __construct()
     {

@@ -13,11 +13,11 @@ require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class wizardController extends JControllerLegacy
 {
-    var $_temp_file = null;
+    public $_temp_file = null;
 
-    var $_temp_array = null;
+    public $_temp_array = null;
 
-    var $_temp_file_dist = null;
+    public $_temp_file_dist = null;
 
     function __construct($default = array())
     {
