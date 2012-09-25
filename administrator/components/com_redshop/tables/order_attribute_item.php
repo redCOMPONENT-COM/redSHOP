@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableorder_attribute_item extends JTable
 {
     var $order_att_item_id = null;

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablequotation_accessory_item extends JTable
 {
     public $quotation_item_acc_id = null;

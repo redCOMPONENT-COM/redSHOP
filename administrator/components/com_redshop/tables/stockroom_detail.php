@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablestockroom_detail extends JTable
 {
     public $stockroom_id = null;

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableaccountgroup_detail extends JTable
 {
     public $accountgroup_id = null;

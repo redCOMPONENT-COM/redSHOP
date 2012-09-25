@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableshopper_group_detail extends JTable
 {
     public $shopper_group_id = null;

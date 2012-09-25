@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tabletax_detail extends JTable
 {
     public $tax_rate_id = null;
