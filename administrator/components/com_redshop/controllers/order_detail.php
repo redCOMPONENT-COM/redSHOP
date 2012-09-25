@@ -289,11 +289,8 @@ class order_detailController extends RedshopCoreController
     // update shipping address information
     public function updateShippingAdd()
     {
-        global $mainframe;
-
         $post = JRequest::get('post');
 
-        $option    = JRequest::getVar('option', '', 'request', 'string');
         $suboption = JRequest::getVar('suboption', 'com_redshop', 'request', 'string');
         $view      = ($suboption == 'com_redshop') ? 'order_detail' : 'order';
 
@@ -327,13 +324,9 @@ class order_detailController extends RedshopCoreController
     // update billing address information
     public function updateBillingAdd()
     {
-
-        global $mainframe;
-
         $post = JRequest::get('post');
 
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
         $post['order_id'] = $cid[0];
 
@@ -377,8 +370,6 @@ class order_detailController extends RedshopCoreController
 
     public function send_downloadmail()
     {
-        global $mainframe;
-
         $option = JRequest::getVar('option', '', 'request', 'string');
         $cid    = JRequest::getVar('cid', array(0), 'get', 'array');
         $tmpl   = JRequest::getVar('tmpl', '', 'request', 'string');
@@ -421,8 +412,6 @@ class order_detailController extends RedshopCoreController
 
     public function checkoutnext()
     {
-
-        global $mainframe;
         $session = JFactory::getSession();
         require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
         require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
@@ -517,7 +506,7 @@ class order_detailController extends RedshopCoreController
 
         if ($paymentResponse->responsestatus == "Success" || $values['payment_plugin'] == "")
         {
-            $paymentResponse->transaction_id            = $paymentResponse->transaction_id;
+            //$paymentResponse->transaction_id            = $paymentResponse->transaction_id;
             $paymentResponse->log                       = $paymentResponse->message;
             $paymentResponse->msg                       = $paymentResponse->message;
             $paymentResponse->order_status_code         = 'C';
@@ -532,7 +521,7 @@ class order_detailController extends RedshopCoreController
         $model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 
         $redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']);
-        $mainframe->redirect($redirect_url, $paymentResponse->message);
+        $this->app->redirect($redirect_url, $paymentResponse->message);
     }
 
     /*
@@ -540,9 +529,7 @@ class order_detailController extends RedshopCoreController
       */
     public function notify_payment()
     {
-        $mainframe = JFactory::getApplication('site');
-        $db        = jFactory::getDBO();
-        $request   = JRequest::get('request');
+        $request = JRequest::get('request');
 
         require_once (JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
         $objOrder = new order_functions();
@@ -551,18 +538,15 @@ class order_detailController extends RedshopCoreController
         $dispatcher = JDispatcher::getInstance();
 
         $results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
-        //$mainframe->registerEvent( 'onNotifyPayment', 'onNotifyPayment'.$request['payment_plugin'] );
 
-        //echo "<pre>"; print_r($request); exit;
         $msg = $results[0]->msg;
         $objOrder->changeorderstatus($results[0]);
         $redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['orderid']);
-        $mainframe->redirect($redirect_url, $msg);
+        $this->app->redirect($redirect_url, $msg);
     }
 
     public function send_invoicemail()
     {
-        global $mainframe;
         $redshopMail = new redshopMail ();
 
         $option = JRequest::getVar('option', '', 'request', 'string');
