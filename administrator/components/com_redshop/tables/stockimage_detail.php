@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablestockimage_detail extends JTable
 {
     public $stock_amount_id = null;

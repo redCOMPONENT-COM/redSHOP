@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tabletransaction_voucher_detail extends JTable
 {
     public $transaction_voucher_id = null;

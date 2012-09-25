@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablemass_discount_detail extends JTable
 {
     public $mass_discount_id = 0;

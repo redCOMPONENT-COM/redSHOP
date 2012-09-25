@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablesubattribute_property extends JTable
 {
     public $subattribute_color_id = null;

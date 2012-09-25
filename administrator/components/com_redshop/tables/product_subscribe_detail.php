@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableproduct_subscribe_detail extends JTable
 {
     public $product_subscribe_id = 0;

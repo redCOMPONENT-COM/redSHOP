@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tabletax_group_detail extends JTable
 {
     public $tax_group_id = null;

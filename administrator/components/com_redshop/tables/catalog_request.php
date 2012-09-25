@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablecatalog_request extends JTable
 {
     public $catalog_user_id = null;
