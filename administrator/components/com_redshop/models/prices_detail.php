@@ -10,7 +10,6 @@
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
-jimport('joomla.filesystem.file');
 
 class prices_detailModelprices_detail extends JModelLegacy
 {

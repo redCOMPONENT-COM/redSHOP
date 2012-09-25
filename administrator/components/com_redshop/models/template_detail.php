@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 class template_detailModeltemplate_detail extends JModelLegacy
 {
     var $_id = null;

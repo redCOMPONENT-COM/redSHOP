@@ -29,16 +29,4 @@ class Tablenewsletter_detail extends JTable
 
         parent::__construct($this->_table_prefix . 'newsletter', 'newsletter_id', $db);
     }
-
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-
-        return parent::bind($array, $ignore);
-    }
 }

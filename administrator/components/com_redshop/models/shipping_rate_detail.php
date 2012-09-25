@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
-jimport('joomla.filesystem.file');
+
 class shipping_rate_detailModelShipping_rate_detail extends JModelLegacy
 {
     var $_id = null;
