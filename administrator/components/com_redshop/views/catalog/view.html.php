@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class catalogViewcatalog extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
         $context  = 'catalog_id';

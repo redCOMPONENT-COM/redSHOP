@@ -11,13 +11,13 @@ defined('_JEXEC') or die ('Restricted access');
 
 class tax_group_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'tax_group_detail');
         JRequest::setVar('layout', 'default');
@@ -28,7 +28,7 @@ class tax_group_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post = JRequest::get('post');
 
@@ -50,7 +50,7 @@ class tax_group_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -82,7 +82,7 @@ class tax_group_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -103,7 +103,7 @@ class tax_group_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
         //$layout = JRequest::getVar ('layout');
@@ -125,7 +125,7 @@ class tax_group_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_EDITING_CANCELLED');

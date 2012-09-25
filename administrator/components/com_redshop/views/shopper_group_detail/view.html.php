@@ -14,7 +14,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class shopper_group_detailVIEWshopper_group_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 

@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class stockroomController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function listing()
+    public function listing()
     {
         $this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0');
     }

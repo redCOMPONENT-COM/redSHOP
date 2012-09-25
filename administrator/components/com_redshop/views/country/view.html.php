@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class countryViewcountry extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_COUNTRY'));

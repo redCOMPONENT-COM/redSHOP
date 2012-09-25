@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.
 
 class stockroom_detailVIEWstockroom_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $layout = JRequest::getVar('layout', '');
 
@@ -108,7 +108,7 @@ class stockroom_detailVIEWstockroom_detail extends JViewLegacy
         parent::display($tpl);
     }
 
-    function display_product($tpl = null)
+    public function display_product($tpl = null)
     {
         $id = JRequest::getVar('id', '');
 

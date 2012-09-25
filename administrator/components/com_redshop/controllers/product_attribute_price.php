@@ -11,19 +11,19 @@ defined('_JEXEC') or die('Restricted access');
 
 class product_attribute_priceController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function listing()
+    public function listing()
     {
         JRequest::setVar('layout', 'listing');
         JRequest::setVar('hidemainmenu', 1);
         parent::display();
     }
 
-    function saveprice()
+    public function saveprice()
     {
         $db                   = JFactory::getDBO();
         $section_id           = JRequest::getVar('section_id');

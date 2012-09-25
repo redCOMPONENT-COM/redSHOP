@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class categoryController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
@@ -20,7 +20,7 @@ class categoryController extends JControllerLegacy
      * assign template to multiple categories
      *
      */
-    function assignTemplate()
+    public function assignTemplate()
     {
         $post = JRequest::get('post');
 
@@ -37,7 +37,7 @@ class categoryController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=category', $msg);
     }
 
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
 
@@ -53,7 +53,7 @@ class categoryController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function autofillcityname()
+    public function autofillcityname()
     {
         $db = JFactory::getDBO();
         ob_clean();

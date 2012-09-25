@@ -18,13 +18,13 @@ class Redaccesslevel
      * define default path
      *
      */
-    function __construct()
+    public function __construct()
     {
         global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
     }
 
-    function checkaccessofuser($group_id)
+    public function checkaccessofuser($group_id)
     {
         $db    = JFactory::getDBO();
         $query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager" . " WHERE `view`=1 and `gid` = '" . $group_id . "'";
@@ -33,7 +33,7 @@ class Redaccesslevel
         return $access_section;
     }
 
-    function checkgroup_access($view, $task, $group_id)
+    public function checkgroup_access($view, $task, $group_id)
     {
 
         if ($task == '')
@@ -57,7 +57,7 @@ class Redaccesslevel
         }
     }
 
-    function getgroup_access($view, $group_id)
+    public function getgroup_access($view, $group_id)
     {
         $mainframe = JFactory::getApplication();
 
@@ -73,7 +73,7 @@ class Redaccesslevel
         }
     }
 
-    function getgroup_accesstaskadd($view, $task, $group_id)
+    public function getgroup_accesstaskadd($view, $task, $group_id)
     {
         $mainframe = JFactory::getApplication();
         $db        = JFactory::getDBO();
@@ -88,7 +88,7 @@ class Redaccesslevel
         }
     }
 
-    function getgroup_accesstaskedit($view, $task, $group_id)
+    public function getgroup_accesstaskedit($view, $task, $group_id)
     {
         $mainframe = JFactory::getApplication();
         $db        = JFactory::getDBO();
@@ -103,7 +103,7 @@ class Redaccesslevel
         }
     }
 
-    function getgroup_accesstaskdelete($view, $task, $group_id)
+    public function getgroup_accesstaskdelete($view, $task, $group_id)
     {
         $mainframe = JFactory::getApplication();
         $db        = JFactory::getDBO();

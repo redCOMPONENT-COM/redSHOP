@@ -17,23 +17,23 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php
 
 class addorder_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         JRequest::setVar('hidemainmenu', 1);
     }
 
-    function savepay()
+    public function savepay()
     {
         $this->save(1);
     }
 
-    function save_without_sendmail()
+    public function save_without_sendmail()
     {
         $this->save();
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -203,14 +203,14 @@ class addorder_detailController extends JControllerLegacy
         }
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $msg    = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
     }
 
-    function guestuser()
+    public function guestuser()
     {
         global $mainframe;
 
@@ -235,7 +235,7 @@ class addorder_detailController extends JControllerLegacy
         }
     }
 
-    function changeshippingaddress()
+    public function changeshippingaddress()
     {
         $shippingadd_id = JRequest::getVar('shippingadd_id', 0);
         $user_id        = JRequest::getVar('user_id', 0);
@@ -248,7 +248,7 @@ class addorder_detailController extends JControllerLegacy
         die();
     }
 
-    function getShippingRate()
+    public function getShippingRate()
     {
         $shippinghelper       = new shipping();
         $get                  = JRequest::get('get');

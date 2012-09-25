@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 class user_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
@@ -19,7 +19,7 @@ class user_detailController extends JControllerLegacy
         $this->redhelper     = new redhelper();
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'user_detail');
         JRequest::setVar('layout', 'default');
@@ -27,12 +27,12 @@ class user_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $post   = JRequest::get('post');
@@ -70,7 +70,7 @@ class user_detailController extends JControllerLegacy
         $this->setRedirect($link, $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option   = JRequest::getVar('option', '', 'request', 'string');
         $shipping = JRequest::getVar('shipping', '', 'request', 'string');
@@ -98,7 +98,7 @@ class user_detailController extends JControllerLegacy
         }
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         //		$shipping = JRequest::getVar('shipping','','request','string');
@@ -126,7 +126,7 @@ class user_detailController extends JControllerLegacy
         //		}
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option   = JRequest::getVar('option', '', 'request', 'string');
         $shipping = JRequest::getVar('shipping', '', 'request', 'string');
@@ -154,7 +154,7 @@ class user_detailController extends JControllerLegacy
         //		}
     }
 
-    function cancel()
+    public function cancel()
     {
         $option   = JRequest::getVar('option', '', 'request', 'string');
         $shipping = JRequest::getVar('shipping', '', 'request', 'string');
@@ -173,14 +173,14 @@ class user_detailController extends JControllerLegacy
         $this->setRedirect($link, $msg);
     }
 
-    function order()
+    public function order()
     {
         $option  = JRequest::getVar('option', '', 'request', 'string');
         $user_id = JRequest::getVar('user_id', 0, 'request', 'string');
         $this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id);
     }
 
-    function validation()
+    public function validation()
     {
         $json             = JRequest::getVar('json', '');
         $decoded          = json_decode($json);

@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class mediaController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function saveAdditionalFiles()
+    public function saveAdditionalFiles()
     {
         $post      = JRequest::get('POST');
         $file      = JRequest::getVar('downloadfile', 'array', 'files', 'array');
@@ -87,7 +87,7 @@ class mediaController extends JControllerLegacy
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=' . $post['media_id'] . '&showbuttons=1', $msg);
     }
 
-    function deleteAddtionalFiles()
+    public function deleteAddtionalFiles()
     {
         $media_id = JRequest::getInt('media_id');
         $fileId   = JRequest::getInt('fileId');
@@ -104,7 +104,7 @@ class mediaController extends JControllerLegacy
     }
 
     //ordering
-    function saveorder()
+    public function saveorder()
     {
         $option        = JRequest::getVar('option');
         $section_id    = JRequest::getVar('section_id');

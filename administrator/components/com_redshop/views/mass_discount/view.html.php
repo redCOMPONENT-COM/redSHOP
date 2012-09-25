@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class mass_discountViewmass_discount extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 

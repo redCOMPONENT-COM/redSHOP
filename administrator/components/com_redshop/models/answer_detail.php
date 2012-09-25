@@ -21,7 +21,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
 
     public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -31,13 +31,13 @@ class answer_detailModelanswer_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -50,7 +50,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.question_id=" . $this->_id;
         $this->_db->setQuery($query);
@@ -58,14 +58,14 @@ class answer_detailModelanswer_detail extends JModelLegacy
         return (boolean)$this->_data;
     }
 
-    function getProduct()
+    public function getProduct()
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product ";
         $list  = $this->_getList($query);
         return $list;
     }
 
-    function _initData()
+    public function _initData()
     {
         $user = JFactory::getUser();
         if (empty($this->_data))
@@ -91,7 +91,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable('question_detail');
         if (!$data['question_id'])
@@ -117,7 +117,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function MaxOrdering()
+    public function MaxOrdering()
     {
         $query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question " . "WHERE parent_id='" . $this->_parent_id . "' ";
         $this->_db->setQuery($query);
@@ -130,7 +130,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -153,7 +153,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -176,7 +176,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable('question_detail');
         $order      = JRequest::getVar('order', array(0), 'post', 'array');
@@ -233,7 +233,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function orderup()
+    public function orderup()
     {
         $row = $this->getTable('question_detail');
         $row->load($this->_id);
@@ -248,7 +248,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function orderdown()
+    public function orderdown()
     {
         $row = $this->getTable('question_detail');
         $row->load($this->_id);
@@ -257,7 +257,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
         return true;
     }
 
-    function sendMailForAskQuestion($ansid)
+    public function sendMailForAskQuestion($ansid)
     {
         $redshopMail = new redshopMail();
         $rs          = $redshopMail->sendAskQuestionMail($ansid);

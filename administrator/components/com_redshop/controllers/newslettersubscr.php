@@ -11,12 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 class newslettersubscrController extends JControllerLegacy
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function importdata()
+    public function importdata()
     {
         $post = JRequest::get('post');
 

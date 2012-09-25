@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class supplier_detailVIEWsupplier_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 

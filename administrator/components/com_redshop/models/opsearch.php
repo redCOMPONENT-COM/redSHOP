@@ -21,7 +21,7 @@ class opsearchModelopsearch extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -43,7 +43,7 @@ class opsearchModelopsearch extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -53,7 +53,7 @@ class opsearchModelopsearch extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         $query = $this->_buildQuery();
         if (empty($this->_total))
@@ -63,7 +63,7 @@ class opsearchModelopsearch extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -73,7 +73,7 @@ class opsearchModelopsearch extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $orderby        = $this->_buildContentOrderBy();
         $filter_user    = $this->getState('filter_user', '');
@@ -97,7 +97,7 @@ class opsearchModelopsearch extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -109,7 +109,7 @@ class opsearchModelopsearch extends JModelLegacy
         return $orderby;
     }
 
-    function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+    public function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
         $query              = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM " . $this->_table_prefix . "users_info AS uf " . "WHERE uf.address_type='BT' " . "ORDER BY text ";
         $userlist           = $this->_getList($query);

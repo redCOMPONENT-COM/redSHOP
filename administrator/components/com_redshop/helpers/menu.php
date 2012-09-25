@@ -14,7 +14,7 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 
 class leftmenu
 {
-    function  __construct()
+    public function  __construct()
     {
         jimport('joomla.html.pane');
         $option    = JRequest::getVar('option');

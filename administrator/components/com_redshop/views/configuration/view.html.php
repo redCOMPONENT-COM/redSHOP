@@ -15,7 +15,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'helper.php')
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 class configurationViewconfiguration extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $db = jFactory::getDBO();
 
@@ -609,7 +609,7 @@ class configurationViewconfiguration extends JViewLegacy
         parent::display($tpl);
     }
 
-    function get_server_software()
+    public function get_server_software()
     {
         if (isset($_SERVER['SERVER_SOFTWARE']))
         {

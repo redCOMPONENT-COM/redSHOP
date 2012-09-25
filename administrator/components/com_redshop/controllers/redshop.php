@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class redshopController extends JControllerLegacy
 {
-    function demoContentInsert()
+    public function demoContentInsert()
     {
         $model = $this->getModel();
 

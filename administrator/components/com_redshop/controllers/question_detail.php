@@ -12,13 +12,13 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class question_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'question_detail');
         JRequest::setVar('layout', 'default');
@@ -26,7 +26,7 @@ class question_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save($send = 0)
+    public function save($send = 0)
     {
         $post             = JRequest::get('post');
         $question         = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -61,12 +61,12 @@ class question_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
 
-    function send()
+    public function send()
     {
         $this->save(1);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -85,7 +85,7 @@ class question_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
 
-    function removeanswer()
+    public function removeanswer()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $cid    = JRequest::getVar('aid', array(0), 'post', 'array');
@@ -105,7 +105,7 @@ class question_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
     }
 
-    function sendanswer()
+    public function sendanswer()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $cid    = JRequest::getVar('aid', array(0), 'post', 'array');
@@ -119,14 +119,14 @@ class question_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $msg    = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -146,7 +146,7 @@ class question_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -172,7 +172,7 @@ class question_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderup()
+    public function orderup()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('question_detail');
@@ -187,7 +187,7 @@ class question_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderdown()
+    public function orderdown()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('question_detail');
@@ -202,7 +202,7 @@ class question_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
         $cid    = JRequest::getVar('cid', array(), 'post', 'array');

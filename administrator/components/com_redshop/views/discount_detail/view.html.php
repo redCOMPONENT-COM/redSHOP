@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class discount_detailVIEWdiscount_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT_DETAIL'), 'redshop_discountmanagmenet48');
 

@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class redSHOPWizard
 {
-    function initialize()
+    public function initialize()
     {
 
         $step = JRequest::getVar('step', '');
@@ -53,7 +53,7 @@ class redSHOPWizard
 
 class redSHOPWizardHelper
 {
-    function install($step = 1)
+    public function install($step = 1)
     {
         switch ($step)
         {
@@ -88,7 +88,7 @@ class redSHOPWizardHelper
         return $status;
     }
 
-    function general($step)
+    public function general($step)
     {
         $template = new redSHOPWizardTemplate();
 
@@ -107,7 +107,7 @@ class redSHOPWizardHelper
         return $drawdata;
     }
 
-    function terms($step)
+    public function terms($step)
     {
 
         $template = new redSHOPWizardTemplate();
@@ -128,7 +128,7 @@ class redSHOPWizardHelper
         return $drawdata;
     }
 
-    function user($step)
+    public function user($step)
     {
 
         $template = new redSHOPWizardTemplate();
@@ -149,7 +149,7 @@ class redSHOPWizardHelper
         return $drawdata;
     }
 
-    function price($step)
+    public function price($step)
     {
 
         $template = new redSHOPWizardTemplate();
@@ -169,7 +169,7 @@ class redSHOPWizardHelper
         return $drawdata;
     }
 
-    function finish($step)
+    public function finish($step)
     {
 
         $template = new redSHOPWizardTemplate();
@@ -196,7 +196,7 @@ class redSHOPWizardTemplate
 
     public $controller = null;
 
-    function __construct()
+    public function __construct()
     {
         require_once (JPATH_COMPONENT . DS . 'controllers' . DS . 'wizard.php');
 
@@ -205,13 +205,13 @@ class redSHOPWizardTemplate
         $this->controller = new $classname(array('default_task' => 'display'));
     }
 
-    function getHTML($page = '', $params = '')
+    public function getHTML($page = '', $params = '')
     {
         $page = '_' . $page;
         return $this->$page($params);
     }
 
-    function _welcome($params)
+    public function _welcome($params)
     {
         ob_start();
 
@@ -228,7 +228,7 @@ class redSHOPWizardTemplate
         return $html;
     }
 
-    function _general($params)
+    public function _general($params)
     {
         ob_start();
 
@@ -243,7 +243,7 @@ class redSHOPWizardTemplate
         return $html;
     }
 
-    function _terms($params)
+    public function _terms($params)
     {
         ob_start();
 
@@ -257,7 +257,7 @@ class redSHOPWizardTemplate
         return $html;
     }
 
-    function _user($params)
+    public function _user($params)
     {
         ob_start();
 
@@ -271,7 +271,7 @@ class redSHOPWizardTemplate
         return $html;
     }
 
-    function _price($params)
+    public function _price($params)
     {
         ob_start();
 
@@ -285,7 +285,7 @@ class redSHOPWizardTemplate
         return $html;
     }
 
-    function _finish($params)
+    public function _finish($params)
     {
         ob_start();
 
@@ -299,7 +299,7 @@ class redSHOPWizardTemplate
         return $html;
     }
 
-    function setHTML($output, $step, $title, $status, $install = 1, $substep = 0)
+    public function setHTML($output, $step, $title, $status, $install = 1, $substep = 0)
     {
 
         $html = '';

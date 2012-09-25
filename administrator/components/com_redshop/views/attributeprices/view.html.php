@@ -11,7 +11,7 @@ jimport('joomla.html.pagination');
 
 class attributepricesViewattributeprices extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 

@@ -9,13 +9,13 @@
 
 class wrapper_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'wrapper_detail');
         JRequest::setVar('layout', 'default');
@@ -24,7 +24,7 @@ class wrapper_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $showall = JRequest::getVar('showall', '0');
         $page    = "";
@@ -53,7 +53,7 @@ class wrapper_detailController extends JControllerLegacy
         $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $showall = JRequest::getVar('showall', '0');
         $page    = "";
@@ -79,7 +79,7 @@ class wrapper_detailController extends JControllerLegacy
         $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $showall = JRequest::getVar('showall', '0');
         $page    = "";
@@ -100,7 +100,7 @@ class wrapper_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function publish()
+    public function publish()
     {
         $showall = JRequest::getVar('showall', '0');
         $page    = "";
@@ -130,7 +130,7 @@ class wrapper_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function unpublish()
+    public function unpublish()
     {
         $showall = JRequest::getVar('showall', '0');
         $page    = "";
@@ -154,7 +154,7 @@ class wrapper_detailController extends JControllerLegacy
         $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
     }
 
-    function enable_defaultpublish()
+    public function enable_defaultpublish()
     {
         $showall = JRequest::getVar('showall', '0');
         $page    = "";
@@ -180,7 +180,7 @@ class wrapper_detailController extends JControllerLegacy
         $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
     }
 
-    function enable_defaultunpublish()
+    public function enable_defaultunpublish()
     {
         $showall = JRequest::getVar('showall', '0');
         $page    = "";

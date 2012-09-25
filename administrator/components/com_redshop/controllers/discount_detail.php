@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class discount_detailController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         $layout = JRequest::getVar('layout');
 
@@ -36,12 +36,12 @@ class discount_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -95,7 +95,7 @@ class discount_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
 
         $option = JRequest::getVar('option');
@@ -127,7 +127,7 @@ class discount_detailController extends JControllerLegacy
         }
     }
 
-    function publish()
+    public function publish()
     {
         $layout = JRequest::getVar('layout');
 
@@ -157,7 +157,7 @@ class discount_detailController extends JControllerLegacy
         }
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $layout = JRequest::getVar('layout');
 
@@ -187,7 +187,7 @@ class discount_detailController extends JControllerLegacy
         }
     }
 
-    function cancel()
+    public function cancel()
     {
         $layout = JRequest::getVar('layout');
         $option = JRequest::getVar('option');

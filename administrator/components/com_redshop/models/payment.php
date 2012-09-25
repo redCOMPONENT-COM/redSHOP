@@ -21,7 +21,7 @@ class paymentModelpayment extends JModelLegacy
 
     public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         global $mainframe;
@@ -36,7 +36,7 @@ class paymentModelpayment extends JModelLegacy
         $this->setState('template_section', $template_section);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -46,7 +46,7 @@ class paymentModelpayment extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         $query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'payment_method p ';
         if (empty($this->_total))
@@ -58,7 +58,7 @@ class paymentModelpayment extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -69,7 +69,7 @@ class paymentModelpayment extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $where = '';
         $limit = "";
@@ -84,7 +84,7 @@ class paymentModelpayment extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 

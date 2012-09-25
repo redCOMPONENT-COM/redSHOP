@@ -26,13 +26,13 @@ class quotationHelper
 
     public $_db = null;
 
-    function __construct()
+    public function __construct()
     {
         $this->_db           = JFactory::getDbo();
         $this->_table_prefix = '#__redshop_';
     }
 
-    function getQuotationStatusList()
+    public function getQuotationStatusList()
     {
         $status   = array();
         $status[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
@@ -44,7 +44,7 @@ class quotationHelper
         return $status;
     }
 
-    function getQuotationStatusName($value = 0)
+    public function getQuotationStatusName($value = 0)
     {
         $name = "-";
         switch ($value)
@@ -68,7 +68,7 @@ class quotationHelper
         return $name;
     }
 
-    function getQuotationProduct($quotation_id = 0, $quotation_item_id = 0)
+    public function getQuotationProduct($quotation_id = 0, $quotation_item_id = 0)
     {
         $and = "";
         if ($quotation_id != 0)
@@ -85,7 +85,7 @@ class quotationHelper
         return $list;
     }
 
-    function getQuotationDetail($quotation_id)
+    public function getQuotationDetail($quotation_id)
     {
         $query = "SELECT q.*,q.user_email AS quotation_email,u.* FROM " . $this->_table_prefix . "quotation AS q " . "LEFT JOIN " . $this->_table_prefix . "users_info AS u ON u.user_id=q.user_id AND u.address_type Like 'BT' " . "WHERE q.quotation_id='" . $quotation_id . "' ";
         $this->_db->setQuery($query);
@@ -93,7 +93,7 @@ class quotationHelper
         return $list;
     }
 
-    function generateQuotationNumber()
+    public function generateQuotationNumber()
     {
         /* Generated a unique quotation number */
         $query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation ";
@@ -104,14 +104,14 @@ class quotationHelper
         return ($number);
     }
 
-    function updateQuotationStatus($quotation_id, $status = 1)
+    public function updateQuotationStatus($quotation_id, $status = 1)
     {
         $query = "UPDATE " . $this->_table_prefix . "quotation " . "SET quotation_status='" . $status . "' " . "WHERE quotation_id='" . $quotation_id . "' ";
         $this->_db->setQuery($query);
         $this->_db->query();
     }
 
-    function getQuotationUserList()
+    public function getQuotationUserList()
     {
         $user = JFactory::getUser();
         $and  = "";
@@ -125,7 +125,7 @@ class quotationHelper
         return $list;
     }
 
-    function randomQuotationEncrkey($p_length = '30')
+    public function randomQuotationEncrkey($p_length = '30')
     {
         /* Generated a unique order number */
         $char_list = "abcdefghijklmnopqrstuvwxyz";
@@ -140,7 +140,7 @@ class quotationHelper
         return $random;
     }
 
-    function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
+    public function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
     {
         $extra_field = new extra_field();
         $row_data    = $extra_field->getSectionFieldList($section_id, 1);
@@ -159,14 +159,14 @@ class quotationHelper
         return true;
     }
 
-    function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
+    public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
     {
         $sql = "INSERT INTO " . $this->_table_prefix . "quotation_fields_data " . "(fieldid,data_txt,quotation_item_id,section) " . "VALUE ('" . $field_id . "','" . $value . "','" . $quotation_item_id . "','" . $section_id . "')";
         $this->_db->setQuery($sql);
         $this->_db->query();
     }
 
-    function getQuotationUserfield($quotation_item_id)
+    public function getQuotationUserfield($quotation_item_id)
     {
         $q = "SELECT qf.*,f.* FROM " . $this->_table_prefix . "quotation_fields_data AS qf " . "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=qf.fieldid " . "WHERE quotation_item_id='" . $quotation_item_id . "'";
         $this->_db->setQuery($q);
@@ -175,7 +175,7 @@ class quotationHelper
         return $row_data;
     }
 
-    function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
+    public function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
     {
         $redTemplate   = new Redtemplate();
         $producthelper = new producthelper();
@@ -229,7 +229,7 @@ class quotationHelper
         return $resultstr;
     }
 
-    function updateQuotationwithOrder($quotation_id, $order_id)
+    public function updateQuotationwithOrder($quotation_id, $order_id)
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'quotation ' . 'SET order_id="' . $order_id . '" ' . 'WHERE quotation_id=' . $quotation_id;
         $this->_db->setQuery($query);
@@ -238,7 +238,7 @@ class quotationHelper
         return true;
     }
 
-    function getQuotationwithOrder($order_id = 0)
+    public function getQuotationwithOrder($order_id = 0)
     {
         $and = "";
         if ($order_id != 0)
@@ -251,7 +251,7 @@ class quotationHelper
         return $list;
     }
 
-    function getQuotationItemAccessoryDetail($quotation_item_id = 0)
+    public function getQuotationItemAccessoryDetail($quotation_item_id = 0)
     {
         $and = "";
         if ($quotation_item_id != 0)
@@ -264,7 +264,7 @@ class quotationHelper
         return $list;
     }
 
-    function getQuotationItemAttributeDetail($quotation_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
+    public function getQuotationItemAttributeDetail($quotation_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
     {
         $and = "";
         if ($quotation_item_id != 0)

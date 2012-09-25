@@ -19,7 +19,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
 
     public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -30,13 +30,13 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -49,7 +49,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -61,7 +61,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -78,7 +78,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -96,7 +96,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -114,7 +114,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -132,7 +132,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         return true;
     }
 
-    function copy($cid = array())
+    public function copy($cid = array())
     {
 
         if (count($cid))
@@ -159,5 +159,3 @@ class textlibrary_detailModeltextlibrary_detail extends JModelLegacy
         return true;
     }
 }
-
-?>
