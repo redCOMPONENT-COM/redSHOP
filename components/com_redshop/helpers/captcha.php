@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+defined('_JEXEC') or die ('restricted access');
+
 class CaptchaSecurityImages
 {
     public $font = 'components/com_redshop/assets/captcha/monofont.ttf';
