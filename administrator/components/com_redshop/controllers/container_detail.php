@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class container_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class container_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         $model          = $this->getModel('container_detail');
         $stockroom_data = $model->stockroom_data($id = 0);
@@ -28,7 +30,7 @@ class container_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function addcontainer()
+    public function addcontainer()
     {
         $conid = JRequest::getVar('cid', array(0), 'post', 'array');
         JRequest::setVar('conid', $conid);
@@ -36,7 +38,7 @@ class container_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function saveanddisplay()
+    public function saveanddisplay()
     {
         $post         = JRequest::get('get');
         $model        = $this->getModel('container_detail');
@@ -44,7 +46,7 @@ class container_detailController extends JControllerLegacy
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=container_detail&layout=products&rand_id=' . time() . '&task=edit&cid[]=' . $container_id);
     }
 
-    function deleteProduct()
+    public function deleteProduct()
     {
         $post  = JRequest::get('get');
         $model = $this->getModel('container_detail');
@@ -53,12 +55,12 @@ class container_detailController extends JControllerLegacy
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=container_detail&layout=products&task=edit&cid[]=' . $container_id);
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -112,7 +114,7 @@ class container_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -134,7 +136,7 @@ class container_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
     }
 
-    function publish()
+    public function publish()
     {
 
         $option = JRequest::getVar('option');
@@ -155,7 +157,7 @@ class container_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
 
         $option = JRequest::getVar('option');
@@ -176,7 +178,7 @@ class container_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('container_detail');

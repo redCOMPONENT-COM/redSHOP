@@ -9,18 +9,19 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
 
-class media_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class media_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'media_detail');
         JRequest::setVar('layout', 'default');
@@ -28,7 +29,7 @@ class media_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post   = JRequest::get('post');
         $option = JRequest::getVar('option');
@@ -614,7 +615,7 @@ class media_detailController extends JControllerLegacy
                             // Set First Image as product Main Imaged
                             if ($row->media_section == 'product' && $row->media_type == 'images')
                                 //									$model->selectMainProductImage($row->section_id);
-                                ////////////////Call Create thumbnail function///////////////////
+                                ////////////////Call Create thumbnail public function///////////////////
 
                             {
                                 $msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
@@ -654,7 +655,7 @@ class media_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $post          = JRequest::get('post');
         $option        = JRequest::getVar('option');
@@ -689,7 +690,7 @@ class media_detailController extends JControllerLegacy
         }
     }
 
-    function publish()
+    public function publish()
     {
         $post          = JRequest::get('post');
         $option        = JRequest::getVar('option');
@@ -724,7 +725,7 @@ class media_detailController extends JControllerLegacy
         }
     }
 
-    function defaultmedia()
+    public function defaultmedia()
     {
         $post          = JRequest::get('post');
         $option        = JRequest::getVar('option');
@@ -763,7 +764,7 @@ class media_detailController extends JControllerLegacy
         }
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $post          = JRequest::get('post');
         $option        = JRequest::getVar('option');
@@ -798,14 +799,14 @@ class media_detailController extends JControllerLegacy
         }
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
     }
 
-    function writableCell($folder, $relative = 1, $text = '', $visible = 1)
+    public function writableCell($folder, $relative = 1, $text = '', $visible = 1)
     {
         if ($relative)
         {
@@ -818,7 +819,7 @@ class media_detailController extends JControllerLegacy
     }
 
     //ordering
-    function saveorder()
+    public function saveorder()
     {
         $post          = JRequest::get('post');
         $option        = JRequest::getVar('option');
@@ -856,7 +857,7 @@ class media_detailController extends JControllerLegacy
         }
     }
 
-    function orderup()
+    public function orderup()
     {
         $post          = JRequest::get('post');
         $option        = JRequest::getVar('option');
@@ -891,7 +892,7 @@ class media_detailController extends JControllerLegacy
         }
     }
 
-    function orderdown()
+    public function orderdown()
     {
         $post          = JRequest::get('post');
         $option        = JRequest::getVar('option');

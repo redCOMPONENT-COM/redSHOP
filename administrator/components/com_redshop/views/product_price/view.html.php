@@ -11,7 +11,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class product_priceViewproduct_price extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $db         = JFactory::getDBO();
         $product_id = JRequest::getVar('pid');

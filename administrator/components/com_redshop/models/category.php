@@ -11,17 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 class categoryModelcategory extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         global $mainframe;
@@ -39,7 +39,7 @@ class categoryModelcategory extends JModelLegacy
         $this->setState('category_id', $category_id);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -48,7 +48,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_data;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if ($this->_pagination == null)
         {
@@ -57,7 +57,7 @@ class categoryModelcategory extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         global $mainframe;
         $db = jFactory::getDBO();
@@ -112,7 +112,7 @@ class categoryModelcategory extends JModelLegacy
         return $items;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -123,7 +123,7 @@ class categoryModelcategory extends JModelLegacy
         return $orderby;
     }
 
-    function getProducts($cid)
+    public function getProducts($cid)
     {
         $query = 'SELECT count(category_id) FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id="' . $cid . '" ';
         $this->_db->setQuery($query);
@@ -135,7 +135,7 @@ class categoryModelcategory extends JModelLegacy
       * @prams: $data, post variable	array
       * @return: boolean
       */
-    function assignTemplate($data)
+    public function assignTemplate($data)
     {
 
         $cid = $data['cid'];
@@ -156,7 +156,7 @@ class categoryModelcategory extends JModelLegacy
         return true;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable('category_detail');
         $groupings = array();

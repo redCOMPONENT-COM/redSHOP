@@ -11,15 +11,15 @@ defined('_JEXEC') or die('Restricted access');
 
 class passwordModelpassword extends JModelLegacy
 {
-    var $_db = null;
+    public $_db = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_db = &JFactory::getDBO();
     }
 
-    function resetpassword($data)
+    public function resetpassword($data)
     {
         $query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";
         $this->_db->setQuery($query);
@@ -43,7 +43,7 @@ class passwordModelpassword extends JModelLegacy
         }
     }
 
-    function genRandomString()
+    public function genRandomString()
     {
         $length     = 0;
         $length     = 35;
@@ -56,7 +56,7 @@ class passwordModelpassword extends JModelLegacy
         return $string;
     }
 
-    function changepassword($token)
+    public function changepassword($token)
     {
         $query = "SELECT id FROM #__users WHERE activation='" . $token . "' ";
         $this->_db->setQuery($query);
@@ -71,7 +71,7 @@ class passwordModelpassword extends JModelLegacy
         return true;
     }
 
-    function setpassword($data)
+    public function setpassword($data)
     {
         $query = 'UPDATE #__users SET password = "' . md5($data['password']) . '", activation = NULL ' . 'WHERE id="' . (int)$data['uid'] . '" ' . 'AND block=0 ';
         $this->_db->setQuery($query);

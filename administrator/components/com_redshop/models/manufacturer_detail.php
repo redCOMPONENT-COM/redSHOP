@@ -11,17 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    var $_templatedata = null;
+    public $_templatedata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -32,13 +32,13 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -51,7 +51,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -63,7 +63,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -90,7 +90,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $order_functions  = new order_functions();
         $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
@@ -122,7 +122,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -139,7 +139,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -155,7 +155,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return true;
     }
 
-    function copy($cid = array())
+    public function copy($cid = array())
     {
 
         if (count($cid))
@@ -185,7 +185,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return true;
     }
 
-    function TemplateData()
+    public function TemplateData()
     {
         $query = "SELECT template_id as value,template_name as text FROM " . $this->_table_prefix . "template WHERE template_section ='manufacturer_products' and published=1";
         $this->_db->setQuery($query);
@@ -193,7 +193,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return $this->_templatedata;
     }
 
-    function getMediaId($mid)
+    public function getMediaId($mid)
     {
         $query = 'SELECT media_id,media_name FROM ' . $this->_table_prefix . 'media ' . 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
         $this->_db->setQuery($query);
@@ -201,7 +201,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
     }
 
     // Manufacturer ordering
-    /*function saveorder($cid = array(), $order)
+    /*public function saveorder($cid = array(), $order)
      {
          $row =& $this->getTable();
          $groupings = array();
@@ -230,7 +230,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
          return true;
      }*/
 
-    function saveOrder(&$cid)
+    public function saveOrder(&$cid)
     {
         global $mainframe;
         //$scope 		= JRequest::getCmd( 'scope' );
@@ -266,7 +266,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function MaxOrdering()
+    public function MaxOrdering()
     {
         $query = "SELECT (max(ordering)+1) FROM " . $this->_table_prefix . "manufacturer";
         $this->_db->setQuery($query);
@@ -280,7 +280,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
      * @return  boolean True on success
      * @since   0.9
      */
-    function move($direction)
+    public function move($direction)
     {
         $row = JTable::getInstance('manufacturer_detail', 'Table');
         if (!$row->load($this->_id))

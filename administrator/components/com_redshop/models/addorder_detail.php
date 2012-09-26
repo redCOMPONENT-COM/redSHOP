@@ -21,15 +21,15 @@ require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_r
 
 class addorder_detailModeladdorder_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -39,13 +39,13 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         $this->_db              = JFactory::getDBO();
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -58,7 +58,7 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $order_functions = new order_functions();
         if (empty($this->_data))
@@ -70,7 +70,7 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         return true;
     }
 
-    function setBilling()
+    public function setBilling()
     {
         $post = JRequest::get('post');
 
@@ -97,7 +97,7 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         return $detail;
     }
 
-    function setShipping()
+    public function setShipping()
     {
         $post = JRequest::get('post');
 
@@ -116,7 +116,7 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         return $detail;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -146,7 +146,7 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         return true;
     }
 
-    function storeShipping($data)
+    public function storeShipping($data)
     {
         $userhelper            = new rsUserhelper();
         $data['address_type']  = 'BT';
@@ -222,7 +222,7 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         return $reduser;
     }
 
-    function store($postdata)
+    public function store($postdata)
     {
         $redconfig          = new Redconfiguration();
         $redshopMail        = new redshopMail();
@@ -827,14 +827,14 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
         return $row;
     }
 
-    function sendRegistrationMail($post)
+    public function sendRegistrationMail($post)
     {
 
         $redshopMail = new redshopMail();
         $redshopMail->sendRegistrationMail($post);
     }
 
-    function changeshippingaddress($shippingadd_id, $user_id, $is_company)
+    public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
     {
         $extra_field      = new extra_field();
         $Redconfiguration = new Redconfiguration();

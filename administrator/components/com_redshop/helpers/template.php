@@ -13,13 +13,12 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 }
 
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
 
 class Redtemplate
 {
-    var $redshop_template_path;
+    public $redshop_template_path;
 
-    function __construct()
+    public function __construct()
     {
 
         $this->redshop_template_path = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "templates";
@@ -38,7 +37,7 @@ class Redtemplate
      * @return    array
      * @since     1.5
      */
-    function getTemplate($section = '', $tid = 0, $name = "")
+    public function getTemplate($section = '', $tid = 0, $name = "")
     {
         $db  = JFactory::getDBO();
         $and = "";
@@ -68,7 +67,7 @@ class Redtemplate
      * @return    array
      * @since     1.5
      */
-    function readtemplateFile($section, $filename, $is_admin = false)
+    public function readtemplateFile($section, $filename, $is_admin = false)
     {
         $file_path = $this->getTemplatefilepath($section, $filename, $is_admin);
 
@@ -90,7 +89,7 @@ class Redtemplate
      * @return    array
      * @since     1.5
      */
-    function getTemplatefilepath($section, $filename, $is_admin = false)
+    public function getTemplatefilepath($section, $filename, $is_admin = false)
     {
         $app           = JFactory::getApplication();
         $template_view = $this->getTemplateView($section);
@@ -143,7 +142,7 @@ class Redtemplate
      * @since     1.5
      */
 
-    function getTemplateView($section)
+    public function getTemplateView($section)
     {
 
         $section = strtolower($section);
@@ -231,7 +230,7 @@ class Redtemplate
      * @return    array
      * @since     1.5
      */
-    function parseredSHOPplugin($string = "")
+    public function parseredSHOPplugin($string = "")
     {
         global $context;
         $o       = new stdClass();
@@ -247,7 +246,7 @@ class Redtemplate
         return $o->text;
     }
 
-    function getInstallSectionTemplate($template_name, $setflag = false)
+    public function getInstallSectionTemplate($template_name, $setflag = false)
     {
         $tempate_file = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "templates" . DS . "rsdefaulttemplates" . DS . $template_name . ".php";
         if (file_exists($tempate_file))
@@ -266,7 +265,7 @@ class Redtemplate
         }
     }
 
-    function getTemplateSections($sectionvalue = "")
+    public function getTemplateSections($sectionvalue = "")
     {
         $optionsection   = array();
         $optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -355,7 +354,7 @@ class Redtemplate
         }
     }
 
-    function getMailSections($sectionvalue = "")
+    public function getMailSections($sectionvalue = "")
     {
         $optiontype   = array();
         $optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -419,7 +418,7 @@ class Redtemplate
         }
     }
 
-    function getFieldSections($sectionvalue = "")
+    public function getFieldSections($sectionvalue = "")
     {
         $optionsection   = array();
         $optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -460,7 +459,7 @@ class Redtemplate
         }
     }
 
-    function getFieldTypeSections($sectionvalue = "")
+    public function getFieldTypeSections($sectionvalue = "")
     {
         $optiontype   = array();
         $optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -507,7 +506,7 @@ class Redtemplate
      * @since     1.5
      */
 
-    function GetlettersearchParameters()
+    public function GetlettersearchParameters()
     {
 
         $db  = Jfactory::getDBO();

@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class orderstatus_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class orderstatus_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'orderstatus_detail');
         JRequest::setVar('layout', 'default');
@@ -26,7 +28,7 @@ class orderstatus_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
         $post = JRequest::get('post');
 
@@ -57,7 +59,7 @@ class orderstatus_detailController extends JControllerLegacy
         $this->setRedirect($link, $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -77,7 +79,7 @@ class orderstatus_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -97,7 +99,7 @@ class orderstatus_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -117,7 +119,7 @@ class orderstatus_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED');

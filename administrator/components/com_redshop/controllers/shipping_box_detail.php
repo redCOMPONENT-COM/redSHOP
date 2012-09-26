@@ -10,16 +10,17 @@
 defined('_JEXEC') or die ('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'template.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class shipping_box_detailController extends JControllerLegacy
+class shipping_box_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'shipping_box_detail');
         JRequest::setVar('layout', 'default');
@@ -27,12 +28,12 @@ class shipping_box_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -61,7 +62,7 @@ class shipping_box_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -81,7 +82,7 @@ class shipping_box_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -101,7 +102,7 @@ class shipping_box_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -121,7 +122,7 @@ class shipping_box_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
 

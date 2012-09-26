@@ -220,7 +220,7 @@ function RedshopBuildRoute( &$query )
 			{
 				$segments[] = $layout;
 	 		}
-	 		if($category_id!='')
+	 		if(!empty($category_id))
 			{
 
 				$segments[] = $category_id;

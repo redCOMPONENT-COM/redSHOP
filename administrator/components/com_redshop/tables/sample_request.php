@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablesample_request extends JTable
 {
     public $request_id = null;
@@ -30,17 +28,5 @@ class Tablesample_request extends JTable
         $this->_table_prefix = '#__redshop_';
 
         parent::__construct($this->_table_prefix . 'sample_request', 'request_id', $db);
-    }
-
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-
-        return parent::bind($array, $ignore);
     }
 }

@@ -12,17 +12,17 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 class orderModelorder extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -42,7 +42,7 @@ class orderModelorder extends JModelLegacy
         $this->setState('filter_payment_status', $filter_payment_status);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -52,7 +52,7 @@ class orderModelorder extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -63,7 +63,7 @@ class orderModelorder extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -74,7 +74,7 @@ class orderModelorder extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $where    = "";
         $order_id = array();
@@ -113,7 +113,7 @@ class orderModelorder extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
 
@@ -125,19 +125,19 @@ class orderModelorder extends JModelLegacy
         return $orderby;
     }
 
-    function update_status()
+    public function update_status()
     {
         $order_functions = new order_functions();
         $order_functions->update_status();
     }
 
-    function update_status_all()
+    public function update_status_all()
     {
         $order_functions = new order_functions();
         $order_functions->update_status_all();
     }
 
-    function export_data($cid)
+    public function export_data($cid)
     {
         //$query1 = $this->_buildQuery();
 
@@ -159,7 +159,7 @@ class orderModelorder extends JModelLegacy
         return $this->_getList($query);
     }
 
-    function updateDownloadSetting($did, $limit, $enddate)
+    public function updateDownloadSetting($did, $limit, $enddate)
     {
 
         $query = "UPDATE " . $this->_table_prefix . "product_download " . " SET `download_max` = " . $limit . " , `end_date` = " . $enddate . " " . " WHERE download_id = '" . $did . "'";
@@ -172,7 +172,7 @@ class orderModelorder extends JModelLegacy
         return true;
     }
 
-    function gls_export($cid)
+    public function gls_export($cid)
     {
         global $mainframe;
         $oids                       = implode(',', $cid);
@@ -302,7 +302,7 @@ class orderModelorder extends JModelLegacy
         exit;
     }
 
-    function business_gls_export($cid)
+    public function business_gls_export($cid)
     {
         global $mainframe;
         $oids         = implode(',', $cid);

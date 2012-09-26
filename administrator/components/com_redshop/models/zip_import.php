@@ -12,27 +12,25 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 
-jimport('joomla.filesystem.file');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
 
 class zip_importModelzip_import extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_table = null;
+    public $_table = null;
 
     /** @var object JTable object */
-    var $_url = null;
+    public $_url = null;
 
-    function getData()
+    public function getData()
     {
         $thumb = new thumbnail();
         global $mainframe;
@@ -47,7 +45,7 @@ class zip_importModelzip_import extends JModelLegacy
         $mainframe->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
     }
 
-    function getzipfilescount()
+    public function getzipfilescount()
     {
         $x   = 5;
         $url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_reviews&domainname=" . $_SERVER['HTTP_HOST'] . "";
@@ -70,7 +68,7 @@ class zip_importModelzip_import extends JModelLegacy
         return $x;
     }
 
-    function getzipfilenames()
+    public function getzipfilenames()
     {
         $live_path = JURI::base();
         $user      = JFactory::getUser();
@@ -100,7 +98,7 @@ class zip_importModelzip_import extends JModelLegacy
 
     // 	related product sync
 
-    function install()
+    public function install()
     {
         global $mainframe;
         $fileType = "url";
@@ -173,7 +171,7 @@ class zip_importModelzip_import extends JModelLegacy
      * @return boolean True on success
      * @since 1.5
      */
-    function _getPackageFromUrl()
+    public function _getPackageFromUrl()
     {
         // Get the URL of the package to install
         $url = trim(strip_tags(str_replace('administrator//', '', $_SESSION['filename'][0])));
@@ -219,7 +217,7 @@ class zip_importModelzip_import extends JModelLegacy
         return $package;
     }
 
-    function _getPackageFromFolder()
+    public function _getPackageFromFolder()
     {
         $p_dir = JRequest::getString('install_directory');
         $p_dir = JPath::clean($p_dir);

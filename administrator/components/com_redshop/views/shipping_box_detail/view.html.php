@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class shipping_box_detailVIEWshipping_box_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_templates48');
 

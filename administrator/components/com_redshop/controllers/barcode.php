@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class barcodeController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class barcodeController extends RedshopCoreController
 {
-    function getsearch()
+    public function getsearch()
     {
         $post = JRequest::get('post');
 
@@ -30,7 +32,7 @@ class barcodeController extends JControllerLegacy
 
             $user = JFactory::getUser();
             $uid  = $user->get('id');
-            //$mainframe = JFactory::getApplication();
+
             $row = $model->checkorder($barcode);
 
             if ($row)
@@ -62,7 +64,7 @@ class barcodeController extends JControllerLegacy
         }
     }
 
-    function changestatus()
+    public function changestatus()
     {
         $post = JRequest::get('post');
 

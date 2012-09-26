@@ -24,7 +24,7 @@ class product_ratingController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function save()
+    public function save()
     {
         $post        = JRequest::get('post');
         $option      = JRequest::getVar('option');

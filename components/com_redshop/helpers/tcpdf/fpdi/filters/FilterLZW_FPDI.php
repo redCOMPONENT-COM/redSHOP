@@ -19,15 +19,17 @@
 
 require_once('FilterLZW.php');
 
-class FilterLZW_FPDI extends FilterLZW {
+class FilterLZW_FPDI extends FilterLZW
+{
+    public $fpdi;
 
-    var $fpdi;
-
-    function FilterLZW_FPDI(&$fpdi) {
+    public function FilterLZW_FPDI(&$fpdi)
+    {
         $this->fpdi =& $fpdi;
     }
-    
-    function error($msg) {
+
+    public function error($msg)
+    {
         $this->fpdi->error($msg);
     }
 }

@@ -82,7 +82,7 @@ class JFormFieldcurrency extends JFormField
          * currency_code as value
          * currency_name as text
          */
-    function getCurrency($currency = "")
+    public function getCurrency($currency = "")
     {
         $db = JFactory::getDBO();
 

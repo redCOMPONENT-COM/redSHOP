@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 class redshopViewredshop extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         // for pie_cart of stastics
         $layout = JRequest::getVar('layout');
@@ -81,7 +81,7 @@ class redshopViewredshop extends JViewLegacy
         parent::display($tpl);
     }
 
-    function quickiconButton($link, $image, $text, $modal = 0)
+    public function quickiconButton($link, $image, $text, $modal = 0)
     {
         //initialise variables
         $lang = JFactory::getLanguage();

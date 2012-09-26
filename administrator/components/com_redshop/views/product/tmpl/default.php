@@ -194,18 +194,12 @@ function AssignTemplate(){
 	</thead>
 	<?php
 	$k = 0;
-
-
-
 	for ($i=0, $n=count( $this->products ); $i < $n; $i++)
 	{
 		$row = &$this->products[$i];
 
 		$row->id = $row->product_id;
 		$link 	= JRoute::_( 'index.php?option='.$option.'&view=product_detail&task=edit&cid[]='. $row->product_id );
-
-	//	$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
-
 		$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
 
 		?>
@@ -215,32 +209,12 @@ function AssignTemplate(){
 			</td>
 			<td><?php echo @JHTML::_('grid.checkedout', $row, $i ); ?></td>
 			<td>
-			<?php
-			if (  JTable::isCheckedOut($this->user->get('id'), $row->checked_out ) ) {
-
-				if(isset($row->children))
-				{
+			<?php if ($row->checked_out) : ?>
+				<?php
+					echo JHtml::_('jgrid.checkedout', $i, $row->treename, $row->checked_out_time);
+					echo $this->escape($row->treename);
 				?>
-				<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT' ); ?>"><?php echo $row->treename; ?></a>
-				<?php
-				} else {
-					if($row->product_parent_id==0)
-					{
-				?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT' ); ?>"><?php echo $row->treename; ?></a>
-				<?php
-					}  else {
-						$pro_array = $producthelper->getProductById($row->product_parent_id);
-
-						?>
-				<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT' ); ?>"><?php echo $row->treename; ?> </a>[child: <?php echo $pro_array->product_name;?>]
-				<?php
-					}
-				}
-
-			} else {
-
-			?>
+			<?php else : ?>
 				<?php
 				if(isset($row->children))
 				{
@@ -263,9 +237,7 @@ function AssignTemplate(){
 					}
 				}
 				?>
-			<?php
-			}
-			?>
+			<?php endif; ?>
 			</td>
 			<td >
 				<?php echo $row->product_number;?>

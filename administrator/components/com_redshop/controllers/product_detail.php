@@ -9,20 +9,19 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.filesystem.file');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class product_detailController extends JControllerLegacy
+class product_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'product_detail');
         JRequest::setVar('layout', 'default');
@@ -30,12 +29,12 @@ class product_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -177,7 +176,7 @@ class product_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -204,7 +203,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -224,7 +223,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -244,7 +243,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('product_detail');
@@ -253,7 +252,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function copy()
+    public function copy()
     {
 
         $option = JRequest::getVar('option');
@@ -276,7 +275,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function attribute_save($post, $row)
+    public function attribute_save($post, $row)
     {
         if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
         {
@@ -449,7 +448,7 @@ class product_detailController extends JControllerLegacy
 
     }
 
-    function _imageResize($width, $height, $target)
+    public function _imageResize($width, $height, $target)
     {
         if ($width > $height)
         {
@@ -475,7 +474,7 @@ class product_detailController extends JControllerLegacy
         return array($width, $height);
     }
 
-    function media_bank()
+    public function media_bank()
     {
         $uri = JURI::getInstance();
         $url = $uri->root();
@@ -629,7 +628,7 @@ class product_detailController extends JControllerLegacy
         }
     }
 
-    function property_more_img()
+    public function property_more_img()
     {
         $uri = JURI::getInstance();
         $url = $uri->root();
@@ -663,7 +662,7 @@ class product_detailController extends JControllerLegacy
         }
     }
 
-    function deleteimage()
+    public function deleteimage()
     {
         $uri = JURI::getInstance();
         $url = $uri->root();
@@ -681,7 +680,7 @@ class product_detailController extends JControllerLegacy
         }
     }
 
-    function subattribute_color()
+    public function subattribute_color()
     {
         $post = JRequest::get('post');
 
@@ -705,7 +704,7 @@ class product_detailController extends JControllerLegacy
     }
 
     // remove Property image
-    function removepropertyImage()
+    public function removepropertyImage()
     {
         $get = JRequest::get('get');
 
@@ -722,7 +721,7 @@ class product_detailController extends JControllerLegacy
     }
 
     // remove subProperty image
-    function removesubpropertyImage()
+    public function removesubpropertyImage()
     {
         $get = JRequest::get('get');
 
@@ -738,7 +737,7 @@ class product_detailController extends JControllerLegacy
         exit;
     }
 
-    function saveAttributeStock()
+    public function saveAttributeStock()
     {
         $post = JRequest::get('post');
 
@@ -758,7 +757,7 @@ class product_detailController extends JControllerLegacy
     }
 
     // Product ordering
-    function orderup()
+    public function orderup()
     {
         $option = JRequest::getVar('option');
 
@@ -770,7 +769,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function orderdown()
+    public function orderdown()
     {
         $option = JRequest::getVar('option');
 
@@ -781,7 +780,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
 
@@ -797,7 +796,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
     }
 
-    function deleteProdcutSerialNumbers()
+    public function deleteProdcutSerialNumbers()
     {
 
         $serial_id  = JRequest::getInt('serial_id');
@@ -811,21 +810,21 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=product_detail&cid=' . $product_id, $msg);
     }
 
-    function delete_subprop()
+    public function delete_subprop()
     {
         $get   = JRequest::get('get');
         $model = $this->getModel('product_detail');
         $model->delete_subprop($get['sp_id'], $get['subattribute_id']);
     }
 
-    function delete_prop()
+    public function delete_prop()
     {
         $get   = JRequest::get('get');
         $model = $this->getModel('product_detail');
         $model->delete_prop($get['attribute_id'], $get['property_id']);
     }
 
-    function delete_attibute()
+    public function delete_attibute()
     {
         $get   = JRequest::get('get');
         $model = $this->getModel('product_detail');
@@ -833,7 +832,7 @@ class product_detailController extends JControllerLegacy
         $model->delete_attibute($get['product_id'], $get['attribute_id'], $get['attribute_set_id']);
     }
 
-    function checkVirtualNumber()
+    public function checkVirtualNumber()
     {
         $isExists   = true;
         $str        = JRequest::getVar('str');
@@ -850,10 +849,10 @@ class product_detailController extends JControllerLegacy
     }
 
     /**
-     * function to get all child product array
+     * public function to get all child product array
      * for ajax call
      */
-    function getChildProducts()
+    public function getChildProducts()
     {
         ob_clean();
         $model = $this->getModel('product_detail');
@@ -863,7 +862,7 @@ class product_detailController extends JControllerLegacy
     }
 
     // remove accessory
-    function removeaccesory()
+    public function removeaccesory()
     {
         $accessory_id     = JRequest::getInt('accessory_id', '');
         $category_id      = JRequest::getInt('category_id', '');
@@ -873,7 +872,7 @@ class product_detailController extends JControllerLegacy
         exit;
     }
 
-    function removenavigator()
+    public function removenavigator()
     {
         $navigator_id = JRequest::getInt('navigator_id', '');
         $model        = $this->getModel('product_detail');
@@ -881,7 +880,7 @@ class product_detailController extends JControllerLegacy
         exit;
     }
 
-    function ResetPreorderStock()
+    public function ResetPreorderStock()
     {
 
         $model          = $this->getModel('product_detail');
@@ -896,7 +895,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $pid);
     }
 
-    function ResetPreorderStockBank()
+    public function ResetPreorderStockBank()
     {
         $model          = $this->getModel('product_detail');
         $stockroom_type = JRequest::getVar('stockroom_type', 'product');
@@ -911,7 +910,7 @@ class product_detailController extends JControllerLegacy
         $this->setRedirect($link);
     }
 
-    function getDynamicFields()
+    public function getDynamicFields()
     {
         JRequest::setVar('view', 'product_detail');
         JRequest::setVar('layout', 'default');
@@ -919,7 +918,7 @@ class product_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function DeleteMergeImages()
+    public function DeleteMergeImages()
     {
         $dirname = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
 

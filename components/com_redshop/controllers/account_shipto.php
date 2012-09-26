@@ -22,7 +22,7 @@ class account_shiptoController extends JControllerLegacy
      * Method to save Shipping Address
      *
      */
-    function save()
+    public function save()
     {
         $post   = JRequest::get('post');
         $return = JRequest::getVar('return');
@@ -73,7 +73,7 @@ class account_shiptoController extends JControllerLegacy
      * Method to delete shipping address
      *
      */
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
         $Itemid = JRequest::getVar('Itemid');
@@ -109,7 +109,7 @@ class account_shiptoController extends JControllerLegacy
      * Method called when user pressed cancel button
      *
      */
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $Itemid = JRequest::getVar('Itemid');

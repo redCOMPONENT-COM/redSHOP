@@ -9,7 +9,7 @@
 
 class wrapper_detailVIEWwrapper_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $context;
 

@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableorder_user_detail extends JTable
 {
     public $order_info_id = null;
@@ -67,17 +65,5 @@ class Tableorder_user_detail extends JTable
         $this->_table_prefix = '#__redshop_';
 
         parent::__construct($this->_table_prefix . 'order_users_info', 'order_info_id', $db);
-    }
-
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-
-        return parent::bind($array, $ignore);
     }
 }

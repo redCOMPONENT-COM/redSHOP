@@ -9,19 +9,26 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class addressfields_listingController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class addressfields_listingController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function saveorder()
+    public function saveorder()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-        $order  = JRequest::getVar('order', array(), 'post', 'array');
-        $model  = $this->getModel('addressfields_listing');
+        //$option = JRequest::getVar('option');
+        $option = $this->input->get('option');
+        //$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->getArray('cid', array(0));
+        //$order  = JRequest::getVar('order', array(), 'post', 'array');
+        $order = $this->input->post->getArray('order', array());
+
+        $model = $this->getModel('addressfields_listing');
+
         if ($model->saveorder($cid, $order))
         {
             $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -30,6 +37,7 @@ class addressfields_listingController extends JControllerLegacy
         {
             $msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
         }
+
         $this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
     }
 
@@ -39,13 +47,19 @@ class addressfields_listingController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderup()
+    public function orderup()
     {
-        global $mainframe, $context;
-        $cid              = JRequest::getVar('cid', array(0), 'post', 'array');
-        $option           = JRequest::getVar('option');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        global $context;
+
+        //$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->getArray('cid', array(0));
+
+        //$option           = JRequest::getVar('option');
+        $option = $this->input->get('option');
+
+        $filter_order_Dir = $this->app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
         $up               = 1;
+
         if (strtolower($filter_order_Dir) == "asc")
         {
             $up = -1;
@@ -53,7 +67,7 @@ class addressfields_listingController extends JControllerLegacy
 
         $model = $this->getModel('addressfields_listing');
         $model->move($up, $cid[0]);
-        //$model->orderup();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
     }
@@ -64,20 +78,27 @@ class addressfields_listingController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderdown()
+    public function orderdown()
     {
-        global $mainframe, $context;
-        $option           = JRequest::getVar('option');
-        $cid              = JRequest::getVar('cid', array(0), 'post', 'array');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        global $context;
+
+        //$option           = JRequest::getVar('option');
+        $option = $this->input->get('option');
+
+        //$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->getArray('cid', array(0));
+
+        $filter_order_Dir = $this->app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
         $down             = -1;
+
         if (strtolower($filter_order_Dir) == "asc")
         {
             $down = 1;
         }
+
         $model = $this->getModel('addressfields_listing');
         $model->move($down, $cid[0]);
-        //$model->orderdown();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
     }

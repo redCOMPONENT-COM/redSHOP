@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class stockimage_detailModelstockimage_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -25,13 +25,13 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -43,7 +43,7 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -55,7 +55,7 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -72,7 +72,7 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row  = $this->getTable('stockimage_detail');
         $file = JRequest::getVar('stock_amount_image', '', 'files', 'array');
@@ -106,7 +106,7 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -134,7 +134,7 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         return true;
     }
 
-    function getStockAmountOption($select = 0)
+    public function getStockAmountOption($select = 0)
     {
         $option   = array();
         $option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
@@ -148,14 +148,14 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         return $option;
     }
 
-    function getStockRoomList()
+    public function getStockRoomList()
     {
         $query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
         $this->_db->setQuery($query);
         $list = $this->_db->loadObjectlist();
         return $list;
     }
-    /*function publish($cid = array(), $publish = 1)
+    /*public function publish($cid = array(), $publish = 1)
      {
          if (count( $cid ))
          {

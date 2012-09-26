@@ -24,7 +24,7 @@ class searchController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
@@ -35,7 +35,7 @@ class searchController extends JControllerLegacy
      * @access public
      * @return manufacturer select box
      */
-    function loadProducts()
+    public function loadProducts()
     {
 
         $get    = JRequest::get('get');
@@ -74,7 +74,7 @@ class searchController extends JControllerLegacy
      * @access public
      * @return search product results
      */
-    function ajaxsearch()
+    public function ajaxsearch()
     {
 
         $model  = $this->getModel();

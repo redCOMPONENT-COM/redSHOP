@@ -20,7 +20,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
  */
 class account_billtoController extends JControllerLegacy
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
@@ -31,7 +31,7 @@ class account_billtoController extends JControllerLegacy
      * Method to edit billing Address
      *
      */
-    function edit()
+    public function edit()
     {
         $user                        = JFactory::getUser();
         $order_functions             = new order_functions();
@@ -50,7 +50,7 @@ class account_billtoController extends JControllerLegacy
      * Method to save Billing Address
      *
      */
-    function save()
+    public function save()
     {
         $user   = JFactory::getUser();
         $post   = JRequest::get('post');
@@ -105,7 +105,7 @@ class account_billtoController extends JControllerLegacy
      * Method called when user pressed cancel button
      *
      */
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $Itemid = JRequest::getVar('Itemid');

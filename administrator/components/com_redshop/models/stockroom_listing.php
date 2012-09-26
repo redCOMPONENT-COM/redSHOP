@@ -11,17 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 class stockroom_listingModelstockroom_listing extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context2 = null;
+    public $_context2 = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -53,7 +53,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -63,7 +63,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -73,7 +73,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -84,7 +84,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         global $mainframe;
 
@@ -134,7 +134,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
         $stockroom_type   = $this->getState('stockroom_type');
@@ -154,14 +154,14 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $orderby;
     }
 
-    function getStockroom()
+    public function getStockroom()
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getQuantity($stockroom_type, $sid, $pid)
+    public function getQuantity($stockroom_type, $sid, $pid)
     {
         $product = " AND product_id='" . $pid . "' ";
         $section = "";
@@ -186,7 +186,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $list;
     }
 
-    function storeStockroomQuantity($stockroom_type, $sid, $pid, $quantity = "", $preorder_stock = 0, $ordered_preorder = 0)
+    public function storeStockroomQuantity($stockroom_type, $sid, $pid, $quantity = "", $preorder_stock = 0, $ordered_preorder = 0)
     {
 
         $product = " AND product_id='" . $pid . "' ";
@@ -266,7 +266,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         }
     }
 
-    function getProductIdsfromCategoryid($cid)
+    public function getProductIdsfromCategoryid($cid)
     {
 
         $query = "SELECT product_id FROM " . $this->_table_prefix . "product_category_xref " . "WHERE category_id= " . $cid;
@@ -275,7 +275,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $this->_data;
     }
 
-    function getcontainerproducts($product_ids = 0)
+    public function getcontainerproducts($product_ids = 0)
     {
         $and = "";
         if ($product_ids != 0)
@@ -300,7 +300,7 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
         return $this->_data;
     }
 
-    function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
+    public function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
     {
         $query   = "";
         $product = " AND product_id='" . $pid . "' ";

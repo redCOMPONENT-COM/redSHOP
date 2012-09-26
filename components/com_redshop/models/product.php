@@ -16,18 +16,18 @@ require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS 
 
 class productModelproduct extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_product = null; // product data
-    var $_table_prefix = null;
+    public $_product = null; // product data
+    public $_table_prefix = null;
 
-    var $_template = null;
+    public $_template = null;
 
-    var $_catid = null;
+    public $_catid = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -41,13 +41,13 @@ class productModelproduct extends JModelLegacy
         $this->_catid = ( int )JRequest::getVar('cid', 0);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $and = "";
 
@@ -71,7 +71,7 @@ class productModelproduct extends JModelLegacy
         return $query;
     }
 
-    function getData()
+    public function getData()
     {
         $redTemplate = new Redtemplate ();
         if (empty ($this->_data))
@@ -86,7 +86,7 @@ class productModelproduct extends JModelLegacy
         return $this->_data;
     }
 
-    function getProductTemplate()
+    public function getProductTemplate()
     {
         $redTemplate = new Redtemplate ();
         if (empty ($this->_template))
@@ -106,7 +106,7 @@ class productModelproduct extends JModelLegacy
      *
      * @return: object array
      */
-    function getPrevNextproduct($product_id, $category_id, $dirn)
+    public function getPrevNextproduct($product_id, $category_id, $dirn)
     {
         $query = "SELECT ordering FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int)$product_id . " AND category_id = " . (int)$category_id . " LIMIT 0,1";
 
@@ -141,7 +141,7 @@ class productModelproduct extends JModelLegacy
     }
 
     // Product Tags Functions
-    function getProductTags($tagname, $productid)
+    public function getProductTags($tagname, $productid)
     {
         $query = "SELECT pt.*,ptx.product_id,ptx.users_id " . "FROM " . $this->_table_prefix . "product_tags AS pt " . "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id " . "WHERE pt.tags_name LIKE '" . $tagname . "' ";
         $this->_db->setQuery($query);
@@ -149,14 +149,14 @@ class productModelproduct extends JModelLegacy
         return $list;
     }
 
-    function updateVisited($product_id)
+    public function updateVisited($product_id)
     {
         $query = "UPDATE " . $this->_table_prefix . "product " . "SET visited=visited + 1 " . "WHERE product_id='" . $product_id . "' ";
         $this->_db->setQuery($query);
         $this->_db->Query();
     }
 
-    function addProductTags($data)
+    public function addProductTags($data)
     {
         $tags = & $this->getTable('product_tags');
         if (!$tags->bind($data))
@@ -172,7 +172,7 @@ class productModelproduct extends JModelLegacy
         return $tags;
     }
 
-    function addtowishlist($data)
+    public function addtowishlist($data)
     {
         $row = & $this->getTable('wishlist');
         if (!$row->bind($data))
@@ -188,7 +188,7 @@ class productModelproduct extends JModelLegacy
         return $row;
     }
 
-    function addtowishlist2session($data)
+    public function addtowishlist2session($data)
     {
         /*for($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i ++)
               if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
@@ -232,7 +232,7 @@ class productModelproduct extends JModelLegacy
         return true;
     }
 
-    function addProductTagsXref($post, $tags)
+    public function addProductTagsXref($post, $tags)
     {
         $user  = &JFactory::getUser();
         $query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref " . "VALUES('" . $tags->tags_id . "','" . $post['product_id'] . "','" . $user->id . "')";
@@ -241,7 +241,7 @@ class productModelproduct extends JModelLegacy
         return true;
     }
 
-    function checkProductTags($tagname, $productid)
+    public function checkProductTags($tagname, $productid)
     {
         $user  = &JFactory::getUser();
         $query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt " . "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id " . "WHERE pt.tags_name LIKE '" . $tagname . "' " . "AND ptx.product_id='" . $productid . "' " . "AND ptx.users_id='" . $user->id . "' ";
@@ -250,7 +250,7 @@ class productModelproduct extends JModelLegacy
         return $list;
     }
 
-    function checkWishlist($product_id)
+    public function checkWishlist($product_id)
     {
         $user  = &JFactory::getUser();
         $query = "SELECT * FROM " . $this->_table_prefix . "wishlist " . "WHERE product_id='" . $product_id . "' " . "AND user_id='" . $user->id . "' ";
@@ -259,7 +259,7 @@ class productModelproduct extends JModelLegacy
         return $list;
     }
 
-    function checkComparelist($product_id)
+    public function checkComparelist($product_id)
     {
         $session         =& JFactory::getSession();
         $compare_product = $session->get('compare_product');
@@ -291,11 +291,11 @@ class productModelproduct extends JModelLegacy
                 return true;
             }
         }
-        /* if function is called for total product in cart than return no of product in cart*/
+        /* if public function is called for total product in cart than return no of product in cart*/
         return isset($compare_product['idx']) ? (int)($compare_product['idx']) : 0;
     }
 
-    function addtocompare($data)
+    public function addtocompare($data)
     {
         $session         =& JFactory::getSession();
         $compare_product = $session->get('compare_product');
@@ -321,7 +321,7 @@ class productModelproduct extends JModelLegacy
         return true;
     }
 
-    function removeCompare($product_id)
+    public function removeCompare($product_id)
     {
         $session         =& JFactory::getSession();
         $compare_product = $session->get('compare_product');
@@ -355,7 +355,7 @@ class productModelproduct extends JModelLegacy
         return true;
     }
 
-    function downloadProduct($tid)
+    public function downloadProduct($tid)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product_download AS pd " . "LEFT JOIN " . $this->_table_prefix . "media AS m ON m.media_name = pd.file_name " . "WHERE download_id='" . $tid . "' ";
         $this->_db->setQuery($query);
@@ -363,7 +363,7 @@ class productModelproduct extends JModelLegacy
         return $list;
     }
 
-    function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)
+    public function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)
     {
         $where = "";
         if ($mid != 0)
@@ -387,7 +387,7 @@ class productModelproduct extends JModelLegacy
         return $list;
     }
 
-    function setDownloadLimit($did)
+    public function setDownloadLimit($did)
     {
         $query = "UPDATE " . $this->_table_prefix . "product_download " . "SET download_max=(download_max - 1) " . "WHERE download_id='" . $did . "' ";
         $this->_db->setQuery($query);
@@ -399,7 +399,7 @@ class productModelproduct extends JModelLegacy
         return false;
     }
 
-    function getAllChildProductArrayList($childid = 0, $parentid = 0)
+    public function getAllChildProductArrayList($childid = 0, $parentid = 0)
     {
         $producthelper = new producthelper ();
         $info          = $producthelper->getChildProduct($parentid);

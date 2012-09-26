@@ -9,17 +9,17 @@
 
 class attributeprices_detailModelattributeprices_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_sectionid = null;
+    public $_sectionid = null;
 
-    var $_section = null;
+    public $_section = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -31,13 +31,13 @@ class attributeprices_detailModelattributeprices_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -50,7 +50,7 @@ class attributeprices_detailModelattributeprices_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -72,7 +72,7 @@ class attributeprices_detailModelattributeprices_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -94,7 +94,7 @@ class attributeprices_detailModelattributeprices_detail extends JModelLegacy
         return true;
     }
 
-    function getShopperGroup()
+    public function getShopperGroup()
     {
         $q = 'SELECT shopper_group_id AS value,shopper_group_name AS text ' . 'FROM ' . $this->_table_prefix . 'shopper_group';
         $this->_db->setQuery($q);
@@ -102,7 +102,7 @@ class attributeprices_detailModelattributeprices_detail extends JModelLegacy
         return $shoppergroup;
     }
 
-    function getPropertyName()
+    public function getPropertyName()
     {
         $propertyid = $this->_sectionid;
         if ($this->_section == "property")
@@ -118,7 +118,7 @@ class attributeprices_detailModelattributeprices_detail extends JModelLegacy
         return $rs;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
         if (!$row->bind($data))
@@ -139,7 +139,7 @@ class attributeprices_detailModelattributeprices_detail extends JModelLegacy
         return true;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
