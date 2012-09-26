@@ -175,9 +175,9 @@ class payment_detailModelpayment_detail extends JModelLegacy
         $failed = array();
 
         /*
-           * Ensure eid is an array of extension ids in the form id => client_id
-           * TODO: If it isn't an array do we want to set an error and fail?
-           */
+        * Ensure eid is an array of extension ids in the form id => client_id
+        * TODO: If it isn't an array do we want to set an error and fail?
+        */
         if (!is_array($eid))
         {
             $eid = array($eid => 0);
@@ -345,7 +345,7 @@ class payment_detailModelpayment_detail extends JModelLegacy
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    JError::raiseError(500, $db->getErrorMsg());
+                    throw new RuntimeException($db->getErrorMsg());
                 }
             }
         }
@@ -719,8 +719,8 @@ class JInstaller extends JObject
         }
 
         /*
-           * LEGACY CHECK
-           */
+        * LEGACY CHECK
+        */
         $root     = $this->_manifest->document;
         $version  = $root->attributes('version');
         $rootName = $root->name();
@@ -974,8 +974,8 @@ class JInstaller extends JObject
         }
 
         /*
-           * Here we set the folder we are going to remove the files from.
-           */
+        * Here we set the folder we are going to remove the files from.
+        */
         if ($client)
         {
             $pathname    = 'extension_' . $client->name;

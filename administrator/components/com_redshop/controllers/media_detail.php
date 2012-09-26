@@ -660,7 +660,7 @@ class media_detailController extends RedshopCoreController
         $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('media_detail');
@@ -695,7 +695,7 @@ class media_detailController extends RedshopCoreController
         $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('media_detail');
@@ -731,7 +731,7 @@ class media_detailController extends RedshopCoreController
         $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
         }
 
         $model = $this->getModel('media_detail');
@@ -769,7 +769,7 @@ class media_detailController extends RedshopCoreController
         $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('media_detail');
@@ -827,7 +827,7 @@ class media_detailController extends RedshopCoreController
         JArrayHelper::toInteger($order);
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
         }
         $model = $this->getModel('media_detail');
         if (!$model->saveorder($cid, $order))
@@ -862,7 +862,7 @@ class media_detailController extends RedshopCoreController
         $cid           = $this->input->post->get('cid', array(), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
         }
         $model = $this->getModel('media_detail');
         //if(! $model->move(-1))
@@ -897,7 +897,7 @@ class media_detailController extends RedshopCoreController
         $cid           = $this->input->post->get('cid', array(), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
         }
         $model = $this->getModel('media_detail');
         //if(! $model->move(1))

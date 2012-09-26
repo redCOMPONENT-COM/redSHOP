@@ -106,7 +106,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    JError::raiseError(500, $db->getErrorMsg());
+                    throw new RuntimeException($db->getErrorMsg());
                 }
             }
         }

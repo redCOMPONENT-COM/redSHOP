@@ -74,11 +74,11 @@ class order_functions
     }
 
     /*
-	 * get order status Title
-	 *
-	 * @params: orderstatus code
-	 * @return: string
-	 */
+       * get order status Title
+       *
+       * @params: orderstatus code
+       * @return: string
+       */
     public function getOrderStatusTitle($order_status_code)
     {
         $query = 'SELECT order_status_name FROM ' . $this->_table_prefix . 'order_status ' . 'WHERE order_status_code ="' . $order_status_code . '"';
@@ -406,17 +406,17 @@ class order_functions
     }
 
     /*
-      * Change order status
-      *
-      * @params: data
-      * @key1 => order_status_code
-      * @key2 => transaction_id
-      * @key3 => msg
-      * @key4 => log
-      * @key5 => order_payment_status_code
-      * @key6 => order_id
-       * @return: array
-      */
+    * Change order status
+    *
+    * @params: data
+    * @key1 => order_status_code
+    * @key2 => transaction_id
+    * @key3 => msg
+    * @key4 => log
+    * @key5 => order_payment_status_code
+    * @key6 => order_id
+     * @return: array
+    */
     public function changeorderstatus($data)
     {
         $helper = new redhelper();
@@ -769,7 +769,7 @@ class order_functions
             }
             if (!$order_log->store())
             {
-                JError::raiseError(500, $order_log->getError());
+                throw new RuntimeException($order_log->getError());
             }
 
             $this->updateOrderComment($order_id, $customer_note);
@@ -982,7 +982,7 @@ class order_functions
             }
             if (!$order_log->store())
             {
-                JError::raiseError(500, $order_log->getError());
+                throw new RuntimeException($order_log->getError());
             }
             // 	status log end here..
 
@@ -1325,11 +1325,11 @@ class order_functions
             $cp_user_id = $user_id;
 
             /*
-			 * function will check loign redshop user
-			 * is redCRM contact person or not
-			 *
-			 * @return: joomla user of redSHOP billing user belong to contact person
-			 */
+                   * function will check loign redshop user
+                   * is redCRM contact person or not
+                   *
+                   * @return: joomla user of redSHOP billing user belong to contact person
+                   */
             $crmusers = $crmHelper->getBillingUserId($user_id);
 
             if (isset($crmusers->user_id))
@@ -1406,11 +1406,11 @@ class order_functions
             $crmDebitorHelper = new crmDebitorHelper();
 
             /*
-			 * function will check loign redshop user
-			 * is redCRM contact person or not
-			 *
-			 * @return: joomla user of redSHOP shipping user belong to contact person
-			 */
+                   * function will check loign redshop user
+                   * is redCRM contact person or not
+                   *
+                   * @return: joomla user of redSHOP shipping user belong to contact person
+                   */
             $crmuserssid = 0;
             $crmusers    = array();
             if ($isredcrmuser)
@@ -1458,8 +1458,8 @@ class order_functions
             $crmDebitorHelper = new crmDebitorHelper();
 
             /*
-			 * get shippinginfo for redCRM
-			 */
+                   * get shippinginfo for redCRM
+                   */
             $crmusers = $crmDebitorHelper->getShippingInfo(0, $order->user_info_id);
             if (count($crmusers) > 0)
             {
@@ -1546,11 +1546,11 @@ class order_functions
         $maxId = $this->_db->loadResult();
 
         /*
-		 * if Economic Integration is on !!!
-		 * We are not using Order Invoice Number Template
-		 * Economic Order Number Only Support (int) value.
-		 * Invoice Number May be varchar or int.
-		 */
+             * if Economic Integration is on !!!
+             * We are not using Order Invoice Number Template
+             * Economic Order Number Only Support (int) value.
+             * Invoice Number May be varchar or int.
+             */
         if (ECONOMIC_INTEGRATION)
         {
             $query = "SELECT order_number FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $maxId . "'";
