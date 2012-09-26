@@ -20,15 +20,15 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class order_detailModelorder_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -39,13 +39,13 @@ class order_detailModelorder_detail extends JModelLegacy
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -58,7 +58,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $order_functions = new order_functions();
         if (empty($this->_data))
@@ -69,7 +69,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -99,7 +99,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -117,7 +117,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $producthelper   = new producthelper();
         $order_functions = new order_functions();
@@ -223,7 +223,7 @@ class order_detailModelorder_detail extends JModelLegacy
     }
 
     // get total Products
-    function getProducts($order_id)
+    public function getProducts($order_id)
     {
         $query = "SELECT DISTINCT( p.product_id ) as value,p.product_name as text,oi.order_id FROM " . $this->_table_prefix . "product as p ," . $this->_table_prefix . "order_item as oi WHERE  oi.product_id != p.product_id AND oi.order_id = " . $order_id;
         $this->_db->setQuery($query);
@@ -232,7 +232,7 @@ class order_detailModelorder_detail extends JModelLegacy
     }
 
     // add new Order Item
-    function neworderitem($data, $quantity, $order_item_id)
+    public function neworderitem($data, $quantity, $order_item_id)
     {
         $adminproducthelper = new adminproducthelper();
         $producthelper      = new producthelper();
@@ -604,7 +604,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function delete_item($data)
+    public function delete_item($data)
     {
         $producthelper   = new producthelper();
         $stockroomhelper = new rsstockroomhelper();
@@ -683,7 +683,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function updateItem($data)
+    public function updateItem($data)
     {
         /*echo "<pre>";
           print_r($data);
@@ -797,7 +797,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function updateAttributeItem($order_item_id, $quantity = 0, $stockroom_id = 0)
+    public function updateAttributeItem($order_item_id, $quantity = 0, $stockroom_id = 0)
     {
         $stockroomhelper = new rsstockroomhelper();
         $order_functions = new order_functions();
@@ -842,7 +842,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function update_discount($data)
+    public function update_discount($data)
     {
 
         // get Order Info
@@ -907,7 +907,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function special_discount($data, $chk = false)
+    public function special_discount($data, $chk = false)
     {
         $redshopMail = new redshopMail();
 
@@ -973,7 +973,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    function update_shippingrates($data)
+    public function update_shippingrates($data)
     {
         $redhelper      = new redhelper();
         $shippinghelper = new shipping();
@@ -1014,8 +1014,8 @@ class order_detailModelorder_detail extends JModelLegacy
         return true;
     }
 
-    // function update shipping information
-    function updateShippingAdd($data)
+    // public function update shipping information
+    public function updateShippingAdd($data)
     {
         $row = $this->getTable('order_user_detail');
         $row->load($data['order_info_id']);
@@ -1051,7 +1051,7 @@ class order_detailModelorder_detail extends JModelLegacy
     }
 
     // function update billing information
-    function updateBillingAdd($data)
+    public function updateBillingAdd($data)
     {
 
         $row = $this->getTable('order_user_detail');
@@ -1089,7 +1089,7 @@ class order_detailModelorder_detail extends JModelLegacy
     }
 
     // get order stats log
-    function getOrderLog($order_id)
+    public function getOrderLog($order_id)
     {
         $database = JFactory::getDBO();
         $sql      = "SELECT log.*,order_status_name " . " FROM " . $this->_table_prefix . "order_status_log AS log , " . $this->_table_prefix . "order_status ros" . " WHERE log.order_id=" . $order_id . " AND log.order_status=ros.order_status_code";
@@ -1098,7 +1098,7 @@ class order_detailModelorder_detail extends JModelLegacy
     }
 
     // get Product subscription price
-    function getProductSubscriptionDetail($product_id, $subscription_id)
+    public function getProductSubscriptionDetail($product_id, $subscription_id)
     {
         $db = JFactory::getDBO();
 
@@ -1108,7 +1108,7 @@ class order_detailModelorder_detail extends JModelLegacy
     }
 
     // get User Product subscription detail
-    function getUserProductSubscriptionDetail($order_item_id)
+    public function getUserProductSubscriptionDetail($order_item_id)
     {
         $db    = JFactory::getDBO();
         $query = "SELECT * " . " FROM " . $this->_table_prefix . "product_subscribe_detail" . " WHERE " . " order_item_id = " . $order_item_id;
@@ -1117,7 +1117,7 @@ class order_detailModelorder_detail extends JModelLegacy
     }
 
     // 	get credit card detail
-    function getccdetail($order_id)
+    public function getccdetail($order_id)
     {
         $db    = JFactory::getDBO();
         $query = "SELECT * " . " FROM " . $this->_table_prefix . "order_payment  " . " WHERE " . " order_id = " . $order_id . " AND  payment_method_class='rs_payment_localcreditcard'";
@@ -1125,7 +1125,7 @@ class order_detailModelorder_detail extends JModelLegacy
         return $db->loadObject();
     }
 
-    function send_downloadmail($oid)
+    public function send_downloadmail($oid)
     {
 
         $order_functions = new order_functions();
@@ -1139,7 +1139,7 @@ class order_detailModelorder_detail extends JModelLegacy
         }
     }
 
-    function getvar($name)
+    public function getvar($name)
     {
         global $_GET, $_POST;
         if (isset($_GET[$name]))
@@ -1159,7 +1159,7 @@ class order_detailModelorder_detail extends JModelLegacy
         }
     }
 
-    function update_ccdata($order_id, $payment_transaction_id)
+    public function update_ccdata($order_id, $payment_transaction_id)
     {
         $db = JFactory::getDBO();
 
@@ -1182,7 +1182,7 @@ class order_detailModelorder_detail extends JModelLegacy
         }
     }
 
-    function getStockNoteTemplate()
+    public function getStockNoteTemplate()
     {
         $redTemplate = new Redtemplate ();
         if (empty ($this->_template))

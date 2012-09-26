@@ -13,15 +13,15 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class catalogModelcatalog extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
     }
 
-    function catalogStore($data)
+    public function catalogStore($data)
     {
         $row =& $this->getTable('catalog_request');
         if (!$row->bind($data))
@@ -37,7 +37,7 @@ class catalogModelcatalog extends JModelLegacy
         return true;
     }
 
-    function catalogSampleStore($data)
+    public function catalogSampleStore($data)
     {
         $row =& $this->getTable('sample_request');
         if (!$row->bind($data))
@@ -53,21 +53,21 @@ class catalogModelcatalog extends JModelLegacy
         return true;
     }
 
-    function getCatalogList()
+    public function getCatalogList()
     {
         $query   = "SELECT c.*,c.catalog_id AS value,c.catalog_name AS text FROM " . $this->_table_prefix . "catalog AS c " . "WHERE c.published = 1 ";
         $catalog = $this->_getList($query);
         return $catalog;
     }
 
-    function getCatalogSampleList()
+    public function getCatalogSampleList()
     {
         $query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_sample AS c " . "WHERE c.published = 1 ";
         $catalog = $this->_getList($query);
         return $catalog;
     }
 
-    function getCatalogSampleColorList($sample_id = 0)
+    public function getCatalogSampleColorList($sample_id = 0)
     {
         $and = "";
         if ($sample_id != 0)

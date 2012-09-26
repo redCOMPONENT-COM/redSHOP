@@ -9,17 +9,19 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
-class manufacturer_detailController extends JControllerLegacy
+class manufacturer_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'manufacturer_detail');
         JRequest::setVar('layout', 'default');
@@ -27,12 +29,12 @@ class manufacturer_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post                      = JRequest::get('post', JREQUEST_ALLOWRAW);
         $manufacturer_desc         = JRequest::getVar('manufacturer_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -72,7 +74,7 @@ class manufacturer_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -92,7 +94,7 @@ class manufacturer_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
     }
 
-    function publish()
+    public function publish()
     {
         $option = JRequest::getVar('option');
 
@@ -112,7 +114,7 @@ class manufacturer_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -132,14 +134,14 @@ class manufacturer_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
     }
 
-    function copy()
+    public function copy()
     {
         $option = JRequest::getVar('option');
 
@@ -167,7 +169,7 @@ class manufacturer_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderup()
+    public function orderup()
     {
         $option = JRequest::getVar('option');
 
@@ -184,7 +186,7 @@ class manufacturer_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function orderdown()
+    public function orderdown()
     {
         $option = JRequest::getVar('option');
         $model  = $this->getModel('manufacturer_detail');
@@ -200,7 +202,7 @@ class manufacturer_detailController extends JControllerLegacy
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
         $option = JRequest::getVar('option');
 

@@ -11,17 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 class tax_groupModeltax_group extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -37,7 +37,7 @@ class tax_groupModeltax_group extends JModelLegacy
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -47,7 +47,7 @@ class tax_groupModeltax_group extends JModelLegacy
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -57,7 +57,7 @@ class tax_groupModeltax_group extends JModelLegacy
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -67,14 +67,14 @@ class tax_groupModeltax_group extends JModelLegacy
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $orderby = $this->_buildContentOrderBy();
         $query   = " SELECT distinct(t.tax_group_id),t.*  FROM " . $this->_table_prefix . "tax_group t   WHERE 1=1 " . $orderby;
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
         global $mainframe;
         $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'tax_group_id');

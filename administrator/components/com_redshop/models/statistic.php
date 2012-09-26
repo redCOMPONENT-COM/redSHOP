@@ -11,33 +11,33 @@ defined('_JEXEC') or die('Restricted access');
 
 class statisticModelstatistic extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_startdate = null;
+    public $_startdate = null;
 
-    var $_enddate = null;
+    public $_enddate = null;
 
-    var $_filteroption = null;
+    public $_filteroption = null;
 
-    var $_mostpopular = null;
+    public $_mostpopular = null;
 
-    var $_bestsallers = null;
+    public $_bestsallers = null;
 
-    var $_newproducts = null;
+    public $_newproducts = null;
 
-    var $_neworders = null;
+    public $_neworders = null;
 
-    var $_amountprice = null;
+    public $_amountprice = null;
 
-    var $_amountorder = null;
+    public $_amountorder = null;
 
-    var $_turnover = 0;
+    public $_turnover = 0;
 
-    var $_siteviewer = 0;
+    public $_siteviewer = 0;
 
-    var $_pageviewer = 0;
+    public $_pageviewer = 0;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -52,7 +52,7 @@ class statisticModelstatistic extends JModelLegacy
         }
     }
 
-    function getMostPopular()
+    public function getMostPopular()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -88,7 +88,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_mostpopular;
     }
 
-    function getBestSellers()
+    public function getBestSellers()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -125,7 +125,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_bestsallers;
     }
 
-    function getNewProducts()
+    public function getNewProducts()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -160,7 +160,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_newproducts;
     }
 
-    function getNewOrders()
+    public function getNewOrders()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -195,7 +195,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_neworders;
     }
 
-    function getTotalTurnover()
+    public function getTotalTurnover()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -240,7 +240,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_turnover;
     }
 
-    function getAvgOrderAmount()
+    public function getAvgOrderAmount()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -276,7 +276,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_amountprice;
     }
 
-    function getAmountPrice()
+    public function getAmountPrice()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -312,7 +312,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_amountprice;
     }
 
-    function getAmountSpentInTotal()
+    public function getAmountSpentInTotal()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -348,7 +348,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_amountprice;
     }
 
-    function getAmountOrder()
+    public function getAmountOrder()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -385,7 +385,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_amountorder;
     }
 
-    function getPageViewer()
+    public function getPageViewer()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -422,7 +422,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->_pageviewer;
     }
 
-    function getRedshopViewer()
+    public function getRedshopViewer()
     {
         $today   = $this->getStartDate();
         $formate = $this->getDateFormate();
@@ -461,7 +461,7 @@ class statisticModelstatistic extends JModelLegacy
         return $this->siteviewer;
     }
 
-    function getNextInterval($today)
+    public function getNextInterval($today)
     {
         $list = array();
         switch ($this->_filteroption)
@@ -491,7 +491,7 @@ class statisticModelstatistic extends JModelLegacy
         return $list;
     }
 
-    function getStartDate()
+    public function getStartDate()
     {
         $return = "";
         switch ($this->_filteroption)
@@ -524,7 +524,7 @@ class statisticModelstatistic extends JModelLegacy
         return $return;
     }
 
-    function getDateFormate()
+    public function getDateFormate()
     {
         $return = "";
         switch ($this->_filteroption)
@@ -548,7 +548,7 @@ class statisticModelstatistic extends JModelLegacy
         return $return;
     }
 
-    function getSectionDetail($section, $sectionid)
+    public function getSectionDetail($section, $sectionid)
     {
         $return = array();
         switch ($section)

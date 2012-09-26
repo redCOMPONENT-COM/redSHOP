@@ -21,7 +21,7 @@ class catalogController extends JControllerLegacy
     /*
       * Method to send catalog
       */
-    function catalog_send()
+    public function catalog_send()
     {
         $post                 = JRequest::get('post');
         $Itemid               = JRequest::getVar('Itemid');
@@ -46,7 +46,7 @@ class catalogController extends JControllerLegacy
     /*
       * Method to send catalog sample
       */
-    function catalogsample_send()
+    public function catalogsample_send()
     {
         $post   = JRequest::get('post');
         $Itemid = JRequest::getVar('Itemid');

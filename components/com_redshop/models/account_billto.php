@@ -11,20 +11,20 @@ defined('_JEXEC') or die('Restricted access');
 
 class account_billtoModelaccount_billto extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($GLOBALS['billingaddresses']))
         {
@@ -88,7 +88,7 @@ class account_billtoModelaccount_billto extends JModelLegacy
         }
     }
 
-    function store($post)
+    public function store($post)
     {
         $userhelper = new rsUserhelper();
 

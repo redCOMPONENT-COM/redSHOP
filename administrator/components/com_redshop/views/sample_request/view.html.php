@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class sample_requestViewsample_request extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $mainframe, $context;
 

@@ -18,11 +18,11 @@ defined('_JEXEC') or die('Restricted access');
 
 class newsletterModelnewsletter extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_db = null;
+    public $_db = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -35,7 +35,7 @@ class newsletterModelnewsletter extends JModelLegacy
         }
     }
 
-    function checksubscriptionbymail($email)
+    public function checksubscriptionbymail($email)
     {
         Global $mainframe;
         $user =& JFactory::getUser();
@@ -71,7 +71,7 @@ class newsletterModelnewsletter extends JModelLegacy
         }
     }
 
-    function confirmsubscribe($sub_id)
+    public function confirmsubscribe($sub_id)
     {
         Global $mainframe;
         $query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . $sub_id . "' ";

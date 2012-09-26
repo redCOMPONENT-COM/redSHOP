@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableorder_payment extends JTable
 {
     public $payment_order_id = null;
@@ -42,16 +40,5 @@ class Tableorder_payment extends JTable
         $this->_table_prefix = '#__redshop_';
 
         parent::__construct($this->_table_prefix . 'order_payment', 'payment_order_id', $db);
-    }
-
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-        return parent::bind($array, $ignore);
     }
 }

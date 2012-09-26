@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableusercart_attribute_item extends JTable
 {
     public $cart_att_item_id = 0;
@@ -29,17 +27,5 @@ class Tableusercart_attribute_item extends JTable
         $this->_table_prefix = '#__redshop_';
 
         parent::__construct($this->_table_prefix . 'usercart_attribute_item', 'cart_id', $db);
-    }
-
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-
-        return parent::bind($array, $ignore);
     }
 }

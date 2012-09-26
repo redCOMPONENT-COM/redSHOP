@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class coupon_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class coupon_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'coupon_detail');
         JRequest::setVar('layout', 'default');
@@ -33,9 +35,8 @@ class coupon_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function save()
+    public function save()
     {
-        global $mainframe;
         $post            = JRequest::get('post');
         $comment         = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
         $post["comment"] = $comment;
@@ -58,7 +59,7 @@ class coupon_detailController extends JControllerLegacy
             if ($model->checkduplicate($post['coupon_code']))
             {
                 $msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
-                $mainframe->Redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
+                $this->app->redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
             }
         }
 
@@ -76,7 +77,7 @@ class coupon_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 
-    function remove()
+    public function remove()
     {
         $option = JRequest::getVar('option');
 
@@ -96,7 +97,7 @@ class coupon_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 
-    function publish()
+    public function publish()
     {
 
         $option = JRequest::getVar('option');
@@ -117,7 +118,7 @@ class coupon_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -137,7 +138,7 @@ class coupon_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
         $option = JRequest::getVar('option');
         $msg    = JText::_('COM_REDSHOP_COUPON_DETAIL_EDITING_CANCELLED');

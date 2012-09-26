@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class question_detailVIEWquestion_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_QUESTION'));

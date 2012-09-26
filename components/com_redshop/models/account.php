@@ -14,20 +14,20 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class accountModelaccount extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
     }
 
-    function getuseraccountinfo($uid)
+    public function getuseraccountinfo($uid)
     {
         $order_functions = new order_functions();
 
@@ -60,14 +60,14 @@ class accountModelaccount extends JModelLegacy
         return $list;
     }
 
-    function usercoupons($uid)
+    public function usercoupons($uid)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'coupons ' . 'WHERE published = 1 AND userid="' . $uid . '" AND end_date >=' . time() . ' AND coupon_left > 0';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getMyDetail()
+    public function getMyDetail()
     {
         global $mainframe;
         $redconfig = $mainframe->getParams();
@@ -82,7 +82,7 @@ class accountModelaccount extends JModelLegacy
         return $this->_data;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         global $mainframe;
 
@@ -148,7 +148,7 @@ class accountModelaccount extends JModelLegacy
         return $query;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         global $mainframe;
 
@@ -168,7 +168,7 @@ class accountModelaccount extends JModelLegacy
         return $this->_pagination;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -180,7 +180,7 @@ class accountModelaccount extends JModelLegacy
         return $this->_total;
     }
 
-    function countMyTags()
+    public function countMyTags()
     {
         $user   = JFactory::getUser();
         $userid = $user->id;
@@ -189,7 +189,7 @@ class accountModelaccount extends JModelLegacy
         return $this->_db->loadResult();
     }
 
-    function countMyWishlist()
+    public function countMyWishlist()
     {
         $user   =& JFactory::getUser();
         $userid = $user->id;
@@ -199,7 +199,7 @@ class accountModelaccount extends JModelLegacy
         return $this->_db->loadResult();
     }
 
-    function removeWishlistProduct()
+    public function removeWishlistProduct()
     {
         global $mainframe;
 
@@ -236,7 +236,7 @@ class accountModelaccount extends JModelLegacy
         $mainframe->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
     }
 
-    function removeTag()
+    public function removeTag()
     {
         global $mainframe;
 
@@ -255,7 +255,7 @@ class accountModelaccount extends JModelLegacy
         $mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
     }
 
-    function removeTags($tagid)
+    public function removeTags($tagid)
     {
         $user =& JFactory::getUser();
         $xref = "DELETE FROM " . $this->_table_prefix . "product_tags_xref " . "WHERE tags_id = '" . $tagid . "' AND users_id='" . $user->id . "' ";
@@ -281,7 +281,7 @@ class accountModelaccount extends JModelLegacy
         return true;
     }
 
-    function getMytag($tagid)
+    public function getMytag($tagid)
     {
         $query = "SELECT tags_name FROM " . $this->_table_prefix . "product_tags " . "WHERE tags_id = '" . $tagid . "' ";
         $this->_db->setQuery($query);
@@ -289,7 +289,7 @@ class accountModelaccount extends JModelLegacy
         return $list;
     }
 
-    function editTag($post)
+    public function editTag($post)
     {
         $query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = '" . $post['tags_name'] . "' WHERE tags_id = '" . $post['tags_id'] . "' ";
         $this->_db->setQuery($query);
@@ -300,14 +300,14 @@ class accountModelaccount extends JModelLegacy
         return true;
     }
 
-    function getCompare()
+    public function getCompare()
     {
         $user  =& JFactory::getUser();
         $query = "SELECT pc.compare_id,pc.user_id,p.* FROM " . $this->_table_prefix . "product_compare AS pc " . "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pc.product_id " . "WHERE user_id='" . $user->id . "' ";
         return $this->_getList($query);
     }
 
-    function removeCompare()
+    public function removeCompare()
     {
         global $mainframe;
 
@@ -330,7 +330,7 @@ class accountModelaccount extends JModelLegacy
         $mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
     }
 
-    function sendWishlist($post)
+    public function sendWishlist($post)
     {
         $user        =& JFactory::getUser();
         $redshopMail = new redshopMail();
@@ -476,7 +476,7 @@ class accountModelaccount extends JModelLegacy
         }
     }
 
-    function getReserveDiscount()
+    public function getReserveDiscount()
     {
         $user            =& JFactory::getUser();
         $query           = "SELECT * FROM " . $this->_table_prefix . "coupons_transaction " . "WHERE userid='" . $user->id . "' AND coupon_value > 0 limit 0,1 ";
@@ -497,7 +497,7 @@ class accountModelaccount extends JModelLegacy
         return $remain_discount;
     }
 
-    function getdownloadproductlist($user_id)
+    public function getdownloadproductlist($user_id)
     {
         $query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd " . "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id=pd.product_id " . "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id=pd.order_id AND pd.user_id='" . $user_id . "' and o.order_payment_status = 'Paid'";
         $this->_db->setQuery($query);

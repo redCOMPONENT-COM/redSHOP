@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class attribute_set_detailVIEWattribute_set_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $option = JRequest::getVar('option');
         $lists  = array();

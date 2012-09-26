@@ -13,22 +13,22 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function getaccessmanager()
+    public function getaccessmanager()
     {
         $section = JRequest::getVar('section');
         $query   = "SELECT a.* FROM " . $this->_table_prefix . "accessmanager AS a " . "WHERE a.section_name='" . $section . "'";
@@ -43,7 +43,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function store($data)
+    public function store($data)
     {
         /**
          * get groups
@@ -339,7 +339,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
      * @access public
      * @return boolean
      */
-    function checksection($section)
+    public function checksection($section)
     {
         $db    = JFactory::getDBO();
         $query = " SELECT count(*) FROM " . $this->_table_prefix . "accessmanager " . "WHERE `section_name` = '" . $section . "'";
@@ -347,7 +347,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
         return $this->_db->loadResult();
     }
 
-    function getGroup()
+    public function getGroup()
     {
 
         // Compute usergroups
@@ -370,7 +370,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
         return ($groups);
     }
 
-    function formatGroup($groups)
+    public function formatGroup($groups)
     {
         $returnable = array();
         foreach ($groups as $key=> $val)

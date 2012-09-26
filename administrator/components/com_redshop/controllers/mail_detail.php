@@ -9,15 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class mail_detailController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class mail_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         JRequest::setVar('view', 'mail_detail');
         JRequest::setVar('layout', 'default');
@@ -26,12 +28,12 @@ class mail_detailController extends JControllerLegacy
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
         $post = JRequest::get('post');
 
@@ -73,7 +75,7 @@ class mail_detailController extends JControllerLegacy
         }
     }
 
-    function remove()
+    public function remove()
     {
 
         $option = JRequest::getVar('option');
@@ -94,7 +96,7 @@ class mail_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
-    function publish()
+    public function publish()
     {
 
         $option = JRequest::getVar('option');
@@ -115,7 +117,7 @@ class mail_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
         $option = JRequest::getVar('option');
 
@@ -135,7 +137,7 @@ class mail_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
 
         $option = JRequest::getVar('option');
@@ -143,7 +145,7 @@ class mail_detailController extends JControllerLegacy
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
-    function mail_section()
+    public function mail_section()
     {
         //$json = JRequest::getVar( 'json', '');
         //$decoded = json_decode($json);

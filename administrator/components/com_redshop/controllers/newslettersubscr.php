@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class newslettersubscrController extends JControllerLegacy
+class newslettersubscrController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function importdata()
+    public function importdata()
     {
         $post = JRequest::get('post');
 

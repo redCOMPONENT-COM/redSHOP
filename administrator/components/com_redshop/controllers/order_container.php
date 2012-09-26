@@ -9,20 +9,22 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class order_containerController extends JControllerLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class order_containerController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function update_status()
+    public function update_status()
     {
         $model = $this->getModel('order_container');
         $model->update_status();
     }
 
-    function export_data()
+    public function export_data()
     {
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 

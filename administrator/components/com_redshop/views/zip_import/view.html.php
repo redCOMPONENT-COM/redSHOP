@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class zip_importViewzip_import extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $layout = JRequest::getVar('layout');
         if ($layout == 'confirmupdate')
