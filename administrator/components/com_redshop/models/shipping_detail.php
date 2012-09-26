@@ -14,143 +14,143 @@ jimport('joomla.installer.helper');
 
 class shipping_detailModelshipping_detail extends JModelLegacy
 {
-    public $_id = null;
+	public $_id = null;
 
-    public $_data = null;
+	public $_data = null;
 
-    public $_table_prefix = null;
+	public $_table_prefix = null;
 
-    public $_copydata = null;
+	public $_copydata = null;
 
-    public function __construct()
-    {
-        parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
+		$this->_table_prefix = '#__redshop_';
 
-        $array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JRequest::getVar('cid', 0, '', 'array');
 
-        $this->setId((int)$array[0]);
-    }
+		$this->setId((int)$array[0]);
+	}
 
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
+	public function setId($id)
+	{
+		$this->_id   = $id;
+		$this->_data = null;
+	}
 
-    public function &getData()
-    {
-        $this->_loadData();
-        return $this->_data;
-    }
+	public function &getData()
+	{
+		$this->_loadData();
+		return $this->_data;
+	}
 
-    public function _loadData()
-    {
-        $query = 'SELECT * FROM #__extensions WHERE folder="redshop_shipping" and extension_id ="' . $this->_id . '" ';
-        $this->_db->setQuery($query);
-        $this->_data = $this->_db->loadObject();
-        return (boolean)$this->_data;
-    }
+	public function _loadData()
+	{
+		$query = 'SELECT * FROM #__extensions WHERE folder="redshop_shipping" and extension_id ="' . $this->_id . '" ';
+		$this->_db->setQuery($query);
+		$this->_data = $this->_db->loadObject();
+		return (boolean)$this->_data;
+	}
 
-    public function store($data)
-    {
-        $query = 'UPDATE #__extensions ' . 'SET name="' . $data['name'] . '" ' . ',enabled ="' . intval($data['published']) . '" ' . 'WHERE element="' . $data['element'] . '" ';
-        $this->_db->setQuery($query);
-        $this->_db->query();
-        if (!$this->_db->query())
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-        JPluginHelper::importPlugin('redshop_shipping');
-        $dispatcher = JDispatcher::getInstance();
-        $payment    = $dispatcher->trigger('onWriteconfig', array($data));
-        return true;
-    }
+	public function store($data)
+	{
+		$query = 'UPDATE #__extensions ' . 'SET name="' . $data['name'] . '" ' . ',enabled ="' . intval($data['published']) . '" ' . 'WHERE element="' . $data['element'] . '" ';
+		$this->_db->setQuery($query);
+		$this->_db->query();
+		if (!$this->_db->query())
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher = JDispatcher::getInstance();
+		$payment    = $dispatcher->trigger('onWriteconfig', array($data));
+		return true;
+	}
 
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE #__extensions' . ' SET enabled = ' . intval($publish) . ' WHERE  extension_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
+	public function publish($cid = array(), $publish = 1)
+	{
+		if (count($cid))
+		{
+			$cids  = implode(',', $cid);
+			$query = 'UPDATE #__extensions' . ' SET enabled = ' . intval($publish) . ' WHERE  extension_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query())
+			{
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public function saveOrder(&$cid)
-    {
-        global $mainframe;
-        //$scope 		= JRequest::getCmd( 'scope' );
-        $db  = JFactory::getDBO();
-        $row = $this->getTable();
+	public function saveOrder(&$cid)
+	{
+		global $mainframe;
+		//$scope 		= JRequest::getCmd( 'scope' );
+		$db  = JFactory::getDBO();
+		$row = $this->getTable();
 
-        $total = count($cid);
-        $order = JRequest::getVar('order', array(0), 'post', 'array');
-        JArrayHelper::toInteger($order, array(0));
+		$total = count($cid);
+		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		JArrayHelper::toInteger($order, array(0));
 
-        // update ordering values
-        for ($i = 0; $i < $total; $i++)
-        {
-            $row->load((int)$cid[$i]);
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store())
-                {
-                    JError::raiseError(500, $db->getErrorMsg());
-                }
-            }
-        }
-        $row->reorder();
-        return true;
-    }
+		// update ordering values
+		for ($i = 0; $i < $total; $i++)
+		{
+			$row->load((int)$cid[$i]);
+			if ($row->ordering != $order[$i])
+			{
+				$row->ordering = $order[$i];
+				if (!$row->store())
+				{
+					throw new RuntimeException($db->getErrorMsg());
+				}
+			}
+		}
+		$row->reorder();
+		return true;
+	}
 
-    /**
-     * Method to get max ordering
-     *
-     * @access public
-     * @return boolean
-     */
-    public function MaxOrdering()
-    {
-        $query = "SELECT (max(ordering)+1) FROM #__extensions where folder='redshop_shipping'";
-        $this->_db->setQuery($query);
-        return $this->_db->loadResult();
-    }
+	/**
+	 * Method to get max ordering
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function MaxOrdering()
+	{
+		$query = "SELECT (max(ordering)+1) FROM #__extensions where folder='redshop_shipping'";
+		$this->_db->setQuery($query);
+		return $this->_db->loadResult();
+	}
 
-    /**
-     * Method to move
-     *
-     * @access  public
-     * @return  boolean True on success
-     * @since   0.9
-     */
-    public function move($direction)
-    {
+	/**
+	 * Method to move
+	 *
+	 * @access  public
+	 * @return  boolean True on success
+	 * @since   0.9
+	 */
+	public function move($direction)
+	{
 
-        $row = JTable::getInstance('shipping_detail', 'Table');
+		$row = JTable::getInstance('shipping_detail', 'Table');
 
-        if (!$row->load($this->_id))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
+		if (!$row->load($this->_id))
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
 
-        if (!$row->move($direction))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
+		if (!$row->move($direction))
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

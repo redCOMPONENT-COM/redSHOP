@@ -13,165 +13,165 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php'
 
 class rating_detailController extends RedshopCoreController
 {
-    public function __construct($default = array())
-    {
-        parent::__construct($default);
-        $this->registerTask('add', 'edit');
-    }
+	public function __construct($default = array())
+	{
+		parent::__construct($default);
+		$this->registerTask('add', 'edit');
+	}
 
-    public function edit()
-    {
-        $this->input->set('view', 'rating_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
+	public function edit()
+	{
+		$this->input->set('view', 'rating_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
-        $model     = $this->getModel('rating_detail');
-        $userslist = $model->getuserslist();
-        $this->input->set('userslist', $userslist);
+		$model     = $this->getModel('rating_detail');
+		$userslist = $model->getuserslist();
+		$this->input->set('userslist', $userslist);
 
-        $product = $model->getproducts();
-        $this->input->set('product', $product);
+		$product = $model->getproducts();
+		$this->input->set('product', $product);
 
-        parent::display();
-    }
+		parent::display();
+	}
 
-    public function save()
-    {
-        $post            = $this->input->getArray($_POST);
-        $comment         = $this->input->post->getString('comment', '');
-        $post["comment"] = $comment;
+	public function save()
+	{
+		$post            = $this->input->getArray($_POST);
+		$comment         = $this->input->post->getString('comment', '');
+		$post["comment"] = $comment;
 
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
+		$option = $this->input->get('option');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
-        $post ['rating_id'] = $cid [0];
+		$post ['rating_id'] = $cid [0];
 
-        $model = $this->getModel('rating_detail');
+		$model = $this->getModel('rating_detail');
 
-        if ($model->store($post))
-        {
+		if ($model->store($post))
+		{
 
-            $msg = JText::_('COM_REDSHOP_RATING_DETAIL_SAVED');
-        }
-        else
-        {
+			$msg = JText::_('COM_REDSHOP_RATING_DETAIL_SAVED');
+		}
+		else
+		{
 
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_RATING_DETAIL');
-        }
+			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_RATING_DETAIL');
+		}
 
-        $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
-    }
+		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+	}
 
-    public function remove()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
+	public function remove()
+	{
+		$option = $this->input->get('option');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+		}
 
-        $model = $this->getModel('rating_detail');
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
+		$model = $this->getModel('rating_detail');
+		if (!$model->delete($cid))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
-    }
+		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_DELETED_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+	}
 
-    public function publish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
+	public function publish()
+	{
+		$option = $this->input->get('option');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+		}
 
-        $model = $this->getModel('rating_detail');
+		$model = $this->getModel('rating_detail');
 
-        if (!$model->publish($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
+		if (!$model->publish($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
-    }
+		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
+		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+	}
 
-    public function unpublish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
+	public function unpublish()
+	{
+		$option = $this->input->get('option');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+		}
 
-        $model = $this->getModel('rating_detail');
+		$model = $this->getModel('rating_detail');
 
-        if (!$model->publish($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
+		if (!$model->publish($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
-    }
+		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
+		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+	}
 
-    public function fv_publish()
-    {
-        $option = $this->input->get('option');
+	public function fv_publish()
+	{
+		$option = $this->input->get('option');
 
-        $cid = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+		}
 
-        $model = $this->getModel('rating_detail');
+		$model = $this->getModel('rating_detail');
 
-        if (!$model->favoured($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
+		if (!$model->favoured($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
-    }
+		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
+		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+	}
 
-    public function fv_unpublish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
+	public function fv_unpublish()
+	{
+		$option = $this->input->get('option');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+		}
 
-        $model = $this->getModel('rating_detail');
+		$model = $this->getModel('rating_detail');
 
-        if (!$model->favoured($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
+		if (!$model->favoured($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
-    }
+		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
+		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+	}
 
-    public function cancel()
-    {
-        $option = $this->input->get('option');
+	public function cancel()
+	{
+		$option = $this->input->get('option');
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');
-        $this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
-    }
+		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');
+		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+	}
 }
