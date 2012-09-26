@@ -318,15 +318,6 @@ class searchViewsearch extends JViewLegacy
                 $endlimit = $model->getData();
             }
 
-            if ($endlimit == 0)
-            {
-                $final_endlimit = $total_product;
-            }
-            else
-            {
-                $final_endlimit = $endlimit;
-            }
-
             $tagarray = $texts->getTextLibraryTagArray();
             $data     = "";
             for ($i = 0; $i < count($this->search); $i++)
@@ -693,7 +684,7 @@ class searchViewsearch extends JViewLegacy
             $template_org = $redTemplate->parseredSHOPplugin($template_org);
             $template_org = $texts->replace_texts($template_org);
 
-            eval("?>" . $template_org . "<?php ");
+            eval("?>" . htmlspecialchars_decode($template_org) . "<?php ");
         }
         else
         {
