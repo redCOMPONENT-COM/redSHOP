@@ -185,7 +185,7 @@ class xmlexport_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('xmlexport_detail');
@@ -219,7 +219,7 @@ class xmlexport_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->auto_syncpublish($cid, 1))
@@ -243,7 +243,7 @@ class xmlexport_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->auto_syncpublish($cid, 0))
@@ -267,7 +267,7 @@ class xmlexport_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->usetoallpublish($cid, 1))
@@ -291,7 +291,7 @@ class xmlexport_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->usetoallpublish($cid, 0))
@@ -314,7 +314,7 @@ class xmlexport_detailController extends RedshopCoreController
         $cid    = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->publish($cid, 1))
@@ -337,7 +337,7 @@ class xmlexport_detailController extends RedshopCoreController
         $cid    = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->publish($cid, 0))

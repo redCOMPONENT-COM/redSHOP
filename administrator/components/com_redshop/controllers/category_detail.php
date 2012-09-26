@@ -80,19 +80,16 @@ class category_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('category_detail');
 
         if (!$model->delete($cid))
         {
-            $msg = "";
-            if ($model->getError() != "")
-            {
-                JError::raiseWarning(500, $model->getError());
-            }
+            throw new RuntimeException($model->getError());
         }
+
         else
         {
             $msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_DELETED_SUCCESSFULLY');
@@ -109,7 +106,7 @@ class category_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('category_detail');
@@ -131,7 +128,7 @@ class category_detailController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('category_detail');
