@@ -15,7 +15,7 @@ class barcodeController extends RedshopCoreController
 {
     public function getsearch()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->get('post');
 
         if (strlen($post['barcode']) != 13)
         {
@@ -66,7 +66,7 @@ class barcodeController extends RedshopCoreController
 
     public function changestatus()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->get('post');
 
         if (strlen($post['barcode']) != 13)
         {

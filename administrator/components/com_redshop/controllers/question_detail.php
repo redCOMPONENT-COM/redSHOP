@@ -21,19 +21,19 @@ class question_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'question_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'question_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
     public function save($send = 0)
     {
-        $post             = JRequest::get('post');
-        $question         = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post             = $this->input->get('post');
+        $question         = $this->input->post->getString('question', '');
         $post["question"] = $question;
-        $option           = JRequest::getVar('option', '', 'request', 'string');
-        $cid              = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option           = $this->input->getString('option', '');
+        $cid              = $this->input->post->get('cid', array(0), 'array');
 
         $post['question_id'] = $cid [0];
         $model               = $this->getModel('question_detail');
@@ -43,6 +43,7 @@ class question_detailController extends RedshopCoreController
             $post['question_date'] = time();
             $post['parent_id']     = 0;
         }
+
         $row = $model->store($post);
 
         if ($row)
@@ -69,8 +70,8 @@ class question_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -88,9 +89,9 @@ class question_detailController extends RedshopCoreController
 
     public function removeanswer()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $cid    = JRequest::getVar('aid', array(0), 'post', 'array');
-        $qid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('aid', array(0), 'array');
+        $qid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -98,40 +99,44 @@ class question_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('question_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
     }
 
     public function sendanswer()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $cid    = JRequest::getVar('aid', array(0), 'post', 'array');
-        $qid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('aid', array(0), 'array');
+        $qid    = $this->input->post->get('cid', array(0), 'array');
+
         for ($i = 0; $i < count($cid); $i++)
         {
             $redshopMail = new redshopMail();
-            $rs          = $redshopMail->sendAskQuestionMail($cid[$i]);
+            $redshopMail->sendAskQuestionMail($cid[$i]);
         }
+
         $msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
         $this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $msg    = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->getString('option', '');
+
+        $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -139,19 +144,20 @@ class question_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('question_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -159,10 +165,12 @@ class question_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('question_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
@@ -175,9 +183,11 @@ class question_detailController extends RedshopCoreController
      */
     public function orderup()
     {
-        $option = JRequest::getVar('option');
-        $model  = $this->getModel('question_detail');
+        $option = $this->input->get('option');
+
+        $model = $this->getModel('question_detail');
         $model->orderup();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
@@ -190,9 +200,11 @@ class question_detailController extends RedshopCoreController
      */
     public function orderdown()
     {
-        $option = JRequest::getVar('option');
-        $model  = $this->getModel('question_detail');
+        $option = $this->input->get('option');
+
+        $model = $this->getModel('question_detail');
         $model->orderdown();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
     }
@@ -205,12 +217,13 @@ class question_detailController extends RedshopCoreController
      */
     public function saveorder()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(), 'post', 'array');
-        $order  = JRequest::getVar('order', array(), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);
+
         $model = $this->getModel('question_detail');
         $model->saveorder($cid, $order);
 

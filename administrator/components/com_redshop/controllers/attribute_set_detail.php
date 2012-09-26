@@ -23,9 +23,9 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'attribute_set_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'attribute_set_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
@@ -37,20 +37,16 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
+        $post   = $this->input->get('post');
+        $option = $this->input->get('option');
 
-        $option = JRequest::getVar('option');
-
-        ////////// include extra field class  /////////////////////////////////////
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-        ////////// include extra field class  /////////////////////////////////////
 
         $model = $this->getModel('attribute_set_detail');
 
         if ($row = $model->store($post))
         {
-
-            $file = JRequest::getVar('image', 'array', 'files', 'array');
+            $file = $this->input->files->get('image', array(), 'array');
 
             $this->attribute_save($post, $row, $file);
 
@@ -70,9 +66,8 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -90,10 +85,8 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function publish()
     {
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -113,9 +106,8 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -135,13 +127,13 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function cancel()
     {
+        $option = $this->input->get('option');
 
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED');
+        $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 
-    public function attribute_save($post, $row, $file)
+    public function attribute_save($post, $row)
     {
         $model = $this->getModel('attribute_set_detail');
 
@@ -156,7 +148,7 @@ class attribute_set_detailController extends RedshopCoreController
 
         $attribute = array_merge(array(), $post['attribute']);
 
-        $files = JRequest::get('files');
+        $files = $this->input->get('files');
 
         for ($a = 0; $a < count($attribute); $a++)
         {
@@ -268,6 +260,7 @@ class attribute_set_detailController extends RedshopCoreController
         {
             $width = 50;
         }
+
         if ($height < 5)
         {
             $height = 50;
@@ -284,9 +277,8 @@ class attribute_set_detailController extends RedshopCoreController
 
         $tbl = "";
 
-        $folder      = JRequest::getVar('folder', '');
-        $folder_path = JRequest::getVar('path', '');
-        $dirpath     = JRequest::getVar('dirpath', '');
+        $folder_path = $this->input->get('path', '');
+        $dirpath     = $this->input->get('dirpath', '');
 
         if (!$folder_path)
         {
@@ -322,9 +314,8 @@ class attribute_set_detailController extends RedshopCoreController
                     $path_bk  = REDSHOP_FRONT_IMAGES_RELPATH . DS . $t[$n];
                     $dir_path = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . $t[$n] . DS . $t[$na];
                 }
+
                 $folder_img_bk = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "folderup_32.png";
-                //				$imgthumbsize = $this->getImageThumbSize($folder_img_bk);
-                //$size = $this->_parseSize(filesize($folder_img_bk));
 
                 $info = @getimagesize($folder_img_bk);
 
@@ -333,8 +324,6 @@ class attribute_set_detailController extends RedshopCoreController
 
                 if (($info[0] > 50) || ($info[1] > 50))
                 {
-                    //$dimensions = $this->_imageResize($width, $height, $target);
-
                     $dimensions = $this->_imageResize($info[0], $info[1], 50);
 
                     $width_60  = $dimensions[0];
@@ -396,20 +385,13 @@ class attribute_set_detailController extends RedshopCoreController
                 if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
                 {
                     $live_path = $url . $dir_path . DS . $filename;
-                    //list($width, $height, $type, $attr) = getimagesize($live_path);
-                    //$imgthumbsize = $this->getImageThumbSize($live_path);
-
-                    //$size = $this->_parseSize(filesize($live_path));
-
-                    $info = @getimagesize($live_path);
+                    $info      = @getimagesize($live_path);
 
                     $width  = @$info[0];
                     $height = @$info[1];
 
                     if (($info[0] > 50) || ($info[1] > 50))
                     {
-                        //$dimensions = $this->_imageResize($width, $height, $target);
-
                         $dimensions = $this->_imageResize($info[0], $info[1], 50);
 
                         $width_60  = $dimensions[0];
@@ -436,16 +418,12 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function property_more_img()
     {
-
         $uri = JURI::getInstance();
-
         $url = $uri->root();
 
-        $post = JRequest::get('post');
-
-        $main_img = JRequest::getVar('property_main_img', 'array', 'files', 'array');
-
-        $sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
+        $post     = $this->input->get('post');
+        $main_img = $this->input->files->get('property_main_img', array(), 'array');
+        $sub_img  = $this->input->files->get('property_sub_img', array(), 'array');
 
         $model = $this->getModel('product_detail');
 
@@ -472,14 +450,12 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function deleteimage()
     {
-
         $uri = JURI::getInstance();
-
         $url = $uri->root();
 
-        $mediaid    = JRequest::getVar('mediaid');
-        $section_id = JRequest::getVar('section_id');
-        $cid        = JRequest::getVar('cid');
+        $mediaid    = $this->input->get('mediaid');
+        $section_id = $this->input->get('section_id');
+        $cid        = $this->input->get('cid');
 
         $model = $this->getModel('product_detail');
         if ($model->deletesubimage($mediaid))
@@ -492,12 +468,7 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function subattribute_color()
     {
-
-        $uri = JURI::getInstance();
-
-        $url = $uri->root();
-
-        $post = JRequest::get('post');
+        $post = $this->input->get('post');
 
         $model = $this->getModel('product_detail');
 
@@ -507,7 +478,7 @@ class attribute_set_detailController extends RedshopCoreController
 
         $model->delsubattr_diff($subattr_diff); // Delete subAttribute Diffrence
 
-        $sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
+        $sub_img = $this->input->files->get('property_sub_img', array(), 'array');
 
         $more_images = $model->subattribute_color($post, $sub_img);
 
@@ -521,8 +492,7 @@ class attribute_set_detailController extends RedshopCoreController
     // remove Property image
     public function removepropertyImage()
     {
-
-        $get = JRequest::get('get');
+        $get = $this->input->get('get');
 
         $pid = $get['pid'];
 
@@ -539,8 +509,7 @@ class attribute_set_detailController extends RedshopCoreController
     // remove subProperty image
     public function removesubpropertyImage()
     {
-
-        $get = JRequest::get('get');
+        $get = $this->input->get('get');
 
         $pid = $get['pid'];
 
@@ -556,18 +525,17 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function saveAttributeStock()
     {
-
-        $post = JRequest::get('post');
+        $post = $this->input->get('post');
 
         $model = $this->getModel();
+
         if ($model->SaveAttributeStockroom($post))
         {
-
             $msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
         }
+
         else
         {
-
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
         }
         $link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid=" . $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
@@ -577,9 +545,11 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function copy()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-        $model  = $this->getModel('attribute_set_detail');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+
+        $model = $this->getModel('attribute_set_detail');
+
         if ($model->copy($cid))
         {
             $msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');
@@ -588,6 +558,7 @@ class attribute_set_detailController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
         }
+
         $this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
     }
 }

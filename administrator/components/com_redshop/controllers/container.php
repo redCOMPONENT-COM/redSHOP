@@ -38,7 +38,6 @@ class containerController extends RedshopCoreController
             echo $data[$i]->container_name . ",";
             echo $data[$i]->container_desc . ",";
             echo $data[$i]->creation_date . ",";
-            //echo $data[$i]->quantity * $data[$i]->product_volume;
             echo "\n";
         }
         exit;

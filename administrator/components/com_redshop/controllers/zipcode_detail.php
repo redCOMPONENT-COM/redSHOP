@@ -21,9 +21,9 @@ class zipcode_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'zipcode_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'zipcode_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
@@ -34,12 +34,11 @@ class zipcode_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $city_name           = JRequest::getVar('city_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post                = $this->input->get('post');
+        $city_name           = $this->input->post->getString('city_name', '');
         $post["city_name"]   = $city_name;
-        $option              = JRequest::getVar('option');
-        $cid                 = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option              = $this->input->get('option');
+        $cid                 = $this->input->post->get('cid', array(0), 'array');
         $post ['zipcode_id'] = $cid [0];
         $model               = $this->getModel('zipcode_detail');
 
@@ -78,16 +77,16 @@ class zipcode_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
     }
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -99,6 +98,7 @@ class zipcode_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
     }

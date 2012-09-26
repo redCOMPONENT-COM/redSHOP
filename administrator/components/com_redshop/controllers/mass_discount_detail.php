@@ -21,9 +21,9 @@ class mass_discount_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'mass_discount_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'mass_discount_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
@@ -35,11 +35,9 @@ class mass_discount_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post   = $this->input->get('post');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $post ['discount_product'] = $post ['container_product'];
 
@@ -51,7 +49,6 @@ class mass_discount_detailController extends RedshopCoreController
         $post ['mass_discount_id'] = $cid[0];
 
         $row = $model->store($post);
-        $did = $row->mass_discount_id;
 
         if ($row)
         {
@@ -73,11 +70,8 @@ class mass_discount_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        //$layout = JRequest::getVar('layout');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -85,6 +79,7 @@ class mass_discount_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('mass_discount_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -97,9 +92,9 @@ class mass_discount_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->get('option');
 
+        $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=mass_discount', $msg);
     }
 }
