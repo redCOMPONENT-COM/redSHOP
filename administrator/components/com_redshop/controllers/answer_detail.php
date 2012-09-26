@@ -21,11 +21,8 @@ class answer_detailController extends RedshopCoreController
 
     public function edit()
     {
-        //JRequest::setVar('view', 'answer_detail');
         $this->input->set('view', 'answer_detail');
-        //JRequest::setVar('layout', 'default');
         $this->input->set('layout', 'default');
-        //JRequest::setVar('hidemainmenu', 1);
         $this->input->set('hidemainmenu', 1);
 
         parent::display();
@@ -33,22 +30,14 @@ class answer_detailController extends RedshopCoreController
 
     public function save($send = 0)
     {
-        //$post             = JRequest::get('post');
-        $post = $this->input->get('post');
-
-        //$question         = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        $question = $this->input->post->getString('question', '');
-
-        $post["question"] = $question;
-        //$option           = JRequest::getVar('option', '', 'request', 'string');
-        $option = $this->input->getString('option', '');
-
-        //$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
-
-        $post['question_id'] = $cid [0];
-        //$parent_id           = JRequest::getVar('parent_id');
+        $post      = $this->input->get('post');
+        $question  = $this->input->post->getString('question', '');
+        $option    = $this->input->getString('option', '');
+        $cid       = $this->input->post->get('cid', array(0), 'array');
         $parent_id = $this->input->get('parent_id');
+
+        $post["question"]    = $question;
+        $post['question_id'] = $cid [0];
 
         $model = $this->getModel('answer_detail');
 
@@ -84,12 +73,9 @@ class answer_detailController extends RedshopCoreController
 
     public function remove()
     {
-        //$parent_id = JRequest::getVar('parent_id');
         $parent_id = $this->input->get('parent_id');
-        //$option    = JRequest::getVar('option', '', 'request', 'string');
-        $option = $this->input->getString('option', '');
-        //$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
+        $option    = $this->input->getString('option', '');
+        $cid       = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -109,11 +95,8 @@ class answer_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        //$parent_id = JRequest::getVar('parent_id');
         $parent_id = $this->input->get('parent_id');
-
-        //$option    = JRequest::getVar('option', '', 'request', 'string');
-        $option = $this->input->getString('option', '');
+        $option    = $this->input->getString('option', '');
 
         $msg = JText::_('COM_REDSHOP_ANSWER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
@@ -121,14 +104,9 @@ class answer_detailController extends RedshopCoreController
 
     public function publish()
     {
-        //$option    = JRequest::getVar('option');
-        $option = $this->input->getString('option', '');
-
-        //$parent_id = JRequest::getVar('parent_id');
+        $option    = $this->input->getString('option', '');
         $parent_id = $this->input->get('parent_id');
-
-        //$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
+        $cid       = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -148,12 +126,9 @@ class answer_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        //$option    = JRequest::getVar('option');
-        $option = $this->input->get('option');
-        //$parent_id = JRequest::getVar('parent_id');
+        $option    = $this->input->get('option');
         $parent_id = $this->input->get('parent_id');
-        //$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
+        $cid       = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -179,10 +154,8 @@ class answer_detailController extends RedshopCoreController
      */
     public function orderup()
     {
-        //$parent_id = JRequest::getVar('parent_id');
         $parent_id = $this->input->get('parent_id');
-        //$option    = JRequest::getVar('option');
-        $option = $this->input->get('option');
+        $option    = $this->input->get('option');
 
         $model = $this->getModel('answer_detail');
         $model->orderup();
@@ -198,10 +171,8 @@ class answer_detailController extends RedshopCoreController
      */
     public function orderdown()
     {
-        //$parent_id = JRequest::getVar('parent_id');
         $parent_id = $this->input->get('parent_id');
-        //$option    = JRequest::getVar('option');
-        $option = $this->input->get('option');
+        $option    = $this->input->get('option');
 
         $model = $this->getModel('answer_detail');
         $model->orderdown();
@@ -218,15 +189,10 @@ class answer_detailController extends RedshopCoreController
      */
     public function saveorder()
     {
-        //$parent_id = JRequest::getVar('parent_id');
         $parent_id = $this->input->get('parent_id');
-        //$option    = JRequest::getVar('option');
-        $option = $this->input->get('option');
-
-        //$cid       = JRequest::getVar('cid', array(), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
-        //$order     = JRequest::getVar('order', array(), 'post', 'array');
-        $order = $this->input->post->getArray('order', array());
+        $option    = $this->input->get('option');
+        $cid       = $this->input->post->get('cid', array(0), 'array');
+        $order     = $this->input->post->get('order', array(), 'array');
 
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);

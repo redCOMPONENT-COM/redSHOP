@@ -21,9 +21,9 @@ class shipping_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'shipping_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'shipping_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
@@ -34,9 +34,8 @@ class shipping_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post   = JRequest::get('post');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-        $option = JRequest::getVar('option');
+        $post   = $this->input->get('post');
+        $option = $this->input->get('option');
         $model  = $this->getModel('shipping_detail');
         $row    = $model->store($post);
 
@@ -60,8 +59,8 @@ class shipping_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -73,29 +72,32 @@ class shipping_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $this->setRedirect('index.php?option=' . $option . '&view=shipping');
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
             JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
         $model = $this->getModel('shipping_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $this->setRedirect('index.php?option=' . $option . '&view=shipping');
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $this->setRedirect('index.php?option=' . $option . '&view=shipping');
     }
 
@@ -107,10 +109,10 @@ class shipping_detailController extends RedshopCoreController
      */
     public function orderup()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $model  = $this->getModel('shipping_detail');
         $model->move(-1);
-        //$model->orderup();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
     }
@@ -123,10 +125,10 @@ class shipping_detailController extends RedshopCoreController
      */
     public function orderdown()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $model  = $this->getModel('shipping_detail');
         $model->move(1);
-        //$model->orderdown();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
     }
@@ -139,9 +141,9 @@ class shipping_detailController extends RedshopCoreController
      */
     public function saveorder()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(), 'post', 'array');
-        $order  = JRequest::getVar('order', array(), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);

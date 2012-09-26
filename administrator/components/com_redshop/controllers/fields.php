@@ -19,8 +19,8 @@ class fieldsController extends RedshopCoreController
 
     public function saveorder()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
         $model  = $this->getModel('fields');
 
         if ($model->saveorder($cid))
