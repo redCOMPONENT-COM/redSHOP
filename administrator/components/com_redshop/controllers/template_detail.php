@@ -36,7 +36,7 @@ class template_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post                  = $this->input->get('post');
+        $post                  = $this->input->getArray($_POST);
         $showbuttons           = $this->input->get('showbuttons');
         $template_desc         = $this->input->post->getString('template_desc', '');
         $post["template_desc"] = $template_desc;

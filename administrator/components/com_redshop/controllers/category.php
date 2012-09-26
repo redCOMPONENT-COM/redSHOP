@@ -24,7 +24,7 @@ class categoryController extends RedshopCoreController
      */
     public function assignTemplate()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel('category');
 

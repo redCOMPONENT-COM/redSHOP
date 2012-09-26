@@ -44,7 +44,7 @@ class payment_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post                          = $this->input->get('post');
+        $post                          = $this->input->getArray($_POST);
         $option                        = $this->input->get('option');
         $accepted_credit_card          = $this->input->post->get('accepted_credict_card', '', 'array');
         $accepted_credit_card          = implode(",", $accepted_credit_card);

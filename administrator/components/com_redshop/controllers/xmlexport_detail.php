@@ -37,7 +37,7 @@ class xmlexport_detailController extends RedshopCoreController
     {
         $session = JFactory::getSession();
 
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->getString('option', '');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
@@ -121,7 +121,7 @@ class xmlexport_detailController extends RedshopCoreController
         JHTMLBehavior::modal();
 
         $xmlhelper    = new xmlHelper();
-        $post         = $this->input->get('post');
+        $post         = $this->input->getArray($_POST);
         $session      = JFactory::getSession();
         $childelement = $session->get('childelement');
 
