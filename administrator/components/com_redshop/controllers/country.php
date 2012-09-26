@@ -14,3 +14,4 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php'
 class countryController extends RedshopCoreController
 {
 }
+

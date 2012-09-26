@@ -13,65 +13,65 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php'
 
 class stockimage_detailController extends RedshopCoreController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->registerTask('add', 'edit');
-	}
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
-	public function edit()
-	{
-		$this->input->set('view', 'stockimage_detail');
-		$this->input->set('layout', 'default');
-		$this->input->set('hidemainmenu', 1);
-		parent::display();
-	}
+    public function edit()
+    {
+        $this->input->set('view', 'stockimage_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
+        parent::display();
+    }
 
-	public function save()
-	{
-		$post                     = $this->input->getArray($_POST);
-		$option                   = $this->input->get('option');
-		$cid                      = $this->input->post->get('cid', array(0), 'array');
-		$post ['stock_amount_id'] = $cid [0];
+    public function save()
+    {
+        $post                     = $this->input->getArray($_POST);
+        $option                   = $this->input->get('option');
+        $cid                      = $this->input->post->get('cid', array(0), 'array');
+        $post ['stock_amount_id'] = $cid [0];
 
-		$model = $this->getModel('stockimage_detail');
+        $model = $this->getModel('stockimage_detail');
 
-		if ($row = $model->store($post))
-		{
-			$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_SAVED');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKIMAGE_DETAIL');
-		}
-		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
-	}
+        if ($row = $model->store($post))
+        {
+            $msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_SAVED');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKIMAGE_DETAIL');
+        }
+        $this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
+    }
 
-	public function remove()
-	{
-		$option = $this->input->get('option');
-		$cid    = $this->input->post->get('cid', array(0), 'array');
+    public function remove()
+    {
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-		}
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		$model = $this->getModel('stockimage_detail');
-		if (!$model->delete($cid))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
+        $model = $this->getModel('stockimage_detail');
+        if (!$model->delete($cid))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
-	}
+        $msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_DELETED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
+    }
 
-	public function cancel()
-	{
-		$option = $this->input->get('option');
+    public function cancel()
+    {
+        $option = $this->input->get('option');
 
-		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
-	}
+        $msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_EDITING_CANCELLED');
+        $this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
+    }
 }
