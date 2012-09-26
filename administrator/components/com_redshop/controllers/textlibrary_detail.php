@@ -34,7 +34,7 @@ class textlibrary_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post               = $this->input->get('post');
+        $post               = $this->input->getArray($_POST);
         $text_field         = $this->input->post->getString('text_field', '');
         $post["text_field"] = $text_field;
         $option             = $this->input->getString('option', '');

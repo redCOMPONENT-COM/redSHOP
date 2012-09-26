@@ -30,7 +30,7 @@ class supplier_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post                  = $this->input->get('post');
+        $post                  = $this->input->getArray($_POST);
         $supplier_desc         = $this->input->post->getString('supplier_desc', '');
         $post["supplier_desc"] = $supplier_desc;
 

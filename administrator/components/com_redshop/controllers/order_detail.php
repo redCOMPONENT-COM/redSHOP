@@ -33,7 +33,7 @@ class order_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post               = $this->input->get('post');
+        $post               = $this->input->getArray($_POST);
         $post["text_field"] = $this->input->post->getString('text_field', '');
         $option             = $this->input->getString('option', '');
         $cid                = $this->input->post->get('cid', array(0), 'array');
@@ -90,7 +90,7 @@ class order_detailController extends RedshopCoreController
     {
         $adminproducthelper = new adminproducthelper();
         $stockroomhelper    = new rsstockroomhelper();
-        $post               = $this->input->get('post');
+        $post               = $this->input->getArray($_POST);
         $tmpl               = "";
 
         if (isset($post['tmpl']))
@@ -167,7 +167,7 @@ class order_detailController extends RedshopCoreController
 
     public function delete_item()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->getString('option', '');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
@@ -199,7 +199,7 @@ class order_detailController extends RedshopCoreController
 
     public function updateItem()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->getString('option', '');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
@@ -226,7 +226,7 @@ class order_detailController extends RedshopCoreController
 
     public function update_discount()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->getString('option', '');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
@@ -246,7 +246,7 @@ class order_detailController extends RedshopCoreController
 
     public function special_discount()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->getString('option', '');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
@@ -267,7 +267,7 @@ class order_detailController extends RedshopCoreController
     // update shipping rates
     public function update_shippingrates()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->getString('option', '');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
@@ -288,7 +288,7 @@ class order_detailController extends RedshopCoreController
     // update shipping address information
     public function updateShippingAdd()
     {
-        $post      = $this->input->get('post');
+        $post      = $this->input->getArray($_POST);
         $suboption = $this->input->getString('suboption', 'com_redshop');
         $view      = ($suboption == 'com_redshop') ? 'order_detail' : 'order';
         $cid       = $this->input->post->get('cid', array(0), 'array');
@@ -321,7 +321,7 @@ class order_detailController extends RedshopCoreController
     // update billing address information
     public function updateBillingAdd()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
         $post['order_id'] = $cid[0];

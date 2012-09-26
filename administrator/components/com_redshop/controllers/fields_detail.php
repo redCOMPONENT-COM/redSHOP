@@ -34,7 +34,7 @@ class fields_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post               = $this->input->get('post');
+        $post               = $this->input->getArray($_POST);
         $post["field_desc"] = $this->input->post->getString('field_desc', '');
         $option             = $this->input->get('option');
         $cid                = $this->input->post->get('cid', array(0), 'array');

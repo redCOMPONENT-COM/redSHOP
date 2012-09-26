@@ -30,7 +30,7 @@ class tax_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post         = $this->input->get('post');
+        $post         = $this->input->getArray($_POST);
         $option       = $this->input->get('option');
         $tax_group_id = $this->input->get('tax_group_id');
 

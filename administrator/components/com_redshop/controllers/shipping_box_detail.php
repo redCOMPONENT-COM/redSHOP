@@ -36,7 +36,7 @@ class shipping_box_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->get('option');
 
         $model = $this->getModel('shipping_box_detail');
