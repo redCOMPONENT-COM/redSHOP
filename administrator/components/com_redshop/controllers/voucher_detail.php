@@ -21,9 +21,10 @@ class voucher_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'voucher_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'voucher_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
+
         parent::display();
     }
 
@@ -34,9 +35,9 @@ class voucher_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post               = JRequest::get('post');
-        $option             = JRequest::getVar('option', '', 'request', 'string');
-        $cid                = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post               = $this->input->get('post');
+        $option             = $this->input->getString('option', '');
+        $cid                = $this->input->post->get('cid', array(0), 'array');
         $post['start_date'] = strtotime($post['start_date']);
 
         if ($post ['end_date'])
@@ -78,9 +79,9 @@ class voucher_detailController extends RedshopCoreController
     public function remove()
     {
 
-        $option = JRequest::getVar('option', '', 'request', 'string');
+        $option = $this->input->getString('option', '');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -98,9 +99,9 @@ class voucher_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
+        $option = $this->input->getString('option', '');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -112,15 +113,15 @@ class voucher_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -132,14 +133,16 @@ class voucher_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $msg    = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->getString('option', '');
+
+        $msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
     }
 }

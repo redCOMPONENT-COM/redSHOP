@@ -21,18 +21,16 @@ class sample_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'sample_detail');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'sample_detail');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
     public function save()
     {
-        $post = JRequest::get('post');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post   = $this->input->get('post');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $post ['sample_id'] = $cid [0];
         $link               = 'index.php?option=' . $option . '&view=sample';
@@ -55,9 +53,8 @@ class sample_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-        //$layout = JRequest::getVar ('layout');
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -65,20 +62,20 @@ class sample_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('sample_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
-        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_DELETED_SUCCESSFULLY');
 
+        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
     }
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-        //$layout = JRequest::getVar ('layout');
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -90,17 +87,15 @@ class sample_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
-        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_PUBLISHED_SUCCESFULLY');
 
+        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_PUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        //$layout = JRequest::getVar ('layout');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -112,16 +107,15 @@ class sample_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
-        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
+        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_UNPUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        //$layout = JRequest::getVar ('layout');
-        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->get('option');
+        $msg    = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
 
         $this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
     }

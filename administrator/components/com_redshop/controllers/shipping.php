@@ -21,7 +21,6 @@ class shippingcontroller extends RedshopCoreController
     public function importeconomic()
     {
         $db = JFactory::getDBO();
-        #Add product to economic
         if (ECONOMIC_INTEGRATION == 1)
         {
             $economic = new economic();
@@ -56,9 +55,9 @@ class shippingcontroller extends RedshopCoreController
      */
     public function saveorder()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(), 'post', 'array');
-        $order  = JRequest::getVar('order', array(), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);

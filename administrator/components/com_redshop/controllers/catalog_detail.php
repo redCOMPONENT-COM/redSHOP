@@ -21,19 +21,19 @@ class catalog_detailController extends RedshopCoreController
 
     public function edit()
     {
+        $this->input->set('view', 'catalog_detail');
+        $this->input->set('hidemainmenu', 1);
 
-        JRequest::setVar('view', 'catalog_detail');
-        JRequest::setVar('hidemainmenu', 1);
         parent::display();
     }
 
     public function save()
     {
 
-        $post   = JRequest::get('post');
-        $option = JRequest::getVar('option');
+        $post   = $this->input->get('post');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         $post ['catalog_id'] = $cid [0];
         $link                = 'index.php?option=' . $option . '&view=catalog';
@@ -55,9 +55,9 @@ class catalog_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -78,9 +78,9 @@ class catalog_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -101,10 +101,9 @@ class catalog_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        $layout = JRequest::getVar('layout');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -112,10 +111,12 @@ class catalog_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('catalog_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
         $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
@@ -123,8 +124,7 @@ class catalog_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $layout = JRequest::getVar('layout');
+        $option = $this->input->get('option');
         $msg    = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
 
         $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);

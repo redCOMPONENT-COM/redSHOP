@@ -23,24 +23,24 @@ class container_detailController extends RedshopCoreController
     {
         $model          = $this->getModel('container_detail');
         $stockroom_data = $model->stockroom_data($id = 0);
-        JRequest::setVar('stockroom_data', $stockroom_data);
-        JRequest::setVar('view', 'container_detail');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('stockroom_data', $stockroom_data);
+        $this->input->set('view', 'container_detail');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
 
     public function addcontainer()
     {
-        $conid = JRequest::getVar('cid', array(0), 'post', 'array');
-        JRequest::setVar('conid', $conid);
+        $conid = $this->input->post->get('cid', array(0), 'array');
+        $this->input->set('conid', $conid);
 
         parent::display();
     }
 
     public function saveanddisplay()
     {
-        $post         = JRequest::get('get');
+        $post         = $this->input->get('get');
         $model        = $this->getModel('container_detail');
         $container_id = $model->saveanddisplay($post);
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=container_detail&layout=products&rand_id=' . time() . '&task=edit&cid[]=' . $container_id);
@@ -48,7 +48,7 @@ class container_detailController extends RedshopCoreController
 
     public function deleteProduct()
     {
-        $post  = JRequest::get('get');
+        $post  = $this->input->get('get');
         $model = $this->getModel('container_detail');
         $model->deleteProduct($post);
         $container_id = $post['container_id'];
@@ -62,13 +62,11 @@ class container_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
+        $post = $this->input->get('post');
 
-        $container_desc = JRequest::getVar('container_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post["container_desc"] = $this->input->post->getString('container_desc', '');
 
-        $post["container_desc"] = $container_desc;
-
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
         $post ['creation_date'] = strtotime($post ['creation_date']);
 
@@ -116,9 +114,9 @@ class container_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -138,10 +136,8 @@ class container_detailController extends RedshopCoreController
 
     public function publish()
     {
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -149,10 +145,12 @@ class container_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('container_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CONTAINER_DETAIL_PUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
     }
@@ -160,9 +158,9 @@ class container_detailController extends RedshopCoreController
     public function unpublish()
     {
 
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -180,7 +178,7 @@ class container_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $model  = $this->getModel('container_detail');
 
         $model->cancel();

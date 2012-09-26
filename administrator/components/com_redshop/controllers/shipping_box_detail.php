@@ -22,9 +22,10 @@ class shipping_box_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'shipping_box_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'shipping_box_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
+
         parent::display();
     }
 
@@ -35,9 +36,8 @@ class shipping_box_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $option = JRequest::getVar('option');
+        $post   = $this->input->get('post');
+        $option = $this->input->get('option');
 
         $model = $this->getModel('shipping_box_detail');
         $row   = $model->store($post);
@@ -64,9 +64,8 @@ class shipping_box_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -74,6 +73,7 @@ class shipping_box_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('shipping_box_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -84,9 +84,8 @@ class shipping_box_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -104,9 +103,8 @@ class shipping_box_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -124,8 +122,7 @@ class shipping_box_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-
+        $option = $this->input->get('option');
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
     }
 }

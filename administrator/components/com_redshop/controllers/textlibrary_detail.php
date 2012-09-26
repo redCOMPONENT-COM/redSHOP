@@ -21,9 +21,9 @@ class textlibrary_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'textlibrary_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'textlibrary_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
@@ -34,15 +34,11 @@ class textlibrary_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        //$post = JRequest::get ( 'post' );
-
-        $post               = JRequest::get('post');
-        $text_field         = JRequest::getVar('text_field', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post               = $this->input->get('post');
+        $text_field         = $this->input->post->getString('text_field', '');
         $post["text_field"] = $text_field;
-
-        $option = JRequest::getVar('option', '', 'request', 'string');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option             = $this->input->getString('option', '');
+        $cid                = $this->input->post->get('cid', array(0), 'array');
 
         $post ['textlibrary_id'] = $cid [0];
 
@@ -60,7 +56,7 @@ class textlibrary_detailController extends RedshopCoreController
         }
 
         if ($apply == 1)
-        { //&view=textlibrary_detail&task=edit&cid[]=1
+        {
             $this->setRedirect('index.php?option=' . $option . '&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id, $msg);
         }
         else
@@ -71,10 +67,8 @@ class textlibrary_detailController extends RedshopCoreController
 
     public function remove()
     {
-
-        $option = JRequest::getVar('option', '', 'request', 'string');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -82,20 +76,20 @@ class textlibrary_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('textlibrary_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
     }
 
     public function publish()
     {
-
-        $option = JRequest::getVar('option', '', 'request', 'string');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -107,15 +101,15 @@ class textlibrary_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -127,22 +121,22 @@ class textlibrary_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
+        $option = $this->input->getString('option', '');
         $msg    = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
     }
 
     public function copy()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $model = $this->getModel('textlibrary_detail');
 
