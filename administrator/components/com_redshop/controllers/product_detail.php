@@ -673,7 +673,7 @@ class product_detailController extends RedshopCoreController
     // remove Property image
     public function removepropertyImage()
     {
-        $get = $this->input->get('get');
+        $get = $this->input->getArray($_GET);
 
         $pid = $get['pid'];
 
@@ -690,7 +690,7 @@ class product_detailController extends RedshopCoreController
     // remove subProperty image
     public function removesubpropertyImage()
     {
-        $get = $this->input->get('get');
+        $get = $this->input->getArray($_GET);
 
         $pid = $get['pid'];
 
@@ -778,21 +778,21 @@ class product_detailController extends RedshopCoreController
 
     public function delete_subprop()
     {
-        $get   = $this->input->get('get');
+        $get   = $this->input->getArray($_GET);
         $model = $this->getModel('product_detail');
         $model->delete_subprop($get['sp_id'], $get['subattribute_id']);
     }
 
     public function delete_prop()
     {
-        $get   = $this->input->get('get');
+        $get   = $this->input->getArray($_GET);
         $model = $this->getModel('product_detail');
         $model->delete_prop($get['attribute_id'], $get['property_id']);
     }
 
     public function delete_attibute()
     {
-        $get   = $this->input->get('get');
+        $get   = $this->input->getArray($_GET);
         $model = $this->getModel('product_detail');
 
         $model->delete_attibute($get['product_id'], $get['attribute_id'], $get['attribute_set_id']);

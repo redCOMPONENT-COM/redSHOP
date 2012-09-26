@@ -150,7 +150,7 @@ class shipping_rate_detailController extends RedshopCoreController
 
     public function GetStateDropdown()
     {
-        $get   = $this->input->get('get');
+        $get   = $this->input->getArray($_GET);
         $model = $this->getModel('shipping_rate_detail');
         $model->GetStateDropdown($get);
         exit;

@@ -40,7 +40,7 @@ class container_detailController extends RedshopCoreController
 
     public function saveanddisplay()
     {
-        $post         = $this->input->get('get');
+        $post         = $this->input->getArray($_GET);
         $model        = $this->getModel('container_detail');
         $container_id = $model->saveanddisplay($post);
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=container_detail&layout=products&rand_id=' . time() . '&task=edit&cid[]=' . $container_id);
@@ -48,7 +48,7 @@ class container_detailController extends RedshopCoreController
 
     public function deleteProduct()
     {
-        $post  = $this->input->get('get');
+        $post  = $this->input->getArray($_GET);
         $model = $this->getModel('container_detail');
         $model->deleteProduct($post);
         $container_id = $post['container_id'];
