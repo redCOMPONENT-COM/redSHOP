@@ -2747,7 +2747,6 @@ class importModelimport extends JModelLegacy
  * @param array $keyproduct
  * @param array $newkeys - reference variable
  */
-public
 function checkkeys($item, $keyproduct, &$newkeys)
 {
 
