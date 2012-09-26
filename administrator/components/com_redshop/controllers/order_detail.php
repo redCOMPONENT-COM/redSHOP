@@ -393,7 +393,7 @@ class order_detailController extends RedshopCoreController
     public function displayProductItemInfo()
     {
         $adminproducthelper = new adminproducthelper();
-        $get                = $this->input->get('get');
+        $get                = $this->input->getArray($_GET);
 
         $product_id = $get['product'];
         $quantity   = $get['quantity'];
@@ -416,7 +416,7 @@ class order_detailController extends RedshopCoreController
         $redconfig       = new Redconfiguration();
         $model           = $this->getModel();
         $order_functions = new order_functions();
-        $request         = $this->input->get('request');
+        $request         = $this->input->getArray($_REQUEST);
 
         if ($request['ccinfo'] == 0)
         {
@@ -514,7 +514,7 @@ class order_detailController extends RedshopCoreController
       */
     public function notify_payment()
     {
-        $request = $this->input->get('request');
+        $request = $this->input->getArray($_REQUEST);
 
         require_once (JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
         $objOrder = new order_functions();

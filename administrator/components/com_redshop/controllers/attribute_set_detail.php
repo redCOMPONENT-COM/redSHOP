@@ -492,7 +492,7 @@ class attribute_set_detailController extends RedshopCoreController
     // remove Property image
     public function removepropertyImage()
     {
-        $get = $this->input->get('get');
+        $get = $this->input->getArray($_GET);
 
         $pid = $get['pid'];
 
@@ -509,7 +509,7 @@ class attribute_set_detailController extends RedshopCoreController
     // remove subProperty image
     public function removesubpropertyImage()
     {
-        $get = $this->input->get('get');
+        $get = $this->input->getArray($_GET);
 
         $pid = $get['pid'];
 
