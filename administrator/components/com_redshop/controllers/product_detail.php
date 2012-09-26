@@ -37,7 +37,7 @@ class product_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post                = $this->input->get('post');
+        $post                = $this->input->getArray($_POST);
         $option              = $this->input->get('option');
         $cid                 = $this->input->post->get('cid', array(0), 'array');
         $post ['product_id'] = $cid [0];
@@ -602,7 +602,7 @@ class product_detailController extends RedshopCoreController
         $uri = JURI::getInstance();
         $url = $uri->root();
 
-        $post     = $this->input->get('post');
+        $post     = $this->input->getArray($_POST);
         $main_img = $this->input->files->get('property_main_img', array(), 'array');
         $sub_img  = $this->input->files->get('property_sub_img', array(), 'array');
 
@@ -649,7 +649,7 @@ class product_detailController extends RedshopCoreController
 
     public function subattribute_color()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel('product_detail');
 
@@ -706,7 +706,7 @@ class product_detailController extends RedshopCoreController
 
     public function saveAttributeStock()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel();
         if ($model->SaveAttributeStockroom($post))
@@ -729,7 +729,7 @@ class product_detailController extends RedshopCoreController
         $option = $this->input->get('option');
 
         $model = $this->getModel('product_detail');
-        //$model->move(-1);
+
         $model->orderup();
 
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -741,7 +741,7 @@ class product_detailController extends RedshopCoreController
         $option = $this->input->get('option');
 
         $model = $this->getModel('product_detail');
-        //$model->move(1);
+
         $model->orderdown();
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
@@ -765,9 +765,8 @@ class product_detailController extends RedshopCoreController
 
     public function deleteProdcutSerialNumbers()
     {
-
-        $serial_id  = $this->input->getInt('serial_id');
-        $product_id = $this->input->getInt('product_id');
+        $serial_id  = $this->input->getInt('serial_id', 0);
+        $product_id = $this->input->getInt('product_id', 0);
         $option     = $this->input->get('option');
 
         $model = $this->getModel('product_detail');

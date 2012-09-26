@@ -37,7 +37,7 @@ class coupon_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post            = $this->input->get('post');
+        $post            = $this->input->getArray($_POST);
         $post["comment"] = $this->input->post->getString('comment', '');
 
         $option = $this->input->get('option');

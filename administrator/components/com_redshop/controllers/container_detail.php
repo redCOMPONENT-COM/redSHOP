@@ -62,7 +62,7 @@ class container_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $post["container_desc"] = $this->input->post->getString('container_desc', '');
 

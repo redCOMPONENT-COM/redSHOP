@@ -30,7 +30,7 @@ class accessmanager_detailController extends RedshopCoreController
 
     public function save($apply)
     {
-        $post    = $this->input->get('post');
+        $post    = $this->input->getArray($_POST);
         $option  = $this->input->getString('option', '');
         $section = $this->input->getString('section', '');
 

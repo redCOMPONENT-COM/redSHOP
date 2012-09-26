@@ -28,7 +28,7 @@ class configurationController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         for ($p = 0; $p < $post['tot_prod']; $p++)
         {

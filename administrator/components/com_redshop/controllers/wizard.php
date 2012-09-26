@@ -94,7 +94,7 @@ class wizardController extends RedshopCoreController
 
     public function save()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $substep = $post['substep'];
         $go      = $post['go'];
@@ -167,7 +167,7 @@ class wizardController extends RedshopCoreController
     {
         $Redconfiguration = new Redconfiguration();
 
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $msg = "";
 
@@ -209,7 +209,7 @@ class wizardController extends RedshopCoreController
 
     public function demoContentInsert()
     {
-        //$post = $this->input->get('post');
+        //$post = $this->input->getArray($_POST);
 
         $model = $this->getModel('redshop', 'redshopModel');
 

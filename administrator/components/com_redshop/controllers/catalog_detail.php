@@ -30,7 +30,7 @@ class catalog_detailController extends RedshopCoreController
     public function save()
     {
 
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->get('option');
 
         $cid = $this->input->post->get('cid', array(0), 'array');

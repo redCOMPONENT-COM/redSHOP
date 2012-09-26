@@ -65,7 +65,7 @@ class orderController extends RedshopCoreController
     public function allstatus()
     {
         $session           = JFactory::getSession();
-        $post              = $this->input->get('post');
+        $post              = $this->input->getArray($_POST);
         $option            = $post['option'];
         $merge_invoice_arr = array();
 
@@ -162,7 +162,7 @@ class orderController extends RedshopCoreController
 
     public function bookInvoice()
     {
-        $post            = $this->input->get('post');
+        $post            = $this->input->getArray($_POST);
         $bookInvoiceDate = $post ['bookInvoiceDate'];
         $order_id        = $this->input->getCmd('order_id', '');
         $ecomsg          = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
@@ -456,7 +456,7 @@ class orderController extends RedshopCoreController
     public function generateParcel()
     {
         $order_function    = new order_functions ();
-        $post              = $this->input->get('post');
+        $post              = $this->input->getArray($_POST);
         $specifiedSendDate = $post ['specifiedSendDate'];
         $order_id          = $this->input->getCmd('order_id', '');
 
@@ -474,7 +474,7 @@ class orderController extends RedshopCoreController
 
     public function download_token()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
         $model = $this->getModel();
