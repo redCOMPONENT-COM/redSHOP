@@ -180,7 +180,7 @@ class quotation_detailController extends RedshopCoreController
     public function getQuotationPriceTax()
     {
         $producthelper = new producthelper();
-        $get           = $this->input->get('get');
+        $get           = $this->input->getArray($_GET);
         $product_id    = $get['product_id'];
         $user_id       = $get['user_id'];
         $newprice      = $get['newprice'];

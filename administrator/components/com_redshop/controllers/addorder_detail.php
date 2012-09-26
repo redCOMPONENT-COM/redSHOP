@@ -268,7 +268,7 @@ class addorder_detailController extends RedshopCoreController
     public function getShippingRate()
     {
         $shippinghelper = new shipping();
-        $get            = $this->input->get('get');
+        $get            = $this->input->getArray($_GET);
 
         $shipping             = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $get['shipping_rate_id'])));
         $order_shipping       = 0;
