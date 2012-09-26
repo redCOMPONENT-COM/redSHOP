@@ -6255,7 +6255,7 @@ class producthelper
     {
         $user    = JFactory::getUser();
         $userArr = $this->_session->get('rs_user');
-        if (empty($userArr))
+        if (empty($userArr) && !empty($userid))
         {
             $userArr = $this->_userhelper->createUserSession($userid);
         }

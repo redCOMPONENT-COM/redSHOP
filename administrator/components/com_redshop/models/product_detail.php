@@ -2303,7 +2303,7 @@ class product_detailModelproduct_detail extends JModelLegacy
     /**
      * Get a multi-select list with types and tags
      */
-    public public function TypeTagList()
+    public function TypeTagList()
     {
 
         if (!$this->CheckRedProductFinder())
@@ -2336,7 +2336,7 @@ class product_detailModelproduct_detail extends JModelLegacy
     /**
      * Get the list of selected type names for this tag
      */
-    public public function AssociationTagNames()
+    public function AssociationTagNames()
     {
 
         if (!$this->CheckRedProductFinder())
@@ -2390,7 +2390,7 @@ class product_detailModelproduct_detail extends JModelLegacy
     /**
      * Get the list of selected types for this tag
      */
-    public public function AssociationTags($id)
+    public function AssociationTags($id)
     {
 
         if (!$this->CheckRedProductFinder())
@@ -2490,7 +2490,7 @@ class product_detailModelproduct_detail extends JModelLegacy
     /**
      * Get all Quality Score values
      */
-    public public function getQualityScores()
+    public function getQualityScores()
     {
 
         if (!$this->CheckRedProductFinder())
