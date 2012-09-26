@@ -21,9 +21,9 @@ class state_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'state_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'state_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
@@ -35,12 +35,12 @@ class state_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
+        $post       = $this->input->get('post');
+        $state_name = $this->input->post->getString('state_name', '');
 
-        $state_name         = JRequest::getVar('state_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
         $post["state_name"] = $state_name;
-        $option             = JRequest::getVar('option');
-        $cid                = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option             = $this->input->get('option');
+        $cid                = $this->input->post->get('cid', array(0), 'array');
         $post ['state_id']  = $cid [0];
         $model              = $this->getModel('state_detail');
         $row                = $model->store($post);
@@ -66,19 +66,19 @@ class state_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
         $model = $this->getModel('state_detail');
         $model->checkin();
+
         $msg = JText::_('COM_REDSHOP_state_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
     }
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -90,6 +90,7 @@ class state_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_state_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
     }

@@ -21,9 +21,9 @@ class newsletter_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'newsletter_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'newsletter_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
@@ -35,13 +35,10 @@ class newsletter_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post         = JRequest::get('post');
-        $body         = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        $post["body"] = $body;
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post         = $this->input->get('post');
+        $post["body"] = $this->input->post->getString('body', '');
+        $option       = $this->input->get('option');
+        $cid          = $this->input->post->get('cid', array(0), 'array');
 
         $post ['newsletter_id'] = $cid [0];
 
@@ -70,16 +67,16 @@ class newsletter_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
-        $cid  = JRequest::getVar('cid', array(0), 'post', 'array');
-        $msg1 = "";
         if (!is_array($cid) || count($cid) < 1)
         {
             JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('newsletter_detail');
+
         foreach ($cid as $key => $value)
         {
             if ($value == 1)
@@ -93,6 +90,7 @@ class newsletter_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         if ($val == 1)
         {
             $msg = JText::_('COM_REDSHOP_DEFAULT_NEWSLETTER_CAN_NOT_BE_DELETED');
@@ -102,14 +100,14 @@ class newsletter_detailController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_DELETED_SUCCESSFULLY');
         }
+
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -117,20 +115,20 @@ class newsletter_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('newsletter_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_PUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
     public function unpublish()
     {
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -138,34 +136,40 @@ class newsletter_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('newsletter_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_UNPUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 
     public function copy()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
         $model  = $this->getModel('newsletter_detail');
+
         if ($model->copy($cid))
         {
             $msg = JText::_('COM_REDSHOP_NEWSLETTER_COPIED_WITH_SUBSCRIBER');
         }
+
         else
         {
             $msg = JText::_('COM_REDSHOP_ERROR_COPYING_NEWSLETTER');
         }
+
         $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
     }
 }

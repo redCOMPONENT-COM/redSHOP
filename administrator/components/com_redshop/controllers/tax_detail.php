@@ -21,20 +21,20 @@ class tax_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'tax_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'tax_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
 
     public function save()
     {
-        $post = JRequest::get('post');
+        $post         = $this->input->get('post');
+        $option       = $this->input->get('option');
+        $tax_group_id = $this->input->get('tax_group_id');
 
-        $option       = JRequest::getVar('option');
-        $tax_group_id = JRequest::getVar('tax_group_id');
-        $model        = $this->getModel('tax_detail');
+        $model = $this->getModel('tax_detail');
 
         if ($model->store($post))
         {
@@ -49,10 +49,8 @@ class tax_detailController extends RedshopCoreController
 
         if (isset($post['tmpl']) && $post['tmpl'] == "component")
         {
-            //$this->setRedirect ( 'index.php?option=com_redshop&step=3', $msg );
             ?>
         <script>
-            //window.parent.location.reload();
             window.parent.document.getElementById('installform').substep.value = 4;
             window.parent.document.getElementById('installform').submit();
             window.parent.SqueezeBox.close();
@@ -67,10 +65,9 @@ class tax_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $tax_group_id = JRequest::getVar('tax_group_id');
-        $cid          = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option       = $this->input->get('option');
+        $tax_group_id = $this->input->get('tax_group_id');
+        $cid          = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -78,10 +75,12 @@ class tax_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('tax_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY');
 
         $this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
@@ -89,10 +88,8 @@ class tax_detailController extends RedshopCoreController
 
     public function removefromwizrd()
     {
-        $option = JRequest::getVar('option');
-
-        //$tax_group_id = JRequest::getVar ('tax_group_id');
-        $cid = JRequest::getVar('cid', array(0), 'request', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -104,15 +101,16 @@ class tax_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
-        //$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY' );
+
         $this->setRedirect('index.php?option=' . $option . '&step=4');
     }
 
     public function cancel()
     {
-        $option       = JRequest::getVar('option');
-        $tax_group_id = JRequest::getVar('tax_group_id');
-        $msg          = JText::_('COM_REDSHOP_TAX_DETAIL_EDITING_CANCELLED');
+        $option       = $this->input->get('option');
+        $tax_group_id = $this->input->get('tax_group_id');
+
+        $msg = JText::_('COM_REDSHOP_TAX_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
     }
 }
