@@ -42,7 +42,7 @@ class stockroom_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post           = $this->input->get('post');
+        $post           = $this->input->getArray($_POST);
         $stockroom_desc = $this->input->post->getString('stockroom_desc', '');
 
         $post["stockroom_desc"] = $stockroom_desc;

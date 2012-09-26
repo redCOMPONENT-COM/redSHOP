@@ -31,7 +31,7 @@ class media_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->get('option');
         $cid    = $this->input->post->get('cid', array(0), 'array');
         $model  = $this->getModel('media_detail');
@@ -653,7 +653,7 @@ class media_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $post          = $this->input->get('post');
+        $post          = $this->input->getArray($_POST);
         $option        = $this->input->get('option');
         $section_id    = $this->input->get('section_id');
         $media_section = $this->input->get('media_section');
@@ -688,7 +688,7 @@ class media_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $post          = $this->input->get('post');
+        $post          = $this->input->getArray($_POST);
         $option        = $this->input->get('option');
         $section_id    = $this->input->get('section_id');
         $media_section = $this->input->get('media_section');
@@ -723,7 +723,7 @@ class media_detailController extends RedshopCoreController
 
     public function defaultmedia()
     {
-        $post          = $this->input->get('post');
+        $post          = $this->input->getArray($_POST);
         $option        = $this->input->get('option');
         $section_id    = $this->input->get('section_id');
         $media_section = $this->input->get('media_section');
@@ -762,7 +762,7 @@ class media_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        $post          = $this->input->get('post');
+        $post          = $this->input->getArray($_POST);
         $option        = $this->input->get('option');
         $section_id    = $this->input->get('section_id');
         $media_section = $this->input->get('media_section');
@@ -817,7 +817,7 @@ class media_detailController extends RedshopCoreController
     //ordering
     public function saveorder()
     {
-        $post          = $this->input->get('post');
+        $post          = $this->input->getArray($_POST);
         $option        = $this->input->get('option');
         $section_id    = $this->input->get('section_id');
         $media_section = $this->input->get('media_section');
@@ -855,7 +855,7 @@ class media_detailController extends RedshopCoreController
 
     public function orderup()
     {
-        $post          = $this->input->get('post');
+        $post          = $this->input->getArray($_POST);
         $option        = $this->input->get('option');
         $section_id    = $this->input->get('section_id');
         $media_section = $this->input->get('media_section');
@@ -890,7 +890,7 @@ class media_detailController extends RedshopCoreController
 
     public function orderdown()
     {
-        $post          = $this->input->get('post');
+        $post          = $this->input->getArray($_POST);
         $option        = $this->input->get('option');
         $section_id    = $this->input->get('section_id');
         $media_section = $this->input->get('media_section');

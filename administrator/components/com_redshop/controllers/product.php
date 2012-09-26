@@ -231,7 +231,7 @@ class productController extends RedshopCoreController
 
     public function assignTemplate()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel('product');
 
@@ -249,7 +249,7 @@ class productController extends RedshopCoreController
 
     public function gbasefeed()
     {
-        $post  = $this->input->get('post');
+        $post  = $this->input->getArray($_POST);
         $model = $this->getModel('product');
 
         if ($model->gbasefeed($post))

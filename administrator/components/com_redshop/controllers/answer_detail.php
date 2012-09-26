@@ -30,7 +30,7 @@ class answer_detailController extends RedshopCoreController
 
     public function save($send = 0)
     {
-        $post      = $this->input->get('post');
+        $post      = $this->input->getArray($_POST);
         $question  = $this->input->post->getString('question', '');
         $option    = $this->input->getString('option', '');
         $cid       = $this->input->post->get('cid', array(0), 'array');

@@ -20,7 +20,7 @@ class mediaController extends RedshopCoreController
 
     public function saveAdditionalFiles()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
         $file = $this->input->files->get('downloadfile', array(), 'array');
 
         $totalFile = count($file['name']);

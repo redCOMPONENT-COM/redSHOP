@@ -34,7 +34,7 @@ class shipping_rate_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         // include extra field class
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
@@ -67,7 +67,7 @@ class shipping_rate_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->get('option');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
@@ -125,14 +125,14 @@ class shipping_rate_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->get('option');
         $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
     }
 
     public function copy()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->get('option');
         $cid    = $this->input->post->get('cid', array(0), 'array');
 

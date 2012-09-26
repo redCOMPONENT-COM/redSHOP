@@ -37,7 +37,7 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->get('option');
 
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
@@ -421,7 +421,7 @@ class attribute_set_detailController extends RedshopCoreController
         $uri = JURI::getInstance();
         $url = $uri->root();
 
-        $post     = $this->input->get('post');
+        $post     = $this->input->getArray($_POST);
         $main_img = $this->input->files->get('property_main_img', array(), 'array');
         $sub_img  = $this->input->files->get('property_sub_img', array(), 'array');
 
@@ -468,7 +468,7 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function subattribute_color()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel('product_detail');
 
@@ -525,7 +525,7 @@ class attribute_set_detailController extends RedshopCoreController
 
     public function saveAttributeStock()
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel();
 

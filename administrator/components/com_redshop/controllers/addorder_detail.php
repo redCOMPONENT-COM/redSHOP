@@ -36,7 +36,7 @@ class addorder_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = $this->input->get('post');
+        $post = $this->input->getArray($_POST);
 
         $adminproducthelper = new adminproducthelper();
         $order_functions    = new order_functions();
@@ -227,7 +227,7 @@ class addorder_detailController extends RedshopCoreController
 
     public function guestuser()
     {
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
         $option = $this->input->getString('option', '');
 
         if (!isset($post['billisship']))

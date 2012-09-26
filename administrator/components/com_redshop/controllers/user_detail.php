@@ -37,7 +37,7 @@ class user_detailController extends RedshopCoreController
     public function save($apply = 0)
     {
         $option = $this->input->getString('option', '');
-        $post   = $this->input->get('post');
+        $post   = $this->input->getArray($_POST);
 
         $model    = $this->getModel('user_detail');
         $shipping = isset($post["shipping"]) ? true : false;
