@@ -200,40 +200,8 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
         return $this->_db->loadObject();
     }
 
-    // Manufacturer ordering
-    /*public function saveorder($cid = array(), $order)
-    {
-        $row =& $this->getTable();
-        $groupings = array();
-
-        // update ordering values
-        for( $i=0; $i < count($cid); $i++ )
-        {
-            $row->load( (int) $cid[$i] );
-            // track categories
-            $groupings[] = $row->manufacturer_id;
-
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store()) {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-            }
-        }
-        // execute updateOrder for each parent group
-        $groupings = array_unique( $groupings );
-        foreach ($groupings as $group){
-            $row->reorder('catid = '.(int) $group);
-        }
-        return true;
-    }*/
-
     public function saveOrder(&$cid)
     {
-        global $mainframe;
-        //$scope 		= JRequest::getCmd( 'scope' );
         $db  = JFactory::getDBO();
         $row = $this->getTable();
 
@@ -254,10 +222,9 @@ class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
                 }
             }
         }
+
         $row->reorder();
         return true;
-        //$msg 	= JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
-        //$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
     }
 
     /**
