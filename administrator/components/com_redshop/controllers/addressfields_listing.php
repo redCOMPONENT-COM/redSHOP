@@ -20,12 +20,9 @@ class addressfields_listingController extends RedshopCoreController
 
     public function saveorder()
     {
-        //$option = JRequest::getVar('option');
         $option = $this->input->get('option');
-        //$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
-        //$order  = JRequest::getVar('order', array(), 'post', 'array');
-        $order = $this->input->post->getArray('order', array());
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
         $model = $this->getModel('addressfields_listing');
 
@@ -51,10 +48,7 @@ class addressfields_listingController extends RedshopCoreController
     {
         global $context;
 
-        //$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
-
-        //$option           = JRequest::getVar('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
         $option = $this->input->get('option');
 
         $filter_order_Dir = $this->app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -82,11 +76,8 @@ class addressfields_listingController extends RedshopCoreController
     {
         global $context;
 
-        //$option           = JRequest::getVar('option');
         $option = $this->input->get('option');
-
-        //$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
-        $cid = $this->input->post->getArray('cid', array(0));
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $filter_order_Dir = $this->app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
         $down             = -1;

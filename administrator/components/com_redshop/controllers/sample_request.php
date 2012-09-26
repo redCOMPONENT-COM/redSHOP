@@ -20,9 +20,9 @@ class sample_requestController extends RedshopCoreController
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -34,15 +34,15 @@ class sample_requestController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_BLOCK_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
     }
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -55,15 +55,15 @@ class sample_requestController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -75,6 +75,7 @@ class sample_requestController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
     }

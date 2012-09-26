@@ -21,9 +21,9 @@ class shopper_group_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'shopper_group_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'shopper_group_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
@@ -35,10 +35,10 @@ class shopper_group_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $option                     = JRequest::getVar('option');
-        $cid                        = JRequest::getVar('cid', array(0), 'post', 'array');
-        $post                       = JRequest::get('post');
-        $post["shopper_group_desc"] = JRequest::getVar('shopper_group_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $option                     = $this->input->get('option');
+        $cid                        = $this->input->post->get('cid', array(0), 'array');
+        $post                       = $this->input->get('post');
+        $post["shopper_group_desc"] = $this->input->post->getString('shopper_group_desc', '');
         $post["shopper_group_url"]  = "";
         $post["shopper_group_id"]   = $cid [0];
 
@@ -82,35 +82,37 @@ class shopper_group_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+
         if (!is_array($cid) || count($cid) < 1)
         {
             JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
+
         if (!is_array($cid) && ($cid == 1 || $cid == 2))
         {
             $msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
         }
+
         else if (in_array(1, $cid))
         {
             $msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
         }
+
         else if (in_array(2, $cid))
         {
             $msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
         }
-        /*else if(in_array( 3 , $cid)){
-              $msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED' );
-          }*/
+
         else
         {
-
             $model = $this->getModel('shopper_group_detail');
             if (!$model->delete($cid))
             {
                 echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
             }
+
             $msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_DELETED_SUCCESSFULLY');
         }
         $this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
@@ -118,41 +120,47 @@ class shopper_group_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+
         if (!is_array($cid) || count($cid) < 1)
         {
             JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
         $model = $this->getModel('shopper_group_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+
         if (!is_array($cid) || count($cid) < 1)
         {
             JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
         $model = $this->getModel('shopper_group_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $msg    = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
     }

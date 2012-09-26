@@ -21,21 +21,21 @@ class supplier_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'supplier_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'supplier_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
+
         parent::display();
     }
 
     public function save()
     {
-        $post                  = JRequest::get('post', JREQUEST_ALLOWRAW);
-        $supplier_desc         = JRequest::getVar('supplier_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post                  = $this->input->get('post');
+        $supplier_desc         = $this->input->post->getString('supplier_desc', '');
         $post["supplier_desc"] = $supplier_desc;
 
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $post ['supplier_id'] = $cid [0];
 
@@ -57,9 +57,8 @@ class supplier_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -71,15 +70,15 @@ class supplier_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
     }
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -97,9 +96,8 @@ class supplier_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -111,22 +109,23 @@ class supplier_detailController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
     }
 
     public function copy()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $model = $this->getModel('supplier_detail');
 

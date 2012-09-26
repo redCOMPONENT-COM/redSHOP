@@ -94,7 +94,7 @@ class wizardController extends RedshopCoreController
 
     public function save()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->get('post');
 
         $substep = $post['substep'];
         $go      = $post['go'];
@@ -106,7 +106,7 @@ class wizardController extends RedshopCoreController
         if ($substep == 2)
         {
 
-            $country_list = JRequest::getVar('country_list');
+            $country_list = $this->input->get('country_list');
 
             $i                = 0;
             $country_listCode = '';
@@ -167,7 +167,7 @@ class wizardController extends RedshopCoreController
     {
         $Redconfiguration = new Redconfiguration();
 
-        $post = JRequest::get('post');
+        $post = $this->input->get('post');
 
         $msg = "";
 
@@ -209,7 +209,7 @@ class wizardController extends RedshopCoreController
 
     public function demoContentInsert()
     {
-        //$post = JRequest::get('post');
+        //$post = $this->input->get('post');
 
         $model = $this->getModel('redshop', 'redshopModel');
 

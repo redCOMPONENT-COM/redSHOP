@@ -21,32 +21,32 @@ class coupon_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'coupon_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'coupon_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         $model     = $this->getModel('coupon_detail');
         $userslist = $model->getuserslist();
-        JRequest::setVar('userslist', $userslist);
+        $this->input->set('userslist', $userslist);
 
         $product = $model->getproducts();
-        JRequest::setVar('product', $product);
+        $this->input->set('product', $product);
 
         parent::display();
     }
 
     public function save()
     {
-        $post            = JRequest::get('post');
-        $comment         = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        $post["comment"] = $comment;
+        $post            = $this->input->get('post');
+        $post["comment"] = $this->input->post->getString('comment', '');
 
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         $post ['coupon_id']  = $cid [0];
         $post ['start_date'] = strtotime($post ['start_date']);
+
         if ($post ['end_date'])
         {
             $post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
@@ -79,9 +79,9 @@ class coupon_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -89,20 +89,21 @@ class coupon_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('coupon_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_COUPON_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 
     public function publish()
     {
+        $option = $this->input->get('option');
 
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -110,19 +111,21 @@ class coupon_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('coupon_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_COUPON_DETAIL_PUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -130,18 +133,21 @@ class coupon_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('coupon_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_COUPON_DETAIL_UNPUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_COUPON_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_COUPON_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
     }
 }

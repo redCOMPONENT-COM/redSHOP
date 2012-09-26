@@ -21,9 +21,9 @@ class mail_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'mail_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'mail_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
@@ -35,15 +35,10 @@ class mail_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $mail_body = JRequest::getVar('mail_body', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
-        $post["mail_body"] = $mail_body;
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post              = $this->input->get('post');
+        $post["mail_body"] = $this->input->post->getString('mail_body', '');
+        $option            = $this->input->get('option');
+        $cid               = $this->input->post->get('cid', array(0), 'array');
 
         $post ['mail_id'] = $cid [0];
 
@@ -54,6 +49,7 @@ class mail_detailController extends RedshopCoreController
 
         $model = $this->getModel('mail_detail');
         $row   = $model->store($post);
+
         if ($row)
         {
 
@@ -78,9 +74,8 @@ class mail_detailController extends RedshopCoreController
     public function remove()
     {
 
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -88,20 +83,20 @@ class mail_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('mail_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_MAIL_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
     public function publish()
     {
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -109,19 +104,21 @@ class mail_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('mail_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_MAIL_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -129,27 +126,26 @@ class mail_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('mail_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_MAIL_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
     public function cancel()
     {
+        $option = $this->input->get('option');
 
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_MAIL_DETAIL_EDITING_CANCELLED');
+        $msg = JText::_('COM_REDSHOP_MAIL_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
     }
 
     public function mail_section()
     {
-        //$json = JRequest::getVar( 'json', '');
-        //$decoded = json_decode($json);
-
         $model = $this->getModel('mail_detail');
 
         $order_status     = $model->mail_section();

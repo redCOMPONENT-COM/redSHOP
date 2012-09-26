@@ -20,10 +20,9 @@ class catalog_requestController extends RedshopCoreController
 
     public function publish()
     {
+        $option = $this->input->get('option');
 
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -31,19 +30,20 @@ class catalog_requestController extends RedshopCoreController
         }
 
         $model = $this->getModel('catalog_request');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
     }
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -56,15 +56,15 @@ class catalog_requestController extends RedshopCoreController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
     }
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -72,10 +72,12 @@ class catalog_requestController extends RedshopCoreController
         }
 
         $model = $this->getModel('catalog_request');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
     }

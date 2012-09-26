@@ -21,19 +21,19 @@ class discount_detailController extends RedshopCoreController
 
     public function edit()
     {
-        $layout = JRequest::getVar('layout');
+        $layout = $this->input->get('layout');
 
-        JRequest::setVar('view', 'discount_detail');
+        $this->input->set('view', 'discount_detail');
 
         if ($layout == 'product')
         {
-            JRequest::setVar('layout', 'product');
+            $this->input->set('layout', 'product');
         }
         else
         {
-            JRequest::setVar('layout', 'default');
+            $this->input->set('layout', 'default');
         }
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
@@ -45,18 +45,15 @@ class discount_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post   = $this->input->get('post');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+        $layout = $this->input->get('layout');
 
         $post ['start_date'] = strtotime($post ['start_date']);
         $post ['end_date']   = strtotime($post ['end_date']) + (23 * 59 * 59);
 
         $model = $this->getModel('discount_detail');
-
-        $layout = JRequest::getVar('layout');
 
         if (isset($layout) && $layout == 'product')
         {
@@ -100,11 +97,9 @@ class discount_detailController extends RedshopCoreController
     public function remove()
     {
 
-        $option = JRequest::getVar('option');
-
-        $layout = JRequest::getVar('layout');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $layout = $this->input->get('layout');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -112,6 +107,7 @@ class discount_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('discount_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -131,11 +127,9 @@ class discount_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $layout = JRequest::getVar('layout');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $layout = $this->input->get('layout');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -143,10 +137,12 @@ class discount_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('discount_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
 
         if (isset($layout) && $layout == 'product')
@@ -161,11 +157,9 @@ class discount_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        $layout = JRequest::getVar('layout');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $layout = $this->input->get('layout');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
@@ -173,10 +167,12 @@ class discount_detailController extends RedshopCoreController
         }
 
         $model = $this->getModel('discount_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
         if (isset($layout) && $layout == 'product')
@@ -191,9 +187,10 @@ class discount_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $layout = JRequest::getVar('layout');
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
+        $layout = $this->input->get('layout');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
 
         if (isset($layout) && $layout == 'product')
         {
