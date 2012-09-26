@@ -34,7 +34,7 @@ class zipcode_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post                = $this->input->get('post');
+        $post                = $this->input->getArray($_POST);
         $city_name           = $this->input->post->getString('city_name', '');
         $post["city_name"]   = $city_name;
         $option              = $this->input->get('option');

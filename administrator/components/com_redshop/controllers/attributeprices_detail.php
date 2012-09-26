@@ -30,7 +30,7 @@ class attributeprices_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post       = $this->input->get('post');
+        $post       = $this->input->getArray($_POST);
         $option     = $this->input->get('option');
         $section_id = $this->input->get('section_id');
         $section    = $this->input->get('section');

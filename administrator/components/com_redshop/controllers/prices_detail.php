@@ -29,7 +29,7 @@ class prices_detailController extends RedshopCoreController
 
     public function save()
     {
-        $post                 = $this->input->get('post');
+        $post                 = $this->input->getArray($_POST);
         $option               = $this->input->get('option');
         $product_id           = $this->input->get('product_id');
         $price_quantity_start = $this->input->get('price_quantity_start');

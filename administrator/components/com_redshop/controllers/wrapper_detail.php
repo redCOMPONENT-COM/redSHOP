@@ -36,7 +36,7 @@ class wrapper_detailController extends RedshopCoreController
         {
             $page = "3";
         }
-        $post                = $this->input->get('post');
+        $post                = $this->input->getArray($_POST);
         $post['product_id']  = (isset($post['container_product'])) ? $post['container_product'] : 0;
         $option              = $this->input->get('option');
         $product_id          = $this->input->getInt('product_id', 0);
