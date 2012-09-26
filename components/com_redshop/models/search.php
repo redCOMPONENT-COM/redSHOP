@@ -207,7 +207,8 @@ class searchModelsearch extends JModelLegacy
     public function _buildQuery($manudata = 0)
     {
 
-        $app = &JFactory::getApplication();
+        $app     = JFactory::getApplication();
+        $db      = JFactory::getDBO();
         $context = 'search';
 
         $keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
@@ -229,32 +230,29 @@ class searchModelsearch extends JModelLegacy
         if ($defaultSearchType == "name_number")
         {
             $defaultSearchField = "name_number";
-            $defaultSearchType  = '(p.product_name LIKE "%' . $keyword . '%" OR p.product_number LIKE "%' . $keyword . '%")';
+            $defaultSearchType  = '(p.product_name LIKE "%' . $db->escape($keyword) . '%" OR p.product_number LIKE "%' . $db->escape($keyword) . '%")';
         }
         elseif ($defaultSearchType == "name_desc")
         {
             $defaultSearchField = "name_desc";
-            $defaultSearchType  = '(p.product_name LIKE "%' . $keyword . '%" OR p.product_desc LIKE "%' . $keyword . '%" OR  p.product_s_desc LIKE "%' . $keyword . '%")';
+            $defaultSearchType  = '(p.product_name LIKE "%' . $db->escape($keyword) . '%" OR p.product_desc LIKE "%' . $db->escape($keyword) . '%" OR  p.product_s_desc LIKE "%' . $db->escape($keyword) . '%")';
         }
         elseif ($defaultSearchType == "virtual_product_num")
         {
             $defaultSearchField = "virtual_product_num";
-            $defaultSearchType  = '(pa.property_number LIKE "%' . $keyword . '%" OR  ps.subattribute_color_number LIKE "%' . $keyword . '%")';
+            $defaultSearchType  = '(pa.property_number LIKE "%' . $db->escape($keyword) . '%" OR  ps.subattribute_color_number LIKE "%' . $db->escape($keyword) . '%")';
         }
         elseif ($defaultSearchType == "name_number_desc")
         {
-            $defaultSearchType = '(p.product_name LIKE "%' . $keyword . '%" OR p.product_number LIKE "%' . $keyword . '%" OR p.product_desc LIKE "%' . $keyword . '%" OR  p.product_s_desc LIKE "%' . $keyword . '%" OR  pa.property_number LIKE "%' . $keyword . '%" OR  ps.subattribute_color_number LIKE "%' . $keyword . '%")';
+            $defaultSearchType = '(p.product_name LIKE "%' . $db->escape($keyword) . '%" OR p.product_number LIKE "%' . $db->escape($keyword) . '%" OR p.product_desc LIKE "%' . $db->escape($keyword) . '%" OR  p.product_s_desc LIKE "%' . $db->escape($keyword) . '%" OR  pa.property_number LIKE "%' . $db->escape($keyword) . '%" OR  ps.subattribute_color_number LIKE "%' . $db->escape($keyword) . '%")';
         }
         elseif ($defaultSearchType == "product_desc")
         {
             $defaultSearchField = $defaultSearchType;
-            $defaultSearchType  = '(p.' . $defaultSearchType . ' LIKE "%' . $keyword . '%" OR  p.product_s_desc LIKE "%' . $keyword . '%" )';
+            $defaultSearchType  = '(p.' . $defaultSearchType . ' LIKE "%' . $db->escape($keyword) . '%" OR  p.product_s_desc LIKE "%' . $db->escape($keyword) . '%" )';
         }
         elseif ($defaultSearchType == "product_name")
         {
-            //$defaultSearchField = $defaultSearchType;
-            //$defaultSearchType = '(p.product_name LIKE "%'.$keyword.'%")';
-
             $main_sp_name = explode(" ", $keyword);
 
             $defaultSearchField = $defaultSearchType;
@@ -267,32 +265,19 @@ class searchModelsearch extends JModelLegacy
         elseif ($defaultSearchType == "product_number")
         {
             $defaultSearchField = $defaultSearchType;
-            $defaultSearchType  = '(p.product_number LIKE "%' . $keyword . '%")';
+            $defaultSearchType  = '(p.product_number LIKE "%' . $db->escape($keyword) . '%")';
         }
 
-        /*if($defaultSearchField=="product_desc" || $defaultSearchField=="name_desc" || $defaultSearchField=="name_number_desc")
-          {
-              for($k=0;$k<count($arr_keyword);$k++)
-              {
-                  $product_s_desc_srch .= " p.product_s_desc LIKE '%".$arr_keyword[$k]."%' OR p.product_desc LIKE '%".$arr_keyword[$k]."%' ";
-                  if($k!=count($arr_keyword)-1)
-                  {
-                      $product_s_desc_srch .= ' OR ';
-                  }
-              }
-          }*/
-
-        //$defaultSearchType .= " OR (p.product_s_desc LIKE '%".$keyword."%' or p.product_desc LIKE '%".$keyword."%') ";
         if ($product_s_desc_srch != '')
         {
             $defaultSearchType .= " OR (" . $product_s_desc_srch . ") ";
         }
 
         $redconfig  = $app->getParams();
-        $getorderby = JRequest::getVar('order_by', '');
 
-        $order_by = $getorderby;
-        if ($getorderby == "")
+        $order_by = $app->input->get('order_by', '', 'string');
+        $order_by = $db->escape($order_by);
+        if (empty($order_by))
         {
             $order_by = $redconfig->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
         }
@@ -300,13 +285,13 @@ class searchModelsearch extends JModelLegacy
         {
             $order_by = 'p.product_id DESC';
         }
-        $layout = JRequest::getVar('layout', 'default');
+        $layout = $app->input->get('layout', 'default', 'string');
 
         $category_helper = new product_category ();
         $producthelper   = new producthelper();
 
-        $manufacture_id = JRequest::getInt('manufacture_id', 0);
-        $category_id    = JRequest::getInt('category_id', 0);
+        $manufacture_id = $app->input->get('manufacture_id', 0, 'int');
+        $category_id    = $app->input->get('category_id', 0, 'int');
 
         $cat       = $category_helper->getCategoryListArray(0, $category_id);
         $cat_group = array();
@@ -444,7 +429,7 @@ class searchModelsearch extends JModelLegacy
             {
                 $query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id " . "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
             }
-            $query .= " WHERE 1=1 AND p.expired = 0  " . $whereaclProduct;
+            $query .= " WHERE p.expired = 0  " . $whereaclProduct;
 
             if ($category_id != 0)
             {
@@ -614,75 +599,7 @@ class searchModelsearch extends JModelLegacy
                 $lstproduct_id[] = $product[$i]->product_id;
             }
             $products = implode(",", $lstproduct_id);
-            // get last types
-            /*$k=0;
-                 foreach ($getredfilter as $typeid=>$tagid)
-                 {
-                     $tagid = explode(".",$tagid);
-                     $lastkey = count($getredfilter)-1;
 
-                     if ($lastkey == $k){
-                         $lasttypeid = $type_id_main[1];
-                         $lasttagid = $type_id_main[0];
-                     }
-
-                     $k++;
-                 }
-
-                 // get last product count
-                 if ($lasttypeid !=0 || $lasttagid != 0){
-
-                   $q = "SELECT ra.product_id  FROM `#__redproductfinder_association_tag` as rat "
-                              ."LEFT JOIN  #__redproductfinder_associations as ra ON rat.`association_id` = ra.id "
-                              ."LEFT JOIN #__redshop_product_category_xref x ON x.product_id = ra.product_id "
-                              ."WHERE rat.`type_id` IN ( ".$lasttypeid." )  AND rat.`tag_id` IN ( ".$lasttagid." ) AND x.category_id='".JRequest::getVar('cid')."'";
-
-                     $product = $this->_getList($q);
-
-                   for ($i=0;$i<count($product);$i++)
-                   {
-                       $lstproduct_id[] = $product[$i]->product_id;
-                   }
-
-                     // if there are minimum two types in session
-                     if (count($getredfilter) > 1){
-
-                         // count last type product
-                         $lstprototal = count($lstproduct_id);
-
-                         // get redfilterproduct array from session
-                         //$redfilterproduct = $session->get('redfilterproduct');
-
-                         // if redfilterproduct array is not set than initialise
-                         if ($redfilterproduct=="")
-                             $redfilterproduct = array();
-
-                             // session product total
-                         $sprototal = count($redfilterproduct);
-
-                         // initialise final session product array
-                         $finalproductarray = array();
-
-                         // logic for array intersecting
-                         if ($lstprototal > $sprototal)
-                             $finalproductarray = array_intersect($redfilterproduct,$lstproduct_id);
-                         else
-                             $finalproductarray = array_intersect($lstproduct_id,$redfilterproduct);
-
-                         // set finalproductarray in session
-                         if (count($finalproductarray)>0){
-                             $session->set('redfilterproduct',$finalproductarray);
-                             $products = implode(",",$finalproductarray);
-                         }else{
-
-                             $session->set('redfilterproduct',$lstproduct_id);
-                             $products = implode(",",$lstproduct_id);
-                         }
-                     }else{
-                         $products = implode(",",$lstproduct_id);
-                         $session->set('redfilterproduct',$lstproduct_id);
-                     }
-                 }*/
         }
         else
         {
@@ -1021,6 +938,7 @@ class searchModelsearch extends JModelLegacy
     public function getajaxData()
     {
         jimport('joomla.application.module.helper');
+        $db          = JFactory::getDBO();
         $module      = JModuleHelper::getModule('redshop_search');
         $params      = new JRegistry($module->params);
         $limit       = $params->get('noofsearchresults');
@@ -1034,27 +952,27 @@ class searchModelsearch extends JModelLegacy
 
         if ($search_type == 'product_name')
         {
-            $where[] = "p.product_name LIKE('%" . $keyword . "%')";
+            $where[] = "p.product_name LIKE('%" . $db->escape($keyword) . "%')";
         }
         else if ($search_type == 'product_number')
         {
-            $where[] = "p.product_number LIKE('%" . $keyword . "%')";
+            $where[] = "p.product_number LIKE('%" . $db->escape($keyword) . "%')";
         }
         else if ($search_type == 'name_number')
         {
-            $where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%')";
+            $where[] = "p.product_name LIKE('%" . $db->escape($keyword) . "%') or p.product_number LIKE('%" . $db->escape($keyword) . "%')";
         }
         else if ($search_type == 'product_desc')
         {
-            $where[] = "p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+            $where[] = "p.product_s_desc LIKE('%" . $db->escape($keyword) . "%') or p.product_desc LIKE('%" . $db->escape($keyword) . "%')";
         }
         else if ($search_type == 'name_desc')
         {
-            $where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+            $where[] = "p.product_name LIKE('%" . $db->escape($keyword) . "%') or p.product_s_desc LIKE('%" . $db->escape($keyword) . "%') or p.product_desc LIKE('%" . $db->escape($keyword) . "%')";
         }
         else if ($search_type == 'name_number_desc')
         {
-            $where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+            $where[] = "p.product_name LIKE('%" . $db->escape($keyword) . "%') or p.product_number LIKE('%" . $db->escape($keyword) . "%') or p.product_s_desc LIKE('%" . $db->escape($keyword) . "%') or p.product_desc LIKE('%" . $db->escape($keyword) . "%')";
         }
         if ($category_id != "0")
         {
@@ -1067,7 +985,7 @@ class searchModelsearch extends JModelLegacy
 
         $wheres = '';
         $wheres = implode(" AND ", $where);
-        //$wheres .= " OR (p.product_s_desc LIKE '%".$keyword."%' or p.product_desc LIKE '%".$keyword."%') ";
+        //$wheres .= " OR (p.product_s_desc LIKE '%".$db->escape($keyword)."%' or p.product_desc LIKE '%".$db->escape($keyword)."%') ";
         $query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number FROM " . $this->_table_prefix . "product p " . 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id ' . 'LEFT JOIN ' . $this->_table_prefix . 'category c ON x.category_id = c.category_id ' . " WHERE p.published=1 AND " . $wheres . " GROUP BY p.product_id ";
 
         $this->_data = $this->_getList($query, "0", $limit);
