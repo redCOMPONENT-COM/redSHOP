@@ -29,7 +29,7 @@ class JFormFieldorderbyproduct extends JFormField
 
     protected function getInput()
     {
-        $order_data           = array();
+        $order_data           = array_fill(0, 7, new stdClass);
         $order_data[0]->value = "p.product_name ASC";
         $order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
         $order_data[1]->value = "p.product_price ASC";

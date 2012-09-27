@@ -2074,20 +2074,7 @@ class checkoutModelcheckout extends JModelLegacy
             $template_desc = str_replace("{shipping_lbl}", '', $template_desc);
             $template_desc = str_replace("{tax_with_shipping_lbl}", '', $template_desc);
         }
-        /*$template_desc =str_replace("{shipping_with_vat}",$shippinPriceWithVat,$template_desc);
-		$template_desc =str_replace("{vat_shipping}",$this->_producthelper->getProductFormattedPrice($shippingVat),$template_desc);
-		$template_desc =str_replace("{shipping}",$shippinPrice,$template_desc);
-		$template_desc =str_replace("{order_shipping}",$shippinPrice,$template_desc);
-		$template_desc =str_replace("{total}",$this->_producthelper->getProductFormattedPrice($cart ['total']) ,$template_desc);
-		$chktag = $this->_producthelper->getApplyVatOrNot($template_desc);
-		if(!empty($chktag)){
-			$template_desc =str_replace("{subtotal}",$this->_producthelper->getProductFormattedPrice($cart ['subtotal']),$template_desc);
-		}else{
-			$template_desc =str_replace("{subtotal}",$this->_producthelper->getProductFormattedPrice($cart ['subtotal_excl_vat']),$template_desc);
-		}
 
-		$template_desc =str_replace("{subtotal_excl_vat}",$this->_producthelper->getProductFormattedPrice($cart ['subtotal_excl_vat']),$template_desc);
-*/
         $template_desc = $this->_carthelper->replaceTermsConditions($template_desc, $Itemid);
         $template_desc = $this->_carthelper->replaceNewsletterSubscription($template_desc);
 
@@ -2221,7 +2208,7 @@ class MYPDF extends TCPDF
     //Page header
     public $img_file;
 
-    public public function Header()
+    public function Header()
     {
         // Full background image
         $auto_page_break = $this->AutoPageBreak;

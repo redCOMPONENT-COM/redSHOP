@@ -21,12 +21,12 @@ class manufacturersViewmanufacturers extends JViewLegacy
         $option        = JRequest::getVar('option');
         $print         = JRequest::getVar('print');
         $layout        = JRequest::getVar('layout', 'default');
-        $params        = &$mainframe->getParams($option);
+        $params        = $mainframe->getParams($option);
 
         $mid    = 0;
         $lists  = array();
         $model  = $this->getModel('manufacturers');
-        $detail =& $this->get('data');
+        $detail = $this->get('data');
         $limit  = $params->get('maxproduct');
         if (!$limit)
         {
