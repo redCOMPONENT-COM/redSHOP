@@ -13,7 +13,7 @@ class accessmanagerViewaccessmanager extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_catalogmanagement48');
         if (ENABLE_BACKENDACCESS)
@@ -23,7 +23,7 @@ class accessmanagerViewaccessmanager extends JViewLegacy
         else
         {
             $msg = JText::_('COM_REDSHOP_PLEASE_ENABLE_ACCESS_MANAGER_FIRST');
-            $mainframe->redirect('index.php?option=com_redshop&view=configuration', $msg);
+            $app->redirect('index.php?option=com_redshop&view=configuration', $msg);
         }
     }
 }

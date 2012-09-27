@@ -31,8 +31,9 @@ class user_detailModeluser_detail extends JModelLegacy
 
     public function __construct()
     {
-        global $mainframe;
         parent::__construct();
+
+        $app = JFactory::getApplication();
 
         $this->_table_prefix = '#__redshop_';
         $this->_context      = 'order_id';
@@ -40,8 +41,8 @@ class user_detailModeluser_detail extends JModelLegacy
         $array      = JRequest::getVar('cid', 0, '', 'array');
         $this->_uid = JRequest::getVar('user_id', 0);
 
-        $limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
@@ -165,8 +166,8 @@ class user_detailModeluser_detail extends JModelLegacy
       */
     public function storeUser($post)
     {
+        $app = JFactory::getApplication();
 
-        global $mainframe;
         $redshopMail = new redshopMail();
         // Start data into user table
         // Initialize some variables
@@ -186,8 +187,8 @@ class user_detailModeluser_detail extends JModelLegacy
         // changed for shipping code moved out of condition
         if (!$user->bind($post))
         {
-            $mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-            $mainframe->enqueueMessage($user->getError(), 'error');
+            $app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+            $app->enqueueMessage($user->getError(), 'error');
             return false;
         }
 
@@ -198,25 +199,25 @@ class user_detailModeluser_detail extends JModelLegacy
         if ($user->get('id') == $me->get('id') && $user->get('block') == 1)
         {
             $msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_YOURSELF');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
         else if (($this_group == 'super administrator') && $user->get('block') == 1)
         {
             $msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_A_SUPER_ADMINISTRATOR');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
         else if (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
         {
             $msg = JText::_('COM_REDSHOP_WARNBLOCK');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
         else if (($this_group == 'super administrator') && ($me->get('gid') != 25))
         {
             $msg = JText::_('COM_REDSHOP_YOU_CANNOT_EDIT_A_SUPER_ADMINISTRATOR_ACCOUNT');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
 
@@ -245,8 +246,8 @@ class user_detailModeluser_detail extends JModelLegacy
             */
         if (!$user->save())
         {
-            $mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-            $mainframe->enqueueMessage($user->getError(), 'error');
+            $app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+            $app->enqueueMessage($user->getError(), 'error');
             return false;
         }
         /*

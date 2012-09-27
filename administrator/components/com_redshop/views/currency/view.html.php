@@ -13,7 +13,10 @@ class currencyViewcurrency extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $context  = 'currency_id';
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_CURRENCY'));
@@ -25,8 +28,8 @@ class currencyViewcurrency extends JViewLegacy
         JToolbarHelper::deleteList();
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;

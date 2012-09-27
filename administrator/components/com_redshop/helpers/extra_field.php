@@ -57,7 +57,6 @@ class extra_field
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
         $this->_db           = JFactory::getDbo();
     }
@@ -73,17 +72,19 @@ class extra_field
     public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
     {
         $option = JRequest::getVar('option');
-        $uri    = JURI::getInstance();
-        $url    = $uri->root();
-        $q      = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section='" . $field_section . "' AND published=1 ";
+
+        $q = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section='" . $field_section . "' AND published=1 ";
+
         if ($field_name != "")
         {
             $q .= "AND field_name in ($field_name) ";
         }
+
         $q .= " ORDER BY ordering";
         $this->_db->setQuery($q);
         $row_data = $this->_db->loadObjectlist();
         $ex_field = '';
+
         if (count($row_data) > 0 && $table == "")
         {
             $ex_field = '<table class="admintable" border="0" >';
@@ -99,6 +100,7 @@ class extra_field
             $required = '';
             $reqlbl   = ' reqlbl="" ';
             $errormsg = ' errormsg="" ';
+
             if ($field_section == 16 && $row_data[$i]->required == 1)
             {
                 $required = ' required="1" ';
