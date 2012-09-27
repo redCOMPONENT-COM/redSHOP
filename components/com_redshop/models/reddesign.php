@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class reddesignModelreddesign extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class reddesignModelreddesign extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__reddesign_';
 
     public function __construct()
     {
@@ -25,7 +25,6 @@ class reddesignModelreddesign extends JModelLegacy
         $this->_pid = (int)JRequest::getVar('pid', 0);
         $this->_cid = (int)JRequest::getVar('cid', 0);
 
-        $this->_table_prefix = '#__reddesign_';
         parent::__construct();
     }
 

@@ -11,15 +11,11 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class send_friendModelsend_friend extends JModelLegacy
+class send_friendModelsend_friend extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_product = null; // product data
-    public $_table_prefix = null;
+    public $_product = null;
 
     public $_template = null;
 
@@ -27,15 +23,7 @@ class send_friendModelsend_friend extends JModelLegacy
     {
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-
-        $this->setId((int)JRequest::getVar('pid', 0));
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
+        $this->_id = (int)JRequest::getVar('pid', 0);
     }
 
     public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
