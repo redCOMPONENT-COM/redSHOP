@@ -139,7 +139,6 @@ class question_detailModelquestion_detail extends RedshopCoreModelDetail
     public function store($data)
     {
         $user = JFactory::getUser();
-        $db   = JFactory::getDBO();
         $row  = $this->getTable();
 
         if (!$data['question_id'])
@@ -164,9 +163,9 @@ class question_detailModelquestion_detail extends RedshopCoreModelDetail
             $query = "INSERT INTO " . $this->_table_prefix . "customer_question (`parent_id`,`product_id`,`question`,`user_id`,`user_name`,`user_email`,`published`,`question_date`,`ordering`)";
             $query .= " VALUES ('" . $data['question_id'] . "' , '" . $data['product_id'] . "','" . $data['answer'] . "','" . $user->id . "', ";
             $query .= "'" . $user->username . "', '" . $user->email . "',1, '" . $time . "', '" . $data['ordering'] . "')";
-            $db->setQuery($query);
-            $db->Query();
-            $row->question_id = $db->insertid();
+            $this->_db->setQuery($query);
+            $this->_db->Query();
+            $row->question_id = $this->_db->insertid();
         }
 
         return $row;
