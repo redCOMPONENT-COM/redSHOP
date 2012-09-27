@@ -1,26 +1,39 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
 
 /**
- * registration Controller
+ * registrationController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class registrationController extends JControllerLegacy
+class registrationController extends RedshopCoreController
 {
     /**
      * newregistration function
@@ -30,10 +43,8 @@ class registrationController extends JControllerLegacy
      */
     public function newregistration()
     {
-        global $mainframe;
-
-        $post    = JRequest::get('post');
-        $Itemid  = JRequest::getInt('Itemid', 0);
+        $item_id = $this->input->get('Itemid');
+        $post    = $this->input->getArray($_POST);
         $model   = $this->getModel('registration');
         $success = $model->store($post);
 
@@ -41,7 +52,7 @@ class registrationController extends JControllerLegacy
         {
             if ($post[mywishlist] == 1)
             {
-                $wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
+                $wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $item_id, false);
                 $this->setRedirect($wishreturn);
             }
             else
@@ -54,11 +65,10 @@ class registrationController extends JControllerLegacy
                 }
 
                 # redirection settings
-                $link = JRoute::_('index.php?option=com_redshop&view=redshop&Itemid=' . $Itemid);
+                $link = JRoute::_('index.php?option=com_redshop&view=redshop&Itemid=' . $item_id);
 
                 $menu        = JSite::getMenu();
-                $retMenuItem = array();
-                $retMenuItem = $menu->getItem($menu->getParams($Itemid)->get('registrationredirect'));
+                $retMenuItem = $menu->getItem($menu->getParams($item_id)->get('registrationredirect'));
 
                 if (count($retMenuItem) > 0)
                 {
@@ -77,21 +87,22 @@ class registrationController extends JControllerLegacy
 
     public function captcha()
     {
-
         require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
 
-        $width       = JRequest::getInt('width', 120); //isset($_GET['width']) ? $_GET['width'] : '120';
-        $height      = JRequest::getInt('height', 40); //isset($_GET['height']) ? $_GET['height'] : '40';
-        $characters  = JRequest::getInt('characters', 6); //isset($_GET['characters']) && $_GET['characters'] > 1 ? $_GET['characters'] : '6';
-        $captchaname = JRequest::getCmd('captcha', 'security_code'); //isset($_GET['captcha']) ? $_GET['captcha'] : 'security_code';
+        $width       = $this->input->getInt('width', 120);
+        $height      = $this->input->getInt('height', 40);
+        $characters  = $this->input->getInt('characters', 6);
+        $captchaname = $this->input->getCmd('captcha', 'security_code');
 
         $captcha = new CaptchaSecurityImages($width, $height, $characters, $captchaname);
+
+        return $captcha;
     }
 
     public function searchUserdetailByPhone()
     {
         ob_clean();
-        $get    = JRequest::get('get');
+        $get    = $this->input->getArray($_GET);
         $return = "";
 
         JPluginHelper::importPlugin('telesearch', 'rs_telesearch');
@@ -115,7 +126,7 @@ class registrationController extends JControllerLegacy
         $redTemplate                      = new Redtemplate();
         $rsUserhelper                     = new rsUserhelper();
         $extraField                       = new extraField();
-        $get                              = JRequest::get('get');
+        $get                              = $this->input->getArray($_GET);
         $template_id                      = $get['template_id'];
         $is_company                       = $get['is_company'];
         $lists['extra_field_user']        = $extraField->list_all_field(7); // field_section 6 : Customer Registration

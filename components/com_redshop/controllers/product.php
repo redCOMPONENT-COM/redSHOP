@@ -1,34 +1,47 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
 
 /**
- * Product Controller
+ * productController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class productController extends JControllerLegacy
+class productController extends RedshopCoreController
 {
     public function displayProductaddprice()
     {
         ob_clean();
-        $get  = JRequest::get('get');
+        $get  = $this->input->getArray($_GET);
         $data = array();
 
-        $producthelper   = new producthelper();
-        $carthelper      = new rsCarthelper();
-        $total_attribute = 0;
+        $producthelper = new producthelper();
+        $carthelper    = new rsCarthelper();
 
         $product_id = $get['product_id'];
         $quantity   = $get['qunatity'];
@@ -51,13 +64,10 @@ class productController extends JControllerLegacy
 
         $ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);
 
-        $acccartdata = $carthelper->generateAccessoryArray($data);
-        //		print_r($acccartdata);
+        $acccartdata     = $carthelper->generateAccessoryArray($data);
         $retAccArr       = $producthelper->makeAccessoryCart($acccartdata, $product_id);
         $accessory_price = $retAccArr[1];
         $accessory_vat   = $retAccArr[2];
-        //		echo "<pre>";print_r($retAccArr);
-        //		exit;
 
         $product_price          = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
         $product_main_price     = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
@@ -71,13 +81,12 @@ class productController extends JControllerLegacy
         $seoProductSavingPrice  = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
 
         echo $product_price . ":" . $product_main_price . ":" . $product_old_price . ":" . $product_price_saving . ":" . $product_discount_price . ":" . $product_price_novat . ":" . $product_price_incl_vat . ":" . $price_excluding_vat . ":" . $seoProductPrice . ":" . $seoProductSavingPrice;
-        exit;
     }
 
     public function displaySubProperty()
     {
         $propid        = $subpropid = array();
-        $get           = JRequest::get('get');
+        $get           = $this->input->getArray($_GET);
         $producthelper = new producthelper();
 
         $product_id    = $get['product_id'];
@@ -93,7 +102,7 @@ class productController extends JControllerLegacy
         {
             $subpropid = explode(",", $get['subproperty_id']);
         }
-        $subatthtml = htmlspecialchars_decode(base64_decode(JRequest::getVar('subatthtml', '', 'get', 'string', JREQUEST_ALLOWRAW)));
+        $subatthtml = htmlspecialchars_decode(base64_decode($this->input->get->getString('subatthtml', '')));
 
         $response = "";
         for ($i = 0; $i < count($propid); $i++)
@@ -107,9 +116,7 @@ class productController extends JControllerLegacy
 
     public function displayAdditionImage()
     {
-        $url           = JURI::base();
-        $get           = JRequest::get('get');
-        $option        = JRequest::getVar('option');
+        $get           = $this->input->getArray($_GET);
         $producthelper = new producthelper();
 
         $property_id    = urldecode($get['property_id']);
@@ -123,7 +130,7 @@ class productController extends JControllerLegacy
         $redview        = $get['redview'];
         $redlayout      = $get['redlayout'];
 
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         JPluginHelper::importPlugin('redshop_product');
         $pluginResults = $dispatcher->trigger('onBeforeImageLoad', array($get));
 
@@ -148,10 +155,9 @@ class productController extends JControllerLegacy
         $pr_number                = $result['pr_number'];
         $productinstock           = $result['productinstock'];
         $stock_status             = $result['stock_status'];
-        $ImageName                = $result['ImageName'];
-        //$view = $result['view'];
+        $product_img              = $result['ImageName'];
+
         echo "`_`" . $response . "`_`" . $aHrefImageResponse . "`_`" . $aTitleImageResponse . "`_`" . $mainImageResponse . "`_`" . $stockamountSrc . "`_`" . $stockamountTooltip . "`_`" . $ProductAttributeDelivery . "`_`" . $product_img . "`_`" . $pr_number . "`_`" . $productinstock . "`_`" . $stock_status . "`_`" . $attrbimg;
-        exit;
     }
 
     /**
@@ -163,37 +169,32 @@ class productController extends JControllerLegacy
     public function addtowishlist()
     {
         ob_clean();
-        global $mainframe;
         $extraField = new extraField();
         $section    = 12;
         $row_data   = $extraField->getSectionFieldList($section);
         // getVariables
-        $cid           = JRequest::getInt('cid');
+        $cid           = $this->input->getInt('cid', null);
         $producthelper = new producthelper();
         $user          = &JFactory::getUser();
 
-        $Itemid = JRequest::getVar('Itemid');
+        $item_id = $this->input->get('Itemid');
 
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $ajaxvar = JRequest::getVar('ajaxon');
-        $mywid   = JRequest::getVar('wid');
+        $ajaxvar = $this->input->get('ajaxon');
+        $mywid   = $this->input->get('wid');
         if ($ajaxvar == 1 && ($mywid == 1 || $mywid == 2))
         {
 
-            $post = JRequest::get('post');
+            $post = $this->input->get('post');
 
-            $post['product_id'] = JRequest::getVar('product_id');
+            $post['product_id'] = $this->input->get('product_id');
             $proname            = $producthelper->getProductById($post['product_id']);
-            $post['view']       = JRequest::getVar('view');
-            $post['task']       = JRequest::getVar('task');
+            $post['view']       = $this->input->get('view');
+            $post['task']       = $this->input->get('task');
 
             for ($i = 0; $i < count($row_data); $i++)
             {
-                $field_name = $row_data[$i]->field_name;
-
-                $type = $row_data[$i]->field_type;
-
                 if (isset($post[$row_data[$i]->field_name]))
 
                 {
@@ -203,7 +204,7 @@ class productController extends JControllerLegacy
                 {
                     $data_txt = '';
                 }
-                //$tmparray = explode('`',$data_txt);
+
                 $tmpstr = strpbrk($data_txt, '`');
                 if ($tmpstr)
                 {
@@ -215,21 +216,17 @@ class productController extends JControllerLegacy
                         $data_txt = implode(",", $tmparray);
                     }
                 }
-                //$cart[$idx][$field_name] = $data_txt;
+
                 $post['productuserfield_' . $i] = $data_txt;
             }
         }
         else
         {
-            $post = JRequest::get('post');
+            $post = $this->input->getArray($_POST);
 
             $proname = $producthelper->getProductById($post['product_id']);
             for ($i = 0; $i < count($row_data); $i++)
             {
-                $field_name = $row_data[$i]->field_name;
-
-                $type = $row_data[$i]->field_type;
-
                 if (isset($post[$row_data[$i]->field_name]))
 
                 {
@@ -239,7 +236,7 @@ class productController extends JControllerLegacy
                 {
                     $data_txt = '';
                 }
-                //$tmparray = explode('`',$data_txt);
+
                 $tmpstr = strpbrk($data_txt, '`');
                 if ($tmpstr)
                 {
@@ -251,7 +248,7 @@ class productController extends JControllerLegacy
                         $data_txt = implode(",", $tmparray);
                     }
                 }
-                //$cart[$idx][$field_name] = $data_txt;
+
                 $post['productuserfield_' . $i] = $data_txt;
             }
         }
@@ -275,17 +272,17 @@ class productController extends JControllerLegacy
 
                 if ($model->addToWishlist($post))
                 {
-                    $mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+                    $this->app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
                 }
                 else
                 {
-                    $mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
+                    $this->app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
                 }
             }
             else
             {
 
-                $mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+                $this->app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
             }
         }
         else
@@ -293,16 +290,16 @@ class productController extends JControllerLegacy
             // user can store wishlist in session
             if ($model->addtowishlist2session($post))
             {
-                $mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+                $this->app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
             }
             else
             {
-                $mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+                $this->app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
             }
         }
         if ($ajaxvar == 1)
         {
-            sleep(2);
+            //sleep(2);
             $getproductimage     = $producthelper->getProductById($post['product_id']);
             $finalproductimgname = $getproductimage->product_full_image;
             if ($finalproductimgname != '')
@@ -313,14 +310,14 @@ class productController extends JControllerLegacy
             {
                 $mainimg = 'noimage.jpg';
             }
-            //echo "<div id='my'><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=".JRequest::getVar('Itemid')."&pid=".$post['product_id']."'>".$proname->product_name."</a></div><br>:-:".$proname->product_name."";
-            echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . JRequest::getVar('Itemid') . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
+
+            echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . $item_id . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
             exit;
         }
         elseif ($mywid == 1)
         {
 
-            $this->setRedirect('index.php?option=' . $option . 'wishlist=1&view=login&Itemid=' . $Itemid);
+            $this->setRedirect('index.php?option=' . $option . 'wishlist=1&view=login&Itemid=' . $item_id);
         }
         if ($rurl != "")
         {
@@ -328,7 +325,7 @@ class productController extends JControllerLegacy
         }
         else
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
+            $this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $item_id);
         }
     }
 
@@ -341,15 +338,12 @@ class productController extends JControllerLegacy
 
     public function addProductTags()
     {
-
-        global $mainframe;
-
         // getVariables
-        $cid    = JRequest::getInt('cid');
-        $Itemid = JRequest::getVar('Itemid');
-        $option = JRequest::getVar('option');
+        $cid     = $this->input->getInt('cid', null);
+        $item_id = $this->input->get('Itemid');
+        $option  = $this->input->get('option');
 
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         // initiallize variable
 
@@ -412,21 +406,21 @@ class productController extends JControllerLegacy
 
                     $model->addProductTagsXref($ntag, $tags);
 
-                    $mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
+                    $this->app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
                 }
                 else
                 {
-                    $mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
+                    $this->app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
                 }
             }
             else
             {
 
-                $mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
+                $this->app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
             }
         }
 
-        $this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
+        $this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $item_id);
     }
 
     /**
@@ -443,7 +437,7 @@ class productController extends JControllerLegacy
 
         $producthelper = new producthelper ();
         // getVariables
-        $post = JRequest::get('REQUEST');
+        $post = $this->input->getArray($_REQUEST);
 
         // initiallize variable
 
@@ -498,7 +492,7 @@ class productController extends JControllerLegacy
      */
     public function removecompare()
     {
-        $post = JRequest::get('REQUEST');
+        $post = $this->input->getArray($_REQUEST);
 
         // initiallize variable
 
@@ -515,10 +509,10 @@ class productController extends JControllerLegacy
      */
     public function downloadProduct()
     {
-        $Itemid = JRequest::getVar('Itemid');
-        $model  = $this->getModel('product');
+        $item_id = $this->input->get('Itemid');
+        $model   = $this->getModel('product');
 
-        $tid = JRequest::getCmd('download_id', "");
+        $tid = $this->input->getCmd('download_id', "");
 
         $data = $model->downloadProduct($tid);
 
@@ -536,20 +530,20 @@ class productController extends JControllerLegacy
             {
                 $msg = JText::_("COM_REDSHOP_DOWNLOADABLE_THIS_PRODUCT");
 
-                $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "&Itemid=" . $Itemid, $msg);
+                $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "&Itemid=" . $item_id, $msg);
             }
             else
             {
 
                 $msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
-                $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
+                $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $item_id, $msg);
             }
         }
         else
         {
 
             $msg = JText::_("COM_REDSHOP_TOKEN_VERIFICATION_FAIL");
-            $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
+            $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $item_id, $msg);
         }
     }
 
@@ -561,7 +555,7 @@ class productController extends JControllerLegacy
      */
     public function Download()
     {
-        $post = JRequest::get('POST');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel('product');
 
@@ -617,10 +611,6 @@ class productController extends JControllerLegacy
 
             if ($model->setDownloadLimit($tid))
             {
-
-                $baseURL  = JURI::root();
-                $tmp_name = JPATH_SITE . '/components/com_redshop/assets/download/product/' . $name;
-
                 $tmp_type = strtolower(JFile::getExt($name));
 
                 $downloadname = substr(basename($name), 11);
@@ -687,7 +677,6 @@ class productController extends JControllerLegacy
     {
 
         $chunksize = 10 * (1024 * 1024); // how many bytes per chunk
-        $buffer    = '';
         $cnt       = 0;
 
         $handle = fopen($filename, 'rb');
@@ -724,7 +713,7 @@ class productController extends JControllerLegacy
     public function ajaxupload()
     {
         $uploaddir  = JPATH_COMPONENT_SITE . DS . 'assets' . DS . 'document' . DS . 'product' . DS;
-        $name       = JRequest::getVar('mname');
+        $name       = $this->input->get('mname');
         $filename   = time() . '_' . basename($_FILES[$name]['name']);
         $uploadfile = $uploaddir . $filename;
         if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
@@ -748,7 +737,7 @@ class productController extends JControllerLegacy
      */
     public function downloadDocument()
     {
-        $fname = JRequest::getVar('fname', '', 'request', 'string');
+        $fname = $this->input->getString('fname', '');
         $fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
         if (is_file($fpath))
         {
@@ -813,7 +802,7 @@ class productController extends JControllerLegacy
         $producthelper = new producthelper();
         $objhelper     = new redhelper();
 
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         $cid = $producthelper->getCategoryProduct($post['pid']);
 
@@ -835,11 +824,10 @@ class productController extends JControllerLegacy
 
     public function gotonavproduct()
     {
-
         $producthelper = new producthelper();
         $objhelper     = new redhelper();
 
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         $cid = $producthelper->getCategoryProduct($post['pid']);
 
