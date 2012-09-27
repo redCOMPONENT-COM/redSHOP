@@ -15,7 +15,6 @@ class reddesignViewreddesign extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe;
         $document = JFactory::getDocument();
         JHTML::Script('jquery.js', 'components/com_reddesign/assets/js/', false);
         JHTML::Script('ui.js', 'components/com_reddesign/assets/js/', false);
@@ -25,12 +24,8 @@ class reddesignViewreddesign extends JViewLegacy
         $cssfile = "components" . DS . "com_reddesign" . DS . "assets" . DS . "css" . DS . "style.css";
 
         $html = "<link href=\"$cssfile\" rel=\"stylesheet\" type=\"text/css\" />";
-        $mainframe->addCustomHeadTag($html);
+        $document->addCustomTag($html);
 
-        $option = JRequest::getVar('option', 'com_redshop');
-        $Itemid = JRequest::getVar('Itemid');
-        //$product_id = JRequest :: getVar('productid');
-        // redshop product detail
         $pid = JRequest::getInt('pid');
         $cid = JRequest::getInt('cid');
 

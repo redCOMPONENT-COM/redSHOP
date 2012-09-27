@@ -122,16 +122,19 @@ class cartModelcart extends JModelLegacy
             $cart = $session->get('cart');
             if ($cart)
             {
-                $idx = (int)($cart['idx']);
-                for ($j = 0; $j < $idx; $j++)
+                if (isset($cart['idx']))
                 {
-                    if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
+                    $idx = (int)($cart['idx']);
+                    for ($j = 0; $j < $idx; $j++)
                     {
-                        $this->delete($j);
-                    }
-                    if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
-                    {
-                        $this->delete($j);
+                        if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
+                        {
+                            $this->delete($j);
+                        }
+                        if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
+                        {
+                            $this->delete($j);
+                        }
                     }
                 }
             }

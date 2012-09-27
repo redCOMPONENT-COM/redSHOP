@@ -2071,7 +2071,7 @@ class producthelper
                 $res           = $this->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
                 if (count($res) > 0 && $res->home != 1)
                 {
-                    if ($res->parent)
+                    if (isset($res->parent))
                     {
                         $parentres = $this->getMenuInformation($res->parent);
                         if (count($parentres) > 0)
@@ -7101,20 +7101,29 @@ class producthelper
             $stock_tag = substr($newstocktag[0], 1);
             $sts_array = explode(":", $stock_tag);
 
-            $avail_class = $sts_array[1];
-            if ($avail_class == "")
+            if (isset($sts_array[1]))
             {
-                $avail_class = "available_stock_cls";
+                $avail_class = $sts_array[1];
+                if ($avail_class == "")
+                {
+                    $avail_class = "available_stock_cls";
+                }
             }
-            $out_stock_class = $sts_array[2];
-            if ($out_stock_class == "")
+            if (isset($sts_array[2]))
             {
-                $out_stock_class = "out_stock_cls";
+                $out_stock_class = $sts_array[2];
+                if ($out_stock_class == "")
+                {
+                    $out_stock_class = "out_stock_cls";
+                }
             }
-            $pre_order_class = $sts_array[3];
-            if ($pre_order_class == "")
+            if (isset($sts_array[3]))
             {
-                $pre_order_class = "pre_order_cls";
+                $pre_order_class = $sts_array[3];
+                if ($pre_order_class == "")
+                {
+                    $pre_order_class = "pre_order_cls";
+                }
             }
 
             // for stock status
