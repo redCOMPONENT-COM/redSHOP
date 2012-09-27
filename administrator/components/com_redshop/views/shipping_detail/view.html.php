@@ -26,6 +26,7 @@ class shipping_detailViewshipping_detail extends JViewLegacy
         $adminpath    = JPATH_ROOT . DS . 'plugins';
         $shippingpath = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.xml';
         $shippingcfg  = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.cfg.php';
+
         if (file_exists($shippingcfg))
         {
             include_once ($shippingcfg);
