@@ -25,14 +25,15 @@ class fieldsModelfields extends JModelLegacy
     {
         parent::__construct();
 
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $this->_context      = 'field_id';
         $this->_table_prefix = '#__redshop_';
-        $limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter              = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $filtertype          = $mainframe->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
-        $filtersection       = $mainframe->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
+        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $filtertype          = $app->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
+        $filtersection       = $app->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
         $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
         $this->setState('filter', $filter);
@@ -98,10 +99,10 @@ class fieldsModelfields extends JModelLegacy
 
     public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         if ($filter_order == 'ordering')
         {

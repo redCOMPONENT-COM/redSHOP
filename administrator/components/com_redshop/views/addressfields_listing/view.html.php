@@ -13,7 +13,9 @@ class addressfields_listingViewaddressfields_listing extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
@@ -22,15 +24,15 @@ class addressfields_listingViewaddressfields_listing extends JViewLegacy
 
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;
         $fields             = $this->get('Data');
         $pagination         = $this->get('Pagination');
 
-        $section_id = $mainframe->getUserStateFromRequest($context . 'section_id', 'section_id', 0);
+        $section_id = $app->getUserStateFromRequest($context . 'section_id', 'section_id', 0);
 
         $sectionlist = array(JHTML::_('select.option', '7', JText::_('COM_REDSHOP_CUSTOMER_ADDRESS')), JHTML::_('select.option', '8', JText::_('COM_REDSHOP_COMPANY_ADDRESS')), JHTML::_('select.option', '14', JText::_('COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS')), JHTML::_('select.option', '15', JText::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS')));
 

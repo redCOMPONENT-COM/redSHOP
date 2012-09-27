@@ -27,7 +27,7 @@ class searchModelsearch extends JModelLegacy
         parent::__construct();
         global $context;
         $context = 'search';
-        $app = &JFactory::getApplication();
+        $app     = JFactory::getApplication();
 
         $this->_table_prefix = '#__redshop_';
         $params              = $app->getParams('com_redshop');
@@ -38,7 +38,7 @@ class searchModelsearch extends JModelLegacy
         $module         = JModuleHelper::getModule('mod_redshop_search');
         $module_params  = '';
         $perpageproduct = 5;
-        if(!empty($module->params))
+        if (!empty($module->params))
         {
             $module_params  = new JRegistry($module->params);
             $perpageproduct = $module_params->get('productperpage', 5);
@@ -128,7 +128,7 @@ class searchModelsearch extends JModelLegacy
 
     public function getProductPerPage()
     {
-        $app = &JFactory::getApplication();
+        $app         = JFactory::getApplication();
         $redconfig   = $app->getParams();
         $redTemplate = new Redtemplate();
         $template    = $this->getCategoryTemplet();
@@ -213,7 +213,7 @@ class searchModelsearch extends JModelLegacy
 
         $keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
-        $defaultSearchType = '';
+        $defaultSearchType     = '';
         $defaultSearchType_tmp = '';
         if (!empty($manudata['search_type']))
         {
@@ -273,7 +273,7 @@ class searchModelsearch extends JModelLegacy
             $defaultSearchType .= " OR (" . $product_s_desc_srch . ") ";
         }
 
-        $redconfig  = $app->getParams();
+        $redconfig = $app->getParams();
 
         $order_by = $app->input->get('order_by', '', 'string');
         $order_by = $db->escape($order_by);
@@ -311,15 +311,15 @@ class searchModelsearch extends JModelLegacy
         {
             $cat_group = $category_id;
         }
-        $params = &JComponentHelper::getParams('com_redshop');
+        $params = JComponentHelper::getParams('com_redshop');
 
         $menu = $app->getMenu();
         $item = $menu->getActive();
 
         $days = 0;
-        if(!empty($item->query['newproduct']))
+        if (!empty($item->query['newproduct']))
         {
-            $days        = $item->query['newproduct'];
+            $days = $item->query['newproduct'];
         }
         $today       = date('Y-m-d H:i:s', time());
         $days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
@@ -449,7 +449,7 @@ class searchModelsearch extends JModelLegacy
     public function _buildContentOrderBy()
     {
         global $context;
-        $app = &JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
         $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -461,7 +461,7 @@ class searchModelsearch extends JModelLegacy
 
     public function getCategoryTemplet()
     {
-        $app = &JFactory::getApplication();
+        $app     = JFactory::getApplication();
         $context = 'search';
 
         $layout     = $app->getUserStateFromRequest($context . 'layout', 'layout', '');
@@ -470,7 +470,7 @@ class searchModelsearch extends JModelLegacy
         $params = JComponentHelper::getParams('com_redshop');
         $menu   = $app->getMenu();
         $item   = $menu->getActive();
-        $cid = 0;
+        $cid    = 0;
         if ($layout == 'newproduct')
         {
             $cid = $item->query['categorytemplate'];
@@ -491,7 +491,7 @@ class searchModelsearch extends JModelLegacy
                 $templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
             }
         }
-        if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
+        if ($templateid == "" & JModuleHelper::isEnabled('redPRODUCTFILTER'))
         {
             $module        = JModuleHelper::getModule('redPRODUCTFILTER');
             $module_params = new JRegistry($module->params);
@@ -599,7 +599,6 @@ class searchModelsearch extends JModelLegacy
                 $lstproduct_id[] = $product[$i]->product_id;
             }
             $products = implode(",", $lstproduct_id);
-
         }
         else
         {
@@ -915,7 +914,7 @@ class searchModelsearch extends JModelLegacy
     // get Category products selected in search Module
     public function loadCatProductsManufacturer($cid)
     {
-        $db    =& JFactory::getDBO();
+        $db    = JFactory::getDBO();
         $query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx " . ", " . $this->_table_prefix . "product AS p " . "WHERE cx.category_id='" . $cid . "' " . "AND p.product_id=cx.product_id ";
         $db->setQuery($query);
         $manufacturer = $db->loadObjectList();

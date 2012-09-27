@@ -17,16 +17,16 @@ class manufacturersViewmanufacturers extends JViewLegacy
 
         $producthelper = new producthelper();
         $redhelper     = new redhelper();
-        $document      =& JFactory::getDocument();
+        $document      = JFactory::getDocument();
         $option        = JRequest::getVar('option');
         $print         = JRequest::getVar('print');
         $layout        = JRequest::getVar('layout', 'default');
-        $params        = &$mainframe->getParams($option);
+        $params        = $mainframe->getParams($option);
 
         $mid    = 0;
         $lists  = array();
         $model  = $this->getModel('manufacturers');
-        $detail =& $this->get('data');
+        $detail = $this->get('data');
         $limit  = $params->get('maxproduct');
         if (!$limit)
         {

@@ -13,7 +13,10 @@ class textlibraryViewtextlibrary extends JViewLegacy
 {
     function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $context  = 'textlibrary_id';
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));
@@ -29,10 +32,10 @@ class textlibraryViewtextlibrary extends JViewLegacy
 
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'textlibrary_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'textlibrary_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-        $section = $mainframe->getUserStateFromRequest($context . 'section', 'section', 0);
+        $section = $app->getUserStateFromRequest($context . 'section', 'section', 0);
 
         $optionsection   = array();
         $optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));

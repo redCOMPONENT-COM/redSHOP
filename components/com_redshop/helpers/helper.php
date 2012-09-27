@@ -1,20 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
+
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
 
@@ -28,7 +22,6 @@ class redhelper
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
         $this->_db           = JFactory::getDBO();
     }
@@ -220,7 +213,7 @@ class redhelper
      */
     public function getShopperGroupPortal()
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
 
         # if user is not logged in than take shoppergroup id from configuration
         $where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
@@ -278,7 +271,7 @@ class redhelper
     // 	order by list
     public static function getOrderByList()
     {
-        $order_data           = array();
+        $order_data           = array_fill(0, 6, new stdClass);
         $order_data[0]->value = "p.product_name ASC";
         $order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
         $order_data[1]->value = "p.product_price ASC";
@@ -801,7 +794,7 @@ class redhelper
     */
     public function getsslLink($link, $applySSL)
     {
-        $uri =& JURI::getInstance($link);
+        $uri = JURI::getInstance($link);
         if ($applySSL)
         {
             $uri->setScheme('https');
@@ -849,7 +842,7 @@ class redhelper
 
     public function isredProductfinder()
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         // get redshop from joomla component table
         $query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
         $this->_db->setQuery($query);
@@ -877,7 +870,7 @@ class redhelper
      */
     public function isredCRM()
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         // get redshop from joomla component table
         $isredCRM = $session->get('isredCRM');
 
@@ -895,7 +888,7 @@ class redhelper
         }
         else
         {
-            $user =& JFactory::getUser();
+            $user = JFactory::getUser();
             require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'configuration.php');
             $crmConfig = new crmConfig();
             $crmConfig->config();
@@ -907,7 +900,7 @@ class redhelper
 
             $crmHelper = new crmHelper();
 
-            $session =& JFactory::getSession();
+            $session = JFactory::getSession();
             if ($crmHelper->isredCRMUser($user->id))
             {
                 $session->set('isredcrmuser', true);

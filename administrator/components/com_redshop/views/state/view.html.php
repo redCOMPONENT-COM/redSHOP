@@ -19,7 +19,10 @@ class stateViewstate extends JViewLegacy
         JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_MANAGEMENT'), 'redshop_region_48');
 
         jimport('joomla.html.pagination');
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $context = 'state_id';
         JToolbarHelper::addNewX();
         JToolbarHelper::EditListX();
@@ -27,8 +30,8 @@ class stateViewstate extends JViewLegacy
 
         $uri = JFactory::getURI();
 
-        $filter_order       = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'state_id');
-        $filter_order_Dir   = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'state_id');
+        $filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;
 
@@ -48,11 +51,11 @@ class stateViewstate extends JViewLegacy
         $temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $countries       = @array_merge($temps, $countries);
 
-        $country_id_filter = $mainframe->getUserStateFromRequest($context . 'country_id_filter', 'country_id_filter', '');
+        $country_id_filter = $app->getUserStateFromRequest($context . 'country_id_filter', 'country_id_filter', '');
 
         $lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id_filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"    ', 'value', 'text', $country_id_filter);
 
-        $country_main_filter = $mainframe->getUserStateFromRequest($context . 'country_main_filter', 'country_main_filter', '');
+        $country_main_filter = $app->getUserStateFromRequest($context . 'country_main_filter', 'country_main_filter', '');
 
         $fields     = $this->get('Data');
         $pagination = $this->get('Pagination');

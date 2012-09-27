@@ -169,15 +169,15 @@ class payment_detailModelpayment_detail extends JModelLegacy
 
     public function uninstall($eid = array())
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         // Initialize variables
         $failed = array();
 
         /*
-           * Ensure eid is an array of extension ids in the form id => client_id
-           * TODO: If it isn't an array do we want to set an error and fail?
-           */
+        * Ensure eid is an array of extension ids in the form id => client_id
+        * TODO: If it isn't an array do we want to set an error and fail?
+        */
         if (!is_array($eid))
         {
             $eid = array($eid => 0);
@@ -216,7 +216,7 @@ class payment_detailModelpayment_detail extends JModelLegacy
             $result = true;
         }
 
-        $mainframe->enqueueMessage($msg);
+        $app->enqueueMessage($msg);
         $this->setState('action', 'remove');
         $this->setState('name', $installer->get('name'));
         $this->setState('message', $installer->message);
@@ -227,7 +227,7 @@ class payment_detailModelpayment_detail extends JModelLegacy
 
     public function install()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $this->setState('action', 'install');
 
@@ -255,7 +255,7 @@ class payment_detailModelpayment_detail extends JModelLegacy
             $result = true;
         }
 
-        $mainframe->enqueueMessage($msg);
+        $app->enqueueMessage($msg);
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
         $this->setState('message', $installer->message);
@@ -327,8 +327,6 @@ class payment_detailModelpayment_detail extends JModelLegacy
     // payment ordering
     public function saveOrder(&$cid)
     {
-        global $mainframe;
-        //$scope 		= JRequest::getCmd( 'scope' );
         $db  = JFactory::getDBO();
         $row = $this->getTable();
 
@@ -345,7 +343,7 @@ class payment_detailModelpayment_detail extends JModelLegacy
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    JError::raiseError(500, $db->getErrorMsg());
+                    throw new RuntimeException($db->getErrorMsg());
                 }
             }
         }
@@ -719,8 +717,8 @@ class JInstaller extends JObject
         }
 
         /*
-           * LEGACY CHECK
-           */
+        * LEGACY CHECK
+        */
         $root     = $this->_manifest->document;
         $version  = $root->attributes('version');
         $rootName = $root->name();
@@ -974,8 +972,8 @@ class JInstaller extends JObject
         }
 
         /*
-           * Here we set the folder we are going to remove the files from.
-           */
+        * Here we set the folder we are going to remove the files from.
+        */
         if ($client)
         {
             $pathname    = 'extension_' . $client->name;

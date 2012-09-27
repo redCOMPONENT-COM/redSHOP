@@ -122,7 +122,8 @@ if ($showbuttons)
 
         <fieldset id="bulk_field"
             <?php if ($this->detail->media_id == 0)
-        { ?>
+        {
+            ?>
                   style="display: none;"
             <?php }?>
             >
@@ -159,7 +160,8 @@ if ($showbuttons)
                     <td><?php echo JText::_('COM_REDSHOP_MEDIA_NAME'); ?></td>
                     <td>
                         <?php if ($this->detail->media_id == 0)
-                    { ?>
+                    {
+                        ?>
                         <input type="file" name="bulkfile" id="bulkfile" size="75">
 
                         <?php
@@ -194,7 +196,8 @@ if ($showbuttons)
                     </td>
                 </tr>
                 <?php if ($media_section == 'product')
-            { ?>
+            {
+                ?>
                 <tr>
                     <td><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER');?></td>
                     <td><?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
@@ -212,13 +215,14 @@ if ($showbuttons)
             </table>
         </fieldset>
         <?php if ($this->detail->media_id == 0)
-    { ?>
+    {
+        ?>
         <fieldset id="extra_field">
             <table cellpadding="0" cellspacing="5" border="0" id="extra_table">
 
                 <?php
 
-                $k = 1;
+                //$k = 1;
                 ?>
                 <tr>
                     <td><?php echo JText::_('COM_REDSHOP_UPLOAD_FILE_FROM_COMPUTER'); ?></td>
@@ -238,7 +242,7 @@ if ($showbuttons)
 </div>
 
 <div class="clr"></div>
-<input type="hidden" value="<?php echo $k;?>" name="total_extra" id="total_extra">
+<input type="hidden" value="1" name="total_extra" id="total_extra">
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->media_id; ?>"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="view" value="media_detail"/>
@@ -345,11 +349,11 @@ if ($showbuttons)
                                {
                                    echo $data->name;
                                }?>" size="75"/><input type="hidden" name="section_id"
-                                                                          id="section_id" width="150"
-                                                                          value="<?php if ($data)
-                                                                          {
-                                                                              echo $data->id;
-                                                                          } ?>"/>
+                                                      id="section_id" width="150"
+                                                      value="<?php if ($data)
+                                                      {
+                                                          echo $data->id;
+                                                      } ?>"/>
                         <?php
                     }
                     echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SECTION_NAME'), JText::_('COM_REDSHOP_SECTION_NAME'), 'tooltip.png', '', '', false); ?>

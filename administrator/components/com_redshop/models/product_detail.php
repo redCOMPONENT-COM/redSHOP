@@ -2438,14 +2438,12 @@ class product_detailModelproduct_detail extends JModelLegacy
 
         if (!$row->bind($association))
         {
-            //$mainframe->enqueueMessage(JText::_('COM_REDSHOP_THERE_WAS_A_PROBLEM_BINDING_THE_ASSOCIATION_DATA'), 'error');
             return false;
         }
 
         /* save the changes */
         if (!$row->store())
         {
-            // $mainframe->enqueueMessage(JText::_('COM_REDSHOP_THERE_WAS_A_PROBLEM_STORING_THE_ASSOCIATION_DATA'), 'error');
             return false;
         }
         else
@@ -2483,7 +2481,6 @@ class product_detailModelproduct_detail extends JModelLegacy
         }
         $row->reorder();
 
-        //$mainframe->enqueueMessage(JText::_('COM_REDSHOP_THE_ASSOCIATION_HAS_BEEN_SAVED'));
         return true;
     }
 
@@ -2543,7 +2540,6 @@ class product_detailModelproduct_detail extends JModelLegacy
 
             if (!$database->query())
             {
-                //$mainframe->enqueueMessage(JText::_('COM_REDSHOP_A_PROBLEM_OCCURED_WHEN_DELETING_THE_ASSOCIATION'));
             }
             else
             {
@@ -2929,9 +2925,10 @@ class product_detailModelproduct_detail extends JModelLegacy
       */
     public function saveorder($cid = array(), $order)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         // get global category id
-        $category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+        $category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
         // init array
         $orderarray = array();
         for ($i = 0; $i < count($cid); $i++)
@@ -2961,8 +2958,8 @@ class product_detailModelproduct_detail extends JModelLegacy
 
     public function orderup()
     {
-        global $mainframe;
-        $category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+        $app            = JFactory::getApplication();
+        $category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
         $cid            = JRequest::getVar('cid', array(0), 'post', 'array');
         $cid            = $cid[0];
 
@@ -3002,8 +2999,9 @@ class product_detailModelproduct_detail extends JModelLegacy
 
     public function orderdown()
     {
-        global $mainframe;
-        $category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+        $app = JFactory::getApplication();
+
+        $category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
         $cid            = JRequest::getVar('cid', array(0), 'post', 'array');
         $cid            = $cid[0];
 

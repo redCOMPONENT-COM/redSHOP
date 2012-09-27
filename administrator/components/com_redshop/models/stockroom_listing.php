@@ -25,30 +25,23 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
     {
         parent::__construct();
 
-        global $mainframe;
-        //		 if (USE_CONTAINER)
-        //		 {
-        //			$context2 = 'c.container_id';
-        //		}
-        //		else
-        //		{
+        $app = JFactory::getApplication();
+
         $this->_context2 = 'p.product_id';
-        //		}
 
         $this->_table_prefix = '#__redshop_';
-        $limit               = $mainframe->getUserStateFromRequest($this->_context2 . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart          = $mainframe->getUserStateFromRequest($this->_context2 . 'limitstart', 'limitstart', 0);
-        $stockroom_type      = $mainframe->getUserStateFromRequest($this->_context2 . 'stockroom_type', 'stockroom_type', '');
-        $search_field        = $mainframe->getUserStateFromRequest($this->_context2 . 'search_field', 'search_field', '');
-        $keyword             = $mainframe->getUserStateFromRequest($this->_context2 . 'keyword', 'keyword', '');
-        $category_id         = $mainframe->getUserStateFromRequest($this->_context2 . 'category_id', 'category_id', '');
-        //		$atttype     = $mainframe->getUserStateFromRequest( $this->_context2.'atttype','atttype',0);
+        $limit               = $app->getUserStateFromRequest($this->_context2 . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart          = $app->getUserStateFromRequest($this->_context2 . 'limitstart', 'limitstart', 0);
+        $stockroom_type      = $app->getUserStateFromRequest($this->_context2 . 'stockroom_type', 'stockroom_type', '');
+        $search_field        = $app->getUserStateFromRequest($this->_context2 . 'search_field', 'search_field', '');
+        $keyword             = $app->getUserStateFromRequest($this->_context2 . 'keyword', 'keyword', '');
+        $category_id         = $app->getUserStateFromRequest($this->_context2 . 'category_id', 'category_id', '');
 
         $this->setState('stockroom_type', $stockroom_type);
         $this->setState('search_field', $search_field);
         $this->setState('keyword', $keyword);
         $this->setState('category_id', $category_id);
-        //		$this->setState('atttype', $atttype);
+
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
     }
@@ -86,8 +79,6 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
 
     public function _buildQuery()
     {
-        global $mainframe;
-
         $where    = "";
         $field    = "";
         $and      = "";
@@ -136,10 +127,11 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
 
     public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $stockroom_type   = $this->getState('stockroom_type');
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context2 . 'filter_order', 'filter_order', 'p.product_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context2 . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($this->_context2 . 'filter_order', 'filter_order', 'p.product_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context2 . 'filter_order_Dir', 'filter_order_Dir', '');
 
         if ($stockroom_type == 'subproperty')
         {

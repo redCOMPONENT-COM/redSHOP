@@ -35,7 +35,7 @@ class ordersModelorders extends JModelLegacy
 
     public function _buildQuery()
     {
-        $user  =& JFactory::getUser();
+        $user  = JFactory::getUser();
         $query = "SELECT * FROM  " . $this->_table_prefix . "orders " . "WHERE user_id='" . $user->id . "' ";
         return $query;
     }

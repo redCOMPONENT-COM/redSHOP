@@ -1,14 +1,26 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
@@ -17,13 +29,14 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
 
 /**
- * Order Detail Controller
+ * order_detailController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class order_detailController extends JControllerLegacy
+class order_detailController extends RedshopCoreController
 {
     public function __construct($default = array())
     {
@@ -42,18 +55,6 @@ class order_detailController extends JControllerLegacy
       */
     public function bookinvoice()
     {
-        // Economic Integration start for invoice generate and book current invoice
-        //		if(ECONOMIC_INTEGRATION==1)
-        //		{
-        //			$order_id = JRequest::getInt ( 'order_id' );
-        //			$economic = new economic();
-        //			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id);
-        //			if(is_file($bookinvoicepdf))
-        //			{
-        //				$ret = $this->_redshopMail->sendEconomicBookInvoiceMail($order_id,$bookinvoicepdf);
-        //			}
-        //		}
-        // End Economic
     }
 
     /*
@@ -61,27 +62,23 @@ class order_detailController extends JControllerLegacy
       */
     public function process_payment()
     {
-
-        global $mainframe;
-        $db      = jFactory::getDBO();
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $model   = $this->getModel('order_detail');
 
         $redconfig = new Redconfiguration();
 
-        $request = JRequest::get('request');
+        $request = $this->input->getArray($_REQUEST);
 
         // Get Order Detail
         $order = $this->_order_functions->getOrderDetails($request['order_id']);
 
         // get Billing and Shipping Info
-
         $billingaddresses    = $this->_order_functions->getBillingAddress($order->user_id);
         $d['billingaddress'] = $billingaddresses;
 
         $shippingaddresses    = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
         $d['shippingaddress'] = $shippingaddresses;
-        $Itemid               = JRequest::getVar('Itemid');
+        $item_id              = $this->input->get('Itemid');
         if (isset($billingaddresses))
         {
             if (isset($billingaddresses->country_code))
@@ -91,7 +88,7 @@ class order_detailController extends JControllerLegacy
             }
             if (isset($billingaddresses->state_code))
             {
-                $billingaddresses->state_2_code     = $billingaddresses->state_code; //$redconfig->getCountryCode2($billingaddresses->state_code);
+                $billingaddresses->state_2_code     = $billingaddresses->state_code;
                 $d ["billingaddress"]->state_2_code = $billingaddresses->state_2_code;
             }
         }
@@ -119,7 +116,6 @@ class order_detailController extends JControllerLegacy
 
         // Create session
         $session->set('ccdata', $ccdata);
-        $ccdata = $session->get('ccdata');
 
         $values['order_shipping'] = $order->order_shipping;
         $values['order_number']   = $request['order_id'];
@@ -134,7 +130,7 @@ class order_detailController extends JControllerLegacy
 
         // call payment plugin
         JPluginHelper::importPlugin('redshop_payment');
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
 
         $results         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values)); //die();
         $paymentResponse = $results[0];
@@ -157,8 +153,8 @@ class order_detailController extends JControllerLegacy
         $model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
         $model->resetcart();
 
-        $link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
-        $mainframe->redirect($link, $paymentResponse->message);
+        $link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $item_id . '&oid=' . $request['order_id'];
+        $this->app->redirect($link, $paymentResponse->message);
     }
 
     /*
@@ -166,17 +162,14 @@ class order_detailController extends JControllerLegacy
       */
     public function notify_payment()
     {
+        $request = $this->input->getArray($_REQUEST);
+        $item_id = $this->input->get('Itemid');
 
-        $mainframe = & JFactory::getApplication('site');
-        $db        = jFactory::getDBO();
-        $request   = JRequest::get('request');
-
-        $Itemid = JRequest::getVar('Itemid');
         require_once (JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
         $objOrder = new order_functions();
 
         JPluginHelper::importPlugin('redshop_payment');
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
 
         $results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
 
@@ -191,8 +184,8 @@ class order_detailController extends JControllerLegacy
         }
 
         $objOrder->changeorderstatus($results[0]);
-        $model     = $this->getModel('order_detail');
-        $resetcart = $model->resetcart();
+        $model = $this->getModel('order_detail');
+        $model->resetcart();
 
         /*
            * Plugin will trigger onAfterNotifyPayment
@@ -202,15 +195,14 @@ class order_detailController extends JControllerLegacy
         if ($request['payment_plugin'] != "rs_payment_worldpay")
         {
             # new checkout flow
-            $redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id);
+            $redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$item_id&oid=" . $order_id);
             $this->setRedirect($redirect_url, $msg);
         }
     }
 
     public function copyorderitemtocart()
     {
-        global $mainframe;
-        $order_item_id = JRequest::getInt('order_item_id');
+        $order_item_id = $this->input->getInt('order_item_id', null);
 
         $orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
         $row       = (array)$orderItem[0];
@@ -244,21 +236,21 @@ class order_detailController extends JControllerLegacy
         $result = $this->_carthelper->addProductToCart($row);
         if (is_bool($result) && $result)
         {
-            $Itemid = JRequest::getVar('Itemid');
-            $Itemid = $this->_redhelper->getCartItemid($Itemid);
+            $item_id = $this->input->get('Itemid');
+            $item_id = $this->_redhelper->getCartItemid($item_id);
             $this->_carthelper->cartFinalCalculation();
-            $mainframe->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+            $this->app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $item_id);
         }
         else
         {
             $ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
             if (count($ItemData) > 0)
             {
-                $Itemid = $ItemData->id;
+                $item_id = $ItemData->id;
             }
             else
             {
-                $Itemid = $this->_redhelper->getItemid($row['product_id']);
+                $item_id = $this->_redhelper->getItemid($row['product_id']);
             }
             $errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
             if (JError::isError(JError::getError()))
@@ -266,19 +258,18 @@ class order_detailController extends JControllerLegacy
                 $error  = JError::getError();
                 $errmsg = $error->message;
             }
-            $returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
-            $mainframe->redirect($returnlink, $errmsg);
+            $returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $item_id;
+            $this->app->redirect($returnlink, $errmsg);
         }
     }
 
     public function reorder()
     {
-        global $mainframe;
-        $session  =& JFactory::getSession();
-        $post     = JRequest::get('post');
-        $order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
-        $Itemid   = JRequest::getVar('Itemid');
-        $Itemid   = $this->_redhelper->getCartItemid($Itemid);
+        $session  = JFactory::getSession();
+        $post     = $this->input->getArray($_POST);
+        $order_id = (isset($post['order_id'])) ? $post['order_id'] : $this->input->getInt('order_id', null);
+        $item_id  = $this->input->get('Itemid');
+        $item_id  = $this->_redhelper->getCartItemid($item_id);
 
         $returnmsg = "";
         if ($order_id)
@@ -329,11 +320,11 @@ class order_detailController extends JControllerLegacy
                     $ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
                     if (count($ItemData) > 0)
                     {
-                        $Itemid = $ItemData->id;
+                        $item_id = $ItemData->id;
                     }
                     else
                     {
-                        $Itemid = $this->_redhelper->getItemid($row['product_id']);
+                        $item_id = $this->_redhelper->getItemid($row['product_id']);
                     }
                     $errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
                     if (JError::isError(JError::getError()))
@@ -342,7 +333,7 @@ class order_detailController extends JControllerLegacy
                         $errmsg = $error->message;
                     }
                     $returnmsg .= $row['order_item_name'] . ": " . $errmsg . "<br>";
-                    $returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
+                    $returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $item_id;
                 }
             }
             $this->_carthelper->cartFinalCalculation();
@@ -350,11 +341,11 @@ class order_detailController extends JControllerLegacy
         $cart = $session->get('cart');
         if (!$cart || !array_key_exists("idx", $cart) || ($cart && $cart['idx'] <= 0))
         {
-            $mainframe->redirect($returnlink);
+            $this->app->redirect($returnlink);
         }
         else
         {
-            $mainframe->redirect("index.php?option=com_redshop&view=cart&Itemid=" . $Itemid, $returnmsg);
+            $this->app->redirect("index.php?option=com_redshop&view=cart&Itemid=" . $item_id, $returnmsg);
         }
     }
 
@@ -363,11 +354,8 @@ class order_detailController extends JControllerLegacy
       */
     public function payment()
     {
-        global $mainframe;
-        $redconfig = new Redconfiguration();
-        $Itemid    = JRequest::getVar('Itemid');
-        $order_id  = JRequest::getInt('order_id');
-        $option    = JRequest::getVar('option');
+        $item_id  = $this->input->get('Itemid');
+        $order_id = $this->input->getInt('order_id', null);
 
         $order       = $this->_order_functions->getOrderDetails($order_id);
         $paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);
@@ -390,7 +378,7 @@ class order_detailController extends JControllerLegacy
                     <?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo[0]->payment_method_class); ?>
                     <div style="float: right;">
                         <input type="hidden" name="option" value="com_redshop"/>
-                        <input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
+                        <input type="hidden" name="Itemid" value="<?php echo $item_id; ?>"/>
                         <input type="hidden" name="task" value="process_payment"/>
                         <input type="hidden" name="view" value="order_detail"/>
                         <input type="submit" name="submit" class="greenbutton"
@@ -406,7 +394,7 @@ class order_detailController extends JControllerLegacy
                 else
                 {
 
-                    $link = 'index.php?option=com_redshop&view=checkout&format=final&oid=' . $order_id . '&Itemid=' . $Itemid;
+                    $link = 'index.php?option=com_redshop&view=checkout&format=final&oid=' . $order_id . '&Itemid=' . $item_id;
                     $this->setRedirect($link);
                 }
             }

@@ -25,7 +25,6 @@ class shipping
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
         $this->producthelper = new producthelper();
         $this->_db           = JFactory::getDBO();

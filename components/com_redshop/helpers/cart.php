@@ -1,25 +1,20 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
+
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
+
 class rsCarthelper
 {
     public $_table_prefix = null;
@@ -57,7 +52,7 @@ class rsCarthelper
 
         // Load language file
         $payment_lang_list = $this->_redhelper->getPlugins("redshop_payment");
-        $language          =& JFactory::getLanguage();
+        $language          = JFactory::getLanguage();
         $base_dir          = JPATH_ADMINISTRATOR;
         $language_tag      = $language->getTag();
 
@@ -772,7 +767,7 @@ class rsCarthelper
 
     public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
     {
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         $prdItemid  = JRequest::getInt('Itemid');
         $option     = JRequest::getVar('option', 'com_redshop');
         $Itemid     = $this->_redhelper->getCheckoutItemid();
@@ -1249,13 +1244,13 @@ class rsCarthelper
 
     public function repalceOrderItems($data, $rowitem = array())
     {
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         $mainview   = JRequest::getVar('view');
         $fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
         $subtotal_excl_vat = 0;
         $cart              = '';
-        $url               = & JURI::root();
+        $url               = JURI::root();
         $returnArr         = array();
 
         $wrapper_name = "";
@@ -2253,7 +2248,7 @@ class rsCarthelper
         $url       = JURI::base();
         $redconfig = new Redconfiguration();
         $order_id  = $row->order_id;
-        $session   = & JFactory::getSession();
+        $session   = JFactory::getSession();
         $orderitem = $this->_order_functions->getOrderItemDetail($order_id);
         if (strstr($ReceiptTemplate, "{product_loop_start}") && strstr($ReceiptTemplate, "{product_loop_end}"))
         {
@@ -2945,7 +2940,7 @@ class rsCarthelper
         if ($isEnabled && $classname == 'default_shipping_GLS')
         {
             JPluginHelper::importPlugin('rs_labels_GLS');
-            $dispatcher =& JDispatcher::getInstance();
+            $dispatcher = JDispatcher::getInstance();
             $sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id='" . $users_info_id . "'";
             $this->_db->setQuery($sql);
             $values = $this->_db->loadObject();
@@ -3027,7 +3022,7 @@ class rsCarthelper
             if ($template_middle != "" && count($shippingmethod) > 0)
             {
                 JPluginHelper::importPlugin('redshop_shipping');
-                $dispatcher   =& JDispatcher::getInstance();
+                $dispatcher   = JDispatcher::getInstance();
                 $shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
                 for ($s = 0; $s < count($shippingmethod); $s++)
@@ -3404,7 +3399,7 @@ class rsCarthelper
         if (strstr($template_desc, "{terms_and_conditions"))
         {
             $user    = JFactory::getUser();
-            $session = & JFactory::getSession();
+            $session = JFactory::getSession();
             $auth    = $session->get('auth');
             $list    = array();
             if ($user->id)
@@ -3481,7 +3476,7 @@ class rsCarthelper
             $link                 = "";
             if (DEFAULT_NEWSLETTER != 0)
             {
-                $user  = & JFactory::getUser();
+                $user  = JFactory::getUser();
                 $query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription " . "WHERE user_id='" . $user->id . "' AND email='" . $user->email . "'";
                 $this->_db->setQuery($query);
                 $subscribe = $this->_db->loadResult();
@@ -3566,7 +3561,7 @@ class rsCarthelper
     {
         $coupon_code = JRequest::getVar('discount_code', '');
         $view        = JRequest::getVar('view', '');
-        $user        =& JFactory::getUser();
+        $user        = JFactory::getUser();
         $return      = false;
 
         $cart = (count($c_data) <= 0) ? $this->_session->get('cart') : $c_data;
@@ -3973,7 +3968,7 @@ class rsCarthelper
 
     public function getVoucherData($voucher_code, $product_id = 0)
     {
-        $user         = & JFactory::getUser();
+        $user         = JFactory::getUser();
         $voucher      = array();
         $current_time = time();
 
@@ -4026,7 +4021,7 @@ class rsCarthelper
     {
         $current_time = time();
         $cart         = $this->_session->get('cart');
-        $user         = & JFactory::getUser();
+        $user         = JFactory::getUser();
         $coupon       = array();
         if ($user->id)
         {
@@ -4412,7 +4407,7 @@ class rsCarthelper
 
         if (!$cart_id)
         {
-            $row          =& JTable::getInstance('usercart', 'Table');
+            $row          = JTable::getInstance('usercart', 'Table');
             $row->user_id = $user->id;
             $row->cdate   = time();
             $row->mdate   = time();
@@ -4428,7 +4423,7 @@ class rsCarthelper
 
         for ($i = 0; $i < $idx; $i++)
         {
-            $rowItem =& JTable::getInstance('usercart_item', 'Table');
+            $rowItem = JTable::getInstance('usercart_item', 'Table');
 
             $rowItem->cart_idx                = $i;
             $rowItem->cart_id                 = $cart_id;
@@ -4452,7 +4447,7 @@ class rsCarthelper
 
             for ($j = 0; $j < count($cart_accessory); $j++)
             {
-                $rowAcc                     =& JTable::getInstance('usercart_accessory_item', 'Table');
+                $rowAcc                     = JTable::getInstance('usercart_accessory_item', 'Table');
                 $rowAcc->accessory_id       = $cart_accessory[$j]['accessory_id'];
                 $rowAcc->accessory_quantity = $cart[$i]['quantity']; // store product quantity as accessory quantity...
 
@@ -4476,7 +4471,7 @@ class rsCarthelper
 
         for ($j = 0; $j < count($attribute); $j++)
         {
-            $rowAtt =& JTable::getInstance('usercart_attribute_item', 'Table');
+            $rowAtt = JTable::getInstance('usercart_attribute_item', 'Table');
 
             $rowAtt->section_id        = $attribute[$j]['attribute_id'];
             $rowAtt->section           = 'attribute';
@@ -4491,7 +4486,7 @@ class rsCarthelper
             $attribute_childs = $attribute[$j]['attribute_childs'];
             for ($k = 0; $k < count($attribute_childs); $k++)
             {
-                $rowProp =& JTable::getInstance('usercart_attribute_item', 'Table');
+                $rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
 
                 $rowProp->section_id        = $attribute_childs[$k]['property_id'];
                 $rowProp->section           = 'property';
@@ -4508,7 +4503,7 @@ class rsCarthelper
                 {
                     for ($i = 0; $i < count($property_childs); $i++)
                     {
-                        $rowProp =& JTable::getInstance('usercart_attribute_item', 'Table');
+                        $rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
 
                         $rowProp->section_id        = $property_childs[$i]['subproperty_id'];
                         $rowProp->section           = 'subproperty';
@@ -4541,7 +4536,7 @@ class rsCarthelper
 
         if ($userid == 0)
         {
-            $user   =& JFactory::getUser();
+            $user   = JFactory::getUser();
             $userid = $user->id;
         }
         if ($cart_id == 0)
@@ -4871,10 +4866,10 @@ class rsCarthelper
 
     public function addProductToCart($data = array())
     {
-        $dispatcher   =& JDispatcher::getInstance();
+        $dispatcher   = JDispatcher::getInstance();
         $rsUserhelper = new rsUserhelper();
         $redTemplate  = new Redtemplate ();
-        $user         = &JFactory::getUser();
+        $user         = JFactory::getUser();
         $cart         = $this->_session->get('cart');
 
         if (!$cart || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
@@ -5102,7 +5097,7 @@ class rsCarthelper
             {
                 if (!$generateAccessoryCart)
                 {
-                    $document =& JFactory::getDocument();
+                    $document = JFactory::getDocument();
                     return $document->getError();
                 }
             }
@@ -5589,7 +5584,7 @@ class rsCarthelper
                         }
                         $requied_attribute_name = implode(", ", $requied_attributeArr);
                         $msg                    = urldecode($requied_attribute_name) . " " . JText::_('IS_REQUIRED'); // give error as first attribute is required
-                        $document               =& JFactory::getDocument();
+                        $document               = JFactory::getDocument();
                         $document->setError($msg);
                         return false;
                     }

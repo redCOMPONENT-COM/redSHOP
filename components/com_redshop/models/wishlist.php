@@ -34,7 +34,7 @@ class wishlistModelwishlist extends JModelLegacy
 
     public function getUserWishlist()
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         $db   = JFactory::getDBO();
 
         $query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . $user->id;
@@ -45,7 +45,7 @@ class wishlistModelwishlist extends JModelLegacy
 
     public function getWishlistProduct()
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         $db   = JFactory::getDBO();
         if ($user->id)
         {

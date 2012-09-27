@@ -53,8 +53,8 @@ class order_detailModelorder_detail extends JModelLegacy
     {
         global $mainframe;
         $order_functions = new order_functions();
-        $user            = & JFactory::getUser();
-        $session         =& JFactory::getSession();
+        $user            = JFactory::getUser();
+        $session         = JFactory::getSession();
 
         $auth = $session->get('auth');
         $list = array();
@@ -75,7 +75,7 @@ class order_detailModelorder_detail extends JModelLegacy
       */
     public function getCategoryNameByProductId($pid)
     {
-        $db    = & JFactory::getDBO();
+        $db    = JFactory::getDBO();
         $query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx " . "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id " . "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
         $db->setQuery($query);
         return $db->loadResult();
@@ -83,7 +83,7 @@ class order_detailModelorder_detail extends JModelLegacy
 
     public function resetcart()
     {
-        $session = & JFactory::getSession();
+        $session = JFactory::getSession();
         $session->set('cart', NULL);
         $session->set('ccdata', NULL);
         $session->set('issplit', NULL);
@@ -95,7 +95,7 @@ class order_detailModelorder_detail extends JModelLegacy
     {
         $db = JFactory::getDBO();
 
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $ccdata  = $session->get('ccdata');
 
         $order_payment_code     = $ccdata['creditcard_code'];

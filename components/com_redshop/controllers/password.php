@@ -1,33 +1,46 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
 /**
- * Order Detail Controller
+ * passwordController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class passwordController extends JControllerLegacy
+class passwordController extends RedshopCoreController
 {
     /*
       *  Metod to reset Password
       */
     public function reset()
     {
-        $post   = JRequest::get('post');
-        $model  = &$this->getModel('password');
-        $Itemid = JRequest::getVar('Itemid');
-        $layout = "";
+        $post    = $this->input->getArray($_POST);
+        $model   = &$this->getModel('password');
+        $item_id = $this->input->get('Itemid');
+        $layout  = "";
         //Request a reset
         if ($model->resetpassword($post))
         {
@@ -46,7 +59,7 @@ class passwordController extends JControllerLegacy
         {
             $msg = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_NOT_SEND');
         }
-        $this->setRedirect('index.php?option=com_redshop&view=password' . $layout . '&Itemid=' . $Itemid, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=password' . $layout . '&Itemid=' . $item_id, $msg);
     }
 
     /*
@@ -54,10 +67,10 @@ class passwordController extends JControllerLegacy
       */
     public function changepassword()
     {
-        $post   = JRequest::get('post');
-        $model  = &$this->getModel('password');
-        $token  = $post['token'];
-        $Itemid = JRequest::getVar('Itemid');
+        $post    = $this->input->getArray($_POST);
+        $model   = &$this->getModel('password');
+        $token   = $post['token'];
+        $item_id = $this->input->get('Itemid');
         if ($model->changepassword($token))
         {
             parent::display();
@@ -65,7 +78,7 @@ class passwordController extends JControllerLegacy
         else
         {
             $msg = JText::_('COM_REDSHOP_RESET_PASSWORD_TOKEN_ERROR');
-            $this->setRedirect('index.php?option=com_redshop&view=password&layout=token&Itemid=' . $Itemid, $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=password&layout=token&Itemid=' . $item_id, $msg);
         }
     }
 
@@ -74,8 +87,8 @@ class passwordController extends JControllerLegacy
       */
     public function setpassword()
     {
-        $post   = JRequest::get('post');
-        $Itemid = JRequest::getVar('Itemid');
+        $post    = $this->input->getArray($_POST);
+        $item_id = $this->input->get('Itemid');
 
         $model = &$this->getModel('password');
         if ($model->setpassword($post))
@@ -86,6 +99,6 @@ class passwordController extends JControllerLegacy
         {
             $msg = JText::_('COM_REDSHOP_RESET_PASSWORD_ERROR');
         }
-        $this->setRedirect('index.php?option=com_redshop&view=login&Itemid=' . $Itemid, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=login&Itemid=' . $item_id, $msg);
     }
 }

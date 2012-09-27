@@ -1,22 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
-//jimport('joomla.user.helper');
-//
+
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
@@ -201,9 +193,9 @@ class rsUserhelper
         }
         global $mainframe;
 
-        $db  = & JFactory::getDBO();
-        $me  = & JFactory::getUser();
-        $acl = & JFactory::getACL();
+        $db  = JFactory::getDBO();
+        $me  = JFactory::getUser();
+        $acl = JFactory::getACL();
 
         $data['name'] = $name = $data['firstname'];
         if (trim($data['username']) == "") // && $registeruser==1)
@@ -371,7 +363,7 @@ class rsUserhelper
             $user = clone(JFactory::getUser());
 
             // If user registration is not allowed, show 403 not authorized.
-            $usersConfig = &JComponentHelper::getParams('com_users');
+            $usersConfig = JComponentHelper::getParams('com_users');
 
             $usersConfig->set('allowUserRegistration', 1);
             if ($usersConfig->get('allowUserRegistration') == '0')
@@ -385,7 +377,7 @@ class rsUserhelper
                 JError::raiseError(500, $user->getError());
                 return false;
             }
-            $date =& JFactory::getDate();
+            $date = JFactory::getDate();
             $user->set('id', 0);
             $user->set('registerDate', $date->toMySQL());
             // If user activation is turned on, we need to set the activation information
@@ -442,7 +434,7 @@ class rsUserhelper
         $data['name']         = $name = $data['firstname'];
         $data['address_type'] = 'BT';
 
-        $row = & JTable::getInstance('user_detail', 'Table');
+        $row = JTable::getInstance('user_detail', 'Table');
         if (isset($data['users_info_id']) && $data['users_info_id'] != 0)
         {
             $isNew = false;
@@ -533,7 +525,7 @@ class rsUserhelper
                 }
             }
             $debtorHandle = $economic->createUserInEconomic($row);
-            if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
+            if ($row->is_company && trim($row->ean_number) != '' & JError::isError(JError::getError()))
             {
                 if ($isNew)
                 {
@@ -543,7 +535,7 @@ class rsUserhelper
 
                     if ($row->user_id)
                     {
-                        $user =& JUser::getInstance((int)$row->user_id);
+                        $user = JUser::getInstance((int)$row->user_id);
                         // delete user
                         $user->delete();
                         if (!$admin)
@@ -569,12 +561,12 @@ class rsUserhelper
         {
             $row->user_id = (0 - $row->users_info_id);
             $row->store();
-            $u = &JFactory::getUser();
+            $u = JFactory::getUser();
             //			$u->set('id',$row->user_id);
             $u->set('username', $row->user_email);
             $u->set('email', $row->user_email);
             $u->set('usertype', 'Registered');
-            $date =& JFactory::getDate();
+            $date = JFactory::getDate();
             $u->set('registerDate', $date->toMySQL());
             $data['user_id']  = $row->user_id;
             $data['username'] = $row->user_email;
@@ -625,7 +617,7 @@ class rsUserhelper
         if ($isNew)
         {
             JPluginHelper::importPlugin('highrise');
-            $dispatcher =& JDispatcher::getInstance();
+            $dispatcher = JDispatcher::getInstance();
             $hResponses = $dispatcher->trigger('oncreateHighriseUser', array($post));
         }
 
@@ -644,7 +636,7 @@ class rsUserhelper
     {
         $extra_field = new extra_field();
 
-        $rowShip = & JTable::getInstance('user_detail', 'Table');
+        $rowShip = JTable::getInstance('user_detail', 'Table');
         if (!$rowShip->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -715,7 +707,7 @@ class rsUserhelper
     public function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
     {
         $newsletter = 1;
-        $user       =& JFactory::getUser();
+        $user       = JFactory::getUser();
 
         if ($user_id == 0)
         {
@@ -755,7 +747,7 @@ class rsUserhelper
         }
 
         JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS . "tables");
-        $row =& JTable::getInstance('newslettersubscr_detail', 'Table');
+        $row = JTable::getInstance('newslettersubscr_detail', 'Table');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -776,7 +768,7 @@ class rsUserhelper
 
     public function newsletterUnsubscribe($email = "")
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $and  = "";
         if (DEFAULT_NEWSLETTER != "")
         {

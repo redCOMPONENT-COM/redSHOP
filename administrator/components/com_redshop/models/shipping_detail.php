@@ -88,8 +88,6 @@ class shipping_detailModelshipping_detail extends JModelLegacy
 
     public function saveOrder(&$cid)
     {
-        global $mainframe;
-        //$scope 		= JRequest::getCmd( 'scope' );
         $db  = JFactory::getDBO();
         $row = $this->getTable();
 
@@ -106,7 +104,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    JError::raiseError(500, $db->getErrorMsg());
+                    throw new RuntimeException($db->getErrorMsg());
                 }
             }
         }

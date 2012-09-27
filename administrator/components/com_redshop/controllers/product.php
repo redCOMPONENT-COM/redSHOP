@@ -24,28 +24,28 @@ class productController extends RedshopCoreController
     public function element()
     {
 
-        JRequest::setVar('layout', 'element');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('layout', 'element');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
     public function ins_product()
     {
-        JRequest::setVar('layout', 'ins_product');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('layout', 'ins_product');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
     public function listing()
     {
-        JRequest::setVar('layout', 'listing');
+        $this->input->set('layout', 'listing');
         parent::display();
     }
 
     public function importeconomic()
     {
         #Add product to economic
-        $cnt      = JRequest::getInt('cnt', 0);
+        $cnt      = $this->input->getInt('cnt', 0);
         $totalprd = 0;
         $msg      = '';
         if (ECONOMIC_INTEGRATION == 1)
@@ -95,7 +95,7 @@ class productController extends RedshopCoreController
     public function importatteco()
     {
         #Add product attribute to economic
-        $cnt      = JRequest::getInt('cnt', 0);
+        $cnt      = $this->input->getInt('cnt', 0);
         $totalprd = 0;
         $msg      = '';
         if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
@@ -108,6 +108,7 @@ class productController extends RedshopCoreController
             $list        = $db->loadObjectlist();
             $totalprd    = count($list);
             $responcemsg = '';
+
             for ($i = 0; $i < count($list); $i++)
             {
                 $incNo++;
@@ -176,8 +177,8 @@ class productController extends RedshopCoreController
     public function saveprice()
     {
         $db    = JFactory::getDBO();
-        $pid   = JRequest::getVar('pid', array(), 'post', 'array');
-        $price = JRequest::getVar('price', array(), 'post', 'array');
+        $pid   = $this->input->post->get('pid', array(), 'array');
+        $price = $this->input->post->get('price', array(), 'array');
 
         for ($i = 0; $i < count($pid); $i++)
         {
@@ -192,8 +193,8 @@ class productController extends RedshopCoreController
     public function savediscountprice()
     {
         $db             = JFactory::getDBO();
-        $pid            = JRequest::getVar('pid', array(), 'post', 'array');
-        $discount_price = JRequest::getVar('discount_price', array(), 'post', 'array');
+        $pid            = $this->input->post->get('pid', array(), 'array');
+        $discount_price = $this->input->post->get('discount_price', array(), 'array');
 
         for ($i = 0; $i < count($pid); $i++)
         {
@@ -207,9 +208,9 @@ class productController extends RedshopCoreController
 
     public function template()
     {
-        $template_id = JRequest::getVar('template_id', '');
-        $product_id  = JRequest::getVar('product_id', '');
-        $section     = JRequest::getVar('section', '');
+        $template_id = $this->input->get('template_id', '');
+        $product_id  = $this->input->get('product_id', '');
+        $section     = $this->input->get('section', '');
         $model       = $this->getModel('product');
 
         $data_product = $model->product_template($template_id, $product_id, $section);
@@ -230,7 +231,7 @@ class productController extends RedshopCoreController
 
     public function assignTemplate()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel('product');
 
@@ -242,12 +243,13 @@ class productController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
         }
+
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
     public function gbasefeed()
     {
-        $post  = JRequest::get('post');
+        $post  = $this->input->getArray($_POST);
         $model = $this->getModel('product');
 
         if ($model->gbasefeed($post))
@@ -258,15 +260,16 @@ class productController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_IN_GENERATING_GBASE_XML');
         }
+
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
     public function saveorder()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
-        $cid   = JRequest::getVar('cid', array(), 'post', 'array');
-        $order = JRequest::getVar('order', array(), 'post', 'array');
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);
 

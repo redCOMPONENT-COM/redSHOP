@@ -1,22 +1,36 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * Account Controller
+ * accountController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class accountController extends JControllerLegacy
+class accountController extends RedshopCoreController
 {
     /**
      * Method to edit created Tag
@@ -24,24 +38,22 @@ class accountController extends JControllerLegacy
      */
     public function editTag()
     {
-        global $mainframe;
-        $Itemid = JRequest::getVar('Itemid');
-        $option = JRequest::getVar('option');
-
-        $post = JRequest::get('post');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $post    = $this->input->getArray($_POST);
 
         $model = $this->getModel('account');
 
         if ($model->editTag($post))
         {
-            $mainframe->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
+            $this->app->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
         }
         else
         {
-            $mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
+            $this->app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
         }
 
-        $this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
+        $this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $item_id);
     }
 
     /**
@@ -50,14 +62,13 @@ class accountController extends JControllerLegacy
      */
     public function sendWishlist()
     {
-
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         $emailto    = $post['emailto'];
         $sender     = $post['sender'];
         $email      = $post['email'];
         $subject    = $post['subject'];
-        $Itemid     = $post['Itemid'];
+        $item_id    = $post['Itemid'];
         $wishlis_id = $post['wishlist_id'];
         $model      = $this->getModel('account');
 
@@ -86,7 +97,7 @@ class accountController extends JControllerLegacy
             $msg = JText::_('COM_REDSHOP_ERROR_SENDING');
         }
 
-        $this->setRedirect('index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component&wishlist_id=' . $wishlis_id . '&Itemid' . $Itemid, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component&wishlist_id=' . $wishlis_id . '&Itemid' . $item_id, $msg);
     }
 
     /*
@@ -94,14 +105,14 @@ class accountController extends JControllerLegacy
       */
     public function newsletterSubscribe()
     {
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
 
         $userhelper = new rsUserhelper();
         $userhelper->newsletterSubscribe(0, array(), 1);
 
         $msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
-        $this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
+        $this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $item_id, $msg);
     }
 
     /*
@@ -109,14 +120,14 @@ class accountController extends JControllerLegacy
       */
     public function newsletterUnsubscribe()
     {
-        $user   = JFactory::getUser();
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
+        $user    = JFactory::getUser();
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
 
         $userhelper = new rsUserhelper();
         $userhelper->newsletterUnsubscribe($user->email);
         $msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
-        $this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
+        $this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $item_id, $msg);
     }
 }
