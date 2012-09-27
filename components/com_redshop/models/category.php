@@ -8,16 +8,11 @@
  */
 
 defined('_JEXEC') or die ('Restricted access');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class categoryModelcategory extends JModelLegacy
+class categoryModelcategory extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
     public $_product = null;
-
-    public $_table_prefix = null;
 
     public $_template = null;
 
@@ -33,10 +28,9 @@ class categoryModelcategory extends JModelLegacy
 
     public function __construct()
     {
-        $app = JFactory::getApplication();
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
+        $app                 = JFactory::getApplication();
         $this->producthelper = new producthelper();
 
         $params = $app->getParams('com_redshop');
@@ -55,13 +49,7 @@ class categoryModelcategory extends JModelLegacy
 
         $this->setState('category_template', $category_template);
 
-        $this->setId(( int )$Id);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
+        $this->_id = (int)$Id;
     }
 
     public function _buildQuery()

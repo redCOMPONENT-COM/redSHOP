@@ -10,22 +10,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class split_paymentModelsplit_payment extends JModelLegacy
+class split_paymentModelsplit_payment extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function getordersdetail($oid)
     {
         $query = "SELECT * FROM  " . $this->_table_prefix . "orders WHERE order_id = '" . $oid . "' ";
@@ -48,42 +36,15 @@ class split_paymentModelsplit_payment extends JModelLegacy
         $post            = JRequest::get('post');
         $option          = JRequest::getVar('option');
         $Itemid          = JRequest::getVar('Itemid');
-        $task            = JRequest::getVar('task');
-        $user            = JFactory::getUser();
         $order_functions = new order_functions();
-        /*$session =JFactory::getSession();
-             $issplit=$session->get('issplit') ;
-
-          require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-          $field = new extraField ( );
-
-          if (GOOGLE_ANA_TRACKER_KEY != "") {
-              require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php');
-          }
-
-          $adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-          require_once ($adminpath . DS . 'helpers' . DS . 'shipping.php');
-          $objshipping = new shipping ( );
-
-          include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-          $producthelper = new producthelper ( );
-
-          require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-          $field = new extraField ( );
-
-          require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-          $ps = new producthelper ( );*/
 
         $adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
         $user      = JFactory::getUser();
-        /*$users_info_id = JRequest::getVar ( 'users_info_id' );
-          $shipping_rate_id = JRequest::getVar ( 'shipping_rate_id' );*/
+
         $payment_method_id = JRequest::getVar('payment_method_id');
         $ccinfo            = JRequest::getVar('ccinfo');
         $order_number      = JRequest::getVar('order_number');
         $remaningtopay     = JRequest::getVar('remaningtopay');
-        $order_id          = JRequest::getInt('order_id');
-        $order_total       = JRequest::getInt('order_total');
         $oid               = JRequest::getInt('oid');
 
         $orderdits = $this->getordersdetail($oid);
@@ -99,12 +60,6 @@ class split_paymentModelsplit_payment extends JModelLegacy
 
         $d ["order_payment_trans_id"] = '';
         $tmporder_total               = $remaningtopay;
-        /*if($issplit)
-          {
-              $tmporder_total = $order_total/2;
-          }
-           */
-        //JRequest::setVar ( 'order_ship', $order_shipping [3] );
 
         $paymentmethod = $order_functions->getPaymentMethodInfo($payment_method_id);
         $paymentmethod = $paymentmethod[0];
@@ -202,13 +157,6 @@ class split_paymentModelsplit_payment extends JModelLegacy
         }
         $mainframe->Redirect($return, $msg);
     }
-
-    /*function getpaymentmethodinfo($id)
-     {
-         $query = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND payment_method_id = '" . $id . "'";
-         $this->_db->setQuery ( $query );
-         return $this->_db->loadObject ();
-     }*/
 
     public function validatepaymentccinfo()
     {

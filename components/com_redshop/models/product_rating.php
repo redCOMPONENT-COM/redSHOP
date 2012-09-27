@@ -9,20 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class product_ratingModelproduct_rating extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class product_ratingModelproduct_rating extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function store($data)
     {
         $user              = JFactory::getUser();

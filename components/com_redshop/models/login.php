@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class loginModellogin extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class loginModellogin extends RedshopCoreModel
 {
     public function setlogin($username, $password)
     {

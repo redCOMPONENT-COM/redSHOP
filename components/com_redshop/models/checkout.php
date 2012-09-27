@@ -22,15 +22,10 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class checkoutModelcheckout extends JModelLegacy
+class checkoutModelcheckout extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $discount_type = null;
 
     public $_userhelper = null;
@@ -44,9 +39,8 @@ class checkoutModelcheckout extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-        $session             = JFactory::getSession();
 
+        $session                = JFactory::getSession();
         $this->_carthelper      = new rsCarthelper();
         $this->_userhelper      = new rsUserhelper();
         $this->_shippinghelper  = new shipping();
@@ -59,7 +53,7 @@ class checkoutModelcheckout extends JModelLegacy
         if (!empty($cart))
         {
             if (!$cart)
-            { //  || array_key_exists("quotation_id",$cart)
+            {
                 $cart        = array();
                 $cart['idx'] = 0;
             }
@@ -124,13 +118,9 @@ class checkoutModelcheckout extends JModelLegacy
         $shippinghelper  = new shipping();
         $order_functions = new order_functions();
 
-        $post = JRequest::get('post');
-
-        $option     = JRequest::getVar('option', 'com_redshop');
-        $Itemid     = JRequest::getVar('Itemid');
-        $shop_id    = JRequest::getVar('shop_id');
-        $gls_mobile = JRequest::getVar('gls_mobile');
-
+        $post             = JRequest::get('post');
+        $shop_id          = JRequest::getVar('shop_id');
+        $gls_mobile       = JRequest::getVar('gls_mobile');
         $customer_message = JRequest::getVar('rs_customer_message_ta');
         $referral_code    = JRequest::getVar('txt_referral_code');
 
@@ -138,16 +128,18 @@ class checkoutModelcheckout extends JModelLegacy
         {
             $shop_id = $shop_id . '###' . $gls_mobile;
         }
+
         $user    = JFactory::getUser();
         $session = JFactory::getSession();
         $auth    = $session->get('auth');
+
         if (!$user->id && $auth['users_info_id'])
         {
             $user->id = -$auth['users_info_id'];
         }
+
         $db      = JFactory::getDBO();
         $issplit = $session->get('issplit');
-        $url     = JURI::root();
 
         // If user subscribe for the newsletter
         if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
@@ -163,10 +155,9 @@ class checkoutModelcheckout extends JModelLegacy
         }
 
         $order_paymentstatus = 'Unpaid';
-        $objshipping         = new shipping ();
+        $objshipping         = new shipping();
 
-        $users_info_id    = JRequest::getInt('users_info_id');
-        $thirdparty_email = JRequest::getVar('thirdparty_email');
+        $users_info_id = JRequest::getInt('users_info_id');
 
         $shippingaddresses = $this->shipaddress($users_info_id);
         $billingaddresses  = $this->billingaddresses();
@@ -199,12 +190,13 @@ class checkoutModelcheckout extends JModelLegacy
         $cart             = $session->get('cart');
         $ccdata           = $session->get('ccdata');
         $shipping_rate_id = '';
+
         if ($cart['free_shipping'] != 1)
         {
             $shipping_rate_id = JRequest::getVar('shipping_rate_id');
         }
+
         $payment_method_id = JRequest::getVar('payment_method_id');
-        $ccinfo            = JRequest::getVar('ccinfo');
 
         if ($shipping_rate_id && $cart['free_shipping'] != 1)
         {
@@ -233,7 +225,6 @@ class checkoutModelcheckout extends JModelLegacy
         }
         $paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentinfo, $cart ['total']);
         $cart['total'] = $paymentArray[0];
-        $cart          = $session->set('cart', $cart);
         $cart          = $session->get('cart');
 
         $order_shipping    = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
@@ -413,7 +404,6 @@ class checkoutModelcheckout extends JModelLegacy
                 {
                     $order_status_log = $errorMsg = $paymentResponse->message;
                     $this->setError($errorMsg);
-                    //$mainframe->Redirect( 'index.php?option=com_redshop&view=checkout&order_id='.$values->order_id.'&Itemid='.$Itemid,$errorMsg);
                     return false;
                 }
             }
@@ -424,7 +414,6 @@ class checkoutModelcheckout extends JModelLegacy
 
         if ($order_total <= 0)
         {
-            $paymentpath       = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
             $paymentparams     = new JRegistry($paymentmethod->params);
             $order_main_status = $paymentparams->get('verify_status', '');
 
@@ -433,7 +422,6 @@ class checkoutModelcheckout extends JModelLegacy
         }
         if (USE_AS_CATALOG)
         {
-
             $order_status        = 'P';
             $order_paymentstatus = 'Unpaid';
         }
