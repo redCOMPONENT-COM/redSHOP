@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -13,141 +13,145 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined ('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die ('restricted access');
 
-require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'order.php' );
-include_once (JPATH_COMPONENT.DS.'helpers'.DS.'helper.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 
-$configobj = new Redconfiguration();
+$configobj       = new Redconfiguration();
 $order_functions = new order_functions();
-$redhelper = new redhelper();
+$redhelper       = new redhelper();
 
-$url= JURI::base();
-$Itemid = $redhelper->getCheckoutItemid();
+$url      = JURI::base();
+$Itemid   = $redhelper->getCheckoutItemid();
 $order_id = JRequest::getInt('oid');
 
-$order =  $order_functions->getOrderDetails($order_id);
+$order     = $order_functions->getOrderDetails($order_id);
 $orderitem = $order_functions->getOrderItemDetail($order_id);
-if($order->order_total > 0 && !USE_AS_CATALOG)
+if ($order->order_total > 0 && !USE_AS_CATALOG)
 {
-	$paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
-	$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
-	$paymentmethod = $paymentmethod[0];
+    $paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
+    $paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
+    $paymentmethod = $paymentmethod[0];
 
+    $paymentpath   = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . DS . $paymentmethod->element . '.xml';
+    $paymentparams = new JRegistry($paymentmethod->params);
 
-	
-	$paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$paymentmethod->element.DS.$paymentmethod->element.'.xml';
-	$paymentparams = new JRegistry( $paymentmethod->params );
-	
+    $preloader = $paymentparams->get('preloader', 1);
 
-	$preloader = $paymentparams->get('preloader',1);
-
-	if($preloader){
-	?>
-	<script type="text/javascript" src="<?php echo JUri::root();?>components/com_redshop/assets/js/mootools-core.js"></script>
-	<script type="text/javascript" src="<?php echo JUri::root();?>components/com_redshop/assets/js/muxloader.js"></script>
-	<script type="text/javascript">
-		window.addEvent('domready', function()
-		{
-			document.getElement('.mux-loader-bar').grab($(new MUX.Loader.Bar()));
-			document.getElement('.mux-loader').start();
-		});
-	</script>
-	<div style="margin: 0 auto;width: 900px;">
-		<div style="margin:200px 0px 0px 250px;">
-			<div><?php echo JText::_('PROCESSING_PAYMENT');?></div><div>&nbsp;</div>
-			<div class="loader mux-loader-bar"></div>
-		</div>
-	</div>
-	<?php
-	}
-	?>
+    if ($preloader)
+    {
+        ?>
+    <script type="text/javascript"
+            src="<?php echo JUri::root();?>components/com_redshop/assets/js/mootools-core.js"></script>
+    <script type="text/javascript"
+            src="<?php echo JUri::root();?>components/com_redshop/assets/js/muxloader.js"></script>
+    <script type="text/javascript">
+        window.addEvent('domready', function () {
+            document.getElement('.mux-loader-bar').grab($(new MUX.Loader.Bar()));
+            document.getElement('.mux-loader').start();
+        });
+    </script>
+    <div style="margin: 0 auto;width: 900px;">
+        <div style="margin:200px 0px 0px 250px;">
+            <div><?php echo JText::_('PROCESSING_PAYMENT');?></div>
+            <div>&nbsp;</div>
+            <div class="loader mux-loader-bar"></div>
+        </div>
+    </div>
+    <?php
+    }
+    ?>
 	<div align="center" style="margin: 200px auto;width: 900px;">
 	<?php
 
-	$is_creditcard = $paymentparams->get('is_creditcard','');
-	$is_redirected = $paymentparams->get('is_redirected',0);
-	if(!$is_creditcard || $is_redirected ==1)
-	{
-	 	$adminpath=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop';
-		$invalid_elements = $paymentparams->get('invalid_elements','');
+    $is_creditcard = $paymentparams->get('is_creditcard', '');
+    $is_redirected = $paymentparams->get('is_redirected', 0);
+    if (!$is_creditcard || $is_redirected == 1)
+    {
+        $adminpath        = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+        $invalid_elements = $paymentparams->get('invalid_elements', '');
 
-		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-		$billingaddresses=$order_functions->getBillingAddress($order->user_id);
+        // send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+        $billingaddresses = $order_functions->getBillingAddress($order->user_id);
 
-		if(isset($billingaddresses))
-		{
-			if(isset($billingaddresses->country_code))
-			{
-				$billingaddresses->country_2_code = $configobj->getCountryCode2($billingaddresses->country_code);
-			}
-			if(isset($billingaddresses->state_code))
-		 	{
-		 		$billingaddresses->state_2_code = $billingaddresses->state_code;//$configobj->getCountryCode2($billingaddresses->state_code);
-		 	}
-		}
-		$shippingaddresses=$order_functions->getOrderShippingUserInfo($order->order_id);
+        if (isset($billingaddresses))
+        {
+            if (isset($billingaddresses->country_code))
+            {
+                $billingaddresses->country_2_code = $configobj->getCountryCode2($billingaddresses->country_code);
+            }
+            if (isset($billingaddresses->state_code))
+            {
+                $billingaddresses->state_2_code = $billingaddresses->state_code; //$configobj->getCountryCode2($billingaddresses->state_code);
+            }
+        }
+        $shippingaddresses = $order_functions->getOrderShippingUserInfo($order->order_id);
 
-		if(isset($shippingaddresses))
-		{
-			if(isset($shippingaddresses->country_code))
-		 	{
-		 		$shippingaddresses->country_2_code = $configobj->getCountryCode2($shippingaddresses->country_code);
-		 	}
-			if(isset($shippingaddresses->state_code))
-		 	{
-		 		$shippingaddresses->state_2_code = $shippingaddresses->state_code;//$configobj->getCountryCode2($shippingaddresses->state_code);
-		 	}
-		}
-		$cart_quantity = 0;
-		for($i=0;$i<count($orderitem);$i++)
-		{
-			$cart_quantity += $orderitem[$i]->product_quantity;
-		}
-		$values['shippinginfo']		= $shippingaddresses;
-		$values['billinginfo']		= $billingaddresses;
-		$values['carttotal']		= $order->order_total;
-		$values['order_subtotal']	= $order->order_subtotal;
-		$values["order_id"]			= $order_id;
-		$values["order_quantity"]	= $cart_quantity;
-		$values['payment_plugin']	= $paymentmethod->element;
-		$values['odiscount']		= $order->order_discount;
-		$values['order']			= $order;
+        if (isset($shippingaddresses))
+        {
+            if (isset($shippingaddresses->country_code))
+            {
+                $shippingaddresses->country_2_code = $configobj->getCountryCode2($shippingaddresses->country_code);
+            }
+            if (isset($shippingaddresses->state_code))
+            {
+                $shippingaddresses->state_2_code = $shippingaddresses->state_code; //$configobj->getCountryCode2($shippingaddresses->state_code);
+            }
+        }
+        $cart_quantity = 0;
+        for ($i = 0; $i < count($orderitem); $i++)
+        {
+            $cart_quantity += $orderitem[$i]->product_quantity;
+        }
+        $values['shippinginfo']   = $shippingaddresses;
+        $values['billinginfo']    = $billingaddresses;
+        $values['carttotal']      = $order->order_total;
+        $values['order_subtotal'] = $order->order_subtotal;
+        $values["order_id"]       = $order_id;
+        $values["order_quantity"] = $cart_quantity;
+        $values['payment_plugin'] = $paymentmethod->element;
+        $values['odiscount']      = $order->order_discount;
+        $values['order']          = $order;
 
-		if($values['payment_plugin'] == "rs_payment_epayrelay")
-		{
-			 $epay_url="https://relay.ditonlinebetalingssystem.dk/relay/v2/relay.cgi/";
-			 $actionurl = $url.'index.php?option=com_redshop&view=epayrelay&oid='.$order_id.'&Itemid='.$Itemid;
-			 $results  = "<form method='post' action='".$actionurl."' name='epayrelayfrm' id='epayrelayfrm'>";
-	         $results .= "<input type='hidden' name='order_id' value='".$values["order_id"]."'>";
-	         $results .= "<table width='100%' border='0'><tr><td align='right' style='padding-right:50px'> <input type='submit' name='paynowbtn' value='Pay Now'></td></tr></table>";
-	         $results .= "<input type='hidden' name='payment_plugin' value='".$values['payment_plugin']."'>";
-	         $results .= "</form>";
-         echo $results;
+        if ($values['payment_plugin'] == "rs_payment_epayrelay")
+        {
+            $epay_url  = "https://relay.ditonlinebetalingssystem.dk/relay/v2/relay.cgi/";
+            $actionurl = $url . 'index.php?option=com_redshop&view=epayrelay&oid=' . $order_id . '&Itemid=' . $Itemid;
+            $results   = "<form method='post' action='" . $actionurl . "' name='epayrelayfrm' id='epayrelayfrm'>";
+            $results .= "<input type='hidden' name='order_id' value='" . $values["order_id"] . "'>";
+            $results .= "<table width='100%' border='0'><tr><td align='right' style='padding-right:50px'> <input type='submit' name='paynowbtn' value='Pay Now'></td></tr></table>";
+            $results .= "<input type='hidden' name='payment_plugin' value='" . $values['payment_plugin'] . "'>";
+            $results .= "</form>";
+            echo $results;
 
-         ?>
- <script language="javascript">
- document.getElementById('epayrelayfrm').submit();
-</script>
-<?php
+            ?>
+            <script language="javascript">
+                document.getElementById('epayrelayfrm').submit();
+            </script>
+            <?php
+        }
+        else
+        {
 
-		} else{
+            JPluginHelper::importPlugin('redshop_payment');
+            $dispatcher = JDispatcher::getInstance();
+            $results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
-			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher =& JDispatcher::getInstance();
-			$results = $dispatcher->trigger('onPrePayment',array( $values['payment_plugin'], $values ));
+            $key = array_search(true, $results);
 
-			$key = array_search(true, $results);
-
-			if(is_array($results) && $key !== false){
-				$mainframe =& JFactory::getApplication();
-				$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid='.$order_id.'&Itemid='.$Itemid);
-			}
-		}
-	}
-}else{
-	$mainframe =& JFactory::getApplication();
-	$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid='.$order_id.'&Itemid='.$Itemid);
+            if (is_array($results) && $key !== false)
+            {
+                $mainframe = JFactory::getApplication();
+                $mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+            }
+        }
+    }
+}
+else
+{
+    $mainframe = JFactory::getApplication();
+    $mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
 }
 ?>
 </div>

@@ -408,15 +408,15 @@ class quotationModelquotation extends JModelLegacy
         // Get required system objects
         $user      = clone(JFactory::getUser());
         $pathway   =& $mainframe->getPathway();
-        $config    =& JFactory::getConfig();
-        $authorize =& JFactory::getACL();
-        $document  =& JFactory::getDocument();
+        $config    = JFactory::getConfig();
+        $authorize = JFactory::getACL();
+        $document  = JFactory::getDocument();
 
         $MailFrom = $mainframe->getCfg('mailfrom');
         $FromName = $mainframe->getCfg('fromname');
         $SiteName = $mainframe->getCfg('sitename');
 
-        $usersConfig = &JComponentHelper::getParams('com_users');
+        $usersConfig = JComponentHelper::getParams('com_users');
         $usersConfig->set('allowUserRegistration', 1);
         if ($usersConfig->get('allowUserRegistration') == '0')
         {
@@ -442,7 +442,7 @@ class quotationModelquotation extends JModelLegacy
         $user->set('usertype', 'Registered');
         $user->set('gid', $authorize->get_group_id('', $newUsertype, 'ARO'));
 
-        $date =& JFactory::getDate();
+        $date = JFactory::getDate();
         $user->set('registerDate', $date->toMySQL());
 
         $useractivation = $usersConfig->get('useractivation');
@@ -564,7 +564,7 @@ class quotationModelquotation extends JModelLegacy
             }
         }
         $producthelper = new producthelper();
-        $session       =& JFactory::getSession();
+        $session       = JFactory::getSession();
         $cart          = $session->get('cart');
         $user          = JFactory::getUser();
 
@@ -583,7 +583,7 @@ class quotationModelquotation extends JModelLegacy
 
         JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $mailbody, 1, NULL, $mailbcc);
 
-        $session = & JFactory::getSession();
+        $session = JFactory::getSession();
         $session->set('cart', NULL);
         $session->set('ccdata', NULL);
         $session->set('issplit', NULL);

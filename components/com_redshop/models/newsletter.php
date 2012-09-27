@@ -26,7 +26,7 @@ class newsletterModelnewsletter extends JModelLegacy
     {
         parent::__construct();
 
-        $this->_db           = & JFactory :: getDBO();
+        $this->_db           = JFactory :: getDBO();
         $this->_table_prefix = '#__redshop_';
         $sub_id              = JRequest::getInt('sid', '', 'request');
         if ($sub_id)
@@ -38,7 +38,7 @@ class newsletterModelnewsletter extends JModelLegacy
     public function checksubscriptionbymail($email)
     {
         Global $mainframe;
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $and  = "";
         if ($user->id)
         {
@@ -48,7 +48,7 @@ class newsletterModelnewsletter extends JModelLegacy
         $query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "newsletter";
         $this->_db->setQuery($query);
         $newsletter = $this->_db->loadResult();
-        $url        =& JURI::root();
+        $url        = JURI::root();
         $link       = $url . 'index.php?option=com_redshop&view=newsletter';
         if ($newsletter != 0)
         {
@@ -77,7 +77,7 @@ class newsletterModelnewsletter extends JModelLegacy
         $query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . $sub_id . "' ";
         $this->_db->setQuery($query);
         $this->_db->query();
-        $url  =& JURI::root();
+        $url  = JURI::root();
         $link = $url . 'index.php?option=com_redshop&view=newsletter';
         $mainframe->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
     }

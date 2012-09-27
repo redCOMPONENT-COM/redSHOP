@@ -49,9 +49,9 @@ class split_paymentModelsplit_payment extends JModelLegacy
         $option          = JRequest::getVar('option');
         $Itemid          = JRequest::getVar('Itemid');
         $task            = JRequest::getVar('task');
-        $user            =& JFactory::getUser();
+        $user            = JFactory::getUser();
         $order_functions = new order_functions();
-        /*$session =&JFactory::getSession();
+        /*$session =JFactory::getSession();
              $issplit=$session->get('issplit') ;
 
           require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');

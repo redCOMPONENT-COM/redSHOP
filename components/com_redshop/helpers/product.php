@@ -270,7 +270,7 @@ class producthelper
         $userArr = $this->_session->get('rs_user');
         if ($user_id == 0)
         {
-            $user    =& JFactory::getUser();
+            $user    = JFactory::getUser();
             $user_id = $user->id;
         }
         $proinfo = array();
@@ -379,7 +379,7 @@ class producthelper
 
     public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -417,7 +417,7 @@ class producthelper
 
     public function getVatUserinfo($user_id = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -474,7 +474,7 @@ class producthelper
 
     public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1090,7 +1090,7 @@ class producthelper
         $seoProductPrice                = '';
         $seoProductSavingPrice          = '';
 
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1203,7 +1203,7 @@ class producthelper
 
     public function getProductNetPrice($product_id, $user_id = 0, $quantity = 1, $data_add = '', $attributes = array())
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1443,7 +1443,7 @@ class producthelper
 
     public function getDiscountId($subtotal = 0, $user_id = 0)
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1496,7 +1496,7 @@ class producthelper
 
     public function getDiscountAmount($cart = array(), $user_id = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1586,7 +1586,7 @@ class producthelper
 
     public function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1682,7 +1682,7 @@ class producthelper
     public function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
     {
         $list = array();
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         $and  = '';
         if (!$userid)
         {
@@ -1707,7 +1707,7 @@ class producthelper
 
     public function getApplyVatOrNot($data_add = "", $user_id = 0)
     {
-        $user            =& JFactory::getUser();
+        $user            = JFactory::getUser();
         $userInformation = array();
         if ($user_id == 0)
         {
@@ -1743,7 +1743,7 @@ class producthelper
 
     public function getApplyattributeVatOrNot($data_add = "", $user_id = 0)
     {
-        $user            =& JFactory::getUser();
+        $user            = JFactory::getUser();
         $userInformation = array();
         if ($user_id == 0)
         {
@@ -1812,7 +1812,7 @@ class producthelper
     {
         $leftjoin = "";
         $and      = "";
-        $user     = &JFactory::getUser();
+        $user     = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -3815,7 +3815,7 @@ class producthelper
             return $data_add;
         }
 
-        $document = & JFactory :: getDocument();
+        $document = JFactory :: getDocument();
         //$document->addScript(JURI::base()."components".DS."com_redshop".DS."assets".DS."js".DS."thumbscroller.js");
         JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
         $layout = JRequest::getVar('layout');
@@ -4209,7 +4209,7 @@ class producthelper
         $url             = JURI::base();
         $attribute_table = "";
         $subproperty     = array();
-        $document        = & JFactory :: getDocument();
+        $document        = JFactory :: getDocument();
         //$document->addScript("components".DS."com_redshop".DS."assets".DS."js".DS."thumbscroller.js");
         JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
         $chkvatArr = $this->_session->get('chkvat');
@@ -5498,8 +5498,8 @@ class producthelper
         if (MY_WISHLIST != 0)
         {
 
-            $u           =& JFactory::getURI();
-            $user        = &JFactory::getUser();
+            $u           = JFactory::getURI();
+            $user        = JFactory::getUser();
             $my_wishlist = '';
 
             // Product Wishlist - New Feature Like Magento Store
