@@ -2491,35 +2491,28 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
      */
     public function RemoveAssociation($cid)
     {
-
         if (!$this->CheckRedProductFinder())
         {
             return array();
         }
 
-        $database = JFactory::getDBO();
-
         if (count($cid))
         {
-
             $cids = 'product_id=' . implode(' OR product_id=', $cid);
 
             $q = "SELECT id FROM #__redproductfinder_associations" . "\n  WHERE ( $cids )";
-            $database->setQuery($q);
-            $asso = $database->loadObjectList();
+            $this->_db->setQuery($q);
+            $asso = $this->_db->loadObjectList();
 
             foreach ($asso as $newasso)
             {
-
                 $asscid[] = $newasso->id;
             }
 
-            //$asscids = 'association_id=' . implode( ' OR association_id=', $asscid );
-
             $query = "DELETE FROM #__redproductfinder_associations" . "\n  WHERE ( $cids )";
-            $database->setQuery($query);
+            $this->_db->setQuery($query);
 
-            if (!$database->query())
+            if (!$this->_db->query())
             {
             }
             else
@@ -2527,8 +2520,8 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
                 /* Now remove the type associations */
                 $cids  = 'association_id=' . implode(' OR association_id=', $asscid);
                 $query = "DELETE FROM #__redproductfinder_association_tag" . "\n  WHERE ( $cids )";
-                $database->setQuery($query);
-                $database->query();
+                $this->_db->setQuery($query);
+                $this->_db->query();
             }
         }
     }
@@ -2553,11 +2546,9 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
      */
     public function StockRoomList()
     {
-        $database = JFactory::getDBO();
-
         $q = "SELECT * FROM " . $this->_table_prefix . "stockroom" . "\n  WHERE published = 1";
-        $database->setQuery($q);
-        $arrStockrooms = $database->loadObjectList();
+        $this->_db->setQuery($q);
+        $arrStockrooms = $this->_db->loadObjectList();
         return $arrStockrooms;
     }
 
@@ -2566,11 +2557,9 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
      */
     public function StockRoomProductQuantity($pid, $sid)
     {
-        $database = JFactory::getDBO();
-
         $q = "SELECT `quantity` FROM `" . $this->_table_prefix . "product_stockroom_xref` WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
-        $database->setQuery($q);
-        $quantity = $database->loadResult();
+        $this->_db->setQuery($q);
+        $quantity = $this->_db->loadResult();
         return $quantity;
     }
 
@@ -2579,47 +2568,37 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
      */
     public function StockRoomAttProductQuantity($pid, $sid, $section)
     {
-
-        $database = JFactory::getDBO();
-
         $q = "SELECT `quantity` FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref` WHERE `section_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' AND section = '" . $section . "'";
-        $database->setQuery($q);
-        $quantity = $database->loadResult();
+        $this->_db->setQuery($q);
+        $quantity = $this->_db->loadResult();
         return $quantity;
     }
 
     public function StockRoomAttProductPreorderstock($pid, $sid, $section)
     {
-
-        $database = JFactory::getDBO();
-
         $q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref` WHERE `section_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' AND section = '" . $section . "'";
-        $database->setQuery($q);
-        $preorder_stock_data = $database->loadObjectList();
+        $this->_db->setQuery($q);
+        $preorder_stock_data = $this->_db->loadObjectList();
         return $preorder_stock_data;
     }
 
     // Getting Preorder Stock Quantity
     public function StockRoomPreorderProductQuantity($pid, $sid, $section)
     {
-
-        $database = JFactory::getDBO();
-
         $q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->_table_prefix . "product_stockroom_xref` WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
-        $database->setQuery($q);
-        $preorder_stock_data = $database->loadObjectList();
+        $this->_db->setQuery($q);
+        $preorder_stock_data = $this->_db->loadObjectList();
         return $preorder_stock_data;
     }
 
     // store stockroom product xref
     public function SaveStockroom($pid, $post)
     {
-        $database = JFactory::getDBO();
-        $query    = "DELETE FROM " . $this->_table_prefix . "product_stockroom_xref" . "\n  WHERE product_id = '" . $pid . "' ";
+        $query = "DELETE FROM " . $this->_table_prefix . "product_stockroom_xref" . "\n  WHERE product_id = '" . $pid . "' ";
 
-        $database->setQuery($query);
+        $this->_db->setQuery($query);
 
-        if (!$database->query())
+        if (!$this->_db->query())
         {
             return false;
         }
@@ -2636,7 +2615,6 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
     public function  attribute_empty()
     {
         $producthelper = new producthelper();
-        $database      = JFactory::getDBO();
         if ($this->_id)
         {
             $attributes = $producthelper->getProductAttribute($this->_id);
@@ -2644,20 +2622,20 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
             {
 
                 $query = "DELETE FROM `" . $this->_table_prefix . "product_attribute` WHERE `attribute_id` = '" . $attributes[$i]->attribute_id . "' ";
-                $database->setQuery($query);
-                if ($database->query())
+                $this->_db->setQuery($query);
+                if ($this->_db->query())
                 {
                     $property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
                     for ($j = 0; $j < count($property); $j++)
                     {
                         $query = "DELETE FROM `" . $this->_table_prefix . "product_attribute_property` WHERE `property_id` = '" . $property[$j]->property_id . "' ";
-                        $database->setQuery($query);
-                        if ($database->query())
+                        $this->_db->setQuery($query);
+                        if ($this->_db->query())
                         {
 
                             $query = "DELETE FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE `subattribute_id` = '" . $property[$j]->property_id . "' ";
-                            $database->setQuery($query);
-                            $database->query();
+                            $this->_db->setQuery($query);
+                            $this->_db->query();
                         }
                     }
                 }
@@ -2756,30 +2734,6 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
         //print_r($list);
         return $list;
     }
-
-    /*	// store stockroom product xref
-  public function SaveAttributeStockroom($post)
-  {
-
-
- 	$database =& JFactory::getDBO();
-	$query = "DELETE FROM ".$this->_table_prefix."product_attribute_stockroom_xref"
-		     			. "\n  WHERE section_id = '".$post['section_id']."' AND section = '".$post['section']."'";
-
-    $database->setQuery( $query );
-
-    $database->query();
-
-   	for ($i=0;$i<count($post['quantity']);$i++)
-    {
-    	if($post['quantity'][$i] || (!USE_BLANK_AS_INFINITE))
-    	{
-    		$this->InsertStockroom($post['section_id'],$post['section'],$post['stockroom_id'][$i],$post['quantity'][$i]);
-    	}
-    }
-
-     return true;
-  }*/
 
     public function SaveAttributeStockroom($post)
     {
