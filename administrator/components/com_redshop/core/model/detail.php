@@ -9,20 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
 /**
  * Base Model for Detail Models.
  *
  * @package     redSHOP
  * @subpackage  Core
  */
-class RedshopCoreModelDetail extends JModelLegacy
+class RedshopCoreModelDetail extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = '#__redshop_';
-
     /**
      * Constructor.
      */

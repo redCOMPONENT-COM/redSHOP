@@ -9,29 +9,25 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class shipping_rateModelShipping_rate extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class shipping_rateModelShipping_rate extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'shipping_rate_id';
 
     public function __construct()
     {
         parent::__construct();
+
         $app = JFactory::getApplication();
 
-        $this->_table_prefix = '#__redshop_';
-        $this->_context      = 'shipping_rate_id';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-
-        $id = $app->getUserStateFromRequest($this->_context . 'extension_id', 'extension_id', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $id         = $app->getUserStateFromRequest($this->_context . 'extension_id', 'extension_id', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);

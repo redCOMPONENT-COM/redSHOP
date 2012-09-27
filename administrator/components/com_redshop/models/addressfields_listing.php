@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class addressfields_listingModeladdressfields_listing extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class addressfields_listingModeladdressfields_listing extends RedshopCoreModel
 {
     public $_context = 'ordering';
-
-    public $_data = null;
 
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = '#__redshop_';
 
     public function __construct()
     {

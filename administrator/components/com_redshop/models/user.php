@@ -9,19 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class userModeluser extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class userModeluser extends RedshopCoreModel
 {
-    public $_data = null;
-
-    public $_id = null;
-
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'user_info_id';
 
     public function __construct()
     {
@@ -29,11 +25,8 @@ class userModeluser extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'user_info_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-
+        $limit                     = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart                = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
         $filter                    = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
         $spgrp_filter              = $app->getUserStateFromRequest($this->_context . 'spgrp_filter', 'spgrp_filter', 0);
         $approved_filter           = $app->getUserStateFromRequest($this->_context . 'approved_filter', 'approved_filter', 0);
@@ -41,18 +34,13 @@ class userModeluser extends JModelLegacy
 
         $array = JRequest::getVar('user_id', 0, '', 'array');
 
-        $this->setId((int)$array[0]);
+        $this->_id = (int)$array[0];
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
         $this->setState('filter', $filter);
         $this->setState('spgrp_filter', $spgrp_filter);
         $this->setState('approved_filter', $approved_filter);
         $this->setState('tax_exempt_request_filter', $tax_exempt_request_filter);
-    }
-
-    public function setId($id)
-    {
-        $this->_id = $id;
     }
 
     public function getData()

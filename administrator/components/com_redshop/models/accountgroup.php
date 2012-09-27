@@ -1,4 +1,4 @@
-<?php
+0<?php
 /**
  * @package     redSHOP
  * @subpackage  Models
@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class accountgroupModelaccountgroup extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class accountgroupModelaccountgroup extends RedshopCoreModel
 {
     public $_context = 'accountgroup_id';
-
-    public $_data = null;
 
     public $_total = null;
 

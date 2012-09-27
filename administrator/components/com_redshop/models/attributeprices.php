@@ -9,19 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class attributepricesModelattributeprices extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class attributepricesModelattributeprices extends RedshopCoreModel
 {
     public $_sectionid = 0;
 
     public $_section = null;
 
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = '#__redshop_';
 
     public $_context = 'price_id';
 
@@ -37,16 +35,9 @@ class attributepricesModelattributeprices extends JModelLegacy
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
 
-        $section_id     = JRequest::getVar('section_id');
-        $this->_section = JRequest::getVar('section');
-        $this->setSectionId((int)$section_id);
-    }
-
-    public function setSectionId($id)
-    {
-        // Set employees_detail id and wipe data
-        $this->_sectionid = $id;
-        $this->_data      = null;
+        $section_id       = JRequest::getVar('section_id');
+        $this->_section   = JRequest::getVar('section');
+        $this->_sectionid = (int)$section_id;
     }
 
     public function getData()

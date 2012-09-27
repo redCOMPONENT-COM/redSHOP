@@ -9,16 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class redshopModelredshop extends JModelLegacy
-{
-    public $_table_prefix = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-        $this->_filteroption = 3;
-    }
+class redshopModelredshop extends RedshopCoreModel
+{
+    public $_filteroption = 3;
 
     public function demoContentInsert()
     {
