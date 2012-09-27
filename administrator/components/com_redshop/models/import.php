@@ -32,7 +32,8 @@ class importModelimport extends JModelLegacy
     public function getData()
     {
         ob_clean();
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $session = JFactory::getSession();
         $post    = JRequest::get('post');
         $files   = JRequest::get('files');
@@ -70,7 +71,7 @@ class importModelimport extends JModelLegacy
         $session->set('Importfile', $files);
         $session->set('Importfilename', $files['name']);
 
-        $mainframe->Redirect('index.php?option=com_redshop&view=import&layout=importlog');
+        $app->redirect('index.php?option=com_redshop&view=import&layout=importlog');
         return;
     }
 
@@ -1409,7 +1410,8 @@ class importModelimport extends JModelLegacy
                         // import users
                         if ($post['import'] == 'users')
                         {
-                            global $mainframe;
+                            $app = JFactory::getApplication();
+
                             $q = "SELECT * FROM `" . $this->_table_prefix . "shopper_group` " . "WHERE `shopper_group_name` = '" . $rawdata['shopper_group_name'] . "'";
                             $this->_db->setQuery($q);
                             $shopper_group_data = $this->_db->loadObject();
@@ -1457,9 +1459,9 @@ class importModelimport extends JModelLegacy
                                 $db       = JFactory::getDBO();
                                 $me       = JFactory::getUser();
                                 $acl      = JFactory::getACL();
-                                $MailFrom = $mainframe->getCfg('mailfrom');
-                                $FromName = $mainframe->getCfg('fromname');
-                                $SiteName = $mainframe->getCfg('sitename');
+                                $MailFrom = $app->getCfg('mailfrom');
+                                $FromName = $app->getCfg('fromname');
+                                $SiteName = $app->getCfg('sitename');
 
                                 // Create a new JUser object
                                 $user = new JUser($user_id);
@@ -2747,7 +2749,6 @@ class importModelimport extends JModelLegacy
  * @param array $keyproduct
  * @param array $newkeys - reference variable
  */
-public
 function checkkeys($item, $keyproduct, &$newkeys)
 {
 

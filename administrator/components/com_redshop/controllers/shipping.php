@@ -21,7 +21,7 @@ class shippingcontroller extends RedshopCoreController
     public function importeconomic()
     {
         $db = JFactory::getDBO();
-        #Add product to economic
+
         if (ECONOMIC_INTEGRATION == 1)
         {
             $economic = new economic();
@@ -37,11 +37,13 @@ class shippingcontroller extends RedshopCoreController
                 $shipping_number     = $shipping_nshortname . ' ' . $shipping[$i]->shipping_rate_id;
                 $shipping_name       = $shipping[$i]->shipping_rate_name;
                 $shipping_rate       = $shipping[$i]->shipping_rate_value;
+
                 if ($shipping[$i]->economic_displayname)
                 {
                     $shipping_number = $shipping[$i]->economic_displayname;
                 }
-                $ecoShippingrateNumber = $economic->createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate, $shipping[$i]->apply_vat);
+
+                $economic->createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate, $shipping[$i]->apply_vat);
             }
         }
         $msg = JText::_("COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC_SUCCESS");
@@ -56,9 +58,9 @@ class shippingcontroller extends RedshopCoreController
      */
     public function saveorder()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(), 'post', 'array');
-        $order  = JRequest::getVar('order', array(), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);

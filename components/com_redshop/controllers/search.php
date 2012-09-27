@@ -1,22 +1,37 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
+defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * search Controller
+ * account_billtoController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class searchController extends JControllerLegacy
+class account_billtoController extends RedshopCoreController
 {
     /**
      * cancel function
@@ -37,15 +52,14 @@ class searchController extends JControllerLegacy
      */
     public function loadProducts()
     {
-
-        $get    = JRequest::get('get');
+        $get    = $this->input->getArray($_GET);
         $taskid = $get['taskid'];
 
         $model = $this->getModel();
 
         $brands = $model->loadCatProductsManufacturer($taskid);
 
-        $manufac_data = (JRequest::getInt('manufacture_id', 0)); // Manufacture Select Id
+        $manufac_data = ($this->input->getInt('manufacture_id', 0)); // Manufacture Select Id
 
         jimport('joomla.application.module.helper');
         $module           = JModuleHelper::getModule('redshop_search');
@@ -65,7 +79,6 @@ class searchController extends JControllerLegacy
 
             echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
         }
-        exit;
     }
 
     /**

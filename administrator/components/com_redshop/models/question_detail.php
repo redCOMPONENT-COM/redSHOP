@@ -21,7 +21,6 @@ class question_detailModelquestion_detail extends JModelLegacy
 
     public function __construct()
     {
-        global $mainframe, $context;
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';

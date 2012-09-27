@@ -13,7 +13,9 @@ class shippingViewshipping extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_SHIPPING'));
@@ -25,8 +27,8 @@ class shippingViewshipping extends JViewLegacy
 
         $uri              = JFactory::getURI();
         $context          = 'shipping';
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;

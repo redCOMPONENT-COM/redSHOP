@@ -32,17 +32,15 @@ class zip_importModelzip_import extends JModelLegacy
 
     public function getData()
     {
-        $thumb = new thumbnail();
-        global $mainframe;
-        $obj_img = new thumbnail_images();
-        //$package=$this->getzipfilescount();
+        $app = JFactory::getApplication();
+
         $this->getzipfilenames();
 
         $this->install();
         session_unregister("filename");
         session_unregister("zipno");
         $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTLY_UPDATED');
-        $mainframe->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
+        $app->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
     }
 
     public function getzipfilescount()
@@ -100,7 +98,8 @@ class zip_importModelzip_import extends JModelLegacy
 
     public function install()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $fileType = "url";
         switch ($fileType)
         {
@@ -119,7 +118,7 @@ class zip_importModelzip_import extends JModelLegacy
         {
             $this->setState('message', 'Unable to find install package');
             $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-            $mainframe->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
+            $app->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
             //return false;
         }
 
@@ -138,11 +137,11 @@ class zip_importModelzip_import extends JModelLegacy
         else
         {
             $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-            $mainframe->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
+            $app->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
         }
 
         // Set some model state values
-        $mainframe->enqueueMessage($msg);
+        $app->enqueueMessage($msg);
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
         $this->setState('message', $installer->message);

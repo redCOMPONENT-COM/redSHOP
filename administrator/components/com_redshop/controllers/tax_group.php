@@ -15,7 +15,7 @@ class tax_groupController extends RedshopCoreController
 {
     public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $this->setRedirect('index.php?option=' . $option . '&view=tax_group');
     }
 }

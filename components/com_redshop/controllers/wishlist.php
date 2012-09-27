@@ -1,21 +1,36 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * wishlist Controller
+ * wishlistController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class wishlistController extends JControllerLegacy
+class wishlistController extends RedshopCoreController
 {
     /**
      * createsave wishlist function
@@ -25,10 +40,10 @@ class wishlistController extends JControllerLegacy
      */
     public function createsave()
     {
-        $user  = &JFactory::getUser();
+        $user  = JFactory::getUser();
         $model = & $this->getModel("wishlist");
 
-        $post ['wishlist_name'] = JRequest :: getVar('txtWishlistname');
+        $post ['wishlist_name'] = $this->input->get('txtWishlistname');
         $post ['user_id']       = $user->id;
         $post ['cdate']         = time();
         if ($model->store($post))
@@ -39,9 +54,9 @@ class wishlistController extends JControllerLegacy
         {
             echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
         }
-        if (JRequest::getVar('loginwishlist') == 1)
+        if ($this->input->get('loginwishlist') == 1)
         {
-            $wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . JRequest::getVar('Itemid'), false);
+            $wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->get('Itemid'), false);
             $this->setRedirect($wishreturn);
         }
         else
@@ -62,10 +77,8 @@ class wishlistController extends JControllerLegacy
      */
     public function savewishlist()
     {
-        global $mainframe;
-        $cid    = JRequest :: getInt('cid');
-        $model  = & $this->getModel("wishlist");
-        $option = JRequest :: getVar('option');
+        $model = & $this->getModel("wishlist");
+
         if ($model->savewishlist())
         {
             echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
@@ -90,17 +103,12 @@ class wishlistController extends JControllerLegacy
      */
     public function delwishlist()
     {
-        global $mainframe;
-
-        $user  = &JFactory::getUser();
-        $post  = JRequest :: get('post');
+        $user  = JFactory::getUser();
         $model = & $this->getModel("wishlist");
 
-        $Itemid = JRequest::getVar('Itemid');
-
-        $option = JRequest::getVar('option');
-
-        $post = JRequest::get('request');
+        $item_id = $this->input->get('Itemid');
+        $option  = $this->input->get('option');
+        $post    = $this->input->getArray($_REQUEST);
 
         if ($model->check_user_wishlist_authority($user->id, $post["wishlist_id"]))
         {
@@ -118,29 +126,29 @@ class wishlistController extends JControllerLegacy
             $msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
         }
 
-        $link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+        $link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $item_id, false);
         ;
 
-        $mainframe->redirect($link, $msg);
+        $this->app->redirect($link, $msg);
     }
 
     public function mysessdelwishlist()
     {
-        $post                = array();
-        $post['wishlist_id'] = JRequest :: getVar('wishlist_id');
-        $mydel               = JRequest :: getVar('mydel');
-        $model               = & $this->getModel("wishlist");
-        $option              = JRequest::getVar('option');
-        $Itemid              = JRequest::getVar('Itemid');
+        $wishlist_id = $this->input->get('wishlist_id');
+        $mydel       = $this->input->get('mydel');
+        $model       = $this->getModel("wishlist");
+        $option      = $this->input->get('option');
+        $item_id     = $this->input->get('Itemid');
 
         if ($mydel != '')
         {
-            if ($model->mysessdelwishlist($post["wishlist_id"]))
+            $msg = '';
+            if ($model->mysessdelwishlist($wishlist_id))
             {
                 $msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
             }
 
-            $link = JRoute::_("index.php?mydel=1&option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+            $link = JRoute::_("index.php?mydel=1&option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $item_id, false);
             $this->setRedirect($link, $msg);
         }
     }

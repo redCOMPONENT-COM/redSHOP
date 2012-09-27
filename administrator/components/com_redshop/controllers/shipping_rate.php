@@ -15,7 +15,7 @@ class shipping_ratecontroller extends RedshopCoreController
 {
     public function cancel()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
         $this->setRedirect('index.php?option=' . $post['option'] . '&view=shipping_detail&task=edit&cid[]=' . $post['id']);
     }
 }

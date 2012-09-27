@@ -22,9 +22,10 @@ class template_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'template_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'template_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
+
         parent::display();
     }
 
@@ -35,13 +36,11 @@ class template_detailController extends RedshopCoreController
 
     public function save($apply = 0)
     {
-        $post        = JRequest::get('post');
-        $showbuttons = JRequest::getVar('showbuttons');
-
-        $template_desc         = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post                  = $this->input->getArray($_POST);
+        $showbuttons           = $this->input->get('showbuttons');
+        $template_desc         = $this->input->post->getString('template_desc', '');
         $post["template_desc"] = $template_desc;
-
-        $option = JRequest::getVar('option');
+        $option                = $this->input->get('option');
 
         $model = $this->getModel('template_detail');
         $row   = $model->store($post);
@@ -78,13 +77,12 @@ class template_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('template_detail');
@@ -98,13 +96,12 @@ class template_detailController extends RedshopCoreController
 
     public function publish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('template_detail');
@@ -118,13 +115,12 @@ class template_detailController extends RedshopCoreController
 
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('template_detail');
@@ -138,9 +134,8 @@ class template_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-
-        $model = $this->getModel('template_detail');
+        $option = $this->input->get('option');
+        $model  = $this->getModel('template_detail');
         $model->checkin();
 
         $this->setRedirect('index.php?option=' . $option . '&view=template');
@@ -148,9 +143,8 @@ class template_detailController extends RedshopCoreController
 
     public function copy()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $model = $this->getModel('template_detail');
 

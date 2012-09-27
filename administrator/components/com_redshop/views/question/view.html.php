@@ -13,7 +13,10 @@ class questionViewquestion extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $context  = 'question_id';
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_question'));
@@ -28,9 +31,9 @@ class questionViewquestion extends JViewLegacy
 
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'question_date');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-        $product_id       = $mainframe->getUserStateFromRequest($context . 'product_id', 'product_id', 0);
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'question_date');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+        $product_id       = $app->getUserStateFromRequest($context . 'product_id', 'product_id', 0);
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;

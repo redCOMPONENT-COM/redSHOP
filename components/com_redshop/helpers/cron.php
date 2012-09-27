@@ -1,21 +1,16 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
+
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
+
 /*
  *  cron class
  */
@@ -27,7 +22,7 @@ class cron
     public function cron()
     {
         // mail center
-        $date =& JFactory::getDate();
+        $date = JFactory::getDate();
 
         $today = time();
         $day   = date('D', $today);
@@ -43,7 +38,7 @@ class cron
 
         $fdate = date('Y-m-d', $today);
 
-        $db = $db = & JFactory :: getDBO();
+        $db = $db = JFactory :: getDBO();
 
         // calculation for move Container once in day
 
@@ -109,7 +104,7 @@ class cron
     public function move($container_id, $stockroom_id)
     { // Move Container To Stockroom
 
-        $db = $db = & JFactory :: getDBO();
+        $db = $db = JFactory :: getDBO();
 
         $q_insert = "INSERT INTO #__" . TABLE_PREFIX . "_stockroom_container_xref (stockroom_id ,container_id) VALUES ('" . $stockroom_id . "', '" . $container_id . "')";
         $db->setQuery($q_insert);
@@ -128,7 +123,7 @@ class cron
     public function order_status($container_id)
     { // Change Order Status
 
-        $db = $db = & JFactory :: getDBO();
+        $db = $db = JFactory :: getDBO();
 
         $select_order = "SELECT  order_item_id, order_id,order_status,delivery_time,container_id,product_id,is_split from #__" . TABLE_PREFIX . "_order_item where container_id = " . $container_id;
         $db->setQuery($select_order);
@@ -163,11 +158,11 @@ class cron
     public function catalog_mail()
     {
 
-        $date        =& JFactory::getDate();
+        $date        = JFactory::getDate();
         $redshopMail = new redshopMail();
         $fdate       = $date->toFormat('%Y-%m-%d');
 
-        $db = $db = & JFactory :: getDBO();
+        $db = $db = JFactory :: getDBO();
 
         $query = "SELECT * FROM #__" . TABLE_PREFIX . "_catalog_request where block = 0 ";
         $db->setQuery($query);
@@ -197,7 +192,7 @@ class cron
                             $mailbcc = explode(",", $mail_data->mail_bcc);
                         }
                     }
-                    $config    = &JFactory::getConfig();
+                    $config    = JFactory::getConfig();
                     $from      = $config->getValue('mailfrom');
                     $fromname  = $config->getValue('fromname');
                     $recipient = $catalog_detail->email;
@@ -245,7 +240,7 @@ class cron
                             $mailbcc = explode(",", $mail_data->mail_bcc);
                         }
                     }
-                    $config    = &JFactory::getConfig();
+                    $config    = JFactory::getConfig();
                     $from      = $config->getValue('mailfrom');
                     $fromname  = $config->getValue('fromname');
                     $recipient = $catalog_detail->email;
@@ -307,7 +302,7 @@ class cron
                                 $mailbcc = explode(",", $mail_data->mail_bcc);
                             }
                         }
-                        $config    = &JFactory::getConfig();
+                        $config    = JFactory::getConfig();
                         $from      = $config->getValue('mailfrom');
                         $fromname  = $config->getValue('fromname');
                         $recipient = $catalog_detail->email;
@@ -341,8 +336,8 @@ class cron
         $redshopMail     = new redshopMail();
         $redconfig       = new Redconfiguration();
         $stockroomhelper = new rsstockroomhelper();
-        $db              = & JFactory :: getDBO();
-        $date            =& JFactory::getDate();
+        $db              = JFactory :: getDBO();
+        $date            = JFactory::getDate();
         $fdate           = $date->toFormat('%Y-%m-%d');
 
         $query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
@@ -357,7 +352,7 @@ class cron
             $subject         = "";
             $order_id        = $mail_detail->order_id;
             $mailbcc         = NULL;
-            $config          = &JFactory::getConfig();
+            $config          = JFactory::getConfig();
             $from            = $config->getValue('mailfrom');
             $fromname        = $config->getValue('fromname');
             $start_date      = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
@@ -412,7 +407,7 @@ class cron
 
                     if ($sent == 1)
                     {
-                        $couponItems                   =& JTable::getInstance('coupon_detail', 'Table');
+                        $couponItems                   = JTable::getInstance('coupon_detail', 'Table');
                         $couponItems->coupon_code      = $token;
                         $couponItems->percent_or_total = DISCOUPON_PERCENT_OR_TOTAL;
                         $couponItems->coupon_value     = DISCOUPON_VALUE;
@@ -501,13 +496,13 @@ class cron
     public function color_mail()
     {
 
-        $date        =& JFactory::getDate();
+        $date        = JFactory::getDate();
         $redshopMail = new redshopMail();
         $today       = time();
 
         $fdate = $date->toFormat('%Y-%m-%d');
 
-        $db = $db = & JFactory :: getDBO();
+        $db = $db = JFactory :: getDBO();
 
         $query = "SELECT * FROM #__" . TABLE_PREFIX . "_sample_request where block = 0 ";
         $db->setQuery($query);
@@ -538,7 +533,7 @@ class cron
                             $mailbcc = explode(",", $mail_data->mail_bcc);
                         }
                     }
-                    $config    = &JFactory::getConfig();
+                    $config    = JFactory::getConfig();
                     $from      = $config->getValue('mailfrom');
                     $fromname  = $config->getValue('fromname');
                     $recipient = $color_detail->email;
@@ -576,7 +571,7 @@ class cron
                             $mailbcc = explode(",", $mail_data->mail_bcc);
                         }
                     }
-                    $config    = &JFactory::getConfig();
+                    $config    = JFactory::getConfig();
                     $from      = $config->getValue('mailfrom');
                     $fromname  = $config->getValue('fromname');
                     $recipient = $color_detail->email;
@@ -622,7 +617,7 @@ class cron
                             $mailbcc = explode(",", $mail_data->mail_bcc);
                         }
                     }
-                    $config    = &JFactory::getConfig();
+                    $config    = JFactory::getConfig();
                     $from      = $config->getValue('mailfrom');
                     $fromname  = $config->getValue('fromname');
                     $recipient = $color_detail->email;
@@ -684,7 +679,7 @@ class cron
                                 $mailbcc = explode(",", $mail_data->mail_bcc);
                             }
                         }
-                        $config    = &JFactory::getConfig();
+                        $config    = JFactory::getConfig();
                         $from      = $config->getValue('mailfrom');
                         $fromname  = $config->getValue('fromname');
                         $recipient = $color_detail->email;
@@ -715,7 +710,7 @@ class cron
       */
     public function subscription_renewal_mail()
     {
-        $db          = $db = & JFactory :: getDBO();
+        $db          = $db = JFactory :: getDBO();
         $redshopMail = new redshopMail();
         $query       = "SELECT ps.* FROM #__" . TABLE_PREFIX . "_product_subscribe_detail AS ps" . " ,#__" . TABLE_PREFIX . "_subscription_renewal AS r" . " WHERE r.product_id = ps.product_id AND r.before_no_days >= DATEDIFF(FROM_UNIXTIME( ps.end_date ),curdate())" . " AND ps.renewal_reminder = 1";
         $db->setQuery($query);

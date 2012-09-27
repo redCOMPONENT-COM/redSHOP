@@ -14,7 +14,9 @@ class categoryViewcategory extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $context = 'category_id';
         // redshop template object
@@ -35,8 +37,8 @@ class categoryViewcategory extends JViewLegacy
 
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;
@@ -45,10 +47,10 @@ class categoryViewcategory extends JViewLegacy
         $categories         = $this->get('Data');
 
         $pagination           = $this->get('Pagination');
-        $category_main_filter = $mainframe->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
+        $category_main_filter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
         $optionsection        = array();
         $optionsection[]      = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-        $category_id          = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
+        $category_id          = $app->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 
         $category          = new product_category();
         $categories_parent = $category->getParentCategories();

@@ -21,11 +21,8 @@ class accessmanager_detailController extends RedshopCoreController
 
     public function edit()
     {
-        //JRequest::setVar('view', 'answer_detail');
         $this->input->set('view', 'answer_detail');
-        //JRequest::setVar('layout', 'default');
         $this->input->set('layout', 'default');
-        //JRequest::setVar('hidemainmenu', 1);
         $this->input->set('hidemainmenu', 1);
 
         parent::display();
@@ -33,11 +30,8 @@ class accessmanager_detailController extends RedshopCoreController
 
     public function save($apply)
     {
-        //$post = JRequest::get('post');
-        $post = $this->input->get('post');
-        //$option  = JRequest::getVar('option', '', 'request', 'string');
-        $option = $this->input->getString('option', '');
-        //$section = JRequest::getVar('section', '', 'request', 'string');
+        $post    = $this->input->getArray($_POST);
+        $option  = $this->input->getString('option', '');
         $section = $this->input->getString('section', '');
 
         $model = $this->getModel('accessmanager_detail');
@@ -68,9 +62,9 @@ class accessmanager_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        //$option = JRequest::getVar('option');
         $option = $this->input->get('option');
-        $msg    = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
+
+        $msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
         $this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
     }
 }

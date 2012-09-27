@@ -27,7 +27,7 @@ class categoryViewcategory extends JViewLegacy
         $layout = JRequest::getVar('layout');
 
         $print  = JRequest::getVar('print');
-        $params = &$mainframe->getParams($option);
+        $params = $mainframe->getParams($option);
         $model  = $this->getModel('category');
 
         $category_template     = ( int )$params->get('category_template');
@@ -46,21 +46,15 @@ class categoryViewcategory extends JViewLegacy
             $this->setLayout('detail');
         }
 
-        $document =& JFactory::getDocument();
+        $document = JFactory::getDocument();
 
         JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
         JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-
         JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
         JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-
-        //JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
         JHTML::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
-        // Start Code for fixes IE9 issue
-        //JHTML::Stylesheet('jquery-ui-1.css', 'components/com_redshop/assets/css/');
+
         $document->addStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css');
-        // End Code for fixes IE9 issue
-        //JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
         $lists   = array();
         $minmax  = array(0, 0);
@@ -84,7 +78,7 @@ class categoryViewcategory extends JViewLegacy
             $isSlider = false;
             if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
             {
-                $limit_product =& $model->getCategoryProduct(1);
+                $limit_product = $model->getCategoryProduct(1);
                 $minmax[0]     = $limit_product[0]->minprice;
                 $minmax[1]     = $limit_product[0]->maxprice;
 
@@ -93,7 +87,7 @@ class categoryViewcategory extends JViewLegacy
                 $texpricemax = JRequest::getInt('texpricemax', $minmax[1], '', 'int');
                 $model->setMaxMinProductPrice(array($texpricemin, $texpricemax));
             }
-            $product =& $model->getCategoryProduct(0, $isSlider);
+            $product = $model->getCategoryProduct(0, $isSlider);
 
             $document->setMetaData('keywords', $maincat->metakey);
             $document->setMetaData('description', $maincat->metadesc);
@@ -326,7 +320,7 @@ class categoryViewcategory extends JViewLegacy
         {
             $selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
         }
-        $category_template_id = $mainframe->getUserStateFromRequest($this->_context . 'category_template', 'category_template', $selected_template); # Gunjan Template Switcher
+        $category_template_id = $mainframe->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template); # Gunjan Template Switcher
         $order_by_select      = JRequest::getVar('order_by', '');
         $manufacturer_id      = JRequest::getInt('manufacturer_id', 0, '', 'int');
 

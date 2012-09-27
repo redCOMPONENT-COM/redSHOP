@@ -20,7 +20,6 @@ class product_category
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
     }
 
@@ -111,19 +110,16 @@ class product_category
     {
 
         global $context;
-        $mainframe          = JFactory::getApplication();
+        $app                = JFactory::getApplication();
         $GLOBALS['catlist'] = array();
-        $db                 = jFactory::getDBO();
+        $db                 = JFactory::getDBO();
         $level++;
         $view = JRequest::getVar('view');
 
-        $category_main_filter = $mainframe->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
-
-        // parent product dropdown selector
-        //$category_drop_id = $mainframe->getUserStateFromRequest( $context.'category_id',  'category_id', '' );
-        // End
+        $category_main_filter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
 
         $orderby = 'ORDER BY c.category_name';
+
         if ($level == 1 && $category_id)
         {
             $cid = $category_id;
@@ -193,10 +189,12 @@ class product_category
 
     public function _buildContentOrderBy()
     {
-        global $mainframe, $context;
+        global $context;
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $app = JFactory::getApplication();
+
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
         $orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
     }

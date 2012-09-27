@@ -22,9 +22,9 @@ class xmlexport_detailController extends RedshopCoreController
 
     public function edit()
     {
-        JRequest::setVar('view', 'xmlexport_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'xmlexport_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
@@ -35,11 +35,11 @@ class xmlexport_detailController extends RedshopCoreController
 
     public function save($export = 0)
     {
-        $session   = JFactory::getSession();
-        $xmlhelper = new xmlHelper();
-        $post      = JRequest::get('post');
-        $option    = JRequest::getVar('option', '', 'request', 'string');
-        $cid       = JRequest::getVar('cid', array(0), 'post', 'array');
+        $session = JFactory::getSession();
+
+        $post   = $this->input->getArray($_POST);
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $post['xmlexport_id'] = $cid [0];
         $model                = $this->getModel('xmlexport_detail');
@@ -121,7 +121,7 @@ class xmlexport_detailController extends RedshopCoreController
         JHTMLBehavior::modal();
 
         $xmlhelper    = new xmlHelper();
-        $post         = JRequest::get('post');
+        $post         = $this->input->getArray($_POST);
         $session      = JFactory::getSession();
         $childelement = $session->get('childelement');
 
@@ -171,7 +171,7 @@ class xmlexport_detailController extends RedshopCoreController
 
     public function removeIpAddress()
     {
-        $xmlexport_ip_id = JRequest::getVar('xmlexport_ip_id', 0);
+        $xmlexport_ip_id = $this->input->get('xmlexport_ip_id', 0);
 
         $model = $this->getModel('xmlexport_detail');
         $model->deleteIpAddress($xmlexport_ip_id);
@@ -180,12 +180,12 @@ class xmlexport_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('xmlexport_detail');
@@ -199,7 +199,7 @@ class xmlexport_detailController extends RedshopCoreController
 
     public function cancel()
     {
-        $option  = JRequest::getVar('option', '', 'request', 'string');
+        $option  = $this->input->getString('option', '');
         $session = JFactory::getSession();
         $session->set('childelement', NULL);
         $msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED');
@@ -214,12 +214,12 @@ class xmlexport_detailController extends RedshopCoreController
      */
     public function auto_syncpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->auto_syncpublish($cid, 1))
@@ -238,12 +238,12 @@ class xmlexport_detailController extends RedshopCoreController
      */
     public function auto_syncunpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->auto_syncpublish($cid, 0))
@@ -262,12 +262,12 @@ class xmlexport_detailController extends RedshopCoreController
      */
     public function usetoallpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->usetoallpublish($cid, 1))
@@ -286,12 +286,12 @@ class xmlexport_detailController extends RedshopCoreController
      */
     public function usetoallunpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->usetoallpublish($cid, 0))
@@ -310,11 +310,11 @@ class xmlexport_detailController extends RedshopCoreController
      */
     public function publish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->publish($cid, 1))
@@ -333,11 +333,11 @@ class xmlexport_detailController extends RedshopCoreController
      */
     public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
         $model = $this->getModel('xmlexport_detail');
         if (!$model->publish($cid, 0))

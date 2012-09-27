@@ -1,20 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
+
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
@@ -276,7 +270,7 @@ class producthelper
         $userArr = $this->_session->get('rs_user');
         if ($user_id == 0)
         {
-            $user    =& JFactory::getUser();
+            $user    = JFactory::getUser();
             $user_id = $user->id;
         }
         $proinfo = array();
@@ -385,7 +379,7 @@ class producthelper
 
     public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -423,7 +417,7 @@ class producthelper
 
     public function getVatUserinfo($user_id = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -480,7 +474,7 @@ class producthelper
 
     public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1096,7 +1090,7 @@ class producthelper
         $seoProductPrice                = '';
         $seoProductSavingPrice          = '';
 
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1209,7 +1203,7 @@ class producthelper
 
     public function getProductNetPrice($product_id, $user_id = 0, $quantity = 1, $data_add = '', $attributes = array())
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1449,7 +1443,7 @@ class producthelper
 
     public function getDiscountId($subtotal = 0, $user_id = 0)
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1502,7 +1496,7 @@ class producthelper
 
     public function getDiscountAmount($cart = array(), $user_id = 0)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1592,7 +1586,7 @@ class producthelper
 
     public function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1688,7 +1682,7 @@ class producthelper
     public function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
     {
         $list = array();
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         $and  = '';
         if (!$userid)
         {
@@ -1713,7 +1707,7 @@ class producthelper
 
     public function getApplyVatOrNot($data_add = "", $user_id = 0)
     {
-        $user            =& JFactory::getUser();
+        $user            = JFactory::getUser();
         $userInformation = array();
         if ($user_id == 0)
         {
@@ -1749,7 +1743,7 @@ class producthelper
 
     public function getApplyattributeVatOrNot($data_add = "", $user_id = 0)
     {
-        $user            =& JFactory::getUser();
+        $user            = JFactory::getUser();
         $userInformation = array();
         if ($user_id == 0)
         {
@@ -1818,7 +1812,7 @@ class producthelper
     {
         $leftjoin = "";
         $and      = "";
-        $user     = &JFactory::getUser();
+        $user     = JFactory::getUser();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1937,31 +1931,36 @@ class producthelper
     public function generateBreadcrumb($sectionid = 0)
     {
         $mainframe     = JFactory::getApplication();
-        $pathway       =& $mainframe->getPathway();
+        $pathway       = $mainframe->getPathway();
         $view          = JRequest::getVar('view');
         $layout        = JRequest::getVar('layout');
         $Itemid        = JRequest::getInt('Itemid');
         $catid         = JRequest::getInt('cid');
         $custompathway = array();
 
-        $patharr = $pathway->getPathWay();
-        //		print_r($patharr);die();
+        $patharr    = $pathway->getPathWay();
         $totalcount = count($patharr);
+
         for ($j = 0; $j < $totalcount; $j++)
         {
             unset($patharr[$j]);
         }
+
         $pathway->setPathWay($patharr);
+
         switch ($view)
         {
             case "category":
                 $custompathway = array();
                 $newlink       = "index.php?option=com_redshop&view=category";
+
                 if ($layout == "categoryproduct")
                 {
                     $newlink = "index.php?option=com_redshop&view=category&layout=" . $layout;
                 }
+
                 $res = $this->getMenuDetail($newlink);
+
                 if (count($res) > 0 && $res->home != 1)
                 {
                     $main            = new stdClass();
@@ -3821,7 +3820,7 @@ class producthelper
             return $data_add;
         }
 
-        $document = & JFactory :: getDocument();
+        $document = JFactory :: getDocument();
         //$document->addScript(JURI::base()."components".DS."com_redshop".DS."assets".DS."js".DS."thumbscroller.js");
         JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
         $layout = JRequest::getVar('layout');
@@ -4215,7 +4214,7 @@ class producthelper
         $url             = JURI::base();
         $attribute_table = "";
         $subproperty     = array();
-        $document        = & JFactory :: getDocument();
+        $document        = JFactory :: getDocument();
         //$document->addScript("components".DS."com_redshop".DS."assets".DS."js".DS."thumbscroller.js");
         JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
         $chkvatArr = $this->_session->get('chkvat');
@@ -5504,8 +5503,8 @@ class producthelper
         if (MY_WISHLIST != 0)
         {
 
-            $u           =& JFactory::getURI();
-            $user        = &JFactory::getUser();
+            $u           = JFactory::getURI();
+            $user        = JFactory::getUser();
             $my_wishlist = '';
 
             // Product Wishlist - New Feature Like Magento Store

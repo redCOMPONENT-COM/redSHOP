@@ -28,7 +28,7 @@ class account_billtoModelaccount_billto extends JModelLegacy
     {
         if (empty($GLOBALS['billingaddresses']))
         {
-            $session =& JFactory::getSession();
+            $session = JFactory::getSession();
             $auth    = $session->get('auth');
             if (isset($auth['users_info_id']) && $auth['users_info_id'])
             {
@@ -54,7 +54,7 @@ class account_billtoModelaccount_billto extends JModelLegacy
                     $is_company = 1;
                 }
 
-                $user   = & JFactory::getUser();
+                $user   = JFactory::getUser();
                 $detail = new stdClass();
 
                 $detail->users_info_id         = 0;

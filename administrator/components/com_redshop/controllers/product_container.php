@@ -20,7 +20,7 @@ class product_containerController extends RedshopCoreController
 
     public function template()
     {
-        $json = JRequest::getVar('json', '');
+        $json = $this->input->get('json', '');
 
         $decoded = json_decode($json);
 

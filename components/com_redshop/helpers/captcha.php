@@ -1,5 +1,13 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Helpers
+ *
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
+ */
 
+defined('_JEXEC') or die ('restricted access');
 
 class CaptchaSecurityImages
 {
@@ -21,7 +29,7 @@ class CaptchaSecurityImages
 
     public function CaptchaSecurityImages($width = '120', $height = '40', $characters = '6', $captchaname = 'security_code')
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
 
         $code = $this->generateCode($characters);
 

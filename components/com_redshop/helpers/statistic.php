@@ -1,19 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Helpers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
 
 class statistic
@@ -25,7 +18,7 @@ class statistic
     public function statistic()
     {
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-        $this->_db           = & JFactory :: getDBO();
+        $this->_db           = JFactory :: getDBO();
         statistic::reshop_visitors();
         statistic::reshop_pageview();
     }
@@ -33,7 +26,7 @@ class statistic
     public function reshop_visitors()
     {
         $sid  = session_id();
-        $user = & JFactory::getUser();
+        $user = JFactory::getUser();
 
         $q = "SELECT * FROM " . $this->_table_prefix . "siteviewer " . "WHERE session_id = '" . $sid . "'";
         $this->_db->setQuery($q);
@@ -53,7 +46,7 @@ class statistic
     public function reshop_pageview()
     {
         $sid     = session_id();
-        $user    = & JFactory::getUser();
+        $user    = JFactory::getUser();
         $view    = JRequest::getVar('view');
         $section = "";
 
