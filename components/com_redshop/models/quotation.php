@@ -407,7 +407,7 @@ class quotationModelquotation extends JModelLegacy
         global $mainframe;
         // Get required system objects
         $user      = clone(JFactory::getUser());
-        $pathway   =& $mainframe->getPathway();
+        $pathway   = $mainframe->getPathway();
         $config    = JFactory::getConfig();
         $authorize = JFactory::getACL();
         $document  = JFactory::getDocument();
