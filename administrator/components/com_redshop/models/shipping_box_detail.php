@@ -30,7 +30,6 @@ class shipping_box_detailModelshipping_box_detail extends RedshopCoreModelDetail
 
     public function _loadData()
     {
-        $red_template = new Redtemplate();
         if (empty($this->_data))
         {
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_boxes WHERE shipping_box_id = ' . $this->_id;
@@ -62,7 +61,6 @@ class shipping_box_detailModelshipping_box_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-
         $row = $this->getTable();
 
         if (!$row->bind($data))
@@ -81,7 +79,6 @@ class shipping_box_detailModelshipping_box_detail extends RedshopCoreModelDetail
 
     public function delete($cid = array())
     {
-        $red_template = new Redtemplate();
         if (count($cid))
         {
             $cids = implode(',', $cid);

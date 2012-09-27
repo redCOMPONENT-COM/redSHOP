@@ -9,13 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class integrationModelintegration extends JModelLegacy
-{
-    public function __construct()
-    {
-        parent::__construct();
-    }
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class integrationModelintegration extends RedshopCoreModel
+{
     /*
       *  download googlebase xml file
       */

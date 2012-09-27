@@ -11,18 +11,15 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class newsletterModelnewsletter extends JModelLegacy
+class newsletterModelnewsletter extends RedshopCoreModel
 {
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'newsletter_id';
 
     public function __construct()
     {
@@ -30,12 +27,11 @@ class newsletterModelnewsletter extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'newsletter_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
         $this->setState('filter', $filter);
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
@@ -156,10 +152,6 @@ class newsletterModelnewsletter extends JModelLegacy
             $n = $newsletter_id;
         }
 
-        /*if($filter!="")
-          {
-              $where=" AND zipcode like '$filter%' ";
-          }*/
         if ($cityfilter != "")
         {
             // city field filter
