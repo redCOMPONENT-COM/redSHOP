@@ -9,43 +9,31 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class pricesModelprices extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class pricesModelprices extends RedshopCoreModel
 {
     public $_prodid = 0;
-
-    public $_data = null;
 
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'price';
 
     public function __construct()
     {
         parent::__construct();
         $app = JFactory::getApplication();
 
-        $this->_context = 'price';
-
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
 
-        $pid = JRequest::getVar('product_id');
-        $this->setProductId((int)$pid);
-    }
-
-    public function setProductId($id)
-    {
-        // Set employees_detail id and wipe data
-        $this->_prodid = $id;
-        $this->_data   = null;
+        $pid           = JRequest::getVar('product_id');
+        $this->_prodid = (int)$pid;
     }
 
     public function getProductId()

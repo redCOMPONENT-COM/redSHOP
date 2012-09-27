@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class fieldsModelfields extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class fieldsModelfields extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'field_id';
 
     public function __construct()
     {
@@ -27,14 +25,12 @@ class fieldsModelfields extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'field_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $filtertype          = $app->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
-        $filtersection       = $app->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
-        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $limit         = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart    = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter        = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $filtertype    = $app->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
+        $filtersection = $app->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
+        $limitstart    = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
         $this->setState('filter', $filter);
         $this->setState('limit', $limit);

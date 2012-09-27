@@ -125,7 +125,6 @@ class mail_detailModelmail_detail extends RedshopCoreModelDetail
 
     public function mail_section()
     {
-
         $query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM ' . $this->_table_prefix . 'order_status  where published=1';
 
         $this->_db->setQuery($query);
@@ -135,9 +134,7 @@ class mail_detailModelmail_detail extends RedshopCoreModelDetail
 
     public function order_statusHtml($order_status)
     {
-
-        $select = array();
-
+        $select   = array();
         $select[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
         $merge = array_merge($select, $order_status);
@@ -145,5 +142,3 @@ class mail_detailModelmail_detail extends RedshopCoreModelDetail
         return JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text');
     }
 }
-
-?>

@@ -118,6 +118,7 @@ class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
         $quotation_id = $row->quotation_id;
         $user_id      = $row->user_id;
         $item         = $data['order_item'];
+
         for ($i = 0; $i < count($item); $i++)
         {
             $product_id         = $item[$i]->product_id;

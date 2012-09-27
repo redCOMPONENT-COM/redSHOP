@@ -60,7 +60,6 @@ class zipcode_detailModelzipcode_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-
         $row = $this->getTable();
 
         if (!$row->bind($data))

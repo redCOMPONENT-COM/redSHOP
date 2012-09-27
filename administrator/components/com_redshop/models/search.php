@@ -9,20 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class searchModelsearch extends JModelLegacy
-{
-    public $_id = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class searchModelsearch extends RedshopCoreModel
+{
     public $_container_id = null;
 
     public $_stockroom_id = null;
 
-    public $_data = null;
-
     public $_search = null;
 
-    public $_product = null; /// product data
-    public $_table_prefix = null;
+    public $_product = null;
 
     public $_template = null;
 
@@ -33,8 +30,6 @@ class searchModelsearch extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
 
         $id = JRequest::getVar('id', 0);
 
@@ -78,7 +73,7 @@ class searchModelsearch extends JModelLegacy
 
         $this->_alert = $alert;
 
-        $this->setId((int)$id);
+        $this->_id = (int)$id;
 
         $this->_stockroom_id = ((int)$stockroom_id);
 
@@ -103,13 +98,6 @@ class searchModelsearch extends JModelLegacy
         $this->_products = $products;
     }
 
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-        //$this->_search	= null;
-    }
-
     public function getData()
     {
         if ($this->_alert == 'termsarticle')
@@ -117,18 +105,14 @@ class searchModelsearch extends JModelLegacy
             $this->_data = $this->_buildQuery();
             return $this->_data;
         }
-        $query = $this->_buildQuery();
-        //return $query;
+
+        $query       = $this->_buildQuery();
         $this->_data = $this->_getList($query);
         return $this->_data;
     }
 
     public function _buildQuery()
     {
-
-        //Media secion
-        ////////// Product //////////////
-
         if ($this->_media_section)
         {
             if ($this->_media_section == 'product')
