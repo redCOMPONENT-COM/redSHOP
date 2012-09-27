@@ -138,7 +138,6 @@ class checkoutModelcheckout extends RedshopCoreModel
             $user->id = -$auth['users_info_id'];
         }
 
-        $db      = JFactory::getDBO();
         $issplit = $session->get('issplit');
 
         // If user subscribe for the newsletter
@@ -148,7 +147,6 @@ class checkoutModelcheckout extends RedshopCoreModel
         }
 
         // If user unsubscribe for the newsletter
-
         if (isset($post['newsletter_signoff']) && $post['newsletter_signoff'] == 1)
         {
             $this->_userhelper->newsletterUnsubscribe();

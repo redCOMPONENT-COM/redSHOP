@@ -721,7 +721,6 @@ class configurationModelconfiguration extends RedshopCoreModel
 
     public function newsletterEntry($data)
     {
-        $db            = JFactory::getDBO();
         $newsletter_id = $data['default_newsletter'];
         $mailfrom      = $data['news_mail_from'];
         $mailfromname  = $data['news_from_name'];
@@ -736,6 +735,7 @@ class configurationModelconfiguration extends RedshopCoreModel
         $subject             = "";
         $newsletter_body     = "";
         $newsletter_template = "";
+
         if (count($newsbody) > 0)
         {
             $subject             = $newsbody[0]->subject;
@@ -746,15 +746,15 @@ class configurationModelconfiguration extends RedshopCoreModel
         $o       = new stdClass();
         $o->text = $newsletter_body;
         JPluginHelper::importPlugin('content');
-        $dispatcher           = JDispatcher::getInstance();
-        $x                    = array();
-        $results              = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
+        $dispatcher = JDispatcher::getInstance();
+        $x          = array();
+        $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
         $newsletter_template2 = $o->text;
-        // $newsletter_template1=$newsletter_template1.$newsletter_template;
 
         $content = str_replace("{data}", $newsletter_template2, $newsletter_template);
 
         $product_id_list = $this->getProductIdList();
+
         for ($i = 0; $i < count($product_id_list); $i++)
         {
             $product_id = $product_id_list[$i]->product_id;
@@ -795,6 +795,7 @@ class configurationModelconfiguration extends RedshopCoreModel
 
         preg_match_all("/\< *[img][^\>]*[.]*\>/i", $data, $matches);
         $imagescurarray = array();
+
         foreach ($matches[0] as $match)
         {
             preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
@@ -802,7 +803,9 @@ class configurationModelconfiguration extends RedshopCoreModel
             $imagescur        = array_combine($m[1], $m[2]);
             $imagescurarray[] = $imagescur['src'];
         }
+
         $imagescurarray = array_unique($imagescurarray);
+
         if ($imagescurarray)
         {
             foreach ($imagescurarray as $change)
@@ -820,10 +823,10 @@ class configurationModelconfiguration extends RedshopCoreModel
         $name = explode('@', $to);
 
         $query = "INSERT INTO `" . $this->_table_prefix . "newsletter_tracker` " . "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  " . "VALUES ('', '" . $newsletter_id . "', '0', '" . $name . "', '0',0, '" . $today . "')";
-        $db->setQuery($query);
-        $db->query();
+        $this->_db->setQuery($query);
+        $this->_db->query();
 
-        $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" />';
+        $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $this->_db->insertid() . '" />';
         $content .= str_replace("{username}", $name[0], $data1);
         $content = str_replace("{email}", $to, $content);
 
@@ -915,10 +918,9 @@ class configurationModelconfiguration extends RedshopCoreModel
     /* Get all installed module for redshop*/
     public function getinstalledmodule()
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT * FROM #__extensions WHERE `element` LIKE '%mod_redshop%'";
-        $db->setQuery($query);
-        $redshop_modules = $db->loadObjectList();
+        $this->_db->setQuery($query);
+        $redshop_modules = $this->_db->loadObjectList();
 
         return $redshop_modules;
     }
@@ -926,20 +928,17 @@ class configurationModelconfiguration extends RedshopCoreModel
     /* Get all installed payment plugins for redshop*/
     public function getinstalledplugins($secion = 'redshop_payment')
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT * FROM #__extensions WHERE `folder` = '" . $secion . "' ";
-        $db->setQuery($query);
-        $redshop_plugins = $db->loadObjectList();
+        $this->_db->setQuery($query);
+        $redshop_plugins = $this->_db->loadObjectList();
         return $redshop_plugins;
     }
 
     public function resetTemplate()
     {
-        $Redtemplate = new Redtemplate();
-        $db          = JFactory::getDBO();
-        $q           = "SELECT * FROM #__redshop_template";
-        $db->setQuery($q);
-        $list = $db->loadObjectList();
+        $q = "SELECT * FROM #__redshop_template";
+        $this->_db->setQuery($q);
+        $list = $this->_db->loadObjectList();
 
         for ($i = 0; $i < count($list); $i++)
         {

@@ -100,19 +100,18 @@ class cartModelcart extends RedshopCoreModel
         {
             $stockroomhelper = new rsstockroomhelper();
             $session         = JFactory::getSession();
-            $db              = JFactory::getDbo();
             $cart            = $session->get('cart');
             $session_id      = session_id();
             $carttimeout     = (int)CART_TIMEOUT;
             $time            = time() - ($carttimeout * 60);
 
             $sql = "SELECT product_id FROM " . $this->_table_prefix . "cart " . "WHERE session_id ='" . $session_id . "' " . "AND section='product' " . "AND time < $time ";
-            $db->setQuery($sql);
-            $deletedrs = $db->loadResultArray();
+            $this->_db->setQuery($sql);
+            $deletedrs = $this->_db->loadResultArray();
 
             $sql = "SELECT product_id FROM " . $this->_table_prefix . "cart " . "WHERE session_id ='" . $session_id . "' " . "AND section='product' ";
-            $db->setQuery($sql);
-            $includedrs = $db->loadResultArray();
+            $this->_db->setQuery($sql);
+            $includedrs = $this->_db->loadResultArray();
 
             $cart = $session->get('cart');
             if ($cart)
@@ -464,12 +463,11 @@ class cartModelcart extends RedshopCoreModel
       */
     public function checkifTagAvailable($product_id)
     {
-        $db          = JFactory :: getDBO();
         $redTemplate = new redTemplate();
         $q           = "SELECT product_template FROM " . $this->_table_prefix . "product " . "WHERE product_id='" . $product_id;
 
-        $db->setQuery($q);
-        $row_data = $db->loadResult();
+        $this->_db->setQuery($q);
+        $row_data = $this->_db->loadResult();
 
         $template              = $redTemplate->getTemplate("product", $row_data);
         $product_template_desc = $template[0]->template_desc;

@@ -112,11 +112,10 @@ class exportModelexport extends RedshopCoreModel
      */
     private function loadProducts()
     {
-        $db = JFactory::getDBO();
-
         $export_product_extra_field = JRequest::getInt('export_product_extra_field', 0);
         $product_category           = JRequest::getVar('product_category');
         $product_category_value     = "";
+
         for ($j = 0; $j < count($product_category); $j++)
         {
             $product_category_value .= "'" . $product_category[$j] . "'" . ",";
@@ -155,8 +154,8 @@ class exportModelexport extends RedshopCoreModel
             $q .= " group by p.product_id ORDER BY p.product_id asc";
         }
 
-        $db->setQuery($q);
-        if (!($cur = $db->LoadObjectList()))
+        $this->_db->setQuery($q);
+        if (!($cur = $this->_db->LoadObjectList()))
         {
             return null;
         }
@@ -643,11 +642,10 @@ class exportModelexport extends RedshopCoreModel
      */
     private function loadCategories()
     {
-        $db = JFactory::getDBO();
-        $q  = "SELECT c.*,cx.category_parent_id
+        $q = "SELECT c.*,cx.category_parent_id
 			FROM " . $this->_table_prefix . "category c LEFT JOIN " . $this->_table_prefix . "category_xref cx ON c.category_id = cx.category_child_id WHERE cx.category_parent_id IS NOT NULL ORDER BY c.category_id";
-        $db->setQuery($q);
-        if (!($cur = $db->LoadObjectList()))
+        $this->_db->setQuery($q);
+        if (!($cur = $this->_db->LoadObjectList()))
         {
             return null;
         }
@@ -713,11 +711,8 @@ class exportModelexport extends RedshopCoreModel
      */
     private function loadAttributes()
     {
-
         $producthelper = new producthelper();
-
-        $db    = JFactory::getDBO();
-        $query = "SELECT * FROM `" . $this->_table_prefix . "product` ORDER BY product_id asc ";
+        $query         = "SELECT * FROM `" . $this->_table_prefix . "product` ORDER BY product_id asc ";
         $this->_db->setQuery($query);
         $cur = $this->_db->loadObjectList();
 
@@ -783,8 +778,8 @@ class exportModelexport extends RedshopCoreModel
                             }
 
                             $main_attribute_stock_placement = "";
-                            $db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'property' AND section_id = '" . $att_property[$prop]->property_id . "' ");
-                            $main_attribute_stock_placement = $db->loadResult();
+                            $this->_db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'property' AND section_id = '" . $att_property[$prop]->property_id . "' ");
+                            $main_attribute_stock_placement = $this->_db->loadResult();
 
                             if ($att_property[$prop]->property_image != "")
                             {
@@ -822,8 +817,8 @@ class exportModelexport extends RedshopCoreModel
                                 }
 
                                 $main_attribute_stock_sub_placement = "";
-                                $db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'subproperty' AND section_id = '" . $subatt_property[$subprop]->subattribute_color_id . "' ");
-                                $main_attribute_stock_sub_placement = $db->loadResult();
+                                $this->_db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'subproperty' AND section_id = '" . $subatt_property[$subprop]->subattribute_color_id . "' ");
+                                $main_attribute_stock_sub_placement = $this->_db->loadResult();
 
                                 if ($subatt_property[$subprop]->subattribute_color_image != "")
                                 {
@@ -851,10 +846,9 @@ class exportModelexport extends RedshopCoreModel
 
     private function loadManufacturer()
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT m.* " . "FROM `" . $this->_table_prefix . "manufacturer` AS m ";
-        $db->setQuery($query);
-        if (!($manufacturers = $db->LoadObjectList()))
+        $this->_db->setQuery($query);
+        if (!($manufacturers = $this->_db->LoadObjectList()))
         {
             return null;
         }
@@ -882,8 +876,8 @@ class exportModelexport extends RedshopCoreModel
                 }
                 $i     = 0;
                 $query = "SELECT p.product_id " . "FROM `" . $this->_table_prefix . "product` AS p " . "WHERE p.manufacturer_id=" . $manufacturers[$e]->manufacturer_id;
-                $db->setQuery($query);
-                $pids = $db->LoadResultArray();
+                $this->_db->setQuery($query);
+                $pids = $this->_db->LoadResultArray();
                 $pids = implode("|", $pids);
                 foreach ($row as $id => $value)
                 {
@@ -905,13 +899,12 @@ class exportModelexport extends RedshopCoreModel
      */
     private function loadRelatedProducts()
     {
-        $db      = JFactory::getDBO();
         $relsku  = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`related_id`";
         $mainsku = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`product_id`";
 
         $q = "SELECT (" . $relsku . ") as related_sku,(" . $mainsku . ") as product_sku FROM `" . $this->_table_prefix . "product_related` as pr WHERE (" . $relsku . ") IS NOT NULL AND (" . $mainsku . ") IS NOT NULL ";
-        $db->setQuery($q);
-        if (!($cur = $db->LoadObjectList()))
+        $this->_db->setQuery($q);
+        if (!($cur = $this->_db->LoadObjectList()))
         {
             return null;
         }
@@ -965,17 +958,15 @@ class exportModelexport extends RedshopCoreModel
     {
         $extra_field   = new extra_field();
         $producthelper = new producthelper();
-        $db            = JFactory::getDBO();
         $query         = "SELECT * FROM `" . $this->_table_prefix . "fields` ORDER BY field_id asc ";
         $this->_db->setQuery($query);
         $cur = $this->_db->loadObjectList();
         $ret = null;
+
         for ($i = 0; $i <= count($cur); $i++)
         {
-
             if ($i == 0)
             {
-
                 echo "field_id,field_title,field_name_field,field_type,field_desc,field_class,field_section,field_maxlength,field_cols,field_rows,field_size,field_show_in_front,required,published,data_id,data_txt,itemid,section,value_id,field_value,field_name,data_number";
                 echo "\r\n";
             }
@@ -988,11 +979,13 @@ class exportModelexport extends RedshopCoreModel
             $attrvalue = array();
 
             echo $cur[$i]->field_id . "," . $cur[$i]->field_title . "," . $cur[$i]->field_name . "," . $cur[$i]->field_type . "," . $cur[$i]->field_desc . "," . $cur[$i]->field_class . "," . $cur[$i]->field_section . "," . $cur[$i]->field_maxlength . "," . $cur[$i]->field_cols . "," . $cur[$i]->field_rows . "," . $cur[$i]->field_size . "," . $cur[$i]->field_show_in_front . "," . $cur[$i]->required . "," . $cur[$i]->published . "\n";
+
             for ($att = 0; $att < count($data); $att++)
             {
                 $product_details = $producthelper->getProductById($data[$att]->itemid);
                 echo $cur[$i]->field_id . ",,,,,,,,,,,,,," . $data[$att]->data_id . ",\"" . $data[$att]->data_txt . "\"," . $data[$att]->itemid . "," . $data[$att]->section . ",,,," . $product_details->product_number . ",\n";
             }
+
             for ($attrvalue = 0; $attrvalue < count($datavalue); $attrvalue++)
             {
                 echo $cur[$i]->field_id . ",,,,,,,,,,,,,,,,,," . $datavalue[$attrvalue]->value_id . "," . $datavalue[$attrvalue]->field_value . "," . $datavalue[$attrvalue]->field_name . ",\n";
@@ -1005,8 +998,6 @@ class exportModelexport extends RedshopCoreModel
      */
     private function loadUsers()
     {
-
-        $db    = JFactory::getDBO();
         $query = "SELECT ui.`users_info_id` , sg.shopper_group_name, IFNULL( u.id, ui.user_id ) as id , IFNULL( u.email, ui.user_email ) as email , u.username,u.name, u.password, u.usertype, u.block, u.sendEmail, ui.company_name, ui.firstname, ui.lastname, ui.vat_number, ui.tax_exempt, ui.shopper_group_id, ui.country_code, ui.address, ui.city, ui.state_code, ui.zipcode, ui.tax_exempt_approved, ui.approved, ui.is_company, ui.phone
 			FROM (
 			`" . $this->_table_prefix . "users_info` AS ui
@@ -1015,14 +1006,16 @@ class exportModelexport extends RedshopCoreModel
 			LEFT JOIN " . $this->_table_prefix . "shopper_group AS sg ON sg.`shopper_group_id` = ui.`shopper_group_id`
 			WHERE ui.`address_type` = 'BT'";
 
-        $db->setQuery($query);
-        if (!($cur = $db->LoadObjectList()))
+        $this->_db->setQuery($query);
+
+        if (!($cur = $this->_db->LoadObjectList()))
         {
             return null;
         }
+
         $ret = null;
         $i   = 0;
-        //while ($row = mysql_fetch_assoc( $cur )) {
+
         if (count($cur) > 0)
         {
             for ($u = 0; $u < count($cur); $u++)
@@ -1068,19 +1061,19 @@ class exportModelexport extends RedshopCoreModel
      */
     private function loadshippingaddress()
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname, ui.lastname, ui.address, ui.city, ui.state_code, ui.zipcode, ui.country_code, ui.phone
 			FROM (
 			`" . $this->_table_prefix . "users_info` AS ui
 			LEFT JOIN #__users AS u ON u.id = ui.user_id)WHERE ui.`address_type` = 'ST'";
-        $db->setQuery($query);
-        if (!($cur = $db->LoadObjectList()))
+
+        $this->_db->setQuery($query);
+        if (!($cur = $this->_db->LoadObjectList()))
         {
             return null;
         }
         $ret = null;
         $i   = 0;
-        //while ($row = mysql_fetch_assoc( $cur )) {
+
         if (count($cur) > 0)
         {
             for ($s = 0; $s < count($cur); $s++)
@@ -1123,15 +1116,14 @@ class exportModelexport extends RedshopCoreModel
 
     public function loadShoppergroupPrice()
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price, price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date " . "FROM `" . $this->_table_prefix . "product_price` AS pp " . "LEFT JOIN `" . $this->_table_prefix . "product` AS p ON p.product_id = pp.product_id " . "LEFT JOIN `" . $this->_table_prefix . "shopper_group` AS s ON s.shopper_group_id = pp.shopper_group_id " . "WHERE p.product_number!='' ";
-        $db->setQuery($query);
-        if (!($cur = $db->LoadObjectList()))
+        $this->_db->setQuery($query);
+        if (!($cur = $this->_db->LoadObjectList()))
         {
             return null;
         }
         $i = 0;
-        //while($row = mysql_fetch_assoc( $cur ))
+
         if (count($cur) > 0)
         {
             for ($e = 0; $e < count($cur); $e++)
@@ -1167,10 +1159,9 @@ class exportModelexport extends RedshopCoreModel
             //				mysql_free_result( $cur );
         }
         $query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number, ap.section, s.shopper_group_id, s.shopper_group_name, ap.product_price, price_quantity_start, price_quantity_end, ap.discount_price, ap.discount_start_date, ap.discount_end_date " . "FROM `" . $this->_table_prefix . "product_attribute_price` AS ap " . "LEFT JOIN `" . $this->_table_prefix . "shopper_group` AS s ON s.shopper_group_id=ap.shopper_group_id " . "LEFT JOIN `" . $this->_table_prefix . "product_attribute_property` AS p ON p.property_id=ap.section_id AND ap.section='property' AND p.property_number != '' " . "LEFT JOIN `" . $this->_table_prefix . "product_subattribute_color` AS sp ON sp.subattribute_color_id=ap.section_id AND ap.section='subproperty' AND sp.subattribute_color_number != '' ";
-        $db->setQuery($query);
-        $cur1 = $db->LoadObjectList();
+        $this->_db->setQuery($query);
 
-        if (!($cur1 = $db->LoadObjectList()))
+        if (!($cur1 = $this->_db->LoadObjectList()))
         {
             return null;
         }
@@ -1206,8 +1197,6 @@ class exportModelexport extends RedshopCoreModel
                 }
                 echo "\r\n";
             }
-            //			mysql_free_result( $cur1 );
-
         }
     }
 

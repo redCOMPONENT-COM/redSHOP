@@ -208,13 +208,12 @@ class product_containerModelproduct_container extends RedshopCoreModel
 
     public function getmanufacturelist($name = 'manufacturelist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
-        $db = JFactory::getDBO();
         // get list of Groups for dropdown filter
         $query = "SELECT manufacturer_id AS value, manufacturer_name AS text" . "\n FROM " . $this->_table_prefix . "manufacturer  where published = '1'";
 
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
         $types[]                   = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -');
-        $types                     = array_merge($types, $db->loadObjectList());
+        $types                     = array_merge($types, $this->_db->loadObjectList());
         $mylist['manufacturelist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
         return $mylist['manufacturelist'];
@@ -222,13 +221,12 @@ class product_containerModelproduct_container extends RedshopCoreModel
 
     public function getsupplierlist($name = 'supplierlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
-        $db = JFactory::getDBO();
         // get list of Groups for dropdown filter
         $query = "SELECT supplier_id AS value, supplier_name AS text" . "\n FROM " . $this->_table_prefix . "supplier  where published = '1'";
 
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
         $types[]                = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_SUPPLIER') . ' -');
-        $types                  = array_merge($types, $db->loadObjectList());
+        $types                  = array_merge($types, $this->_db->loadObjectList());
         $mylist['supplierlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
         return $mylist['supplierlist'];
@@ -236,13 +234,12 @@ class product_containerModelproduct_container extends RedshopCoreModel
 
     public function getcontainerlist($name = 'containerlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
-        $db = JFactory::getDBO();
         // get list of Groups for dropdown filter
         $query = "SELECT container_id AS value, container_name AS text" . "\n FROM " . $this->_table_prefix . "container  where published = '1'";
 
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
         $types[]                 = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CONTAINER') . ' -');
-        $types                   = array_merge($types, $db->loadObjectList());
+        $types                   = array_merge($types, $this->_db->loadObjectList());
         $mylist['containerlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
         return $mylist['containerlist'];
