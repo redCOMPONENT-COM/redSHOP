@@ -1,24 +1,38 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+
 /**
- * Cart Controller
+ * cartController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class cartController extends JControllerLegacy
+class cartController extends RedshopCoreController
 {
     public function __construct($default = array())
     {
@@ -32,18 +46,17 @@ class cartController extends JControllerLegacy
      */
     public function add()
     {
-        global $mainframe;
-        $option                     = JRequest::getVar('option');
-        $post                       = JRequest::get('post');
+        $option                     = $this->input->get('option');
+        $post                       = $this->input->getArray($_POST);
         $parent_accessory_productid = $post['product_id'];
-        $Itemid                     = JRequest::getVar('Itemid');
+        $item_id                    = $this->input->get('Itemid');
         $producthelper              = new producthelper();
         $redhelper                  = new redhelper();
-        $Itemid                     = $redhelper->getCartItemid($Itemid);
+        $item_id                    = $redhelper->getCartItemid($item_id);
         $model                      = $this->getModel('cart');
 
         // call add method of modal to store product in cart session
-        $userfiled = JRequest::getVar('userfiled');
+        $userfiled = $this->input->get('userfiled');
 
         $result = $this->_carthelper->addProductToCart($post);
         if (is_bool($result) && $result)
@@ -69,16 +82,10 @@ class cartController extends JControllerLegacy
                     $prdItemid = $redhelper->getItemid($post['product_id']);
                 }
                 $link = JRoute::_("index.php?option=" . $option . "&view=product&pid=" . $post["product_id"] . "&Itemid=" . $prdItemid, false);
-                $mainframe->Redirect($link, $errmsg);
+                $this->app->Redirect($link, $errmsg);
             }
         }
-        //		$model->add($post);
-        //		if(JError::isError(JError::getError()) && AJAX_CART_BOX == 1)
-        //		{
-        //			$error = JError::getError();
-        //			echo "`0`".$error->message;
-        //			die();
-        //		}
+
         /* store cart entry in db */
 
         $session =& JFactory::getSession();
@@ -115,7 +122,7 @@ class cartController extends JControllerLegacy
                         $post['subproperty_data']            = $acc_subproperty_data[$i];
 
                         $result = $this->_carthelper->addProductToCart($post);
-                        //						$model->add($post);
+
                         $cart = $session->get('cart');
                         if (is_bool($result) && $result)
                         {
@@ -145,7 +152,7 @@ class cartController extends JControllerLegacy
                                     $prdItemid = $redhelper->getItemid($post['product_id']);
                                 }
                                 $link = JRoute::_("index.php?option=" . $option . "&view=product&pid=" . $post["product_id"] . "&Itemid=" . $prdItemid, false);
-                                $mainframe->Redirect($link, $errmsg);
+                                $this->app->Redirect($link, $errmsg);
                             }
                         }
                     }
@@ -171,15 +178,15 @@ class cartController extends JControllerLegacy
         {
             if (AJAX_CART_BOX == 1 && isset($post['ajax_cart_box']))
             {
-                $link = JRoute::_('index.php?option=' . $option . '&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid, false);
-                $mainframe->Redirect($link);
+                $link = JRoute::_('index.php?option=' . $option . '&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $item_id, false);
+                $this->app->Redirect($link);
             }
             else
             {
                 if (ADDTOCART_BEHAVIOUR == 1)
                 {
-                    $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
-                    $mainframe->Redirect($link);
+                    $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
+                    $this->app->Redirect($link);
                 }
                 else
                 {
@@ -190,15 +197,15 @@ class cartController extends JControllerLegacy
                         $msg = $cart['notice_message'] . "<br>";
                     }
                     $msg .= JTEXT::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART');
-                    $mainframe->Redirect($link, $msg);
+                    $this->app->Redirect($link, $msg);
                 }
             }
         }
         else
         {
 
-            $link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $post['p_id'] . '&Itemid=' . $Itemid, false);
-            $mainframe->Redirect($link);
+            $link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $post['p_id'] . '&Itemid=' . $item_id, false);
+            $this->app->Redirect($link);
         }
     }
 
@@ -211,9 +218,7 @@ class cartController extends JControllerLegacy
         $discount_amount          = 0;
         $voucherDiscount          = 0;
         $couponDiscount           = 0;
-        $discount_excl_vat        = 0;
 
-        $totaldiscount = 0;
         if (DISCOUNT_ENABLE == 1)
         {
             $discount_amount = $producthelper->getDiscountAmount($cart);
@@ -275,11 +280,10 @@ class cartController extends JControllerLegacy
     public function coupon()
     {
         $session   =& JFactory::getSession();
-        $option    = JRequest::getVar('option');
-        $post      = JRequest::get('post');
-        $Itemid    = JRequest::getVar('Itemid');
+        $option    = $this->input->get('option');
+        $item_id   = $this->input->get('Itemid');
         $redhelper = new redhelper();
-        $Itemid    = $redhelper->getCartItemid($Itemid);
+        $item_id   = $redhelper->getCartItemid($item_id);
         $model     = $this->getModel('cart');
 
         // call coupon method of model to apply coupon
@@ -296,16 +300,14 @@ class cartController extends JControllerLegacy
 
         if ($valid)
         {
-
-            $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
             $this->setRedirect($link);
         }
         else
         {
-
             $msg = JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
 
-            $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
             $this->setRedirect($link, $msg);
         }
     }
@@ -317,32 +319,30 @@ class cartController extends JControllerLegacy
     public function voucher()
     {
         $session   =& JFactory::getSession();
-        $option    = JRequest::getVar('option');
-        $post      = JRequest::get('post');
-        $Itemid    = JRequest::getVar('Itemid');
+        $option    = $this->input->get('option');
+        $item_id   = $this->input->get('Itemid');
         $redhelper = new redhelper();
-        $Itemid    = $redhelper->getCartItemid($Itemid);
+        $item_id   = $redhelper->getCartItemid($item_id);
 
         $model = $this->getModel('cart');
 
         // call voucher method of model to apply voucher to cart
         $valid = $model->voucher();
-        /*
-           *  if voucher code is valid than apply to cart else raise error
-           */
+
+        // if voucher code is valid than apply to cart else raise error
         if ($valid)
         {
             $cart = $session->get('cart');
             $this->modifyCalculation($cart);
             $this->_carthelper->cartFinalCalculation(false);
-            $link = JRoute::_('index.php?option=' . $option . '&view=cart&seldiscount=voucher&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=cart&seldiscount=voucher&Itemid=' . $item_id, false);
             $this->setRedirect($link);
         }
         else
         {
             $msg = JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
 
-            $link = JRoute::_('index.php?option=' . $option . '&view=cart&msg=' . $msg . '&seldiscount=voucher&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=cart&msg=' . $msg . '&seldiscount=voucher&Itemid=' . $item_id, false);
             $this->setRedirect($link, $msg);
         }
     }
@@ -353,19 +353,18 @@ class cartController extends JControllerLegacy
      */
     public function update()
     {
-
-        $option    = JRequest::getVar('option');
-        $post      = JRequest::get('post');
-        $Itemid    = JRequest::getVar('Itemid');
+        $option    = $this->input->get('option');
+        $item_id   = $this->input->get('Itemid');
+        $post      = $this->input->getArray($_POST);
         $redhelper = new redhelper();
-        $Itemid    = $redhelper->getCartItemid($Itemid);
+        $item_id   = $redhelper->getCartItemid($item_id);
         $model     = $this->getModel('cart');
 
         // call update method of model to update product info of cart
         $model->update($post);
         $this->_carthelper->cartFinalCalculation();
         $this->_carthelper->carttodb();
-        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
+        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
         $this->setRedirect($link);
     }
 
@@ -376,18 +375,18 @@ class cartController extends JControllerLegacy
     public function update_all()
     {
 
-        $option    = JRequest::getVar('option');
-        $post      = JRequest::get('post');
-        $Itemid    = JRequest::getVar('Itemid');
+        $option    = $this->input->get('option');
+        $item_id   = $this->input->get('Itemid');
+        $post      = $this->input->getArray($_POST);
         $redhelper = new redhelper();
-        $Itemid    = $redhelper->getCartItemid($Itemid);
+        $item_id   = $redhelper->getCartItemid($item_id);
         $model     = $this->getModel('cart');
 
         // call update_all method of model to update all products info of cart
         $model->update_all($post);
         $this->_carthelper->cartFinalCalculation();
         $this->_carthelper->carttodb();
-        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
+        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
         $this->setRedirect($link);
     }
 
@@ -398,10 +397,10 @@ class cartController extends JControllerLegacy
     public function empty_cart()
     {
 
-        $option    = JRequest::getVar('option');
-        $Itemid    = JRequest::getVar('Itemid');
+        $option    = $this->input->get('option');
+        $item_id   = $this->input->get('Itemid');
         $redhelper = new redhelper();
-        $Itemid    = $redhelper->getCartItemid($Itemid);
+        $item_id   = $redhelper->getCartItemid($item_id);
         $model     = $this->getModel('cart');
 
         // call empty_cart method of model to remove all products from cart
@@ -412,7 +411,7 @@ class cartController extends JControllerLegacy
             $this->_carthelper->removecartfromdb(0, $user->id, true);
         }
 
-        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
+        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
         $this->setRedirect($link);
     }
 
@@ -423,18 +422,18 @@ class cartController extends JControllerLegacy
     public function delete()
     {
 
-        $option      = JRequest::getVar('option');
-        $post        = JRequest::get('post');
+        $option      = $this->input->get('option');
+        $item_id     = $this->input->get('Itemid');
+        $post        = $this->input->getArray($_POST);
         $cartElement = $post['cart_index'];
-        $Itemid      = JRequest::getVar('Itemid');
         $redhelper   = new redhelper();
-        $Itemid      = $redhelper->getCartItemid($Itemid);
+        $item_id     = $redhelper->getCartItemid($item_id);
         $model       = $this->getModel('cart');
 
         $model->delete($cartElement);
         $this->_carthelper->cartFinalCalculation();
         $this->_carthelper->carttodb();
-        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
+        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
         $this->setRedirect($link);
     }
 
@@ -446,7 +445,7 @@ class cartController extends JControllerLegacy
     public function discountCalculator()
     {
         ob_clean();
-        $get = JRequest::get('GET');
+        $get = $this->input->getArray($_GET);
         $this->_carthelper->discountCalculator($get);
         exit;
     }
@@ -458,21 +457,19 @@ class cartController extends JControllerLegacy
      */
     public function redmasscart()
     {
-
-        global $mainframe;
-        $option = JRequest::getVar('option');
-        $post   = JRequest::get('post');
-        $Itemid = JRequest::getVar('Itemid');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $post    = $this->input->getArray($_POST);
         if ($post["numbercart"] == "")
         {
             $msg  = JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
             $rurl = base64_decode($post["rurl"]);
-            $mainframe->redirect($rurl, $msg);
+            $this->app->redirect($rurl, $msg);
         }
         $model = $this->getModel('cart');
         $model->redmasscart($post);
 
-        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
+        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);
         $this->setRedirect($link);
     }
 
@@ -498,7 +495,7 @@ class cartController extends JControllerLegacy
       */
     public function changeAttribute()
     {
-        $post    = JRequest::get('post');
+        $post    = $this->input->getArray($_POST);
         $model   = $this->getModel('cart');
         $user    = &JFactory::getUser();
         $user_id = $user->id;
@@ -522,10 +519,10 @@ class cartController extends JControllerLegacy
      */
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
 
-        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);    ?>
+        $link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, false);    ?>
     <script language="javascript">
         window.parent.location.href = "<?php echo $link ?>";
     </script>

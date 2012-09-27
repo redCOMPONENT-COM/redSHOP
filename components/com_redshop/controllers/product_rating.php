@@ -1,22 +1,36 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * Product rating Controller
+ * product_ratingController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class product_ratingController extends JControllerLegacy
+class product_ratingController extends RedshopCoreController
 {
     /**
      * save function
@@ -26,13 +40,13 @@ class product_ratingController extends JControllerLegacy
      */
     public function save()
     {
-        $post        = JRequest::get('post');
-        $option      = JRequest::getVar('option');
-        $Itemid      = JRequest::getVar('Itemid');
-        $product_id  = JRequest::getInt('product_id');
-        $category_id = JRequest::getInt('category_id');
+        $option      = $this->input->get('option');
+        $item_id     = $this->input->get('Itemid');
+        $post        = $this->input->getArray($_POST);
+        $product_id  = $this->input->getInt('product_id', null);
+        $category_id = $this->input->getInt('category_id', null);
         $model       = $this->getModel('product_rating');
-        $rate        = JRequest::getVar('rate');
+        $rate        = $this->input->get('rate');
 
         if ($model->sendMailForReview($post))
         {
@@ -46,7 +60,7 @@ class product_ratingController extends JControllerLegacy
         if ($rate == 1)
         {
 
-            $link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+            $link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $item_id;
             $this->setRedirect($link, $msg);
         }
         else
