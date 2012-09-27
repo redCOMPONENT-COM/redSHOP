@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class addressfields_listingModeladdressfields_listing extends JModelLegacy
 {
-    public $_context = null;
+    public $_context = 'ordering';
 
     public $_data = null;
 
@@ -19,7 +19,7 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
     public function __construct()
     {
@@ -27,12 +27,11 @@ class addressfields_listingModeladdressfields_listing extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'ordering';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $field_section_drop  = $app->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
-        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $limit              = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart         = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $field_section_drop = $app->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
+        $limitstart         = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
         $this->setState('section_id', $field_section_drop);
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
