@@ -871,7 +871,7 @@ class redhelper
      */
     public function isredCRM()
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         // get redshop from joomla component table
         $isredCRM = $session->get('isredCRM');
 

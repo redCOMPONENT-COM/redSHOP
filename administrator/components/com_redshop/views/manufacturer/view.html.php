@@ -13,7 +13,9 @@ class manufacturerViewmanufacturer extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $context  = 'manufacturer_id';
         $document = JFactory::getDocument();
@@ -30,8 +32,8 @@ class manufacturerViewmanufacturer extends JViewLegacy
 
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $lists ['order']     = $filter_order;
         $lists ['order_Dir'] = $filter_order_Dir;
@@ -43,6 +45,7 @@ class manufacturerViewmanufacturer extends JViewLegacy
         $this->assignRef('manufacturer', $manufacturer);
         $this->assignRef('pagination', $pagination);
         $this->request_url = $uri->toString();
+
         parent::display($tpl);
     }
 }

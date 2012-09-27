@@ -11,7 +11,9 @@ class pricesViewprices extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
@@ -23,8 +25,8 @@ class pricesViewprices extends JViewLegacy
         JToolBarHelper::deleteList();
         $uri = JFactory::getURI();
 
-        $limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-        $limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+        $limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+        $limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
         $total      = $this->get('Total');
         $media      = $this->get('Data');

@@ -13,7 +13,7 @@ class state_detailVIEWstate_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        $mainframe = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
         $uri   = JFactory::getURI();
@@ -30,7 +30,7 @@ class state_detailVIEWstate_detail extends JViewLegacy
         if ($model->isCheckedOut($user->get('id')))
         {
             $msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-            $mainframe->redirect('index.php?option=' . $option, $msg);
+            $app->redirect('index.php?option=' . $option, $msg);
         }
 
         $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');

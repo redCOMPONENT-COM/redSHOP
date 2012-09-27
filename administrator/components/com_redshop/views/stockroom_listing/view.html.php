@@ -17,7 +17,9 @@ class stockroom_listingViewstockroom_listing extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context2;
+        global $context2;
+
+        $app = JFactory::getApplication();
 
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_STOCKROOM_LISTING'));
@@ -26,14 +28,14 @@ class stockroom_listingViewstockroom_listing extends JViewLegacy
         JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'Export Data', false);
         JToolBarHelper::custom('print_data', 'save.png', 'save_f2.png', 'Print Data', false);
 
-        $stockroom_type = $mainframe->getUserStateFromRequest($context2 . 'stockroom_type', 'stockroom_type', 'product');
+        $stockroom_type = $app->getUserStateFromRequest($context2 . 'stockroom_type', 'stockroom_type', 'product');
 
         $uri              = JFactory::getURI();
-        $filter_order     = $mainframe->getUserStateFromRequest($context2 . 'filter_order', 'filter_order', 'p.product_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context2 . 'filter_order_Dir', 'filter_order_Dir', '');
-        $search_field     = $mainframe->getUserStateFromRequest($context2 . 'search_field', 'search_field', '');
-        $keyword          = $mainframe->getUserStateFromRequest($context2 . 'keyword', 'keyword', '');
-        $category_id      = $mainframe->getUserStateFromRequest($context2 . 'category_id', 'category_id', '');
+        $filter_order     = $app->getUserStateFromRequest($context2 . 'filter_order', 'filter_order', 'p.product_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context2 . 'filter_order_Dir', 'filter_order_Dir', '');
+        $search_field     = $app->getUserStateFromRequest($context2 . 'search_field', 'search_field', '');
+        $keyword          = $app->getUserStateFromRequest($context2 . 'keyword', 'keyword', '');
+        $category_id      = $app->getUserStateFromRequest($context2 . 'category_id', 'category_id', '');
 
         //stockroom type and attribute type
         $optiontype = array();

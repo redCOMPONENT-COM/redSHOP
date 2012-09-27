@@ -13,7 +13,10 @@ class templateViewtemplate extends JViewLegacy
 {
     function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $context  = 'template_id';
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_TEMPLATES'));
@@ -29,10 +32,10 @@ class templateViewtemplate extends JViewLegacy
 
         $uri              = JFactory::getURI();
         $context          = 'template';
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-        $template_section = $mainframe->getUserStateFromRequest($context . 'template_section', 'template_section', 0);
+        $template_section = $app->getUserStateFromRequest($context . 'template_section', 'template_section', 0);
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;

@@ -15,7 +15,9 @@ class statisticViewstatistic extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $uri    = JFactory::getURI();
         $layout = JRequest::getVar('layout');
@@ -46,8 +48,8 @@ class statisticViewstatistic extends JViewLegacy
         $amountprice        = array();
         $amountspentintotal = array();
 
-        $limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-        $limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+        $limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+        $limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
         if ($layout == 'turnover')
         {
