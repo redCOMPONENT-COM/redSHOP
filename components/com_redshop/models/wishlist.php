@@ -12,25 +12,17 @@ defined('_JEXEC') or die ('Restricted access');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class wishlistModelwishlist extends JModelLegacy
+class wishlistModelwishlist extends RedshopCoreModel
 {
-    public $_id = null;
-
     public $_name = null;
 
-    public $_userid = null; // product data
-    public $_table_prefix = null;
+    public $_userid = null;
 
     public $_comment = null;
 
     public $_cdate = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
 
     public function getUserWishlist()
     {
@@ -106,7 +98,7 @@ class wishlistModelwishlist extends JModelLegacy
 
     public function store($data)
     {
-        $row =& $this->getTable();
+        $row = $this->getTable();
 
         if (!$row->bind($data))
         {

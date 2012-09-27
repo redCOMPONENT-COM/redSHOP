@@ -9,28 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class account_shiptoModelaccount_shipto extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class account_shiptoModelaccount_shipto extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public function __construct()
     {
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-        $infoid              = JRequest::getInt('infoid');
-
-        $this->setId($infoid);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
+        $infoid    = JRequest::getInt('infoid');
+        $this->_id = $infoid;
     }
 
     public function &getData()
@@ -66,7 +54,6 @@ class account_shiptoModelaccount_shipto extends JModelLegacy
 
     public function _loadData($users_info_id = 0)
     {
-
         if ($users_info_id)
         {
             $query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id="' . $users_info_id . '" ';

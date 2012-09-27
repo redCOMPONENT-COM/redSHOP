@@ -9,15 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class product_miniModelproduct_mini extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class product_miniModelproduct_mini extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = null;
 
     public function __construct()
     {
@@ -25,9 +23,7 @@ class product_miniModelproduct_mini extends JModelLegacy
 
         global $mainframe, $context;
 
-        $context             = 'product_id';
-        $this->_table_prefix = '#__redshop_';
-
+        $context    = 'product_id';
         $limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
         $limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', 0);
 
@@ -129,7 +125,6 @@ class product_miniModelproduct_mini extends JModelLegacy
     {
         global $mainframe, $context;
 
-        $category_id      = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
         $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
         $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
