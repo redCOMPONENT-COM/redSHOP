@@ -11,16 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class searchModelsearch extends JModelLegacy
+class searchModelsearch extends RedshopCoreModel
 {
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = null;
 
     public function __construct()
     {
@@ -29,15 +26,15 @@ class searchModelsearch extends JModelLegacy
         $context = 'search';
         $app     = JFactory::getApplication();
 
-        $this->_table_prefix = '#__redshop_';
-        $params              = $app->getParams('com_redshop');
-        $menu                = $app->getMenu();
-        $item                = $menu->getActive();
+        $params = $app->getParams('com_redshop');
+        $menu   = $app->getMenu();
+        $item   = $menu->getActive();
 
         $layout         = $app->getUserStateFromRequest($context . 'layout', 'layout', 'default');
         $module         = JModuleHelper::getModule('mod_redshop_search');
         $module_params  = '';
         $perpageproduct = 5;
+
         if (!empty($module->params))
         {
             $module_params  = new JRegistry($module->params);

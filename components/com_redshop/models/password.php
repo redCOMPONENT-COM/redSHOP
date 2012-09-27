@@ -9,16 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class passwordModelpassword extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class passwordModelpassword extends RedshopCoreModel
 {
-    public $_db = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_db = JFactory::getDBO();
-    }
-
     public function resetpassword($data)
     {
         $query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";

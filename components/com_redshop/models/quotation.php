@@ -13,22 +13,10 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.ph
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class quotationModelquotation extends JModelLegacy
+class quotationModelquotation extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function &getData()
     {
         if ($this->_loadData())
@@ -53,7 +41,6 @@ class quotationModelquotation extends JModelLegacy
             return true;
         }
         return false;
-        //		return (boolean) $this->_data;
     }
 
     public function _initData()
