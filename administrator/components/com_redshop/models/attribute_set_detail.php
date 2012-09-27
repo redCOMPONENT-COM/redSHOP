@@ -642,8 +642,6 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function  attribute_empty()
     {
-
-        $database      = JFactory::getDBO();
         $producthelper = new producthelper();
 
         if ($this->_id)
@@ -652,21 +650,21 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
             for ($i = 0; $i < count($attributes); $i++)
             {
                 $query = "DELETE FROM `" . $this->_table_prefix . "product_attribute` WHERE `attribute_id` = " . $attributes[$i]->attribute_id;
-                $database->setQuery($query);
-                if ($database->query())
+                $this->_db->setQuery($query);
+                if ($this->_db->query())
                 {
                     $property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
                     for ($j = 0; $j < count($property); $j++)
                     {
 
                         $query = "DELETE FROM `" . $this->_table_prefix . "product_attribute_property` WHERE `property_id` = " . $property[$j]->property_id;
-                        $database->setQuery($query);
-                        if ($database->query())
+                        $this->_db->setQuery($query);
+                        if ($this->_db->query())
                         {
 
                             $query = "DELETE FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE `subattribute_id` = " . $property[$j]->property_id;
-                            $database->setQuery($query);
-                            $database->query();
+                            $this->_db->setQuery($query);
+                            $this->_db->query();
                         }
                     }
                 }
@@ -737,12 +735,11 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
     // store stockroom product xref
     public function SaveAttributeStockroom($post)
     {
-        $database = JFactory::getDBO();
-        $query    = "DELETE FROM " . $this->_table_prefix . "product_attribute_stockroom_xref" . "\n  WHERE section_id = " . $post['section_id'] . " AND section = '" . $post['section'] . "'";
+        $query = "DELETE FROM " . $this->_table_prefix . "product_attribute_stockroom_xref" . "\n  WHERE section_id = " . $post['section_id'] . " AND section = '" . $post['section'] . "'";
 
-        $database->setQuery($query);
+        $this->_db->setQuery($query);
 
-        $database->query();
+        $this->_db->query();
 
         for ($i = 0; $i < count($post['quantity']); $i++)
         {
@@ -750,9 +747,9 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
             {
                 $q = "INSERT IGNORE INTO " . $this->_table_prefix . "product_attribute_stockroom_xref VALUES (" . $post['section_id'] . ",'" . $post['section'] . "'," . $post['stockroom_id'][$i] . ",'" . $post['quantity'][$i] . "') ";
 
-                $database->setQuery($q);
+                $this->_db->setQuery($q);
 
-                if (!$database->query())
+                if (!$this->_db->query())
                 {
                     return false;
                 }
@@ -793,17 +790,11 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function save_product_attribute_stockquantity($product_attribute_stocks, $section)
     {
-        $db = JFactory::getDBO();
-        // Create array for attribute price for property and subproperty section
-        /*		$attribute['section_id']	=  $product_attribute_stocks->section_id;
-                $attribute['section']	=  $section;
-                $attribute['stockroom_id']	=  $product_attribute_stocks->stockroom_id;
-                $attribute['quantity']	=  $product_attribute_stocks->quantity;
-        */
         $sql = "INSERT INTO " . $this->_table_prefix . "product_attribute_stockroom_xref (`section_id`,`section`,`stockroom_id`,`quantity`)
 		VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . $product_attribute_stocks->stockroom_id . "','" . $product_attribute_stocks->quantity . "' )";
-        $db->setQuery($sql);
-        $db->Query();
+
+        $this->_db->setQuery($sql);
+        $this->_db->Query();
     }
 
     public function copy($cid = array())

@@ -326,7 +326,6 @@ class newsletterModelnewsletter extends RedshopCoreModel
     {
         $producthelper = new producthelper();
         $jconfig       = new jconfig();
-        $db            = JFactory::getDBO();
         $newsletter_id = JRequest::getVar('newsletter_id');
 
         $uri = JURI::getInstance();
@@ -441,9 +440,9 @@ class newsletterModelnewsletter extends RedshopCoreModel
                 $unsub_link = $url . 'index.php?option=com_redshop&view=newsletter&task=unsubscribe&email1=' . $subscribe_email;
 
                 $query = "INSERT INTO `" . $this->_table_prefix . "newsletter_tracker` " . "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  " . "VALUES ('', '" . $newsletter_id . "', '" . $cid[$j] . "', '" . $username[$j] . "', '" . $userid[$j] . "',0, '" . $today . "')";
-                $db->setQuery($query);
-                $db->query();
-                $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" style="display:none;" />';
+                $this->_db->setQuery($query);
+                $this->_db->query();
+                $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $this->_db->insertid() . '" style="display:none;" />';
 
                 //replacing the tags with the values
                 $content .= str_replace("{username}", $subscriberinfo[0]->username, $data1);

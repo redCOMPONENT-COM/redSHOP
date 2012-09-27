@@ -68,7 +68,6 @@ class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
 
     public function saveOrder(&$cid)
     {
-        $db  = JFactory::getDBO();
         $row = $this->getTable();
 
         $total = count($cid);
@@ -84,7 +83,7 @@ class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    throw new RuntimeException($db->getErrorMsg());
+                    throw new RuntimeException($this->_db->getErrorMsg());
                 }
             }
         }

@@ -94,17 +94,14 @@ class manufacturerModelmanufacturer extends RedshopCoreModel
 
     public function getMediaId($mid)
     {
-        $database = JFactory::getDBO();
-
         $query = ' SELECT media_id ' . ' FROM ' . $this->_table_prefix . 'media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
 
-        $database->setQuery($query);
-        return $database->loadResult();
+        $this->_db->setQuery($query);
+        return $this->_db->loadResult();
     }
 
     public function saveOrder(&$cid)
     {
-        $db  = JFactory::getDBO();
         $row = $this->getTable('manufacturer_detail');
 
         $total = count($cid);
@@ -120,7 +117,7 @@ class manufacturerModelmanufacturer extends RedshopCoreModel
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    throw new RuntimeException($db->getErrorMsg());
+                    throw new RuntimeException($this->_db->getErrorMsg());
                 }
             }
         }

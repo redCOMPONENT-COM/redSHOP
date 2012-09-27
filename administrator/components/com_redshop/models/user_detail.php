@@ -152,23 +152,15 @@ class user_detailModeluser_detail extends RedshopCoreModelDetail
       */
     public function storeUser($post)
     {
-        $app = JFactory::getApplication();
-
+        $app         = JFactory::getApplication();
         $redshopMail = new redshopMail();
-        // Start data into user table
-        // Initialize some variables
-        $db  = JFactory::getDBO();
-        $me  = JFactory::getUser();
-        $acl = JFactory::getACL();
+        $me          = JFactory::getUser();
+        $acl         = JFactory::getACL();
 
         // Create a new JUser object
         $user         = new JUser($post['id']);
         $original_gid = $user->get('gid');
-
-        //$post['username']	= JRequest::getVar('username', '', 'post', 'username');
         $post['name'] = (isset($post['name'])) ? $post['name'] : $post['username'];
-        //$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        //$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
         // changed for shipping code moved out of condition
         if (!$user->bind($post))
@@ -216,8 +208,8 @@ class user_detailModeluser_detail extends RedshopCoreModelDetail
             {
                 // count number of active super admins
                 $query = 'SELECT COUNT( id )' . ' FROM #__users' . ' WHERE gid = 25' . ' AND block = 0';
-                $db->setQuery($query);
-                $count = $db->loadResult();
+                $this->_db->setQuery($query);
+                $count = $this->_db->loadResult();
 
                 if ($count <= 1)
                 {

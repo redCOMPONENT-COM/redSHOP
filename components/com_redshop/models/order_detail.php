@@ -65,10 +65,9 @@ class order_detailModelorder_detail extends RedshopCoreModel
       */
     public function getCategoryNameByProductId($pid)
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx " . "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id " . "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
-        $db->setQuery($query);
-        return $db->loadResult();
+        $this->_db->setQuery($query);
+        return $this->_db->loadResult();
     }
 
     public function resetcart()
@@ -83,8 +82,6 @@ class order_detailModelorder_detail extends RedshopCoreModel
 
     public function update_ccdata($order_id, $payment_transaction_id)
     {
-        $db = JFactory::getDBO();
-
         $session = JFactory::getSession();
         $ccdata  = $session->get('ccdata');
 
@@ -96,9 +93,9 @@ class order_detailModelorder_detail extends RedshopCoreModel
 
         $payment_update = "UPDATE " . $this->_table_prefix . "order_payment " . " SET order_payment_code  = '" . $order_payment_code . "' ," . " order_payment_cardname  = '" . $order_payment_cardname . "' ," . " order_payment_number  = '" . $order_payment_number . "' ," . " order_payment_ccv  = '" . $order_payment_ccv . "' ," . " order_payment_expire  = '" . $order_payment_expire . "' ," . " order_payment_trans_id  = '" . $payment_transaction_id . "' " . " WHERE order_id  = '" . $order_id . "'";
 
-        $db->setQuery($payment_update);
+        $this->_db->setQuery($payment_update);
 
-        if (!$db->Query())
+        if (!$this->_db->Query())
         {
             return false;
         }

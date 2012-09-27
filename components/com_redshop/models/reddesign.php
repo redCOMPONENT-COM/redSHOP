@@ -30,19 +30,15 @@ class reddesignModelreddesign extends RedshopCoreModel
 
     public function getDesignTypeImages($designtype_id)
     {
-        $db = JFactory :: getDBO();
-
         $table = $this->_table_prefix . "image";
         $query = "SELECT * FROM " . $table . " WHERE designtype_id = " . $designtype_id . " order by ordering";
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
 
-        return $db->loadObjectlist();
+        return $this->_db->loadObjectlist();
     }
 
     public function getProductDetail($product_id, $field_name = "")
     {
-
-        $db = JFactory :: getDBO();
         if (!$field_name)
         {
             $query = 'SELECT * FROM `#__redshop_product` WHERE product_id = ' . $product_id;
@@ -51,8 +47,8 @@ class reddesignModelreddesign extends RedshopCoreModel
         {
             $query = 'SELECT $field_name FROM `#__redshop_product` WHERE product_id = ' . $product_id;
         }
-        $db->setQuery($query);
-        return $db->loadObject();
+        $this->_db->setQuery($query);
+        return $this->_db->loadObject();
     }
 
     public function getProductDesign($product_id)

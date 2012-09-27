@@ -1069,43 +1069,37 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
     // get order stats log
     public function getOrderLog($order_id)
     {
-        $database = JFactory::getDBO();
-        $sql      = "SELECT log.*,order_status_name " . " FROM " . $this->_table_prefix . "order_status_log AS log , " . $this->_table_prefix . "order_status ros" . " WHERE log.order_id=" . $order_id . " AND log.order_status=ros.order_status_code";
-        $database->setQuery($sql);
-        return $database->loadObjectList();
+        $sql = "SELECT log.*,order_status_name " . " FROM " . $this->_table_prefix . "order_status_log AS log , " . $this->_table_prefix . "order_status ros" . " WHERE log.order_id=" . $order_id . " AND log.order_status=ros.order_status_code";
+        $this->_db->setQuery($sql);
+        return $this->_db->loadObjectList();
     }
 
     // get Product subscription price
     public function getProductSubscriptionDetail($product_id, $subscription_id)
     {
-        $db = JFactory::getDBO();
-
         $query = "SELECT * " . " FROM " . $this->_table_prefix . "product_subscription" . " WHERE " . " product_id = " . $product_id . " And subscription_id = " . $subscription_id;
-        $db->setQuery($query);
-        return $db->loadObject();
+        $this->_db->setQuery($query);
+        return $this->_db->loadObject();
     }
 
     // get User Product subscription detail
     public function getUserProductSubscriptionDetail($order_item_id)
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT * " . " FROM " . $this->_table_prefix . "product_subscribe_detail" . " WHERE " . " order_item_id = " . $order_item_id;
-        $db->setQuery($query);
-        return $db->loadObject();
+        $this->_db->setQuery($query);
+        return $this->_db->loadObject();
     }
 
     // 	get credit card detail
     public function getccdetail($order_id)
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT * " . " FROM " . $this->_table_prefix . "order_payment  " . " WHERE " . " order_id = " . $order_id . " AND  payment_method_class='rs_payment_localcreditcard'";
-        $db->setQuery($query);
-        return $db->loadObject();
+        $this->_db->setQuery($query);
+        return $this->_db->loadObject();
     }
 
     public function send_downloadmail($oid)
     {
-
         $order_functions = new order_functions();
         if ($order_functions->SendDownload($oid))
         {
@@ -1139,8 +1133,6 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
 
     public function update_ccdata($order_id, $payment_transaction_id)
     {
-        $db = JFactory::getDBO();
-
         $session = JFactory::getSession();
         $ccdata  = $session->get('ccdata');
 
@@ -1149,12 +1141,11 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
         $order_payment_number   = base64_encode($ccdata['order_payment_number']);
         $order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // this is ccv code
         $order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
-        $order_payment_trans_id = $payment_transaction_id;
 
         $payment_update = "UPDATE " . $this->_table_prefix . "order_payment " . " SET order_payment_code  = '" . $order_payment_code . "' ," . " order_payment_cardname  = '" . $order_payment_cardname . "' ," . " order_payment_number  = '" . $order_payment_number . "' ," . " order_payment_ccv  = '" . $order_payment_ccv . "' ," . " order_payment_expire  = '" . $order_payment_expire . "' ," . " order_payment_trans_id  = '" . $payment_transaction_id . "' " . " WHERE order_id  = '" . $order_id . "'";
 
-        $db->setQuery($payment_update);
-        if (!$db->Query())
+        $this->_db->setQuery($payment_update);
+        if (!$this->_db->Query())
         {
             return false;
         }
