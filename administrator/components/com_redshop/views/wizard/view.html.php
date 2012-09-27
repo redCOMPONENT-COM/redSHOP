@@ -89,7 +89,7 @@ class wizardViewwizard extends JViewLegacy
         # End
 
         # invoice mail send type
-        $invoice_mail_send_option           = array();
+        $invoice_mail_send_option           = array_fill(0, 4, new stdClass);
         $invoice_mail_send_option[0]->value = 0;
         $invoice_mail_send_option[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $invoice_mail_send_option[1]->value = 1;
@@ -118,7 +118,7 @@ class wizardViewwizard extends JViewLegacy
         # End
 
         # Discount
-        $discount_type           = array();
+        $discount_type           = array_fill(0, 5, new stdClass);
         $discount_type[0]->value = 0;
         $discount_type[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $discount_type[1]->value = 1;
