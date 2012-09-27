@@ -163,5 +163,3 @@ class googleanalytics
         $doc->addCustomTag($pageCode);
     }
 }
-
-?>
