@@ -1,34 +1,49 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * login Controller
+ * loginController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class loginController extends JControllerLegacy
+class loginController extends RedshopCoreController
 {
     /*
       *  setlogin function
       */
     public function setlogin()
     {
-        $username     = JRequest::getVar('username', '', 'method', 'username');
-        $password     = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
-        $option       = JRequest::getVar('option');
-        $Itemid       = JRequest::getVar('Itemid');
-        $returnitemid = JRequest::getVar('returnitemid');
-        $menu         =& JSite::getMenu();
-        $mywishlist   = JRequest::getVar('mywishlist');
+        $username     = $this->input->method->get('username', '');
+        $password     = $this->input->post->getString('password', '');
+        $option       = $this->input->get('option');
+        $item_id      = $this->input->get('Itemid');
+        $returnitemid = $this->input->get('returnitemid');
+        $menu         = JSite::getMenu();
+        $mywishlist   = $this->input->get('mywishlist');
         $item         = $menu->getItem($returnitemid);
 
         include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
@@ -36,7 +51,7 @@ class loginController extends JControllerLegacy
 
         $model = &$this->getModel('login');
 
-        $shoppergroupid = JRequest::getInt('protalid', '', 'post', 0);
+        $shoppergroupid = $this->input->post->getInt('protalid', 0);
 
         $msg = "";
 
@@ -47,7 +62,7 @@ class loginController extends JControllerLegacy
             if ($check > 0)
             {
                 $model->setlogin($username, $password);
-                $return = JRequest::getVar('return');
+                $return = $this->input->get('return');
             }
             else
             {
@@ -58,12 +73,12 @@ class loginController extends JControllerLegacy
         else
         {
             $model->setlogin($username, $password);
-            $return = JRequest::getVar('return');
+            $return = $this->input->get('return');
         }
 
         if ($mywishlist == 1)
         {
-            $wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
+            $wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $item_id, false);
             $this->setRedirect($wishreturn);
         }
         else
@@ -80,8 +95,8 @@ class loginController extends JControllerLegacy
             if (!empty($return))
             {
                 $s_Itemid = $redhelper->getCheckoutItemid();
-                $Itemid   = $s_Itemid ? $s_Itemid : $Itemid;
-                $return   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
+                $item_id  = $s_Itemid ? $s_Itemid : $item_id;
+                $return   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $item_id, false);
 
                 $this->setRedirect($return);
             }
@@ -99,8 +114,8 @@ class loginController extends JControllerLegacy
     {
 
         $mainframe     = JFactory::getApplication();
-        $logout_itemid = JRequest::getVar('logout');
-        $menu          =& JSite::getMenu();
+        $logout_itemid = $this->input->get('logout');
+        $menu          = JSite::getMenu();
         $item          = $menu->getItem($logout_itemid);
         if ($item)
         {

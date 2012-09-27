@@ -1,22 +1,36 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * Account shipping Address Controller
+ * account_shiptoController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class account_shiptoController extends JControllerLegacy
+class account_shiptoController extends RedshopCoreController
 {
     /**
      * Method to save Shipping Address
@@ -24,11 +38,11 @@ class account_shiptoController extends JControllerLegacy
      */
     public function save()
     {
-        $post   = JRequest::get('post');
-        $return = JRequest::getVar('return');
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post    = $this->input->getArray($_POST);
+        $return  = $this->input->get('return');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $cid     = $this->input->post->get('cid', array(), 'array');
 
         $post['users_info_id'] = $cid[0];
         $post['id']            = $post['user_id'];
@@ -44,12 +58,11 @@ class account_shiptoController extends JControllerLegacy
         {
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
         }
-        $return  = JRequest::getVar('return');
-        $setexit = JRequest::getInt('setexit', 1);
 
+        $setexit = $this->input->getInt('setexit', 1);
         if ($return != "")
         {
-            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $item_id, false);
 
             if (!isset($setexit) || $setexit != 0)
             {
@@ -64,7 +77,7 @@ class account_shiptoController extends JControllerLegacy
         }
         else
         {
-            $link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $item_id, false);
         }
         $this->setRedirect($link, $msg);
     }
@@ -75,10 +88,10 @@ class account_shiptoController extends JControllerLegacy
      */
     public function remove()
     {
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
-        $infoid = JRequest::getVar('infoid', '', 'request', 'string');
-        $cid[0] = $infoid;
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $infoid  = $this->input->getString('infoid', '');
+        $cid[0]  = $infoid;
 
         $model = $this->getModel('account_shipto');
 
@@ -92,15 +105,15 @@ class account_shiptoController extends JControllerLegacy
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
         $msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
-        $return = JRequest::getVar('return');
+        $return = $this->input->get('return');
 
         if ($return != "")
         {
-            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $item_id, false);
         }
         else
         {
-            $link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $Itemid, false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $item_id, false);
         }
         $this->setRedirect($link, $msg);
     }
@@ -111,20 +124,20 @@ class account_shiptoController extends JControllerLegacy
      */
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $cid     = $this->input->post->get('cid', array(), 'array');
 
         $post['users_info_id'] = $cid[0];
 
         $msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
 
-        $return  = JRequest::getVar('return');
-        $setexit = JRequest::getInt('setexit', 1);
+        $return  = $this->input->get('return');
+        $setexit = $this->input->getInt('setexit', 1);
         $link    = '';
         if ($return != "")
         {
-            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $Itemid . '', false);
+            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $item_id . '', false);
 
             if (!isset($setexit) || $setexit != 0)
             {
@@ -138,7 +151,7 @@ class account_shiptoController extends JControllerLegacy
         }
         else
         {
-            $link = 'index.php?option=' . $option . '&view=account_shipto&Itemid=' . $Itemid;
+            $link = 'index.php?option=' . $option . '&view=account_shipto&Itemid=' . $item_id;
         }
         $this->setRedirect($link, $msg);
     }
