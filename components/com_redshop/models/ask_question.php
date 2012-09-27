@@ -11,23 +11,14 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class ask_questionModelask_question extends JModelLegacy
+class ask_questionModelask_question extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_table_prefix = null;
-
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-        $this->setId((int)JRequest::getInt('pid', 0));
-    }
-
-    public function setId($id)
-    {
-        $this->_id = $id;
+        $this->_id = JRequest::getInt('pid', 0);
     }
 
     /**

@@ -10,17 +10,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class catalogModelcatalog extends JModelLegacy
+class catalogModelcatalog extends RedshopCoreModel
 {
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function catalogStore($data)
     {
         $row =& $this->getTable('catalog_request');
@@ -39,7 +32,7 @@ class catalogModelcatalog extends JModelLegacy
 
     public function catalogSampleStore($data)
     {
-        $row =& $this->getTable('sample_request');
+        $row = $this->getTable('sample_request');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

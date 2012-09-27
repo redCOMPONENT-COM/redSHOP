@@ -9,20 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class price_filterModelprice_filter extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class price_filterModelprice_filter extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function _buildQuery()
     {
         $category = JRequest::getVar('category');

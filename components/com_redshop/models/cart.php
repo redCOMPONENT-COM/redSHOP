@@ -14,15 +14,11 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class cartModelcart extends JModelLegacy
+class cartModelcart extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_product = null; /// product data
-    public $_table_prefix = null;
+    public $_product = null;
 
     public $_template = null;
 
@@ -43,7 +39,6 @@ class cartModelcart extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__redshop_';
 
         $this->_producthelper = new producthelper();
         $this->_carthelper    = new rsCarthelper();

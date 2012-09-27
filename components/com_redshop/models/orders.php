@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class ordersModelorders extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class ordersModelorders extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
+    public $_pagination = null;
 
     public $_template = null;
 
@@ -23,14 +21,15 @@ class ordersModelorders extends JModelLegacy
 
     public $_limit = null;
 
+    public $_total = null;
+
     public function __construct()
     {
         parent::__construct();
         global $mainframe, $option;
 
-        $this->_table_prefix = '#__redshop_';
-        $this->_limitstart   = JRequest::getVar('limitstart', 0);
-        $this->_limit        = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
+        $this->_limitstart = JRequest::getVar('limitstart', 0);
+        $this->_limit      = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
     }
 
     public function _buildQuery()
