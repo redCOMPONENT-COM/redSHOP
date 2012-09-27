@@ -64,13 +64,13 @@ class giftcardModelgiftcard extends JModelLegacy
 
     public function getGiftcardTemplate()
     {
-        global $mainframe, $context;
-
         $redTemplate = new Redtemplate();
+
         if (!$this->_id)
         {
             $carttemplate = $redTemplate->getTemplate("giftcard_list");
         }
+
         else
         {
             $carttemplate = $redTemplate->getTemplate("giftcard");

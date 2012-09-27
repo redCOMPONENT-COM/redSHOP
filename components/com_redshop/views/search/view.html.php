@@ -125,8 +125,6 @@ class searchViewsearch extends JViewLegacy
     {
         if (count($this->search) > 0)
         {
-            global $mainframe, $context;
-
             require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
             require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'pagination.php');
             require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');

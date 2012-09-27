@@ -32,7 +32,6 @@ class rsUserhelper
 
     function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
         $this->_session      = JFactory::getSession();
         $this->_db           = JFactory :: getDBO();

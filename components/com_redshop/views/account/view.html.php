@@ -13,7 +13,9 @@ class accountViewaccount extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $prodhelperobj = new producthelper();
         $prodhelperobj->generateBreadcrumb();
@@ -21,7 +23,7 @@ class accountViewaccount extends JViewLegacy
         $option = JRequest::getVar('option');
         $Itemid = JRequest::getVar('Itemid');
         $layout = JRequest::getVar('layout');
-        $params = $mainframe->getParams($option);
+        $params = $app->getParams($option);
 
         $model = $this->getModel();
         $user  = JFactory::getUser();
@@ -30,14 +32,14 @@ class accountViewaccount extends JViewLegacy
         if (!count($userdata) && $layout != 'mywishlist')
         {
             $msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-            $mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid, $msg);
+            $app->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid, $msg);
         }
         $layout = JRequest::getVar('layout', 'default');
         $mail   = JRequest::getVar('mail');
         // preform security checks
         if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // give permission to send wishlist while not logged in )
         {
-            $mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+            $app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
             return;
         }
 
@@ -55,9 +57,9 @@ class accountViewaccount extends JViewLegacy
             }
 
             $maxcategory = $params->get('maxcategory', 5);
-            $limit       = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
+            $limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
             $limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
-            $total       =& $this->get('total');
+            $total       = $this->get('total');
             $pagination  = new redPagination($total, $limitstart, $limit);
             $this->assignRef('pagination', $pagination);
         }
@@ -82,7 +84,7 @@ class accountViewaccount extends JViewLegacy
             }
 
             $maxcategory = $params->get('maxcategory', 5);
-            $limit       = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
+            $limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
             $limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
             $total       = $this->get('total');
             $pagination  = new redPagination($total, $limitstart, $limit);
