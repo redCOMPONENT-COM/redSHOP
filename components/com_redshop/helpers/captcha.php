@@ -29,7 +29,7 @@ class CaptchaSecurityImages
 
     public function CaptchaSecurityImages($width = '120', $height = '40', $characters = '6', $captchaname = 'security_code')
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
 
         $code = $this->generateCode($characters);
 

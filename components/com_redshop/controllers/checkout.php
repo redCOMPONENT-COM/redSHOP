@@ -76,9 +76,9 @@ class checkoutController extends RedshopCoreController
      */
     public function checkoutnext()
     {
-        $session       = & JFactory::getSession();
+        $session       = JFactory::getSession();
         $post          = $this->input->getArray($_POST);
-        $user          =& JFactory::getUser();
+        $user          = JFactory::getUser();
         $cart          = $session->get('cart');
         $item_id       = $this->input->get('Itemid');
         $users_info_id = $this->input->getInt('users_info_id', null);
@@ -159,7 +159,7 @@ class checkoutController extends RedshopCoreController
     {
         $get = $this->input->getArray($_GET);
         JPluginHelper::importPlugin('rs_labels_GLS');
-        $dispatcher      =& JDispatcher::getInstance();
+        $dispatcher      = JDispatcher::getInstance();
         $values          = new stdClass;
         $values->zipcode = $get['zipcode'];
 
@@ -320,11 +320,11 @@ class checkoutController extends RedshopCoreController
       */
     public function checkoutfinal()
     {
-        $dispatcher        =& JDispatcher::getInstance();
+        $dispatcher        = JDispatcher::getInstance();
         $option            = $this->input->get('option');
         $item_id           = $this->input->get('Itemid');
         $model             = $this->getModel('checkout');
-        $session           =& JFactory::getSession();
+        $session           = JFactory::getSession();
         $cart              = $session->get('cart');
         $payment_method_id = $this->input->getCmd('payment_method_id', '');
 
@@ -454,7 +454,7 @@ class checkoutController extends RedshopCoreController
     public function setcreditcardInfo()
     {
         $model             = $this->getModel('checkout');
-        $session           =& JFactory::getSession();
+        $session           = JFactory::getSession();
         $payment_method_id = $this->input->getCmd('payment_method_id', '');
 
         $errormsg      = "";
@@ -489,8 +489,8 @@ class checkoutController extends RedshopCoreController
         $model = $this->getModel('checkout');
         $post  = $this->input->getArray($_POST);
 
-        $user    =& JFactory::getUser();
-        $session =& JFactory::getSession();
+        $user    = JFactory::getUser();
+        $session = JFactory::getSession();
 
         $cart             = $session->get('cart');
         $users_info_id    = $post['users_info_id'];
@@ -549,7 +549,7 @@ class checkoutController extends RedshopCoreController
         $display_cart         = '<div id="onestepdisplaycart">' . $onestep_template_desc . '</div>';
 
         $description = $display_shippingrate . $display_cart;
-        $lang        =& JFactory::getLanguage();
+        $lang        = JFactory::getLanguage();
         $Locale      = $lang->getLocale();
         if (in_array('ru', $Locale))
         {

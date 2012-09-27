@@ -46,7 +46,7 @@ class categoryViewcategory extends JViewLegacy
             $this->setLayout('detail');
         }
 
-        $document =& JFactory::getDocument();
+        $document = JFactory::getDocument();
 
         JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
         JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);

@@ -214,7 +214,7 @@ class redhelper
      */
     public function getShopperGroupPortal()
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
 
         # if user is not logged in than take shoppergroup id from configuration
         $where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
@@ -795,7 +795,7 @@ class redhelper
     */
     public function getsslLink($link, $applySSL)
     {
-        $uri =& JURI::getInstance($link);
+        $uri = JURI::getInstance($link);
         if ($applySSL)
         {
             $uri->setScheme('https');
@@ -843,7 +843,7 @@ class redhelper
 
     public function isredProductfinder()
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         // get redshop from joomla component table
         $query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
         $this->_db->setQuery($query);
@@ -889,7 +889,7 @@ class redhelper
         }
         else
         {
-            $user =& JFactory::getUser();
+            $user = JFactory::getUser();
             require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'configuration.php');
             $crmConfig = new crmConfig();
             $crmConfig->config();
@@ -901,7 +901,7 @@ class redhelper
 
             $crmHelper = new crmHelper();
 
-            $session =& JFactory::getSession();
+            $session = JFactory::getSession();
             if ($crmHelper->isredCRMUser($user->id))
             {
                 $session->set('isredcrmuser', true);

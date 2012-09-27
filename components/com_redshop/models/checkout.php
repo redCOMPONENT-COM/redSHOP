@@ -45,7 +45,7 @@ class checkoutModelcheckout extends JModelLegacy
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
-        $session             =& JFactory::getSession();
+        $session             = JFactory::getSession();
 
         $this->_carthelper      = new rsCarthelper();
         $this->_userhelper      = new rsUserhelper();
@@ -54,7 +54,7 @@ class checkoutModelcheckout extends JModelLegacy
         $this->_order_functions = new order_functions();
         $this->_redshopMail     = new redshopMail();
 
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         $cart = $session->get('cart');
         if (!empty($cart))
         {
@@ -138,16 +138,16 @@ class checkoutModelcheckout extends JModelLegacy
         {
             $shop_id = $shop_id . '###' . $gls_mobile;
         }
-        $user    =& JFactory::getUser();
-        $session =& JFactory::getSession();
+        $user    = JFactory::getUser();
+        $session = JFactory::getSession();
         $auth    = $session->get('auth');
         if (!$user->id && $auth['users_info_id'])
         {
             $user->id = -$auth['users_info_id'];
         }
-        $db      = & JFactory::getDBO();
+        $db      = JFactory::getDBO();
         $issplit = $session->get('issplit');
-        $url     =& JURI::root();
+        $url     = JURI::root();
 
         // If user subscribe for the newsletter
         if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
@@ -371,9 +371,9 @@ class checkoutModelcheckout extends JModelLegacy
         $row->shop_id            = $shop_id;
         $row->customer_message   = $customer_message;
         $row->referral_code      = $referral_code;
-        $db                      = & JFactory::getDBO();
+        $db                      = JFactory::getDBO();
 
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
 
         /**
          * for credit card payment gateway
@@ -1135,7 +1135,7 @@ class checkoutModelcheckout extends JModelLegacy
 
         // for authorize status
         JPluginHelper::importPlugin('redshop_payment');
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         $data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentmethod->element, array($paymentmethod->element, $order_id));
 
         $GLOBALS['shippingaddresses'] = $shippingaddresses;
@@ -1252,7 +1252,7 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function sendGiftCard($order_id)
     {
-        $url               =& JURI::root();
+        $url               = JURI::root();
         $giftcardmail_body = '';
 
         $giftcardmail = $this->_redshopMail->getMailtemplate(0, "giftcard_mail");
@@ -1347,7 +1347,7 @@ class checkoutModelcheckout extends JModelLegacy
             $pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
             $g_pdfName = time();
             $pdf->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . $g_pdfName . ".pdf", "F");
-            $config              = &JFactory::getConfig();
+            $config              = JFactory::getConfig();
             $from                = $config->getValue('mailfrom');
             $fromname            = $config->getValue('fromname');
             $giftcard_attachment = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . $g_pdfName . ".pdf";
@@ -1358,8 +1358,8 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function billingaddresses()
     {
-        $user    =& JFactory::getUser();
-        $session =& JFactory::getSession();
+        $user    = JFactory::getUser();
+        $session = JFactory::getSession();
         $auth    = $session->get('auth');
         $list    = array();
 
@@ -1385,8 +1385,8 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function shippingaddresses()
     {
-        $user    =& JFactory::getUser();
-        $session =& JFactory::getSession();
+        $user    = JFactory::getUser();
+        $session = JFactory::getSession();
         $auth    = $session->get('auth');
         $list    = array();
 
@@ -1404,7 +1404,7 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function getpaymentmethod()
     {
-        $user          =& JFactory::getUser();
+        $user          = JFactory::getUser();
         $shopper_group = $this->_order_functions->getBillingAddress($user->id);
         $query         = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND (FIND_IN_SET('" . $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
         $this->_db->setQuery($query);
@@ -1413,7 +1413,7 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function validatepaymentccinfo()
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $ccdata  = $session->get('ccdata');
 
         $validpayment [0] = 1;
@@ -1731,19 +1731,19 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function resetcart()
     {
-        $session = & JFactory::getSession();
+        $session = JFactory::getSession();
         setcookie("redSHOPcart", "", time() - 3600, "/");
         $session->set('cart', NULL);
         $session->set('ccdata', NULL);
         $session->set('issplit', NULL);
         $session->set('userfiled', NULL);
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
     }
 
     public function getCouponPrice()
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $cart    = $session->get('cart');
         $query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons " . "WHERE coupon_id='" . $cart['coupon_id'] . "' " . "AND coupon_code='" . $cart['coupon_code'] . "' LIMIT 0,1";
         $this->_db->setQuery($query);
@@ -1772,9 +1772,9 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function voucher()
     {
-        $session     =& JFactory::getSession();
+        $session     = JFactory::getSession();
         $cart        = $session->get('cart');
-        $user        =& JFactory::getUser();
+        $user        = JFactory::getUser();
         $vouchertype = array();
 
         if (isset($cart['voucher']))
@@ -1827,9 +1827,9 @@ class checkoutModelcheckout extends JModelLegacy
 
     public function coupon()
     {
-        $session    =& JFactory::getSession();
+        $session    = JFactory::getSession();
         $cart       = $session->get('cart');
-        $user       =& JFactory::getUser();
+        $user       = JFactory::getUser();
         $coupontype = array();
         if (isset($cart['coupon']))
         {
@@ -1903,7 +1903,7 @@ class checkoutModelcheckout extends JModelLegacy
     public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
     {
 
-        $session  =& JFactory::getSession();
+        $session  = JFactory::getSession();
         $cart     = $session->get('cart');
         $user     = JFactory::getUser();
         $user_id  = $user->id;

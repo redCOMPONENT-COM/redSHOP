@@ -65,9 +65,9 @@ class cartModelcart extends JModelLegacy
         {
             $this->emptyExpiredCartProducts();
         }
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
 
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $cart    = $session->get('cart');
         $task    = JRequest::getVar('task');
         if (!empty($cart))
@@ -104,7 +104,7 @@ class cartModelcart extends JModelLegacy
         if (IS_PRODUCT_RESERVE)
         {
             $stockroomhelper = new rsstockroomhelper();
-            $session         =& JFactory::getSession();
+            $session         = JFactory::getSession();
             $db              = JFactory::getDbo();
             $cart            = $session->get('cart');
             $session_id      = session_id();
@@ -144,7 +144,7 @@ class cartModelcart extends JModelLegacy
       */
     public function empty_cart()
     {
-        $session         =& JFactory::getSession();
+        $session         = JFactory::getSession();
         $stockroomhelper = new rsstockroomhelper();
 
         $cart = $session->get('cart');
@@ -182,9 +182,9 @@ class cartModelcart extends JModelLegacy
     ///////////////// Update cart ///////////////////////////
     public function update($data)
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $cart    = $session->get('cart');
-        $user    = &JFactory::getUser();
+        $user    = JFactory::getUser();
 
         $cartElement = $data['cart_index'];
         $newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
@@ -275,9 +275,9 @@ class cartModelcart extends JModelLegacy
 
     public function update_all($data)
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $cart    = $session->get('cart');
-        $user    = &JFactory::getUser();
+        $user    = JFactory::getUser();
 
         if (!$cart)
         {
@@ -370,7 +370,7 @@ class cartModelcart extends JModelLegacy
     public function delete($cartElement)
     {
         $stockroomhelper = new rsstockroomhelper();
-        $session         =& JFactory::getSession();
+        $session         = JFactory::getSession();
 
         $cart = $session->get('cart');
         if (array_key_exists($cartElement, $cart))
@@ -466,7 +466,7 @@ class cartModelcart extends JModelLegacy
       */
     public function checkifTagAvailable($product_id)
     {
-        $db          = &JFactory :: getDBO();
+        $db          = JFactory :: getDBO();
         $redTemplate = new redTemplate();
         $q           = "SELECT product_template FROM " . $this->_table_prefix . "product " . "WHERE product_id='" . $product_id;
 
@@ -490,7 +490,7 @@ class cartModelcart extends JModelLegacy
       */
     public function shippingrate_calc()
     {
-        $document = & JFactory :: getDocument();
+        $document = JFactory :: getDocument();
         JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
         $redConfig = new Redconfiguration();
 
@@ -644,7 +644,7 @@ class cartModelcart extends JModelLegacy
     {
         $imagename = '';
         $type      = '';
-        $session   =& JFactory::getSession();
+        $session   = JFactory::getSession();
         $cart      = $session->get('cart');
 
         $generateAttributeCart = array();

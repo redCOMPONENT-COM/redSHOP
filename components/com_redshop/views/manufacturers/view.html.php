@@ -17,7 +17,7 @@ class manufacturersViewmanufacturers extends JViewLegacy
 
         $producthelper = new producthelper();
         $redhelper     = new redhelper();
-        $document      =& JFactory::getDocument();
+        $document      = JFactory::getDocument();
         $option        = JRequest::getVar('option');
         $print         = JRequest::getVar('print');
         $layout        = JRequest::getVar('layout', 'default');
