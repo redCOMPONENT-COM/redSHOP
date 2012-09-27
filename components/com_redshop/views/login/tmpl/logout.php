@@ -15,12 +15,13 @@
  */
 defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
-global $mainframe;
+
+$app    = JFactory::getApplication();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $user   = JFactory::getUser();
-$params = &$mainframe->getParams($option);
-$menu   = JSite::getMenu();
+$params = $app->getParams($option);
+$menu   = $app->getMenu();
 
 $returnitemid = $params->get('logout', $Itemid);
 ?>
@@ -41,7 +42,8 @@ $returnitemid = $params->get('logout', $Itemid);
             </td>
         </tr>
         <?php if ($user->id > 0)
-    { ?>
+    {
+        ?>
         <tr>
             <td><input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_REDSHOP_LOGOUT'); ?>">
             </td>

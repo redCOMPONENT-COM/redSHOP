@@ -35,7 +35,7 @@ $option          = JRequest::getVar('option');
 $Itemid          = JRequest::getVar('Itemid');
 
 global $mainframe;
-$params       = &$mainframe->getParams($option);
+$params       = $mainframe->getParams($option);
 $returnitemid = $params->get('logout', $Itemid);
 
 $accountbillto_link = JRoute::_("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
