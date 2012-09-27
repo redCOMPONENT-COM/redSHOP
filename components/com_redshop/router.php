@@ -34,7 +34,7 @@ jimport('joomla.html.parameter');
  *
  * @return    array
  */
-function RedshopBuildRoute(&$query)
+function RedshopBuildRoute($query)
 {
     $view            = '';
     $layout          = '';
@@ -550,7 +550,7 @@ function RedshopBuildRoute(&$query)
 
         case 'manufacturers':
             //  index.php?option=com_redshop&view=manufacturers&layout=products&mid=1&Itemid=11
-            if (!$mid)
+            if (empty($mid))
             {
 
                 $mid = $myparams->get('manufacturer');
@@ -795,63 +795,65 @@ function RedshopParseRoute($segments)
 
         case 'account':
 
-            $vars['view']   = 'account';
-            $vars['layout'] = $segments[1];
-
-            if ($segments[1] == 'mytags')
+            $vars['view'] = 'account';
+            if (isset($segments[1]))
             {
+                $vars['layout'] = $segments[1];
 
-                if (isset($segments[2]))
+                if ($segments[1] == 'mytags')
                 {
 
-                    $vars['tagid'] = $segments[2];
-
-                    if (isset($segments[4]))
+                    if (isset($segments[2]))
                     {
 
-                        if ($segments[4] == 'edit')
+                        $vars['tagid'] = $segments[2];
+
+                        if (isset($segments[4]))
                         {
-                            $vars['edit'] = 1;
-                        }
-                        else
-                        {
-                            $vars['remove'] = 1;
+
+                            if ($segments[4] == 'edit')
+                            {
+                                $vars['edit'] = 1;
+                            }
+                            else
+                            {
+                                $vars['remove'] = 1;
+                            }
                         }
                     }
                 }
+                else if ($segments[1] == 'mywishlist')
+                {
+
+                    if (isset($segments[2]))
+                    {
+                        $vars['wishlist_id'] = $segments[2];
+                    }
+
+                    if (isset($segments[3]))
+                    {
+                        $vars['pid'] = $segments[3];
+                    }
+
+                    if (isset($segments[4]))
+                    {
+                        $vars['remove'] = 1;
+                    }
+                }
+                else if ($segments[1] == 'compare')
+                {
+
+                    if (isset($segments[2]))
+                    {
+                        $vars['pid'] = $segments[2];
+                    }
+
+                    if (isset($segments[3]))
+                    {
+                        $vars['remove'] = 1;
+                    }
+                }
             }
-            else if ($segments[1] == 'mywishlist')
-            {
-
-                if (isset($segments[2]))
-                {
-                    $vars['wishlist_id'] = $segments[2];
-                }
-
-                if (isset($segments[3]))
-                {
-                    $vars['pid'] = $segments[3];
-                }
-
-                if (isset($segments[4]))
-                {
-                    $vars['remove'] = 1;
-                }
-            }
-            else if ($segments[1] == 'compare')
-            {
-
-                if (isset($segments[2]))
-                {
-                    $vars['pid'] = $segments[2];
-                }
-
-                if (isset($segments[3]))
-                {
-                    $vars['remove'] = 1;
-                }
-            }
-
             break;
         case 'quotation':
             $vars['view'] = 'quotation';

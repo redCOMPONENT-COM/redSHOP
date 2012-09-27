@@ -37,7 +37,7 @@ class loginController extends RedshopCoreController
       */
     public function setlogin()
     {
-        $username     = $this->input->method->get('username', '');
+        $username     = $this->input->get('username', '');
         $password     = $this->input->post->getString('password', '');
         $option       = $this->input->get('option');
         $item_id      = $this->input->get('Itemid');
