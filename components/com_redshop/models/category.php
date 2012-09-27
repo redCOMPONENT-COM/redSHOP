@@ -33,13 +33,13 @@ class categoryModelcategory extends JModelLegacy
 
     public function __construct()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
         $this->producthelper = new producthelper();
 
-        $params = $mainframe->getParams('com_redshop');
+        $params = $app->getParams('com_redshop');
         $layout = JRequest::getVar('layout');
         $print  = JRequest::getVar('print');
         $Id     = JRequest::getInt('cid', 0);
@@ -51,7 +51,7 @@ class categoryModelcategory extends JModelLegacy
             }
         }
 
-        $category_template = $mainframe->getUserStateFromRequest($this->_context . 'category_template', 'category_template', 0);
+        $category_template = $app->getUserStateFromRequest($this->_context . 'category_template', 'category_template', 0);
 
         $this->setState('category_template', $category_template);
 
@@ -318,6 +318,7 @@ class categoryModelcategory extends JModelLegacy
     public function _buildProductOrderBy()
     {
         global $mainframe;
+
         $menu     = $mainframe->getMenu();
         $item     = $menu->getActive();
         $order_by = urldecode(JRequest::getVar('order_by', ''));
@@ -334,18 +335,20 @@ class categoryModelcategory extends JModelLegacy
     public function getData()
     {
         global $mainframe;
+
         $endlimit   = $this->getProductPerPage();
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
         $layout     = JRequest::getVar('layout');
         $query      = $this->_buildQuery();
+
         if ($layout == "categoryproduct")
         {
-            $menu     = $mainframe->getMenu();
-            $item     = $menu->getActive();
-            $endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
-            //$limit       = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $endlimit, 5);
+            $menu        = $mainframe->getMenu();
+            $item        = $menu->getActive();
+            $endlimit    = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
             $limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
             $this->_data = $this->_getList($query, $limitstart, $endlimit);
+
             return $this->_data;
         }
 

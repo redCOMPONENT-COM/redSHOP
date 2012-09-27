@@ -120,9 +120,9 @@ class manufacturersModelmanufacturers extends JModelLegacy
 
     public function _buildContentOrderBy()
     {
-        global $mainframe, $context;
         $layout  = JRequest::getVar('layout');
         $orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+
         if ($layout != "products" && $orderby)
         {
             $filter_order = $orderby;
@@ -131,7 +131,9 @@ class manufacturersModelmanufacturers extends JModelLegacy
         {
             $filter_order = 'mn.manufacturer_id';
         }
+
         $orderby = " ORDER BY " . $filter_order . ' ';
+
         return $orderby;
     }
 

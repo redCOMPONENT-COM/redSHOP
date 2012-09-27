@@ -62,12 +62,10 @@ class producthelper
 
     public function __construct()
     {
-        global $context;
         $this->_db           = JFactory::getDBO();
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
         $this->_userhelper   = new rsUserhelper();
         $this->_session      = JFactory::getSession();
-        //	  	$this->_carthelper 		= new rsCarthelper();
     }
 
     public function setId($id)
