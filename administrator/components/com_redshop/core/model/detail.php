@@ -13,6 +13,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
 /**
  * Base Model for Detail Models.
+ * ATM only used for detail models in Backend.
  *
  * @package     redSHOP
  * @subpackage  Core
@@ -26,8 +27,7 @@ class RedshopCoreModelDetail extends RedshopCoreModel
     {
         parent::__construct();
 
-        $input = JFactory::getApplication()->input;
-
+        $input     = JFactory::getApplication()->input;
         $array     = $input->get('cid', array(0), 'array');
         $this->_id = (int)$array[0];
     }

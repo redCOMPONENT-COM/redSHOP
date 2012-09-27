@@ -56,8 +56,6 @@ class categoryModelcategory extends RedshopCoreModel
 
     public function _buildQuery()
     {
-        $db = JFactory::getDBO();
-
         $category_id          = $this->getState('category_id');
         $category_main_filter = $this->getState('category_main_filter');
         $limit                = $this->getState('limit');
@@ -72,8 +70,8 @@ class categoryModelcategory extends RedshopCoreModel
         }
 
         $q = "SELECT c.category_id, cx.category_child_id, cx.category_child_id AS id, cx.category_parent_id, cx.category_parent_id AS parent_id,c.category_name, c.category_name AS title,c.category_description,c.published,ordering " . "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx " . "WHERE c.category_id=cx.category_child_id " . $and . $orderby;
-        $db->setQuery($q);
-        $rows = $db->loadObjectList();
+        $this->_db->setQuery($q);
+        $rows = $this->_db->loadObjectList();
 
         if (!$category_main_filter)
         {
