@@ -26,10 +26,14 @@ $config        = new Redconfiguration();
 $producthelper = new producthelper();
 $redhelper     = new redhelper();
 
-$url        = JURI::base();
-$option     = JRequest::getVar('option');
-$Itemid     = JRequest::getVar('Itemid');
-$wishlists  = $this->wishlists;
+$url       = JURI::base();
+$option    = JRequest::getVar('option');
+$Itemid    = JRequest::getVar('Itemid');
+$wishlists = null;
+if (isset($this->wishlists))
+{
+    $wishlists = $this->wishlists;
+}
 $product_id = JRequest::getInt('product_id');
 $user       = JFactory::getUser();
 
