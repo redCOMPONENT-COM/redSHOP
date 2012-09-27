@@ -16,7 +16,7 @@ class passwordModelpassword extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        $this->_db = &JFactory::getDBO();
+        $this->_db = JFactory::getDBO();
     }
 
     public function resetpassword($data)

@@ -191,7 +191,7 @@ class accountModelaccount extends JModelLegacy
 
     public function countMyWishlist()
     {
-        $user   =& JFactory::getUser();
+        $user   = JFactory::getUser();
         $userid = $user->id;
 
         $query = "SELECT * FROM " . $this->_table_prefix . "wishlist AS pw " . "WHERE pw.user_id = '" . $userid . "' ";
@@ -257,7 +257,7 @@ class accountModelaccount extends JModelLegacy
 
     public function removeTags($tagid)
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $xref = "DELETE FROM " . $this->_table_prefix . "product_tags_xref " . "WHERE tags_id = '" . $tagid . "' AND users_id='" . $user->id . "' ";
         $this->_db->setQuery($xref);
         if ($this->_db->Query())
@@ -302,7 +302,7 @@ class accountModelaccount extends JModelLegacy
 
     public function getCompare()
     {
-        $user  =& JFactory::getUser();
+        $user  = JFactory::getUser();
         $query = "SELECT pc.compare_id,pc.user_id,p.* FROM " . $this->_table_prefix . "product_compare AS pc " . "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pc.product_id " . "WHERE user_id='" . $user->id . "' ";
         return $this->_getList($query);
     }
@@ -315,7 +315,7 @@ class accountModelaccount extends JModelLegacy
         $option     = JRequest::getVar('option');
         $product_id = JRequest::getVar('pid', 0, '', 'int');
 
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
 
         $query = "DELETE FROM " . $this->_table_prefix . "product_compare " . "WHERE product_id = '" . $product_id . "' AND user_id='" . $user->id . "' ";
         $this->_db->setQuery($query);
@@ -332,7 +332,7 @@ class accountModelaccount extends JModelLegacy
 
     public function sendWishlist($post)
     {
-        $user        =& JFactory::getUser();
+        $user        = JFactory::getUser();
         $redshopMail = new redshopMail();
 
         $wishlist_id = JRequest ::getInt('wishlist_id');
@@ -478,7 +478,7 @@ class accountModelaccount extends JModelLegacy
 
     public function getReserveDiscount()
     {
-        $user            =& JFactory::getUser();
+        $user            = JFactory::getUser();
         $query           = "SELECT * FROM " . $this->_table_prefix . "coupons_transaction " . "WHERE userid='" . $user->id . "' AND coupon_value > 0 limit 0,1 ";
         $Data            = $this->_getList($query);
         $remain_discount = 0;

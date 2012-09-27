@@ -53,7 +53,7 @@ class quotationController extends RedshopCoreController
         }
 
         $model                  = $this->getModel('quotation');
-        $session                =& JFactory::getSession();
+        $session                = JFactory::getSession();
         $cart                   = $session->get('cart');
         $cart['quotation_note'] = $post['quotation_note'];
         $row                    = $model->store($cart, $post);
@@ -69,7 +69,7 @@ class quotationController extends RedshopCoreController
                 $msg = JText::_('COM_REDSHOP_ERROR_SENDING_QUOTATION_MAIL');
             }
 
-            $session = & JFactory::getSession();
+            $session = JFactory::getSession();
             $session->set('cart', NULL);
             $session->set('ccdata', NULL);
             $session->set('issplit', NULL);

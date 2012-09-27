@@ -106,7 +106,7 @@ class registrationController extends RedshopCoreController
         $return = "";
 
         JPluginHelper::importPlugin('telesearch', 'rs_telesearch');
-        $this->_dispatcher =& JDispatcher::getInstance();
+        $this->_dispatcher = JDispatcher::getInstance();
         $tele['phone']     = $get['phone'];
         $accountHandle     = $this->_dispatcher->trigger('findByTelephoneNumber', array($tele));
         if (count($accountHandle) > 0)

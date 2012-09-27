@@ -49,7 +49,7 @@ $query      = "UPDATE `#__redshop_newsletter_tracker` SET `read` = '1' WHERE tra
 $db->setQuery($query);
 $db->query();
 
-$uri        =& JURI::getInstance();
+$uri        = JURI::getInstance();
 $requesturl = $uri->toString();
 $url        = parse_url($requesturl);
 
