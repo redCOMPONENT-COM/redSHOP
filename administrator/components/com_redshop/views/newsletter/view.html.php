@@ -13,7 +13,10 @@ class newsletterViewnewsletter extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $context  = 'newsletter_id';
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
@@ -36,8 +39,8 @@ class newsletterViewnewsletter extends JViewLegacy
             JToolBarHelper::unpublishList();
         }
         $uri              = JFactory::getURI();
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;

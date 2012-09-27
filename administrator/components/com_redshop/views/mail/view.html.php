@@ -13,7 +13,9 @@ class mailViewmail extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
 
         $context  = 'mail_id';
         $document = JFactory::getDocument();
@@ -30,9 +32,9 @@ class mailViewmail extends JViewLegacy
 
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.mail_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-        $filter_section   = $mainframe->getUserStateFromRequest($context . 'filter_section', 'filter_section', 0);
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.mail_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_section   = $app->getUserStateFromRequest($context . 'filter_section', 'filter_section', 0);
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;
