@@ -25,15 +25,15 @@ class addorder_detailModeladdorder_detail extends JModelLegacy
 
     public $_data = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
     public $_copydata = null;
 
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('cid', 0, '', 'array');
+
+        $array = JRequest::getVar('cid', 0, '', 'array');
         $this->setId((int)$array[0]);
         $this->_order_functions = new order_functions();
         $this->_db              = JFactory::getDBO();

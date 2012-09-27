@@ -17,9 +17,9 @@ class answerModelanswer extends JModelLegacy
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
-    public $_context = null;
+    public $_context = 'question_id';
 
     public function __construct()
     {
@@ -27,14 +27,11 @@ class answerModelanswer extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context = 'question_id';
-
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('parent_id', 0, '', 'array');
+        $array = JRequest::getVar('parent_id', 0, '', 'array');
         $this->setId((int)$array[0]);
+
         $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
         $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-
         $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
         $product_id = $app->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
 

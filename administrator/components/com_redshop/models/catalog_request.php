@@ -17,9 +17,9 @@ class catalog_requestModelcatalog_request extends JModelLegacy
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
-    public $_context = null;
+    public $_context = 'catalog_user_id';
 
     public function __construct()
     {
@@ -27,11 +27,9 @@ class catalog_requestModelcatalog_request extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'catalog_user_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
