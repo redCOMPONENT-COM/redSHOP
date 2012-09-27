@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class statisticModelstatistic extends JModelLegacy
-{
-    public $_table_prefix = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class statisticModelstatistic extends RedshopCoreModel
+{
     public $_startdate = null;
 
     public $_enddate = null;
@@ -41,11 +41,10 @@ class statisticModelstatistic extends JModelLegacy
     {
         parent::__construct();
 
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-
         $this->_startdate    = strtotime(JRequest::getVar('startdate'));
         $this->_enddate      = strtotime(JRequest::getVar('enddate'));
         $this->_filteroption = JRequest::getVar('filteroption');
+
         if ($this->_filteroption == "" && JRequest::getVar('view') == "")
         {
             $this->_filteroption = 3;

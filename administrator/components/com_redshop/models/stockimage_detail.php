@@ -137,21 +137,4 @@ class stockimage_detailModelstockimage_detail extends RedshopCoreModelDetail
         $list = $this->_db->loadObjectlist();
         return $list;
     }
-    /*public function publish($cid = array(), $publish = 1)
-     {
-         if (count( $cid ))
-         {
-             $cids = implode( ',', $cid );
-
-             $query = 'UPDATE '.$this->_table_prefix.'stockroom_amount_image '
-                     .'SET published="'.intval( $publish ).'" '
-                     .'WHERE stock_amount_id IN ( '.$cids.' )';
-             $this->_db->setQuery( $query );
-             if (!$this->_db->query()) {
-                 $this->setError($this->_db->getErrorMsg());
-                 return false;
-             }
-         }
-         return true;
-     }*/
 }

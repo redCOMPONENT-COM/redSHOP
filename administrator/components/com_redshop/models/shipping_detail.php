@@ -44,7 +44,8 @@ class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
         }
         JPluginHelper::importPlugin('redshop_shipping');
         $dispatcher = JDispatcher::getInstance();
-        $payment    = $dispatcher->trigger('onWriteconfig', array($data));
+        $dispatcher->trigger('onWriteconfig', array($data));
+
         return true;
     }
 
@@ -113,7 +114,6 @@ class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
      */
     public function move($direction)
     {
-
         $row = JTable::getInstance('shipping_detail', 'Table');
 
         if (!$row->load($this->_id))

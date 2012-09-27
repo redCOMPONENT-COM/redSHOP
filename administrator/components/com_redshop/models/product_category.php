@@ -10,15 +10,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-class product_categoryModelproduct_category extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class product_categoryModelproduct_category extends RedshopCoreModel
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function getProductlist()
     {
         $pid   = JRequest::getVar('cid', array(), 'post', 'array');

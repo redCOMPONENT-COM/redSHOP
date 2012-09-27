@@ -9,15 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class containerModelcontainer extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class containerModelcontainer extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = '#__redshop_';
 
     public $_context = 'container_id';
 

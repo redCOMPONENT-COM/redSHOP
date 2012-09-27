@@ -11,23 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class exportModelexport extends JModelLegacy
+class exportModelexport extends RedshopCoreModel
 {
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
 
     public function getData()
     {
@@ -120,7 +110,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the products for export
      */
-    private public function loadProducts()
+    private function loadProducts()
     {
         $db = JFactory::getDBO();
 
@@ -651,7 +641,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the categories for export
      */
-    private public function loadCategories()
+    private function loadCategories()
     {
         $db = JFactory::getDBO();
         $q  = "SELECT c.*,cx.category_parent_id
@@ -721,7 +711,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the attributes for export
      */
-    private public function loadAttributes()
+    private function loadAttributes()
     {
 
         $producthelper = new producthelper();
@@ -859,7 +849,7 @@ class exportModelexport extends JModelLegacy
         }
     }
 
-    private public function loadManufacturer()
+    private function loadManufacturer()
     {
         $db    = JFactory::getDBO();
         $query = "SELECT m.* " . "FROM `" . $this->_table_prefix . "manufacturer` AS m ";
@@ -913,7 +903,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the Related Products for export
      */
-    private public function loadRelatedProducts()
+    private function loadRelatedProducts()
     {
         $db      = JFactory::getDBO();
         $relsku  = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`related_id`";
@@ -971,7 +961,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the fields for export
      */
-    private public function loadFields()
+    private function loadFields()
     {
         $extra_field   = new extra_field();
         $producthelper = new producthelper();
@@ -1013,7 +1003,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the users for export
      */
-    private public function loadUsers()
+    private function loadUsers()
     {
 
         $db    = JFactory::getDBO();
@@ -1076,7 +1066,7 @@ class exportModelexport extends JModelLegacy
     /**
      * Load the Shipping Address for export
      */
-    private public function loadshippingaddress()
+    private function loadshippingaddress()
     {
         $db    = JFactory::getDBO();
         $query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname, ui.lastname, ui.address, ui.city, ui.state_code, ui.zipcode, ui.country_code, ui.phone
