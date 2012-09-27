@@ -17,7 +17,7 @@ class configurationModelconfiguration extends JModelLegacy
 
     public $_data = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
     public $_configpath = null;
 
@@ -29,16 +29,12 @@ class configurationModelconfiguration extends JModelLegacy
     {
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-
         $this->Redconfiguration = new Redconfiguration();
-
-        $this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
+        $this->_configpath      = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
     }
 
     public function cleanFileName($name, $id = null)
     {
-        //$value = htmlspecialchars($name, ENT_QUOTES);
         $filetype = JFile::getExt($name);
         $values   = preg_replace("/[&'#]/", "", $name);
 

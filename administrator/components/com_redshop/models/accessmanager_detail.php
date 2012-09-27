@@ -10,24 +10,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
+class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDetail
 {
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
-
     public function getaccessmanager()
     {
         $section = JRequest::getVar('section');
@@ -45,14 +31,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
      */
     public function store($data)
     {
-        /**
-         * get groups
-         */
-        $group = $this->getGroup();
-
-        /**
-         * format groups
-         */
+        $group         = $this->getGroup();
         $groups        = $this->formatGroup($group);
         $check_section = $this->checksection($data['section']);
 
@@ -65,9 +44,6 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
             {
                 foreach ($groups as $groupValue => $groupName)
                 {
-                    /*if( $groupValue < 23 ):
-                             continue;
-                             endif;*/
                     $row               = $this->getTable('accessmanager_detail');
                     $row->gid          = $groupValue;
                     $row->section_name = $data['section'];
