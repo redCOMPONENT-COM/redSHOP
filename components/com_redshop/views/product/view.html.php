@@ -181,7 +181,7 @@ class productViewproduct extends JViewLegacy
                 }
             }
 
-            $uri    =& JFactory::getURI();
+            $uri    = JFactory::getURI();
             $scheme = $uri->getScheme();
             $host   = $uri->getHost();
             if ($data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_thumb_image))

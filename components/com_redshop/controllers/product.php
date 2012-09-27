@@ -175,7 +175,7 @@ class productController extends RedshopCoreController
         // getVariables
         $cid           = $this->input->getInt('cid', null);
         $producthelper = new producthelper();
-        $user          = &JFactory::getUser();
+        $user          = JFactory::getUser();
 
         $item_id = $this->input->get('Itemid');
 

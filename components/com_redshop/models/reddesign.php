@@ -31,7 +31,7 @@ class reddesignModelreddesign extends JModelLegacy
 
     public function getDesignTypeImages($designtype_id)
     {
-        $db = & JFactory :: getDBO();
+        $db = JFactory :: getDBO();
 
         $table = $this->_table_prefix . "image";
         $query = "SELECT * FROM " . $table . " WHERE designtype_id = " . $designtype_id . " order by ordering";
@@ -43,7 +43,7 @@ class reddesignModelreddesign extends JModelLegacy
     public function getProductDetail($product_id, $field_name = "")
     {
 
-        $db = & JFactory :: getDBO();
+        $db = JFactory :: getDBO();
         if (!$field_name)
         {
             $query = 'SELECT * FROM `#__redshop_product` WHERE product_id = ' . $product_id;

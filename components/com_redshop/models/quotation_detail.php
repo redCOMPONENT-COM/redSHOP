@@ -38,7 +38,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
 
     public function addtocart($data = array())
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
 
         $carthelper      = new rsCarthelper();
         $producthelper   = new producthelper();
@@ -190,7 +190,7 @@ class quotation_detailModelquotation_detail extends JModelLegacy
 
     public function modifyQuotation($user_id = 0)
     {
-        $session    =& JFactory::getSession();
+        $session    = JFactory::getSession();
         $carthelper = new rsCarthelper();
         $cart       = $session->get('cart');
 

@@ -88,7 +88,7 @@ class cartController extends RedshopCoreController
 
         /* store cart entry in db */
 
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $cart    = $session->get('cart');
         if (isset($cart['AccessoryAsProduct']))
         {
@@ -214,7 +214,7 @@ class cartController extends RedshopCoreController
         $producthelper            = new producthelper();
         $calArr                   = $this->_carthelper->calculation($cart);
         $cart['product_subtotal'] = $calArr[1];
-        $session                  =& JFactory::getSession();
+        $session                  = JFactory::getSession();
         $discount_amount          = 0;
         $voucherDiscount          = 0;
         $couponDiscount           = 0;
@@ -279,7 +279,7 @@ class cartController extends RedshopCoreController
      */
     public function coupon()
     {
-        $session   =& JFactory::getSession();
+        $session   = JFactory::getSession();
         $option    = $this->input->get('option');
         $item_id   = $this->input->get('Itemid');
         $redhelper = new redhelper();
@@ -318,7 +318,7 @@ class cartController extends RedshopCoreController
      */
     public function voucher()
     {
-        $session   =& JFactory::getSession();
+        $session   = JFactory::getSession();
         $option    = $this->input->get('option');
         $item_id   = $this->input->get('Itemid');
         $redhelper = new redhelper();
@@ -497,13 +497,13 @@ class cartController extends RedshopCoreController
     {
         $post    = $this->input->getArray($_POST);
         $model   = $this->getModel('cart');
-        $user    = &JFactory::getUser();
+        $user    = JFactory::getUser();
         $user_id = $user->id;
 
         $cart = $model->changeAttribute($post);
         $cart = $this->_carthelper->modifyCart($cart, $user_id);
 
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $session->set('cart', $cart);
         $this->_carthelper->cartFinalCalculation();        ?>
 
