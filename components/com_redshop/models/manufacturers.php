@@ -30,7 +30,7 @@ class manufacturersModelmanufacturers extends JModelLegacy
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
-        $params              = &$mainframe->getParams('com_redshop');
+        $params              = $mainframe->getParams('com_redshop');
         if ($params->get('manufacturerid') != "")
         {
             $manid = $params->get('manufacturerid');
@@ -41,8 +41,7 @@ class manufacturersModelmanufacturers extends JModelLegacy
         }
         $this->setId($manid);
 
-        $limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
-        //$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0 );
+        $limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
         // In case limit has been changed, adjust it

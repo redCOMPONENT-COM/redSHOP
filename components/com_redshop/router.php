@@ -46,9 +46,11 @@ function RedshopBuildRoute(&$query)
 
     $segments = array();
     $db       = JFactory::getDBO();
-    $menu     = JSite::getMenu();
-    $item     =& $menu->getActive();
-    $Itemid   = $item->id;
+    $app      = JFactory::getApplication();
+    $menu     = $app->getMenu();
+    $item     = $menu->getActive();
+    $Itemid   = is_null($item) ? 0 : $item->id;
+
     require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
     require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php');
     $product_category = new product_category;
@@ -202,11 +204,14 @@ function RedshopBuildRoute(&$query)
     $sql = "SELECT * FROM #__menu WHERE id = '$Itemid' " . "AND link like '%option=com_redshop%' AND link like '%view=$view%' ";
     $db->setQuery($sql);
     $menu = $db->loadObject();
+
     if (count($menu) == 0)
     {
+        $menu         = new stdClass;
         $menu->params = '';
         $menu->title  = '';
     }
+
     $myparams = new JRegistry($menu->params);
 
     // special char for replace
@@ -602,7 +607,7 @@ function RedshopBuildRoute(&$query)
 
                 $segments[] = $layout;
 
-                if ($tagid)
+                if (isset($tagid))
                 {
                     $segments[] = $tagid;
 
@@ -677,6 +682,7 @@ function RedshopParseRoute($segments)
     require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
 
     $db           = JFactory::getDBO();
+    $app          = JFactory::getApplication();
     $firstSegment = $segments[0];
     switch ($firstSegment)
     {
@@ -881,9 +887,9 @@ function RedshopParseRoute($segments)
                                 $vars['manufacturer_id'] = $man_id;
                             }
 
-                            $menu           = JSite::getMenu();
-                            $item           =& $menu->getActive();
-                            $vars['Itemid'] = $item->id;
+                            $menu           = $app->getMenu();
+                            $item           = $menu->getActive();
+                            $vars['Itemid'] = is_null($item) ? 0 : $item->id;
                         }
                     }
                     else
@@ -891,11 +897,11 @@ function RedshopParseRoute($segments)
 
                         $vars['view'] = "category";
 
-                        $menu           = JSite::getMenu();
-                        $item           =& $menu->getActive();
-                        $vars['Itemid'] = $item->id;
+                        $menu           = $app->getMenu();
+                        $item           = $menu->getActive();
+                        $vars['Itemid'] = is_null($item) ? 0 : $item->id;
 
-                        if (isset($segments[0]) && $segments[0] != $item->id)
+                        if (isset($segments[0]) && $segments[0] != $vars['Itemid'])
                         {
                             $vars['cid'] = $segments[0];
                         }
@@ -934,9 +940,9 @@ function RedshopParseRoute($segments)
                             $vars['pid'] = $product_id;
                         }
 
-                        $menu           = JSite::getMenu();
-                        $item           =& $menu->getActive();
-                        $vars['Itemid'] = $item->id;
+                        $menu           = $app->getMenu();
+                        $item           = $menu->getActive();
+                        $vars['Itemid'] = is_null($item) ? 0 : $item->id;
                     }
                     else
                     {

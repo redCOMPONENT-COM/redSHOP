@@ -22,7 +22,6 @@ class redhelper
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
         $this->_db           = JFactory::getDBO();
     }
@@ -272,7 +271,7 @@ class redhelper
     // 	order by list
     public static function getOrderByList()
     {
-        $order_data           = array();
+        $order_data           = array_fill(0, 6, new stdClass);
         $order_data[0]->value = "p.product_name ASC";
         $order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
         $order_data[1]->value = "p.product_price ASC";

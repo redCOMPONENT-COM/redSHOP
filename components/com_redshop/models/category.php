@@ -39,7 +39,7 @@ class categoryModelcategory extends JModelLegacy
         $this->_table_prefix = '#__redshop_';
         $this->producthelper = new producthelper();
 
-        $params = &$mainframe->getParams('com_redshop');
+        $params = $mainframe->getParams('com_redshop');
         $layout = JRequest::getVar('layout');
         $print  = JRequest::getVar('print');
         $Id     = JRequest::getInt('cid', 0);
@@ -67,8 +67,8 @@ class categoryModelcategory extends JModelLegacy
     public function _buildQuery()
     {
         global $mainframe;
-        $menu            =& $mainframe->getMenu();
-        $item            =& $menu->getActive();
+        $menu            = $mainframe->getMenu();
+        $item            = $menu->getActive();
         $manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
         $manufacturer_id = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
 
@@ -87,9 +87,6 @@ class categoryModelcategory extends JModelLegacy
 
     public function _buildContentOrderBy()
     {
-        global $mainframe;
-        $menu =& $mainframe->getMenu();
-        $item =& $menu->getActive();
         if (DEFAULT_CATEGORY_ORDERING_METHOD)
         {
             $orderby = " ORDER BY " . DEFAULT_CATEGORY_ORDERING_METHOD;
@@ -98,6 +95,7 @@ class categoryModelcategory extends JModelLegacy
         {
             $orderby = " ORDER BY c.ordering";
         }
+
         return $orderby;
     }
 
@@ -106,7 +104,7 @@ class categoryModelcategory extends JModelLegacy
         $this->_maincat = array();
         if ($this->_id)
         {
-            $maincat = & $this->getTable('category_detail');
+            $maincat = $this->getTable('category_detail');
             $maincat->load($this->_id);
             $this->_maincat = $maincat;
         }
@@ -116,8 +114,8 @@ class categoryModelcategory extends JModelLegacy
     public function getProductPerPage()
     {
         global $mainframe;
-        $menu =& $mainframe->getMenu();
-        $item =& $menu->getActive();
+        $menu = $mainframe->getMenu();
+        $item = $menu->getActive();
         if (isset($this->_template[0]->template_desc) && !strstr($this->_template[0]->template_desc, "{show_all_products_in_category}") && strstr($this->_template[0]->template_desc, "{pagination}") && strstr($this->_template[0]->template_desc, "perpagelimit:"))
         {
             $perpage = explode('{perpagelimit:', $this->_template[0]->template_desc);
@@ -148,11 +146,12 @@ class categoryModelcategory extends JModelLegacy
 
     public function getCategorylistProduct($category_id = 0)
     {
-        global $context, $mainframe;
-        $menu  =& $mainframe->getMenu();
-        $item  =& $menu->getActive();
+        global $mainframe;
+
+        $menu  = $mainframe->getMenu();
+        $item  = $menu->getActive();
         $limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
-        //	$order_by = $this->_buildProductOrderBy();
+
         $order_by = (isset($item)) ? $item->params->get('order_by') : 'p.product_name ASC';
 
         $query = "SELECT * FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pc.category_id " . "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id " . "WHERE p.published = 1 AND p.expired = 0 " . "AND pc.category_id='" . $category_id . "' " . "AND p.product_parent_id = 0  order by " . $order_by . " LIMIT 0,5" . $limit;
@@ -163,21 +162,19 @@ class categoryModelcategory extends JModelLegacy
 
     public function getCategoryProduct($minmax = 0, $isSlider = false)
     {
-        // $minmax = 0 (all products), $minmax=1 (min/max product)
-        global $mainframe, $context;
-        $menu            =& $mainframe->getMenu();
-        $item            =& $menu->getActive();
+        global $mainframe;
+
+        $menu            = $mainframe->getMenu();
+        $item            = $menu->getActive();
         $manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 
-        $setproductfinderobj = new redhelper();
-        $order_by            = $this->_buildProductOrderBy();
-        $manufacturer_id     = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
+        $order_by        = $this->_buildProductOrderBy();
+        $manufacturer_id = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
 
         $sort = "";
         $and  = "";
 
         // Shopper group - choose from manufactures Start
-
         $rsUserhelper               = new rsUserhelper();
         $shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -320,11 +317,11 @@ class categoryModelcategory extends JModelLegacy
 
     public function _buildProductOrderBy()
     {
-        global $mainframe, $context;
-        $params   = &$mainframe->getParams("com_redshop");
-        $menu     =& $mainframe->getMenu();
-        $item     =& $menu->getActive();
+        global $mainframe;
+        $menu     = $mainframe->getMenu();
+        $item     = $menu->getActive();
         $order_by = urldecode(JRequest::getVar('order_by', ''));
+
         if ($order_by == '')
         {
             $order_by = (isset($item)) ? $item->params->get('order_by') : DEFAULT_PRODUCT_ORDERING_METHOD;
@@ -336,17 +333,17 @@ class categoryModelcategory extends JModelLegacy
 
     public function getData()
     {
-        global $mainframe, $context;
+        global $mainframe;
         $endlimit   = $this->getProductPerPage();
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
         $layout     = JRequest::getVar('layout');
         $query      = $this->_buildQuery();
         if ($layout == "categoryproduct")
         {
-            $menu        =& $mainframe->getMenu();
-            $item        =& $menu->getActive();
-            $endlimit    = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
-            $limit       = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $endlimit, 5);
+            $menu     = $mainframe->getMenu();
+            $item     = $menu->getActive();
+            $endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
+            //$limit       = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $endlimit, 5);
             $limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
             $this->_data = $this->_getList($query, $limitstart, $endlimit);
             return $this->_data;
@@ -389,9 +386,9 @@ class categoryModelcategory extends JModelLegacy
 
     public function getCategoryProductPagination()
     {
-        global $mainframe, $context;
-        $menu     =& $mainframe->getMenu();
-        $item     =& $menu->getActive();
+        global $mainframe;
+        $menu     = $mainframe->getMenu();
+        $item     = $menu->getActive();
         $endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
 
         $limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
@@ -409,9 +406,6 @@ class categoryModelcategory extends JModelLegacy
 
     public function getCategoryTemplate()
     {
-        global $mainframe;
-
-        $params            = &$mainframe->getParams('com_redshop');
         $category_template = $this->getState('category_template');
 
         $redTemplate = new Redtemplate();
@@ -444,9 +438,6 @@ class categoryModelcategory extends JModelLegacy
 
     public function loadCategoryTemplate()
     {
-        global $mainframe, $context;
-
-        $params            = &$mainframe->getParams('com_redshop');
         $category_template = ( int )$this->getState('category_template');
         $redTemplate       = new Redtemplate();
 

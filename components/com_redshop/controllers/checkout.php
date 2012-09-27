@@ -40,10 +40,11 @@ class checkoutController extends RedshopCoreController
 
     public function __construct($default = array())
     {
+        parent::__construct($default);
+
         $this->_order_functions = new order_functions();
         $this->_shippinghelper  = new shipping();
         $this->input->set('layout', 'default');
-        parent::__construct($default);
     }
 
     /**
