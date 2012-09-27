@@ -61,7 +61,8 @@ $filteroption = JRequest::getVar('filteroption');
 
 
     <?php if ($expand_all == 1)
-    { ?>
+    {
+        ?>
 
         myPopularIcon.show();
         myquickicons.show();
@@ -72,9 +73,11 @@ $filteroption = JRequest::getVar('filteroption');
 
 
 
-        <?php }
+        <?php
+    }
     else
-    { ?>
+    {
+        ?>
 
         myPopularIcon.hide();
         myquickicons.hide();
@@ -374,16 +377,18 @@ $option         = JRequest::getCmd('option');
                 }
                 else
                 {
-                    /*if ($new_arr['shippings'][$i] == 'shipping_detail') {
-                       $link = 'index.php?option=com_installer';
-                   redshopViewredshop::quickiconButton ( $link, $new_arr['shippingimages'][$i], JText::_ ( "COM_REDSHOP_".$new_arr['shippingtxt'][$i] ) );
-                   $cnt_ship=1;
-                   }
-                   else {*/
-                    $link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['shippings'][$i];
-                    redshopViewredshop::quickiconButton($link, $new_arr['shippingimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['shippingtxt'][$i]));
-                    $cnt_ship = 1;
-                    //}
+                    if ($new_arr['shippings'][$i] == 'shipping_detail')
+                    {
+                        $link = 'index.php?option=com_installer';
+                        redshopViewredshop::quickiconButton($link, $new_arr['shippingimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['shippingtxt'][$i]));
+                        $cnt_ship = 1;
+                    }
+                    else
+                    {
+                        $link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['shippings'][$i];
+                        redshopViewredshop::quickiconButton($link, $new_arr['shippingimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['shippingtxt'][$i]));
+                        $cnt_ship = 1;
+                    }
                 }
             }
 
