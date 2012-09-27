@@ -77,16 +77,17 @@ class configurationViewconfiguration extends JViewLegacy
         $model       = $this->getModel('configuration');
         $newsletters = $model->getnewsletters();
 
-        $templatesel                   = array();
-        $templatesel[0]->template_id   = 0;
-        $templatesel[0]->template_name = JText::_('COM_REDSHOP_SELECT');
-
         $product_template      = $redTemplate->getTemplate("product");
         $compare_template      = $redTemplate->getTemplate("compare_product");
         $category_template     = $redTemplate->getTemplate("category");
         $categorylist_template = $redTemplate->getTemplate("frontpage_category");
         $manufacturer_template = $redTemplate->getTemplate("manufacturer_products");
         $ajax_detail_template  = $redTemplate->getTemplate("ajax_cart_detail_box");
+
+        $templatesel					= array();
+        $templatesel           			= array_fill(0, 7, new stdClass);
+        $templatesel[0]->template_id	= 0;
+        $templatesel[0]->template_name	= JText::_('COM_REDSHOP_SELECT');
 
         $product_template      = @array_merge($templatesel, $product_template);
         $compare_template      = @array_merge($templatesel, $compare_template);
