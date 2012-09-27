@@ -11,14 +11,10 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
-class configurationModelconfiguration extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class configurationModelconfiguration extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = '#__redshop_';
-
     public $_configpath = null;
 
     public $_configdata = null;

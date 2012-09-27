@@ -222,14 +222,6 @@ class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDeta
         return $result;
     }
 
-    //	public function getShippingMethod($shipping_id=0) {
-    //		$query = 'SELECT * FROM '.$this->_table_prefix.'shipping_method '
-    //	    		.'WHERE shipping_id='.$shipping_id;
-    //		$this->_db->setQuery($query);
-    //		$list = $this->_db->loadObject();
-    //		return $list;
-    //	}
-
     public function getVatGroup()
     {
         $query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ORDER BY tax_group_id ASC";

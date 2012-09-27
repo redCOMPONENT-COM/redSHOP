@@ -13,28 +13,23 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-class productModelproduct extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class productModelproduct extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
     public $_categorytreelist = null;
 
-    public $_context = null;
+    public $_context = 'product_id';
 
     public function __construct()
     {
         parent::__construct();
 
         $app = JFactory::getApplication();
-
-        $this->_context      = 'product_id';
-        $this->_table_prefix = '#__redshop_';
 
         $limit        = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
         $limitstart   = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);

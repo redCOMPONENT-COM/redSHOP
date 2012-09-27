@@ -12,22 +12,13 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class importModelimport extends JModelLegacy
+class importModelimport extends RedshopCoreModel
 {
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
 
     public function getData()
     {

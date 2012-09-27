@@ -10,18 +10,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'media.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class mediaModelmedia extends JModelLegacy
+class mediaModelmedia extends RedshopCoreModel
 {
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'media_id';
 
     public function __construct()
     {
@@ -29,14 +26,13 @@ class mediaModelmedia extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_table_prefix = '#__redshop_';
-        $this->_context      = 'media_id';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $media_section = $app->getUserStateFromRequest($this->_context . 'media_section', 'media_section', 0);
         $media_type    = $app->getUserStateFromRequest($this->_context . 'media_type', 'media_type', 0);
         $limitstart    = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
         $this->setState('media_section', $media_section);
@@ -355,18 +351,15 @@ class mediaModelmedia extends JModelLegacy
 
     public function saveorder($cid = array(), $order)
     {
-
         $row        = $this->getTable('media_detail');
         $order      = JRequest::getVar('order', array(0), 'post', 'array');
         $conditions = array();
-        //$groupings = array();
 
         // update ordering values
         for ($i = 0; $i < count($cid); $i++)
         {
             $row->load((int)$cid[$i]);
             // track categories
-            //$groupings[] = $row->mid;
 
             if ($row->ordering != $order[$i])
             {

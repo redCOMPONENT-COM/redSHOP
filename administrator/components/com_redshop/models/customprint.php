@@ -9,19 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class customprintModelcustomprint extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class customprintModelcustomprint extends RedshopCoreModel
 {
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__';
-    }
-
     public function getData()
     {
         if (empty($this->_data))
