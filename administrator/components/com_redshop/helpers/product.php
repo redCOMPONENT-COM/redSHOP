@@ -22,18 +22,13 @@ class adminproducthelper
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
     }
 
     public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
     {
-        //$uri           = & JURI::getInstance();
-        //$url           = $uri->root();
-        $redconfig     = new Redconfiguration();
-        $producthelper = new producthelper();
-
-        //$product        = $producthelper->getProductById($product_id);
+        $redconfig      = new Redconfiguration();
+        $producthelper  = new producthelper();
         $totalAccessory = count($accessory);
         $accessorylist  = "";
 

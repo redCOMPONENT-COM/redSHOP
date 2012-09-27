@@ -23,7 +23,6 @@ class text_library
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
         $this->_db           = JFactory::getDbo();
     }
