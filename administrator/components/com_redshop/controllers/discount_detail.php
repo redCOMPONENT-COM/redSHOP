@@ -79,7 +79,14 @@ class discount_detailController extends RedshopCoreController
         }
         if ($apply == 1)
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg);
+        	if(isset($layout) && $layout == 'product')
+        	{
+            	$this->setRedirect('index.php?option='.$option.'&view=discount_detail&layout=product&task=edit&cid[]='.$row->discount_product_id, $msg);
+        	} 
+        	else
+        	{
+        		$this->setRedirect('index.php?option='.$option.'&view=discount_detail&task=edit&cid[]='.$row->discount_id, $msg);
+        	}
         }
         else
         {
