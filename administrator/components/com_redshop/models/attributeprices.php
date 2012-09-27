@@ -21,20 +21,18 @@ class attributepricesModelattributeprices extends JModelLegacy
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
-    public $_context = null;
+    public $_context = 'price_id';
 
     public function __construct()
     {
         parent::__construct();
+
         $app = JFactory::getApplication();
 
-        $this->_context = 'price_id';
-
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);

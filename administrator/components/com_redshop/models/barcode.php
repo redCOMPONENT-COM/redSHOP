@@ -21,18 +21,10 @@ class barcodeModelbarcode extends JModelLegacy
 
     public $_data = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
     public $_loglist = null;
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
-    ///public $_hellos=null;
     public function save($data)
     {
         $row = $this->getTable('barcode');

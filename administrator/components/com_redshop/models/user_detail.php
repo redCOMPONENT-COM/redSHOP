@@ -12,16 +12,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class user_detailModeluser_detail extends JModelLegacy
+class user_detailModeluser_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
     public $_uid = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
 
     public $_pagination = null;
 
@@ -35,10 +30,8 @@ class user_detailModeluser_detail extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_table_prefix = '#__redshop_';
-        $this->_context      = 'order_id';
+        $this->_context = 'order_id';
 
-        $array      = JRequest::getVar('cid', 0, '', 'array');
         $this->_uid = JRequest::getVar('user_id', 0);
 
         $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
@@ -46,13 +39,6 @@ class user_detailModeluser_detail extends JModelLegacy
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
     }
 
     public function &getData()

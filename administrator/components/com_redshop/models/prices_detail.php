@@ -7,38 +7,25 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+defined('_JEXEC') or die('Restricted access');
+
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class prices_detailModelprices_detail extends JModelLegacy
+class prices_detailModelprices_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
     public $_prodid = null;
 
     public $_prodname = null;
 
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-        $array         = JRequest::getVar('cid', 0, '', 'array');
         $this->_prodid = JRequest::getVar('product_id', 0, '', 'int');
-
-        $this->setId((int)$array[0]);
         $this->setProductName();
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
     }
 
     public function setProductName()
