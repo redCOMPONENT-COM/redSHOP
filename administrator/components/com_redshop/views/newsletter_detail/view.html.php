@@ -1,36 +1,27 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class newsletter_detailVIEWnewsletter_detail extends JView
+class newsletter_detailVIEWnewsletter_detail extends JViewLegacy
 {
-    function display ($tpl = null)
+    public function display($tpl = null)
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         $layout = JRequest::getVar('layout');
 
-        //$templates = JRequest::getVar ('templates',array());
         $model     = $this->getModel('newsletter_detail');
         $templates = $model->gettemplates();
 
-
         //merging select option in the select box
         $temps           = array();
+        $temps[0]        = new stdClass;
         $temps[0]->value = 0;
         $temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $templates       = @array_merge($temps, $templates);
@@ -47,23 +38,30 @@ class newsletter_detailVIEWnewsletter_detail extends JView
         $isNew  = ($detail->newsletter_id < 1);
         $text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-        if ($layout == "statistics") {
+        if ($layout == "statistics")
+        {
             $document->addScript('http://www.google.com/jsapi');
             $text = "statistics";
             JRequest::setVar('hidemainmenu', 1);
             $this->setLayout($layout);
-        } else {
+        }
+        else
+        {
             $this->setLayout('default');
         }
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_newsletter48');
-        if ($layout != "statistics") {
+        if ($layout != "statistics")
+        {
             JToolBarHelper::apply();
             JToolBarHelper::save();
         }
-        if ($isNew) {
+        if ($isNew)
+        {
             JToolBarHelper::cancel();
-        } else {
+        }
+        else
+        {
             JToolBarHelper::cancel('cancel', 'Close');
         }
 
@@ -73,7 +71,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
         $this->assignRef('lists', $lists);
         $this->assignRef('detail', $detail);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }

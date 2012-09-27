@@ -9,42 +9,39 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class giftcard_detailController extends JController
+class giftcard_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'giftcard_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'giftcard_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post = JRequest::get('post', JREQUEST_ALLOWRAW);
-
-        $giftcard_desc         = JRequest::getVar('giftcard_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        $post["giftcard_desc"] = $giftcard_desc;
-
-        $showbuttons = JRequest::getVar('showbuttons');
-
-        $option = JRequest::getVar('option');
+        $post                  = $this->input->getArray($_POST);
+        $post["giftcard_desc"] = $this->input->post->getString('giftcard_desc', '');
+        $showbuttons           = $this->input->get('showbuttons');
+        $option                = $this->input->get('option');
 
         $model = $this->getModel('giftcard_detail');
         $row   = $model->store($post);
+
         if ($row)
         {
 
@@ -76,18 +73,19 @@ class giftcard_detailController extends JController
         }
     }
 
-    function remove()
+    public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('giftcard_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -96,19 +94,20 @@ class giftcard_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function publish()
+    public function publish()
     {
 
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('giftcard_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -117,19 +116,18 @@ class giftcard_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function unpublish()
+    public function unpublish()
     {
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('giftcard_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -138,18 +136,17 @@ class giftcard_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
         $this->setRedirect('index.php?option=' . $option . '&view=giftcard');
     }
 
-    function copy()
+    public function copy()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         $model = $this->getModel('giftcard_detail');
 

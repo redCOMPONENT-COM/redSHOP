@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class attribute_setController extends JController
+class attribute_setController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }

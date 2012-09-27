@@ -9,36 +9,35 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class category_detailController extends JController
+class category_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'category_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'category_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $category_description       = JRequest::getVar('category_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        $category_short_description = JRequest::getVar('category_short_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post                       = $this->input->getArray($_POST);
+        $category_description       = $this->input->post->getString('category_description', '');
+        $category_short_description = $this->input->post->getString('category_short_description', '');
 
         $post["category_description"] = $category_description;
 
@@ -49,13 +48,10 @@ class category_detailController extends JController
             $post["category_more_template"] = implode(",", $post["category_more_template"]);
         }
 
-        $option               = JRequest::getVar('option');
-        $cid                  = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option               = $this->input->get('option');
+        $cid                  = $this->input->post->get('cid', array(0), 'array');
         $post ['category_id'] = $cid [0];
         $model                = $this->getModel('category_detail');
-        ////////// include extra field class  /////////////////////////////////////
-        //		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
-        ////////// include extra field class  /////////////////////////////////////
 
         if ($row = $model->store($post))
         {
@@ -65,10 +61,10 @@ class category_detailController extends JController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_CATEGORY_DETAIL');
         }
+
         if ($apply == 1)
         {
             $this->setRedirect('index.php?option=' . $option . '&view=category_detail&task=edit&cid[]=' . $row->category_id, $msg);
-            // index.php?option=com_redshop&view=product_detail&task=edit&cid[]=12
         }
         else
         {
@@ -76,27 +72,24 @@ class category_detailController extends JController
         }
     }
 
-    function remove()
+    public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('category_detail');
 
         if (!$model->delete($cid))
         {
-            $msg = "";
-            if ($model->getError() != "")
-            {
-                JError::raiseWarning(500, $model->getError());
-            }
+            throw new RuntimeException($model->getError());
         }
+
         else
         {
             $msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_DELETED_SUCCESSFULLY');
@@ -105,36 +98,37 @@ class category_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function publish()
+    public function publish()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('category_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
+        $option = $this->input->get('option');
 
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('category_detail');
@@ -146,42 +140,42 @@ class category_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
 
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $msg    = JText::_('COM_REDSHOP_CATEGORY_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function orderup()
+    public function orderup()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
         $model = $this->getModel('category_detail');
-        //$model->move(-1);
         $model->orderup();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function orderdown()
+    public function orderdown()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
         $model = $this->getModel('category_detail');
-        //$model->move(1);
         $model->orderdown();
+
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function saveorder()
+    public function saveorder()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
-        $cid   = JRequest::getVar('cid', array(), 'post', 'array');
-        $order = JRequest::getVar('order', array(), 'post', 'array');
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);
 
@@ -192,11 +186,12 @@ class category_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function copy()
+    public function copy()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
         $model  = $this->getModel('category_detail');
+
         if ($model->copy($cid))
         {
             $msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');

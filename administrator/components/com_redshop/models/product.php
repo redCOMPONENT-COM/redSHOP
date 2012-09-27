@@ -9,40 +9,39 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-class productModelproduct extends JModel
+class productModelproduct extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_categorytreelist = null;
+    public $_categorytreelist = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $this->_context      = 'product_id';
         $this->_table_prefix = '#__redshop_';
 
-        $limit        = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart   = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $search_field = $mainframe->getUserStateFromRequest($this->_context . 'search_field', 'search_field', '');
-        $keyword      = $mainframe->getUserStateFromRequest($this->_context . 'keyword', 'keyword', '');
-        $category_id  = $mainframe->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
-        $product_sort = $mainframe->getUserStateFromRequest($this->_context . 'product_sort', 'product_sort', 0);
+        $limit        = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart   = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $search_field = $app->getUserStateFromRequest($this->_context . 'search_field', 'search_field', '');
+        $keyword      = $app->getUserStateFromRequest($this->_context . 'keyword', 'keyword', '');
+        $category_id  = $app->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
+        $product_sort = $app->getUserStateFromRequest($this->_context . 'product_sort', 'product_sort', 0);
 
         $this->setState('product_sort', $product_sort);
         $this->setState('search_field', $search_field);
@@ -52,7 +51,7 @@ class productModelproduct extends JModel
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -61,7 +60,7 @@ class productModelproduct extends JModel
         return $this->_data;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if ($this->_pagination == null)
         {
@@ -70,10 +69,8 @@ class productModelproduct extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
-        global $mainframe;
-
         static $items;
 
         if (isset($items))
@@ -240,7 +237,7 @@ class productModelproduct extends JModel
         return $items;
     }
 
-    function getFinalProductStock($product_stock)
+    public function getFinalProductStock($product_stock)
     {
         if (count($product_stock) > 0)
         {
@@ -257,40 +254,40 @@ class productModelproduct extends JModel
         }
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $category_id      = $this->getState('category_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         if ($category_id)
         {
-            $filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
+            $filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
         }
         else
         {
-            $filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
+            $filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
         }
         $orderby = " ORDER BY " . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
     }
 
-    function MediaDetail($pid)
+    public function MediaDetail($pid)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function listedincats($pid)
+    public function listedincats($pid)
     {
         $query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' . $this->_table_prefix . 'category as c WHERE product_id ="' . $pid . '" AND ref.category_id=c.category_id ORDER BY c.category_name';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function product_template($template_id, $product_id, $section)
+    public function product_template($template_id, $product_id, $section)
     {
         $redTemplate = new Redtemplate();
         if ($section == 1 || $section == 12)
@@ -355,14 +352,14 @@ class productModelproduct extends JModel
         }
     }
 
-    function getmanufacturername($mid)
+    public function getmanufacturername($mid)
     {
         $query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id="' . $mid . '" ';
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function assignTemplate($data)
+    public function assignTemplate($data)
     {
 
         $cid = $data['cid'];
@@ -383,7 +380,7 @@ class productModelproduct extends JModel
         return true;
     }
 
-    function gbasefeed($data)
+    public function gbasefeed($data)
     {
 
         $producthelper    = new producthelper();
@@ -604,7 +601,7 @@ class productModelproduct extends JModel
         return false;
     }
 
-    function getCategoryList()
+    public function getCategoryList()
     {
         if ($this->_categorytreelist)
         {
@@ -636,7 +633,7 @@ class productModelproduct extends JModel
         return $this->_categorytreelist;
     }
 
-    function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0)
+    public function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0)
     {
         if (@$children[$id] && $level <= $maxlevel)
         {
@@ -669,12 +666,12 @@ class productModelproduct extends JModel
       * $order = product current ordring
       * @return: boolean
       */
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
         // get global category id
 
-        $category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+        $category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
         // init array
         $orderarray = array();
         for ($i = 0; $i < count($cid); $i++)

@@ -9,27 +9,26 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'currency.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class configurationController extends JController
+class configurationController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->_configpath1 = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "newtxt.php";
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         for ($p = 0; $p < $post['tot_prod']; $p++)
         {
@@ -176,15 +175,12 @@ class configurationController extends JController
 
         $post['quicklink_icon'] = $quicklink_icon;
 
-        $post['custom_previous_link'] = JRequest::getVar('custom_previous_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post['custom_previous_link'] = $this->input->post->getString('custom_previous_link', '');
 
-        $post['custom_next_link'] = JRequest::getVar('custom_next_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
-        $post['default_next_suffix'] = JRequest::getVar('default_next_suffix', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
-        $post['default_previous_prefix'] = JRequest::getVar('default_previous_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
-        $post['return_to_category_prefix'] = JRequest::getVar('return_to_category_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post['custom_next_link']          = $this->input->post->getString('custom_next_link', '');
+        $post['default_next_suffix']       = $this->input->post->getString('default_next_suffix', '');
+        $post['default_previous_prefix']   = $this->input->post->getString('default_previous_prefix', '');
+        $post['return_to_category_prefix'] = $this->input->post->getString('return_to_category_prefix', '');
 
         // administrator email notifications ids
         if (is_array($post['administrator_email']))
@@ -193,10 +189,11 @@ class configurationController extends JController
             $post['administrator_email'] = implode(",", $post['administrator_email']);
         }
 
-        $option                = JRequest::getVar('option');
-        $model                 = $this->getModel('configuration');
-        $country_list          = JRequest::getVar('country_list');
-        $newsletter_test_email = JRequest::getVar('newsletter_test_email');
+        $option                = $this->input->get('option');
+        $country_list          = $this->input->get('country_list');
+        $newsletter_test_email = $this->input->get('newsletter_test_email');
+
+        $model = $this->getModel('configuration');
 
         $i                = 0;
         $country_listCode = '';
@@ -278,7 +275,7 @@ class configurationController extends JController
      * for Image quality percentage change variable IMAGE_QUALITY_OUTPUT
      *
      */
-    function removeThumbImages()
+    public function removeThumbImages()
     {
         $thumb_folder = array('product', 'category', 'manufacturer', 'product_attributes', 'property', 'subcolor', 'wrapper', 'shopperlogo');
 
@@ -314,18 +311,19 @@ class configurationController extends JController
         }
     }
 
-    function removeimg()
+    public function removeimg()
     {
         ob_clean();
-        $imname      = JRequest::getString('imname', '');
-        $divname     = JRequest::getString('divname', '');
-        $spath       = JRequest::getString('spath', '');
-        $data_id     = JRequest::getInt('data_id', 0);
+        $imname      = $this->input->getString('imname', '');
+        $spath       = $this->input->getString('spath', '');
+        $data_id     = $this->input->getInt('data_id', 0);
         $extra_field = new    extra_field();
+
         if ($data_id)
         {
             $extra_field->deleteExtraFieldData($data_id);
         }
+
         if (JPATH_ROOT . DS . $spath . DS . $imname)
         {
             unlink(JPATH_ROOT . DS . $spath . DS . $imname);
@@ -333,21 +331,22 @@ class configurationController extends JController
         exit;
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $this->setRedirect('index.php?option=' . $option);
     }
 
-    function display()
+    public function display()
     {
         $model         = $this->getModel('configuration');
         $currency_data = $model->getCurrency();
-        JRequest::setVar('currency_data', $currency_data);
+        $this->input->set('currency_data', $currency_data);
+
         parent::display();
     }
 
-    function clearsef()
+    public function clearsef()
     {
         $model     = $this->getModel('configuration');
         $cleardata = $model->cleardata();
@@ -355,24 +354,24 @@ class configurationController extends JController
         exit;
     }
 
-    function resetTemplate()
+    public function resetTemplate()
     {
-        $model         = $this->getModel('configuration');
-        $option        = JRequest::getVar('option');
-        $resetTemplate = $model->resetTemplate();
+        $model  = $this->getModel('configuration');
+        $option = $this->input->get('option');
+        $model->resetTemplate();
 
         $msg = JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET');
         $this->setRedirect('index.php?option=' . $option, $msg);
     }
 
-    function resetTermsCondition()
+    public function resetTermsCondition()
     {
         $userhelper = new rsUserhelper();
         $userhelper->updateUserTermsCondition();
         die();
     }
 
-    function resetOrderId()
+    public function resetOrderId()
     {
         $order_functions = new order_functions();
         $order_functions->resetOrderId();

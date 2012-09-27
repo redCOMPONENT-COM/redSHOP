@@ -9,49 +9,50 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class stockroom_detailController extends JController
+class stockroom_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'stockroom_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'stockroom_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
-    function preview()
+    public function preview()
     {
-        JRequest::setVar('view', 'stockroom_detail');
-        JRequest::setVar('layout', 'default_product');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'stockroom_detail');
+        $this->input->set('layout', 'default_product');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post                   = JRequest::get('post');
-        $stockroom_desc         = JRequest::getVar('stockroom_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post           = $this->input->getArray($_POST);
+        $stockroom_desc = $this->input->post->getString('stockroom_desc', '');
+
         $post["stockroom_desc"] = $stockroom_desc;
         if ($post["delivery_time"] == 'Weeks')
         {
             $post["min_del_time"] = $post["min_del_time"] * 7;
             $post["max_del_time"] = $post["max_del_time"] * 7;
         }
-        $option                 = JRequest::getVar('option');
-        $cid                    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option                 = $this->input->get('option');
+        $cid                    = $this->input->post->get('cid', array(0), 'array');
         $post ['stockroom_id']  = $cid [0];
         $post ['creation_date'] = strtotime($post ['creation_date']);
         $model                  = $this->getModel('stockroom_detail');
@@ -75,14 +76,14 @@ class stockroom_detailController extends JController
         }
     }
 
-    function remove()
+    public function remove()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('stockroom_detail');
@@ -90,18 +91,19 @@ class stockroom_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
     }
 
-    function publish()
+    public function publish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('stockroom_detail');
@@ -109,18 +111,19 @@ class stockroom_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('stockroom_detail');
@@ -128,18 +131,19 @@ class stockroom_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
     }
 
-    function frontpublish()
+    public function frontpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('stockroom_detail');
@@ -147,18 +151,19 @@ class stockroom_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
     }
 
-    function frontunpublish()
+    public function frontunpublish()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('stockroom_detail');
@@ -166,22 +171,24 @@ class stockroom_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $msg    = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
     }
 
-    function copy()
+    public function copy()
     {
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-        $model  = $this->getModel('stockroom_detail');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+
+        $model = $this->getModel('stockroom_detail');
         if ($model->copy($cid))
         {
             $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_COPIED');
@@ -193,7 +200,7 @@ class stockroom_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('stockroom_detail');
 
@@ -230,11 +237,11 @@ class stockroom_detailController extends JController
         exit;
     }
 
-    function importStockFromEconomic()
+    public function importStockFromEconomic()
     {
         #Add product stock from economic
-        $cnt          = JRequest::getInt('cnt', 0);
-        $stockroom_id = JRequest::getInt('stockroom_id', 0);
+        $cnt          = $this->input->getInt('cnt', 0);
+        $stockroom_id = $this->input->getInt('stockroom_id', 0);
         $totalprd     = 0;
         $msg          = '';
         if (ECONOMIC_INTEGRATION == 1)

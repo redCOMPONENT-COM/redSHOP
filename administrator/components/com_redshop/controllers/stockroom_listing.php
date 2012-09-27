@@ -9,51 +9,51 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class stockroom_listingController extends JController
+class stockroom_listingController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function saveStock()
+    public function saveStock()
     {
-        $model          = $this->getModel('stockroom_listing');
-        $stockroom_type = JRequest::getVar('stockroom_type', 'product', 'post', 'string');
+        $stockroom_type   = $this->input->post->getString('stockroom_type', 'product');
+        $pid              = $this->input->post->get('pid', array(0), 'array');
+        $sid              = $this->input->post->get('sid', array(0), 'array');
+        $quantity         = $this->input->post->get('quantity', array(0), 'array');
+        $preorder_stock   = $this->input->post->get('preorder_stock', array(0), 'array');
+        $ordered_preorder = $this->input->post->get('ordered_preorder', array(0), 'array');
 
-        $pid              = JRequest::getVar('pid', array(0), 'post', 'array');
-        $sid              = JRequest::getVar('sid', array(0), 'post', 'array');
-        $quantity         = JRequest::getVar('quantity', array(0), 'post', 'array');
-        $preorder_stock   = JRequest::getVar('preorder_stock', array(0), 'post', 'array');
-        $ordered_preorder = JRequest::getVar('ordered_preorder', array(0), 'post', 'array');
-        //
+        $model = $this->getModel('stockroom_listing');
+
         for ($i = 0; $i < count($sid); $i++)
         {
-
             $model->storeStockroomQuantity($stockroom_type, $sid[$i], $pid[$i], $quantity[$i], $preorder_stock[$i], $ordered_preorder[$i]);
         }
+
         $this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
     }
 
-    function ResetPreorderStock()
+    public function ResetPreorderStock()
     {
-        $model          = $this->getModel('stockroom_listing');
-        $stockroom_type = JRequest::getVar('stockroom_type', 'product');
-        $pid            = JRequest::getVar('product_id');
-        $sid            = JRequest::getVar('stockroom_id');
+        $stockroom_type = $this->input->get('stockroom_type', 'product');
+        $pid            = $this->input->get('product_id');
+        $sid            = $this->input->get('stockroom_id');
 
+        $model = $this->getModel('stockroom_listing');
         $model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid);
 
         $this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('stockroom_listing');
-        $cid   = JRequest::getVar('category_id');
-        /* Start output to the browser */
+        $cid   = $this->input->get('category_id');
+
         if (preg_match('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
         {
             $UserBrowser = "Opera";
@@ -89,12 +89,8 @@ class stockroom_listingController extends JController
             header('Content-Disposition: attachment; filename=StockroomProduct.csv');
             header('Pragma: no-cache');
         }
-        //    	if(USE_CONTAINER){
-        //    		echo "Container Id,Container Name";
-        //    	}else
-        //		{
+
         echo "Stockroom_Id,Stockroom_Name";
-        //    	}
         echo ",Product_SKU,Product_Name,Quantity,M3\n\n";
 
         $product_ids = 0;
@@ -111,13 +107,8 @@ class stockroom_listingController extends JController
 
         for ($i = 0; $i < count($data); $i++)
         {
-            //			if(USE_CONTAINER){
-            //				echo $data[$i]->container_id.",";
-            //				echo $data[$i]->container_name.",";
-            //			}else{
             echo $data[$i]->stockroom_id . ",";
             echo $data[$i]->stockroom_name . ",";
-            //			}
             echo $data[$i]->product_number . ",";
             echo $data[$i]->product_name . ",";
             echo $data[$i]->quantity . ",";
@@ -127,7 +118,7 @@ class stockroom_listingController extends JController
         exit;
     }
 
-    function print_data()
+    public function print_data()
     {
         echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
     }

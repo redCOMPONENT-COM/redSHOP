@@ -9,31 +9,31 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class catalog_detailController extends JController
+class catalog_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
+        $this->input->set('view', 'catalog_detail');
+        $this->input->set('hidemainmenu', 1);
 
-        JRequest::setVar('view', 'catalog_detail');
-        JRequest::setVar('hidemainmenu', 1);
         parent::display();
     }
 
-    function save()
+    public function save()
     {
 
-        $post   = JRequest::get('post');
-        $option = JRequest::getVar('option');
+        $post   = $this->input->getArray($_POST);
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         $post ['catalog_id'] = $cid [0];
         $link                = 'index.php?option=' . $option . '&view=catalog';
@@ -53,15 +53,15 @@ class catalog_detailController extends JController
         $this->setRedirect($link, $msg);
     }
 
-    function remove()
+    public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('catalog_detail');
@@ -76,15 +76,15 @@ class catalog_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
     }
 
-    function publish()
+    public function publish()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('catalog_detail');
@@ -99,32 +99,32 @@ class catalog_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
-        $option = JRequest::getVar('option');
-        $layout = JRequest::getVar('layout');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('catalog_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
         $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $layout = JRequest::getVar('layout');
+        $option = $this->input->get('option');
         $msg    = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
 
         $this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);

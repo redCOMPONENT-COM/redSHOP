@@ -9,33 +9,31 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class stateModelstate extends JModel
+class stateModelstate extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $this->_context = 'state_id';
 
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-        $limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $country_id_filter   = $mainframe->getUserStateFromRequest($this->_context . 'country_id_filter', 'country_id_filter', 0);
-        $country_main_filter = $mainframe->getUserStateFromRequest($this->_context . 'country_main_filter', 'country_main_filter', '');
+        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $country_id_filter   = $app->getUserStateFromRequest($this->_context . 'country_id_filter', 'country_id_filter', 0);
+        $country_main_filter = $app->getUserStateFromRequest($this->_context . 'country_main_filter', 'country_main_filter', '');
         $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
         $this->setState('country_id_filter', $country_id_filter);
@@ -44,7 +42,7 @@ class stateModelstate extends JModel
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -56,7 +54,7 @@ class stateModelstate extends JModel
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -67,7 +65,7 @@ class stateModelstate extends JModel
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -77,7 +75,7 @@ class stateModelstate extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $orderby             = $this->_buildContentOrderBy();
         $country_id_filter   = $this->getState('country_id_filter');
@@ -116,16 +114,17 @@ class stateModelstate extends JModel
         //return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $app = JFactory::getApplication();
+
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
         $orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
     }
 
-    function getCountryName($country_id)
+    public function getCountryName($country_id)
     {
         $query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
         $this->_db->setQuery($query);

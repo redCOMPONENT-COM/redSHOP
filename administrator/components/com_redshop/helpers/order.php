@@ -22,27 +22,26 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class order_functions
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_db = null;
+    public $_db = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_carthelper = null;
+    public $_carthelper = null;
 
-    var $_orderstatuslist = null;
+    public $_orderstatuslist = null;
 
-    var $_customorderstatuslist = null;
+    public $_customorderstatuslist = null;
 
-    function __construct()
+    public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix     = '#__redshop_';
         $this->_table_prefix_crm = '#__redcrm_';
         $this->_db               = JFactory::getDBO();
     }
 
-    function resetOrderId()
+    public function resetOrderId()
     {
         $query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'orders`';
         $this->_db->setQuery($query);
@@ -74,12 +73,12 @@ class order_functions
     }
 
     /*
-	 * get order status Title
-	 *
-	 * @params: orderstatus code
-	 * @return: string
-	 */
-    function getOrderStatusTitle($order_status_code)
+       * get order status Title
+       *
+       * @params: orderstatus code
+       * @return: string
+       */
+    public function getOrderStatusTitle($order_status_code)
     {
         $query = 'SELECT order_status_name FROM ' . $this->_table_prefix . 'order_status ' . 'WHERE order_status_code ="' . $order_status_code . '"';
         $this->_db->setQuery($query);
@@ -87,7 +86,7 @@ class order_functions
         return $res;
     }
 
-    function updateOrderStatus($order_id, $newstatus)
+    public function updateOrderStatus($order_id, $newstatus)
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status="' . $newstatus . '", mdate=' . time() . ' WHERE order_id IN(' . $order_id . ')';
         $this->_db->setQuery($query);
@@ -169,7 +168,7 @@ class order_functions
     }
 
     // genrate webpack label
-    function generateParcel($order_id, $specifiedSendDate)
+    public function generateParcel($order_id, $specifiedSendDate)
     {
         //	$order_function = new order_functions ();
         //$post = JRequest::get ( 'post' );
@@ -406,18 +405,18 @@ class order_functions
     }
 
     /*
-      * Change order status
-      *
-      * @params: data
-      * @key1 => order_status_code
-      * @key2 => transaction_id
-      * @key3 => msg
-      * @key4 => log
-      * @key5 => order_payment_status_code
-      * @key6 => order_id
-       * @return: array
-      */
-    function changeorderstatus($data)
+    * Change order status
+    *
+    * @params: data
+    * @key1 => order_status_code
+    * @key2 => transaction_id
+    * @key3 => msg
+    * @key4 => log
+    * @key5 => order_payment_status_code
+    * @key6 => order_id
+     * @return: array
+    */
+    public function changeorderstatus($data)
     {
         $helper = new redhelper();
 
@@ -498,21 +497,21 @@ class order_functions
         # End
     }
 
-    function updateOrderPaymentStatus($order_id, $newstatus)
+    public function updateOrderPaymentStatus($order_id, $newstatus)
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_payment_status="' . $newstatus . '", mdate=' . time() . ' WHERE order_id IN(' . $order_id . ')';
         $this->_db->setQuery($query);
         $this->_db->query();
     }
 
-    function updateOrderComment($order_id, $comment = '')
+    public function updateOrderComment($order_id, $comment = '')
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET customer_note="' . $comment . '" ' . 'WHERE order_id IN(' . $order_id . ') ';
         $this->_db->setQuery($query);
         $this->_db->query();
     }
 
-    function updateOrderRequisitionNumber($order_id, $requisition_number = '')
+    public function updateOrderRequisitionNumber($order_id, $requisition_number = '')
     {
         $query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET requisition_number="' . $requisition_number . '" ' . 'WHERE order_id IN(' . $order_id . ') ';
         $this->_db->setQuery($query);
@@ -539,7 +538,7 @@ class order_functions
         }
     }
 
-    function updateOrderItemStatus($order_id = 0, $product_id = 0, $newstatus = "", $comment = "", $order_item_id = 0)
+    public function updateOrderItemStatus($order_id = 0, $product_id = 0, $newstatus = "", $comment = "", $order_item_id = 0)
     {
         $and            = "";
         $field          = "";
@@ -562,7 +561,7 @@ class order_functions
         $this->_db->query();
     }
 
-    function manageContainerStock($product_id, $quantity, $container_id)
+    public function manageContainerStock($product_id, $quantity, $container_id)
     {
         // Adding the products from the container. means decreasing stock
 
@@ -580,7 +579,7 @@ class order_functions
         // adding the products from the container. means decreasing stock end
     }
 
-    function getOrderStatus()
+    public function getOrderStatus()
     {
         $query = "SELECT order_status_code AS value, order_status_name AS text " . "FROM " . $this->_table_prefix . "order_status " . "where published='1' ";
         $this->_db->setQuery($query);
@@ -589,7 +588,7 @@ class order_functions
         return $list;
     }
 
-    function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+    public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
         if (!$this->_orderstatuslist)
         {
@@ -604,7 +603,7 @@ class order_functions
         return $mylist['statuslist'];
     }
 
-    function getCustomOrderStatus($field)
+    public function getCustomOrderStatus($field)
     {
         if ($field == "shipping")
         {
@@ -627,7 +626,7 @@ class order_functions
         return $list;
     }
 
-    function getcustomstatuslist($name = 'customstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ', $field = '')
+    public function getcustomstatuslist($name = 'customstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ', $field = '')
     {
         $this->_customorderstatuslist = array();
         if (!$this->_customorderstatuslist)
@@ -649,7 +648,7 @@ class order_functions
         return $mylist['customstatuslist'];
     }
 
-    function getpaymentstatuslist($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+    public function getpaymentstatuslist($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
         $types[]                     = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_PAYMENT_STATUS'));
         $types[]                     = JHTML::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
@@ -660,9 +659,10 @@ class order_functions
         return $mylist['paymentstatuslist'];
     }
 
-    function update_status()
+    public function update_status()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $helper          = new redhelper();
         $producthelper   = new producthelper();
         $stockroomhelper = new rsstockroomhelper();
@@ -674,11 +674,10 @@ class order_functions
         $option        = JRequest::getVar('option');
         $return        = JRequest::getVar('return');
 
-        $customer_note      = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
-        $requisition_number = JRequest::getVar('requisition_number', '');
-        $oid                = JRequest::getVar('order_id', array(), 'method', 'array');
-        $order_id           = $oid[0];
-        $sendordermail      = JRequest::getVar("order_sendordermail");
+        $customer_note = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
+        $oid           = JRequest::getVar('order_id', array(), 'method', 'array');
+        $order_id      = $oid[0];
+        $sendordermail = JRequest::getVar("order_sendordermail");
 
         $isproduct     = JRequest::getInt('isproduct', 0);
         $product_id    = JRequest::getInt('product_id', 0);
@@ -769,7 +768,7 @@ class order_functions
             }
             if (!$order_log->store())
             {
-                JError::raiseError(500, $order_log->getError());
+                throw new RuntimeException($order_log->getError());
             }
 
             $this->updateOrderComment($order_id, $customer_note);
@@ -927,30 +926,28 @@ class order_functions
 
             if ($option == 'com_redcrm')
             {
-                $mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+                $app->redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
             }
             else
             {
-                $mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '' . $isarchive . '', $msg);
+                $app->redirect('index.php?option=' . $option . '&view=' . $return . '' . $isarchive . '', $msg);
             }
         }
         else
         {
             if ($tmpl != "")
             {
-                $mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
+                $app->redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
             }
             else
             {
-                $mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+                $app->redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
             }
         }
     }
 
-    function update_status_all()
+    public function update_status_all()
     {
-        global $mainframe;
-
         $helper          = new redhelper();
         $stockroomhelper = new rsstockroomhelper();
         $producthelper   = new producthelper();
@@ -982,7 +979,7 @@ class order_functions
             }
             if (!$order_log->store())
             {
-                JError::raiseError(500, $order_log->getError());
+                throw new RuntimeException($order_log->getError());
             }
             // 	status log end here..
 
@@ -1186,7 +1183,7 @@ class order_functions
     </script><?php
     }
 
-    function getOrderDetails($order_id)
+    public function getOrderDetails($order_id)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $order_id . "' ";
         $this->_db->setQuery($query);
@@ -1194,7 +1191,7 @@ class order_functions
         return $list;
     }
 
-    function getmultiOrderDetails($order_id)
+    public function getmultiOrderDetails($order_id)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $order_id . "' ";
         $this->_db->setQuery($query);
@@ -1202,7 +1199,7 @@ class order_functions
         return $list;
     }
 
-    function getUserOrderDetails($user_id = 0, $order_id = 0)
+    public function getUserOrderDetails($user_id = 0, $order_id = 0)
     {
         $user = JFactory::getUser();
         if ($user_id == 0)
@@ -1215,7 +1212,7 @@ class order_functions
         return $list;
     }
 
-    function getOrderItemDetail($order_id = 0, $product_id = 0, $order_item_id = 0)
+    public function getOrderItemDetail($order_id = 0, $product_id = 0, $order_item_id = 0)
     {
         $and = "";
         if ($order_id != 0)
@@ -1236,7 +1233,7 @@ class order_functions
         return $list;
     }
 
-    function getOrderPaymentDetail($order_id, $payment_order_id = 0)
+    public function getOrderPaymentDetail($order_id, $payment_order_id = 0)
     {
         $and = '';
         if ($payment_order_id != 0)
@@ -1249,7 +1246,7 @@ class order_functions
         return $list;
     }
 
-    function getOrderPartialPayment($order_id)
+    public function getOrderPartialPayment($order_id)
     {
         $query = 'SELECT order_payment_amount FROM ' . $this->_table_prefix . 'order_payment ' . 'WHERE order_id="' . $order_id . '" ';
         $this->_db->setQuery($query);
@@ -1266,7 +1263,7 @@ class order_functions
         return $spilt_payment_amount;
     }
 
-    function getShippingMethodInfo($shipping_class = '')
+    public function getShippingMethodInfo($shipping_class = '')
     {
         $and = "";
         if ($shipping_class != '')
@@ -1281,7 +1278,7 @@ class order_functions
         return $list;
     }
 
-    function getPaymentMethodInfo($payment_method_class = '')
+    public function getPaymentMethodInfo($payment_method_class = '')
     {
         $and = "";
         if ($payment_method_class != '')
@@ -1297,7 +1294,7 @@ class order_functions
         return $list;
     }
 
-    function getBillingAddress($user_id = 0)
+    public function getBillingAddress($user_id = 0)
     {
         $helper = new redhelper();
         $option = JRequest::getVar('option');
@@ -1325,11 +1322,11 @@ class order_functions
             $cp_user_id = $user_id;
 
             /*
-			 * function will check loign redshop user
-			 * is redCRM contact person or not
-			 *
-			 * @return: joomla user of redSHOP billing user belong to contact person
-			 */
+                   * function will check loign redshop user
+                   * is redCRM contact person or not
+                   *
+                   * @return: joomla user of redSHOP billing user belong to contact person
+                   */
             $crmusers = $crmHelper->getBillingUserId($user_id);
 
             if (isset($crmusers->user_id))
@@ -1365,7 +1362,7 @@ class order_functions
         return $list;
     }
 
-    function getOrderBillingUserInfo($order_id)
+    public function getOrderBillingUserInfo($order_id)
     {
         $helper = new redhelper();
 
@@ -1382,7 +1379,7 @@ class order_functions
         return $list;
     }
 
-    function getShippingAddress($user_id = 0)
+    public function getShippingAddress($user_id = 0)
     {
         $helper = new redhelper();
 
@@ -1406,11 +1403,11 @@ class order_functions
             $crmDebitorHelper = new crmDebitorHelper();
 
             /*
-			 * function will check loign redshop user
-			 * is redCRM contact person or not
-			 *
-			 * @return: joomla user of redSHOP shipping user belong to contact person
-			 */
+                   * function will check loign redshop user
+                   * is redCRM contact person or not
+                   *
+                   * @return: joomla user of redSHOP shipping user belong to contact person
+                   */
             $crmuserssid = 0;
             $crmusers    = array();
             if ($isredcrmuser)
@@ -1449,7 +1446,7 @@ class order_functions
         return $list;
     }
 
-    function getOrderShippingUserInfo($order_id)
+    public function getOrderShippingUserInfo($order_id)
     {
         $helper = new redhelper();
         if ($helper->isredCRM())
@@ -1458,8 +1455,8 @@ class order_functions
             $crmDebitorHelper = new crmDebitorHelper();
 
             /*
-			 * get shippinginfo for redCRM
-			 */
+                   * get shippinginfo for redCRM
+                   */
             $crmusers = $crmDebitorHelper->getShippingInfo(0, $order->user_info_id);
             if (count($crmusers) > 0)
             {
@@ -1473,7 +1470,7 @@ class order_functions
         return $list;
     }
 
-    function getUserFullname($user_id)
+    public function getUserFullname($user_id)
     {
         $fullname = "";
         $user     = JFactory::getUser();
@@ -1501,7 +1498,7 @@ class order_functions
         return $fullname;
     }
 
-    function getOrderItemAccessoryDetail($order_item_id = 0)
+    public function getOrderItemAccessoryDetail($order_item_id = 0)
     {
         $and = "";
         if ($order_item_id != 0)
@@ -1514,7 +1511,7 @@ class order_functions
         return $list;
     }
 
-    function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
+    public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
     {
         $and = "";
         if ($order_item_id != 0)
@@ -1531,7 +1528,7 @@ class order_functions
         return $list;
     }
 
-    function getOrderUserfieldData($order_item_id = 0, $section = 0)
+    public function getOrderUserfieldData($order_item_id = 0, $section = 0)
     {
         $query = "SELECT fd.*,f.field_title,f.field_type,f.field_name FROM " . $this->_table_prefix . "fields_data AS fd " . "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid " . "WHERE fd.itemid='" . $order_item_id . "' " . "AND fd.section='" . $section . "' ";
         $this->_db->setQuery($query);
@@ -1539,18 +1536,18 @@ class order_functions
         return $list;
     }
 
-    function generateOrderNumber($p_length = '30')
+    public function generateOrderNumber($p_length = '30')
     {
         $query = "SELECT MAX(order_id) FROM " . $this->_table_prefix . "orders";
         $this->_db->setQuery($query);
         $maxId = $this->_db->loadResult();
 
         /*
-		 * if Economic Integration is on !!!
-		 * We are not using Order Invoice Number Template
-		 * Economic Order Number Only Support (int) value.
-		 * Invoice Number May be varchar or int.
-		 */
+             * if Economic Integration is on !!!
+             * We are not using Order Invoice Number Template
+             * Economic Order Number Only Support (int) value.
+             * Invoice Number May be varchar or int.
+             */
         if (ECONOMIC_INTEGRATION)
         {
             $query = "SELECT order_number FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $maxId . "'";
@@ -1598,7 +1595,7 @@ class order_functions
         return ($order_number);
     }
 
-    function random_gen_enc_key($p_length = '30')
+    public function random_gen_enc_key($p_length = '30')
     {
 
         /* Generated a unique order number */
@@ -1614,7 +1611,7 @@ class order_functions
         return $random;
     }
 
-    function getCountryName($cnt3 = "")
+    public function getCountryName($cnt3 = "")
     {
         $redhelper = new redhelper();
         $and       = '';
@@ -1639,7 +1636,7 @@ class order_functions
         return $cntname;
     }
 
-    function getStateName($st3 = "", $cnt3 = "")
+    public function getStateName($st3 = "", $cnt3 = "")
     {
         $stname = '';
         $and    = '';
@@ -1661,25 +1658,27 @@ class order_functions
         return $stname;
     }
 
-    function SendDownload($order_id = 0)
+    public function SendDownload($order_id = 0)
     {
-        $config = new Redconfiguration();
-        global $mainframe;
+        $config      = new Redconfiguration();
         $redshopMail = new redshopMail();
 
+        $app = JFactory::getApplication();
+
         //getting the order status changed template from mail center end
-        $MailFrom = $mainframe->getCfg('mailfrom');
-        $FromName = $mainframe->getCfg('fromname');
-        $SiteName = $mainframe->getCfg('sitename');
+        $MailFrom = $app->getCfg('mailfrom');
+        $FromName = $app->getCfg('fromname');
 
         $maildata    = "";
         $mailsubject = "";
         $mailbcc     = NULL;
         $mailinfo    = $redshopMail->getMailtemplate(0, "downloadable_product_mail");
+
         if (count($mailinfo) > 0)
         {
             $maildata    = $mailinfo[0]->mail_body;
             $mailsubject = $mailinfo[0]->mail_subject;
+
             if (trim($mailinfo[0]->mail_bcc) != "")
             {
                 $mailbcc = explode(",", $mailinfo[0]->mail_bcc);
@@ -1760,14 +1759,14 @@ class order_functions
         return true;
     }
 
-    function getDownloadProduct($order_id)
+    public function getDownloadProduct($order_id)
     {
         $query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd " . "," . $this->_table_prefix . "product AS p " . "WHERE pd.product_id=p.product_id " . "AND order_id='" . $order_id . "' ";
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function getDownloadProductLog($order_id, $did = '')
+    public function getDownloadProductLog($order_id, $did = '')
     {
         $whereDownload_id = ($did != '') ? " AND pdl.download_id = '" . $did . "'" : "";
 
@@ -1776,7 +1775,7 @@ class order_functions
         return $this->_db->loadObjectList();
     }
 
-    function getparameters($payment)
+    public function getparameters($payment)
     {
         $sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
         $this->_db->setQuery($sql);
@@ -1784,9 +1783,10 @@ class order_functions
         return $params;
     }
 
-    function getpaymentinformation($row, $post)
+    public function getpaymentinformation($row, $post)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
         $redconfig = new Redconfiguration();
 
@@ -1798,16 +1798,7 @@ class order_functions
 
         $order = $this->getOrderDetails($row->order_id);
 
-        $adminpath        = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-        $invalid_elements = $paymentparams->get('invalid_elements', '');
-
-        // send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-        $objorder = new order_functions();
-        $user     = JFactory::getUser();
-
         $userbillinginfo = $this->getOrderBillingUserInfo($row->order_id);
-
-        $users_info_id = JRequest::getInt('users_info_id');
 
         $task = JRequest::getVar('task');
 
@@ -1839,7 +1830,7 @@ class order_functions
             if ($values['payment_plugin'] == "rs_payment_banktransfer" || $values['payment_plugin'] == "rs_payment_banktransfer2" || $values['payment_plugin'] == "rs_payment_banktransfer3" || $values['payment_plugin'] == "rs_payment_cashtransfer" || $values['payment_plugin'] == "rs_payment_cashsale" || $values['payment_plugin'] == "rs_payment_banktransfer_discount")
             {
 
-                $mainframe->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
+                $app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
             }
 
             JPluginHelper::importPlugin('redshop_payment');
@@ -1848,11 +1839,11 @@ class order_functions
         }
         else
         {
-            $mainframe->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
+            $app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
         }
     }
 
-    function getshippinglocationinfo($shippingname)
+    public function getshippinglocationinfo($shippingname)
     {
         $sql = "SELECT shipping_location_info FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_rate_name='" . $shippingname . "'";
         $this->_db->setQuery($sql);
@@ -1860,7 +1851,7 @@ class order_functions
         return $shippingloc;
     }
 
-    function barcode_randon_number($lenth = 12, $barcodekey = 0)
+    public function barcode_randon_number($lenth = 12, $barcodekey = 0)
     {
 
         $mainhelper  = new redshopMail();
@@ -1907,14 +1898,14 @@ class order_functions
         }
     }
 
-    function updatebarcode($oid, $barcode)
+    public function updatebarcode($oid, $barcode)
     {
         $barcodequery = 'UPDATE ' . $this->_table_prefix . 'orders SET barcode="' . $barcode . '" WHERE order_id =' . $oid;
         $this->_db->setQuery($barcodequery);
         $this->_db->query();
     }
 
-    function checkupdateordersts($data)
+    public function checkupdateordersts($data)
     {
         $res   = 1;
         $query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_status='" . $data->order_status_code . "' " . "AND order_payment_status='" . $data->order_payment_status_code . "' " . "AND order_id='" . $data->order_id . "' ";
@@ -1927,17 +1918,19 @@ class order_functions
         return $res;
     }
 
-    function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
+    public function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $config         = new Redconfiguration();
         $carthelper     = new rsCarthelper();
         $redshopMail    = new redshopMail();
         $shippinghelper = new shipping();
-        $MailFrom       = $mainframe->getCfg('mailfrom');
-        $FromName       = $mainframe->getCfg('fromname');
+        $MailFrom       = $app->getCfg('mailfrom');
+        $FromName       = $app->getCfg('fromname');
         $mailbcc        = NULL;
         $mailtemplate   = $redshopMail->getMailtemplate(0, '', 'mail_section LIKE "order_status" AND mail_order_status LIKE "' . $newstatus . '" ');
+
         if (count($mailtemplate) > 0)
         {
             $maildata    = $mailtemplate[0]->mail_body;
@@ -2036,7 +2029,7 @@ class order_functions
         }
     }
 
-    function createBookInvoice($order_id, $order_status)
+    public function createBookInvoice($order_id, $order_status)
     {
         // Economic Integration start for invoice generate and book current invoice
         if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 1)
@@ -2077,7 +2070,7 @@ class order_functions
         // End Economic
     }
 
-    function createMultiprintInvoicePdf($order_id)
+    public function createMultiprintInvoicePdf($order_id)
     {
         $invoice     = "";
         $redshopMail = new redshopMail();
@@ -2086,7 +2079,7 @@ class order_functions
         return $invoice;
     }
 
-    function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
+    public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
     {
         if (POSTDK_INTEGRATION && ($order_status == "S" && $paymentstatus == "Paid"))
         {
@@ -2107,7 +2100,7 @@ class order_functions
     }
 
     // For shipped invoice pdf
-    function createShippedInvoicePdf($order_id)
+    public function createShippedInvoicePdf($order_id)
     {
 
         $redconfig     = new Redconfiguration ();
@@ -2196,7 +2189,7 @@ class order_functions
 
     }
 
-    function orderStatusUpdate($order_id, $post = array())
+    public function orderStatusUpdate($order_id, $post = array())
     {
         $helper          = new redhelper();
         $stockroomhelper = new rsstockroomhelper();

@@ -7,21 +7,19 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport('joomla.application.component.model');
-jimport('joomla.filesystem.file');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class wrapper_detailModelwrapper_detail extends JModel
+class wrapper_detailModelwrapper_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_productid = null;
+    public $_productid = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -31,25 +29,26 @@ class wrapper_detailModelwrapper_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -61,7 +60,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -81,7 +80,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return true;
     }
 
-    function getProductName($productid)
+    public function getProductName($productid)
     {
         $q = 'SELECT product_name ' . 'FROM ' . $this->_table_prefix . 'product ' . 'WHERE product_id = ' . $productid;
         $this->_db->setQuery($q);
@@ -89,7 +88,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return $pname;
     }
 
-    function getProductInfo($productid = 0)
+    public function getProductInfo($productid = 0)
     {
         $query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1 and product_id in   (' . $productid . ')';
         $this->_db->setQuery($query);
@@ -97,7 +96,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return $list;
     }
 
-    function getCategoryName($categoryid)
+    public function getCategoryName($categoryid)
     {
         $q = 'SELECT category_name ' . 'FROM ' . $this->_table_prefix . 'category ' . 'WHERE category_id = ' . $categoryid;
         $this->_db->setQuery($q);
@@ -105,7 +104,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return $name;
     }
 
-    function getCategoryInfo($categoryid = 0)
+    public function getCategoryInfo($categoryid = 0)
     {
         $and = '';
         if ($categoryid != 0)
@@ -118,7 +117,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return $list;
     }
 
-    function getProductInfowrapper($productid = 0)
+    public function getProductInfowrapper($productid = 0)
     {
         if ($productid)
         {
@@ -133,7 +132,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return $list;
     }
 
-    function getMultiselectBox($name, $list, $sellist, $displayid, $displayname, $multiple = false)
+    public function getMultiselectBox($name, $list, $sellist, $displayid, $displayname, $multiple = false)
     {
         $multiple = $multiple ? "multiple='multiple'" : "";
         $id       = str_replace('[]', '', $name);
@@ -155,7 +154,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return $html;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
         if (!$row->bind($data))
@@ -224,7 +223,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return true;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -246,7 +245,7 @@ class wrapper_detailModelwrapper_detail extends JModel
      * @access public
      * @return boolean
      */
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -263,7 +262,7 @@ class wrapper_detailModelwrapper_detail extends JModel
         return true;
     }
 
-    function enable_defaultpublish($cid = array(), $publish = 1)
+    public function enable_defaultpublish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {

@@ -9,39 +9,38 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class state_detailController extends JController
+class state_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'state_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'state_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
-        //$model = $this->getModel ( 'state_detail' );
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post = JRequest::get('post');
+        $post       = $this->input->getArray($_POST);
+        $state_name = $this->input->post->getString('state_name', '');
 
-        $state_name         = JRequest::getVar('state_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
         $post["state_name"] = $state_name;
-        $option             = JRequest::getVar('option');
-        $cid                = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option             = $this->input->get('option');
+        $cid                = $this->input->post->get('cid', array(0), 'array');
         $post ['state_id']  = $cid [0];
         $model              = $this->getModel('state_detail');
         $row                = $model->store($post);
@@ -65,25 +64,25 @@ class state_detailController extends JController
         }
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
         $model = $this->getModel('state_detail');
         $model->checkin();
+
         $msg = JText::_('COM_REDSHOP_state_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
     }
 
-    function remove()
+    public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('state_detail');
@@ -91,6 +90,7 @@ class state_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_state_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
     }

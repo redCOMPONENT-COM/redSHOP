@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class barcodeController extends JController
+class barcodeController extends RedshopCoreController
 {
-    function getsearch()
+    public function getsearch()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         if (strlen($post['barcode']) != 13)
         {
@@ -30,10 +30,10 @@ class barcodeController extends JController
             $barcode = $post['barcode'];
             $barcode = substr($barcode, 0, 12);
 
-            $user      = JFactory::getUser();
-            $uid       = $user->get('id');
-            $mainframe = JFactory::getApplication();
-            $row       = $model->checkorder($barcode);
+            $user = JFactory::getUser();
+            $uid  = $user->get('id');
+
+            $row = $model->checkorder($barcode);
 
             if ($row)
             {
@@ -51,8 +51,7 @@ class barcodeController extends JController
                     $msg = JText::_('COM_REDSHOP_ERROR_PLEASE_TRY_AGAIN');
                 }
 
-                //return $log;
-                $this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id);
+                $this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id, $msg);
             }
 
             else
@@ -64,9 +63,9 @@ class barcodeController extends JController
         }
     }
 
-    function changestatus()
+    public function changestatus()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         if (strlen($post['barcode']) != 13)
         {
@@ -80,13 +79,11 @@ class barcodeController extends JController
             $model   = $this->getModel('barcode');
             $barcode = $post['barcode'];
             $barcode = substr($barcode, 0, 12);
-
-            $mainframe = JFactory::getApplication();
-            $row       = $model->checkorder($barcode);
+            $row     = $model->checkorder($barcode);
 
             if ($row)
             {
-                $update_status = $model->updateorderstatus($barcode, $row->order_id);
+                $model->updateorderstatus($barcode, $row->order_id);
                 $this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order', JText::_('ORDER_STATUS_CHANGED_TO_SHIPPED'));
             }
 

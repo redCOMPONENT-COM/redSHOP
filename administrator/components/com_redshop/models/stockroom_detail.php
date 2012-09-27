@@ -9,21 +9,19 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class stockroom_detailModelstockroom_detail extends JModel
+class stockroom_detailModelstockroom_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    var $_containerdata = null;
+    public $_containerdata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -34,25 +32,26 @@ class stockroom_detailModelstockroom_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -64,7 +63,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -84,7 +83,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -121,7 +120,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
 
         if (count($cid))
@@ -158,7 +157,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -175,7 +174,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return true;
     }
 
-    function frontpublish($cid = array(), $publish = 1)
+    public function frontpublish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -192,7 +191,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return true;
     }
 
-    function copy($cid = array())
+    public function copy($cid = array())
     {
         if (count($cid))
         {
@@ -218,7 +217,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return true;
     }
 
-    function stock_product_data($stockroom_id)
+    public function stock_product_data($stockroom_id)
     {
         $query = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , " . $this->_table_prefix . "stockroom_container_xref as cp  WHERE cp.stockroom_id=$stockroom_id and cp.container_id=p.container_id ";
         $this->_db->setQuery($query);
@@ -226,7 +225,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return $this->_productdata;
     }
 
-    function stock_product($container_id)
+    public function stock_product($container_id)
     {
         $query = "SELECT DISTINCT p.product_id as pid,p.product_name,p.product_number,p.product_volume,cp.quantity " . "FROM " . $this->_table_prefix . "container as c , " . $this->_table_prefix . "stockroom_container_xref as sc,
 	 		" . $this->_table_prefix . "container_product_xref as cp ," . $this->_table_prefix . "product as p
@@ -236,7 +235,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return $this->_productdata;
     }
 
-    function stock_container($stockroom_id)
+    public function stock_container($stockroom_id)
     {
         if ($stockroom_id != 0)
         {
@@ -251,7 +250,7 @@ class stockroom_detailModelstockroom_detail extends JModel
         return $this->_containerdata;
     }
 
-    function getStockRoomList()
+    public function getStockRoomList()
     {
         $query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
         $this->_db->setQuery($query);

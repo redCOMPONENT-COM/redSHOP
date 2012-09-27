@@ -9,47 +9,46 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class attributeprices_detailController extends JController
+class attributeprices_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'attributeprices_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
-        $model = $this->getModel('attributeprices_detail');
+        $this->input->set('view', 'attributeprices_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
 
-    function save()
+    public function save()
     {
-        $post                 = JRequest::get('post');
-        $option               = JRequest::getVar('option');
-        $section_id           = JRequest::getVar('section_id');
-        $section              = JRequest::getVar('section');
-        $price_quantity_start = JRequest::getVar('price_quantity_start');
-        $price_quantity_end   = JRequest::getVar('price_quantity_end');
+        $post       = $this->input->getArray($_POST);
+        $option     = $this->input->get('option');
+        $section_id = $this->input->get('section_id');
+        $section    = $this->input->get('section');
 
         $post['product_currency']    = CURRENCY_CODE;
         $post['cdate']               = time();
         $post['discount_start_date'] = strtotime($post ['discount_start_date']);
+
         if ($post['discount_end_date'])
         {
             $post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
         }
 
-        $cid               = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid               = $this->input->post->get('cid', array(0), 'array');
         $post ['price_id'] = $cid [0];
 
         $model = $this->getModel('attributeprices_detail');
+
         if ($model->store($post))
         {
             $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
@@ -58,34 +57,37 @@ class attributeprices_detailController extends JController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
         }
+
         $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
     }
 
-    function remove()
+    public function remove()
     {
-        $option     = JRequest::getVar('option');
-        $section_id = JRequest::getVar('section_id');
-        $section    = JRequest::getVar('section');
-        $cid        = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option     = $this->input->get('option');
+        $section_id = $this->input->get('section_id');
+        $section    = $this->input->get('section');
+        $cid        = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('attributeprices_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option     = JRequest::getVar('option');
-        $section_id = JRequest::getVar('section_id');
+        $option     = $this->input->get('option');
+        $section_id = $this->input->get('section_id');
 
         $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=attributeprices&section_id=' . $section_id, $msg);

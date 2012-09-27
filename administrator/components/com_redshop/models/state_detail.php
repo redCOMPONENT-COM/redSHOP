@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class state_detailModelstate_detail extends JModel
+class state_detailModelstate_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -29,13 +27,13 @@ class state_detailModelstate_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -48,7 +46,7 @@ class state_detailModelstate_detail extends JModel
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -60,7 +58,7 @@ class state_detailModelstate_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -80,7 +78,7 @@ class state_detailModelstate_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
 
         $row = $this->getTable('state_detail');
@@ -106,7 +104,7 @@ class state_detailModelstate_detail extends JModel
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -124,7 +122,7 @@ class state_detailModelstate_detail extends JModel
         return true;
     }
 
-    function getcountry()
+    public function getcountry()
     {
         require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
         $redhelper = new redhelper();
@@ -145,7 +143,7 @@ class state_detailModelstate_detail extends JModel
      * @return    boolean    True on success
      * @since     1.5
      */
-    function checkout($uid = null)
+    public function checkout($uid = null)
     {
         if ($this->_id)
         {
@@ -176,7 +174,7 @@ class state_detailModelstate_detail extends JModel
      * @return    boolean    True on success
      * @since     1.5
      */
-    function checkin()
+    public function checkin()
     {
         if ($this->_id)
         {
@@ -200,7 +198,7 @@ class state_detailModelstate_detail extends JModel
      * @return    boolean    True if checked out
      * @since     1.5
      */
-    function isCheckedOut($uid = 0)
+    public function isCheckedOut($uid = 0)
     {
         if ($this->_loadData())
         {

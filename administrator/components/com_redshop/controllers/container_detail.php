@@ -9,71 +9,64 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class container_detailController extends JController
+class container_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
         $model          = $this->getModel('container_detail');
         $stockroom_data = $model->stockroom_data($id = 0);
-        JRequest::setVar('stockroom_data', $stockroom_data);
-        JRequest::setVar('view', 'container_detail');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('stockroom_data', $stockroom_data);
+        $this->input->set('view', 'container_detail');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
 
-    function addcontainer()
+    public function addcontainer()
     {
-        $conid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-        JRequest::setVar('conid', $conid);
-
-        $cid = JRequest::setVar('cid', array(0));
+        $conid = $this->input->post->get('cid', array(0), 'array');
+        $this->input->set('conid', $conid);
 
         parent::display();
     }
 
-    function saveanddisplay()
+    public function saveanddisplay()
     {
-        $post         = JRequest::get('get');
+        $post         = $this->input->getArray($_GET);
         $model        = $this->getModel('container_detail');
         $container_id = $model->saveanddisplay($post);
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=container_detail&layout=products&rand_id=' . time() . '&task=edit&cid[]=' . $container_id);
     }
 
-    function deleteProduct()
+    public function deleteProduct()
     {
-        $post  = JRequest::get('get');
+        $post  = $this->input->getArray($_GET);
         $model = $this->getModel('container_detail');
         $model->deleteProduct($post);
         $container_id = $post['container_id'];
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=container_detail&layout=products&task=edit&cid[]=' . $container_id);
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
-        $container_desc = JRequest::getVar('container_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $post["container_desc"] = $this->input->post->getString('container_desc', '');
 
-        $post["container_desc"] = $container_desc;
-
-        $option = JRequest::getVar('option');
-
-        //	$post ['container_id'] = $cid [0];
+        $option = $this->input->get('option');
 
         $post ['creation_date'] = strtotime($post ['creation_date']);
 
@@ -119,15 +112,15 @@ class container_detailController extends JController
         }
     }
 
-    function remove()
+    public function remove()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('container_detail');
@@ -141,37 +134,37 @@ class container_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
     }
 
-    function publish()
+    public function publish()
     {
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('container_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CONTAINER_DETAIL_PUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
     }
 
-    function unpublish()
+    public function unpublish()
     {
 
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
 
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('container_detail');
@@ -183,9 +176,9 @@ class container_detailController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $model  = $this->getModel('container_detail');
 
         $model->cancel();

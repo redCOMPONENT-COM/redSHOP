@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class sample_catalogModelsample_catalog extends JModel
+class sample_catalogModelsample_catalog extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -30,25 +28,26 @@ class sample_catalogModelsample_catalog extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function getsample($sample)
+    public function getsample($sample)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour as c left join ' . $this->_table_prefix . 'catalog_sample as s on s.sample_id=c.sample_id WHERE colour_id in (' . $sample . ')';
         $this->_db->setQuery($query);
@@ -57,7 +56,7 @@ class sample_catalogModelsample_catalog extends JModel
         return $sample_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -70,7 +69,7 @@ class sample_catalogModelsample_catalog extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {

@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class categoryController extends JController
+class categoryController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
@@ -22,9 +22,9 @@ class categoryController extends JController
      * assign template to multiple categories
      *
      */
-    function assignTemplate()
+    public function assignTemplate()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
 
         $model = $this->getModel('category');
 
@@ -39,12 +39,12 @@ class categoryController extends JController
         $this->setRedirect('index.php?option=com_redshop&view=category', $msg);
     }
 
-    function saveorder()
+    public function saveorder()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
-        $cid   = JRequest::getVar('cid', array(), 'post', 'array');
-        $order = JRequest::getVar('order', array(), 'post', 'array');
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);
 
@@ -55,14 +55,18 @@ class categoryController extends JController
         $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
     }
 
-    function autofillcityname()
+    public function autofillcityname()
     {
         $db = JFactory::getDBO();
         ob_clean();
-        $mainzipcode = JRequest::getString('q', '');
+
+        $mainzipcode = $this->input->getString('q', '');
+
         $sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
         $db->setQuery($sel_zipcode);
+
         echo $db->loadResult();
+
         exit;
     }
 }

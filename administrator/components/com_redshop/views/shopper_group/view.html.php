@@ -1,61 +1,54 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
 
-jimport( 'joomla.application.component.view' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'shopper.php' );
-class shopper_groupViewshopper_group extends JView
+class shopper_groupViewshopper_group extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
+    public function display($tpl = null)
+    {
+        global $context;
 
-		$shoppergroup = new shoppergroup();
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_SHOPPER_GROUP') );
-   		jimport('joomla.html.pagination');
+        $app = JFactory::getApplication();
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT' ), 'redshop_manufact48' );
+        $shoppergroup = new shoppergroup();
+        $document     = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_SHOPPER_GROUP'));
+        jimport('joomla.html.pagination');
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+        JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT'), 'redshop_manufact48');
 
-		$uri	= JFactory::getURI();
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'shopper_group_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+        $uri = JFactory::getURI();
 
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shopper_group_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$groups = $shoppergroup->getshopperGroupListArray();
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
 
-		$pagination = $this->get('Pagination');
-		//$this->assignRef('user',		JFactory::getUser());
+        $groups = $shoppergroup->getshopperGroupListArray();
+
+        $pagination = $this->get('Pagination');
         $this->user = JFactory::getUser();
-    	$this->assignRef('lists',		$lists);
-    	$this->assignRef('media',		$groups);
-  		$this->assignRef('pagination',	$pagination);
-   	 	//$this->assignRef('request_url',	$uri->toString());
+        $this->assignRef('lists', $lists);
+        $this->assignRef('media', $groups);
+        $this->assignRef('pagination', $pagination);
         $this->request_url = $uri->toString();
-   	 	parent::display($tpl);
-  }
+
+        parent::display($tpl);
+    }
 }

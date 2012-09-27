@@ -9,31 +9,29 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class categoryModelcategory extends JModel
+class categoryModelcategory extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $this->_context       = 'category_id';
         $this->_table_prefix  = '#__' . TABLE_PREFIX . '_';
-        $limit                = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart           = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $category_main_filter = $mainframe->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
-        $category_id          = $mainframe->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
+        $limit                = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart           = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $category_main_filter = $app->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
+        $category_id          = $app->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
 
         $this->setState('category_main_filter', $category_main_filter);
         $this->setState('limit', $limit);
@@ -41,7 +39,7 @@ class categoryModelcategory extends JModel
         $this->setState('category_id', $category_id);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -50,7 +48,7 @@ class categoryModelcategory extends JModel
         return $this->_data;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if ($this->_pagination == null)
         {
@@ -59,10 +57,9 @@ class categoryModelcategory extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
-        global $mainframe;
-        $db = jFactory::getDBO();
+        $db = JFactory::getDBO();
 
         $category_id          = $this->getState('category_id');
         $category_main_filter = $this->getState('category_main_filter');
@@ -71,14 +68,12 @@ class categoryModelcategory extends JModel
 
         $orderby = $this->_buildContentOrderBy();
         $and     = "";
+
         if ($category_main_filter)
         {
             $and .= " AND category_name like '%" . $category_main_filter . "%' ";
         }
-        if ($category_id != 0)
-        {
-            //			$and .= " AND cx.category_parent_id='$category_id' ";
-        }
+
         $q = "SELECT c.category_id, cx.category_child_id, cx.category_child_id AS id, cx.category_parent_id, cx.category_parent_id AS parent_id,c.category_name, c.category_name AS title,c.category_description,c.published,ordering " . "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx " . "WHERE c.category_id=cx.category_child_id " . $and . $orderby;
         $db->setQuery($q);
         $rows = $db->loadObjectList();
@@ -114,18 +109,18 @@ class categoryModelcategory extends JModel
         return $items;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'c.ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'c.ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
     }
 
-    function getProducts($cid)
+    public function getProducts($cid)
     {
         $query = 'SELECT count(category_id) FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id="' . $cid . '" ';
         $this->_db->setQuery($query);
@@ -137,7 +132,7 @@ class categoryModelcategory extends JModel
       * @prams: $data, post variable	array
       * @return: boolean
       */
-    function assignTemplate($data)
+    public function assignTemplate($data)
     {
 
         $cid = $data['cid'];
@@ -158,7 +153,7 @@ class categoryModelcategory extends JModel
         return true;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable('category_detail');
         $groupings = array();

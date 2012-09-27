@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class product_containerController extends JController
+class product_containerController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function template()
+    public function template()
     {
-        $json = JRequest::getVar('json', '');
+        $json = $this->input->get('json', '');
 
         $decoded = json_decode($json);
 
@@ -37,7 +37,7 @@ class product_containerController extends JController
         die($encoded);
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('product_container');
 
@@ -66,7 +66,7 @@ class product_containerController extends JController
         exit;
     }
 
-    function print_data()
+    public function print_data()
     {
         echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
     }

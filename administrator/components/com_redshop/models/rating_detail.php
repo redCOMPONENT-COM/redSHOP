@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class rating_detailModelrating_detail extends JModel
+class rating_detailModelrating_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -30,25 +28,26 @@ class rating_detailModelrating_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -61,7 +60,7 @@ class rating_detailModelrating_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -81,7 +80,7 @@ class rating_detailModelrating_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -99,7 +98,7 @@ class rating_detailModelrating_detail extends JModel
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -117,7 +116,7 @@ class rating_detailModelrating_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -135,7 +134,7 @@ class rating_detailModelrating_detail extends JModel
         return true;
     }
 
-    function favoured($cid = array(), $publish = 1)
+    public function favoured($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -153,14 +152,14 @@ class rating_detailModelrating_detail extends JModel
         return true;
     }
 
-    function getuserslist()
+    public function getuserslist()
     {
         $query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix . 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getproducts()
+    public function getproducts()
     {
         $product_id = JRequest::getVar('pid');
         if ($product_id)
@@ -171,7 +170,7 @@ class rating_detailModelrating_detail extends JModel
         }
     }
 
-    function getuserfullname2($uid)
+    public function getuserfullname2($uid)
     {
         $query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id=" . $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
         $this->_db->setQuery($query);

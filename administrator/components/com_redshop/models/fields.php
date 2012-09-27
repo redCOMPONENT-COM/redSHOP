@@ -9,32 +9,31 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class fieldsModelfields extends JModel
+class fieldsModelfields extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $this->_context      = 'field_id';
         $this->_table_prefix = '#__redshop_';
-        $limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter              = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $filtertype          = $mainframe->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
-        $filtersection       = $mainframe->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
+        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $filtertype          = $app->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
+        $filtersection       = $app->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
         $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
         $this->setState('filter', $filter);
@@ -44,7 +43,7 @@ class fieldsModelfields extends JModel
         $this->setState('filtersection', $filtersection);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -54,7 +53,7 @@ class fieldsModelfields extends JModel
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -64,7 +63,7 @@ class fieldsModelfields extends JModel
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -74,7 +73,7 @@ class fieldsModelfields extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $orderby       = $this->_buildContentOrderBy();
         $filter        = $this->getState('filter');
@@ -98,12 +97,12 @@ class fieldsModelfields extends JModel
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         if ($filter_order == 'ordering')
         {
@@ -117,7 +116,7 @@ class fieldsModelfields extends JModel
         return $orderby;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable('fields_detail');
         $groupings  = array();

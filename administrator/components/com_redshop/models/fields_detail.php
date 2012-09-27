@@ -8,21 +8,19 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 
-class fields_detailModelfields_detail extends JModel
+class fields_detailModelfields_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_fielddata = null;
+    public $_fielddata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -33,25 +31,26 @@ class fields_detailModelfields_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -63,7 +62,7 @@ class fields_detailModelfields_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -90,7 +89,7 @@ class fields_detailModelfields_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row       = $this->getTable();
         $field_cid = $data['cid'][0];
@@ -114,7 +113,7 @@ class fields_detailModelfields_detail extends JModel
         return $row;
     }
 
-    function field_save($id, $post)
+    public function field_save($id, $post)
     {
         $extra_field = new extra_field();
         $value_id    = array();
@@ -192,7 +191,7 @@ class fields_detailModelfields_detail extends JModel
         }
     }
 
-    function field_delete($id, $field)
+    public function field_delete($id, $field)
     {
         $id    = implode(',', $id);
         $query = 'DELETE FROM ' . $this->_table_prefix . 'fields_value WHERE ' . $field . ' IN ( ' . $id . ' )';
@@ -205,7 +204,7 @@ class fields_detailModelfields_detail extends JModel
         }
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -232,7 +231,7 @@ class fields_detailModelfields_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -250,7 +249,7 @@ class fields_detailModelfields_detail extends JModel
         return true;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable();
         $groupings  = array();
@@ -310,7 +309,7 @@ class fields_detailModelfields_detail extends JModel
       * @access public
       * @return boolean
       */
-    function MaxOrdering()
+    public function MaxOrdering()
     {
         $query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
         $this->_db->setQuery($query);
@@ -324,7 +323,7 @@ class fields_detailModelfields_detail extends JModel
      * @return  boolean True on success
      * @since   0.9
      */
-    function move($direction)
+    public function move($direction)
     {
         $row = JTable::getInstance('fields_detail', 'Table');
 
@@ -349,7 +348,7 @@ class fields_detailModelfields_detail extends JModel
      * @access public
      * @return boolean
      */
-    function checkFieldname($field_name, $field_id)
+    public function checkFieldname($field_name, $field_id)
     {
         $query = "SELECT COUNT(*) AS cnt FROM " . $this->_table_prefix . "fields " . "WHERE field_name='" . $field_name . "' " . "AND field_id!='" . $field_id . "' ";
         $this->_db->setQuery($query);

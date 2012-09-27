@@ -9,32 +9,31 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
 
-class user_detailModeluser_detail extends JModel
+class user_detailModeluser_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_uid = null;
+    public $_uid = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
-        global $mainframe;
         parent::__construct();
+
+        $app = JFactory::getApplication();
 
         $this->_table_prefix = '#__redshop_';
         $this->_context      = 'order_id';
@@ -42,21 +41,21 @@ class user_detailModeluser_detail extends JModel
         $array      = JRequest::getVar('cid', 0, '', 'array');
         $this->_uid = JRequest::getVar('user_id', 0);
 
-        $limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
@@ -68,7 +67,7 @@ class user_detailModeluser_detail extends JModel
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -89,7 +88,7 @@ class user_detailModeluser_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -165,10 +164,10 @@ class user_detailModeluser_detail extends JModel
       * @ it canbe use in redSHOP with diffrent purpose
       * @ author: gunjan
       */
-    function storeUser($post)
+    public function storeUser($post)
     {
+        $app = JFactory::getApplication();
 
-        global $mainframe;
         $redshopMail = new redshopMail();
         // Start data into user table
         // Initialize some variables
@@ -188,8 +187,8 @@ class user_detailModeluser_detail extends JModel
         // changed for shipping code moved out of condition
         if (!$user->bind($post))
         {
-            $mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-            $mainframe->enqueueMessage($user->getError(), 'error');
+            $app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+            $app->enqueueMessage($user->getError(), 'error');
             return false;
         }
 
@@ -200,25 +199,25 @@ class user_detailModeluser_detail extends JModel
         if ($user->get('id') == $me->get('id') && $user->get('block') == 1)
         {
             $msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_YOURSELF');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
         else if (($this_group == 'super administrator') && $user->get('block') == 1)
         {
             $msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_A_SUPER_ADMINISTRATOR');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
         else if (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
         {
             $msg = JText::_('COM_REDSHOP_WARNBLOCK');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
         else if (($this_group == 'super administrator') && ($me->get('gid') != 25))
         {
             $msg = JText::_('COM_REDSHOP_YOU_CANNOT_EDIT_A_SUPER_ADMINISTRATOR_ACCOUNT');
-            $mainframe->enqueueMessage($msg, 'message');
+            $app->enqueueMessage($msg, 'message');
             return false;
         }
 
@@ -247,8 +246,8 @@ class user_detailModeluser_detail extends JModel
             */
         if (!$user->save())
         {
-            $mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-            $mainframe->enqueueMessage($user->getError(), 'error');
+            $app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+            $app->enqueueMessage($user->getError(), 'error');
             return false;
         }
         /*
@@ -290,7 +289,7 @@ class user_detailModeluser_detail extends JModel
         return $user;
     }
 
-    function store($post)
+    public function store($post)
     {
         $userhelper = new rsUserhelper();
 
@@ -324,7 +323,7 @@ class user_detailModeluser_detail extends JModel
         return $reduser;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -340,7 +339,7 @@ class user_detailModeluser_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -357,7 +356,7 @@ class user_detailModeluser_detail extends JModel
         return true;
     }
 
-    function validate_user($user, $uid)
+    public function validate_user($user, $uid)
     {
         $query = "SELECT username FROM #__users WHERE username='" . $user . "' AND id !=" . $uid;
         $this->_db->setQuery($query);
@@ -365,7 +364,7 @@ class user_detailModeluser_detail extends JModel
         return count($users);
     }
 
-    function validate_email($email, $uid)
+    public function validate_email($email, $uid)
     {
         $query = "SELECT email FROM #__users WHERE email = '" . $email . "' AND id !=" . $uid;
         $this->_db->setQuery($query);
@@ -373,20 +372,20 @@ class user_detailModeluser_detail extends JModel
         return count($emails);
     }
 
-    function userOrders()
+    public function userOrders()
     {
         $query = $this->_buildUserorderQuery();
         $list  = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
         return $list;
     }
 
-    function _buildUserorderQuery()
+    public function _buildUserorderQuery()
     {
         $query = "SELECT * FROM `" . $this->_table_prefix . "orders` " . "WHERE `user_id`='" . $this->_uid . "' " . "ORDER BY order_id DESC ";
         return $query;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if ($this->_id)
         {
@@ -396,7 +395,7 @@ class user_detailModeluser_detail extends JModel
         }
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {

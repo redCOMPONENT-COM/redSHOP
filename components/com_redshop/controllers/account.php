@@ -1,118 +1,133 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * Account Controller
+ * accountController
  *
- * @static
- * @package		redSHOP
- * @since 1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class accountController extends JController
+class accountController extends RedshopCoreController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-	/**
-	 * Method to edit created Tag
-	 *
-	 */
-	function editTag()
-	{
-		global $mainframe;
-		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar ('option');
+    /**
+     * Method to edit created Tag
+     *
+     */
+    public function editTag()
+    {
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $post    = $this->input->getArray($_POST);
 
-		$post = JRequest::get('post');
+        $model = $this->getModel('account');
 
-		$model = $this->getModel('account');
+        if ($model->editTag($post))
+        {
+            $this->app->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
+        }
+        else
+        {
+            $this->app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
+        }
 
-		if ($model->editTag($post))
-		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
-		}else {
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
-		}
+        $this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $item_id);
+    }
 
-		$this->setRedirect ( 'index.php?option=' . $option . '&view=account&layout=mytags&Itemid='.$Itemid);
-	}
+    /**
+     * Method to send created wishlist
+     *
+     */
+    public function sendWishlist()
+    {
+        $post = $this->input->getArray($_POST);
 
-	/**
-	 * Method to send created wishlist
-	 *
-	 */
-	function sendWishlist(){
+        $emailto    = $post['emailto'];
+        $sender     = $post['sender'];
+        $email      = $post['email'];
+        $subject    = $post['subject'];
+        $item_id    = $post['Itemid'];
+        $wishlis_id = $post['wishlist_id'];
+        $model      = $this->getModel('account');
 
-		$post = JRequest::get('post');
+        if ($emailto == "")
+        {
+            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
+        }
+        else if ($sender == "")
+        {
+            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_NAME');
+        }
+        else if ($email == "")
+        {
+            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_EMAIL');
+        }
+        else if ($subject == "")
+        {
+            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
+        }
+        else if ($model->sendWishlist($post))
+        {
+            $msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SENDING');
+        }
 
-		$emailto = $post['emailto'];
-		$sender = $post['sender'];
-		$email = $post['email'];
-		$subject = $post['subject'];
-		$Itemid = $post['Itemid'];
-		$wishlis_id = $post['wishlist_id'];
-		$model = $this->getModel('account');
+        $this->setRedirect('index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component&wishlist_id=' . $wishlis_id . '&Itemid' . $item_id, $msg);
+    }
 
-		if ($emailto == ""){
-			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
-		}else if ($sender == ""){
-			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_NAME');
-		}else if ($email == ""){
-			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_EMAIL');
-		}else if ($subject == ""){
-			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
-		}else if ($model->sendWishlist($post)){
-			$msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
-		}else {
-			$msg = JText::_('COM_REDSHOP_ERROR_SENDING');
-		}
+    /*
+      *  Method to subscribe newsletter
+      */
+    public function newsletterSubscribe()
+    {
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
 
-		$this->setRedirect ( 'index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component&wishlist_id='.$wishlis_id.'&Itemid'.$Itemid,$msg);
-	}
-	
-	/*
-	 *  Method to subscribe newsletter
-	 */
-	function newsletterSubscribe()
-	{
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
+        $userhelper = new rsUserhelper();
+        $userhelper->newsletterSubscribe(0, array(), 1);
 
-	 	$userhelper = new rsUserhelper();
-		$userhelper->newsletterSubscribe(0,array(),1);
-		
-		$msg=JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
-		$this->setRedirect("index.php?option=".$option."&view=account&Itemid=".$Itemid,$msg);
-	}
-	/*
-	 *  Method to unsubscribe newsletter
-	 */
-	function newsletterUnsubscribe()
-	{
-		$user =& JFactory::getUser();
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
+        $msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
+        $this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $item_id, $msg);
+    }
 
-		$userhelper = new rsUserhelper();
-		$userhelper->newsletterUnsubscribe($user->email);
-		$msg=JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
-		
-		$this->setRedirect("index.php?option=".$option."&view=account&Itemid=".$Itemid,$msg);
-	}
-}?>
+    /*
+      *  Method to unsubscribe newsletter
+      */
+    public function newsletterUnsubscribe()
+    {
+        $user    = JFactory::getUser();
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+
+        $userhelper = new rsUserhelper();
+        $userhelper->newsletterUnsubscribe($user->email);
+        $msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
+
+        $this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $item_id, $msg);
+    }
+}

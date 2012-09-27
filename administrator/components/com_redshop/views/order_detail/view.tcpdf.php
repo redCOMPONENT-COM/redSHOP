@@ -1,42 +1,34 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
+defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 //
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-class order_detailVIEWorder_detail extends JView
+class order_detailVIEWorder_detail extends JViewLegacy
 {
-    function display ($tpl = null)
+    function display($tpl = null)
     {
 
         $config      = new Redconfiguration();
         $redTemplate = new Redtemplate();
 
         $order_functions = new order_functions();
-        //$model = $this->getModel();
 
         $detail = $this->get('data');
 
         $billing  = $order_functions->getBillingAddress($detail->user_id);
         $shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
-        if (!$shipping) {
+        if (!$shipping)
+        {
             $shipping = $billing;
         }
 
@@ -76,10 +68,13 @@ class order_detailVIEWorder_detail extends JView
         $html_template = str_replace("{shipping_phone}", $shipping->zipcode, $html_template);
 
         // if user is company than
-        if ($billing->is_company && $billing->company_name != "") {
+        if ($billing->is_company && $billing->company_name != "")
+        {
             $html_template = str_replace("{company_name}", $billing->company_name, $html_template);
             $html_template = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $html_template);
-        } else {
+        }
+        else
+        {
             $html_template = str_replace("{company_name}", "", $html_template);
             $html_template = str_replace("{company_name_lbl}", "", $html_template);
         }
@@ -97,10 +92,8 @@ class order_detailVIEWorder_detail extends JView
         //$pdfObj->setFooterFont(array($font, '', 8));
         $pdfObj->SetFont($font, "", 12);
 
-
         //$pdfObj->AliasNbPages();
         $pdfObj->AddPage();
-
 
         $pdfObj->WriteHTML($html_template);
 
@@ -108,5 +101,3 @@ class order_detailVIEWorder_detail extends JView
         exit;
     }
 }
-
-?>

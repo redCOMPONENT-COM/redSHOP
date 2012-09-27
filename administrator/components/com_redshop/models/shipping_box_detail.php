@@ -9,19 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class shipping_box_detailModelshipping_box_detail extends JModel
+class shipping_box_detailModelshipping_box_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -32,25 +30,26 @@ class shipping_box_detailModelshipping_box_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $red_template = new Redtemplate();
         if (empty($this->_data))
@@ -64,7 +63,7 @@ class shipping_box_detailModelshipping_box_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -82,7 +81,7 @@ class shipping_box_detailModelshipping_box_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
 
         $row = $this->getTable();
@@ -101,7 +100,7 @@ class shipping_box_detailModelshipping_box_detail extends JModel
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $red_template = new Redtemplate();
         if (count($cid))
@@ -120,7 +119,7 @@ class shipping_box_detailModelshipping_box_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {

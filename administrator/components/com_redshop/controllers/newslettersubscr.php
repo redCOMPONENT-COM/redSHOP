@@ -9,33 +9,28 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-jimport('joomla.filesystem.file');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class newslettersubscrController extends JController
+class newslettersubscrController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function importdata()
+    public function importdata()
     {
-        $post = JRequest::get('post');
-
-        $option = JRequest::getVar('option');
-
-        $file = JRequest::getVar('file', 'array', 'files', 'array');
+        $post      = $this->input->getArray($_POST);
+        $option    = $this->input->get('option');
+        $file      = $this->input->files->get('file', array(), 'array');
+        $separator = $this->input->get('separator', ",");
 
         $model = $this->getModel('newslettersubscr');
 
         $filetype = strtolower(JFile::getExt($file['name']));
 
-        $separator = JRequest::getVar('separator', ",");
-
         if ($filetype == 'csv')
         {
-
             $src = $file['tmp_name'];
 
             $dest = JPATH_ADMINISTRATOR . DS . 'components/' . $option . '/assets' . DS . $file['name'];

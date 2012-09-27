@@ -14,26 +14,21 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class adminproducthelper
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_product_level = 0;
+    public $_product_level = 0;
 
-    function __construct()
+    public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
     }
 
-    function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
+    public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
     {
-        //$uri           = & JURI::getInstance();
-        //$url           = $uri->root();
-        $redconfig     = new Redconfiguration();
-        $producthelper = new producthelper();
-
-        //$product        = $producthelper->getProductById($product_id);
+        $redconfig      = new Redconfiguration();
+        $producthelper  = new producthelper();
         $totalAccessory = count($accessory);
         $accessorylist  = "";
 
@@ -76,7 +71,7 @@ class adminproducthelper
         return $accessorylist;
     }
 
-    function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
+    public function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
     {
         //$uri           = & JURI::getInstance();
         //$url           = $uri->root();
@@ -169,7 +164,7 @@ class adminproducthelper
         return $attributelist;
     }
 
-    function replaceWrapperData($product_id = 0, $user_id, $uniqueid = "")
+    public function replaceWrapperData($product_id = 0, $user_id, $uniqueid = "")
     {
         $producthelper = new producthelper();
         $wrapperlist   = "";
@@ -201,7 +196,7 @@ class adminproducthelper
         return $wrapperlist;
     }
 
-    function getProductItemInfo($product_id = 0, $quantity = 1, $unique_id = "", $user_id = 0, $newproduct_price = 0)
+    public function getProductItemInfo($product_id = 0, $quantity = 1, $unique_id = "", $user_id = 0, $newproduct_price = 0)
     {
         $producthelper = new producthelper();
 
@@ -264,7 +259,7 @@ class adminproducthelper
         return $displayrespoce;
     }
 
-    function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0, $shipping_box_post_id = 0)
+    public function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0, $shipping_box_post_id = 0)
     {
         $producthelper   = new producthelper();
         $order_functions = new order_functions();
@@ -314,7 +309,7 @@ class adminproducthelper
         return $displayrespoce;
     }
 
-    function redesignProductItem($post = array())
+    public function redesignProductItem($post = array())
     {
         $orderItem = array();
         $i         = 0;
@@ -389,7 +384,7 @@ class adminproducthelper
         return $orderItem;
     }
 
-    function replaceUserfield($product_id = 0, $template_id = 0, $unique_id = "")
+    public function replaceUserfield($product_id = 0, $template_id = 0, $unique_id = "")
     {
         $producthelper = new producthelper();
         $redTemplate   = new Redtemplate();
@@ -412,7 +407,7 @@ class adminproducthelper
         return $product_userfileds;
     }
 
-    function admin_insertProdcutUserfield($field_id = 0, $order_item_id = 0, $section_id = 12, $value = '')
+    public function admin_insertProdcutUserfield($field_id = 0, $order_item_id = 0, $section_id = 12, $value = '')
     {
         $db  = JFactory::getDbo();
         $sql = "INSERT INTO " . $this->_table_prefix . "fields_data " . "(fieldid,data_txt,itemid,section) " . "value ('" . $field_id . "','" . $value . "','" . $order_item_id . "','" . $section_id . "')";
@@ -420,7 +415,7 @@ class adminproducthelper
         $db->query();
     }
 
-    function getProductrBySortedList()
+    public function getProductrBySortedList()
     {
         //$product_data = array();
         $product_data           = array_fill(0, 9, new stdClass);

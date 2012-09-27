@@ -1,11 +1,17 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Views
+ *
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
+ */
+
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class zipcode_detailVIEWzipcode_detail extends JView
+class zipcode_detailVIEWzipcode_detail extends JViewLegacy
 {
-    function display ($tpl = null)
+    public function display($tpl = null)
     {
         $Redconfiguration = new Redconfiguration();
         $uri              = JFactory::getURI();
@@ -18,9 +24,12 @@ class zipcode_detailVIEWzipcode_detail extends JView
         JToolBarHelper::save();
         JToolBarHelper::apply();
 
-        if ($isNew) {
+        if ($isNew)
+        {
             JToolBarHelper::cancel();
-        } else {
+        }
+        else
+        {
 
             JToolBarHelper::cancel('cancel', 'Close');
         }
@@ -32,7 +41,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 
         $this->assignRef('detail', $detail);
         $this->assignRef('lists', $lists);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }

@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class redshopController extends JController
+class redshopController extends RedshopCoreController
 {
-    function demoContentInsert()
+    public function demoContentInsert()
     {
         $model = $this->getModel();
 

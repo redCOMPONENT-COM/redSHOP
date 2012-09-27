@@ -1,131 +1,116 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.application.component.model' );
 
-class order_detailModelorder_detail extends JModel
+defined('_JEXEC') or die('Restricted access');
+
+class order_detailModelorder_detail extends JModelLegacy
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+    public $_id = null;
 
-	function __construct()
-	{
-		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
-	}
+    public $_data = null;
 
-	function checkauthorization($oid,$encr)
-	{
-		$query = "SELECT count(order_id) FROM  ".$this->_table_prefix."orders WHERE order_id = '".$oid."' AND encr_key like '".$encr."' ";
-		$this->_db->setQuery($query);
-		$order_detail = $this->_db->loadResult();
-		return $order_detail;
-	}
+    public $_table_prefix = null;
 
-	/*
-	 * update analytics status
-	 */
-	function UpdateAnalytics_status($oid){
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_table_prefix = '#__redshop_';
+    }
 
-		$query = "UPDATE  ".$this->_table_prefix."orders SET `analytics_status` = 1 WHERE order_id = '".$oid."'";
-		$this->_db->setQuery($query);
-		if(!$this->_db->Query()){
-			return false;
-		}
-		return true;
-	}
+    public function checkauthorization($oid, $encr)
+    {
+        $query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = '" . $oid . "' AND encr_key like '" . $encr . "' ";
+        $this->_db->setQuery($query);
+        $order_detail = $this->_db->loadResult();
+        return $order_detail;
+    }
 
-	/*
-	 * getBilling Addresses
-	 */
-	function billingaddresses()
-	{
-		global $mainframe;
-		$order_functions = new order_functions();
-		$user = & JFactory::getUser ();
-		$session =& JFactory::getSession();
+    /*
+      * update analytics status
+      */
+    public function UpdateAnalytics_status($oid)
+    {
 
+        $query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . $oid . "'";
+        $this->_db->setQuery($query);
+        if (!$this->_db->Query())
+        {
+            return false;
+        }
+        return true;
+    }
 
-		$auth = $session->get( 'auth') ;
-		$list = array();
-		if($user->id)
-		{
-			$list = $order_functions->getBillingAddress($user->id);
-		} else if ($auth['users_info_id']) {
-			$uid = -$auth['users_info_id'];
-			$list = $order_functions->getBillingAddress($uid);
-		}
-		return $list;
-	}
+    /*
+      * getBilling Addresses
+      */
+    public function billingaddresses()
+    {
+        global $mainframe;
+        $order_functions = new order_functions();
+        $user            = JFactory::getUser();
+        $session         = JFactory::getSession();
 
-	/*
-	 * get category name from Product Id
-	 */
-	function getCategoryNameByProductId($pid)
-	{
-		$db = & JFactory::getDBO();
-		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
-				."LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
-				."WHERE pcx.product_id=".$pid." AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
-		$db->setQuery ( $query );
-		return $db->loadResult ();
-	}
+        $auth = $session->get('auth');
+        $list = array();
+        if ($user->id)
+        {
+            $list = $order_functions->getBillingAddress($user->id);
+        }
+        else if ($auth['users_info_id'])
+        {
+            $uid  = -$auth['users_info_id'];
+            $list = $order_functions->getBillingAddress($uid);
+        }
+        return $list;
+    }
 
-	function resetcart()
-	{
-		$session = & JFactory::getSession ();
-		$session->set ( 'cart', NULL );
-		$session->set ( 'ccdata', NULL );
-		$session->set ( 'issplit', NULL );
-		$session->set( 'userfiled', NULL );
-		unset ( $_SESSION ['ccdata'] );
-	}
+    /*
+      * get category name from Product Id
+      */
+    public function getCategoryNameByProductId($pid)
+    {
+        $db    = JFactory::getDBO();
+        $query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx " . "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id " . "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+        $db->setQuery($query);
+        return $db->loadResult();
+    }
 
-	function update_ccdata($order_id, $payment_transaction_id)
-	{
-	    $db = JFactory::getDBO();
+    public function resetcart()
+    {
+        $session = JFactory::getSession();
+        $session->set('cart', NULL);
+        $session->set('ccdata', NULL);
+        $session->set('issplit', NULL);
+        $session->set('userfiled', NULL);
+        unset ($_SESSION ['ccdata']);
+    }
 
-	    $session =& JFactory::getSession();
-		$ccdata = $session->get( 'ccdata' );
+    public function update_ccdata($order_id, $payment_transaction_id)
+    {
+        $db = JFactory::getDBO();
 
-        $order_payment_code 		= $ccdata['creditcard_code'];
-		$order_payment_cardname 	= base64_encode ( $ccdata['order_payment_name'] );
-		$order_payment_number 		= base64_encode ( $ccdata['order_payment_number'] );
-		$order_payment_ccv 			= base64_encode ( $ccdata['credit_card_code'] );		// this is ccv code
-		$order_payment_expire 		= $ccdata['order_payment_expire_month'].$ccdata['order_payment_expire_year'];
-		$order_payment_trans_id 	= $payment_transaction_id;
+        $session = JFactory::getSession();
+        $ccdata  = $session->get('ccdata');
 
-		$payment_update= "UPDATE ".$this->_table_prefix."order_payment "
-						. " SET order_payment_code  = '".$order_payment_code."' ,"
-						. " order_payment_cardname  = '".$order_payment_cardname."' ,"
-						. " order_payment_number  = '".$order_payment_number."' ,"
-						. " order_payment_ccv  = '".$order_payment_ccv."' ,"
-						. " order_payment_expire  = '".$order_payment_expire."' ,"
-						. " order_payment_trans_id  = '".$payment_transaction_id."' "
-						. " WHERE order_id  = '".$order_id."'";
+        $order_payment_code     = $ccdata['creditcard_code'];
+        $order_payment_cardname = base64_encode($ccdata['order_payment_name']);
+        $order_payment_number   = base64_encode($ccdata['order_payment_number']);
+        $order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // this is ccv code
+        $order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
+        $order_payment_trans_id = $payment_transaction_id;
 
-		$db->setQuery($payment_update);
-		if(!$db->Query())
-		{
-			return false;
-		}
+        $payment_update = "UPDATE " . $this->_table_prefix . "order_payment " . " SET order_payment_code  = '" . $order_payment_code . "' ," . " order_payment_cardname  = '" . $order_payment_cardname . "' ," . " order_payment_number  = '" . $order_payment_number . "' ," . " order_payment_ccv  = '" . $order_payment_ccv . "' ," . " order_payment_expire  = '" . $order_payment_expire . "' ," . " order_payment_trans_id  = '" . $payment_transaction_id . "' " . " WHERE order_id  = '" . $order_id . "'";
 
-	}
-
-
-}	?>
+        $db->setQuery($payment_update);
+        if (!$db->Query())
+        {
+            return false;
+        }
+    }
+}

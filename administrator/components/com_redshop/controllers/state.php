@@ -9,12 +9,8 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class stateController extends JController
+class stateController extends RedshopCoreController
 {
-    function __construct($default = array())
-    {
-        parent::__construct($default);
-    }
 }
