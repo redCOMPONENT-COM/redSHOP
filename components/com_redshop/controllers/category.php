@@ -1,20 +1,34 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * category Controller
+ * categoryController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
 class categoryController extends JControllerLegacy
 {
@@ -28,16 +42,10 @@ class categoryController extends JControllerLegacy
       */
     public function download()
     {
-        $option              = JRequest::getVar('option', 'com_redshop', 'request', 'string');
-        $filename            = JRequest::getVar('file', '', 'request', 'string');
-        $db                  =& JFactory::getDBO();
+        $filename            = $this->input->getString('file', '');
+        $db                  = JFactory::getDBO();
         $this->_table_prefix = "#__redshop_";
-        //		$user		=& JFactory::getUser();
-        //		$gid		= (int) $user->get('gid', 0);
-        //		if($gid!=25)
-        //		{
-        //			return false;
-        //		}
+
         session_cache_limiter('public');
 
         // to avoid an error notice of an undefined index.
@@ -213,7 +221,9 @@ class categoryController extends JControllerLegacy
             JError::raiseError(500, 'ERROR.ZERO_BYE_FILE');
             exit;
         }
-        set_magic_quotes_runtime(0); // in case someone has magic quotes on. Which they shouldn't as good practice.
+
+        // deprecated removed in PHP 5.4.0
+        // set_magic_quotes_runtime(0); // in case someone has magic quotes on. Which they shouldn't as good practice.
 
         // we should check to ensure the file really exits to ensure feof does not get stuck in an infite loop, but we do so earlier on, so no need here.
         $fp = fopen("$fil", "rb");
@@ -235,7 +245,7 @@ class categoryController extends JControllerLegacy
             flush();
             ob_flush();
         }
-        sleep(1);
+        //sleep(1);
         fclose($fp);
         return ((connection_status() == 0) and !connection_aborted());
     }
@@ -244,7 +254,7 @@ class categoryController extends JControllerLegacy
     {
         $db = JFactory::getDBO();
         ob_clean();
-        $mainzipcode = JRequest::getString('q', '');
+        $mainzipcode = $this->input->getString('q', '');
         $sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
         $db->setQuery($sel_zipcode);
         echo $db->loadResult();
@@ -253,9 +263,7 @@ class categoryController extends JControllerLegacy
 
     public function generateXMLExportFile()
     {
-        global $mainframe;
-        $option       = JRequest::getVar('option', 'com_redshop', 'request', 'string');
-        $xmlexport_id = JRequest::getInt('xmlexport_id');
+        $xmlexport_id = $this->input->getInt('xmlexport_id', null);
         if ($xmlexport_id)
         {
             require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
@@ -265,7 +273,7 @@ class categoryController extends JControllerLegacy
 
             $row  = $xmlHelper->getXMLExportInfo($xmlexport_id);
             $link = JURI::root() . 'index.php?option=com_redshop&view=category&tmpl=component&task=download&file=' . $row->filename;
-            $mainframe->redirect($link);
+            $this->app->redirect($link);
         }
     }
 }

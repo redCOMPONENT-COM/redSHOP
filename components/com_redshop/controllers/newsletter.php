@@ -1,36 +1,48 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
-
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+
 /**
- * newsletter Controller
+ * newsletterController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class newsletterController extends JControllerLegacy
+class newsletterController extends RedshopCoreController
 {
     /*
       *  Method to subscribe newsletter
       */
     public function subscribe()
     {
-        $post  = JRequest::get('post');
-        $model = $this->getModel('newsletter');
-
-        $option           = JRequest::getVar('option');
-        $Itemid           = JRequest::getVar('Itemid');
-        $newsletteritemid = JRequest::getVar('newsletteritemid');
-        $menu             =& JSite::getMenu();
+        $post             = $this->input->getArray($_POST);
+        $model            = $this->getModel('newsletter');
+        $item_id          = $this->input->get('Itemid');
+        $newsletteritemid = $this->input->get('newsletteritemid');
+        $menu             = JSite::getMenu();
         $item             = $menu->getItem($newsletteritemid);
         if ($item)
         {
@@ -38,7 +50,7 @@ class newsletterController extends JControllerLegacy
         }
         else
         {
-            $return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $Itemid;
+            $return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $item_id;
         }
 
         /*
@@ -76,14 +88,12 @@ class newsletterController extends JControllerLegacy
       */
     public function unsubscribe()
     {
-        $post  = JRequest::get('get');
         $model = $this->getModel('newsletter');
 
-        $option           = JRequest::getVar('option');
-        $Itemid           = JRequest::getVar('Itemid');
-        $email            = JRequest::getVar('email1');
-        $newsletteritemid = JRequest::getVar('newsletteritemid');
-        $menu             =& JSite::getMenu();
+        $item_id          = $this->input->get('Itemid');
+        $email            = $this->input->get('email1');
+        $newsletteritemid = $this->input->get('newsletteritemid');
+        $menu             = JSite::getMenu();
         $item             = $menu->getItem($newsletteritemid);
         if ($item)
         {
@@ -91,7 +101,7 @@ class newsletterController extends JControllerLegacy
         }
         else
         {
-            $return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $Itemid;
+            $return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $item_id;
         }
 
         /*
