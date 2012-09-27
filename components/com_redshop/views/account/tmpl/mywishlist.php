@@ -104,6 +104,7 @@ if ($mail == 0)
         $w_thumb = THUMB_WIDTH;
     }
     $temp_template  = '';
+    $my             = '';
     $extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
     if (count($MyWishlist) > 0)
     {
@@ -318,11 +319,7 @@ if ($mail == 0)
             ///////// Extra field display
             $wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
             // check product for not for sale
-            //$wishlist_data = $producthelper->getProductNotForSaleComment($row->product_id,$wishlist_data);
 
-            //$wishlist_data = $producthelper->getProductOnSaleComment($row->product_id,$wishlist_data);
-
-            //$wishlist_data = $producthelper->replaceCartTemplate($row->product_id,0,0,0,$wishlist_data);
             $wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
             $wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
 
