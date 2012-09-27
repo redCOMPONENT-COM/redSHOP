@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class accessmanagerModelaccessmanager extends JModelLegacy
 {
-    public $_context = null;
+    public $_context = 'question_id';
 
     public $_data = null;
 
@@ -19,17 +19,15 @@ class accessmanagerModelaccessmanager extends JModelLegacy
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
     public function __construct()
     {
         parent::__construct();
 
-        $app            = JFactory::getApplication();
-        $this->_context = 'question_id';
+        $app = JFactory::getApplication();
 
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('parent_id', 0, '', 'array');
+        $array = JRequest::getVar('parent_id', 0, '', 'array');
         $this->setId((int)$array[0]);
 
         $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);

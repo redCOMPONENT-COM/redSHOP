@@ -10,31 +10,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class answer_detailModelanswer_detail extends JModelLegacy
+class answer_detailModelanswer_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
     public $_parent_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-        $this->_parent_id    = JRequest::getVar('parent_id');
-        $array               = JRequest::getVar('cid', 0, '', 'array');
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
+        $this->_parent_id = JRequest::getVar('parent_id');
     }
 
     public function &getData()
@@ -214,11 +199,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
                 }
             }
         }
-        // execute updateOrder for each parent group
-        //		$groupings = array_unique( $groupings );
-        //		foreach ($groupings as $group){
-        //			$row->reorder((int) $group);
-        //		}
+
         foreach ($conditions as $cond)
         {
             $row->load($cond[0]);
@@ -239,6 +220,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
         $row->load($this->_id);
         $row->move(-1, 'parent_id= ' . (int)$row->parent_id);
         $row->store();
+
         return true;
     }
 
@@ -254,6 +236,7 @@ class answer_detailModelanswer_detail extends JModelLegacy
         $row->load($this->_id);
         $row->move(1, 'parent_id = ' . (int)$row->parent_id);
         $row->store();
+
         return true;
     }
 

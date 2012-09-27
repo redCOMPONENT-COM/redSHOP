@@ -17,17 +17,16 @@ class categoryModelcategory extends JModelLegacy
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
+    public $_table_prefix = '#__redshop_';
 
-    public $_context = null;
+    public $_context = 'category_id';
 
     public function __construct()
     {
         parent::__construct();
+
         $app = JFactory::getApplication();
 
-        $this->_context       = 'category_id';
-        $this->_table_prefix  = '#__' . TABLE_PREFIX . '_';
         $limit                = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
         $limitstart           = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
         $category_main_filter = $app->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
@@ -177,11 +176,7 @@ class categoryModelcategory extends JModelLegacy
                 }
             }
         }
-        // execute updateOrder for each parent group
-        /*$groupings = array_unique( $groupings );
-          foreach ($groupings as $group){
-              $row->reorder('catid = '.(int) $group);
-          }*/
+
         return true;
     }
 }
