@@ -62,7 +62,7 @@ class order_detailController extends RedshopCoreController
       */
     public function process_payment()
     {
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $model   = $this->getModel('order_detail');
 
         $redconfig = new Redconfiguration();
@@ -169,7 +169,7 @@ class order_detailController extends RedshopCoreController
         $objOrder = new order_functions();
 
         JPluginHelper::importPlugin('redshop_payment');
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
 
         $results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
 
@@ -265,7 +265,7 @@ class order_detailController extends RedshopCoreController
 
     public function reorder()
     {
-        $session  =& JFactory::getSession();
+        $session  = JFactory::getSession();
         $post     = $this->input->getArray($_POST);
         $order_id = (isset($post['order_id'])) ? $post['order_id'] : $this->input->getInt('order_id', null);
         $item_id  = $this->input->get('Itemid');

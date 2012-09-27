@@ -73,7 +73,7 @@ class quotation_detailController extends JControllerLegacy
 
         $quotationHelper = new quotationHelper();
         $model           = $this->getmodel();
-        $session         =& JFactory::getSession();
+        $session         = JFactory::getSession();
         $redhelper       = new redhelper();
 
         $cart        = array();

@@ -15,7 +15,7 @@ class searchViewsearch extends JViewLegacy
 {
     public function display($tpl = null)
     {
-        $app = &JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         $redTemplate = new Redtemplate();
         $lists       = array();
@@ -132,7 +132,7 @@ class searchViewsearch extends JViewLegacy
             require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
             require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
 
-            $dispatcher       =& JDispatcher::getInstance();
+            $dispatcher       = JDispatcher::getInstance();
             $redTemplate      = new Redtemplate();
             $Redconfiguration = new Redconfiguration();
             $producthelper    = new producthelper();
@@ -155,13 +155,13 @@ class searchViewsearch extends JViewLegacy
             $query = 'SELECT category_name' . ' FROM #__redshop_category  ' . 'WHERE category_id=' . JRequest::getInt('cid');
             $db->setQuery($query);
             $catname_array = $db->loadObjectList();
-            $cat_name = '';
-            if(!empty($catname_array[0]))
+            $cat_name      = '';
+            if (!empty($catname_array[0]))
             {
-                $cat_name      = $catname_array[0]->category_name;
+                $cat_name = $catname_array[0]->category_name;
             }
 
-            $session    = & JFactory::getSession();
+            $session    = JFactory::getSession();
             $model      = $this->getModel('search');
             $limit      = $this->limit;
             $limitstart = JRequest::getVar('limitstart', 0);
@@ -491,10 +491,10 @@ class searchViewsearch extends JViewLegacy
                 // More documents end
 
                 /************************************************ user fields*******************************************************/
-                $hidden_userfield   = "";
-                $returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
-                $template_userfield = $returnArr[0];
-                $userfieldArr       = $returnArr[1];
+                $hidden_userfield    = "";
+                $returnArr           = $producthelper->getProductUserfieldFromTemplate($data_add);
+                $template_userfield  = $returnArr[0];
+                $userfieldArr        = $returnArr[1];
                 $count_no_user_field = 0;
                 if ($template_userfield != "")
                 {
@@ -530,9 +530,9 @@ class searchViewsearch extends JViewLegacy
                     {
                         $ajax_detail_template_desc = $ajax_detail_template->template_desc;
                     }
-                    $returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
-                    $template_userfield = $returnArr[0];
-                    $userfieldArr       = $returnArr[1];
+                    $returnArr           = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
+                    $template_userfield  = $returnArr[0];
+                    $userfieldArr        = $returnArr[1];
                     $count_no_user_field = 0;
                     if ($template_userfield != "")
                     {
@@ -635,7 +635,7 @@ class searchViewsearch extends JViewLegacy
 
                 $data .= $data_add;
             }
-            $app    = &JFactory::getApplication();
+            $app    = JFactory::getApplication();
             $router = &$app->getRouter();
 
             $getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);

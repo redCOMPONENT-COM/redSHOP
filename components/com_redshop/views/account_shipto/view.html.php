@@ -24,7 +24,7 @@ class account_shiptoViewaccount_shipto extends JViewLegacy
         $user = JFactory::getUser();
         $uri  = JFactory::getURI();
         // preform security checks
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $auth    = $session->get('auth');
         $params  = &$mainframe->getParams('com_redshop');
         if ($user->id)

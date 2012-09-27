@@ -234,7 +234,7 @@ class productModelproduct extends JModelLegacy
 
     public function addProductTagsXref($post, $tags)
     {
-        $user  = &JFactory::getUser();
+        $user  = JFactory::getUser();
         $query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref " . "VALUES('" . $tags->tags_id . "','" . $post['product_id'] . "','" . $user->id . "')";
         $this->_db->setQuery($query);
         $this->_db->Query();
@@ -243,7 +243,7 @@ class productModelproduct extends JModelLegacy
 
     public function checkProductTags($tagname, $productid)
     {
-        $user  = &JFactory::getUser();
+        $user  = JFactory::getUser();
         $query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt " . "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id " . "WHERE pt.tags_name LIKE '" . $tagname . "' " . "AND ptx.product_id='" . $productid . "' " . "AND ptx.users_id='" . $user->id . "' ";
         $this->_db->setQuery($query);
         $list = $this->_db->loadObject();
@@ -252,7 +252,7 @@ class productModelproduct extends JModelLegacy
 
     public function checkWishlist($product_id)
     {
-        $user  = &JFactory::getUser();
+        $user  = JFactory::getUser();
         $query = "SELECT * FROM " . $this->_table_prefix . "wishlist " . "WHERE product_id='" . $product_id . "' " . "AND user_id='" . $user->id . "' ";
         $this->_db->setQuery($query);
         $list = $this->_db->loadObject();
@@ -261,7 +261,7 @@ class productModelproduct extends JModelLegacy
 
     public function checkComparelist($product_id)
     {
-        $session         =& JFactory::getSession();
+        $session         = JFactory::getSession();
         $compare_product = $session->get('compare_product');
         $cid             = JRequest::getInt('cid');
         $catid           = $compare_product[0]['category_id'];
@@ -297,7 +297,7 @@ class productModelproduct extends JModelLegacy
 
     public function addtocompare($data)
     {
-        $session         =& JFactory::getSession();
+        $session         = JFactory::getSession();
         $compare_product = $session->get('compare_product');
         if (!$compare_product)
         {
@@ -323,7 +323,7 @@ class productModelproduct extends JModelLegacy
 
     public function removeCompare($product_id)
     {
-        $session         =& JFactory::getSession();
+        $session         = JFactory::getSession();
         $compare_product = $session->get('compare_product');
 
         if (!$compare_product)

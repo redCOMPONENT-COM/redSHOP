@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$doc    = & JFactory::getDocument();
+$doc    = JFactory::getDocument();
 $tmpl   = JRequest::getCmd('tmpl');
 $view   = JRequest::getCmd('view');
 $layout = JRequest::getCmd('layout');

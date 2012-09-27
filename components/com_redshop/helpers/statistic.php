@@ -18,7 +18,7 @@ class statistic
     public function statistic()
     {
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-        $this->_db           = & JFactory :: getDBO();
+        $this->_db           = JFactory :: getDBO();
         statistic::reshop_visitors();
         statistic::reshop_pageview();
     }
@@ -26,7 +26,7 @@ class statistic
     public function reshop_visitors()
     {
         $sid  = session_id();
-        $user = & JFactory::getUser();
+        $user = JFactory::getUser();
 
         $q = "SELECT * FROM " . $this->_table_prefix . "siteviewer " . "WHERE session_id = '" . $sid . "'";
         $this->_db->setQuery($q);
@@ -46,7 +46,7 @@ class statistic
     public function reshop_pageview()
     {
         $sid     = session_id();
-        $user    = & JFactory::getUser();
+        $user    = JFactory::getUser();
         $view    = JRequest::getVar('view');
         $section = "";
 
