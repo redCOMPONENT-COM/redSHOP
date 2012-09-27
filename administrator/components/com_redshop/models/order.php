@@ -9,33 +9,32 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-class orderModelorder extends JModel
+class orderModelorder extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $this->_context        = 'order_id';
         $this->_table_prefix   = '#__redshop_';
-        $limit                 = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart            = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter_status         = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
-        $filter_payment_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
-        $filter                = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $limit                 = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart            = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter_status         = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
+        $filter_payment_status = $app->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
+        $filter                = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
         $limitstart            = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
@@ -44,7 +43,7 @@ class orderModelorder extends JModel
         $this->setState('filter_payment_status', $filter_payment_status);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -54,7 +53,7 @@ class orderModelorder extends JModel
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -65,7 +64,7 @@ class orderModelorder extends JModel
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -76,7 +75,7 @@ class orderModelorder extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $where    = "";
         $order_id = array();
@@ -115,31 +114,31 @@ class orderModelorder extends JModel
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
 
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
     }
 
-    function update_status()
+    public function update_status()
     {
         $order_functions = new order_functions();
         $order_functions->update_status();
     }
 
-    function update_status_all()
+    public function update_status_all()
     {
         $order_functions = new order_functions();
         $order_functions->update_status_all();
     }
 
-    function export_data($cid)
+    public function export_data($cid)
     {
         //$query1 = $this->_buildQuery();
 
@@ -161,7 +160,7 @@ class orderModelorder extends JModel
         return $this->_getList($query);
     }
 
-    function updateDownloadSetting($did, $limit, $enddate)
+    public function updateDownloadSetting($did, $limit, $enddate)
     {
 
         $query = "UPDATE " . $this->_table_prefix . "product_download " . " SET `download_max` = " . $limit . " , `end_date` = " . $enddate . " " . " WHERE download_id = '" . $did . "'";
@@ -174,9 +173,8 @@ class orderModelorder extends JModel
         return true;
     }
 
-    function gls_export($cid)
+    public function gls_export($cid)
     {
-        global $mainframe;
         $oids                       = implode(',', $cid);
         $where                      = "";
         $redhelper                  = new redhelper();
@@ -304,12 +302,10 @@ class orderModelorder extends JModel
         exit;
     }
 
-    function business_gls_export($cid)
+    public function business_gls_export($cid)
     {
-        global $mainframe;
         $oids         = implode(',', $cid);
         $where        = "";
-        $redhelper    = new redhelper();
         $order_helper = new order_functions();
         $shipping     = new shipping();
 

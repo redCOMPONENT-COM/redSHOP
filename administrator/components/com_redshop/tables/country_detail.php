@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablecountry_detail extends JTable
 {
     public $country_id = null;
@@ -30,20 +28,8 @@ class Tablecountry_detail extends JTable
         parent::__construct($this->_table_prefix . 'country', 'country_id', $db);
     }
 
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-        return parent::bind($array, $ignore);
-    }
-
     public function check()
     {
-
         $db = JFactory::getDBO();
 
         $q = "SELECT country_id,country_3_code  FROM " . $this->_table_prefix . "country" . " WHERE country_3_code = '" . $this->country_3_code . "' AND country_id !=  " . $this->country_id;

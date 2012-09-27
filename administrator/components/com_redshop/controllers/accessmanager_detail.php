@@ -9,32 +9,34 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class accessmanager_detailController extends JController
+class accessmanager_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'answer_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'answer_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
+
         parent::display();
     }
 
-    function save($apply)
+    public function save($apply)
     {
-        $post = JRequest::get('post');
+        $post    = $this->input->getArray($_POST);
+        $option  = $this->input->getString('option', '');
+        $section = $this->input->getString('section', '');
 
-        $option  = JRequest::getVar('option', '', 'request', 'string');
-        $model   = $this->getModel('accessmanager_detail');
-        $section = JRequest::getVar('section', '', 'request', 'string');
-        $row     = $model->store($post);
+        $model = $this->getModel('accessmanager_detail');
+        $row   = $model->store($post);
+
         if ($row)
         {
             $msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_SAVED');
@@ -53,15 +55,16 @@ class accessmanager_detailController extends JController
         }
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
         $this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
     }
 }

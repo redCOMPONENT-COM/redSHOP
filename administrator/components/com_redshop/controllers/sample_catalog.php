@@ -9,16 +9,15 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class sample_catalogController extends JController
+class sample_catalogController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
-        JRequest::setVar('view', 'sample_catalog');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
-        //parent::display ();
+        $this->input->set('view', 'sample_catalog');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
     }
 }

@@ -1,35 +1,29 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class shipping_rateViewshipping_rate extends JView
+class shipping_rateViewshipping_rate extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $context        = 'shipping_rate';
         $uri            = JFactory::getURI();
         $shippinghelper = new shipping();
 
-        $lists['order']     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
-        $lists['order_Dir'] = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-        $id                 = $mainframe->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+        $lists['order']     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
+        $lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $id                 = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 
         $shipping = $shippinghelper->getShippingMethodById($id);
 
@@ -58,7 +52,7 @@ class shipping_rateViewshipping_rate extends JView
         $this->assignRef('pagination', $pagination);
         $this->assignRef('is_shipper', $is_shipper);
         $this->assignRef('shipper_location', $shipper_location);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
         parent::display($tpl);
     }
 }

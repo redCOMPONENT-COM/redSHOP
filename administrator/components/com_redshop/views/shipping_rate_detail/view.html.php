@@ -1,31 +1,24 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class shipping_rate_detailViewshipping_rate_detail extends JView
+class shipping_rate_detailViewshipping_rate_detail extends JViewLegacy
 {
-    function display ($tpl = null)
+    public function display($tpl = null)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $context        = 'shipping_rate';
         $shippinghelper = new shipping();
         $userhelper     = new rsUserhelper();
@@ -33,7 +26,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
         $model          = $this->getModel();
         $db             = JFactory::getDBO();
 
-        $id       = $mainframe->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+        $id       = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
         $shipping = $shippinghelper->getShippingMethodById($id);
 
         $option = JRequest::getVar('option');
@@ -59,9 +52,12 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
         JToolBarHelper::title($jtitle . ': <small><small>[ ' . $shipping->name . ' : ' . $text . ' ]</small></small>', 'redshop_shipping_rates48');
         JToolBarHelper::save();
         JToolBarHelper::apply();
-        if ($isNew) {
+        if ($isNew)
+        {
             JToolBarHelper::cancel();
-        } else {
+        }
+        else
+        {
             JToolBarHelper::cancel('cancel', 'Close');
         }
 
@@ -71,25 +67,19 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
         $countries   = array_merge($countries, $db->loadObjectList());
 
         $shipping_rate_state = array();
-        if ($detail->shipping_rate_country) {
+        if ($detail->shipping_rate_country)
+        {
             $shipping_rate_state = $model->GetStateList($detail->shipping_rate_country);
         }
 
         $detail->shipping_rate_state = explode(',', $detail->shipping_rate_state);
-        $tmp                         = new stdClass;
-        $tmp                         = @array_merge($tmp, $detail->shipping_rate_state);
 
         $lists['shipping_rate_state'] = JHTML::_('select.genericlist', $shipping_rate_state, 'shipping_rate_state[]', 'class="inputbox" multiple="multiple"', 'value', 'text', $detail->shipping_rate_state);
 
         $detail->shipping_rate_country  = explode(',', $detail->shipping_rate_country);
-        $tmp                            = new stdClass;
-        $tmp                            = @array_merge($tmp, $detail->shipping_rate_country);
         $lists['shipping_rate_country'] = JHTML::_('select.genericlist', $countries, 'shipping_rate_country[]', 'class="inputbox" multiple="multiple" onchange="getStateList()" ', 'value', 'text', $detail->shipping_rate_country);
 
-//		$categoryData = $model->GetCategoryList();
-        $detail->shipping_rate_on_category = explode(',', $detail->shipping_rate_on_category);
-//		$tmp = new stdClass;
-//		$tmp = @array_merge($tmp,$detail->shipping_rate_on_category);
+        $detail->shipping_rate_on_category  = explode(',', $detail->shipping_rate_on_category);
         $product_category                   = new product_category();
         $lists['shipping_rate_on_category'] = $product_category->list_all("shipping_rate_on_category[]", 0, $detail->shipping_rate_on_category, 10, false, true); //JHTML::_('select.genericlist',$categoryData,'shipping_rate_on_category[]','class="inputbox" multiple="multiple" ','value','text',$detail->shipping_rate_on_category);
 
@@ -99,14 +89,12 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 
         $productData      = array();
         $result_container = array();
-        if ($detail->shipping_rate_on_product) {
+
+        if ($detail->shipping_rate_on_product)
+        {
             $result_container = $model->GetProductListshippingrate($detail->shipping_rate_on_product);
         }
-//		if(count($productData) == 0)
-//		{
-//			$productData [0]->text = JText::_('COM_REDSHOP_SELECT');
-//	    	$productData [0]->value = 0;
-//		}
+
         $lists['product_all']      = JHTML::_('select.genericlist', $productData, 'product_all[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_product);
         $lists['shipping_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
 
@@ -137,7 +125,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
         $this->assignRef('lists', $lists);
         $this->assignRef('detail', $detail);
         $this->assignRef('shipping', $shipping);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }

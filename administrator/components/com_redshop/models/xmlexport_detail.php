@@ -9,19 +9,17 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 
-class xmlexport_detailModelxmlexport_detail extends JModel
+class xmlexport_detailModelxmlexport_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -30,25 +28,26 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x " . "WHERE x.xmlexport_id=" . $this->_id;
         $this->_db->setQuery($query);
@@ -56,7 +55,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return (boolean)$this->_data;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -97,7 +96,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
      * @access public
      * @return boolean
      */
-    function store($data, $export = 0)
+    public function store($data, $export = 0)
     {
         $resarray  = array();
         $xmlhelper = new xmlHelper();
@@ -109,7 +108,8 @@ class xmlexport_detailModelxmlexport_detail extends JModel
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->xmlexport_on_category) {
+        if (!$row->xmlexport_on_category)
+        {
             $row->xmlexport_on_category = '';
         }
         $row->published = $data['xmlpublished'];
@@ -151,7 +151,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
      * @access public
      * @return boolean
      */
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $xmlhelper = new xmlHelper();
         if (count($cid))
@@ -195,7 +195,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return true;
     }
 
-    function deleteIpAddress($xmlexport_ip_id = 0)
+    public function deleteIpAddress($xmlexport_ip_id = 0)
     {
         $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress ' . 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
         $this->_db->setQuery($query);
@@ -207,7 +207,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return true;
     }
 
-    function auto_syncpublish($cid = array(), $publish = 1)
+    public function auto_syncpublish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -224,7 +224,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return true;
     }
 
-    function usetoallpublish($cid = array(), $publish = 1)
+    public function usetoallpublish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -247,7 +247,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
      * @access public
      * @return boolean
      */
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -264,7 +264,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
         return true;
     }
 
-    function getCategoryList()
+    public function getCategoryList()
     {
         $query = 'SELECT category_name AS text,category_id AS value FROM ' . $this->_table_prefix . 'category ' . 'WHERE published=1 ';
         $this->_db->setQuery($query);

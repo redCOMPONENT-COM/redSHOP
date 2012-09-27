@@ -9,24 +9,21 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
-jimport('joomla.filesystem.file');
 
-class tax_detailModeltax_detail extends JModel
+class tax_detailModeltax_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_tax_group_id = null;
+    public $_tax_group_id = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -38,26 +35,27 @@ class tax_detailModeltax_detail extends JModel
         $this->setId((int)$array[0], $_tax_group_id);
     }
 
-    function setId($id, $_tax_group_id)
+    public function setId($id, $_tax_group_id)
     {
         $this->_id           = $id;
         $this->_tax_group_id = $_tax_group_id;
         $this->_data         = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -70,7 +68,7 @@ class tax_detailModeltax_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -91,7 +89,7 @@ class tax_detailModeltax_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -110,7 +108,7 @@ class tax_detailModeltax_detail extends JModel
         return true;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {

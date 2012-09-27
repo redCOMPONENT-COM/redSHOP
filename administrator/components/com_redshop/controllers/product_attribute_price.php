@@ -9,33 +9,34 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class product_attribute_priceController extends JController
+class product_attribute_priceController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function listing()
+    public function listing()
     {
-        JRequest::setVar('layout', 'listing');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('layout', 'listing');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
-    function saveprice()
+    public function saveprice()
     {
-        $db                   = JFactory::getDBO();
-        $section_id           = JRequest::getVar('section_id');
-        $section              = JRequest::getVar('section');
-        $cid                  = JRequest::getVar('cid');
-        $shopper_group_id     = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
-        $price                = JRequest::getVar('price', array(), 'post', 'array');
-        $price_quantity_start = JRequest::getVar('price_quantity_start', array(), 'post', 'array');
-        $price_quantity_end   = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
-        $price_id             = JRequest::getVar('price_id', array(), 'post', 'array');
+        $db = JFactory::getDBO();
+
+        $section_id           = $this->input->get('section_id');
+        $section              = $this->input->get('section');
+        $cid                  = $this->input->get('cid');
+        $shopper_group_id     = $this->input->post->get('shopper_group_id', array(), 'array');
+        $price                = $this->input->post->get('price', array(), 'array');
+        $price_quantity_start = $this->input->post->get('price_quantity_start', array(), 'array');
+        $price_quantity_end   = $this->input->post->get('price_quantity_end', array(), 'array');
+        $price_id             = $this->input->post->get('price_id', array(), 'array');
 
         for ($i = 0; $i < count($price); $i++)
         {

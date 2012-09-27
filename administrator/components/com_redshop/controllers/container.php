@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class containerController extends JController
+class containerController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function export_data()
+    public function export_data()
     {
         $model = $this->getModel('container');
 
@@ -38,13 +38,12 @@ class containerController extends JController
             echo $data[$i]->container_name . ",";
             echo $data[$i]->container_desc . ",";
             echo $data[$i]->creation_date . ",";
-            //echo $data[$i]->quantity * $data[$i]->product_volume;
             echo "\n";
         }
         exit;
     }
 
-    function print_data()
+    public function print_data()
     {
         echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
     }

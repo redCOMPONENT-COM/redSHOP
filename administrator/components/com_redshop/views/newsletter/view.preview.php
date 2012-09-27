@@ -15,14 +15,16 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class newsletterViewnewsletter extends JView
+class newsletterViewnewsletter extends JViewLegacy
 {
     function display($tpl = null)
     {
-        global $mainframe, $context;
+        global $context;
+
+        $app = JFactory::getApplication();
+
         $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
         $selected_product = JRequest::getVar('product', '');
@@ -30,7 +32,6 @@ class newsletterViewnewsletter extends JView
         $model            = $this->getModel('newsletter');
         $subscribers      = $model->listallsubscribers($n);
 
-        $db               = JFactory::getDBO();
         $product_category = new product_category();
 
         $document = JFactory::getDocument();
@@ -43,8 +44,8 @@ class newsletterViewnewsletter extends JView
 
         $uri = JFactory::getURI();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $lists['order']     = $filter_order;
         $lists['order_Dir'] = $filter_order_Dir;

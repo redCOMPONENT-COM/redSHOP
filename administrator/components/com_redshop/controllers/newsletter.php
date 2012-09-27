@@ -9,33 +9,31 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class newsletterController extends JController
+class newsletterController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function send_newsletter_preview()
+    public function send_newsletter_preview()
     {
-        //$view = & $this->getView('newsletter', 'preview');
         parent::display();
     }
 
-    function send_newsletter()
+    public function send_newsletter()
     {
         $session = JFactory::getSession();
-        $option  = JRequest::getVar('option');
 
-        $cid      = JRequest::getVar('cid', array(0), 'post', 'array');
-        $userid   = JRequest::getVar('userid', array(0), 'post', 'array');
-        $username = JRequest::getVar('username', array(0), 'post', 'array');
+        $option        = $this->input->get('option');
+        $cid           = $this->input->post->get('cid', array(0), 'array');
+        $userid        = $this->input->post->get('userid', array(0), 'array');
+        $username      = $this->input->post->get('username', array(0), 'array');
+        $newsletter_id = $this->input->get('newsletter_id');
 
-        $newsletter_id = JRequest::getVar('newsletter_id');
-
-        $tmpcid      = array_chunk($cid, NEWSLETTER_MAIL_CHUNK); //NEWSLETTER_MAIL_CHUNK
+        $tmpcid      = array_chunk($cid, NEWSLETTER_MAIL_CHUNK);
         $tmpuserid   = array_chunk($userid, NEWSLETTER_MAIL_CHUNK);
         $tmpusername = array_chunk($username, NEWSLETTER_MAIL_CHUNK);
 
@@ -48,11 +46,10 @@ class newsletterController extends JController
         return;
     }
 
-    function sendRecursiveNewsletter()
+    public function sendRecursiveNewsletter()
     {
         $session       = JFactory::getSession();
-        $newsletter_id = JRequest::getVar('newsletter_id');
-        $option        = JRequest::getVar('option');
+        $newsletter_id = $this->input->get('newsletter_id');
 
         $model = $this->getModel('newsletter');
 
@@ -64,18 +61,21 @@ class newsletterController extends JController
         $cid      = array();
         $user_id  = array();
         $username = array();
+
         if (count($subscribers) > 0)
         {
             $cid = $subscribers[0];
             unset($subscribers[0]);
             $subscribers = array_merge(array(), $subscribers);
         }
+
         if (count($subscribersuid) > 0)
         {
             $user_id = $subscribersuid[0];
             unset($subscribersuid[0]);
             $subscribersuid = array_merge(array(), $subscribersuid);
         }
+
         if (count($subscribersuname) > 0)
         {
             $username = $subscribersuname[0];
@@ -90,6 +90,7 @@ class newsletterController extends JController
         {
             $subscriber = $model->getNewsletterSubscriber($newsletter_id, $cid[$i]);
             $responcemsg .= "<div>" . $incNo . ": " . $subscriber->name . "( " . $subscriber->email . " ) -> ";
+
             if ($retuser[$i])
             {
                 $responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_NEWSLETTER_SENT_SUCCESSFULLY') . "</span>";
@@ -98,9 +99,11 @@ class newsletterController extends JController
             {
                 $responcemsg .= "<span style='color: #ff0000'>" . JText::_('COM_REDSHOP_NEWSLETTER_MAIL_NOT_SENT') . "</span>";
             }
+
             $responcemsg .= "</div>";
             $incNo++;
         }
+
         $session->set('subscribers', $subscribers);
         $session->set('subscribersuid', $subscribersuid);
         $session->set('subscribersuname', $subscribersuname);
@@ -113,6 +116,7 @@ class newsletterController extends JController
             $session->clear('subscribersuname');
             $session->clear('incNo');
         }
+
         $responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
         echo $responcemsg;
         exit;

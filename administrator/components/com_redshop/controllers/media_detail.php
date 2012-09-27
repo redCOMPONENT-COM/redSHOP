@@ -9,31 +9,31 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
 
-class media_detailController extends JController
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class media_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'media_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'media_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
-    function save()
+    public function save()
     {
-        $post   = JRequest::get('post');
-        $option = JRequest::getVar('option');
-        $cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post   = $this->input->getArray($_POST);
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
         $model  = $this->getModel('media_detail');
 
         $product_download_root = PRODUCT_DOWNLOAD_ROOT;
@@ -42,9 +42,11 @@ class media_detailController extends JController
             $product_download_root = PRODUCT_DOWNLOAD_ROOT . DS;
         }
 
-        $bulkfile     = JRequest::getVar('bulkfile', null, 'files', 'array');
+        $bulkfile     = $this->input->files->get('bulkfile', null, 'array');
         $bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
-        $file         = JRequest::getVar('file', 'array', 'files', 'array');
+
+        $file = $this->input->files->get('file', array(), 'array');
+
         if ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
         {
             if ($post['media_bank_image'] == "")
@@ -57,10 +59,8 @@ class media_detailController extends JController
                     $old_thumb_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype'] . DS . $post['media_section'] . DS . 'thumb' . DS . $post['media_name'];
 
                     $new_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . time() . '_' . $post['media_name'];
-                    //$new_thumb_path = JPATH_COMPONENT_SITE.DS.'assets'.DS.$post['media_type'].DS.$post['media_section'].DS.'thumb'.DS.time().'_'.$post['media_name'];
 
                     copy($old_path, $new_path);
-                    //copy($old_thumb_path,$new_thumb_path);
 
                     unlink($old_path);
                     unlink($old_thumb_path);
@@ -70,8 +70,6 @@ class media_detailController extends JController
                     $msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
                     // Set First Image as product Main Imaged
                     if ($save->media_section == 'product' && $save->media_type == 'images')
-                        //						$model->selectMainProductImage($save->section_id);
-
                     {
                         if (isset($post['set']) && $post['media_section'] != 'manufacturer')
                         {
@@ -107,7 +105,7 @@ class media_detailController extends JController
             {
                 if ($cid [0] != 0)
                 {
-                    $delete            = $model->delete($cid);
+                    $model->delete($cid);
                     $post['bulk']      = 'no';
                     $post ['media_id'] = 0;
                 }
@@ -126,14 +124,10 @@ class media_detailController extends JController
                     $post['media_name'] = $filename;
                     $dest               = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
                 }
-                $save = $model->store($post);
 
-                // Set First Image as product Main Imaged
-                //if($save->media_section == 'product' && $save->media_type == 'images')
-                //				$model->selectMainProductImage($save->section_id);
+                $model->store($post);
 
                 // Image Upload
-
                 $src = JPATH_ROOT . DS . $post['media_bank_image'];
                 copy($src, $dest);
 
@@ -159,9 +153,10 @@ class media_detailController extends JController
         {
             if ($cid [0] != 0)
             {
-                $delete       = $model->delete($cid);
+                $model->delete($cid);
                 $post['bulk'] = 'no';
             }
+
             // if file selected from download folder...
             if ($post['hdn_download_file'] != "")
             {
@@ -175,11 +170,14 @@ class media_detailController extends JController
                     $download_path      = "product" . DS . $post['hdn_download_file'];
                     $post['media_name'] = $post['hdn_download_file'];
                 }
+
                 $filenewtype            = strtolower(JFile::getExt($post['hdn_download_file']));
                 $post['media_mimetype'] = $filenewtype;
+
                 if ($post['hdn_download_file_path'] != $download_path)
                 {
                     $filename = time() . '_' . $post['hdn_download_file']; //Make the filename unique
+
                     if ($post['media_type'] == 'download')
                     {
                         $post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
@@ -198,6 +196,7 @@ class media_detailController extends JController
                     }
                     copy($down_src, $down_dest);
                 }
+
                 if ($save = $model->store($post))
                 {
                     $msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
@@ -237,11 +236,7 @@ class media_detailController extends JController
                     $dest               = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
                 }
 
-                $save = $model->store($post);
-
-                // Set First Image as product Main Imaged
-                //if($save->media_section == 'product' && $save->media_type == 'images')
-                //				$model->selectMainProductImage($save->section_id);
+                $model->store($post);
 
                 // Image Upload
 
@@ -263,10 +258,11 @@ class media_detailController extends JController
                     $this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
                 }
             }
-            // Media Bank End
 
+            // Media Bank End
             $post ['media_id'] = 0;
             $directory         = media_detailController::writableCell('components/' . $option . '/assets');
+
             if ($directory == 0)
             {
                 $msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
@@ -615,7 +611,7 @@ class media_detailController extends JController
                             // Set First Image as product Main Imaged
                             if ($row->media_section == 'product' && $row->media_type == 'images')
                                 //									$model->selectMainProductImage($row->section_id);
-                                ////////////////Call Create thumbnail function///////////////////
+                                ////////////////Call Create thumbnail public function///////////////////
 
                             {
                                 $msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
@@ -655,16 +651,16 @@ class media_detailController extends JController
         }
     }
 
-    function remove()
+    public function remove()
     {
-        $post          = JRequest::get('post');
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $media_section = JRequest::getVar('media_section');
-        $cid           = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post          = $this->input->getArray($_POST);
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $media_section = $this->input->get('media_section');
+        $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('media_detail');
@@ -690,16 +686,16 @@ class media_detailController extends JController
         }
     }
 
-    function publish()
+    public function publish()
     {
-        $post          = JRequest::get('post');
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $media_section = JRequest::getVar('media_section');
-        $cid           = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post          = $this->input->getArray($_POST);
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $media_section = $this->input->get('media_section');
+        $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('media_detail');
@@ -725,17 +721,17 @@ class media_detailController extends JController
         }
     }
 
-    function defaultmedia()
+    public function defaultmedia()
     {
-        $post          = JRequest::get('post');
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $media_section = JRequest::getVar('media_section');
-        $primary       = JRequest::getVar('primary');
-        $cid           = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post          = $this->input->getArray($_POST);
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $media_section = $this->input->get('media_section');
+        $primary       = $this->input->get('primary');
+        $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
         }
 
         $model = $this->getModel('media_detail');
@@ -764,16 +760,16 @@ class media_detailController extends JController
         }
     }
 
-    function unpublish()
+    public function unpublish()
     {
-        $post          = JRequest::get('post');
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $media_section = JRequest::getVar('media_section');
-        $cid           = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post          = $this->input->getArray($_POST);
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $media_section = $this->input->get('media_section');
+        $cid           = $this->input->post->get('cid', array(0), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('media_detail');
@@ -799,14 +795,14 @@ class media_detailController extends JController
         }
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $msg    = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
     }
 
-    function writableCell($folder, $relative = 1, $text = '', $visible = 1)
+    public function writableCell($folder, $relative = 1, $text = '', $visible = 1)
     {
         if ($relative)
         {
@@ -819,19 +815,19 @@ class media_detailController extends JController
     }
 
     //ordering
-    function saveorder()
+    public function saveorder()
     {
-        $post          = JRequest::get('post');
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $media_section = JRequest::getVar('media_section');
-        $cid           = JRequest::getVar('cid', array(), 'post', 'array');
-        $order         = JRequest::getVar('order', array(), 'post', 'array');
+        $post          = $this->input->getArray($_POST);
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $media_section = $this->input->get('media_section');
+        $cid           = $this->input->post->get('cid', array(), 'array');
+        $order         = $this->input->post->get('order', array(), 'array');
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
         }
         $model = $this->getModel('media_detail');
         if (!$model->saveorder($cid, $order))
@@ -857,16 +853,16 @@ class media_detailController extends JController
         }
     }
 
-    function orderup()
+    public function orderup()
     {
-        $post          = JRequest::get('post');
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $media_section = JRequest::getVar('media_section');
-        $cid           = JRequest::getVar('cid', array(), 'post', 'array');
+        $post          = $this->input->getArray($_POST);
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $media_section = $this->input->get('media_section');
+        $cid           = $this->input->post->get('cid', array(), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
         }
         $model = $this->getModel('media_detail');
         //if(! $model->move(-1))
@@ -892,16 +888,16 @@ class media_detailController extends JController
         }
     }
 
-    function orderdown()
+    public function orderdown()
     {
-        $post          = JRequest::get('post');
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $media_section = JRequest::getVar('media_section');
-        $cid           = JRequest::getVar('cid', array(), 'post', 'array');
+        $post          = $this->input->getArray($_POST);
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $media_section = $this->input->get('media_section');
+        $cid           = $this->input->post->get('cid', array(), 'array');
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
         }
         $model = $this->getModel('media_detail');
         //if(! $model->move(1))

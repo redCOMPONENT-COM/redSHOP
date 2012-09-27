@@ -9,21 +9,19 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class media_detailModelmedia_detail extends JModel
+class media_detailModelmedia_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_mediadata = null;
+    public $_mediadata = null;
 
-    var $_mediatypedata = null;
+    public $_mediatypedata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
@@ -31,25 +29,26 @@ class media_detailModelmedia_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -61,7 +60,7 @@ class media_detailModelmedia_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -80,7 +79,7 @@ class media_detailModelmedia_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
         if (!$row->bind($data))
@@ -96,7 +95,7 @@ class media_detailModelmedia_detail extends JModel
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -138,7 +137,7 @@ class media_detailModelmedia_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -155,7 +154,7 @@ class media_detailModelmedia_detail extends JModel
         return true;
     }
 
-    function getSection($id, $type)
+    public function getSection($id, $type)
     {
         if ($type == 'product')
         {
@@ -169,7 +168,7 @@ class media_detailModelmedia_detail extends JModel
         return $this->_db->loadObject();
     }
 
-    function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
+    public function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
     {
         if ($media_id && $media_section)
         {
@@ -213,7 +212,7 @@ class media_detailModelmedia_detail extends JModel
         return true;
     }
 
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable();
         $order      = JRequest::getVar('order', array(0), 'post', 'array');
@@ -260,7 +259,7 @@ class media_detailModelmedia_detail extends JModel
         }
     }
 
-    function orderup()
+    public function orderup()
     {
         $row = $this->getTable();
         $row->load($this->_id);
@@ -270,7 +269,7 @@ class media_detailModelmedia_detail extends JModel
         return true;
     }
 
-    function orderdown()
+    public function orderdown()
     {
         $row = $this->getTable();
         $row->load($this->_id);

@@ -1,27 +1,19 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
+defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 
-class xmlexport_detailVIEWxmlexport_detail extends JView
+class xmlexport_detailVIEWxmlexport_detail extends JViewLegacy
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         global $context;
         $context = 'xmlexport_id';
@@ -132,16 +124,15 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
             $colvalue[] = $tmpVal[0];
         }
 
-        $lists['auto_sync']            = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $detail->auto_sync);
-        $lists['sync_on_request']      = JHTML::_('select.booleanlist', 'sync_on_request', 'class="inputbox" size="1"', $detail->sync_on_request);
-        $lists['section_type']         = JHTML::_('select.genericlist', $section_typelist, 'section_type', 'class="inputbox" size="1" onchange="setExportSectionType();" ', 'value', 'text', $detail->section_type);
-        $lists['auto_sync_interval']   = JHTML::_('select.genericlist', $auto_sync_interval, 'auto_sync_interval', 'class="inputbox" size="1" ', 'value', 'text', $detail->auto_sync_interval);
-        $lists['published']            = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
-        $lists['use_to_all_users']     = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users);
-        $categoryData                  = $model->getCategoryList();
-        $detail->xmlexport_on_category = explode(',', $detail->xmlexport_on_category);
-        //$tmp = new stdClass;
-        //$tmp = @array_merge($tmp,$detail->xmlexport_on_category);
+        $lists['auto_sync']          = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $detail->auto_sync);
+        $lists['sync_on_request']    = JHTML::_('select.booleanlist', 'sync_on_request', 'class="inputbox" size="1"', $detail->sync_on_request);
+        $lists['section_type']       = JHTML::_('select.genericlist', $section_typelist, 'section_type', 'class="inputbox" size="1" onchange="setExportSectionType();" ', 'value', 'text', $detail->section_type);
+        $lists['auto_sync_interval'] = JHTML::_('select.genericlist', $auto_sync_interval, 'auto_sync_interval', 'class="inputbox" size="1" ', 'value', 'text', $detail->auto_sync_interval);
+        $lists['published']          = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
+        $lists['use_to_all_users']   = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users);
+        $categoryData                = $model->getCategoryList();
+
+        $detail->xmlexport_on_category  = explode(',', $detail->xmlexport_on_category);
         $lists['xmlexport_on_category'] = JHTML::_('select.genericlist', $categoryData, 'xmlexport_on_category[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->xmlexport_on_category);
 
         if ($layout != "")
@@ -159,7 +150,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
         $this->assignRef('colvalue', $colvalue);
         $this->assignRef('childname', $dbchildname);
         $this->assignRef('iparray', $iparray);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }

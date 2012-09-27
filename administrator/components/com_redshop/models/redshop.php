@@ -9,20 +9,18 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class redshopModelredshop extends JModel
+class redshopModelredshop extends JModelLegacy
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
         $this->_filteroption = 3;
     }
 
-    function demoContentInsert()
+    public function demoContentInsert()
     {
 
         $db = JFactory::getDBO();

@@ -9,32 +9,30 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class mailModelmail extends JModel
+class mailModelmail extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $this->_context      = 'mail_id';
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-        $limit          = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart     = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter         = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $filter_section = $mainframe->getUserStateFromRequest($this->_context . 'filter_section', 'filter_section', 0);
+        $limit          = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart     = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter         = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $filter_section = $app->getUserStateFromRequest($this->_context . 'filter_section', 'filter_section', 0);
 
         $this->setState('filter', $filter);
         $this->setState('filter_section', $filter_section);
@@ -42,7 +40,7 @@ class mailModelmail extends JModel
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -52,7 +50,7 @@ class mailModelmail extends JModel
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -62,7 +60,7 @@ class mailModelmail extends JModel
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -72,7 +70,7 @@ class mailModelmail extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $filter         = $this->getState('filter');
         $filter_section = $this->getState('filter_section');
@@ -91,12 +89,12 @@ class mailModelmail extends JModel
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.mail_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.mail_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
         $orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
     }

@@ -9,28 +9,28 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class orderreddesignController extends JController
+class orderreddesignController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function update_status()
+    public function update_status()
     {
         $model = $this->getModel('orderreddesign');
         $model->update_status();
     }
 
-    function allstatus()
+    public function allstatus()
     {
         $model = $this->getModel('orderreddesign');
         $model->update_status_all();
     }
 
-    function export_data()
+    public function export_data()
     {
         require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 
@@ -60,13 +60,10 @@ class orderreddesignController extends JController
         exit;
     }
 
-    function downloaddesign()
+    public function downloaddesign()
     {
-        $filename = JRequest::getVar('filename');
-        $type     = JRequest::getVar('type');
-
-        //var_dump($_SERVER); die();
-        //$path = $_SERVER['DOCUMENT_ROOT']."/path2file/"; // play with the path if the document root does noet exist
+        $filename = $this->input->get('filename');
+        $type     = $this->input->get('type');
 
         if ($type == "pdf")
         {
@@ -74,13 +71,14 @@ class orderreddesignController extends JController
             $file     = JPATH_ROOT . "/components/com_reddesign/assets/order/pdf/" . $filename;
             header("Content-Type: application/force-download");
         }
+
         else if ($type == "eps")
         {
             $filename = $filename . ".eps";
             $file     = JPATH_ROOT . "/components/com_reddesign/assets/order/eps/" . $filename;
             header("Content-Type: application/eps");
-            // header("Content-Type: application/postscript");
         }
+
         else if ($type == "original")
         {
             $filename = "bg_" . $filename . ".jpeg";
@@ -94,6 +92,7 @@ class orderreddesignController extends JController
 
             header('Content-Length: ' . filesize($file));
         }
+
         else if ($type == "design")
         {
             $filename = $filename . ".jpeg";
@@ -107,18 +106,6 @@ class orderreddesignController extends JController
 
             header('Content-Length: ' . filesize($file));
         }
-        //echo $file ; exit;
-        //$type = mime_content_type( $file); exit;
-        //header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-
-        //header("Content-Type: application/force-download");
-        //
-        //header("Content-Length: ".filesize($file));
-        //header('Content-type: application/pdf');
-        //header('Content-Disposition: attachment; filename="'.filesize($file).'"');
-
-        //@header('Content-Disposition: attachment; filename='.$filename);
-
         flush(); // this doesn't really matter.
         ob_start();
         readfile($file);

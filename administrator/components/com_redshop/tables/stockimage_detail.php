@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablestockimage_detail extends JTable
 {
     public $stock_amount_id = null;
@@ -29,16 +27,5 @@ class Tablestockimage_detail extends JTable
     {
         $this->_table_prefix = '#__redshop_';
         parent::__construct($this->_table_prefix . 'stockroom_amount_image', 'stock_amount_id', $db);
-    }
-
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-        return parent::bind($array, $ignore);
     }
 }

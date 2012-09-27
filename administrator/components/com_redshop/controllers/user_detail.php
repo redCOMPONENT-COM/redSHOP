@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class user_detailController extends JController
+class user_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
@@ -21,23 +21,23 @@ class user_detailController extends JController
         $this->redhelper     = new redhelper();
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'user_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'user_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        $post   = JRequest::get('post');
+        $option = $this->input->getString('option', '');
+        $post   = $this->input->getArray($_POST);
 
         $model    = $this->getModel('user_detail');
         $shipping = isset($post["shipping"]) ? true : false;
@@ -53,7 +53,7 @@ class user_detailController extends JController
 
         if ($shipping)
         {
-            $info_id = JRequest::getVar('info_id', '', 'request', 'string');
+            $info_id = $this->input->getString('info_id', '');
             $link    = 'index.php?option=' . $option . '&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
         }
         else
@@ -72,15 +72,15 @@ class user_detailController extends JController
         $this->setRedirect($link, $msg);
     }
 
-    function remove()
+    public function remove()
     {
-        $option   = JRequest::getVar('option', '', 'request', 'string');
-        $shipping = JRequest::getVar('shipping', '', 'request', 'string');
-        $cid      = JRequest::getVar('cid', array(0), 'request', 'array');
+        $option   = $this->input->getString('option', '');
+        $shipping = $this->input->getString('shipping', '');
+        $cid      = $this->input->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('user_detail');
@@ -88,10 +88,12 @@ class user_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_USER_DETAIL_DELETED_SUCCESSFULLY');
+
         if ($shipping)
         {
-            $info_id = JRequest::getVar('info_id', '', 'request', 'int');
+            $info_id = $this->input->getInt('info_id', '');
             $this->setRedirect('index.php?option=' . $option . '&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg);
         }
         else
@@ -100,15 +102,14 @@ class user_detailController extends JController
         }
     }
 
-    function publish()
+    public function publish()
     {
-        $option = JRequest::getVar('option', '', 'request', 'string');
-        //		$shipping = JRequest::getVar('shipping','','request','string');
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('user_detail');
@@ -116,27 +117,19 @@ class user_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_USER_DETAIL_PUBLISHED_SUCCESSFULLY');
-        //		if($shipping)
-        //		{
-        //			$info_id = JRequest::getVar('info_id', '', 'request', 'int');
-        //			$this->setRedirect ( 'index.php?option='.$option.'&view=user&shipping=1&cancel=1&cid[]='.$info_id, $msg );
-        //		}
-        //		else
-        //		{
         $this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
-        //		}
     }
 
-    function unpublish()
+    public function unpublish()
     {
-        $option   = JRequest::getVar('option', '', 'request', 'string');
-        $shipping = JRequest::getVar('shipping', '', 'request', 'string');
-        $cid      = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('user_detail');
@@ -144,23 +137,16 @@ class user_detailController extends JController
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_USER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-        //		if($shipping)
-        //		{
-        //			$info_id = JRequest::getVar('info_id', '', 'request', 'int');
-        //			$this->setRedirect ( 'index.php?option='.$option.'&view=user&shipping=1&cancel=1&cid[]='.$info_id, $msg );
-        //		}
-        //		else
-        //		{
         $this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
-        //		}
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option   = JRequest::getVar('option', '', 'request', 'string');
-        $shipping = JRequest::getVar('shipping', '', 'request', 'string');
-        $info_id  = JRequest::getVar('info_id', '', 'request', 'string');
+        $option   = $this->input->getString('option', '');
+        $shipping = $this->input->getString('shipping', '');
+        $info_id  = $this->input->getString('info_id', '');
 
         $msg = JText::_('COM_REDSHOP_USER_DETAIL_EDITING_CANCELLED');
         if ($shipping)
@@ -171,20 +157,22 @@ class user_detailController extends JController
         {
             $link = 'index.php?option=' . $option . '&view=user';
         }
+
         $link = $this->redhelper->sslLink($link, 0); //not to apply ssl (passed Zero)
         $this->setRedirect($link, $msg);
     }
 
-    function order()
+    public function order()
     {
-        $option  = JRequest::getVar('option', '', 'request', 'string');
-        $user_id = JRequest::getVar('user_id', 0, 'request', 'string');
+        $option  = $this->input->getString('option', '');
+        $user_id = $this->input->getInt('user_id', 0);
+
         $this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id);
     }
 
-    function validation()
+    public function validation()
     {
-        $json             = JRequest::getVar('json', '');
+        $json             = $this->input->get('json', '');
         $decoded          = json_decode($json);
         $model            = $this->getModel('user_detail');
         $username         = $model->validate_user($decoded->username, $decoded->userid);

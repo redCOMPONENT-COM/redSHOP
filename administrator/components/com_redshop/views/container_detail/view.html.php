@@ -1,136 +1,129 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-
-jimport( 'joomla.application.component.view' );
-
-class container_detailVIEWcontainer_detail extends JView
+class container_detailVIEWcontainer_detail extends JViewLegacy
 {
-	function display($tpl = null)
-	{
+    public function display($tpl = null)
+    {
 
-		$option = JRequest::getVar('option');
-		$conid = JRequest::getVar('conid');
+        $option = JRequest::getVar('option');
+        $conid  = JRequest::getVar('conid');
 
-		$layout = JRequest::getVar('layout');
+        $layout = JRequest::getVar('layout');
 
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_CONTAINER_MANAGEMENT_DETAIL' ), 'redshop_container48' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_CONTAINER_MANAGEMENT_DETAIL'), 'redshop_container48');
 
-		$document = JFactory::getDocument();
+        $document = JFactory::getDocument();
 
-		$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
+        $document->addScript('components/' . $option . '/assets/js/select_sort.js');
+        $document->addStyleSheet('components/com_redshop/assets/css/search.css');
+        $document->addScript('components/com_redshop/assets/js/search.js');
+        $document->addScript('components/' . $option . '/assets/js/fields.js');
+        $document->addScript('components/' . $option . '/assets/js/validation.js');
+        $document->addScript('components/' . $option . '/assets/js/json.js');
 
-		$document->addStyleSheet ( 'components/com_redshop/assets/css/search.css' );
+        $uri = JFactory::getURI();
 
-		$document->addScript ('components/com_redshop/assets/js/search.js');
+        $stock_data = JRequest::getVar('stockroom_data', array());
 
-		$document->addScript ('components/'.$option.'/assets/js/fields.js');
+        if ($layout == 'products')
+        {
+            $this->setLayout('products');
+        }
+        else
+        {
 
-		$document->addScript ('components/'.$option.'/assets/js/validation.js');
+            $this->setLayout('default');
+        }
 
-		$document->addScript ('components/'.$option.'/assets/js/json.js');
+        $lists = array();
 
-		$uri 		= JFactory::getURI();
+        $detail = $this->get('data');
 
-		$stock_data = JRequest::getVar('stockroom_data',array());
+        $isNew = ($detail->container_id < 1);
 
-		if($layout=='products'){
-			$this->setLayout('products');
-		 } else {
+        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-			$this->setLayout('default');
-		 }
+        JToolBarHelper::title(JText::_('COM_REDSHOP_CONTAINER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_container48');
+        JToolBarHelper::apply();
+        JToolBarHelper::save();
 
-		$lists = array();
+        if ($isNew)
+        {
+            JToolBarHelper::cancel();
+        }
+        else
+        {
 
-		$detail	= $this->get('data');
+            JToolBarHelper::cancel('cancel', 'Close');
+        }
 
-		$isNew		= ($detail->container_id < 1);
+        $model = $this->getModel('container_detail');
+        if (count($conid) > 0)
+        {
+            $chk_new                = 1;
+            $container_product_data = $model->Container_newProduct($conid);
+            if (count($container_product_data) > 0)
+            {
+                $detail->supplier_id = $container_product_data[0]->supplier_id;
+            }
+        }
+        else
+        {
+            $container_product_data = $model->Container_Product_Data($detail->container_id);
+            $chk_new                = 0;
+        }
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
+        if (count($container_product_data) > 0)
+        {
+            $result_container = $container_product_data;
+        }
+        else
+        {
+            $result_container = array();
+        }
 
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_CONTAINER' ).': <small><small>[ ' . $text.' ]</small></small>','redshop_container48' );
-		JToolBarHelper::apply();
-		JToolBarHelper::save();
+        $lists['container_product'] = $result_container;
+        $manufacturers              = $model->getmanufacturers();
+        $supplier                   = $model->getsupplier();
+        $result                     = array();
 
-		if ($isNew)  {
-			JToolBarHelper::cancel();
-		} else {
+        //	$lists['product_all'] 	= JHTML::_('select.genericlist',$result,  'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
 
-			JToolBarHelper::cancel( 'cancel', 'Close' );
-		}
+        $manufac       = array();
+        $manufac[]     = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+        $manufacturers = @array_merge($manufac, $manufacturers);
 
+        //	$lists['manufacturers'] = JHTML::_('select.genericlist',$manufacturers,'manufacture_id','class="inputbox"  size="1" ','value','text',$detail->manufacture_id);
 
-		$model=  $this->getModel('container_detail');
-		if(count($conid)>0) { $chk_new=1;
-		$container_product_data = $model->Container_newProduct($conid);
-		if(count($container_product_data)>0)
-		$detail->supplier_id =  $container_product_data[0]->supplier_id;
-		}
-		else {
-		$container_product_data = $model->Container_Product_Data($detail->container_id);
-		$chk_new=0;
-		}
+        $manufac   = array();
+        $manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+        $supplier  = @array_merge($manufac, $supplier);
 
+        $lists['supplier'] = JHTML::_('select.genericlist', $supplier, 'supplier_id', 'class="inputbox" onchange="chk_manufacturer();"  size="1" ', 'value', 'text', $detail->supplier_id);
 
+        $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		if(count($container_product_data)>0)
-		$result_container = $container_product_data;
-		else
-		$result_container = array();
+        $stock    = array();
+        $stock[]  = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+        $stokroom = @array_merge($stock, $stock_data);
 
+        $lists['stock'] = JHTML::_('select.genericlist', $stokroom, 'stockroom_id', 'class="inputbox" size="1"', 'value', 'text', $detail->stockroom_id);
 
-		$lists['container_product'] 	= $result_container;
-		$manufacturers	= $model->getmanufacturers();
-		$supplier	= $model->getsupplier();
-		$result = array();
+        $this->assignRef('conid', $conid);
+        $this->assignRef('chk_new', $chk_new);
+        $this->assignRef('lists', $lists);
+        $this->assignRef('detail', $detail);
+        $this->request_url = $uri->toString();
 
-	//	$lists['product_all'] 	= JHTML::_('select.genericlist',$result,  'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
-
-		$manufac = array();
-		$manufac[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
-		$manufacturers = @array_merge($manufac,$manufacturers);
-
-
-	//	$lists['manufacturers'] = JHTML::_('select.genericlist',$manufacturers,'manufacture_id','class="inputbox"  size="1" ','value','text',$detail->manufacture_id);
-
-		$manufac = array();
-		$manufac[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
-		$supplier = @array_merge($manufac,$supplier);
-
-		$lists['supplier'] = JHTML::_('select.genericlist',$supplier,'supplier_id','class="inputbox" onchange="chk_manufacturer();"  size="1" ','value','text',$detail->supplier_id);
-
-
-		$lists['published'] 	= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $detail->published );
-
-		$stock = array();
-		$stock[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
-		$stokroom = @array_merge($stock,$stock_data);
-
-		$lists['stock'] 	= JHTML::_('select.genericlist', $stokroom ,  'stockroom_id', 'class="inputbox" size="1"', 'value', 'text', $detail->stockroom_id );
-
-		$this->assignRef('conid',$conid);
-		$this->assignRef('chk_new',$chk_new);
-		$this->assignRef('lists',			$lists);
-		$this->assignRef('detail',		$detail);
-		$this->assignRef('request_url',	$uri->toString());
-
-		parent::display($tpl);
-	}
-
+        parent::display($tpl);
+    }
 }

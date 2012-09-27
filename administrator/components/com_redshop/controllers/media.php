@@ -9,23 +9,24 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-jimport('joomla.filesystem.file');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class mediaController extends JController
+class mediaController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
 
-    function saveAdditionalFiles()
+    public function saveAdditionalFiles()
     {
-        $post      = JRequest::get('POST');
-        $file      = JRequest::getVar('downloadfile', 'array', 'files', 'array');
+        $post = $this->input->getArray($_POST);
+        $file = $this->input->files->get('downloadfile', array(), 'array');
+
         $totalFile = count($file['name']);
         $model     = $this->getModel();
-        //		if file selected from download folder...
+
+        // If file selected from download folder...
         $product_download_root = PRODUCT_DOWNLOAD_ROOT;
         if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
         {
@@ -36,7 +37,7 @@ class mediaController extends JController
         {
             $download_path = $product_download_root . $post['hdn_download_file_path'];
             $post['name']  = $post['hdn_download_file'];
-            $filenewtype   = strtolower(JFile::getExt($post['hdn_download_file']));
+
             if ($post['hdn_download_file_path'] != $download_path)
             {
                 $filename     = time() . '_' . $post['hdn_download_file']; //Make the filename unique
@@ -55,6 +56,7 @@ class mediaController extends JController
                 $msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
             }
         }
+
         for ($i = 0; $i < $totalFile; $i++)
         {
             $errors = $file['error'][$i];
@@ -90,11 +92,12 @@ class mediaController extends JController
         $this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=' . $post['media_id'] . '&showbuttons=1', $msg);
     }
 
-    function deleteAddtionalFiles()
+    public function deleteAddtionalFiles()
     {
-        $media_id = JRequest::getInt('media_id');
-        $fileId   = JRequest::getInt('fileId');
-        $model    = $this->getModel();
+        $media_id = $this->input->getInt('media_id', 0);
+        $fileId   = $this->input->getInt('fileId', 0);
+
+        $model = $this->getModel();
         if ($model->deleteAddtionalFiles($fileId))
         {
             $msg = JText::_('COM_REDSHOP_FILE_DELETED');
@@ -107,28 +110,32 @@ class mediaController extends JController
     }
 
     //ordering
-    function saveorder()
+    public function saveorder()
     {
-        $option        = JRequest::getVar('option');
-        $section_id    = JRequest::getVar('section_id');
-        $section_name  = JRequest::getVar('section_name');
-        $media_section = JRequest::getVar('media_section');
-        $cid           = JRequest::getVar('cid', array(), 'post', 'array');
-        $order         = JRequest::getVar('order', array(), 'post', 'array');
+        $option        = $this->input->get('option');
+        $section_id    = $this->input->get('section_id');
+        $section_name  = $this->input->get('section_name');
+        $media_section = $this->input->get('media_section');
+        $cid           = $this->input->post->get('cid', array(), 'array');
+        $order         = $this->input->post->get('order', array(), 'array');
 
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);
+
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
         }
+
         $model = $this->getModel('media');
+
         if (!$model->saveorder($cid, $order))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+
         if (isset($section_id))
         {
             $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&section_name=' . $section_name . '&media_section=' . $media_section, $msg);

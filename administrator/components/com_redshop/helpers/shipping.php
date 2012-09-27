@@ -21,17 +21,16 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 include_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 class shipping
 {
-    var $_db;
+    public $_db;
 
-    function __construct()
+    public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
         $this->producthelper = new producthelper();
         $this->_db           = JFactory::getDBO();
     }
 
-    function getDeliveryTimeOfProduct($product_id)
+    public function getDeliveryTimeOfProduct($product_id)
     {
         $sql = "SELECT max_del_time FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
 	     		WHERE  cx.container_id = c.container_id AND cx.product_id = '$product_id' order by max_del_time desc";
@@ -44,7 +43,7 @@ class shipping
         return $delivery;
     }
 
-    function getProductContainerId($product_id)
+    public function getProductContainerId($product_id)
     {
         $sql = "SELECT c.container_id FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
 	     		WHERE  cx.container_id = c.container_id AND cx.product_id = '$product_id' order by max_del_time desc";
@@ -52,7 +51,7 @@ class shipping
         return $this->_db->loadResult();
     }
 
-    function getRegularDelivery()
+    public function getRegularDelivery()
     {
         $session = JFactory::getSession();
         $cart    = $session->get('cart');
@@ -108,7 +107,7 @@ class shipping
         return $delarr;
     }
 
-    function getSplitDelivery()
+    public function getSplitDelivery()
     {
 
         $session = JFactory::getSession();
@@ -228,7 +227,7 @@ class shipping
         return ($return);
     }
 
-    function getProductDeliveryArray($shipping_rate_id)
+    public function getProductDeliveryArray($shipping_rate_id)
     {
 
         if (strstr($shipping_rate_id, "regular"))
@@ -257,9 +256,9 @@ class shipping
     }
 
     /*
-    *  function ******** To get Shipping rate for cart
+    *  public function ******** To get Shipping rate for cart
     */
-    function getDefaultShipping($d)
+    public function getDefaultShipping($d)
     {
         $userhelper     = new rsUserhelper();
         $session        = JFactory::getSession();
@@ -459,7 +458,7 @@ class shipping
       *  function ******** To get Shipping rate for xmlexport
       */
 
-    function getDefaultShipping_xmlexport($d)
+    public function getDefaultShipping_xmlexport($d)
     {
         $userhelper     = new rsUserhelper();
         $session        = JFactory::getSession();
@@ -643,7 +642,7 @@ class shipping
       *  return only one shipping rate on cart page...
       * this function is called by ajax
       */
-    function getShippingrate_calc()
+    public function getShippingrate_calc()
     {
         $country    = JRequest :: getVar('country_code');
         $state      = JRequest :: getVar('state_code');
@@ -846,7 +845,7 @@ class shipping
     }
 
     /******************New Function used in redshop 1.1**********************/
-    function encryptShipping($Str_Message)
+    public function encryptShipping($Str_Message)
     {
         $Len_Str_Message       = strlen($Str_Message);
         $Str_Encrypted_Message = "";
@@ -866,7 +865,7 @@ class shipping
         return $result;
     }
 
-    function decryptShipping($Str_Message)
+    public function decryptShipping($Str_Message)
     {
         $Str_Message           = base64_decode($Str_Message);
         $Len_Str_Message       = strlen($Str_Message);
@@ -885,7 +884,7 @@ class shipping
         return $Str_Encrypted_Message;
     }
 
-    function getShippingAddress($user_info_id)
+    public function getShippingAddress($user_info_id)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info ' . 'WHERE users_info_id="' . $user_info_id . '" ';
         $this->_db->setQuery($query);
@@ -893,7 +892,7 @@ class shipping
         return $result;
     }
 
-    function getShippingMethodByClass($shipping_class = '')
+    public function getShippingMethodByClass($shipping_class = '')
     {
         $folder = strtolower('redshop_shipping');
         $query  = "SELECT * FROM #__extensions " . "WHERE LOWER(`folder`) = '{$folder}' " . "AND element='" . $shipping_class . "' ";
@@ -902,7 +901,7 @@ class shipping
         return $result;
     }
 
-    function getShippingMethodById($id = 0)
+    public function getShippingMethodById($id = 0)
     {
         $folder = strtolower('redshop_shipping');
 
@@ -912,7 +911,7 @@ class shipping
         return $list;
     }
 
-    function getShippingRates($shipping_class)
+    public function getShippingRates($shipping_class)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate " . "WHERE shipping_class='" . $shipping_class . "' ";
         $this->_db->setQuery($query);
@@ -920,7 +919,7 @@ class shipping
         return $result;
     }
 
-    function applyVatOnShippingRate($shippingrate = array(), $user_id)
+    public function applyVatOnShippingRate($shippingrate = array(), $user_id)
     {
         $shipping_rate_vat = $shippingrate->shipping_rate_value;
         if ($shippingrate->apply_vat == 1)
@@ -938,7 +937,7 @@ class shipping
         return $shipping_rate_vat;
     }
 
-    function listshippingrates($shipping_class, $users_info_id, &$d)
+    public function listshippingrates($shipping_class, $users_info_id, &$d)
     {
         $userhelper     = new rsUserhelper();
         $order_subtotal = $d['order_subtotal'];
@@ -1161,7 +1160,7 @@ class shipping
         }
     }
 
-    function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
+    public function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
     {
         $user = JFactory::getUser();
         if ($user_id == 0)
@@ -1228,7 +1227,7 @@ class shipping
         return $taxdata;
     }
 
-    function getShopperGroupDefaultShipping($user_id = 0)
+    public function getShopperGroupDefaultShipping($user_id = 0)
     {
 
         $shippingArr = array();
@@ -1274,7 +1273,7 @@ class shipping
     }
 
     // function to find first number position.
-    function strposa($haystack, $needles = array(), $offset = 0)
+    public function strposa($haystack, $needles = array(), $offset = 0)
     {
         $chr = array();
         foreach ($needles as $needle)
@@ -1291,7 +1290,7 @@ class shipping
         return min($chr);
     }
 
-    function filter_by_priority($shippingrate)
+    public function filter_by_priority($shippingrate)
     {
         $tmp_shippingrates = array();
         for ($i = 0, $j = 0; $i < count($shippingrate); $i++)
@@ -1310,7 +1309,7 @@ class shipping
       *
       * @return: array $cases , 3cases of shipping
       */
-    function getProductVolumeShipping()
+    public function getProductVolumeShipping()
     {
         $session = JFactory::getSession();
         $cart    = $session->get('cart');
@@ -1408,7 +1407,7 @@ class shipping
         return $cases;
     }
 
-    function getCartItemDimention()
+    public function getCartItemDimention()
     {
         $session = JFactory::getSession();
         $cart    = $session->get('cart');
@@ -1452,7 +1451,7 @@ class shipping
       *
       * @return: string	, html (radio button table row )
       */
-    function getShippingBox()
+    public function getShippingBox()
     {
         $volumeShipping = $this->getProductVolumeShipping();
 
@@ -1487,7 +1486,7 @@ class shipping
       *
       * @return: array , box dimensions
       */
-    function getBoxDimensions($boxid = 0)
+    public function getBoxDimensions($boxid = 0)
     {
         $whereShippingBoxes = array();
         if ($boxid)
@@ -1505,7 +1504,7 @@ class shipping
         return $whereShippingBoxes;
     }
 
-    function getShippingRateError(&$d)
+    public function getShippingRateError(&$d)
     {
         $bool = $this->isCartDimentionMatch($d);
         if ($bool)
@@ -1534,7 +1533,7 @@ class shipping
         }
     }
 
-    function isCartDimentionMatch(&$d)
+    public function isCartDimentionMatch(&$d)
     {
         $order_subtotal = $d['order_subtotal'];
 
@@ -1582,7 +1581,7 @@ class shipping
         return false;
     }
 
-    function isUserInfoMatch(&$d)
+    public function isUserInfoMatch(&$d)
     {
         $userhelper   = new rsUserhelper();
         $shippingrate = array();
@@ -1638,7 +1637,7 @@ class shipping
         return false;
     }
 
-    function isProductDetailMatch(&$d)
+    public function isProductDetailMatch(&$d)
     {
         $session = JFactory::getSession();
         $cart    = $session->get('cart');
@@ -1689,7 +1688,7 @@ class shipping
         return false;
     }
 
-    function getfreeshippingRate($shipping_rate_id = 0)
+    public function getfreeshippingRate($shipping_rate_id = 0)
     {
         $userhelper      = new rsUserhelper();
         $session         = JFactory::getSession();

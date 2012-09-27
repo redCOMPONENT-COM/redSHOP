@@ -1,27 +1,21 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.application.component.view');
+
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
 
-class template_detailVIEWtemplate_detail extends JView
+class template_detailVIEWtemplate_detail extends JViewLegacy
 {
-    function display ($tpl = null)
+    function display($tpl = null)
     {
-        $mainframe = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMET'), 'redshop_templates48');
 
@@ -36,9 +30,10 @@ class template_detailVIEWtemplate_detail extends JView
         $redtemplate = new Redtemplate();
 
         // 	fail if checked out not by 'me'
-        if ($model->isCheckedOut($user->get('id'))) {
+        if ($model->isCheckedOut($user->get('id')))
+        {
             $msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-            $mainframe->redirect('index.php?option=com_redshop&view=template', $msg);
+            $app->redirect('index.php?option=com_redshop&view=template', $msg);
         }
 
         $this->setLayout('default');
@@ -57,9 +52,12 @@ class template_detailVIEWtemplate_detail extends JView
 
         JToolBarHelper::save();
 
-        if ($isNew) {
+        if ($isNew)
+        {
             JToolBarHelper::cancel();
-        } else {
+        }
+        else
+        {
 
             //EDIT - check out the item
             $model->checkout($user->get('id'));
@@ -68,7 +66,8 @@ class template_detailVIEWtemplate_detail extends JView
         }
         // TEMPLATE MOVE DB TO FILE
         $post = JRequest::get('post');
-        if ($isNew && (isset($post['template_name']) && $post['template_name'] != "")) {
+        if ($isNew && (isset($post['template_name']) && $post['template_name'] != ""))
+        {
             $detail->template_name    = $post['template_name'];
             $detail->template_section = $post['template_section'];
             $template_desc            = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -89,21 +88,18 @@ class template_detailVIEWtemplate_detail extends JView
         $paymentMethod = $order_functions->getPaymentMethodInfo();
 
         $payment_methods = explode(',', $detail->payment_methods);
-        //$tmp = new stdClass;
-        //$tmp = @array_merge($tmp,$payment_methods);
+
         $lists['payment_methods'] = JHTML::_('select.genericlist', $paymentMethod, 'payment_methods[]', 'class="inputbox" multiple="multiple" size="4" ', 'element', 'name', $payment_methods);
 
         $shippingMethod   = $order_functions->getShippingMethodInfo();
         $shipping_methods = explode(',', $detail->shipping_methods);
-        //$tmp = new stdClass;
-        //$tmp = @array_merge($tmp,$shipping_methods);
 
         $lists['shipping_methods'] = JHTML::_('select.genericlist', $shippingMethod, 'shipping_methods[]', 'class="inputbox" multiple="multiple" size="4" ', 'element', 'name', $shipping_methods);
         $lists['order_status']     = $order_functions->getstatuslist('order_status', $detail->order_status, 'class="inputbox" multiple="multiple"');
 
         $this->assignRef('lists', $lists);
         $this->assignRef('detail', $detail);
-        $this->assignRef('request_url', $uri->toString());
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }

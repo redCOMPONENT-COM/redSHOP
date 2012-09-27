@@ -9,38 +9,36 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class currency_detailController extends JController
+class currency_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        JRequest::setVar('view', 'currency_detail');
-        JRequest::setVar('layout', 'default');
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('view', 'currency_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $currency_name         = JRequest::getVar('currency_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        $post["currency_name"] = $currency_name;
-        $option                = JRequest::getVar('option');
-        $cid                   = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post                  = $this->input->getArray($_POST);
+        $post["currency_name"] = $this->input->post->getString('currency_name', '');
+        $option                = $this->input->get('option');
+        $cid                   = $this->input->post->get('cid', array(0), 'array');
         $post ['currency_id']  = $cid [0];
         $model                 = $this->getModel('currency_detail');
         $row                   = $model->store($post);
@@ -64,29 +62,31 @@ class currency_detailController extends JController
         }
     }
 
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_CURRENCY_DETAIL_EDITING_CANCELLED');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
     }
 
-    function remove()
+    public function remove()
     {
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('currency_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
     }

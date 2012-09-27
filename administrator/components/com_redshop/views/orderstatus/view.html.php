@@ -1,55 +1,49 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-class orderstatusVieworderstatus extends JView
+class orderstatusVieworderstatus extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
+    public function display($tpl = null)
+    {
+        global $context;
 
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_ORDERSTATUS') );
+        $app = JFactory::getApplication();
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT' ), 'redshop_order48' );
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_ORDERSTATUS'));
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+        JToolBarHelper::title(JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT'), 'redshop_order48');
 
-		$uri	= JFactory::getURI();
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'order_status_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+        $uri = JFactory::getURI();
 
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$orderstatus	= $this->get( 'Data');
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_status_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$pagination = $this->get( 'Pagination' );
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
+        $orderstatus        = $this->get('Data');
 
-    	$this->assignRef('user',		JFactory::getUser());
-    	$this->assignRef('lists',		$lists);
-  		$this->assignRef('orderstatus',	$orderstatus);
-    	$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
-    	parent::display($tpl);
-  }
+        $pagination = $this->get('Pagination');
+
+        $this->user = JFactory::getUser();
+        $this->assignRef('lists', $lists);
+        $this->assignRef('orderstatus', $orderstatus);
+        $this->assignRef('pagination', $pagination);
+        $this->request_url = $uri->toString();
+        parent::display($tpl);
+    }
 }

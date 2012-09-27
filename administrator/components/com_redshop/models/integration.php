@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class integrationModelintegration extends JModel
+class integrationModelintegration extends JModelLegacy
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -21,7 +19,7 @@ class integrationModelintegration extends JModel
     /*
       *  download googlebase xml file
       */
-    function gbasedownload()
+    public function gbasedownload()
     {
         $file_path = JPATH_COMPONENT_SITE . DS . "assets" . DS . "document" . DS . "gbase" . DS . "product.xml";
         if (!file_exists($file_path))

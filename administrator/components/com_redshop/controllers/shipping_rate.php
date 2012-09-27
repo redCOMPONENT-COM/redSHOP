@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class shipping_ratecontroller extends JController
+class shipping_ratecontroller extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
-        $post = JRequest::get('post');
+        $post = $this->input->getArray($_POST);
         $this->setRedirect('index.php?option=' . $post['option'] . '&view=shipping_detail&task=edit&cid[]=' . $post['id']);
     }
 }

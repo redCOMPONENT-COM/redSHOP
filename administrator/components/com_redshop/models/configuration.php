@@ -9,27 +9,23 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-jimport('joomla.filesystem.file');
-
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
-class configurationModelconfiguration extends JModel
+class configurationModelconfiguration extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_configpath = null;
+    public $_configpath = null;
 
-    var $_configdata = null;
+    public $_configdata = null;
 
-    var $Redconfiguration = null;
+    public $Redconfiguration = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -40,7 +36,7 @@ class configurationModelconfiguration extends JModel
         $this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
     }
 
-    function cleanFileName($name, $id = null)
+    public function cleanFileName($name, $id = null)
     {
         //$value = htmlspecialchars($name, ENT_QUOTES);
         $filetype = JFile::getExt($name);
@@ -61,7 +57,7 @@ class configurationModelconfiguration extends JModel
         return $filename;
     }
 
-    function store($data)
+    public function store($data)
     {
         # Product Default Image upload
 
@@ -520,7 +516,7 @@ class configurationModelconfiguration extends JModel
      *
      * @returns boolean True when the configuration file is writeable, false when not
      */
-    function configurationWriteable()
+    public function configurationWriteable()
     {
         return is_writeable($this->_configpath);
     }
@@ -532,12 +528,12 @@ class configurationModelconfiguration extends JModel
      *
      * @returns boolean True when the configuration file is writeable, false when not
      */
-    function configurationReadable()
+    public function configurationReadable()
     {
         return is_readable($this->_configpath);
     }
 
-    function configurationPrepare($d)
+    public function configurationPrepare($d)
     {
 
         # defination file for wizard
@@ -555,7 +551,7 @@ class configurationModelconfiguration extends JModel
      *
      * @returns boolean True when writing was successful
      */
-    function configurationWrite()
+    public function configurationWrite()
     {
 
         $config = "<?php\n";
@@ -586,7 +582,7 @@ class configurationModelconfiguration extends JModel
       * currency_code as value
       * currency_name as text
       */
-    function getCurrency($currency = "")
+    public function getCurrency($currency = "")
     {
         $where = "";
         if ($currency)
@@ -598,14 +594,14 @@ class configurationModelconfiguration extends JModel
         return $this->_db->loadObjectlist();
     }
 
-    function getnewsletters()
+    public function getnewsletters()
     {
         $query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function cleardata()
+    public function cleardata()
     {
 
         $redirect = "";
@@ -639,7 +635,7 @@ class configurationModelconfiguration extends JModel
     }
 
     // get private shopper group detail
-    function getShopperGroupPrivate()
+    public function getShopperGroupPrivate()
     {
         $query = "SELECT shopper_group_id as value , shopper_group_name as text " . " FROM " . $this->_table_prefix . "shopper_group " . " WHERE `shopper_group_customer_type` = '1'";
         $this->_db->setQuery($query);
@@ -647,21 +643,21 @@ class configurationModelconfiguration extends JModel
     }
 
     // get company shopper group detail
-    function getShopperGroupCompany()
+    public function getShopperGroupCompany()
     {
         $query = "SELECT shopper_group_id as value , shopper_group_name as text " . " FROM " . $this->_table_prefix . "shopper_group " . " WHERE `shopper_group_customer_type` = '0'";
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    /*function getShopperGroupTaxexempt(){
+    /*public function getShopperGroupTaxexempt(){
          $query = "SELECT shopper_group_id as value , shopper_group_name as text "
                  ." FROM ".$this->_table_prefix."shopper_group "
                  ." WHERE `tax_exempt` = '1' ";
          $this->_db->setQuery( $query );
          return $this->_db->loadObjectList();
      }*/
-    /*function getAllArticle(){
+    /*public function getAllArticle(){
          $query = 'SELECT a.sectionid,a.catid, a.id AS value, a.title AS text ' .
                                  ' FROM #__content AS a' .
                                  ' WHERE a.state = 1';
@@ -702,14 +698,14 @@ class configurationModelconfiguration extends JModel
 
          return $article;
      }*/
-    function getVatGroup()
+    public function getVatGroup()
     {
         $query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM ' . $this->_table_prefix . 'tax_group as tg WHERE tg.published=1 ';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getnewsletter_content($newsletter_id)
+    public function getnewsletter_content($newsletter_id)
     {
         $query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM ' . $this->_table_prefix . 'newsletter AS n ' . 'LEFT JOIN ' . $this->_table_prefix . 'template AS nt ON n.template_id=nt.template_id ' . 'WHERE n.published=1 ' . 'AND n.newsletter_id="' . $newsletter_id . '" ';
         $this->_db->setQuery($query);
@@ -717,21 +713,21 @@ class configurationModelconfiguration extends JModel
         return $list;
     }
 
-    function getProductIdList()
+    public function getProductIdList()
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function getnewsletterproducts_content()
+    public function getnewsletterproducts_content()
     {
         $query = 'SELECT nt.template_desc FROM ' . $this->_table_prefix . 'template as nt ' . 'WHERE nt.template_section="newsletter_product" ';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function newsletterEntry($data)
+    public function newsletterEntry($data)
     {
         $db            = JFactory::getDBO();
         $newsletter_id = $data['default_newsletter'];
@@ -846,7 +842,7 @@ class configurationModelconfiguration extends JModel
         return false;
     }
 
-    function getOrderstatus()
+    public function getOrderstatus()
     {
         $query = "SELECT order_status_code AS value, order_status_name AS text" . "\n FROM " . $this->_table_prefix . "order_status  where published = '1'";
 
@@ -859,7 +855,7 @@ class configurationModelconfiguration extends JModel
       * handle .htaccess file for download product
       * @param: product download root path
       */
-    function handleHtaccess($product_download_root)
+    public function handleHtaccess($product_download_root)
     {
 
         $row_product_download_root = PRODUCT_DOWNLOAD_ROOT;
@@ -909,7 +905,7 @@ class configurationModelconfiguration extends JModel
     }
 
     /* Get current version of redshop */
-    function getcurrentversion()
+    public function getcurrentversion()
     {
 
         $xmlfile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'com_redshop.xml';
@@ -925,7 +921,7 @@ class configurationModelconfiguration extends JModel
     }
 
     /* Get all installed module for redshop*/
-    function getinstalledmodule()
+    public function getinstalledmodule()
     {
         $db    = JFactory::getDBO();
         $query = "SELECT * FROM #__extensions WHERE `element` LIKE '%mod_redshop%'";
@@ -936,7 +932,7 @@ class configurationModelconfiguration extends JModel
     }
 
     /* Get all installed payment plugins for redshop*/
-    function getinstalledplugins($secion = 'redshop_payment')
+    public function getinstalledplugins($secion = 'redshop_payment')
     {
         $db    = JFactory::getDBO();
         $query = "SELECT * FROM #__extensions WHERE `folder` = '" . $secion . "' ";
@@ -945,7 +941,7 @@ class configurationModelconfiguration extends JModel
         return $redshop_plugins;
     }
 
-    function resetTemplate()
+    public function resetTemplate()
     {
         $Redtemplate = new Redtemplate();
         $db          = JFactory::getDBO();

@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class voucher_detailModelvoucher_detail extends JModel
+class voucher_detailModelvoucher_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -30,25 +28,26 @@ class voucher_detailModelvoucher_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         if (empty($this->_data))
         {
@@ -60,7 +59,7 @@ class voucher_detailModelvoucher_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -81,7 +80,7 @@ class voucher_detailModelvoucher_detail extends JModel
         return true;
     }
 
-    function store($data)
+    public function store($data)
     {
         $row = $this->getTable();
 
@@ -120,7 +119,7 @@ class voucher_detailModelvoucher_detail extends JModel
         return $row;
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -138,7 +137,7 @@ class voucher_detailModelvoucher_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -156,7 +155,7 @@ class voucher_detailModelvoucher_detail extends JModel
         return true;
     }
 
-    function product_data()
+    public function product_data()
     {
         $query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv," . $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
         $this->_db->setQuery($query);
@@ -164,7 +163,7 @@ class voucher_detailModelvoucher_detail extends JModel
         return $this->_productdata;
     }
 
-    function voucher_products_sel($voucher_id)
+    public function voucher_products_sel($voucher_id)
     {
         $query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
         $this->_db->setQuery($query);
@@ -172,7 +171,7 @@ class voucher_detailModelvoucher_detail extends JModel
         return $this->_productdata;
     }
 
-    function checkduplicate($discount_code)
+    public function checkduplicate($discount_code)
     {
 
         $query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons" . " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code" . " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";

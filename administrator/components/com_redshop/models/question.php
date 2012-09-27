@@ -9,34 +9,32 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class questionModelquestion extends JModel
+class questionModelquestion extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        global $mainframe;
+        $app            = JFactory::getApplication();
         $this->_context = 'question_id';
 
         $this->_table_prefix = '#__redshop_';
 
-        $limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-        $filter     = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $product_id = $mainframe->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
+        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $product_id = $app->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
@@ -44,7 +42,7 @@ class questionModelquestion extends JModel
         $this->setState('product_id', $product_id);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -54,7 +52,7 @@ class questionModelquestion extends JModel
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -64,7 +62,7 @@ class questionModelquestion extends JModel
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -75,14 +73,14 @@ class questionModelquestion extends JModel
         return $this->_pagination;
     }
 
-    function getProduct()
+    public function getProduct()
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product ";
         $list  = $this->_data = $this->_getList($query);
         return $list;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $where      = "";
         $filter     = $this->getState('filter');
@@ -101,12 +99,12 @@ class questionModelquestion extends JModel
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
         $orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
         return $orderby;
@@ -118,7 +116,7 @@ class questionModelquestion extends JModel
      * @access public
      * @return boolean
      */
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable('question_detail');
         $order     = JRequest::getVar('order', array(0), 'post', 'array');

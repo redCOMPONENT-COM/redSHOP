@@ -9,39 +9,39 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
-class orderreddesignModelorderreddesign extends JModel
+class orderreddesignModelorderreddesign extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context = null;
+    public $_context = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $this->_context      = 'order_id';
         $this->_table_prefix = '#__redshop_';
-        $limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-        $filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
-        $filter        = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
+        $filter        = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
         $this->setState('filter', $filter);
         $this->setState('filter_status', $filter_status);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -52,7 +52,7 @@ class orderreddesignModelorderreddesign extends JModel
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -62,7 +62,7 @@ class orderreddesignModelorderreddesign extends JModel
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -73,7 +73,7 @@ class orderreddesignModelorderreddesign extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $order_id      = array();
         $filter        = $this->getState('filter');
@@ -117,31 +117,31 @@ class orderreddesignModelorderreddesign extends JModel
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' cdate ');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' cdate ');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
 
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
     }
 
-    function update_status()
+    public function update_status()
     {
         $order_function = new order_functions();
         $order_function->update_status();
     }
 
-    function update_status_all()
+    public function update_status_all()
     {
         $order_function = new order_functions();
         $order_function->update_status_all();
     }
 
-    function export_data()
+    public function export_data()
     {
 
         $cid      = JRequest::getVar('cid', array(0), 'method', 'array');
@@ -151,7 +151,7 @@ class orderreddesignModelorderreddesign extends JModel
     }
 
     // reddesign
-    function getdesignorder()
+    public function getdesignorder()
     {
         $query = "SELECT order_id FROM #__reddesign_order ";
         $this->_db->setQuery($query);
@@ -160,7 +160,7 @@ class orderreddesignModelorderreddesign extends JModel
         return $designorder;
     }
 
-    function getorderdesign($order_id)
+    public function getorderdesign($order_id)
     {
         $query = "SELECT * FROM #__reddesign_order where order_id=" . $order_id;
         $this->_db->setQuery($query);

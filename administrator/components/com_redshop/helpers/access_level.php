@@ -18,13 +18,12 @@ class Redaccesslevel
      * define default path
      *
      */
-    function __construct()
+    public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
     }
 
-    function checkaccessofuser($group_id)
+    public function checkaccessofuser($group_id)
     {
         $db    = JFactory::getDBO();
         $query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager" . " WHERE `view`=1 and `gid` = '" . $group_id . "'";
@@ -33,7 +32,7 @@ class Redaccesslevel
         return $access_section;
     }
 
-    function checkgroup_access($view, $task, $group_id)
+    public function checkgroup_access($view, $task, $group_id)
     {
 
         if ($task == '')
@@ -57,9 +56,9 @@ class Redaccesslevel
         }
     }
 
-    function getgroup_access($view, $group_id)
+    public function getgroup_access($view, $group_id)
     {
-        $mainframe = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         $db    = JFactory::getDBO();
         $query = "SELECT view  FROM " . $this->_table_prefix . "accessmanager" . " WHERE `section_name` = '" . $view . "' AND `gid` = '" . $group_id . "'";
@@ -69,52 +68,52 @@ class Redaccesslevel
         if ($accessview != 1)
         {
             $msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-            $mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+            $app->redirect($_SERVER['HTTP_REFERER'], $msg);
         }
     }
 
-    function getgroup_accesstaskadd($view, $task, $group_id)
+    public function getgroup_accesstaskadd($view, $task, $group_id)
     {
-        $mainframe = JFactory::getApplication();
-        $db        = JFactory::getDBO();
-        $query     = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager" . " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
+        $app   = JFactory::getApplication();
+        $db    = JFactory::getDBO();
+        $query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager" . " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
         $db->setQuery($query);
         $accessview = $db->loadObjectList();
 
         if ($accessview[0]->add != 1)
         {
             $msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-            $mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+            $app->redirect($_SERVER['HTTP_REFERER'], $msg);
         }
     }
 
-    function getgroup_accesstaskedit($view, $task, $group_id)
+    public function getgroup_accesstaskedit($view, $task, $group_id)
     {
-        $mainframe = JFactory::getApplication();
-        $db        = JFactory::getDBO();
-        $query     = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager" . " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
+        $app   = JFactory::getApplication();
+        $db    = JFactory::getDBO();
+        $query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager" . " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
         $db->setQuery($query);
         $accessview = $db->loadObjectList();
 
         if ($accessview[0]->edit != 1)
         {
             $msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-            $mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+            $app->redirect($_SERVER['HTTP_REFERER'], $msg);
         }
     }
 
-    function getgroup_accesstaskdelete($view, $task, $group_id)
+    public function getgroup_accesstaskdelete($view, $task, $group_id)
     {
-        $mainframe = JFactory::getApplication();
-        $db        = JFactory::getDBO();
-        $query     = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager" . " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
+        $app   = JFactory::getApplication();
+        $db    = JFactory::getDBO();
+        $query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager" . " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
         $db->setQuery($query);
         $accessview = $db->loadObjectList();
 
         if ($accessview[0]->delete != 1)
         {
             $msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-            $mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+            $app->redirect($_SERVER['HTTP_REFERER'], $msg);
         }
     }
 }

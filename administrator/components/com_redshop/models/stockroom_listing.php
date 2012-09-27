@@ -9,53 +9,44 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
-class stockroom_listingModelstockroom_listing extends JModel
+class stockroom_listingModelstockroom_listing extends JModelLegacy
 {
-    var $_data = null;
+    public $_data = null;
 
-    var $_total = null;
+    public $_total = null;
 
-    var $_pagination = null;
+    public $_pagination = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $_context2 = null;
+    public $_context2 = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        global $mainframe;
-        //		 if (USE_CONTAINER)
-        //		 {
-        //			$context2 = 'c.container_id';
-        //		}
-        //		else
-        //		{
+        $app = JFactory::getApplication();
+
         $this->_context2 = 'p.product_id';
-        //		}
 
         $this->_table_prefix = '#__redshop_';
-        $limit               = $mainframe->getUserStateFromRequest($this->_context2 . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-        $limitstart          = $mainframe->getUserStateFromRequest($this->_context2 . 'limitstart', 'limitstart', 0);
-        $stockroom_type      = $mainframe->getUserStateFromRequest($this->_context2 . 'stockroom_type', 'stockroom_type', '');
-        $search_field        = $mainframe->getUserStateFromRequest($this->_context2 . 'search_field', 'search_field', '');
-        $keyword             = $mainframe->getUserStateFromRequest($this->_context2 . 'keyword', 'keyword', '');
-        $category_id         = $mainframe->getUserStateFromRequest($this->_context2 . 'category_id', 'category_id', '');
-        //		$atttype     = $mainframe->getUserStateFromRequest( $this->_context2.'atttype','atttype',0);
+        $limit               = $app->getUserStateFromRequest($this->_context2 . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart          = $app->getUserStateFromRequest($this->_context2 . 'limitstart', 'limitstart', 0);
+        $stockroom_type      = $app->getUserStateFromRequest($this->_context2 . 'stockroom_type', 'stockroom_type', '');
+        $search_field        = $app->getUserStateFromRequest($this->_context2 . 'search_field', 'search_field', '');
+        $keyword             = $app->getUserStateFromRequest($this->_context2 . 'keyword', 'keyword', '');
+        $category_id         = $app->getUserStateFromRequest($this->_context2 . 'category_id', 'category_id', '');
 
         $this->setState('stockroom_type', $stockroom_type);
         $this->setState('search_field', $search_field);
         $this->setState('keyword', $keyword);
         $this->setState('category_id', $category_id);
-        //		$this->setState('atttype', $atttype);
+
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
     }
 
-    function getData()
+    public function getData()
     {
         if (empty($this->_data))
         {
@@ -65,7 +56,7 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -75,7 +66,7 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $this->_total;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -86,10 +77,8 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $this->_pagination;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
-        global $mainframe;
-
         $where    = "";
         $field    = "";
         $and      = "";
@@ -136,12 +125,13 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $query;
     }
 
-    function _buildContentOrderBy()
+    public function _buildContentOrderBy()
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         $stockroom_type   = $this->getState('stockroom_type');
-        $filter_order     = $mainframe->getUserStateFromRequest($this->_context2 . 'filter_order', 'filter_order', 'p.product_id');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context2 . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest($this->_context2 . 'filter_order', 'filter_order', 'p.product_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context2 . 'filter_order_Dir', 'filter_order_Dir', '');
 
         if ($stockroom_type == 'subproperty')
         {
@@ -156,14 +146,14 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $orderby;
     }
 
-    function getStockroom()
+    public function getStockroom()
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE published=1';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getQuantity($stockroom_type, $sid, $pid)
+    public function getQuantity($stockroom_type, $sid, $pid)
     {
         $product = " AND product_id='" . $pid . "' ";
         $section = "";
@@ -188,7 +178,7 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $list;
     }
 
-    function storeStockroomQuantity($stockroom_type, $sid, $pid, $quantity = "", $preorder_stock = 0, $ordered_preorder = 0)
+    public function storeStockroomQuantity($stockroom_type, $sid, $pid, $quantity = "", $preorder_stock = 0, $ordered_preorder = 0)
     {
 
         $product = " AND product_id='" . $pid . "' ";
@@ -268,7 +258,7 @@ class stockroom_listingModelstockroom_listing extends JModel
         }
     }
 
-    function getProductIdsfromCategoryid($cid)
+    public function getProductIdsfromCategoryid($cid)
     {
 
         $query = "SELECT product_id FROM " . $this->_table_prefix . "product_category_xref " . "WHERE category_id= " . $cid;
@@ -277,7 +267,7 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $this->_data;
     }
 
-    function getcontainerproducts($product_ids = 0)
+    public function getcontainerproducts($product_ids = 0)
     {
         $and = "";
         if ($product_ids != 0)
@@ -302,7 +292,7 @@ class stockroom_listingModelstockroom_listing extends JModel
         return $this->_data;
     }
 
-    function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
+    public function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
     {
         $query   = "";
         $product = " AND product_id='" . $pid . "' ";

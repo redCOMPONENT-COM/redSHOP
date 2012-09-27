@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class manufacturerController extends JController
+class manufacturerController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
         $this->setRedirect('index.php');
     }
@@ -24,12 +24,11 @@ class manufacturerController extends JController
      * @access public
      * @return void
      */
-    function saveorder()
+    public function saveorder()
     {
-        $option = JRequest::getVar('option');
-
-        $cid   = JRequest::getVar('cid', array(), 'post', 'array');
-        $order = JRequest::getVar('order', array(), 'post', 'array');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
         JArrayHelper::toInteger($cid);
         JArrayHelper::toInteger($order);

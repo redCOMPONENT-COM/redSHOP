@@ -17,20 +17,19 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlHelper
 {
-    var $_db = null;
+    public $_db = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__redshop_';
         $this->_db           = JFactory::getDBO();
     }
 
-    function getSectionTypeList()
+    public function getSectionTypeList()
     {
         $section   = array();
         $section[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
@@ -39,7 +38,7 @@ class xmlHelper
         return $section;
     }
 
-    function getSectionTypeName($value = '')
+    public function getSectionTypeName($value = '')
     {
         $name = "-";
         switch ($value)
@@ -54,7 +53,7 @@ class xmlHelper
         return $name;
     }
 
-    function getSynchIntervalList()
+    public function getSynchIntervalList()
     {
         $section   = array();
         $section[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
@@ -64,7 +63,7 @@ class xmlHelper
         return $section;
     }
 
-    function getSynchIntervalName($value = 0)
+    public function getSynchIntervalName($value = 0)
     {
         $name = "-";
         switch ($value)
@@ -82,7 +81,7 @@ class xmlHelper
         return $name;
     }
 
-    function getSectionColumnList($section = "", $childSection = "")
+    public function getSectionColumnList($section = "", $childSection = "")
     {
         $cols   = array();
         $catcol = array();
@@ -258,7 +257,7 @@ class xmlHelper
         return $cols;
     }
 
-    function getXMLFileTag($fieldname = "", $xmlfiletag)
+    public function getXMLFileTag($fieldname = "", $xmlfiletag)
     {
         $result = "";
         $update = 1;
@@ -279,7 +278,7 @@ class xmlHelper
         return array($result, $update);
     }
 
-    function explodeXMLFileString($xmlfiletag = "")
+    public function explodeXMLFileString($xmlfiletag = "")
     {
         $value = array();
         if ($xmlfiletag != "")
@@ -293,7 +292,7 @@ class xmlHelper
         return $value;
     }
 
-    function getXMLExportInfo($xmlexport_id = 0)
+    public function getXMLExportInfo($xmlexport_id = 0)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x " //				."LEFT JOIN ".$this->_table_prefix."xml_export_ipaddress AS xref ON xref.xmlexport_id=x.xmlexport_id "
             . "WHERE x.xmlexport_id=" . $xmlexport_id;
@@ -302,7 +301,7 @@ class xmlHelper
         return $list;
     }
 
-    function getXMLExportIpAddress($xmlexport_id = 0)
+    public function getXMLExportIpAddress($xmlexport_id = 0)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "xml_export_ipaddress AS x " . "WHERE x.xmlexport_id=" . $xmlexport_id;
         $this->_db->setQuery($query);
@@ -310,21 +309,21 @@ class xmlHelper
         return $list;
     }
 
-    function insertXMLExportlog($xmlexport_id = 0, $filename = "")
+    public function insertXMLExportlog($xmlexport_id = 0, $filename = "")
     {
         $query = "INSERT INTO " . $this->_table_prefix . "xml_export_log " . "(xmlexport_id, xmlexport_filename, xmlexport_date) " . "VALUES " . "('" . $xmlexport_id . "', '" . $filename . "','" . time() . "') ";
         $this->_db->setQuery($query);
         $this->_db->query();
     }
 
-    function updateXMLExportFilename($xmlexport_id = 0, $filename = "")
+    public function updateXMLExportFilename($xmlexport_id = 0, $filename = "")
     {
         $query = "UPDATE " . $this->_table_prefix . "xml_export " . "SET filename='" . $filename . "' " . "WHERE xmlexport_id=" . $xmlexport_id;
         $this->_db->setQuery($query);
         $this->_db->query();
     }
 
-    function getXMLImportInfo($xmlimport_id = 0)
+    public function getXMLImportInfo($xmlimport_id = 0)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "xml_import " . "WHERE xmlimport_id=" . $xmlimport_id;
         $this->_db->setQuery($query);
@@ -332,21 +331,21 @@ class xmlHelper
         return $list;
     }
 
-    function insertXMLImportlog($xmlimport_id = 0, $filename = "")
+    public function insertXMLImportlog($xmlimport_id = 0, $filename = "")
     {
         $query = "INSERT INTO " . $this->_table_prefix . "xml_import_log " . "(xmlimport_id, xmlimport_filename, xmlimport_date) " . "VALUES " . "('" . $xmlimport_id . "', '" . $filename . "', '" . time() . "') ";
         $this->_db->setQuery($query);
         $this->_db->query();
     }
 
-    function updateXMLImportFilename($xmlimport_id = 0, $filename = "")
+    public function updateXMLImportFilename($xmlimport_id = 0, $filename = "")
     {
         $query = "UPDATE " . $this->_table_prefix . "xml_import " . "SET filename='" . $filename . "' " . "WHERE xmlimport_id=" . $xmlimport_id;
         $this->_db->setQuery($query);
         $this->_db->query();
     }
 
-    function writeXMLExportFile($xmlexport_id = 0)
+    public function writeXMLExportFile($xmlexport_id = 0)
     {
         $config        = new Redconfiguration();
         $shipping      = new shipping();
@@ -737,7 +736,7 @@ class xmlHelper
         return $filename;
     }
 
-    function writeXMLImportFile($xmlimport_id = 0, $tmlxmlimport_url = "")
+    public function writeXMLImportFile($xmlimport_id = 0, $tmlxmlimport_url = "")
     {
         $destpath      = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "assets/xmlfile/import" . DS;
         $xmlimportdata = $this->getXMLImportInfo($xmlimport_id);
@@ -837,7 +836,7 @@ class xmlHelper
         return $filename;
     }
 
-    function readXMLImportFile($file = "", $data = array(), $isImport = 0)
+    public function readXMLImportFile($file = "", $data = array(), $isImport = 0)
     {
         //		echo $file;echo "<pre>";
         $resultarray          = array();
@@ -1141,7 +1140,7 @@ class xmlHelper
         return $result;
     }
 
-    function importXMLFile($xmlimport_id = 0)
+    public function importXMLFile($xmlimport_id = 0)
     {
         $xmlimportdata = $this->getXMLImportInfo($xmlimport_id);
         if (count($xmlimportdata) <= 0)
@@ -1718,7 +1717,7 @@ class xmlHelper
         return true;
     }
 
-    function getProductExist($product_number = "")
+    public function getProductExist($product_number = "")
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product " . "WHERE product_number='" . $product_number . "'";
         $this->_db->setQuery($query);
@@ -1730,7 +1729,7 @@ class xmlHelper
         return false;
     }
 
-    function getOrderExist($order_number = "")
+    public function getOrderExist($order_number = "")
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_number='" . $order_number . "'";
         $this->_db->setQuery($query);
@@ -1742,7 +1741,7 @@ class xmlHelper
         return false;
     }
 
-    function getProductList($xmlarray = array(), $xmlExport = array())
+    public function getProductList($xmlarray = array(), $xmlExport = array())
     {
         $list     = array();
         $field    = array();
@@ -1814,7 +1813,7 @@ class xmlHelper
         return $list;
     }
 
-    function getOrderList($xmlarray = array())
+    public function getOrderList($xmlarray = array())
     {
         $list     = array();
         $field    = array();
@@ -1839,7 +1838,7 @@ class xmlHelper
         return $list;
     }
 
-    function getOrderUserInfoList($xmlarray = array(), $order_id = 0, $addresstype = "BT")
+    public function getOrderUserInfoList($xmlarray = array(), $order_id = 0, $addresstype = "BT")
     {
         $list     = array();
         $field    = array();
@@ -1864,7 +1863,7 @@ class xmlHelper
         return $list;
     }
 
-    function getOrderItemList($xmlarray = array(), $order_id = 0)
+    public function getOrderItemList($xmlarray = array(), $order_id = 0)
     {
         $list     = array();
         $field    = array();
@@ -1889,7 +1888,7 @@ class xmlHelper
         return $list;
     }
 
-    function getStockroomList($xmlarray = array(), $product_id = 0)
+    public function getStockroomList($xmlarray = array(), $product_id = 0)
     {
         $list     = array();
         $field    = array();
@@ -1914,7 +1913,7 @@ class xmlHelper
         return $list;
     }
 
-    function getExtraFieldList($xmlarray = array(), $section_id = 0, $fieldsection = 0)
+    public function getExtraFieldList($xmlarray = array(), $section_id = 0, $fieldsection = 0)
     {
         $list     = array();
         $field    = array();
@@ -1939,7 +1938,7 @@ class xmlHelper
         return $list;
     }
 
-    function importRemoteImage($src, $dest)
+    public function importRemoteImage($src, $dest)
     {
         chmod($dest, 0777);
         $Channel = curl_init($src);

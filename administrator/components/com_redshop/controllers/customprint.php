@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class customprintController extends JController
+class customprintController extends RedshopCoreController
 {
 }

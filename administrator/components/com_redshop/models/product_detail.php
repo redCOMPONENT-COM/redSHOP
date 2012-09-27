@@ -9,30 +9,28 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
-jimport('joomla.filesystem.file');
 
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
-class product_detailModelproduct_detail extends JModel
+class product_detailModelproduct_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $attribute_data = null;
+    public $attribute_data = null;
 
-    var $_copydata = null;
+    public $_copydata = null;
 
-    var $_copycategorydata = null;
+    public $_copycategorydata = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -41,13 +39,13 @@ class product_detailModelproduct_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getData()
+    public function &getData()
     {
         $post = JRequest::get('post');
         if ($this->_loadData())
@@ -65,7 +63,7 @@ class product_detailModelproduct_detail extends JModel
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $post = JRequest::get('post');
         if (empty($this->_data) && empty($post))
@@ -78,7 +76,7 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function _initData()
+    public function _initData()
     {
         if (empty($this->_data))
         {
@@ -156,7 +154,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      *   Clean file name
      */
-    function cleanFileName($name, $id = null)
+    public function cleanFileName($name, $id = null)
     {
         //$value = htmlspecialchars($name, ENT_QUOTES);
         $filetype = JFile::getExt($name);
@@ -190,7 +188,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      *   Clean file name end
      */
-    function store($data)
+    public function store($data)
     {
         $dispatcher = JDispatcher::getInstance();
 
@@ -928,7 +926,7 @@ class product_detailModelproduct_detail extends JModel
         return $row;
     }
 
-    function updateproductdiscount($mass_discount, $row)
+    public function updateproductdiscount($mass_discount, $row)
     {
 
         if (count($mass_discount) > 0)
@@ -946,7 +944,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         $option = JRequest::getVar('option', '', 'request', 'string');
         if (count($cid))
@@ -1234,7 +1232,7 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -1250,7 +1248,7 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function copy($cid = array())
+    public function copy($cid = array())
     {
         if (count($cid))
         {
@@ -1510,7 +1508,7 @@ class product_detailModelproduct_detail extends JModel
 				return false;
 			}
 	}*/
-    function copyProductAttribute($cid, $product_id)
+    public function copyProductAttribute($cid, $product_id)
     {
 
         $query = 'SELECT attribute_id,`attribute_id`,`attribute_name`,`attribute_required`, `ordering` FROM ' . $this->_table_prefix . 'product_attribute WHERE product_id IN ( ' . $cid . ' ) order by ordering asc';
@@ -1638,42 +1636,42 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function gettax()
+    public function gettax()
     {
         $query = 'SELECT tax_rate_id as value,tax_rate as text FROM ' . $this->_table_prefix . 'tax_rate ';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getmanufacturers()
+    public function getmanufacturers()
     {
         $query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getsupplier()
+    public function getsupplier()
     {
         $query = 'SELECT supplier_id as value,supplier_name as text FROM ' . $this->_table_prefix . 'supplier ';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getproductcats()
+    public function getproductcats()
     {
         $query = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref  WHERE product_id="' . $this->_id . '" ';
         $this->_db->setQuery($query);
         return $this->_db->loadResultArray();
     }
 
-    function catin_sefurl()
+    public function catin_sefurl()
     {
         $query = 'SELECT c.category_id as value, c.category_name as text FROM ' . $this->_table_prefix . 'product_category_xref as pcf, ' . $this->_table_prefix . 'category as c  WHERE pcf.product_id="' . $this->_id . '" AND pcf.category_id=c.category_id';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getPropertyImages($property_id)
+    public function getPropertyImages($property_id)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product_attribute_property as p, " . $this->_table_prefix . "media AS m " . "WHERE m.section_id = p.property_id  and m.media_section='property' and media_type='images'
 				and p.property_id 	 = '" . $property_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
@@ -1681,7 +1679,7 @@ class product_detailModelproduct_detail extends JModel
         return $this->_db->loadObjectlist();
     }
 
-    function getSubpropertyImages($subproperty_id)
+    public function getSubpropertyImages($subproperty_id)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product_subattribute_color as p, " . $this->_table_prefix . "media AS m " . "WHERE m.section_id = p.subattribute_color_id  and m.media_section='subproperty' and media_type='images'
 				and p.subattribute_color_id = '" . $subproperty_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
@@ -1689,28 +1687,28 @@ class product_detailModelproduct_detail extends JModel
         return $this->_db->loadObjectlist();
     }
 
-    function getPropertyMainImage($property_id)
+    public function getPropertyMainImage($property_id)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product_attribute_property as p " . "\nWHERE  p.property_id 	 = '" . $property_id . "' ORDER BY p.property_id ASC  ";
         $this->_db->setQuery($query);
         return $this->_db->loadObject();
     }
 
-    function getSubAttributeColor($property_id)
+    public function getSubAttributeColor($property_id)
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product_attribute_property AS p " . ", " . $this->_table_prefix . "product_subattribute_color AS m " . "WHERE m.subattribute_id = p.property_id and p.property_id = '" . $property_id . "' ";
         $this->_db->setQuery($query);
         return $this->_db->loadObjectlist();
     }
 
-    function getParentProduct($product_id)
+    public function getParentProduct($product_id)
     {
         $query = "SELECT product_name FROM " . $this->_table_prefix . "product " . "WHERE product_id = '" . $product_id . "'   ";
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
 
-    function getattributes()
+    public function getattributes()
     {
         if ($this->_id != 0)
         {
@@ -1751,7 +1749,7 @@ class product_detailModelproduct_detail extends JModel
         return;
     }
 
-    function getattributelist($data)
+    public function getattributelist($data)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute WHERE product_id="' . $data . '" ORDER BY attribute_id ASC';
         $this->_db->setQuery($query);
@@ -1773,7 +1771,7 @@ class product_detailModelproduct_detail extends JModel
         return $attribute_data;
     }
 
-    function getpropertylist($data)
+    public function getpropertylist($data)
     {
         if (count($data))
         {
@@ -1787,7 +1785,7 @@ class product_detailModelproduct_detail extends JModel
 
     //Delete Attribute Diffrence
 
-    function deleteattr($cid = array())
+    public function deleteattr($cid = array())
     {
 
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -1842,7 +1840,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function deleteprop($cid = array(), $image_name)
+    public function deleteprop($cid = array(), $image_name)
     {
 
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -1896,7 +1894,7 @@ class product_detailModelproduct_detail extends JModel
 
     //All Property Deleteing
 
-    function deleteattr_current($cid = array())
+    public function deleteattr_current($cid = array())
     {
 
         $option = JRequest::getVar('option', '', 'request', 'string');
@@ -1940,7 +1938,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function property_image_list($cid)
+    public function property_image_list($cid)
     {
         if (count($cid))
         {
@@ -1953,7 +1951,7 @@ class product_detailModelproduct_detail extends JModel
 
     // Store attribute list
 
-    function store_attr($data)
+    public function store_attr($data)
     {
         $row = $this->getTable('product_attribute');
 
@@ -1973,7 +1971,7 @@ class product_detailModelproduct_detail extends JModel
 
     // Store Property List
 
-    function store_pro($data)
+    public function store_pro($data)
     {
         $row = $this->getTable('attribute_property');
 
@@ -1996,7 +1994,7 @@ class product_detailModelproduct_detail extends JModel
 
     // Store Subattribute Color List
 
-    function store_sub($data)
+    public function store_sub($data)
     {
         $row = $this->getTable('subattribute_property');
 
@@ -2015,7 +2013,7 @@ class product_detailModelproduct_detail extends JModel
         return $row;
     }
 
-    function accessory_product_data($product_id)
+    public function accessory_product_data($product_id)
     {
         $query = "SELECT cp.child_product_id as product_id,p.product_name,cp.accessory_price as price,cp.oprand,p.product_price as normal_price FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "product_accessory as cp  WHERE cp.product_id='" . $product_id . "' and cp.child_product_id=p.product_id ";
         $this->_db->setQuery($query);
@@ -2023,7 +2021,7 @@ class product_detailModelproduct_detail extends JModel
         return $this->_productdata;
     }
 
-    function related_product_data($product_id)
+    public function related_product_data($product_id)
     {
         $query = "SELECT cp.related_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "product_related as cp  WHERE cp.product_id='" . $product_id . "' and cp.related_id=p.product_id order by cp.ordering asc";
         $this->_db->setQuery($query);
@@ -2031,7 +2029,7 @@ class product_detailModelproduct_detail extends JModel
         return $this->_productdata;
     }
 
-    function property_more_img($post, $main_img, $sub_img)
+    public function property_more_img($post, $main_img, $sub_img)
     {
 
         if ($main_img['name'] != '')
@@ -2125,7 +2123,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function deletesubimage($mediaid)
+    public function deletesubimage($mediaid)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE media_id = ' . $mediaid;
         $this->_db->setQuery($query);
@@ -2156,7 +2154,7 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function subattribute_color($post, $sub_img)
+    public function subattribute_color($post, $sub_img)
     {
 
         $num = count($sub_img['name']);
@@ -2218,21 +2216,21 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function subattr_diff($subattr_id, $section_id)
+    public function subattr_diff($subattr_id, $section_id)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color   WHERE subattribute_id = "' . $section_id . '" and subattribute_color_id NOT IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function get_subattrprop($subattr_id, $section_id)
+    public function get_subattrprop($subattr_id, $section_id)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color   WHERE subattribute_color_id IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function delsubattr_diff($subattr_diff)
+    public function delsubattr_diff($subattr_diff)
     {
 
         foreach ($subattr_diff as $diff)
@@ -2259,7 +2257,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Check That redproductfinder is installed or not
      */
-    function CheckRedProductFinder()
+    public function CheckRedProductFinder()
     {
         $query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
         $this->_db->setQuery($query);
@@ -2269,7 +2267,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * get Association related to perticular Product
      */
-    function getAssociation()
+    public function getAssociation()
     {
         if (!$this->CheckRedProductFinder())
         {
@@ -2284,7 +2282,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Show all tags that have been created
      */
-    function Associations()
+    public function Associations()
     {
 
         if (!$this->CheckRedProductFinder())
@@ -2370,7 +2368,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Show all tags that have been created
      */
-    function Tags()
+    public function Tags()
     {
 
         if (!$this->CheckRedProductFinder())
@@ -2419,7 +2417,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Save an association
      */
-    function SaveAssociations($product_id, $post)
+    public function SaveAssociations($product_id, $post)
     {
 
         if (!$this->CheckRedProductFinder())
@@ -2440,14 +2438,12 @@ class product_detailModelproduct_detail extends JModel
 
         if (!$row->bind($association))
         {
-            //$mainframe->enqueueMessage(JText::_('COM_REDSHOP_THERE_WAS_A_PROBLEM_BINDING_THE_ASSOCIATION_DATA'), 'error');
             return false;
         }
 
         /* save the changes */
         if (!$row->store())
         {
-            // $mainframe->enqueueMessage(JText::_('COM_REDSHOP_THERE_WAS_A_PROBLEM_STORING_THE_ASSOCIATION_DATA'), 'error');
             return false;
         }
         else
@@ -2485,7 +2481,6 @@ class product_detailModelproduct_detail extends JModel
         }
         $row->reorder();
 
-        //$mainframe->enqueueMessage(JText::_('COM_REDSHOP_THE_ASSOCIATION_HAS_BEEN_SAVED'));
         return true;
     }
 
@@ -2513,7 +2508,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Delete a product
      */
-    function RemoveAssociation($cid)
+    public function RemoveAssociation($cid)
     {
 
         if (!$this->CheckRedProductFinder())
@@ -2545,7 +2540,6 @@ class product_detailModelproduct_detail extends JModel
 
             if (!$database->query())
             {
-                //$mainframe->enqueueMessage(JText::_('COM_REDSHOP_A_PROBLEM_OCCURED_WHEN_DELETING_THE_ASSOCIATION'));
             }
             else
             {
@@ -2561,7 +2555,7 @@ class product_detailModelproduct_detail extends JModel
     /*
 	 * get dependent tags
 	 */
-    function getDependenttag($product_id = 0, $type_id = 0, $tag_id = 0)
+    public function getDependenttag($product_id = 0, $type_id = 0, $tag_id = 0)
     {
         $where = " product_id='" . $product_id . "'";
         $where .= " AND type_id='" . $type_id . "'";
@@ -2576,7 +2570,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Getting the list of StockRoom
      */
-    function StockRoomList()
+    public function StockRoomList()
     {
         $database = JFactory::getDBO();
 
@@ -2589,7 +2583,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Getting the  StockRoom Product Quantity
      */
-    function StockRoomProductQuantity($pid, $sid)
+    public function StockRoomProductQuantity($pid, $sid)
     {
         $database = JFactory::getDBO();
 
@@ -2602,7 +2596,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Getting the  StockRoom Product Quantity
      */
-    function StockRoomAttProductQuantity($pid, $sid, $section)
+    public function StockRoomAttProductQuantity($pid, $sid, $section)
     {
 
         $database = JFactory::getDBO();
@@ -2613,7 +2607,7 @@ class product_detailModelproduct_detail extends JModel
         return $quantity;
     }
 
-    function StockRoomAttProductPreorderstock($pid, $sid, $section)
+    public function StockRoomAttProductPreorderstock($pid, $sid, $section)
     {
 
         $database = JFactory::getDBO();
@@ -2625,7 +2619,7 @@ class product_detailModelproduct_detail extends JModel
     }
 
     // Getting Preorder Stock Quantity
-    function StockRoomPreorderProductQuantity($pid, $sid, $section)
+    public function StockRoomPreorderProductQuantity($pid, $sid, $section)
     {
 
         $database = JFactory::getDBO();
@@ -2637,7 +2631,7 @@ class product_detailModelproduct_detail extends JModel
     }
 
     // store stockroom product xref
-    function SaveStockroom($pid, $post)
+    public function SaveStockroom($pid, $post)
     {
         $database = JFactory::getDBO();
         $query    = "DELETE FROM " . $this->_table_prefix . "product_stockroom_xref" . "\n  WHERE product_id = '" . $pid . "' ";
@@ -2658,7 +2652,7 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function  attribute_empty()
+    public function  attribute_empty()
     {
         $producthelper = new producthelper();
         $database      = JFactory::getDBO();
@@ -2692,7 +2686,7 @@ class product_detailModelproduct_detail extends JModel
     }
 
     // remove property image
-    function removepropertyImage($pid)
+    public function removepropertyImage($pid)
     {
 
         $query = "SELECT property_image  FROM `" . $this->_table_prefix . "product_attribute_property` WHERE  property_id = '" . $pid . "' ";
@@ -2725,7 +2719,7 @@ class product_detailModelproduct_detail extends JModel
     }
 
     // remove property image
-    function removesubpropertyImage($pid)
+    public function removesubpropertyImage($pid)
     {
 
         $query = "SELECT subattribute_color_image  FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE  subattribute_color_id = '" . $pid . "' ";
@@ -2757,7 +2751,7 @@ class product_detailModelproduct_detail extends JModel
     }
 
     //
-    function getQuantity($stockroom_type, $sid, $pid)
+    public function getQuantity($stockroom_type, $sid, $pid)
     {
         $product = " AND product_id='" . $pid . "' ";
         $section = "";
@@ -2783,7 +2777,7 @@ class product_detailModelproduct_detail extends JModel
     }
 
     /*	// store stockroom product xref
-  function SaveAttributeStockroom($post)
+  public function SaveAttributeStockroom($post)
   {
 
 
@@ -2806,7 +2800,7 @@ class product_detailModelproduct_detail extends JModel
      return true;
   }*/
 
-    function SaveAttributeStockroom($post)
+    public function SaveAttributeStockroom($post)
     {
         $product = " AND section_id='" . $post['section_id'] . "' ";
         $section = " AND section = '" . $post['section'] . "' ";
@@ -2884,7 +2878,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Check That reddesign is installed or not
      */
-    function CheckRedDesign()
+    public function CheckRedDesign()
     {
         $query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
         $this->_db->setQuery($query);
@@ -2894,7 +2888,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Get list of product related reddesign
      */
-    function getProductDesignType($product_id)
+    public function getProductDesignType($product_id)
     {
         $query = "SELECT * FROM `#__reddesign_redshop` WHERE `product_id` = '" . $product_id . "'";
         $this->_db->setQuery($query);
@@ -2904,7 +2898,7 @@ class product_detailModelproduct_detail extends JModel
     /**
      * Get list of all reddesigns
      */
-    function getDesignType()
+    public function getDesignType()
     {
         $query = "SELECT * FROM `#__reddesign_designtype` WHERE `published` = 1 ";
         $this->_db->setQuery($query);
@@ -2915,7 +2909,7 @@ class product_detailModelproduct_detail extends JModel
      *   reddesign End
      */
 
-    function getVatGroup()
+    public function getVatGroup()
     {
         $query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ORDER BY tax_group_id ASC";
         $this->_db->setQuery($query);
@@ -2929,11 +2923,12 @@ class product_detailModelproduct_detail extends JModel
       * $order = product current ordring
       * @return: boolean
       */
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
+
         // get global category id
-        $category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+        $category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
         // init array
         $orderarray = array();
         for ($i = 0; $i < count($cid); $i++)
@@ -2961,10 +2956,10 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function orderup()
+    public function orderup()
     {
-        global $mainframe;
-        $category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+        $app            = JFactory::getApplication();
+        $category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
         $cid            = JRequest::getVar('cid', array(0), 'post', 'array');
         $cid            = $cid[0];
 
@@ -3002,10 +2997,11 @@ class product_detailModelproduct_detail extends JModel
         $this->_db->query();
     }
 
-    function orderdown()
+    public function orderdown()
     {
-        global $mainframe;
-        $category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+        $app = JFactory::getApplication();
+
+        $category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
         $cid            = JRequest::getVar('cid', array(0), 'post', 'array');
         $cid            = $cid[0];
 
@@ -3041,26 +3037,26 @@ class product_detailModelproduct_detail extends JModel
 
     // Product ordering end
 
-    function getDiscountCalcData()
+    public function getDiscountCalcData()
     {
         $query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc` " . "WHERE product_id = '" . $this->_id . "' ORDER BY area_start ";
         return $this->_getList($query);
     }
 
-    function getDiscountCalcDataExtra()
+    public function getDiscountCalcDataExtra()
     {
         $query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc_extra` " . "WHERE product_id = '" . $this->_id . "' ORDER BY option_name ";
         return $this->_getList($query);
     }
 
     // product subscription detail
-    function getSubscription()
+    public function getSubscription()
     {
         $query = "SELECT * FROM `" . $this->_table_prefix . "product_subscription` " . "WHERE product_id = '" . $this->_id . "' order by subscription_id";
         return $this->_getList($query);
     }
 
-    function getSubscriptionrenewal()
+    public function getSubscriptionrenewal()
     {
         $query = "SELECT * FROM `" . $this->_table_prefix . "subscription_renewal` " . "WHERE product_id ='" . $this->_id . "' ";
         return $this->_getList($query);
@@ -3070,7 +3066,7 @@ class product_detailModelproduct_detail extends JModel
 	   * Get Attribute set list
 	   */
 
-    function getAttributeSetList()
+    public function getAttributeSetList()
     {
         $query = "SELECT attribute_set_id as value,	attribute_set_name as text FROM `" . $this->_table_prefix . "attribute_set` " . "WHERE published  = 1";
         $this->_db->setQuery($query);
@@ -3080,7 +3076,7 @@ class product_detailModelproduct_detail extends JModel
     /*
 	 *  Get serial numbers for downloadable products.
 	 */
-    function getProdcutSerialNumbers($only_used = '')
+    public function getProdcutSerialNumbers($only_used = '')
     {
         $usedCond = "";
         if ($only_used == true)
@@ -3100,7 +3096,7 @@ class product_detailModelproduct_detail extends JModel
         return $this->_db->loadObjectList();
     }
 
-    function deleteProdcutSerialNumbers($serial_id)
+    public function deleteProdcutSerialNumbers($serial_id)
     {
         $query = "DELETE FROM " . $this->_table_prefix . "product_serial_number " . "WHERE serial_id = '" . $serial_id . "'";
         $this->_db->setQuery($query);
@@ -3111,14 +3107,14 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function GetimageInfo($id, $type)
+    public function GetimageInfo($id, $type)
     {
         $image_media = 'SELECT * FROM ' . $this->_table_prefix . 'media WHERE section_id = "' . $id . '" AND media_section = "' . $type . '" ';
         $this->_db->setQuery($image_media);
         return $this->_db->loadObjectlist();
     }
 
-    function copyadditionalImage($data)
+    public function copyadditionalImage($data)
     {
         $src_image          = $data['media_name'];
         $old_imgname        = strstr($data['media_name'], '_') ? strstr($data['media_name'], '_') : $data['media_name'];
@@ -3142,7 +3138,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function copy_image_additionalimage_from_path($imagePath, $section, $section_id)
+    public function copy_image_additionalimage_from_path($imagePath, $section, $section_id)
     {
         $src = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
 
@@ -3158,7 +3154,7 @@ class product_detailModelproduct_detail extends JModel
     /*
 	   *  copy attributes from attribute set into product attribute
 	   */
-    function copyAttributeSetAttribute($attribute_set_id, $product_id)
+    public function copyAttributeSetAttribute($attribute_set_id, $product_id)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_set_id ="' . $attribute_set_id . '" ';
         $this->_db->setQuery($query);
@@ -3314,7 +3310,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function GetStockroomData($section_id, $name)
+    public function GetStockroomData($section_id, $name)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref ' . 'WHERE `section_id` =  "' . $section_id . '" ' . 'AND section="' . $name . '" ';
         $this->_db->setQuery($query);
@@ -3322,7 +3318,7 @@ class product_detailModelproduct_detail extends JModel
         return $list;
     }
 
-    function insertProductStock($product_id, $stockroom_id, $quantiy = 0, $preorder_stock = 0, $ordered_preorder = 0)
+    public function insertProductStock($product_id, $stockroom_id, $quantiy = 0, $preorder_stock = 0, $ordered_preorder = 0)
     {
         $query = 'INSERT INTO ' . $this->_table_prefix . 'product_stockroom_xref ' . '(product_id,stockroom_id,quantity,preorder_stock,	ordered_preorder) ' . 'VALUE("' . $product_id . '","' . $stockroom_id . '","' . $quantiy . '","' . $preorder_stock . '","' . $ordered_preorder . '")';
         $this->_db->setQuery($query);
@@ -3334,7 +3330,7 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function InsertStockroom($section_id, $name, $stockroom_id, $quantiy, $preorder_stock, $ordered_preorder)
+    public function InsertStockroom($section_id, $name, $stockroom_id, $quantiy, $preorder_stock, $ordered_preorder)
     {
         $query = 'INSERT INTO ' . $this->_table_prefix . 'product_attribute_stockroom_xref ' . '(section_id,section,stockroom_id,quantity,preorder_stock, ordered_preorder) ' . 'VALUE("' . $section_id . '","' . $name . '","' . $stockroom_id . '","' . $quantiy . '","' . $preorder_stock . '","' . $ordered_preorder . '")';
         $this->_db->setQuery($query);
@@ -3346,14 +3342,14 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function GetAttributepriceData($section_id, $name)
+    public function GetAttributepriceData($section_id, $name)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price WHERE `section_id` =  "' . $section_id . '" and section="' . $name . '" ';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
-    function InsertAttributeprice($section_id, $name, $product_price, $product_currency, $shopper_group_id, $price_quantity_start, $price_quantity_end, $discount_price, $discount_start_date, $discount_end_date)
+    public function InsertAttributeprice($section_id, $name, $product_price, $product_currency, $shopper_group_id, $price_quantity_start, $price_quantity_end, $discount_price, $discount_start_date, $discount_end_date)
     {
         $row                          = $this->getTable('product_attribute_price_detail');
         $post                         = array();
@@ -3390,7 +3386,7 @@ class product_detailModelproduct_detail extends JModel
      * @return    boolean    True on success
      * @since     1.5
      */
-    function checkout($uid = null)
+    public function checkout($uid = null)
     {
         if ($this->_id)
         {
@@ -3419,7 +3415,7 @@ class product_detailModelproduct_detail extends JModel
      * @return    boolean    True on success
      * @since     1.5
      */
-    function checkin()
+    public function checkin()
     {
         if ($this->_id)
         {
@@ -3443,7 +3439,7 @@ class product_detailModelproduct_detail extends JModel
      * @return    boolean    True if checked out
      * @since     1.5
      */
-    function isCheckedOut($uid = 0)
+    public function isCheckedOut($uid = 0)
     {
         if ($this->_loadData())
         {
@@ -3458,7 +3454,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function delete_subprop($sp, $subattribute_id)
+    public function delete_subprop($sp, $subattribute_id)
     {
         $and           = "";
         $producthelper = new producthelper();
@@ -3481,7 +3477,7 @@ class product_detailModelproduct_detail extends JModel
         exit;
     }
 
-    function delete_prop($attribute_id, $property_id)
+    public function delete_prop($attribute_id, $property_id)
     {
         $producthelper = new producthelper();
         if ($property_id)
@@ -3508,7 +3504,7 @@ class product_detailModelproduct_detail extends JModel
         exit;
     }
 
-    function delete_attibute($product_id, $attribute_id, $attribute_set_id)
+    public function delete_attibute($product_id, $attribute_id, $attribute_set_id)
     {
         $producthelper = new producthelper();
         if (empty($attribute_set_id) && empty($product_id))
@@ -3550,7 +3546,7 @@ class product_detailModelproduct_detail extends JModel
         exit;
     }
 
-    function delete_image($imagename, $section)
+    public function delete_image($imagename, $section)
     {
         /* 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH.$section."/thumb/".$imagename;
   		if (is_file($imagethumbsrcphy))
@@ -3562,7 +3558,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function copy_image($imageArray, $section, $section_id)
+    public function copy_image($imageArray, $section, $section_id)
     {
         $src            = $imageArray['tmp_name'];
         $imgname        = basename($imageArray['name']);
@@ -3573,7 +3569,7 @@ class product_detailModelproduct_detail extends JModel
         return $property_image;
     }
 
-    function copy_image_from_path($imagePath, $section, $section_id)
+    public function copy_image_from_path($imagePath, $section, $section_id)
     {
         $src = JPATH_ROOT . DS . $imagePath;
         //$imgname = basename($imagePath);
@@ -3586,7 +3582,7 @@ class product_detailModelproduct_detail extends JModel
         return $property_image;
     }
 
-    function checkVirtualNumber($product_id = 0, $vpnArray = array())
+    public function checkVirtualNumber($product_id = 0, $vpnArray = array())
     {
         if (count($vpnArray) > 0)
         {
@@ -3620,7 +3616,7 @@ class product_detailModelproduct_detail extends JModel
         return true;
     }
 
-    function getChildProducts()
+    public function getChildProducts()
     {
         $products   = $this->getAllChildProductArrayList(0, $this->_id);
         $product_id = $product_name = array();
@@ -3636,7 +3632,7 @@ class product_detailModelproduct_detail extends JModel
         return $prod;
     }
 
-    function getAllChildProductArrayList($childid = 0, $parentid = 0)
+    public function getAllChildProductArrayList($childid = 0, $parentid = 0)
     {
         $producthelper = new producthelper ();
         $info          = $producthelper->getChildProduct($parentid);
@@ -3652,7 +3648,7 @@ class product_detailModelproduct_detail extends JModel
         return $GLOBALS['childproductlist'];
     }
 
-    function removeaccesory($accessory_id, $category_id = 0, $child_product_id = 0)
+    public function removeaccesory($accessory_id, $category_id = 0, $child_product_id = 0)
     {
         $and = '';
         if ($category_id != 0)
@@ -3683,7 +3679,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function removenavigator($navigator_id)
+    public function removenavigator($navigator_id)
     {
         $query = 'DELETE FROM ' . $this->_table_prefix . 'product_navigator ' . 'WHERE navigator_id="' . $navigator_id . '" ';
         $this->_db->setQuery($query);
@@ -3698,7 +3694,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
+    public function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
     {
         $query   = "";
         $product = " AND product_id='" . $pid . "' ";
@@ -3719,7 +3715,7 @@ class product_detailModelproduct_detail extends JModel
         }
     }
 
-    function update_attr_property_image($property_id, $property_image, $property_main_image)
+    public function update_attr_property_image($property_id, $property_image, $property_main_image)
     {
 
         $query = "UPDATE " . $this->_table_prefix . "product_attribute_property" . " SET property_image='" . $property_image . "' , property_main_image= '" . $property_main_image . "'" . " WHERE property_id='" . $property_id . "'";
@@ -3727,7 +3723,7 @@ class product_detailModelproduct_detail extends JModel
         $this->_db->Query();
     }
 
-    function update_subattr_image($subproperty_id, $subattribute_color_image)
+    public function update_subattr_image($subproperty_id, $subattribute_color_image)
     {
         $query = "UPDATE " . $this->_table_prefix . "product_subattribute_color" . " SET subattribute_color_image='" . $subattribute_color_image . "'" . " WHERE subattribute_color_id='" . $subproperty_id . "'";
         $this->_db->setQuery($query);
@@ -3735,7 +3731,7 @@ class product_detailModelproduct_detail extends JModel
     }
 
     // copy discount calculator data
-    function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
+    public function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
     {
 
         $producthelper = new producthelper ();

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tableproduct_detail extends JTable
 {
     public $product_id = 0;
@@ -150,36 +148,20 @@ class Tableproduct_detail extends JTable
         parent::__construct($this->_table_prefix . 'product', 'product_id', $db);
     }
 
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-        return parent::bind($array, $ignore);
-    }
-
     /**
-     * Check for the product ID
+     * Check for the product Number Duplicate
      */
     public function check()
     {
+        $q = "SELECT product_id
+				FROM " . $this->_table_prefix . "product
+				WHERE product_number = " . $this->_db->Quote($this->product_number);
+        $this->_db->setQuery($q);
+        $pid = intval($this->_db->loadResult());
 
-        $db = JFactory::getDBO();
-        $q  = "SELECT product_id
-			FROM " . $this->_table_prefix . "product
-			WHERE product_number = " . $db->Quote($this->product_number);
-        $db->setQuery($q);
-
-        $xid = intval($db->loadResult());
-
-        if ($xid && $xid != intval($this->product_id))
+        if ($pid && ($pid != intval($this->product_id)))
         {
-
             $this->setError(JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'));
-            //$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'));
             return false;
         }
         return true;

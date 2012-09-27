@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 class Tablecurrency_detail extends JTable
 {
     public $currency_id = null;
@@ -26,20 +24,8 @@ class Tablecurrency_detail extends JTable
         parent::__construct($this->_table_prefix . 'currency', 'currency_id', $db);
     }
 
-    public function bind($array, $ignore = '')
-    {
-        if (key_exists('params', $array) && is_array($array['params']))
-        {
-            $registry = new JRegistry();
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
-        return parent::bind($array, $ignore);
-    }
-
     public function check()
     {
-
         $db = JFactory::getDBO();
 
         $q = "SELECT currency_id,currency_code  FROM " . $this->_table_prefix . "currency" . " WHERE currency_code = '" . $this->currency_code . "' AND currency_id !=  " . $this->currency_id;

@@ -1,42 +1,41 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
+defined('_JEXEC') or die('Restricted access');
 
-require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'order.php' );
-require_once (JPATH_COMPONENT.DS.'helpers'.DS.'product.php' );
-require_once (JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
-require_once (JPATH_COMPONENT.DS.'helpers'.DS.'helper.php');
-include_once (JPATH_COMPONENT.DS.'helpers'.DS.'cart.php');
-include_once (JPATH_COMPONENT.DS.'helpers'.DS.'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
 
-jimport( 'joomla.application.component.controller' );
 /**
- * Order Detail Controller
+ * epayrelayController
  *
- * @static
- * @package		redSHOP
- * @since 1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class epayrelayController extends JController
+class epayrelayController extends RedshopCoreController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-
-	}
-
-
-}	?>
+}

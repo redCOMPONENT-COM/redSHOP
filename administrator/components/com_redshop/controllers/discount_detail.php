@@ -9,54 +9,51 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class discount_detailController extends JController
+class discount_detailController extends RedshopCoreController
 {
-    function __construct($default = array())
+    public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    function edit()
+    public function edit()
     {
-        $layout = JRequest::getVar('layout');
+        $layout = $this->input->get('layout');
 
-        JRequest::setVar('view', 'discount_detail');
+        $this->input->set('view', 'discount_detail');
 
         if ($layout == 'product')
         {
-            JRequest::setVar('layout', 'product');
+            $this->input->set('layout', 'product');
         }
         else
         {
-            JRequest::setVar('layout', 'default');
+            $this->input->set('layout', 'default');
         }
-        JRequest::setVar('hidemainmenu', 1);
+        $this->input->set('hidemainmenu', 1);
 
         parent::display();
     }
 
-    function apply()
+    public function apply()
     {
         $this->save(1);
     }
 
-    function save($apply = 0)
+    public function save($apply = 0)
     {
-        $post = JRequest::get('post');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $post   = $this->input->getArray($_POST);
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+        $layout = $this->input->get('layout');
 
         $post ['start_date'] = strtotime($post ['start_date']);
         $post ['end_date']   = strtotime($post ['end_date']) + (23 * 59 * 59);
 
         $model = $this->getModel('discount_detail');
-
-        $layout = JRequest::getVar('layout');
 
         if (isset($layout) && $layout == 'product')
         {
@@ -82,7 +79,14 @@ class discount_detailController extends JController
         }
         if ($apply == 1)
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg);
+        	if(isset($layout) && $layout == 'product')
+        	{
+            	$this->setRedirect('index.php?option='.$option.'&view=discount_detail&layout=product&task=edit&cid[]='.$row->discount_product_id, $msg);
+        	} 
+        	else
+        	{
+        		$this->setRedirect('index.php?option='.$option.'&view=discount_detail&task=edit&cid[]='.$row->discount_id, $msg);
+        	}
         }
         else
         {
@@ -97,21 +101,20 @@ class discount_detailController extends JController
         }
     }
 
-    function remove()
+    public function remove()
     {
 
-        $option = JRequest::getVar('option');
-
-        $layout = JRequest::getVar('layout');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $option = $this->input->get('option');
+        $layout = $this->input->get('layout');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('discount_detail');
+
         if (!$model->delete($cid))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -129,24 +132,24 @@ class discount_detailController extends JController
         }
     }
 
-    function publish()
+    public function publish()
     {
-        $layout = JRequest::getVar('layout');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $layout = $this->input->get('layout');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('discount_detail');
+
         if (!$model->publish($cid, 1))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
 
         if (isset($layout) && $layout == 'product')
@@ -159,24 +162,24 @@ class discount_detailController extends JController
         }
     }
 
-    function unpublish()
+    public function unpublish()
     {
-        $layout = JRequest::getVar('layout');
-
-        $option = JRequest::getVar('option');
-
-        $cid = JRequest::getVar('cid', array(0), 'post', 'array');
+        $layout = $this->input->get('layout');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('discount_detail');
+
         if (!$model->publish($cid, 0))
         {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
+
         $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
         if (isset($layout) && $layout == 'product')
@@ -189,11 +192,12 @@ class discount_detailController extends JController
         }
     }
 
-    function cancel()
+    public function cancel()
     {
-        $layout = JRequest::getVar('layout');
-        $option = JRequest::getVar('option');
-        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
+        $layout = $this->input->get('layout');
+        $option = $this->input->get('option');
+
+        $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
 
         if (isset($layout) && $layout == 'product')
         {

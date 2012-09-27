@@ -9,21 +9,18 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
-class question_detailModelquestion_detail extends JModel
+class question_detailModelquestion_detail extends JModelLegacy
 {
-    var $_id = null;
+    public $_id = null;
 
-    var $_data = null;
+    public $_data = null;
 
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    function __construct()
+    public function __construct()
     {
-        global $mainframe, $context;
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
@@ -31,24 +28,25 @@ class question_detailModelquestion_detail extends JModel
         $this->setId((int)$array[0]);
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->_id   = $id;
         $this->_data = null;
     }
 
-    function &getanswers()
+    public function &getanswers()
     {
         if ($this->_loadAnswer())
         {
         }
-        else  {
+        else
+        {
             $this->_initAnswer();
         }
         return $this->_answers;
     }
 
-    function _loadAnswer()
+    public function _loadAnswer()
     {
         $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.parent_id=" . $this->_id;
         $this->_db->setQuery($query);
@@ -56,7 +54,7 @@ class question_detailModelquestion_detail extends JModel
         return $this->_answers;
     }
 
-    function _initAnswer()
+    public function _initAnswer()
     {
         $user = JFactory::getUser();
         if (empty($this->_data))
@@ -77,19 +75,20 @@ class question_detailModelquestion_detail extends JModel
         return true;
     }
 
-    function &getData()
+    public function &getData()
     {
         if ($this->_loadData())
         {
         }
-        else  {
+        else
+        {
             $this->_initData();
         }
 
         return $this->_data;
     }
 
-    function _loadData()
+    public function _loadData()
     {
         $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.question_id=" . $this->_id;
         $this->_db->setQuery($query);
@@ -97,7 +96,7 @@ class question_detailModelquestion_detail extends JModel
         return (boolean)$this->_data;
     }
 
-    function getTotal()
+    public function getTotal()
     {
         if (empty($this->_total))
         {
@@ -107,13 +106,13 @@ class question_detailModelquestion_detail extends JModel
         return $this->_total;
     }
 
-    function _buildQuery()
+    public function _buildQuery()
     {
         $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.parent_id=" . $this->_id;
         return $query;
     }
 
-    function getPagination()
+    public function getPagination()
     {
         if (empty($this->_pagination))
         {
@@ -124,14 +123,14 @@ class question_detailModelquestion_detail extends JModel
         return $this->_pagination;
     }
 
-    function getProduct()
+    public function getProduct()
     {
         $query = "SELECT * FROM " . $this->_table_prefix . "product ";
         $list  = $this->_data = $this->_getList($query);
         return $list;
     }
 
-    function _initData()
+    public function _initData()
     {
         $user = JFactory::getUser();
         if (empty($this->_data))
@@ -157,7 +156,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function store($data)
+    public function store($data)
     {
         $user = JFactory::getUser();
         $db   = JFactory::getDBO();
@@ -199,7 +198,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function MaxOrdering()
+    public function MaxOrdering()
     {
         $query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question " . "WHERE parent_id=0 ";
         $this->_db->setQuery($query);
@@ -212,7 +211,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function delete($cid = array())
+    public function delete($cid = array())
     {
         if (count($cid))
         {
@@ -243,7 +242,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function publish($cid = array(), $publish = 1)
+    public function publish($cid = array(), $publish = 1)
     {
         if (count($cid))
         {
@@ -266,7 +265,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function saveorder($cid = array(), $order)
+    public function saveorder($cid = array(), $order)
     {
         $row       = $this->getTable();
         $order     = JRequest::getVar('order', array(0), 'post', 'array');
@@ -304,7 +303,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function orderup()
+    public function orderup()
     {
         $row = $this->getTable();
         $row->load($this->_id);
@@ -319,7 +318,7 @@ class question_detailModelquestion_detail extends JModel
      * @access public
      * @return boolean
      */
-    function orderdown()
+    public function orderdown()
     {
         $row = $this->getTable();
         $row->load($this->_id);
@@ -328,7 +327,7 @@ class question_detailModelquestion_detail extends JModel
         return true;
     }
 
-    function sendMailForAskQuestion($ansid)
+    public function sendMailForAskQuestion($ansid)
     {
         $redshopMail = new redshopMail();
         $rs          = $redshopMail->sendAskQuestionMail($ansid);

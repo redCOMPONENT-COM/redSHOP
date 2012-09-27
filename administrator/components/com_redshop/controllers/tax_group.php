@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class tax_groupController extends JController
+class tax_groupController extends RedshopCoreController
 {
-    function cancel()
+    public function cancel()
     {
-        $option = JRequest::getVar('option');
+        $option = $this->input->get('option');
         $this->setRedirect('index.php?option=' . $option . '&view=tax_group');
     }
 }

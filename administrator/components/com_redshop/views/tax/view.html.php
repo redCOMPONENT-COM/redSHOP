@@ -1,65 +1,55 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-
-jimport( 'joomla.application.component.view' );
-
-class taxViewtax extends JView
+class taxViewtax extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
+    public function display($tpl = null)
+    {
+        global $context;
 
+        $app = JFactory::getApplication();
 
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_TAX') );
-   		jimport('joomla.html.pagination');
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_TAX'));
+        jimport('joomla.html.pagination');
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_MANAGEMENT' ), 'redshop_vat48' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_MANAGEMENT'), 'redshop_vat48');
 
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
+        $uri = JFactory::getURI();
 
-		$uri	= JFactory::getURI();
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_rate_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $limitstart       = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+        $limit            = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'tax_rate_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
-		$limitstart     = $mainframe->getUserStateFromRequest( $context.'limitstart',      'limitstart', 	  '0' );
-		$limit = $mainframe->getUserStateFromRequest( $context.'limit',  'limit', '10' );
+        $tax_group_id          = $this->get('ProductId');
+        $lists['order']        = $filter_order;
+        $lists['order_Dir']    = $filter_order_Dir;
+        $lists['tax_group_id'] = $tax_group_id;
 
-		$tax_group_id = $this->get('ProductId');
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$lists['tax_group_id'] = $tax_group_id;
+        $total = $this->get('Total');
+        $media = $this->get('Data');
 
-	    $total = $this->get( 'Total');
-	    $media = $this->get( 'Data');
+        $pagination = new JPagination($total, $limitstart, $limit);
 
-		$pagination = new JPagination( $total, $limitstart, $limit);
+        $this->user = JFactory::getUser();
+        $this->assignRef('lists', $lists);
+        $this->assignRef('media', $media);
+        $this->assignRef('pagination', $pagination);
+        $this->request_url = $uri->toString();
 
-
-    	$this->assignRef('user',		JFactory::getUser());
-    	$this->assignRef('lists',		$lists);
-    	$this->assignRef('media',		$media);
-  		$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
-   	 	parent::display($tpl);
-  }
+        parent::display($tpl);
+    }
 }

@@ -20,18 +20,16 @@ require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS 
 
 class redshopMail
 {
-    var $_table_prefix = null;
+    public $_table_prefix = null;
 
-    var $db = null;
+    public $db = null;
 
-    var $_carthelper = null;
+    public $_carthelper = null;
 
-    var $_redhelper = null;
+    public $_redhelper = null;
 
-    function __construct()
+    public function __construct()
     {
-
-        global $mainframe, $context;
         $db                     = JFactory::getDbo();
         $this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
         $this->_db              = $db;
@@ -47,7 +45,7 @@ class redshopMail
      * @return array
      */
 
-    function getMailtemplate($tid = 0, $section = "", $extracond = "")
+    public function getMailtemplate($tid = 0, $section = "", $extracond = "")
     {
         $str = '';
         if ($tid != 0)
@@ -68,7 +66,7 @@ class redshopMail
         return $list;
     }
 
-    function sendOrderMail($order_id, $reddesign = 0)
+    public function sendOrderMail($order_id, $reddesign = 0)
     {
         $redconfig     = new Redconfiguration ();
         $producthelper = new producthelper ();
@@ -311,7 +309,7 @@ class redshopMail
         return true;
     }
 
-    function sendOrderSpecialDiscountMail($order_id)
+    public function sendOrderSpecialDiscountMail($order_id)
     {
         $redconfig     = new Redconfiguration ();
         $producthelper = new producthelper ();
@@ -413,7 +411,7 @@ class redshopMail
         return true;
     }
 
-    function createMultiprintInvoicePdf($oid)
+    public function createMultiprintInvoicePdf($oid)
     {
         require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config' . DS . 'lang' . DS . 'eng.php');
         require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
@@ -855,7 +853,7 @@ class redshopMail
         return $invoice_pdfName;
     }
 
-    function createShippedInvoicePdf($oid)
+    public function createShippedInvoicePdf($oid)
     {
         require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config' . DS . 'lang' . DS . 'eng.php');
         require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
@@ -959,7 +957,7 @@ class redshopMail
         return $invoice_pdfName;
     }
 
-    function sendInvoiceMail($order_id)
+    public function sendInvoiceMail($order_id)
     {
         require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config' . DS . 'lang' . DS . 'eng.php');
         require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
@@ -1101,16 +1099,16 @@ class redshopMail
         return true;
     }
 
-    function sendRegistrationMail(&$data)
+    public function sendRegistrationMail(&$data)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $me = JFactory::getUser();
 
         $mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-        $MailFrom = $mainframe->getCfg('mailfrom');
-        $FromName = $mainframe->getCfg('fromname');
+        $MailFrom = $app->getCfg('mailfrom');
+        $FromName = $app->getCfg('fromname');
 
         /*
 	 	 * Time for the email magic so get ready to sprinkle the magic dust...
@@ -1183,14 +1181,14 @@ class redshopMail
         return true;
     }
 
-    function sendTaxExemptMail($section, $userinfo = array(), $email = "")
+    public function sendTaxExemptMail($section, $userinfo = array(), $email = "")
     {
         if (USE_TAX_EXEMPT)
         {
-            global $mainframe;
+            $app = JFactory::getApplication();
 
-            $MailFrom     = $mainframe->getCfg('mailfrom');
-            $FromName     = $mainframe->getCfg('fromname');
+            $MailFrom     = $app->getCfg('mailfrom');
+            $FromName     = $app->getCfg('fromname');
             $mailbcc      = NULL;
             $maildata     = $section;
             $mailsubject  = $section;
@@ -1245,20 +1243,16 @@ class redshopMail
         return true;
     }
 
-    function sendSubscriptionRenewalMail($data = array())
+    public function sendSubscriptionRenewalMail($data = array())
     {
+        $app = JFactory::getApplication();
 
-        global $mainframe;
+        $producthelper = new producthelper();
 
-        $producthelper = new producthelper ();
+        $redconfig = new Redconfiguration();
 
-        $redconfig = new Redconfiguration ();
-
-        $MailFrom = $mainframe->getCfg('mailfrom');
-
-        $FromName = $mainframe->getCfg('fromname');
-
-        $SiteName = $mainframe->getCfg('sitename');
+        $MailFrom = $app->getCfg('mailfrom');
+        $FromName = $app->getCfg('fromname');
 
         $user_email = "";
 
@@ -1348,7 +1342,7 @@ class redshopMail
         return true;
     }
 
-    function imginmail($message)
+    public function imginmail($message)
     {
 
         $uri = JFactory::getURI();
@@ -1390,7 +1384,7 @@ class redshopMail
         return $data1;
     }
 
-    function sendQuotationMail($quotation_id, $status = 0)
+    public function sendQuotationMail($quotation_id, $status = 0)
     {
 
         $uri = JURI::getInstance();
@@ -1716,7 +1710,7 @@ class redshopMail
         return true;
     }
 
-    function sendNewsletterConfirmationMail($subscription_id)
+    public function sendNewsletterConfirmationMail($subscription_id)
     {
         if (NEWSLETTER_CONFIRMATION)
         {
@@ -1783,7 +1777,7 @@ class redshopMail
         return true;
     }
 
-    function sendNewsletterCancellationMail($email = "")
+    public function sendNewsletterCancellationMail($email = "")
     {
         $config   = JFactory::getConfig();
         $mailinfo = $this->getMailtemplate(0, "newsletter_cancellation");
@@ -1823,7 +1817,7 @@ class redshopMail
         return true;
     }
 
-    function sendAskQuestionMail($ansid)
+    public function sendAskQuestionMail($ansid)
     {
         $producthelper = new producthelper ();
         $uri           = JURI::getInstance();
@@ -1896,7 +1890,7 @@ class redshopMail
         return false;
     }
 
-    function sendEconomicBookInvoiceMail($order_id = 0, $bookinvoicepdf = "")
+    public function sendEconomicBookInvoiceMail($order_id = 0, $bookinvoicepdf = "")
     {
         if ($order_id == 0)
         {
@@ -1961,7 +1955,7 @@ class redshopMail
         return true;
     }
 
-    function getReddesignOrderItem($order_item_id)
+    public function getReddesignOrderItem($order_item_id)
     {
         $query = 'SELECT * ' . 'FROM #__reddesign_order ' . 'WHERE order_item_id="' . $order_item_id . '" ';
 
@@ -1970,7 +1964,7 @@ class redshopMail
         return $list;
     }
 
-    function sendRequestTaxExemptMail($data, $username = "")
+    public function sendRequestTaxExemptMail($data, $username = "")
     {
         if (ADMINISTRATOR_EMAIL != '')
         {
@@ -2010,7 +2004,7 @@ class redshopMail
         }
     }
 
-    function sendCatalogRequest($catalog = array())
+    public function sendCatalogRequest($catalog = array())
     {
         $maildata = $this->getMailtemplate(0, "catalog");
         $data_add = "";
@@ -2049,7 +2043,7 @@ class redshopMail
         }
     }
 
-    function sendResetPasswordMail($email)
+    public function sendResetPasswordMail($email)
     {
         $config   = JFactory::getConfig();
         $from     = $config->getValue('mailfrom');
