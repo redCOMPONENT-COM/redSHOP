@@ -1,21 +1,36 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Controllers
- *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
- */
+ * @version    2.5
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ * @author     redWEB Aps
+ * @copyright  com_redshop (C) 2008 - 2012 redCOMPONENT.com
+ * @license    GNU/GPL, see LICENSE.php
+ *             com_redshop can be downloaded from www.redcomponent.com
+ *             com_redshop is free software; you can redistribute it and/or
+ *             modify it under the terms of the GNU General Public License 2
+ *             as published by the Free Software Foundation.
+ *             com_redshop is distributed in the hope that it will be useful,
+ *             but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *             GNU General Public License for more details.
+ *             You should have received a copy of the GNU General Public License
+ *             along with com_redshop; if not, write to the Free Software
+ *             Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ **/
 defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * Product Controller
+ * quotationController
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class quotationController extends JControllerLegacy
+class quotationController extends RedshopCoreController
 {
     /**
      * add quotation function
@@ -25,15 +40,15 @@ class quotationController extends JControllerLegacy
      */
     public function addquotation()
     {
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
-        $return = JRequest::getVar('return');
-        $post   = JRequest::get('post');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $post    = $this->input->getArray($_POST);
+        $return  = $this->input->get('return');
 
         if (!$post['user_email'])
         {
             $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS');
-            $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
+            $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $item_id, $msg);
             die();
         }
 
@@ -62,7 +77,7 @@ class quotationController extends JControllerLegacy
             unset ($_SESSION ['ccdata']);
             if ($return)
             {
-                $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid . '&quotemsg=' . $msg;    ?>
+                $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $item_id . '&quotemsg=' . $msg;    ?>
             <script>
                 window.parent.location.href = "<?php echo $link ?>";
                 window.parent.reload();
@@ -70,12 +85,12 @@ class quotationController extends JControllerLegacy
             <?php exit;
             }
 
-            $this->setRedirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, $msg);
+            $this->setRedirect('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id, $msg);
         }
         else
         {
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
-            $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
+            $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $item_id, $msg);
         }
     }
 
@@ -87,18 +102,16 @@ class quotationController extends JControllerLegacy
      */
     public function usercreate()
     {
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $post    = $this->input->getArray($_POST);
 
-        $return = JRequest::getVar('return');
-        $model  = $this->getModel('quotation');
-
-        $post = JRequest::get('post');
+        $model = $this->getModel('quotation');
 
         $model->usercreate($post);
 
         $msg = JText::_('COM_REDSHOP_QUOTATION_SENT_AND_USERNAME_PASSWORD_HAS_BEEN_MAILED');
-        $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
+        $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $item_id, $msg);
     }
 
     /**
@@ -109,13 +122,13 @@ class quotationController extends JControllerLegacy
      */
     public function cancel()
     {
-        $option = JRequest::getVar('option');
-        $Itemid = JRequest::getVar('Itemid');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
 
-        $return = JRequest::getVar('return');
+        $return = $this->input->get('return');
         if ($return != "")
         {
-            $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
+            $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $item_id;
             ?>
         <script language="javascript">
             window.parent.location.href = "<?php echo $link ?>";
@@ -125,7 +138,7 @@ class quotationController extends JControllerLegacy
         }
         else
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid);
+            $this->setRedirect('index.php?option=' . $option . '&view=cart&Itemid=' . $item_id);
         }
     }
 }
