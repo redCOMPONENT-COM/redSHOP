@@ -36,7 +36,7 @@ $pagetitle = $this->pageheadingtag;
 $detail    = $this->detail;
 
 $app    = JFactory::getApplication();
-$router = &$app->getRouter();
+$router = $app->getRouter();
 
 if (count($this->template) > 0)
 {
@@ -66,9 +66,11 @@ if ($this->params->get('show_page_heading', 1))
         <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
             <?php echo $this->escape($this->params->get('page_title')); ?>
         </h1>
-        <?php }
+        <?php
+        }
         else
-        { ?>
+        {
+            ?>
         <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
             <?php echo $pagetitle; ?>
         </h1>

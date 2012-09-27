@@ -1931,31 +1931,36 @@ class producthelper
     public function generateBreadcrumb($sectionid = 0)
     {
         $mainframe     = JFactory::getApplication();
-        $pathway       =& $mainframe->getPathway();
+        $pathway       = $mainframe->getPathway();
         $view          = JRequest::getVar('view');
         $layout        = JRequest::getVar('layout');
         $Itemid        = JRequest::getInt('Itemid');
         $catid         = JRequest::getInt('cid');
         $custompathway = array();
 
-        $patharr = $pathway->getPathWay();
-        //		print_r($patharr);die();
+        $patharr    = $pathway->getPathWay();
         $totalcount = count($patharr);
+
         for ($j = 0; $j < $totalcount; $j++)
         {
             unset($patharr[$j]);
         }
+
         $pathway->setPathWay($patharr);
+
         switch ($view)
         {
             case "category":
                 $custompathway = array();
                 $newlink       = "index.php?option=com_redshop&view=category";
+
                 if ($layout == "categoryproduct")
                 {
                     $newlink = "index.php?option=com_redshop&view=category&layout=" . $layout;
                 }
+
                 $res = $this->getMenuDetail($newlink);
+
                 if (count($res) > 0 && $res->home != 1)
                 {
                     $main            = new stdClass();

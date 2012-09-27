@@ -71,7 +71,7 @@ $task   = JRequest::getCmd('task');
 $format = JRequest::getWord('format', '');
 $layout = JRequest::getWord('layout', '');
 
-$params = &$mainframe->getParams('com_redshop');
+$params = $mainframe->getParams('com_redshop');
 
 // add product in cart from db
 $helper->dbtocart();

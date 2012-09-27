@@ -46,14 +46,9 @@ else
 {product_loop_end}</div></div><p>{category_loop_end}</p><div class='category_pagination'>{pagination}</div></div>";
 }
 
-/*if (!strstr($template_desc, "{show_all_products_in_category}" ) && strstr($template_desc, "{pagination}" )) {
-	$endlimit = $model->getProductPerPage ();
-}
-*/
 $app    = JFactory::getApplication();
-$router = &$app->getRouter();
+$router = $app->getRouter();
 $uri    = new JURI ('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
-//$router->setVars ( $uri->_vars );
 
 if ($print)
 {
@@ -64,11 +59,9 @@ if ($print)
 else
 {
     $print_url = $url . "index.php?option=com_redshop&view=category&layout=categoryproduct&print=1&tmpl=component&Itemid=" . $Itemid;
-    //		$print_url .= "&limit=".$endlimit."&texpricemin=".$texpricemin."&texpricemax=".$texpricemax."&order_by=".$this->order_by_select;
-    //		$print_url .= "&manufacturer_id=".$this->manufacturer_id."&category_template=".$this->category_template_id;
-
-    $onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
+    $onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
