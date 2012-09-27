@@ -242,7 +242,7 @@ if ($showbuttons)
 </div>
 
 <div class="clr"></div>
-<!--<input type="hidden" value="<?php echo $k;?>" name="total_extra" id="total_extra">-->
+<input type="hidden" value="1" name="total_extra" id="total_extra">
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->media_id; ?>"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="view" value="media_detail"/>

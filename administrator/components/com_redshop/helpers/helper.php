@@ -16,7 +16,6 @@ class reddesignhelper
      */
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
     }
 

@@ -30,8 +30,6 @@ class redshopMail
 
     public function __construct()
     {
-
-        global $mainframe, $context;
         $db                     = JFactory::getDbo();
         $this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
         $this->_db              = $db;
@@ -1103,14 +1101,14 @@ class redshopMail
 
     public function sendRegistrationMail(&$data)
     {
-        global $mainframe;
+        $app = JFactory::getApplication();
 
         $me = JFactory::getUser();
 
         $mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-        $MailFrom = $mainframe->getCfg('mailfrom');
-        $FromName = $mainframe->getCfg('fromname');
+        $MailFrom = $app->getCfg('mailfrom');
+        $FromName = $app->getCfg('fromname');
 
         /*
 	 	 * Time for the email magic so get ready to sprinkle the magic dust...
@@ -1187,10 +1185,10 @@ class redshopMail
     {
         if (USE_TAX_EXEMPT)
         {
-            global $mainframe;
+            $app = JFactory::getApplication();
 
-            $MailFrom     = $mainframe->getCfg('mailfrom');
-            $FromName     = $mainframe->getCfg('fromname');
+            $MailFrom     = $app->getCfg('mailfrom');
+            $FromName     = $app->getCfg('fromname');
             $mailbcc      = NULL;
             $maildata     = $section;
             $mailsubject  = $section;
@@ -1247,18 +1245,14 @@ class redshopMail
 
     public function sendSubscriptionRenewalMail($data = array())
     {
+        $app = JFactory::getApplication();
 
-        global $mainframe;
+        $producthelper = new producthelper();
 
-        $producthelper = new producthelper ();
+        $redconfig = new Redconfiguration();
 
-        $redconfig = new Redconfiguration ();
-
-        $MailFrom = $mainframe->getCfg('mailfrom');
-
-        $FromName = $mainframe->getCfg('fromname');
-
-        $SiteName = $mainframe->getCfg('sitename');
+        $MailFrom = $app->getCfg('mailfrom');
+        $FromName = $app->getCfg('fromname');
 
         $user_email = "";
 
