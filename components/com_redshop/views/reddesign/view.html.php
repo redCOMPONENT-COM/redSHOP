@@ -38,7 +38,7 @@ class reddesignViewreddesign extends JViewLegacy
             //	$mainframe->Redirect ( 'index.php?option=' . $option . '&view=product&pid='.$pid.'&cid='.$cid.'&Itemid='.$Itemid);
         }
 
-        $model =& $this->getModel("reddesign");
+        $model = $this->getModel("reddesign");
 
         $product_detail = $model->getProductDetail($pid);
         $product_design = $model->getProductDesign($pid);

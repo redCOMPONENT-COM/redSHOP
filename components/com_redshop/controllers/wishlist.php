@@ -29,7 +29,7 @@ class wishlistController extends RedshopCoreController
     public function createsave()
     {
         $user  = JFactory::getUser();
-        $model = & $this->getModel("wishlist");
+        $model = $this->getModel("wishlist");
 
         $post ['wishlist_name'] = $this->input->get('txtWishlistname');
         $post ['user_id']       = $user->id;
@@ -65,7 +65,7 @@ class wishlistController extends RedshopCoreController
      */
     public function savewishlist()
     {
-        $model = & $this->getModel("wishlist");
+        $model = $this->getModel("wishlist");
 
         if ($model->savewishlist())
         {
@@ -92,7 +92,7 @@ class wishlistController extends RedshopCoreController
     public function delwishlist()
     {
         $user  = JFactory::getUser();
-        $model = & $this->getModel("wishlist");
+        $model = $this->getModel("wishlist");
 
         $item_id = $this->input->get('Itemid');
         $option  = $this->input->get('option');

@@ -82,7 +82,7 @@ class productViewproduct extends JViewLegacy
         else if ($layout == "viewajaxdetail")
         {
             $this->setLayout('viewajaxdetail');
-            $data =& $this->get('data');
+            $data = $this->get('data');
         }
         else if ($layout == "searchletter")
         {
@@ -100,14 +100,14 @@ class productViewproduct extends JViewLegacy
             {
                 $this->setLayout('default');
             }
-            $data                     =& $this->get('data');
+            $data                     = $this->get('data');
             $prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($data->product_id);
             if ($data->published == 0)
             {
                 JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $data->product_name, $data->product_number));
             }
 
-            $productTemplate =& $model->getProductTemplate();
+            $productTemplate = $model->getProductTemplate();
 
             /*
                 * Process the prepare Product plugins

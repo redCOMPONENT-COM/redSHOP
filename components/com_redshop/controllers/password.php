@@ -26,7 +26,7 @@ class passwordController extends RedshopCoreController
     public function reset()
     {
         $post    = $this->input->getArray($_POST);
-        $model   = &$this->getModel('password');
+        $model   = $this->getModel('password');
         $item_id = $this->input->get('Itemid');
         $layout  = "";
         //Request a reset
@@ -56,7 +56,7 @@ class passwordController extends RedshopCoreController
     public function changepassword()
     {
         $post    = $this->input->getArray($_POST);
-        $model   = &$this->getModel('password');
+        $model   = $this->getModel('password');
         $token   = $post['token'];
         $item_id = $this->input->get('Itemid');
         if ($model->changepassword($token))
@@ -78,7 +78,7 @@ class passwordController extends RedshopCoreController
         $post    = $this->input->getArray($_POST);
         $item_id = $this->input->get('Itemid');
 
-        $model = &$this->getModel('password');
+        $model = $this->getModel('password');
         if ($model->setpassword($post))
         {
             $msg = JText::_('COM_REDSHOP_RESET_PASSWORD_DONE');
