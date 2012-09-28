@@ -49,7 +49,7 @@ class loginController extends RedshopCoreController
         include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
         $redhelper = new redhelper();
 
-        $model = &$this->getModel('login');
+        $model = $this->getModel('login');
 
         $shoppergroupid = $this->input->post->getInt('protalid', 0);
 

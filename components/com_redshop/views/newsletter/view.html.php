@@ -15,9 +15,9 @@ class newsletterViewnewsletter extends JViewLegacy
     {
         global $mainframe;
 
-        $params = &$mainframe->getParams('com_redshop');
+        $params = $mainframe->getParams('com_redshop');
 
-        $pathway = &$mainframe->getPathway();
+        $pathway = $mainframe->getPathway();
 
         $pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
 
