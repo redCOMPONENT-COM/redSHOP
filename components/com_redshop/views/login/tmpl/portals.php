@@ -22,7 +22,7 @@ JHTML::_('behavior.tooltip');
 $option = JRequest::getVar('option');
 
 $user   = JFactory::getUser();
-$params = &$mainframe->getParams($option);
+$params = $mainframe->getParams($option);
 
 $Itemid = JRequest::getInt('Itemid');
 
