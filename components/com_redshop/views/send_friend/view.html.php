@@ -26,7 +26,7 @@ class send_friendViewsend_friend extends JViewLegacy
         JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
         $data = $this->get('data');
 
-        $template =& $this->get('template');
+        $template = $this->get('template');
 
         // Next/Prev navigation end
 

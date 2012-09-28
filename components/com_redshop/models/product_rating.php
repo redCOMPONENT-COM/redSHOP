@@ -20,7 +20,7 @@ class product_ratingModelproduct_rating extends RedshopCoreModel
         $data['email']     = $user->email;
         $data['published'] = 0;
 
-        $row =& $this->getTable('rating_detail');
+        $row = $this->getTable('rating_detail');
 
         if (!$row->bind($data))
         {

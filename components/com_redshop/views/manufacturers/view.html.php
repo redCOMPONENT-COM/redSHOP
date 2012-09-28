@@ -210,6 +210,7 @@ class manufacturersViewmanufacturers extends JViewLegacy
 
         $categorylist           = $model->getCategoryList();
         $temps                  = array();
+        $temps[0]               = new stdClass;
         $temps[0]->value        = "0";
         $temps[0]->text         = JText::_('COM_REDSHOP_SELECT');
         $categorylist           = array_merge($temps, $categorylist);

@@ -105,8 +105,8 @@ class searchViewsearch extends JViewLegacy
         {
             $templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
         }
-        $search     = & $this->get('Data');
-        $pagination = & $this->get('Pagination');
+        $search     = $this->get('Data');
+        $pagination = $this->get('Pagination');
 
         $this->assignRef('params', $params);
         $this->assignRef('limit', $model->getState('limit'));
@@ -634,11 +634,10 @@ class searchViewsearch extends JViewLegacy
                 $data .= $data_add;
             }
             $app    = JFactory::getApplication();
-            $router = &$app->getRouter();
+            $router = $app->getRouter();
 
             $getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
-            //$uri = new JURI ( 'index.php?option='.$option.'&view=search&layout='.$layout.'&keyword='.$keyword.'&manufacture_id='.$manufacture_id.'&order_by='.$getorderby.'&category_id='.$cid.'&Itemid='.$Itemid.'&limit='.$limit);
-            //$router->setVars ( $uri->_vars );
+
             $vars = array('option'=> 'com_redshop', 'view' => 'search', 'layout' => $layout, 'keyword' => $keyword, 'manufacture_id' => $manufacture_id, 'order_by' => $getorderby, 'category_id' => $cid, 'Itemid' => $Itemid, 'limit' => $limit);
             $router->setVars($vars);
             unset($vars);

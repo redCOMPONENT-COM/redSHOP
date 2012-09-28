@@ -26,7 +26,7 @@ class account_shiptoViewaccount_shipto extends JViewLegacy
         // preform security checks
         $session = JFactory::getSession();
         $auth    = $session->get('auth');
-        $params  = &$mainframe->getParams('com_redshop');
+        $params  = $mainframe->getParams('com_redshop');
         if ($user->id)
         {
             $billingaddresses = $order_functions->getBillingAddress($user->id);
@@ -49,7 +49,7 @@ class account_shiptoViewaccount_shipto extends JViewLegacy
             JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
             JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
 
-            $shippingaddresses = & $this->get('Data');
+            $shippingaddresses = $this->get('Data');
             if ($shippingaddresses->users_info_id > 0 && $shippingaddresses->user_id != $billingaddresses->user_id)
             {
                 echo JText::_('COM_REDSHOP_ALERTNOTAUTH');
