@@ -12,26 +12,19 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class order_detailController extends RedshopCoreController
+class order_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'order';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    public function edit()
-    {
-        $this->input->set('view', 'order_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
-    }
-
-    public function save()
+    public function save($apply = 0)
     {
         $post               = $this->input->getArray($_POST);
         $post["text_field"] = $this->input->post->getString('text_field', '');
@@ -53,36 +46,6 @@ class order_detailController extends RedshopCoreController
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
         }
 
-        $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
-    }
-
-    public function remove()
-    {
-        $option = $this->input->getString('option', '');
-
-        $cid = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('order_detail');
-
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
-    }
-
-    public function cancel()
-    {
-        $option = $this->input->getString('option', '');
-
-        $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
     }
 

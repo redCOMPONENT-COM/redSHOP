@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class discount_detailController extends RedshopCoreController
+class discount_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'currency';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
@@ -36,11 +38,6 @@ class discount_detailController extends RedshopCoreController
         $this->input->set('hidemainmenu', 1);
 
         parent::display();
-    }
-
-    public function apply()
-    {
-        $this->save(1);
     }
 
     public function save($apply = 0)
@@ -79,14 +76,14 @@ class discount_detailController extends RedshopCoreController
         }
         if ($apply == 1)
         {
-        	if(isset($layout) && $layout == 'product')
-        	{
-            	$this->setRedirect('index.php?option='.$option.'&view=discount_detail&layout=product&task=edit&cid[]='.$row->discount_product_id, $msg);
-        	} 
-        	else
-        	{
-        		$this->setRedirect('index.php?option='.$option.'&view=discount_detail&task=edit&cid[]='.$row->discount_id, $msg);
-        	}
+            if (isset($layout) && $layout == 'product')
+            {
+                $this->setRedirect('index.php?option=' . $option . '&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg);
+            }
+            else
+            {
+                $this->setRedirect('index.php?option=' . $option . '&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg);
+            }
         }
         else
         {
@@ -103,92 +100,55 @@ class discount_detailController extends RedshopCoreController
 
     public function remove()
     {
+        // The remove logic is the same in the parent, just the redirection changes.
+        parent::remove();
 
-        $option = $this->input->get('option');
         $layout = $this->input->get('layout');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('discount_detail');
-
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_DELETED_SUCCESSFULLY');
+        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_DELETED_SUCCESSFULLY');
 
         if (isset($layout) && $layout == 'product')
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
         }
         else
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
         }
     }
 
     public function publish()
     {
+        // The publish logic is the same in the parent, just the redirection changes.
+        parent::publish();
+
         $layout = $this->input->get('layout');
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
-
-        $model = $this->getModel('discount_detail');
-
-        if (!$model->publish($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
+        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
 
         if (isset($layout) && $layout == 'product')
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
         }
         else
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
         }
     }
 
     public function unpublish()
     {
+        // The unpublish logic is the same in the parent, just the redirection changes.
+        parent::unpublish();
+
         $layout = $this->input->get('layout');
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
-
-        $model = $this->getModel('discount_detail');
-
-        if (!$model->publish($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
         if (isset($layout) && $layout == 'product')
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
         }
         else
         {
-            $this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
         }
     }
 

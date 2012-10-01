@@ -14,10 +14,12 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class addorder_detailController extends RedshopCoreController
+class addorder_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'order';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
@@ -215,14 +217,6 @@ class addorder_detailController extends RedshopCoreController
         {
             $this->setRedirect('index.php?option=' . $option . '&view=order', $msg . $stocknote);
         }
-    }
-
-    public function cancel()
-    {
-        $option = $this->input->getString('option', '');
-
-        $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
-        $this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
     }
 
     public function guestuser()
