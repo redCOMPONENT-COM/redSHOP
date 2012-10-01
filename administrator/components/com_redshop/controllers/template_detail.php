@@ -10,28 +10,16 @@
 defined('_JEXEC') or die ('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'template.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class template_detailController extends RedshopCoreController
+class template_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'template';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
-    }
-
-    public function edit()
-    {
-        $this->input->set('view', 'template_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
-    }
-
-    public function apply()
-    {
-        $this->save(1);
     }
 
     public function save($apply = 0)
@@ -75,63 +63,6 @@ class template_detailController extends RedshopCoreController
         }
     }
 
-    public function remove()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('template_detail');
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $this->setRedirect('index.php?option=' . $option . '&view=template');
-    }
-
-    public function publish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
-
-        $model = $this->getModel('template_detail');
-        if (!$model->publish($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $this->setRedirect('index.php?option=' . $option . '&view=template');
-    }
-
-    public function unpublish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
-
-        $model = $this->getModel('template_detail');
-        if (!$model->publish($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $this->setRedirect('index.php?option=' . $option . '&view=template');
-    }
-
     public function cancel()
     {
         $option = $this->input->get('option');
@@ -140,25 +71,5 @@ class template_detailController extends RedshopCoreController
 
         $this->setRedirect('index.php?option=' . $option . '&view=template');
     }
-
-    public function copy()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        $model = $this->getModel('template_detail');
-
-        if ($model->copy($cid))
-        {
-
-            $msg = JText::_('COM_REDSHOP_TEMPLATE_COPIED');
-        }
-        else
-        {
-
-            $msg = JText::_('COM_REDSHOP_ERROR_COPYING_TEMPLATE');
-        }
-
-        $this->setRedirect('index.php?option=' . $option . '&view=template', $msg);
-    }
 }
+

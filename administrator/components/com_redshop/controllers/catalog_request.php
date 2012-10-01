@@ -26,7 +26,7 @@ class catalog_requestController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 500);
         }
 
         $model = $this->getModel('catalog_request');
@@ -47,7 +47,7 @@ class catalog_requestController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 500);
         }
 
         $model = $this->getModel('catalog_request');
@@ -68,7 +68,7 @@ class catalog_requestController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 500);
         }
 
         $model = $this->getModel('catalog_request');

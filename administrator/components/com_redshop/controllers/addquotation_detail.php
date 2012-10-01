@@ -11,11 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
-
-class addquotation_detailController extends RedshopCoreController
+class addquotation_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'quotation';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
@@ -98,19 +99,6 @@ class addquotation_detailController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
         }
-        $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
-    }
-
-    public function send()
-    {
-        $this->save(1);
-    }
-
-    public function cancel()
-    {
-        $option = $this->input->getString('option', '');
-
-        $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
