@@ -129,4 +129,26 @@ class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
 
         return true;
     }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        return $this->move(-1);
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        return $this->move(1);
+    }
 }

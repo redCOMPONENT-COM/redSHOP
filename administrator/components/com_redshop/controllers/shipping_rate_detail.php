@@ -6,30 +6,19 @@
  * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die ('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shipping_rate_detailController extends RedshopCoreController
+class shipping_rate_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'shipping_rate';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
-    }
-
-    public function edit()
-    {
-        $this->input->set('view', 'shipping_rate_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
-    }
-
-    public function apply()
-    {
-        $this->save(1);
     }
 
     public function save($apply = 0)
@@ -67,67 +56,16 @@ class shipping_rate_detailController extends RedshopCoreController
 
     public function remove()
     {
-        $post   = $this->input->getArray($_POST);
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
+        parent::remove();
 
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('shipping_rate_detail');
-
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
-    }
-
-    public function publish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
-        $model = $this->getModel('shipping_rate_detail');
-        if (!$model->publish($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate');
-    }
-
-    public function unpublish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
-
-        $model = $this->getModel('shipping_rate_detail');
-        if (!$model->publish($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate');
+        $id = $this->input->post->get('id');
+        $this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $id);
     }
 
     public function cancel()
     {
-        $post   = $this->input->getArray($_POST);
-        $option = $this->input->get('option');
-        $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
+        $id = $this->input->post->get('id');
+        $this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $id);
     }
 
     public function copy()
