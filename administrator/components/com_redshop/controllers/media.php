@@ -124,7 +124,7 @@ class mediaController extends RedshopCoreController
 
         if (!is_array($cid) || count($cid) < 1)
         {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_ORDERING'), 500);
         }
 
         $model = $this->getModel('media');

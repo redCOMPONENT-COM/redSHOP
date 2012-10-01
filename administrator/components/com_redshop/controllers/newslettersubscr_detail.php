@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class newslettersubscr_detailController extends RedshopCoreController
+class newslettersubscr_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'newslettersubscr';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
@@ -21,10 +23,6 @@ class newslettersubscr_detailController extends RedshopCoreController
 
     public function edit()
     {
-        $this->input->set('view', 'newslettersubscr_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
         $model = $this->getModel('newslettersubscr_detail');
 
         $userlist = $model->getuserlist();
@@ -37,12 +35,7 @@ class newslettersubscr_detailController extends RedshopCoreController
 
         $this->input->set('userlist', $userlist);
 
-        parent::display();
-    }
-
-    public function apply()
-    {
-        $this->save(1);
+        parent::edit();
     }
 
     public function save($apply = 0)
@@ -82,77 +75,6 @@ class newslettersubscr_detailController extends RedshopCoreController
         {
             $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
         }
-    }
-
-    public function remove()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('newslettersubscr_detail');
-
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
-    }
-
-    public function publish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
-
-        $model = $this->getModel('newslettersubscr_detail');
-
-        if (!$model->publish($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_PUBLISHED_SUCCESFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
-    }
-
-    public function unpublish()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
-
-        $model = $this->getModel('newslettersubscr_detail');
-
-        if (!$model->publish($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_UNPUBLISHED_SUCCESFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
-    }
-
-    public function cancel()
-    {
-        $option = $this->input->get('option');
-
-        $msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
-        $this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
     }
 
     public function export_data()

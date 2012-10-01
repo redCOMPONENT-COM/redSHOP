@@ -321,6 +321,28 @@ class fields_detailModelfields_detail extends RedshopCoreModelDetail
     }
 
     /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        return $this->move(-1);
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        return $this->move(1);
+    }
+
+    /**
      * Method to get databse field name
      *
      * @access public
@@ -334,5 +356,3 @@ class fields_detailModelfields_detail extends RedshopCoreModelDetail
         return (boolean)$result;
     }
 }
-
-?>
