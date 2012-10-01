@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
 class user_detailController extends RedshopCoreControllerDetail
 {
@@ -19,8 +19,7 @@ class user_detailController extends RedshopCoreControllerDetail
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
-        $this->_table_prefix = '#__redshop_';
-        $this->redhelper     = new redhelper();
+        $this->redhelper = new redhelper();
     }
 
     public function save($apply = 0)
