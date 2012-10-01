@@ -12,23 +12,16 @@ defined('_JEXEC') or die ('Restricted access');
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class quotation_detailController extends RedshopCoreController
+class quotation_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'quotation';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
-    }
-
-    public function edit()
-    {
-        $this->input->set('view', 'quotation_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
     }
 
     public function save($send = 0)
@@ -102,32 +95,6 @@ class quotation_detailController extends RedshopCoreController
         $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
-    public function send()
-    {
-        $this->save(1);
-    }
-
-    public function remove()
-    {
-        $option = $this->input->getString('option', '');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('quotation_detail');
-
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
-    }
-
     public function deleteitem()
     {
         $option  = $this->input->getString('option', '');
@@ -143,14 +110,6 @@ class quotation_detailController extends RedshopCoreController
 
         $msg = JText::_('COM_REDSHOP_QUOTATION_ITEM_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $cid[0], $msg);
-    }
-
-    public function cancel()
-    {
-        $option = $this->input->getString('option', '');
-
-        $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
-        $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
     }
 
     public function newQuotationItem()

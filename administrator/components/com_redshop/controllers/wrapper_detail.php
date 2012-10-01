@@ -9,26 +9,22 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class wrapper_detailController extends RedshopCoreController
+class wrapper_detailController extends RedshopCoreControllerDetail
 {
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
+
+        // Set the redirect view.
+        $product_id             = $this->input->get('product_id');
+        $showall                = $this->input->get('showall', '0');
+        $this->redirectViewName = 'wrapper&showall=' . $showall . '&product_id=' . $product_id;
     }
 
-    public function edit()
-    {
-        $this->input->set('view', 'wrapper_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
-    }
-
-    public function save()
+    public function save($apply = 0)
     {
         $showall = $this->input->get('showall', '0');
         $page    = "";
@@ -52,113 +48,6 @@ class wrapper_detailController extends RedshopCoreController
         {
             $msg = JText::_('COM_REDSHOP_ERROR_SAVING_WRAPPER_DETAIL');
         }
-        $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
-    }
-
-    public function remove()
-    {
-        $showall = $this->input->get('showall', '0');
-        $page    = "";
-        if ($showall)
-        {
-            $page = "3";
-        }
-        $option     = $this->input->get('option');
-        $product_id = $this->input->get('product_id');
-        $cid        = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('wrapper_detail');
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-        $msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
-    }
-
-    public function cancel()
-    {
-        $showall = $this->input->get('showall', '0');
-        $page    = "";
-        if ($showall)
-        {
-            $page = "3";
-        }
-        $option     = $this->input->get('option');
-        $product_id = $this->input->get('product_id');
-
-        $msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_EDITING_CANCELLED');
-        $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
-    }
-
-    /**
-     * logic for publish
-     *
-     * @access public
-     * @return void
-     */
-    public function publish()
-    {
-        $showall = $this->input->get('showall', '0');
-        $page    = "";
-        if ($showall)
-        {
-            $page = "3";
-        }
-        $option     = $this->input->get('option');
-        $product_id = $this->input->get('product_id');
-        $cid        = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
-
-        $model = $this->getModel('wrapper_detail');
-        if (!$model->publish($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_WRAPPER_PUBLISHED_SUCCESSFULLY');
-        $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
-    }
-
-    /**
-     * logic for unpublish
-     *
-     * @access public
-     * @return void
-     */
-    public function unpublish()
-    {
-        $showall = $this->input->get('showall', '0');
-        $page    = "";
-        if ($showall)
-        {
-            $page = "3";
-        }
-        $option     = $this->input->get('option');
-        $product_id = $this->input->get('product_id');
-        $cid        = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
-
-        $model = $this->getModel('wrapper_detail');
-        if (!$model->publish($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_WRAPPER_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
     }
 

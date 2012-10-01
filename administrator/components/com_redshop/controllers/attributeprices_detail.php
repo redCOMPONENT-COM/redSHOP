@@ -9,26 +9,22 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class attributeprices_detailController extends RedshopCoreController
+class attributeprices_detailController extends RedshopCoreControllerDetail
 {
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
+
+        // Set the redirect view.
+        $section_id             = $this->input->get('section_id');
+        $section                = $this->input->get('section');
+        $this->redirectViewName = 'attributeprices&section=' . $section . '&section_id=' . $section_id;
     }
 
-    public function edit()
-    {
-        $this->input->set('view', 'attributeprices_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
-    }
-
-    public function save()
+    public function save($apply = 0)
     {
         $post       = $this->input->getArray($_POST);
         $option     = $this->input->get('option');
@@ -59,37 +55,5 @@ class attributeprices_detailController extends RedshopCoreController
         }
 
         $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
-    }
-
-    public function remove()
-    {
-        $option     = $this->input->get('option');
-        $section_id = $this->input->get('section_id');
-        $section    = $this->input->get('section');
-        $cid        = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('attributeprices_detail');
-
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
-    }
-
-    public function cancel()
-    {
-        $option     = $this->input->get('option');
-        $section_id = $this->input->get('section_id');
-
-        $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
-        $this->setRedirect('index.php?option=' . $option . '&view=attributeprices&section_id=' . $section_id, $msg);
     }
 }
