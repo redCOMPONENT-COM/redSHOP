@@ -85,5 +85,21 @@ class attributepricesModelattributeprices extends RedshopCoreModel
         $query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' FROM ' . $this->_table_prefix . 'product_attribute_price AS p ' . 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group AS g ON p.shopper_group_id = g.shopper_group_id ' . $q . 'WHERE p.section_id="' . $this->_sectionid . '" ' . 'AND p.section = "' . $this->_section . '" ';
         return $query;
     }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price ' . 'WHERE price_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
 }
 

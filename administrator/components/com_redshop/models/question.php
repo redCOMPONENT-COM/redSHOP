@@ -141,4 +141,57 @@ class questionModelquestion extends RedshopCoreModel
         }
         return true;
     }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        $row = $this->getTable();
+        $row->load($this->_id);
+        $row->move(-1);
+        $row->store();
+        return true;
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        $row = $this->getTable();
+        $row->load($this->_id);
+        $row->move(1);
+        $row->store();
+        return true;
+    }
+
+    /**
+     * Method to publish the records
+     *
+     * @access public
+     * @return boolean
+     */
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'customer_question ' . ' SET published = ' . intval($publish) . ' WHERE question_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
 }

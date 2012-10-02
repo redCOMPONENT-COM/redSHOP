@@ -126,20 +126,4 @@ class attributeprices_detailModelattributeprices_detail extends RedshopCoreModel
         }
         return true;
     }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price ' . 'WHERE price_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
 }

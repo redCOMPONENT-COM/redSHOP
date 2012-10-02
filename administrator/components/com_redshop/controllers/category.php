@@ -9,15 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class categoryController extends RedshopCoreController
+class categoryController extends RedshopCoreControllerDefault
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
-
     /**
      * assign template to multiple categories
      *

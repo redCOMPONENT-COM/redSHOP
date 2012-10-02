@@ -163,5 +163,98 @@ class fieldsModelfields extends RedshopCoreModel
         //		}
         return true;
     }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        return $this->move(-1);
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        return $this->move(1);
+    }
+
+    /**
+     * Method to move
+     *
+     * @access  public
+     * @return  boolean True on success
+     * @since   0.9
+     */
+    public function move($direction)
+    {
+        $row = JTable::getInstance('fields_detail', 'Table');
+
+        if (!$row->load($this->_id))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+
+        if (!$row->move($direction))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'fields' . ' SET published = ' . intval($publish) . ' WHERE field_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'fields WHERE field_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+
+            // 	remove fields_data
+            $query_field_data = 'DELETE FROM ' . $this->_table_prefix . 'fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
+            $this->_db->setQuery($query_field_data);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                //return false;
+            }
+        }
+
+        return true;
+    }
 }
 

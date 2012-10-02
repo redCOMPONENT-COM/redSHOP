@@ -84,24 +84,6 @@ class state_detailModelstate_detail extends RedshopCoreModelDetail
         return $row;
     }
 
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'state WHERE state_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public function getcountry()
     {
         require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');

@@ -348,50 +348,5 @@ class mediaModelmedia extends RedshopCoreModel
         }
         return true;
     }
-
-    public function saveorder($cid = array(), $order)
-    {
-        $row        = $this->getTable('media_detail');
-        $order      = JRequest::getVar('order', array(0), 'post', 'array');
-        $conditions = array();
-
-        // update ordering values
-        for ($i = 0; $i < count($cid); $i++)
-        {
-            $row->load((int)$cid[$i]);
-            // track categories
-
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-                // remember to updateOrder this group
-                $condition = 'section_id = ' . (int)$row->section_id . ' AND media_section = "' . $row->media_section . '"';
-                $found     = false;
-                foreach ($conditions as $cond)
-                {
-                    if ($cond[1] == $condition)
-                    {
-                        $found = true;
-                        break;
-                    }
-                }
-                if (!$found)
-                {
-                    $conditions[] = array($row->media_id, $condition);
-                }
-            }
-        }
-        // execute updateOrder for each group
-        foreach ($conditions as $cond)
-        {
-            $row->load($cond[0]);
-            $row->reorder($cond[1]);
-        }
-    }
 }
 
