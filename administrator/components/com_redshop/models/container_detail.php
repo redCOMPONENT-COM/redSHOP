@@ -204,49 +204,6 @@ class container_detailModelcontainer_detail extends RedshopCoreModelDetail
         $this->_db->query();
     }
 
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'container WHERE container_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-            $query_stockroom = 'DELETE FROM ' . $this->_table_prefix . 'stockroom_container_xref WHERE container_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query_stockroom);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'container' . ' SET published = ' . intval($publish) . ' WHERE container_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public function Container_Product_Data($container_id)
     {
 

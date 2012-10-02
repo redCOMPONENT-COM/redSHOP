@@ -76,5 +76,22 @@ class pricesModelprices extends RedshopCoreModel
         $query = ' SELECT p.*, ' . ' g.shopper_group_name, prd.product_name ' . ' FROM ' . $this->_table_prefix . 'product_price as p ' . ' LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id ' . ' LEFT JOIN ' . $this->_table_prefix . 'product as prd ON p.product_id = prd.product_id ' . 'WHERE p.product_id = \'' . $this->_prodid . '\' ';
         return $query;
     }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE price_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
 }
 

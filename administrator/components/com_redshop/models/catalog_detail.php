@@ -75,43 +75,6 @@ class catalog_detailModelcatalog_detail extends RedshopCoreModelDetail
         return $row;
     }
 
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'catalog WHERE catalog_id IN ( ' . $cids . ' )';
-
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'catalog' . ' SET published = ' . intval($publish) . ' WHERE catalog_id IN ( ' . $cids . ' )';
-
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public function color_Data($sample_id)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour  WHERE sample_id=' . $sample_id;

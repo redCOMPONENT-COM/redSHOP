@@ -101,69 +101,6 @@ class manufacturer_detailModelmanufacturer_detail extends RedshopCoreModelDetail
         return $row;
     }
 
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'manufacturer' . ' SET published = ' . intval($publish) . ' WHERE manufacturer_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function copy($cid = array())
-    {
-
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            $this->_copydata = $this->_db->loadObjectList();
-        }
-        foreach ($this->_copydata as $cdata)
-        {
-            $post['manufacturer_id']         = 0;
-            $post['manufacturer_name']       = 'Copy Of ' . $cdata->manufacturer_name;
-            $post['manufacturer_desc']       = $cdata->manufacturer_desc;
-            $post['manufacturer_email']      = $cdata->manufacturer_email;
-            $post['product_per_page']        = $cdata->product_per_page;
-            $post['template_id']             = $cdata->template_id;
-            $post['metakey']                 = $cdata->metakey;
-            $post['metadata']                = $cdata->metadata;
-            $post['metadesc']                = $cdata->metadesc;
-            $post['excluding_category_list'] = $cdata->excluding_category_list;
-            $post['published']               = $cdata->published;
-
-            manufacturer_detailModelmanufacturer_detail::store($post);
-        }
-        return true;
-    }
-
     public function TemplateData()
     {
         $query = "SELECT template_id as value,template_name as text FROM " . $this->_table_prefix . "template WHERE template_section ='manufacturer_products' and published=1";
@@ -179,32 +116,6 @@ class manufacturer_detailModelmanufacturer_detail extends RedshopCoreModelDetail
         return $this->_db->loadObject();
     }
 
-    public function saveOrder(&$cid)
-    {
-        $row = $this->getTable();
-
-        $total = count($cid);
-        $order = JRequest::getVar('order', array(0), 'post', 'array');
-        JArrayHelper::toInteger($order, array(0));
-
-        // update ordering values
-        for ($i = 0; $i < $total; $i++)
-        {
-            $row->load((int)$cid[$i]);
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store())
-                {
-                    throw new RuntimeException($this->_db->getErrorMsg());
-                }
-            }
-        }
-
-        $row->reorder();
-        return true;
-    }
-
     /**
      * Method to get max ordering
      *
@@ -216,50 +127,5 @@ class manufacturer_detailModelmanufacturer_detail extends RedshopCoreModelDetail
         $query = "SELECT (max(ordering)+1) FROM " . $this->_table_prefix . "manufacturer";
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
-    }
-
-    /**
-     * Method to move
-     *
-     * @access  public
-     * @return  boolean True on success
-     * @since   0.9
-     */
-    public function move($direction)
-    {
-        $row = JTable::getInstance('manufacturer_detail', 'Table');
-        if (!$row->load($this->_id))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-        if (!$row->move($direction))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Method to up order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderup()
-    {
-        return $this->move(-1);
-    }
-
-    /**
-     * Method to down the order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderdown()
-    {
-        return $this->move(1);
     }
 }

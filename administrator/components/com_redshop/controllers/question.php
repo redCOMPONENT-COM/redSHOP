@@ -9,15 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class questionController extends RedshopCoreController
+class questionController extends RedshopCoreControllerDefault
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
-
     /**
      * logic for save an order
      *

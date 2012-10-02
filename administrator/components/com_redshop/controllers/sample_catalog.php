@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class sample_catalogController extends RedshopCoreController
+class sample_catalogController extends RedshopCoreControllerDefault
 {
     public function __construct($default = array())
     {

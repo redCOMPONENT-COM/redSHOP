@@ -137,4 +137,37 @@ class userModeluser extends RedshopCoreModel
         }
         return $re;
     }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'users_info ' . 'SET approved=' . intval($publish) . ' ' . 'WHERE user_id IN ( ' . $cids . ' ) ';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
 }

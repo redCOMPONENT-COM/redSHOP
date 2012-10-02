@@ -104,4 +104,69 @@ class shippingModelShipping extends RedshopCoreModel
         $row->reorder();
         return true;
     }
+
+    /**
+     * Method to move
+     *
+     * @access  public
+     * @return  boolean True on success
+     * @since   0.9
+     */
+    public function move($direction)
+    {
+        $row = JTable::getInstance('shipping_detail', 'Table');
+
+        if (!$row->load($this->_id))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+
+        if (!$row->move($direction))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        return $this->move(-1);
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        return $this->move(1);
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'UPDATE #__extensions' . ' SET enabled = ' . intval($publish) . ' WHERE  extension_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

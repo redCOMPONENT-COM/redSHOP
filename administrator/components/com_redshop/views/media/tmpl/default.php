@@ -57,27 +57,7 @@ if ($showbuttons == 1)
     }
 }
 ?>
-<script language="javascript" type="text/javascript">
-    Joomla.submitbutton = function (pressbutton) {
-        submitbutton(pressbutton);
-    }
-    submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'edit') || (pressbutton == 'defaultmedia') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-            form.view.value = "media_detail";
-        }
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-        form.submit();
-    }
-</script><?php
+<?php
 if ($showbuttons == 1)
 {
     ?>
@@ -159,7 +139,8 @@ else
                     echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_type', $this->lists ['order_Dir'], $this->lists ['order']);
                 }    ?></th>
                 <?php    if ($showbuttons == 1)
-            { ?>
+            {
+                ?>
                 <th width="10%"><?php    echo JTEXT::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES');    ?></th><?php }?>
                 <th width="15%"><?php    if ($showbuttons == 1)
                 {
@@ -235,7 +216,8 @@ else
                         }    ?></td>
                     <td align="center" class="order"><?php echo $row->media_type;?></td>
                     <?php    if ($showbuttons == 1)
-                { ?>
+                {
+                    ?>
                     <td class="order"><?php
                         if ($row->media_type == 'download')
                         {

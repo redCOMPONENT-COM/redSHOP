@@ -79,5 +79,67 @@ class supplierModelsupplier extends RedshopCoreModel
         $orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
     }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'supplier' . ' SET published = ' . intval($publish) . ' WHERE supplier_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function copy($cid = array())
+    {
+
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'supplier WHERE supplier_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            $this->_copydata = $this->_db->loadObjectList();
+        }
+        foreach ($this->_copydata as $cdata)
+        {
+
+            $post['supplier_id']    = 0;
+            $post['supplier_name']  = 'Copy Of ' . $cdata->supplier_name;
+            $post['supplier_desc']  = $cdata->supplier_desc;
+            $post['supplier_email'] = $cdata->supplier_email;
+            $post['published']      = $cdata->published;
+
+            supplier_detailModelsupplier_detail::store($post);
+        }
+
+        return true;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'supplier WHERE supplier_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 

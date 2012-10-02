@@ -176,60 +176,6 @@ class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
         return $send;
     }
 
-    public function delete($cid = array())
-    {
-        $quotationHelper = new quotationHelper();
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $items = $quotationHelper->getQuotationProduct($cids);
-            for ($i = 0; $i < count($items); $i++)
-            {
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-                $this->_db->setQuery($query);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-                $this->_db->setQuery($query);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-                $this->_db->setQuery($query);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item ' . 'WHERE quotation_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
     public function deleteitem($cids = 0, $quotation_id = 0)
     {
         $quotationHelper = new quotationHelper();

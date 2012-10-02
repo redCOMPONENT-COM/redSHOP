@@ -215,68 +215,6 @@ class shopper_group_detailModelshopper_group_detail extends RedshopCoreModelDeta
         return $row;
     }
 
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'shopper_group ' . 'WHERE shopper_group_id IN (' . $cids . ') ';
-            $this->_db->setQuery($query);
-            $list = $this->_db->loadObjectlist();
-            for ($i = 0; $i < count($list); $i++)
-            {
-                $logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $list[$i]->shopper_group_logo;
-                if (is_file($logopath))
-                {
-                    unlink($logopath);
-                }
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'shopper_group WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'shopper_group ' . 'SET published = ' . intval($publish) . ' WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
     public function getVatGroup()
     {
         $query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ";

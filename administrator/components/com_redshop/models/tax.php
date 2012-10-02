@@ -77,4 +77,22 @@ class taxModeltax extends RedshopCoreModel
         $query = ' SELECT tr.*,tg.tax_group_name  ' . ' FROM ' . $this->_table_prefix . 'tax_rate as tr' . ' LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg ON tr.tax_group_id = tg.tax_group_id ' . 'WHERE tg.tax_group_id = \'' . $this->_tax_group_id . '\' ';
         return $query;
     }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'tax_rate WHERE tax_rate_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
