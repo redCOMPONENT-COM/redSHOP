@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Models
+ * @package    redSHOP
+ * @subpackage Models
  *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -123,6 +123,22 @@ class attributeprices_detailModelattributeprices_detail extends RedshopCoreModel
         {
             $this->setError($this->_db->getErrorMsg());
             return false;
+        }
+        return true;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price ' . 'WHERE price_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
         }
         return true;
     }
