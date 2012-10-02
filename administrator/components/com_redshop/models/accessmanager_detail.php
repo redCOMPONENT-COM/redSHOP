@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Models
+ * @package    redSHOP
+ * @subpackage Models
  *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -225,8 +225,8 @@ class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDeta
             foreach ($groups as $groupValue => $groupName)
             {
                 /*if( $groupValue < 23 ):
-                        continue;
-                        endif;*/
+continue;
+endif;*/
 
                 $row->gid          = $groupValue;
                 $row->section_name = $data['section'];
@@ -326,8 +326,8 @@ class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDeta
     {
         // Compute usergroups
         $query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
-  FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
-  ORDER BY a.lft asc";
+FROM `#__usergroups` AS a LEFT OUTER JOIN `#__usergroups` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt GROUP BY a.id
+ORDER BY a.lft asc";
 
         $this->_db->setQuery($query);
         // echo $db->getQuery();

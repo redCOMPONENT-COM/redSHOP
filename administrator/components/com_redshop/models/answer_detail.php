@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Models
+ * @package    redSHOP
+ * @subpackage Models
  *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -109,6 +109,137 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
         return $this->_db->loadResult();
     }
 
+    /**
+     * Method to delete the records
+     *
+     * @access public
+     * @return boolean
+     */
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question ' . 'WHERE question_id IN (' . $cids . ')';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method to publish the records
+     *
+     * @access public
+     * @return boolean
+     */
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'customer_question ' . ' SET published = ' . intval($publish) . ' WHERE question_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method to save order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function saveorder($cid = array(), $order)
+    {
+        $row        = $this->getTable('question_detail');
+        $order      = JRequest::getVar('order', array(0), 'post', 'array');
+        $groupings  = array();
+        $conditions = array();
+        // update ordering values
+        for ($i = 0; $i < count($cid); $i++)
+        {
+            $row->load((int)$cid[$i]);
+            // track categories
+            $groupings[] = $row->question_id;
+
+            if ($row->ordering != $order[$i])
+            {
+                $row->ordering = $order[$i];
+                if (!$row->store())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    return false;
+                }
+                // remember to updateOrder this group
+                $condition = 'parent_id = ' . (int)$row->parent_id;
+                $found     = false;
+                foreach ($conditions as $cond)
+                {
+                    if ($cond[1] == $condition)
+                    {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found)
+                {
+                    $conditions[] = array($row->question_id, $condition);
+                }
+            }
+        }
+
+        foreach ($conditions as $cond)
+        {
+            $row->load($cond[0]);
+            $row->reorder($cond[1]);
+        }
+        return true;
+    }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        $row = $this->getTable('question_detail');
+        $row->load($this->_id);
+        $row->move(-1, 'parent_id= ' . (int)$row->parent_id);
+        $row->store();
+
+        return true;
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        $row = $this->getTable('question_detail');
+        $row->load($this->_id);
+        $row->move(1, 'parent_id = ' . (int)$row->parent_id);
+        $row->store();
+
+        return true;
+    }
+
     public function sendMailForAskQuestion($ansid)
     {
         $redshopMail = new redshopMail();
@@ -116,4 +247,3 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
         return $rs;
     }
 }
-
