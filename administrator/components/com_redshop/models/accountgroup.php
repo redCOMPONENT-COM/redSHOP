@@ -40,8 +40,10 @@ class RedshopModelAccountgroup extends JModelList
         $ordering  = $db->escape($this->getState('list.ordering', 'accountgroup_id'));
         $direction = $db->escape($this->getState('list.direction', 'DESC'));
 
-        $query = $db->getQuery(true);
-        $query->select('*')->from('#__redshop_economic_accountgroup')->order($ordering . ' ' . $direction);
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from('#__redshop_economic_accountgroup')
+            ->order($ordering . ' ' . $direction);
 
         return $query;
     }

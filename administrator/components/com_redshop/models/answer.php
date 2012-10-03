@@ -9,233 +9,112 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+jimport('joomla.application.component.modellist');
 
-class RedshopModelAnswer extends RedshopCoreModel
+/**
+ * Answer Model.
+ *
+ * @package        redSHOP
+ * @subpackage     Models
+ * @since          1.2
+ */
+class RedshopModelAnswer extends JModelList
 {
-    public $_total = null;
+    /**
+     * Context string for the model type.  This is used to handle uniqueness
+     * when dealing with the getStoreId() method and caching data structures.
+     *
+     * @var    string
+     */
+    protected $context = 'question_id';
 
-    public $_pagination = null;
-
-    public $_context = 'question_id';
-
-    public function __construct()
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     */
+    protected function populateState($ordering = null, $direction = null)
     {
-        parent::__construct();
+        // Load the filter state.
+        $filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', 0);
+        $this->setState('filter.filter', $filter);
 
-        $app = JFactory::getApplication();
+        $parentId = $this->getUserStateFromRequest($this->context . 'product_id', 'product_id', 0);
+        $this->setState('filter.parent_id', $parentId);
 
-        $array     = JRequest::getVar('parent_id', 0, '', 'array');
-        $this->_id = (int)$array[0];
-
-        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $product_id = $app->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
-
-        $this->setState('limit', $limit);
-        $this->setState('limitstart', $limitstart);
-        $this->setState('filter', $filter);
-        $this->setState('product_id', $product_id);
+        $productId = $this->getUserStateFromRequest($this->context . 'parent_id', 'parent_id', 0);
+        $this->setState('filter.product_id', $productId);
     }
 
-    public function getData()
+    /**
+     * Method to get a store id based on model configuration state.
+     *
+     * This is necessary because the model is used by the component and
+     * different modules that might need different sets of data or different
+     * ordering requirements.
+     *
+     * @param	string	$id  A prefix for the store id.
+     *
+     * @return	string	A store id.
+     */
+    protected function getStoreId($id = '')
     {
-        if (empty($this->_data))
-        {
-            $query       = $this->_buildQuery();
-            $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-        }
-        return $this->_data;
+        // Compile the store id.
+        $id	.= ':'.$this->getState('filter.filter');
+        $id	.= ':'.$this->getState('filter.parent_id');
+        $id	.= ':'.$this->getState('filter.product_id');
+
+        return parent::getStoreId($id);
     }
 
-    public function getTotal()
+    /**
+     * Build an SQL query to load the list data.
+     *
+     * @return	JDatabaseQuery
+     */
+    protected function getListQuery()
     {
-        if (empty($this->_total))
-        {
-            $query        = $this->_buildQuery();
-            $this->_total = $this->_getListCount($query);
-        }
-        return $this->_total;
-    }
+        $db = JFactory::getDbo();
 
-    public function getPagination()
-    {
-        if (empty($this->_pagination))
-        {
-            jimport('joomla.html.pagination');
-            $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-        }
+        // Get the model state.
+        $ordering  = $db->escape($this->getState('list.ordering', 'q.parent_id'));
+        $direction = $db->escape($this->getState('list.direction', 'DESC'));
+        $parentId = $db->escape($this->getState('filter.parent_id', 'DESC'));
+        $filter = $this->getState('filter.filter');
+        $productId = $this->getState('filter.product_id', 'DESC');
 
-        return $this->_pagination;
-    }
+        $query = $db->getQuery(true)
+            ->select('q.*')
+            ->from('#__redshop_customer_question as q')
+            ->where('q.parent_id =' . $parentId);
 
-    public function getProduct()
-    {
-        $query = "SELECT * FROM " . $this->_table_prefix . "product ";
-        $list  = $this->_data = $this->_getList($query);
-        return $list;
-    }
-
-    public function _buildQuery()
-    {
-        $where      = "";
-        $filter     = $this->getState('filter');
-        $product_id = $this->getState('product_id');
         if ($filter)
         {
-            $where .= " AND q.question LIKE '%" . $filter . "%' ";
+            $query->where('q.question LIKE %' . $db->escape($filter) . '%');
         }
-        if ($product_id != 0)
-        {
-            $where .= " AND q.product_id ='" . $product_id . "' ";
-        }
-        $orderby = $this->_buildContentOrderBy();
 
-        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.parent_id='" . $this->_id . "' " . $where . $orderby;
+        if ($productId)
+        {
+            $query->where('q.product_id =' . $db->escape($productId));
+        }
+
+        $query->order($ordering . ' ' . $direction);
+
         return $query;
     }
 
-    public function _buildContentOrderBy()
-    {
-        $app = JFactory::getApplication();
-
-        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
-        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-
-        $orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
-        return $orderby;
-    }
-
     /**
-     * Method to delete the records
-     *
-     * @access public
-     * @return boolean
+     * ????
      */
-    public function delete($cid = array())
+    public function getProduct()
     {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
+        $db = JFactory::getDbo();
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question ' . 'WHERE question_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from('#__redshop_product');
 
-    /**
-     * Method to publish the records
-     *
-     * @access public
-     * @return boolean
-     */
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'customer_question ' . ' SET published = ' . intval($publish) . ' WHERE question_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Method to save order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function saveorder($cid = array(), $order)
-    {
-        $row        = $this->getTable('customer_question');
-        $order      = JRequest::getVar('order', array(0), 'post', 'array');
-        $groupings  = array();
-        $conditions = array();
-        // update ordering values
-        for ($i = 0; $i < count($cid); $i++)
-        {
-            $row->load((int)$cid[$i]);
-            // track categories
-            $groupings[] = $row->question_id;
-
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-                // remember to updateOrder this group
-                $condition = 'parent_id = ' . (int)$row->parent_id;
-                $found     = false;
-                foreach ($conditions as $cond)
-                {
-                    if ($cond[1] == $condition)
-                    {
-                        $found = true;
-                        break;
-                    }
-                }
-                if (!$found)
-                {
-                    $conditions[] = array($row->question_id, $condition);
-                }
-            }
-        }
-
-        foreach ($conditions as $cond)
-        {
-            $row->load($cond[0]);
-            $row->reorder($cond[1]);
-        }
-        return true;
-    }
-
-    /**
-     * Method to up order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderup()
-    {
-        $row = $this->getTable('customer_question');
-        $row->load($this->_id);
-        $row->move(-1, 'parent_id= ' . (int)$row->parent_id);
-        $row->store();
-
-        return true;
-    }
-
-    /**
-     * Method to down the order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderdown()
-    {
-        $row = $this->getTable('customer_question');
-        $row->load($this->_id);
-        $row->move(1, 'parent_id = ' . (int)$row->parent_id);
-        $row->store();
-
-        return true;
+        return $this->_getList($query);
     }
 }
 
