@@ -1053,4 +1053,71 @@ VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . 
         $this->_db->setQuery($image_media);
         return $this->_db->loadObjectlist();
     }
+
+    public function delete($cid = array())
+    {
+        $producthelper = new producthelper();
+        $option        = JRequest::getVar('option', '', 'request', 'string');
+        if (count($cid))
+        {
+            $cids           = implode(',', $cid);
+            $property_image = $producthelper->getAttibuteProperty(0, 0, 0, $cids);
+            foreach ($property_image as $imagename)
+            {
+
+                $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $imagename->property_image;
+
+                $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
+
+                if (is_file($dest))
+                {
+                    unlink($dest);
+                }
+                if (is_file($tsrc))
+                {
+                    unlink($tsrc);
+                }
+
+                $attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
+                $this->_db->setQuery($attr_delete);
+                if (!$this->_db->query())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    //return false;
+                }
+                $prop_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
+                $this->_db->setQuery($prop_delete);
+                if (!$this->_db->query())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    //return false;
+                }
+            }
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                //return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'UPDATE ' . $this->_table_prefix . 'attribute_set' . ' SET published = ' . intval($publish) . ' WHERE attribute_set_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
 }
