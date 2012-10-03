@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'currency.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class configurationController extends RedshopCoreControllerDefault
+class RedshopControllerConfiguration extends RedshopCoreControllerDefault
 {
     public function __construct($default = array())
     {

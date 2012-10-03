@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class stockimage_detailModelstockimage_detail extends RedshopCoreModelDetail
+class RedshopModelStockimage_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -56,7 +56,7 @@ class stockimage_detailModelstockimage_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row  = $this->getTable('stockimage_detail');
+        $row  = $this->getTable('stockroom_amount_image');
         $file = JRequest::getVar('stock_amount_image', '', 'files', 'array');
         if ($_FILES['stock_amount_image']['name'] != "")
         {

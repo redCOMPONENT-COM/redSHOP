@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class manufacturer_detailModelmanufacturer_detail extends RedshopCoreModelDetail
+class RedshopModelManufacturer_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -78,7 +78,7 @@ class manufacturer_detailModelmanufacturer_detail extends RedshopCoreModelDetail
             $data['excluding_category_list'] = @ implode(',', $data['excluding_category_list']);
         }
 
-        $row              = $this->getTable();
+        $row              = $this->getTable('manufacturer');
         $data['ordering'] = $this->MaxOrdering();
 
         if (!$row->bind($data))

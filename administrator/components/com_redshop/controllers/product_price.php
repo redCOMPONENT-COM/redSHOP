@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class product_priceController extends RedshopCoreControllerDefault
+class RedshopControllerProduct_price extends RedshopCoreControllerDefault
 {
     public function listing()
     {

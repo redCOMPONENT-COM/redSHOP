@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class shipping_rateModelShipping_rate extends RedshopCoreModel
+class RedshopModelShipping_rate extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -96,7 +96,7 @@ class shipping_rateModelShipping_rate extends RedshopCoreModel
         }
         for ($i = 0; $i < count($copydata); $i++)
         {
-            $row = $this->getTable();
+            $row = $this->getTable('shipping_rate');
 
             $pdata = &$copydata[$i];
 

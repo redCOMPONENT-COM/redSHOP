@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class xmlexportViewxmlexport extends JViewLegacy
+class RedshopViewXmlexport extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class mass_discount_detailModelmass_discount_detail extends RedshopCoreModelDetail
+class RedshopModelMass_discount_detail extends RedshopCoreModelDetail
 {
     public $_shoppers = null;
 
@@ -70,7 +70,7 @@ class mass_discount_detailModelmass_discount_detail extends RedshopCoreModelDeta
     {
         $producthelper = new producthelper();
 
-        $row = $this->getTable('mass_discount_detail');
+        $row = $this->getTable('mass_discount');
 
         if (!$row->bind($data))
         {

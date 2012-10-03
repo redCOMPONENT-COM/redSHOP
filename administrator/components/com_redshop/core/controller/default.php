@@ -20,10 +20,6 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php'
  */
 class RedshopCoreControllerDefault extends RedshopCoreController
 {
-    /**
-     * @var  string  The name of the view to redirect to (not the detail one).
-     */
-    public $redirectViewName = '';
 
     /**
      * Default publish method.
@@ -49,7 +45,7 @@ class RedshopCoreControllerDefault extends RedshopCoreController
         }
 
         $msg = JText::_('COM_REDSHOP_PUBLISHED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=com_redshop&view=' . $this->redirectViewName, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=' . $this->getName(), $msg);
     }
 
     /**
@@ -76,7 +72,7 @@ class RedshopCoreControllerDefault extends RedshopCoreController
         }
 
         $msg = JText::_('COM_REDSHOP_UNPUBLISHED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=com_redshop&view=' . $this->redirectViewName, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=' . $this->getName(), $msg);
     }
 
     /**
@@ -103,46 +99,7 @@ class RedshopCoreControllerDefault extends RedshopCoreController
         }
 
         $msg = JText::_('COM_REDSHOP_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=com_redshop&view=' . $this->redirectViewName, $msg);
-    }
-
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
-
-    /**
-     * Default edit method.
-     *
-     * @return  void
-     */
-    public function edit()
-    {
-        $this->input->set('view', $this->getName());
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
-    }
-
-    /**
-     * Default apply method.
-     *
-     * @return  void
-     */
-    public function apply()
-    {
-        $this->save(1);
-    }
-
-    /**
-     * Default send method.
-     *
-     * @return  void
-     */
-    public function send()
-    {
-        $this->save(1);
+        $this->setRedirect('index.php?option=com_redshop&view=' . $this->getName(), $msg);
     }
 
     /**
@@ -157,7 +114,7 @@ class RedshopCoreControllerDefault extends RedshopCoreController
         $model->orderup();
 
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-        $this->setRedirect('index.php?option=com_redshop&view=' . $this->redirectViewName, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=' . $this->getName(), $msg);
     }
 
     /**
@@ -172,7 +129,7 @@ class RedshopCoreControllerDefault extends RedshopCoreController
         $model->orderdown();
 
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-        $this->setRedirect('index.php?option=com_redshop&view=' . $this->redirectViewName, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=' . $this->getName(), $msg);
     }
 
     /**
@@ -193,7 +150,7 @@ class RedshopCoreControllerDefault extends RedshopCoreController
         $model->saveorder($cid, $order);
 
         $msg = JText::_('COM_REDSHOP_ORDERING_SAVED');
-        $this->setRedirect('index.php?option=com_redshop&view=' . $this->redirectViewName, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=' . $this->getName(), $msg);
     }
 
     /**
@@ -216,7 +173,7 @@ class RedshopCoreControllerDefault extends RedshopCoreController
             $msg = JText::_('COM_REDSHOP_ERROR_COPIED');
         }
 
-        $this->setRedirect('index.php?option=com_redshop&view=' . $this->redirectViewName, $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=' . $this->getName(), $msg);
     }
 }
 

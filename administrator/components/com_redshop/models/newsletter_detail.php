@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class newsletter_detailModelnewsletter_detail extends RedshopCoreModelDetail
+class RedshopModelNewsletter_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -56,7 +56,7 @@ class newsletter_detailModelnewsletter_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('newsletter');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

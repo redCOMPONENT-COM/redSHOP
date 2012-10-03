@@ -10,11 +10,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class tax_detailModeltax_detail extends RedshopCoreModelDetail
+class RedshopModelTax_detail extends RedshopCoreModelDetail
 {
     public $_tax_group_id = null;
 
@@ -75,7 +73,7 @@ class tax_detailModeltax_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('tax_rate');
 
         if (!$row->bind($data))
         {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class orderModelorder extends RedshopCoreModel
+class RedshopModelOrder extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -384,7 +384,7 @@ class orderModelorder extends RedshopCoreModel
                 $economic = new economic();
                 for ($i = 0; $i < count($cid); $i++)
                 {
-                    $orderdata = $this->getTable('order_detail');
+                    $orderdata = $this->getTable('orders');
                     $orderdata->load($cid[$i]);
                     $invoiceHandle = $economic->deleteInvoiceInEconomic($orderdata);
                 }

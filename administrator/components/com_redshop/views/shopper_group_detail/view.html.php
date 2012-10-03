@@ -12,7 +12,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class shopper_group_detailVIEWshopper_group_detail extends JViewLegacy
+class RedshopViewShopper_group_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class giftcard_detailModelgiftcard_detail extends RedshopCoreModelDetail
+class RedshopModelModelGiftcard_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -65,7 +65,7 @@ class giftcard_detailModelgiftcard_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('giftcard');
 
         if (!$row->bind($data))
         {

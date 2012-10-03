@@ -14,7 +14,7 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class user_detailModeluser_detail extends RedshopCoreModelDetail
+class RedshopModelUser_detail extends RedshopCoreModelDetail
 {
     public $_uid = null;
 

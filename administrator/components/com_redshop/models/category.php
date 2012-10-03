@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class categoryModelcategory extends RedshopCoreModel
+class RedshopModelCategory extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -57,7 +57,7 @@ class categoryModelcategory extends RedshopCoreModel
     public function store($data)
     {
 
-        $row = $this->getTable();
+        $row = $this->getTable('category');
 
         if (!$row->bind($data))
         {
@@ -216,7 +216,7 @@ class categoryModelcategory extends RedshopCoreModel
                     $accessory_id = $product_category->CheckAccessoryExists($product_id, $acc['child_product_id']);
                     if ($product_id != $acc['child_product_id'])
                     {
-                        $accdetail = $this->getTable('accessory_detail');
+                        $accdetail = $this->getTable('product_accessory');
 
                         $accdetail->accessory_id        = $accessory_id;
                         $accdetail->category_id         = $newcatid;
@@ -335,7 +335,7 @@ class categoryModelcategory extends RedshopCoreModel
 
     public function saveorder($cid = array(), $order)
     {
-        $row       = $this->getTable('category_detail');
+        $row       = $this->getTable('category');
         $groupings = array();
 
         // update ordering values
@@ -434,7 +434,7 @@ class categoryModelcategory extends RedshopCoreModel
 
     public function move($direction)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('category');
         if (!$row->load($this->_id))
         {
             $this->setError($this->_db->getErrorMsg());

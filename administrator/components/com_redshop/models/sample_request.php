@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class sample_requestModelsample_request extends RedshopCoreModel
+class RedshopModelSample_request extends RedshopCoreModel
 {
     public $_total = null;
 

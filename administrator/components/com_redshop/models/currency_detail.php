@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class currency_detailModelcurrency_detail extends RedshopCoreModelDetail
+class RedshopModelCurrency_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -57,8 +57,7 @@ class currency_detailModelcurrency_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-
-        $row = $this->getTable();
+        $row = $this->getTable('currency');
 
         if (!$row->bind($data))
         {

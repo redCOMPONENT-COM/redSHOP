@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class product_categoryModelproduct_category extends RedshopCoreModel
+class RedshopModelProduct_category extends RedshopCoreModel
 {
     public function getProductlist()
     {

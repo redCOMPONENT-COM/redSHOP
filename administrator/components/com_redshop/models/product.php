@@ -15,7 +15,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class productModelproduct extends RedshopCoreModel
+class RedshopModelProduct extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -1186,7 +1186,7 @@ class productModelproduct extends RedshopCoreModel
 
                 for ($i = 0; $i < count($productpricedata); $i++)
                 {
-                    $rowprices_detail             = $this->getTable('prices_detail');
+                    $rowprices_detail             = $this->getTable('product_price');
                     $data['price_id ']            = 0;
                     $data['product_id']           = $row->product_id;
                     $data['product_price']        = $productpricedata[$i]->product_price;
@@ -1214,7 +1214,7 @@ class productModelproduct extends RedshopCoreModel
                     $new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_img);
                     copy($old_media, $new_media);
 
-                    $rowmedia                     = $this->getTable('media_detail');
+                    $rowmedia                     = $this->getTable('media');
                     $data['media_id ']            = 0;
                     $data['media_name']           = JPath::clean(time() . $new_img);
                     $data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;

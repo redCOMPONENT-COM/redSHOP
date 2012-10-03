@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class manufacturerModelmanufacturer extends RedshopCoreModel
+class RedshopModelManufacturer extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -102,7 +102,7 @@ class manufacturerModelmanufacturer extends RedshopCoreModel
 
     public function saveOrder(&$cid)
     {
-        $row = $this->getTable('manufacturer_detail');
+        $row = $this->getTable('manufacturer');
 
         $total = count($cid);
         $order = JRequest::getVar('order', array(0), 'post', 'array');

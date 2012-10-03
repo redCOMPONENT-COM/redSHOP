@@ -10,11 +10,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shopper_group_detailModelshopper_group_detail extends RedshopCoreModelDetail
+class RedshopModelShopper_group_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -149,7 +147,7 @@ class shopper_group_detailModelshopper_group_detail extends RedshopCoreModelDeta
             $data['shopper_group_logo'] = $destname;
         }
 
-        $row = $this->getTable();
+        $row = $this->getTable('shopper_group');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

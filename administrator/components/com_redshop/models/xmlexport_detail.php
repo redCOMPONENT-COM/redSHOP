@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class xmlexport_detailModelxmlexport_detail extends RedshopCoreModelDetail
+class RedshopModelXmlexport_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -82,7 +82,7 @@ class xmlexport_detailModelxmlexport_detail extends RedshopCoreModelDetail
         $xmlhelper = new xmlHelper();
 
         $data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
-        $row                           = $this->getTable();
+        $row                           = $this->getTable('xml_export');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

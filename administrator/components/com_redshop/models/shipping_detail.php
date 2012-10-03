@@ -14,7 +14,7 @@ jimport('joomla.installer.helper');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
+class RedshopModelShipping_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 

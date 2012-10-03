@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class attribute_setModelattribute_set extends RedshopCoreModel
+class RedshopModelAttribute_set extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -79,6 +79,7 @@ class attribute_setModelattribute_set extends RedshopCoreModel
         $orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
     }
+
 
     public function delete($cid = array())
     {
@@ -239,7 +240,7 @@ class attribute_setModelattribute_set extends RedshopCoreModel
                                 $attribute_properties['setdefault_selected'] = $product_attributes_property->setdefault_selected;
                                 $attribute_properties['property_number']     = $product_attributes_property->property_number;
 
-                                $row = $this->getTable('attribute_property');
+                                $row = $this->getTable('product_attribute_property');
 
                                 // Bind and save data into 'product_attribute_property'
                                 if (!$row->bind($attribute_properties))
@@ -329,7 +330,7 @@ class attribute_setModelattribute_set extends RedshopCoreModel
                                         $sub_attribute_properties['subattribute_color_number']     = $product_sub_attributes_property->subattribute_color_number;
                                         $sub_attribute_properties['subattribute_color_title']      = $product_sub_attributes_property->subattribute_color_title;
                                         $sub_attribute_properties['subattribute_color_main_image'] = $product_sub_attributes_property->subattribute_color_main_image;
-                                        $row                                                       = $this->getTable('subattribute_property');
+                                        $row                                                       = $this->getTable('product_subattribute_color');
 
                                         // Bind and save data into 'subattribute_property'
                                         if (!$row->bind($sub_attribute_properties))

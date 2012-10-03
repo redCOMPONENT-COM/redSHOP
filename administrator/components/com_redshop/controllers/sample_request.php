@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class sample_requestController extends RedshopCoreControllerDefault
+class RedshopControllerSample_request extends RedshopCoreControllerDefault
 {
     public function cancel()
     {

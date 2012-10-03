@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class fieldsModelfields extends RedshopCoreModel
+class RedshopModelFields extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -114,7 +114,7 @@ class fieldsModelfields extends RedshopCoreModel
 
     public function saveorder($cid = array(), $order)
     {
-        $row        = $this->getTable('fields_detail');
+        $row        = $this->getTable('fields');
         $groupings  = array();
         $conditions = array();
 

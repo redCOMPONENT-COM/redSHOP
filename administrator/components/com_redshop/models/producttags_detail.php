@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class producttags_detailModelproducttags_detail extends RedshopCoreModelDetail
+class RedshopModelProducttags_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {

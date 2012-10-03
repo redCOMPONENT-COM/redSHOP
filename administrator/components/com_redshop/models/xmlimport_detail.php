@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class xmlimport_detailModelxmlimport_detail extends RedshopCoreModelDetail
+class RedshopModelXmlimport_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -264,7 +264,7 @@ class xmlimport_detailModelxmlimport_detail extends RedshopCoreModelDetail
             $data['add_prefix_for_existing'] = "xml_";
         }
 
-        $row = $this->getTable();
+        $row = $this->getTable('xml_import');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

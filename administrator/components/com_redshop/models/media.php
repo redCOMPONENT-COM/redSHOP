@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'media.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class mediaModelmedia extends RedshopCoreModel
+class RedshopModelMedia extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -345,6 +345,132 @@ class mediaModelmedia extends RedshopCoreModel
         {
             $this->setError($this->_db->getErrorMsg());
             return false;
+        }
+        return true;
+    }
+
+    public function saveorder($cid = array(), $order)
+    {
+        $row        = $this->getTable('media');
+        $order      = JRequest::getVar('order', array(0), 'post', 'array');
+        $conditions = array();
+        //$groupings = array();
+
+        // update ordering values
+        for ($i = 0; $i < count($cid); $i++)
+        {
+            $row->load((int)$cid[$i]);
+            // track categories
+            //$groupings[] = $row->mid;
+
+            if ($row->ordering != $order[$i])
+            {
+                $row->ordering = $order[$i];
+                if (!$row->store())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    return false;
+                }
+                // remember to updateOrder this group
+                $condition = 'section_id = ' . (int)$row->section_id . ' AND media_section = "' . $row->media_section . '"';
+                $found     = false;
+                foreach ($conditions as $cond)
+                {
+                    if ($cond[1] == $condition)
+                    {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found)
+                {
+                    $conditions[] = array($row->media_id, $condition);
+                }
+            }
+        }
+        // execute updateOrder for each group
+        foreach ($conditions as $cond)
+        {
+            $row->load($cond[0]);
+            $row->reorder($cond[1]);
+        }
+    }
+
+    public function orderup()
+    {
+        $row = $this->getTable('media');
+        $row->load($this->_id);
+        //$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
+        $row->move(-1, 'section_id = ' . (int)$row->section_id . ' AND media_section = "' . $row->media_section . '"');
+        $row->store();
+        return true;
+    }
+
+    public function orderdown()
+    {
+        $row = $this->getTable('media');
+        $row->load($this->_id);
+        //$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
+        $row->move(1, 'section_id = ' . (int)$row->section_id . ' AND media_section = "' . $row->media_section . '"');
+        $row->store();
+        return true;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+
+            $cids = implode(',', $cid);
+
+            $q = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE media_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($q);
+            $this->_data = $this->_db->loadObjectList();
+
+            foreach ($this->_data as $mediadata)
+            {
+                $ntsrc = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/' . $mediadata->media_section . '/thumb' . DS . $mediadata->media_name;
+                $nsrc  = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/' . $mediadata->media_section . '/' . $mediadata->media_name;
+
+                if (is_file($nsrc))
+                {
+                    unlink($nsrc);
+                }
+                if (is_file($ntsrc))
+                {
+                    unlink($ntsrc);
+                }
+                if ($mediadata->media_section == 'manufacturer')
+                {
+                    $query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
+                    $this->_db->setQuery($query);
+                    $this->_db->query();
+                }
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
+                $this->_db->setQuery($query);
+                if (!$this->_db->query())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'media' . ' SET published = ' . intval($publish) . ' WHERE media_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
         }
         return true;
     }

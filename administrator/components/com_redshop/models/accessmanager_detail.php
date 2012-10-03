@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDetail
+class RedshopModelAccessmanager_detail extends RedshopCoreModelDetail
 {
     public function getaccessmanager()
     {
@@ -44,7 +44,7 @@ class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDeta
             {
                 foreach ($groups as $groupValue => $groupName)
                 {
-                    $row               = $this->getTable('accessmanager_detail');
+                    $row               = $this->getTable('accessmanager');
                     $row->gid          = $groupValue;
                     $row->section_name = $data['section'];
                     $row->view         = $data['groupaccess_' . $groupValue]['view'];
@@ -71,7 +71,7 @@ class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDeta
                     if ($row->section_name == 'stockroom')
                     {
 
-                        $row1               = $this->getTable('accessmanager_detail');
+                        $row1               = $this->getTable('accessmanager');
                         $row1->gid          = $groupValue;
                         $row1->section_name = "stockroom_detail";
                         $row1->view         = $data['groupaccess_' . $groupValue]['view'];
@@ -106,7 +106,7 @@ class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDeta
                             }
                         }
 
-                        $row_amt               = $this->getTable('accessmanager_detail');
+                        $row_amt               = $this->getTable('accessmanager');
                         $row_amt->gid          = $groupValue;
                         $row_amt->section_name = "stockroom_listing";
                         $row_amt->view         = $data['groupaccess_' . $groupValue]['view'];
@@ -143,7 +143,7 @@ class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDeta
 
                         // stockrrom image
 
-                        $row_img               = $this->getTable('accessmanager_detail');
+                        $row_img               = $this->getTable('accessmanager');
                         $row_img->gid          = $groupValue;
                         $row_img->section_name = "stockimage";
                         $row_img->view         = $data['groupaccess_' . $groupValue]['view'];
@@ -179,7 +179,7 @@ class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDeta
                             }
                         }
 
-                        $row_imgd               = $this->getTable('accessmanager_detail');
+                        $row_imgd               = $this->getTable('accessmanager');
                         $row_imgd->gid          = $groupValue;
                         $row_imgd->section_name = "stockimage_detail";
                         $row_imgd->view         = $data['groupaccess_' . $groupValue]['view'];

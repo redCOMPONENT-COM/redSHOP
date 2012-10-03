@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.pagination');
 
-class attributepricesViewattributeprices extends JViewLegacy
+class RedshopViewAttributeprices extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class template_detailModeltemplate_detail extends RedshopCoreModelDetail
+class RedshopModelTemplate_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -79,7 +79,7 @@ class template_detailModeltemplate_detail extends RedshopCoreModelDetail
     {
         $red_template = new Redtemplate();
 
-        $row = $this->getTable();
+        $row = $this->getTable('template');
         if (isset($data['payment_methods']) && count($data['payment_methods']) > 0)
         {
             $data['payment_methods'] = implode(',', $data['payment_methods']);
@@ -163,7 +163,7 @@ class template_detailModeltemplate_detail extends RedshopCoreModelDetail
                 $uid  = (int)$user->get('id');
             }
             // Lets get to it and checkout the thing...
-            $template_detail = $this->getTable('template_detail');
+            $template_detail = $this->getTable('template');
 
             if (!$template_detail->checkout($uid, $this->_id))
             {
@@ -187,7 +187,7 @@ class template_detailModeltemplate_detail extends RedshopCoreModelDetail
     {
         if ($this->_id)
         {
-            $template_detail = $this->getTable('template_detail');
+            $template_detail = $this->getTable('template');
             if (!$template_detail->checkin($this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());

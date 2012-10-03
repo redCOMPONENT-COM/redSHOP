@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 
-class xmlexport_detailVIEWxmlexport_detail extends JViewLegacy
+class RedshopViewXmlexport_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

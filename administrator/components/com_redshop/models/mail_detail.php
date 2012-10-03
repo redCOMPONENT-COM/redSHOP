@@ -16,11 +16,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class mail_detailModelmail_detail extends RedshopCoreModelDetail
+class RedshopModelMail_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -70,7 +68,7 @@ class mail_detailModelmail_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('mail');
 
         if (!$row->bind($data))
         {

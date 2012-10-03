@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class exportViewexport extends JViewLegacy
+class RedshopViewExport extends JViewLegacy
 {
     public function display($tpl = null)
     {

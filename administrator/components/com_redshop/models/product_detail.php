@@ -10,15 +10,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
-
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class product_detailModelproduct_detail extends RedshopCoreModelDetail
+class RedshopModelProduct_detail extends RedshopCoreModelDetail
 {
     public $attribute_data = null;
 
@@ -178,7 +175,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
 
         $producthelper = new producthelper();
 
-        $row = $this->getTable('product_detail');
+        $row = $this->getTable('product');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -429,7 +426,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
                 {
                     $media_id = $result->media_id;
                 }
-                $mediarow                    = $this->getTable('media_detail');
+                $mediarow                    = $this->getTable('media');
                 $mediapost                   = array();
                 $mediapost['media_id']       = $media_id;
                 $mediapost['media_name']     = $row->product_full_image;
@@ -591,7 +588,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
             for ($a = 0; $a < count($data['product_accessory']); $a++)
             {
                 $acc       = $data['product_accessory'][$a];
-                $accdetail = $this->getTable('accessory_detail');
+                $accdetail = $this->getTable('product_accessory');
                 if ($data['copy_product'] != 1)
                 {
                     $accdetail->accessory_id = $acc['accessory_id'];
@@ -618,7 +615,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
             for ($a = 0; $a < count($data['product_navigator']); $a++)
             {
                 $acc       = $data['product_navigator'][$a];
-                $accdetail = $this->getTable('navigator_detail');
+                $accdetail = $this->getTable('product_navigator');
                 if ($data['copy_product'] != 1)
                 {
                     $accdetail->navigator_id = $acc['navigator_id'];
@@ -824,7 +821,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
             }
         }
         // subscription renewal
-        $sub_renewal                 = $this->getTable('product_subscription_renewal');
+        $sub_renewal                 = $this->getTable('subscription_renewal');
         $sub_renewal->renewal_id     = $data['renewal_id'];
         $sub_renewal->before_no_days = $data['before_no_days'];
         $sub_renewal->product_id     = $row->product_id;
@@ -1390,7 +1387,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
 
     public function store_pro($data)
     {
-        $row = $this->getTable('attribute_property');
+        $row = $this->getTable('product_attribute_property');
 
         if (!$row->bind($data))
         {
@@ -1413,7 +1410,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
 
     public function store_sub($data)
     {
-        $row = $this->getTable('subattribute_property');
+        $row = $this->getTable('product_subattribute_color');
 
         if (!$row->bind($data))
         {
@@ -1518,7 +1515,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
 
                     JFile::upload($sub_src, $sub__dest);
 
-                    $mediarow                    = $this->getTable('media_detail');
+                    $mediarow                    = $this->getTable('media');
                     $mediapost                   = array();
                     $mediapost['media_id']       = 0;
                     $mediapost['media_name']     = $sub_name;
@@ -1842,7 +1839,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
             return array();
         }
 
-        $row = $this->getTable('associations');
+        $row = $this->getTable('redproductfinder_associations');
 
         /* Get the posted data */
         $association                     = array();
@@ -2491,7 +2488,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
         $old_imgname        = strstr($data['media_name'], '_') ? strstr($data['media_name'], '_') : $data['media_name'];
         $new_imgname        = JPath::clean(time() . $old_imgname);
         $data['media_name'] = $new_imgname;
-        $rowmedia           = $this->getTable('media_detail');
+        $rowmedia           = $this->getTable('media');
         $data['media_id ']  = 0;
         if (!$rowmedia->bind($data))
         {
@@ -2768,7 +2765,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
                 $uid  = (int)$user->get('id');
             }
             // Lets get to it and checkout the thing...
-            $product_detail = $this->getTable('product_detail');
+            $product_detail = $this->getTable('product');
             if (!$product_detail->checkout($uid, $this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());
@@ -2790,7 +2787,7 @@ class product_detailModelproduct_detail extends RedshopCoreModelDetail
     {
         if ($this->_id)
         {
-            $product_detail = $this->getTable('product_detail');
+            $product_detail = $this->getTable('product');
             if (!$product_detail->checkin($this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());

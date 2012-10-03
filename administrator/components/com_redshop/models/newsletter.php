@@ -13,7 +13,7 @@ require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class newsletterModelnewsletter extends RedshopCoreModel
+class RedshopModelNewsletter extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -534,7 +534,7 @@ class newsletterModelnewsletter extends RedshopCoreModel
 
             for ($j = 0; $j < count($subscriberdata); $j++)
             {
-                $rowsubscr                  = $this->getTable('newslettersubscr_detail');
+                $rowsubscr                  = $this->getTable('newsletter_subscription');
                 $rowsubscr->subscription_id = 0;
                 $rowsubscr->user_id         = $subscriberdata[$j]->user_id;
                 $rowsubscr->date            = time();
