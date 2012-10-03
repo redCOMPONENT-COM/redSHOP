@@ -7,34 +7,22 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-class attributeprices_detailModelattributeprices_detail extends JModelLegacy
-{
-    public $_id = null;
+defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+
+class attributeprices_detailModelattributeprices_detail extends RedshopCoreModelDetail
+{
     public $_sectionid = null;
 
     public $_section = null;
 
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-        $array            = JRequest::getVar('cid', 0, '', 'array');
         $this->_sectionid = JRequest::getVar('section_id', 0, '', 'int');
         $this->_section   = JRequest::getVar('section');
-
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
     }
 
     public function &getData()

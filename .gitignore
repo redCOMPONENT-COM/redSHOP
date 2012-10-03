@@ -24,6 +24,8 @@ nb-configuration.xml
 redshop.cfg.php
 
 # ignore redSHOP template files
+components/com_redshop/assets/images/category/thumb/*
+components/com_redshop/assets/images/product/thumb/*
 components/com_redshop/templates/catalogue_cart/*
 components/com_redshop/templates/catalogue_order_detail/*
 components/com_redshop/templates/catalogue_order_receipt/*

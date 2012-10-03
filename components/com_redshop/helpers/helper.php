@@ -289,7 +289,7 @@ class redhelper
 
     public function getManufacturerOrderByList()
     {
-        $order_data           = array();
+        $order_data           = array_fill(0, 3, new stdClass);
         $order_data[0]->value = "mn.manufacturer_name ASC";
         $order_data[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
         $order_data[1]->value = "mn.manufacturer_id DESC";
@@ -301,7 +301,7 @@ class redhelper
 
     public function getRelatedOrderByList()
     {
-        $order_data           = array();
+        $order_data           = array_fill(0, 10, new stdClass);
         $order_data[0]->value = "p.product_name ASC";
         $order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_ASC');
         $order_data[1]->value = "p.product_name DESC";
@@ -328,7 +328,7 @@ class redhelper
 
     public function getAccessoryOrderByList()
     {
-        $order_data           = array();
+        $order_data           = array_fill(0, 8, new stdClass);
         $order_data[0]->value = "child_product_id ASC";
         $order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_ASC');
         $order_data[1]->value = "child_product_id DESC";
@@ -368,7 +368,7 @@ class redhelper
 
     public function getChildProductOption()
     {
-        $childproduct_data           = array();
+        $childproduct_data           = array_fill(0, 2, new stdClass);
         $childproduct_data[0]->value = "product_name";
         $childproduct_data[0]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NAME');
         $childproduct_data[1]->value = "product_number";

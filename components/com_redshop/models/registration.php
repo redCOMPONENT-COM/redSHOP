@@ -12,22 +12,10 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class registrationModelregistration extends JModelLegacy
+class registrationModelregistration extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function store(&$data)
     {
         $userhelper = new rsUserhelper();

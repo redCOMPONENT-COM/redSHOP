@@ -14,16 +14,13 @@ jimport('joomla.installer.helper');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class zip_importModelzip_import extends JModelLegacy
+class zip_importModelzip_import extends RedshopCoreModel
 {
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
-
-    public $_table_prefix = null;
 
     public $_table = null;
 

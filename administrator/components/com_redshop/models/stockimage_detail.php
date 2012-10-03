@@ -9,28 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class stockimage_detailModelstockimage_detail extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+
+class stockimage_detailModelstockimage_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('cid', 0, '', 'array');
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
-
     public function &getData()
     {
         if ($this->_loadData())
@@ -155,21 +137,4 @@ class stockimage_detailModelstockimage_detail extends JModelLegacy
         $list = $this->_db->loadObjectlist();
         return $list;
     }
-    /*public function publish($cid = array(), $publish = 1)
-     {
-         if (count( $cid ))
-         {
-             $cids = implode( ',', $cid );
-
-             $query = 'UPDATE '.$this->_table_prefix.'stockroom_amount_image '
-                     .'SET published="'.intval( $publish ).'" '
-                     .'WHERE stock_amount_id IN ( '.$cids.' )';
-             $this->_db->setQuery( $query );
-             if (!$this->_db->query()) {
-                 $this->setError($this->_db->getErrorMsg());
-                 return false;
-             }
-         }
-         return true;
-     }*/
 }

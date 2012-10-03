@@ -10,30 +10,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class question_detailModelquestion_detail extends JModelLegacy
+class question_detailModelquestion_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('cid', 0, '', 'array');
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
-
     public function &getanswers()
     {
         if ($this->_loadAnswer())
@@ -159,7 +139,6 @@ class question_detailModelquestion_detail extends JModelLegacy
     public function store($data)
     {
         $user = JFactory::getUser();
-        $db   = JFactory::getDBO();
         $row  = $this->getTable();
 
         if (!$data['question_id'])
@@ -184,9 +163,9 @@ class question_detailModelquestion_detail extends JModelLegacy
             $query = "INSERT INTO " . $this->_table_prefix . "customer_question (`parent_id`,`product_id`,`question`,`user_id`,`user_name`,`user_email`,`published`,`question_date`,`ordering`)";
             $query .= " VALUES ('" . $data['question_id'] . "' , '" . $data['product_id'] . "','" . $data['answer'] . "','" . $user->id . "', ";
             $query .= "'" . $user->username . "', '" . $user->email . "',1, '" . $time . "', '" . $data['ordering'] . "')";
-            $db->setQuery($query);
-            $db->Query();
-            $row->question_id = $db->insertid();
+            $this->_db->setQuery($query);
+            $this->_db->Query();
+            $row->question_id = $this->_db->insertid();
         }
 
         return $row;

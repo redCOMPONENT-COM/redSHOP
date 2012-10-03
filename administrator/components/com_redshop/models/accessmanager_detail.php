@@ -10,24 +10,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
+class accessmanager_detailModelaccessmanager_detail extends RedshopCoreModelDetail
 {
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
-
     public function getaccessmanager()
     {
         $section = JRequest::getVar('section');
@@ -45,14 +31,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
      */
     public function store($data)
     {
-        /**
-         * get groups
-         */
-        $group = $this->getGroup();
-
-        /**
-         * format groups
-         */
+        $group         = $this->getGroup();
         $groups        = $this->formatGroup($group);
         $check_section = $this->checksection($data['section']);
 
@@ -65,9 +44,6 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
             {
                 foreach ($groups as $groupValue => $groupName)
                 {
-                    /*if( $groupValue < 23 ):
-                             continue;
-                             endif;*/
                     $row               = $this->getTable('accessmanager_detail');
                     $row->gid          = $groupValue;
                     $row->section_name = $data['section'];
@@ -341,7 +317,6 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
      */
     public function checksection($section)
     {
-        $db    = JFactory::getDBO();
         $query = " SELECT count(*) FROM " . $this->_table_prefix . "accessmanager " . "WHERE `section_name` = '" . $section . "'";
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
@@ -349,21 +324,19 @@ class accessmanager_detailModelaccessmanager_detail extends JModelLegacy
 
     public function getGroup()
     {
-
         // Compute usergroups
-        $db    = JFactory::getDbo();
         $query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
   FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
   ORDER BY a.lft asc";
 
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
         // echo $db->getQuery();
-        $groups = $db->loadObjectList();
+        $groups = $this->_db->loadObjectList();
 
         // Check for a database error.
-        if ($db->getErrorNum())
+        if ($this->_db->getErrorNum())
         {
-            JError::raiseNotice(500, $db->getErrorMsg());
+            JError::raiseNotice(500, $this->_db->getErrorMsg());
             return null;
         }
 

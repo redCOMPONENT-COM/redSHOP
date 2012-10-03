@@ -9,30 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class currency_detailModelcurrency_detail extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+
+class currency_detailModelcurrency_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-
-        $array = JRequest::getVar('cid', 0, '', 'array');
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
-
     public function &getData()
     {
         if ($this->_loadData())

@@ -14,15 +14,11 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class cartModelcart extends JModelLegacy
+class cartModelcart extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_product = null; /// product data
-    public $_table_prefix = null;
+    public $_product = null;
 
     public $_template = null;
 
@@ -43,7 +39,6 @@ class cartModelcart extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__redshop_';
 
         $this->_producthelper = new producthelper();
         $this->_carthelper    = new rsCarthelper();
@@ -105,33 +100,35 @@ class cartModelcart extends JModelLegacy
         {
             $stockroomhelper = new rsstockroomhelper();
             $session         = JFactory::getSession();
-            $db              = JFactory::getDbo();
             $cart            = $session->get('cart');
             $session_id      = session_id();
             $carttimeout     = (int)CART_TIMEOUT;
             $time            = time() - ($carttimeout * 60);
 
             $sql = "SELECT product_id FROM " . $this->_table_prefix . "cart " . "WHERE session_id ='" . $session_id . "' " . "AND section='product' " . "AND time < $time ";
-            $db->setQuery($sql);
-            $deletedrs = $db->loadResultArray();
+            $this->_db->setQuery($sql);
+            $deletedrs = $this->_db->loadResultArray();
 
             $sql = "SELECT product_id FROM " . $this->_table_prefix . "cart " . "WHERE session_id ='" . $session_id . "' " . "AND section='product' ";
-            $db->setQuery($sql);
-            $includedrs = $db->loadResultArray();
+            $this->_db->setQuery($sql);
+            $includedrs = $this->_db->loadResultArray();
 
             $cart = $session->get('cart');
             if ($cart)
             {
-                $idx = (int)($cart['idx']);
-                for ($j = 0; $j < $idx; $j++)
+                if (isset($cart['idx']))
                 {
-                    if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
+                    $idx = (int)($cart['idx']);
+                    for ($j = 0; $j < $idx; $j++)
                     {
-                        $this->delete($j);
-                    }
-                    if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
-                    {
-                        $this->delete($j);
+                        if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
+                        {
+                            $this->delete($j);
+                        }
+                        if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
+                        {
+                            $this->delete($j);
+                        }
                     }
                 }
             }
@@ -466,12 +463,11 @@ class cartModelcart extends JModelLegacy
       */
     public function checkifTagAvailable($product_id)
     {
-        $db          = JFactory :: getDBO();
         $redTemplate = new redTemplate();
         $q           = "SELECT product_template FROM " . $this->_table_prefix . "product " . "WHERE product_id='" . $product_id;
 
-        $db->setQuery($q);
-        $row_data = $db->loadResult();
+        $this->_db->setQuery($q);
+        $row_data = $this->_db->loadResult();
 
         $template              = $redTemplate->getTemplate("product", $row_data);
         $product_template_desc = $template[0]->template_desc;

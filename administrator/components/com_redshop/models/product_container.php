@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class product_containerModelproduct_container extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class product_containerModelproduct_container extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'product_id';
 
     public function __construct()
     {
@@ -27,12 +25,10 @@ class product_containerModelproduct_container extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'product_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter_supplier     = $app->getUserStateFromRequest($this->_context . 'filter_supplier', 'filter_supplier', 0);
-        $filter_container    = $app->getUserStateFromRequest($this->_context . 'filter_container', 'filter_container', 0);
+        $limit            = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart       = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter_supplier  = $app->getUserStateFromRequest($this->_context . 'filter_supplier', 'filter_supplier', 0);
+        $filter_container = $app->getUserStateFromRequest($this->_context . 'filter_container', 'filter_container', 0);
 
         $this->setState('filter_supplier', $filter_supplier);
         $this->setState('filter_container', $filter_container);
@@ -46,18 +42,14 @@ class product_containerModelproduct_container extends JModelLegacy
         {
             $query = $this->_buildQuery();
 
-            $preorder         = JRequest::getVar('preorder', '', 'request', 0);
-            $newproducts      = JRequest::getVar('newproducts', '', 'request', 0);
-            $existingproducts = JRequest::getVar('existingproducts', '', 'request', 0);
+            $preorder = JRequest::getVar('preorder', '', 'request', 0);
 
             if (!$preorder)
             {
-
                 $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
             }
             else
             {
-
                 $this->_data = $this->_getList($query);
             }
         }
@@ -216,13 +208,12 @@ class product_containerModelproduct_container extends JModelLegacy
 
     public function getmanufacturelist($name = 'manufacturelist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
-        $db = JFactory::getDBO();
         // get list of Groups for dropdown filter
         $query = "SELECT manufacturer_id AS value, manufacturer_name AS text" . "\n FROM " . $this->_table_prefix . "manufacturer  where published = '1'";
 
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
         $types[]                   = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -');
-        $types                     = array_merge($types, $db->loadObjectList());
+        $types                     = array_merge($types, $this->_db->loadObjectList());
         $mylist['manufacturelist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
         return $mylist['manufacturelist'];
@@ -230,13 +221,12 @@ class product_containerModelproduct_container extends JModelLegacy
 
     public function getsupplierlist($name = 'supplierlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
-        $db = JFactory::getDBO();
         // get list of Groups for dropdown filter
         $query = "SELECT supplier_id AS value, supplier_name AS text" . "\n FROM " . $this->_table_prefix . "supplier  where published = '1'";
 
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
         $types[]                = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_SUPPLIER') . ' -');
-        $types                  = array_merge($types, $db->loadObjectList());
+        $types                  = array_merge($types, $this->_db->loadObjectList());
         $mylist['supplierlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
         return $mylist['supplierlist'];
@@ -244,13 +234,12 @@ class product_containerModelproduct_container extends JModelLegacy
 
     public function getcontainerlist($name = 'containerlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
     {
-        $db = JFactory::getDBO();
         // get list of Groups for dropdown filter
         $query = "SELECT container_id AS value, container_name AS text" . "\n FROM " . $this->_table_prefix . "container  where published = '1'";
 
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
         $types[]                 = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CONTAINER') . ' -');
-        $types                   = array_merge($types, $db->loadObjectList());
+        $types                   = array_merge($types, $this->_db->loadObjectList());
         $mylist['containerlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
         return $mylist['containerlist'];

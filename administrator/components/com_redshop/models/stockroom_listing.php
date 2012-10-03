@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class stockroom_listingModelstockroom_listing extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class stockroom_listingModelstockroom_listing extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context2 = null;
+    public $_context2 = 'p.product_id';
 
     public function __construct()
     {
@@ -27,15 +25,12 @@ class stockroom_listingModelstockroom_listing extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context2 = 'p.product_id';
-
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context2 . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context2 . 'limitstart', 'limitstart', 0);
-        $stockroom_type      = $app->getUserStateFromRequest($this->_context2 . 'stockroom_type', 'stockroom_type', '');
-        $search_field        = $app->getUserStateFromRequest($this->_context2 . 'search_field', 'search_field', '');
-        $keyword             = $app->getUserStateFromRequest($this->_context2 . 'keyword', 'keyword', '');
-        $category_id         = $app->getUserStateFromRequest($this->_context2 . 'category_id', 'category_id', '');
+        $limit          = $app->getUserStateFromRequest($this->_context2 . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart     = $app->getUserStateFromRequest($this->_context2 . 'limitstart', 'limitstart', 0);
+        $stockroom_type = $app->getUserStateFromRequest($this->_context2 . 'stockroom_type', 'stockroom_type', '');
+        $search_field   = $app->getUserStateFromRequest($this->_context2 . 'search_field', 'search_field', '');
+        $keyword        = $app->getUserStateFromRequest($this->_context2 . 'keyword', 'keyword', '');
+        $category_id    = $app->getUserStateFromRequest($this->_context2 . 'category_id', 'category_id', '');
 
         $this->setState('stockroom_type', $stockroom_type);
         $this->setState('search_field', $search_field);

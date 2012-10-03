@@ -9,46 +9,35 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class attributepricesModelattributeprices extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class attributepricesModelattributeprices extends RedshopCoreModel
 {
     public $_sectionid = 0;
 
     public $_section = null;
 
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'price_id';
 
     public function __construct()
     {
         parent::__construct();
+
         $app = JFactory::getApplication();
 
-        $this->_context = 'price_id';
-
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
 
-        $section_id     = JRequest::getVar('section_id');
-        $this->_section = JRequest::getVar('section');
-        $this->setSectionId((int)$section_id);
-    }
-
-    public function setSectionId($id)
-    {
-        // Set employees_detail id and wipe data
-        $this->_sectionid = $id;
-        $this->_data      = null;
+        $section_id       = JRequest::getVar('section_id');
+        $this->_section   = JRequest::getVar('section');
+        $this->_sectionid = (int)$section_id;
     }
 
     public function getData()

@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class currencyModelcurrency extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class currencyModelcurrency extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'currency_id';
 
     public function __construct()
     {
@@ -27,12 +25,10 @@ class currencyModelcurrency extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'currency_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
         $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
         $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
     }

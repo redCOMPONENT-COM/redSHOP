@@ -29,7 +29,7 @@ class order_detailVieworder_detail extends JViewLegacy
         <?php
         }
 
-        $params = &$mainframe->getParams('com_redshop');
+        $params = $mainframe->getParams('com_redshop');
 
         $prodhelperobj = new producthelper();
         $prodhelperobj->generateBreadcrumb();

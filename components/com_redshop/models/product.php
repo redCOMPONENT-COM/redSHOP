@@ -13,15 +13,11 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class productModelproduct extends JModelLegacy
+class productModelproduct extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_product = null; // product data
-    public $_table_prefix = null;
+    public $_product = null;
 
     public $_template = null;
 
@@ -31,20 +27,12 @@ class productModelproduct extends JModelLegacy
     {
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-        $option              = JRequest::getVar('option', 'com_redshop');
-        $pid                 = JRequest::getInt('pid', 0);
+        $pid = JRequest::getInt('pid', 0);
 
         $GLOBALS['childproductlist'] = array();
 
-        $this->setId(( int )$pid);
+        $this->_id    = $pid;
         $this->_catid = ( int )JRequest::getVar('cid', 0);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
     }
 
     public function _buildQuery()
@@ -52,7 +40,6 @@ class productModelproduct extends JModelLegacy
         $and = "";
 
         // Shopper group - choose from manufactures Start
-
         $rsUserhelper               = new rsUserhelper();
         $shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -62,7 +49,6 @@ class productModelproduct extends JModelLegacy
         }
 
         // Shopper group - choose from manufactures End
-
         if (isset ($this->_catid) && $this->_catid != 0)
         {
             $and .= "AND pcx.category_id='" . $this->_catid . "' ";
@@ -158,7 +144,7 @@ class productModelproduct extends JModelLegacy
 
     public function addProductTags($data)
     {
-        $tags = & $this->getTable('product_tags');
+        $tags = $this->getTable('product_tags');
         if (!$tags->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -174,7 +160,7 @@ class productModelproduct extends JModelLegacy
 
     public function addtowishlist($data)
     {
-        $row = & $this->getTable('wishlist');
+        $row = $this->getTable('wishlist');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -190,15 +176,6 @@ class productModelproduct extends JModelLegacy
 
     public function addtowishlist2session($data)
     {
-        /*for($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i ++)
-              if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
-                  return false;
-          $_SESSION ["no_of_prod"] += 1;
-          $no_prod_i = 'wish_' . $_SESSION ["no_of_prod"];
-
-          $_SESSION [$no_prod_i]->product_id = $data ['product_id'];
-          $_SESSION [$no_prod_i]->comment = isset ( $data ['comment'] ) ? $data ['comment'] : "";
-          $_SESSION [$no_prod_i]->cdate = $data ['cdate'];*/
         ob_clean();
         $extraField = new extraField();
         $section    = 12;

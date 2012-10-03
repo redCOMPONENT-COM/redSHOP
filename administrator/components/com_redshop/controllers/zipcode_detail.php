@@ -9,27 +9,16 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
 class zipcode_detailController extends RedshopCoreController
 {
+    public $redirectViewName = 'zipcode';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
-    }
-
-    public function edit()
-    {
-        $this->input->set('view', 'zipcode_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-        parent::display();
-    }
-
-    public function apply()
-    {
-        $this->save(1);
     }
 
     public function save($apply = 0)
@@ -74,32 +63,5 @@ class zipcode_detailController extends RedshopCoreController
             $this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
         }
     }
-
-    public function cancel()
-    {
-        $option = $this->input->get('option');
-
-        $msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_EDITING_CANCELLED');
-        $this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
-    }
-
-    public function remove()
-    {
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-        }
-
-        $model = $this->getModel('zipcode_detail');
-        if (!$model->delete($cid))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_DELETED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
-    }
 }
+

@@ -12,32 +12,11 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 
-class shipping_detailModelshipping_detail extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+
+class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $_copydata = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-
-        $array = JRequest::getVar('cid', 0, '', 'array');
-
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
 
     public function &getData()
     {
@@ -65,7 +44,8 @@ class shipping_detailModelshipping_detail extends JModelLegacy
         }
         JPluginHelper::importPlugin('redshop_shipping');
         $dispatcher = JDispatcher::getInstance();
-        $payment    = $dispatcher->trigger('onWriteconfig', array($data));
+        $dispatcher->trigger('onWriteconfig', array($data));
+
         return true;
     }
 
@@ -88,7 +68,6 @@ class shipping_detailModelshipping_detail extends JModelLegacy
 
     public function saveOrder(&$cid)
     {
-        $db  = JFactory::getDBO();
         $row = $this->getTable();
 
         $total = count($cid);
@@ -104,7 +83,7 @@ class shipping_detailModelshipping_detail extends JModelLegacy
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    throw new RuntimeException($db->getErrorMsg());
+                    throw new RuntimeException($this->_db->getErrorMsg());
                 }
             }
         }
@@ -134,7 +113,6 @@ class shipping_detailModelshipping_detail extends JModelLegacy
      */
     public function move($direction)
     {
-
         $row = JTable::getInstance('shipping_detail', 'Table');
 
         if (!$row->load($this->_id))
@@ -150,5 +128,27 @@ class shipping_detailModelshipping_detail extends JModelLegacy
         }
 
         return true;
+    }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        return $this->move(-1);
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        return $this->move(1);
     }
 }

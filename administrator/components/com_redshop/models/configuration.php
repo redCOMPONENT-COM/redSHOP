@@ -11,14 +11,10 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
-class configurationModelconfiguration extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class configurationModelconfiguration extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $_configpath = null;
 
     public $_configdata = null;
@@ -29,16 +25,12 @@ class configurationModelconfiguration extends JModelLegacy
     {
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-
         $this->Redconfiguration = new Redconfiguration();
-
-        $this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
+        $this->_configpath      = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
     }
 
     public function cleanFileName($name, $id = null)
     {
-        //$value = htmlspecialchars($name, ENT_QUOTES);
         $filetype = JFile::getExt($name);
         $values   = preg_replace("/[&'#]/", "", $name);
 
@@ -729,7 +721,6 @@ class configurationModelconfiguration extends JModelLegacy
 
     public function newsletterEntry($data)
     {
-        $db            = JFactory::getDBO();
         $newsletter_id = $data['default_newsletter'];
         $mailfrom      = $data['news_mail_from'];
         $mailfromname  = $data['news_from_name'];
@@ -744,6 +735,7 @@ class configurationModelconfiguration extends JModelLegacy
         $subject             = "";
         $newsletter_body     = "";
         $newsletter_template = "";
+
         if (count($newsbody) > 0)
         {
             $subject             = $newsbody[0]->subject;
@@ -754,15 +746,15 @@ class configurationModelconfiguration extends JModelLegacy
         $o       = new stdClass();
         $o->text = $newsletter_body;
         JPluginHelper::importPlugin('content');
-        $dispatcher           = JDispatcher::getInstance();
-        $x                    = array();
-        $results              = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
+        $dispatcher = JDispatcher::getInstance();
+        $x          = array();
+        $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
         $newsletter_template2 = $o->text;
-        // $newsletter_template1=$newsletter_template1.$newsletter_template;
 
         $content = str_replace("{data}", $newsletter_template2, $newsletter_template);
 
         $product_id_list = $this->getProductIdList();
+
         for ($i = 0; $i < count($product_id_list); $i++)
         {
             $product_id = $product_id_list[$i]->product_id;
@@ -803,6 +795,7 @@ class configurationModelconfiguration extends JModelLegacy
 
         preg_match_all("/\< *[img][^\>]*[.]*\>/i", $data, $matches);
         $imagescurarray = array();
+
         foreach ($matches[0] as $match)
         {
             preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
@@ -810,7 +803,9 @@ class configurationModelconfiguration extends JModelLegacy
             $imagescur        = array_combine($m[1], $m[2]);
             $imagescurarray[] = $imagescur['src'];
         }
+
         $imagescurarray = array_unique($imagescurarray);
+
         if ($imagescurarray)
         {
             foreach ($imagescurarray as $change)
@@ -828,10 +823,10 @@ class configurationModelconfiguration extends JModelLegacy
         $name = explode('@', $to);
 
         $query = "INSERT INTO `" . $this->_table_prefix . "newsletter_tracker` " . "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  " . "VALUES ('', '" . $newsletter_id . "', '0', '" . $name . "', '0',0, '" . $today . "')";
-        $db->setQuery($query);
-        $db->query();
+        $this->_db->setQuery($query);
+        $this->_db->query();
 
-        $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" />';
+        $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $this->_db->insertid() . '" />';
         $content .= str_replace("{username}", $name[0], $data1);
         $content = str_replace("{email}", $to, $content);
 
@@ -923,10 +918,9 @@ class configurationModelconfiguration extends JModelLegacy
     /* Get all installed module for redshop*/
     public function getinstalledmodule()
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT * FROM #__extensions WHERE `element` LIKE '%mod_redshop%'";
-        $db->setQuery($query);
-        $redshop_modules = $db->loadObjectList();
+        $this->_db->setQuery($query);
+        $redshop_modules = $this->_db->loadObjectList();
 
         return $redshop_modules;
     }
@@ -934,20 +928,17 @@ class configurationModelconfiguration extends JModelLegacy
     /* Get all installed payment plugins for redshop*/
     public function getinstalledplugins($secion = 'redshop_payment')
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT * FROM #__extensions WHERE `folder` = '" . $secion . "' ";
-        $db->setQuery($query);
-        $redshop_plugins = $db->loadObjectList();
+        $this->_db->setQuery($query);
+        $redshop_plugins = $this->_db->loadObjectList();
         return $redshop_plugins;
     }
 
     public function resetTemplate()
     {
-        $Redtemplate = new Redtemplate();
-        $db          = JFactory::getDBO();
-        $q           = "SELECT * FROM #__redshop_template";
-        $db->setQuery($q);
-        $list = $db->loadObjectList();
+        $q = "SELECT * FROM #__redshop_template";
+        $this->_db->setQuery($q);
+        $list = $this->_db->loadObjectList();
 
         for ($i = 0; $i < count($list); $i++)
         {

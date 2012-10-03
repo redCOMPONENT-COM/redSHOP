@@ -9,28 +9,24 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class accessmanagerModelaccessmanager extends JModelLegacy
-{
-    public $_context = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-    public $_data = null;
+class accessmanagerModelaccessmanager extends RedshopCoreModel
+{
+    public $_context = 'question_id';
 
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
     public function __construct()
     {
         parent::__construct();
 
-        $app            = JFactory::getApplication();
-        $this->_context = 'question_id';
+        $app = JFactory::getApplication();
 
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('parent_id', 0, '', 'array');
-        $this->setId((int)$array[0]);
+        $array     = JRequest::getVar('parent_id', 0, '', 'array');
+        $this->_id = (int)$array[0];
 
         $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
         $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
@@ -42,12 +38,6 @@ class accessmanagerModelaccessmanager extends JModelLegacy
         $this->setState('limitstart', $limitstart);
         $this->setState('filter', $filter);
         $this->setState('product_id', $product_id);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
     }
 
     public function getData()

@@ -9,33 +9,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class fields_detailModelfields_detail extends JModelLegacy
+class fields_detailModelfields_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $_fielddata = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-
-        $array = JRequest::getVar('cid', 0, '', 'array');
-
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
 
     public function &getData()
     {
@@ -343,6 +321,28 @@ class fields_detailModelfields_detail extends JModelLegacy
     }
 
     /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        return $this->move(-1);
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        return $this->move(1);
+    }
+
+    /**
      * Method to get databse field name
      *
      * @access public
@@ -356,5 +356,3 @@ class fields_detailModelfields_detail extends JModelLegacy
         return (boolean)$result;
     }
 }
-
-?>

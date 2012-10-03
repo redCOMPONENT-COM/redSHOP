@@ -50,7 +50,6 @@ class extraField
 
     public function __construct()
     {
-        global $mainframe, $context;
         $this->_db           = JFactory::getDbo();
         $this->_table_prefix = '#__redshop_';
     }

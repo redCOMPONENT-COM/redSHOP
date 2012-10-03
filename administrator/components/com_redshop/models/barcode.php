@@ -9,30 +9,18 @@
 
 defined('_JEXEC') or die();
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
 /**
  * Barcode reder/generator Model
  *
  * @package    redSHOP
  * @version    1.2
  */
-class barcodeModelbarcode extends JModelLegacy
+class barcodeModelbarcode extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $_loglist = null;
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-    }
-
-    ///public $_hellos=null;
     public function save($data)
     {
         $row = $this->getTable('barcode');

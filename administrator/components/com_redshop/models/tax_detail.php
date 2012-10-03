@@ -12,34 +12,18 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class tax_detailModeltax_detail extends JModelLegacy
+class tax_detailModeltax_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $_tax_group_id = null;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-
-        $array = JRequest::getVar('cid', 0, '', 'array');
-
-        $_tax_group_id = JRequest::getVar('tax_group_id', 0, '');
-        $this->setId((int)$array[0], $_tax_group_id);
-    }
-
-    public function setId($id, $_tax_group_id)
-    {
-        $this->_id           = $id;
+        $_tax_group_id       = JRequest::getVar('tax_group_id', 0, '');
         $this->_tax_group_id = $_tax_group_id;
-        $this->_data         = null;
     }
 
     public function &getData()

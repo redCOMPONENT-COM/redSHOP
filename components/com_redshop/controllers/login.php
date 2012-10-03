@@ -37,7 +37,7 @@ class loginController extends RedshopCoreController
       */
     public function setlogin()
     {
-        $username     = $this->input->method->get('username', '');
+        $username     = $this->input->get('username', '');
         $password     = $this->input->post->getString('password', '');
         $option       = $this->input->get('option');
         $item_id      = $this->input->get('Itemid');
@@ -49,7 +49,7 @@ class loginController extends RedshopCoreController
         include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
         $redhelper = new redhelper();
 
-        $model = &$this->getModel('login');
+        $model = $this->getModel('login');
 
         $shoppergroupid = $this->input->post->getInt('protalid', 0);
 

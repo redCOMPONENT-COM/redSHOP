@@ -11,15 +11,11 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.html.pagination');
 
-class manufacturersModelmanufacturers extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class manufacturersModelmanufacturers extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
     public $_productlimit = null;
-
-    public $_table_prefix = null;
 
     public $_template = null;
 
@@ -29,8 +25,7 @@ class manufacturersModelmanufacturers extends JModelLegacy
 
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-        $params              = $mainframe->getParams('com_redshop');
+        $params = $mainframe->getParams('com_redshop');
         if ($params->get('manufacturerid') != "")
         {
             $manid = $params->get('manufacturerid');
@@ -39,7 +34,8 @@ class manufacturersModelmanufacturers extends JModelLegacy
         {
             $manid = (int)JRequest::getInt('mid', 0);
         }
-        $this->setId($manid);
+
+        $this->_id = $manid;
 
         $limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
@@ -49,12 +45,6 @@ class manufacturersModelmanufacturers extends JModelLegacy
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
     }
 
     public function setProductLimit($limit)
@@ -74,7 +64,6 @@ class manufacturersModelmanufacturers extends JModelLegacy
         $and     = "";
 
         // Shopper group - choose from manufactures Start
-
         $rsUserhelper               = new rsUserhelper();
         $shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -120,9 +109,9 @@ class manufacturersModelmanufacturers extends JModelLegacy
 
     public function _buildContentOrderBy()
     {
-        global $mainframe, $context;
         $layout  = JRequest::getVar('layout');
         $orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+
         if ($layout != "products" && $orderby)
         {
             $filter_order = $orderby;
@@ -131,7 +120,9 @@ class manufacturersModelmanufacturers extends JModelLegacy
         {
             $filter_order = 'mn.manufacturer_id';
         }
+
         $orderby = " ORDER BY " . $filter_order . ' ';
+
         return $orderby;
     }
 
