@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 ?>
-<form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" class="admin" id="adminForm" method="post" name="adminForm">
     <table class="adminlist">
         <thead>
         <tr>
@@ -29,7 +29,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
         {
             $row       = $this->detail[$i];
             $row->id   = $row->accountgroup_id;
-            $link      = JRoute::_('index.php?option=' . $option . '&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
+            $link      = JRoute::_('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
             $published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
             <tr class="<?php echo "row$k"; ?>">
                 <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
@@ -54,7 +54,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
         <td colspan="12"><?php echo $this->pagination->getListFooter(); ?></td>
         </tfoot>
     </table>
-    <input type="hidden" name="view" value="accountgroup"/>
+    <input type="hidden" name="view" value=""/>
     <input type="hidden" name="task" value=""/>
     <input type="hidden" name="boxchecked" value="0"/>
     <input type="hidden" name="filter_order" value="<?php echo $this->lists['order'];?>"/>

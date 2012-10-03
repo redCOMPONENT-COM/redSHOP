@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class sample_detailModelsample_detail extends RedshopCoreModelDetail
+class RedshopModelSample_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -55,7 +55,7 @@ class sample_detailModelsample_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('catalog_sample');
 
         if (!$row->bind($data))
         {

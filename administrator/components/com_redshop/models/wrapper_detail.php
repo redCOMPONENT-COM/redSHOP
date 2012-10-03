@@ -10,7 +10,7 @@
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class wrapper_detailModelwrapper_detail extends RedshopCoreModelDetail
+class RedshopModelWrapper_detail extends RedshopCoreModelDetail
 {
     public $_productid = null;
 
@@ -141,7 +141,7 @@ class wrapper_detailModelwrapper_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('wrapper');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

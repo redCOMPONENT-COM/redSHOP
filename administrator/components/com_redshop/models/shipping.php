@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class shippingModelShipping extends RedshopCoreModel
+class RedshopModelShipping extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -82,7 +82,7 @@ class shippingModelShipping extends RedshopCoreModel
 
     public function saveOrder(&$cid)
     {
-        $row = $this->getTable('shipping_detail');
+        $row = JTable::getInstance('Extension', 'JTable');
 
         $total = count($cid);
         $order = JRequest::getVar('order', array(0), 'post', 'array');
@@ -114,7 +114,7 @@ class shippingModelShipping extends RedshopCoreModel
      */
     public function move($direction)
     {
-        $row = JTable::getInstance('shipping_detail', 'Table');
+        $row = JTable::getInstance('Extension', 'JTable');
 
         if (!$row->load($this->_id))
         {

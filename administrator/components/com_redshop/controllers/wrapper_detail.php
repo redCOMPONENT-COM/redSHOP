@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class wrapper_detailController extends RedshopCoreControllerDetail
+class RedshopControllerWrapper_detail extends RedshopCoreControllerDetail
 {
     public function __construct($default = array())
     {

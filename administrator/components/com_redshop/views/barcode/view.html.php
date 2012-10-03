@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class barcodeViewbarcode extends JViewLegacy
+class RedshopViewBarcode extends JViewLegacy
 {
     public function display($tpl = null)
     {

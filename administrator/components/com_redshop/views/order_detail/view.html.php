@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 
-class order_detailVIEWorder_detail extends JViewLegacy
+class RedshopViewOrder_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

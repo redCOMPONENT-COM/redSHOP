@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class zipcode_detailModelzipcode_detail extends RedshopCoreModelDetail
+class RedshopModelZipcode_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -60,7 +60,7 @@ class zipcode_detailModelzipcode_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('zipcode');
 
         if (!$row->bind($data))
         {

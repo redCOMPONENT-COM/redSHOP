@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class stockimage_detailVIEWstockimage_detail extends JViewLegacy
+class RedshopViewStockimage_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

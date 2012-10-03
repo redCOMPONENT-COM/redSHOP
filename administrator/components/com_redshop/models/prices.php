@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class pricesModelprices extends RedshopCoreModel
+class RedshopModelPrices extends RedshopCoreModel
 {
     public $_prodid = 0;
 

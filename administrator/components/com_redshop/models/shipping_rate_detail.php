@@ -14,7 +14,7 @@ jimport('joomla.installer.helper');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDetail
+class RedshopModelShipping_rate_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -92,7 +92,7 @@ class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDeta
         $data['shipping_rate_state']            = @ implode(',', $data['shipping_rate_state']);
         $data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
 
-        $row = $this->getTable();
+        $row = $this->getTable('shipping_rate');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -171,7 +171,7 @@ class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDeta
         $coutry_code      = $data['country_codes'];
         $shipping_rate_id = $data['shipping_rate_id'];
 
-        $shipping_rate = $this->getTable('shipping_rate_detail');
+        $shipping_rate = $this->getTable('shipping_rate');
         $shipping_rate->load($shipping_rate_id);
         $shipping_rate_state = $this->GetStateList($coutry_code);
 

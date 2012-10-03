@@ -3,16 +3,20 @@ defined('_JEXEC') or die('Restricted access');	?>
 <script language="javascript" type="text/javascript">
 Joomla.submitbutton = function(pressbutton) {
 	submitbutton(pressbutton);
-	}
+}
 
-submitbutton = function(pressbutton) 
+submitbutton = function(pressbutton)
 {
+    var action = pressbutton.split('.');
+
+    if (action[1] == 'cancel' || action[1] == 'close')
+    {
+        submitform( pressbutton );
+        return true;
+    }
+
 	var form = document.adminForm;
 
-	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
-		return;
-	}
 	if ((form.accountgroup_name.value) == "")
 	{
 		alert( "<?php echo JText::_('COM_REDSHOP_ACCOUNTGROUP_MUST_HAVE_A_NAME', true ); ?>" );
@@ -53,14 +57,14 @@ submitbutton = function(pressbutton)
 		alert( "<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_SHIPPING', true ); ?>" );
 		return false;
 	}
-	else 
+	else
 	{
 		submitform( pressbutton );
 	}
 }
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" >
+<form action="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" method="post" name="adminForm" id="adminForm" >
 <div class="col50"><fieldset class="adminform"><legend><?php echo JText::_('COM_REDSHOP_DETAILS' ); ?></legend>
 <table class="admintable">
 <tr><td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ACCOUNTGROUP_NAME'); ?></td>
@@ -81,9 +85,9 @@ submitbutton = function(pressbutton)
 	<td><input class="text_area" type="text" name="economic_shipping_nonvat_account" id="economic_shipping_nonvat_account" value="<?php echo $this->detail->economic_shipping_nonvat_account;?>" /></td></tr>
 <tr><td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PUBLISHED' ); ?>:</td>
 	<td><?php echo $this->lists['published']; ?></td></tr>
-</table>	
+</table>
 </fieldset></div>
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->accountgroup_id; ?>" />
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="view" value="accountgroup_detail" />
+<input type="hidden" name="view" value="" />
 </form>

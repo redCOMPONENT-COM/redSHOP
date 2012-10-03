@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class attributeprices_detailModelattributeprices_detail extends RedshopCoreModelDetail
+class RedshopModelAttributeprices_detail extends RedshopCoreModelDetail
 {
     public $_sectionid = null;
 
@@ -108,7 +108,7 @@ class attributeprices_detailModelattributeprices_detail extends RedshopCoreModel
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('product_attribute_price');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -123,22 +123,6 @@ class attributeprices_detailModelattributeprices_detail extends RedshopCoreModel
         {
             $this->setError($this->_db->getErrorMsg());
             return false;
-        }
-        return true;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price ' . 'WHERE price_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
         }
         return true;
     }

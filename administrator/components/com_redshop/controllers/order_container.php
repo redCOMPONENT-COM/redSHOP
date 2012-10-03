@@ -1,4 +1,4 @@
-<?php
+/<?php
 /**
  * @package     redSHOP
  * @subpackage  Controllers
@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class order_containerController extends RedshopCoreControllerDefault
+class RedshopControllerOrder_container extends RedshopCoreControllerDefault
 {
     public function cancel()
     {

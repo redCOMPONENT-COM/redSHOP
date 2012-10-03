@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class fields_detailModelfields_detail extends RedshopCoreModelDetail
+class RedshopModelFields_detail extends RedshopCoreModelDetail
 {
     public $_fielddata = null;
 
@@ -69,7 +69,7 @@ class fields_detailModelfields_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row       = $this->getTable();
+        $row       = $this->getTable('fields');
         $field_cid = $data['cid'][0];
 
         if (!$field_cid)

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class state_detailModelstate_detail extends RedshopCoreModelDetail
+class RedshopModelState_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -61,7 +61,7 @@ class state_detailModelstate_detail extends RedshopCoreModelDetail
     public function store($data)
     {
 
-        $row = $this->getTable('state_detail');
+        $row = $this->getTable('state');
 
         if (!$row->bind($data))
         {
@@ -116,7 +116,7 @@ class state_detailModelstate_detail extends RedshopCoreModelDetail
                 $uid  = (int)$user->get('id');
             }
             // Lets get to it and checkout the thing...
-            $state_detail = $this->getTable('state_detail');
+            $state_detail = $this->getTable('state');
 
             if (!$state_detail->checkout($uid, $this->_id))
             {
@@ -140,7 +140,7 @@ class state_detailModelstate_detail extends RedshopCoreModelDetail
     {
         if ($this->_id)
         {
-            $state_detail = $this->getTable('state_detail');
+            $state_detail = $this->getTable('state');
             if (!$state_detail->checkin($this->_id))
             {
                 $this->setError($this->_db->getErrorMsg());

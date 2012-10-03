@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'admin.php';
 
-class accountgroupController extends RedshopCoreControllerDefault
+class RedshopControllerAccountgroup extends RedshopCoreControllerAdmin
 {
+
 }
 

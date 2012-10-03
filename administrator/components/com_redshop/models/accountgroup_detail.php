@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class accountgroup_detailModelaccountgroup_detail extends RedshopCoreModelDetail
+class RedshopModelAccountgroup_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -64,7 +64,7 @@ class accountgroup_detailModelaccountgroup_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('economic_accountgroup');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

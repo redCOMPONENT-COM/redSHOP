@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class question_detailModelquestion_detail extends RedshopCoreModelDetail
+class RedshopModelQuestion_detail extends RedshopCoreModelDetail
 {
     public function &getanswers()
     {
@@ -139,7 +139,7 @@ class question_detailModelquestion_detail extends RedshopCoreModelDetail
     public function store($data)
     {
         $user = JFactory::getUser();
-        $row  = $this->getTable();
+        $row  = $this->getTable('customer_question');
 
         if (!$data['question_id'])
         {

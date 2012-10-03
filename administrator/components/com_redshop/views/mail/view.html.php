@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class mailViewmail extends JViewLegacy
+class RedshopViewMail extends JViewLegacy
 {
     public function display($tpl = null)
     {

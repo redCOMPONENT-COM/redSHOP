@@ -10,13 +10,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
-
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDetail
+class RedshopModelAttribute_set_detail extends RedshopCoreModelDetail
 {
     public $attribute_data = null;
 
@@ -65,7 +62,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('attribute_set');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -79,73 +76,6 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
         }
 
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        $producthelper = new producthelper();
-        $option        = JRequest::getVar('option', '', 'request', 'string');
-        if (count($cid))
-        {
-            $cids           = implode(',', $cid);
-            $property_image = $producthelper->getAttibuteProperty(0, 0, 0, $cids);
-            foreach ($property_image as $imagename)
-            {
-
-                $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $imagename->property_image;
-
-                $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
-
-                if (is_file($dest))
-                {
-                    unlink($dest);
-                }
-                if (is_file($tsrc))
-                {
-                    unlink($tsrc);
-                }
-
-                $attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
-                $this->_db->setQuery($attr_delete);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    //return false;
-                }
-                $prop_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
-                $this->_db->setQuery($prop_delete);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    //return false;
-                }
-            }
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                //return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'attribute_set' . ' SET published = ' . intval($publish) . ' WHERE attribute_set_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
     }
 
     public function getattributes()
@@ -385,7 +315,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function store_pro($data)
     {
-        $row = $this->getTable('attribute_property');
+        $row = $this->getTable('product_attribute_property');
 
         if (!$row->bind($data))
         {
@@ -405,7 +335,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function store_sub($data)
     {
-        $row = $this->getTable('subattribute_property');
+        $row = $this->getTable('product_subattribute_color');
 
         if (!$row->bind($data))
         {
@@ -772,7 +702,7 @@ WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
         $attribute['price_quantity_start'] = $product_attribute_price->price_quantity_start;
         $attribute['price_quantity_end']   = $product_attribute_price->price_quantity_end;
 
-        $row = $this->getTable('attributeprices_detail');
+        $row = $this->getTable('product_attribute_price');
 
         // Bind and save data into 'attributeprices_detail'
         if (!$row->bind($attribute))
@@ -889,7 +819,7 @@ VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . 
                                 $attribute_properties['setdefault_selected'] = $product_attributes_property->setdefault_selected;
                                 $attribute_properties['property_number']     = $product_attributes_property->property_number;
 
-                                $row = $this->getTable('attribute_property');
+                                $row = $this->getTable('product_attribute_property');
 
                                 // Bind and save data into 'product_attribute_property'
                                 if (!$row->bind($attribute_properties))
@@ -979,7 +909,7 @@ VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . 
                                         $sub_attribute_properties['subattribute_color_number']     = $product_sub_attributes_property->subattribute_color_number;
                                         $sub_attribute_properties['subattribute_color_title']      = $product_sub_attributes_property->subattribute_color_title;
                                         $sub_attribute_properties['subattribute_color_main_image'] = $product_sub_attributes_property->subattribute_color_main_image;
-                                        $row                                                       = $this->getTable('subattribute_property');
+                                        $row                                                       = $this->getTable('product_subattribute_color');
 
                                         // Bind and save data into 'subattribute_property'
                                         if (!$row->bind($sub_attribute_properties))
@@ -1082,7 +1012,7 @@ VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . 
     public function copyadditionalImage($data)
     {
 
-        $rowmedia = $this->getTable('media_detail');
+        $rowmedia = $this->getTable('media');
 
         $data['media_id '] = 0;
         if (!$rowmedia->bind($data))

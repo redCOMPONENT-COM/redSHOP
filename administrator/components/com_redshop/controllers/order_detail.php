@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class order_detailController extends RedshopCoreControllerDetail
+class RedshopControllerOrder_detail extends RedshopCoreController
 {
     public $redirectViewName = 'order';
 

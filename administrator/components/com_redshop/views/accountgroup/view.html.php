@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.html.pagination');
 
-class accountgroupViewaccountgroup extends JViewLegacy
+class RedshopViewAccountgroup extends JViewLegacy
 {
     public function display($tpl = null)
     {
@@ -23,11 +23,11 @@ class accountgroupViewaccountgroup extends JViewLegacy
         $document->setTitle(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'));
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'), 'redshop_accountgroup48');
-        JToolbarHelper::addNewX();
-        JToolbarHelper::EditListX();
-        JToolbarHelper::deleteList();
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
+        JToolbarHelper::addNew('accountgroup_detail.add');
+        JToolbarHelper::EditList('accountgroup_detail.edit');
+        JToolbarHelper::deleteList('accountgroup.delete');
+        JToolBarHelper::publishList('accountgroup.publish');
+        JToolBarHelper::unpublishList('accountgroup.publish');
         $uri = JFactory::getURI();
 
         $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');

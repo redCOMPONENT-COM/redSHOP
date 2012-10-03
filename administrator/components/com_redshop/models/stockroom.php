@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class stockroomModelstockroom extends RedshopCoreModel
+class RedshopModelStockroom extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -142,6 +142,32 @@ class stockroomModelstockroom extends RedshopCoreModel
                 $this->setError($this->_db->getErrorMsg());
                 return false;
             }
+        }
+        return true;
+    }
+
+    public function copy($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            $this->_copydata = $this->_db->loadObjectList();
+        }
+        foreach ($this->_copydata as $cdata)
+        {
+            $post['stockroom_id']   = 0;
+            $post['stockroom_name'] = 'Copy Of ' . $cdata->stockroom_name;
+            $post['stockroom_desc'] = $cdata->stockroom_desc;
+            $post['min_del_time']   = $cdata->min_del_time;
+            $post['max_del_time']   = $cdata->max_del_time;
+            $post['delivery_time']  = $cdata->delivery_time;
+            $post['show_in_front']  = $cdata->show_in_front;
+            $post['creation_date']  = time();
+            $post['published']      = $cdata->published;
+            stockroom_detailModelstockroom_detail::store($post);
         }
         return true;
     }

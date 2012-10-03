@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class accountgroup_detailVIEWaccountgroup_detail extends JViewLegacy
+class RedshopViewAccountgroup_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {
         $uri = JFactory::getURI();
 
-        JToolBarHelper::save();
-        JToolBarHelper::apply();
+        JToolBarHelper::save('accountgroup_detail.save');
+        JToolBarHelper::apply('accountgroup_detail.apply');
 
         $lists  = array();
         $detail = $this->get('data');
@@ -25,11 +25,11 @@ class accountgroup_detailVIEWaccountgroup_detail extends JViewLegacy
         $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
         if ($isNew)
         {
-            JToolBarHelper::cancel();
+            JToolBarHelper::cancel('accountgroup_detail.cancel');
         }
         else
         {
-            JToolBarHelper::cancel('cancel', 'Close');
+            JToolBarHelper::cancel('accountgroup_detail.cancel', 'Close');
         }
         JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_accountgroup48');
 

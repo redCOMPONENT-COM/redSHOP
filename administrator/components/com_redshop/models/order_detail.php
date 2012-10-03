@@ -19,7 +19,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class order_detailModelorder_detail extends RedshopCoreModelDetail
+class RedshopModelOrder_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -79,7 +79,7 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('orders');
 
         if (!$row->bind($data))
         {
@@ -113,14 +113,14 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
         $stockroomhelper    = new rsstockroomhelper();
 
         // get Order Info
-        $orderdata = $this->getTable('order_detail');
+        $orderdata = $this->getTable('orders');
         $orderdata->load($this->_id);
 
         $item = $data['order_item'];
         // get product Info
 
         // set Order Item Info
-        $orderitemdata = $this->getTable('order_item_detail');
+        $orderitemdata = $this->getTable('order_item');
         $orderitemdata->load($order_item_id);
 
         $user_id = $orderdata->user_id;
@@ -311,7 +311,7 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
                         }
                     }
 
-                    $accdata = $this->getTable('accessory_detail');
+                    $accdata = $this->getTable('product_accessory');
                     if ($accessory_id > 0)
                     {
                         $accdata->load($accessory_id);
@@ -487,11 +487,11 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
 
         $order_item_id = $data['order_item_id'];
         // get Order Item Info
-        $orderitemdata = $this->getTable('order_item_detail');
+        $orderitemdata = $this->getTable('order_item');
         $orderitemdata->load($order_item_id);
 
         // get Order Info
-        $orderdata = $this->getTable('order_detail');
+        $orderdata = $this->getTable('orders');
         $orderdata->load($this->_id);
 
         // get order item price
@@ -566,9 +566,9 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
         $stockroomhelper = new rsstockroomhelper();
 
         $order_item_id = $data['order_item_id'];
-        $orderitemdata = $this->getTable('order_item_detail');
+        $orderitemdata = $this->getTable('order_item');
         $orderitemdata->load($order_item_id);
-        $orderdata = $this->getTable('order_detail');
+        $orderdata = $this->getTable('orders');
         $orderdata->load($this->_id);
         $order_id         = $this->_id;
         $product_id       = $orderitemdata->product_id;
@@ -719,7 +719,7 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
     {
 
         // get Order Info
-        $orderdata = $this->getTable('order_detail');
+        $orderdata = $this->getTable('orders');
         $orderdata->load($this->_id);
         $order_functions = new order_functions();
         $OrderItems      = $order_functions->getOrderItemDetail($this->_id);
@@ -784,7 +784,7 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
     {
         $redshopMail = new redshopMail();
 
-        $orderdata = $this->getTable('order_detail');
+        $orderdata = $this->getTable('orders');
         $orderdata->load($this->_id);
         $order_functions = new order_functions();
         $OrderItems      = $order_functions->getOrderItemDetail($this->_id);
@@ -851,7 +851,7 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
         $redhelper      = new redhelper();
         $shippinghelper = new shipping();
         // get Order Info
-        $orderdata = $this->getTable('order_detail');
+        $orderdata = $this->getTable('orders');
         $orderdata->load($this->_id);
 
         if ($data['shipping_rate_id'] != "")
@@ -890,7 +890,7 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
     // public function update shipping information
     public function updateShippingAdd($data)
     {
-        $row = $this->getTable('order_user_detail');
+        $row = $this->getTable('orders');
         $row->load($data['order_info_id']);
 
         $row->bind($data);
@@ -927,7 +927,7 @@ class order_detailModelorder_detail extends RedshopCoreModelDetail
     public function updateBillingAdd($data)
     {
 
-        $row = $this->getTable('order_user_detail');
+        $row = $this->getTable('orders');
         $row->load($data['order_info_id']);
 
         $row->bind($data);

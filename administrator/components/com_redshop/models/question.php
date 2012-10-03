@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class questionModelquestion extends RedshopCoreModel
+class RedshopModelQuestion extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -112,7 +112,7 @@ class questionModelquestion extends RedshopCoreModel
      */
     public function saveorder($cid = array(), $order)
     {
-        $row       = $this->getTable('question_detail');
+        $row       = $this->getTable('customer_question');
         $order     = JRequest::getVar('order', array(0), 'post', 'array');
         $groupings = array();
 
@@ -150,7 +150,7 @@ class questionModelquestion extends RedshopCoreModel
      */
     public function orderup()
     {
-        $row = $this->getTable();
+        $row = $this->getTable('customer_question');
         $row->load($this->_id);
         $row->move(-1);
         $row->store();
@@ -165,7 +165,7 @@ class questionModelquestion extends RedshopCoreModel
      */
     public function orderdown()
     {
-        $row = $this->getTable();
+        $row = $this->getTable('customer_question');
         $row->load($this->_id);
         $row->move(1);
         $row->store();

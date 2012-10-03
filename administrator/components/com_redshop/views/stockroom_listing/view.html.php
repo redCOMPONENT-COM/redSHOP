@@ -13,7 +13,7 @@ $context = 'ddd';
 ;
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class stockroom_listingViewstockroom_listing extends JViewLegacy
+class RedshopViewStockroom_listing extends JViewLegacy
 {
     public function display($tpl = null)
     {

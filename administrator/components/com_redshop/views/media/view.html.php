@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class mediaViewmedia extends JViewLegacy
+class RedshopViewMedia extends JViewLegacy
 {
     public function display($tpl = null)
     {
