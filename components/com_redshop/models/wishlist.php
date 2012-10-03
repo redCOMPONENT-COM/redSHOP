@@ -12,41 +12,32 @@ defined('_JEXEC') or die ('Restricted access');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class wishlistModelwishlist extends JModelLegacy
+class wishlistModelwishlist extends RedshopCoreModel
 {
-    public $_id = null;
-
     public $_name = null;
 
-    public $_userid = null; // product data
-    public $_table_prefix = null;
+    public $_userid = null;
 
     public $_comment = null;
 
     public $_cdate = null;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function getUserWishlist()
     {
         $user = JFactory::getUser();
-        $db   = JFactory::getDBO();
 
         $query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . $user->id;
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
 
-        return $db->loadObjectlist();
+        return $this->_db->loadObjectlist();
     }
 
     public function getWishlistProduct()
     {
         $user = JFactory::getUser();
-        $db   = JFactory::getDBO();
+
         if ($user->id)
         {
             $whislists     = $this->getUserWishlist();
@@ -54,8 +45,8 @@ class wishlistModelwishlist extends JModelLegacy
             for ($i = 0; $i < count($whislists); $i++)
             {
                 $sql = "SELECT DISTINCT wp.* ,p.* " . "FROM  #__redshop_product as p " . ", #__redshop_wishlist_product as wp " . "WHERE wp.product_id = p.product_id AND wp.wishlist_id = " . $whislists[$i]->wishlist_id;
-                $db->setQuery($sql);
-                $wish_products[$whislists[$i]->wishlist_id] = $db->loadObjectList();
+                $this->_db->setQuery($sql);
+                $wish_products[$whislists[$i]->wishlist_id] = $this->_db->loadObjectList();
             }
             return $wish_products;
         }
@@ -73,8 +64,8 @@ class wishlistModelwishlist extends JModelLegacy
                 $prod_id .= $_SESSION['wish_' . $add_i]->product_id;
 
                 $sql = "SELECT DISTINCT p.* " . "FROM #__redshop_product as p " . "WHERE p.product_id in( " . $prod_id . ")";
-                $db->setQuery($sql);
-                $rows = $db->loadObjectList();
+                $this->_db->setQuery($sql);
+                $rows = $this->_db->loadObjectList();
             }
             return $rows;
         }
@@ -82,7 +73,6 @@ class wishlistModelwishlist extends JModelLegacy
 
     public function getWishlistProductFromSession()
     {
-        $db      = JFactory::getDBO();
         $prod_id = "";
         $rows    = array();
         if (isset($_SESSION["no_of_prod"]))
@@ -98,15 +88,15 @@ class wishlistModelwishlist extends JModelLegacy
             $prod_id .= $_SESSION['wish_' . $add_i]->product_id;
 
             $sql = "SELECT DISTINCT p.* " . "FROM #__redshop_product as p " . "WHERE p.product_id in( " . substr_replace($prod_id, "", -1) . ")";
-            $db->setQuery($sql);
-            $rows = $db->loadObjectList();
+            $this->_db->setQuery($sql);
+            $rows = $this->_db->loadObjectList();
         }
         return $rows;
     }
 
     public function store($data)
     {
-        $row =& $this->getTable();
+        $row = $this->getTable();
 
         if (!$row->bind($data))
         {
@@ -120,14 +110,13 @@ class wishlistModelwishlist extends JModelLegacy
         }
         else
         {
-            $db         = JFactory::getDBO();
             $product_id = JRequest :: getInt('product_id');
 
             if ($product_id)
             {
                 $ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product " . " SET wishlist_id=" . $row->wishlist_id . ", product_id=" . $product_id . ", cdate=" . time();
-                $db->setQuery($ins_query);
-                if ($db->Query())
+                $this->_db->setQuery($ins_query);
+                if ($this->_db->Query())
                 {
                     return true;
                 }
@@ -152,13 +141,13 @@ class wishlistModelwishlist extends JModelLegacy
                             $myuserdata = $_SESSION['wish_' . $si]->$myfield;
                             $ins_query  = "INSERT INTO #__redshop_wishlist_userfielddata SET " . " wishlist_id = " . $row->wishlist_id . " , product_id = " . $_SESSION['wish_' . $si]->product_id . ", userfielddata = '" . $myuserdata . "'";
 
-                            $db->setQuery($ins_query);
-                            $db->Query();
+                            $this->_db->setQuery($ins_query);
+                            $this->_db->Query();
                         }
                     }
                     $ins_query = "INSERT INTO #__redshop_wishlist_product SET " . " wishlist_id = " . $row->wishlist_id . ", product_id = " . $_SESSION['wish_' . $si]->product_id . ", cdate = " . $_SESSION['wish_' . $si]->cdate;
-                    $db->setQuery($ins_query);
-                    $db->Query();
+                    $this->_db->setQuery($ins_query);
+                    $this->_db->Query();
                     unset($_SESSION['wish_' . $si]);
                 }
                 unset($_SESSION["no_of_prod"]);
@@ -169,22 +158,20 @@ class wishlistModelwishlist extends JModelLegacy
 
     public function savewishlist()
     {
-
         $cid        = JRequest :: getVar('cid', '', 'request', 'array');
-        $db         = JFactory::getDBO();
         $product_id = JRequest :: getInt('product_id');
         for ($i = 0; $i < count($cid); $i++)
         {
             $query = "SELECT wishlist_product_id FROM " . $this->_table_prefix . "wishlist_product " . " WHERE wishlist_id=" . $cid[$i] . " AND product_id=" . $product_id;
-            $db->setQuery($query);
+            $this->_db->setQuery($query);
 
-            if (count($db->loadResult()) > 0)
+            if (count($this->_db->loadResult()) > 0)
             {
                 continue;
             }
             $ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product " . " SET wishlist_id=" . $cid[$i] . ", product_id=" . $product_id . ", cdate=" . time();
-            $db->setQuery($ins_query);
-            if ($db->query())
+            $this->_db->setQuery($ins_query);
+            if ($this->_db->query())
             {
                 continue;
             }
@@ -198,11 +185,10 @@ class wishlistModelwishlist extends JModelLegacy
 
     public function check_user_wishlist_authority($userid, $wishlist_id)
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist " . " WHERE wishlist_id=" . $wishlist_id . " AND user_id=" . $userid;
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
 
-        $rs = $db->loadResult();
+        $rs = $this->_db->loadResult();
         if ($rs)
         {
             return true;
@@ -215,19 +201,18 @@ class wishlistModelwishlist extends JModelLegacy
 
     public function delwishlist($userid, $wishlist_id)
     {
-        $db    = JFactory::getDBO();
         $query = "DELETE FROM " . $this->_table_prefix . "wishlist_product " . " WHERE wishlist_id=" . $wishlist_id;
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
 
-        $db->Query();
+        $this->_db->Query();
         $query = "DELETE FROM " . $this->_table_prefix . "wishlist_userfielddata " . " WHERE wishlist_id=" . $wishlist_id;
-        $db->setQuery($query);
+        $this->_db->setQuery($query);
 
-        if ($db->Query())
+        if ($this->_db->Query())
         {
             $query = "DELETE FROM " . $this->_table_prefix . "wishlist " . " WHERE wishlist_id=" . $wishlist_id . " AND user_id=" . $userid;
-            $db->setQuery($query);
-            if ($db->Query())
+            $this->_db->setQuery($query);
+            if ($this->_db->Query())
             {
                 return true;
             }

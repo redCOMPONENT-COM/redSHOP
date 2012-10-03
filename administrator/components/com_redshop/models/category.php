@@ -9,25 +9,22 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class categoryModelcategory extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class categoryModelcategory extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'category_id';
 
     public function __construct()
     {
         parent::__construct();
+
         $app = JFactory::getApplication();
 
-        $this->_context       = 'category_id';
-        $this->_table_prefix  = '#__' . TABLE_PREFIX . '_';
         $limit                = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
         $limitstart           = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
         $category_main_filter = $app->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
@@ -59,8 +56,6 @@ class categoryModelcategory extends JModelLegacy
 
     public function _buildQuery()
     {
-        $db = JFactory::getDBO();
-
         $category_id          = $this->getState('category_id');
         $category_main_filter = $this->getState('category_main_filter');
         $limit                = $this->getState('limit');
@@ -75,8 +70,8 @@ class categoryModelcategory extends JModelLegacy
         }
 
         $q = "SELECT c.category_id, cx.category_child_id, cx.category_child_id AS id, cx.category_parent_id, cx.category_parent_id AS parent_id,c.category_name, c.category_name AS title,c.category_description,c.published,ordering " . "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx " . "WHERE c.category_id=cx.category_child_id " . $and . $orderby;
-        $db->setQuery($q);
-        $rows = $db->loadObjectList();
+        $this->_db->setQuery($q);
+        $rows = $this->_db->loadObjectList();
 
         if (!$category_main_filter)
         {
@@ -177,11 +172,7 @@ class categoryModelcategory extends JModelLegacy
                 }
             }
         }
-        // execute updateOrder for each parent group
-        /*$groupings = array_unique( $groupings );
-          foreach ($groupings as $group){
-              $row->reorder('catid = '.(int) $group);
-          }*/
+
         return true;
     }
 }

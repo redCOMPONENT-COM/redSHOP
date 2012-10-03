@@ -77,16 +77,17 @@ class configurationViewconfiguration extends JViewLegacy
         $model       = $this->getModel('configuration');
         $newsletters = $model->getnewsletters();
 
-        $templatesel                   = array();
-        $templatesel[0]->template_id   = 0;
-        $templatesel[0]->template_name = JText::_('COM_REDSHOP_SELECT');
-
         $product_template      = $redTemplate->getTemplate("product");
         $compare_template      = $redTemplate->getTemplate("compare_product");
         $category_template     = $redTemplate->getTemplate("category");
         $categorylist_template = $redTemplate->getTemplate("frontpage_category");
         $manufacturer_template = $redTemplate->getTemplate("manufacturer_products");
         $ajax_detail_template  = $redTemplate->getTemplate("ajax_cart_detail_box");
+
+        $templatesel                   = array();
+        $templatesel                   = array_fill(0, 7, new stdClass);
+        $templatesel[0]->template_id   = 0;
+        $templatesel[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 
         $product_template      = @array_merge($templatesel, $product_template);
         $compare_template      = @array_merge($templatesel, $compare_template);
@@ -282,16 +283,20 @@ class configurationViewconfiguration extends JViewLegacy
         $lists['clickatell_order_status']             = JHTML::_('select.genericlist', $orderstatus, 'clickatell_order_status', 'class="inputbox" size="1" ', 'value', 'text', CLICKATELL_ORDER_STATUS);
 
         $menuitem           = array();
+        $menuitem[0]        = new stdClass;
         $menuitem[0]->value = 0;
         $menuitem[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $q                  = "SELECT m.id,m.title AS name,mt.title FROM #__menu AS m " . "LEFT JOIN #__menu_types AS mt ON mt.menutype=m.menutype " . "WHERE m.published=1 " . "ORDER BY m.menutype,m.ordering";
         $db->setQuery($q);
         $menuitemlist = $db->loadObjectList();
+
         for ($i = 0; $i < count($menuitemlist); $i++)
         {
+            $menuitem[$i + 1]        = new stdClass;
             $menuitem[$i + 1]->value = $menuitemlist[$i]->id;
             $menuitem[$i + 1]->text  = $menuitemlist[$i]->name;
         }
+
         $lists['url_after_portal_login']  = JHTML::_('select.genericlist', $menuitem, 'portal_login_itemid', 'class="inputbox" size="1" ', 'value', 'text', PORTAL_LOGIN_ITEMID);
         $lists['url_after_portal_logout'] = JHTML::_('select.genericlist', $menuitem, 'portal_logout_itemid', 'class="inputbox" size="1" ', 'value', 'text', PORTAL_LOGOUT_ITEMID);
 
@@ -481,7 +486,7 @@ class configurationViewconfiguration extends JViewLegacy
         $calculate_vat_on          = defined('CALCULATE_VAT_ON') ? CALCULATE_VAT_ON : 'BT';
         $lists['calculate_vat_on'] = $extra_field->rs_booleanlist('calculate_vat_on', 'class="inputbox"', $calculate_vat_on, $yes = JText::_('COM_REDSHOP_BILLING_ADDRESS_LBL'), $no = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'), '', 'BT', 'ST');
 
-        $order_data                                = array();
+        $order_data                                = array_fill(0, 3, new stdClass);
         $order_data[0]->value                      = "c.category_name ASC";
         $order_data[0]->text                       = JText::_('COM_REDSHOP_CATEGORY_NAME');
         $order_data[1]->value                      = "c.category_id DESC";
@@ -493,7 +498,7 @@ class configurationViewconfiguration extends JViewLegacy
         $order_data                                    = $redhelper->getManufacturerOrderByList();
         $lists['default_manufacturer_ordering_method'] = JHTML::_('select.genericlist', $order_data, 'default_manufacturer_ordering_method', 'class="inputbox" size="1" ', 'value', 'text', DEFAULT_MANUFACTURER_ORDERING_METHOD);
 
-        $symbol_position                   = array();
+        $symbol_position                   = array_fill(0, 4, new stdClass);
         $symbol_position[0]->value         = " ";
         $symbol_position[0]->text          = JText::_('COM_REDSHOP_SELECT');
         $symbol_position[1]->value         = "front";
@@ -513,7 +518,7 @@ class configurationViewconfiguration extends JViewLegacy
         $lists['enable_backendaccess']    = JHTML::_('select.booleanlist', 'enable_backendaccess', 'class="inputbox"', ENABLE_BACKENDACCESS);
         $lists['wishlist_login_required'] = JHTML::_('select.booleanlist', 'wishlist_login_required', 'class="inputbox"', WISHLIST_LOGIN_REQUIRED);
 
-        $invoice_mail_send_option           = array();
+        $invoice_mail_send_option           = array_fill(0, 4, new stdClass);
         $invoice_mail_send_option[0]->value = 0;
         $invoice_mail_send_option[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $invoice_mail_send_option[1]->value = 1;
@@ -524,7 +529,7 @@ class configurationViewconfiguration extends JViewLegacy
         $invoice_mail_send_option[3]->text  = JText::_('COM_REDSHOP_BOTH');
         $lists['invoice_mail_send_option']  = JHTML::_('select.genericlist', $invoice_mail_send_option, 'invoice_mail_send_option', 'class="inputbox" ', 'value', 'text', INVOICE_MAIL_SEND_OPTION);
 
-        $discount_type           = array();
+        $discount_type           = array_fill(0, 5, new stdClass);
         $discount_type[0]->value = 0;
         $discount_type[0]->text  = JText::_('COM_REDSHOP_SELECT');
         $discount_type[1]->value = 1;
@@ -540,7 +545,7 @@ class configurationViewconfiguration extends JViewLegacy
         /*
            * Measurement select boxes
            */
-        $option                       = array();
+        $option                       = array_fill(0, 6, new stdClass);
         $option[0]->value             = 0;
         $option[0]->text              = JText::_('COM_REDSHOP_SELECT');
         $option[1]->value             = 'mm';
@@ -556,7 +561,7 @@ class configurationViewconfiguration extends JViewLegacy
         $lists['default_volume_unit'] = JHTML::_('select.genericlist', $option, 'default_volume_unit', 'class="inputbox" ', 'value', 'text', DEFAULT_VOLUME_UNIT);
         unset($option);
 
-        $option                       = array();
+        $option                       = array_fill(0, 4, new stdClass);
         $option[0]->value             = 0;
         $option[0]->text              = JText::_('COM_REDSHOP_SELECT');
         $option[1]->value             = 'gram';

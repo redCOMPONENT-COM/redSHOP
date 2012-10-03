@@ -99,5 +99,3 @@ class reddesignhelper
         return $icon_array;
     }
 }
-
-?>

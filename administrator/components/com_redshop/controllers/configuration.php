@@ -337,7 +337,7 @@ class configurationController extends RedshopCoreController
         $this->setRedirect('index.php?option=' . $option);
     }
 
-    public function display()
+    public function display($cachable = false, $urlparams = false)
     {
         $model         = $this->getModel('configuration');
         $currency_data = $model->getCurrency();

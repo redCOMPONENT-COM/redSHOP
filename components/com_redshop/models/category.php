@@ -8,16 +8,11 @@
  */
 
 defined('_JEXEC') or die ('Restricted access');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class categoryModelcategory extends JModelLegacy
+class categoryModelcategory extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
     public $_product = null;
-
-    public $_table_prefix = null;
 
     public $_template = null;
 
@@ -33,13 +28,12 @@ class categoryModelcategory extends JModelLegacy
 
     public function __construct()
     {
-        global $mainframe;
         parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
+        $app                 = JFactory::getApplication();
         $this->producthelper = new producthelper();
 
-        $params = $mainframe->getParams('com_redshop');
+        $params = $app->getParams('com_redshop');
         $layout = JRequest::getVar('layout');
         $print  = JRequest::getVar('print');
         $Id     = JRequest::getInt('cid', 0);
@@ -51,17 +45,11 @@ class categoryModelcategory extends JModelLegacy
             }
         }
 
-        $category_template = $mainframe->getUserStateFromRequest($this->_context . 'category_template', 'category_template', 0);
+        $category_template = $app->getUserStateFromRequest($this->_context . 'category_template', 'category_template', 0);
 
         $this->setState('category_template', $category_template);
 
-        $this->setId(( int )$Id);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
+        $this->_id = (int)$Id;
     }
 
     public function _buildQuery()
@@ -318,6 +306,7 @@ class categoryModelcategory extends JModelLegacy
     public function _buildProductOrderBy()
     {
         global $mainframe;
+
         $menu     = $mainframe->getMenu();
         $item     = $menu->getActive();
         $order_by = urldecode(JRequest::getVar('order_by', ''));
@@ -334,18 +323,20 @@ class categoryModelcategory extends JModelLegacy
     public function getData()
     {
         global $mainframe;
+
         $endlimit   = $this->getProductPerPage();
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
         $layout     = JRequest::getVar('layout');
         $query      = $this->_buildQuery();
+
         if ($layout == "categoryproduct")
         {
-            $menu     = $mainframe->getMenu();
-            $item     = $menu->getActive();
-            $endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
-            //$limit       = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $endlimit, 5);
+            $menu        = $mainframe->getMenu();
+            $item        = $menu->getActive();
+            $endlimit    = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
             $limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
             $this->_data = $this->_getList($query, $limitstart, $endlimit);
+
             return $this->_data;
         }
 

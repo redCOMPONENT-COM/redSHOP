@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class manufacturerModelmanufacturer extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class manufacturerModelmanufacturer extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'manufacturer_id';
 
     public function __construct()
     {
@@ -27,12 +25,11 @@ class manufacturerModelmanufacturer extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'manufacturer_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
         $this->setState('filter', $filter);
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
@@ -97,17 +94,14 @@ class manufacturerModelmanufacturer extends JModelLegacy
 
     public function getMediaId($mid)
     {
-        $database = JFactory::getDBO();
-
         $query = ' SELECT media_id ' . ' FROM ' . $this->_table_prefix . 'media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
 
-        $database->setQuery($query);
-        return $database->loadResult();
+        $this->_db->setQuery($query);
+        return $this->_db->loadResult();
     }
 
     public function saveOrder(&$cid)
     {
-        $db  = JFactory::getDBO();
         $row = $this->getTable('manufacturer_detail');
 
         $total = count($cid);
@@ -123,7 +117,7 @@ class manufacturerModelmanufacturer extends JModelLegacy
                 $row->ordering = $order[$i];
                 if (!$row->store())
                 {
-                    throw new RuntimeException($db->getErrorMsg());
+                    throw new RuntimeException($this->_db->getErrorMsg());
                 }
             }
         }

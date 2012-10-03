@@ -18,32 +18,10 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class mail_detailModelmail_detail extends JModelLegacy
+class mail_detailModelmail_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-
-        $array = JRequest::getVar('cid', 0, '', 'array');
-
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
-
     public function &getData()
     {
         if ($this->_loadData())
@@ -147,7 +125,6 @@ class mail_detailModelmail_detail extends JModelLegacy
 
     public function mail_section()
     {
-
         $query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM ' . $this->_table_prefix . 'order_status  where published=1';
 
         $this->_db->setQuery($query);
@@ -157,9 +134,7 @@ class mail_detailModelmail_detail extends JModelLegacy
 
     public function order_statusHtml($order_status)
     {
-
-        $select = array();
-
+        $select   = array();
         $select[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
         $merge = array_merge($select, $order_status);
@@ -167,5 +142,3 @@ class mail_detailModelmail_detail extends JModelLegacy
         return JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text');
     }
 }
-
-?>

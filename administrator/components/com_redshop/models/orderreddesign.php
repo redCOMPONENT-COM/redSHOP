@@ -10,7 +10,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
-class orderreddesignModelorderreddesign extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class orderreddesignModelorderreddesign extends RedshopCoreModel
 {
     public $_data = null;
 
@@ -20,7 +22,7 @@ class orderreddesignModelorderreddesign extends JModelLegacy
 
     public $_table_prefix = null;
 
-    public $_context = null;
+    public $_context = 'order_id';
 
     public function __construct()
     {
@@ -28,13 +30,12 @@ class orderreddesignModelorderreddesign extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'order_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
         $filter        = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
         $this->setState('filter', $filter);

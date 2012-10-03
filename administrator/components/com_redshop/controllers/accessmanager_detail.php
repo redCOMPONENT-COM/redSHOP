@@ -9,26 +9,19 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class accessmanager_detailController extends RedshopCoreController
+class accessmanager_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'accessmanager';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
     }
 
-    public function edit()
-    {
-        $this->input->set('view', 'answer_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-
-        parent::display();
-    }
-
-    public function save($apply)
+    public function save($apply = 0)
     {
         $post    = $this->input->getArray($_POST);
         $option  = $this->input->getString('option', '');
@@ -53,18 +46,5 @@ class accessmanager_detailController extends RedshopCoreController
         {
             $this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
         }
-    }
-
-    public function apply()
-    {
-        $this->save(1);
-    }
-
-    public function cancel()
-    {
-        $option = $this->input->get('option');
-
-        $msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
-        $this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
     }
 }

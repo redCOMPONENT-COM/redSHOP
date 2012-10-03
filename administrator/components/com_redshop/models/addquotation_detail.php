@@ -16,30 +16,11 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class addquotation_detailModeladdquotation_detail extends JModelLegacy
+class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $_copydata = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('cid', 0, '', 'array');
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
 
     public function setBilling()
     {
@@ -56,6 +37,7 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
         $detail->address       = null;
         $detail->city          = null;
         $detail->phone         = null;
+
         return $detail;
     }
 
@@ -136,6 +118,7 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
         $quotation_id = $row->quotation_id;
         $user_id      = $row->user_id;
         $item         = $data['order_item'];
+
         for ($i = 0; $i < count($item); $i++)
         {
             $product_id         = $item[$i]->product_id;
@@ -364,13 +347,14 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
                     for ($k = 0; $k < count($propArr); $k++)
                     {
                         $section_vat = 0;
+
                         if ($propArr[$k]['property_price'] > 0)
                         {
                             $section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price'], $user_id);
                         }
+
                         $property_id = $propArr[$k]['property_id'];
-                        /** product property STOCKROOM update start */
-                        //						$producthelper->updateAttributeStockRoom($property_id,"property",$rowitem->product_quantity);
+
                         $updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $rowitem->product_quantity, "property");
 
                         $rowattitem                        = $this->getTable('quotation_attribute_item');
@@ -484,7 +468,7 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
             $prefix = $uniqueid . "prd_";
         }
 
-        $product       = $producthelper->getProductById($product_id);
+        //$product       = $producthelper->getProductById($product_id);
         $attributelist = "";
         if (count($subproperty) > 0)
         {
@@ -525,16 +509,10 @@ class addquotation_detailModeladdquotation_detail extends JModelLegacy
             {
                 $chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="' . $subpropertyid . '" class="inputbox" size="1" onchange="javascript:calculateOfflineTotalPrice(\'' . $uniqueid . '\');" ', 'value', 'text', '');
             }
+
             $lists ['subproperty_id'] = $chklist;
 
-            //			if ($stock)
-            //			{
-            //				$attribute_table = str_replace ( "{property_title}", "", $attribute_table );
-            //				$attribute_table = str_replace ( "{subproperty_dropdown}", "", $attribute_table );
-            //				//$attribute_table = str_replace ( "{subproperty_dropdown}", JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE' ), $attribute_table );
-            //			} else {
             $attributelist .= "<tr><td>" . urldecode($subproperty[0]->property_name) . " : " . $lists ['subproperty_id'];
-            //			}
         }
         return $attributelist;
     }

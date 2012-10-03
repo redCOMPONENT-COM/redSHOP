@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class containerModelcontainer extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class containerModelcontainer extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'container_id';
 
     public function __construct()
     {
@@ -27,10 +25,8 @@ class containerModelcontainer extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'container_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);

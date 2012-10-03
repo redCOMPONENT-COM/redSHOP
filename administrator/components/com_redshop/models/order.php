@@ -10,17 +10,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-class orderModelorder extends JModelLegacy
-{
-    public $_data = null;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
+class orderModelorder extends RedshopCoreModel
+{
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'order_id';
 
     public function __construct()
     {
@@ -28,14 +26,13 @@ class orderModelorder extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context        = 'order_id';
-        $this->_table_prefix   = '#__redshop_';
         $limit                 = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
         $limitstart            = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
         $filter_status         = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
         $filter_payment_status = $app->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
         $filter                = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
         $limitstart            = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
         $this->setState('filter', $filter);
@@ -175,20 +172,10 @@ class orderModelorder extends JModelLegacy
 
     public function gls_export($cid)
     {
-        $oids                       = implode(',', $cid);
-        $where                      = "";
-        $redhelper                  = new redhelper();
-        $order_helper               = new order_functions();
-        $shipping                   = new shipping();
-        $plugin                     = JPluginHelper::getPlugin('rs_labels_GLS');
-        $glsparams                  = new JParameter($plugin[0]->params);
-        $normal_parcel_weight_start = $glsparams->get('normal_parcel_weight_start', '');
-        $normal_parcel_weight_end   = $glsparams->get('normal_parcel_weight_end', '');
-        $small_parcel_weight_start  = $glsparams->get('small_parcel_weight_start', '');
-        $small_parcel_weight_end    = $glsparams->get('small_parcel_weight_end', '');
-        $pallet_parcel_weight_start = $glsparams->get('pallet_parcel_weight_start', '');
-        $pallet_parcel_weight_end   = $glsparams->get('pallet_parcel_weight_end', '');
-        /* Set the export filename */
+        $oids         = implode(',', $cid);
+        $where        = "";
+        $order_helper = new order_functions();
+        $shipping     = new shipping();
 
         $exportfilename = 'redshop_gls_order_export.csv';
         /* Start output to the browser */
@@ -232,15 +219,10 @@ class orderModelorder extends JModelLegacy
         {
             $where = " WHERE order_id IN (" . $oids . ")";
         }
-        $db = JFactory::getDBO();
-        $q  = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
-        $db->setQuery($q);
-        $gls_arr = $db->loadObjectList();
 
-        //echo "Order_number,Consignee_name,Consignee_address_1,Consignee_address_2,Consignee_postal_code,Consignee_city,Consignee_country,Date,Parcel_weight,
-        //Number_of_parcels,COD_amount,Parcel_value_amount,Parcel_type,Shipment_type,Attention,Comment,Customer_number,Alt_consignor_name,Consignee_mobile_phone_no,
-        //Alt_consignor_name,Alt_consignor_address_1,Alt_consignor_address_2,Alt_consignor_postal_code,Alt_consignor_city,Alt_consignor_country,Alt_consignor_phone_no";
-        //	echo "\r\n";
+        $q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
+        $this->_db->setQuery($q);
+        $gls_arr = $this->_db->loadObjectList();
 
         for ($i = 0; $i < count($gls_arr); $i++)
         {
@@ -262,8 +244,8 @@ class orderModelorder extends JModelLegacy
                     $content_products[] = $orderproducts[$c]->order_item_name;
 
                     $sql = "SELECT weight FROM #__redshop_product WHERE product_id ='" . $orderproducts [$c]->product_id . "'";
-                    $db->setQuery($sql);
-                    $weight = $db->loadResult();
+                    $this->_db->setQuery($sql);
+                    $weight = $this->_db->loadResult();
                     $totalWeight += ($weight * $orderproducts [$c]->product_quantity);
                 }
                 if (empty($totalWeight))
@@ -287,10 +269,6 @@ class orderModelorder extends JModelLegacy
                 }
                 else if ($gls_arr[$i]->ship_method_id != "")
                 {
-                    $shipmenttype = 'Z';
-
-                    //$shippingDetails->firstname = '"test, test"';
-                    //$shippingDetails->firstname='test,test';
                     $userDetail = ',"' . $shippingDetails->firstname . ' ' . $shippingDetails->lastname . '","' . $gls_arr[$i]->customer_note . '","36515","' . $billingDetails->user_email . '"';
                     $userDetail .= ',"' . $userphoneArr[1]; //.",,,,,,,";
                 }
@@ -350,10 +328,10 @@ class orderModelorder extends JModelLegacy
         {
             $where = " WHERE order_id IN (" . $oids . ")";
         }
-        $db = JFactory::getDBO();
-        $q  = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
-        $db->setQuery($q);
-        $gls_arr = $db->loadObjectList();
+
+        $q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
+        $this->_db->setQuery($q);
+        $gls_arr = $this->_db->loadObjectList();
 
         //echo "Order_number,quantity,Consignee_address_1,Consignee_address_2,Consignee_postal_code,Consignee_city,Consignee_country,Date,Parcel_weight,
         //Number_of_parcels,COD_amount,Parcel_value_amount,Parcel_type,Shipment_type,Attention,Comment,Customer_number,Alt_consignor_name,Consignee_mobile_phone_no,
@@ -381,8 +359,8 @@ class orderModelorder extends JModelLegacy
                     $content_products[] = $orderproducts[$c]->order_item_name;
 
                     $sql = "SELECT weight FROM #__redshop_product WHERE product_id ='" . $orderproducts [$c]->product_id . "'";
-                    $db->setQuery($sql);
-                    $weight = $db->loadResult();
+                    $this->_db->setQuery($sql);
+                    $weight = $this->_db->loadResult();
                     $totalWeight += ($weight * $orderproducts [$c]->product_quantity);
                 }
 

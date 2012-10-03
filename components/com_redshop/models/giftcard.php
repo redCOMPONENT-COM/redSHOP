@@ -9,14 +9,11 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-class giftcardModelgiftcard extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class giftcardModelgiftcard extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_product = null; /// product data
-    public $_table_prefix = null;
+    public $_product = null;
 
     public $_template = null;
 
@@ -24,25 +21,12 @@ class giftcardModelgiftcard extends JModelLegacy
 
     public function __construct()
     {
-        global $mainframe;
         parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-        $Id                  = JRequest::getInt('gid', 0);
-
-        $this->setId(( int )$Id);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
+        $this->_id = JRequest::getInt('gid', 0);
     }
 
     public function _buildQuery()
     {
-        global $mainframe;
-
         $and = "";
         if ($this->_id)
         {
@@ -64,13 +48,13 @@ class giftcardModelgiftcard extends JModelLegacy
 
     public function getGiftcardTemplate()
     {
-        global $mainframe, $context;
-
         $redTemplate = new Redtemplate();
+
         if (!$this->_id)
         {
             $carttemplate = $redTemplate->getTemplate("giftcard_list");
         }
+
         else
         {
             $carttemplate = $redTemplate->getTemplate("giftcard");

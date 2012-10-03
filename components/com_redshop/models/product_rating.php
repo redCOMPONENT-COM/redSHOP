@@ -9,20 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class product_ratingModelproduct_rating extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+
+class product_ratingModelproduct_rating extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function store($data)
     {
         $user              = JFactory::getUser();
@@ -30,7 +20,7 @@ class product_ratingModelproduct_rating extends JModelLegacy
         $data['email']     = $user->email;
         $data['published'] = 0;
 
-        $row =& $this->getTable('rating_detail');
+        $row = $this->getTable('rating_detail');
 
         if (!$row->bind($data))
         {
@@ -103,20 +93,17 @@ class product_ratingModelproduct_rating extends JModelLegacy
 
     public function getuserfullname($uid)
     {
-        $db = JFactory::getDBO();
-
         $query = "SELECT firstname,lastname from " . $this->_table_prefix . "users_info WHERE user_id=" . $uid . " AND address_type like 'BT'";
-        $db->setQuery($query);
-        $userfullname = $db->loadObject();
+        $this->_db->setQuery($query);
+        $userfullname = $this->_db->loadObject();
         return $userfullname;
     }
 
     public function checkRatedProduct($pid, $uid)
     {
-        $db    = JFactory::getDBO();
         $query = "SELECT count(*) as rec from " . $this->_table_prefix . "product_rating WHERE product_id=" . $pid . " AND userid=" . $uid;
-        $db->setQuery($query);
-        $already_rated = $db->loadResult();
+        $this->_db->setQuery($query);
+        $already_rated = $this->_db->loadResult();
         return $already_rated;
     }
 }

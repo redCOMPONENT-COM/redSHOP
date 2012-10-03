@@ -11,18 +11,15 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class newsletterModelnewsletter extends JModelLegacy
+class newsletterModelnewsletter extends RedshopCoreModel
 {
-    public $_data = null;
-
     public $_total = null;
 
     public $_pagination = null;
 
-    public $_table_prefix = null;
-
-    public $_context = null;
+    public $_context = 'newsletter_id';
 
     public function __construct()
     {
@@ -30,12 +27,11 @@ class newsletterModelnewsletter extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_context      = 'newsletter_id';
-        $this->_table_prefix = '#__redshop_';
-        $limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
         $this->setState('filter', $filter);
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
@@ -156,10 +152,6 @@ class newsletterModelnewsletter extends JModelLegacy
             $n = $newsletter_id;
         }
 
-        /*if($filter!="")
-          {
-              $where=" AND zipcode like '$filter%' ";
-          }*/
         if ($cityfilter != "")
         {
             // city field filter
@@ -334,7 +326,6 @@ class newsletterModelnewsletter extends JModelLegacy
     {
         $producthelper = new producthelper();
         $jconfig       = new jconfig();
-        $db            = JFactory::getDBO();
         $newsletter_id = JRequest::getVar('newsletter_id');
 
         $uri = JURI::getInstance();
@@ -449,9 +440,9 @@ class newsletterModelnewsletter extends JModelLegacy
                 $unsub_link = $url . 'index.php?option=com_redshop&view=newsletter&task=unsubscribe&email1=' . $subscribe_email;
 
                 $query = "INSERT INTO `" . $this->_table_prefix . "newsletter_tracker` " . "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  " . "VALUES ('', '" . $newsletter_id . "', '" . $cid[$j] . "', '" . $username[$j] . "', '" . $userid[$j] . "',0, '" . $today . "')";
-                $db->setQuery($query);
-                $db->query();
-                $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" style="display:none;" />';
+                $this->_db->setQuery($query);
+                $this->_db->query();
+                $content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $this->_db->insertid() . '" style="display:none;" />';
 
                 //replacing the tags with the values
                 $content .= str_replace("{username}", $subscriberinfo[0]->username, $data1);

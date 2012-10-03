@@ -18,31 +18,17 @@ require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_r
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class addorder_detailModeladdorder_detail extends JModelLegacy
+class addorder_detailModeladdorder_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
     public $_copydata = null;
 
     public function __construct()
     {
         parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-        $array               = JRequest::getVar('cid', 0, '', 'array');
-        $this->setId((int)$array[0]);
-        $this->_order_functions = new order_functions();
-        $this->_db              = JFactory::getDBO();
-    }
 
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
+        $this->_order_functions = new order_functions();
     }
 
     public function &getData()

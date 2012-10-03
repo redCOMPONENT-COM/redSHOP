@@ -9,29 +9,17 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class user_detailController extends RedshopCoreController
+class user_detailController extends RedshopCoreControllerDetail
 {
+    public $redirectViewName = 'user';
+
     public function __construct($default = array())
     {
         parent::__construct($default);
         $this->registerTask('add', 'edit');
-        $this->_table_prefix = '#__redshop_';
-        $this->redhelper     = new redhelper();
-    }
-
-    public function edit()
-    {
-        $this->input->set('view', 'user_detail');
-        $this->input->set('layout', 'default');
-        $this->input->set('hidemainmenu', 1);
-        parent::display();
-    }
-
-    public function apply()
-    {
-        $this->save(1);
+        $this->redhelper = new redhelper();
     }
 
     public function save($apply = 0)
@@ -100,46 +88,6 @@ class user_detailController extends RedshopCoreController
         {
             $this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
         }
-    }
-
-    public function publish()
-    {
-        $option = $this->input->getString('option', '');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
-
-        $model = $this->getModel('user_detail');
-        if (!$model->publish($cid, 1))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_USER_DETAIL_PUBLISHED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
-    }
-
-    public function unpublish()
-    {
-        $option = $this->input->getString('option', '');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1)
-        {
-            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
-
-        $model = $this->getModel('user_detail');
-        if (!$model->publish($cid, 0))
-        {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_USER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-        $this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
     }
 
     public function cancel()

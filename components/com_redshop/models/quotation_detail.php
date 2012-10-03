@@ -13,21 +13,10 @@ require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.p
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class quotation_detailModelquotation_detail extends JModelLegacy
+class quotation_detailModelquotation_detail extends RedshopCoreModel
 {
-    public $_id = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
-
     public function checkAuthorization($quoid, $encr)
     {
         $query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation " . "WHERE quotation_id='" . $quoid . "' " . "AND quotation_encrkey LIKE '" . $encr . "' ";

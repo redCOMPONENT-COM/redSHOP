@@ -12,16 +12,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class user_detailModeluser_detail extends JModelLegacy
+class user_detailModeluser_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
     public $_uid = null;
-
-    public $_data = null;
-
-    public $_table_prefix = null;
 
     public $_pagination = null;
 
@@ -35,10 +30,8 @@ class user_detailModeluser_detail extends JModelLegacy
 
         $app = JFactory::getApplication();
 
-        $this->_table_prefix = '#__redshop_';
-        $this->_context      = 'order_id';
+        $this->_context = 'order_id';
 
-        $array      = JRequest::getVar('cid', 0, '', 'array');
         $this->_uid = JRequest::getVar('user_id', 0);
 
         $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
@@ -46,13 +39,6 @@ class user_detailModeluser_detail extends JModelLegacy
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
     }
 
     public function &getData()
@@ -166,23 +152,15 @@ class user_detailModeluser_detail extends JModelLegacy
       */
     public function storeUser($post)
     {
-        $app = JFactory::getApplication();
-
+        $app         = JFactory::getApplication();
         $redshopMail = new redshopMail();
-        // Start data into user table
-        // Initialize some variables
-        $db  = JFactory::getDBO();
-        $me  = JFactory::getUser();
-        $acl = JFactory::getACL();
+        $me          = JFactory::getUser();
+        $acl         = JFactory::getACL();
 
         // Create a new JUser object
         $user         = new JUser($post['id']);
         $original_gid = $user->get('gid');
-
-        //$post['username']	= JRequest::getVar('username', '', 'post', 'username');
         $post['name'] = (isset($post['name'])) ? $post['name'] : $post['username'];
-        //$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
-        //$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
         // changed for shipping code moved out of condition
         if (!$user->bind($post))
@@ -230,8 +208,8 @@ class user_detailModeluser_detail extends JModelLegacy
             {
                 // count number of active super admins
                 $query = 'SELECT COUNT( id )' . ' FROM #__users' . ' WHERE gid = 25' . ' AND block = 0';
-                $db->setQuery($query);
-                $count = $db->loadResult();
+                $this->_db->setQuery($query);
+                $count = $this->_db->loadResult();
 
                 if ($count <= 1)
                 {

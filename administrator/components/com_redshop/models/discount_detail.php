@@ -9,32 +9,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class discount_detailModeldiscount_detail extends JModelLegacy
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+
+class discount_detailModeldiscount_detail extends RedshopCoreModelDetail
 {
-    public $_id = null;
-
-    public $_data = null;
-
     public $_shoppers = null;
-
-    public $_table_prefix = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_table_prefix = '#__redshop_';
-
-        $array = JRequest::getVar('cid', 0, '', 'array');
-
-        $this->setId((int)$array[0]);
-    }
-
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
 
     public function &getData()
     {
