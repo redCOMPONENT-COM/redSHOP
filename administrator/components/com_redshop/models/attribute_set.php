@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.modellist');
 
 /**
- * Answer Model.
+ * Attribute Set Model.
  *
  * @package        redSHOP
  * @subpackage     Models
@@ -37,7 +37,7 @@ class RedshopModelAttribute_set extends JModelList
     {
         $db = JFactory::getDbo();
 
-        $ordering  = $db->escape($this->getState('list.ordering', 'attribute_set_id'));
+        $ordering  = $db->escape($this->getState('list.ordering', 'a.attribute_set_id'));
         $direction = $db->escape($this->getState('list.direction', 'DESC'));
 
         $query = $db->getQuery(true)
