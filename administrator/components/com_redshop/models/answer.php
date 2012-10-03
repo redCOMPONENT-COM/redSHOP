@@ -40,10 +40,12 @@ class RedshopModelAnswer extends JModelList
         $this->setState('filter.filter', $filter);
 
         $parentId = $this->getUserStateFromRequest($this->context . 'product_id', 'product_id', 0);
-        $this->setState('filter.parent_id', $parentId);
+        $this->setState('filter.product_id', $parentId);
 
         $productId = $this->getUserStateFromRequest($this->context . 'parent_id', 'parent_id', 0);
-        $this->setState('filter.product_id', $productId);
+        $this->setState('filter.parent_id', $productId);
+
+        parent::populateState('q.parent_id', 'DESC');
     }
 
     /**
@@ -61,8 +63,8 @@ class RedshopModelAnswer extends JModelList
     {
         // Compile the store id.
         $id	.= ':'.$this->getState('filter.filter');
-        $id	.= ':'.$this->getState('filter.parent_id');
         $id	.= ':'.$this->getState('filter.product_id');
+        $id	.= ':'.$this->getState('filter.parent_id');
 
         return parent::getStoreId($id);
     }
@@ -79,7 +81,7 @@ class RedshopModelAnswer extends JModelList
         // Get the model state.
         $ordering  = $db->escape($this->getState('list.ordering', 'q.parent_id'));
         $direction = $db->escape($this->getState('list.direction', 'DESC'));
-        $parentId = $db->escape($this->getState('filter.parent_id', 'DESC'));
+        $parentId = (int) $this->getState('filter.parent_id');
         $filter = $this->getState('filter.filter');
         $productId = $this->getState('filter.product_id', 'DESC');
 
