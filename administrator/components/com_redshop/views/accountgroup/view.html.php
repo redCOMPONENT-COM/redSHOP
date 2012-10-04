@@ -9,41 +9,49 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.html.pagination');
-
+/**
+ * Account group view class.
+ *
+ * @package		redSHOP
+ * @subpackage	Controllers
+ * @since		1.2
+ */
 class RedshopViewAccountgroup extends JViewLegacy
 {
+    protected $detail;
+    protected $pagination;
+    protected $state;
+
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed  A string if successful, otherwise a JError object.
+     */
     public function display($tpl = null)
     {
-        global $context;
+        $this->detail = $this->get('Items');
+        $this->pagination = $this->get('Pagination');
+        $this->state = $this->get('State');
 
-        $app = JFactory::getApplication();
+        $this->addToolBar();
 
-        $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'));
+        parent::display($tpl);
+    }
 
+    /**
+     * Setting the toolbar.
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
         JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'), 'redshop_accountgroup48');
         JToolbarHelper::addNew('accountgroup_detail.add');
         JToolbarHelper::EditList('accountgroup_detail.edit');
-        JToolbarHelper::deleteList('accountgroup.delete');
+        JToolbarHelper::deleteList('', 'accountgroup.delete');
         JToolBarHelper::publishList('accountgroup.publish');
-        JToolBarHelper::unpublishList('accountgroup.publish');
-        $uri = JFactory::getURI();
-
-        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');
-        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-        $lists['order']     = $filter_order;
-        $lists['order_Dir'] = $filter_order_Dir;
-
-        $detail     = $this->get('Data');
-        $pagination = $this->get('Pagination');
-
-        $this->pagination = $pagination;
-        $this->assignRef('detail', $detail);
-        $this->assignRef('lists', $lists);
-        $this->request_url = $uri->toString();
-
-        parent::display($tpl);
+        JToolBarHelper::unpublishList('accountgroup.unpublish');
     }
 }
