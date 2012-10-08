@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class country_detailModelcountry_detail extends RedshopCoreModelDetail
+class RedshopModelCountry_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -60,7 +60,7 @@ class country_detailModelcountry_detail extends RedshopCoreModelDetail
     public function store($data)
     {
 
-        $row = $this->getTable();
+        $row = $this->getTable('country');
 
         if (!$row->bind($data))
         {
@@ -81,23 +81,5 @@ class country_detailModelcountry_detail extends RedshopCoreModelDetail
         }
 
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'country WHERE country_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
     }
 }

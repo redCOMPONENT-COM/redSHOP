@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class manufacturer_detailVIEWmanufacturer_detail extends JViewLegacy
+class RedshopViewManufacturer_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

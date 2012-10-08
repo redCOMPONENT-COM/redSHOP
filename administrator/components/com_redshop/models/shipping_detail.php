@@ -14,7 +14,7 @@ jimport('joomla.installer.helper');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
+class RedshopModelShipping_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -49,48 +49,6 @@ class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
         return true;
     }
 
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE #__extensions' . ' SET enabled = ' . intval($publish) . ' WHERE  extension_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function saveOrder(&$cid)
-    {
-        $row = $this->getTable();
-
-        $total = count($cid);
-        $order = JRequest::getVar('order', array(0), 'post', 'array');
-        JArrayHelper::toInteger($order, array(0));
-
-        // update ordering values
-        for ($i = 0; $i < $total; $i++)
-        {
-            $row->load((int)$cid[$i]);
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store())
-                {
-                    throw new RuntimeException($this->_db->getErrorMsg());
-                }
-            }
-        }
-        $row->reorder();
-        return true;
-    }
-
     /**
      * Method to get max ordering
      *
@@ -102,53 +60,5 @@ class shipping_detailModelshipping_detail extends RedshopCoreModelDetail
         $query = "SELECT (max(ordering)+1) FROM #__extensions where folder='redshop_shipping'";
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
-    }
-
-    /**
-     * Method to move
-     *
-     * @access  public
-     * @return  boolean True on success
-     * @since   0.9
-     */
-    public function move($direction)
-    {
-        $row = JTable::getInstance('shipping_detail', 'Table');
-
-        if (!$row->load($this->_id))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-
-        if (!$row->move($direction))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Method to up order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderup()
-    {
-        return $this->move(-1);
-    }
-
-    /**
-     * Method to down the order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderdown()
-    {
-        return $this->move(1);
     }
 }

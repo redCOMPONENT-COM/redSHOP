@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class question_detailModelquestion_detail extends RedshopCoreModelDetail
+class RedshopModelQuestion_detail extends RedshopCoreModelDetail
 {
     public function &getanswers()
     {
@@ -139,7 +139,7 @@ class question_detailModelquestion_detail extends RedshopCoreModelDetail
     public function store($data)
     {
         $user = JFactory::getUser();
-        $row  = $this->getTable();
+        $row  = $this->getTable('customer_question');
 
         if (!$data['question_id'])
         {
@@ -212,97 +212,6 @@ class question_detailModelquestion_detail extends RedshopCoreModelDetail
                 return false;
             }
         }
-        return true;
-    }
-
-    /**
-     * Method to publish the records
-     *
-     * @access public
-     * @return boolean
-     */
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'customer_question ' . ' SET published = ' . intval($publish) . ' WHERE question_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Method to save order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function saveorder($cid = array(), $order)
-    {
-        $row       = $this->getTable();
-        $order     = JRequest::getVar('order', array(0), 'post', 'array');
-        $groupings = array();
-
-        // update ordering values
-        for ($i = 0; $i < count($cid); $i++)
-        {
-            $row->load((int)$cid[$i]);
-            // track categories
-            $groupings[] = $row->question_id;
-
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-            }
-        }
-        // execute updateOrder for each parent group
-        $groupings = array_unique($groupings);
-        foreach ($groupings as $group)
-        {
-            $row->reorder((int)$group);
-        }
-        return true;
-    }
-
-    /**
-     * Method to up order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderup()
-    {
-        $row = $this->getTable();
-        $row->load($this->_id);
-        $row->move(-1);
-        $row->store();
-        return true;
-    }
-
-    /**
-     * Method to down the order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderdown()
-    {
-        $row = $this->getTable();
-        $row->load($this->_id);
-        $row->move(1);
-        $row->store();
         return true;
     }
 

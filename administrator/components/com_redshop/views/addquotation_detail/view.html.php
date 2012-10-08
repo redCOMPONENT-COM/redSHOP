@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
-class addquotation_detailVIEWaddquotation_detail extends JViewLegacy
+class RedshopViewAddquotation_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class shippingModelShipping extends RedshopCoreModel
+class RedshopModelShipping extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -82,7 +82,7 @@ class shippingModelShipping extends RedshopCoreModel
 
     public function saveOrder(&$cid)
     {
-        $row = $this->getTable('shipping_detail');
+        $row = JTable::getInstance('Extension', 'JTable');
 
         $total = count($cid);
         $order = JRequest::getVar('order', array(0), 'post', 'array');
@@ -102,6 +102,71 @@ class shippingModelShipping extends RedshopCoreModel
             }
         }
         $row->reorder();
+        return true;
+    }
+
+    /**
+     * Method to move
+     *
+     * @access  public
+     * @return  boolean True on success
+     * @since   0.9
+     */
+    public function move($direction)
+    {
+        $row = JTable::getInstance('Extension', 'JTable');
+
+        if (!$row->load($this->_id))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+
+        if (!$row->move($direction))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        return $this->move(-1);
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        return $this->move(1);
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'UPDATE #__extensions' . ' SET enabled = ' . intval($publish) . ' WHERE  extension_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
         return true;
     }
 }

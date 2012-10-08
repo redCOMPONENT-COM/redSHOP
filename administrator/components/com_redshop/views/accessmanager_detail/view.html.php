@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class accessmanager_detailVIEWaccessmanager_detail extends JViewLegacy
+class RedshopViewAccessmanager_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {
@@ -30,9 +30,9 @@ class accessmanager_detailVIEWaccessmanager_detail extends JViewLegacy
         $groups = $this->formatGroup($groups);
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER') . ': <small><small>[ ' . $section . ' ]</small></small>', 'redshop_catalogmanagement48');
-        JToolBarHelper::save();
-        JToolBarHelper::apply();
-        JToolBarHelper::cancel();
+        JToolBarHelper::save('accessmanager_detail.save');
+        JToolBarHelper::apply('accessmanager_detail.apply');
+        JToolBarHelper::cancel('accessmanager_detail.cancel');
 
         $this->assignRef('groups', $groups);
 

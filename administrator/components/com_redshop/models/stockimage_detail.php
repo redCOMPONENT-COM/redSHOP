@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class stockimage_detailModelstockimage_detail extends RedshopCoreModelDetail
+class RedshopModelStockimage_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -56,7 +56,7 @@ class stockimage_detailModelstockimage_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row  = $this->getTable('stockimage_detail');
+        $row  = $this->getTable('stockroom_amount_image');
         $file = JRequest::getVar('stock_amount_image', '', 'files', 'array');
         if ($_FILES['stock_amount_image']['name'] != "")
         {
@@ -86,34 +86,6 @@ class stockimage_detailModelstockimage_detail extends RedshopCoreModelDetail
             return false;
         }
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            for ($i = 0; $i < count($cid); $i++)
-            {
-                $query = 'SELECT stock_amount_image FROM ' . $this->_table_prefix . 'stockroom_amount_image AS si ' . 'WHERE stock_amount_id="' . $cid[$i] . '" ';
-                $this->_db->setQuery($query);
-                $stock_amount_image = $this->_db->loadResult();
-                if ($stock_amount_image != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $stock_amount_image))
-                {
-                    unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $stock_amount_image);
-                }
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom_amount_image ' . 'WHERE stock_amount_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
     }
 
     public function getStockAmountOption($select = 0)

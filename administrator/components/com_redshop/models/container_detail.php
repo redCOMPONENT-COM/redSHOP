@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class container_detailModelcontainer_detail extends RedshopCoreModelDetail
+class RedshopModelContainer_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -70,7 +70,7 @@ class container_detailModelcontainer_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('container');
 
         if (!$row->bind($data))
         {
@@ -202,49 +202,6 @@ class container_detailModelcontainer_detail extends RedshopCoreModelDetail
         $sql = "delete from " . $this->_table_prefix . "container_product_xref where container_id='" . $container_id . "' AND product_id='" . $product_id . "'";
         $this->_db->setQuery($sql);
         $this->_db->query();
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'container WHERE container_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-            $query_stockroom = 'DELETE FROM ' . $this->_table_prefix . 'stockroom_container_xref WHERE container_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query_stockroom);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'container' . ' SET published = ' . intval($publish) . ' WHERE container_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public function Container_Product_Data($container_id)

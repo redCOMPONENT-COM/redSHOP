@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class zipcode_detailController extends RedshopCoreController
+class RedshopControllerZipcode_detail extends RedshopCoreController
 {
     public $redirectViewName = 'zipcode';
 

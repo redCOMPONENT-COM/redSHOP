@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class producttagsModelproducttags extends RedshopCoreModel
+class RedshopModelProducttags extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -83,5 +83,51 @@ class producttagsModelproducttags extends RedshopCoreModel
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags WHERE tags_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+            else
+            {
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags_xref WHERE tags_id IN ( ' . $cids . ' )';
+                $this->_db->setQuery($query);
+                if (!$this->_db->query())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'product_tags' . ' SET published = ' . intval($publish) . ' WHERE tags_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
     }
 }

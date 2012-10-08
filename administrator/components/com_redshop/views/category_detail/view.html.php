@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class category_detailVIEWcategory_detail extends JViewLegacy
+class RedshopViewCategory_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

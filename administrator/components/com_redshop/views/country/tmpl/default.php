@@ -4,30 +4,6 @@ defined('_JEXEC') or die('Restricted access');
 $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
 ?>
-<script language="javascript" type="text/javascript">
-    Joomla.submitbutton = function (pressbutton) {
-        submitbutton(pressbutton);
-    }
-    submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-
-        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-            form.view.value = "country_detail";
-        }
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-
-        form.submit();
-    }
-</script>
-
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
     <table class="adminlist">
         <thead>
@@ -45,7 +21,8 @@ $filter = JRequest::getVar('filter');
         </thead>
         <?php
         $k = 0;
-        for ($i = 0, $n = count($this->fields); $i < $n; $i++) {
+        for ($i = 0, $n = count($this->fields); $i < $n; $i++)
+        {
             $row     = $this->fields[$i];
             $row->id = $row->country_id;
             $link    = JRoute::_('index.php?option=' . $option . '&view=country_detail&task=edit&cid[]=' . $row->country_id);
