@@ -26,37 +26,9 @@ if ($showbuttons == 1)
     echo '<div align="right"><br><br><input type="button" class="button" value="Print" onClick="window.print()"><br><br></div>';
 }        ?>
 <script language="javascript" type="text/javascript">
-
-
     function clearForm() {
         var form = document.adminForm;
         form.keyword.value = '';
-        form.submit();
-    }
-    Joomla.submitbutton = function (pressbutton) {
-        submitbutton(pressbutton);
-    }
-    submitbutton = function (pressbutton) {
-
-        if (pressbutton == "print_data") {
-            window.open("<?php echo $print_link;?>", "<?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING');?>", "scrollbars=1", "location=1");
-            return false;
-        }
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-
-        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'copy')) {
-            form.view.value = "stockroom_listing";
-        }
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-
         form.submit();
     }
 
@@ -65,8 +37,6 @@ if ($showbuttons == 1)
         form.task.value = "";
 
     }
-
-
 </script>
 <form action="<?php echo 'index.php?option=' . $option;?>" method="post" name="adminForm" id="adminForm">
     <table>
@@ -98,31 +68,33 @@ if ($showbuttons == 1)
                 <th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
                 <th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_SKU', 'p.product_number', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
                 <th width="20%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-            <?php
-            if ($stockroom_type != 'product')
-            {
-                ?>
-                <th width="15%"><?php echo JText::_('COM_REDSHOP_PROPERTY_NUMBER');    ?></th>
-                <th width="20%"><?php if ($stockroom_type == 'property')
-                {
-                    echo JText::_('COM_REDSHOP_PROPERTY');
-                }
-                else if ($stockroom_type == 'subproperty')
-                {
-                    echo JText::_('COM_REDSHOP_SUBPROPERTY');
-                }?></th>
                 <?php
-            }
-            for ($j = 0; $j < count($this->stockroom); $j++)
-            {
-                ?>
-                <th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;//JText::_('COM_REDSHOP_QUANTITY'); ?>
-                    &nbsp;&nbsp;
-                    <a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a></th>
-                <th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;?>
-                    &nbsp;<?php  echo JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?>&nbsp;&nbsp;
-                    <a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a></th>
-                <?php }    ?>
+                if ($stockroom_type != 'product')
+                {
+                    ?>
+                    <th width="15%"><?php echo JText::_('COM_REDSHOP_PROPERTY_NUMBER');    ?></th>
+                    <th width="20%"><?php if ($stockroom_type == 'property')
+                    {
+                        echo JText::_('COM_REDSHOP_PROPERTY');
+                    }
+                    else if ($stockroom_type == 'subproperty')
+                    {
+                        echo JText::_('COM_REDSHOP_SUBPROPERTY');
+                    }?></th>
+                    <?php
+                }
+                for ($j = 0; $j < count($this->stockroom); $j++)
+                {
+                    ?>
+                    <th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;//JText::_('COM_REDSHOP_QUANTITY'); ?>
+                        &nbsp;&nbsp;
+                        <a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a>
+                    </th>
+                    <th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;?>
+                        &nbsp;<?php  echo JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?>&nbsp;&nbsp;
+                        <a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a>
+                    </th>
+                    <?php }    ?>
             <tr>
             </thead>
             <?php
@@ -198,7 +170,8 @@ if ($showbuttons == 1)
                         <input type="text" value="<?php echo $preorder_stock;?>" name="preorder_stock[]" size="4">
                         <input type="hidden" value="<?php echo $ordered_preorder;?>" name="ordered_preorder[]" size="4">
                         <?php if ($ordered_preorder > 0)
-                    { ?>
+                    {
+                        ?>
                         ( <?php echo $ordered_preorder ?> )
 
                         <input type="button" name="preorder_reset" value="Reset"

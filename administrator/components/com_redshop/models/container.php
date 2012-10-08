@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class containerModelcontainer extends RedshopCoreModel
+class RedshopModelContainer extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -85,6 +85,49 @@ class containerModelcontainer extends RedshopCoreModel
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'container WHERE container_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+            $query_stockroom = 'DELETE FROM ' . $this->_table_prefix . 'stockroom_container_xref WHERE container_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query_stockroom);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'container' . ' SET published = ' . intval($publish) . ' WHERE container_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 

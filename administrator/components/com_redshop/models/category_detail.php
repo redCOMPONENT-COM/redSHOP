@@ -12,11 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class category_detailModelcategory_detail extends RedshopCoreModelDetail
+class RedshopModelCategory_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -78,7 +76,7 @@ class category_detailModelcategory_detail extends RedshopCoreModelDetail
     public function store($data)
     {
 
-        $row = $this->getTable();
+        $row = $this->getTable('category');
 
         if (!$row->bind($data))
         {
@@ -237,7 +235,7 @@ class category_detailModelcategory_detail extends RedshopCoreModelDetail
                     $accessory_id = $product_category->CheckAccessoryExists($product_id, $acc['child_product_id']);
                     if ($product_id != $acc['child_product_id'])
                     {
-                        $accdetail = $this->getTable('accessory_detail');
+                        $accdetail = $this->getTable('product_accessory');
 
                         $accdetail->accessory_id        = $accessory_id;
                         $accdetail->category_id         = $newcatid;
@@ -258,6 +256,58 @@ class category_detailModelcategory_detail extends RedshopCoreModelDetail
         }
         //------------ End Accessory Product insert --------------------
         return $row;
+    }
+
+    public function getcategories()
+    {
+        $query = 'SELECT category_id as value,category_name as text FROM ' . $this->_table_prefix . 'category  WHERE published=1';
+        $this->_db->setQuery($query);
+        return $this->_db->loadObjectlist();
+    }
+
+    public function getmaxminOrder($type)
+    {
+
+        $q = "SELECT " . $type . "(ordering) as morder FROM " . $this->_table_prefix . "category";
+
+        $this->_db->setQuery($q);
+        $cat = $this->_db->loadResult();
+        return $cat;
+    }
+
+    public function getProductCompareTemplate()
+    {
+        $query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix . "template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
+        $this->_db->setQuery($query);
+        return $this->_db->loadObjectList();
+    }
+
+    public function saveorder($cid = array(), $order)
+    {
+        $row       = $this->getTable('category');
+        $groupings = array();
+
+        // update ordering values
+        for ($i = 0; $i < count($cid); $i++)
+        {
+            $row->load((int)$cid[$i]);
+
+            // track categories
+            $groupings[] = $row->category_id;
+
+            if ($row->ordering != $order[$i])
+            {
+                $row->ordering = $order[$i];
+
+                if (!$row->store())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public function delete($cid = array())
@@ -331,16 +381,9 @@ class category_detailModelcategory_detail extends RedshopCoreModelDetail
         return true;
     }
 
-    public function getcategories()
-    {
-        $query = 'SELECT category_id as value,category_name as text FROM ' . $this->_table_prefix . 'category  WHERE published=1';
-        $this->_db->setQuery($query);
-        return $this->_db->loadObjectlist();
-    }
-
     public function move($direction)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('category');
         if (!$row->load($this->_id))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -352,52 +395,6 @@ class category_detailModelcategory_detail extends RedshopCoreModelDetail
             return false;
         }
         return true;
-    }
-
-    public function saveorder($cid = array(), $order)
-    {
-        $row       = $this->getTable();
-        $groupings = array();
-
-        // update ordering values
-        for ($i = 0; $i < count($cid); $i++)
-        {
-            $row->load((int)$cid[$i]);
-
-            // track categories
-            $groupings[] = $row->category_id;
-
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-
-                if (!$row->store())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-            }
-        }
-        // execute updateOrder for each parent group
-        /*$groupings = array_unique( $groupings );
-          foreach ($groupings as $group){
-              $row->reorder('catid = '.(int) $group);
-          }*/
-        return true;
-    }
-
-    public function updateorder($oprand, $cat_id = 0)
-    {
-
-        $q = "UPDATE " . $this->_table_prefix . "category ";
-        $q .= "SET ordering=ordering" . $oprand . "1 ";
-        if ($cat_id)
-        {
-            $q .= " WHERE ordering != 0 ";
-        }
-
-        $this->_db->setQuery($q);
-        $this->_db->query();
     }
 
     public function orderup()
@@ -479,23 +476,6 @@ class category_detailModelcategory_detail extends RedshopCoreModelDetail
         }
     }
 
-    public function getmaxminOrder($type)
-    {
-
-        $q = "SELECT " . $type . "(ordering) as morder FROM " . $this->_table_prefix . "category";
-
-        $this->_db->setQuery($q);
-        $cat = $this->_db->loadResult();
-        return $cat;
-    }
-
-    public function getProductCompareTemplate()
-    {
-        $query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix . "template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
-        $this->_db->setQuery($query);
-        return $this->_db->loadObjectList();
-    }
-
     public function copy($cid = array())
     {
         if (count($cid))
@@ -544,6 +524,46 @@ class category_detailModelcategory_detail extends RedshopCoreModelDetail
                     JFile::upload($src, $dest);
                 }
                 $row = $this->store($post);
+            }
+        }
+        return true;
+    }
+
+    public function updateorder($oprand, $cat_id = 0)
+    {
+
+        $q = "UPDATE " . $this->_table_prefix . "category ";
+        $q .= "SET ordering=ordering" . $oprand . "1 ";
+        if ($cat_id)
+        {
+            $q .= " WHERE ordering != 0 ";
+        }
+
+        $this->_db->setQuery($q);
+        $this->_db->query();
+    }
+
+    /*
+    * assign template to multiple categories
+    * @prams: $data, post variable	array
+    * @return: boolean
+    */
+    public function assignTemplate($data)
+    {
+
+        $cid = $data['cid'];
+
+        $category_template = $data['category_template'];
+
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'UPDATE ' . $this->_table_prefix . 'category' . ' SET `category_template` = "' . intval($category_template) . '" ' . ' WHERE category_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
             }
         }
         return true;

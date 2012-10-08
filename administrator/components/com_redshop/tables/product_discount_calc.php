@@ -49,11 +49,6 @@ class Tableproduct_discount_calc extends JTable
         $converted_area_end   = $this->area_end * $unit * $unit;
         # End
 
-        /**** check for valid area *****/
-        /*$query = 'SELECT id FROM '.$this->_table_prefix.'product_discount_calc '
-                  .' WHERE product_id = "'.$this->product_id.'" '
-                  .' AND area_end >= '.$this->area_start;*/
-
         $query = "SELECT *
 					FROM `" . $this->_table_prefix . "product_discount_calc`
 					WHERE product_id = " . $this->product_id . " AND (" . $converted_area_start . "

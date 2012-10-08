@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class mass_discount_detailModelmass_discount_detail extends RedshopCoreModelDetail
+class RedshopModelMass_discount_detail extends RedshopCoreModelDetail
 {
     public $_shoppers = null;
 
@@ -70,7 +70,7 @@ class mass_discount_detailModelmass_discount_detail extends RedshopCoreModelDeta
     {
         $producthelper = new producthelper();
 
-        $row = $this->getTable('mass_discount_detail');
+        $row = $this->getTable('mass_discount');
 
         if (!$row->bind($data))
         {
@@ -314,52 +314,6 @@ class mass_discount_detailModelmass_discount_detail extends RedshopCoreModelDeta
         }
 
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        $layout        = JRequest::getVar('layout');
-        $producthelper = new producthelper();
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id in (' . $cids . ') ';
-
-            $this->_db->setQuery($query);
-            $massDList = $this->_db->loadObjectList();
-            for ($m = 0; $m < count($massDList); $m++)
-            {
-                if (!empty($massDList[$m]->discount_product))
-                {
-                    $this->updateProduct($massDList[$m]->discount_product);
-                }
-                $categoryArr = explode(',', $massDList[$m]->category_id);
-                for ($c = 0; $c < count($categoryArr); $c++)
-                {
-                    $product_Ids = $producthelper->getProductCategory($categoryArr[$c]);
-                    $cproduct    = $this->customImplode($product_Ids);
-                    $this->updateProduct($cproduct);
-                }
-
-                $manufacturerArr = explode(',', $massDList[$m]->manufacturer_id);
-                for ($mn = 0; $mn < count($manufacturerArr); $mn++)
-                {
-                    $product_Ids = $this->GetProductmanufacturer($manufacturerArr[$mn]);
-                    $mproduct    = $this->customImplode($product_Ids);
-                    $this->updateProduct($mproduct);
-                }
-            }
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public function customImplode($productArr)

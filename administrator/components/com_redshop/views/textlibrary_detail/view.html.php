@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class textlibrary_detailVIEWtextlibrary_detail extends JViewLegacy
+class RedshopViewTextlibrary_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

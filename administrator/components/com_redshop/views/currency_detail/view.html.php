@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class currency_detailVIEWcurrency_detail extends JViewLegacy
+class RedshopViewCurrency_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

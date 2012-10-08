@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class tax_groupModeltax_group extends RedshopCoreModel
+class RedshopModelTax_group extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -78,5 +78,43 @@ class tax_groupModeltax_group extends RedshopCoreModel
         $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
         $orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
         return $orderby;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'tax_group WHERE tax_group_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'tax_group' . ' SET published = ' . intval($publish) . ' WHERE tax_group_id IN ( ' . $cids . ' )';
+
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
     }
 }

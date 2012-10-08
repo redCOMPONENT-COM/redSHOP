@@ -17,7 +17,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php'
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
+class RedshopModelQuotation_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -133,7 +133,7 @@ class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
     public function store($data)
     {
 
-        $row = $this->getTable();
+        $row = $this->getTable('quotation');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -152,7 +152,7 @@ class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
         {
             if (array_key_exists("quotation_item_id", $quotation_item[$i]))
             {
-                $rowitem                          = $this->getTable('quotation_item_detail');
+                $rowitem                          = $this->getTable('quotation_item');
                 $quotation_item[$i]->quotation_id = $row->quotation_id;
                 if (!$rowitem->bind($quotation_item[$i]))
                 {
@@ -176,68 +176,14 @@ class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
         return $send;
     }
 
-    public function delete($cid = array())
-    {
-        $quotationHelper = new quotationHelper();
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $items = $quotationHelper->getQuotationProduct($cids);
-            for ($i = 0; $i < count($items); $i++)
-            {
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-                $this->_db->setQuery($query);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-                $this->_db->setQuery($query);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data ' . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-                $this->_db->setQuery($query);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item ' . 'WHERE quotation_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
     public function deleteitem($cids = 0, $quotation_id = 0)
     {
         $quotationHelper = new quotationHelper();
-        $quotation       = $this->getTable();
+        $quotation       = $this->getTable('quotation');
         $quotation->load($quotation_id);
 
         // get Order Item Info
-        $quoteitemdata = $this->getTable('quotation_item_detail');
+        $quoteitemdata = $this->getTable('quotation_item');
         $quoteitemdata->load($cids);
 
         $itemTax = ($quoteitemdata->product_price - $quoteitemdata->product_excl_price) * $quoteitemdata->product_quantity;
@@ -306,12 +252,12 @@ class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
         $item = $data['quotation_item'];
 
         // get Order Info
-        $quotationdata = $this->getTable('quotation_detail');
+        $quotationdata = $this->getTable('quotation');
         $quotationdata->load($this->_id);
 
         $user_id = $quotationdata->user_id;
         // set Order Item Info
-        $qitemdata = $this->getTable('quotation_item_detail');
+        $qitemdata = $this->getTable('quotation_item');
         for ($i = 0; $i < count($item); $i++)
         {
             $product_id         = $item[$i]->product_id;
@@ -342,7 +288,7 @@ class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
                 }
                 $wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
             }
-            $qitemdata = $this->getTable('quotation_item_detail');
+            $qitemdata = $this->getTable('quotation_item');
 
             $qitemdata->quotation_item_id   = 0;
             $qitemdata->quotation_id        = $this->_id;
@@ -468,7 +414,7 @@ class quotation_detailModelquotation_detail extends RedshopCoreModelDetail
                         }
                     }
 
-                    $accdata = $this->getTable('accessory_detail');
+                    $accdata = $this->getTable('product_accessory');
                     if ($accessory_id > 0)
                     {
                         $accdata->load($accessory_id);

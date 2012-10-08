@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class newsletterViewnewsletter extends JViewLegacy
+class RedshopViewNewsletter extends JViewLegacy
 {
     function display($tpl = null)
     {

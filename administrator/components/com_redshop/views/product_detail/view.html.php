@@ -14,7 +14,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php'); // reddesign edited
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class product_detailVIEWproduct_detail extends JViewLegacy
+class RedshopViewProduct_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

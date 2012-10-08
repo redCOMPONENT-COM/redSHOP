@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class wrapperModelwrapper extends RedshopCoreModel
+class RedshopModelWrapper extends RedshopCoreModel
 {
     public $_productid = 0;
 
@@ -86,6 +86,45 @@ class wrapperModelwrapper extends RedshopCoreModel
         $query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w ' //				.'LEFT JOIN '.$this->_table_prefix.'product AS p ON p.product_id = w.product_id '
             . $and;
         return $query;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'wrapper ' . 'WHERE wrapper_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method to publish the records
+     *
+     * @access public
+     * @return boolean
+     */
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = ' UPDATE ' . $this->_table_prefix . 'wrapper ' . ' SET published = ' . intval($publish) . ' WHERE wrapper_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
     }
 }
 

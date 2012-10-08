@@ -9,102 +9,114 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+jimport('joomla.application.component.modellist');
 
-class answerModelanswer extends RedshopCoreModel
+/**
+ * Answer Model.
+ *
+ * @package        redSHOP
+ * @subpackage     Models
+ * @since          1.2
+ */
+class RedshopModelAnswer extends JModelList
 {
-    public $_total = null;
+    /**
+     * Context string for the model type.  This is used to handle uniqueness
+     * when dealing with the getStoreId() method and caching data structures.
+     *
+     * @var    string
+     */
+    protected $context = 'question_id';
 
-    public $_pagination = null;
-
-    public $_context = 'question_id';
-
-    public function __construct()
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     */
+    protected function populateState($ordering = null, $direction = null)
     {
-        parent::__construct();
+        // Load the filter state.
+        $filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', 0);
+        $this->setState('filter.filter', $filter);
 
-        $app = JFactory::getApplication();
+        $parentId = $this->getUserStateFromRequest($this->context . 'product_id', 'product_id', 0);
+        $this->setState('filter.product_id', $parentId);
 
-        $array     = JRequest::getVar('parent_id', 0, '', 'array');
-        $this->_id = (int)$array[0];
+        $productId = $this->getUserStateFromRequest($this->context . 'parent_id', 'parent_id', 0);
+        $this->setState('filter.parent_id', $productId);
 
-        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-        $product_id = $app->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
-
-        $this->setState('limit', $limit);
-        $this->setState('limitstart', $limitstart);
-        $this->setState('filter', $filter);
-        $this->setState('product_id', $product_id);
+        parent::populateState('q.parent_id', 'DESC');
     }
 
-    public function getData()
+    /**
+     * Method to get a store id based on model configuration state.
+     *
+     * This is necessary because the model is used by the component and
+     * different modules that might need different sets of data or different
+     * ordering requirements.
+     *
+     * @param	string	$id  A prefix for the store id.
+     *
+     * @return	string	A store id.
+     */
+    protected function getStoreId($id = '')
     {
-        if (empty($this->_data))
-        {
-            $query       = $this->_buildQuery();
-            $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-        }
-        return $this->_data;
+        // Compile the store id.
+        $id	.= ':'.$this->getState('filter.filter');
+        $id	.= ':'.$this->getState('filter.product_id');
+        $id	.= ':'.$this->getState('filter.parent_id');
+
+        return parent::getStoreId($id);
     }
 
-    public function getTotal()
+    /**
+     * Build an SQL query to load the list data.
+     *
+     * @return	JDatabaseQuery
+     */
+    protected function getListQuery()
     {
-        if (empty($this->_total))
-        {
-            $query        = $this->_buildQuery();
-            $this->_total = $this->_getListCount($query);
-        }
-        return $this->_total;
-    }
+        $db = JFactory::getDbo();
 
-    public function getPagination()
-    {
-        if (empty($this->_pagination))
-        {
-            jimport('joomla.html.pagination');
-            $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-        }
+        // Get the model state.
+        $ordering  = $db->escape($this->getState('list.ordering', 'q.parent_id'));
+        $direction = $db->escape($this->getState('list.direction', 'DESC'));
+        $parentId = (int) $this->getState('filter.parent_id');
+        $filter = $this->getState('filter.filter');
+        $productId = $this->getState('filter.product_id', 'DESC');
 
-        return $this->_pagination;
-    }
+        $query = $db->getQuery(true)
+            ->select('q.*')
+            ->from('#__redshop_customer_question as q')
+            ->where('q.parent_id =' . $parentId);
 
-    public function getProduct()
-    {
-        $query = "SELECT * FROM " . $this->_table_prefix . "product ";
-        $list  = $this->_data = $this->_getList($query);
-        return $list;
-    }
-
-    public function _buildQuery()
-    {
-        $where      = "";
-        $filter     = $this->getState('filter');
-        $product_id = $this->getState('product_id');
         if ($filter)
         {
-            $where .= " AND q.question LIKE '%" . $filter . "%' ";
+            $query->where('q.question LIKE %' . $db->escape($filter) . '%');
         }
-        if ($product_id != 0)
-        {
-            $where .= " AND q.product_id ='" . $product_id . "' ";
-        }
-        $orderby = $this->_buildContentOrderBy();
 
-        $query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q " . "WHERE q.parent_id='" . $this->_id . "' " . $where . $orderby;
+        if ($productId)
+        {
+            $query->where('q.product_id =' . $db->escape($productId));
+        }
+
+        $query->order($ordering . ' ' . $direction);
+
         return $query;
     }
 
-    public function _buildContentOrderBy()
+    /**
+     * ????
+     */
+    public function getProduct()
     {
-        $app = JFactory::getApplication();
+        $db = JFactory::getDbo();
 
-        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
-        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from('#__redshop_product');
 
-        $orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
-        return $orderby;
+        return $this->_getList($query);
     }
 }
 

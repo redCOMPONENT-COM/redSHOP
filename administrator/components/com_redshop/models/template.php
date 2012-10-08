@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class templateModeltemplate extends RedshopCoreModel
+class RedshopModelTemplate extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -95,6 +95,80 @@ class templateModeltemplate extends RedshopCoreModel
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
+    }
+
+    public function delete($cid = array())
+    {
+        $red_template = new Redtemplate();
+        if (count($cid))
+        {
+            for ($i = 0; $i < count($cid); $i++)
+            {
+                $query = 'SELECT * FROM ' . $this->_table_prefix . 'template WHERE template_id = ' . $cid[$i];
+                $this->_db->setQuery($query);
+                $rs = $this->_db->loadObject();
+
+                $tempate_file = $red_template->getTemplatefilepath($rs->template_section, $rs->template_name, true);
+
+                unlink($tempate_file);
+            }
+
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'template WHERE template_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'UPDATE ' . $this->_table_prefix . 'template' . ' SET published = ' . intval($publish) . ' WHERE template_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function copy($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'template WHERE template_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            $this->_copydata = $this->_db->loadObjectList();
+        }
+        foreach ($this->_copydata as $cdata)
+        {
+
+            $post['template_id']      = 0;
+            $post['template_name']    = 'Copy Of ' . $cdata->template_name;
+            $post['template_section'] = $cdata->template_section;
+            $post['template_desc']    = $cdata->template_desc;
+            $post['order_status']     = $cdata->order_status;
+            $post['payment_methods']  = $cdata->payment_methods;
+            $post['published']        = $cdata->published;
+            $post['shipping_methods'] = $cdata->shipping_methods;
+
+            template_detailModeltemplate_detail::store($post);
+        }
+        return true;
     }
 }
 

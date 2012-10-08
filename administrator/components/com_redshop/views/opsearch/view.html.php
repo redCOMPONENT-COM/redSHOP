@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class opsearchViewopsearch extends JViewLegacy
+class RedshopViewOpsearch extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class sample_detailController extends RedshopCoreControllerDetail
+class RedshopControllerSample_detail extends RedshopCoreController
 {
     public $redirectViewName = 'sample';
 
