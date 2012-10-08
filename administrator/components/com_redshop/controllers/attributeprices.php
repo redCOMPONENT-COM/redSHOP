@@ -9,12 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class attributepricesController extends RedshopCoreController
+class RedshopControllerAttributeprices extends RedshopCoreControllerDefault
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
 }

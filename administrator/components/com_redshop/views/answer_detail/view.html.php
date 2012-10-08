@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class answer_detailVIEWanswer_detail extends JViewLegacy
+class RedshopViewAnswer_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -14,7 +14,7 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class user_detailModeluser_detail extends RedshopCoreModelDetail
+class RedshopModelUser_detail extends RedshopCoreModelDetail
 {
     public $_uid = null;
 
@@ -299,39 +299,6 @@ class user_detailModeluser_detail extends RedshopCoreModelDetail
             $reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
         }
         return $reduser;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'users_info ' . 'SET approved=' . intval($publish) . ' ' . 'WHERE user_id IN ( ' . $cids . ' ) ';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
     }
 
     public function validate_user($user, $uid)

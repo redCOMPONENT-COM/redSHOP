@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class voucher_detailVIEWvoucher_detail extends JViewLegacy
+class RedshopViewVoucher_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

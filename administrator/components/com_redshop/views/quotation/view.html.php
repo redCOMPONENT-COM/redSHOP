@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
 
-class quotationViewquotation extends JViewLegacy
+class RedshopViewQuotation extends JViewLegacy
 {
     public function display($tpl = null)
     {

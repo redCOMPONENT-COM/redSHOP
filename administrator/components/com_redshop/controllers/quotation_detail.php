@@ -12,9 +12,9 @@ defined('_JEXEC') or die ('Restricted access');
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class quotation_detailController extends RedshopCoreControllerDetail
+class RedshopControllerQuotation_detail extends RedshopCoreController
 {
     public $redirectViewName = 'quotation';
 

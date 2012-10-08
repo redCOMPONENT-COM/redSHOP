@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class container_detailVIEWcontainer_detail extends JViewLegacy
+class RedshopViewContainer_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {
-
         $option = JRequest::getVar('option');
         $conid  = JRequest::getVar('conid');
 

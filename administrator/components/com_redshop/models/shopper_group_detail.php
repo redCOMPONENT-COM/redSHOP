@@ -10,11 +10,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shopper_group_detailModelshopper_group_detail extends RedshopCoreModelDetail
+class RedshopModelShopper_group_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -149,7 +147,7 @@ class shopper_group_detailModelshopper_group_detail extends RedshopCoreModelDeta
             $data['shopper_group_logo'] = $destname;
         }
 
-        $row = $this->getTable();
+        $row = $this->getTable('shopper_group');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -213,68 +211,6 @@ class shopper_group_detailModelshopper_group_detail extends RedshopCoreModelDeta
             }
         }
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'shopper_group ' . 'WHERE shopper_group_id IN (' . $cids . ') ';
-            $this->_db->setQuery($query);
-            $list = $this->_db->loadObjectlist();
-            for ($i = 0; $i < count($list); $i++)
-            {
-                $logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $list[$i]->shopper_group_logo;
-                if (is_file($logopath))
-                {
-                    unlink($logopath);
-                }
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'shopper_group WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'shopper_group ' . 'SET published = ' . intval($publish) . ' WHERE shopper_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
     }
 
     public function getVatGroup()

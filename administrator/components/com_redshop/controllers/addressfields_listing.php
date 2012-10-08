@@ -9,15 +9,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class addressfields_listingController extends RedshopCoreController
+class RedshopControllerAddressfields_listing extends RedshopCoreControllerDefault
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
-
     public function saveorder()
     {
         $option = $this->input->get('option');

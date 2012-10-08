@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class accessmanager_detailController extends RedshopCoreControllerDetail
+class RedshopControllerAccessmanager_detail extends RedshopCoreController
 {
     public $redirectViewName = 'accessmanager';
 
     public function __construct($default = array())
     {
         parent::__construct($default);
-        $this->registerTask('add', 'edit');
+        //$this->registerTask('add', 'edit');
     }
 
     public function save($apply = 0)

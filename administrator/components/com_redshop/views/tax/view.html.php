@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class taxViewtax extends JViewLegacy
+class RedshopViewTax extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -12,7 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
-class productViewproduct extends JViewLegacy
+
+class RedshopViewProduct extends JViewLegacy
 {
     public $_product = array();
 

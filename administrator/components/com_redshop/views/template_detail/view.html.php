@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
 
-class template_detailVIEWtemplate_detail extends JViewLegacy
+class RedshopViewTemplate_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

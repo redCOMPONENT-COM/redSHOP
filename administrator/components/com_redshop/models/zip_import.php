@@ -16,7 +16,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class zip_importModelzip_import extends RedshopCoreModel
+class RedshopModelZip_import extends RedshopCoreModel
 {
     public $_total = null;
 

@@ -1,17 +1,17 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Models
+ * @package    redSHOP
+ * @subpackage Models
  *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class attributeprices_detailModelattributeprices_detail extends RedshopCoreModelDetail
+class RedshopModelAttributeprices_detail extends RedshopCoreModelDetail
 {
     public $_sectionid = null;
 
@@ -108,7 +108,7 @@ class attributeprices_detailModelattributeprices_detail extends RedshopCoreModel
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('product_attribute_price');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());

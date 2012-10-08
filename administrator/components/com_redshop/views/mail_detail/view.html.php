@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.html.pane');
 
-class mail_detailVIEWmail_detail extends JViewLegacy
+class RedshopViewMail_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

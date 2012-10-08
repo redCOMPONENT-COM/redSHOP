@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class templateViewtemplate extends JViewLegacy
+class RedshopViewTemplate extends JViewLegacy
 {
     function display($tpl = null)
     {

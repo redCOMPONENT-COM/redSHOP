@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-class product_attribute_priceViewproduct_attribute_price extends JViewLegacy
+defined('_JEXEC') or die('Restricted access');
+
+class RedshopViewProduct_attribute_price extends JViewLegacy
 {
     public function display($tpl = null)
     {
