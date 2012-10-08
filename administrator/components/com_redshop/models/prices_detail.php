@@ -10,11 +10,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class prices_detailModelprices_detail extends RedshopCoreModelDetail
+class RedshopModelPrices_detail extends RedshopCoreModelDetail
 {
     public $_prodid = null;
 
@@ -85,7 +83,7 @@ class prices_detailModelprices_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('product_price');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -100,23 +98,6 @@ class prices_detailModelprices_detail extends RedshopCoreModelDetail
         {
             $this->setError($this->_db->getErrorMsg());
             return false;
-        }
-        return true;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE price_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
         }
         return true;
     }

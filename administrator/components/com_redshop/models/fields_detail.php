@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class fields_detailModelfields_detail extends RedshopCoreModelDetail
+class RedshopModelFields_detail extends RedshopCoreModelDetail
 {
     public $_fielddata = null;
 
@@ -69,7 +69,7 @@ class fields_detailModelfields_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row       = $this->getTable();
+        $row       = $this->getTable('fields');
         $field_cid = $data['cid'][0];
 
         if (!$field_cid)
@@ -182,164 +182,17 @@ class fields_detailModelfields_detail extends RedshopCoreModelDetail
         }
     }
 
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'fields WHERE field_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            // 	remove fields_data
-            $query_field_data = 'DELETE FROM ' . $this->_table_prefix . 'fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
-            $this->_db->setQuery($query_field_data);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                //return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'fields' . ' SET published = ' . intval($publish) . ' WHERE field_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function saveorder($cid = array(), $order)
-    {
-        $row        = $this->getTable();
-        $groupings  = array();
-        $conditions = array();
-
-        // update ordering values
-        for ($i = 0; $i < count($cid); $i++)
-        {
-            $row->load((int)$cid[$i]);
-            // track categories
-            $groupings[] = $row->field_id;
-
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-                if (!$row->store())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-                // remember to updateOrder this group
-                $condition = 'field_section = ' . (int)$row->field_section;
-                $found     = false;
-                foreach ($conditions as $cond)
-                {
-                    if ($cond[1] == $condition)
-                    {
-                        $found = true;
-                        break;
-                    }
-                }
-                if (!$found)
-                {
-                    $conditions[] = array($row->field_id, $condition);
-                }
-            }
-        }
-        // execute updateOrder for each group
-        foreach ($conditions as $cond)
-        {
-            $row->load($cond[0]);
-            $row->reorder($cond[1]);
-        }
-        //		// execute updateOrder for each parent group
-        //		$groupings = array_unique( $groupings );
-        //		foreach ($groupings as $group){
-        //			$row->reorder((int) $group);
-        //		}
-        return true;
-    }
-
-    /*
-
-     /**
-      * Method to get max ordering
-      *
-      * @access public
-      * @return boolean
-      */
+    /**
+     * Method to get max ordering
+     *
+     * @access public
+     * @return boolean
+     */
     public function MaxOrdering()
     {
         $query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
-    }
-
-    /**
-     * Method to move
-     *
-     * @access  public
-     * @return  boolean True on success
-     * @since   0.9
-     */
-    public function move($direction)
-    {
-        $row = JTable::getInstance('fields_detail', 'Table');
-
-        if (!$row->load($this->_id))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-
-        if (!$row->move($direction))
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Method to up order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderup()
-    {
-        return $this->move(-1);
-    }
-
-    /**
-     * Method to down the order
-     *
-     * @access public
-     * @return boolean
-     */
-    public function orderdown()
-    {
-        return $this->move(1);
     }
 
     /**

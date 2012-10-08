@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class mass_discountModelmass_discount extends RedshopCoreModel
+class RedshopModelMass_discount extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -83,5 +83,51 @@ class mass_discountModelmass_discount extends RedshopCoreModel
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
+    }
+
+    public function delete($cid = array())
+    {
+        $layout        = JRequest::getVar('layout');
+        $producthelper = new producthelper();
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id in (' . $cids . ') ';
+
+            $this->_db->setQuery($query);
+            $massDList = $this->_db->loadObjectList();
+            for ($m = 0; $m < count($massDList); $m++)
+            {
+                if (!empty($massDList[$m]->discount_product))
+                {
+                    $this->updateProduct($massDList[$m]->discount_product);
+                }
+                $categoryArr = explode(',', $massDList[$m]->category_id);
+                for ($c = 0; $c < count($categoryArr); $c++)
+                {
+                    $product_Ids = $producthelper->getProductCategory($categoryArr[$c]);
+                    $cproduct    = $this->customImplode($product_Ids);
+                    $this->updateProduct($cproduct);
+                }
+
+                $manufacturerArr = explode(',', $massDList[$m]->manufacturer_id);
+                for ($mn = 0; $mn < count($manufacturerArr); $mn++)
+                {
+                    $product_Ids = $this->GetProductmanufacturer($manufacturerArr[$mn]);
+                    $mproduct    = $this->customImplode($product_Ids);
+                    $this->updateProduct($mproduct);
+                }
+            }
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
     }
 }

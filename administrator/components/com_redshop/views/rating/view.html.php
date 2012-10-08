@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class ratingViewrating extends JViewLegacy
+class RedshopViewRating extends JViewLegacy
 {
     public function display($tpl = null)
     {

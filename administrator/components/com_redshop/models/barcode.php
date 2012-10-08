@@ -17,13 +17,13 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
  * @package    redSHOP
  * @version    1.2
  */
-class barcodeModelbarcode extends RedshopCoreModel
+class RedshopModelBarcode extends RedshopCoreModel
 {
     public $_loglist = null;
 
     public function save($data)
     {
-        $row = $this->getTable('barcode');
+        $row = $this->getTable('orderbarcode_log');
 
         if (!$row->bind($data))
         {

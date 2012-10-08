@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class importViewimport extends JViewLegacy
+class RedshopViewImport extends JViewLegacy
 {
     public function display($tpl = null)
     {

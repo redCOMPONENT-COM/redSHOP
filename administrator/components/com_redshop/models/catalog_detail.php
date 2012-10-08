@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class catalog_detailModelcatalog_detail extends RedshopCoreModelDetail
+class RedshopModelCatalog_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -59,7 +59,7 @@ class catalog_detailModelcatalog_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable('catalog');
+        $row = $this->getTable('catalog_sample');
 
         if (!$row->bind($data))
         {
@@ -74,6 +74,14 @@ class catalog_detailModelcatalog_detail extends RedshopCoreModelDetail
         }
         return $row;
     }
+
+    public function color_Data($sample_id)
+    {
+        $query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour  WHERE sample_id=' . $sample_id;
+        $this->_db->setQuery($query);
+        return $this->_db->loadObjectlist();
+    }
+
 
     public function delete($cid = array())
     {
@@ -110,13 +118,6 @@ class catalog_detailModelcatalog_detail extends RedshopCoreModelDetail
         }
 
         return true;
-    }
-
-    public function color_Data($sample_id)
-    {
-        $query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour  WHERE sample_id=' . $sample_id;
-        $this->_db->setQuery($query);
-        return $this->_db->loadObjectlist();
     }
 }
 
