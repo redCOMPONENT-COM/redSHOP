@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class orderreddesignModelorderreddesign extends RedshopCoreModel
+class RedshopModelOrderreddesign extends RedshopCoreModel
 {
     public $_data = null;
 

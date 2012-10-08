@@ -14,7 +14,7 @@ jimport('joomla.installer.helper');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDetail
+class RedshopModelShipping_rate_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -92,7 +92,7 @@ class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDeta
         $data['shipping_rate_state']            = @ implode(',', $data['shipping_rate_state']);
         $data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
 
-        $row = $this->getTable();
+        $row = $this->getTable('shipping_rate');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -124,23 +124,6 @@ class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDeta
             return false;
         }
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
     }
 
     public function GetProductListshippingrate($d)
@@ -176,52 +159,6 @@ class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDeta
         return $this->_db->loadObjectList();
     }
 
-    public function copy($cid = array())
-    {
-        $copydata = array();
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            $copydata = $this->_db->loadObjectList();
-        }
-        for ($i = 0; $i < count($copydata); $i++)
-        {
-            $row = $this->getTable();
-
-            $pdata = &$copydata[$i];
-
-            $post                                   = array();
-            $post['shipping_rate_id']               = 0;
-            $post['shipping_rate_name']             = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $pdata->shipping_rate_name;
-            $post['shipping_class']                 = $pdata->shipping_class;
-            $post['shipping_rate_country']          = $pdata->shipping_rate_country;
-            $post['shipping_rate_state']            = $pdata->shipping_rate_state;
-            $post['shipping_rate_zip_start']        = $pdata->shipping_rate_zip_start;
-            $post['shipping_rate_zip_end']          = $pdata->shipping_rate_zip_end;
-            $post['shipping_rate_volume_start']     = $pdata->shipping_rate_volume_start;
-            $post['shipping_rate_volume_end']       = $pdata->shipping_rate_volume_end;
-            $post['shipping_rate_ordertotal_start'] = $pdata->shipping_rate_ordertotal_start;
-            $post['shipping_rate_ordertotal_end']   = $pdata->shipping_rate_ordertotal_end;
-            $post['shipping_rate_priority']         = $pdata->shipping_rate_priority;
-            $post['shipping_rate_value']            = $pdata->shipping_rate_value;
-            $post['shipping_rate_package_fee']      = $pdata->shipping_rate_package_fee;
-            $post['shipping_rate_weight_start']     = $pdata->shipping_rate_weight_start;
-            $post['shipping_rate_weight_end']       = $pdata->shipping_rate_weight_end;
-            $post['company_only']                   = $pdata->company_only;
-            $post['apply_vat']                      = $pdata->apply_vat;
-            $post['shipping_rate_on_product']       = $pdata->shipping_rate_on_product;
-            $post['shipping_rate_on_category']      = $pdata->shipping_rate_on_category;
-            $post['shipping_rate_on_shopper_group'] = $pdata->shipping_rate_on_shopper_group;
-            $post['shipping_location_info']         = $pdata->shipping_location_info;
-
-            $row->bind($post);
-            $result = $row->store();
-        }
-        return $result;
-    }
-
     public function getVatGroup()
     {
         $query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ORDER BY tax_group_id ASC";
@@ -234,7 +171,7 @@ class shipping_rate_detailModelShipping_rate_detail extends RedshopCoreModelDeta
         $coutry_code      = $data['country_codes'];
         $shipping_rate_id = $data['shipping_rate_id'];
 
-        $shipping_rate = $this->getTable('shipping_rate_detail');
+        $shipping_rate = $this->getTable('shipping_rate');
         $shipping_rate->load($shipping_rate_id);
         $shipping_rate_state = $this->GetStateList($coutry_code);
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class stockroomModelstockroom extends RedshopCoreModel
+class RedshopModelStockroom extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -90,6 +90,86 @@ class stockroomModelstockroom extends RedshopCoreModel
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
+    }
+
+    public function delete($cid = array())
+    {
+
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            // delete stock of products
+            $query_product = 'DELETE FROM ' . $this->_table_prefix . 'product_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query_product);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+
+            // delete stock of products attribute stock
+            $query_product_attr = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query_product_attr);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+
+            // delete stockroom
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'stockroom' . ' SET published = ' . intval($publish) . ' WHERE stockroom_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function copy($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            $this->_copydata = $this->_db->loadObjectList();
+        }
+        foreach ($this->_copydata as $cdata)
+        {
+            $post['stockroom_id']   = 0;
+            $post['stockroom_name'] = 'Copy Of ' . $cdata->stockroom_name;
+            $post['stockroom_desc'] = $cdata->stockroom_desc;
+            $post['min_del_time']   = $cdata->min_del_time;
+            $post['max_del_time']   = $cdata->max_del_time;
+            $post['delivery_time']  = $cdata->delivery_time;
+            $post['show_in_front']  = $cdata->show_in_front;
+            $post['creation_date']  = time();
+            $post['published']      = $cdata->published;
+            stockroom_detailModelstockroom_detail::store($post);
+        }
+        return true;
     }
 }
 

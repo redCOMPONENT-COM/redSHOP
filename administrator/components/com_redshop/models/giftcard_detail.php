@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class giftcard_detailModelgiftcard_detail extends RedshopCoreModelDetail
+class RedshopModelModelGiftcard_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -65,7 +65,7 @@ class giftcard_detailModelgiftcard_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('giftcard');
 
         if (!$row->bind($data))
         {
@@ -130,73 +130,4 @@ class giftcard_detailModelgiftcard_detail extends RedshopCoreModelDetail
 
         return $row;
     }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'giftcard WHERE giftcard_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'giftcard' . ' SET published = ' . intval($publish) . ' WHERE giftcard_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function copy($cid = array())
-    {
-
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'giftcard WHERE giftcard_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            $this->_copydata = $this->_db->loadObjectList();
-        }
-        foreach ($this->_copydata as $cdata)
-        {
-
-            $post['giftcard_id']       = 0;
-            $post['giftcard_name']     = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $cdata->giftcard_name;
-            $post['giftcard_validity'] = $cdata->giftcard_validity;
-            $post['giftcard_date']     = $cdata->giftcard_date;
-            $post['giftcard_bgimage']  = $cdata->giftcard_bgimage;
-            $post['giftcard_image']    = $cdata->giftcard_image;
-            $post['published']         = $cdata->published;
-            $post['giftcard_price']    = $cdata->giftcard_price;
-            $post['giftcard_value']    = $cdata->giftcard_value;
-            $post['giftcard_desc']     = $cdata->giftcard_desc;
-            $post['customer_amount']   = $cdata->customer_amount;
-
-            $this->store($post);
-        }
-
-        return true;
-    }
 }
-
-?>

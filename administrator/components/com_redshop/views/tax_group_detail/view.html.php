@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class tax_group_detailVIEWtax_group_detail extends JViewLegacy
+class RedshopViewTax_group_detail extends JViewLegacy
 {
     function display($tpl = null)
     {

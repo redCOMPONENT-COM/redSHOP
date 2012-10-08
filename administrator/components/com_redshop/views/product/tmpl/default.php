@@ -42,10 +42,6 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
             form.task.value = pressbutton;
         }
 
-        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-            form.view.value = "product_detail";
-        }
         if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
             form.view.value = "product_category";
         }
@@ -58,8 +54,6 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
             } else {
                 document.adminForm.unpublished_data.value = 0;
             }
-
-
         }
 
         try {
@@ -70,7 +64,6 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 
         form.submit();
     }
-
 
     function AssignTemplate() {
 
@@ -145,221 +138,221 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
     </tr>
 </table>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
-    <div id="editcell">
-        <input type="hidden" name="unpublished_data" value="">
-        <table class="adminlist">
-            <thead>
-            <tr>
-                <th width="5">
-                    <?php echo JText::_('COM_REDSHOP_NUM'); ?>
-                </th>
-                <th width="20">
-                    <input type="checkbox" name="toggle" value=""
-                           onclick="checkAll(<?php echo count($this->products); ?>);"/>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NUMBER', 'p.product_number', $this->lists['order_Dir'], $this->lists['order']); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_PRICE', 'p.product_price', $this->lists['order_Dir'], $this->lists['order']); ?>
-                </th>
-                <?php
+<div id="editcell">
+<input type="hidden" name="unpublished_data" value="">
+<table class="adminlist">
+<thead>
+<tr>
+    <th width="5">
+        <?php echo JText::_('COM_REDSHOP_NUM'); ?>
+    </th>
+    <th width="20">
+        <input type="checkbox" name="toggle" value=""
+               onclick="checkAll(<?php echo count($this->products); ?>);"/>
+    </th>
+    <th class="title">
+        <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
+    </th>
+    <th class="title">
+        <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NUMBER', 'p.product_number', $this->lists['order_Dir'], $this->lists['order']); ?>
+    </th>
+    <th class="title">
+        <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_PRICE', 'p.product_price', $this->lists['order_Dir'], $this->lists['order']); ?>
+    </th>
+    <?php
 
-                for ($i = 0, $n = count($this->list_in_products); $i < $n; $i++)
-                {
-                    ?>
-                    <th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->field_title); ?></th>
-                    <?php }    ?>
-                <th>
-                    <?php echo JText::_('COM_REDSHOP_MEDIA'); ?>
-                </th>
-                <th>
-                    <?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>
-                </th>
-                <th>
-                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NUMBER_OF_VIEWS', 'p.visited', $this->lists['order_Dir'], $this->lists['order']); ?>
-                </th>
+    for ($i = 0, $n = count($this->list_in_products); $i < $n; $i++)
+    {
+        ?>
+        <th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->field_title); ?></th>
+        <?php }    ?>
+    <th>
+        <?php echo JText::_('COM_REDSHOP_MEDIA'); ?>
+    </th>
+    <th>
+        <?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>
+    </th>
+    <th>
+        <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NUMBER_OF_VIEWS', 'p.visited', $this->lists['order_Dir'], $this->lists['order']); ?>
+    </th>
 
-                <th>
-                    <?php echo JText::_('COM_REDSHOP_CATEGORY'); ?>
-                </th>
-                <th>
-                    <?php echo JText::_('COM_REDSHOP_MANUFACTURER'); ?>
-                </th>
-                <th>
-                    <?php echo JText::_('COM_REDSHOP_CUSTOMER_REVIEWS'); ?>
-                </th>
-                <th width="5%" nowrap="nowrap">
-                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'p.published', $this->lists['order_Dir'], $this->lists['order']); ?>
-                </th>
-                <th width="5%" nowrap="nowrap">
-                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'p.product_id', $this->lists['order_Dir'], $this->lists['order']); ?>
-                </th>
-                <?php if ($category_id > 0)
-            {
-                ?>
-                <th width="15%" nowrap="nowrap">
-                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'x.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
-                    <?php
-                    if ($ordering)
-                    {
-                        echo JHTML::_('grid.order', $this->products);
-                    }
-                    ?>
-                </th>
-                <?php } ?>
-            </tr>
-            </thead>
+    <th>
+        <?php echo JText::_('COM_REDSHOP_CATEGORY'); ?>
+    </th>
+    <th>
+        <?php echo JText::_('COM_REDSHOP_MANUFACTURER'); ?>
+    </th>
+    <th>
+        <?php echo JText::_('COM_REDSHOP_CUSTOMER_REVIEWS'); ?>
+    </th>
+    <th width="5%" nowrap="nowrap">
+        <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'p.published', $this->lists['order_Dir'], $this->lists['order']); ?>
+    </th>
+    <th width="5%" nowrap="nowrap">
+        <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'p.product_id', $this->lists['order_Dir'], $this->lists['order']); ?>
+    </th>
+    <?php if ($category_id > 0)
+{
+    ?>
+    <th width="15%" nowrap="nowrap">
+        <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'x.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
+        <?php
+        if ($ordering)
+        {
+            echo JHTML::_('grid.order', $this->products);
+        }
+        ?>
+    </th>
+    <?php } ?>
+</tr>
+</thead>
+<?php
+$k = 0;
+for ($i = 0, $n = count($this->products); $i < $n; $i++)
+{
+    $row = &$this->products[$i];
+
+    $row->id   = $row->product_id;
+    $link      = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+    $published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
+
+    ?>
+<tr class="<?php echo "row$k"; ?>">
+    <td>
+        <?php echo $this->pagination->getRowOffset($i); ?>
+    </td>
+    <td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
+    <td>
+        <?php if ($row->checked_out) : ?>
+        <?php
+        echo JHtml::_('jgrid.checkedout', $i, $row->treename, $row->checked_out_time);
+        echo $this->escape($row->treename);
+        ?>
+        <?php else : ?>
+        <?php
+        if (isset($row->children))
+        {
+            ?>
+            <a href="<?php echo $link; ?>"
+               title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
             <?php
-            $k = 0;
-            for ($i = 0, $n = count($this->products); $i < $n; $i++)
-            {
-                $row = &$this->products[$i];
+        }
+        else
+        {
 
-                $row->id   = $row->product_id;
-                $link      = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
-                $published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
+            if ($row->product_parent_id == 0)
+            {
+                ?>
+                <a href="<?php echo $link; ?>"
+                   title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
+                <?php
+            }
+            else
+            {
+                $pro_array = $producthelper->getProductById($row->product_parent_id);
 
                 ?>
-                <tr class="<?php echo "row$k"; ?>">
-                    <td>
-                        <?php echo $this->pagination->getRowOffset($i); ?>
-                    </td>
-                    <td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
-                    <td>
-                        <?php if ($row->checked_out) : ?>
-                        <?php
-                        echo JHtml::_('jgrid.checkedout', $i, $row->treename, $row->checked_out_time);
-                        echo $this->escape($row->treename);
-                        ?>
-                        <?php else : ?>
-                        <?php
-                        if (isset($row->children))
-                        {
-                            ?>
-                            <a href="<?php echo $link; ?>"
-                               title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
-                            <?php
-                        }
-                        else
-                        {
+                <a href="<?php echo $link; ?>"
+                   title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?> </a>
+                [child: <?php echo $pro_array->product_name; ?>]
+                <?php
+            }
+        }
+        ?>
+        <?php endif; ?>
+    </td>
+    <td>
+        <?php echo $row->product_number;?>
+    </td>
+    <td>
+        <?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
+    </td>
 
-                            if ($row->product_parent_id == 0)
-                            {
-                                ?>
-                                <a href="<?php echo $link; ?>"
-                                   title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
-                                <?php
-                            }
-                            else
-                            {
-                                $pro_array = $producthelper->getProductById($row->product_parent_id);
-
-                                ?>
-                                <a href="<?php echo $link; ?>"
-                                   title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?> </a>
-                                [child: <?php echo $pro_array->product_name; ?>]
-                                <?php
-                            }
-                        }
-                        ?>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php echo $row->product_number;?>
-                    </td>
-                    <td>
-                        <?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
-                    </td>
-
-                    <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
-                {
-                    $field_arr   = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->field_id, 1, $row->product_id);
-                    $field_value = '';
-                    if (count($field_arr) > 0)
-                    {
-                        $field_value = $field_arr->data_txt;
-                    }    ?>
-                    <td><?php echo $field_value;  ?></td>
-                    <?php }    ?>
+    <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
+{
+    $field_arr   = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->field_id, 1, $row->product_id);
+    $field_value = '';
+    if (count($field_arr) > 0)
+    {
+        $field_value = $field_arr->data_txt;
+    }    ?>
+    <td><?php echo $field_value;  ?></td>
+    <?php }    ?>
 
 
-                    <td align="center">
-                        <?php $mediadetail = $model->MediaDetail($row->product_id); ?>
-                        <a class="modal"
-                           href="index.php?option=<?php echo $option;?>&amp;view=media&amp;section_id=<?php echo $row->product_id;?>&amp;showbuttons=1&amp;media_section=product&amp;section_name=<?php echo $row->product_name;?>&amp;tmpl=component"
-                           rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
-                            src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?>media16.png" align="absmiddle"
-                            alt="media">(<?php  echo count($mediadetail);?>)</a>
-                    </td>
-                    <td align="center">
-                        <?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
-                        <a class="modal"
-                           href="index.php?option=<?php echo $option;?>&showall=1&view=wrapper&product_id=<?php echo $row->product_id;?>&amp;tmpl=component"
-                           rel="{handler: 'iframe', size: {x: 700, y: 450}}">
-                            <img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?>wrapper16.png" align="absmiddle"
-                                 alt="<?php echo JText::_('COM_REDSHOP_WRAPPER');?>"><?php echo "(" . count($wrapper) . ")";?>
-                        </a>
-                    </td>
-                    <td align="center">
-                        <?php echo $row->visited;?>
-                    </td>
+    <td align="center">
+        <?php $mediadetail = $model->MediaDetail($row->product_id); ?>
+        <a class="modal"
+           href="index.php?option=<?php echo $option;?>&amp;view=media&amp;section_id=<?php echo $row->product_id;?>&amp;showbuttons=1&amp;media_section=product&amp;section_name=<?php echo $row->product_name;?>&amp;tmpl=component"
+           rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
+            src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?>media16.png" align="absmiddle"
+            alt="media">(<?php  echo count($mediadetail);?>)</a>
+    </td>
+    <td align="center">
+        <?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
+        <a class="modal"
+           href="index.php?option=<?php echo $option;?>&showall=1&view=wrapper&product_id=<?php echo $row->product_id;?>&amp;tmpl=component"
+           rel="{handler: 'iframe', size: {x: 700, y: 450}}">
+            <img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH;?>wrapper16.png" align="absmiddle"
+                 alt="<?php echo JText::_('COM_REDSHOP_WRAPPER');?>"><?php echo "(" . count($wrapper) . ")";?>
+        </a>
+    </td>
+    <td align="center">
+        <?php echo $row->visited;?>
+    </td>
 
-                    <td>
-                        <?php $listedincats = $model->listedincats($row->product_id);
-                        for ($j = 0; $j < count($listedincats); $j++)
-                        {
-                            echo $cat = $listedincats[$j]->category_name . "<br />";
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <?php echo $model->getmanufacturername($row->manufacturer_id); ?>
-                    </td>
-                    <td width="90">
-                        <a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>
-                    </td>
-                    <td align="center" width="8%">
-                        <?php echo $published;?>
-                    </td>
-                    <td align="center" width="5%">
-                        <?php echo $row->product_id; ?>
-                    </td>
-                    <?php if ($category_id > 0)
-                {
-                    $disabled = $ordering ? '' : 'disabled="disabled"';
+    <td>
+        <?php $listedincats = $model->listedincats($row->product_id);
+        for ($j = 0; $j < count($listedincats); $j++)
+        {
+            echo $cat = $listedincats[$j]->category_name . "<br />";
+        }
+        ?>
+    </td>
+    <td>
+        <?php echo $model->getmanufacturername($row->manufacturer_id); ?>
+    </td>
+    <td width="90">
+        <a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>
+    </td>
+    <td align="center" width="8%">
+        <?php echo $published;?>
+    </td>
+    <td align="center" width="5%">
+        <?php echo $row->product_id; ?>
+    </td>
+    <?php if ($category_id > 0)
+{
+    $disabled = $ordering ? '' : 'disabled="disabled"';
 
-                    ?>
-                    <td class="order">
+    ?>
+    <td class="order">
 				<span><?php //echo $row->orderup;
                     echo    $this->pagination->orderUpIcon($i, ($row->category_id == @$this->products[$i - 1]->category_id), 'orderup', 'Move Up', $ordering); ?></span>
 				<span><?php ///echo $row->orderdown;
                     echo $this->pagination->orderDownIcon($i, $n, ($row->category_id == @$this->products[$i + 1]->category_id), 'orderdown', 'Move Down', $ordering); ?></span>
-                        <input type="text" name="order[]" size="5" <?php echo $disabled; ?>
-                               value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center"/>
-                        <?php //echo $row->ordering;?></td>
-                    <?php } ?>
-                </tr>
-                <?php
-                $k = 1 - $k;
-            }
-            ?>
+        <input type="text" name="order[]" size="5" <?php echo $disabled; ?>
+               value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center"/>
+        <?php //echo $row->ordering;?></td>
+    <?php } ?>
+</tr>
+    <?php
+    $k = 1 - $k;
+}
+?>
 
-            <tfoot>
-            <td colspan="14">
-                <?php echo $this->pagination->getListFooter(); ?>
-            </td>
-            </tfoot>
-        </table>
-    </div>
+<tfoot>
+<td colspan="14">
+    <?php echo $this->pagination->getListFooter(); ?>
+</td>
+</tfoot>
+</table>
+</div>
 
-    <input type="hidden" name="view" value="product"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="product_template" value=""/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+<input type="hidden" name="view" value="product"/>
+<input type="hidden" name="task" value=""/>
+<input type="hidden" name="boxchecked" value="0"/>
+<input type="hidden" name="product_template" value=""/>
+<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
+<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
 </form>

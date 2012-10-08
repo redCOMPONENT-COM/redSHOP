@@ -5,30 +5,6 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
 
 ?>
-<script language="javascript" type="text/javascript">
-    Joomla.submitbutton = function (pressbutton) {
-        submitbutton(pressbutton);
-    }
-    submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-
-        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-            form.view.value = "zipcode_detail";
-        }
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-
-        form.submit();
-    }
-</script>
-
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
     <table class="adminlist">
         <thead>
@@ -48,7 +24,8 @@ $filter = JRequest::getVar('filter');
         <?php
 
         $k = 0;
-        for ($i = 0, $n = count($this->fields); $i < $n; $i++) {
+        for ($i = 0, $n = count($this->fields); $i < $n; $i++)
+        {
             $row     = $this->fields[$i];
             $row->id = $row->zipcode_id;
 
@@ -86,5 +63,3 @@ $filter = JRequest::getVar('filter');
     <input type="hidden" name="filter_order" value="<?php echo $this->lists['order'];?>"/>
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
 </form>
-
-

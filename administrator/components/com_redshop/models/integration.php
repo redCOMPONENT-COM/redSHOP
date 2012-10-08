@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class integrationModelintegration extends RedshopCoreModel
+class RedshopModelModelIntegration extends RedshopCoreModel
 {
     /*
       *  download googlebase xml file

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class zipcode_detailVIEWzipcode_detail extends JViewLegacy
+class RedshopViewZipcode_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

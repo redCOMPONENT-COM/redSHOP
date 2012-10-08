@@ -14,9 +14,9 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class addorder_detailController extends RedshopCoreControllerDetail
+class RedshopControllerAddorder_detail extends RedshopCoreController
 {
     public $redirectViewName = 'order';
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class questionModelquestion extends RedshopCoreModel
+class RedshopModelQuestion extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -112,7 +112,7 @@ class questionModelquestion extends RedshopCoreModel
      */
     public function saveorder($cid = array(), $order)
     {
-        $row       = $this->getTable('question_detail');
+        $row       = $this->getTable('customer_question');
         $order     = JRequest::getVar('order', array(0), 'post', 'array');
         $groupings = array();
 
@@ -138,6 +138,59 @@ class questionModelquestion extends RedshopCoreModel
         foreach ($groupings as $group)
         {
             $row->reorder((int)$group);
+        }
+        return true;
+    }
+
+    /**
+     * Method to up order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderup()
+    {
+        $row = $this->getTable('customer_question');
+        $row->load($this->_id);
+        $row->move(-1);
+        $row->store();
+        return true;
+    }
+
+    /**
+     * Method to down the order
+     *
+     * @access public
+     * @return boolean
+     */
+    public function orderdown()
+    {
+        $row = $this->getTable('customer_question');
+        $row->load($this->_id);
+        $row->move(1);
+        $row->store();
+        return true;
+    }
+
+    /**
+     * Method to publish the records
+     *
+     * @access public
+     * @return boolean
+     */
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'UPDATE ' . $this->_table_prefix . 'customer_question ' . ' SET published = ' . intval($publish) . ' WHERE question_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
         }
         return true;
     }

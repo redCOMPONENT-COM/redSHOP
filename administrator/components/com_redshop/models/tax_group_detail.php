@@ -10,11 +10,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class tax_group_detailModeltax_group_detail extends RedshopCoreModelDetail
+class RedshopModelTax_group_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -62,7 +60,7 @@ class tax_group_detailModeltax_group_detail extends RedshopCoreModelDetail
     public function store($data)
     {
 
-        $row = $this->getTable();
+        $row = $this->getTable('tax_group');
 
         if (!$row->bind($data))
         {
@@ -74,44 +72,6 @@ class tax_group_detailModeltax_group_detail extends RedshopCoreModelDetail
         {
             $this->setError($this->_db->getErrorMsg());
             return false;
-        }
-
-        return true;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'tax_group WHERE tax_group_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'tax_group' . ' SET published = ' . intval($publish) . ' WHERE tax_group_id IN ( ' . $cids . ' )';
-
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
         }
 
         return true;

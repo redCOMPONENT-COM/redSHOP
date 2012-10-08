@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class orderController extends RedshopCoreController
+class RedshopControllerOrder extends RedshopCoreControllerDefault
 {
     public function multiprint_order()
     {

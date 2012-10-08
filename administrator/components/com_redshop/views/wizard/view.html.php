@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once 'components' . DS . 'com_redshop' . DS . 'views' . DS . 'configuration' . DS . 'view.html.php';
 
-class wizardViewwizard extends JViewLegacy
+class RedshopViewWizard extends JViewLegacy
 {
     function display($tpl = null)
     {
