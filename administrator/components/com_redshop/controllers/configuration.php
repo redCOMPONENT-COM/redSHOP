@@ -190,7 +190,7 @@ class RedshopControllerConfiguration extends RedshopCoreControllerDefault
         }
 
         $option                = $this->input->get('option');
-        $country_list          = $this->input->get('country_list');
+        $country_list          = $this->input->get('country_list',array(),'array');
         $newsletter_test_email = $this->input->get('newsletter_test_email');
 
         $model = $this->getModel('configuration');
