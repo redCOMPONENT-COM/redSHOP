@@ -1,58 +1,50 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-class couponViewcoupon extends JView
+class RedshopViewCoupon extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
-		$context = 'coupon_id';
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_COUPON') );
+    public function display($tpl = null)
+    {
+        global $context;
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_COUPON_MANAGEMENT' ), 'redshop_coupon48' );
+        $app = JFactory::getApplication();
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+        $context  = 'coupon_id';
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_COUPON'));
 
-		$uri = JFactory::getURI();
-		$context = "rating";
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'coupon_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_COUPON_MANAGEMENT'), 'redshop_coupon48');
 
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$coupons		= $this->get( 'Data');
-		$pagination = $this->get('Pagination');
+        JToolBarHelper::addNewX();
+        JToolBarHelper::editListX();
+        JToolBarHelper::deleteList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
 
+        $uri              = JFactory::getURI();
+        $context          = "rating";
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'coupon_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-    	//$this->assignRef('user',		JFactory::getUser());
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
+        $coupons            = $this->get('Data');
+        $pagination         = $this->get('Pagination');
+
         $this->user = JFactory::getUser();
-    	$this->assignRef('lists',		$lists);
-  		$this->assignRef('coupons',		$coupons);
-    	$this->assignRef('pagination',	$pagination);
-    	//$this->assignRef('request_url',	$uri->toString());
+        $this->assignRef('lists', $lists);
+        $this->assignRef('coupons', $coupons);
+        $this->assignRef('pagination', $pagination);
         $this->request_url = $uri->toString();
 
-    	parent::display($tpl);
-  }
+        parent::display($tpl);
+    }
 }

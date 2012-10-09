@@ -1,123 +1,44 @@
 <?php
 /**
- * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controllerform');
 
-class accountgroup_detailController extends JController
- {
-	function __construct($default = array())
-	{
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
+/**
+ * Account group detail controller class.
+ *
+ * @package		redSHOP
+ * @subpackage	Controllers
+ * @since		1.2
+ */
+class RedshopControllerAccountgroup_detail extends JControllerForm
+{
+    /**
+     * The URL view list variable.
+     *
+     * @var  string
+     */
+    protected $view_list = 'accountgroup';
 
-	function edit()
-	{
-		JRequest::setVar ( 'view', 'accountgroup_detail' );
-		JRequest::setVar ( 'layout', 'default' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-		parent::display ();
-	}
-
-	function apply()
-	{
-       $this->save(1);
-	}
-
-	function save($apply=0)
-	{
-		$post = JRequest::get ( 'post' );
-		$option = JRequest::getVar ('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$post ['accountgroup_id'] = $cid [0];
-		$model = $this->getModel ( 'accountgroup_detail' );
-		$row = $model->store ( $post );
-		if ($row)
-		{
-			$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED' );
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL' );
-		}
-		if ($apply==1)
-		{
-			$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup_detail&task=edit&cid[]='.$row->accountgroup_id, $msg );
-		}
-		else
-		{
-			$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup', $msg);
-		}
-	}
-
-	function cancel()
-	{
-		$option = JRequest::getVar ('option');
-		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
-	}
-
-	function remove()
-	{
-		$option = JRequest::getVar ('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
-		$model = $this->getModel ( 'accountgroup_detail' );
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
-	}
-
-	function publish()
-	{
-		$option = JRequest::getVar('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
-
-		$model = $this->getModel ( 'accountgroup_detail' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_PUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
-	}
-
-	function unpublish()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
-		$model = $this->getModel ( 'accountgroup_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=accountgroup',$msg );
-	}
+    /**
+     * Method (override) to check if you can save a new or existing record.
+     *
+     * Adjusts for the primary key name and hands off to the parent class.
+     *
+     * @param	array	$data  An array of input data.
+     * @param	string	$key   The name of the key for the primary key.
+     *
+     * @return	boolean
+     */
+    protected function allowSave($data, $key = 'accountgroup_id')
+    {
+        return parent::allowSave($data, $key);
+    }
 }

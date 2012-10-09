@@ -1,138 +1,128 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-
-class tax_detailVIEWtax_detail extends JView
+class RedshopViewTax_detail extends JViewLegacy
 {
-	function display($tpl = null)
-	{
+    public function display($tpl = null)
+    {
         $db = jFactory::getDBO();
 
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_MANAGEMENT_DETAIL' ), 'redshop_vat48' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_MANAGEMENT_DETAIL'), 'redshop_vat48');
 
-	 	$uri = JFactory::getURI();
+        $uri = JFactory::getURI();
 
-		$this->setLayout('default');
+        $this->setLayout('default');
 
-		$lists = array();
+        $lists = array();
 
-		$detail	= $this->get('data');
+        $detail = $this->get('data');
 
-		$isNew = ($detail->tax_rate_id < 1);
+        $isNew = ($detail->tax_rate_id < 1);
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
+        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX' ).': <small><small>[ ' . $text.' ]</small></small>', 'redshop_vat48' );
+        JToolBarHelper::title(JText::_('COM_REDSHOP_TAX') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vat48');
 
-		JToolBarHelper::save();
+        JToolBarHelper::save();
 
-		if ($isNew)  {
-			JToolBarHelper::cancel();
-		} else {
+        if ($isNew)
+        {
+            JToolBarHelper::cancel();
+        }
+        else
+        {
 
-			JToolBarHelper::cancel( 'cancel', 'Close' );
-		}
+            JToolBarHelper::cancel('cancel', 'Close');
+        }
 
-		$model = $this->getModel('tax_detail');
+        $q = "SELECT  country_3_code as value,country_name as text from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+        $db->setQuery($q);
+        $countries = $db->loadObjectList();
 
-		$q = "SELECT  country_3_code as value,country_name as text from #__".TABLE_PREFIX."_country ORDER BY country_name ASC";
-		$db->setQuery($q);
-		$countries = $db->loadObjectList( );
+        $lists['tax_country']   = JHTML::_('select.genericlist', $countries, 'tax_country', 'class="inputbox" size="1" onchange="changeStateList();"', 'value', 'text', $detail->tax_country);
+        $lists['is_eu_country'] = JHTML::_('select.booleanlist', 'is_eu_country', 'class="inputbox"', $detail->is_eu_country);
 
-		$lists['tax_country'] = JHTML::_('select.genericlist',$countries,'tax_country','class="inputbox" size="1" onchange="changeStateList();"','value','text',$detail->tax_country);
-	 	$lists['is_eu_country'] = JHTML::_('select.booleanlist','is_eu_country', 'class="inputbox"', $detail->is_eu_country );
+        $country_list_name     = 'tax_country';
+        $state_list_name       = 'tax_state';
+        $selected_country_code = $detail->tax_country;
+        $selected_state_code   = $detail->tax_state;
 
-		//		$q = "SELECT  country_3_code as value,country_name as text from #__".TABLE_PREFIX."_country ORDER BY country_name ASC";
-//		$db->setQuery($q);
-//		$countries = $db->loadObjectList( );
-//
-//		$lists['tax_country'] = JHTML::_('select.genericlist',$countries,'tax_country','class="inputbox" size="1" ','value','text',$detail->tax_country);
+        if (empty($selected_state_code))
+        {
+            $selected_state_code = "originalPos";
+        }
+        else
+        {
+            $selected_state_code = "'" . $selected_state_code . "'";
+        }
 
-		$country_list_name = 'tax_country';
-		$state_list_name = 'tax_state';
-		$selected_country_code=$detail->tax_country;
-		$selected_state_code=$detail->tax_state;
-
-
-
-		if( empty( $selected_state_code )) {
-			$selected_state_code = "originalPos";
-		} else {
-			$selected_state_code = "'".$selected_state_code."'";
-		}
-
-		$db->setQuery( "SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__".TABLE_PREFIX."_country c
-						LEFT JOIN #__".TABLE_PREFIX."_state s
+        $db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
+						FROM #__" . TABLE_PREFIX . "_country c
+						LEFT JOIN #__" . TABLE_PREFIX . "_state s
 						ON c.country_id=s.country_id OR s.country_id IS NULL
-						ORDER BY c.country_id, s.state_name" );
+						ORDER BY c.country_id, s.state_name");
 
-		 $states = $db->loadObjectList();
+        $states = $db->loadObjectList();
 
-			// Build the State lists for each Country
-			$script = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
-			$script .= "<!--\n";
-			$script .= "var originalOrder = '1';\n";
-			$script .= "var originalPos = '$selected_country_code';\n";
-			$script .= "var states = new Array();	// array in the format [key,value,text]\n";
-			$i = 0;
-			$prev_country = '';
-			for($j=0;$j<count($states );$j++) {
+        // Build the State lists for each Country
+        $script = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
+        $script .= "<!--\n";
+        $script .= "var originalOrder = '1';\n";
+        $script .= "var originalPos = '$selected_country_code';\n";
+        $script .= "var states = new Array();	// array in the format [key,value,text]\n";
+        $i            = 0;
+        $prev_country = '';
+        for ($j = 0; $j < count($states); $j++)
+        {
 
-			    $state = $states[$j];
+            $state = $states[$j];
 
-				$country_3_code =  $state->country_3_code;
+            $country_3_code = $state->country_3_code;
 
-				if( $state->state_name) {
+            if ($state->state_name)
+            {
 
-				if( $prev_country != $country_3_code ) {
-						$script .= "states[".$i++."] = new Array( '".$country_3_code."','',' -= ".JText::_("COM_REDSHOP_SELECT")." =-' );\n";
-					}
-					$prev_country = $country_3_code;
+                if ($prev_country != $country_3_code)
+                {
+                    $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','',' -= " . JText::_("COM_REDSHOP_SELECT") . " =-' );\n";
+                }
+                $prev_country = $country_3_code;
 
-					// array in the format [key,value,text]
-					$script .= "states[".$i++."] = new Array( '".$country_3_code."','".$state->state_2_code."','".addslashes($state->state_name)."' );\n";
-				}
-				else {
-					$script .= "states[".$i++."] = new Array( '".$country_3_code."','','".JText::_("COM_REDSHOP_NONE")."' );\n";
-				}
-
-			}
-			$script .= "
+                // array in the format [key,value,text]
+                $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes($state->state_name) . "' );\n";
+            }
+            else
+            {
+                $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_NONE") . "' );\n";
+            }
+        }
+        $script .= "
 			function changeStateList() {
 			  var selected_country = null;
 			  for (var i=0; i<document.adminForm.tax_country.length; i++)
-				 if (document.adminForm.".$country_list_name."[i].selected)
-					selected_country = document.adminForm.".$country_list_name."[i].value;
+				 if (document.adminForm." . $country_list_name . "[i].selected)
+					selected_country = document.adminForm." . $country_list_name . "[i].value;
 
-			  changeDynaList('".$state_list_name."',states,selected_country, originalPos, originalOrder);
+			  changeDynaList('" . $state_list_name . "',states,selected_country, originalPos, originalOrder);
 		 	}
 			writeDynaList( 'class=\"inputbox\" name=\"tax_state\" size=\"1\" id=\"state\"', states, originalPos, originalPos, $selected_state_code );
 			//-->
 			//]]></script>";
-		$lists['tax_state'] = $script;
+        $lists['tax_state'] = $script;
 
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('detail',		$detail);
-		$this->assignRef('request_url',	$uri->toString());
+        $this->assignRef('lists', $lists);
+        $this->assignRef('detail', $detail);
+        $this->request_url = $uri->toString();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }
 

@@ -1,51 +1,41 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.controller' );
 /**
- * send friend Controller
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * @static
- * @package		redSHOP
- * @since 1.0
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-class send_friendController extends JController  
+defined('_JEXEC') or die('Restricted access');
+
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+/**
+ * send_friendController
+ *
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
+ */
+class send_friendController extends RedshopCoreController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-	/**
-	 * sendmail function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function sendmail()
-	{
-		$post = JRequest::get('post');
-		$your_name = $post['your_name'];
-		$name = $post['friends_name'];
-		$pid  = $post['pid'];
-		$email= $post['friends_email'];
-		 
-		$model = $this->getModel('send_friend');
-		
-		$model->sendProductMailToFriend($your_name,$name,$pid,$email);
-	}	
+    /**
+     * sendmail function
+     *
+     * @access public
+     * @return void
+     */
+    public function sendmail()
+    {
+        $post      = $this->input->getArray($_POST);
+        $your_name = $post['your_name'];
+        $name      = $post['friends_name'];
+        $pid       = $post['pid'];
+        $email     = $post['friends_email'];
+
+        $model = $this->getModel('send_friend');
+
+        $model->sendProductMailToFriend($your_name, $name, $pid, $email);
+    }
 }
-?>

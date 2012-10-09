@@ -1,161 +1,145 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package    redSHOP
+ * @subpackage Models
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
-jimport('joomla.application.component.model');
 
+defined('_JEXEC') or die('Restricted access');
 
-class attributeprices_detailModelattributeprices_detail extends JModel
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+
+class RedshopModelAttributeprices_detail extends RedshopCoreModelDetail
 {
-	var $_id = null;
-	var $_sectionid = null;
-	var $_section = null;
-	var $_data = null;
-	var $_table_prefix = null;
+    public $_sectionid = null;
 
-	function __construct()
-	{
-		parent::__construct();
-		$this->_table_prefix = '#__'.TABLE_PREFIX.'_';		
+    public $_section = null;
 
-		$array = JRequest::getVar('cid',  0, '', 'array');
-		$this->_sectionid = JRequest::getVar('section_id',  0, '', 'int');
-		$this->_section = JRequest::getVar('section');
-		
-		$this->setId((int)$array[0]);
-	}
-	
-	function setId($id)
-	{
-		$this->_id		= $id;
-		$this->_data	= null;
-	}
-	
-	function &getData()
-	{
-		if ($this->_loadData())
-		{	}
-		else  $this->_initData();
+    public function __construct()
+    {
+        parent::__construct();
 
-	   	return $this->_data;
-	}
-	
-	function _loadData()
-	{
-		if (empty($this->_data))
-		{
-			if($this->_section=="property")
-			{
-				$field = "ap.property_name ";
-				$q = 'LEFT JOIN '.$this->_table_prefix.'product_attribute_property AS ap ON p.section_id = ap.property_id ';
-			}
-			else {
-				$field = "ap.subattribute_color_name AS property_name ";
-				$q = 'LEFT JOIN '.$this->_table_prefix.'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
-			}
-			$query = 'SELECT p.*, g.shopper_group_name, '.$field.' '
-					.'FROM '.$this->_table_prefix.'product_attribute_price as p '
-					.'LEFT JOIN '.$this->_table_prefix.'shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
-					.$q
-					.'WHERE p.price_id = '. $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
+        $this->_sectionid = JRequest::getVar('section_id', 0, '', 'int');
+        $this->_section   = JRequest::getVar('section');
+    }
 
-	function _initData()
-	{
-		if (empty($this->_data))
-		{
-			$detail = new stdClass();
-			$detail->price_id			= 0;
-			$detail->section_id			= $this->_sectionid;
-			$detail->product_price		= 0.00;
-			$detail->product_currency	= null;
-			$detail->shopper_group_id	= 0;
-			$detail->price_quantity_start = 0;
-			$detail->price_quantity_end = 0;
-			$detail->discount_price = 0;
-			$detail->discount_start_date = 0;
-			$detail->discount_end_date = 0;
-			
-			$this->_data		 		= $detail;
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
-	
-	function getShopperGroup()
-	{
-		$q =  'SELECT shopper_group_id AS value,shopper_group_name AS text '
-			. 'FROM '.$this->_table_prefix.'shopper_group';
-		$this->_db->setQuery($q);
-		$shoppergroup = $this->_db->loadObjectList();
-		return $shoppergroup;
-	}
-	function getPropertyName()
-	{
-		$propertyid = $this->_sectionid;
-		if($this->_section=="property")
-		{
-			$q = 'SELECT * '
-				.'FROM '.$this->_table_prefix.'product_attribute_property AS ap '
-				.'WHERE property_id = '.$propertyid;
-		}
-		else {
-			$q = 'SELECT ap.subattribute_color_name AS property_name '
-				.'FROM '.$this->_table_prefix.'product_subattribute_color AS ap '
-				.'WHERE subattribute_color_id = '.$propertyid;
-		}
-		$this->_db->setQuery($q);
-		$rs = $this->_db->loadObject();
-		return $rs;
-	}
+    public function &getData()
+    {
+        if ($this->_loadData())
+        {
+        }
+        else
+        {
+            $this->_initData();
+        }
 
-	function store($data)
-	{
-		$row =& $this->getTable();
-		if (!$row->bind($data)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-		if (!$row->check()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-		if (!$row->store()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-		return true;
-	}
+        return $this->_data;
+    }
 
-	function delete($cid = array())
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
-			$query = 'DELETE FROM '.$this->_table_prefix.'product_attribute_price '
-					.'WHERE price_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-		return true;
-	}
-}?>
+    public function _loadData()
+    {
+        if (empty($this->_data))
+        {
+            if ($this->_section == "property")
+            {
+                $field = "ap.property_name ";
+                $q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
+            }
+            else
+            {
+                $field = "ap.subattribute_color_name AS property_name ";
+                $q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
+            }
+            $query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' ' . 'FROM ' . $this->_table_prefix . 'product_attribute_price as p ' . 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id ' . $q . 'WHERE p.price_id = ' . $this->_id;
+            $this->_db->setQuery($query);
+            $this->_data = $this->_db->loadObject();
+            return (boolean)$this->_data;
+        }
+        return true;
+    }
+
+    public function _initData()
+    {
+        if (empty($this->_data))
+        {
+            $detail                       = new stdClass();
+            $detail->price_id             = 0;
+            $detail->section_id           = $this->_sectionid;
+            $detail->product_price        = 0.00;
+            $detail->product_currency     = null;
+            $detail->shopper_group_id     = 0;
+            $detail->price_quantity_start = 0;
+            $detail->price_quantity_end   = 0;
+            $detail->discount_price       = 0;
+            $detail->discount_start_date  = 0;
+            $detail->discount_end_date    = 0;
+
+            $this->_data = $detail;
+            return (boolean)$this->_data;
+        }
+        return true;
+    }
+
+    public function getShopperGroup()
+    {
+        $q = 'SELECT shopper_group_id AS value,shopper_group_name AS text ' . 'FROM ' . $this->_table_prefix . 'shopper_group';
+        $this->_db->setQuery($q);
+        $shoppergroup = $this->_db->loadObjectList();
+        return $shoppergroup;
+    }
+
+    public function getPropertyName()
+    {
+        $propertyid = $this->_sectionid;
+        if ($this->_section == "property")
+        {
+            $q = 'SELECT * ' . 'FROM ' . $this->_table_prefix . 'product_attribute_property AS ap ' . 'WHERE property_id = ' . $propertyid;
+        }
+        else
+        {
+            $q = 'SELECT ap.subattribute_color_name AS property_name ' . 'FROM ' . $this->_table_prefix . 'product_subattribute_color AS ap ' . 'WHERE subattribute_color_id = ' . $propertyid;
+        }
+        $this->_db->setQuery($q);
+        $rs = $this->_db->loadObject();
+        return $rs;
+    }
+
+    public function store($data)
+    {
+        $row = $this->getTable('product_attribute_price');
+        if (!$row->bind($data))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+        if (!$row->check())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+        if (!$row->store())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+        return true;
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price ' . 'WHERE price_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
+    }
+}

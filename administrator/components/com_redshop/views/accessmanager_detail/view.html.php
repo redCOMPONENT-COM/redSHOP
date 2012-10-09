@@ -1,83 +1,76 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-class accessmanager_detailVIEWaccessmanager_detail extends JView
+class RedshopViewAccessmanager_detail extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		$section = JRequest::getVar('section');
-		$model = $this->getModel ( 'accessmanager_detail' );
-		$accessmanager	= $model->getaccessmanager();
+    public function display($tpl = null)
+    {
+        $section       = JRequest::getVar('section');
+        $model         = $this->getModel('accessmanager_detail');
+        $accessmanager = $model->getaccessmanager();
 
-		/**
-		 * get groups
-		 */
-		$groups=$this->getGroup();
+        /**
+         * get groups
+         */
+        $groups = $this->getGroup();
 
-		/**
-		 * format groups
-		 */
-		$groups=$this->formatGroup($groups);
-		//$groups = $acl->format_groups( array(8),'html',28 );
+        /**
+         * format groups
+         */
+        $groups = $this->formatGroup($groups);
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER' ).': <small><small>[ '.$section.' ]</small></small>', 'redshop_catalogmanagement48' );
-		JToolBarHelper::save();
-		JToolBarHelper::apply();
-		JToolBarHelper::cancel();
+        JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER') . ': <small><small>[ ' . $section . ' ]</small></small>', 'redshop_catalogmanagement48');
+        JToolBarHelper::save('accessmanager_detail.save');
+        JToolBarHelper::apply('accessmanager_detail.apply');
+        JToolBarHelper::cancel('accessmanager_detail.cancel');
 
-		$this->assignRef('groups',$groups);
+        $this->assignRef('groups', $groups);
 
-		$this->assignRef('accessmanager',$accessmanager);
+        $this->assignRef('accessmanager', $accessmanager);
 
-		parent::display($tpl);
-	}
-	function getGroup()
-	{
+        parent::display($tpl);
+    }
 
-		// Compute usergroups
-		$db = JFactory::getDbo();
-		$query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
+    public function getGroup()
+    {
+
+        // Compute usergroups
+        $db    = JFactory::getDbo();
+        $query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
   FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
   ORDER BY a.lft asc";
 
-		$db->setQuery($query);
-		// echo $db->getQuery();
-		$groups = $db->loadObjectList();
+        $db->setQuery($query);
+        // echo $db->getQuery();
+        $groups = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseNotice(500, $db->getErrorMsg());
-			return null;
-		}
+        // Check for a database error.
+        if ($db->getErrorNum())
+        {
+            JError::raiseNotice(500, $db->getErrorMsg());
+            return null;
+        }
 
-		return ($groups);
+        return ($groups);
+    }
 
-	}
-
-	function formatGroup($groups)
-	{	$returnable=array();
-		foreach($groups as $key=>$val)
-		{
-			$returnable[$val->id]=str_repeat('<span class="gi">|&mdash;</span>', $val->level).$val->title;
-		}
-		return $returnable;
-	}
+    public function formatGroup($groups)
+    {
+        $returnable = array();
+        foreach ($groups as $key=> $val)
+        {
+            $returnable[$val->id] = str_repeat('<span class="gi">|&mdash;</span>', $val->level) . $val->title;
+        }
+        return $returnable;
+    }
 }

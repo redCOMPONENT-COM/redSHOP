@@ -1,76 +1,74 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Views
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die('Restricted access');
 
-class newslettersubscrViewnewslettersubscr extends JView
+class RedshopViewNewslettersubscr extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
-		$context = 'subscription_id';
-		$document = JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR') );
+    public function display($tpl = null)
+    {
+        global $context;
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_MANAGEMENT' ), 'redshop_newsletter48' );
-		$task = JRequest::getVar('task');
+        $app = JFactory::getApplication();
 
-   		if( $task != 'import_data'){
+        $context  = 'subscription_id';
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR'));
 
-	   		JToolBarHelper::custom('import_data','upload.png','upload_f2.png','COM_REDSHOP_IMPORT_DATA',false);
-	   		JToolBarHelper::custom('export_data','save.png','save_f2.png','COM_REDSHOP_EXPORT_DATA',false);
-	   		JToolBarHelper::custom('export_acy_data','save.png','save_f2.png','EXPORT_ACY_MAILING_DATA',false);
-	   		JToolBarHelper::addNewX();
-	 		JToolBarHelper::editListX();
-			JToolBarHelper::deleteList();
-			JToolBarHelper::publishList();
-			JToolBarHelper::unpublishList();
-   		}
+        JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_MANAGEMENT'), 'redshop_newsletter48');
+        $task = JRequest::getVar('task');
 
-		if( $task == 'import_data'){
+        if ($task != 'import_data')
+        {
 
-			JToolBarHelper::custom('importdata','save.png','save_f2.png','COM_REDSHOP_IMPORT',false);
+            JToolBarHelper::custom('import_data', 'upload.png', 'upload_f2.png', 'COM_REDSHOP_IMPORT_DATA', false);
+            JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'COM_REDSHOP_EXPORT_DATA', false);
+            JToolBarHelper::custom('export_acy_data', 'save.png', 'save_f2.png', 'EXPORT_ACY_MAILING_DATA', false);
+            JToolBarHelper::addNewX();
+            JToolBarHelper::editListX();
+            JToolBarHelper::deleteList();
+            JToolBarHelper::publishList();
+            JToolBarHelper::unpublishList();
+        }
 
-			JToolBarHelper::custom('back','back.png','back_f2.png','COM_REDSHOP_BACK',false);
+        if ($task == 'import_data')
+        {
 
-			$this->setLayout('newsletterimport');
+            JToolBarHelper::custom('importdata', 'save.png', 'save_f2.png', 'COM_REDSHOP_IMPORT', false);
 
-			$model=  $this->getModel('newslettersubscr');
+            JToolBarHelper::custom('back', 'back.png', 'back_f2.png', 'COM_REDSHOP_BACK', false);
 
-			$newsletters=$model->getnewsletters();
+            $this->setLayout('newsletterimport');
 
-			$lists['newsletters'] = JHTML::_('select.genericlist',$newsletters,'newsletter_id','class="inputbox" size="1" ','value','text','');
-		}
+            $model = $this->getModel('newslettersubscr');
 
-		$uri = JFactory::getURI();
+            $newsletters = $model->getnewsletters();
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order','filter_order','subscription_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir','filter_order_Dir','');
+            $lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id', 'class="inputbox" size="1" ', 'value', 'text', '');
+        }
 
-		$lists['order'] 	= $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$newslettersubscrs	= $this->get( 'Data');
-		$pagination = $this->get( 'Pagination' );
+        $uri = JFactory::getURI();
 
-    	$this->assignRef('user',		JFactory::getUser());
-    	$this->assignRef('lists',		$lists);
-  		$this->assignRef('newslettersubscrs',$newslettersubscrs);
-    	$this->assignRef('pagination',	$pagination);
-    	$this->assignRef('request_url',	$uri->toString());
-    	parent::display($tpl);
-  }
+        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'subscription_id');
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
+        $newslettersubscrs  = $this->get('Data');
+        $pagination         = $this->get('Pagination');
+
+        $this->user = JFactory::getUser();
+        $this->assignRef('lists', $lists);
+        $this->assignRef('newslettersubscrs', $newslettersubscrs);
+        $this->assignRef('pagination', $pagination);
+        $this->request_url = $uri->toString();
+
+        parent::display($tpl);
+    }
 }

@@ -1,147 +1,147 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * Account shipping Address Controller
+ * account_shiptoController
  *
- * @static
- * @package		redSHOP
- * @since 1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class account_shiptoController extends JController
+class account_shiptoController extends RedshopCoreController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-	/**
-	 * Method to save Shipping Address
-	 *
-	 */
-	function save()
-	{
-	 	$post = JRequest::get('post');
-		$return = JRequest::getVar('return');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+    /**
+     * Method to save Shipping Address
+     *
+     */
+    public function save()
+    {
+        $post    = $this->input->getArray($_POST);
+        $return  = $this->input->get('return');
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $cid     = $this->input->post->get('cid', array(), 'array');
 
-		$post['users_info_id'] = $cid[0];
-		$post['id'] = $post['user_id'];
-		$post['address_type'] = "ST";
+        $post['users_info_id'] = $cid[0];
+        $post['id']            = $post['user_id'];
+        $post['address_type']  = "ST";
 
-		$model = $this->getModel('account_shipto');
-		if ($reduser = $model->store ( $post ))
-		{
-			$post['users_info_id'] = $reduser->users_info_id;
-			$msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_SAVE');
-		}else{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
-		}
-		$return = JRequest::getVar('return');
-		$setexit = JRequest::getInt('setexit',1);
+        $model = $this->getModel('account_shipto');
+        if ($reduser = $model->store($post))
+        {
+            $post['users_info_id'] = $reduser->users_info_id;
+            $msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_SAVE');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
+        }
 
-		if($return != "")
-		{
-			$link = JRoute::_('index.php?option='.$option.'&view='.$return.'&users_info_id='.$post['users_info_id'].'&Itemid='.$Itemid,false);
+        $setexit = $this->input->getInt('setexit', 1);
+        if ($return != "")
+        {
+            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $item_id, false);
 
-			if(!isset($setexit) || $setexit!=0)
-			{
-?>
-			<script language="javascript">
-				window.parent.location.href="<?php echo $link ?>";
-			</script>
+            if (!isset($setexit) || $setexit != 0)
+            {
+                ?>
+            <script language="javascript">
+                window.parent.location.href = "<?php echo $link ?>";
+            </script>
 
-		<?php
-			exit;
-			}
-		}else
-		{
-			$link = JRoute::_('index.php?option='.$option.'&view=account_shipto&Itemid='.$Itemid,false);
-		}
-		$this->setRedirect( $link , $msg );
-	}
-	/**
-	 * Method to delete shipping address
-	 *
-	 */
-	function remove()
-	{
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$infoid = JRequest::getVar('infoid', '', 'request', 'string');
-		$cid[0] = $infoid;
+            <?php
+                exit;
+            }
+        }
+        else
+        {
+            $link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $item_id, false);
+        }
+        $this->setRedirect($link, $msg);
+    }
 
-		$model = $this->getModel('account_shipto');
+    /**
+     * Method to delete shipping address
+     *
+     */
+    public function remove()
+    {
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $infoid  = $this->input->getString('infoid', '');
+        $cid[0]  = $infoid;
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
+        $model = $this->getModel('account_shipto');
 
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY' );
-		$return = JRequest::getVar('return');
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		if($return != "")
-		{
-			$link = JRoute::_('index.php?option='.$option.'&view='.$return.'&Itemid='.$Itemid,false);
-		}else
-		{
-			$link = JRoute::_('index.php?option='.$option.'&view=account_shipto&Itemid='.$Itemid,false);
-		}
-		$this->setRedirect( $link , $msg );
-	}
-	/**
-	 * Method called when user pressed cancel button
-	 *
-	 */
-	function cancel()
-	{
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        if (!$model->delete($cid))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
+        $return = $this->input->get('return');
 
-		$post['users_info_id'] = $cid[0];
+        if ($return != "")
+        {
+            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $item_id, false);
+        }
+        else
+        {
+            $link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $item_id, false);
+        }
+        $this->setRedirect($link, $msg);
+    }
 
-		$msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
+    /**
+     * Method called when user pressed cancel button
+     *
+     */
+    public function cancel()
+    {
+        $option  = $this->input->get('option');
+        $item_id = $this->input->get('Itemid');
+        $cid     = $this->input->post->get('cid', array(), 'array');
 
-		$return = JRequest::getVar('return');
-		$setexit = JRequest::getInt('setexit',1);
-		$link = '';
-		if($return != "")
-		{
-			$link = JRoute::_ ('index.php?option=' . $option . '&view=' . $return . '&users_info_id='.$post['users_info_id'].'&Itemid=' . $Itemid . '',false);
+        $post['users_info_id'] = $cid[0];
 
-			if(!isset($setexit) || $setexit!=0)
-			{
-?>
-			<script language="javascript">
-				window.parent.location.href="<?php echo $link ?>";
-			</script>
-		<?php
-			exit;
-			}
-		}else
-		{
-			$link = 'index.php?option='.$option.'&view=account_shipto&Itemid='.$Itemid;
-		}
-		$this->setRedirect( $link,$msg);
-	}
-}?>
+        $msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
+
+        $return  = $this->input->get('return');
+        $setexit = $this->input->getInt('setexit', 1);
+        $link    = '';
+        if ($return != "")
+        {
+            $link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $item_id . '', false);
+
+            if (!isset($setexit) || $setexit != 0)
+            {
+                ?>
+            <script language="javascript">
+                window.parent.location.href = "<?php echo $link ?>";
+            </script>
+            <?php
+                exit;
+            }
+        }
+        else
+        {
+            $link = 'index.php?option=' . $option . '&view=account_shipto&Itemid=' . $item_id;
+        }
+        $this->setRedirect($link, $msg);
+    }
+}
+

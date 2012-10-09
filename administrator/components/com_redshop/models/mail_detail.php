@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -13,155 +13,94 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'thumbnail.php' );
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
-jimport('joomla.filesystem.file');
-
-class mail_detailModelmail_detail extends JModel
+class RedshopModelMail_detail extends RedshopCoreModelDetail
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+    public function &getData()
+    {
+        if ($this->_loadData())
+        {
+        }
+        else
+        {
+            $this->_initData();
+        }
 
-	function __construct()
-	{
-		parent::__construct();
+        return $this->_data;
+    }
 
-		$this->_table_prefix = '#__'.TABLE_PREFIX.'_';
+    public function _loadData()
+    {
+        if (empty($this->_data))
+        {
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'mail WHERE mail_id = ' . $this->_id;
+            $this->_db->setQuery($query);
+            $this->_data = $this->_db->loadObject();
+            return (boolean)$this->_data;
+        }
+        return true;
+    }
 
-		$array = JRequest::getVar('cid',  0, '', 'array');
+    public function _initData()
+    {
+        if (empty($this->_data))
+        {
+            $detail                    = new stdClass();
+            $detail->mail_id           = 0;
+            $detail->mail_name         = null;
+            $detail->mail_subject      = null;
+            $detail->mail_section      = 0;
+            $detail->mail_order_status = null;
+            $detail->mail_body         = null;
+            $detail->published         = 1;
+            $detail->mail_bcc          = null;
+            $this->_data               = $detail;
 
-		$this->setId((int)$array[0]);
+            return (boolean)$this->_data;
+        }
 
-	}
-	function setId($id)
-	{
-		$this->_id		= $id;
-		$this->_data	= null;
-	}
+        return true;
+    }
 
-	function &getData()
-	{
-		if ($this->_loadData())
-		{
+    public function store($data)
+    {
+        $row = $this->getTable('mail');
 
-		}else  $this->_initData();
+        if (!$row->bind($data))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-	   	return $this->_data;
-	}
+        if (!$row->store())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-	function _loadData()
-	{
-		if (empty($this->_data))
-		{
-			$query = 'SELECT * FROM '.$this->_table_prefix.'mail WHERE mail_id = '. $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
+        return $row;
+    }
 
+    public function mail_section()
+    {
+        $query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM ' . $this->_table_prefix . 'order_status  where published=1';
 
-	function _initData()
-	{
-		if (empty($this->_data))
-		{
-			$detail = new stdClass();
-			$detail->mail_id			= 0;
-			$detail->mail_name			= null;
-			$detail->mail_subject		= null;
-			$detail->mail_section		= 0;
-			$detail->mail_order_status	= null;
-			$detail->mail_body			= null;
-			$detail->published			= 1;
-			$detail->mail_bcc			= null;
-			$this->_data		 		= $detail;
+        $this->_db->setQuery($query);
 
-			return (boolean) $this->_data;
-		}
+        return $this->_db->loadObjectList();
+    }
 
-		return true;
-	}
-  	function store($data)
-	{
-		$row =& $this->getTable();
+    public function order_statusHtml($order_status)
+    {
+        $select   = array();
+        $select[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
-		if (!$row->bind($data)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+        $merge = array_merge($select, $order_status);
 
-		if (!$row->store()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		return $row;
-	}
-
-	function delete($cid = array())
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
-
-			$query = 'DELETE FROM '.$this->_table_prefix.'mail WHERE mail_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	function publish($cid = array(), $publish = 1)
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
-
-			$query = 'UPDATE '.$this->_table_prefix.'mail'
-				. ' SET published = ' . intval( $publish )
-				. ' WHERE mail_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-
-		return true;
-	}
-	function mail_section()	{
-
-		$query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM '.$this->_table_prefix.'order_status  where published=1';
-
-		$this->_db->setQuery( $query );
-
-		return $this->_db->loadObjectList();
-	}
-	function order_statusHtml($order_status){
-
-		$select = array();
-
-		$select[]   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
-
-		$merge = array_merge($select,$order_status);
-
-		return JHTML::_('select.genericlist',$merge,  'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text' );
-
-
-
-	}
-
-
+        return JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text');
+    }
 }
-?>

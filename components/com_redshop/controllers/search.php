@@ -1,102 +1,89 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+defined('_JEXEC') or die('Restricted access');
+
 /**
- * search Controller
+ * account_billtoController
  *
- * @static
- * @package		redSHOP
- * @since 1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class searchController extends JController
+class searchController extends RedshopCoreController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-	/**
-	 * cancel function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function cancel()
-	{
-		$this->setRedirect( 'index.php' );
-	}
-	/**
-	 * display function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function display()
-	{
-		parent::display();
-	}
-	/**
-	 * loadProducts function
-	 *
-	 * @access public
-	 * @return manufacturer select box
-	 */
-	function loadProducts(){
+    /**
+     * cancel function
+     *
+     * @access public
+     * @return void
+     */
+    public function cancel()
+    {
+        $this->setRedirect('index.php');
+    }
 
-		$get = JRequest::get('get');
-		$taskid = $get['taskid'];
+    /**
+     * loadProducts function
+     *
+     * @access public
+     * @return manufacturer select box
+     */
+    public function loadProducts()
+    {
+        $get    = $this->input->getArray($_GET);
+        $taskid = $get['taskid'];
 
-		$model = $this->getModel();
+        $model = $this->getModel();
 
-		$brands = $model->loadCatProductsManufacturer($taskid);
+        $brands = $model->loadCatProductsManufacturer($taskid);
 
-		$manufac_data =  ( JRequest::getInt( 'manufacture_id', 0 ) ); // Manufacture Select Id
+        $manufac_data = ($this->input->getInt('manufacture_id', 0)); // Manufacture Select Id
 
-		jimport( 'joomla.application.module.helper' );
-		$module = JModuleHelper::getModule( 'redshop_search' );
-		$params = new JRegistry( $module->params );
-		$enableAjaxsearch = $params->get('enableAjaxsearch');
-		$javaFun = "";
-		if($enableAjaxsearch)
-			$javaFun = "makeUrl();";
-		if (count($brands)>0){
+        jimport('joomla.application.module.helper');
+        $module           = JModuleHelper::getModule('redshop_search');
+        $params           = new JRegistry($module->params);
+        $enableAjaxsearch = $params->get('enableAjaxsearch');
+        $javaFun          = "";
+        if ($enableAjaxsearch)
+        {
+            $javaFun = "makeUrl();";
+        }
+        if (count($brands) > 0)
+        {
 
-			$manufac = array();
-			$manufac[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
-			$manufacdata = @array_merge($manufac,$brands);
+            $manufac     = array();
+            $manufac[]   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+            $manufacdata = @array_merge($manufac, $brands);
 
-			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE').'<br/>'.JHTML::_('select.genericlist',$manufacdata,'manufacture_id','class="inputbox" size="1" onChange="'.$javaFun.'" ','value','text',$manufac_data);
-		}
-		exit;
-	}
-	/**
-	 * ajaxsearch function
-	 *
-	 * @access public
-	 * @return search product results
-	 */
-	function ajaxsearch(){
+            echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
+        }
+    }
 
-		$model = $this->getModel();
-		$detail = $model->getajaxData();
+    /**
+     * ajaxsearch function
+     *
+     * @access public
+     * @return search product results
+     */
+    public function ajaxsearch()
+    {
 
-		$encoded = json_encode($detail);
-		ob_clean();
-		echo "{\"results\": ".$encoded."}";
-		exit;
-	}
+        $model  = $this->getModel();
+        $detail = $model->getajaxData();
+
+        $encoded = json_encode($detail);
+        ob_clean();
+        echo "{\"results\": " . $encoded . "}";
+        exit;
+    }
 }
