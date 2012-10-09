@@ -1,49 +1,31 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Tables
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die('Restricted access');
 
 class Tableusercart_attribute_item extends JTable
 {
-	var $cart_att_item_id = 0;
-	var $cart_item_id = 0;
-	var $section_id = 0;
-	var $section = null;
-	var $parent_section_id = 0;
-	var $is_accessory_att = 0;
+    public $cart_att_item_id = 0;
 
-	function Tableusercart_attribute_item(& $db)
-	{
-	  $this->_table_prefix = '#__redshop_';
+    public $cart_item_id = 0;
 
-		parent::__construct($this->_table_prefix.'usercart_attribute_item', 'cart_id', $db);
-	}
+    public $section_id = 0;
 
-	function bind($array, $ignore = '')
-	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
+    public $section = null;
 
-		return parent::bind($array, $ignore);
-	}
+    public $parent_section_id = 0;
 
+    public $is_accessory_att = 0;
+
+    public function __construct(& $db)
+    {
+        $this->_table_prefix = '#__redshop_';
+
+        parent::__construct($this->_table_prefix . 'usercart_attribute_item', 'cart_id', $db);
+    }
 }
-?>

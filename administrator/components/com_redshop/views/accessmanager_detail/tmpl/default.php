@@ -21,22 +21,7 @@ $config = new Redconfiguration();
 $option = JRequest::getVar('option');
 $section = JRequest::getVar('section');
 $view = JRequest::getVar('view');
-
 ?>
-<script language="javascript" type="text/javascript">
-Joomla.submitbutton = function(pressbutton) {
-	submitbutton(pressbutton);
-	}
-
-submitbutton = function(pressbutton) {
- 	var form = document.adminForm;
-	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
-		return;
-	}
-	submitform( pressbutton );
-}
-</script>
 <form name="adminForm" id="adminForm" method="post" action="index.php">
 		<input type="hidden" name="option" value="<?php echo $option?>" />
 		<input type="hidden" name="view" value="<?php echo $view?>" />
@@ -63,17 +48,10 @@ submitbutton = function(pressbutton) {
 
 	foreach($this->groups as $groupValue => $groupName)
 	{
-		/*if( $groupValue < 23  ):
-			continue;
-		endif;*/
 	?>
 	<tr class="<?php echo "row$k"; ?>">
 		<td>
-              	<?php /*if( $groupValue >= 23 ):
-							
-              		   endif;*/
-					echo strip_tags($groupName);
-              	?>
+              	<?php echo strip_tags($groupName); ?>
 
 		</td>
 		<?php if($groupValue==8){?>

@@ -1,161 +1,55 @@
 <?php
 /**
- * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class newsletter_detailController extends JController
+class RedshopControllerNewsletter_detail extends RedshopCoreController
 {
-	function __construct($default = array())
+    public $redirectViewName = 'newsletter';
+
+    public function __construct($default = array())
     {
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
-
-	function edit()
-	{
-		JRequest::setVar ( 'view', 'newsletter_detail' );
-		JRequest::setVar ( 'layout', 'default' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-
-		parent::display ();
-	}
-
-	function apply()
-    {
-		$this->save(1);
-	}
-
-	function save($apply=0)
-    {
-        $post = JRequest::get ( 'post' );
-		$body = JRequest::getVar( 'body', '', 'post', 'string', JREQUEST_ALLOWRAW );
-		$post["body"] = $body;
-
-        $option = JRequest::getVar ('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		$post ['newsletter_id'] = $cid [0];
-
-		$model = $this->getModel ( 'newsletter_detail' );
-
-		if ($row=$model->store ( $post )) {
-
-			$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_SAVED' );
-
-		} else {
-
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_NEWSLETTER_DETAIL' );
-		}
-
-		if($apply==1)
-			$this->setRedirect ( 'index.php?option=' . $option . '&view=newsletter_detail&task=edit&cid[]='.$row->newsletter_id, $msg );
-		else
-			$this->setRedirect ( 'index.php?option=' . $option . '&view=newsletter', $msg );
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
     }
 
-	function remove()
+    public function save($apply = 0)
     {
-        $option = JRequest::getVar ('option');
+        $post         = $this->input->getArray($_POST);
+        $post["body"] = $this->input->post->getString('body', '');
+        $option       = $this->input->get('option');
+        $cid          = $this->input->post->get('cid', array(0), 'array');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$msg1="";
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
+        $post ['newsletter_id'] = $cid [0];
 
-		$model = $this->getModel ( 'newsletter_detail' );
-		foreach($cid as $key => $value)
-         {
-      			if ($value == 1)
-      			{
-      				unset($cid[$key]);
-      				$val=1;
-      			}
+        $model = $this->getModel('newsletter_detail');
 
-    	 }
+        if ($row = $model->store($post))
+        {
 
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		if($val==1)
-		$msg=JText::_('COM_REDSHOP_DEFAULT_NEWSLETTER_CAN_NOT_BE_DELETED' );
+            $msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_SAVED');
+        }
+        else
+        {
 
-		else
-		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_DELETED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=newsletter',$msg);
-	}
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_NEWSLETTER_DETAIL');
+        }
 
-	function publish()
-    {
-        $option = JRequest::getVar ('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
-
-		$model = $this->getModel ( 'newsletter_detail' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_PUBLISHED_SUCCESFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=newsletter',$msg );
-	}
-
-	function unpublish()
-    {
-
-		$option = JRequest::getVar ('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
-
-		$model = $this->getModel ( 'newsletter_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_UNPUBLISHED_SUCCESFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=newsletter',$msg );
-	}
-
-	function cancel()
-    {
-        $option = JRequest::getVar ('option');
-		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=newsletter',$msg );
-	}
-
-	function copy()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$model = $this->getModel ( 'newsletter_detail' );
-		if ($model->copy($cid)) {
-			$msg = JText::_('COM_REDSHOP_NEWSLETTER_COPIED_WITH_SUBSCRIBER' );
-		} else {
-			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_NEWSLETTER' );
-		}
-		$this->setRedirect ( 'index.php?option='.$option.'&view=newsletter', $msg );
-	}
+        if ($apply == 1)
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id, $msg);
+        }
+        else
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
+        }
+    }
 }

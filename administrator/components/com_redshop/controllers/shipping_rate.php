@@ -1,37 +1,47 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-jimport( 'joomla.application.component.controller' );
- 
-class shipping_ratecontroller extends JController
+class RedshopControllerShipping_rate extends RedshopCoreControllerDefault
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}	
-	function cancel()
-	{
-		$post = JRequest::get ( 'post' );
-		$this->setRedirect( 'index.php?option='.$post['option'].'&view=shipping_detail&task=edit&cid[]='.$post['id']);
-	}
-	function display() {
-		
-		parent::display();
-	}
-}	?>
+    public function cancel()
+    {
+        $post = $this->input->getArray($_POST);
+        $this->setRedirect('index.php?option=' . $post['option'] . '&view=shipping_detail&task=edit&cid[]=' . $post['id']);
+    }
+
+    public function remove()
+    {
+        parent::remove();
+
+        $id = $this->input->post->get('id');
+        $this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $id);
+    }
+
+    public function copy()
+    {
+        $post   = $this->input->getArray($_POST);
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+
+        $model = $this->getModel('shipping_rate_detail');
+        if ($model->copy($cid))
+        {
+            $msg = JText::_('COM_REDSHOP_SHIPPING_RATE_SAVED');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
+        }
+        $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id'], $msg);
+    }
+}

@@ -1,102 +1,80 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-jimport ( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
 
-class prices_detailController extends JController {
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-	function __construct($default = array()) {
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
-	function edit()
-	{
-		JRequest::setVar ( 'view', 'prices_detail' );
-		JRequest::setVar ( 'layout', 'default' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-		$model = $this->getModel ( 'prices_detail' );
+class RedshopControllerPrices_detail extends RedshopCoreController
+{
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
 
-		parent::display ();
-	}
-	function save()
-	{
-		$post = JRequest::get ( 'post' );
-		$option = JRequest::getVar ('option');
-		$product_id = JRequest::getVar ('product_id');
-		$price_quantity_start = JRequest::getVar('price_quantity_start');
-		$price_quantity_end = JRequest::getVar('price_quantity_end');
+        // Set the redirection.
+        $product_id             = $this->input->get('product_id');
+        $this->redirectViewName = 'prices&product_id=' . $product_id;
+    }
 
-		$post['product_currency'] = CURRENCY_CODE;
-		$post['cdate'] = time();//date("Y-m-d");
+    public function save($apply = 0)
+    {
+        $post                 = $this->input->getArray($_POST);
+        $option               = $this->input->get('option');
+        $product_id           = $this->input->get('product_id');
+        $price_quantity_start = $this->input->get('price_quantity_start');
+        $price_quantity_end   = $this->input->get('price_quantity_end');
 
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$post ['price_id'] = $cid [0];
-		
-		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
-		if($post['discount_end_date'])
-		{
-			$post ['discount_end_date'] = strtotime($post['discount_end_date'])+(23*59*59);
-		}
+        $post['product_currency'] = CURRENCY_CODE;
+        $post['cdate']            = time(); //date("Y-m-d");
 
-		$model = $this->getModel ( 'prices_detail' );
-		if($price_quantity_start==0 && $price_quantity_end==0)
-		{
-			if ($model->store ( $post )) {
-				$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED' );
-			} else {
-				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL' );
-			}
-		}	else {
-			if($price_quantity_start < $price_quantity_end ){
-					if ($model->store ( $post )) {
-						$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED' );
-					} else {
-						$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL' );
-					}
-			}else{
-					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL' );
-	
-			}
-		}
-		$this->setRedirect ( 'index.php?option=' . $option . '&view=prices&product_id='.$product_id, $msg );
-	}
-	function remove() {
+        $cid               = $this->input->post->get('cid', array(0), 'array');
+        $post ['price_id'] = $cid [0];
 
-		$option = JRequest::getVar ('option');
-		$product_id = JRequest::getVar ('product_id');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $post['discount_start_date'] = strtotime($post ['discount_start_date']);
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
+        if ($post['discount_end_date'])
+        {
+            $post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
+        }
 
-		$model = $this->getModel ( 'prices_detail' );
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=prices&product_id='.$product_id,$msg );
-	}
+        $model = $this->getModel('prices_detail');
 
-	function cancel() {
-
-		$option = JRequest::getVar ('option');
-		$product_id = JRequest::getVar ('product_id');
-
-		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=prices&product_id='.$product_id,$msg );
-	}
-}	?>
+        if ($price_quantity_start == 0 && $price_quantity_end == 0)
+        {
+            if ($model->store($post))
+            {
+                $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
+            }
+            else
+            {
+                $msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
+            }
+        }
+        else
+        {
+            if ($price_quantity_start < $price_quantity_end)
+            {
+                if ($model->store($post))
+                {
+                    $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
+                }
+                else
+                {
+                    $msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
+                }
+            }
+            else
+            {
+                $msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL');
+            }
+        }
+        $this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
+    }
+}

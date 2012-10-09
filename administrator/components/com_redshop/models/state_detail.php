@@ -1,191 +1,177 @@
 <?php
-defined( '_JEXEC' ) or die( 'Restricted access' );
+/**
+ * @package     redSHOP
+ * @subpackage  Models
+ *
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
+ */
 
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die('Restricted access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class state_detailModelstate_detail extends JModel
+class RedshopModelState_detail extends RedshopCoreModelDetail
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+    public function &getData()
+    {
+        if ($this->_loadData())
+        {
+        }
+        else
+        {
+            $this->_initData();
+        }
 
-	function __construct()
-	{
-		parent::__construct();
+        return $this->_data;
+    }
 
-		$this->_table_prefix = '#__'.TABLE_PREFIX.'_';
+    public function _loadData()
+    {
+        if (empty($this->_data))
+        {
+            $query = 'SELECT * FROM ' . $this->_table_prefix . 'state WHERE state_id = ' . $this->_id;
+            $this->_db->setQuery($query);
+            $this->_data = $this->_db->loadObject();
+            return (boolean)$this->_data;
+        }
+        return true;
+    }
 
-		$array = JRequest::getVar('cid',  0, '', 'array');
-		$this->setId((int)$array[0]);
+    public function _initData()
+    {
+        if (empty($this->_data))
+        {
+            $detail = new stdClass();
 
-	}
-	function setId($id)
-	{
-		$this->_id		= $id;
-		$this->_data	= null;
-	}
+            $detail->state_id     = 0;
+            $detail->state_name   = null;
+            $detail->state_3_code = null;
+            $detail->country_id   = null;
+            $detail->state_2_code = null;
+            $detail->show_state   = 2;
+            $this->_data          = $detail;
 
-	function &getData()
-	{
-		if ($this->_loadData())
-		{
+            return (boolean)$this->_data;
+        }
 
-		}else  $this->_initData();
+        return true;
+    }
 
-	   	return $this->_data;
-	}
+    public function store($data)
+    {
 
-	function _loadData()
-	{
-		if (empty($this->_data))
-		{
-			$query = 'SELECT * FROM '.$this->_table_prefix.'state WHERE state_id = '. $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
+        $row = $this->getTable('state');
 
+        if (!$row->bind($data))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-	function _initData()
-	{
-		if (empty($this->_data))
-		{
-			$detail = new stdClass();
+        if (!$row->check())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-			$detail->state_id			= 0;
-			$detail->state_name			= null;
-			$detail->state_3_code	 =  null;
-			$detail->country_id		= null;
-			$detail->state_2_code		= null;
-			$detail->show_state = 2;
-			$this->_data		 		= $detail;
+        if (!$row->store())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
 
-			return (boolean) $this->_data;
-		}
+        return $row;
+    }
 
-		return true;
-	}
-  	function store($data)
-	{
+    public function getcountry()
+    {
+        require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+        $redhelper = new redhelper();
+        $q         = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY 					    	country_name ASC";
+        $this->_db->setQuery($q);
+        $countries = $this->_db->loadObjectList();
+        $countries = $redhelper->convertLanguageString($countries);
+        return $countries;
+    }
 
-		$row =& $this->getTable('state_detail');
+    /**
+     * Method to checkout/lock the state_detail
+     *
+     * @access    public
+     *
+     * @param    int    $uid    User ID of the user checking the helloworl detail out
+     *
+     * @return    boolean    True on success
+     * @since     1.5
+     */
+    public function checkout($uid = null)
+    {
+        if ($this->_id)
+        {
+            // Make sure we have a user id to checkout the article with
+            if (is_null($uid))
+            {
+                $user = JFactory::getUser();
+                $uid  = (int)$user->get('id');
+            }
+            // Lets get to it and checkout the thing...
+            $state_detail = $this->getTable('state');
 
-		if (!$row->bind($data)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+            if (!$state_detail->checkout($uid, $this->_id))
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
 
-		if (!$row->check()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+            return true;
+        }
+        return false;
+    }
 
-		if (!$row->store()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+    /**
+     * Method to checkin/unlock the state_detail
+     *
+     * @access    public
+     * @return    boolean    True on success
+     * @since     1.5
+     */
+    public function checkin()
+    {
+        if ($this->_id)
+        {
+            $state_detail = $this->getTable('state');
+            if (!$state_detail->checkin($this->_id))
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return false;
+    }
 
-		return $row;
-	}
-
-	function delete($cid = array())
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
-
-			$query = 'DELETE FROM '.$this->_table_prefix.'state WHERE state_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-
-		return true;
-	}
-	function getcountry()
-	{
-		require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'helper.php' );
-  		$redhelper = new redhelper();
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__".TABLE_PREFIX."_country ORDER BY 					    	country_name ASC";
-  		$this->_db->setQuery($q);
- 	 	$countries = $this->_db->loadObjectList( );
-  		$countries = $redhelper->convertLanguageString($countries);
-		return $countries;
-	}
-
-	/**
-	 * Method to checkout/lock the state_detail
-	 *
-	 * @access	public
-	 * @param	int	$uid	User ID of the user checking the helloworl detail out
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function checkout($uid = null)
-	{
-		if ($this->_id)
-		{
-			// Make sure we have a user id to checkout the article with
-			if (is_null($uid)) {
-				$user	= JFactory::getUser();
-				$uid	= (int) $user->get('id');
-			}
-			// Lets get to it and checkout the thing...
-			$state_detail = & $this->getTable('state_detail');
-
-
-			if(!$state_detail->checkout($uid, $this->_id)) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-
-			return true;
-		}
-		return false;
-	}
-	/**
-	 * Method to checkin/unlock the state_detail
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function checkin()
-	{
-		if ($this->_id)
-		{
-			$state_detail = & $this->getTable('state_detail');
-			if(! $state_detail->checkin($this->_id)) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-		return false;
-	}
-	/**
-	 * Tests if state_detail is checked out
-	 *
-	 * @access	public
-	 * @param	int	A user id
-	 * @return	boolean	True if checked out
-	 * @since	1.5
-	 */
-	function isCheckedOut( $uid=0 )
-	{
-		if ($this->_loadData())
-		{
-			if ($uid) {
-				return ($this->_data->checked_out && $this->_data->checked_out != $uid);
-			} else {
-				return $this->_data->checked_out;
-			}
-		}
-	}
-
+    /**
+     * Tests if state_detail is checked out
+     *
+     * @access    public
+     *
+     * @param    int    A user id
+     *
+     * @return    boolean    True if checked out
+     * @since     1.5
+     */
+    public function isCheckedOut($uid = 0)
+    {
+        if ($this->_loadData())
+        {
+            if ($uid)
+            {
+                return ($this->_data->checked_out && $this->_data->checked_out != $uid);
+            }
+            else
+            {
+                return $this->_data->checked_out;
+            }
+        }
+    }
 }
-?>

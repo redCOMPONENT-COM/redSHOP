@@ -1,72 +1,67 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
 /**
- * Product rating Controller
+ * product_ratingController
  *
- * @static
- * @package		redSHOP
- * @since 1.0
+ * @package    Joomla.Site
+ * @subpackage com_redshop
+ *
+ * Description N/A
  */
-class product_ratingController extends JController
+class product_ratingController extends RedshopCoreController
 {
-	function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}
-	/**
-	 * save function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function save()
-	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$product_id = JRequest::getInt('product_id');
-		$category_id = JRequest::getInt('category_id');
-		$model = $this->getModel('product_rating');
-		$rate = JRequest::getVar('rate');
-				
-		if ($model->sendMailForReview($post)){
-			$msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
-		}else {
-			$msg = JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY');
-		}
-		
-		if($rate==1)
-		{
+    /**
+     * save function
+     *
+     * @access public
+     * @return void
+     */
+    public function save()
+    {
+        $option      = $this->input->get('option');
+        $item_id     = $this->input->get('Itemid');
+        $post        = $this->input->getArray($_POST);
+        $product_id  = $this->input->getInt('product_id', null);
+        $category_id = $this->input->getInt('category_id', null);
+        $model       = $this->getModel('product_rating');
+        $rate        = $this->input->get('rate');
 
-			$link = 'index.php?option='.$option.'&view=product&pid='.$product_id.'&cid='.$category_id.'&Itemid='.$Itemid;
-			$this->setRedirect($link,$msg);
+        if ($model->sendMailForReview($post))
+        {
+            $msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY');
+        }
 
-		}
-		else
-		{
-			echo $msg;?>
-			<span id="closewindow"><input type="button" value="Close Window" onclick="window.parent.redBOX.close();" /></span>
-			<script>
-			setTimeout("window.parent.redBOX.close();",5000);
-			</script>
-			<?php
-			exit;
-		}
-	}
-}?>
+        if ($rate == 1)
+        {
+
+            $link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $item_id;
+            $this->setRedirect($link, $msg);
+        }
+        else
+        {
+            echo $msg;?>
+        <span id="closewindow"><input type="button" value="Close Window"
+                                      onclick="window.parent.redBOX.close();"/></span>
+        <script>
+            setTimeout("window.parent.redBOX.close();", 5000);
+        </script>
+        <?php
+            exit;
+        }
+    }
+}
+

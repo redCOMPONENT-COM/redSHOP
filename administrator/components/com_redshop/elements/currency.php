@@ -1,105 +1,99 @@
 <?php
 /**
-* @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
-* @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
-* Developed by email@recomponent.com - redCOMPONENT.com
-*
-* redSHOP can be downloaded from www.redcomponent.com
-* redSHOP is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License 2
-* as published by the Free Software Foundation.
-*
-* You should have received a copy of the GNU General Public License
-* along with redSHOP; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ * @package     redSHOP
+ * @subpackage  Elements
+ *
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
+ */
 
-defined('_JEXEC') or die( 'Restricted access' );
-
-
+defined('_JEXEC') or die('Restricted access');
 
 /**
-* Renders a Productfinder Form
-*
-* @package	 Joomla
-* @subpackage	Banners
-* @since	 1.5
-*/
+ * Renders a Productfinder Form
+ *
+ * @package       Joomla
+ * @subpackage    Banners
+ * @since         1.5
+ */
 class JFormFieldcurrency extends JFormField
 {
-		/**
-		* Element name
-		*
-		* @access	protected
-		* @var	 string
-		*/
-		public $type = 'currency';
+    /**
+     * Element name
+     *
+     * @access    protected
+     * @var     string
+     */
+    public $type = 'currency';
 
+    protected function getInput()
+    {
+        require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php');
 
-		protected function getInput()
-		{
+        // This might get a conflict with the dynamic translation - TODO: search for better solution
+        $convertPrice = new convertPrice();
 
-			require_once(JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'currency.php');
+        $convertPrice->init();
 
-			// This might get a conflict with the dynamic translation - TODO: search for better solution
-			$convertPrice = new convertPrice();
+        $currency = array();
 
-			$convertPrice->init();
+        if (count($GLOBALS['converter_array']) > 0)
+        {
+            foreach ($GLOBALS['converter_array'] as $key=> $val)
+            {
+                $currency[] = $key;
+            }
 
-			$currency = array();
+            $currency = implode("','", $currency);
+        }
 
-			if (count($GLOBALS['converter_array'])>0){
-				foreach ($GLOBALS['converter_array'] as $key=>$val){
-				$currency[] = $key;
-				}
+        $shop_currency = $this->getCurrency($currency);
+        $ctrl          = $this->name;
 
-				$currency = implode("','",$currency);
-			}
+        // Construct the various argument calls that are supported.
+        $attribs = ' ';
+        if ($v = $this->element['size'])
+        {
+            $attribs .= 'size="' . $v . '"';
+        }
+        if ($v = $this->element['class'])
+        {
+            $attribs .= 'class="' . $v . '"';
+        }
+        else
+        {
+            $attribs .= 'class="inputbox"';
+        }
+        if ($m = $this->element['multiple'])
+        {
+            $attribs .= ' multiple="multiple"';
+            //$ctrl .= '[]';
+        }
 
-			$shop_currency = $this->getCurrency($currency);
-			$ctrl = $this->name;
+        return JHTML::_('select.genericlist', $shop_currency, $ctrl, $attribs, 'value', 'text', $this->value, $this->id);
+    }
 
-			// Construct the various argument calls that are supported.
-			$attribs = ' ';
-			if ($v = $this->element['size' ]) {
-				$attribs .= 'size="'.$v.'"';
-			}
-			if ($v = $this->element['class']) {
-				$attribs .= 'class="'.$v.'"';
-			} else {
-				$attribs .= 'class="inputbox"';
-			}
-			if ($m = $this->element['multiple'])
-			{
-				$attribs .= ' multiple="multiple"';
-				//$ctrl .= '[]';
-			}
+    /*
+         * get Shop Currency Support
+         *
+         * @params: string $currency comma separated countries
+         * @return: array stdClass Array for Shop country
+         *
+         * currency_code as value
+         * currency_name as text
+         */
+    public function getCurrency($currency = "")
+    {
+        $db = JFactory::getDBO();
 
-
-			return JHTML::_('select.genericlist', $shop_currency, $ctrl, $attribs, 'value', 'text', $this->value, $this->id );
-
-		}
-
-		/*
-		* get Shop Currency Support
-		*
-		* @params: string $currency comma separated countries
-		* @return: array stdClass Array for Shop country
-		*
-		* currency_code as value
-		* currency_name as text
-		*/
-		function getCurrency($currency="")
-		{
-			$db = JFactory::getDBO();
-
-			$where="";
-			if ($currency){
-				$where = " WHERE currency_code IN ('".$currency."')";
-			}
-			$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency'.$where.' ORDER BY currency_name ASC';
-			$db->setQuery($query);
-			return $db->loadObjectlist();
-		}
+        $where = "";
+        if ($currency)
+        {
+            $where = " WHERE currency_code IN ('" . $currency . "')";
+        }
+        $query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
+        $db->setQuery($query);
+        return $db->loadObjectlist();
+    }
 }
 

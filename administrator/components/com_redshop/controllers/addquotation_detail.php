@@ -1,141 +1,127 @@
 <?php
 /**
- * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'product.php' );
-
-class addquotation_detailController extends JController
+class RedshopControllerAddquotation_detail extends RedshopCoreController
 {
-	function __construct($default = array())
-	{
-		parent::__construct ( $default );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-	}
+    public $redirectViewName = 'quotation';
 
-	function save($send=0)
-	{
-		$post = JRequest::get ( 'post' );
-		$adminproducthelper = new adminproducthelper();
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->input->set('hidemainmenu', 1);
+    }
 
-		$option = JRequest::getVar('option','','request','string');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$post ['quotation_id'] = $cid [0];
-		$model = $this->getModel ( 'addquotation_detail' );
+    public function save($send = 0)
+    {
+        $post   = $this->input->getArray($_POST);
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
-		global $mainframe;
+        $post ['quotation_id'] = $cid [0];
+        $model                 = $this->getModel('addquotation_detail');
 
-		$acl	= JFactory::getACL();
+        $adminproducthelper = new adminproducthelper();
 
-		if(!$post['users_info_id'])
-		{
-			$name = $post['firstname'].' '.$post['lastname'];
-			$post['usertype'] = "Registered";
-			$post['email'] = $post['user_email'];
-			$post['username']	= JRequest::getVar('username', '', 'post', 'username');
-			$post['name']	= $name;
-			$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$post['gid'] = $acl->get_group_id( '', 'Registered', 'ARO' );
+        $acl = JFactory::getACL();
 
-			$date = JFactory::getDate();
-			$post['registerDate'] = $date->toMySQL();
-			$post['block'] = 0;
+        if (!$post['users_info_id'])
+        {
+            $name             = $post['firstname'] . ' ' . $post['lastname'];
+            $post['usertype'] = "Registered";
+            $post['email']    = $post['user_email'];
 
-			# get Admin order detail Model Object
-			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
+            $post['username'] = $this->input->post->getUsername('username', '');
 
-			# call Admin order detail Model store function for Billing
-			$user = $usermodel->storeUser($post);
+            $post['name'] = $name;
 
-			if(!$user){
-				$this->setError ( $this->_db->getErrorMsg () );
-				return false;
-			}
+            $post['password']  = $this->input->post->getString('password', '');
+            $post['password2'] = $this->input->post->getString('password2', '');
 
-			$post['user_id'] = $user->id;
-			$user_id = $user->id;
+            $post['gid'] = $acl->get_group_id('', 'Registered', 'ARO');
 
-			$user_data = $model->storeShipping($post);
-			$post['users_info_id'] = $user_data->users_info_id;
-			if(count($user_data)<=0)
-			{
-				$this->setRedirect ( 'index.php?option='.$option.'&view=quotaion_detail&user_id='.$user_id );
-			}
-		}
+            $date                 = JFactory::getDate();
+            $post['registerDate'] = $date->toMySQL();
+            $post['block']        = 0;
 
-		$orderItem = $adminproducthelper->redesignProductItem($post);
-		$post['order_item'] = $orderItem;
+            # get Admin order detail Model Object
+            $usermodel = JModel::getInstance('user_detail', 'user_detailModel');
 
-		$post['user_info_id'] = $post['users_info_id'];
+            # call Admin order detail Model store public function for Billing
+            $user = $usermodel->storeUser($post);
 
-		$row = $model->store ( $post );
-		if ($row)
-		{
-			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED' );
-			if($send==1)
-			{
-				if ($model->sendQuotationMail($row->quotation_id))
-				{
-					$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT' );
-				}
-			}
-		} else {
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL' );
-		}
-		$this->setRedirect ( 'index.php?option='.$option.'&view=quotation', $msg );
-	}
+            if (!$user)
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
 
-	function send()
-	{
-		$this->save(1);
-	}
+            $post['user_id'] = $user->id;
+            $user_id         = $user->id;
 
-	function cancel()
-	{
-		$option = JRequest::getVar('option','','request','string');
-		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=quotation',$msg );
-	}
+            $user_data             = $model->storeShipping($post);
+            $post['users_info_id'] = $user_data->users_info_id;
+            if (count($user_data) <= 0)
+            {
+                $this->setRedirect('index.php?option=' . $option . '&view=quotaion_detail&user_id=' . $user_id);
+            }
+        }
 
+        $orderItem          = $adminproducthelper->redesignProductItem($post);
+        $post['order_item'] = $orderItem;
 
-	function displayOfflineSubProperty()
-	{
-		$get = JRequest::get('get');
-		$model = $this->getModel('addquotation_detail');
+        $post['user_info_id'] = $post['users_info_id'];
 
-		$product_id = $get['product_id'];
-		$accessory_id = $get['accessory_id'];
-		$attribute_id = $get['attribute_id'];
-		$user_id = $get['user_id'];
-		$unique_id = $get['unique_id'];
+        $row = $model->store($post);
+        if ($row)
+        {
+            $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
+            if ($send == 1)
+            {
+                if ($model->sendQuotationMail($row->quotation_id))
+                {
+                    $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
+                }
+            }
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
+        }
+        $this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+    }
 
-		$propid = explode(",",$get['property_id']);
+    public function displayOfflineSubProperty()
+    {
+        $product_id   = $this->input->get->getInt('product_id', 0);
+        $accessory_id = $this->input->get->getInt('accessory_id', 0);
+        $attribute_id = $this->input->get->getInt('attribute_id', 0);
+        $user_id      = $this->input->get->getInt('user_id', 0);
+        $unique_id    = $this->input->get->getInt('unique_id', 0);
+        $propid       = $this->input->get->get('property_id');
+        $propid       = explode(",", $propid);
 
-		$response = "";
-		for($i=0;$i<count($propid);$i++)
-		{
-			$property_id = $propid[$i];
-			$response .= $model->replaceSubPropertyData($product_id,$accessory_id,$attribute_id,$property_id,$user_id,$unique_id);
-		}
-		echo $response;
-		exit;
-	}
+        $model = $this->getModel('addquotation_detail');
+
+        $response = "";
+
+        foreach ($propid as $property)
+        {
+            $response .= $model->replaceSubPropertyData($product_id, $accessory_id, $attribute_id, $property, $user_id, $unique_id);
+        }
+
+        echo $response;
+        exit;
+    }
 }

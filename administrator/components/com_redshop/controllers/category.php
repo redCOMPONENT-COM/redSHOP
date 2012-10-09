@@ -1,84 +1,67 @@
 <?php
 /**
- * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class categoryController extends JController
+class RedshopControllerCategory extends RedshopCoreControllerDefault
 {
-	/*function __construct( $default = array())
-	{
-		parent::__construct( $default );
-	}*/
-
-	function cancel()
-	{
-		$this->setRedirect( 'index.php' );
-	}
-
-	/*function display()
+    /**
+     * assign template to multiple categories
+     *
+     */
+    public function assignTemplate()
     {
-		parent::display();
-	}*/
+        $post = $this->input->getArray($_POST);
 
-	/*
-	 * assign template to multiple categories
-	 *
-	 */
-	function assignTemplate()
+        $model = $this->getModel('category');
+
+        if ($model->assignTemplate($post))
+        {
+            $msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
+        }
+        $this->setRedirect('index.php?option=com_redshop&view=category', $msg);
+    }
+
+    public function saveorder()
     {
-        $post = JRequest::get('post');
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(), 'array');
+        $order  = $this->input->post->get('order', array(), 'array');
 
-		$model = $this->getModel('category');
+        JArrayHelper::toInteger($cid);
+        JArrayHelper::toInteger($order);
 
-		if($model->assignTemplate($post)){
-			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
-		}else {
-			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
-		}
-		$this->setRedirect( 'index.php?option=com_redshop&view=category',$msg );
-	}
+        $model = $this->getModel('category');
+        $model->saveorder($cid, $order);
 
-	function saveorder()
-	{
-		$option = JRequest::getVar('option');
+        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+    }
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+    public function autofillcityname()
+    {
+        $db = JFactory::getDBO();
+        ob_clean();
 
-		$model = $this->getModel('category');
-		$model->saveorder($cid, $order);
+        $mainzipcode = $this->input->getString('q', '');
 
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=category',$msg );
+        $sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
+        $db->setQuery($sel_zipcode);
 
-	}
+        echo $db->loadResult();
 
-	function autofillcityname()
-	{
-		$db = JFactory::getDBO();
-		ob_clean();
-		$mainzipcode = JRequest::getString( 'q', '');
-		$sel_zipcode="select city_name from #__redshop_zipcode where zipcode='".$mainzipcode."'";
-		$db->setQuery($sel_zipcode);
-	    echo $db->loadResult();
-		exit;
-	}
+        exit;
+    }
 }

@@ -1,187 +1,171 @@
 <?php
 /**
- * @copyright  Copyright (C) 2010-2012 redCOMPONENT.com. All rights reserved.
- * @license    GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * Developed by email@recomponent.com - redCOMPONENT.com
- *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class discount_detailController extends JController
+class RedshopControllerDiscount_detail extends RedshopCoreController
 {
-	function __construct($default = array())
+    public $redirectViewName = 'currency';
+
+    public function __construct($default = array())
     {
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
-	function edit()
-	{
-		$layout = JRequest::getVar('layout');
-
-		JRequest::setVar ( 'view', 'discount_detail' );
-
-		if($layout == 'product')
-		{
-			JRequest::setVar ( 'layout', 'product' );
-
-		}else{
-			JRequest::setVar ( 'layout', 'default' );
-		}
-		JRequest::setVar ( 'hidemainmenu', 1 );
-
-		parent::display ();
-	}
-
-	function apply()
+    public function edit()
     {
-		$this->save(1);
-	}
+        $layout = $this->input->get('layout');
 
-	function save($apply=0)
-	{
-		$post = JRequest::get ( 'post' );
+        $this->input->set('view', 'discount_detail');
 
-		$option = JRequest::getVar ('option');
+        if ($layout == 'product')
+        {
+            $this->input->set('layout', 'product');
+        }
+        else
+        {
+            $this->input->set('layout', 'default');
+        }
+        $this->input->set('hidemainmenu', 1);
 
-		$cid = JRequest::getVar ( 'cid', array (0), 'post', 'array' );
+        parent::display();
+    }
 
+    public function save($apply = 0)
+    {
+        $post   = $this->input->getArray($_POST);
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
+        $layout = $this->input->get('layout');
 
-		$post ['start_date'] = strtotime($post ['start_date']);
-		$post ['end_date'] = strtotime($post ['end_date'])+(23*59*59);
+        $post ['start_date'] = strtotime($post ['start_date']);
+        $post ['end_date']   = strtotime($post ['end_date']) + (23 * 59 * 59);
 
-		$model = $this->getModel ( 'discount_detail' );
+        $model = $this->getModel('discount_detail');
 
-		$layout = JRequest::getVar('layout');
+        if (isset($layout) && $layout == 'product')
+        {
+            $post ['discount_product_id'] = $cid[0];
+            $row                          = $model->storeDiscountProduct($post);
+            $did                          = $row->discount_product_id;
+        }
+        else
+        {
 
-		if(isset($layout) && $layout == 'product')
-		{
-			$post ['discount_product_id'] = $cid[0];
-			$row = $model->storeDiscountProduct ( $post );
-			$did = $row->discount_product_id;
-		}else{
+            $post ['discount_id'] = $cid[0];
+            $row                  = $model->store($post);
+            $did                  = $row->discount_id;
+        }
+        if ($row)
+        {
+            $model->saveShoppers($did, $post['shopper_group_id']);
+            $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_SAVED');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_DISCOUNT_DETAIL');
+        }
+        if ($apply == 1)
+        {
+            if (isset($layout) && $layout == 'product')
+            {
+                $this->setRedirect('index.php?option=' . $option . '&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg);
+            }
+            else
+            {
+                $this->setRedirect('index.php?option=' . $option . '&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg);
+            }
+        }
+        else
+        {
+            if (isset($layout) && $layout == 'product')
+            {
+                $this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
+            }
+            else
+            {
+                $this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+            }
+        }
+    }
 
-			$post ['discount_id'] = $cid[0];
-			$row = $model->store ( $post );
-			$did = $row->discount_id;
-		}
-		if ($row)
-		{
-			$model->saveShoppers($did , $post['shopper_group_id']);
-			$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_SAVED' );
+    public function remove()
+    {
+        // The remove logic is the same in the parent, just the redirection changes.
+        parent::remove();
 
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_DISCOUNT_DETAIL' );
-		}
-		if($apply ==1 )
-				$this->setRedirect ( 'index.php?option=' . $option . '&view=discount_detail&task=edit&cid[]='.$row->discount_id, $msg );
-		else {
-		if(isset($layout) && $layout == 'product')
-			$this->setRedirect ( 'index.php?option=' . $option . '&view=discount&layout=product', $msg );
-		else
-			$this->setRedirect ( 'index.php?option=' . $option . '&view=discount', $msg );
-		}
+        $layout = $this->input->get('layout');
+        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_DELETED_SUCCESSFULLY');
 
-	}
+        if (isset($layout) && $layout == 'product')
+        {
+            $this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
+        }
+        else
+        {
+            $this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
+        }
+    }
 
-	function remove()
-	{
+    public function publish()
+    {
+        // The publish logic is the same in the parent, just the redirection changes.
+        parent::publish();
 
-		$option = JRequest::getVar ('option');
+        $layout = $this->input->get('layout');
+        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
 
-		$layout = JRequest::getVar('layout');
+        if (isset($layout) && $layout == 'product')
+        {
+            $this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
+        }
+        else
+        {
+            $this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
+        }
+    }
 
-		$cid = JRequest::getVar ( 'cid', array (0), 'post', 'array' );
+    public function unpublish()
+    {
+        // The unpublish logic is the same in the parent, just the redirection changes.
+        parent::unpublish();
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
+        $layout = $this->input->get('layout');
+        $msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
-		$model = $this->getModel ( 'discount_detail' );
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
+        if (isset($layout) && $layout == 'product')
+        {
+            $this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
+        }
+        else
+        {
+            $this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
+        }
+    }
 
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_DELETED_SUCCESSFULLY' );
+    public function cancel()
+    {
+        $layout = $this->input->get('layout');
+        $option = $this->input->get('option');
 
-		if(isset($layout) && $layout == 'product')
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount&layout=product',$msg );
-		else
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount',$msg );
-	}
+        $msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
 
-	function publish()
-	{
-		$layout = JRequest::getVar('layout');
-
-		$option = JRequest::getVar ('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
-
-		$model = $this->getModel ( 'discount_detail' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY' );
-
-		if(isset($layout) && $layout == 'product')
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount&layout=product',$msg );
-		else
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount',$msg );
-	}
-
-	function unpublish()
-	{
-		$layout = JRequest::getVar('layout');
-
-		$option = JRequest::getVar ('option');
-
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
-
-		$model = $this->getModel ( 'discount_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
-
-		if(isset($layout) && $layout == 'product')
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount&layout=product',$msg );
-		else
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount',$msg );
-
-	}
-
-	function cancel()
-	{
-		$layout = JRequest::getVar('layout');
-		$option = JRequest::getVar ('option');
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED' );
-
-		if(isset($layout) && $layout == 'product')
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount&layout=product',$msg );
-		else
-			$this->setRedirect ( 'index.php?option='.$option.'&view=discount',$msg );
-	}
+        if (isset($layout) && $layout == 'product')
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
+        }
+        else
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+        }
+    }
 }

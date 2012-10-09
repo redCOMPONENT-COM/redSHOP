@@ -20,7 +20,7 @@
 				<field name="economic_agreement_number" type="text" default="" label="COM_REDSHOP_ECONOMIC_AGREEMENT_NUMBER_LBL" description="COM_REDSHOP_DESC_ECONOMIC_AGREEMENT_NUMBER_LBL"/>
 				<field name="economic_username" type="text" default="" label="COM_REDSHOP_ECONOMIC_USERNAME_LBL" description="COM_REDSHOP_DESC_ECONOMIC_USERNAME_LBL"/>
 				<field name="economic_password" type="password" default="" label="COM_REDSHOP_ECONOMIC_PASSWORD_LBL" description="COM_REDSHOP_DESC_ECONOMIC_PASSWORD_LBL"/>
-				<param name="economic_debtor_group_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_DEBTOR_GROUP_ID_LBL" description="COM_REDSHOP_DESC_ECONOMIC_DEBTOR_GROUP_ID_LBL"/>
+				<field name="economic_debtor_group_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_DEBTOR_GROUP_ID_LBL" description="COM_REDSHOP_DESC_ECONOMIC_DEBTOR_GROUP_ID_LBL"/>
 				<field name="economic_payment_terms" type="text" default="" label="COM_REDSHOP_ECONOMIC_PAYMENT_TERMS_LBL" description="COM_REDSHOP_DESC_ECONOMIC_PAYMENT_TERMS_LBL"/>
 				<field name="economic_layout_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_LAYOUT_ID_LBL" description="COM_REDSHOP_DESC_ECONOMIC_LAYOUT_ID_LBL"/>
 				<field name="economic_units_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_UNITS_ID_LBL" description="COM_REDSHOP_DESC_ECONOMIC_UNITS_ID_LBL"/>

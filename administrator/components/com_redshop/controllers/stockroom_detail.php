@@ -1,277 +1,198 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     redSHOP
+ * @subpackage  Controllers
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+defined('_JEXEC') or die ('Restricted access');
 
-jimport ( 'joomla.application.component.controller' );
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class stockroom_detailController extends JController
+class RedshopControllerStockroom_detail extends RedshopCoreController
 {
-	function __construct($default = array())
-	{
-		parent::__construct ( $default );
-		$this->registerTask ( 'add', 'edit' );
-	}
+    public $redirectViewName = 'stockroom';
 
-	function edit()
-	{
-		JRequest::setVar ( 'view', 'stockroom_detail' );
-		JRequest::setVar ( 'layout', 'default' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-		parent::display ();
-	}
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
-	function preview()
-	{
-		JRequest::setVar ( 'view', 'stockroom_detail' );
-		JRequest::setVar ( 'layout', 'default_product' );
-		JRequest::setVar ( 'hidemainmenu', 1 );
-		parent::display ();
-	}
+    public function preview()
+    {
+        $this->input->set('view', 'stockroom_detail');
+        $this->input->set('layout', 'default_product');
+        $this->input->set('hidemainmenu', 1);
+        parent::display();
+    }
 
-	function apply()
-	{
-		$this->save(1);
-	}
+    public function save($apply = 0)
+    {
+        $post           = $this->input->getArray($_POST);
+        $stockroom_desc = $this->input->post->getString('stockroom_desc', '');
 
-	function save($apply=0)
-	{
-		$post = JRequest::get ( 'post' );
-		$stockroom_desc = JRequest::getVar( 'stockroom_desc', '', 'post', 'string', JREQUEST_ALLOWRAW );
-		$post["stockroom_desc"] = $stockroom_desc;
-		if($post["delivery_time"]=='Weeks')
-		{
-			$post["min_del_time"] = $post["min_del_time"] * 7;
-			$post["max_del_time"] = $post["max_del_time"] * 7;
-		}
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$post ['stockroom_id'] = $cid [0];
-		$post ['creation_date'] = strtotime($post ['creation_date']);
-		$model = $this->getModel ( 'stockroom_detail' );
-		$post['stockroom_name']=htmlspecialchars($post['stockroom_name']);
+        $post["stockroom_desc"] = $stockroom_desc;
+        if ($post["delivery_time"] == 'Weeks')
+        {
+            $post["min_del_time"] = $post["min_del_time"] * 7;
+            $post["max_del_time"] = $post["max_del_time"] * 7;
+        }
+        $option                 = $this->input->get('option');
+        $cid                    = $this->input->post->get('cid', array(0), 'array');
+        $post ['stockroom_id']  = $cid [0];
+        $post ['creation_date'] = strtotime($post ['creation_date']);
+        $model                  = $this->getModel('stockroom_detail');
+        $post['stockroom_name'] = htmlspecialchars($post['stockroom_name']);
 
-		if ($row=$model->store ( $post ))
-		{
-			$msg = JText::_('COM_REDSHOP_STOCKROOM_DETAIL_SAVED' );
-		} else {
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_DETAIL' );
-		}
-		if($apply==1)
-			$this->setRedirect ( 'index.php?option=' .$option . '&view=stockroom_detail&task=edit&cid[]='.$row->stockroom_id, $msg );
-		else
-			$this->setRedirect ( 'index.php?option=' .$option . '&view=stockroom', $msg );
-	}
+        if ($row = $model->store($post))
+        {
+            $msg = JText::_('COM_REDSHOP_STOCKROOM_DETAIL_SAVED');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_DETAIL');
+        }
+        if ($apply == 1)
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id, $msg);
+        }
+        else
+        {
+            $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+        }
+    }
 
-	function remove()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+    public function frontpublish()
+    {
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE' ) );
-		}
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+        }
 
-		$model = $this->getModel ( 'stockroom_detail' );
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_DELETED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
-	}
+        $model = $this->getModel('stockroom_detail');
+        if (!$model->frontpublish($cid, 1))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
 
-	function publish()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+    }
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
+    public function frontunpublish()
+    {
+        $option = $this->input->get('option');
+        $cid    = $this->input->post->get('cid', array(0), 'array');
 
-		$model = $this->getModel ( 'stockroom_detail' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
-	}
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+        }
 
-	function unpublish()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        $model = $this->getModel('stockroom_detail');
+        if (!$model->frontpublish($cid, 0))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
+        $msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+    }
 
-		$model = $this->getModel ( 'stockroom_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
-	}
+    public function export_data()
+    {
+        $model = $this->getModel('stockroom_detail');
 
-	function frontpublish()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-type: text/x-csv");
+        header("Content-type: text/csv");
+        header("Content-type: application/csv");
+        header('Content-Disposition: attachment; filename=StockroomProduct.csv');
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
+        echo "Stockroom,Container,Product SKU,Product Name,Product Volume,Quantity\n\n";
 
-		$model = $this->getModel ( 'stockroom_detail' );
-		if (! $model->frontpublish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
-	}
+        $data = $model->stock_container(0);
 
-	function frontunpublish()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
+        for ($i = 0; $i < count($data); $i++)
+        {
+            $product = $model->stock_product($data[$i]->container_id);
 
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
+            echo $data[$i]->stockroom_name . ",";
+            echo $data[$i]->container_name . ",";
 
-		$model = $this->getModel ( 'stockroom_detail' );
-		if (! $model->frontpublish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
-	}
+            for ($p = 0; $p < count($product); $p++)
+            {
+                if ($p > 0)
+                {
+                    echo ",,";
+                }
+                echo $product[$p]->product_number . ",";
+                echo $product[$p]->product_name . ",";
+                echo $product[$p]->product_volume . ",";
+                echo $product[$p]->quantity . "\n";
+            }
+            echo "\n";
+        }
+        exit;
+    }
 
-	function cancel()
-	{
-		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockroom',$msg );
-	}
-
-	function copy()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		$model = $this->getModel ( 'stockroom_detail' );
-		if ($model->copy($cid))
-		{
-			$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_COPIED' );
-		} else {
-			$msg = JText::_('COM_REDSHOP_ERROR_COPING_STOCKROOM_DETAIL' );
-		}
-		$this->setRedirect ( 'index.php?option=' . $option . '&view=stockroom', $msg );
-	}
-
-	function export_data()
-	{
-		$model = $this->getModel('stockroom_detail');
-
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-       	header("Content-type: text/x-csv");
-    	header("Content-type: text/csv");
-    	header("Content-type: application/csv");
-    	header('Content-Disposition: attachment; filename=StockroomProduct.csv');
-
-    	echo "Stockroom,Container,Product SKU,Product Name,Product Volume,Quantity\n\n";
-
-    	$data = $model->stock_container(0);
-
-    	for($i=0;$i<count($data);$i++)
-		{
-			$product=$model->stock_product($data[$i]->container_id);
-
-			echo $data[$i]->stockroom_name.",";
-			echo $data[$i]->container_name.",";
-
-			for($p=0;$p<count($product);$p++)
-			{
-				if($p>0) echo ",,";
-				echo $product[$p]->product_number.",";
-				echo $product[$p]->product_name.",";
-				echo $product[$p]->product_volume.",";
-				echo $product[$p]->quantity."\n";
-			}
-			echo "\n";
-		}
-    	exit;
-	}
-
-	function importStockFromEconomic()
-	{
-		#Add product stock from economic
-		$cnt 	= JRequest::getInt( 'cnt',0 );
-		$stockroom_id= JRequest::getInt( 'stockroom_id',0 );
-		$totalprd = 0;
-		$msg = '';
-		if(ECONOMIC_INTEGRATION == 1)
-		{
-			$economic = new economic();
-			$db = JFactory::getDBO();
-			$incNo = $cnt;
-			$query = 'SELECT p.* FROM #__redshop_product AS p '
-					.'LIMIT '.$cnt.', 10 ';
-			$db->setQuery($query);
-			$prd = $db->loadObjectlist();
-			$totalprd = count($prd);
-			$responcemsg = '';
-			for($i=0;$i<count($prd);$i++)
-			{
-				$incNo++;
-				$ecoProductNumber = $economic->importStockFromEconomic($prd[$i]);
-				$responcemsg .= "<div>".$incNo.": ".JText::_('COM_REDSHOP_PRODUCT_NUMBER')." ".$prd[$i]->product_number." -> ";
-				if(count($ecoProductNumber)>0 && isset($ecoProductNumber[0]))
-				{
-					$query = "UPDATE #__redshop_product_stockroom_xref "
-							."SET quantity='".$ecoProductNumber[0]."' "
-							."WHERE product_id='".$prd[$i]->product_id."' "
-							."AND stockroom_id='".$stockroom_id."' "
-							;
-					$db->setQuery($query);
-				 	$db->Query();
-					$responcemsg .= "<span style='color: #00ff00'>".JText::_( 'COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_SUCCESS' )."</span>";
-				}
-				else
-				{
-					$errmsg = JText::_( 'COM_REDSHOP_ERROR_IN_IMPORT_STOCK_FROM_ECONOMIC' );
-					if(JError::isError(JError::getError()))
-					{
-						$error = JError::getError();
-						$errmsg = $error->message;
-					}
-					$responcemsg .= "<span style='color: #ff0000'>".$errmsg."</span>";
-				}
-				$responcemsg .= "</div>";
-			}
-			if($totalprd>0)
-			{
-				$msg = $responcemsg;
-			}
-			else
-			{
-				$msg = JText::_("COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_IS_COMPLETED");
-			}
-		}
-		echo "<div id='sentresponse'>".$totalprd."`_`".$msg."</div>";
-		die();
-	}
-}	?>
+    public function importStockFromEconomic()
+    {
+        #Add product stock from economic
+        $cnt          = $this->input->getInt('cnt', 0);
+        $stockroom_id = $this->input->getInt('stockroom_id', 0);
+        $totalprd     = 0;
+        $msg          = '';
+        if (ECONOMIC_INTEGRATION == 1)
+        {
+            $economic = new economic();
+            $db       = JFactory::getDBO();
+            $incNo    = $cnt;
+            $query    = 'SELECT p.* FROM #__redshop_product AS p ' . 'LIMIT ' . $cnt . ', 10 ';
+            $db->setQuery($query);
+            $prd         = $db->loadObjectlist();
+            $totalprd    = count($prd);
+            $responcemsg = '';
+            for ($i = 0; $i < count($prd); $i++)
+            {
+                $incNo++;
+                $ecoProductNumber = $economic->importStockFromEconomic($prd[$i]);
+                $responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
+                if (count($ecoProductNumber) > 0 && isset($ecoProductNumber[0]))
+                {
+                    $query = "UPDATE #__redshop_product_stockroom_xref " . "SET quantity='" . $ecoProductNumber[0] . "' " . "WHERE product_id='" . $prd[$i]->product_id . "' " . "AND stockroom_id='" . $stockroom_id . "' ";
+                    $db->setQuery($query);
+                    $db->Query();
+                    $responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_SUCCESS') . "</span>";
+                }
+                else
+                {
+                    $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_STOCK_FROM_ECONOMIC');
+                    if (JError::isError(JError::getError()))
+                    {
+                        $error  = JError::getError();
+                        $errmsg = $error->message;
+                    }
+                    $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
+                }
+                $responcemsg .= "</div>";
+            }
+            if ($totalprd > 0)
+            {
+                $msg = $responcemsg;
+            }
+            else
+            {
+                $msg = JText::_("COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_IS_COMPLETED");
+            }
+        }
+        echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
+        die();
+    }
+}
