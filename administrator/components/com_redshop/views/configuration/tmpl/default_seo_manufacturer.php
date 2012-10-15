@@ -73,4 +73,18 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 			?></textarea>
 		</td>
 	</tr>
+	<tr>
+		<td width="100" align="right" class="key">
+		<span class="editlinktip hasTip" title="<?php echo JText::_( 'SEO_PAGE_CANONICAL_MANUFACTUR_LBL' ); ?>::<?php echo JText::_( 'TOOLTIP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL' ); ?>">
+		<label
+			for="seo_page_keywords_manufactur"><?php
+			echo JText::_ ( 'SEO_PAGE_CANONICAL_MANUFACTUR_LBL' );
+			?></label></span></td>
+		<td><textarea class="text_area" type="text"
+			name="seo_page_canonical_manufactur" id="seo_page_canonical_manufactur"
+			rows="4" cols="40" /><?php
+			echo stripslashes(SEO_PAGE_CANONICAL_MANUFACTUR);
+			?></textarea>
+		</td>
+	</tr>
 </table>
