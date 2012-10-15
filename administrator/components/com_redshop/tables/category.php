@@ -53,7 +53,9 @@ class Tablecategory extends JTable
     public $ordering = null;
 
     public $compare_template_id = 0;
-
+    
+	public	$canonical_url 			= null;
+    
     public function __construct(& $db)
     {
         $this->_table_prefix = '#__redshop_';

@@ -106,6 +106,13 @@ class productViewproduct extends JViewLegacy
             {
                 JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $data->product_name, $data->product_number));
             }
+            
+		    if($data->canonical_url!="")
+			{
+				$main_url=JURI::root().$data->canonical_url;
+				$canonical= '<link rel="canonical" href="'.$main_url.'" />';
+				$document->addCustomTag($canonical);
+			}
 
             $productTemplate = $model->getProductTemplate();
 
