@@ -131,7 +131,9 @@ class Tableproduct extends JTable
     public $preorder = null;
 
     public $quantity_selectbox_value = null;
-
+    
+	public	$canonical_url 			= null;
+    
     /**
      * @public boolean
      */
