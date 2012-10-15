@@ -67,7 +67,15 @@ class categoryViewcategory extends JViewLegacy
         $manufacturers        = $model->getManufacturer();
         $loadCategorytemplate = $model->loadCategoryTemplate();
         $detail               = $model->getdata();
-
+        
+		if($maincat->canonical_url!="")
+		{
+			$main_url=JURI::root().$maincat->canonical_url;
+			$canonical= '<link rel="canonical" href="'.$main_url.'" />';
+			$document->addCustomTag($canonical);
+		}
+        
+        
         if ($catid)
         {
             # restrict category if category not published

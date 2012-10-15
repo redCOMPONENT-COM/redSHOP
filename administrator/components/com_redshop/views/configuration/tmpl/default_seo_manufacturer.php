@@ -75,10 +75,10 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'SEO_PAGE_CANONICAL_MANUFACTUR_LBL' ); ?>::<?php echo JText::_( 'TOOLTIP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL' ); ?>">
+		<span class="editlinktip hasTip" title="<?php echo JText::_( 'COM_REDSHOP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL' ); ?>::<?php echo JText::_( 'COM_REDSHOP_TOOLTIP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL' ); ?>">
 		<label
 			for="seo_page_keywords_manufactur"><?php
-			echo JText::_ ( 'SEO_PAGE_CANONICAL_MANUFACTUR_LBL' );
+			echo JText::_ ( 'COM_REDSHOP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL' );
 			?></label></span></td>
 		<td><textarea class="text_area" type="text"
 			name="seo_page_canonical_manufactur" id="seo_page_canonical_manufactur"
