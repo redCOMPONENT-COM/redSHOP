@@ -80,23 +80,37 @@ class RedshopControllerNewslettersubscr_detail extends RedshopCoreController
     public function export_data()
     {
         $model = $this->getModel('newslettersubscr_detail');
-
+        while( @ob_end_clean() );
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Content-type: text/x-csv");
         header("Content-type: text/csv");
         header("Content-type: application/csv");
         header('Content-Disposition: attachment; filename=NewsletterSbsc.csv');
 
-        echo "Subscriber Full Name,Newsletter,Email Id\n\n";
+        echo "Subscriber Full Name,Newsletter,Email Id\n";
         $data = $model->getnewslettersbsc();
 
         for ($i = 0; $i < count($data); $i++)
         {
             $subname = $model->getuserfullname($data[$i]->user_id);
-            echo $fullname = $subname->firstname . " " . $subname->lastname;
+            if($data[$i]->user_id != 0)
+            {
+            	echo $fullname = utf8_decode($subname->firstname) . " " . utf8_decode($subname->lastname);
+            }
+            else
+            {
+            	echo utf8_decode($data[$i]->subscribername);
+            }
             echo ",";
             echo $data[$i]->name . ",";
-            echo $subname->email . ",";
+            if($data[$i]->user_id != 0)
+            {
+            	echo $subname->email . ",";
+            }
+            else
+            {
+            	echo $data[$i]->email;
+            }
             echo "\n";
         }
 
