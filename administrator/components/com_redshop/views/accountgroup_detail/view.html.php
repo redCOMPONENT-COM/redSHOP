@@ -9,36 +9,64 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class accountgroup_detailVIEWaccountgroup_detail extends JViewLegacy
+/**
+ * Account group detail view class.
+ *
+ * @package		redSHOP
+ * @subpackage	Controllers
+ * @since		1.2
+ */
+class RedshopViewAccountgroup_detail extends JViewLegacy
 {
+    protected $item;
+    protected $form;
+
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed  A string if successful, otherwise a JError object.
+     */
     public function display($tpl = null)
     {
-        $uri = JFactory::getURI();
+        // Get the Data.
+        $form = $this->get('Form');
+        $item = $this->get('Item');
 
-        JToolBarHelper::save();
-        JToolBarHelper::apply();
+        // Assign the Data.
+        $this->form = $form;
+        $this->item = $item;
 
-        $lists  = array();
-        $detail = $this->get('data');
-        $isNew  = ($detail->accountgroup_id < 1);
+        // Set the toolbar.
+        $this->addToolBar();
 
+        // Display the template.
+        parent::display($tpl);
+    }
+
+    /**
+     * Setting the toolbar.
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        $isNew  = ($this->item->accountgroup_id < 1);
         $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+
+        JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_accountgroup48');
+        JToolBarHelper::save('accountgroup_detail.save');
+        JToolBarHelper::apply('accountgroup_detail.apply');
+
         if ($isNew)
         {
-            JToolBarHelper::cancel();
+            JToolBarHelper::cancel('accountgroup_detail.cancel');
         }
         else
         {
-            JToolBarHelper::cancel('cancel', 'Close');
+            JToolBarHelper::cancel('accountgroup_detail.cancel', 'Close');
         }
-        JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_accountgroup48');
-
-        $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-
-        $this->assignRef('detail', $detail);
-        $this->assignRef('lists', $lists);
-        $this->request_url = $uri->toString();
-
-        parent::display($tpl);
     }
 }
+

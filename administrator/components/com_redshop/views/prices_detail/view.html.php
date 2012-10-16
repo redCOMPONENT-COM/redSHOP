@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-class prices_detailVIEWprices_detail extends JViewLegacy
+class RedshopViewPrices_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

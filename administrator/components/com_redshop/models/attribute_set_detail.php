@@ -1,22 +1,19 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Models
+ * @package    redSHOP
+ * @subpackage Models
  *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-jimport('joomla.client.helper');
-JClientHelper::setCredentialsFromRequest('ftp');
-
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDetail
+class RedshopModelAttribute_set_detail extends RedshopCoreModelDetail
 {
     public $attribute_data = null;
 
@@ -65,7 +62,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('attribute_set');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -79,73 +76,6 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
         }
 
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        $producthelper = new producthelper();
-        $option        = JRequest::getVar('option', '', 'request', 'string');
-        if (count($cid))
-        {
-            $cids           = implode(',', $cid);
-            $property_image = $producthelper->getAttibuteProperty(0, 0, 0, $cids);
-            foreach ($property_image as $imagename)
-            {
-
-                $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $imagename->property_image;
-
-                $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
-
-                if (is_file($dest))
-                {
-                    unlink($dest);
-                }
-                if (is_file($tsrc))
-                {
-                    unlink($tsrc);
-                }
-
-                $attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
-                $this->_db->setQuery($attr_delete);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    //return false;
-                }
-                $prop_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
-                $this->_db->setQuery($prop_delete);
-                if (!$this->_db->query())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    //return false;
-                }
-            }
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                //return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'attribute_set' . ' SET published = ' . intval($publish) . ' WHERE attribute_set_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
     }
 
     public function getattributes()
@@ -297,7 +227,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
             {
 
                 // changed 5 feb
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color WHERE subattribute_id IN (' . $cids . ' )';
                 $this->_db->setQuery($query);
                 if (!$this->_db->query())
                 {
@@ -385,7 +315,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function store_pro($data)
     {
-        $row = $this->getTable('attribute_property');
+        $row = $this->getTable('product_attribute_property');
 
         if (!$row->bind($data))
         {
@@ -405,7 +335,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function store_sub($data)
     {
-        $row = $this->getTable('subattribute_property');
+        $row = $this->getTable('product_subattribute_color');
 
         if (!$row->bind($data))
         {
@@ -478,8 +408,8 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                     JFile::upload($sub_src, $sub__dest);
 
                     $query = "INSERT INTO " . $this->_table_prefix . "media
-								(`media_id`,`media_name`,`media_section`,`section_id`,`media_type`,`media_mimetype`,`published`)
-								VALUES ('','" . $sub_name . "','property','" . $post['section_id'] . "','images','" . $sub_type . "','1') ";
+(`media_id`,`media_name`,`media_section`,`section_id`,`media_type`,`media_mimetype`,`published`)
+VALUES ('','" . $sub_name . "','property','" . $post['section_id'] . "','images','" . $sub_type . "','1') ";
                     $this->_db->setQuery($query);
                     if (!$this->_db->query())
                     {
@@ -493,7 +423,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function deletesubimage($mediaid)
     {
-        $query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE media_id = ' . $mediaid;
+        $query = 'SELECT * FROM ' . $this->_table_prefix . 'media WHERE media_id = ' . $mediaid;
         $this->_db->setQuery($query);
         $imgdata = $this->_db->loadObject();
 
@@ -565,14 +495,14 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                     if ($post['subattribute_color_id'][$i] == "")
                     {
                         $query = "INSERT INTO " . $this->_table_prefix . "product_subattribute_color
-									(`subattribute_color_id`,`subattribute_color_name`,`subattribute_color_image`,`subattribute_id`)
-									VALUES ('','" . $post['subattribute_name'][$i] . "','" . $sub_name . "','" . $post['section_id'] . "') ";
+(`subattribute_color_id`,`subattribute_color_name`,`subattribute_color_image`,`subattribute_id`)
+VALUES ('','" . $post['subattribute_name'][$i] . "','" . $sub_name . "','" . $post['section_id'] . "') ";
                     }
                     else
                     {
                         $query = "UPDATE " . $this->_table_prefix . "product_subattribute_color
-									SET `subattribute_color_name` = '" . $post['subattribute_name'][$i] . "' ,`subattribute_color_image` = '" . $sub_name . "',`subattribute_id` = '" . $post['section_id'] . "'
-									WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
+SET `subattribute_color_name` = '" . $post['subattribute_name'][$i] . "' ,`subattribute_color_image` = '" . $sub_name . "',`subattribute_id` = '" . $post['section_id'] . "'
+WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
                     }
                     $this->_db->setQuery($query);
                     if (!$this->_db->query())
@@ -587,8 +517,8 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                 if ($post['property_sub_img_tmp'][$i] != "" && $sub_img['name'][$i] == "")
                 {
                     $query = "UPDATE " . $this->_table_prefix . "product_subattribute_color
-								SET `subattribute_color_name` = '" . $post['subattribute_name'][$i] . "' ,`subattribute_color_image` = '" . $post['property_sub_img_tmp'][$i] . "',`subattribute_id` = '" . $post['section_id'] . "'
-								WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
+SET `subattribute_color_name` = '" . $post['subattribute_name'][$i] . "' ,`subattribute_color_image` = '" . $post['property_sub_img_tmp'][$i] . "',`subattribute_id` = '" . $post['section_id'] . "'
+WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
 
                     $this->_db->setQuery($query);
 
@@ -604,14 +534,14 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
     public function subattr_diff($subattr_id, $section_id)
     {
-        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color   WHERE subattribute_id = ' . $section_id . ' and subattribute_color_id NOT IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
+        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color WHERE subattribute_id = ' . $section_id . ' and subattribute_color_id NOT IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
 
     public function get_subattrprop($subattr_id, $section_id)
     {
-        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color   WHERE subattribute_color_id IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
+        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color WHERE subattribute_color_id IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
         $this->_db->setQuery($query);
         return $this->_db->loadObjectList();
     }
@@ -629,7 +559,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                 unlink($sub_dest);
             }
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "' . $diff->subattribute_color_id . '"';
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color WHERE subattribute_color_id = "' . $diff->subattribute_color_id . '"';
             $this->_db->setQuery($query);
             if (!$this->_db->query())
             {
@@ -640,7 +570,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
         return true;
     }
 
-    public function  attribute_empty()
+    public function attribute_empty()
     {
         $producthelper = new producthelper();
 
@@ -735,7 +665,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
     // store stockroom product xref
     public function SaveAttributeStockroom($post)
     {
-        $query = "DELETE FROM " . $this->_table_prefix . "product_attribute_stockroom_xref" . "\n  WHERE section_id = " . $post['section_id'] . " AND section = '" . $post['section'] . "'";
+        $query = "DELETE FROM " . $this->_table_prefix . "product_attribute_stockroom_xref" . "\n WHERE section_id = " . $post['section_id'] . " AND section = '" . $post['section'] . "'";
 
         $this->_db->setQuery($query);
 
@@ -772,7 +702,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
         $attribute['price_quantity_start'] = $product_attribute_price->price_quantity_start;
         $attribute['price_quantity_end']   = $product_attribute_price->price_quantity_end;
 
-        $row = $this->getTable('attributeprices_detail');
+        $row = $this->getTable('product_attribute_price');
 
         // Bind and save data into 'attributeprices_detail'
         if (!$row->bind($attribute))
@@ -791,7 +721,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
     public function save_product_attribute_stockquantity($product_attribute_stocks, $section)
     {
         $sql = "INSERT INTO " . $this->_table_prefix . "product_attribute_stockroom_xref (`section_id`,`section`,`stockroom_id`,`quantity`)
-		VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . $product_attribute_stocks->stockroom_id . "','" . $product_attribute_stocks->quantity . "' )";
+VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . $product_attribute_stocks->stockroom_id . "','" . $product_attribute_stocks->quantity . "' )";
 
         $this->_db->setQuery($sql);
         $this->_db->Query();
@@ -809,14 +739,14 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
             {
                 $post = array();
 
-                //  insert into attribute set table
+                // insert into attribute set table
                 $post['attribute_set_id']   = 0;
                 $post['attribute_set_name'] = "copy" . $copydata[$i]->attribute_set_name;
                 $post['published']          = $copydata[$i]->published;
                 $row                        = $this->store($post);
 
                 // Fetch attributes from the attribute set ID
-                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute  WHERE `attribute_set_id` = ' . $copydata[$i]->attribute_set_id . ' ';
+                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute WHERE `attribute_set_id` = ' . $copydata[$i]->attribute_set_id . ' ';
                 $this->_db->setQuery($query);
                 $product_attributes = $this->_db->loadObjectList();
 
@@ -853,7 +783,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
 
                         // Fetch attributes from the attribute set ID
 
-                        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property  WHERE `attribute_id` = ' . $product_attribute->attribute_id . ' ';
+                        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property WHERE `attribute_id` = ' . $product_attribute->attribute_id . ' ';
                         $this->_db->setQuery($query);
                         $product_attributes_properties = $this->_db->loadObjectList();
 
@@ -889,7 +819,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                                 $attribute_properties['setdefault_selected'] = $product_attributes_property->setdefault_selected;
                                 $attribute_properties['property_number']     = $product_attributes_property->property_number;
 
-                                $row = $this->getTable('attribute_property');
+                                $row = $this->getTable('product_attribute_property');
 
                                 // Bind and save data into 'product_attribute_property'
                                 if (!$row->bind($attribute_properties))
@@ -920,7 +850,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                                 }
 
                                 // Attribute piggy bank price for property
-                                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price   WHERE `section_id` = ' . $product_attributes_property->property_id . ' AND `section`="property" ';
+                                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price WHERE `section_id` = ' . $product_attributes_property->property_id . ' AND `section`="property" ';
                                 $this->_db->setQuery($query);
                                 $product_attribute_prices = $this->_db->loadObjectList();
 
@@ -934,7 +864,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                                 }
 
                                 // Attribute stock quantity for property
-                                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref   WHERE `section_id` = ' . $product_attributes_property->property_id . ' AND `section`="property" ';
+                                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref WHERE `section_id` = ' . $product_attributes_property->property_id . ' AND `section`="property" ';
                                 $this->_db->setQuery($query);
                                 $product_attribute_stockquantities = $this->_db->loadObjectList();
 
@@ -948,7 +878,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                                 }
 
                                 // Fetch attributes from the attribute set ID
-                                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE `subattribute_id` = ' . $product_attributes_property->property_id . ' ';
+                                $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color WHERE `subattribute_id` = ' . $product_attributes_property->property_id . ' ';
                                 $this->_db->setQuery($query);
                                 $product_sub_attributes_properties = $this->_db->loadObjectList();
 
@@ -979,7 +909,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                                         $sub_attribute_properties['subattribute_color_number']     = $product_sub_attributes_property->subattribute_color_number;
                                         $sub_attribute_properties['subattribute_color_title']      = $product_sub_attributes_property->subattribute_color_title;
                                         $sub_attribute_properties['subattribute_color_main_image'] = $product_sub_attributes_property->subattribute_color_main_image;
-                                        $row                                                       = $this->getTable('subattribute_property');
+                                        $row                                                       = $this->getTable('product_subattribute_color');
 
                                         // Bind and save data into 'subattribute_property'
                                         if (!$row->bind($sub_attribute_properties))
@@ -1010,7 +940,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                                             $this->copyadditionalImage($smImages);
                                         }
                                         // Attribute piggy bank price for Subproperty
-                                        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price   WHERE `section_id` = ' . $product_sub_attributes_property->subattribute_color_id . ' AND `section`="subproperty"  ';
+                                        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price WHERE `section_id` = ' . $product_sub_attributes_property->subattribute_color_id . ' AND `section`="subproperty" ';
                                         $this->_db->setQuery($query);
                                         $product_subattribute_prices = $this->_db->loadObjectList();
 
@@ -1024,7 +954,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
                                         }
 
                                         // Attribute stock quantity for property
-                                        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref   WHERE `section_id` = ' . $product_sub_attributes_property->subattribute_color_id . ' AND `section`="subproperty" ';
+                                        $query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref WHERE `section_id` = ' . $product_sub_attributes_property->subattribute_color_id . ' AND `section`="subproperty" ';
                                         $this->_db->setQuery($query);
                                         $product_attribute_stockquantities = $this->_db->loadObjectList();
 
@@ -1082,7 +1012,7 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
     public function copyadditionalImage($data)
     {
 
-        $rowmedia = $this->getTable('media_detail');
+        $rowmedia = $this->getTable('media');
 
         $data['media_id '] = 0;
         if (!$rowmedia->bind($data))
@@ -1122,5 +1052,72 @@ class attribute_set_detailModelattribute_set_detail extends RedshopCoreModelDeta
         $image_media = 'SELECT * FROM ' . $this->_table_prefix . 'media WHERE section_id = "' . $id . '" AND media_section = "' . $type . '" ';
         $this->_db->setQuery($image_media);
         return $this->_db->loadObjectlist();
+    }
+
+    public function delete($cid = array())
+    {
+        $producthelper = new producthelper();
+        $option        = JRequest::getVar('option', '', 'request', 'string');
+        if (count($cid))
+        {
+            $cids           = implode(',', $cid);
+            $property_image = $producthelper->getAttibuteProperty(0, 0, 0, $cids);
+            foreach ($property_image as $imagename)
+            {
+
+                $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $imagename->property_image;
+
+                $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
+
+                if (is_file($dest))
+                {
+                    unlink($dest);
+                }
+                if (is_file($tsrc))
+                {
+                    unlink($tsrc);
+                }
+
+                $attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
+                $this->_db->setQuery($attr_delete);
+                if (!$this->_db->query())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    //return false;
+                }
+                $prop_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
+                $this->_db->setQuery($prop_delete);
+                if (!$this->_db->query())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    //return false;
+                }
+            }
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                //return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        if (count($cid))
+        {
+            $cids  = implode(',', $cid);
+            $query = 'UPDATE ' . $this->_table_prefix . 'attribute_set' . ' SET published = ' . intval($publish) . ' WHERE attribute_set_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
     }
 }

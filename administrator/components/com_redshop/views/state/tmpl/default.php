@@ -5,30 +5,6 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
 
 ?>
-<script language="javascript" type="text/javascript">
-    Joomla.submitbutton = function (pressbutton) {
-        submitbutton(pressbutton);
-    }
-    submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-
-        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-            form.view.value = "state_detail";
-        }
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-
-        form.submit();
-    }
-</script>
-
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" method="post" name="adminForm" id="adminForm">
     <table width="100%" cellpadding="1" cellspacing="1" border="0">
         <tr>
@@ -65,7 +41,8 @@ $filter = JRequest::getVar('filter');
         <?php
 
         $k = 0;
-        for ($i = 0, $n = count($this->fields); $i < $n; $i++) {
+        for ($i = 0, $n = count($this->fields); $i < $n; $i++)
+        {
             $row     = $this->fields[$i];
             $row->id = $row->state_id;
 
@@ -77,9 +54,12 @@ $filter = JRequest::getVar('filter');
                 <td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
             <td>
                 <?php
-                if (JTable::isCheckedOut($this->user->get('id'), $row->checked_out)) {
+                if (JTable::isCheckedOut($this->user->get('id'), $row->checked_out))
+                {
                     echo $row->state_name;
-                } else {
+                }
+                else
+                {
                     ?>
                     <a href="<?php echo $link; ?>"
                        title="<?php echo JText::_('COM_REDSHOP_EDIT_state'); ?>"><?php echo $row->state_name ?></a></td>

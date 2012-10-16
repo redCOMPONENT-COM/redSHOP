@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-class redshopViewredshop extends JViewLegacy
+class RedshopViewRedshop extends JViewLegacy
 {
     public function display($tpl = null)
     {
@@ -44,7 +44,7 @@ class redshopViewredshop extends JViewLegacy
         {
             $filteroption = 4;
         }
-        $statsticmodel  = JModel::getInstance('statistic', 'statisticModel');
+        $statsticmodel  = JModel::getInstance('Statistic', 'RedshopModel');
         $this->turnover = $statsticmodel->getTotalTurnover();
 
         $document = JFactory::getDocument();
@@ -61,7 +61,7 @@ class redshopViewredshop extends JViewLegacy
 
         // end
 
-        $configmodel = JModel::getInstance('configuration', 'configurationModel');
+        $configmodel = JModel::getInstance('Configuration', 'RedshopModel');
 
         $this->redshopversion = $configmodel->getcurrentversion();
 

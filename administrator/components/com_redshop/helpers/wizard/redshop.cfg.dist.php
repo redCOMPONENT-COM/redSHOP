@@ -198,6 +198,7 @@ define ('SEO_PAGE_TITLE_MANUFACTUR', '{manufacturer} | {shopname}');
 define ('SEO_PAGE_HEADING_MANUFACTUR', '{manufacturer}');
 define ('SEO_PAGE_DESCRIPTION_MANUFACTUR', '{manufacturer} - {shopname}');
 define ('SEO_PAGE_KEYWORDS_MANUFACTUR', '{manufacturer}, {shopname}');
+define ('SEO_PAGE_CANONICAL_MANUFACTUR', '{manufacturerproductslink}');
 define ('USE_TAX_EXEMPT', '1');
 define ('TAX_EXEMPT_APPLY_VAT', '1');
 define ('COUPONINFO', '0');

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class addressfields_listingViewaddressfields_listing extends JViewLegacy
+class RedshopViewAddressfields_listing extends JViewLegacy
 {
     public function display($tpl = null)
     {

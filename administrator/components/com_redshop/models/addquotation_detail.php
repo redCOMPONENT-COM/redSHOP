@@ -18,7 +18,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php'
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
+class RedshopModelAddquotation_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -45,7 +45,7 @@ class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
     {
         $data['address_type'] = 'BT';
 
-        $row = $this->getTable('user_detail');
+        $row = $this->getTable('users_info');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -59,7 +59,7 @@ class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
 
         $data['address_type'] = 'ST';
 
-        $rowsh = $this->getTable('user_detail');
+        $rowsh = $this->getTable('users_info');
         if (!$rowsh->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -91,7 +91,7 @@ class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
 
         $list_field = $extra_field->extra_field_save($data, 16, $data['user_info_id'], $data['user_email']);
 
-        $row = $this->getTable('quotation_detail');
+        $row = $this->getTable('quotation');
 
         $data['quotation_number']    = $quotationHelper->generateQuotationNumber();
         $data['quotation_encrkey']   = $quotationHelper->randomQuotationEncrkey();
@@ -147,7 +147,7 @@ class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
                 }
                 $wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
             }
-            $rowitem = $this->getTable('quotation_item_detail');
+            $rowitem = $this->getTable('quotation_item');
 
             $product = $producthelper->getProductById($product_id);
 
@@ -289,7 +289,7 @@ class addquotation_detailModeladdquotation_detail extends RedshopCoreModelDetail
                         }
                     }
 
-                    $accdata = $this->getTable('accessory_detail');
+                    $accdata = $this->getTable('product_accessory');
                     if ($accessory_id > 0)
                     {
                         $accdata->load($accessory_id);

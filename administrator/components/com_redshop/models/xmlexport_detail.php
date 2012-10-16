@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class xmlexport_detailModelxmlexport_detail extends RedshopCoreModelDetail
+class RedshopModelXmlexport_detail extends RedshopCoreModelDetail
 {
     public function &getData()
     {
@@ -82,7 +82,7 @@ class xmlexport_detailModelxmlexport_detail extends RedshopCoreModelDetail
         $xmlhelper = new xmlHelper();
 
         $data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
-        $row                           = $this->getTable();
+        $row                           = $this->getTable('xml_export');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -125,56 +125,6 @@ class xmlexport_detailModelxmlexport_detail extends RedshopCoreModelDetail
         return $row;
     }
 
-    /**
-     * Method to delete the records
-     *
-     * @access public
-     * @return boolean
-     */
-    public function delete($cid = array())
-    {
-        $xmlhelper = new xmlHelper();
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            for ($i = 0; $i < count($cid); $i++)
-            {
-                $result   = $xmlhelper->getXMLExportInfo($cid[$i]);
-                $rootpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/export" . DS . $result->filename;
-                if (is_file($rootpath))
-                {
-                    unlink($rootpath);
-                }
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_log ' . 'WHERE xmlexport_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress ' . 'WHERE xmlexport_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export ' . 'WHERE xmlexport_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
     public function deleteIpAddress($xmlexport_ip_id = 0)
     {
         $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress ' . 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
@@ -211,29 +161,6 @@ class xmlexport_detailModelxmlexport_detail extends RedshopCoreModelDetail
             $cids = implode(',', $cid);
 
             $query = 'UPDATE ' . $this->_table_prefix . 'xml_export ' . ' SET use_to_all_users = ' . intval($publish) . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Method to publish the records
-     *
-     * @access public
-     * @return boolean
-     */
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = ' UPDATE ' . $this->_table_prefix . 'xml_export ' . ' SET published = ' . intval($publish) . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
             if (!$this->_db->query())
             {

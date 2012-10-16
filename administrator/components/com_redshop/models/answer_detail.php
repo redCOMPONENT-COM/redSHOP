@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Models
+ * @package    redSHOP
+ * @subpackage Models
  *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class answer_detailModelanswer_detail extends RedshopCoreModelDetail
+class RedshopModelAnswer_detail extends RedshopCoreModelDetail
 {
     public $_parent_id = null;
 
@@ -78,7 +78,7 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
      */
     public function store($data)
     {
-        $row = $this->getTable('question_detail');
+        $row = $this->getTable('customer_question');
         if (!$data['question_id'])
         {
             $data['ordering'] = $this->MaxOrdering();
@@ -109,27 +109,11 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
         return $this->_db->loadResult();
     }
 
-    /**
-     * Method to delete the records
-     *
-     * @access public
-     * @return boolean
-     */
-    public function delete($cid = array())
+    public function sendMailForAskQuestion($ansid)
     {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question ' . 'WHERE question_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
+        $redshopMail = new redshopMail();
+        $rs          = $redshopMail->sendAskQuestionMail($ansid);
+        return $rs;
     }
 
     /**
@@ -163,7 +147,7 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
      */
     public function saveorder($cid = array(), $order)
     {
-        $row        = $this->getTable('question_detail');
+        $row        = $this->getTable('customer_question');
         $order      = JRequest::getVar('order', array(0), 'post', 'array');
         $groupings  = array();
         $conditions = array();
@@ -216,7 +200,7 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
      */
     public function orderup()
     {
-        $row = $this->getTable('question_detail');
+        $row = $this->getTable('customer_question');
         $row->load($this->_id);
         $row->move(-1, 'parent_id= ' . (int)$row->parent_id);
         $row->store();
@@ -232,7 +216,7 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
      */
     public function orderdown()
     {
-        $row = $this->getTable('question_detail');
+        $row = $this->getTable('customer_question');
         $row->load($this->_id);
         $row->move(1, 'parent_id = ' . (int)$row->parent_id);
         $row->store();
@@ -240,11 +224,26 @@ class answer_detailModelanswer_detail extends RedshopCoreModelDetail
         return true;
     }
 
-    public function sendMailForAskQuestion($ansid)
+    /**
+     * Method to delete the records
+     *
+     * @access public
+     * @return boolean
+     */
+    public function delete($cid = array())
     {
-        $redshopMail = new redshopMail();
-        $rs          = $redshopMail->sendAskQuestionMail($ansid);
-        return $rs;
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question ' . 'WHERE question_id IN (' . $cids . ')';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
     }
 }
-

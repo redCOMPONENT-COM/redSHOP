@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
 
-class shopper_groupViewshopper_group extends JViewLegacy
+class RedshopViewShopper_group extends JViewLegacy
 {
     public function display($tpl = null)
     {

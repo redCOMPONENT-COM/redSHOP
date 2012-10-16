@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class shipping_rate_detailController extends RedshopCoreControllerDetail
+class RedshopControllerShipping_rate_detail extends RedshopCoreController
 {
     public $redirectViewName = 'shipping_rate';
 
@@ -52,38 +52,6 @@ class shipping_rate_detailController extends RedshopCoreControllerDetail
         {
             $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id'], $msg);
         }
-    }
-
-    public function remove()
-    {
-        parent::remove();
-
-        $id = $this->input->post->get('id');
-        $this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $id);
-    }
-
-    public function cancel()
-    {
-        $id = $this->input->post->get('id');
-        $this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $id);
-    }
-
-    public function copy()
-    {
-        $post   = $this->input->getArray($_POST);
-        $option = $this->input->get('option');
-        $cid    = $this->input->post->get('cid', array(0), 'array');
-
-        $model = $this->getModel('shipping_rate_detail');
-        if ($model->copy($cid))
-        {
-            $msg = JText::_('COM_REDSHOP_SHIPPING_RATE_SAVED');
-        }
-        else
-        {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
-        }
-        $this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id'], $msg);
     }
 
     public function GetStateDropdown()

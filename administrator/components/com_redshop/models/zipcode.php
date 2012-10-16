@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class zipcodeModelzipcode extends RedshopCoreModel
+class RedshopModelZipcode extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -91,5 +91,23 @@ class zipcodeModelzipcode extends RedshopCoreModel
         $query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
+    }
+
+    public function delete($cid = array())
+    {
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'zipcode WHERE zipcode_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
     }
 }

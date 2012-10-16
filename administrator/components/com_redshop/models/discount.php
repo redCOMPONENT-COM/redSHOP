@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class discountModeldiscount extends RedshopCoreModel
+class RedshopModelDiscount extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -111,5 +111,60 @@ class discountModeldiscount extends RedshopCoreModel
         $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
         return $orderby;
+    }
+
+    public function delete($cid = array())
+    {
+        $layout = JRequest::getVar('layout');
+
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+            if (isset($layout) && $layout == 'product')
+            {
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'discount_product WHERE discount_product_id IN ( ' . $cids . ' )';
+            }
+            else
+            {
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'discount WHERE discount_id IN ( ' . $cids . ' )';
+            }
+
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function publish($cid = array(), $publish = 1)
+    {
+        $layout = JRequest::getVar('layout');
+
+        if (count($cid))
+        {
+            $cids = implode(',', $cid);
+
+            if (isset($layout) && $layout == 'product')
+            {
+                $query = 'UPDATE ' . $this->_table_prefix . 'discount_product' . ' SET published = ' . intval($publish) . ' WHERE discount_product_id IN ( ' . $cids . ' )';
+            }
+            else
+            {
+                $query = 'UPDATE ' . $this->_table_prefix . 'discount' . ' SET published = ' . intval($publish) . ' WHERE discount_id IN ( ' . $cids . ' )';
+            }
+
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
     }
 }

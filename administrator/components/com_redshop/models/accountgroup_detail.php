@@ -1,114 +1,87 @@
 <?php
 /**
- * @package     redSHOP
- * @subpackage  Models
+ * @package    redSHOP
+ * @subpackage Models
  *
- * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @copyright  Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
+jimport('joomla.application.component.modeladmin');
 
-class accountgroup_detailModelaccountgroup_detail extends RedshopCoreModelDetail
+/**
+ * Account group detail model.
+ *
+ * @package		redSHOP
+ * @subpackage	Models
+ * @since		1.2
+ */
+class RedshopModelAccountgroup_detail extends JModelAdmin
 {
-    public function &getData()
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     */
+   /*protected function populateState()
     {
-        if ($this->_loadData())
-        {
-        }
-        else
-        {
-            $this->_initData();
-        }
+        parent::populateState();
 
-        return $this->_data;
+        $user = JFactory::getUser();
+        $this->setState('user.id', $user->get('id'));*:
     }
 
-    public function _loadData()
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
+     *
+     * @return  JTable  A JTable object
+     */
+    public function getTable($name = 'economic_accountgroup', $prefix = 'Table', $options = array())
     {
-        if (empty($this->_data))
-        {
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'economic_accountgroup ' . 'WHERE accountgroup_id="' . $this->_id . '" ';
-            $this->_db->setQuery($query);
-            $this->_data = $this->_db->loadObject();
-            return (boolean)$this->_data;
-        }
-        return true;
+        return parent::getTable($name, $prefix, $options);
     }
 
-    public function _initData()
+    /**
+     * Abstract method for getting the form from the model.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  mixed  A JForm object on success, false on failure
+     */
+    public function getForm($data = array(), $loadData = true)
     {
-        if (empty($this->_data))
+        $form = $this->loadForm('com_redshop.accountgroup_detail', 'accountgroup_detail',
+            array('control' => 'jform', 'load_data' => $loadData));
+
+        if (empty($form))
         {
-            $detail = new stdClass();
-
-            $detail->accountgroup_id                  = 0;
-            $detail->accountgroup_name                = null;
-            $detail->economic_vat_account             = null;
-            $detail->economic_nonvat_account          = null;
-            $detail->economic_discount_vat_account    = null;
-            $detail->economic_discount_nonvat_account = null;
-            $detail->economic_shipping_vat_account    = null;
-            $detail->economic_shipping_nonvat_account = null;
-            $detail->economic_discount_product_number = null;
-            $detail->published                        = 1;
-            $this->_data                              = $detail;
-
-            return (boolean)$this->_data;
-        }
-
-        return true;
-    }
-
-    public function store($data)
-    {
-        $row = $this->getTable();
-        if (!$row->bind($data))
-        {
-            $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        if (!$row->store())
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-        return $row;
+
+        return $form;
     }
 
-    public function delete($cid = array())
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     */
+    protected function loadFormData()
     {
-        if (count($cid))
+        // Check the session for previously entered form data.
+        $data = JFactory::getApplication()->getUserState('com_redshop.edit.accountgroup_detail.data', array());
+
+        if (empty($data))
         {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'economic_accountgroup ' . 'WHERE accountgroup_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
+            $data = $this->getItem();
         }
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'UPDATE ' . $this->_table_prefix . 'economic_accountgroup' . ' SET published = "' . intval($publish) . '" ' . ' WHERE accountgroup_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
+        return $data;
     }
 }

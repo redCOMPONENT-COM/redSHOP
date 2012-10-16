@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class configurationModelconfiguration extends RedshopCoreModel
+class RedshopModelConfiguration extends RedshopCoreModel
 {
     public $_configpath = null;
 

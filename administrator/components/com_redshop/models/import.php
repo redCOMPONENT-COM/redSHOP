@@ -14,7 +14,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class importModelimport extends RedshopCoreModel
+class RedshopModelImport extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -85,10 +85,10 @@ class importModelimport extends RedshopCoreModel
         switch ($post['import'])
         {
             case 'products':
-                $row = $this->getTable('product_detail');
+                $row = $this->getTable('product');
                 break;
             case 'categories':
-                $row = $this->getTable('category_detail');
+                $row = $this->getTable('category');
                 break;
         }
 
@@ -178,7 +178,7 @@ class importModelimport extends RedshopCoreModel
                             $cidCount = $this->_db->loadResult();
 
                             // updating category
-                            $row = $this->getTable('category_detail');
+                            $row = $this->getTable('category');
                             if ($cidCount > 0)
                             {
                                 $row->load($category_id);
@@ -259,7 +259,7 @@ class importModelimport extends RedshopCoreModel
                                 $rawdata['manufacturer_id'] = $manufacturer_id;
                             }
                             # updating/inserting product
-                            $row = $this->getTable('product_detail');
+                            $row = $this->getTable('product');
                             $row->load($rawdata['product_id']);
 
                             // do not update with blank imagecategory_id
@@ -430,7 +430,7 @@ class importModelimport extends RedshopCoreModel
                                 $count = $this->_db->loadResult();
                                 if ($count <= 0)
                                 {
-                                    $rows                 = $this->getTable('media_detail');
+                                    $rows                 = $this->getTable('media');
                                     $rows->media_id       = 0;
                                     $rows->media_name     = $product_full_image;
                                     $rows->media_section  = 'product';
@@ -590,7 +590,7 @@ class importModelimport extends RedshopCoreModel
                                         $count = $this->_db->loadResult();
                                         if ($count <= 0)
                                         {
-                                            $rows                       = $this->getTable('media_detail');
+                                            $rows                       = $this->getTable('media');
                                             $rows->media_id             = 0;
                                             $rows->media_name           = trim($section_images[$s]);
                                             $rows->media_section        = 'product';
@@ -640,7 +640,7 @@ class importModelimport extends RedshopCoreModel
                                         $count = $this->_db->loadResult();
                                         if ($count <= 0)
                                         {
-                                            $rows                       = $this->getTable('media_detail');
+                                            $rows                       = $this->getTable('media');
                                             $rows->media_id             = 0;
                                             $rows->media_name           = trim($section_video[$s]);
                                             $rows->media_section        = 'product';
@@ -685,7 +685,7 @@ class importModelimport extends RedshopCoreModel
                                         $count = $this->_db->loadResult();
                                         if ($count <= 0)
                                         {
-                                            $rows                       = $this->getTable('media_detail');
+                                            $rows                       = $this->getTable('media');
                                             $rows->media_id             = 0;
                                             $rows->media_name           = trim($section_download[$s]);
                                             $rows->media_section        = 'product';
@@ -730,7 +730,7 @@ class importModelimport extends RedshopCoreModel
                                         $count = $this->_db->loadResult();
                                         if ($count <= 0)
                                         {
-                                            $rows                       = $this->getTable('media_detail');
+                                            $rows                       = $this->getTable('media');
                                             $rows->media_id             = 0;
                                             $rows->media_name           = trim($section_download[$s]);
                                             $rows->media_section        = 'product';
@@ -758,7 +758,7 @@ class importModelimport extends RedshopCoreModel
                             $prd             = explode('|', $product_id);
                             $prd_final       = implode(',', $prd);
                             // updating manufacturer
-                            $row = $this->getTable('manufacturer_detail');
+                            $row = $this->getTable('manufacturer');
                             $row->load($manufacturer_id);
                             $row->manufacturer_name    = $rawdata['manufacturer_name'];
                             $row->manufacturer_desc    = $rawdata['manufacturer_desc'];
@@ -783,7 +783,7 @@ class importModelimport extends RedshopCoreModel
                             }
                             else
                             {
-                                $rows                       = $this->getTable('manufacturer_detail');
+                                $rows                       = $this->getTable('manufacturer');
                                 $rows->manufacturer_id      = $manufacturer_id;
                                 $rows->manufacturer_name    = $rawdata['manufacturer_name'];
                                 $rows->manufacturer_desc    = $rawdata['manufacturer_desc'];
@@ -897,7 +897,7 @@ class importModelimport extends RedshopCoreModel
                                     $property_id = $this->_db->loadResult();
 
                                     // get Table Instance
-                                    $proprow = $this->getTable('attribute_property');
+                                    $proprow = $this->getTable('product_attribute_property');
                                     $proprow->load($property_id);
                                     $proprow->attribute_id  = $att_insert_id;
                                     $proprow->property_name = $property_name;
@@ -1070,7 +1070,7 @@ class importModelimport extends RedshopCoreModel
                                             $subattribute_color_id = $this->_db->loadResult();
 
                                             // get Table Instance
-                                            $subproprow = $this->getTable('subattribute_property');
+                                            $subproprow = $this->getTable('product_subattribute_color');
                                             $subproprow->load($subattribute_color_id);
                                             $subproprow->subattribute_color_name = $subattribute_color_name;
 
@@ -1410,7 +1410,7 @@ class importModelimport extends RedshopCoreModel
                             // insert shopper group if not available
                             if (count($shopper_group_data) <= 0)
                             {
-                                $shopper = $this->getTable('shopper_group_detail');
+                                $shopper = $this->getTable('shopper_group');
                                 $shopper->load();
                                 $shopper->shopper_group_name          = $rawdata['shopper_group_name'];
                                 $shopper->shopper_group_customer_type = 1;
@@ -1426,7 +1426,7 @@ class importModelimport extends RedshopCoreModel
                             }
 
                             // get redshop user info table
-                            $reduser = $this->getTable('user_detail');
+                            $reduser = $this->getTable('users_info');
 
                             // check for user available
                             // in $rawdata['id'] >0 than also a joomla user
@@ -1570,7 +1570,7 @@ class importModelimport extends RedshopCoreModel
                                 $joom_user_id = $this->_db->loadResult();
                                 if ($joom_user_id > 0)
                                 {
-                                    $reduser = $this->getTable('user_detail');
+                                    $reduser = $this->getTable('users_info');
                                     $reduser->set('user_id', $joom_user_id);
                                     $reduser->set('user_email', trim($rawdata['email']));
                                     $reduser->set('firstname', $rawdata['firstname']);
@@ -1729,7 +1729,7 @@ class importModelimport extends RedshopCoreModel
                 $this->_db->setQuery($q);
                 $price_id = $this->_db->loadResult();
 
-                $reduser = $this->getTable('attributeprices_detail');
+                $reduser = $this->getTable('product_attribute_price');
                 $reduser->set('section_id', $section_id);
                 $reduser->set('section', trim($rawdata['section']));
             }
@@ -1744,7 +1744,7 @@ class importModelimport extends RedshopCoreModel
                 $this->_db->setQuery($q);
                 $price_id = $this->_db->loadResult();
 
-                $reduser = $this->getTable('prices_detail');
+                $reduser = $this->getTable('product_price');
                 $reduser->set('product_id', $section_id);
             }
             if (!$price_id)
@@ -1837,7 +1837,7 @@ class importModelimport extends RedshopCoreModel
 
                 if ($product_data->red_product_number == NULL)
                 {
-                    $rows                     = $this->getTable('product_detail');
+                    $rows                     = $this->getTable('product');
                     $rows->product_id         = 0;
                     $rows->product_parent_id  = $parent_id;
                     $rows->product_name       = $product_name;
@@ -1873,7 +1873,7 @@ class importModelimport extends RedshopCoreModel
                     }
                     if ($product_full_image)
                     {
-                        $rows                 = $this->getTable('media_detail');
+                        $rows                 = $this->getTable('media');
                         $rows->media_id       = 0;
                         $rows->media_name     = $product_full_image;
                         $rows->media_section  = 'product';
@@ -1912,7 +1912,7 @@ class importModelimport extends RedshopCoreModel
                         {
                             @copy($src, $dest);
                         }
-                        $rows                       = $this->getTable('media_detail');
+                        $rows                       = $this->getTable('media');
                         $rows->media_id             = 0;
                         $rows->media_name           = $filename;
                         $rows->media_section        = 'product';
@@ -1934,7 +1934,7 @@ class importModelimport extends RedshopCoreModel
                 else
                 {
                     $last_insert              = $red_product_id;
-                    $rows                     = $this->getTable('product_detail');
+                    $rows                     = $this->getTable('product');
                     $rows->product_id         = $red_product_id;
                     $rows->product_parent_id  = $parent_id;
                     $rows->product_name       = $product_name;
@@ -2053,7 +2053,7 @@ class importModelimport extends RedshopCoreModel
             if ($cat_data->rdc_catname == NULL)
             {
                 // inserting category to redshop
-                $rows                       = $this->getTable('category_detail');
+                $rows                       = $this->getTable('category');
                 $rows->category_id          = 0;
                 $rows->category_name        = $category_name;
                 $rows->category_description = $category_description;
@@ -2075,7 +2075,7 @@ class importModelimport extends RedshopCoreModel
             else
             {
                 $last_insert = $cat_data->rdc_catid;
-                $rowcat      = $this->getTable('category_detail');
+                $rowcat      = $this->getTable('category');
                 $rowcat->load($last_insert);
                 $rowcat->category_thumb_image = $cat_data->category_thumb_image;
                 if ($cat_data->category_full_image != "")
@@ -2203,7 +2203,7 @@ class importModelimport extends RedshopCoreModel
         {
             if ($data[$i]->rdsp_shopper_group_name == NULL)
             {
-                $rows                     = $this->getTable('shopper_group_detail');
+                $rows                     = $this->getTable('shopper_group');
                 $rows->shopper_group_id   = 0;
                 $rows->shopper_group_name = $data[$i]->shopper_group_name;
                 $rows->shopper_group_desc = $data[$i]->shopper_group_desc;
@@ -2251,7 +2251,7 @@ class importModelimport extends RedshopCoreModel
                 if (count($redshopUser) > 0)
                 {
                     $redUserId = $redshopUser->users_info_id;
-                    $row       = $this->getTable('user_detail');
+                    $row       = $this->getTable('users_info');
                     $row->load($redUserId);
                     $row->user_email       = $data[$i]->user_email;
                     $row->shopper_group_id = $data[$i]->shopper_group_id;
@@ -2271,7 +2271,7 @@ class importModelimport extends RedshopCoreModel
                 }
                 else
                 {
-                    $rows = $this->getTable('user_detail');
+                    $rows = $this->getTable('users_info');
                     $rows->load();
                     $rows->user_id          = $data[$i]->user_id;
                     $rows->user_email       = $data[$i]->user_email;
@@ -2294,7 +2294,7 @@ class importModelimport extends RedshopCoreModel
             }
             else
             {
-                $rows = $this->getTable('user_detail');
+                $rows = $this->getTable('users_info');
                 $rows->load();
                 $rows->user_id          = $data[$i]->user_id;
                 $rows->user_email       = $data[$i]->user_email;
@@ -2343,7 +2343,7 @@ class importModelimport extends RedshopCoreModel
             {
                 $order_number = $order_functions->generateOrderNumber();
 
-                $reduser = $this->getTable('order_detail');
+                $reduser = $this->getTable('orders');
                 $reduser->set('order_id', 0);
                 $reduser->set('user_id', $data[$i]->user_id);
                 $reduser->set('order_number', $order_number);
@@ -2380,7 +2380,7 @@ class importModelimport extends RedshopCoreModel
                 $order_item = $this->_db->loadObjectList();
                 for ($j = 0; $j <= (count($order_item) - 1); $j++)
                 {
-                    $reduser = $this->getTable('order_item_detail');
+                    $reduser = $this->getTable('order_item');
                     $reduser->set('order_item_id', 0);
                     $reduser->set('order_id', $last_insert);
                     $reduser->set('user_info_id', $data[$i]->rui_users_info_id);
@@ -2440,7 +2440,7 @@ class importModelimport extends RedshopCoreModel
                     {
                         ($order_user_info[$m]->company == NULL) ? $company = 0 : $company = 1;
 
-                        $reduser = $this->getTable('order_user_detail');
+                        $reduser = $this->getTable('order_users_info');
                         $reduser->set('order_info_id', 0);
                         $reduser->set('users_info_id', $order_user_info[$m]->users_info_id);
                         $reduser->set('order_id', $last_insert);
@@ -2485,7 +2485,7 @@ class importModelimport extends RedshopCoreModel
         {
             if ($data[$i]->rdcode == NULL)
             {
-                $reduser = $this->getTable('orderstatus_detail');
+                $reduser = $this->getTable('order_status');
                 $reduser->set('published', 1);
                 $reduser->set('order_status_name', $data[$i]->order_status_name);
                 $reduser->set('order_status_code', $data[$i]->order_status_code);
@@ -2530,7 +2530,7 @@ class importModelimport extends RedshopCoreModel
             {
                 if ($tmp_id == 0)
                 {
-                    $reduser = $this->getTable('manufacturer_detail');
+                    $reduser = $this->getTable('manufacturer');
                     $reduser->set('published', 1);
                     $reduser->set('template_id', MANUFACTURER_TEMPLATE);
                     $reduser->set('manufacturer_desc', $manufacturer_desc);
@@ -2616,9 +2616,6 @@ class importModelimport extends RedshopCoreModel
 
         $row = $this->getTable('attributestock_placement');
         $row->load($autoid);
-
-        /*$this->_db->setQuery("SELECT stock_position_id FROM ".$this->_crmtable_prefix."stock_position WHERE stock_position_name = '".$data['stockposition']."' ");
-		$data['stock_position_id'] = $this->_db->loadResult();*/
 
         $data['stock_placement'] = $data['stockposition'];
 

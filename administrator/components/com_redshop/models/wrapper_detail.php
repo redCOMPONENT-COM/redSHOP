@@ -10,7 +10,7 @@
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class wrapper_detailModelwrapper_detail extends RedshopCoreModelDetail
+class RedshopModelWrapper_detail extends RedshopCoreModelDetail
 {
     public $_productid = null;
 
@@ -141,7 +141,7 @@ class wrapper_detailModelwrapper_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('wrapper');
         if (!$row->bind($data))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -204,45 +204,6 @@ class wrapper_detailModelwrapper_detail extends RedshopCoreModelDetail
         {
             $this->setError($this->_db->getErrorMsg());
             return false;
-        }
-        return true;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'wrapper ' . 'WHERE wrapper_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Method to publish the records
-     *
-     * @access public
-     * @return boolean
-     */
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = ' UPDATE ' . $this->_table_prefix . 'wrapper ' . ' SET published = ' . intval($publish) . ' WHERE wrapper_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
         }
         return true;
     }
