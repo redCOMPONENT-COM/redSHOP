@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class shipping_detailViewshipping_detail extends JViewLegacy
+class RedshopViewShipping_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

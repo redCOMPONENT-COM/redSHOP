@@ -20,7 +20,7 @@ require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_r
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class addorder_detailModeladdorder_detail extends RedshopCoreModelDetail
+class RedshopModelAddorder_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -226,7 +226,7 @@ class addorder_detailModeladdorder_detail extends RedshopCoreModelDetail
         // end
         $postdata['barcode'] = $barcode_code;
 
-        $row = $this->getTable('order_detail');
+        $row = $this->getTable('orders');
         if (!$row->bind($postdata))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -346,7 +346,7 @@ class addorder_detailModeladdorder_detail extends RedshopCoreModelDetail
             }
             $product = $producthelper->getProductById($product_id);
 
-            $rowitem = $this->getTable('order_item_detail');
+            $rowitem = $this->getTable('order_item');
             if (!$rowitem->bind($postdata))
             {
                 $this->setError($this->_db->getErrorMsg());
@@ -509,7 +509,7 @@ class addorder_detailModeladdorder_detail extends RedshopCoreModelDetail
                         }
                     }
 
-                    $accdata = $this->getTable('accessory_detail');
+                    $accdata = $this->getTable('product_accessory');
                     if ($accessory_id > 0)
                     {
                         $accdata->load($accessory_id);
@@ -707,9 +707,9 @@ class addorder_detailModeladdorder_detail extends RedshopCoreModelDetail
         }
 
         # add billing Info
-        $userrow = $this->getTable('user_detail');
+        $userrow = $this->getTable('users_info');
         $userrow->load($billingaddresses->users_info_id);
-        $orderuserrow = $this->getTable('order_user_detail');
+        $orderuserrow = $this->getTable('order_users_info');
         if (!$orderuserrow->bind($userrow))
         {
             $this->setError($this->_db->getErrorMsg());
@@ -724,12 +724,12 @@ class addorder_detailModeladdorder_detail extends RedshopCoreModelDetail
         }
 
         # add shipping Info
-        $userrow = $this->getTable('user_detail');
+        $userrow = $this->getTable('users_info');
         if (isset($shippingaddresses->users_info_id))
         {
             $userrow->load($shippingaddresses->users_info_id);
         }
-        $orderuserrow = $this->getTable('order_user_detail');
+        $orderuserrow = $this->getTable('order_users_info');
         if (!$orderuserrow->bind($userrow))
         {
             $this->setError($this->_db->getErrorMsg());

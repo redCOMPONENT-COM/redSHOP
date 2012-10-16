@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class zip_importViewzip_import extends JViewLegacy
+class RedshopViewZip_import extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -11,9 +11,9 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'currency.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'default.php';
 
-class configurationController extends RedshopCoreController
+class RedshopControllerConfiguration extends RedshopCoreControllerDefault
 {
     public function __construct($default = array())
     {
@@ -190,7 +190,7 @@ class configurationController extends RedshopCoreController
         }
 
         $option                = $this->input->get('option');
-        $country_list          = $this->input->get('country_list');
+        $country_list          = $this->input->get('country_list',array(),'array');
         $newsletter_test_email = $this->input->get('newsletter_test_email');
 
         $model = $this->getModel('configuration');

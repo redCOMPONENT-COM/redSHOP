@@ -39,45 +39,6 @@ $dispatcher      = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 
 ?>
-<script language="javascript" type="text/javascript">
-    Joomla.submitbutton = function (pressbutton) {
-        submitbutton(pressbutton);
-    }
-    submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-
-        if (pressbutton == 'add') {
-        <?php      $link = 'index.php?option=' . $option . '&view=addorder_detail';
-        $link            = $redhelper->sslLink($link);
-        ?>        window.location = '<?php echo $link;?>';
-            return;
-            //form.view.value="addorder_detail";
-        }
-        if ((pressbutton == 'allstatus')) {
-            if (document.getElementById('order_status_all').value == '0') {
-                alert('<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS'); ?>');
-                return false;
-            }
-
-        } else if ((pressbutton == 'edit') || (pressbutton == 'remove')) {
-            form.view.value = "order_detail";
-        } else if (pressbutton == 'multiprint_order') {
-            form.view.value = "order";
-        }
-
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-
-        form.submit();
-    }
-</script>
-
 <form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm"
       id="adminForm">
 <div id="editcell">
@@ -114,7 +75,8 @@ JPluginHelper::importPlugin('redshop_product');
         <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_NUMBER', 'order_number', $this->lists['order_Dir'], $this->lists['order']); ?>
     </th>
     <?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2)
-{ ?>
+{
+    ?>
     <th width="10%">
         <?php echo  JHTML::_('grid.sort', 'COM_REDSHOP_BOOKINVOICE_NUMBER', 'bookinvoice_number', $this->lists['order_Dir'], $this->lists['order']); ?>
     </th>
@@ -126,7 +88,8 @@ JPluginHelper::importPlugin('redshop_product');
         <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
     </th>
     <?php if (USE_STOCKROOM == 1)
-{ ?>
+{
+    ?>
     <th width="15%">
         <?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
     </th>
@@ -227,7 +190,8 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
         </table>
     </td>
     <?php if (USE_STOCKROOM == 1)
-{ ?>
+{
+    ?>
     <td align="center">
         <?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 

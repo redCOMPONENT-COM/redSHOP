@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class mass_discountViewmass_discount extends JViewLegacy
+class RedshopViewMass_discount extends JViewLegacy
 {
     public function display($tpl = null)
     {

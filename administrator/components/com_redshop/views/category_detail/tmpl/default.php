@@ -236,6 +236,15 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3' );
 			<?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_SEF_URL' ), JText::_('COM_REDSHOP_SEF_URL' ), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
+	 <tr>
+	  	<td align="right" class="key">
+	  		<?php echo JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ); ?>:
+	  	</td>
+	    <td>
+	    	<input class="text_area" type="text" name="canonical_url" id="canonical_url" size="75" value="<?php echo $this->detail->canonical_url;?>" /> 
+			<?php echo JHTML::tooltip( JText::_( 'COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT' ), JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ), 'tooltip.png', '', '', false); ?> 
+		</td>
+	</tr>
 	<tr>
 		<td valign="top" align="right" class="key">
 			<?php echo JText::_('COM_REDSHOP_META_KEYWORDS' ); ?>:

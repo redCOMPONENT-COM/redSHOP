@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class attribute_setViewattribute_set extends JViewLegacy
+class RedshopViewAttribute_set extends JViewLegacy
 {
     public function display($tpl = null)
     {

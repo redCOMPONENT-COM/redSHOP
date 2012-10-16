@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class accessmanagerViewaccessmanager extends JViewLegacy
+class RedshopViewAccessmanager extends JViewLegacy
 {
     public function display($tpl = null)
     {

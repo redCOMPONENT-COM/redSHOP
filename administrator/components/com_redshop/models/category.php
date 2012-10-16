@@ -9,15 +9,24 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
+jimport('joomla.application.component.modellist');
 
-class categoryModelcategory extends RedshopCoreModel
+/**
+ * Attribute Prices Model.
+ *
+ * @package        redSHOP
+ * @subpackage     Models
+ * @since          1.2
+ */
+class RedshopModelCategory extends JModelList
 {
-    public $_total = null;
-
-    public $_pagination = null;
-
-    public $_context = 'category_id';
+    /**
+     * Context string for the model type.  This is used to handle uniqueness
+     * when dealing with the getStoreId() method and caching data structures.
+     *
+     * @var    string
+     */
+    protected $context = 'category_id';
 
     public function __construct()
     {
@@ -121,58 +130,5 @@ class categoryModelcategory extends RedshopCoreModel
         $this->_db->setQuery($query);
         return $this->_db->loadResult();
     }
-
-    /*
-      * assign template to multiple categories
-      * @prams: $data, post variable	array
-      * @return: boolean
-      */
-    public function assignTemplate($data)
-    {
-
-        $cid = $data['cid'];
-
-        $category_template = $data['category_template'];
-
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'category' . ' SET `category_template` = "' . intval($category_template) . '" ' . ' WHERE category_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function saveorder($cid = array(), $order)
-    {
-        $row       = $this->getTable('category_detail');
-        $groupings = array();
-
-        // update ordering values
-        for ($i = 0; $i < count($cid); $i++)
-        {
-            $row->load((int)$cid[$i]);
-
-            // track categories
-            $groupings[] = $row->category_id;
-
-            if ($row->ordering != $order[$i])
-            {
-                $row->ordering = $order[$i];
-
-                if (!$row->store())
-                {
-                    $this->setError($this->_db->getErrorMsg());
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
 }
+

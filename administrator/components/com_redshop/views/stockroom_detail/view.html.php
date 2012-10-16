@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 
-class stockroom_detailVIEWstockroom_detail extends JViewLegacy
+class RedshopViewStockroom_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

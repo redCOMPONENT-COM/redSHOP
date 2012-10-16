@@ -12,7 +12,7 @@ defined('_JEXEC') or die ('Restricted access');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
 
-class xmlexport_detailController extends RedshopCoreControllerDetail
+class RedshopControllerXmlexport_detail extends RedshopCoreControllerDetail
 {
     public $redirectViewName = 'xmlexport';
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model' . DS . 'detail.php';
 
-class shipping_box_detailModelshipping_box_detail extends RedshopCoreModelDetail
+class RedshopModelShipping_box_detail extends RedshopCoreModelDetail
 {
     public $_copydata = null;
 
@@ -61,7 +61,7 @@ class shipping_box_detailModelshipping_box_detail extends RedshopCoreModelDetail
 
     public function store($data)
     {
-        $row = $this->getTable();
+        $row = $this->getTable('shipping_boxes');
 
         if (!$row->bind($data))
         {
@@ -75,40 +75,5 @@ class shipping_box_detailModelshipping_box_detail extends RedshopCoreModelDetail
             return false;
         }
         return $row;
-    }
-
-    public function delete($cid = array())
-    {
-        if (count($cid))
-        {
-            $cids = implode(',', $cid);
-
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_boxes WHERE shipping_box_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid))
-        {
-            $cids  = implode(',', $cid);
-            $query = 'UPDATE ' . $this->_table_prefix . 'shipping_boxes' . ' SET published = ' . intval($publish) . ' WHERE shipping_box_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            if (!$this->_db->query())
-            {
-                $this->setError($this->_db->getErrorMsg());
-                return false;
-            }
-        }
-
-        return true;
     }
 }

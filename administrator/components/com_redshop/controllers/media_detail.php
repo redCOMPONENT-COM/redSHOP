@@ -11,9 +11,9 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.archive');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller' . DS . 'detail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
 
-class media_detailController extends RedshopCoreControllerDetail
+class RedshopControllerMedia_detail extends RedshopCoreController
 {
     public $redirectViewName = 'media';
 

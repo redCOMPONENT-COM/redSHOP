@@ -1,0 +1,39 @@
+<?php
+/**
+ * @package     redSHOP
+ * @subpackage  Tables
+ *
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
+ */
+
+defined('_JEXEC') or die('Restricted access');
+
+// old Tablevoucher_detail
+class Tableproduct_voucher extends JTable
+{
+    public $voucher_id = null;
+
+    public $voucher_code = null;
+
+    public $amount = null;
+
+    public $voucher_type = null;
+
+    public $start_date = null;
+
+    public $end_date = null;
+
+    public $free_shipping = null;
+
+    public $voucher_left = null;
+
+    public $published = null;
+
+    public function __construct(& $db)
+    {
+        $this->_table_prefix = '#__redshop_';
+
+        parent::__construct($this->_table_prefix . 'product_voucher', 'voucher_id', $db);
+    }
+}

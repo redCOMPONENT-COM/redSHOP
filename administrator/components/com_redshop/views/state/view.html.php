@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class stateViewstate extends JViewLegacy
+class RedshopViewState extends JViewLegacy
 {
     public function display($tpl = null)
     {

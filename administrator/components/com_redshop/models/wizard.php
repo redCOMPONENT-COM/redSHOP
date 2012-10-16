@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once 'components' . DS . 'com_redshop' . DS . 'models' . DS . 'configuration.php';
 
-class wizardModelwizard extends configurationModelconfiguration
+class RedshopModelWizard extends configurationModelconfiguration
 {
     public $_tax_rates = null;
 

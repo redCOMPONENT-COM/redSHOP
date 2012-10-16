@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.html.pagination');
 
-class statisticViewstatistic extends JViewLegacy
+class RedshopViewStatistic extends JViewLegacy
 {
     public function display($tpl = null)
     {

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class addressfields_listingModeladdressfields_listing extends RedshopCoreModel
+class RedshopModelAddressfields_listing extends RedshopCoreModel
 {
     public $_context = 'ordering';
 
@@ -133,7 +133,7 @@ class addressfields_listingModeladdressfields_listing extends RedshopCoreModel
 
     public function saveorder($cid = array(), $order)
     {
-        $row        = $this->getTable("fields_detail");
+        $row        = $this->getTable("fields");
         $groupings  = array();
         $conditions = array();
 
@@ -209,7 +209,7 @@ class addressfields_listingModeladdressfields_listing extends RedshopCoreModel
      */
     public function move($direction, $field_id)
     {
-        $row = $this->getTable("fields_detail");
+        $row = $this->getTable("fields");
 
         if (!$row->load($field_id))
         {

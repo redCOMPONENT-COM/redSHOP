@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
-class mass_discount_detailVIEWmass_discount_detail extends JViewLegacy
+class RedshopViewMassdiscount_detail extends JViewLegacy
 {
     public function display($tpl = null)
     {

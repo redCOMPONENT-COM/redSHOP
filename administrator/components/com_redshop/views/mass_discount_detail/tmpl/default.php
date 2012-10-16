@@ -20,23 +20,6 @@ JHTML::_('behavior.tooltip');
 $now	= JFactory::getDate();
 
 ?>
-<script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function(pressbutton) {
-	submitbutton(pressbutton);
-	}
-
-submitbutton = function(pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
-		else {
-			submitform( pressbutton );
-		}
-	}
-</script>
-
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onSubmit="return selectAll(this.elements['container_product[]']);">
 <div class="col50">
 	<fieldset class="adminform">

@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'model.php';
 
-class orderModelorder extends RedshopCoreModel
+class RedshopModelOrder extends RedshopCoreModel
 {
     public $_total = null;
 
@@ -333,10 +333,6 @@ class orderModelorder extends RedshopCoreModel
         $this->_db->setQuery($q);
         $gls_arr = $this->_db->loadObjectList();
 
-        //echo "Order_number,quantity,Consignee_address_1,Consignee_address_2,Consignee_postal_code,Consignee_city,Consignee_country,Date,Parcel_weight,
-        //Number_of_parcels,COD_amount,Parcel_value_amount,Parcel_type,Shipment_type,Attention,Comment,Customer_number,Alt_consignor_name,Consignee_mobile_phone_no,
-        //Alt_consignor_name,Alt_consignor_address_1,Alt_consignor_address_2,Alt_consignor_postal_code,Alt_consignor_city,Alt_consignor_country,Alt_consignor_phone_no";
-        //	echo "\r\n";
         echo "Order_number,Quantity,Create_date,total_weight,reciever_firstName,reciever_lastname,Customer_note";
         echo "\r\n";
 
@@ -372,5 +368,110 @@ class orderModelorder extends RedshopCoreModel
         }
 
         exit;
+    }
+
+    public function delete($cid = array())
+    {
+        $producthelper   = new producthelper();
+        $order_functions = new order_functions();
+        $quotationHelper = new quotationHelper();
+        $stockroomhelper = new rsstockroomhelper();
+
+        if (count($cid))
+        {
+            if (ECONOMIC_INTEGRATION == 1)
+            {
+                $economic = new economic();
+                for ($i = 0; $i < count($cid); $i++)
+                {
+                    $orderdata = $this->getTable('orders');
+                    $orderdata->load($cid[$i]);
+                    $invoiceHandle = $economic->deleteInvoiceInEconomic($orderdata);
+                }
+            }
+            $cids = implode(',', $cid);
+
+            $order_item = $order_functions->getOrderItemDetail($cids);
+            for ($i = 0; $i < count($order_item); $i++)
+            {
+                $quntity = $order_item[$i]->product_quantity;
+
+                $order_id     = $order_item[$i]->order_id;
+                $order_detail = $order_functions->getOrderDetails($order_id);
+                if ($order_detail->order_payment_status == "Unpaid")
+                {
+                    // update stock roommanageStockAmount
+                    $stockroomhelper->manageStockAmount($order_item[$i]->product_id, $quntity, $order_item[$i]->stockroom_id);
+                }
+                $producthelper->makeAttributeOrder($order_item[$i]->order_item_id, 0, $order_item[$i]->product_id, 1);
+                $query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` " . "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
+                $this->_db->setQuery($query);
+                $this->_db->query();
+
+                $query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` " . "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
+                $this->_db->setQuery($query);
+                $this->_db->query();
+            }
+
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'orders WHERE order_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'order_item WHERE order_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'order_payment WHERE order_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'order_users_info WHERE order_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+
+            $quotation = $quotationHelper->getQuotationwithOrder($cids);
+            for ($q = 0; $q < count($quotation); $q++)
+            {
+                $quotation_item = $quotationHelper->getQuotationProduct($quotation[$q]->quotation_id);
+                for ($j = 0; $j < count($quotation_item); $j++)
+                {
+                    $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data ' . 'WHERE quotation_item_id=' . $quotation_item[$j]->quotation_item_id;
+                    $this->_db->setQuery($query);
+                    if (!$this->_db->query())
+                    {
+                        $this->setError($this->_db->getErrorMsg());
+                        return false;
+                    }
+                }
+                $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item ' . 'WHERE quotation_id=' . $quotation[$q]->quotation_id;
+                $this->_db->setQuery($query);
+                if (!$this->_db->query())
+                {
+                    $this->setError($this->_db->getErrorMsg());
+                    return false;
+                }
+            }
+            $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE order_id IN ( ' . $cids . ' )';
+            $this->_db->setQuery($query);
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+        return true;
     }
 }
