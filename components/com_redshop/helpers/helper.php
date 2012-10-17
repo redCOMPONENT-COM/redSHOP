@@ -881,7 +881,7 @@ class redhelper
             $this->_isredCRM = $this->_db->loadResult();
         }
 
-        $redcrm_path = JPATH_ADMINISTRATOR . DS . 'compoents' . DS . 'com_redcrm';
+        $redcrm_path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm';
         if (!is_dir($redcrm_path) && !$this->_isredCRM)
         {
             $this->_isredCRM = false;
