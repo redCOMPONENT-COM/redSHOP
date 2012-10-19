@@ -896,6 +896,14 @@ class com_redshopInstallerScript
                 $db->setQuery($q);
                 $db->query();
             }
+            
+            /* Check if we have the `canonical_url` column */
+            if (!array_key_exists('canonical_url', $cols)) {
+				$q = "ALTER IGNORE TABLE #__redshop_category ADD `canonical_url` text NOT NULL";
+				$db->setQuery($q);
+				$db->query();
+			}
+            
         }
 
         /* Get the current columns for fields_data */
@@ -1739,6 +1747,13 @@ class com_redshopInstallerScript
                 $db->setQuery($q);
                 $db->query();
             }
+            
+         	/* Check if we have the `canonical_url` column */
+            if (!array_key_exists('canonical_url', $cols)) {
+				$q = "ALTER IGNORE TABLE #__redshop_product ADD `canonical_url` text NOT NULL";
+				$db->setQuery($q);
+				$db->query();
+			}
         }
 
         /* Get the current columns */

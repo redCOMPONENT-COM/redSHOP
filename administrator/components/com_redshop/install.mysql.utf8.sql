@@ -496,6 +496,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `published` tinyint(4) NOT NULL,
   `category_pdate` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `ordering` int(11) NOT NULL,
+  `canonical_url` text NOT NULL,
   PRIMARY KEY  (`category_id`)
 )   DEFAULT CHARSET=utf8 COMMENT='redSHOP Category'  ;
 
@@ -1598,7 +1599,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `product_download_clock` int(11) NOT NULL,
   `product_download_clock_min` int(11) NOT NULL,
   `accountgroup_id` int(11) NOT NULL,
-  PRIMARY KEY  (`product_id`)
+  `canonical_url` text NOT NULL,
+PRIMARY KEY  (`product_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Products';
 
 -- --------------------------------------------------------
