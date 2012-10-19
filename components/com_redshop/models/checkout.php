@@ -2072,7 +2072,7 @@ class checkoutModelcheckout extends RedshopCoreModel
         $checkout .= '<input type="hidden" name="Itemid" id="onestepItemid" value="' . $Itemid . '" />';
         $checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
         $checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
-        $checkout .= '<input type="hidden" name="shop_id" value="' . $shop_id . '" />';
+       // $checkout .= '<input type="hidden" name="shop_id" value="' . $shop_id . '" />';
 
         if (!ONESTEP_CHECKOUT_ENABLE)
         {
