@@ -179,13 +179,18 @@ class order_detailController extends RedshopCoreController
            * Plugin will trigger onAfterNotifyPayment
            */
         $dispatcher->trigger('onAfterNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $order_id));
+    	if($request['payment_plugin'] == "rs_payment_payer")
+		{
+			die("TRUE");
 
+		}
         if ($request['payment_plugin'] != "rs_payment_worldpay")
         {
             # new checkout flow
             $redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$item_id&oid=" . $order_id);
             $this->setRedirect($redirect_url, $msg);
         }
+        
     }
 
     public function copyorderitemtocart()

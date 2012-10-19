@@ -720,6 +720,12 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab5');
       <td><?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_SEF_URL' ), JText::_('COM_REDSHOP_SEF_URL' ), 'tooltip.png', '', '', false); ?></td>
     </tr>
     <tr>
+	  <td align="right" class="key"><?php echo JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ); ?>:</td>
+	  <td><input class="text_area" type="text" name="canonical_url" id="canonical_url" size="75" value="<?php echo $this->detail->canonical_url;?>" /> 
+	  </td>
+	  <td><?php echo JHTML::tooltip( JText::_( 'COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT' ), JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ), 'tooltip.png', '', '', false); ?> </td>
+	</tr>   
+    <tr>
       <td align="right" class="key"><?php echo JText::_('COM_REDSHOP_SELECT_CATEGORY_TO_USEIN_SEF'); ?>: </td>
       <td><?php echo $this->lists['cat_in_sefurl']; ?>  </td>
       <td><?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_SELECT_CATEGORY_TO_USEIN_SEF' ), JText::_('COM_REDSHOP_SELECT_CATEGORY_TO_USEIN_SEF' ), 'tooltip.png', '', '', false); ?></td>
