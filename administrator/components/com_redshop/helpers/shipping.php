@@ -1163,6 +1163,7 @@ class shipping
     public function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
     {
         $user = JFactory::getUser();
+        $session =& JFactory::getSession();
         if ($user_id == 0)
         {
             $user_id = $user->id;
@@ -1201,8 +1202,19 @@ class shipping
         }
         else
         {
-            $userdata->country_code = DEFAULT_VAT_COUNTRY;
-            $userdata->state_code   = DEFAULT_VAT_STATE;
+        	$auth = $session->get('auth');
+			$users_info_id = $auth['users_info_id'];
+			$userdata->country_code = DEFAULT_VAT_COUNTRY;
+			$userdata->state_code = DEFAULT_VAT_STATE;
+			if($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (VAT_BASED_ON==2 || VAT_BASED_ON==1))
+			{
+				$query = "SELECT country_code,state_code FROM ".$this->_table_prefix."users_info AS u "
+						."LEFT JOIN ".$this->_table_prefix."shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
+						."WHERE u.users_info_id='".$users_info_id."' "
+						."order by u.users_info_id ASC LIMIT 0,1";
+				$this->_db->setQuery($query);
+				$userdata = $this->_db->loadObject();
+			}
         }
         if ($shipping_tax_group_id == 0)
         {
