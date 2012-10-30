@@ -1390,6 +1390,11 @@ class order_functions
 
         # get redCRM Contact person session array
         $isredcrmuser = $session->get('isredcrmuser', false);
+        
+        $isredcrmuser_debitor = $session->get('isredcrmuser_debitor',false);
+        
+        $app      = JFactory::getApplication();
+        $is_admin = $app->isAdmin();
 
         if ($user_id == 0)
         {
@@ -1430,8 +1435,18 @@ class order_functions
             }
             else
             {
-
-                $query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM ' . $this->_table_prefix . 'users_info as ui' . ' LEFT JOIN ' . $this->_table_prefix_crm . 'shipping as rcs ON rcs.users_info_id = ui.users_info_id ' . ' WHERE address_type like "ST" ' . ' AND ui.user_id IN (' . $user_id . ') ';
+           		if(!$is_admin)
+				{
+					$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '.$this->_table_prefix.'users_info as ui'
+							.' LEFT JOIN #__redcrm_shipping as rcs ON rcs.users_info_id = ui.users_info_id '
+							.' WHERE address_type like "ST" AND rcs.destination_name!="" '
+							.' AND rcs.debitor_id IN ('.$isredcrmuser_debitor.') ';
+				} else {
+					$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '.$this->_table_prefix.'users_info as ui'
+						.' LEFT JOIN #__redcrm_shipping as rcs ON rcs.users_info_id = ui.users_info_id '
+						.' WHERE address_type like "ST" '
+						.' AND ui.user_id IN ('.$user_id .') ';
+				}
             }
 
             $this->_db->setQuery($query);

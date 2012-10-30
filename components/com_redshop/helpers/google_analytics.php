@@ -57,7 +57,7 @@ class googleanalytics
 			    '" . $data['order_total'] . "',     // total - required
 			    '" . $data['order_tax'] . "',		// tax
 			    '" . $data['order_shipping'] . "',  // shipping
-		    	'',       						// city
+		    	'" . $data['city'] . "',       						// city
 			    '" . $data['state'] . "',     		// state or province
 			    '" . $data['country'] . "'    		// country
 			  ]);
