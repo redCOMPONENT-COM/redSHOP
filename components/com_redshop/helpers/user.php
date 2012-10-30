@@ -445,13 +445,29 @@ class rsUserhelper
         {
             $isNew            = true;
             $data['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $app = JFactory::getApplication();
+            $is_admin = $app->isAdmin();
             if ($data['is_company'] == 1)
             {
-                $data['shopper_group_id'] = (SHOPPER_GROUP_DEFAULT_COMPANY != 0) ? SHOPPER_GROUP_DEFAULT_COMPANY : 2;
+            	if($is_admin && $data['shopper_group_id']!=0)
+            	{
+            		$data['shopper_group_id'] =$data['shopper_group_id'];
+            	}
+            	else
+            	{
+            		$data['shopper_group_id'] = (SHOPPER_GROUP_DEFAULT_COMPANY != 0 )? SHOPPER_GROUP_DEFAULT_COMPANY : 2;
+            	}
             }
             else
             {
-                $data['shopper_group_id'] = (SHOPPER_GROUP_DEFAULT_PRIVATE != 0) ? SHOPPER_GROUP_DEFAULT_PRIVATE : 1;
+            	if($is_admin && $data['shopper_group_id']!=0)
+            	{
+            		$data['shopper_group_id'] =$data['shopper_group_id'];
+            	}
+            	else
+            	{
+            		$data['shopper_group_id'] = (SHOPPER_GROUP_DEFAULT_PRIVATE != 0) ?SHOPPER_GROUP_DEFAULT_PRIVATE : 1;
+            	}
             }
         }
         if ($user_id > 0)

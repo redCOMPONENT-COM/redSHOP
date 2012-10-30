@@ -173,6 +173,8 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
     $orderTrans['order_total']    = $order->order_total;
     $orderTrans['order_tax']      = $order->order_tax;
     $orderTrans['order_shipping'] = $order->order_shipping;
+    $orderTrans['city'] = $billingaddresses->city;
+    
     if (isset($billingaddresses->country_code))
     {
         $orderTrans['state'] = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
