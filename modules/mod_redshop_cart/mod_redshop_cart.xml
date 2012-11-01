@@ -15,11 +15,7 @@
 		<folder module="mod_redshop_cart">css</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_cart.ini</language>
-		<language tag="de-DE">language/de-DE/de-DE.mod_redshop_cart.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_cart.ini</language>
-		<language tag="ru-RU">language/ru-RU/ru-RU.mod_redshop_cart.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>		
   	</languages>
   	<config><fields name="params"><fieldset name="basic">
 		<field name="cart_output" type="list" default="0" label="COM_REDSHOP_CART_OUTPUT" description="CART_OUTPUT">
