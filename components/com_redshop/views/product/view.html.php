@@ -112,6 +112,18 @@ class productViewproduct extends JViewLegacy
 				$main_url=JURI::root().$data->canonical_url;
 				$canonical= '<link rel="canonical" href="'.$main_url.'" />';
 				$document->addCustomTag($canonical);
+			} else if($data->product_parent_id!=0 && $data->product_parent_id!="") {
+				$product_parent_data = $prodhelperobj->getProductById($data->product_parent_id);
+				if($product_parent_data->canonical_url!="")
+				{	
+					$main_url=JURI::root().$product_parent_data->canonical_url;
+					$canonical= '<link rel="canonical" href="'.$main_url.'" />';
+					$document->addCustomTag($canonical);
+				} else {
+					$main_url = substr_replace(JURI::root(),"",-1).JRoute::_('index.php?option=com_redshop&view=product&layout=detail&Itemid='.$Itemid.'&pid='.$data->product_parent_id,false);
+					$canonical= '<link rel="canonical" href="'.$main_url.'" />';
+					$document->addCustomTag($canonical);
+				}
 			}
 
             $productTemplate = $model->getProductTemplate();
