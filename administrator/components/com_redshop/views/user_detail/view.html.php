@@ -90,6 +90,11 @@ class RedshopViewUser_detail extends JViewLegacy
         $lists['country_code'] = $countryarray['country_dropdown'];
         $statearray            = $Redconfiguration->getStateList((array)$detail);
         $lists['state_code']   = $statearray['state_dropdown'];
+		
+		$showcountry = (count($countryarray['countrylist'])==1 && count($statearray['statelist'])==0) ? 0 : 1;
+		$showstates = ($statearray['is_states']<=0) ? 0 : 1;
+		$this->assignRef('showcountry',	$showcountry);
+		$this->assignRef('showstates',	$showstates);
 
         $this->assignRef('lists', $lists);
         $this->assignRef('detail', $detail);
