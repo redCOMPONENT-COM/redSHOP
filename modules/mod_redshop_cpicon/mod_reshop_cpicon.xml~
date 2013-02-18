@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" client="administrator" method="upgrade" version="1.5.0" >
+  <name>redShop control panel icon</name>
+  <author>redweb.dk</author>
+  <creationDate>2011-02-25</creationDate>
+  <copyright>redCOMPONENT.com</copyright>
+  <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+  <authorEmail>email@redcomponent.com</authorEmail>
+  	<description>Quick access icon to reach redShop panel</description>
+	<files>
+		<filename module="mod_redshop_cpicon">mod_redshop_cpicon.php</filename>
+		<filename>index.html</filename>
+		<filename>styles.css</filename>
+	</files>
+</install>

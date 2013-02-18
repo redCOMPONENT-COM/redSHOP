@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="module" method="upgrade">
 	<name>Redshop Newsletter Module</name>
-	<version>1.1.5</version>
+	<version>1.1.6</version>
 	<creationDate>10-04-2012</creationDate>
 	<author>redweb.dk</author>
 	<authorEmail>email@redcomponent.com</authorEmail>

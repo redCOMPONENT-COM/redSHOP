@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config> 
+	<params addpath="/administrator/components/com_redshop">		
+	<!-- <param name="maxcategory1" type="text" size="4" default="5" label="How many categories to display ?" description="How many categories to display on front page" /> -->
+	</params>
+</config>
