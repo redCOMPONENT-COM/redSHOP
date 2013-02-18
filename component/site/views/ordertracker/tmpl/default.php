@@ -1,0 +1,98 @@
+<?php
+/** 
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com 
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+defined ('_JEXEC') or die ('restricted access');
+
+JHTML::_('behavior.tooltip');
+require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'order.php' );
+$url= JURI::base();
+$order_functions = new order_functions();
+$redconfig = new Redconfiguration();
+$producthelper = new producthelper();
+
+$option = JRequest::getVar('option');
+$Itemid = JRequest::getVar('Itemid');
+$order_id= JRequest::getInt('order_id',0);
+
+$order_detail = array();
+$OrderProducts = array();
+if($order_id!=0)
+{
+	$order_detail = $order_functions->getOrderDetails($order_id);
+	$OrderProducts = $order_functions->getOrderItemDetail($order_id);
+}
+
+if($this->params->get('show_page_heading',1)) 
+{ ?>
+<div  class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ) ?>">
+<?php
+	if ($this->params->get('show_page_heading',1) && $this->params->get('page_title'))	
+	{
+		echo $this->escape($this->params->get('page_title'));
+	}	?>
+</div>
+<?php } ?>
+<form action="<?php echo JRoute::_('index.php?option='.$option.'&view=ordertracker&Itemid='.$Itemid); ?>" method="post" name="adminForm" >
+<table cellpadding="3" cellspacing="0" border="0">
+	<tr>
+		<td colspan="2">
+			<?php echo JText::_('COM_REDSHOP_ORDER_ID' ); ?>: 					
+		</td>
+		<td>
+			<input type="text" class="inputbox" name="order_id" id="order_id" value="">
+		</td>
+		<td><input type="submit" id="go" name="go" value="<?php echo JText::_('COM_REDSHOP_GO'); ?>"></td>
+	</tr>
+</table>
+<input type="hidden" name="view" value="ordertracker" />
+<input type="hidden" name="task" value="details" />
+</form>
+<table class="tblOrderdetail" cellpadding="4" cellspacing="0" border="0">
+<tr class="tblOrderDetailheading">
+<?php 
+if(count($order_detail)>0)
+{	?>
+		<th><?php echo JText::_('COM_REDSHOP_ORDER_ID'); ?>	</th>
+		<th><?php echo JText::_('COM_REDSHOP_ORDER_NUMBER'); ?>	</th>
+		<th><?php echo JText::_('COM_REDSHOP_ORDER_ITEM');  ?></th>
+		<th><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL');  ?></th>
+		<th><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?></th>
+		<!--<th><?php echo JText::_('COM_REDSHOP_DELIVERY_DATE'); ?></th>-->
+		<th><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></th>
+		<th><?php echo JText::_('COM_REDSHOP_ORDER_DETAIL'); ?></th></tr>
+<?php	$order_item_name = array();
+		for($j=0;$j<count($OrderProducts);$j++)
+		{
+			$order_item_name[$j] = $OrderProducts[$j]->order_item_name;
+		}
+		$itemlist = implode(',<br/>',$order_item_name);
+		$statusname = $order_functions->getOrderStatusTitle($order_detail->order_status);
+		$orderdetailurl	=  JRoute::_('index.php?option='.$option.'&view=order_detail&oid='.$order_id);	?>
+		<tr class="rblOrderDetailItem">
+			<td><?php echo $order_id;?></td>
+			<td><?php echo $order_detail->order_number;?></td>
+			<td><?php echo $itemlist;?></td>
+			<td><?php echo $producthelper->getProductFormattedPrice($order_detail->order_total);?></td>
+	  		<td><?php echo $redconfig->convertDateFormat($order_detail->cdate); ?></td>
+	  		<!--<td>&nbps;</td>-->
+	  		<td><?php echo $statusname; ?></td>
+	  		<td><a href="<?php echo $orderdetailurl;?>"><?php echo JText::_('COM_REDSHOP_ORDER_DETAIL' );?></a></td></tr>
+<?php 
+}
+else
+{	?>
+<td><?php echo JText::_('COM_REDSHOP_ORDER_NOT_FOUND'); ?></td>
+<?php } ?>
+</tr></table>

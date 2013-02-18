@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" client="site" type="plugin" group="redshop_shipping"  method="upgrade">
+	<name>USPSv4</name>
+	<version>1.1.6</version>
+	<creationDate>27th July 2012</creationDate>
+	<author>redCOMPONENT.com</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<shipping_class>uspsv4</shipping_class>
+	<shipping_method_code>uspsv4</shipping_method_code>	  
+	<files>
+		<filename plugin="uspsv4">uspsv4.php</filename>	
+		<filename plugin="uspsv4">uspsv4.cfg.php</filename>		 
+	</files>
+	<languages >
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_uspsv4.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_uspsv4.sys.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_uspsv4.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_uspsv4.sys.ini</language>
+  	</languages>
+	<config  addfieldpath="/administrator/components/com_redshop/elements">
+ 	 <fields name="params" >
+	   <fieldset name="basic">
+		<field name="uspsv4_debug" type="hidden" default="0" />
+		<field name="extrafield_shipping"  type="extrafieldshipping" label="Select Extra Field" description="Displays on checkout" />
+	   </fieldset>	
+	 </fields>
+    </config >
+</extension>
