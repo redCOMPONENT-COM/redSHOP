@@ -1,3 +1,7 @@
+redSHOP1.1.20.1
+===============
+It's a copy of redSHOP 1.1.20.1 version from OLD git server. 
+
 Instructions
 =============
 
