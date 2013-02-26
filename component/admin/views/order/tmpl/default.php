@@ -143,7 +143,7 @@ var form = document.adminForm;
 	{
 		$send_mail_to_customer = "checked";
 	}
-	
+
 	$k = 0;
 	for ($i=0, $n=count( $this->orders ); $i < $n; $i++)
 	{
@@ -278,7 +278,7 @@ var form = document.adminForm;
 					{
 						$confirm = 'document.invoice.order_id.value=\''.$row->order_id.'\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate'.$i.'\').value;document.invoice.submit();';
 					}
-					echo JHTML::_('calendar',date('Y-m-d') , 'bookDate'.$i, 'bookDate'.$i,$format = '%Y-%m-%d',array('class'=>'inputbox', 'readonly'=>'readonly', 'size'=>'15',  'maxlength'=>'19'));	?>
+					echo JHTML::_('calendar',date('Y-m-d') , 'bookDate'.$i, 'bookDate'.$i,$format = '%Y-%m-%d',array('class'=>'inputbox','size'=>'15',  'maxlength'=>'19'));	?>
 				<input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE");?>" onclick="javascript:<?php echo $confirm;?>"><br/>
 		<?php	}
 			}
