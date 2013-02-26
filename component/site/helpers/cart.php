@@ -2943,7 +2943,7 @@ class rsCarthelper {
 			}
 			else
 			{
-				$template_desc = str_replace ( "{shipping_extrafields}", "", $template_desc );
+				$template_desc = str_replace ( "{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $template_desc );
 			}
 		}
 
@@ -3249,7 +3249,7 @@ class rsCarthelper {
 			}
 			else
 			{
-				$template_desc = str_replace ( "{payment_extrafields}", "", $template_desc );
+				$template_desc = str_replace ( "{payment_extrafields}", "<div id='extrafield_payment'></div>", $template_desc );
 			}
 		}
 
