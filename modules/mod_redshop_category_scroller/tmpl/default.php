@@ -34,9 +34,9 @@ $document->addStyleSheet (JURI::base().'modules/mod_redshop_products/css/product
 require_once(JPATH_SITE. DS .'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.js.php');
 
 // lightbox Javascript
+JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/',false);
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/',false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/',false);
-JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 $config = new Redconfiguration();
 $config->defineDynamicVars();

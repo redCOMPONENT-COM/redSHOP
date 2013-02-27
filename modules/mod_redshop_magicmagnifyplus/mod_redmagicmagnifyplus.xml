@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>Magic Magnify Plus module for Redshop</name>
+	<version>1.1</version>
+	<creationDate>11-03-2011</creationDate>
+	<author>redweb.dk</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Magic Magnify&lt;sup&gt;&amp;#8482;&lt;/sup&gt; lets you add a magnifying glass effect to your images. Try out some customisation options http://www.magictoolbox.com/magicmagnify/#customization. By http://www.magictoolbox.com/.</description>
+    <files>
+        
+                <filename>core/cursor/zoomin.cur</filename>
+            
+                <filename>core/cursor/zoomout.cur</filename>
+            
+                <filename>core/graphics/controlbar.png</filename>
+            
+                <filename>core/graphics/loader.gif</filename>
+            
+                <filename>core/magicmagnifyplus.css</filename>
+            
+                <filename>core/magicmagnifyplus.js</filename>
+            
+                <filename>core/magicmagnifyplus.swf</filename>
+            
+                <filename>magicmagnifyplus.module.core.class.php</filename>
+            
+                <filename>magictoolbox.makethumb.class.php</filename>
+            
+                <filename>magictoolbox.params.class.php</filename>
+            
+                <filename module="mod_redmagicmagnifyplus">mod_redmagicmagnifyplus.php</filename>
+            
+                <filename>mod_redmagicmagnifyplus.xml</filename>
+            
+    </files>
+    <config><fields name="params"><fieldset name="basic">
+        <field name="zoom-color" type="text" default="6E8C0E" label="Magnifier color (RGB)" />
+<field name="border-color" type="text" default="6E8C0E" label="Border color (RGB)" />
+<field name="size" type="text" default="100" label="Magnifier size (in pixels)" description="Both width and height if sizeX/sizeY are not specified" />
+<field name="sizeX" type="text" default="0" label="Magnifier width (in pixels)" description="0 - to disable this option" />
+<field name="sizeY" type="text" default="0" label="Magnifier height (in pixels)" description="0 - to disable this option" />
+<field name="type" type="list" default="circle" label="Magnifier shape" >
+<option value="circle">circle</option>
+<option value="square">square</option>
+</field>
+<field name="line-thickness" type="text" default="1" label="Magnifier line thickness (in pixels)" />
+<field name="line-thickness-border" type="text" default="1" label="Border line thickness (in pixels)" />
+<field name="lenseUrl" type="text" default="" label="Relative/Absolute url of the custom image" description="Leave empty to disable this option (use 'none' value instead empty)" />
+<field name="lenseOffsetX" type="text" default="0" label="Custom image x-offset" />
+<field name="lenseOffsetY" type="text" default="0" label="Custom image y-offset" />
+<field name="lensePotition" type="list" default="top" label="Custom image position" description="top - above magnifier, bottom - under magnifier" >
+<option value="top">top</option>
+<option value="bottom">bottom</option>
+</field>
+<field name="linkUrl" type="text" default="" label="Custom link URL" description="Leave empty to disable this option (use 'none' value instead empty)" />
+<field name="linkWindow" type="list" default="_self" label="Window or HTML frame into which the document should load" >
+<option value="_self">_self</option>
+<option value="_blank">_blank</option>
+<option value="_parent">_parent</option>
+<option value="_top">_top</option>
+</field>
+<field name="disableAutoStart" type="radio" default="No" label="Disables magnify effect autostart" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="pauseOnClick" type="radio" default="No" label="Pause on click" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="thumb" type="radio" default="Yes" label="Enable thumb effect" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="show_message" type="radio" default="Yes" label="Show message under image?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="message" type="text" default="Move your mouse over image or click to enlarge" label="Message under images" description="use 'none' value instead empty" />
+<field name="show_caption" type="radio" default="Yes" label="Show caption?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="caption_slide_duration" type="text" default="0.5" label="Caption slide duration (in seconds)" />
+<field name="zoom_duration" type="text" default="0.5" label="Zoom duration (in seconds)" />
+<field name="restore_duration" type="text" default="0.3" label="Image restore duration (in seconds)" />
+<field name="position" type="list" default="center" label="Zoomed image position" >
+<option value="center">center</option>
+<option value="auto">auto</option>
+</field>
+<field name="keep_thumbnail" type="radio" default="Yes" label="Thumbnail visibility?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="allow_keyboard" type="radio" default="Yes" label="Allow keyboard navigation?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="use_ctrl_key" type="radio" default="No" label="Require to use Ctrl key with keyboard shortcuts to navigate between images?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="background_fading_opacity" type="text" default="0" label="Fading background opacity (1-100)" />
+<field name="background_fading_color" type="text" default="#000000" label="Fading background color (RGB)" />
+<field name="background_fading_duration" type="text" default="0.2" label="Fading background duration" />
+<field name="controlbar_enable" type="radio" default="Yes" label="Control bar enable?" >
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</field>
+<field name="controlbar_position" type="list" default="top right" label="Control bar position" >
+<option value="top right">top right</option>
+<option value="bottom right">bottom right</option>
+<option value="bottom left">bottom left</option>
+<option value="top left">top left</option>
+</field>
+<field name="zindex" type="text" default="10001" label="Starting z-index" />
+   </fieldset></fields></config>
+</extension>

@@ -1,7 +1,7 @@
 /*--------------------------------------------------|
 | dTree 2.05 | www.destroydrop.com/javascript/tree/ |
 |---------------------------------------------------|
-| Copyright (c) 2002-2003 Geir Landrï¿½               |
+| Copyright (c) 2002-2003 Geir Landrö               |
 |                                                   |
 | This script can be used freely as long as all     |
 | copyright messages are intact.                    |

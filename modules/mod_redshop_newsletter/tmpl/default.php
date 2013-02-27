@@ -21,13 +21,14 @@ $email = JRequest::getVar('email');
 $name = JRequest::getVar('name');
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
+$newsletteritemid = $params->get('redirectpage');
 if($user->id!="")
 {
 	$email=$user->email;
 	$name =$user->name;
 }
 $params = &$mainframe->getParams($option);
-$newsletteritemid = $params->get('redirectpage');
+
 ?>
 <form method="post" action="" name="subscribeForm" onsubmit="return validation();">
 <div class="redshop_newsletter">
