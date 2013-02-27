@@ -23,6 +23,7 @@ require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'extra_field.php' );
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'quotation.php' );
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'product.php' );
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'mail.php' );
+require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'stockroom.php' );
 
 class quotation_detailModelquotation_detail extends JModel
 {
@@ -64,10 +65,10 @@ class quotation_detailModelquotation_detail extends JModel
 			;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
-		
+
 		return (boolean) $this->_data;
 	}
-	
+
 	function &getuserdata()
 	{
 		$producthelper = new producthelper();
@@ -263,7 +264,7 @@ class quotation_detailModelquotation_detail extends JModel
 		// get Order Item Info
 		$quoteitemdata = $this->getTable('quotation_item_detail');
 		$quoteitemdata->load($cids);
-		
+
 		$itemTax = ($quoteitemdata->product_price - $quoteitemdata->product_excl_price) * $quoteitemdata->product_quantity;
 		if($quotation->quotation_tax > 0)
 		{
@@ -286,7 +287,7 @@ class quotation_detailModelquotation_detail extends JModel
 		if (!$quotation->store()){
 			return false;
 		}
-		
+
 		$query = 'DELETE FROM '.$this->_table_prefix.'quotation_fields_data '
 				.'WHERE quotation_item_id IN ( '.$cids.' ) ';
 		$this->_db->setQuery( $query );
@@ -295,7 +296,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		$query = 'DELETE FROM '.$this->_table_prefix.'quotation_accessory_item '
 				.'WHERE quotation_item_id IN ( '.$cids.' )';
 		$this->_db->setQuery( $query );
@@ -329,7 +330,7 @@ class quotation_detailModelquotation_detail extends JModel
 		$quotationHelper = new quotationHelper();
 		$rsCarthelper = new rsCarthelper();
 		$producthelper = new producthelper();
-		
+		$stockroomhelper = new rsstockroomhelper();
 		$item = $data['quotation_item'];
 
 		// get Order Info
@@ -617,7 +618,7 @@ class quotation_detailModelquotation_detail extends JModel
 					}
 				}
 			}
-			
+
 			// store userfields
 			$userfields = JRequest::getVar('extrafields'.$qitemdata->product_id);
 			$userfields_id = JRequest::getVar('extrafields_id_'.$qitemdata->product_id);
