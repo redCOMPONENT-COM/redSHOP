@@ -1,0 +1,98 @@
+<?php
+/**
+ * @package     redSHOP
+ * @subpackage  Controllers
+ *
+ * @copyright   Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
+ */
+
+defined('_JEXEC') or die ('Restricted access');
+
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'core' . DS . 'controller.php';
+
+class RedshopControllerQuestion_detail extends RedshopCoreController
+{
+    public $redirectViewName = 'question';
+
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
+
+    public function save($send = 0)
+    {
+        $post             = $this->input->getArray($_POST);
+        $question         = $this->input->post->getString('question', '');
+        $post["question"] = $question;
+        $option           = $this->input->getString('option', '');
+        $cid              = $this->input->post->get('cid', array(0), 'array');
+
+        $post['question_id'] = $cid [0];
+        $model               = $this->getModel('question_detail');
+
+        if ($post['question_id'] == 0)
+        {
+            $post['question_date'] = time();
+            $post['parent_id']     = 0;
+        }
+
+        $row = $model->store($post);
+
+        if ($row)
+        {
+            $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_SAVED');
+        }
+        else
+        {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUESTION_DETAIL');
+        }
+
+        if ($send == 1)
+        {
+            $model->sendMailForAskQuestion($row->question_id);
+        }
+
+        $this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+    }
+
+    public function removeanswer()
+    {
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('aid', array(0), 'array');
+        $qid    = $this->input->post->get('cid', array(0), 'array');
+
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            throw new RuntimeException(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
+
+        $model = $this->getModel('question_detail');
+
+        if (!$model->delete($cid))
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+
+        $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
+    }
+
+    public function sendanswer()
+    {
+        $option = $this->input->getString('option', '');
+        $cid    = $this->input->post->get('aid', array(0), 'array');
+        $qid    = $this->input->post->get('cid', array(0), 'array');
+
+        for ($i = 0; $i < count($cid); $i++)
+        {
+            $redshopMail = new redshopMail();
+            $redshopMail->sendAskQuestionMail($cid[$i]);
+        }
+
+        $msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
+        $this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
+    }
+}

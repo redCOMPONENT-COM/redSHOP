@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" client="site" type="plugin" group="economic" method="upgrade">
+	<name>E-conomic</name>
+	<version>1.1.14</version>
+	<creationDate>10-04-2012</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>PROVIDES_ECONOMIC_INTEGRATION</description>
+	<files>
+		<filename plugin="economic">economic.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_economic_economic.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_economic_economic.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="economic_agreement_number" type="text" default="" label="COM_REDSHOP_ECONOMIC_AGREEMENT_NUMBER_LBL" description="COM_REDSHOP_DESC_ECONOMIC_AGREEMENT_NUMBER_LBL"/>
+				<field name="economic_username" type="text" default="" label="COM_REDSHOP_ECONOMIC_USERNAME_LBL" description="COM_REDSHOP_DESC_ECONOMIC_USERNAME_LBL"/>
+				<field name="economic_password" type="password" default="" label="COM_REDSHOP_ECONOMIC_PASSWORD_LBL" description="COM_REDSHOP_DESC_ECONOMIC_PASSWORD_LBL"/>
+				<field name="economic_debtor_group_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_DEBTOR_GROUP_ID_LBL" description="COM_REDSHOP_DESC_ECONOMIC_DEBTOR_GROUP_ID_LBL"/>
+				<field name="economic_payment_terms" type="text" default="" label="COM_REDSHOP_ECONOMIC_PAYMENT_TERMS_LBL" description="COM_REDSHOP_DESC_ECONOMIC_PAYMENT_TERMS_LBL"/>
+				<field name="economic_layout_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_LAYOUT_ID_LBL" description="COM_REDSHOP_DESC_ECONOMIC_LAYOUT_ID_LBL"/>
+				<field name="economic_units_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_UNITS_ID_LBL" description="COM_REDSHOP_DESC_ECONOMIC_UNITS_ID_LBL"/>
+				<field name="economic_cashbook_number" type="hidden" default="" label="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL" description="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL"/>
+				<field name="economic_contra_account" type="hidden" default="" label="COM_REDSHOP_ECONOMIC_CONTRA_ACCOUNT_ID_LBL" description="COM_REDSHOP_ECONOMIC_CONTRA_ACCOUNT_ID_LBL"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

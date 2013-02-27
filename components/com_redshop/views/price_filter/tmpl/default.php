@@ -1,0 +1,122 @@
+<?php
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+defined ('_JEXEC') or die ('restricted access');
+JHTML::_('behavior.tooltip');
+JHTML::_('behavior.modal');
+
+$Itemid = JRequest::getVar('Itemid');
+
+$texpricemin = JRequest::getVar('texpricemin');
+$texpricemax = JRequest::getVar('texpricemax');
+$count	= JRequest::getVar( 'count' );
+$image = JRequest::getVar( 'image');
+$thumbwidth = JRequest::getVar('thumbwidth');
+$thumbheight = JRequest::getVar('thumbheight');
+$show_price = JRequest::getVar('show_price');
+$show_readmore = JRequest::getVar('show_readmore');
+$show_addtocart = JRequest::getVar('show_addtocart');
+$show_discountpricelayout = JRequest::getVar('show_discountpricelayout');
+$show_desc = JRequest::getVar('show_desc');
+$k = 0;
+$configobj = new Redconfiguration();
+// get product helper
+require_once( JPATH_ROOT.DS.'components/com_redshop/helpers'.DS.'product.php' );
+$producthelper = new producthelper();?>
+<table border="0" cellpadding="2" cellspacing="2">
+<?php
+	for($i=0;$i<count($this->prdlist);$i++)
+	{
+		$row = $this->prdlist[$i];
+
+		$link 	= JRoute::_( 'index.php?option=com_redshop&view=product&pid='.$row->product_id);
+		$pricetext = '';
+		$product_price = $producthelper->getProductPrice($row->product_id);
+		$tmpprcie = $product_price;
+
+		if($product_price >= $texpricemin && $product_price<= $texpricemax && $count > 0)
+		{
+			$k++;
+			$count--;?>
+			<tr><td>
+	<?php	$thum_image = $producthelper->getProductImage($row->product_id,$link,$thumbwidth,$thumbheight);
+		    echo "<div class='mod_redshop_pricefilter'>";
+		    if($image) {
+				echo $thum_image."<br>";
+			}
+		    echo "<a href='".$link."'>".$row->product_name."</a><br>";
+
+		    //$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
+		    $productArr 			 = $producthelper->getProductNetPrice($row->product_id);
+			$product_price_discount  = $productArr['productPrice'] + $productArr['productVat'];
+
+			$taxexempt_addtocart = $producthelper->taxexempt_addtocart();
+
+			if(!$row->not_for_sale && $show_price && $taxexempt_addtocart)
+			{
+				if(SHOW_PRICE && ( !DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+				{
+					if(!$product_price)
+					{
+						$product_price_dis = $producthelper->getPriceReplacement($product_price);
+					} else {
+						$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
+					}
+					$pricetext = "";
+					$disply_text = "<div class='mod_redproducts_price'>".$product_price_dis."</div>";
+
+					if($row->product_on_sale && $product_price_discount > 0)
+					{
+						if($product_price > $product_price_discount)
+						{
+							$disply_text = "";
+							$s_price = $product_price - $product_price_discount;
+							$tmpprcie = $product_price_discount;
+							if($show_discountpricelayout)
+							{
+								$pricetext = "<div id='mod_redoldprice' class='mod_redoldprice'>";
+								$pricetext .="<span style='text-decoration:line-through;'>".$producthelper->getProductFormattedPrice($product_price)."</span></div>";
+								$pricetext .= "<div id='mod_redmainprice' class='mod_redmainprice'>".$producthelper->getProductFormattedPrice($product_price_discount)."</div>";
+								$pricetext .="<div id='mod_redsavedprice' class='mod_redsavedprice'>".JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED').' '.$producthelper->getProductFormattedPrice($s_price)."</div>";
+							} else {
+								$pricetext = "<div class='mod_redproducts_price'>".$producthelper->getProductFormattedPrice($product_price)."</div>";
+							}
+						}
+					}
+					echo $pricetext.$disply_text;
+				} else {
+					$product_price_dis = $producthelper->getPriceReplacement($product_price);
+					echo "<div class='mod_redproducts_price'>".$product_price_dis."</div>";
+				}
+			}
+
+			if($show_readmore)
+			{
+				echo "<br><a href='".$link."'>".JText::_('COM_REDSHOP_READ_MORE')."</a>&nbsp;";
+			}
+
+			if($show_addtocart)
+			{
+				$addtocartform = $producthelper->replaceCartTemplate($row->product_id);
+				echo "<div>".$addtocartform."<div>";
+			}
+			echo "</div>";	?>
+			</td></tr>
+<?php	}
+	}
+	if(!$k){
+	echo "<tr><td>".JText::_('COM_REDSHOP_NO_PRODUCT_FOUND')."</td></tr>";
+	}	?>
+</table>
