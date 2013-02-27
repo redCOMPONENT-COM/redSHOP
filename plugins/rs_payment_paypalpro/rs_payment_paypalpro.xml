@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" client="site" type="plugin" group="redshop_payment"
+	method="upgrade">
+	<name>PLG_RS_PAYMENT_PAYPALPRO</name>
+	<version>1.1.6</version>
+	<creationDate>27th July 2012</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Paypal Pro payments
+	</description>
+
+	<files>
+		<filename plugin="rs_payment_paypalpro">rs_payment_paypalpro.php</filename>
+	</files>
+	<languages >
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_paypalpro.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_paypalpro.sys.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_paypalpro.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_paypalpro.sys.ini</language>
+  	</languages>
+	<config addfieldpath="/administrator/components/com_redshop/elements">
+ 	 <fields name="params" >
+	   <fieldset name="basic">
+			
+				<field name="payment_oprand" type="text" size="10" default="-"
+					label="Payment operand" description="Payment Operand" />
+				<field name="payment_price" type="text" size="30" default=""
+					label="Payment price" description="Payment price" />
+				<field name="payment_discount_is_percent" type="radio" default="1"
+					label="Discount Type: " description="Discount Type">
+					<option value="1">Percentage </option>
+					<option value="0">Total</option>
+				</field>
+				<field name="debug_mode" type="radio" default="1" label="Debug Mode: " description="Debug Mode" >
+						<option value="1">Yes </option>
+						<option value="0">No</option>
+					</field>
+				<field name="is_test" type="list" default="1" label="Test mode?: "
+					description="Use sandbox account? (For development) ">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="user_cvv" type="list" default="1" label="Payment CVV: "
+					description="Use Payment CVV ">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="api_username" type="text" default=""
+					label="API account name:"
+					description="This is your API username. (This will differ between Sandbox and Live)  " />
+				<field name="api_password" type="text" default="" label="API password:"
+					description="This is your API password. (This will differ between Sandbox and Live) " />
+				<field name="api_signature" type="text" default="" label="API Signature:"
+					description="This is the API signature generated for you. (This will differ between Sandbox and Live) " />
+				<field name="paypal_email_address" type="text" default=""
+					label="Paypal Email Address:"
+					description="This is your PayPal email address. (This will differ between Sandbox and Live) " />
+				<field name="sales_auth_only" type="list" default="1"
+					label="Sale or Authorize Only: "
+					description="Do you want to send the final sales info to paypal or just authorize the card and return to the site to be processed later?">
+					<option value="Sale">Sales</option>
+					<option value="Authorization">Authorize Only</option>
+				</field>
+				<field name="verify_status" type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					key_field="st_value" value_field="st_title" default="C"
+					label="Order Status for successful transactions"
+					description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+				</field>
+				<field name="invalid_status" type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					key_field="st_value" value_field="st_title" default="P"
+					label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+				</field>
+				<field name="capture_status" type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					key_field="st_value" value_field="st_title" default="S"
+					label="Capture Payment Status" description="Select an capture status for capturing payment."></field>
+				<field name="extrafield_payment"  type="extrafieldpayment" label="Select Extra Field" description="Displays on checkout" />
+			</fieldset>
+			<fieldset name="advanced">
+				<field name="private_person" type="radio" default="1"
+					label="Show on Private Person" description="Show on Private Person">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="business" type="radio" default="1" label="Show on Business"
+					description="Show on Business">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="is_creditcard" type="hidden" default="1" value="1" />
+				<field name="accepted_credict_card" type="creditcards" default="0"
+					label="Select Credit Cards" description="Displays the selected category product" />
+				<field name="economic_payment_terms_id" type="text" default=""
+					label="Enter E-conomic Payment Conditions ID" />
+				<field name="economic_design_layout" type="text" default=""
+					label="Enter E-conomic Design and Layout ID" />
+				<field name="shopper_group_id" type="plugins" default="0"
+					label="Select Shopper Group" description="Displays the shopper groups" />
+			</fieldset>	
+	</fields>
+     </config >
+</extension>

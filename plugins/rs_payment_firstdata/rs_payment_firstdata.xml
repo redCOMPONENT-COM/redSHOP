@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.5" type="plugin" group="redshop_payment" method="upgrade">
+	<name>PLG_RS_PAYMENT_FIRSTDATA</name>
+	<version>1.0.0</version>
+	<creationDate>27th July 2012</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables FirstData Webservice Payments. You will get zip folder containing Certificate files from Firstdata Gateway. Please upload all certificate file in folder "certificates" located at path: site/plugins/redshop_payment/rs_payment_firstdata/rs_payment_firstdata/certificates/</description>
+	
+	<files>
+		<filename plugin="rs_payment_firstdata">rs_payment_firstdata.php</filename>
+		<folder>rs_payment_firstdata</folder>				 
+	</files>
+
+	 <languages >
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_firstdata.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_firstdata.sys.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_firstdata.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_firstdata.sys.ini</language>
+  	</languages>
+	
+	<config addfieldpath="/administrator/components/com_redshop/elements"><fields name="params"><fieldset name="basic">
+	
+		<field name="payment_oprand" type="text" size="10" default="-" label="Payment operand" description="Payment Operand"/>
+		<field name="payment_price" type="text" size="30" default="" label="Payment price" description="Payment price"/>
+		<field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: " description="Discount Type" >
+			<option value="1">Percentage </option>
+			<option value="0">Total</option>
+		</field>
+		<field name="is_test" type="list" default="0" label="Test Mode?" description=" Select 'Yes' while testing. Select 'No' for enabling live transactions.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>			 
+	  	</field>	
+		<field name="store_id" type="text"   default="" label="firstdata store ID" description="This is your firstdata store ID" /> 	
+		<field name="auth_uname" type="text"   default="" label="firstdata Authentication Username" description="Eneter Username from certificate .auth file" /> 	
+		<field name="auth_password" type="text"   default="" label="firstdata Authentication Password" description="Eneter Password from certificate .auth file" />
+		<field name="key_password" type="text"   default="" label="firstdata Key Password" description="Eneter Password from certificate .key.pw file" />
+ 		<!--<param name="pem_file_path" type="text"   default="" label="Path for .pem file" description="Relative Path for .pem certificate file. for e.g var/www/certificates/filename.pem" />
+		<param name="key_file_path" type="text"   default="" label="Path for .key file" description="Relative Path for .key certificate file. for e.g var/www/certificates/filename.key" />-->
+		
+		<field name="auth_type" type="list" default="0" label="Authentication Type" description="This is the eProcessingNetwork.com authentication type. ">
+			<option value="sale">Sale</option>
+			<option value="preAuth">PreAuth</option>			 
+	  	</field>
+		<field name="verify_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"   default="C" label="Order Status for successful transactions" description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+	  	</field>
+		<field name="invalid_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"  default="P" label="Order Status for failed transactions" description="Select an order status for failed payment transactions.">
+	  	</field>
+		<field name="capture_status"  type="sql" query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"   key_field="st_value" value_field="st_title"  default="S" label="Capture Payment Status" description="Select an capture status for capturing payment."></field>
+	</fieldset>
+	<fieldset name="advanced">
+		<field name="private_person" type="radio" default="1" label="Show on Private Person" description="Show on Private Person">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+	  	<field name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		<field name="is_creditcard" type="hidden" default="1" value="1" />
+		<field name="economic_payment_terms_id" type="text"   default="2" label="Enter E-conomic Payment Conditions ID" />
+		<field name="economic_design_layout" type="text" default="" label="Enter E-conomic Design and Layout ID" />
+		<field name="accepted_credict_card"  type="creditcards" default="0" label="Select Credit Cards" description="Displays the selected category product" />
+		<field name="shopper_group_id"  type="plugins" default="0" label="Select Shopper Group" description="Displays the shopper groups" />
+	</fieldset>
+	</fields>
+	</config>
+</extension>

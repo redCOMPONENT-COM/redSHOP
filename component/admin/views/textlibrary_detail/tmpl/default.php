@@ -1,0 +1,118 @@
+<?php
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
+ * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * Developed by email@recomponent.com - redCOMPONENT.com
+ *
+ * redSHOP can be downloaded from www.redcomponent.com
+ * redSHOP is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with redSHOP; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+defined('_JEXEC') or die('Restricted access');
+
+JHTML::_('behavior.tooltip');
+
+$editor =& JFactory::getEditor();
+?>
+
+<script language="javascript" type="text/javascript">
+	Joomla.submitbutton = function(pressbutton) {
+	submitbutton(pressbutton);
+	}
+
+submitbutton = function(pressbutton) {
+		var form = document.adminForm;
+		if (pressbutton == 'cancel') {
+			submitform( pressbutton );
+			return;
+		}
+
+		if (form.text_name.value == ""){
+			alert( "<?php echo JText::_('COM_REDSHOP_TAG_NAME_MUST_HAVE_A_ENTER', true ); ?>" );
+		} else if (form.text_desc.value == ""){
+			alert( "<?php echo JText::_('COM_REDSHOP_TAG_DESCRIPTION_MUST_HAVE_A_ENTER', true ); ?>" );
+		} else if (form.section.value == 0 || form.section.value == '0'){
+			alert( "<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEXT_LIBRARY_SECTION', true ); ?>" );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+</script>
+<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+<div class="col50">
+	<fieldset class="adminform">
+		<legend><?php echo JText::_('COM_REDSHOP_DETAILS' ); ?></legend>
+
+		<table class="admintable">
+		<tr>
+			<td width="100" align="right" class="key">
+				<label for="name">
+					<?php echo JText::_('COM_REDSHOP_TAG_NAME' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="text_name" id="text_name" size="32" maxlength="250" value="<?php echo $this->detail->text_name;?>" />
+				<?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_TAG_NAME' ), JText::_('COM_REDSHOP_TAG_NAME' ), 'tooltip.png', '', '', false); ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right" class="key">
+				<label for="deliverytime">
+					<?php echo JText::_('COM_REDSHOP_TEXT_DESCRIPTION' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="text_desc" id="text_desc" value="<?php echo $this->detail->text_desc; ?>" size="32" maxlength="250" />
+				<?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_TEXT_FIELD' ), JText::_('COM_REDSHOP_TEXT_FIELD' ), 'tooltip.png', '', '', false); ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right" class="key">
+				<?php echo JText::_('COM_REDSHOP_SECTION' ); ?>:
+			</td>
+			<td>
+				<?php echo $this->lists['section']; ?>
+				<?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_SECTION' ), JText::_('COM_REDSHOP_SECTION' ), 'tooltip.png', '', '', false); ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right" class="key">
+				<?php echo JText::_('COM_REDSHOP_PUBLISHED' ); ?>:
+			</td>
+			<td>
+				<?php echo $this->lists['published']; ?>
+			</td>
+		</tr>
+
+	</table>
+	</fieldset>
+</div>
+<div class="col50">
+
+</div>
+
+<div class="col50">
+	<fieldset class="adminform">
+		<legend><?php echo JText::_('COM_REDSHOP_TEXT_FIELD' ); ?></legend>
+
+		<table class="admintable">
+		<tr>
+			<td>
+				<?php echo $editor->display("text_field", $this->detail->text_field,'$widthPx','$heightPx','100','20');	?>
+			</td>
+		</tr>
+		</table>
+	</fieldset>
+</div>
+<div class="clr"></div>
+
+<input type="hidden" name="cid[]" value="<?php echo $this->detail->textlibrary_id; ?>" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="view" value="textlibrary_detail" />
+</form>
