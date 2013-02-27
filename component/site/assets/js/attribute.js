@@ -1822,7 +1822,7 @@ function discountCalculation(proid)
 			
 			if(areaPrice == "fail"){
 				
-				alert(NOT_AVAILABLE);
+				alert(COM_REDSHOP_NOT_AVAILABLE);
 				return false;
 			}else{
 				
