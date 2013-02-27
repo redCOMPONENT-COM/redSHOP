@@ -946,6 +946,11 @@ function changeOfflinePriceBox(unique_id)
 function changeOfflineQuantityBox(unique_id)
 {	
 	var prdexclprice=0;
+	if(document.getElementById("main_priceproduct1") && document.getElementById("product_vatpriceproduct1"))
+	{
+		prdexclprice = parseFloat(document.getElementById("main_priceproduct1").value) - parseFloat(document.getElementById("product_vatpriceproduct1").value);
+	}
+	document.getElementById("prdexclprice"+unique_id).value = prdexclprice;
 	if(document.getElementById("change_product_tmp_price"+unique_id))
 	{
 		prdexclprice = document.getElementById("change_product_tmp_price"+unique_id).value;
