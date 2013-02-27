@@ -1166,32 +1166,61 @@ class rsCarthelper {
 		for($i = 0; $i < count ( $rowitem ); $i ++)
 		{
 
-			$dirname = JPATH_COMPONENT_SITE.DS."assets/images/orderMergeImages/".$rowitem [$i]->attribute_image;
-			$folderName = "orderMergeImages";
-			if(is_file($dirname))
-			{
-				$attribute_image_path=$url."components/com_redshop/helpers/thumb.php?filename=".$folderName."/".$rowitem [$i]->attribute_image."&newxsize=".CART_THUMB_WIDTH."&newysize=".CART_THUMB_HEIGHT."&swap=".USE_IMAGE_SIZE_SWAPPING;
-				$attrib_img = "<img src='".$attribute_image_path."'>";
-			}
-			else
-			{
-				$attribute_image_path=$url."components/com_redshop/helpers/thumb.php?filename=product_attributes/".$rowitem [$i]->attribute_image."&newxsize=".CART_THUMB_WIDTH."&newysize=".CART_THUMB_HEIGHT."&swap=".USE_IMAGE_SIZE_SWAPPING;
-				$attrib_img = "<img src='".$attribute_image_path."'>";
-			}
-
-		    $product_id = $rowitem [$i]->product_id;
+			$product_id = $rowitem [$i]->product_id;
 			$quantity = $rowitem [$i]->product_quantity;
 			if ($rowitem [$i]->is_giftcard)
 			{
 				$giftcardData = $this->_producthelper->getGiftcardData ( $product_id );
 				$product_name = $giftcardData->giftcard_name;
 				$userfield_section = 13;
-
+					
 			} else {
-
+					
 				$product = $this->_producthelper->getProductById ( $product_id );
 				$product_name = $product->product_name;
 				$userfield_section = 12;
+			}
+			
+			$dirname = JPATH_COMPONENT_SITE.DS."assets/images/orderMergeImages/".$rowitem [$i]->attribute_image;
+			//$folderName = "orderMergeImages";
+			if(is_file($dirname))
+			{
+			
+				$attribute_image_path=$url."components/com_redshop/helpers/thumb.php?filename=orderMergeImages/".$rowitem [$i]->attribute_image."&newxsize=".CART_THUMB_WIDTH."&newysize=".CART_THUMB_HEIGHT."&swap=".USE_IMAGE_SIZE_SWAPPING;
+				$attrib_img = "<img src='".$attribute_image_path."'>";
+			}
+			else
+			{
+				if(is_file(JPATH_COMPONENT_SITE.DS."assets/images/product_attributes/".$rowitem [$i]->attribute_image))
+				{
+					$attribute_image_path=$url."components/com_redshop/helpers/thumb.php?filename=product_attributes/".$rowitem [$i]->attribute_image."&newxsize=".CART_THUMB_WIDTH."&newysize=".CART_THUMB_HEIGHT."&swap=".USE_IMAGE_SIZE_SWAPPING;
+					$attrib_img = "<img src='".$attribute_image_path."'>";
+				}
+				else
+				{
+					if ($product->product_full_image)
+					{
+						if (is_file (REDSHOP_FRONT_IMAGES_RELPATH."product/" . $product->product_full_image ))
+						{
+							$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
+							$attrib_img = "<img src='".$attribute_image_path."'>";
+						}
+						else
+						{
+							if (is_file (REDSHOP_FRONT_IMAGES_RELPATH."product/" . PRODUCT_DEFAULT_IMAGE ))
+							{
+								$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+								$attrib_img = "<img src='".$attribute_image_path."'>";
+							}
+						}
+					} else {
+						if (is_file (REDSHOP_FRONT_IMAGES_RELPATH."product/" . PRODUCT_DEFAULT_IMAGE ))
+						{
+							$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+							$attrib_img = "<img src='".$attribute_image_path."'>";
+						}
+					}
+				}
 			}
 
 			$product_name = "<div class='product_name'>" . $product_name . "</div>";
@@ -1226,33 +1255,6 @@ class rsCarthelper {
 				}
 				$wrapper_price = $this->_producthelper->getProductFormattedPrice ( $rowitem [$i]->wrapper_price );
 				$wrapper_name = JText::_('COM_REDSHOP_WRAPPER' ) . ": " . $wrapper_name . "(" . $wrapper_price . ")";
-			}
-
-			$product_image_path = "";
-			if ($product->product_full_image)
-			{
-				if (is_file (REDSHOP_FRONT_IMAGES_RELPATH."product/" . $product->product_full_image ))
-				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
-				}
-				else
-				{
-					if (is_file (REDSHOP_FRONT_IMAGES_RELPATH."product/" . PRODUCT_DEFAULT_IMAGE ))
-					{
-						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
-					}
-				}
-			} else {
-				if (is_file (REDSHOP_FRONT_IMAGES_RELPATH."product/" . PRODUCT_DEFAULT_IMAGE ))
-				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
-				}
-			}
-			if ($product_image_path)
-			{
-				$product_image = "<div  class='product_image'><img src='" . $product_image_path . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></div>";
-			} else {
-				$product_image = "<div  class='product_image'></div>";
 			}
 
 			$cart_mdata = str_replace ( "{product_name}", $product_name, $data );
@@ -1321,14 +1323,7 @@ class rsCarthelper {
 					$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata,$product_id,$fieldArray);
 				// ProductFinderDatepicker Extra Field End
 
-            if($rowitem [$i]->attribute_image!="")
-            {
-            	$cart_mdata = str_replace ( "{product_thumb_image}", $attrib_img, $cart_mdata );
-            }
-            else
-            {
-            	$cart_mdata = str_replace ( "{product_thumb_image}", $product_image, $cart_mdata );
-            }
+			$cart_mdata = str_replace ( "{product_thumb_image}", "<div  class='product_image'>".$attrib_img."</div>", $cart_mdata );
 			$cart_mdata = str_replace ( "{product_price}", $product_price, $cart_mdata );
 
 			$cart_mdata = str_replace ( "{product_old_price}", $product_old_price, $cart_mdata );
