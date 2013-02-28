@@ -221,8 +221,8 @@ class economic
 	{
 		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0) return;
 
-		$eco['product_desc'] = substr(strip_tags($row->product_desc),0,499);
-		$eco['product_s_desc'] = substr(strip_tags($row->product_s_desc),0,499);
+		$eco['product_desc'] = utf8_encode(substr(strip_tags($row->product_desc),0,499));
+		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc),0,499));
 
 		$ecoProductGroupNumber = $this->createProductGroupInEconomic($row);
 		if(isset($ecoProductGroupNumber[0]->Number))
