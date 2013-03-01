@@ -3470,7 +3470,18 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;	
 	
 	params = params + subscription_data + extrafieldpost;	
-	//var url = site_url+"index.php?"+params;
+	
+	/*
+	 * Function will override from any non redSHOP core javascript to append more cart params
+	 * 
+	 * Also we can use the same function as validator
+	 */
+	if(getExtraParams(frm)){
+		params = params + getExtraParams(frm);
+	}else{
+		return false;
+	}
+	
 	var url = site_url+"index.php?"+params;
 		
 	if(/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))
