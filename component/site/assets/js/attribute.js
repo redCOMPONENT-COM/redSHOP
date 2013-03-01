@@ -2906,7 +2906,19 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	// pdc extra data
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;	
 	
-	params = params + subscription_data + extrafieldpost;	
+	params = params + subscription_data + extrafieldpost;
+	
+	/*
+	 * Function will override from any non redSHOP core javascript to append more cart params
+	 * 
+	 * Also we can use the same function as validator
+	 */
+	if(getExtraParams(frm)){
+		params = params + getExtraParams(frm);
+	}else{
+		return false;
+	}
+	
 	var url = site_url+"index.php?"+params;
 	
 	request.open("POST", url, false);	 
@@ -2991,6 +3003,13 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	};
 	request.send(url);
 	//request.send(params);
+}
+
+/*
+ * This function originally will override for AJAX CART Submit Data
+ */
+function getExtraParams(frm){
+	return '&';
 }
 
 function displayAddtocartProperty(frmCartName,product_id,attribute_id,property_id)
