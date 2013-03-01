@@ -168,7 +168,7 @@ class producthelper
 			if($product_id)
 				$categoryProduct = $this->getCategoryProduct($product_id);
 
-			
+
 			$q = "SELECT * FROM ".$this->_table_prefix."discount_product ";
 
 			$where .= " AND (discount_product_id IN ('".$discount_product_id."') OR FIND_IN_SET('".$categoryProduct."',category_ids) )";
@@ -211,7 +211,7 @@ class producthelper
 
 	function getProductSpecialId($userid)
 	{
-		
+
 		if($userid)
 		{
 			$sql = "SELECT ps.discount_product_id FROM ".$this->_table_prefix."users_info AS ui "
@@ -1198,6 +1198,17 @@ class producthelper
 			$temp_Product_price = $result->product_price;
 			$newproductprice = $temp_Product_price;
 		}
+
+		// Set Product Custom Price through product plugin
+		$dispatcher		= JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_product');
+		$results = $dispatcher->trigger('setProductCustomPrice', array ($product_id));
+		if(count($results)>0 && $results[0])
+		{
+			$newproductprice = $results[0];
+		}
+		// End
+
 		$applytax = $this->getApplyVatOrNot($data_add,$user_id);
 		$discount_product_id = $this->getProductSpecialId($user_id);
 		$res = $this->getProductSpecialPrice($newproductprice,$discount_product_id,$product_id);
@@ -2599,7 +2610,7 @@ class producthelper
 	}
 
 	function insertProdcutUserfield($id='NULL',$cart=array(),$order_item_id=0,$section_id=12)
-	{ 
+	{
 		$extraField = new extraField();
 		$row_data = $extraField->getSectionFieldList($section_id,1);
 
@@ -6790,7 +6801,7 @@ class producthelper
 			$data_add = str_replace ( "{product_stock_amount_image}", $stockamountImage, $data_add );
 		}
 
-		
+
 		return $data_add;
 	}
 
@@ -7492,7 +7503,7 @@ class producthelper
 			$totalatt = count($attributes);
 			$productStockStatus = $this->getproductStockStatus($product->product_id, $totalatt, $property_id, $subproperty_id);
 
-		 
+
 			 if(strstr($template_desc,"{stock_status"))
 			 {
 				$stocktag= strstr($template_desc,"{stock_status");
@@ -7525,7 +7536,7 @@ class producthelper
 					if(($productStockStatus['preorder'] && !$productStockStatus['preorder_stock']) || !$productStockStatus['preorder'])
 					{
 						$stock_status = "<span id='stock_status_div".$product_id."'><div id='".$out_stock_class."' class='".$out_stock_class."'>".JText::_('COM_REDSHOP_OUT_OF_STOCK')."</div></span>";
-					} else 
+					} else
 					{
 						$stock_status = "<span id='stock_status_div".$product_id."'><div id='".$pre_order_class."' class='".$pre_order_class."'>".JText::_('COM_REDSHOP_PRE_ORDER')."</div></span>";
 					}
@@ -7538,8 +7549,8 @@ class producthelper
 			 {
 				$userArr 	= $this->_session->get('rs_user');
 				$is_login 	= $userArr['rs_is_user_login'];
-				$users_info_id 	= $userArr['rs_user_info_id']; 
-				$user_id =  $userArr['rs_userid']; 
+				$users_info_id 	= $userArr['rs_user_info_id'];
+				$user_id =  $userArr['rs_userid'];
 				$is_notified = $this->isAlreadyNotifiedUser($user_id,$product->product_id, $property_id, $subproperty_id);
 				if(!$productStockStatus['regular_stock'] && $is_login && $users_info_id)
 				{
@@ -7548,7 +7559,7 @@ class producthelper
 						if($is_notified)
 						{
 							$notify_stock = "<span>".JText::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION')."</span>";
-						
+
 						}else {
 							$notify_stock = '<span >'.JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL').'</span><input type="button" name="" value="'.JText::_('COM_REDSHOP_NOTIFY_STOCK').'" class="notifystockbtn" title="'.JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL').'" onclick="getStocknotify(\''.$product->product_id.'\',\''.$property_id.'\', \''.$subproperty_id.'\');">';
 						}
@@ -7568,22 +7579,22 @@ class producthelper
 				if(!$productStockStatus['regular_stock'] && $productStockStatus['preorder'])
 				{
 					if($product->product_availability_date!="")
-					{	
+					{
 						$product_availability_date_lbl = JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL').": ";
 						$product_availability_date = $redshopconfig->convertDateFormat($product->product_availability_date);
 					} else {
 						$product_availability_date_lbl = "";
 						$product_availability_date = "";
 					}
-					
+
 				} else {
-					
+
 					$product_availability_date_lbl = "";
 					$product_availability_date = "";
 				}
 			}
 		}
-		
+
 		$ret 								= array();
 		$ret['response'] 					= $response;
 		$ret['aHrefImageResponse'] 			= $aHrefImageResponse;
@@ -7911,7 +7922,7 @@ class producthelper
 				$rsltdata['preorder_stock']= $prestocksts;
 			}
 		}
-		
+
 		$rsltdata['regular_stock']= $stocksts;
 		return $rsltdata;
 	}
@@ -7955,7 +7966,7 @@ class producthelper
 			else {
 				$stock_status = "<span id='stock_status_div".$product_id."'><div id='".$avail_class."' class='".$avail_class."'>".JText::_('COM_REDSHOP_AVAILABLE_STOCK')."</div></span>";
 			}
-			$data_add = str_replace ( $realstocktag , $stock_status, $data_add); 
+			$data_add = str_replace ( $realstocktag , $stock_status, $data_add);
 
 		}
 
@@ -7964,9 +7975,9 @@ class producthelper
 			$userArr 	= $this->_session->get('rs_user');
 			$user_id = $userArr['rs_userid'];
 			$is_login 	= $userArr['rs_is_user_login'];
-			$users_info_id 	= $userArr['rs_user_info_id']; 
+			$users_info_id 	= $userArr['rs_user_info_id'];
 			$is_notified = $this->isAlreadyNotifiedUser($user_id,$product_id, $property_id, $subproperty_id);
-			
+
 				if(!$stockStatusArray['regular_stock'] && $is_login && $users_info_id && $user_id)
 				{
 					if(($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
@@ -7974,7 +7985,7 @@ class producthelper
 						if($is_notified)
 					 	{
 							$data_add = str_replace ( "{stock_notify_flag}", "<div id='notify_stock".$product_id."'>".JText::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION')."</div>", $data_add );
-						} else 
+						} else
 						{
 							$data_add = str_replace ( "{stock_notify_flag}", '<div id="notify_stock'.$product_id.'"><span >'.JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL').'</span><input type="button" name="" value="'.JText::_('COM_REDSHOP_NOTIFY_STOCK').'" class="notifystockbtn" title="'.JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL').'" onclick="getStocknotify(\''.$product_id.'\',\''.$property_id.'\', \''.$subproperty_id.'\');"></div>', $data_add );
 						}
@@ -7986,30 +7997,30 @@ class producthelper
 				} else {
 					$data_add = str_replace ( "{stock_notify_flag}", "<div id='notify_stock".$product_id."'></div>", $data_add );
 				}
-			
+
 
 		}
-		
+
 		if(strstr($data_add,"{product_availability_date}"))
-		{ 
+		{
 			$redshopconfig = new Redconfiguration ( );
 			$product = $this->getProductById($product_id);
 			if(!$stockStatusArray['regular_stock'] && $stockStatusArray['preorder'])
 			{
 				if($product->product_availability_date)
 				{
-					
+
 					$data_add = str_replace ( "{product_availability_date_lbl}", "<span id='stock_availability_date_lbl".$product_id."'>".JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL').": </span>", $data_add );
 					$data_add = str_replace ( "{product_availability_date}", "<span id='stock_availability_date".$product_id."'>".$redshopconfig->convertDateFormat($product->product_availability_date)."</span>", $data_add);
 				} else {
 					$data_add = str_replace ( "{product_availability_date_lbl}", "<span id='stock_availability_date_lbl".$product_id."'></span>", $data_add );
 					$data_add = str_replace ( "{product_availability_date}", "<span id='stock_availability_date".$product_id."'></span>", $data_add );
 				}
-				
+
 			} else {
 				$data_add = str_replace ( "{product_availability_date_lbl}", "<span id='stock_availability_date_lbl".$product_id."'></span>", $data_add );
 				$data_add = str_replace ( "{product_availability_date}", "<span id='stock_availability_date".$product_id."'></span>", $data_add );
-				
+
 			}
 		}
 		return $data_add;
@@ -8021,12 +8032,12 @@ class producthelper
 		$this->_db->setQuery($query);
 		return $this->_db->loadResult();
 	}
-	
+
 	function insertPaymentShippingField($cart=array(),$order_id=0,$section_id=18)
 	{
 		$extraField = new extraField();
 		$row_data = $extraField->getSectionFieldList($section_id,1);
-	
+
 		for($i=0;$i<count($row_data);$i++)
 		{
 			$user_fields = $cart['extrafields_values'][$row_data[$i]->field_name];
@@ -8044,14 +8055,14 @@ class producthelper
 
 	function getPaymentandShippingExtrafields($order, $section_id)
 	{
-	
+
 		$extraField = new extraField();
 		$row_data = $extraField->getSectionFieldList($section_id,1);
 		$resultArr = array();
 		for($j=0;$j<count($row_data);$j++)
 		{
 			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id,$section_id,$order->order_id);
-			
+
 			if($main_result->data_txt!="" && $row_data[$j]->field_show_in_front==1)
 			{
 				$resultArr[] = $main_result->field_title." : ". $main_result->data_txt;
@@ -8062,9 +8073,9 @@ class producthelper
 		{
 			$resultstr = implode("<br/>",$resultArr);
 		}
-		
+
 		return $resultstr;
 	}
-	
+
 }?>
 
