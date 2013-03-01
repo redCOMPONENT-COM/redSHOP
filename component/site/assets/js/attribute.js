@@ -2634,10 +2634,10 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 					}
 			}
 		};
-		
+		request.open("POST", detailurl, true);
+		request.send(params);
 	}
-	request.open("POST", detailurl, true);
-	request.send(params);
+	
 }
 
 function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,totAttribute,totAccessory,totUserfield)
