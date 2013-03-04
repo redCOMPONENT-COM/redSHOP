@@ -69,8 +69,11 @@
 			<field name="epay_authsms" type="text" size="10" default="" label="Auth SMS" description="Enter a mobile number here to receive a SMS message when the payment is verified by ePay."/>
 			<field name="epay_authemail" type="text" size="10" default="" label="Auth EMAIL" description="Enter one or more email addresses to receive an email when the payment is verified by ePay. For multiple receivers separate the email addresses by semicolon (;)."/>
 			<field name="epay_window_state" type="list" default="1" label="Window State" description="">
-			<option value="1">Popup</option>
-			<option value="2">Same window (full screen)</option>			 
+			<option value="1">Overlay</option>
+			<option value="4">Integrated payment form</option>
+			<option value="2">Iframe (embedded in the side)</option>
+			<option value="3">Full screen</option>
+			<option value="10">Mobile window</option>	 		 
 	  		</field>
 	  		
 	  		<field name="ownreceipt" type="list" default="1" label="Epay ownreceipt" description="">
