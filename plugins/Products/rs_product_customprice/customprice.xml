@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="redshop_product" method="upgrade">
+   <name>plg_redshop_product_customprice</name>
+   <author>redCOMPONENT.com</author>
+   <creationDate>1 August 2012</creationDate>
+   <copyright>redCOMPONENT.com</copyright>
+   <license>GNU/GPL</license>
+   <authorEmail>email@redcomponent.com</authorEmail>
+   <authorUrl>www.redweb.dk</authorUrl>	
+   <version>1.1</version>
+   <description>redSHOP Custom Product Price Enter By User</description>
+   <files>
+       <filename plugin="customprice">customprice.php</filename>
+   </files>
+</extension>
