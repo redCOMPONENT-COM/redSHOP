@@ -1743,7 +1743,7 @@ function discountCalculation(proid)
 	if(document.getElementById('calc_height')){
 		calHeight = document.getElementById('calc_height').value;
 		if(calHeight==""){
-			alert(PLEASE_INSERT_HEIGHT);
+			alert(COM_REDSHOP_PLEASE_INSERT_HEIGHT);
 			return false;
 		}
 			
@@ -1752,7 +1752,7 @@ function discountCalculation(proid)
 	if(document.getElementById('calc_width')){
 		calWidth = document.getElementById('calc_width').value;
 		if(calWidth==""){
-			alert(PLEASE_INSERT_WIDTH);
+			alert(COM_REDSHOP_PLEASE_INSERT_WIDTH);
 			return false;
 		}
 	}
@@ -1760,7 +1760,7 @@ function discountCalculation(proid)
 	if(document.getElementById('calc_depth')){
 		calDepth = document.getElementById('calc_depth').value;
 		if(calDepth==""){
-			alert(PLEASE_INSERT_DEPTH);
+			alert(COM_REDSHOP_PLEASE_INSERT_DEPTH);
 			return false;
 		}
 	}
@@ -1768,7 +1768,7 @@ function discountCalculation(proid)
 	if(document.getElementById('calc_radius')){
 		calRadius = document.getElementById('calc_radius').value;
 		if(calRadius==""){
-			alert(PLEASE_INSERT_RADIUS);
+			alert(COM_REDSHOP_PLEASE_INSERT_RADIUS);
 			return false;
 		}
 	}
@@ -1776,7 +1776,7 @@ function discountCalculation(proid)
 	if(document.getElementById('discount_calc_unit')){
 		calUnit = document.getElementById('discount_calc_unit').value;
 		if(calUnit==0){
-			alert(PLEASE_INSERT_UNIT);
+			alert(COM_REDSHOP_PLEASE_INSERT_UNIT);
 			return false;
 		}
 	}
@@ -2225,7 +2225,7 @@ function setAddtocartForm(frmCartName,product_id)
 		var calHeight = document.getElementById('calc_height').value;
 		
 		if(calHeight==""){
-			alert(PLEASE_INSERT_HEIGHT);
+			alert(COM_REDSHOP_PLEASE_INSERT_HEIGHT);
 			return false;
 		}else{
 			frm.calcHeight.value = calHeight;
@@ -2236,7 +2236,7 @@ function setAddtocartForm(frmCartName,product_id)
 	if(document.getElementById('calc_width')){
 		var calWidth = document.getElementById('calc_width').value;
 		if(calWidth==""){
-			alert(PLEASE_INSERT_WIDTH);
+			alert(COM_REDSHOP_PLEASE_INSERT_WIDTH);
 			return false;
 		}else{
 			frm.calcWidth.value = calWidth;
@@ -2246,7 +2246,7 @@ function setAddtocartForm(frmCartName,product_id)
 	if(document.getElementById('calc_depth')){
 		var calDepth = document.getElementById('calc_depth').value;
 		if(calDepth==""){
-			alert(PLEASE_INSERT_DEPTH);
+			alert(COM_REDSHOP_PLEASE_INSERT_DEPTH);
 			return false;
 		}else{
 			frm.calcDepth.value = calDepth;	
@@ -2256,7 +2256,7 @@ function setAddtocartForm(frmCartName,product_id)
 	if(document.getElementById('calc_radius')){
 		var calRadius = document.getElementById('calc_radius').value;
 		if(calRadius==""){
-			alert(PLEASE_INSERT_RADIUS);
+			alert(COM_REDSHOP_PLEASE_INSERT_RADIUS);
 			return false;
 		}else{
 			frm.calcRadius.value = calRadius;
@@ -2266,7 +2266,7 @@ function setAddtocartForm(frmCartName,product_id)
 	if(document.getElementById('discount_calc_unit')){
 		calUnit = document.getElementById('discount_calc_unit').value;
 		if(calUnit==0){
-			alert(PLEASE_INSERT_UNIT);
+			alert(COM_REDSHOP_PLEASE_INSERT_UNIT);
 			return false;
 		}else{
 			frm.calcUnit.value = calUnit;
@@ -2634,10 +2634,10 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 					}
 			}
 		};
-		
+		request.open("POST", detailurl, true);
+		request.send(params);
 	}
-	request.open("POST", detailurl, true);
-	request.send(params);
+	
 }
 
 function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,totAttribute,totAccessory,totUserfield)
@@ -2906,7 +2906,19 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	// pdc extra data
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;	
 	
-	params = params + subscription_data + extrafieldpost;	
+	params = params + subscription_data + extrafieldpost;
+	
+	/*
+	 * Function will override from any non redSHOP core javascript to append more cart params
+	 * 
+	 * Also we can use the same function as validator
+	 */
+	if(getExtraParams(frm)){
+		params = params + getExtraParams(frm);
+	}else{
+		return false;
+	}
+	
 	var url = site_url+"index.php?"+params;
 	
 	request.open("POST", url, false);	 
@@ -2991,6 +3003,13 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	};
 	request.send(url);
 	//request.send(params);
+}
+
+/*
+ * This function originally will override for AJAX CART Submit Data
+ */
+function getExtraParams(frm){
+	return '&';
 }
 
 function displayAddtocartProperty(frmCartName,product_id,attribute_id,property_id)
@@ -3451,7 +3470,18 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;	
 	
 	params = params + subscription_data + extrafieldpost;	
-	//var url = site_url+"index.php?"+params;
+	
+	/*
+	 * Function will override from any non redSHOP core javascript to append more cart params
+	 * 
+	 * Also we can use the same function as validator
+	 */
+	if(getExtraParams(frm)){
+		params = params + getExtraParams(frm);
+	}else{
+		return false;
+	}
+	
 	var url = site_url+"index.php?"+params;
 		
 	if(/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))
