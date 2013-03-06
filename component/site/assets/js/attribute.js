@@ -1889,7 +1889,13 @@ function discountCalculation(proid)
 						
 												
 							var product_total = final_price_f-parseFloat(product_main_price)+parseFloat(price_total);					
-							var product_price_excl_vat = price_total+price_excl_vat*qty;
+
+							if(areaPrice[8]==1)
+							{
+								var product_price_excl_vat = price_total+price_excl_vat*qty;
+							} else {
+								var product_price_excl_vat = price_total*qty;
+							}
 							
 							formatted_price_total = number_format(product_total,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
 							formatted_product_price_excl_vat = number_format(product_price_excl_vat,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
