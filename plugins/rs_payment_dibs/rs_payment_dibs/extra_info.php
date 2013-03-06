@@ -32,8 +32,8 @@
       	'capturenow' => $this->_params->get("instant_capture"),
    		'orderid' =>$data['order_id'],
   		'currency' => $this->_params->get("dibs_currency"),
-  		'accepturl' => JURI::base()."index2.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&status=ok&payment_plugin=rs_payment_dibs&Itemid=$Itemid&orderid=".$data['order_id'],
-  		'cancelurl' => JURI::base()."index2.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&status=cancel&payment_plugin=rs_payment_dibs&Itemid=$Itemid&orderid=".$data['order_id'],
+  		'accepturl' => JURI::base()."index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&status=ok&payment_plugin=rs_payment_dibs&Itemid=$Itemid&orderid=".$data['order_id'],
+  		'cancelurl' => JURI::base()."index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&status=cancel&payment_plugin=rs_payment_dibs&Itemid=$Itemid&orderid=".$data['order_id'],
   		'ip' => $_SERVER['REMOTE_ADDR'],
 
 	   // Customer Shipping Address

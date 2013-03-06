@@ -143,7 +143,7 @@ var form = document.adminForm;
 	{
 		$send_mail_to_customer = "checked";
 	}
-	
+
 	$k = 0;
 	for ($i=0, $n=count( $this->orders ); $i < $n; $i++)
 	{
@@ -278,7 +278,7 @@ var form = document.adminForm;
 					{
 						$confirm = 'document.invoice.order_id.value=\''.$row->order_id.'\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate'.$i.'\').value;document.invoice.submit();';
 					}
-					echo JHTML::_('calendar',date('Y-m-d') , 'bookDate'.$i, 'bookDate'.$i,$format = '%Y-%m-%d',array('class'=>'inputbox', 'readonly'=>'readonly', 'size'=>'15',  'maxlength'=>'19'));	?>
+					echo JHTML::_('calendar',date('Y-m-d') , 'bookDate'.$i, 'bookDate'.$i,$format = '%Y-%m-%d',array('class'=>'inputbox','size'=>'15',  'maxlength'=>'19'));	?>
 				<input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE");?>" onclick="javascript:<?php echo $confirm;?>"><br/>
 		<?php	}
 			}
@@ -287,23 +287,16 @@ var form = document.adminForm;
 			if(strstr($details[0],'default_shipping') && POSTDK_INTEGRATION)
 			{
 				echo "<td>";
-				if(!$row->track_no)
+				if($row->order_label_create)
+			 	{
+			 		echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
+			 	}
+			 	else
 				{
 					echo JHTML::_('calendar',date('Y-m-d') , 'specifiedDate'.$i, 'specifiedDate'.$i,$format = '%Y-%m-%d',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));	?>
-				<input type="button" class="button" value="<?php echo JTEXT::_("CREATE LABEL");?>" onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id;?>';document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i;?>').value;document.parcelFrm.submit();">
-			<?php
-				}else{
+ 					<input type="button" class="button" value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL');?>" onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id;?>';document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i;?>').value;document.parcelFrm.submit();">
+			 	<?php }
 
-						if(file_exists (JPATH_SITE.'/administrator/components/com_redshop/assets'.DS.'lables'.DS.'label_'.$row->order_id.'.pdf' ))
-						{
-						$dlink  = JRoute::_( 'index.php?option='.$option.'&view=orders&layout=labellisting&download=1&oid='. $row->order_id );
-						$plink  = JURI::base().'components/com_redshop/assets/lables/label_'.$row->order_id.'.pdf';
-						?>
-
-						<a href="<?php echo $dlink; ?>"><?php echo JText::_('DOWNLOAD');?></a><br/>
-						<a href="<?php echo $plink; ?>" target="_blank"><?php echo JText::_('OPEN_AND_PRINT');?></a>
-				<?php }
-			 	}
 				echo "</td>";
 			} ?>
 		</tr>

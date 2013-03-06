@@ -129,8 +129,8 @@ class plgredshop_shippingups_canada extends JPlugin
 			  <td><div align="left"><strong>Enable?</strong></div></td>
 			  <td><div align="left"><strong>Fuel SurCharge Rate(%)</strong><?php echo JHTML::tooltip ( JText::_ ( 'SHIPPING_METHOD_LBL' ), JText::_ ( 'SHIPPING_METHOD_LBL_TOOLTIP' ), 'tooltip.png', '', '', false );?></div></td>
 			</tr>
-			
-			
+
+
 			<tr class="row0">
 			  <td>UPS Express</td>
 			  <td><div align="center"><input type="checkbox" name="UPS_Canada_Express" class="inputbox" <?php if (UPS_Canada_Express == '01') echo "checked=\"checked\""; ?> value="01" /></div></td>
@@ -180,7 +180,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			  <td><div align="center"><input type="checkbox" name="UPS_Canada_Saver1" class="inputbox" <?php if (UPS_Canada_Saver1 == '65') echo "checked=\"checked\""; ?> value="65" /></div></td>
 			  <td><input class="inputbox" type="text" name="UPS_Canada_Saver1_FSC" value="<?php echo UPS_Canada_Saver1_FSC; ?>" /></td>
 			</tr>
-			
+
 			<tr class="row0">
 			  <td>n/a </td>
 			  <td>
@@ -198,12 +198,12 @@ class plgredshop_shippingups_canada extends JPlugin
 
 	function onWriteconfig($d)
 	{
-		/*echo "<pre>";	
+		/*echo "<pre>";
 		var_dump($d);
 		exit;*/
 		if($d['element']==$this->classname)
 		{
-			$maincfgfile=JPATH_ROOT.DS.'plugins'.DS.$d['plugin'].DS.$this->classname.'.cfg.php';
+			$maincfgfile=JPATH_ROOT.DS.'plugins'.DS.$d['plugin'].DS.$this->classname.DS.$this->classname.'.cfg.php';
 				$my_config_array = array(
 				"UPS_Canada_ACCESS_CODE" =>  $d['UPS_Canada_ACCESS_CODE'],
 				"UPS_Canada_USER_ID" =>   $d['UPS_Canada_USER_ID'],
@@ -219,7 +219,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				"UPS_Canada_Show_Delivery_Days_Quote" => $d['UPS_Canada_Show_Delivery_Days_Quote'],
 				"UPS_Canada_Show_Delivery_ETA_Quote" => $d['UPS_Canada_Show_Delivery_ETA_Quote'],
 				"UPS_Canada_Show_Delivery_Warning" => $d['UPS_Canada_Show_Delivery_Warning'],
-				
+
 				"UPS_Canada_Express" => $d['UPS_Canada_Express'],
 				"UPS_Canada_Express_FSC" => $d['UPS_Canada_Express_FSC'],
 				"UPS_Canada_Expedited" => $d['UPS_Canada_Expedited'],
@@ -271,7 +271,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 	  		$itemparams = new JParameter( $shipping->params );
-	  		$shippingcfg=JPATH_ROOT.DS.'plugins'.DS.$shipping->folder.DS.$shipping->element.'.cfg.php';
+	  		$shippingcfg=JPATH_ROOT.DS.'plugins'.DS.$shipping->folder.DS.$shipping->element.DS.$shipping->element.'.cfg.php';
 			include_once ($shippingcfg);
 
 			$shippingrate = array();
@@ -424,14 +424,14 @@ class plgredshop_shippingups_canada extends JPlugin
 			curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, FALSE);
 		   	$xmlResult = curl_exec( $CR );
 
-		   	
+
 	$xmlDoc = JFactory::getXMLParser('Simple');
 	 		if( !$xmlResult)
 	 		{
 				$error = true;
 			}
 			else
-			{	
+			{
 				/* XML Parsing */
 				$xmlDoc->loadString( $xmlResult, false, true );
 				/* Let's check wether the response from UPS is Success or Failure ! */
@@ -442,7 +442,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				}
 			}
 
-			
+
 			if($itemparams->get("ups_debug"))
 			{
 				echo "XML Post: <br>";
@@ -454,7 +454,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				echo "Cart Contents: ".$order_weight. "<br><br>\n";
 			}
 			// retrieve the list of all "RatedShipment" Elements
-			
+
 			$matchedchild = $xmlDoc->document->_children;
 			$allservicecodes = array(
 						"UPS_Canada_Express",
@@ -482,11 +482,11 @@ class plgredshop_shippingups_canada extends JPlugin
 				$totalmatchedchild = $matchedchild[$t]->_children;
 				$matched_childname = $matchedchild[$t]->name();
 				$currNode	   = $matchedchild[$t];
-	
+
 				if($matched_childname == "ratedshipment")
-				{		
+				{
 				 	$service = $currNode->getElementByPath("service");
-					$servicecode = $service->_children[0]->data();						
+					$servicecode = $service->_children[0]->data();
 					if ( in_array($servicecode,$myservicecodes) )
 					{
 						$ratedshipmentwarning = $currNode->getElementByPath("ratedshipmentwarning");
@@ -495,17 +495,17 @@ class plgredshop_shippingups_canada extends JPlugin
 						$ship_postage[$count]['ScheduledDeliveryTime'] = $ScheduledDeliveryTime->data();
 						$GuaranteedDaysToDelivery = $currNode->getElementByPath("GuaranteedDaysToDelivery");
 						$ship_postage[$count]['GuaranteedDaysToDelivery'] = $GuaranteedDaysToDelivery->data();
-						
+
 						$transportationcharges = $currNode->getElementByPath("transportationcharges");
 						$childeArr = $transportationcharges->_children;
 						for($i=0;$i<count($childeArr);$i++)
 						{
 							if($childeArr[$i]->name() == "currencycode")
 							{
-								$ship_postage[$count]['Currency'] = $childeArr[$i]->data();						
+								$ship_postage[$count]['Currency'] = $childeArr[$i]->data();
 							}if($childeArr[$i]->name() == "monetaryvalue")
 							{
-								$ship_postage[$count]['Rate'] = $childeArr[$i]->data();						
+								$ship_postage[$count]['Rate'] = $childeArr[$i]->data();
 							}
 						}
 						switch( $servicecode )
@@ -520,13 +520,13 @@ class plgredshop_shippingups_canada extends JPlugin
 							case "14": $ship_postage[$count]["ServiceName"] = "UPS Canada Express Early A.M."; break;
 							case "54": $ship_postage[$count]["ServiceName"] = "UPS Canada Worldwide Express Plus"; break;
 							case "64": $ship_postage[$count]["ServiceName"] = "n/a"; break;
-							case "65": $ship_postage[$count]["ServiceName"] = "UPS Canada Saver"; break;	
+							case "65": $ship_postage[$count]["ServiceName"] = "UPS Canada Saver"; break;
 						}
 						$count++;
 					}
 				}
 			}
-						
+
 			if (count($ship_postage)<=0)
 			{
 				return $shippingrate;
@@ -534,7 +534,7 @@ class plgredshop_shippingups_canada extends JPlugin
 
 			// UPS returns Charges in USD ONLY.
 			// So we have to convert from USD to Vendor Currency if necessary
-			if( CURRENCY_CODE != "USD" ) 
+			if( CURRENCY_CODE != "USD" )
 			{
 				$convert = true;
 			}
@@ -542,17 +542,17 @@ class plgredshop_shippingups_canada extends JPlugin
 				$convert = false;
 			}
 			for($i=0;$i<count($ship_postage);$i++)
-			{	
+			{
 				$ratevalue 		= $ship_postage[$i]['Rate'];
 				$ServiceName 	= $ship_postage[$i]['ServiceName'];
 				$fsc 			= $ship_postage[$i]['ServiceName']."_FSC";
 				$fsc 			= str_replace(" ","_",str_replace(".","",str_replace("/","",$fsc)));
-				$fsc 			= constant($fsc);				
+				$fsc 			= constant($fsc);
 				if( $fsc == 0 )
 				{
 					$fsc = 1;
 				}
-				
+
 				if( $convert )
 				{
 					$tmp = $currency->convert( $ratevalue, "USD", CURRENCY_CODE );
@@ -564,7 +564,7 @@ class plgredshop_shippingups_canada extends JPlugin
 						$ratevalue 	=  $producthelper->getProductFormattedPrice($charge,false);
 					}
 					else
-					{	
+					{
 						$charge 	= $ratevalue;
 						$charge_fee = ($charge * $fsc) / 100;
 						$charge 	+= (UPS_HANDLING_FEE + $charge_fee);
@@ -584,14 +584,14 @@ class plgredshop_shippingups_canada extends JPlugin
 				$rs->shipping_rate_value 	= $charge;
 				$rs->shipping_rate_value 	= $shippinghelper->applyVatOnShippingRate($rs,$d['user_id']);
 				$vat 						= $rs->shipping_rate_value - $charge;
-				
+
 				$shipping_rate_id 			= $shippinghelper->encryptShipping( __CLASS__."|".$shipping->name."|".$value['ServiceName']."|".number_format( $rs->shipping_rate_value, 2, '.', '' )."|".$value['ServiceName']."|single|".$vat) ;
 				$shippingrate[$rate]->text 	= $value['ServiceName'];//." ".JText::_('DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
 				$shippingrate[$rate]->value = $shipping_rate_id;
 				$shippingrate[$rate]->rate 	= $rs->shipping_rate_value;
 				$shippingrate[$rate]->vat 	= $vat;
 				$rate++;
-				
+
 				// DELIVERY QUOTE
 				/*if (Show_Delivery_Days_Quote == 1) {
 					if( !empty($value['GuaranteedDaysToDelivery'])) {
@@ -606,7 +606,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				if (Show_Delivery_Warning == 1 && !empty($value['RatedShipmentWarning'])) {
 					$RatedShipmentWarning = "</label><br/>\n&nbsp;&nbsp;&nbsp;*&nbsp;<em>".$value['RatedShipmentWarning']."</em>\n";
 				}*/
-				
+
 			}
 		   /* require_once( JPATH_SITE."/includes/domit/xml_domit_lite_include.php" );
 			$xmlDoc =& new DOMIT_Lite_Document();
@@ -616,9 +616,9 @@ class plgredshop_shippingups_canada extends JPlugin
 			}
 			else
 			{
-				
+
 				$xmlDoc->parseXML( $xmlResult, false, true );
-				
+
 				if( strstr( $xmlResult, "Failure" ) )
 				{
 					$error = true;
@@ -678,7 +678,7 @@ class plgredshop_shippingups_canada extends JPlugin
 					$shipment[$i]["ServiceCode"] = $currNode->childNodes[$e++]->getText();
 
 					// Second Element: BillingWeight
-					
+
 					if( $currNode->childNodes[$e]->nodeName == 'RatedShipmentWarning') {
 						$e++;
 					}
@@ -758,7 +758,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				else
 				{
 					$fsc_rate = $fsc / 100;
-					//$fsc_rate = $fsc_rate + 1; 
+					//$fsc_rate = $fsc_rate + 1;
 				}
 				if( $convert )
 				{
@@ -777,7 +777,7 @@ class plgredshop_shippingups_canada extends JPlugin
 					}
 					// So let's show the value in $$$$
 					else
-					{	
+					{
 						$charge = $value['TransportationCharges'] + intval( UPS_HANDLING_FEE );
 						// add Fuel SurCharge
 						$charge_fee = ($charge * $fsc) / 100;
