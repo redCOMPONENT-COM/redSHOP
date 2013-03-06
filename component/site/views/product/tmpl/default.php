@@ -772,7 +772,7 @@ if(count($attributes)>0 && count($attribute_template)>0)
 //	$stock_status = $preselectedresult['stock_status'];
 } else {
 
-	/// Update by Parth Start
+	
 
 	if(strstr($template_desc,"{product_availability_date}") || strstr($template_desc,"{stock_notify_flag}") || strstr($template_desc,"{stock_status"))
 	{
@@ -783,8 +783,8 @@ if(count($attributes)>0 && count($attribute_template)>0)
 
 }
 	$template_desc = $producthelper->replaceProductStockdata($this->data->product_id, $selectedpropertyId, $selectedsubpropertyId, $template_desc , $attributeproductStockStatus);
-/* Update by Parth Start
-
+ 
+ /*
 	if(strstr($template_desc,"{product_availability_date}") || strstr($template_desc,"{stock_notify_flag}"))
 	{
 
