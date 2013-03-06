@@ -323,12 +323,17 @@ class order_functions
 		$oXML = new SimpleXMLElement($response);
 		if($oXML->val[1]=="201" && $oXML->val[2]=="Created")
 		{
+				$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id=' . $order_id;
+            	$this->_db->setQuery($query);
+            	$this->_db->query();
 				return "success";
-		} else {
+
+		}
+		else
+		{
 				JError::raiseWarning ( 21, $oXML->val[1]."-".$oXML->val[2]);
 		}
 		// End
-
 	}
 
 	/*
@@ -2089,7 +2094,7 @@ function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $payme
 		$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 		//$generate_consignor_label= $this->generateConsignorParcel($order_id);
 
-		if (strstr($details[0], 'default_shipping'))
+		if (strstr($details[0], 'default_shipping') && !$order_details->order_label_create)
 		{
 			$generate_label = $this->generateParcel($order_id, $specifiedSendDate);
 			if ($generate_label != "success")
