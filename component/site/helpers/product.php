@@ -5610,6 +5610,7 @@ class producthelper
 	function makeAttributeCart($attArr=array(),$product_id=0,$user_id=0,$new_product_price=0,$quantity=1,$data='')
 	{
 		$user = JFactory::getUser();
+		$cart 	= $this->_session->get('cart');
 		$stockroomhelper = new rsstockroomhelper();
 		if($user_id==0)
 		{
@@ -5634,7 +5635,7 @@ class producthelper
 			{
 				$product_vat_price = $this->getProductTax($product_id,$product_price,$user_id);
 			}
-			if(DEFAULT_QUOTATION_MODE)
+			if(DEFAULT_QUOTATION_MODE || $cart['quotation']==1)
 			{
 				$product_price += $product_vat_price;
 			}
