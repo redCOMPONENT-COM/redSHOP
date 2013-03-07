@@ -2616,7 +2616,7 @@ class rsCarthelper {
 				 * attribute price
 				 */
 				$price = 0;
-				if(DEFAULT_QUOTATION_MODE )
+				if(DEFAULT_QUOTATION_MODE || $cartArr['quotation']==1)
 				{
 					$price = $cartArr[$i]['product_price_excl_vat'];
 				}
