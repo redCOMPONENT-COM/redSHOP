@@ -107,7 +107,7 @@ class orderModelorder extends JModel
 		if($layout == 'labellisting'){
 			$where = " order_label_create=1 ";
    		}
-    	$query = 'SELECT o.*,uf.lastname, uf.firstname, uf.is_company, uf.company_name FROM '.$this->_table_prefix.'orders AS o '
+    	$query = 'SELECT o.*,uf.lastname, uf.firstname, uf.is_company, uf.company_name,uf.ean_number FROM '.$this->_table_prefix.'orders AS o '
 				.'LEFT JOIN '.$this->_table_prefix.'order_users_info AS uf ON o.user_id=uf.user_id '
 				.'WHERE uf.address_type LIKE "BT" '
 				.'AND '.$where.' '
