@@ -16,6 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
+JHTML::_('behavior.calendar');
 
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
 require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
@@ -342,11 +343,11 @@ function validateUserDetail()
 							<td width="100" align="right"><?php echo JText::_( 'COM_REDSHOP_STATE' ); ?>:</td>
 							<td><?php echo $this->lists['state_code']; ?></td>
 						</tr>
-						
+
 						<script type="text/javascript" language="javascript">
 							///alert(document.getElementById('state_code').options[1].value);
-							
-							
+
+
 							if(document.getElementById('state_code').options[1] == undefined){
 								document.getElementById('div_state_txt').style.display='none';
 							}
@@ -369,7 +370,7 @@ function validateUserDetail()
 						<tr id="trTaxExemptApproved" <?php echo $allowCompany;?>><td width="100" align="right"><?php echo JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED' ); ?>:</td>
 							<td><?php echo JHTML::_('select.booleanlist',  'tax_exempt_approved', 'class="inputbox"', $billing->tax_exempt_approved ); ?>
 								<input type="hidden" name="tax_exempt_approved_id" value="<?php  echo $billing->tax_exempt_approved ;?>"/></td></tr>
-					<?php 	}	?>	
+					<?php 	}	?>
 						<tr><td colspan="2"><div id="exCustomerField" <?php echo $allowCustomer;?>><?php echo $this->lists['customer_field'];?></div>
 							<div id="exCompanyField" <?php echo $allowCompany;?>><?php echo $this->lists['company_field'];?></div></td></tr>
 							<input type="hidden" name="users_info_id" id="users_info_id" value="<?php echo $billing->users_info_id;?>" />
@@ -546,7 +547,7 @@ function validateUserDetail()
 		<?php //if($is_company){?>
 			<tr><td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER');?></td>
 				<td><input name="requisition_number" id="requisition_number" value="" /></td></tr>
-		<?php //}?>			
+		<?php //}?>
 			<tr><td><?php echo JText::_('COM_REDSHOP_ORDER_STATUS' ); ?></td>
 				<td><?php
 //					$linkupdate = JRoute::_( 'index.php?option='.$option.'&view=order&task=update_status&return=order_detail&order_id[]='. $this->detail->order_id );
