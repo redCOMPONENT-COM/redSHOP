@@ -5612,6 +5612,7 @@ class producthelper
 		$user = JFactory::getUser();
 		$cart 	= $this->_session->get('cart');
 		$stockroomhelper = new rsstockroomhelper();
+		$product =  $this->getProductById($product_id);
 		if($user_id==0)
 		{
 			$user_id = $user->id;
@@ -5635,7 +5636,8 @@ class producthelper
 			{
 				$product_vat_price = $this->getProductTax($product_id,$product_price,$user_id);
 			}
-			if(DEFAULT_QUOTATION_MODE || $cart['quotation']==1)
+
+			if((DEFAULT_QUOTATION_MODE || $cart['quotation']==1 || $product->use_discount_calc) && $chktag)
 			{
 				$product_price += $product_vat_price;
 			}
