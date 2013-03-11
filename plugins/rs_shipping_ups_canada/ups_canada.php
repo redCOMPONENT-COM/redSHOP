@@ -585,8 +585,8 @@ class plgredshop_shippingups_canada extends JPlugin
 				$rs->shipping_rate_value 	= $shippinghelper->applyVatOnShippingRate($rs,$d['user_id']);
 				$vat 						= $rs->shipping_rate_value - $charge;
 
-				$shipping_rate_id 			= $shippinghelper->encryptShipping( __CLASS__."|".$shipping->name."|".$value['ServiceName']."|".number_format( $rs->shipping_rate_value, 2, '.', '' )."|".$value['ServiceName']."|single|".$vat) ;
-				$shippingrate[$rate]->text 	= $value['ServiceName'];//." ".JText::_('DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
+				$shipping_rate_id 			= $shippinghelper->encryptShipping( __CLASS__."|".$shipping->name."|".$ServiceName."|".number_format( $rs->shipping_rate_value, 2, '.', '' )."|".$ServiceName."|single|".$vat) ;
+				$shippingrate[$rate]->text 	= $ServiceName;//." ".JText::_('DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
 				$shippingrate[$rate]->value = $shipping_rate_id;
 				$shippingrate[$rate]->rate 	= $rs->shipping_rate_value;
 				$shippingrate[$rate]->vat 	= $vat;
