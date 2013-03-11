@@ -2413,9 +2413,13 @@ class producthelper
 								$u_link = REDSHOP_FRONT_DOCUMENT_ABSPATH."product/".$files[$f];
 								$data_txt .= "<a href='".$u_link."' target='_blank'>".$files[$f]."</a> ";
 							}
-							$resultArr[] = $userfield[$j]->field_title." : ".$data_txt;
+							if(trim($data_txt) != ""){
+								$resultArr[] = $userfield[$j]->field_title." : ".$data_txt;
+							}
 						} else {
-							$resultArr[] = $userfield[$j]->field_title." : ".$userfield[$j]->data_txt;
+							if(trim($userfield[$j]->data_txt) != ""){
+								$resultArr[] = $userfield[$j]->field_title." : ".$userfield[$j]->data_txt;
+							}
 						}
 					}
 				}
