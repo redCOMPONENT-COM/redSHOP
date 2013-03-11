@@ -624,6 +624,12 @@ class economic
 				$discount_calc= str_replace("<br />","\n",$discount_calc);
 				$discount_calc = "\n".$discount_calc;
 			}
+
+			// Product user field Information
+			$p_userfield = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
+			$displaywrapper = $displaywrapper."\n".strip_tags($p_userfield);
+			// End
+
 			$eco ['product_name'] = $orderitem[$i]->order_item_name.$displaywrapper.$displayattribute.$discount_calc.$displayaccessory;
 			$eco ['product_price'] = $orderitem[$i]->product_item_price_excl_vat;
 			$eco ['product_quantity'] = $orderitem[$i]->product_quantity;
@@ -742,6 +748,12 @@ class economic
 				$discount_calc= str_replace("<br />","\n",$discount_calc);
 				$discount_calc = "\n".$discount_calc;
 			}
+
+			// Product user field Information
+			$p_userfield = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
+			$displaywrapper = $displaywrapper."\n".strip_tags($p_userfield);
+			// End
+
 			$eco ['product_name'] = $orderitem[$i]->order_item_name.$displaywrapper.$discount_calc.$displayaccessory;
 			$eco ['product_price'] = $orderitem[$i]->product_item_price_excl_vat;
 			$eco ['product_quantity'] = $orderitem[$i]->product_quantity;
