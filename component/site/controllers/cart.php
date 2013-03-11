@@ -243,7 +243,7 @@ class cartController extends JController
 		if(APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT && !empty($chktag))
 		{
 			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount)/(1+VAT_RATE_AFTER_DISCOUNT);
-			$tax = $tax - $Discountvat;
+			//$tax = $tax - $Discountvat;
 		}
 
 		$cart['total'] 						= $calArr[0] - $totaldiscount;
