@@ -1,34 +1,29 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.controller');
 /**
  * search Controller
  *
  * @static
- * @package		redSHOP
- * @since 1.0
+ * @package        redSHOP
+ * @since          1.0
  */
 class searchController extends JController
 {
-	function __construct( $default = array())
+	function __construct($default = array())
 	{
-		parent::__construct( $default );
+		parent::__construct($default);
 	}
+
 	/**
 	 * cancel function
 	 *
@@ -37,8 +32,9 @@ class searchController extends JController
 	 */
 	function cancel()
 	{
-		$this->setRedirect( 'index.php' );
+		$this->setRedirect('index.php');
 	}
+
 	/**
 	 * display function
 	 *
@@ -49,13 +45,15 @@ class searchController extends JController
 	{
 		parent::display();
 	}
+
 	/**
 	 * loadProducts function
 	 *
 	 * @access public
 	 * @return manufacturer select box
 	 */
-	function loadProducts(){
+	function loadProducts()
+	{
 
 		$get = JRequest::get('get');
 		$taskid = $get['taskid'];
@@ -64,39 +62,45 @@ class searchController extends JController
 
 		$brands = $model->loadCatProductsManufacturer($taskid);
 
-		$manufac_data =  ( JRequest::getInt( 'manufacture_id', 0 ) ); // Manufacture Select Id
+		// Manufacture Select Id
+		$manufac_data = (JRequest::getInt('manufacture_id', 0));
 
-		jimport( 'joomla.application.module.helper' );
-		$module = JModuleHelper::getModule( 'redshop_search' );
-		$params = new JRegistry( $module->params );
+		jimport('joomla.application.module.helper');
+		$module = JModuleHelper::getModule('redshop_search');
+		$params = new JRegistry($module->params);
 		$enableAjaxsearch = $params->get('enableAjaxsearch');
 		$javaFun = "";
-		if($enableAjaxsearch)
+
+		if ($enableAjaxsearch)
 			$javaFun = "makeUrl();";
-		if (count($brands)>0){
+
+		if (count($brands) > 0)
+		{
 
 			$manufac = array();
-			$manufac[]   	= JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
-			$manufacdata = @array_merge($manufac,$brands);
+			$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+			$manufacdata = @array_merge($manufac, $brands);
 
-			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE').'<br/>'.JHTML::_('select.genericlist',$manufacdata,'manufacture_id','class="inputbox" size="1" onChange="'.$javaFun.'" ','value','text',$manufac_data);
+			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
 		}
+
 		exit;
 	}
+
 	/**
 	 * ajaxsearch function
 	 *
 	 * @access public
 	 * @return search product results
 	 */
-	function ajaxsearch(){
-
+	function ajaxsearch()
+	{
 		$model = $this->getModel();
 		$detail = $model->getajaxData();
 
 		$encoded = json_encode($detail);
 		ob_clean();
-		echo "{\"results\": ".$encoded."}";
+		echo "{\"results\": " . $encoded . "}";
 		exit;
 	}
 }

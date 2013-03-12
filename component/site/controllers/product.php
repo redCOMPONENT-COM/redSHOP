@@ -1,37 +1,32 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'template.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
 
 /**
  * Product Controller
  *
  * @static
- * @package		redSHOP
- * @since 1.0
+ * @package        redSHOP
+ * @since          1.0
  */
 class productController extends JController
 {
-	function __construct( $default = array())
+	function __construct($default = array())
 	{
-		parent::__construct( $default );
+		parent::__construct($default);
 	}
+
 	function displayProductaddprice()
 	{
 		ob_clean();
@@ -45,48 +40,48 @@ class productController extends JController
 		$product_id = $get['product_id'];
 		$quantity = $get['qunatity'];
 
-		$data['attribute_data'] = str_replace("::","##",$get['attribute_data']);
-		$data['property_data'] = str_replace("::","##",$get['property_data']);
-		$data['subproperty_data'] = str_replace("::","##",$get['subproperty_data']);
+		$data['attribute_data'] = str_replace("::", "##", $get['attribute_data']);
+		$data['property_data'] = str_replace("::", "##", $get['property_data']);
+		$data['subproperty_data'] = str_replace("::", "##", $get['subproperty_data']);
 
 		$data['accessory_data'] = $get['accessory_data'];
 		$data['acc_quantity_data'] = $get['acc_quantity_data'];
 
-		$data['acc_attribute_data'] = str_replace("::","##",$get['acc_attribute_data']);
-		$data['acc_property_data'] = str_replace("::","##",$get['acc_property_data']);
-		$data['acc_subproperty_data'] = str_replace("::","##",$get['acc_subproperty_data']);
+		$data['acc_attribute_data'] = str_replace("::", "##", $get['acc_attribute_data']);
+		$data['acc_property_data'] = str_replace("::", "##", $get['acc_property_data']);
+		$data['acc_subproperty_data'] = str_replace("::", "##", $get['acc_subproperty_data']);
 
 		$data['quantity'] = $quantity;
 
 		$cartdata = $carthelper->generateAttributeArray($data);
-		$retAttArr = $producthelper->makeAttributeCart($cartdata,$product_id,0,'',$quantity);
+		$retAttArr = $producthelper->makeAttributeCart($cartdata, $product_id, 0, '', $quantity);
 
-		$ProductPriceArr = $producthelper->getProductNetPrice($product_id,0,$quantity);
+		$ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);
 
 		$acccartdata = $carthelper->generateAccessoryArray($data);
 //		print_r($acccartdata);
-		$retAccArr = $producthelper->makeAccessoryCart($acccartdata,$product_id);
+		$retAccArr = $producthelper->makeAccessoryCart($acccartdata, $product_id);
 		$accessory_price = $retAccArr[1];
 		$accessory_vat = $retAccArr[2];
 //		echo "<pre>";print_r($retAccArr);
 //		exit;
 
-		$product_price 				= (($retAttArr[1] + $retAttArr[2])*$quantity) + $accessory_price + $accessory_vat;
-		$product_main_price			= (($retAttArr[1] + $retAttArr[2])*$quantity) + $accessory_price + $accessory_vat;
-		$product_old_price 			= $ProductPriceArr['product_old_price']*$quantity;
-		$product_price_saving 		= $ProductPriceArr['product_price_saving']*$quantity;
-		$product_discount_price 	= $ProductPriceArr['product_discount_price']*$quantity;
-		$product_price_novat 		= ($retAttArr[1]*$quantity) + $accessory_price;
-		$product_price_incl_vat		= ($ProductPriceArr['product_price_incl_vat']*$quantity) + $accessory_price + $accessory_vat;
-		$price_excluding_vat 		= ($retAttArr[1]*$quantity) + $accessory_price;
-		$seoProductPrice 			= $ProductPriceArr['seoProductPrice']*$quantity;
-		$seoProductSavingPrice		= $ProductPriceArr['seoProductSavingPrice']*$quantity;
+		$product_price = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
+		$product_main_price = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
+		$product_old_price = $ProductPriceArr['product_old_price'] * $quantity;
+		$product_price_saving = $ProductPriceArr['product_price_saving'] * $quantity;
+		$product_discount_price = $ProductPriceArr['product_discount_price'] * $quantity;
+		$product_price_novat = ($retAttArr[1] * $quantity) + $accessory_price;
+		$product_price_incl_vat = ($ProductPriceArr['product_price_incl_vat'] * $quantity) + $accessory_price + $accessory_vat;
+		$price_excluding_vat = ($retAttArr[1] * $quantity) + $accessory_price;
+		$seoProductPrice = $ProductPriceArr['seoProductPrice'] * $quantity;
+		$seoProductSavingPrice = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
 
 
-		echo $product_price.":".$product_main_price.":".$product_old_price.":".$product_price_saving.":".$product_discount_price.":".$product_price_novat.":".$product_price_incl_vat.":".$price_excluding_vat.":".$seoProductPrice.":".$seoProductSavingPrice;
+		echo $product_price . ":" . $product_main_price . ":" . $product_old_price . ":" . $product_price_saving . ":" . $product_discount_price . ":" . $product_price_novat . ":" . $product_price_incl_vat . ":" . $price_excluding_vat . ":" . $seoProductPrice . ":" . $seoProductSavingPrice;
 		exit;
 	}
-	
+
 	function writeReview()
 	{
 		$post = JRequest::get('post');
@@ -97,39 +92,42 @@ class productController extends JController
 		$model = $this->getModel('product');
 		$rate = JRequest::getVar('rate');
 		$review_captcha = JRequest::getInt('review_captcha', -1, 'post');
-		
+
 		$session = JFactory::getSession();
 		$hash = JRequest::getCmd('review_captcha_hash', null, 'post');
-		$res = $session->get('session.simplemath'.$hash);
-		$session->set('session.simplemath'.$hash, null);
-		
+		$res = $session->get('session.simplemath' . $hash);
+		$session->set('session.simplemath' . $hash, null);
+
 		//$posted = JRequest::getInt('sm_answer', -1, 'post');
-		
+
 		//if($review_captcha==9)
-		if($res == $review_captcha)
+		if ($res == $review_captcha)
 		{
-			if($model->checkReview($post['email'],$product_id))
+			if ($model->checkReview($post['email'], $product_id))
 			{
 				$msg = JText::_('COM_REDSHOP_REVIEW_ALREADY_EXIST');
 			}
-			else if ($model->sendMailForReview($post)){
+			else if ($model->sendMailForReview($post))
+			{
 				$msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
-			}else {
+			}
+			else
+			{
 				$msg = JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY');
 			}
 		}
-		else 
+		else
 		{
 			$msg = JText::_('COM_REDSHOP_IN_CORRECT_CAPTCHA');
 		}
-		
-		$link = 'index.php?option='.$option.'&view=product&pid='.$product_id.'&cid='.$category_id.'&Itemid='.$Itemid;
-		$this->setRedirect($link,$msg);
-				
+
+		$link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+		$this->setRedirect($link, $msg);
+
 		//echo "here";exit;
 	}
-	
-	
+
+
 	function displaySubProperty()
 	{
 		$propid = $subpropid = array();
@@ -141,21 +139,21 @@ class productController extends JController
 		$relatedprd_id = $get['relatedprd_id'];
 		$attribute_id = $get['attribute_id'];
 		$isAjaxBox = $get['isAjaxBox'];
-		if(isset($get['property_id']) && $get['property_id'])
+		if (isset($get['property_id']) && $get['property_id'])
 		{
-			$propid = explode(",",$get['property_id']);
+			$propid = explode(",", $get['property_id']);
 		}
-		if(isset($get['subproperty_id']) && $get['subproperty_id'])
+		if (isset($get['subproperty_id']) && $get['subproperty_id'])
 		{
-			$subpropid = explode(",",$get['subproperty_id']);
+			$subpropid = explode(",", $get['subproperty_id']);
 		}
-		$subatthtml = htmlspecialchars_decode(base64_decode(JRequest::getVar( 'subatthtml', '', 'get', 'string', JREQUEST_ALLOWRAW )));
+		$subatthtml = htmlspecialchars_decode(base64_decode(JRequest::getVar('subatthtml', '', 'get', 'string', JREQUEST_ALLOWRAW)));
 
 		$response = "";
-		for($i=0;$i<count($propid);$i++)
+		for ($i = 0; $i < count($propid); $i++)
 		{
 			$property_id = $propid[$i];
-			$response .= $producthelper->replaceSubPropertyData($product_id,$accessory_id,$relatedprd_id,$attribute_id,$property_id,$subatthtml,$isAjaxBox,$subpropid);
+			$response .= $producthelper->replaceSubPropertyData($product_id, $accessory_id, $relatedprd_id, $attribute_id, $property_id, $subatthtml, $isAjaxBox, $subpropid);
 		}
 		echo $response;
 		exit;
@@ -165,29 +163,31 @@ class productController extends JController
 	{
 		$url = JURI::base();
 		$get = JRequest::get('get');
-        	$option = JRequest::getVar ( 'option' );
+		$option = JRequest::getVar('option');
 		$producthelper = new producthelper();
 
 		$property_id = urldecode($get['property_id']);
 		$subproperty_id = urldecode($get['subproperty_id']);
 
 		$product_id = $get['product_id'];
-	 	$accessory_id = $get['accessory_id'];
+		$accessory_id = $get['accessory_id'];
 		$relatedprd_id = $get['relatedprd_id'];
 		$main_imgwidth = $get['main_imgwidth'];
 		$main_imgheight = $get['main_imgheight'];
 		$redview = $get['redview'];
 		$redlayout = $get['redlayout'];
 
-		$dispatcher 				=& JDispatcher::getInstance();
+		$dispatcher =& JDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
-		$pluginResults = $dispatcher->trigger('onBeforeImageLoad', array ($get));
+		$pluginResults = $dispatcher->trigger('onBeforeImageLoad', array($get));
 
-		if(!empty($pluginResults))
+		if (!empty($pluginResults))
 		{
 			$mainImageResponse = $pluginResults[0]['mainImageResponse'];
 			$result = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id);
-		}else{
+		}
+		else
+		{
 			$result = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id, $main_imgwidth, $main_imgheight, $redview, $redlayout);
 			$mainImageResponse = $result['mainImageResponse'];
 		}
@@ -207,16 +207,18 @@ class productController extends JController
 		$product_availability_date_lbl = $result['product_availability_date_lbl'];
 		$product_availability_date = $result['product_availability_date'];
 		//$view = $result['view'];
-		echo "`_`".$response."`_`".$aHrefImageResponse."`_`".$aTitleImageResponse."`_`".$mainImageResponse."`_`".$stockamountSrc."`_`".$stockamountTooltip."`_`".$ProductAttributeDelivery."`_`".$product_img."`_`".$pr_number."`_`".$productinstock."`_`".$stock_status."`_`".$attrbimg."`_`".$notifyStock."`_`".$product_availability_date_lbl."`_`".$product_availability_date;
+		echo "`_`" . $response . "`_`" . $aHrefImageResponse . "`_`" . $aTitleImageResponse . "`_`" . $mainImageResponse . "`_`" . $stockamountSrc . "`_`" . $stockamountTooltip . "`_`" . $ProductAttributeDelivery . "`_`" . $product_img . "`_`" . $pr_number . "`_`" . $productinstock . "`_`" . $stock_status . "`_`" . $attrbimg . "`_`" . $notifyStock . "`_`" . $product_availability_date_lbl . "`_`" . $product_availability_date;
 		exit;
 	}
-   /**
+
+	/**
 	 * Add to wishlist function
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function addtowishlist(){
+	function addtowishlist()
+	{
 		ob_clean();
 		global $mainframe;
 		$extraField = new extraField();
@@ -225,85 +227,90 @@ class productController extends JController
 		// getVariables
 		$cid = JRequest::getInt('cid');
 		$producthelper = new producthelper();
-		$user = &JFactory::getUser();
+		$user = & JFactory::getUser();
 
 		$Itemid = JRequest::getVar('Itemid');
 
-		$option = JRequest::getVar ('option');
+		$option = JRequest::getVar('option');
 
-		$ajaxvar=JRequest::getVar('ajaxon');
-		$mywid=JRequest::getVar ('wid');
-	if($ajaxvar==1 && ($mywid==1 || $mywid==2) ){
+		$ajaxvar = JRequest::getVar('ajaxon');
+		$mywid = JRequest::getVar('wid');
+		if ($ajaxvar == 1 && ($mywid == 1 || $mywid == 2))
+		{
 
-		$post = JRequest::get('post');
+			$post = JRequest::get('post');
 
-		$post['product_id']=JRequest::getVar('product_id');
-		$proname=$producthelper->getProductById($post['product_id']);
-		$post['view']=JRequest::getVar('view');
-		$post['task']=JRequest::getVar('task');
+			$post['product_id'] = JRequest::getVar('product_id');
+			$proname = $producthelper->getProductById($post['product_id']);
+			$post['view'] = JRequest::getVar('view');
+			$post['task'] = JRequest::getVar('task');
 
-		for($i=0;$i<count($row_data);$i++)
+			for ($i = 0; $i < count($row_data); $i++)
 			{
-		    	$field_name=$row_data[$i]->field_name;
+				$field_name = $row_data[$i]->field_name;
 
-		    	$type=$row_data[$i]->field_type;
+				$type = $row_data[$i]->field_type;
 
-		    	if(isset($post[$row_data[$i]->field_name]))
+				if (isset($post[$row_data[$i]->field_name]))
 
-					$data_txt= $post[$row_data[$i]->field_name];
+					$data_txt = $post[$row_data[$i]->field_name];
 				else
-					$data_txt='';
+					$data_txt = '';
 				//$tmparray = explode('`',$data_txt);
 				$tmpstr = strpbrk($data_txt, '`');
-				if($tmpstr){
-					$tmparray = explode('`',$data_txt);
+				if ($tmpstr)
+				{
+					$tmparray = explode('`', $data_txt);
 					$tmp = new stdClass;
-					$tmp = @array_merge($tmp,$tmparray);
-					if(is_array($tmparray))
+					$tmp = @array_merge($tmp, $tmparray);
+					if (is_array($tmparray))
 					{
-						$data_txt=implode(",",$tmparray);
+						$data_txt = implode(",", $tmparray);
 					}
 				}
 				//$cart[$idx][$field_name] = $data_txt;
-				$post['productuserfield_'.$i] = $data_txt;
+				$post['productuserfield_' . $i] = $data_txt;
 
 			}
 
 
-		}else{
-		$post = JRequest::get('post');
+		}
+		else
+		{
+			$post = JRequest::get('post');
 
-		$proname=$producthelper->getProductById($post['product_id']);
-			for($i=0;$i<count($row_data);$i++)
+			$proname = $producthelper->getProductById($post['product_id']);
+			for ($i = 0; $i < count($row_data); $i++)
 			{
-		    	$field_name=$row_data[$i]->field_name;
+				$field_name = $row_data[$i]->field_name;
 
-		    	$type=$row_data[$i]->field_type;
+				$type = $row_data[$i]->field_type;
 
-		    	if(isset($post[$row_data[$i]->field_name]))
+				if (isset($post[$row_data[$i]->field_name]))
 
-					$data_txt= $post[$row_data[$i]->field_name];
+					$data_txt = $post[$row_data[$i]->field_name];
 				else
-					$data_txt='';
+					$data_txt = '';
 				//$tmparray = explode('`',$data_txt);
 				$tmpstr = strpbrk($data_txt, '`');
-				if($tmpstr){
-					$tmparray = explode('`',$data_txt);
+				if ($tmpstr)
+				{
+					$tmparray = explode('`', $data_txt);
 					$tmp = new stdClass;
-					$tmp = @array_merge($tmp,$tmparray);
-					if(is_array($tmparray))
+					$tmp = @array_merge($tmp, $tmparray);
+					if (is_array($tmparray))
 					{
-						$data_txt=implode(",",$tmparray);
+						$data_txt = implode(",", $tmparray);
 					}
 				}
 				//$cart[$idx][$field_name] = $data_txt;
-				$post['productuserfield_'.$i] = $data_txt;
+				$post['productuserfield_' . $i] = $data_txt;
 
 			}
 		}
 
 		$rurl = "";
-		if(isset($post['rurl']))
+		if (isset($post['rurl']))
 			$rurl = base64_decode($post['rurl']);
 		// initiallize variable
 
@@ -311,17 +318,23 @@ class productController extends JController
 
 		$post['cdate'] = time();
 
-		$model = $this->getModel ( 'product' );
-		if($user->id && $ajaxvar!='1')
+		$model = $this->getModel('product');
+		if ($user->id && $ajaxvar != '1')
 		{
-			if($model->checkWishlist($post['product_id']) == null){
+			if ($model->checkWishlist($post['product_id']) == null)
+			{
 
-				if ($model->addToWishlist($post)){
+				if ($model->addToWishlist($post))
+				{
 					$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
-				}else {
+				}
+				else
+				{
 					$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
 				}
-			}else{
+			}
+			else
+			{
 
 				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
 			}
@@ -329,49 +342,56 @@ class productController extends JController
 		else
 		{
 			// user can store wishlist in session
-			if($model->addtowishlist2session($post))
-			   $mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+			if ($model->addtowishlist2session($post))
+				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
 			else
-			   $mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
 		}
-		if($ajaxvar==1)
+		if ($ajaxvar == 1)
 		{
 			sleep(2);
-			$getproductimage=$producthelper->getProductById($post['product_id']);
-			$finalproductimgname=$getproductimage->product_full_image;
-			if($finalproductimgname!=''){
-			$mainimg="product/".$finalproductimgname;
-			}else{
-			$mainimg='noimage.jpg';
+			$getproductimage = $producthelper->getProductById($post['product_id']);
+			$finalproductimgname = $getproductimage->product_full_image;
+			if ($finalproductimgname != '')
+			{
+				$mainimg = "product/" . $finalproductimgname;
+			}
+			else
+			{
+				$mainimg = 'noimage.jpg';
 			}
 			//echo "<div id='my'><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=".JRequest::getVar('Itemid')."&pid=".$post['product_id']."'>".$proname->product_name."</a></div><br>:-:".$proname->product_name."";
-			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=".JRequest::getVar('Itemid')."&pid=".$post['product_id']."'><img src='".REDSHOP_FRONT_IMAGES_ABSPATH.$mainimg."' height='30' width='30'/></a></span>:-:".$proname->product_name."";
+			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . JRequest::getVar('Itemid') . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
 			exit;
-		}elseif($mywid==1){
+		}
+		elseif ($mywid == 1)
+		{
 
-			$this->setRedirect ( 'index.php?option=' . $option . 'wishlist=1&view=login&Itemid='.$Itemid);
+			$this->setRedirect('index.php?option=' . $option . 'wishlist=1&view=login&Itemid=' . $Itemid);
 
 		}
- 		if($rurl!="")
- 			$this->setRedirect ( $rurl );
- 		else
- 			$this->setRedirect ( 'index.php?option=' . $option . '&view=product&pid='.$post['product_id'].'&cid='.$cid.'&Itemid='.$Itemid);
+		if ($rurl != "")
+			$this->setRedirect($rurl);
+		else
+			$this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
 	}
-	 /**
+
+	/**
 	 * Add product tag function
 	 *
 	 * @access public
 	 * @return void
 	 */
 
-	function addProductTags(){
+	function addProductTags()
+	{
 
 		global $mainframe;
 
 		// getVariables
 		$cid = JRequest::getInt('cid');
 		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar ('option');
+		$option = JRequest::getVar('option');
 
 		$post = JRequest::get('post');
 
@@ -381,28 +401,32 @@ class productController extends JController
 		$productid = $post['product_id'];
 		$userid = $post['users_id'];
 
-		$model = $this->getModel ( 'product' );
+		$model = $this->getModel('product');
 
-		$tagnames = preg_split(" ",$tagnames);
+		$tagnames = preg_split(" ", $tagnames);
 
-		for($i=0;$i<count($tagnames);$i++)
+		for ($i = 0; $i < count($tagnames); $i++)
 		{
 			$tagname = $tagnames[$i];
 
-			if ($model->checkProductTags($tagname,$productid) == null){
+			if ($model->checkProductTags($tagname, $productid) == null)
+			{
 
-				$tags = $model->getProductTags($tagname,$productid);
+				$tags = $model->getProductTags($tagname, $productid);
 
-				if(count($tags) != 0){
+				if (count($tags) != 0)
+				{
 
-					foreach ($tags as $tag){
+					foreach ($tags as $tag)
+					{
 
 						if ($tag->product_id == $productid)
 						{
 							if ($tag->users_id != $userid)
-								$counter = 	$tag->tags_counter+1;
-						}else
-							$counter = 	$tag->tags_counter+1;
+								$counter = $tag->tags_counter + 1;
+						}
+						else
+							$counter = $tag->tags_counter + 1;
 
 						$ntag['tags_id'] = $tag->tags_id;
 						$ntag['tags_name'] = $tag->tags_name;
@@ -411,7 +435,9 @@ class productController extends JController
 						$ntag['product_id'] = $productid;
 						$ntag['users_id'] = $userid;
 					}
-				}else{
+				}
+				else
+				{
 
 					$ntag['tags_id'] = 0;
 					$ntag['tags_name'] = $tagname;
@@ -421,44 +447,51 @@ class productController extends JController
 					$ntag['users_id'] = $userid;
 				}
 
-				if ($tags = $model->addProductTags ( $ntag )) {
+				if ($tags = $model->addProductTags($ntag))
+				{
 
-					$model->addProductTagsXref ( $ntag,$tags );
+					$model->addProductTagsXref($ntag, $tags);
 
-					$mainframe->enqueueMessage($tagname.'&nbsp;'.JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
+					$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
 
-				} else {
-					$mainframe->enqueueMessage($tagname .'&nbsp;'.JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
+				}
+				else
+				{
+					$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
 				}
 
-			}else{
+			}
+			else
+			{
 
-				$mainframe->enqueueMessage($tagname.'&nbsp;'.JText::_('COM_REDSHOP_ALLREADY_ADDED'));
+				$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
 			}
 		}
 
-		$this->setRedirect ( 'index.php?option=' . $option . '&view=product&pid='.$post['product_id'].'&cid='.$cid.'&Itemid='.$Itemid);
+		$this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
 	}
+
 	/**
 	 * Add to compare function
 	 *
 	 * @access public
 	 * @return product compare list through ajax
 	 */
-	function addtocompare(){
+	function addtocompare()
+	{
 
 		ob_clean();
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php');
+		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-		$producthelper = new producthelper ( );
+		$producthelper = new producthelper ();
 		// getVariables
 		$post = JRequest::get('REQUEST');
 
 		// initiallize variable
 
-		$model = $this->getModel ( 'product' );
+		$model = $this->getModel('product');
 
-		if($post['cmd']=='add')
+		if ($post['cmd'] == 'add')
 		{
 			$checkCompare = $model->checkComparelist($post['pid']);
 
@@ -466,32 +499,39 @@ class productController extends JController
 
 			if ($countCompare < PRODUCT_COMPARE_LIMIT)
 			{
-				if($checkCompare)
+				if ($checkCompare)
 				{
 					if ($model->addtocompare($post))
 					{
-						$Message = "1`";//.JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_COMPARE_SUCCESSFULLY');
-					}else{
-						$Message = "1`". JText::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE');
+						$Message = "1`"; //.JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_COMPARE_SUCCESSFULLY');
 					}
-				}else{
+					else
+					{
+						$Message = "1`" . JText::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE');
+					}
+				}
+				else
+				{
 					$Message = JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_COMPARE');
 				}
 				$Message .= $producthelper->makeCompareProductDiv();
 				echo $Message;
-			}else{
-				$Message = "0`".JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE');
+			}
+			else
+			{
+				$Message = "0`" . JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE');
 				echo $Message;
 			}
 		}
-		else if($post['cmd']=='remove')
+		else if ($post['cmd'] == 'remove')
 		{
 			$model->removeCompare($post['pid']);
-			$Message = "1`".$producthelper->makeCompareProductDiv();
+			$Message = "1`" . $producthelper->makeCompareProductDiv();
 			echo $Message;
 		}
 		exit;
 	}
+
 	/**
 	 * remove compare function
 	 *
@@ -504,10 +544,11 @@ class productController extends JController
 
 		// initiallize variable
 
-		$model = $this->getModel ( 'product' );
+		$model = $this->getModel('product');
 		$model->removeCompare($post['pid']);
 		parent::display();
 	}
+
 	/**
 	 * Download Product function
 	 *
@@ -519,7 +560,7 @@ class productController extends JController
 		$Itemid = JRequest::getVar('Itemid');
 		$model = $this->getModel('product');
 
-		$tid = JRequest::getCmd('download_id',"");
+		$tid = JRequest::getCmd('download_id', "");
 
 		$data = $model->downloadProduct($tid);
 
@@ -533,24 +574,29 @@ class productController extends JController
 			// download Product end date
 			$end_date = $data->end_date;
 
-			if ( $end_date == 0 || ($data->download_max != 0 && $today <= $end_date ))
+			if ($end_date == 0 || ($data->download_max != 0 && $today <= $end_date))
 			{
 				$msg = JText::_("COM_REDSHOP_DOWNLOADABLE_THIS_PRODUCT");
 
-				$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&tid=".$download_id."&Itemid=".$Itemid,$msg);
+				$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "&Itemid=" . $Itemid, $msg);
 
-			}else {
+			}
+			else
+			{
 
 				$msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
-				$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=".$Itemid,$msg);
+				$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
 			}
-		}else{
+		}
+		else
+		{
 
 			$msg = JText::_("COM_REDSHOP_TOKEN_VERIFICATION_FAIL");
-			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=".$Itemid,$msg);
+			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
 		}
 
 	}
+
 	/**
 	 * Download function
 	 *
@@ -575,72 +621,102 @@ class productController extends JController
 		// download Product end date
 		$end_date = $data->end_date;
 
-		if ( $end_date != 0 && ($limit == 0 || $today > $end_date)){
+		if ($end_date != 0 && ($limit == 0 || $today > $end_date))
+		{
 
 			$msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
-			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct",$msg);
+			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct", $msg);
 
-		}else if(isset($post['mainindex']) && isset($post['additional'])){
+		}
+		else if (isset($post['mainindex']) && isset($post['additional']))
+		{
 
 			$task = $post['mainindex'];
 
 			$id = $post['additional'];
 
-			if($task == "main"){
+			if ($task == "main")
+			{
 
-				$finalname = $model->AdditionaldownloadProduct($id,0,1);
+				$finalname = $model->AdditionaldownloadProduct($id, 0, 1);
 
 				$name = $finalname[0]->media_name;
 
-			}else if($task == "additional"){
+			}
+			else if ($task == "additional")
+			{
 
-				$finalname = $model->AdditionaldownloadProduct(0,$id);
+				$finalname = $model->AdditionaldownloadProduct(0, $id);
 
 				$name = $finalname[0]->name;
 			}
 
-		}else{
+		}
+		else
+		{
 			$msg = JText::_('COM_REDSHOP_NO_FILE_SELECTED');
-			$this->setRedirect ( 'index.php?option=com_redshop&view=product&layout=downloadproduct&tid='.$tid, $msg );
+			$this->setRedirect('index.php?option=com_redshop&view=product&layout=downloadproduct&tid=' . $tid, $msg);
 			return;
 		}
 
 
-		if(isset($post['additional']) && $tid!="" && $end_date == 0 ||  ($limit != 0 && $today <= $end_date)){
+		if (isset($post['additional']) && $tid != "" && $end_date == 0 || ($limit != 0 && $today <= $end_date))
+		{
 
-			if($model->setDownloadLimit($tid)){
+			if ($model->setDownloadLimit($tid))
+			{
 
 				$baseURL = JURI::root();
-				$tmp_name = JPATH_SITE.'/components/com_redshop/assets/download/product/'.$name;
+				$tmp_name = JPATH_SITE . '/components/com_redshop/assets/download/product/' . $name;
 
 				$tmp_type = strtolower(JFile::getExt($name));
 
-				$downloadname = substr(basename($name),11);
+				$downloadname = substr(basename($name), 11);
 
-				switch( $tmp_type )
+				switch ($tmp_type)
 				{
-				  case "pdf": $ctype="application/pdf"; break;
-				  case "psd": $ctype="application/psd"; break;
-				  case "exe": $ctype="application/octet-stream"; break;
-				  case "zip": $ctype="application/x-zip"; break;
-				  case "doc": $ctype="application/msword"; break;
-				  case "xls": $ctype="application/vnd.ms-excel"; break;
-				  case "ppt": $ctype="application/vnd.ms-powerpoint"; break;
-				  case "gif": $ctype="image/gif"; break;
-				  case "png": $ctype="image/png"; break;
-				  case "jpeg":
-				  case "jpg": $ctype="image/jpg"; break;
-				  default: $ctype="application/force-download";
+					case "pdf":
+						$ctype = "application/pdf";
+						break;
+					case "psd":
+						$ctype = "application/psd";
+						break;
+					case "exe":
+						$ctype = "application/octet-stream";
+						break;
+					case "zip":
+						$ctype = "application/x-zip";
+						break;
+					case "doc":
+						$ctype = "application/msword";
+						break;
+					case "xls":
+						$ctype = "application/vnd.ms-excel";
+						break;
+					case "ppt":
+						$ctype = "application/vnd.ms-powerpoint";
+						break;
+					case "gif":
+						$ctype = "image/gif";
+						break;
+					case "png":
+						$ctype = "image/png";
+						break;
+					case "jpeg":
+					case "jpg":
+						$ctype = "image/jpg";
+						break;
+					default:
+						$ctype = "application/force-download";
 				}
 
 				ob_clean();
 
 				header("Pragma: public");
 				header('Expires: 0');
-				header("Content-Type: $ctype",FALSE);
+				header("Content-Type: $ctype", FALSE);
 				header('Content-Length: ' . filesize($name));
-				header('Content-Disposition: attachment; filename='.$downloadname);
-
+				header('Content-Disposition: attachment; filename=' . $downloadname);
 
 
 				// red file using chunksize
@@ -656,31 +732,36 @@ class productController extends JController
 	 * @access public
 	 * @return file data
 	 */
-	function readfile_chunked($filename,$retbytes=true) {
+	function readfile_chunked($filename, $retbytes = true)
+	{
 
-		$chunksize = 10*(1024*1024); // how many bytes per chunk
-	   	$buffer = '';
-	   	$cnt =0;
+		$chunksize = 10 * (1024 * 1024); // how many bytes per chunk
+		$buffer = '';
+		$cnt = 0;
 
-	   	$handle = fopen($filename, 'rb');
-	   	if ($handle === false) {
-	       return false;
-	   	}
-	   	while (!feof($handle)) {
-	       $buffer = fread($handle, $chunksize);
-	       echo $buffer;
-	       ob_flush();
-	       flush();
-	       if ($retbytes) {
-	           $cnt += strlen($buffer);
-	       }
-	   	}
+		$handle = fopen($filename, 'rb');
+		if ($handle === false)
+		{
+			return false;
+		}
+		while (!feof($handle))
+		{
+			$buffer = fread($handle, $chunksize);
+			echo $buffer;
+			ob_flush();
+			flush();
+			if ($retbytes)
+			{
+				$cnt += strlen($buffer);
+			}
+		}
 
-	       $status = fclose($handle);
-	  	if ($retbytes && $status) {
-	       return $cnt; // return num. bytes delivered like readfile() does.
-	   	}
-	   	return $status;
+		$status = fclose($handle);
+		if ($retbytes && $status)
+		{
+			return $cnt; // return num. bytes delivered like readfile() does.
+		}
+		return $status;
 
 	}
 
@@ -692,59 +773,83 @@ class productController extends JController
 	 */
 	function ajaxupload()
 	{
-		$uploaddir = JPATH_COMPONENT_SITE.DS.'assets'.DS.'document'.DS.'product'.DS;
+		$uploaddir = JPATH_COMPONENT_SITE . DS . 'assets' . DS . 'document' . DS . 'product' . DS;
 		$name = JRequest::getVar('mname');
-		$filename = time().'_'. basename($_FILES[$name]['name']);
-		$uploadfile = $uploaddir .$filename;
-		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile)) {
-		  echo $filename;
-		} else {
-		  // WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
-		  // Otherwise onSubmit event will not be fired
-		  echo "error";
+		$filename = time() . '_' . basename($_FILES[$name]['name']);
+		$uploadfile = $uploaddir . $filename;
+		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+		{
+			echo $filename;
+		}
+		else
+		{
+			// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
+			// Otherwise onSubmit event will not be fired
+			echo "error";
 		}
 		exit;
 	}
+
 	/**
 	 * ajax upload function
 	 *
 	 * @access public
 	 * @return filename on successfull file download
 	 */
-	 function downloadDocument()
+	function downloadDocument()
 	{
-		$fname = JRequest::getVar ( 'fname', '', 'request', 'string' );
-		$fpath = REDSHOP_FRONT_DOCUMENT_RELPATH.'product/'.$fname;
-		if(is_file($fpath))
+		$fname = JRequest::getVar('fname', '', 'request', 'string');
+		$fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
+		if (is_file($fpath))
 		{
 			$tmp_type = strtolower(JFile::getExt($fpath));
 
-			$downloadname = substr(basename($fpath),11);
+			$downloadname = substr(basename($fpath), 11);
 
-			switch( $tmp_type )
+			switch ($tmp_type)
 			{
-			  case "pdf": $ctype="application/pdf"; break;
-			  case "psd": $ctype="application/psd"; break;
-			  case "exe": $ctype="application/octet-stream"; break;
-			  case "zip": $ctype="application/x-zip"; break;
-			  case "doc": $ctype="application/msword"; break;
-			  case "xls": $ctype="application/vnd.ms-excel"; break;
-			  case "ppt": $ctype="application/vnd.ms-powerpoint"; break;
-			  case "gif": $ctype="image/gif"; break;
-			  case "png": $ctype="image/png"; break;
-			  case "jpeg":
-			  case "jpg": $ctype="image/jpg"; break;
-			  default: $ctype="application/force-download";
+				case "pdf":
+					$ctype = "application/pdf";
+					break;
+				case "psd":
+					$ctype = "application/psd";
+					break;
+				case "exe":
+					$ctype = "application/octet-stream";
+					break;
+				case "zip":
+					$ctype = "application/x-zip";
+					break;
+				case "doc":
+					$ctype = "application/msword";
+					break;
+				case "xls":
+					$ctype = "application/vnd.ms-excel";
+					break;
+				case "ppt":
+					$ctype = "application/vnd.ms-powerpoint";
+					break;
+				case "gif":
+					$ctype = "image/gif";
+					break;
+				case "png":
+					$ctype = "image/png";
+					break;
+				case "jpeg":
+				case "jpg":
+					$ctype = "image/jpg";
+					break;
+				default:
+					$ctype = "application/force-download";
 			}
 
 			ob_clean();
 
 			header("Pragma: public");
 			header('Expires: 0');
-			header("Content-Type: $ctype",FALSE);
+			header("Content-Type: $ctype", FALSE);
 			header('Content-Length: ' . filesize($fpath));
-			header('Content-Disposition: attachment; filename='.$downloadname);
-
+			header('Content-Disposition: attachment; filename=' . $downloadname);
 
 
 			// red file using chunksize
@@ -754,7 +859,8 @@ class productController extends JController
 	}
 
 
-	function gotochild(){
+	function gotochild()
+	{
 
 		$producthelper = new producthelper();
 		$objhelper = new redhelper();
@@ -763,20 +869,24 @@ class productController extends JController
 
 		$cid = $producthelper->getCategoryProduct($post['pid']);
 
-		$ItemData = $producthelper->getMenuInformation(0,0,'','product&pid='.$post['pid']);
+		$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['pid']);
 
-		if(count($ItemData)>0){
+		if (count($ItemData) > 0)
+		{
 			$pItemid = $ItemData->id;
-		}else{
-			$pItemid = $objhelper->getItemid($product->product_id,$cid);
+		}
+		else
+		{
+			$pItemid = $objhelper->getItemid($product->product_id, $cid);
 		}
 
-		$link = JRoute::_( 'index.php?option=com_redshop&view=product&pid='.$post['pid'].'&cid='.$cid.'&Itemid='.$pItemid, false);
+		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $post['pid'] . '&cid=' . $cid . '&Itemid=' . $pItemid, false);
 
 		$this->setRedirect($link);
 	}
 
-	function gotonavproduct(){
+	function gotonavproduct()
+	{
 
 		$producthelper = new producthelper();
 		$objhelper = new redhelper();
@@ -785,15 +895,18 @@ class productController extends JController
 
 		$cid = $producthelper->getCategoryProduct($post['pid']);
 
-		$ItemData = $producthelper->getMenuInformation(0,0,'','product&pid='.$post['pid']);
+		$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['pid']);
 
-		if(count($ItemData)>0){
+		if (count($ItemData) > 0)
+		{
 			$pItemid = $ItemData->id;
-		}else{
-			$pItemid = $objhelper->getItemid($product->product_id,$cid);
+		}
+		else
+		{
+			$pItemid = $objhelper->getItemid($product->product_id, $cid);
 		}
 
-		$link = JRoute::_( 'index.php?option=com_redshop&view=product&pid='.$post['pid'].'&cid='.$cid.'&Itemid='.$pItemid, false);
+		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $post['pid'] . '&cid=' . $cid . '&Itemid=' . $pItemid, false);
 
 		$this->setRedirect($link);
 	}
@@ -809,8 +922,8 @@ class productController extends JController
 		$property_id = $post['property_id'];
 		$subproperty_id = $post['subproperty_id'];
 
-		$notify_user = $model->addNotifystock($product_id , $property_id, $subproperty_id);
-		if($notify_user)
+		$notify_user = $model->addNotifystock($product_id, $property_id, $subproperty_id);
+		if ($notify_user)
 		{
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}
