@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die('Restricted access');
 
@@ -52,6 +45,7 @@ class productModelproduct extends JModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 	}
+
 	function getData()
 	{
 		if (empty($this->_data))
@@ -125,38 +119,38 @@ class productModelproduct extends JModel
 		$and = '';
 		if (!empty($product_sort))
 		{
-			if($product_sort=='p.published')
+			if ($product_sort == 'p.published')
 			{
-				$and= 'AND p.published=1 ';
+				$and = 'AND p.published=1 ';
 			}
-			else if($product_sort=='p.unpublished')
+			else if ($product_sort == 'p.unpublished')
 			{
-				$and= 'AND p.published=0 ';
+				$and = 'AND p.published=0 ';
 			}
-			else if($product_sort=='p.product_on_sale')
+			else if ($product_sort == 'p.product_on_sale')
 			{
-				$and= 'AND p.product_on_sale=1 ';
+				$and = 'AND p.product_on_sale=1 ';
 			}
-			else if($product_sort=='p.product_special')
+			else if ($product_sort == 'p.product_special')
 			{
-				$and= 'AND p.product_special=1 ';
+				$and = 'AND p.product_special=1 ';
 			}
-			else if($product_sort=='p.expired')
+			else if ($product_sort == 'p.expired')
 			{
-				$and= 'AND p.expired=1 ';
+				$and = 'AND p.expired=1 ';
 			}
-			else if($product_sort=='p.not_for_sale')
+			else if ($product_sort == 'p.not_for_sale')
 			{
-				$and= 'AND p.not_for_sale=1 ';
+				$and = 'AND p.not_for_sale=1 ';
 			}
-			else if($product_sort=='p.product_not_on_sale')
+			else if ($product_sort == 'p.product_not_on_sale')
 			{
-				$and= 'AND p.product_on_sale=0 ';
+				$and = 'AND p.product_on_sale=0 ';
 			}
-			else if($product_sort=='p.sold_out')
+			else if ($product_sort == 'p.sold_out')
 			{
 				$query_prd = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM " . $this->_table_prefix . "product AS p ";
-				$tot_products = $this->_getList ($query_prd);
+				$tot_products = $this->_getList($query_prd);
 				$product_id_array = '';
 				$producthelper = new producthelper();
 				$products_stock = $producthelper->removeOutofstockProduct($tot_products);
@@ -183,7 +177,8 @@ class productModelproduct extends JModel
 				if ($search_field == 'p.name_number')
 				{
 					$where .= " p.product_name LIKE '%$arr_keyword[$k]%' OR p.product_number LIKE '%$arr_keyword[$k]%' ";
-				} else
+				}
+				else
 				{
 					$where .= $search_field . " LIKE '%$arr_keyword[$k]%'  "; //$arr_keyword[$k];
 				}
@@ -193,7 +188,8 @@ class productModelproduct extends JModel
 					if ($search_field == 'p.name_number')
 					{
 						$where .= ' OR ';
-					} else
+					}
+					else
 					{
 						$where .= ' AND ';
 					}
@@ -212,13 +208,14 @@ class productModelproduct extends JModel
 		{
 
 			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
-					. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
-					. ",p.product_template,(SELECT COUNT(*) FROM " . $this->_table_prefix
-					. "media AS m where m.section_id = p.product_id) AS media FROM " . $this->_table_prefix
-					. "product AS p "
+				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
+				. ",p.product_template,(SELECT COUNT(*) FROM " . $this->_table_prefix
+				. "media AS m where m.section_id = p.product_id) AS media FROM " . $this->_table_prefix
+				. "product AS p "
 				//."LEFT JOIN ".$this->_table_prefix."product_category_xref AS x ON x.product_id = p.product_id "
-					. "WHERE 1=1 " . $and . $orderby;
-		} else
+				. "WHERE 1=1 " . $and . $orderby;
+		}
+		else
 		{
 
 			$query = "SELECT p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ", x.ordering , x.category_id,(SELECT COUNT(*) FROM " . $this->_table_prefix . "media AS m where m.section_id = p.product_id) AS media " . "FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id ";
@@ -237,6 +234,7 @@ class productModelproduct extends JModel
 
 		return $query;
 	}
+
 	function getFinalProductStock($product_stock)
 	{
 		if (count($product_stock) > 0)
@@ -264,19 +262,22 @@ class productModelproduct extends JModel
 		if ($category_id)
 		{
 			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
-		} else
+		}
+		else
 		{
 			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
 		}
 		$orderby = " ORDER BY " . $filter_order . ' ' . $filter_order_Dir;
 		return $orderby;
 	}
+
 	function MediaDetail($pid)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
 		$this->_db->setQuery($query);
 		return $this->_db->loadObjectlist();
 	}
+
 	function listedincats($pid)
 	{
 		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' . $this->_table_prefix . 'category as c WHERE product_id ="' . $pid . '" AND ref.category_id=c.category_id ORDER BY c.category_name';
@@ -290,7 +291,8 @@ class productModelproduct extends JModel
 		if ($section == 1 || $section == 12)
 		{
 			$template_desc = $redTemplate->getTemplate("product", $template_id);
-		} else
+		}
+		else
 		{
 			$template_desc = $redTemplate->getTemplate("category", $template_id);
 		}
@@ -318,7 +320,8 @@ class productModelproduct extends JModel
 				{
 					if ($fields[$i]->field_type == 15)
 						$str[] = $fields[$i]->field_name;
-				} else
+				}
+				else
 				{
 					$str[] = $fields[$i]->field_name;
 				}
@@ -342,6 +345,7 @@ class productModelproduct extends JModel
 		else
 			return "";
 	}
+
 	function getmanufacturername($mid)
 	{
 		$query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id="' . $mid . '" ';
@@ -391,7 +395,8 @@ class productModelproduct extends JModel
 			if ($unpublished_data == 1)
 			{
 				$query = "SELECT p.*,m.manufacturer_name FROM " . $this->_table_prefix . "product AS p " . " LEFT JOIN " . $this->_table_prefix . "manufacturer AS m" . " ON p.manufacturer_id = m.manufacturer_id" . " WHERE p.product_id IN (" . $cids . ")";
-			} else
+			}
+			else
 			{
 				$query = "SELECT p.*,m.manufacturer_name FROM " . $this->_table_prefix . "product AS p " . " LEFT JOIN " . $this->_table_prefix . "manufacturer AS m" . " ON p.manufacturer_id = m.manufacturer_id" . " WHERE p.product_id IN (" . $cids . ") and p.published =1";
 
@@ -401,7 +406,7 @@ class productModelproduct extends JModel
 			$rs = $this->_db->loadObjectlist();
 
 			// For shipping information
-			$shippingArr = $shippinghelper->getShopperGroupDefaultShipping ();
+			$shippingArr = $shippinghelper->getShopperGroupDefaultShipping();
 
 			$default_shipping = 0.00;
 			$shipping_rate = $currency->convert(number_format($shippingArr['shipping_rate'], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR), '', CURRENCY_CODE);
@@ -467,22 +472,26 @@ class productModelproduct extends JModel
 
 								$product_status = JText::_('COM_REDSHOP_OUT_OF_STOCK');
 
-							} else
+							}
+							else
 							{
 
 								$product_status = JText::_('COM_REDSHOP_PREORDER');
 							}
-						} else
+						}
+						else
 						{
 
 							$product_status = JText::_('COM_REDSHOP_OUT_OF_STOCK');
 
 						}
-					} else
+					}
+					else
 					{
 						$product_status = JText::_('COM_REDSHOP_AVAILABLE_FOR_ORDER');
 					}
-				} else
+				}
+				else
 				{
 					$product_status = JText::_('COM_REDSHOP_AVAILABLE_FOR_ORDER');
 				}
@@ -547,7 +556,8 @@ class productModelproduct extends JModel
 						$xml_code .= "\n<g:delivery_weight>" . $rs[$i]->weight . " " . DEFAULT_WEIGHT_UNIT . "</g:delivery_weight>";
 					}
 
-				} else
+				}
+				else
 				{
 
 					$xml_code .= "\n<g:shipping>
@@ -628,7 +638,8 @@ class productModelproduct extends JModel
 				if ($v->parent_id == 0)
 				{
 					$txt = $v->title;
-				} else
+				}
+				else
 				{
 					$txt = '- ' . $v->title;
 				}
@@ -641,6 +652,7 @@ class productModelproduct extends JModel
 		}
 		return $list;
 	}
+
 	/*
 	 * save product ordering
 	 * @params: $cid - array , $order-array
@@ -666,14 +678,14 @@ class productModelproduct extends JModel
 		$i = 1;
 		if (count($orderarray) > 0)
 		{
-			foreach ($orderarray as $productid=>$order)
+			foreach ($orderarray as $productid => $order)
 			{
 				if ($order >= 0)
 				{
 					// update ordering
 					$query = 'UPDATE ' . $this->_table_prefix . 'product_category_xref' . ' SET ordering = ' . (int) $i . ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
-					$this->_db->setQuery ($query);
-					$this->_db->query ();
+					$this->_db->setQuery($query);
+					$this->_db->query();
 				}
 				$i++;
 			}
@@ -681,4 +693,5 @@ class productModelproduct extends JModel
 		return true;
 	}
 }
+
 ?>
