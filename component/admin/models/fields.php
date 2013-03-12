@@ -1,20 +1,13 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
@@ -25,27 +18,28 @@ class fieldsModelfields extends JModel
 	var $_pagination = null;
 	var $_table_prefix = null;
 	var $_context = null;
-	
+
 	function __construct()
 	{
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context='field_id';
-	  	$this->_table_prefix = '#__redshop_';
-		$limit			= $mainframe->getUserStateFromRequest( $this->_context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest( $this->_context.'limitstart', 'limitstart', 0 );
-		$filter = $mainframe->getUserStateFromRequest( $this->_context.'filter','filter',0);
-		$filtertype = $mainframe->getUserStateFromRequest( $this->_context.'filtertypes','filtertypes',0);
-		$filtersection = $mainframe->getUserStateFromRequest( $this->_context.'filtersection','filtersection',0);
+		$this->_context = 'field_id';
+		$this->_table_prefix = '#__redshop_';
+		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filtertype = $mainframe->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
+		$filtersection = $mainframe->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		
+
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filtertype', $filtertype);
 		$this->setState('filtersection', $filtersection);
 	}
+
 	function getData()
 	{
 		if (empty($this->_data))
@@ -55,6 +49,7 @@ class fieldsModelfields extends JModel
 		}
 		return $this->_data;
 	}
+
 	function getTotal()
 	{
 		if (empty($this->_total))
@@ -64,42 +59,41 @@ class fieldsModelfields extends JModel
 		}
 		return $this->_total;
 	}
-	
+
 	function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
-		$orderby	= $this->_buildContentOrderBy();
+		$orderby = $this->_buildContentOrderBy();
 		$filter = $this->getState('filter');
 		$filtertype = $this->getState('filtertype');
 		$filtersection = $this->getState('filtersection');
-		
-		$where='';
-		if($filter)
+
+		$where = '';
+		if ($filter)
 		{
-			$where .= " AND f.field_title like '%".$filter."%' ";
+			$where .= " AND f.field_title like '%" . $filter . "%' ";
 		}
-		if($filtertype)
+		if ($filtertype)
 		{
-			$where .= " AND f.field_type='".$filtertype."' ";
+			$where .= " AND f.field_type='" . $filtertype . "' ";
 		}
-		if($filtersection)
+		if ($filtersection)
 		{
-			$where .= " AND f.field_section='".$filtersection."' ";
+			$where .= " AND f.field_section='" . $filtersection . "' ";
 		}
-		$query = "SELECT * FROM ".$this->_table_prefix."fields AS f "
-				."WHERE 1=1 "
-				.$where
-				.$orderby
-				;
+		$query = "SELECT * FROM " . $this->_table_prefix . "fields AS f "
+			. "WHERE 1=1 "
+			. $where
+			. $orderby;
 		return $query;
 	}
 
@@ -107,17 +101,21 @@ class fieldsModelfields extends JModel
 	{
 		global $mainframe;
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $this->_context.'filter_order',      'filter_order', 	  'ordering' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $this->_context.'filter_order_Dir',  'filter_order_Dir', '' );
+		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		if ($filter_order == 'ordering') {
-			$orderby = ' ORDER BY field_section, ordering '. $filter_order_Dir;
-		} else {
-			$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', field_section, ordering';
+		if ($filter_order == 'ordering')
+		{
+			$orderby = ' ORDER BY field_section, ordering ' . $filter_order_Dir;
+		}
+		else
+		{
+			$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ', field_section, ordering';
 		}
 
 		return $orderby;
 	}
+
 	function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable('fields_detail');
@@ -125,29 +123,31 @@ class fieldsModelfields extends JModel
 		$conditions = array();
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
+		for ($i = 0; $i < count($cid); $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 			// track categories
 			$groupings[] = $row->field_id;
 
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
-				if (!$row->store()) {
+				if (!$row->store())
+				{
 					$this->setError($this->_db->getErrorMsg());
 					return false;
 				}
 				// remember to updateOrder this group
-				$condition = 'field_section = '.(int) $row->field_section;
+				$condition = 'field_section = ' . (int) $row->field_section;
 				$found = false;
 				foreach ($conditions as $cond)
-					if ($cond[1] == $condition) {
+					if ($cond[1] == $condition)
+					{
 						$found = true;
 						break;
 					}
 				if (!$found)
-					$conditions[] = array ($row->field_id, $condition);
+					$conditions[] = array($row->field_id, $condition);
 			}
 		}
 		// execute updateOrder for each group

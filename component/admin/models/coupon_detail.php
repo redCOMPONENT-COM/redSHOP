@@ -1,19 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
@@ -29,15 +22,16 @@ class coupon_detailModelcoupon_detail extends JModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid',  0, '', 'array');
+		$array = JRequest::getVar('cid', 0, '', 'array');
 
-		$this->setId((int)$array[0]);
+		$this->setId((int) $array[0]);
 
 	}
+
 	function setId($id)
 	{
-		$this->_id		= $id;
-		$this->_data	= null;
+		$this->_id = $id;
+		$this->_data = null;
 	}
 
 	function &getData()
@@ -45,16 +39,17 @@ class coupon_detailModelcoupon_detail extends JModel
 		if ($this->_loadData())
 		{
 
-		}else  $this->_initData();
+		}
+		else  $this->_initData();
 
-	   	return $this->_data;
+		return $this->_data;
 	}
 
 	function _loadData()
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM '.$this->_table_prefix.'coupons WHERE coupon_id='.$this->_id;
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'coupons WHERE coupon_id=' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -69,33 +64,36 @@ class coupon_detailModelcoupon_detail extends JModel
 		if (empty($this->_data))
 		{
 			$detail = new stdClass();
-			$detail->coupon_id				= null;
-			$detail->coupon_code			= null;
-			$detail->start_date				= 0;
-			$detail->end_date				= 0;
-			$detail->percent_or_total		= null;
-			$detail->free_shipping			= 0;
-			$detail->coupon_value			= null;
-			$detail->coupon_type			= null;
-			$detail->subtotal				= null;
-			$detail->userid					= null;
-			$detail->coupon_left					= null;
-			$detail->published				= 1;
-			$this->_data		 			= $detail;
+			$detail->coupon_id = null;
+			$detail->coupon_code = null;
+			$detail->start_date = 0;
+			$detail->end_date = 0;
+			$detail->percent_or_total = null;
+			$detail->free_shipping = 0;
+			$detail->coupon_value = null;
+			$detail->coupon_type = null;
+			$detail->subtotal = null;
+			$detail->userid = null;
+			$detail->coupon_left = null;
+			$detail->published = 1;
+			$this->_data = $detail;
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
-  	function store($data)
+
+	function store($data)
 	{
 		$row =& $this->getTable();
 
-		if (!$row->bind($data)) {
+		if (!$row->bind($data))
+		{
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		if (!$row->store()) {
+		if (!$row->store())
+		{
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -104,13 +102,14 @@ class coupon_detailModelcoupon_detail extends JModel
 
 	function delete($cid = array())
 	{
-		if (count( $cid ))
+		if (count($cid))
 		{
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM '.$this->_table_prefix.'coupons WHERE coupon_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'coupons WHERE coupon_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query())
+			{
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -118,25 +117,26 @@ class coupon_detailModelcoupon_detail extends JModel
 
 		return true;
 	}
-	
+
 	function getRemainingCouponAmount()
 	{
-		$query = 'SELECT coupon_value FROM '.$this->_table_prefix.'coupons_transaction WHERE coupon_id ='.$this->_id;
+		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE coupon_id =' . $this->_id;
 		$this->_db->setQuery($query);
-		return  $this->_db->loadResult();
+		return $this->_db->loadResult();
 	}
-	
+
 	function publish($cid = array(), $publish = 1)
 	{
-		if (count( $cid ))
+		if (count($cid))
 		{
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
-			$query = 'UPDATE '.$this->_table_prefix.'coupons'
-				. ' SET published = ' . intval( $publish )
-				. ' WHERE coupon_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
+			$query = 'UPDATE ' . $this->_table_prefix . 'coupons'
+				. ' SET published = ' . intval($publish)
+				. ' WHERE coupon_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query())
+			{
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -147,38 +147,43 @@ class coupon_detailModelcoupon_detail extends JModel
 
 	function getuserslist()
 	{
-		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,'.$this->_table_prefix.'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
-		$this->_db->setQuery( $query );
+		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix . 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
+		$this->_db->setQuery($query);
 		return $this->_db->loadObjectlist();
 	}
+
 	function getproducts()
 	{
 		$product_id = JRequest::getVar('pid');
-		if($product_id){
-			$query = 'SELECT product_id,product_name FROM '.$this->_table_prefix.'product WHERE product_id ='.$product_id;
-			$this->_db->setQuery( $query );
+		if ($product_id)
+		{
+			$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product WHERE product_id =' . $product_id;
+			$this->_db->setQuery($query);
 			return $this->_db->loadObject();
 		}
 	}
+
 	function getuserfullname2($uid)
 	{
-		$query = "SELECT firstname,lastname,username FROM ".$this->_table_prefix."users_info as uf, #__users as u WHERE user_id=".$uid." AND address_type like 'BT' AND uf.user_id=u.id";
+		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id=" . $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
-		$fullname ='';
-		if($this->_username)
-		$fullname=$this->_username->firstname." ".$this->_username->lastname." (".$this->_username->username.")";
+		$fullname = '';
+		if ($this->_username)
+			$fullname = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
 		return $fullname;
 	}
 
-	function checkduplicate($discount_code){
+	function checkduplicate($discount_code)
+	{
 
-		$query="SELECT count(*) as code from ".$this->_table_prefix."coupons"
-			." LEFT JOIN ".$this->_table_prefix."product_voucher ON coupon_code=voucher_code"
-			." where voucher_code='".$discount_code."' OR coupon_code='".$discount_code."'";
+		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"
+			. " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code"
+			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
 
 		$this->_db->setQuery($query);
 		return $this->_db->loadResult();
 	}
 }
+
 ?>
