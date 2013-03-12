@@ -1,57 +1,57 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.controller' );
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.controller');
 
 jimport('joomla.filesystem.file');
 
 class newslettersubscrController extends JController
 {
-	function __construct( $default = array())
+	function __construct($default = array())
 	{
-		parent::__construct( $default );
+		parent::__construct($default);
 	}
+
 	function cancel()
 	{
-		$this->setRedirect( 'index.php' );
+		$this->setRedirect('index.php');
 	}
-	function display() {
+
+	function display()
+	{
 
 		parent::display();
 	}
-	function importdata(){
 
-		$post = JRequest::get ( 'post' );
+	function importdata()
+	{
 
-		$option = JRequest::getVar ('option');
+		$post = JRequest::get('post');
 
-		$file = JRequest::getVar('file', 'array' , 'files', 'array');
+		$option = JRequest::getVar('option');
+
+		$file = JRequest::getVar('file', 'array', 'files', 'array');
 
 		$model = $this->getModel('newslettersubscr');
 
 		$filetype = strtolower(JFile::getExt($file['name']));
 
-		$separator = JRequest::getVar('separator',",");
+		$separator = JRequest::getVar('separator', ",");
 
-		if($filetype == 'csv'){
+		if ($filetype == 'csv')
+		{
 
 			$src = $file['tmp_name'];
 
-			$dest = JPATH_ADMINISTRATOR.DS.'components/'.$option.'/assets'.DS.$file['name'];
+			$dest = JPATH_ADMINISTRATOR . DS . 'components/' . $option . '/assets' . DS . $file['name'];
 
 			JFile::upload($src, $dest);
 
@@ -61,30 +61,37 @@ class newslettersubscrController extends JController
 
 			$handle = fopen($dest, "r");
 
-		while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE) {
-				if($data[0]!="" && $data[1]!="")
+			while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE)
+			{
+				if ($data[0] != "" && $data[1] != "")
 				{
-					if ($row != 0 ){
-						$success = $model->importdata($newsletter_id,$data[0],$data[1]);
+					if ($row != 0)
+					{
+						$success = $model->importdata($newsletter_id, $data[0], $data[1]);
 					}
-				    $row++;
+					$row++;
 				}
 
 			}
 
 			fclose($handle);
 
-			if($success){
+			if ($success)
+			{
 				unlink($dest);
-				$msg = JText::_('COM_REDSHOP_DATA_IMPORT_SUCCESS' );
-				$this->setRedirect ( 'index.php?option=' . $option . '&view=newslettersubscr', $msg );
-			}else{
-				$msg = JText::_('COM_REDSHOP_ERROR_DATA_IMPORT' );
-				$this->setRedirect ( 'index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg );
+				$msg = JText::_('COM_REDSHOP_DATA_IMPORT_SUCCESS');
+				$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
 			}
-		}else{
-			$msg = JText::_('COM_REDSHOP_FILE_EXTENTION_WRONG' );
-			$this->setRedirect ( 'index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg );
+			else
+			{
+				$msg = JText::_('COM_REDSHOP_ERROR_DATA_IMPORT');
+				$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg);
+			}
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_FILE_EXTENTION_WRONG');
+			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg);
 		}
 
 	}
