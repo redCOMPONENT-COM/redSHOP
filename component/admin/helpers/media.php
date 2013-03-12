@@ -1,40 +1,37 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Helper
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-class redMediahelper {
-   	 
+class redMediahelper
+{
+
 	/**
 	 * Checks if the file is an image
+	 *
 	 * @param string The filename
+	 *
 	 * @return boolean
 	 */
-	function isImage( $fileName )
+	function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
-		return preg_match("/$imageTypes/i",$fileName);
+		return preg_match("/$imageTypes/i", $fileName);
 	}
 
 	/**
 	 * Checks if the file is an image
+	 *
 	 * @param string The filename
+	 *
 	 * @return boolean
 	 */
-	function getTypeIcon( $fileName )
+	function getTypeIcon($fileName)
 	{
 		// Get file extension
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
@@ -42,14 +39,18 @@ class redMediahelper {
 
 	function parseSize($size)
 	{
-		if ($size < 1024) {
+		if ($size < 1024)
+		{
 			return $size . ' bytes';
 		}
 		else
 		{
-			if ($size >= 1024 && $size < 1024 * 1024) {
+			if ($size >= 1024 && $size < 1024 * 1024)
+			{
 				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
-			} else {
+			}
+			else
+			{
 				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
 			}
 		}
@@ -60,9 +61,12 @@ class redMediahelper {
 		//takes the larger size of the width and height and applies the
 		//formula accordingly...this is so this script will work
 		//dynamically with any size image
-		if ($width > $height) {
+		if ($width > $height)
+		{
 			$percentage = ($target / $width);
-		} else {
+		}
+		else
+		{
 			$percentage = ($target / $height);
 		}
 
@@ -73,19 +77,23 @@ class redMediahelper {
 		return array($width, $height);
 	}
 
-	function countFiles( $dir )
+	function countFiles($dir)
 	{
 		$total_file = 0;
 		$total_dir = 0;
 
-		if (is_dir($dir)) {
+		if (is_dir($dir))
+		{
 			$d = dir($dir);
 
-			while (false !== ($entry = $d->read())) {
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
+			while (false !== ($entry = $d->read()))
+			{
+				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false)
+				{
 					$total_file++;
 				}
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
+				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
+				{
 					$total_dir++;
 				}
 			}
@@ -93,7 +101,7 @@ class redMediahelper {
 			$d->close();
 		}
 
-		return array ( $total_file, $total_dir );
+		return array($total_file, $total_dir);
 	}
-	
+
 }
