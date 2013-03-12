@@ -1,27 +1,20 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Element
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Renders a Productfinder Form
  *
- * @package		Joomla
- * @subpackage	Banners
- * @since		1.5
+ * @package        Joomla
+ * @subpackage     Banners
+ * @since          1.5
  */
 
 class JFormFieldplugins extends JFormField
@@ -29,24 +22,24 @@ class JFormFieldplugins extends JFormField
 	/**
 	 * Element name
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @access    protected
+	 * @var        string
 	 */
-	public	$type = 'plugins';
-	
+	public $type = 'plugins';
+
 
 	protected function getInput()
 	{
 
-		$db = &JFactory::getDBO();
+		$db = & JFactory::getDBO();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT shopper_group_id,shopper_group_name ' .
-				' FROM #__redshop_shopper_group WHERE published=1';
+			' FROM #__redshop_shopper_group WHERE published=1';
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP').' -', 'shopper_group_id', 'shopper_group_name'));
-		return JHTML::_('select.genericlist',  $options, ''.$this->name.'[]',  'multiple="multiple" size="5"','shopper_group_id', 'shopper_group_name', $this->value, $this->id);
+		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP') . ' -', 'shopper_group_id', 'shopper_group_name'));
+		return JHTML::_('select.genericlist', $options, '' . $this->name . '[]', 'multiple="multiple" size="5"', 'shopper_group_id', 'shopper_group_name', $this->value, $this->id);
 
 	}
 }
