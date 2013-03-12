@@ -1,39 +1,34 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.controller' );
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'mail.php' );
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.controller');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 //including extra fields helper file
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'extra_field.php' );
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
 //including extra fields helper file end
 /**
  * registration Controller
  *
  * @static
- * @package		redSHOP
- * @since 1.0
+ * @package        redSHOP
+ * @since          1.0
  */
 class registrationController extends JController
 {
-	function __construct( $default = array())
+	function __construct($default = array())
 	{
-		parent::__construct( $default );
+		parent::__construct($default);
 	}
+
 	/**
 	 * newregistration function
 	 *
@@ -47,7 +42,7 @@ class registrationController extends JController
 		$post = JRequest::get('post');
 
 		$option = JRequest::getCmd('option');
-		$Itemid = JRequest::getInt('Itemid',0);
+		$Itemid = JRequest::getInt('Itemid', 0);
 
 		$prodhelperobj = new producthelper();
 		$redshopMail = new redshopMail();
@@ -55,34 +50,37 @@ class registrationController extends JController
 		$model = $this->getModel('registration');
 		$success = $model->store($post);
 
-		if($success)
+		if ($success)
 		{
-			if($post[mywishlist]==1)
+			if ($post[mywishlist] == 1)
 			{
-				$wishreturn = JRoute::_ ( 'index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid='.$Itemid, false );
+				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
 				$this->setRedirect($wishreturn);
-			}else{
+			}
+			else
+			{
 				$msg = WELCOME_MSG;
 
-				if(SHOP_NAME!="")
+				if (SHOP_NAME != "")
 				{
-					$msg	=	str_replace("{shopname}",SHOP_NAME,$msg);
+					$msg = str_replace("{shopname}", SHOP_NAME, $msg);
 				}
 
 				# redirection settings
-				$link = JRoute::_('index.php?option=com_redshop&view=redshop&Itemid='.$Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=redshop&Itemid=' . $Itemid);
 
 				$menu = JSite::getMenu();
 				$retMenuItem = array();
-				$retMenuItem = $menu->getItem($menu->getParams( $Itemid )->get('registrationredirect'));
+				$retMenuItem = $menu->getItem($menu->getParams($Itemid)->get('registrationredirect'));
 
-				if(count($retMenuItem)>0)
+				if (count($retMenuItem) > 0)
 				{
-					$link = JRoute::_($retMenuItem->link.'&Itemid='.$retMenuItem->id);
+					$link = JRoute::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id);
 				}
+
 				# redirection settings End
 
-				$this->setRedirect( $link , $msg );
+				$this->setRedirect($link, $msg);
 			}
 		}
 		else
@@ -92,16 +90,17 @@ class registrationController extends JController
 	}
 
 
-	function captcha(){
+	function captcha()
+	{
 
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'captcha.php' );
+		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
 
-		$width =  JRequest::getInt('width',120);//isset($_GET['width']) ? $_GET['width'] : '120';
-		$height = JRequest::getInt('height',40);//isset($_GET['height']) ? $_GET['height'] : '40';
-		$characters = JRequest::getInt('characters',6);//isset($_GET['characters']) && $_GET['characters'] > 1 ? $_GET['characters'] : '6';
-		$captchaname = JRequest::getCmd('captcha','security_code');//isset($_GET['captcha']) ? $_GET['captcha'] : 'security_code';
+		$width = JRequest::getInt('width', 120); //isset($_GET['width']) ? $_GET['width'] : '120';
+		$height = JRequest::getInt('height', 40); //isset($_GET['height']) ? $_GET['height'] : '40';
+		$characters = JRequest::getInt('characters', 6); //isset($_GET['characters']) && $_GET['characters'] > 1 ? $_GET['characters'] : '6';
+		$captchaname = JRequest::getCmd('captcha', 'security_code'); //isset($_GET['captcha']) ? $_GET['captcha'] : 'security_code';
 
-		 $captcha = new CaptchaSecurityImages($width,$height,$characters,$captchaname);
+		$captcha = new CaptchaSecurityImages($width, $height, $characters, $captchaname);
 	}
 
 	function searchUserdetailByPhone()
@@ -110,39 +109,44 @@ class registrationController extends JController
 		$get = JRequest::get('get');
 		$return = "";
 
-		JPluginHelper::importPlugin('telesearch','rs_telesearch');
+		JPluginHelper::importPlugin('telesearch', 'rs_telesearch');
 		$this->_dispatcher =& JDispatcher::getInstance();
 		$tele['phone'] = $get['phone'];
-		$accountHandle = $this->_dispatcher->trigger('findByTelephoneNumber',array($tele));
-		if(count($accountHandle)>0)
+		$accountHandle = $this->_dispatcher->trigger('findByTelephoneNumber', array($tele));
+
+		if (count($accountHandle) > 0)
 		{
 			$response = $accountHandle[0];
-			if(count($response)>0)
+
+			if (count($response) > 0)
 			{
-				$return = implode("`_`",$response);
+				$return = implode("`_`", $response);
 			}
 		}
+
 		echo $return;
 		die();
 	}
 
 	function getCompanyOrCustomer()
 	{
-		$redTemplate = new Redtemplate();
-		$rsUserhelper = new rsUserhelper();
-		$extraField = new extraField();
+		$redTemplate = new Redtemplate;
+		$rsUserhelper = new rsUserhelper;
+		$extraField = new extraField;
 		$get = JRequest::get('get');
 		$template_id = $get['template_id'];
 		$is_company = $get['is_company'];
-		$lists['extra_field_user']=$extraField->list_all_field(7);  // field_section 6 : Customer Registration
-		$lists['extra_field_company']=$extraField->list_all_field(8);  // field_section 6 : Company Address
-		$lists['shipping_customer_field'] = $extraField->list_all_field(14,0,'billingRequired valid');
-		$lists['shipping_company_field'] = $extraField->list_all_field(15,0,'billingRequired valid');
-		$lists['isAjax']=1;
-		if($is_company==1)
+		$lists['extra_field_user'] = $extraField->list_all_field(7); // field_section 6 : Customer Registration
+		$lists['extra_field_company'] = $extraField->list_all_field(8); // field_section 6 : Company Address
+		$lists['shipping_customer_field'] = $extraField->list_all_field(14, 0, 'billingRequired valid');
+		$lists['shipping_company_field'] = $extraField->list_all_field(15, 0, 'billingRequired valid');
+		$lists['isAjax'] = 1;
+
+		if ($is_company == 1)
 		{
-			$template = $redTemplate->getTemplate ("company_billing_template", $template_id );
-			if(count($template)>0 && $template[0]->template_desc!="")
+			$template = $redTemplate->getTemplate("company_billing_template", $template_id);
+
+			if (count($template) > 0 && $template[0]->template_desc != "")
 			{
 				$template_desc = $template[0]->template_desc;
 			}
@@ -150,12 +154,14 @@ class registrationController extends JController
 			{
 				$template_desc = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{company_name_lbl}</td><td>{company_name}</td><td><span class="required">*</span></td></tr><!-- {vat_number_start} --><tr><td width="100" align="right">{vat_number_lbl}</td><td>{vat_number}</td><td><span class="required">*</span></td></tr><!-- {vat_number_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{ean_number_lbl}</td><td>{ean_number}</td><td></td></tr><tr><td width="100" align="right">{tax_exempt_lbl}</td><td>{tax_exempt}</td></tr><tr><td colspan="3">{company_extrafield}</td></tr></tbody></table>';
 			}
-			$template_desc = $rsUserhelper->replaceCompanyCustomer($template_desc,$get,$lists);
+
+			$template_desc = $rsUserhelper->replaceCompanyCustomer($template_desc, $get, $lists);
 		}
 		else
 		{
-			$template = $redTemplate->getTemplate ("private_billing_template", $template_id );
-			if(count($template)>0 && $template[0]->template_desc!="")
+			$template = $redTemplate->getTemplate("private_billing_template", $template_id);
+
+			if (count($template) > 0 && $template[0]->template_desc != "")
 			{
 				$template_desc = $template[0]->template_desc;
 			}
@@ -163,10 +169,11 @@ class registrationController extends JController
 			{
 				$template_desc = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td colspan="3">{private_extrafield}</td></tr></tbody></table>';
 			}
-			$template_desc = $rsUserhelper->replacePrivateCustomer($template_desc,$get,$lists);
+
+			$template_desc = $rsUserhelper->replacePrivateCustomer($template_desc, $get, $lists);
 		}
-		echo $return = "<div id='ajaxRegistrationDiv'>".$template_desc."</div>";
+
+		echo $return = "<div id='ajaxRegistrationDiv'>" . $template_desc . "</div>";
 		die();
 	}
 }
-?>
