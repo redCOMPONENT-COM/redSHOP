@@ -1,20 +1,13 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
@@ -25,24 +18,26 @@ class manufacturerModelmanufacturer extends JModel
 	var $_pagination = null;
 	var $_table_prefix = null;
 	var $_context = null;
+
 	function __construct()
 	{
 		parent::__construct();
 
-		global $mainframe; 
-		$this->_context='manufacturer_id';
-	  	$this->_table_prefix = '#__redshop_';			
-		$limit			= $mainframe->getUserStateFromRequest( $this->_context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest( $this->_context.'limitstart', 'limitstart', 0 );
-		$filter = $mainframe->getUserStateFromRequest( $this->_context.'filter','filter',0);
+		global $mainframe;
+		$this->_context = 'manufacturer_id';
+		$this->_table_prefix = '#__redshop_';
+		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 	}
+
 	function getData()
-	{		
+	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
@@ -50,96 +45,98 @@ class manufacturerModelmanufacturer extends JModel
 		}
 		return $this->_data;
 	}
+
 	function getTotal()
 	{
 		if (empty($this->_total))
 		{
-		 	$query = $this->_buildQuery();
+			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 		return $this->_total;
 	}
+
 	function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
 	}
+
 	function _buildQuery()
 	{
 		$filter = $this->getState('filter');
-		$orderby	= $this->_buildContentOrderBy();
-		$where='';
-		if($filter) 
+		$orderby = $this->_buildContentOrderBy();
+		$where = '';
+		if ($filter)
 		{
-			$where = " WHERE m.manufacturer_name like '%".$filter."%' ";
-		} 
-		
-		$query = 'SELECT  distinct(m.manufacturer_id),m.* FROM '.$this->_table_prefix.'manufacturer m '
-				.$where
-				.$orderby
-				;
+			$where = " WHERE m.manufacturer_name like '%" . $filter . "%' ";
+		}
+
+		$query = 'SELECT  distinct(m.manufacturer_id),m.* FROM ' . $this->_table_prefix . 'manufacturer m '
+			. $where
+			. $orderby;
 		return $query;
 	}
-	
+
 	function _buildContentOrderBy()
 	{
 		global $mainframe;
-	
-		$filter_order     = $mainframe->getUserStateFromRequest( $this->_context.'filter_order',      'filter_order', 	  'm.ordering' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $this->_context.'filter_order_Dir',  'filter_order_Dir', '' );		
-					
-		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir;			
-		 		
+
+		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.ordering');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
+
 	function getMediaId($mid)
-	{	
+	{
 		$database = JFactory::getDBO();
-		
+
 		$query = ' SELECT media_id '
-			. ' FROM '.$this->_table_prefix.'media  WHERE media_section="manufacturer" AND section_id = '.$mid;
+			. ' FROM ' . $this->_table_prefix . 'media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
 
 		$database->setQuery($query);
-		return $database->loadResult();		
+		return $database->loadResult();
 	}
-	
-	function saveOrder( &$cid )
+
+	function saveOrder(&$cid)
 	{
 		global $mainframe;
 		//$scope 		= JRequest::getCmd( 'scope' );
-		$db			=& JFactory::getDBO();
+		$db =& JFactory::getDBO();
 		$row =& $this->getTable('manufacturer_detail');
-	
-		$total		= count( $cid );
-		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+
+		$total = count($cid);
+		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
-	
+
 		// update ordering values
-		for( $i=0; $i < $total; $i++ )
+		for ($i = 0; $i < $total; $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
 				if (!$row->store())
-				 {
-					JError::raiseError(500, $db->getErrorMsg() );
+				{
+					JError::raiseError(500, $db->getErrorMsg());
 				}
 			}
 		}
-	
-		$row->reorder( );
+
+		$row->reorder();
 		return true;
 		//$msg 	= JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
 		//$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
 	}
-	
-	
+
 
 }	
 
