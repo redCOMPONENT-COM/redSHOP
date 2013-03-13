@@ -1296,6 +1296,9 @@ function sendGiftCard($order_id)
 						$giftcardmail_body 	= str_replace ( "{giftcard_reciver_name}", $eachorders->giftcard_user_name, $giftcardmail_body );
 						$giftcardmail_body 	= $this->_producthelper->getValidityDate($giftcardData->giftcard_validity,$giftcardmail_body);
 						$giftcardmail_body 	= str_replace ( "{giftcard_value}", $giftcard_value, $giftcardmail_body );
+						$giftcardmail_body = $this->_producthelper->getGiftcarduserfield ( $eachorders->order_item_id, $giftcardmail_body );
+						$giftcardmail_body = str_replace ( "{if giftcard_userfield}", '', $giftcardmail_body );
+						$giftcardmail_body = str_replace ( "{giftcard_userfield end if}", '', $giftcardmail_body );
 						$giftcardmail_body 	= str_replace ( "{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $giftcardmail_body );
 						$giftcardmail_body 	= str_replace ( "{giftcard_desc}", $giftcardData->giftcard_desc, $giftcardmail_body );
 						$giftcardmail_body 	= str_replace ( "{giftcard_validity}", $giftcardData->giftcard_validity, $giftcardmail_body );
