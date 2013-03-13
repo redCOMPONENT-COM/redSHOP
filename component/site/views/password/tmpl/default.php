@@ -1,19 +1,13 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined ('_JEXEC') or die ('restricted access');
+
+defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 $Itemid = JRequest::getVar('Itemid');?>
 <form action="" method="post">
@@ -25,14 +19,17 @@ $Itemid = JRequest::getVar('Itemid');?>
 		</tr>
 		<tr>
 			<td height="40">
-				<label for="email" class="hasTip" title="<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TITLE'); ?>::<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TEXT'); ?>"><?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS'); ?>:</label>
+				<label for="email" class="hasTip"
+				       title="<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TITLE'); ?>::<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TEXT'); ?>"><?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS'); ?>
+					:</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" id="email" name="email" />
+				<input class="inputbox" type="text" id="email" name="email"/>
 			</td>
 		</tr>
 	</table>
 	<input type="hidden" name="task" id="task" value="reset">
-	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid;?>">
-	<input type="submit" name="submit" value="<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_BUTTON'); ?>" class="button">
+	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>">
+	<input type="submit" name="submit" value="<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_BUTTON'); ?>"
+	       class="button">
 </form>

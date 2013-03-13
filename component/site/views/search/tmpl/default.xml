@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_REDSHOP_Standard_Serach_Layout">
-		<message>
-			<![CDATA[Standard Serach Layout For Redshop Product Search]]>
-		</message>
-	</layout>
-	<state>
-		<name>Standard Serach</name>
-		<description>COM_REDSHOP_Standard_Serach_Layout_For_Redshop_Product_Search</description>				
-	</state>
+    <layout title="COM_REDSHOP_Standard_Serach_Layout">
+        <message>
+            <![CDATA[Standard Serach Layout For Redshop Product Search]]>
+        </message>
+    </layout>
+    <state>
+        <name>Standard Serach</name>
+        <description>COM_REDSHOP_Standard_Serach_Layout_For_Redshop_Product_Search</description>
+    </state>
 </metadata>
