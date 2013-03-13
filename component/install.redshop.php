@@ -1,5 +1,12 @@
 <?php
-// No direct access to this file
+/**
+ * @package     RedSHOP.Frontend
+ * @subpackage  redSHOP
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
 defined('_JEXEC') or die('Restricted access');
 
 /**
@@ -101,7 +108,7 @@ class com_redshopInstallerScript
 	{
 		# Install Module and Plugin
 		$installer = $parent->getParent();
-		$source = $installer->getPath('source');
+		$source    = $installer->getPath('source');
 
 		$pluginPath = $source . DS . 'plugins'; //.DS.'rs_payment_banktransfer';
 
@@ -121,7 +128,7 @@ class com_redshopInstallerScript
 		$categoryTemplate = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'views' . DS . 'category' . DS . 'tmpl' . DS . 'category' . DS . 'category_template_column.php';
 		if (file_exists($categoryTemplate))
 		{
-			$demoCSS = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'css' . DS . 'redshop-update.css';
+			$demoCSS    = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'css' . DS . 'redshop-update.css';
 			$redSHOPCSS = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'css' . DS . 'redshop.css';
 			unlink($redSHOPCSS);
 			rename($demoCSS, $redSHOPCSS);
@@ -138,11 +145,11 @@ class com_redshopInstallerScript
 	{
 
 		$app = & JFactory::getApplication();
-		$db = & JFactory::getDBO();
+		$db  = & JFactory::getDBO();
 
 		// use J! installer to fully install the plugin
 		$installer = new JInstaller;
-		$result = $installer->install($sourcePath . DS . $pluginElement);
+		$result    = $installer->install($sourcePath . DS . $pluginElement);
 
 
 		if ($result)
@@ -196,11 +203,11 @@ class com_redshopInstallerScript
 	{
 
 		$app = & JFactory::getApplication();
-		$db = & JFactory::getDBO();
+		$db  = & JFactory::getDBO();
 
 		// use J! installer to fully install the plugin
 		$installer = new JInstaller;
-		$result = $installer->install($sourcePath . DS . $moduleElement);
+		$result    = $installer->install($sourcePath . DS . $moduleElement);
 
 
 		if ($result)
@@ -3654,7 +3661,7 @@ class com_redshopInstallerScript
 
 		// start template demo content
 		$redtemplate = new Redtemplate();
-		$q = "INSERT IGNORE INTO `#__redshop_template` (`template_id`, `template_name`, `template_section`, `template_desc`, `published`) VALUES
+		$q           = "INSERT IGNORE INTO `#__redshop_template` (`template_id`, `template_name`, `template_section`, `template_desc`, `published`) VALUES
 					(8, 'grid', 'category', '" . $redtemplate->getInstallSectionTemplate('grid') . "', 1),
 					(5, 'list', 'category', '" . $redtemplate->getInstallSectionTemplate('list') . "', 1),
 					(26, 'product2', 'product', '" . $redtemplate->getInstallSectionTemplate('product2') . "', 1),
@@ -3753,7 +3760,7 @@ class com_redshopInstallerScript
 		// TEMPLATE MOVE DB TO  FILE
 
 		$db = JFactory::getDBO();
-		$q = "SELECT * FROM #__redshop_template";
+		$q  = "SELECT * FROM #__redshop_template";
 		$db->setQuery($q);
 		$list = $db->loadObjectList();
 
@@ -3761,11 +3768,11 @@ class com_redshopInstallerScript
 		{
 			$data = & $list[$i];
 
-			$red_template = new Redtemplate();
-			$tname = $data->template_name;
+			$red_template        = new Redtemplate();
+			$tname               = $data->template_name;
 			$data->template_name = strtolower($data->template_name);
 			$data->template_name = str_replace(" ", "_", $data->template_name);
-			$tempate_file = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);
+			$tempate_file        = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);
 			if (!is_file($tempate_file))
 			{
 				$fp = fopen($tempate_file, "w");
@@ -3823,7 +3830,7 @@ class com_redshopInstallerScript
 		$list = $db->loadObjectList();
 		for ($i = 0; $i < count($list); $i++)
 		{
-			$data = & $list[$i];
+			$data      = & $list[$i];
 			$mail_body = $data->mail_body;
 
 			if (!strstr($mail_body, '{product_subtotal}') && !strstr($mail_body, '{product_subtotal_excl_vat}'))
@@ -3859,7 +3866,7 @@ class com_redshopInstallerScript
 					$mail_body = str_replace("{shipping_with_vat}", "{shipping}", $mail_body);
 				}
 				$mail_body = addslashes($mail_body);
-				$uquery = "UPDATE `#__redshop_mail` SET mail_body ='$mail_body' "
+				$uquery    = "UPDATE `#__redshop_mail` SET mail_body ='$mail_body' "
 					. "WHERE mail_section='" . $data->mail_section . "' AND mail_id='" . $data->mail_id . "'";
 				$db->setQuery($uquery);
 				$db->query();
@@ -3876,7 +3883,7 @@ class com_redshopInstallerScript
 		$q_ext = "select * from `#__extensions` where name = 'redshop' and element = 'com_redshop' and type='component'";
 		$db->setQuery($q_ext);
 		$list_ext = $db->loadObjectList();
-		$data = & $list_ext[0];
+		$data     = & $list_ext[0];
 		if (count($data) > 0)
 		{
 
@@ -3897,7 +3904,7 @@ class com_redshopInstallerScript
 		{
 
 			$db->setQuery('SHOW INDEXES FROM ' . $key . ' where Column_name="' . $val . '"');
-			$redshop_users_info = $db->query();
+			$redshop_users_info             = $db->query();
 			$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
 			if ($redshop_users_info_index_count == 0)
 			{
@@ -3986,10 +3993,10 @@ class com_redshopInstallerScript
 		/* Install the sh404SEF router files */
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
-		$sh404sefext = JPATH_SITE . DS . 'components' . DS . 'com_sh404sef' . DS . 'sef_ext';
-		$sh404sefmeta = JPATH_SITE . DS . 'components' . DS . 'com_sh404sef' . DS . 'meta_ext';
+		$sh404sefext   = JPATH_SITE . DS . 'components' . DS . 'com_sh404sef' . DS . 'sef_ext';
+		$sh404sefmeta  = JPATH_SITE . DS . 'components' . DS . 'com_sh404sef' . DS . 'meta_ext';
 		$sh404sefadmin = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_sh404sef';
-		$redadmin = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'extras';
+		$redadmin      = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'extras';
 		/* Check if sh404SEF is installed */
 		if (JFolder::exists(JPATH_SITE . DS . 'components' . DS . 'com_sh404sef'))
 		{
@@ -4018,7 +4025,7 @@ class com_redshopInstallerScript
 		JTable::addIncludePath(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
 		require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
 		$userhelper = new rsUserhelper();
-		$cnt = $userhelper->userSynchronization();
+		$cnt        = $userhelper->userSynchronization();
 	}
 
 	/*
@@ -4279,14 +4286,14 @@ class com_redshopInstallerScript
 		$path = $source . DS . 'plugins' . DS . $module;
 
 		$installer = new JInstaller;
-		$result = $installer->install($path);
+		$result    = $installer->install($path);
 
 		if ($result)
 		{
 			// get a db instance
-			$db = & JFactory::getDBO();
+			$db    = & JFactory::getDBO();
 			$query = "UPDATE #__extensions SET position='icon', ordering=9, enabled=1 WHERE element=" . $db->Quote($module);
-			$db = & JFactory::getDBO();
+			$db    = & JFactory::getDBO();
 			$db->setQuery($query);
 			$db->query();
 
@@ -4296,6 +4303,7 @@ class com_redshopInstallerScript
 			$app = & JFactory::getApplication();
 			$app->enqueueMessage('Error installing redSHOP module: ' . $module);
 		}
+
 		return $result;
 	}
 }
