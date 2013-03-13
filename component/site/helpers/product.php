@@ -2432,6 +2432,49 @@ class producthelper
 		}
 		return $resultstr;
 	}
+	
+	function getGiftcarduserfield($orderitemid = 0, $template_desc='') {
+		$redTemplate = new Redtemplate();
+		$order_functions = new order_functions();
+		$live_site = JURI::root();
+		$resultArr = array();
+		$section_id = 13;
+	
+		$userfield = $order_functions->getOrderUserfieldData($orderitemid, $section_id);
+	
+		if (count($userfield) > 0) {
+				
+			$returnArr = $this->getProductUserfieldFromTemplate($template_desc,1);
+			$userFieldTag = $returnArr[1];
+				
+			for ($i = 0; $i < count($userFieldTag); $i++) {
+				for ($j = 0; $j < count($userfield); $j++) {
+					if ($userfield[$j]->field_name == $userFieldTag[$i]) {
+						if ($userfield[$j]->field_type == 10) {
+							$files = explode(",", $userfield[$j]->data_txt);
+							$data_txt = "";
+							for ($f = 0; $f < count($files); $f++) {
+								$u_link = REDSHOP_FRONT_DOCUMENT_ABSPATH."product/".$files[$f];
+								$data_txt .= "<a href='".$u_link."' target='_blank'>".$files[$f]."</a> ";
+							}
+							$resultArr[] = $userfield[$j]->field_title." : ".$data_txt;
+							$template_desc = str_replace ( "{".$userFieldTag[$i] ."}", $data_txt, $template_desc );
+						} else {
+								
+							$template_desc = str_replace ( "{".$userFieldTag[$i] ."}", $userfield[$j]->data_txt, $template_desc );
+							$resultArr[] = $userfield[$j]->field_title." : ".$userfield[$j]->data_txt;
+						}
+					}
+				}
+			}
+		}
+		//print_r($resultArr);exit;
+		$resultstr = "";
+		if (count($resultArr) > 0) {
+			$resultstr = "<div>".implode("<br/>", $resultArr)."</div>";
+		}
+		return $template_desc;
+	}
 
 	function getProductUserfieldFromTemplate($templatedata="",$giftcard=0)
 	{
