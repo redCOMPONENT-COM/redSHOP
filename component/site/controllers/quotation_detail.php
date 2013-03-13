@@ -1,8 +1,8 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
+/**
+ * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+ * Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@ require_once (JPATH_COMPONENT.DS.'helpers'.DS.'helper.php');
  * @package		redSHOP
  * @since 1.0
  */
-class quotation_detailController extends JController  
+class quotation_detailController extends JController
 {
 	function __construct( $default = array())
 	{
@@ -46,15 +46,15 @@ class quotation_detailController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$encr = JRequest::getVar('encr');
-		
+
 		$quotationHelper = new quotationHelper();
 		$redshopMail = new redshopMail();
 		$quotationHelper->updateQuotationStatus($post['quotation_id'],$post['quotation_status']);
-		
+
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'],$post['quotation_status']);
-		
+
 		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
-		
+
 		$this->setRedirect( 'index.php?option='.$option.'&view=quotation_detail&quoid='.$post['quotation_id'].'&encr='.$encr.'&Itemid='.$Itemid,$msg);
 	}
 	/**
@@ -69,12 +69,12 @@ class quotation_detailController extends JController
 		$Itemid = JRequest::getVar('Itemid');
 		$post = JRequest::get('post');
 		$encr = JRequest::getVar('encr');
-		
+
 		$quotationHelper = new quotationHelper();
 		$model = $this->getmodel();
 		$session =& JFactory::getSession();
 		$redhelper = new redhelper();
-		
+
 		$cart = array();
 		$cart['idx'] = 0;
 		$session->set ( 'cart', $cart );
@@ -85,13 +85,14 @@ class quotation_detailController extends JController
 			$model->addtocart($quotationProducts[$q]);
 		}
 		$cart = $session->get('cart');
-		
+
 		$quotationDetail = $quotationHelper->getQuotationDetail($post['quotation_id']);
 		$cart['customer_note']=$quotationDetail->quotation_note;
 		$cart['quotation_id']=$quotationDetail->quotation_id;
 		$cart['cart_discount']=$quotationDetail->quotation_discount;
+		$cart['quotation'] = 1;
 		$session->set ( 'cart', $cart );
-		
+
 		$model->modifyQuotation($quotationDetail->user_id);
 		$Itemid = $redhelper->getCheckoutItemid();
 		$this->setRedirect( 'index.php?option='.$option.'&view=checkout&quotation=1&encr='.$encr.'&Itemid='.$Itemid);

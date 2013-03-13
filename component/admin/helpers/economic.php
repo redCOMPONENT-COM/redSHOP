@@ -221,8 +221,8 @@ class economic
 	{
 		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0) return;
 
-		$eco['product_desc'] = substr(strip_tags($row->product_desc),0,499);
-		$eco['product_s_desc'] = substr(strip_tags($row->product_s_desc),0,499);
+		$eco['product_desc'] = utf8_encode(substr(strip_tags($row->product_desc),0,499));
+		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc),0,499));
 
 		$ecoProductGroupNumber = $this->createProductGroupInEconomic($row);
 		if(isset($ecoProductGroupNumber[0]->Number))
@@ -624,6 +624,12 @@ class economic
 				$discount_calc= str_replace("<br />","\n",$discount_calc);
 				$discount_calc = "\n".$discount_calc;
 			}
+
+			// Product user field Information
+			$p_userfield = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
+			$displaywrapper = $displaywrapper."\n".strip_tags($p_userfield);
+			// End
+
 			$eco ['product_name'] = $orderitem[$i]->order_item_name.$displaywrapper.$displayattribute.$discount_calc.$displayaccessory;
 			$eco ['product_price'] = $orderitem[$i]->product_item_price_excl_vat;
 			$eco ['product_quantity'] = $orderitem[$i]->product_quantity;
@@ -742,6 +748,12 @@ class economic
 				$discount_calc= str_replace("<br />","\n",$discount_calc);
 				$discount_calc = "\n".$discount_calc;
 			}
+
+			// Product user field Information
+			$p_userfield = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
+			$displaywrapper = $displaywrapper."\n".strip_tags($p_userfield);
+			// End
+
 			$eco ['product_name'] = $orderitem[$i]->order_item_name.$displaywrapper.$discount_calc.$displayaccessory;
 			$eco ['product_price'] = $orderitem[$i]->product_item_price_excl_vat;
 			$eco ['product_quantity'] = $orderitem[$i]->product_quantity;

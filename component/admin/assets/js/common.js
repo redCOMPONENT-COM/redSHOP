@@ -725,10 +725,56 @@ function displayProductDetailInfo(unique_id,newprice)
 				newxmlhttp.open("GET",newurl,true);
 				newxmlhttp.send(null);
 			}
+			
+			// load calendar setup
+			calendarDefaultLoad();
 		}
 	}
 	xmlhttp.open("GET",url,true);
 	xmlhttp.send(null);
+}
+
+/**
+ * load calendar when order item response load
+ * Fetch extra field elemnts and set calander js dynamically  
+ */
+function calendarDefaultLoad(){
+	
+	var cal_img_elm = $$('.userfield_input').getElements('img[id^=rs_]');
+    var cal_input_elm = $$('.userfield_input').getElements('input[id^=rs_]');
+ 
+    var idcollection = [];
+    cal_input_elm.each(function (el) {
+    	 
+    	 if(el.length >0) idcollection.push(el[0].id);   	 
+        
+    });
+
+    var imgcollection = [];
+    cal_img_elm.each(function (el) {
+    	
+    	if(el.length >0) imgcollection.push(el[0].id);
+    	
+    });
+
+    imgcollection.each(function (el, ind) {
+
+        //document.write(idcollection[ind] + "  " + imgcollection[ind] + " <br />");
+        Calendar.setup({
+            // Id of the input field
+            inputField: idcollection[ind],
+            // Format of the input field
+            ifFormat: "%Y-%m-%d",
+            // Trigger for the calendar (button ID)
+            button: imgcollection[ind],
+            // Alignment (defaults to "Bl")
+            align: "Tl",
+            singleClick: true,
+            firstDay: 0
+        });
+
+    });   
+   
 }
 
 function changeOfflinePropertyDropdown(product_id,accessory_id,attribute_id,unique_id)
@@ -946,6 +992,11 @@ function changeOfflinePriceBox(unique_id)
 function changeOfflineQuantityBox(unique_id)
 {	
 	var prdexclprice=0;
+	if(document.getElementById("main_priceproduct1") && document.getElementById("product_vatpriceproduct1"))
+	{
+		prdexclprice = parseFloat(document.getElementById("main_priceproduct1").value) - parseFloat(document.getElementById("product_vatpriceproduct1").value);
+	}
+	document.getElementById("prdexclprice"+unique_id).value = prdexclprice;
 	if(document.getElementById("change_product_tmp_price"+unique_id))
 	{
 		prdexclprice = document.getElementById("change_product_tmp_price"+unique_id).value;
