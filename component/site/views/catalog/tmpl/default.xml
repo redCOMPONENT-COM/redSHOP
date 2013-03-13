@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_REDSHOP_Catalog_Layout">
-		<message>
-			<![CDATA[COM_REDSHOP_Catalog_Layout_For_Redshop_Catalog_Information]]>
-		</message>
-	</layout>
-	<state>
-		<name>Catalog Information</name>
-		<description>COM_REDSHOP_Catalog_Layout_For_Redshop_Catalog_Information</description>				
-	</state>
+    <layout title="COM_REDSHOP_Catalog_Layout">
+        <message>
+            <![CDATA[COM_REDSHOP_Catalog_Layout_For_Redshop_Catalog_Information]]>
+        </message>
+    </layout>
+    <state>
+        <name>Catalog Information</name>
+        <description>COM_REDSHOP_Catalog_Layout_For_Redshop_Catalog_Information</description>
+    </state>
 </metadata>

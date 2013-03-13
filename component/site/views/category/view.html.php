@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die('restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
 
@@ -26,24 +20,24 @@ class categoryViewcategory extends JView
 
 		//echo SHOW_PRICE;die();
 		global $context;
-		$mainframe = JFactory::getApplication();
-		$objhelper = new redhelper();
+		$mainframe     = JFactory::getApplication();
+		$objhelper     = new redhelper();
 		$prodhelperobj = new producthelper();
 
 		// Request variables
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
-		$catid = JRequest::getInt('cid', 0, '', 'int');
+		$catid  = JRequest::getInt('cid', 0, '', 'int');
 		$layout = JRequest::getVar('layout');
 
-		$print = JRequest::getVar('print');
+		$print  = JRequest::getVar('print');
 		$params =& $mainframe->getParams($option);
-		$model = $this->getModel('category');
+		$model  = $this->getModel('category');
 
-		$category_template = (int) $params->get ('category_template');
-		$menu_meta_keywords = $params->get ('menu-meta_keywords');
-		$menu_robots = $params->get ('robots');
-		$menu_meta_description = $params->get ('menu-meta_description');
+		$category_template     = (int) $params->get('category_template');
+		$menu_meta_keywords    = $params->get('menu-meta_keywords');
+		$menu_robots           = $params->get('robots');
+		$menu_meta_description = $params->get('menu-meta_description');
 
 		if (!$catid && $layout == 'detail')
 		{
@@ -72,20 +66,20 @@ class categoryViewcategory extends JView
 		// End Code for fixes IE9 issue
 		//JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
-		$lists = array();
-		$minmax = array(0, 0);
+		$lists   = array();
+		$minmax  = array(0, 0);
 		$product = array();
 
 		$maincat = $model->_loadCategory();
 
-		$allCategoryTemplate = $model->getCategoryTemplate();
-		$order_data = $objhelper->getOrderByList ();
-		$manufacturers = $model->getManufacturer();
+		$allCategoryTemplate  = $model->getCategoryTemplate();
+		$order_data           = $objhelper->getOrderByList();
+		$manufacturers        = $model->getManufacturer();
 		$loadCategorytemplate = $model->loadCategoryTemplate();
-		$detail = $model->getdata();
+		$detail               = $model->getdata();
 		if (count($maincat) > 0 && $maincat->canonical_url != "")
 		{
-			$main_url = JURI::root() . $maincat->canonical_url;
+			$main_url  = JURI::root() . $maincat->canonical_url;
 			$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 			$document->addCustomTag($canonical);
 		}
@@ -101,29 +95,29 @@ class categoryViewcategory extends JView
 			if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
 			{
 				$limit_product =& $model->getCategoryProduct(1);
-				$minmax[0] = $limit_product[0]->minprice;
-				$minmax[1] = $limit_product[0]->maxprice;
+				$minmax[0]     = $limit_product[0]->minprice;
+				$minmax[1]     = $limit_product[0]->maxprice;
 
-				$isSlider = true;
+				$isSlider    = true;
 				$texpricemin = JRequest::getInt('texpricemin', $minmax[0], '', 'int');
 				$texpricemax = JRequest::getInt('texpricemax', $minmax[1], '', 'int');
 				$model->setMaxMinProductPrice(array($texpricemin, $texpricemax));
 			}
 			$product =& $model->getCategoryProduct(0, $isSlider);
 
-			$document->setMetaData('keywords', $maincat->metakey );
+			$document->setMetaData('keywords', $maincat->metakey);
 			$document->setMetaData('description', $maincat->metadesc);
 			$document->setMetaData('robots', $maincat->metarobot_info);
 
 			// for page title
 			$pagetitletag = SEO_PAGE_TITLE_CATEGORY;
-			$parentcat = "";
-			$parentid = $prodhelperobj->getParentCategory($maincat->category_id);
+			$parentcat    = "";
+			$parentid     = $prodhelperobj->getParentCategory($maincat->category_id);
 			while ($parentid != 0)
 			{
 				$parentdetail = $prodhelperobj->getSection("category", $parentid);
-				$parentcat = $parentdetail->category_name . "  " . $parentcat;
-				$parentid = $prodhelperobj->getParentCategory($parentdetail->category_id);
+				$parentcat    = $parentdetail->category_name . "  " . $parentcat;
+				$parentid     = $prodhelperobj->getParentCategory($parentdetail->category_id);
 			}
 
 			$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
@@ -195,7 +189,7 @@ class categoryViewcategory extends JView
 					else
 						if ($maincat->append_to_global_seo == 'replace')
 						{
-							$document->setMetaData('keywords', $maincat->metakey );
+							$document->setMetaData('keywords', $maincat->metakey);
 						}
 			}
 			else
@@ -203,7 +197,7 @@ class categoryViewcategory extends JView
 
 				if ($maincat->metakey != '')
 				{
-					$document->setMetaData('keywords', $maincat->metakey );
+					$document->setMetaData('keywords', $maincat->metakey);
 				}
 				else
 				{
@@ -247,13 +241,13 @@ class categoryViewcategory extends JView
 					else
 						if ($maincat->append_to_global_seo == 'replace')
 						{
-							$document->setMetaData('description', $maincat->metadesc );
+							$document->setMetaData('description', $maincat->metadesc);
 						}
 			}
 			else
 				if ($maincat->metadesc != '')
 				{
-					$document->setMetaData('description', $maincat->metadesc );
+					$document->setMetaData('description', $maincat->metadesc);
 				}
 				else
 				{
@@ -271,7 +265,7 @@ class categoryViewcategory extends JView
 			// for metarobot
 			if ($maincat->metarobot_info != '')
 			{
-				$document->setMetaData('robots', $maincat->metarobot_info );
+				$document->setMetaData('robots', $maincat->metarobot_info);
 			}
 			else
 			{
@@ -351,19 +345,19 @@ class categoryViewcategory extends JView
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
 		$category_template_id = $mainframe->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template); # Gunjan Template Switcher
-		$order_by_select = JRequest::getVar('order_by', '');
-		$manufacturer_id = JRequest::getInt('manufacturer_id', 0, '', 'int');
+		$order_by_select      = JRequest::getVar('order_by', '');
+		$manufacturer_id      = JRequest::getInt('manufacturer_id', 0, '', 'int');
 
 		$lists['category_template'] = "";
-		$lists['manufacturer'] = "";
+		$lists['manufacturer']      = "";
 
 		if (count($manufacturers) > 0)
 		{
-			$temps = array();
-			$temps[0]->manufacturer_id = "0";
+			$temps                       = array();
+			$temps[0]->manufacturer_id   = "0";
 			$temps[0]->manufacturer_name = JText::_('COM_REDSHOP_SELECT_MANUFACTURE');
-			$manufacturers = array_merge($temps, $manufacturers);
-			$lists['manufacturer'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id', 'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ', 'manufacturer_id', 'manufacturer_name', $manufacturer_id);
+			$manufacturers               = array_merge($temps, $manufacturers);
+			$lists['manufacturer']       = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id', 'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ', 'manufacturer_id', 'manufacturer_name', $manufacturer_id);
 		}
 		if (count($allCategoryTemplate) > 1)
 		{
@@ -371,7 +365,7 @@ class categoryViewcategory extends JView
 		}
 		if ($order_by_select == '')
 		{
-			$order_by_select = $params->get ('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		}
 		$lists['order_by'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ', 'value', 'text', $order_by_select);
 
@@ -383,8 +377,8 @@ class categoryViewcategory extends JView
 			{
 				if (!JRequest::getVar('ajaxslide'))
 				{
-					$loadCategorytemplate[0]->template_desc = str_replace("{show_all_products_in_category}", "<div id='oldredcatpagination'>{show_all_products_in_category}</div>", $loadCategorytemplate[0]->template_desc );
-					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "<div id='oldredcatpagination'>{pagination}</div>", $loadCategorytemplate[0]->template_desc );
+					$loadCategorytemplate[0]->template_desc = str_replace("{show_all_products_in_category}", "<div id='oldredcatpagination'>{show_all_products_in_category}</div>", $loadCategorytemplate[0]->template_desc);
+					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "<div id='oldredcatpagination'>{pagination}</div>", $loadCategorytemplate[0]->template_desc);
 				}
 				if (count($product) > 0)
 				{
@@ -399,18 +393,18 @@ class categoryViewcategory extends JView
 				}
 				else
 				{
-					$loadCategorytemplate[0]->template_desc = str_replace("{product_price_slider}", "", $loadCategorytemplate[0]->template_desc );
-					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "", $loadCategorytemplate[0]->template_desc );
+					$loadCategorytemplate[0]->template_desc = str_replace("{product_price_slider}", "", $loadCategorytemplate[0]->template_desc);
+					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "", $loadCategorytemplate[0]->template_desc);
 				}
 			}
 			if (!count($product))
 			{
 				$loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
-				$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc );
+				$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
 				if (!$manufacturer_id)
 				{
 					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
-					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc );
+					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
 				}
 			}
 		}
@@ -430,4 +424,3 @@ class categoryViewcategory extends JView
 		parent::display($tpl);
 	}
 }
-?>
