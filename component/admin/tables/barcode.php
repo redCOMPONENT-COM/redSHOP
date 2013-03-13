@@ -1,12 +1,18 @@
 <?php
-// No direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Barcode reder/generator Model
  *
- * @package	redSHOP
- * @version	1.2
+ * @package    redSHOP
+ * @version    1.2
  */
 class TableBarcode extends JTable
 {
@@ -32,9 +38,10 @@ class TableBarcode extends JTable
 	 *
 	 * @param object Database connector object
 	 */
-	function TableBarcode(& $db) {
+	function TableBarcode(& $db)
+	{
 
 		$this->_table_prefix = '#__redshop_';
-		parent::__construct($this->_table_prefix.'orderbarcode_log', 'log_id', $db);
+		parent::__construct($this->_table_prefix . 'orderbarcode_log', 'log_id', $db);
 	}
 }

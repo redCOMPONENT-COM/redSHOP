@@ -1,19 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
@@ -33,7 +26,7 @@ class Tableorder_detail extends JTable
 	var $order_shipping_tax = null;
 	var $coupon_discount = null;
 	var $order_discount = null;
-	var $order_discount_vat	= null;
+	var $order_discount_vat = null;
 	var $payment_discount = null;
 	var $special_discount = null;
 	var $special_discount_amount = null;
@@ -50,26 +43,27 @@ class Tableorder_detail extends JTable
 	var $discount_type = null;
 	var $payment_oprand = null;
 	var $order_label_create = 0;
-	var $analytics_status	=	0;
+	var $analytics_status = 0;
 	var $requisition_number = null;
-	var $bookinvoice_number = 0; 
+	var $bookinvoice_number = 0;
 	var $bookinvoice_date = 0;
 	var $track_no = null;
 	var $shop_id = null;
 	var $customer_message = null;
-	var $referral_code = null; 
+	var $referral_code = null;
 
-	
+
 	function Tableorder_detail(& $db)
 	{
-	 	$this->_table_prefix = '#__redshop_';
+		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix.'orders', 'order_id', $db);
+		parent::__construct($this->_table_prefix . 'orders', 'order_id', $db);
 	}
 
 	function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
+		if (key_exists('params', $array) && is_array($array['params']))
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
@@ -78,4 +72,5 @@ class Tableorder_detail extends JTable
 	}
 
 }
+
 ?>

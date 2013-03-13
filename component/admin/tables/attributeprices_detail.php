@@ -1,17 +1,17 @@
 <?php
 /**
- * @package redSHOP
- * @subpackage Tables
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * @copyright Copyright (C) 2008 - 2012 redCOMPONENT.com. All rights reserved.
- * @license GNU General Public License version 2 or later, see LICENSE.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('JPATH_PLATFORM') or die;
 
 /**
  * redSHOP Product Attribute Price table
  *
- * @package redSHOP
+ * @package    redSHOP
  * @subpackage Attribute Price Detail
  */
 class Tableattributeprices_detail extends JTable
