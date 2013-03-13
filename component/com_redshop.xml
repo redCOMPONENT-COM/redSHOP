@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
-	<name>redSHOP</name>
-	<creationDate>07th Aug 2012</creationDate>   
-	<author>redWEB.dk</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>www.redweb.dk</authorUrl>
-	<copyright>(c) Redweb.dk</copyright>
-	<license>GNU/GPL</license>
-	<version>1.1.20</version>
-	<description>redSHOP Joomla Webshop Component</description>
-	<scriptfile>install.redshop.php</scriptfile>
-	<install>
-		<sql>
-			<file driver="mysql" charset="utf8">install.mysql.utf8.sql</file>
-		</sql>
-	</install>
-	<uninstall>
-		<sql>
-			<file driver="mysql" charset="utf8">uninstall.mysql.utf8.sql</file>
-		</sql>
-	</uninstall>
-	<update> 
-		<schemas> 
-			<schemapath type="mysql">sql/updates/mysql</schemapath> 
-		</schemas> 
-	</update>	
-	    
-	<files folder="site">
-		<filename>index.html</filename>	
-		<filename>redshop.php</filename>
-		<filename>router.php</filename>
-		<folder>assets</folder>
-		<folder>controllers</folder>
-		<folder>helpers</folder>
-		<folder>templates</folder>
-		<folder>models</folder>	
-		<folder>views</folder>			
-	</files>
-	
-	<languages folder="site/languages">		
-		<language tag="en-GB">en-GB.com_redshop.ini</language>		
-	</languages>
-	
-	<administration>
-		<menu img="components/com_redshop/assets/images/redshopcart16.png">redSHOP</menu>		
-		<files folder="admin">	 
-			<filename>index.html</filename>	
-			<filename>redshop.php</filename>
-			<filename>install.mysql.utf8.sql</filename>
-			<filename>uninstall.mysql.utf8.sql</filename>
-			<filename>config.xml</filename>
-			<folder>assets</folder>
-			<folder>controllers</folder>
-			<folder>elements</folder>
-			<folder>extras</folder>
-			<folder>help</folder>
-			<folder>helpers</folder>
-			<folder>models</folder>
-			<folder>tables</folder>	
-			<folder>views</folder>	
-			<folder>sql</folder>							 
-		</files>
-	<languages folder="admin/languages">		
-		<language tag="en-GB">en-GB.com_redshop.ini</language>
-		<language tag="en-GB">en-GB.com_redshop.sys.ini</language>		
-	</languages>
-	</administration>
+    <name>redSHOP</name>
+    <creationDate>07th Aug 2012</creationDate>
+    <author>redWEB.dk</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <copyright>(c) Redweb.dk</copyright>
+    <license>GNU/GPL</license>
+    <version>1.1.20</version>
+    <description>redSHOP Joomla Webshop Component</description>
+    <scriptfile>install.redshop.php</scriptfile>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <filename>redshop.php</filename>
+        <filename>router.php</filename>
+        <folder>assets</folder>
+        <folder>controllers</folder>
+        <folder>helpers</folder>
+        <folder>templates</folder>
+        <folder>models</folder>
+        <folder>views</folder>
+    </files>
+
+    <languages folder="site/languages">
+        <language tag="en-GB">en-GB.com_redshop.ini</language>
+    </languages>
+
+    <administration>
+        <menu img="components/com_redshop/assets/images/redshopcart16.png">redSHOP</menu>
+        <files folder="admin">
+            <filename>index.html</filename>
+            <filename>redshop.php</filename>
+            <filename>install.mysql.utf8.sql</filename>
+            <filename>uninstall.mysql.utf8.sql</filename>
+            <filename>config.xml</filename>
+            <folder>assets</folder>
+            <folder>controllers</folder>
+            <folder>elements</folder>
+            <folder>extras</folder>
+            <folder>help</folder>
+            <folder>helpers</folder>
+            <folder>models</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+            <folder>sql</folder>
+        </files>
+        <languages folder="admin/languages">
+            <language tag="en-GB">en-GB.com_redshop.ini</language>
+            <language tag="en-GB">en-GB.com_redshop.sys.ini</language>
+        </languages>
+    </administration>
 </extension>
