@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_REDSHOP_FEATURED_PRODUCT_LAYOUT">
-		<message>
-			<![CDATA[Standard Featured Product Layout For Redshop]]>
-		</message>
-	</layout>
-	<state>	
-		<name>Standard Featured Product Layout</name>
-		<description>COM_REDSHOP_FEATURED_PRODUCT_LAYOUT_FOR_REDSHOP</description>
-		<fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
-			<fieldset name="basic">
-				<field name="template_id" type="template" label="Select Template" required="true" description="Displays the Products of selected category Template"/>
-			</fieldset>
-		</fields>	
-	</state>	
+    <layout title="COM_REDSHOP_FEATURED_PRODUCT_LAYOUT">
+        <message>
+            <![CDATA[Standard Featured Product Layout For Redshop]]>
+        </message>
+    </layout>
+    <state>
+        <name>Standard Featured Product Layout</name>
+        <description>COM_REDSHOP_FEATURED_PRODUCT_LAYOUT_FOR_REDSHOP</description>
+        <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+            <fieldset name="basic">
+                <field name="template_id" type="template" label="Select Template" required="true"
+                       description="Displays the Products of selected category Template"/>
+            </fieldset>
+        </fields>
+    </state>
 </metadata>
 
 

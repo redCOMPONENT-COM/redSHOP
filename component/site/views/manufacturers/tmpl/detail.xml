@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_REDSHOP_Standard_Manufacturer_Detail_Layout">
-		<message>
-			<![CDATA[Displays the selected manufacturer's detail page]]>
-		</message>
-	</layout>
-	<state>	
-		<name>Standard Manufacturer Detail</name>
-		<description>COM_REDSHOP_Displays_the_selected_manufacturer_detail_page</description>
-		<fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
-		   <fieldset name="basic">
-				<field name="manufacturerid" type="manufacturer" default="0" label="COM_REDSHOP_Select_Manufacturer" description="COM_REDSHOP_Displays_the_selected_manufacturer_detail_page" />
-			</fieldset>	
-		</fields>		
-	</state>	
+    <layout title="COM_REDSHOP_Standard_Manufacturer_Detail_Layout">
+        <message>
+            <![CDATA[Displays the selected manufacturer's detail page]]>
+        </message>
+    </layout>
+    <state>
+        <name>Standard Manufacturer Detail</name>
+        <description>COM_REDSHOP_Displays_the_selected_manufacturer_detail_page</description>
+        <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+            <fieldset name="basic">
+                <field name="manufacturerid" type="manufacturer" default="0" label="COM_REDSHOP_Select_Manufacturer"
+                       description="COM_REDSHOP_Displays_the_selected_manufacturer_detail_page"/>
+            </fieldset>
+        </fields>
+    </state>
 </metadata>
