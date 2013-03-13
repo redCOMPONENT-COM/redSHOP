@@ -22,6 +22,7 @@ class Tablequotation_detail extends JTable
 	var $quotation_subtotal = null;
 	var $quotation_tax = null;
 	var $quotation_discount = 0;
+	var $quotation_special_discount = 0;
 	var $quotation_status = null;
 	var $quotation_cdate = null;
 	var $quotation_mdate = null;
