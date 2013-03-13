@@ -1,5 +1,3 @@
--- --------------------------------------------------------
-
 --
 -- Table structure for table `#__redshop_economic_accountgroup`
 --
@@ -9,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_economic_accountgroup` (
 	`accountgroup_name` VARCHAR( 255 ) NOT NULL ,
 	`economic_vat_account` VARCHAR( 255 ) NOT NULL ,
 	`economic_nonvat_account` VARCHAR( 255 ) NOT NULL ,
-	`economic_discount_nonvat_account` VARCHAR( 255 ) NOT NULL, 
+	`economic_discount_nonvat_account` VARCHAR( 255 ) NOT NULL,
 	`economic_shipping_vat_account` VARCHAR( 255 ) NOT NULL ,
 	`economic_shipping_nonvat_account` VARCHAR( 255 ) NOT NULL ,
 	`economic_discount_product_number` VARCHAR( 255 ) NOT NULL ,
@@ -17,8 +15,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_economic_accountgroup` (
 	PRIMARY KEY  (`accountgroup_id`)
 )DEFAULT CHARSET=utf8 COMMENT='redSHOP Economic Account Group';
 
--- --------------------------------------------------------
- 
+
 --
 -- Table structure for table `#__redshop_accessmanager`
 --
@@ -159,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_xml_import` (
   `shipping_element_name` VARCHAR( 255 ) NOT NULL,
   `orderitem_element_name` VARCHAR( 255 ) NOT NULL,
   `stock_element_name` VARCHAR( 255 ) NOT NULL,
-  `prdextrafield_element_name` VARCHAR( 255 ) NOT NULL, 
+  `prdextrafield_element_name` VARCHAR( 255 ) NOT NULL,
   PRIMARY KEY  (`xmlimport_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP XML Import';
 
@@ -171,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_xml_export` (
   `xmlexport_id` int(11) NOT NULL auto_increment,
   `filename` varchar(255) NOT NULL,
   `display_filename` varchar(255) NOT NULL,
-  `parent_name` VARCHAR(255) NOT NULL, 
+  `parent_name` VARCHAR(255) NOT NULL,
   `section_type` varchar(255) NOT NULL,
   `auto_sync` tinyint(4) NOT NULL,
   `sync_on_request` tinyint(4) NOT NULL,
@@ -188,9 +185,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_xml_export` (
   `xmlexport_orderitemtag` text NOT NULL,
   `orderitem_element_name` varchar(255) NOT NULL,
   `xmlexport_stocktag` text NOT NULL,
-  `stock_element_name` VARCHAR( 255 ) NOT NULL, 
+  `stock_element_name` VARCHAR( 255 ) NOT NULL,
   `xmlexport_prdextrafieldtag` TEXT NOT NULL,
-  `prdextrafield_element_name` VARCHAR( 255 ) NOT NULL, 
+  `prdextrafield_element_name` VARCHAR( 255 ) NOT NULL,
   PRIMARY KEY  (`xmlexport_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP XML Export';
 
@@ -225,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_quotation_fields_data` (
   `data_txt` longtext,
   `quotation_item_id` int(11) default NULL,
   `section` varchar(20) default NULL,
- 
+
   PRIMARY KEY  (`data_id`),
 
 
@@ -290,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_quotation_item` (
 	`product_quantity` INT( 11 ) NOT NULL ,
 	`product_attribute` TEXT NOT NULL ,
 	`product_accessory` TEXT NOT NULL ,
-	`mycart_accessory` TEXT NOT NULL, 
+	`mycart_accessory` TEXT NOT NULL,
 	`product_wrapperid` INT( 11 ) NOT NULL ,
 	`wrapper_price` DECIMAL( 15, 2 ) NOT NULL,
 	`is_giftcard` TINYINT( 4 ) NOT NULL,
@@ -316,8 +313,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_tax_group` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_wrapper` (
   `wrapper_id` int(11) NOT NULL auto_increment,
-  `product_id` VARCHAR( 250 ) NOT NULL, 
-  `category_id` VARCHAR( 250 ) NOT NULL, 
+  `product_id` VARCHAR( 250 ) NOT NULL,
+  `category_id` VARCHAR( 250 ) NOT NULL,
   `wrapper_name` varchar(255) NOT NULL,
   `wrapper_price` double NOT NULL,
   `wrapper_image` varchar(255) NOT NULL,
@@ -335,11 +332,11 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wrapper` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_pageviewer` (
   `id` int(11) NOT NULL auto_increment,
-  `user_id` INT( 11 ) NOT NULL, 
+  `user_id` INT( 11 ) NOT NULL,
   `session_id` varchar(250) NOT NULL,
   `section` varchar(250) NOT NULL,
-  `section_id` INT( 11 ) NOT NULL, 
-  `hit` INT( 11 ) NOT NULL, 
+  `section_id` INT( 11 ) NOT NULL,
+  `hit` INT( 11 ) NOT NULL,
   `created_date` INT( 11 ) NOT NULL,
   PRIMARY KEY  (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Page Viewer';
@@ -352,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_pageviewer` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_mass_discount` (
 `mass_discount_id` INT NOT NULL AUTO_INCREMENT,
-`discount_product` LONGTEXT NOT NULL , 
+`discount_product` LONGTEXT NOT NULL ,
 `category_id` LONGTEXT NOT NULL ,
 `manufacturer_id` LONGTEXT NOT NULL,
 `discount_type` TINYINT NOT NULL ,
@@ -406,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_coupons_transaction` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_siteviewer` (
   `id` int(11) NOT NULL auto_increment,
-  `user_id` INT( 11 ) NOT NULL, 
+  `user_id` INT( 11 ) NOT NULL,
   `session_id` varchar(250) NOT NULL,
   `created_date` INT( 11 ) NOT NULL,
   PRIMARY KEY  (`id`)
@@ -469,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_catalog_sample` (
   `sample_name` varchar(100) NOT NULL,
   `published` tinyint(4) NOT NULL,
   PRIMARY KEY  (`sample_id`)
-)  DEFAULT CHARSET=utf8 COMMENT='redSHOP Catalog Sample' ; 
+)  DEFAULT CHARSET=utf8 COMMENT='redSHOP Catalog Sample' ;
 
 -- --------------------------------------------------------
 
@@ -524,7 +521,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category_xref` (
 CREATE TABLE IF NOT EXISTS `#__redshop_cart` (
   `session_id` varchar(255) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `section` VARCHAR( 250 ) NOT NULL, 
+  `section` VARCHAR( 250 ) NOT NULL,
   `qty` int(11) NOT NULL,
   `time` double NOT NULL
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Cart';
@@ -850,7 +847,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
   `end_date` double NOT NULL,
   `coupon_type` tinyint(4) NOT NULL COMMENT '0 - Global, 1 - User Specific',
   `userid` int(11) NOT NULL,
-  `coupon_left` INT NOT NULL, 
+  `coupon_left` INT NOT NULL,
   `published` tinyint(4) NOT NULL,
   PRIMARY KEY  (`coupon_id`)
 )  DEFAULT CHARSET=utf8 COMMENT='redSHOP Coupons' ;
@@ -1050,13 +1047,13 @@ INSERT IGNORE INTO `#__redshop_currency` (`currency_id`, `currency_name`, `curre
 --
 
 CREATE TABLE IF NOT EXISTS `#__redshop_discount` (
-  `discount_id` int(11) NOT NULL auto_increment,   
+  `discount_id` int(11) NOT NULL auto_increment,
   `amount` int(11) NOT NULL,
   `condition` tinyint(1) NOT NULL default '1',
   `discount_amount` DECIMAL( 10, 2 ) NOT NULL,
   `discount_type` tinyint(4) NOT NULL,
   `start_date` DOUBLE NOT NULL,
-  `end_date` DOUBLE NOT NULL, 
+  `end_date` DOUBLE NOT NULL,
   `published` tinyint(4) NOT NULL,
   PRIMARY KEY  (`discount_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Discount' ;
@@ -1135,7 +1132,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields_data` (
   `section` varchar(20) default NULL,
   `alt_text` varchar(255) NOT NULL,
   `image_link` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL, 
+  `user_email` varchar(255) NOT NULL,
   PRIMARY KEY  (`data_id`),
   KEY `itemid` (`itemid`)
 )   DEFAULT CHARSET=utf8 COMMENT='redSHOP Fields Data' ;
@@ -1205,7 +1202,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
 CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   `media_id` int(11) NOT NULL auto_increment,
   `media_name` varchar(250) NOT NULL,
-  `media_alternate_text` varchar(255) NOT NULL, 
+  `media_alternate_text` varchar(255) NOT NULL,
   `media_section` varchar(20) NOT NULL,
   `section_id` int(11) NOT NULL,
   `media_type` varchar(250) NOT NULL,
@@ -1256,7 +1253,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_newsletter_subscription` (
   `newsletter_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `checkout` TINYINT NOT NULL, 
+  `checkout` TINYINT NOT NULL,
   `published` int(11) NOT NULL,
   PRIMARY KEY  (`subscription_id`)
 )   DEFAULT CHARSET=utf8 COMMENT='redSHOP Newsletter subscribers'  ;
@@ -1332,7 +1329,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
   `order_label_create` TINYINT( 1 ) NOT NULL,
   `vm_order_number` VARCHAR( 32 ) NOT NULL,
   `requisition_number` VARCHAR( 255 ) NOT NULL,
-  `bookinvoice_number` INT(11) NOT NULL, 
+  `bookinvoice_number` INT(11) NOT NULL,
   `bookinvoice_date` INT(11) NOT NULL,
   PRIMARY KEY  (`order_id`),
   KEY `idx_orders_user_id` (`user_id`),
@@ -1453,7 +1450,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_status` (
   UNIQUE KEY `order_status_code` (`order_status_code`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Orders Status';
 
- 
+
 -- --------------------------------------------------------
 
 
@@ -1540,7 +1537,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_payment_method` (
   PRIMARY KEY  (`payment_method_id`)
 )  DEFAULT CHARSET=utf8 COMMENT='redSHOP Payment Method';
 
- 
+
 -- --------------------------------------------------------
 
 --
@@ -1549,9 +1546,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_payment_method` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `product_id` int(11) NOT NULL auto_increment,
-  `product_parent_id` INT NOT NULL, 
+  `product_parent_id` INT NOT NULL,
   `manufacturer_id` int(11) NOT NULL,
-  `supplier_id` int(11) NOT NULL, 
+  `supplier_id` int(11) NOT NULL,
   `product_on_sale` tinyint(4) NOT NULL,
   `product_special` TINYINT NOT NULL,
   `product_download` TINYINT NOT NULL,
@@ -1560,7 +1557,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `product_price` double NOT NULL,
   `discount_price` double NOT NULL,
   `discount_stratdate` int(11) NOT NULL,
-  `discount_enddate` int(11) NOT NULL, 
+  `discount_enddate` int(11) NOT NULL,
   `product_number` varchar(250) NOT NULL,
   `product_type` varchar(20) NOT NULL,
   `product_s_desc` longtext NOT NULL,
@@ -1628,7 +1625,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_accessory` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute` (
   `attribute_id` int(11) NOT NULL auto_increment,
-  `attribute_name` varchar(250) NOT NULL, 
+  `attribute_name` varchar(250) NOT NULL,
   `attribute_required` TINYINT NOT NULL,
   `allow_multiple_selection` tinyint(1) NOT NULL,
   `hide_attribute_price` tinyint(1) NOT NULL,
@@ -1690,7 +1687,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_price` (
   `price_quantity_end` INT NOT NULL,
   `discount_price` DECIMAL( 12, 4 ) NOT NULL ,
   `discount_start_date` INT( 11 ) NOT NULL ,
-  `discount_end_date` INT( 11 ) NOT NULL, 
+  `discount_end_date` INT( 11 ) NOT NULL,
   PRIMARY KEY  (`price_id`)
 ) DEFAULT CHARSET=latin1 COMMENT='redSHOP Product Price' ;
 
@@ -1719,7 +1716,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_discount_calc` (
   `area_price` double NOT NULL,
   `discount_calc_unit` varchar(255) NOT NULL,
   `area_start_converted` float(10,2) NOT NULL,
-  `area_end_converted` float(10,2) NOT NULL,  
+  `area_end_converted` float(10,2) NOT NULL,
   PRIMARY KEY  (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Product Discount Calculator';
 
@@ -1786,7 +1783,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
 CREATE TABLE IF NOT EXISTS `#__redshop_product_related` (
   `related_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL
-) DEFAULT CHARSET=utf8 COMMENT='redSHOP Related Products'; 
+) DEFAULT CHARSET=utf8 COMMENT='redSHOP Related Products';
 
 -- --------------------------------------------------------
 
@@ -1809,9 +1806,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_subattribute_color` (
   `subattribute_color_name` varchar(255) NOT NULL,
   `subattribute_color_price` DECIMAL( 12, 2 ) default NULL,
   `oprand` char(1) NOT NULL,
-  `subattribute_color_image` varchar(255) NOT NULL,  
+  `subattribute_color_image` varchar(255) NOT NULL,
   `subattribute_id` int(11) NOT NULL,
-  `ordering` INT NOT NULL, 
+  `ordering` INT NOT NULL,
   `setdefault_selected` tinyint(4) NOT NULL,
   `subattribute_published` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY  (`subattribute_color_id`)
@@ -1966,7 +1963,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_shopper_group` (
   `published` tinyint(4) NOT NULL,
   `shopper_group_cart_checkout_itemid`  INT NOT NULL,
   `shopper_group_cart_itemid` INT NOT NULL,
-  `shopper_group_quotation_mode` TINYINT(4) NOT NULL, 
+  `shopper_group_quotation_mode` TINYINT(4) NOT NULL,
   PRIMARY KEY  (`shopper_group_id`),
   KEY `idx_shopper_group_name` (`shopper_group_name`)
 ) DEFAULT CHARSET=utf8 COMMENT='Shopper Groups that users can be assigned to' ;
@@ -2479,7 +2476,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_stockroom` (
   `min_del_time` int(11) NOT NULL,
   `max_del_time` int(11) NOT NULL,
   `show` tinyint(1) NOT NULL,
-  `delivery_time` VARCHAR( 255 ) NOT NULL, 
+  `delivery_time` VARCHAR( 255 ) NOT NULL,
   `published` tinyint(4) NOT NULL,
   PRIMARY KEY  (`stockroom_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Stockroom';
@@ -2512,7 +2509,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
   `supplier_id` int(11) NOT NULL auto_increment,
   `supplier_name` varchar(250) NOT NULL,
   `supplier_desc` longtext NOT NULL,
-  `supplier_email` VARCHAR( 255 ) NOT NULL, 
+  `supplier_email` VARCHAR( 255 ) NOT NULL,
   `published` tinyint(4) NOT NULL,
   PRIMARY KEY  (`supplier_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Supplier';
@@ -2657,7 +2654,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute_price` (
   `price_quantity_end` int(11) NOT NULL,
   `discount_price` DECIMAL( 12, 4 ) NOT NULL ,
   `discount_start_date` INT( 11 ) NOT NULL ,
-  `discount_end_date` INT( 11 ) NOT NULL, 
+  `discount_end_date` INT( 11 ) NOT NULL,
   PRIMARY KEY  (`price_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Product Attribute Price' ;
 
@@ -2781,7 +2778,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_zipcode` (
   `state_code` varchar(10) NOT NULL default '',
   `city_name` varchar(64) default NULL,
   `zipcode` varchar(255) default NULL,
-  `zipcodeto` varchar(255) default NULL,	
+  `zipcodeto` varchar(255) default NULL,
   PRIMARY KEY  (`zipcode_id`),
   KEY `zipcode` (`zipcode`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
@@ -2810,8 +2807,8 @@ DELETE FROM `#__redshop_country` WHERE `country_3_code` = 'YUG' AND `country_2_c
 DELETE FROM `#__redshop_country` WHERE `country_3_code` = 'XSE' AND `country_2_code` = 'XU' LIMIT 1 ;
 DELETE FROM `#__redshop_country` WHERE `country_3_code` = 'XCA' AND `country_2_code` = 'XC' LIMIT 1 ;
 DELETE FROM `#__redshop_country` WHERE `country_3_code` = 'XSE' AND `country_2_code` = 'XU' LIMIT 1 ;
-DELETE FROM `#__redshop_country` WHERE `country_3_code` = 'XCA' AND `country_2_code` = 'XC' LIMIT 1 ;   
+DELETE FROM `#__redshop_country` WHERE `country_3_code` = 'XCA' AND `country_2_code` = 'XC' LIMIT 1 ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_ordernumber_track` (
 `trackdatetime` DATETIME NOT NULL
-) ENGINE = MYISAM DEFAULT CHARSET=utf8 COMMENT='redSHOP Order number track'; 
+) ENGINE = MYISAM DEFAULT CHARSET=utf8 COMMENT='redSHOP Order number track';
