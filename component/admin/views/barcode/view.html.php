@@ -1,40 +1,32 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view' );
+jimport('joomla.application.component.view');
 
 class barcodeViewbarcode extends JView
 {
-	function __construct( )
+	function __construct()
 	{
-		 parent::__construct( );
+		parent::__construct();
 	}
 
 	function display($tpl = null)
 	{
-        JToolBarHelper::title(JText::_('COM_REDSHOP_BARCODE' ),'redshop_order48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_BARCODE'), 'redshop_order48');
 
-        $order_id = JRequest::getInt('order_id',0);
+		$order_id = JRequest::getInt('order_id', 0);
 
-        $model = $this->getModel();
+		$model = $this->getModel();
 		$this->logData = $model->getLog($order_id);
 		$this->logDetail = $model->getLogdetail($order_id);
 
-    	parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }
-?>
