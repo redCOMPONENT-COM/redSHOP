@@ -1,30 +1,23 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view' );
+jimport('joomla.application.component.view');
 
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
 
 class xmlexport_detailVIEWxmlexport_detail extends JView
 {
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-		$context='xmlexport_id';
+		$context = 'xmlexport_id';
 
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout');
@@ -32,44 +25,47 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		$session =& JFactory::getSession();
 		$childelement = $session->get('childelement');
 		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_xmlexport') );
-		$document->addScript ('components/'.$option.'/assets/js/xmlfunc.js');
+		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
+		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
 
-		$uri	=& JFactory::getURI();
+		$uri =& JFactory::getURI();
 		$lists = array();
 		$colvalue = array();
 		$model = $this->getModel();
 
-		$detail	=& $this->get('data');
+		$detail =& $this->get('data');
 
-		$parentsection = JRequest::getVar('parentsection','');
-		$detail->section_type = JRequest::getVar('section_type',$detail->section_type);
+		$parentsection = JRequest::getVar('parentsection', '');
+		$detail->section_type = JRequest::getVar('section_type', $detail->section_type);
 
 		$isNew = ($detail->xmlexport_id < 1);
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
+		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT' ).': <small><small>[ '.$text.' ]</small></small>', 'redshop_export48' );
-		JToolBarHelper::custom( 'xmlexport','redshop_export32.png',JText::_('COM_REDSHOP_XML_EXPORT') , JText::_('COM_REDSHOP_XML_EXPORT'), false, false);
+		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_export48');
+		JToolBarHelper::custom('xmlexport', 'redshop_export32.png', JText::_('COM_REDSHOP_XML_EXPORT'), JText::_('COM_REDSHOP_XML_EXPORT'), false, false);
 		JToolBarHelper::save();
-		if ($isNew)  {
+		if ($isNew)
+		{
 			JToolBarHelper::cancel();
-		} else {
-			JToolBarHelper::cancel( 'cancel', 'Close' );
+		}
+		else
+		{
+			JToolBarHelper::cancel('cancel', 'Close');
 		}
 		$section_typelist = $xmlhelper->getSectionTypeList();
 		$auto_sync_interval = $xmlhelper->getSynchIntervalList();
-		$columns = $xmlhelper->getSectionColumnList($detail->section_type,$parentsection);
+		$columns = $xmlhelper->getSectionColumnList($detail->section_type, $parentsection);
 //print_r($columns);
 		$iparray = $xmlhelper->getXMLExportIpAddress($detail->xmlexport_id);
-		
+
 		$dbfield = "";
 		$dbchildname = "";
-		switch($parentsection)
+		switch ($parentsection)
 		{
 			case "orderdetail":
-			case "productdetail":	
-				if(isset($childelement[$parentsection]))
+			case "productdetail":
+				if (isset($childelement[$parentsection]))
 				{
 					$detail->element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_filetag = $childelement[$parentsection][1];
@@ -78,7 +74,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 				$dbchildname = $detail->element_name;
 				break;
 			case "stockdetail":
-				if(isset($childelement[$parentsection]))
+				if (isset($childelement[$parentsection]))
 				{
 					$detail->stock_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_stocktag = $childelement[$parentsection][1];
@@ -87,7 +83,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 				$dbchildname = $detail->stock_element_name;
 				break;
 			case "billingdetail":
-				if(isset($childelement[$parentsection]))
+				if (isset($childelement[$parentsection]))
 				{
 					$detail->billing_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_billingtag = $childelement[$parentsection][1];
@@ -96,7 +92,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 				$dbchildname = $detail->billing_element_name;
 				break;
 			case "shippingdetail":
-				if(isset($childelement[$parentsection]))
+				if (isset($childelement[$parentsection]))
 				{
 					$detail->shipping_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_shippingtag = $childelement[$parentsection][1];
@@ -105,7 +101,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 				$dbchildname = $detail->shipping_element_name;
 				break;
 			case "orderitem":
-				if(isset($childelement[$parentsection]))
+				if (isset($childelement[$parentsection]))
 				{
 					$detail->orderitem_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_orderitemtag = $childelement[$parentsection][1];
@@ -114,35 +110,35 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 				$dbchildname = $detail->orderitem_element_name;
 				break;
 			case "prdextrafield":
-				if(isset($childelement[$parentsection]))
+				if (isset($childelement[$parentsection]))
 				{
 					$detail->prdextrafield_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_prdextrafieldtag = $childelement[$parentsection][1];
 				}
 				$dbfield = $detail->xmlexport_prdextrafieldtag;
-				$dbchildname = $detail->prdextrafield_element_name;	
+				$dbchildname = $detail->prdextrafield_element_name;
 				break;
 		}
 
-		for($i=0;$i<count($columns);$i++)
+		for ($i = 0; $i < count($columns); $i++)
 		{
-			 $tmpVal = $xmlhelper->getXMLFileTag($columns[$i]->Field,$dbfield);
-			 $colvalue[] = $tmpVal[0];
-	 	}
+			$tmpVal = $xmlhelper->getXMLFileTag($columns[$i]->Field, $dbfield);
+			$colvalue[] = $tmpVal[0];
+		}
 
-		$lists['auto_sync'] 	= JHTML::_('select.booleanlist',   'auto_sync', 'class="inputbox" size="1"',  $detail->auto_sync );
-		$lists['sync_on_request'] 	= JHTML::_('select.booleanlist',   'sync_on_request', 'class="inputbox" size="1"',  $detail->sync_on_request );
-		$lists['section_type'] = JHTML::_('select.genericlist',$section_typelist,'section_type','class="inputbox" size="1" onchange="setExportSectionType();" ','value','text',$detail->section_type);
-		$lists['auto_sync_interval'] = JHTML::_('select.genericlist',$auto_sync_interval,'auto_sync_interval','class="inputbox" size="1" ','value','text',$detail->auto_sync_interval);
-		$lists['published'] 		= JHTML::_('select.booleanlist',  'xmlpublished', 'class="inputbox"', $detail->published );
-		$lists['use_to_all_users'] 		= JHTML::_('select.booleanlist',  'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users );
+		$lists['auto_sync'] = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $detail->auto_sync);
+		$lists['sync_on_request'] = JHTML::_('select.booleanlist', 'sync_on_request', 'class="inputbox" size="1"', $detail->sync_on_request);
+		$lists['section_type'] = JHTML::_('select.genericlist', $section_typelist, 'section_type', 'class="inputbox" size="1" onchange="setExportSectionType();" ', 'value', 'text', $detail->section_type);
+		$lists['auto_sync_interval'] = JHTML::_('select.genericlist', $auto_sync_interval, 'auto_sync_interval', 'class="inputbox" size="1" ', 'value', 'text', $detail->auto_sync_interval);
+		$lists['published'] = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
+		$lists['use_to_all_users'] = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users);
 		$categoryData = $model->getCategoryList();
-		$detail->xmlexport_on_category = explode(',',$detail->xmlexport_on_category);
+		$detail->xmlexport_on_category = explode(',', $detail->xmlexport_on_category);
 		$tmp = new stdClass;
-		$tmp = @array_merge($tmp,$detail->xmlexport_on_category);
-		$lists['xmlexport_on_category'] = JHTML::_('select.genericlist',$categoryData,'xmlexport_on_category[]','class="inputbox" multiple="multiple" ','value','text',$detail->xmlexport_on_category);
-		
-		if($layout!="")
+		$tmp = @array_merge($tmp, $detail->xmlexport_on_category);
+		$lists['xmlexport_on_category'] = JHTML::_('select.genericlist', $categoryData, 'xmlexport_on_category[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->xmlexport_on_category);
+
+		if ($layout != "")
 		{
 			$this->setlayout($layout);
 		}
@@ -151,14 +147,16 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 			$this->setlayout("default");
 		}
 
-		$this->assignRef('lists',	$lists);
-		$this->assignRef('detail',	$detail);
-		$this->assignRef('columns',	$columns);
-		$this->assignRef('colvalue',$colvalue);
-		$this->assignRef('childname',$dbchildname);
+		$this->assignRef('lists', $lists);
+		$this->assignRef('detail', $detail);
+		$this->assignRef('columns', $columns);
+		$this->assignRef('colvalue', $colvalue);
+		$this->assignRef('childname', $dbchildname);
 		$this->assignRef('iparray', $iparray);
-		$this->assignRef('request_url',	$uri->toString());
+		$this->assignRef('request_url', $uri->toString());
 
 		parent::display($tpl);
 	}
-}	?>
+}
+
+?>
