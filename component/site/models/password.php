@@ -1,52 +1,46 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.model' );
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.model');
 
 class passwordModelpassword extends JModel
 {
 	var $_db = null;
-	
+
 	function __construct()
 	{
 		parent::__construct();
-		$this->_db = &JFactory::getDBO();
+		$this->_db = & JFactory::getDBO();
 	}
 
 	function resetpassword($data)
 	{
-		$query="SELECT id FROM #__users WHERE email='".$data['email']."' ";
+		$query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";
 		$this->_db->setQuery($query);
 		$id = $this->_db->loadResult();
-		if($id)
+		if ($id)
 		{
 			// Generate a new token
 			$token = $this->genRandomString();
 			$query = 'UPDATE #__users '
-					.'SET activation="'.$token.'" '
-					.'WHERE id="'.(int) $id.'" '
-					.'AND block=0 ';
+				. 'SET activation="' . $token . '" '
+				. 'WHERE id="' . (int) $id . '" '
+				. 'AND block=0 ';
 			$this->_db->setQuery($query);
 			// Save the token
 			if (!$this->_db->query())
 			{
 				return false;
 			}
+
 			return true;
 		}
 		else
@@ -54,46 +48,50 @@ class passwordModelpassword extends JModel
 			return false;
 		}
 	}
-	
+
 	function genRandomString()
 	{
-		$length=0;
-	    $length=35;
-	    $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-	    $string = null;
-	    for ($p = 0; $p < $length; $p++)
-	    {
-	        $string .= $characters[mt_rand(0, strlen($characters))];
-	    }
-	    return $string;
+		$length     = 0;
+		$length     = 35;
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+		$string     = null;
+		for ($p = 0; $p < $length; $p++)
+		{
+			$string .= $characters[mt_rand(0, strlen($characters))];
+		}
+
+		return $string;
 	}
 
 	function changepassword($token)
 	{
-		$query="SELECT id FROM #__users WHERE activation='".$token."' ";
+		$query = "SELECT id FROM #__users WHERE activation='" . $token . "' ";
 		$this->_db->setQuery($query);
 
 		// Check the results
-		if (!($id = $this->_db->loadResult()) || trim($token)=="")
+		if (!($id = $this->_db->loadResult()) || trim($token) == "")
 		{
 			$this->setError(JText::_('COM_REDSHOP_RESET_PASSWORD_TOKEN_ERROR'));
+
 			return false;
 		}
-		JRequest::setVar('uid',$id);
+		JRequest::setVar('uid', $id);
+
 		return true;
 	}
-	
+
 	function setpassword($data)
 	{
-		$query = 'UPDATE #__users SET password = "'.md5($data['password']).'", activation = NULL '
-				.'WHERE id="'.(int)$data['uid'].'" '
-				.'AND block=0 ';
+		$query = 'UPDATE #__users SET password = "' . md5($data['password']) . '", activation = NULL '
+			. 'WHERE id="' . (int) $data['uid'] . '" '
+			. 'AND block=0 ';
 		$this->_db->setQuery($query);
 		// Saving new password
 		if (!$this->_db->query())
 		{
 			return false;
 		}
+
 		return true;
 	}
-}?>
+}
