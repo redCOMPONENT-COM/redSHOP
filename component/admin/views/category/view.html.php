@@ -1,29 +1,22 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 
-jimport( 'joomla.application.component.view' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'category.php' );
+jimport('joomla.application.component.view');
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 class categoryViewcategory extends JView
 {
-	function __construct( $config = array())
+	function __construct($config = array())
 	{
-		 parent::__construct( $config );
+		parent::__construct($config);
 	}
 
 	function display($tpl = null)
@@ -36,71 +29,70 @@ class categoryViewcategory extends JView
 
 		$product_category = new product_category();
 		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_CATEGORY') );
-   		jimport('joomla.html.pagination');
+		$document->setTitle(JText::_('COM_REDSHOP_CATEGORY'));
+		jimport('joomla.html.pagination');
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT' ), 'redshop_categories48' );
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
 
 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();
-		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::addNewX();
+		JToolBarHelper::editListX();
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri	=& JFactory::getURI();
+		$uri =& JFactory::getURI();
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'c.ordering' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );
-		$limitstart     = $mainframe->getUserStateFromRequest( $context.'limitstart',      'limitstart', 	  '0' );
-		$limit = $mainframe->getUserStateFromRequest( $context.'limit',  'limit', '10' );
+		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		 // $categories	= & $this->get( 'Data');
+		// $categories	= & $this->get( 'Data');
 		$GLOBALS['catlist'] = array();
-		$catid=JRequest::getVar('category_id',0,'');
-		$categories	= & $this->get( 'Data');
+		$catid = JRequest::getVar('category_id', 0, '');
+		$categories = & $this->get('Data');
 
-		$pagination = & $this->get( 'Pagination' );
-		$category_main_filter = $mainframe->getUserStateFromRequest( $context.'category_main_filter',  'category_main_filter', '' );
+		$pagination = & $this->get('Pagination');
+		$category_main_filter = $mainframe->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
 		$optionsection = array();
-		$optionsection[]   = JHTML::_('select.option', '0',JText::_('COM_REDSHOP_SELECT'));
-		$category_id = $mainframe->getUserStateFromRequest( $context.'category_id',  'category_id', '' );
-		$category_name = $mainframe->getUserStateFromRequest( $context.'category_name','category_name',0 );
+		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$category_id = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
+		$category_name = $mainframe->getUserStateFromRequest($context . 'category_name', 'category_name', 0);
 		$category = new product_category();
 		$categories_parent = $category->getParentCategories();
 
 		$temps = array();
-		$temps[0]->category_id="0";
-		$temps[0]->category_name=JText::_('COM_REDSHOP_SELECT');
-		$categories_parent=@array_merge($temps,$categories_parent);
+		$temps[0]->category_id = "0";
+		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
+		$categories_parent = @array_merge($temps, $categories_parent);
 
-		$lists['category'] 	= JHTML::_('select.genericlist',$categories_parent,  'category_id', 'class="inputbox" onchange="document.adminForm.submit();"      ', 'category_id', 'category_name', $category_id );
+		$lists['category'] = JHTML::_('select.genericlist', $categories_parent, 'category_id', 'class="inputbox" onchange="document.adminForm.submit();"      ', 'category_id', 'category_name', $category_id);
 
 
 		/*
 	    * assign template
 	    */
-	    $templates	= $redTemplate->getTemplate('category');
-	    $temps = array();
-		$temps[0]->template_id="0";
+		$templates = $redTemplate->getTemplate('category');
+		$temps = array();
+		$temps[0]->template_id = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
-		$templates=@array_merge($temps,$templates);
+		$templates = @array_merge($temps, $templates);
 
-	    $lists['category_template'] = JHTML::_('select.genericlist',$templates,'category_template','class="inputbox" size="1"  onchange="return AssignTemplate()" ','template_id','template_name',0);
+		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0);
 
-	    // End
+		// End
 
 
-	  	$this->assignRef('category_main_filter',		$category_main_filter);
-    	$this->assignRef('user',		JFactory::getUser());
-    	$this->assignRef('lists',		$lists);
-  		$this->assignRef('categories',	$categories);
-    	$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());
-   	 	parent::display($tpl);
-  }
+		$this->assignRef('category_main_filter', $category_main_filter);
+		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('lists', $lists);
+		$this->assignRef('categories', $categories);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
+		parent::display($tpl);
+	}
 }
-?>

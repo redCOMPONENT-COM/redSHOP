@@ -1,128 +1,124 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view' );
+jimport('joomla.application.component.view');
 
-require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'extra_field.php' );
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 
 class stockroom_detailVIEWstockroom_detail extends JView
 {
 	function display($tpl = null)
 	{
 		$layout =& JRequest::getVar('layout', '');
-		if($layout=='default_product')
+		if ($layout == 'default_product')
 		{
 			$this->display_product();
 			return false;
 		}
 		$lists = array();
-		$uri 		=& JFactory::getURI();
-		$option = JRequest::getVar('option','','request','string');
-		$model=  $this->getModel('stockroom_detail');
-		if($layout=='importstock')
+		$uri =& JFactory::getURI();
+		$option = JRequest::getVar('option', '', 'request', 'string');
+		$model = $this->getModel('stockroom_detail');
+		if ($layout == 'importstock')
 		{
 			$stockroom_name = $model->getStockRoomList();
 			$op = array();
 			$op[0]->value = 0;
 			$op[0]->text = JText::_('COM_REDSHOP_SELECT');
-			$stockroom_name = array_merge($op,$stockroom_name);
-			$lists['stockroom_id'] 	= JHTML::_('select.genericlist',$stockroom_name,  'stockroom_id', 'class="inputbox" size="1" ', 'value', 'text' );
+			$stockroom_name = array_merge($op, $stockroom_name);
+			$lists['stockroom_id'] = JHTML::_('select.genericlist', $stockroom_name, 'stockroom_id', 'class="inputbox" size="1" ', 'value', 'text');
 
-			JToolBarHelper::title(   JText::_( 'COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC' ) , 'redshop_stockroom48'  );
-			JToolBarHelper::cancel( 'cancel', 'Close' );
+			JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC'), 'redshop_stockroom48');
+			JToolBarHelper::cancel('cancel', 'Close');
 			$this->setLayout($layout);
 		}
 		else
 		{
 			$document = & JFactory::getDocument();
-			$document->addScript ('components/'.$option.'/assets/js/select_sort.js');
-			$document->addStyleSheet ( 'components/com_redshop/assets/css/search.css' );
-			$document->addScript ('components/com_redshop/assets/js/search.js');
-	
+			$document->addScript('components/' . $option . '/assets/js/select_sort.js');
+			$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+			$document->addScript('components/com_redshop/assets/js/search.js');
+
 			$this->setLayout('default');
-			$detail	=& $this->get('data');
-			
-			$isNew		= ($detail->stockroom_id < 1);
-			$text = $isNew ? JText::_('COM_REDSHOP_NEW' ) : JText::_('COM_REDSHOP_EDIT' );
-			JToolBarHelper::title(   JText::_('COM_REDSHOP_STOCKROOM' ).': <small><small>[ ' . $text.' ]</small></small>' , 'redshop_stockroom48'  );
-	
+			$detail =& $this->get('data');
+
+			$isNew = ($detail->stockroom_id < 1);
+			$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+			JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');
+
 			//create the toolbar
 			JToolBarHelper::apply();
 			JToolBarHelper::save();
-			if ($isNew)  {
+			if ($isNew)
+			{
 				JToolBarHelper::cancel();
-			} else {
-				JToolBarHelper::cancel( 'cancel', 'Close' );
+			}
+			else
+			{
+				JToolBarHelper::cancel('cancel', 'Close');
 			}
 			// Get data from the model
-			$model=  $this->getModel('stockroom_detail');
+			$model = $this->getModel('stockroom_detail');
 			// Get stockroom container product data from the model
 			$stock_product_data = $model->stock_product_data($detail->stockroom_id);
-	
-			if(count($stock_product_data)>0)
+
+			if (count($stock_product_data) > 0)
 				$result_stock = $stock_product_data;
 			else
 				$result_stock = array();
-	
+
 			//get stockroom product
-			$lists['stockroom_product'] 	= JHTML::_('select.genericlist',$result_stock,  'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
-	
+			$lists['stockroom_product'] = JHTML::_('select.genericlist', $result_stock, 'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
+
 			$result = array();
-	
+
 			//get all product
-			$lists['product_all'] 	= JHTML::_('select.genericlist',$result,  'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
-	
-			$lists['show_in_front'] = JHTML::_('select.booleanlist','show_in_front', 'class="inputbox"', $detail->show_in_front );
-	
-			$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $detail->published );
-	
-	 		$delivery_time= array();
-	 		$delivery_time['value']= "days";
-	 		$delivery_time['value'].= "weeks";
-	
+			$lists['product_all'] = JHTML::_('select.genericlist', $result, 'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
+
+			$lists['show_in_front'] = JHTML::_('select.booleanlist', 'show_in_front', 'class="inputbox"', $detail->show_in_front);
+
+			$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+
+			$delivery_time = array();
+			$delivery_time['value'] = "days";
+			$delivery_time['value'] .= "weeks";
+
 			$extra_field = new extra_field();
-	
-			$booleanlist = $extra_field->booleanlist('delivery_time',  'class="inputbox"', $detail->delivery_time ,$yes=JText::_('COM_REDSHOP_DAYS'),$no=JText::_('COM_REDSHOP_WEEKS'));
-	
-	        $this->assignRef('booleanlist',$booleanlist);
-			$this->assignRef('detail',		$detail);
+
+			$booleanlist = $extra_field->booleanlist('delivery_time', 'class="inputbox"', $detail->delivery_time, $yes = JText::_('COM_REDSHOP_DAYS'), $no = JText::_('COM_REDSHOP_WEEKS'));
+
+			$this->assignRef('booleanlist', $booleanlist);
+			$this->assignRef('detail', $detail);
 		}
-		$this->assignRef('lists',			$lists);
-		$this->assignRef('request_url',	$uri->toString());
+		$this->assignRef('lists', $lists);
+		$this->assignRef('request_url', $uri->toString());
 		parent::display($tpl);
 	}
 
 	function display_product($tpl = null)
 	{
-		$id = JRequest::getVar ( 'id', '' );
+		$id = JRequest::getVar('id', '');
 
 		// Get data from the model
-		$model = $this->getModel ( 'stockroom_detail' );
-		$container=$model->stock_container($id);
+		$model = $this->getModel('stockroom_detail');
+		$container = $model->stock_container($id);
 
 		//assign stock room product template
 		$this->setLayout('default_product');
 
-		$uri 	=& JFactory::getURI();
+		$uri =& JFactory::getURI();
 
 		//assign data to template
-		$this->assignRef('lists',$container);
-		$this->assignRef('request_url',	$uri->toString());
+		$this->assignRef('lists', $container);
+		$this->assignRef('request_url', $uri->toString());
 		parent::display($tpl);
 	}
-}?>
+}
