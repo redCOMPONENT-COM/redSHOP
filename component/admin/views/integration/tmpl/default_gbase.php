@@ -1,35 +1,29 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
-$url = &JURI :: root();
-$xml_path = $url."components".DS."com_redshop".DS."assets".DS."document".DS."gbase".DS."product.xml";
+$url = & JURI :: root();
+$xml_path = $url . "components" . DS . "com_redshop" . DS . "assets" . DS . "document" . DS . "gbase" . DS . "product.xml";
 ?>
 <table class="adminlist">
 	<tr>
 		<th><?php echo JText::_('COM_REDSHOP_GBASE_SITE_XML_PATH'); ?> :
-		<?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_GBASE_SITE_XML_PATH' ), JText::_('COM_REDSHOP_GBASE_SITE_XML_PATH' ), 'tooltip.png', '', '', false); ?>
+			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_GBASE_SITE_XML_PATH'), JText::_('COM_REDSHOP_GBASE_SITE_XML_PATH'), 'tooltip.png', '', '', false); ?>
 		</th>
 		<td><?php echo $xml_path; ?>
 		</td>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('COM_REDSHOP_DOWNLOAD_XML'); ?> :</th>
-		<td><a href="index.php?tmpl=component&option=com_redshop&view=integration&task=gbasedownload"><?php echo "product.xml"; ?></a></td>
+		<td>
+			<a href="index.php?tmpl=component&option=com_redshop&view=integration&task=gbasedownload"><?php echo "product.xml"; ?></a>
+		</td>
 	</tr>
 </table>
