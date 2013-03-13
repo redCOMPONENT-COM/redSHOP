@@ -204,193 +204,217 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 	</td>
 </tr>
 <tr>
+<td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
+<tbody>
+<tr style="background-color: #cccccc">
+	<th align="left"><?php echo JText::_('COM_REDSHOP_QUOTATION_DETAILS'); ?></th>
+</tr>
+<?php if (!$quotation->quotation_id)
+{
+	?>
+	<tr>
+		<td align="right"><a
+				href="javascript:#('tblproductRow');"><?php //echo JText::_('COM_REDSHOP_NEW' ); ?></a></td>
+	</tr>
+<?php }    ?>
+<tr>
 	<td>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
-			<tbody>
-			<tr style="background-color: #cccccc">
-				<th align="left"><?php echo JText::_('COM_REDSHOP_QUOTATION_DETAILS'); ?></th>
+		<table class="adminlist" id="tblproductRow" width="100%">
+			<tr>
+				<th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></th>
+				<th width="35%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
+				<th width="25%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></th>
+				<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></th>
+				<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
+				<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QUANTITY'); ?></th>
+				<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></th>
 			</tr>
-			<?php if (!$quotation->quotation_id)
-			{ ?>
-				<tr>
-					<td align="right"><a
-							href="javascript:#('tblproductRow');"><?php //echo JText::_('COM_REDSHOP_NEW' ); ?></a></td>
+			<?php    $unq = 1;
+			for ($i = 0; $i < count($quotation_item); $i++)
+			{
+				$quo = & $quotation_item[$i];
+
+				if ($quo->is_giftcard == 1)
+				{
+					$giftcardData = $producthelper->getGiftcardData($quo->product_id);
+
+					$actual_price = $giftcardData->giftcard_price;
+					$product_number = "";
+					$section = 13;
+				}
+				else
+				{
+					$product = $producthelper->getProductById($quo->product_id);
+					$actual_price = $product->product_price;
+					$product_number = "<br/>" . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . ": ( " . $product->product_number . " ) ";
+					$section = 12;
+					$vat = 0;
+					if ($quo->product_excl_price > 0)
+					{
+						$vat = $producthelper->getProductTax($quo->product_id, $quo->product_excl_price, $quotation->user_id);
+					}
+					$quo->product_price = $quo->product_excl_price + $vat;
+				}
+				$product_userfield = $quotationHelper->displayQuotationUserfield($quo->quotation_item_id, $section);
+
+				$product_attribute = "<br/>" . $producthelper->makeAttributeQuotation($quo->quotation_item_id, 0, $quo->product_id);
+				$product_accessory = "<br/>" . $producthelper->makeAccessoryQuotation($quo->quotation_item_id);
+
+				$wrapper_name = "";
+				if ($quo->product_wrapperid)
+				{
+					$wrapper = $producthelper->getWrapper($quo->product_id, $quo->product_wrapperid);
+					if (count($wrapper) > 0)
+					{
+						$wrapper_name = $wrapper[0]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($quo->wrapper_price) . ")";
+					}
+				}
+				$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $product_userfield;
+
+				$product_total = $quo->product_price * $quo->product_quantity;
+				$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
+
+				$delete_itemlink = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id);
+				?>
+				<tr id="trPrd<?php echo $unq; ?>">
+					<td align="center">
+						<a href="<?php echo $delete_itemlink; ?>"
+						   title="<?php echo JText::_('COM_REDSHOP_DELETE_QUOTATION_ITEM'); ?>">
+							<img class="delete_item"
+							     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg"
+							     title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
+							     alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
+							     onclick="submitbutton('deleteitem');">
+						</a></td>
+					<td><?php echo $product_title;?><input type="hidden"
+					                                       name="quotation_item_idp<?php echo $unq; ?>"
+					                                       id="quotation_item_id<?php echo $unq; ?>"
+					                                       value="<?php echo $quo->quotation_item_id; ?>"/>
+					</td>
+
+					<td><?php echo $wrapper_name;?></td>
+					<td><input type="text" name="product_excl_pricep<?php echo $unq; ?>"
+					           id="product_excl_pricep<?php echo $unq; ?>" size="10" maxlength="50"
+					           value="<?php echo $producthelper->redpriceDecimal($quo->product_excl_price); ?>"
+					           onchange="getQuotationDetail('p<?php echo $unq; ?>');"></td>
+					<td align="right">
+						<div
+							id="tdprdpricep<?php echo $unq; ?>"><?php echo $producthelper->getProductFormattedPrice($quo->product_price);?></div>
+						<input type="hidden" name="product_pricep<?php echo $unq; ?>"
+						       value="<?php echo $quo->product_price; ?>"
+						       id="product_pricep<?php echo $unq; ?>"/></td>
+
+					<td align="center"><input type="text" name="quantityp<?php echo $unq; ?>"
+					                          value="<?php echo $quotation_item[$i]->product_quantity; ?>"
+					                          id="quantityp<?php echo $unq; ?>"
+					                          onchange="getQuotationDetail('p<?php echo $unq; ?>');"
+					                          size="<?php echo DEFAULT_QUANTITY; ?>"
+					                          maxlength="<?php echo DEFAULT_QUANTITY; ?>"/>
+						<input type="hidden" name="hiddenqntp<?php echo $unq; ?>"
+						       value="<?php echo $quo->product_quantity; ?>"
+						       id="hiddenqntp<?php echo $unq; ?>"/></td>
+
+					<td align="right">
+						<div
+							id="tdtotalpricep<?php echo $unq; ?>"><?php echo $producthelper->getProductFormattedPrice($product_total);?></div>
+						<input type="hidden" name="totalpricep<?php echo $unq; ?>"
+						       value="<?php echo $product_total; ?>" id="totalpricep<?php echo $unq; ?>">
+						<input type="hidden" name="taxpricep<?php echo $unq; ?>"
+						       value="<?php echo $product_tax; ?>" id="taxpricep<?php echo $unq; ?>"></td>
 				</tr>
-			<?php }    ?>
-			<tr>
-				<td>
-					<table class="adminlist" id="tblproductRow" width="100%">
-						<tr>
-							<th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></th>
-							<th width="35%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
-							<th width="25%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></th>
-							<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></th>
-							<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
-							<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QUANTITY'); ?></th>
-							<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></th>
-						</tr>
-						<?php    $unq = 1;
-						for ($i = 0; $i < count($quotation_item); $i++)
-						{
-							$quo = & $quotation_item[$i];
-
-							if ($quo->is_giftcard == 1)
-							{
-								$giftcardData = $producthelper->getGiftcardData($quo->product_id);
-
-								$actual_price = $giftcardData->giftcard_price;
-								$product_number = "";
-								$section = 13;
-							}
-							else
-							{
-								$product = $producthelper->getProductById($quo->product_id);
-								$actual_price = $product->product_price;
-								$product_number = "<br/>" . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . ": ( " . $product->product_number . " ) ";
-								$section = 12;
-								$vat = 0;
-								if ($quo->product_excl_price > 0)
-								{
-									$vat = $producthelper->getProductTax($quo->product_id, $quo->product_excl_price, $quotation->user_id);
-								}
-								$quo->product_price = $quo->product_excl_price + $vat;
-							}
-							$product_userfield = $quotationHelper->displayQuotationUserfield($quo->quotation_item_id, $section);
-
-							$product_attribute = "<br/>" . $producthelper->makeAttributeQuotation($quo->quotation_item_id, 0, $quo->product_id);
-							$product_accessory = "<br/>" . $producthelper->makeAccessoryQuotation($quo->quotation_item_id);
-
-							$wrapper_name = "";
-							if ($quo->product_wrapperid)
-							{
-								$wrapper = $producthelper->getWrapper($quo->product_id, $quo->product_wrapperid);
-								if (count($wrapper) > 0)
-								{
-									$wrapper_name = $wrapper[0]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($quo->wrapper_price) . ")";
-								}
-							}
-							$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $product_userfield;
-
-							$product_total = $quo->product_price * $quo->product_quantity;
-							$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
-
-							$delete_itemlink = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id);
-							?>
-							<tr id="trPrd<?php echo $unq; ?>">
-								<td align="center">
-									<a href="<?php echo $delete_itemlink; ?>"
-									   title="<?php echo JText::_('COM_REDSHOP_DELETE_QUOTATION_ITEM'); ?>">
-										<img class="delete_item"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg"
-										     title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-										     alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-										     onclick="submitbutton('deleteitem');">
-									</a></td>
-								<td><?php echo $product_title;?><input type="hidden"
-								                                       name="quotation_item_idp<?php echo $unq; ?>"
-								                                       id="quotation_item_id<?php echo $unq; ?>"
-								                                       value="<?php echo $quo->quotation_item_id; ?>"/>
-								</td>
-
-								<td><?php echo $wrapper_name;?></td>
-								<td><input type="text" name="product_excl_pricep<?php echo $unq; ?>"
-								           id="product_excl_pricep<?php echo $unq; ?>" size="10" maxlength="50"
-								           value="<?php echo $producthelper->redpriceDecimal($quo->product_excl_price); ?>"
-								           onchange="getQuotationDetail('p<?php echo $unq; ?>');"></td>
-								<td align="right">
-									<div
-										id="tdprdpricep<?php echo $unq; ?>"><?php echo $producthelper->getProductFormattedPrice($quo->product_price);?></div>
-									<input type="hidden" name="product_pricep<?php echo $unq; ?>"
-									       value="<?php echo $quo->product_price; ?>"
-									       id="product_pricep<?php echo $unq; ?>"/></td>
-
-								<td align="center"><input type="text" name="quantityp<?php echo $unq; ?>"
-								                          value="<?php echo $quotation_item[$i]->product_quantity; ?>"
-								                          id="quantityp<?php echo $unq; ?>"
-								                          onchange="getQuotationDetail('p<?php echo $unq; ?>');"
-								                          size="<?php echo DEFAULT_QUANTITY; ?>"
-								                          maxlength="<?php echo DEFAULT_QUANTITY; ?>"/>
-									<input type="hidden" name="hiddenqntp<?php echo $unq; ?>"
-									       value="<?php echo $quo->product_quantity; ?>"
-									       id="hiddenqntp<?php echo $unq; ?>"/></td>
-
-								<td align="right">
-									<div
-										id="tdtotalpricep<?php echo $unq; ?>"><?php echo $producthelper->getProductFormattedPrice($product_total);?></div>
-									<input type="hidden" name="totalpricep<?php echo $unq; ?>"
-									       value="<?php echo $product_total; ?>" id="totalpricep<?php echo $unq; ?>">
-									<input type="hidden" name="taxpricep<?php echo $unq; ?>"
-									       value="<?php echo $product_tax; ?>" id="taxpricep<?php echo $unq; ?>"></td>
-							</tr>
-							<?php    $unq++;
-						}    ?>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
-						<tbody>
-						<?php
-						if($quotation->quotation_total){?>
-						<tr align="left">
-							<td align="right" width="85%">
-								<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_DISCOUNT'); ?></strong></td>
-							<td align="right">
-
-								<div id="divMainDiscount" style="float: right;">
-
-									<?php echo $producthelper->getProductFormattedPrice($quotation->quotation_discount);?></div>
-								<div style="float: right;">
-									<input type="text" name="quotation_discount" size='10'
-									       value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_discount); ?>"
-									       id="quotation_discount" onchange="calculateQuotationTotal();"/>
-									&nbsp;&nbsp;&nbsp;&nbsp;</div>
-
-								<?php } ?>
-						<tr align="left">
-							<td align="right" width="85%">
-								<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?></strong></td>
-							<td align="right">
-								<div
-									id="divMainSubTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_subtotal);?></div>
-								<input name="quotation_subtotal" id="quotation_subtotal" type="hidden"
-								       value="<?php echo $quotation->quotation_subtotal; ?>"/></td>
-						</tr>
-						<tr align="left">
-							<td align="right" width="85%">
-								<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TAX'); ?></strong></td>
-							<td align="right">
-								<div
-									id="divMainTax"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_tax);?></div>
-								<input name="quotation_tax" id="quotation_tax" type="hidden"
-								       value="<?php echo $quotation->quotation_tax; ?>"/></td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<hr/>
-							</td>
-						</tr>
-						<tr align="left">
-							<td align="right"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TOTAL'); ?></strong>
-							</td>
-							<td align="right">
-								<div
-									id="divMainFinalTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_total);?></div>
-								<input name="quotation_total" id="quotation_total" type="hidden"
-								       value="<?php echo $quotation->quotation_total; ?>"/></td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<hr/>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			</tbody>
+				<?php    $unq++;
+			}    ?>
 		</table>
 	</td>
+</tr>
+<tr>
+	<td>
+		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+			<tbody>
+			<?php
+			if ($quotation->quotation_total)
+			{
+				?>
+				<tr align="left">
+					<td align="right" width="85%">
+						<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_DISCOUNT'); ?></strong></td>
+					<td align="right">
+
+						<div id="divMainDiscount" style="float: right;">
+
+							<?php echo $producthelper->getProductFormattedPrice($quotation->quotation_discount);?></div>
+						<div style="float: right;">
+							<input type="text" name="quotation_discount" size='10'
+							       value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_discount); ?>"
+							       id="quotation_discount" onchange="calculateQuotationTotal();"/>
+							&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					</td>
+				</tr>
+				<tr align="left">
+					<td align="right" width="85%">
+						<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SPECIAL_DISCOUNT'); ?></strong>
+					</td>
+					<td align="right">
+
+						<div id="divMainSpecialDiscount" style="float: right;">
+							<?php
+							$special_discount_amount = ($quotation->quotation_subtotal * $quotation->quotation_special_discount) / 100;
+							echo $producthelper->getProductFormattedPrice($special_discount_amount);
+							?>
+						</div>
+						<div style="float: right;">
+							<input type="text" name="quotation_special_discount" size='10'
+							       value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_special_discount); ?>"
+							       id="quotation_special_discount" onchange="calculateQuotationTotal();"/>
+							%&nbsp;&nbsp;&nbsp;</div>
+					</td>
+				</tr>
+
+			<?php } ?>
+			<tr align="left">
+				<td align="right" width="85%">
+					<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?></strong></td>
+				<td align="right">
+					<div
+						id="divMainSubTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_subtotal);?></div>
+					<input name="quotation_subtotal" id="quotation_subtotal" type="hidden"
+					       value="<?php echo $quotation->quotation_subtotal; ?>"/></td>
+			</tr>
+			<tr align="left">
+				<td align="right" width="85%">
+					<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TAX'); ?></strong></td>
+				<td align="right">
+					<div
+						id="divMainTax"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_tax);?></div>
+					<input name="quotation_tax" id="quotation_tax" type="hidden"
+					       value="<?php echo $quotation->quotation_tax; ?>"/></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<hr/>
+				</td>
+			</tr>
+			<tr align="left">
+				<td align="right"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TOTAL'); ?></strong>
+				</td>
+				<td align="right">
+					<div
+						id="divMainFinalTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_total);?></div>
+					<input name="quotation_total" id="quotation_total" type="hidden"
+					       value="<?php echo $quotation->quotation_total; ?>"/></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<hr/>
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+</tbody>
+</table>
+</td>
 </tr>
 <tr>
 	<td><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT');?></td>
