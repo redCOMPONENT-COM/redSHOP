@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS `#__redshop_notifystock_users` (
 `user_id` INT NOT NULL ,
 `notification_status` INT NOT NULL DEFAULT '0',
 PRIMARY KEY (`id`)
-) ENGINE = MYISAM ;
+) ENGINE = MYISAM;
