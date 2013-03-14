@@ -5,12 +5,11 @@
 .red_product-skin-produkter .red_product-container-horizontal {
     width: 850px;
     padding-left: 25px;
-	padding-right: 25px;
+    padding-right: 25px;
 }
 
-
 .red_product-skin-produkter .red_product-clip-horizontal {
-    
+
     height: 150px;
 }
 
@@ -18,52 +17,50 @@
     width: 195px;
     height: 132px;
     padding-left: 10px;
-	padding-right: 10px;
+    padding-right: 10px;
     padding-top: 12px;
-	padding-bottom: 8px;
-	border: 1px solid #e1e1e4;
-	background: #f0f2f4 repeat-x 1px 0px;		
+    padding-bottom: 8px;
+    border: 1px solid #e1e1e4;
+    background: #f0f2f4 repeat-x 1px 0px;
 }
 
 .red_product-skin-produkter .red_product-item-horizontal {
     margin-right: 20px;
-    
+
 }
 
 .red_product-skin-produkter .red_product-item-placeholder {
     background: #fff;
-    color: #000;    
+    color: #000;
 }
 
-.red_product-skin-produkter .red_product-item .product-image{	
-	margin-right: 0px;
+.red_product-skin-produkter .red_product-item .product-image {
+    margin-right: 0px;
 }
 
-.red_product-skin-produkter .red_product-item .product-shop{
-    float:right;
-	width:80px;
-	
+.red_product-skin-produkter .red_product-item .product-shop {
+    float: right;
+    width: 80px;
+
 }
 
 .red_product-skin-produkter .red_product-item  .product-shop h5 {
-    margin-bottom:.4em;
-    font-size:1.2em;
-	font-weight:normal;
-    overflow:hidden;
-  
+    margin-bottom: .4em;
+    font-size: 1.2em;
+    font-weight: normal;
+    overflow: hidden;
+
 }
 
 .red_product-skin-produkter .red_product-item .product-shop h5 a, .red_product-skin-produkter .red_product-item .product-shop h5 a:hover {
-    color:#004128;
-    text-decoration:none;    
+    color: #004128;
+    text-decoration: none;
 }
 
-.red_product-skin-produkter .red_product-item .listing-item .form-button{
-	margin-top:10px;
-    float:left;    
+.red_product-skin-produkter .red_product-item .listing-item .form-button {
+    margin-top: 10px;
+    float: left;
 }
-
-
 
 /**
  *  Horizontal Buttons
@@ -74,7 +71,7 @@
     width: 25px;
     height: 150px;
     cursor: pointer;
-    background: transparent url(../images/next-horizontal.png) no-repeat -50px 0;    
+    background: transparent url(../images/next-horizontal.png) no-repeat -50px 0;
 }
 
 .red_product-skin-produkter .red_product-next-horizontal:hover {
@@ -116,13 +113,16 @@
     cursor: default;
     background-position: -50px 0;
 }
-.mod_redoldprice{
-	font-size: 11px;
-	
+
+.mod_redoldprice {
+    font-size: 11px;
+
 }
-.mod_redmainprice{
-	font-size: 13px;
+
+.mod_redmainprice {
+    font-size: 13px;
 }
-.mod_redsavedprice{
-	font-size: 11px;
+
+.mod_redsavedprice {
+    font-size: 11px;
 }
