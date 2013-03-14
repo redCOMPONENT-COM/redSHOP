@@ -7,19 +7,31 @@
 }
 
 /* CSS class for the thumbnail link <A> when the big image is zoomed */
-.MagicThumb-zoomed { cursor: default; }
+.MagicThumb-zoomed {
+    cursor: default;
+}
 
 /* CSS class for span inside the thumbnail <A> */
-.MagicMagnifyPlus span, .MagicThumb span { display: none; }
+.MagicMagnifyPlus span, .MagicThumb span {
+    display: none;
+}
 
 /* CSS class for the thumbnail image */
-.MagicThumb img { border: 1px solid #808080; outline: none; }
+.MagicThumb img {
+    border: 1px solid #808080;
+    outline: none;
+}
 
 /* CSS class for the big image while zooming */
-.MagicThumb-image { border: 1px solid #cccccc; outline: none; }
+.MagicThumb-image {
+    border: 1px solid #cccccc;
+    outline: none;
+}
 
 /* CSS class for the zoomed big image */
-.MagicThumb-image-zoomed { cursor: url(cursor/zoomout.cur), pointer; }
+.MagicThumb-image-zoomed {
+    cursor: url(cursor/zoomout.cur), pointer;
+}
 
 /* CSS class for the caption under the big zoomed image */
 .MagicThumb-caption {
@@ -34,39 +46,39 @@
 
 /* CSS class for the control bar */
 .MagicThumb-controlbar {
-	display: block;
-	height: 18px;
+    display: block;
+    height: 18px;
 }
 
 .MagicThumb-controlbar a {
-	display: block;
-	width: 18px;
-	height: 18px;
-	margin: 0px 1px;
-	outline: none;
-	float: left;
-	overflow: hidden;
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 0px 1px;
+    outline: none;
+    float: left;
+    overflow: hidden;
 }
 
 .MagicThumb-controlbar a span {
-	display: block;
-	width: 1000px;
-	height: 1000px;
-	background: transparent url(graphics/controlbar.png) no-repeat 0 0;
-	outline: none;
-	position: absolute;
-	left: 0px;
-	top: 0px;
+    display: block;
+    width: 1000px;
+    height: 1000px;
+    background: transparent url(graphics/controlbar.png) no-repeat 0 0;
+    outline: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
 }
 
 /* CSS class for the loading message box */
 .MagicThumb-loading {
-	border: 1px solid #000000;
-	background: #ffffff url(graphics/loader.gif) no-repeat 2px 50%;
-	padding: 2px 2px 2px 22px;
-	margin: 0;
-	text-decoration: none;
-	text-align: left;
-	font-size: 8pt;
-	font-family: sans-serif;
+    border: 1px solid #000000;
+    background: #ffffff url(graphics/loader.gif) no-repeat 2px 50%;
+    padding: 2px 2px 2px 22px;
+    margin: 0;
+    text-decoration: none;
+    text-align: left;
+    font-size: 8pt;
+    font-family: sans-serif;
 }
