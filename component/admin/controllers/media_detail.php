@@ -15,13 +15,13 @@ jimport('joomla.filesystem.archive');
 
 class media_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'media_detail');
 		JRequest::setVar('layout', 'default');
@@ -29,7 +29,7 @@ class media_detailController extends JController
 		parent::display();
 	}
 
-	function save()
+	public function save()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
@@ -37,6 +37,7 @@ class media_detailController extends JController
 		$model = $this->getModel('media_detail');
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
+
 		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
 		{
 			$product_download_root = PRODUCT_DOWNLOAD_ROOT . DS;
@@ -45,38 +46,45 @@ class media_detailController extends JController
 		$bulkfile = JRequest::getVar('bulkfile', null, 'files', 'array');
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
 		$file = JRequest::getVar('file', 'array', 'files', 'array');
+
 		if ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
 		{
 			if ($post['media_bank_image'] == "")
 			{
 				$post ['media_id'] = $cid[0];
 				$post['media_name'] = $post['oldmedia'];
+
 				if ($post['media_type'] != $post['oldtype'])
 				{
 					$old_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype'] . DS . $post['media_section'] . DS . $post['media_name'];
-					$old_thumb_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype'] . DS . $post['media_section'] . DS . 'thumb' . DS . $post['media_name'];
+					$old_thumb_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype']
+						. DS . $post['media_section'] . DS . 'thumb' . DS . $post['media_name'];
 
-					$new_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . time() . '_' . $post['media_name'];
-					//$new_thumb_path = JPATH_COMPONENT_SITE.DS.'assets'.DS.$post['media_type'].DS.$post['media_section'].DS.'thumb'.DS.time().'_'.$post['media_name'];
+					$new_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type']
+						. DS . $post['media_section'] . DS . time() . '_' . $post['media_name'];
 
 					copy($old_path, $new_path);
-					//copy($old_thumb_path,$new_thumb_path);
 
 					unlink($old_path);
 					unlink($old_thumb_path);
 				}
+
 				if ($save = $model->store($post))
 				{
 					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
 					// Set First Image as product Main Imaged
 					if ($save->media_section == 'product' && $save->media_type == 'images')
-//						$model->selectMainProductImage($save->section_id);
-
+					{
 						if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section=' . $post['media_section'], $msg);
+							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' .
+								$post['section_id'] . '&showbuttons=1&section_name=' .
+								$post['section_name'] . '&media_section=' . $post['media_section'], $msg
+							);
 						}
-						else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
+
+						elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 						{
 							$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
 							<script language="javascript" type="text/javascript">
@@ -87,13 +95,18 @@ class media_detailController extends JController
 						{
 							$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
 						}
+					}
 				}
 				else
 				{
 					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id=' . $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section=' . $post['media_section'], $msg);
+						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							. $post['section_id'] . '&showbuttons=1&section_name='
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+						);
 					}
 					else
 					{
@@ -112,8 +125,11 @@ class media_detailController extends JController
 				// Media Bank Start
 
 				$image_split = explode('/', $post['media_bank_image']);
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
-				// download product changes
+
+				// Make the filename unique
+				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+
+				// Download product changes
 				if ($post['media_type'] == 'download')
 				{
 					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
@@ -124,23 +140,22 @@ class media_detailController extends JController
 					$post['media_name'] = $filename;
 					$dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
 				}
+
 				$save = $model->store($post);
 
-				// Set First Image as product Main Imaged
-				//if($save->media_section == 'product' && $save->media_type == 'images')
-				//				$model->selectMainProductImage($save->section_id);
-
 				// Image Upload
-
 				$src = JPATH_ROOT . DS . $post['media_bank_image'];
 				copy($src, $dest);
 
 				// 	Media Bank End
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 				{
-					$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section=' . $post['media_section'], $msg);
+					$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+						. $post['section_id'] . '&showbuttons=1&section_name='
+						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+					);
 				}
-				else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
+				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
 					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
 					<script language="javascript" type="text/javascript">
@@ -160,7 +175,8 @@ class media_detailController extends JController
 				$delete = $model->delete($cid);
 				$post['bulk'] = 'no';
 			}
-			// if file selected from download folder...
+
+			// If file selected from download folder...
 			if ($post['hdn_download_file'] != "")
 			{
 				if ($post['media_type'] == 'download')
@@ -173,11 +189,15 @@ class media_detailController extends JController
 					$download_path = "product" . DS . $post['hdn_download_file'];
 					$post['media_name'] = $post['hdn_download_file'];
 				}
+
 				$filenewtype = strtolower(JFile::getExt($post['hdn_download_file']));
 				$post['media_mimetype'] = $filenewtype;
+
 				if ($post['hdn_download_file_path'] != $download_path)
 				{
-					$filename = time() . '_' . $post['hdn_download_file']; //Make the filename unique
+					// Make the filename unique
+					$filename = time() . '_' . $post['hdn_download_file'];
+
 					if ($post['media_type'] == 'download')
 					{
 						$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
@@ -194,11 +214,13 @@ class media_detailController extends JController
 
 						$down_dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $post['media_name'];
 					}
+
 					copy($down_src, $down_dest);
 				}
 				if ($save = $model->store($post))
 				{
 					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
 					// Set First Image as product Main Imaged
 					if ($save->media_section == 'product')
 					{
@@ -208,9 +230,13 @@ class media_detailController extends JController
 				else
 				{
 					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id=' . $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section=' . $post['media_section'], $msg);
+						$this->setRedirect('index.php?tmpl=component&option=' . $option
+							. '&view=media_detail&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+						);
 					}
 					else
 					{
@@ -218,12 +244,16 @@ class media_detailController extends JController
 					}
 				}
 			}
+
 			// Media Bank Start
 			if ($post['media_bank_image'] != "")
 			{
 				$image_split = preg_split('/', $post['media_bank_image']);
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
-				// download product changes
+
+				// Make the filename unique
+				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+
+				// Download product changes
 				if ($post['media_type'] == 'download')
 				{
 					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
@@ -237,19 +267,18 @@ class media_detailController extends JController
 
 				$save = $model->store($post);
 
-				// Set First Image as product Main Imaged
-				//if($save->media_section == 'product' && $save->media_type == 'images')
-				//				$model->selectMainProductImage($save->section_id);
-
 				// Image Upload
-
 				$src = JPATH_ROOT . DS . $post['media_bank_image'];
 				copy($src, $dest);
+
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")
 				{
-					$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section=' . $post['media_section'], $msg);
+					$this->setRedirect('index.php?tmpl=component&option=' . $option
+						. '&view=media&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
+						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+					);
 				}
-				else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
+				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
 					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
 					<script language="javascript" type="text/javascript">
@@ -261,10 +290,11 @@ class media_detailController extends JController
 					$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
 				}
 			}
-			// Media Bank End
 
+			// Media Bank End
 			$post ['media_id'] = 0;
-			$directory = media_detailController::writableCell('components/' . $option . '/assets');
+			$directory = self::writableCell('components/' . $option . '/assets');
+
 			if ($directory == 0)
 			{
 				$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
@@ -272,7 +302,6 @@ class media_detailController extends JController
 			}
 
 			////////////// starting of Bull upload creation//////////
-
 			if ($bulkfile['name'] != '')
 			{
 				if ($bulkfiletype == "zip" || $bulkfiletype == "gz" || $bulkfiletype == "tar" || $bulkfiletype == "tgz" || $bulkfiletype == "gzip")
@@ -282,6 +311,7 @@ class media_detailController extends JController
 					$src = $bulkfile['tmp_name'];
 					$dest = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $bulkfile['name'];
 					$file_upload = JFile::upload($src, $dest);
+
 					if ($file_upload != 1)
 					{
 						$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
@@ -297,15 +327,18 @@ class media_detailController extends JController
 						if (is_dir($target . '/' . $scan[$i]))
 						{
 							$newscan = scandir($target . '/' . $scan[$i]);
+
 							for ($j = 2; $j < count($newscan); $j++)
 							{
 								$filenewtype = strtolower(JFile::getExt($newscan[$j]));
 								$btsrc = $target . '/' . $scan[$i] . '/' . $newscan[$j];
 								$post['media_name'] = time() . "_" . $newscan[$j];
 								$post['media_mimetype'] = $filenewtype;
+
 								if ($post['media_type'] == 'download')
 								{
 									$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $newscan[$j]);
+
 									if ($row = $model->store($post))
 									{
 										// Set First Image as product Main Imaged
@@ -882,38 +915,39 @@ class media_detailController extends JController
 		}
 	}
 
-function orderdown()
-{
-	$post = JRequest::get('post');
-	$option = JRequest::getVar('option');
-	$section_id = JRequest::getVar('section_id');
-	$media_section = JRequest::getVar('media_section');
-	$cid = JRequest::getVar('cid', array(), 'post', 'array');
-	if (!is_array($cid) || count($cid) < 1)
-	{
-		JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
-	}
-	$model = $this->getModel('media_detail');
-	//if(! $model->move(1))
-	if (!$model->orderdown())
-	{
-		echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-	}
-	$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-if (isset($section_id))
-{
-	$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
-}
-else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
-{
-	$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-	<script language="javascript" type="text/javascript">
-		window.parent.document.location = '<?php echo $link; ?>';
-	</script><?php
-}
-else
-{
-	$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
-}
-}
+    public function orderdown()
+    {
+        $post = JRequest::get('post');
+        $option = JRequest::getVar('option');
+        $section_id = JRequest::getVar('section_id');
+        $media_section = JRequest::getVar('media_section');
+        $cid = JRequest::getVar('cid', array(), 'post', 'array');
+
+        if (!is_array($cid) || count($cid) < 1)
+        {
+            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+        }
+        $model = $this->getModel('media_detail');
+        //if(! $model->move(1))
+        if (!$model->orderdown())
+        {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+    if (isset($section_id))
+    {
+        $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
+    }
+    else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
+    {
+        $link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+        <script language="javascript" type="text/javascript">
+            window.parent.document.location = '<?php echo $link; ?>';
+        </script><?php
+    }
+    else
+    {
+        $this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+    }
+    }
 }

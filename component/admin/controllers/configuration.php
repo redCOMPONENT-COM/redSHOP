@@ -16,19 +16,18 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class configurationController extends JController
 {
-
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->_configpath1 = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "newtxt.php";
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 
@@ -37,13 +36,11 @@ class configurationController extends JController
 			if ($post['prodmng' . $p] != "")
 			{
 				$selected_prod[] = $post['prodmng' . $p];
-
 			}
 		}
 		if (count($selected_prod) > 0)
 		{
 			$quicklink_icon = implode(",", $selected_prod);
-
 		}
 
 		for ($p = 0; $p < $post['tot_ord']; $p++)
@@ -51,14 +48,12 @@ class configurationController extends JController
 			if ($post['ordermng' . $p] != "")
 			{
 				$selected_ord[] = $post['ordermng' . $p];
-
 			}
 		}
 
 		if (count($selected_ord) > 0)
 		{
 			$quicklink_icon .= "," . implode(",", $selected_ord);
-
 		}
 
 		for ($p = 0; $p < $post['tot_dist']; $p++)
@@ -66,14 +61,12 @@ class configurationController extends JController
 			if ($post['distmng' . $p] != "")
 			{
 				$selected_dist[] = $post['distmng' . $p];
-
 			}
 		}
 
 		if (count($selected_dist) > 0)
 		{
 			$quicklink_icon .= "," . implode(",", $selected_dist);
-
 		}
 
 		for ($p = 0; $p < $post['tot_comm']; $p++)
@@ -81,14 +74,12 @@ class configurationController extends JController
 			if ($post['commmng' . $p] != "")
 			{
 				$selected_comm[] = $post['commmng' . $p];
-
 			}
 		}
 
 		if (count($selected_comm) > 0)
 		{
 			$quicklink_icon .= "," . implode(",", $selected_comm);
-
 		}
 
 		for ($p = 0; $p < $post['tot_imp']; $p++)
@@ -96,14 +87,12 @@ class configurationController extends JController
 			if ($post['impmng' . $p] != "")
 			{
 				$selected_imp[] = $post['impmng' . $p];
-
 			}
 		}
 
 		if (count($selected_imp) > 0)
 		{
 			$quicklink_icon .= "," . implode(",", $selected_imp);
-
 		}
 
 		for ($p = 0; $p < $post['tot_vat']; $p++)
@@ -111,14 +100,12 @@ class configurationController extends JController
 			if ($post['vatmng' . $p] != "")
 			{
 				$selected_vat[] = $post['vatmng' . $p];
-
 			}
 		}
 
 		if (count($selected_vat) > 0)
 		{
 			$quicklink_icon .= "," . implode(",", $selected_vat);
-
 		}
 
 
@@ -127,7 +114,6 @@ class configurationController extends JController
 			if ($post['custmng' . $p] != "")
 			{
 				$selected_cust[] = $post['custmng' . $p];
-
 			}
 		}
 
@@ -141,14 +127,12 @@ class configurationController extends JController
 			if ($post['altmng' . $p] != "")
 			{
 				$selected_alt[] = $post['altmng' . $p];
-
 			}
 		}
 
 		if (count($selected_alt) > 0)
 		{
 			$quicklink_icon .= "," . implode(",", $selected_alt);
-
 		}
 
 		for ($p = 0; $p < $post['tot_user']; $p++)
@@ -156,7 +140,6 @@ class configurationController extends JController
 			if ($post['usermng' . $p] != "")
 			{
 				$selected_user[] = $post['usermng' . $p];
-
 			}
 		}
 
@@ -170,7 +153,6 @@ class configurationController extends JController
 			if ($post['shippingmng' . $p] != "")
 			{
 				$selected_shipping[] = $post['shippingmng' . $p];
-
 			}
 		}
 
@@ -184,7 +166,6 @@ class configurationController extends JController
 			if ($post['accmng' . $p] != "")
 			{
 				$selected_acc[] = $post['accmng' . $p];
-
 			}
 		}
 
@@ -192,8 +173,6 @@ class configurationController extends JController
 		{
 			$quicklink_icon .= "," . implode(",", $selected_acc);
 		}
-
-		//$quicklink_icon=array_merge($selected_prod, $selected_ord, $selected_dist);
 
 		$quicklink_icon;
 
@@ -209,10 +188,9 @@ class configurationController extends JController
 
 		$post['return_to_category_prefix'] = JRequest::getVar('return_to_category_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-		// administrator email notifications ids
+		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
 		{
-
 			$post['administrator_email'] = implode(",", $post['administrator_email']);
 		}
 
@@ -221,52 +199,43 @@ class configurationController extends JController
 		$country_list = JRequest::getVar('country_list', array(), 'array');
 		$newsletter_test_email = JRequest::getVar('newsletter_test_email');
 
-
 		$i = 0;
 		$country_listCode = '';
+
 		if ($country_list)
 		{
 			foreach ($country_list as $key => $value)
 			{
-
 				$country_listCode .= $value;
 				$i++;
+
 				if ($i < count($country_list))
 				{
 					$country_listCode .= ',';
 				}
-
 			}
 		}
 		$post['country_list'] = $country_listCode;
 
 		if (isset($post['product_download_root']))
 		{
-
 			if (!is_dir($post['product_download_root']))
 			{
-
 				$msg = "";
-
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'));
-
 			}
+
 			elseif (!$model->configurationWriteable())
 			{
-
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'));
-
 			}
 			elseif (!$model->configurationReadable())
 			{
-
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_READABLE'));
-
 			}
 			else
 			{
-
-				// handle .htaccess file generation
+				// Handle .htaccess file generation
 				$model->handleHtaccess($post['product_download_root']);
 
 				if ($model->store($post))
@@ -279,10 +248,11 @@ class configurationController extends JController
 						echo $msg = JText::_('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL');
 					}
 
-					# Thumb folder deleted/created
-					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT) $this->removeThumbImages();
-
-
+					// Thumb folder deleted/created
+					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT)
+					{
+						$this->removeThumbImages();
+					}
 				}
 				else
 				{
@@ -291,9 +261,14 @@ class configurationController extends JController
 			}
 		}
 		if ($apply)
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=configuration', $msg);
+		}
+
 		else
+		{
 			$this->setRedirect('index.php?option=' . $option);
+		}
 	}
 
 	/**
@@ -301,7 +276,7 @@ class configurationController extends JController
 	 * for Image quality percentage change variable IMAGE_QUALITY_OUTPUT
 	 *
 	 */
-	function removeThumbImages()
+	public function removeThumbImages()
 	{
 		$thumb_folder = array('product', 'category', 'manufacturer', 'product_attributes', 'property', 'subcolor', 'wrapper', 'shopperlogo');
 
@@ -317,7 +292,6 @@ class configurationController extends JController
 				{
 					if (JFolder::delete($unlink_path) !== true)
 					{
-						// JFile::delete throws an error
 						return false;
 					}
 					else
@@ -337,48 +311,53 @@ class configurationController extends JController
 		}
 	}
 
-	function removeimg()
+	public function removeimg()
 	{
 		ob_clean();
 		$imname = JRequest::getString('imname', '');
 		$divname = JRequest::getString('divname', '');
 		$spath = JRequest::getString('spath', '');
 		$data_id = JRequest::getInt('data_id', 0);
-		$extra_field = new    extra_field();
+		$extra_field = new extra_field;
+
 		if ($data_id)
 		{
 			$extra_field->deleteExtraFieldData($data_id);
 		}
+
 		if (JPATH_ROOT . DS . $spath . DS . $imname)
 		{
 			unlink(JPATH_ROOT . DS . $spath . DS . $imname);
 		}
+
 		exit;
 	}
 
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$this->setRedirect('index.php?option=' . $option);
 	}
 
-	function display()
+	public function display()
 	{
 		$model = $this->getModel('configuration');
 		$currency_data = $model->getCurrency();
 		JRequest::setVar('currency_data', $currency_data);
+
 		parent::display();
 	}
 
-	function clearsef()
+	public function clearsef()
 	{
 		$model = $this->getModel('configuration');
 		$cleardata = $model->cleardata();
+
 		echo $cleardata;
 		exit;
 	}
 
-	function resetTemplate()
+	public function resetTemplate()
 	{
 		$model = $this->getModel('configuration');
 		$option = JRequest::getVar('option');
@@ -388,19 +367,17 @@ class configurationController extends JController
 		$this->setRedirect('index.php?option=' . $option, $msg);
 	}
 
-	function resetTermsCondition()
+	public function resetTermsCondition()
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 		$userhelper->updateUserTermsCondition();
 		die();
 	}
 
-	function resetOrderId()
+	public function resetOrderId()
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$order_functions->resetOrderId();
 		die();
 	}
 }
-
-

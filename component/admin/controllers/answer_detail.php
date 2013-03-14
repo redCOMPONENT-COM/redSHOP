@@ -25,7 +25,6 @@ class answer_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
 	public function save($send = 0)

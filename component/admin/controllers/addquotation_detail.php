@@ -51,10 +51,10 @@ class addquotation_detailController extends JController
 			$post['registerDate'] = $date->toMySQL();
 			$post['block'] = 0;
 
-			# get Admin order detail Model Object
+			// Get Admin order detail Model Object
 			$usermodel = & JModel::getInstance('user_detail', 'user_detailModel');
 
-			# call Admin order detail Model store function for Billing
+			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);
 
 			if (!$user)
@@ -62,13 +62,10 @@ class addquotation_detailController extends JController
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
-			/*echo "<pre>";
-			print_r($user);
-			exit;*/
+
 			$post['user_id'] = $user->user_id;
 			$user_id = $user->user_id;
 
-			//$user_data = $model->storeShipping($post);
 			$post['users_info_id'] = $user_data->users_info_id;
 
 			if (count($user) <= 0)
@@ -135,6 +132,7 @@ class addquotation_detailController extends JController
 			$property_id = $propid[$i];
 			$response .= $model->replaceSubPropertyData($product_id, $accessory_id, $attribute_id, $property_id, $user_id, $unique_id);
 		}
+
 		echo $response;
 		exit;
 	}

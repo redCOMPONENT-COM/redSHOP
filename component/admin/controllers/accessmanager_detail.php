@@ -25,7 +25,6 @@ class accessmanager_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
 	public function save($apply)
@@ -60,7 +59,6 @@ class accessmanager_detailController extends JController
 	{
 		$this->save(1);
 	}
-
 
 	public function cancel()
 	{

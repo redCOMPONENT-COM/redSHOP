@@ -23,7 +23,6 @@ class addorder_detailController extends JController
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
-
 	}
 
 	public function savepay()
@@ -58,8 +57,8 @@ class addorder_detailController extends JController
 
 		if (USE_STOCKROOM == 1)
 		{
-			$stockroomhelper = new rsstockroomhelper();
-			$producthelper = new producthelper();
+			$stockroomhelper = new rsstockroomhelper;
+			$producthelper = new producthelper;
 
 			for ($i = 0; $i < count($orderItem); $i++)
 			{
