@@ -1,65 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-	<name>mod_redshop_search</name>
-	<version>1.1.11</version>
-	<creationDate>10-04-2012</creationDate>
-	<author>redweb.dk</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>Redshop Search Module</description>
-	<files>
-		<filename module="mod_redshop_search">mod_redshop_search.php</filename>
-		<filename module="mod_redshop_search">index.html</filename>
-		<filename module="mod_redshop_search">tmpl/default.php</filename>
-		<filename module="mod_redshop_search">tmpl/index.html</filename>
-		<filename module="mod_redshop_search">js/search.js</filename>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_search.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_search.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_search.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_search.sys.ini</language>
-		<language tag="de-DE">language/de-DE/de-DE.mod_redshop_search.ini</language>
-		<language tag="de-DE">language/de-DE/de-DE.mod_redshop_search.sys.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.sys.ini</language>
-  	</languages>
-	<config><fields name="params"><fieldset name="basic">
-		<field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_PARAMMODULECLASSSUFFIX" description="COM_REDSHOP_PARAMMODULECLASSSUFFIX" />
-		<field name="templateid" type="template" default="0" label="COM_REDSHOP_SELECT_TEMPLATE_LBL" description="COM_REDSHOP_SELECT_TEMPLATE_DESC" addfieldpath="/administrator/components/com_redshop/elements" />
-		<field name="productperpage" type="text" default="" label="COM_REDSHOP_PRODUCT_PER_PAGE_LBL" description="COM_REDSHOP_PRODUCT_PER_PAGE_DESC" />
-		<field name="enableAjaxsearch" type="radio" default="0" label="COM_REDSHOP_ENABLE_AJAX_SEACRH_LBL" description="COM_REDSHOP_ENABLE_AJAX_SEACRH_DESC" >
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</field>	
-		<field name="modsearchitemid" type="text" default="" label="COM_REDSHOP_ENTER_ITEMID_LBL" description="COM_REDSHOP_ENTER_ITEMID_LBL" />
-		<field name="noofsearchresults" type="text" default="10" label="COM_REDSHOP_NO_SEARCH_RESULT_LBL" description="COM_REDSHOP_NO_SEARCH_RESULT_DESC" />	
-		<field name="defaultSearchType" type="searchtype" default="" label="COM_REDSHOP_DEFAULT_SEARCH_TYPE_LBL" description="COM_REDSHOP_DEFAULT_SEARCH_TYPE_DESC" addfieldpath="/administrator/components/com_redshop/elements" />
-		<field name="showSearchTypeField" type="radio" default="yes" label="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_LBL" description="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_DESC" >
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</field>
-		<field name="showSearchField" type="radio" default="yes" label="COM_REDSHOP_SHOW_SEARCH_FIELD_LBL" description="COM_REDSHOP_SHOW_SEARCH_FIELD_DESC" >
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</field>
-		<field name="showCategory" type="radio" default="yes" label="COM_REDSHOP_SHOW_CATEGORY_FIELD_LBL" description="COM_REDSHOP_SHOW_CATEGORY_FIELD_DESC" >
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</field>		
-		<field name="showManufacturer" type="radio" default="yes" label="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_LBL" description="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_DESC" >
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</field>	
-		<field name="showProductsearchtitle" type="radio" default="yes" label="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_LBL" description="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_DESC" >
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</field>		
-		<field name="showKeywordtitle" type="radio" default="yes" label="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL" description="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL" >
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</field>	
-		<field name="stdsearchtext" type="text" default="" label="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL" description="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL" />				
-	</fieldset></fields></config>
+    <name>mod_redshop_search</name>
+    <version>1.1.11</version>
+    <creationDate>10-04-2012</creationDate>
+    <author>redweb.dk</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Redshop Search Module</description>
+    <files>
+        <filename module="mod_redshop_search">mod_redshop_search.php</filename>
+        <filename module="mod_redshop_search">index.html</filename>
+        <filename module="mod_redshop_search">tmpl/default.php</filename>
+        <filename module="mod_redshop_search">tmpl/index.html</filename>
+        <filename module="mod_redshop_search">js/search.js</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_search.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_search.sys.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_search.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_search.sys.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_redshop_search.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_redshop_search.sys.ini</language>
+        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.ini</language>
+        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
+                       description="COM_REDSHOP_PARAMMODULECLASSSUFFIX"/>
+                <field name="templateid" type="template" default="0" label="COM_REDSHOP_SELECT_TEMPLATE_LBL"
+                       description="COM_REDSHOP_SELECT_TEMPLATE_DESC"
+                       addfieldpath="/administrator/components/com_redshop/elements"/>
+                <field name="productperpage" type="text" default="" label="COM_REDSHOP_PRODUCT_PER_PAGE_LBL"
+                       description="COM_REDSHOP_PRODUCT_PER_PAGE_DESC"/>
+                <field name="enableAjaxsearch" type="radio" default="0" label="COM_REDSHOP_ENABLE_AJAX_SEACRH_LBL"
+                       description="COM_REDSHOP_ENABLE_AJAX_SEACRH_DESC">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="modsearchitemid" type="text" default="" label="COM_REDSHOP_ENTER_ITEMID_LBL"
+                       description="COM_REDSHOP_ENTER_ITEMID_LBL"/>
+                <field name="noofsearchresults" type="text" default="10" label="COM_REDSHOP_NO_SEARCH_RESULT_LBL"
+                       description="COM_REDSHOP_NO_SEARCH_RESULT_DESC"/>
+                <field name="defaultSearchType" type="searchtype" default="" label="COM_REDSHOP_DEFAULT_SEARCH_TYPE_LBL"
+                       description="COM_REDSHOP_DEFAULT_SEARCH_TYPE_DESC"
+                       addfieldpath="/administrator/components/com_redshop/elements"/>
+                <field name="showSearchTypeField" type="radio" default="yes"
+                       label="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_LBL"
+                       description="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_DESC">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </field>
+                <field name="showSearchField" type="radio" default="yes" label="COM_REDSHOP_SHOW_SEARCH_FIELD_LBL"
+                       description="COM_REDSHOP_SHOW_SEARCH_FIELD_DESC">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </field>
+                <field name="showCategory" type="radio" default="yes" label="COM_REDSHOP_SHOW_CATEGORY_FIELD_LBL"
+                       description="COM_REDSHOP_SHOW_CATEGORY_FIELD_DESC">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </field>
+                <field name="showManufacturer" type="radio" default="yes"
+                       label="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_LBL"
+                       description="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_DESC">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </field>
+                <field name="showProductsearchtitle" type="radio" default="yes"
+                       label="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_LBL"
+                       description="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_DESC">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </field>
+                <field name="showKeywordtitle" type="radio" default="yes" label="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL"
+                       description="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </field>
+                <field name="stdsearchtext" type="text" default="" label="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"
+                       description="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"/>
+            </fieldset>
+        </fields>
+    </config>
 </extension>
