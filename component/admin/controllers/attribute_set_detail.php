@@ -515,32 +515,32 @@ class attribute_set_detailController extends JController
 		}
 	}
 
-public function subattribute_color()
-{
-	$uri =& JURI::getInstance();
+	public function subattribute_color()
+	{
+		$uri =& JURI::getInstance();
 
-	$url = $uri->root();
+		$url = $uri->root();
 
-	$post = JRequest::get('post');
+		$post = JRequest::get('post');
 
-	$model = $this->getModel('product_detail');
+		$model = $this->getModel('product_detail');
 
-	$subattr_id = implode("','", $post['subattribute_color_id']);
+		$subattr_id = implode("','", $post['subattribute_color_id']);
 
-	$subattr_diff = $model->subattr_diff($subattr_id, $post['section_id']);
+		$subattr_diff = $model->subattr_diff($subattr_id, $post['section_id']);
 
-	$model->delsubattr_diff($subattr_diff);
+		$model->delsubattr_diff($subattr_diff);
 
-	$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
+		$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
 
-	$more_images = $model->subattribute_color($post, $sub_img);
+		$more_images = $model->subattribute_color($post, $sub_img);
 
-	?>
-	<script language="javascript" type="text/javascript">
-		window.parent.SqueezeBox.close();
-	</script>
-<?php
-}
+		?>
+		<script language="javascript" type="text/javascript">
+			window.parent.SqueezeBox.close();
+		</script>
+	<?php
+	}
 
 	public function removepropertyImage()
 	{
