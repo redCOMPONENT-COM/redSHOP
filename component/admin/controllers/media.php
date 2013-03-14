@@ -115,44 +115,44 @@ class mediaController extends JController
 	}
 
 	//ordering
-	function saveorder()
+function saveorder()
+{
+	$option = JRequest::getVar('option');
+	$section_id = JRequest::getVar('section_id');
+	$section_name = JRequest::getVar('section_name');
+	$media_section = JRequest::getVar('media_section');
+	$cid = JRequest::getVar('cid', array(), 'post', 'array');
+	$order = JRequest::getVar('order', array(), 'post', 'array');
+
+	JArrayHelper::toInteger($cid);
+	JArrayHelper::toInteger($order);
+	if (!is_array($cid) || count($cid) < 1)
 	{
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$section_name = JRequest::getVar('section_name');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
-
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
-		}
-		$model = $this->getModel('media');
-		if (!$model->saveorder($cid, $order))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		if (isset($section_id))
-		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&section_name=' . $section_name . '&media_section=' . $media_section, $msg);
-		}
-		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
-		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
-		}
+		JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
 	}
+	$model = $this->getModel('media');
+	if (!$model->saveorder($cid, $order))
+	{
+		echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+	}
+
+	$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+if (isset($section_id))
+{
+	$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&section_name=' . $section_name . '&media_section=' . $media_section, $msg);
+}
+else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
+{
+	$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+	<script language="javascript" type="text/javascript">
+		window.parent.document.location = '<?php echo $link; ?>';
+	</script><?php
+}
+else
+{
+	$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+}
+}
 }
 
-?>
+

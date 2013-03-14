@@ -36,4 +36,4 @@ class importController extends JController
 	}
 }
 
-?>
+

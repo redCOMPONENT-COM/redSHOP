@@ -282,4 +282,4 @@ class stockroom_detailController extends JController
 	}
 }
 
-?>
+

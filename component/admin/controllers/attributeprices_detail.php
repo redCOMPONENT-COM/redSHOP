@@ -93,4 +93,4 @@ class attributeprices_detailController extends JController
 	}
 }
 
-?>
+

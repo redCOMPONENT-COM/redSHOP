@@ -193,4 +193,4 @@ class quotation_detailController extends JController
 	}
 }
 
-?>
+

@@ -19,30 +19,30 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php
 
 class addorder_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
 
 	}
 
-	function savepay()
+	public function savepay()
 	{
 		$this->save(1);
 	}
 
-	function save_without_sendmail()
+	public function save_without_sendmail()
 	{
 		$this->save();
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 
-		$adminproducthelper = new adminproducthelper();
-		$order_functions = new order_functions();
-		$shippinghelper = new shipping();
+		$adminproducthelper = new adminproducthelper;
+		$order_functions = new order_functions;
+		$shippinghelper = new shipping;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -53,16 +53,19 @@ class addorder_detailController extends JController
 		$orderItem = $adminproducthelper->redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
-		// check product Quantity
+		// Check product Quantity
 		$stocknote = '';
+
 		if (USE_STOCKROOM == 1)
 		{
 			$stockroomhelper = new rsstockroomhelper();
 			$producthelper = new producthelper();
+
 			for ($i = 0; $i < count($orderItem); $i++)
 			{
 				$quantity = $orderItem[$i]->quantity;
 				$productData = $producthelper->getProductById($orderItem[$i]->product_id);
+
 				if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $quantity)
 				{
 					$msg = $productData->product_name . " " . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
@@ -71,6 +74,7 @@ class addorder_detailController extends JController
 				}
 				$currentStock = $stockroomhelper->getStockroomTotalAmount($orderItem[$i]->product_id);
 				$finalquantity = ($currentStock >= $quantity) ? (int) $quantity : (int) $currentStock;
+
 				if ($finalquantity > 0)
 				{
 					if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $finalquantity)
@@ -88,10 +92,14 @@ class addorder_detailController extends JController
 				}
 			}
 			$orderItem = array_merge(array(), $orderItem);
+
 			if (count($orderItem) <= 0)
 			{
 				$msg = JText::_('PRODUCT_OUT_OF_STOCK');
-				$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $post['user_id'] . '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg);
+				$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $post['user_id']
+						. '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg
+				);
+
 				return;
 			}
 		}
@@ -107,6 +115,7 @@ class addorder_detailController extends JController
 			$post['order_shipping_tax'] = $order_shipping[6];
 		}
 		$tmporder_total = $order_total;
+
 		if (array_key_exists("issplit", $post) && $post['issplit'])
 		{
 			$tmporder_total = $order_total / 2;
@@ -124,17 +133,20 @@ class addorder_detailController extends JController
 		$paymentinfo->accepted_credict_card = $paymentparams->get("accepted_credict_card");
 		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
 
-		$cartHelper = new rsCartHelper ();
+		$cartHelper = new rsCartHelper;
 
 		$subtotal = $post['order_subtotal'];
 		$update_discount = 0;
+
 		if ($post['update_discount'] > 0)
 		{
 			$update_discount = $post['update_discount'];
+
 			if ($update_discount > $subtotal)
 			{
 				$update_discount = $subtotal;
 			}
+
 			if ($update_discount != 0)
 			{
 				$order_total = $order_total - $update_discount;
@@ -142,10 +154,12 @@ class addorder_detailController extends JController
 		}
 
 		$special_discount = $post['special_discount'];
+
 		for ($i = 0; $i < count($orderItem); $i++)
 		{
 			$subtotal_excl_vat = $subtotal_excl_vat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
 		}
+
 		if (APPLY_VAT_ON_DISCOUNT)
 		{
 			$amt = $subtotal;
@@ -169,6 +183,7 @@ class addorder_detailController extends JController
 		{
 			$paymentAmount = $order_total;
 		}
+
 		$paymentMethod = $cartHelper->calculatePayment($paymentAmount, $paymentinfo, $order_total);
 		$post['ship_method_id'] = urldecode(urldecode($post['shipping_rate_id']));
 		$order_total = $paymentMethod[0];
@@ -180,13 +195,11 @@ class addorder_detailController extends JController
 		$post['order_payment_amount'] = $tmporder_total;
 		$post['order_payment_name'] = $paymentmethod->name;
 
-
 		if ($apply == 1)
 		{
 			$post['order_payment_status'] = 'Unpaid';
 			$post['order_status'] = 'P';
 		}
-
 
 		if ($row = $model->store($post))
 		{
@@ -199,7 +212,7 @@ class addorder_detailController extends JController
 
 		if ($apply == 1)
 		{
-			$objorder = new order_functions();
+			$objorder = new order_functions;
 			$objorder->getpaymentinformation($row, $post);
 		}
 		else
@@ -208,18 +221,19 @@ class addorder_detailController extends JController
 		}
 	}
 
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
-	function guestuser()
+	public function guestuser()
 	{
 		global $mainframe;
 
 		$post = JRequest::get('post');
+
 		if (!isset($post['billisship']))
 		{
 			JRequest::setVar('billisship', 0);
@@ -227,20 +241,25 @@ class addorder_detailController extends JController
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$model = $this->getModel('addorder_detail');
 		$ret = '&err=1';
+
 		if ($row = $model->storeShipping($post))
 		{
 			$ret = '';
 			$user_id = $row->user_id;
 			$shipping_users_info_id = $row->users_info_id;
-			$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id . '&shipping_users_info_id=' . $shipping_users_info_id . $ret);
+			$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id .
+					'&shipping_users_info_id=' .
+					$shipping_users_info_id . $ret
+			);
 		}
+
 		else
 		{
 			parent::display();
 		}
 	}
 
-	function changeshippingaddress()
+	public function changeshippingaddress()
 	{
 		$shippingadd_id = JRequest::getVar('shippingadd_id', 0);
 		$user_id = JRequest::getVar('user_id', 0);
@@ -254,9 +273,9 @@ class addorder_detailController extends JController
 		die();
 	}
 
-	function getShippingRate()
+	public function getShippingRate()
 	{
-		$shippinghelper = new shipping();
+		$shippinghelper = new shipping;
 		$get = JRequest::get('get');
 		$shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $get['shipping_rate_id'])));
 		$order_shipping = 0;

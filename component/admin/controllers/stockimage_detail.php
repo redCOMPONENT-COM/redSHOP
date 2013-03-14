@@ -100,4 +100,4 @@ class stockimage_detailController extends JController
 	}
 }
 
-?>
+

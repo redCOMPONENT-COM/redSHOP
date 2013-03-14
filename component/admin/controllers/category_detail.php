@@ -220,4 +220,4 @@ class category_detailController extends JController
 	}
 }
 
-?>
+

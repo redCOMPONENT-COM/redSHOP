@@ -403,4 +403,4 @@ class configurationController extends JController
 	}
 }
 
-?>
+
