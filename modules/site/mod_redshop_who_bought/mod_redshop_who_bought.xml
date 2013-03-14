@@ -1,52 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-	<name>Redshop Who Bought Module</name>
-	<version>1.1.6</version>
-	<creationDate>10-04-2012</creationDate>
-	<author>redweb.dk</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>Customers Who Bought This Item Also Bought</description>
-	<files>
-		<filename module="mod_redshop_who_bought">mod_redshop_who_bought.php</filename>
-		<filename module="mod_redshop_who_bought">index.html</filename>
-		<folder module="mod_redshop_who_bought">tmpl</folder>
-		<folder module="mod_redshop_who_bought">assets</folder>	
-	</files>
-	<languages>
-    	<language tag="en-GB">language/en-GB/en-GB.mod_redshop_who_bought.ini</language>
-    	<language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.ini</language>
-  	</languages>
-	<config><fields name="params"><fieldset name="basic">
-		<field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX" description="COM_REDSHOP_CLASS_SUFFIX" />
-		<field name="category" type="text" size="20" label="COM_REDSHOP_CATEGORY_LBL" description="COM_REDSHOP_ENTER_CATEGORY" />		
-		<field name="number_of_items" type="text" default="" label="COM_REDSHOP_NUMBER_OF_PRODUCT" description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC" />
-		<field name="sliderwidth" type="text" size="10" label="COM_REDSHOP_SLIDER_IMAGE_WIDTH" description="COM_REDSHOP_SLIDER_IMAGE_WIDTH_DESC" default="440" />
-		<field name="sliderheight" type="text" size="10" label="COM_REDSHOP_SLIDER_IMAGE_HEIGHT" description="COM_REDSHOP_SLIDER_IMAGE_HEIGHT_DESC" default="220" />
+    <name>Redshop Who Bought Module</name>
+    <version>1.1.6</version>
+    <creationDate>10-04-2012</creationDate>
+    <author>redweb.dk</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Customers Who Bought This Item Also Bought</description>
+    <files>
+        <filename module="mod_redshop_who_bought">mod_redshop_who_bought.php</filename>
+        <filename module="mod_redshop_who_bought">index.html</filename>
+        <folder module="mod_redshop_who_bought">tmpl</folder>
+        <folder module="mod_redshop_who_bought">assets</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_who_bought.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
+                       description="COM_REDSHOP_CLASS_SUFFIX"/>
+                <field name="category" type="text" size="20" label="COM_REDSHOP_CATEGORY_LBL"
+                       description="COM_REDSHOP_ENTER_CATEGORY"/>
+                <field name="number_of_items" type="text" default="" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
+                       description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
+                <field name="sliderwidth" type="text" size="10" label="COM_REDSHOP_SLIDER_IMAGE_WIDTH"
+                       description="COM_REDSHOP_SLIDER_IMAGE_WIDTH_DESC" default="440"/>
+                <field name="sliderheight" type="text" size="10" label="COM_REDSHOP_SLIDER_IMAGE_HEIGHT"
+                       description="COM_REDSHOP_SLIDER_IMAGE_HEIGHT_DESC" default="220"/>
 
-		<field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH" description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100" />
-		<field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100" />
+                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+                       description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+                       description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
 
-		<field name="show_product_image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE" description="COM_REDSHOP_SHOW_IMAGE_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</field>
-		<field name="show_addtocart_button" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART" description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</field>
-		<field name="show_product_name" type="radio" default="1" label="COM_REDSHOP_SHOW_PRODUCT_NAME" description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</field>
-		<field name="product_title_linkable" type="radio" default="1" label="COM_REDSHOP_SHOW_PRODUCT_NAME_LINKABLE" description="COM_REDSHOP_SHOW_PRODUCT_NAME_LINKABLE_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</field>
-		<field name="show_product_price" type="radio" default="1" label="COM_REDSHOP_SHOW_PRICE" description="COM_REDSHOP_SHOW_PRICE_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</field>
- 	</fieldset></fields></config>
+                <field name="show_product_image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE"
+                       description="COM_REDSHOP_SHOW_IMAGE_DESC">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_addtocart_button" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART"
+                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_product_name" type="radio" default="1" label="COM_REDSHOP_SHOW_PRODUCT_NAME"
+                       description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="product_title_linkable" type="radio" default="1"
+                       label="COM_REDSHOP_SHOW_PRODUCT_NAME_LINKABLE"
+                       description="COM_REDSHOP_SHOW_PRODUCT_NAME_LINKABLE_DESC">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_product_price" type="radio" default="1" label="COM_REDSHOP_SHOW_PRICE"
+                       description="COM_REDSHOP_SHOW_PRICE_DESC">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
 </extension>

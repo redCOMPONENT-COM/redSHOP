@@ -1,102 +1,95 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  mod_redshop_shoppergroup_product
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
 defined('_JEXEC') or die('Restricted access');
-$option=JRequest::getVar('option');
-//$category = trim( $params->get( 'category', '' ) );
-$count	= trim( $params->get( 'count',5) );
-$image = trim( $params->get( 'image',0) );
-$show_price = trim( $params->get( 'show_price',0) );	// get show price yes/no option
-$thumbwidth = trim( $params->get( 'thumbwidth',100) );	// get show image thumbwidth size
-$thumbheight = trim( $params->get( 'thumbheight',100) ); 	// get show image thumbheight size
-$show_short_description = trim( $params->get( 'show_short_description',1) );
-$show_readmore = trim( $params->get( 'show_readmore',1) );
-$show_addtocart = trim( $params->get( 'show_addtocart',1) );
-$show_discountpricelayout = trim( $params->get( 'show_discountpricelayout',1) );
-$show_desc = trim( $params->get( 'show_desc',1) );
-$show_vat = trim( $params->get( 'show_vat',1) );
 
-$user = &JFactory::getUser();
-$db = JFactory::getDBO();
-if($option!='com_redshop')
+$option = JRequest::getVar('option');
+//$category = trim( $params->get( 'category', '' ) );
+$count                    = trim($params->get('count', 5));
+$image                    = trim($params->get('image', 0));
+$show_price               = trim($params->get('show_price', 0)); // get show price yes/no option
+$thumbwidth               = trim($params->get('thumbwidth', 100)); // get show image thumbwidth size
+$thumbheight              = trim($params->get('thumbheight', 100)); // get show image thumbheight size
+$show_short_description   = trim($params->get('show_short_description', 1));
+$show_readmore            = trim($params->get('show_readmore', 1));
+$show_addtocart           = trim($params->get('show_addtocart', 1));
+$show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
+$show_desc                = trim($params->get('show_desc', 1));
+$show_vat                 = trim($params->get('show_vat', 1));
+
+$user = & JFactory::getUser();
+$db   = JFactory::getDBO();
+if ($option != 'com_redshop')
 {
 	// Getting the configuration
-	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.cfg.php');
-	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'configuration.php');
+	require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
+	require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
 	$Redconfiguration = new Redconfiguration();
 	$Redconfiguration->defineDynamicVars();
 }
-require_once(JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'product.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php');
-require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'template.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'extra_field.php');
+require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
+require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 
-$and = "";
+$and              = "";
 $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-if($user->id)
+if ($user->id)
 {
 	$query = "SELECT shopper_group_id FROM #__redshop_users_info AS ui "
-			."WHERE ui.user_id='".$user->id."' ";
+		. "WHERE ui.user_id='" . $user->id . "' ";
 	$db->setQuery($query);
 	$getShopperGroupID = $db->loadResult();
-	if($getShopperGroupID)
+	if ($getShopperGroupID)
 	{
 		$shopper_group_id = $getShopperGroupID;
 	}
 }
 
 $query = "SELECT user_id FROM #__redshop_users_info AS ui "
-		."WHERE ui.shopper_group_id='".$shopper_group_id."' ";
+	. "WHERE ui.shopper_group_id='" . $shopper_group_id . "' ";
 $db->setQuery($query);
 $user_id_arr = $db->loadResultArray();
 
 $user_id_str = '';
-if(count($user_id_arr) > 0)
+if (count($user_id_arr) > 0)
 {
-	$user_id_str = implode(', ',$user_id_arr);
+	$user_id_str = implode(', ', $user_id_arr);
 }
 $query = "SELECT o.order_id FROM #__redshop_orders AS o "
-		."WHERE o.user_id IN (".$user_id_str.") ";
+	. "WHERE o.user_id IN (" . $user_id_str . ") ";
 $db->setQuery($query);
 $order_id_arr = $db->loadResultArray();
 $order_id_str = '';
-if(count($order_id_arr) > 0)
+if (count($order_id_arr) > 0)
 {
-	$order_id_str = implode(', ',$order_id_arr);
+	$order_id_str = implode(', ', $order_id_arr);
 }
 
 //if($category!="")
 //{
 //	$and .= "AND cx.category_id IN ($cids) ";
 //}
-if($order_id_str!="")
+if ($order_id_str != "")
 {
 	$and .= "AND oi.order_id IN ($order_id_str) ";
 }
 
 $query = "SELECT COUNT(oi.product_id) AS totalproduct,p.*,cx.category_id FROM #__redshop_order_item AS oi "
-		."LEFT JOIN #__redshop_product AS p ON p.product_id=oi.product_id "
-		."LEFT JOIN #__redshop_product_category_xref AS cx ON cx.product_id=p.product_id "
-		."WHERE p.published=1 "
-		.$and
-		."GROUP BY oi.product_id "
-		."ORDER BY totalproduct DESC "
-		."LIMIT 0,$count";
+	. "LEFT JOIN #__redshop_product AS p ON p.product_id=oi.product_id "
+	. "LEFT JOIN #__redshop_product_category_xref AS cx ON cx.product_id=p.product_id "
+	. "WHERE p.published=1 "
+	. $and
+	. "GROUP BY oi.product_id "
+	. "ORDER BY totalproduct DESC "
+	. "LIMIT 0,$count";
 $db->setQuery($query);
 $rows = $db->loadObjectList();
 
-require(JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_product'));
+require JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_product');
