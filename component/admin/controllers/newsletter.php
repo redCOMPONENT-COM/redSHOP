@@ -13,30 +13,19 @@ jimport('joomla.application.component.controller');
 
 class newsletterController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
-	{
-
-		parent::display();
-	}
-
-	function send_newsletter_preview()
+	public function send_newsletter_preview()
 	{
 		$view = & $this->getView('newsletter', 'preview');
 
 		parent::display();
 	}
 
-	function send_newsletter()
+	public function send_newsletter()
 	{
 		$session =& JFactory::getSession();
 		$option = JRequest::getVar('option');
@@ -47,7 +36,7 @@ class newsletterController extends JController
 
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
-		$tmpcid = array_chunk($cid, NEWSLETTER_MAIL_CHUNK); //NEWSLETTER_MAIL_CHUNK
+		$tmpcid = array_chunk($cid, NEWSLETTER_MAIL_CHUNK);
 		$tmpuserid = array_chunk($userid, NEWSLETTER_MAIL_CHUNK);
 		$tmpusername = array_chunk($username, NEWSLETTER_MAIL_CHUNK);
 
@@ -60,7 +49,7 @@ class newsletterController extends JController
 		return;
 	}
 
-	function sendRecursiveNewsletter()
+	public function sendRecursiveNewsletter()
 	{
 		$session =& JFactory::getSession();
 		$newsletter_id = JRequest::getVar('newsletter_id');
@@ -76,6 +65,7 @@ class newsletterController extends JController
 		$cid = array();
 		$user_id = array();
 		$username = array();
+
 		if (count($subscribers) > 0)
 		{
 			$cid = $subscribers[0];
@@ -98,10 +88,12 @@ class newsletterController extends JController
 		$retuser = $model->newsletterEntry($cid, $user_id, $username);
 
 		$responcemsg = "";
+
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$subscriber = $model->getNewsletterSubscriber($newsletter_id, $cid[$i]);
 			$responcemsg .= "<div>" . $incNo . ": " . $subscriber->name . "( " . $subscriber->email . " ) -> ";
+
 			if ($retuser[$i])
 			{
 				$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_NEWSLETTER_SENT_SUCCESSFULLY') . "</span>";
@@ -113,6 +105,7 @@ class newsletterController extends JController
 			$responcemsg .= "</div>";
 			$incNo++;
 		}
+
 		$session->set('subscribers', $subscribers);
 		$session->set('subscribersuid', $subscribersuid);
 		$session->set('subscribersuname', $subscribersuname);

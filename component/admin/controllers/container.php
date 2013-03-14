@@ -6,30 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
 
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
 
 class containerController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
-	{
-
-		parent::display();
-	}
-
-	function export_data()
+	public function export_data()
 	{
 		$model = $this->getModel('container');
 
@@ -49,15 +38,14 @@ class containerController extends JController
 			echo $data[$i]->container_name . ",";
 			echo $data[$i]->container_desc . ",";
 			echo $data[$i]->creation_date . ",";
-			//echo $data[$i]->quantity * $data[$i]->product_volume;
+
 			echo "\n";
 		}
 		exit;
 	}
 
-	function print_data()
+	public function print_data()
 	{
 		echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
 	}
 }
-

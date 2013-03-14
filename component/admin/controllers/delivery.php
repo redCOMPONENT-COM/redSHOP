@@ -6,31 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
 
 class deliverycontroller extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
-	{
-		parent::display();
-	}
-
-	function export_data()
+	public function export_data()
 	{
 		$db = jFactory::getDBO();
-		$query = "SELECT  * FROM   #__" . TABLE_PREFIX . "_users_info as uf , #__" . TABLE_PREFIX . "_orders as o LEFT JOIN #__" . TABLE_PREFIX . "_order_status os ON o.order_status=os.order_status_code WHERE o.user_id = uf.user_id AND uf.address_type = 'BT'  AND o.order_status  IN ('RD','RD1','RD2')   ";
+		$query = "SELECT  * FROM   #__" . TABLE_PREFIX . "_users_info as uf , #__" . TABLE_PREFIX . "_orders as o LEFT JOIN #__"
+			. TABLE_PREFIX . "_order_status os ON o.order_status=os.order_status_code WHERE o.user_id = uf.user_id AND uf.address_type = 'BT'  AND o.order_status  IN ('RD','RD1','RD2')   ";
+
 		$db->setQuery($query);
 		$orders = $db->loadObjectList();
 		$k = 0;
@@ -64,7 +57,10 @@ class deliverycontroller extends JController
 
 			$row->id = $row->order_id;
 
-			$query = "SELECT oi.*,p.product_volume FROM #__" . TABLE_PREFIX . "_order_item oi LEFT JOIN #__" . TABLE_PREFIX . "_product p ON p.product_id = oi.product_id WHERE order_id = '" . $row->order_id . "' ORDER BY delivery_time";
+			$query = "SELECT oi.*,p.product_volume FROM #__"
+				. TABLE_PREFIX . "_order_item oi LEFT JOIN #__"
+				. TABLE_PREFIX . "_product p ON p.product_id = oi.product_id WHERE order_id = '"
+				. $row->order_id . "' ORDER BY delivery_time";
 
 			$db->setQuery($query);
 
@@ -72,10 +68,8 @@ class deliverycontroller extends JController
 
 			$total = count($products);
 
-
 			for ($j = 0; $j < count($products); $j++)
 			{
-
 				$product = $products[$j];
 
 				$query = "SELECT * FROM #__" . TABLE_PREFIX . "_container WHERE container_id = '" . $product->container_id . "'";
@@ -84,9 +78,7 @@ class deliverycontroller extends JController
 
 				if (!$container = $db->loadObject())
 				{
-
 					$container->container_name = '';
-
 				}
 
 				if ($j == 0)
@@ -130,12 +122,12 @@ class deliverycontroller extends JController
 					$txt .= $container->container_name . $del;
 					$txt .= $del;
 					$txt .= "\n";
-
 				}
 
 			}
 			$k = 1 - $k;
 		}
+
 		echo $txt;
 		exit;
 	}

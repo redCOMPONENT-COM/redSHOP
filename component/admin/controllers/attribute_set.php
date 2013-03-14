@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 
 class attribute_setController extends JController
 {
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
