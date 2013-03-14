@@ -3,11 +3,11 @@
 }
 
 .red_product-skin-tango .red_product-container-horizontal {
-    width: 860px;	
+    width: 860px;
     padding-top: 17px;
-    padding-bottom: 17px;	
+    padding-bottom: 17px;
     padding-left: 20px;
-    padding-right: 20px;		
+    padding-right: 20px;
 }
 
 .red_product-skin-tango .red_product-container-vertical {
@@ -17,25 +17,25 @@
 }
 
 .red_product-skin-tango .red_product-clip-horizontal {
-    width:  860px;
+    width: 860px;
     height: 90px;
 }
 
 .red_product-skin-tango .red_product-clip-vertical {
-    width:  75px;
+    width: 75px;
     height: 245px;
 }
 
 .red_product-skin-tango .red_product-item {
-	background: url(bg2.png) no-repeat 0px 0px;
-	padding:5px;
+    background: url(bg2.png) no-repeat 0px 0px;
+    padding: 5px;
     width: 80px;
     height: 80px;
 }
 
 .red_product-skin-tango .red_product-item:hover {
-	background-position: 0px -90px;
-	cursor:pointer;
+    background-position: 0px -90px;
+    cursor: pointer;
 }
 
 .red_product-skin-tango .red_product-item-horizontal {
