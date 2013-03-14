@@ -79,9 +79,9 @@ class media_detailController extends JController
 						else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 						{
 							$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
-                        <script language="javascript" type="text/javascript">
-                            window.parent.document.location = '<?php echo $link; ?>';
-                        </script><?php
+							<script language="javascript" type="text/javascript">
+								window.parent.document.location = '<?php echo $link; ?>';
+							</script><?php
 						}
 						else
 						{
@@ -143,9 +143,9 @@ class media_detailController extends JController
 				else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
 					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
-                <script language="javascript" type="text/javascript">
-                    window.parent.document.location = '<?php echo $link; ?>';
-                </script><?php
+					<script language="javascript" type="text/javascript">
+						window.parent.document.location = '<?php echo $link; ?>';
+					</script><?php
 				}
 				else
 				{
@@ -252,9 +252,9 @@ class media_detailController extends JController
 				else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
 					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
-                <script language="javascript" type="text/javascript">
-                    window.parent.document.location = '<?php echo $link; ?>';
-                </script><?php
+					<script language="javascript" type="text/javascript">
+						window.parent.document.location = '<?php echo $link; ?>';
+					</script><?php
 				}
 				else
 				{
@@ -324,9 +324,9 @@ class media_detailController extends JController
 										else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
 											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                        <script language="javascript" type="text/javascript">
-                                            window.parent.document.location = '<?php echo $link; ?>';
-                                        </script><?php
+											<script language="javascript" type="text/javascript">
+												window.parent.document.location = '<?php echo $link; ?>';
+											</script><?php
 										}
 										else
 										{
@@ -368,9 +368,9 @@ class media_detailController extends JController
 											else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 											{
 												$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                            <script language="javascript" type="text/javascript">
-                                                window.parent.document.location = '<?php echo $link; ?>';
-                                            </script><?php
+												<script language="javascript" type="text/javascript">
+													window.parent.document.location = '<?php echo $link; ?>';
+												</script><?php
 											}
 											else
 											{
@@ -420,9 +420,9 @@ class media_detailController extends JController
 									else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 									{
 										$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                    <script language="javascript" type="text/javascript">
-                                        window.parent.document.location = '<?php echo $link; ?>';
-                                    </script><?php
+										<script language="javascript" type="text/javascript">
+											window.parent.document.location = '<?php echo $link; ?>';
+										</script><?php
 									}
 									else
 									{
@@ -473,9 +473,9 @@ class media_detailController extends JController
 										else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
 											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                        <script language="javascript" type="text/javascript">
-                                            window.parent.document.location = '<?php echo $link; ?>';
-                                        </script><?php
+											<script language="javascript" type="text/javascript">
+												window.parent.document.location = '<?php echo $link; ?>';
+											</script><?php
 										}
 										else
 										{
@@ -617,9 +617,9 @@ class media_detailController extends JController
 							else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 							{
 								$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                            <script language="javascript" type="text/javascript">
-                                window.parent.document.location = '<?php echo $link; ?>';
-                            </script><?php
+								<script language="javascript" type="text/javascript">
+									window.parent.document.location = '<?php echo $link; ?>';
+								</script><?php
 							}
 							else
 							{
@@ -670,9 +670,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -705,9 +705,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -744,9 +744,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -779,9 +779,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -837,9 +837,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -872,9 +872,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -882,40 +882,38 @@ class media_detailController extends JController
 		}
 	}
 
-	function orderdown()
+function orderdown()
+{
+	$post = JRequest::get('post');
+	$option = JRequest::getVar('option');
+	$section_id = JRequest::getVar('section_id');
+	$media_section = JRequest::getVar('media_section');
+	$cid = JRequest::getVar('cid', array(), 'post', 'array');
+	if (!is_array($cid) || count($cid) < 1)
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
-		}
-		$model = $this->getModel('media_detail');
-		//if(! $model->move(1))
-		if (!$model->orderdown())
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		if (isset($section_id))
-		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
-		}
-		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
-		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
-		}
+		JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
 	}
+	$model = $this->getModel('media_detail');
+	//if(! $model->move(1))
+	if (!$model->orderdown())
+	{
+		echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+	}
+	$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+if (isset($section_id))
+{
+	$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
 }
-
-?>
+else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
+{
+	$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+	<script language="javascript" type="text/javascript">
+		window.parent.document.location = '<?php echo $link; ?>';
+	</script><?php
+}
+else
+{
+	$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+}
+}
+}

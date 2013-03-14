@@ -29,4 +29,4 @@ class exportController extends JController
 	}
 }
 
-?>
+

@@ -170,4 +170,4 @@ class newsletter_detailController extends JController
 	}
 }
 
-?>
+

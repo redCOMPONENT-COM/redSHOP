@@ -17,14 +17,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 
 class attribute_set_detailController extends JController
 {
-
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'attribute_set_detail');
 		JRequest::setVar('layout', 'default');
@@ -33,69 +32,37 @@ class attribute_set_detailController extends JController
 		parent::display();
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
-
 		$post = JRequest::get('post');
 
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		//$post ['attribute_set_id'] = $cid [0];
 
-		////////// include extra field class  /////////////////////////////////////
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-		////////// include extra field class  /////////////////////////////////////
 
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($row = $model->store($post))
 		{
-
 			$file = JRequest::getVar('image', 'array', 'files', 'array');
 
 			$newpost = array();
-//			if (isset($post['attribute_id'])){
-//				$newpost['attribute_id'] = $post['attribute_id'];
-//				$newpost['title'] = $post['title'];
-//			}
+
 			$this->attribute_save($post, $row, $file);
-			/*if (isset($post['property'])){
-				$newpost['hdn_del_attribute'] = $post['hdn_del_attribute'];
-				$newpost['hdn_del_property'] = $post['hdn_del_property'];
-				$newpost['hdn_del_subproperty'] = $post['hdn_del_subproperty'];
-				$newpost['property'] = $post['property'];
-				$newpost['subattribute_color_title'] = $post['subattribute_color_title'];
-				$newpost['price'] = $post['price'];
-				$newpost['oprand'] = $post['oprand'];
-				$newpost['property_number'] = $post['property_number'];
-				$newpost['propordering'] = $post['propordering'];
-				$newpost['propdselected'] = $post['propdselected'];
-				$newpost['property_id'] = $post['property_id'];
-				$newpost['imagetmp'] = $post['imagetmp'];
-				$newpost['mainImage'] = $post['mainImage'];
-				$newpost['propdselected'] = $post['propdselected'];
-				$newpost['propdselected'] = $post['propdselected'];
-				$newpost['propsub_attdselected'] = $post['propsub_attdselected'];
-			}*/
-			/*if (count($newpost)>0)
-				$this->attribute_save($newpost,$row,$file);
-			else
-				$model->attribute_empty();*/
 
-
-			/// Extra Field Data Saved ////////////////////////
 			$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL_SAVED');
-
 		}
+
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=attribute_set_detail&task=edit&cid[]=' . $row->attribute_set_id, $msg);
-			// index.php?option=com_redshop&view=product_detail&task=edit&cid[]=12
 		}
 		else
 		{
@@ -103,9 +70,8 @@ class attribute_set_detailController extends JController
 		}
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -116,17 +82,18 @@ class attribute_set_detailController extends JController
 		}
 
 		$model = $this->getModel('attribute_set_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -137,17 +104,18 @@ class attribute_set_detailController extends JController
 		}
 
 		$model = $this->getModel('attribute_set_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -158,35 +126,36 @@ class attribute_set_detailController extends JController
 		}
 
 		$model = $this->getModel('attribute_set_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
-	function attribute_save($post, $row, $file)
+	public function attribute_save($post, $row, $file)
 	{
-
 		$model = $this->getModel('attribute_set_detail');
 		$option = JRequest::getVar('option');
-		$thumb = new thumbnail();
-		$obj_img = new thumbnail_images();
+		$thumb = new thumbnail;
+		$obj_img = new thumbnail_images;
 		$n_width = 50;
 		$n_height = 50;
 
 		$attribute_save = array();
 		$property_save = array();
 		$subproperty_save = array();
+
 		if (!is_array($post['attribute']))
 		{
 			return;
@@ -194,16 +163,18 @@ class attribute_set_detailController extends JController
 		$attribute = array_merge(array(), $post['attribute']);
 
 		$files = JRequest::get('files');
+
 		for ($a = 0; $a < count($attribute); $a++)
 		{
-
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$attribute_save['attribute_set_id'] = $row->attribute_set_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']); // encode url for allow special char
+			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
-			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on' || $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on' || $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
+			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
+				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
+			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on'
+				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
 			$attribute_save['display_type'] = $attribute[$a]['display_type'];
 			$attribute_array = $model->store_attr($attribute_save);
@@ -216,7 +187,7 @@ class attribute_set_detailController extends JController
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']); // encode url for allow special char
+				$property_save['property_name'] = urldecode($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = $property[$p]['number'];
@@ -262,7 +233,8 @@ class attribute_set_detailController extends JController
 					$subproperty_save['subattribute_id'] = $property_array->property_id;
 					$subproperty_save['ordering'] = $subproperty[$sp]['order'];
 					$subproperty_save['subattribute_color_number'] = $subproperty[$sp]['number'];
-					$subproperty_save['setdefault_selected'] = ($subproperty[$sp]['chk_propdselected'] == 'on' || $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
+					$subproperty_save['setdefault_selected'] = ($subproperty[$sp]['chk_propdselected'] == 'on'
+						|| $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
 					$subproperty_array = $model->store_sub($subproperty_save);
 					$subproperty_image = $files['attribute_' . $a . '_property_' . $p . '_subproperty_' . $tmpimagename[$sp] . '_image'];
 
@@ -275,9 +247,13 @@ class attribute_set_detailController extends JController
 							$subproperty_array = $model->store_sub($subproperty_save);
 						}
 					}
+
 					if (!empty($subproperty[$sp]['mainImage']))
 					{
-						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_array->subattribute_color_id);
+						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path(
+							$subproperty[$sp]['mainImage'],
+							'subcolor', $subproperty_array->subattribute_color_id
+						);
 						$subproperty_save['subattribute_color_id'] = $subproperty_array->subattribute_color_id;
 						$subproperty_array = $model->store_sub($subproperty_save);
 					}
@@ -287,7 +263,7 @@ class attribute_set_detailController extends JController
 		return;
 	}
 
-	function _imageResize($width, $height, $target)
+	public function _imageResize($width, $height, $target)
 	{
 		if ($width > $height)
 		{
@@ -313,9 +289,8 @@ class attribute_set_detailController extends JController
 		return array($width, $height);
 	}
 
-	function media_bank()
+	public function media_bank()
 	{
-
 		$uri =& JURI::getInstance();
 
 		$url = $uri->root();
@@ -338,12 +313,12 @@ class attribute_set_detailController extends JController
 		}
 
 		$files = JFolder::listFolderTree($path, '.', 1);
-		$tbl = ''; //"<table cellspacing='0' cellpdding='0' width='100%'  border='0'><tr><td align='right' colspan='4'><button type='button' onclick=\"javascript:window.parent.SqueezeBox.close();\">".JText::_('COM_REDSHOP_CLOSE' )."</button></td></tr></table>";
+		$tbl = '';
 		$tbl .= "<table cellspacing='7' cellpdding='2' width='100%' border='0'>";
 		$tbl .= "<tr>";
+
 		if ($folder_path)
 		{
-
 			$t = preg_split('/', $folder_path);
 			$na = count($t) - 1;
 			$n = count($t) - 2;
@@ -360,10 +335,8 @@ class attribute_set_detailController extends JController
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . DS . $t[$n];
 					$dir_path = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . $t[$n] . DS . $t[$na];
 				}
-				$folder_img_bk = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "folderup_32.png";
-//				$imgthumbsize = $this->getImageThumbSize($folder_img_bk);
-				//$size = $this->_parseSize(filesize($folder_img_bk));
 
+				$folder_img_bk = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "folderup_32.png";
 				$info = @getimagesize($folder_img_bk);
 
 				$width = @$info[0];
@@ -371,8 +344,6 @@ class attribute_set_detailController extends JController
 
 				if (($info[0] > 50) || ($info[1] > 50))
 				{
-					//$dimensions = $this->_imageResize($width, $height, $target);
-
 					$dimensions = $this->_imageResize($info[0], $info[1], 50);
 
 					$width_60 = $dimensions[0];
@@ -385,7 +356,10 @@ class attribute_set_detailController extends JController
 				}
 
 				$link_bk = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . $path_bk . "&dirpath=" . $dir_path;
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link_bk . "'><img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
+				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1'
+				cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'>
+				<a href='" . $link_bk . "'><img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr>
+				<tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
 			}
 			else
 			{
@@ -417,12 +391,21 @@ class attribute_set_detailController extends JController
 			}
 
 			$j = 1;
+
 			for ($f = 0; $f < count($files); $f++)
 			{
-				$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path=" . $files[$f]['fullname'] . "&dirpath=" . $files[$f]['relname'];
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link . "'><img src='" . $folder_img . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . $files[$f]['name'] . "</label></td></tr></table></td>";
+				$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path="
+					. $files[$f]['fullname'] . "&dirpath=" . $files[$f]['relname'];
+				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
+				<tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link . "'>
+				<img src='" . $folder_img . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'>
+				<td style='background-color:#F7F7F7;' align='center'><label>" . $files[$f]['name'] . "</label></td></tr></table></td>";
+
 				if ($j % 4 == 0)
+				{
 					$tbl .= "</tr><tr>";
+				}
+
 				$j++;
 			}
 			$i = $j;
@@ -432,10 +415,6 @@ class attribute_set_detailController extends JController
 				if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
 				{
 					$live_path = $url . $dir_path . DS . $filename;
-					//list($width, $height, $type, $attr) = getimagesize($live_path);
-					//$imgthumbsize = $this->getImageThumbSize($live_path);
-
-					//$size = $this->_parseSize(filesize($live_path));
 
 					$info = @getimagesize($live_path);
 
@@ -444,8 +423,6 @@ class attribute_set_detailController extends JController
 
 					if (($info[0] > 50) || ($info[1] > 50))
 					{
-						//$dimensions = $this->_imageResize($width, $height, $target);
-
 						$dimensions = $this->_imageResize($info[0], $info[1], 50);
 
 						$width_60 = $dimensions[0];
@@ -456,21 +433,30 @@ class attribute_set_detailController extends JController
 						$width_60 = $width;
 						$height_60 = $height;
 					}
-					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href=\"javascript:window.parent.jimage_insert('" . $dir_path . DS . $filename . "');window.parent.SqueezeBox.close();\"><img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a></td></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label></td></tr></table></td>";
+					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
+					<tr><td align='center' style='background-color:#FFFFFF;'>
+					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . DS . $filename . "');window.parent.SqueezeBox.close();\">
+					<img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a>
+					</td></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label>
+					</td></tr></table></td>";
+
 					if ($i % 4 == 0)
+					{
 						$tbl .= "</tr><tr>";
+					}
+
 					$i++;
 				}
 			}
+
 			$tbl .= '</tr></table>';
 			echo $tbl;
 			closedir($handle);
 		}
 	}
 
-	function property_more_img()
+	public function property_more_img()
 	{
-
 		$uri =& JURI::getInstance();
 
 		$url = $uri->root();
@@ -487,28 +473,29 @@ class attribute_set_detailController extends JController
 
 		$filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
 
-		if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $main_img['name'] != '' && $filetype_sub != 'png' && $filetype_sub != 'gif' && $filetype_sub != 'jpeg' && $filetype_sub != 'jpg' && $sub_img['name'][0] != '')
+		if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $main_img['name'] != ''
+			&& $filetype_sub != 'png' && $filetype_sub != 'gif' && $filetype_sub != 'jpeg'
+			&& $filetype_sub != 'jpg' && $sub_img['name'][0] != ''
+		)
 		{
 			$msg = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
-			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id']
+				. "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
-
-
 		}
 		else
 		{
 			$more_images = $model->property_more_img($post, $main_img, $sub_img);
 			?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
+			<script language="javascript" type="text/javascript">
+				window.parent.SqueezeBox.close();
+			</script>
 		<?php
 		}
 	}
 
-	function deleteimage()
+	public function deleteimage()
 	{
-
 		$uri =& JURI::getInstance();
 
 		$url = $uri->root();
@@ -518,46 +505,45 @@ class attribute_set_detailController extends JController
 		$cid = JRequest::getVar('cid');
 
 		$model = $this->getModel('product_detail');
+
 		if ($model->deletesubimage($mediaid))
 		{
 			$msg = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
-			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
+				. $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
 		}
 	}
 
-	function subattribute_color()
+public function subattribute_color()
+{
+	$uri =& JURI::getInstance();
+
+	$url = $uri->root();
+
+	$post = JRequest::get('post');
+
+	$model = $this->getModel('product_detail');
+
+	$subattr_id = implode("','", $post['subattribute_color_id']);
+
+	$subattr_diff = $model->subattr_diff($subattr_id, $post['section_id']);
+
+	$model->delsubattr_diff($subattr_diff);
+
+	$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
+
+	$more_images = $model->subattribute_color($post, $sub_img);
+
+	?>
+	<script language="javascript" type="text/javascript">
+		window.parent.SqueezeBox.close();
+	</script>
+<?php
+}
+
+	public function removepropertyImage()
 	{
-
-		$uri =& JURI::getInstance();
-
-		$url = $uri->root();
-
-		$post = JRequest::get('post');
-
-		$model = $this->getModel('product_detail');
-
-		$subattr_id = implode("','", $post['subattribute_color_id']);
-
-		$subattr_diff = $model->subattr_diff($subattr_id, $post['section_id']);
-
-		$model->delsubattr_diff($subattr_diff); // Delete subAttribute Diffrence
-
-		$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
-
-		$more_images = $model->subattribute_color($post, $sub_img);
-
-		?>
-    <script language="javascript" type="text/javascript">
-        window.parent.SqueezeBox.close();
-    </script>
-	<?php
-	}
-
-	// remove Property image
-	function removepropertyImage()
-	{
-
 		$get = JRequest::get('get');
 
 		$pid = $get['pid'];
@@ -565,15 +551,15 @@ class attribute_set_detailController extends JController
 		$model = $this->getModel();
 
 		if ($model->removepropertyImage($pid))
+		{
 			echo "sucess";
+		}
 
 		exit;
 	}
 
-	// remove subProperty image
-	function removesubpropertyImage()
+	public function removesubpropertyImage()
 	{
-
 		$get = JRequest::get('get');
 
 		$pid = $get['pid'];
@@ -581,37 +567,40 @@ class attribute_set_detailController extends JController
 		$model = $this->getModel();
 
 		if ($model->removesubpropertyImage($pid))
+		{
 			echo "sucess";
+		}
 
 		exit;
 	}
 
-	function saveAttributeStock()
+	public function saveAttributeStock()
 	{
-
 		$post = JRequest::get('post');
 
 		$model = $this->getModel();
+
 		if ($model->SaveAttributeStockroom($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}
-		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid=" . $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
+
+		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
+			. $post['section_id'] . "&cid=" . $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
 
 		$this->setRedirect($link, $msg);
 	}
 
-	function copy()
+	public function copy()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('attribute_set_detail');
+
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');
@@ -622,7 +611,5 @@ class attribute_set_detailController extends JController
 		}
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
-
-
 }
 

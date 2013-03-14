@@ -131,4 +131,4 @@ class newsletterController extends JController
 	}
 }
 
-?>
+

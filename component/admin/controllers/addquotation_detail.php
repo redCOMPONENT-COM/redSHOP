@@ -16,16 +16,16 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 
 class addquotation_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
 	}
 
-	function save($send = 0)
+	public function save($send = 0)
 	{
 		$post = JRequest::get('post');
-		$adminproducthelper = new adminproducthelper();
+		$adminproducthelper = new adminproducthelper;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -43,9 +43,8 @@ class addquotation_detailController extends JController
 			$post['email'] = $post['user_email'];
 			$post['username'] = JRequest::getVar('username', '', 'post', 'username');
 			$post['name'] = $name;
-			JRequest:
-			etVar('password1', $post['password']);
-			//$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+			JRequest::getVar('password1', $post['password']);
+
 			$post['groups'] = array(0 => 2);
 
 			$date =& JFactory::getDate();
@@ -71,6 +70,7 @@ class addquotation_detailController extends JController
 
 			//$user_data = $model->storeShipping($post);
 			$post['users_info_id'] = $user_data->users_info_id;
+
 			if (count($user) <= 0)
 			{
 				$this->setRedirect('index.php?option=' . $option . '&view=quotaion_detail&user_id=' . $user_id);
@@ -83,9 +83,11 @@ class addquotation_detailController extends JController
 		$post['user_info_id'] = $post['users_info_id'];
 
 		$row = $model->store($post);
+
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
+
 			if ($send == 1)
 			{
 				if ($model->sendQuotationMail($row->quotation_id))
@@ -101,20 +103,19 @@ class addquotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
-	function send()
+	public function send()
 	{
 		$this->save(1);
 	}
 
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
-
-	function displayOfflineSubProperty()
+	public function displayOfflineSubProperty()
 	{
 		$get = JRequest::get('get');
 		$model = $this->getModel('addquotation_detail');
@@ -128,6 +129,7 @@ class addquotation_detailController extends JController
 		$propid = explode(",", $get['property_id']);
 
 		$response = "";
+
 		for ($i = 0; $i < count($propid); $i++)
 		{
 			$property_id = $propid[$i];
@@ -138,4 +140,4 @@ class addquotation_detailController extends JController
 	}
 }
 
-?>
+
