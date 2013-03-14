@@ -1,63 +1,57 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view' );
- 
+jimport('joomla.application.component.view');
+
 class shipping_boxViewshipping_box extends JView
 {
-	function __construct( $config = array())
+	function __construct($config = array())
 	{
-		 parent::__construct( $config );
+		parent::__construct($config);
 	}
-    
-	function display($tpl = null)
-	{	
-		global $mainframe, $context; 
-		
-		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_BOXES') );
-   		 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_SHIPPING_BOX' ), 'redshop_shipping_box48' );   		
 
-   		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX(); 				
-		JToolBarHelper::deleteList();		
+	function display($tpl = null)
+	{
+		global $mainframe, $context;
+
+		$document = & JFactory::getDocument();
+		$document->setTitle(JText::_('COM_REDSHOP_BOXES'));
+
+		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_shipping_box48');
+
+		JToolBarHelper::addNewX();
+		JToolBarHelper::editListX();
+		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-	   
-	   	
-		$uri	=& JFactory::getURI();
-		$context = 'shipping_box_id';
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'shipping_box_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );		
-		 
-		$lists['order'] 	= $filter_order;  
-		$lists['order_Dir'] = $filter_order_Dir; 
-		$shipping_box			= & $this->get( 'Data');
-		$total				= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-				
 
-		$this->assignRef('user',		JFactory::getUser());	
-    	$this->assignRef('lists',		$lists);    
-  		$this->assignRef('shipping_box',	$shipping_box); 		
-    	$this->assignRef('pagination',	$pagination);
-    	$this->assignRef('request_url',	$uri->toString());    	
-    	parent::display($tpl);
-  }
+
+		$uri =& JFactory::getURI();
+		$context = 'shipping_box_id';
+		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_box_id');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$lists['order'] = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
+		$shipping_box = & $this->get('Data');
+		$total = & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+
+
+		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('lists', $lists);
+		$this->assignRef('shipping_box', $shipping_box);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
+		parent::display($tpl);
+	}
 }
+
 ?>

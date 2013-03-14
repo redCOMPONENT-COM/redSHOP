@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Standard Product Compare Layout">
-		<message>
-			<![CDATA[Standard Product Compare Layout For Redshop Product Compare]]>
-		</message>
-	</layout>
-	<state>
-		<name>Product Compare</name>
-		<description>Standard Product Compare layout for redSHOP Product Compare</description>				
-	</state>
+    <layout title="Standard Product Compare Layout">
+        <message>
+            <![CDATA[Standard Product Compare Layout For Redshop Product Compare]]>
+        </message>
+    </layout>
+    <state>
+        <name>Product Compare</name>
+        <description>Standard Product Compare layout for redSHOP Product Compare</description>
+    </state>
 </metadata>
  
