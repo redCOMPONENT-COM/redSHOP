@@ -11,7 +11,7 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . base
 
 // Include the syndicate functions only once
 $module_base = JURI::base() . 'modules/mod_redmasscart/';
-$document    =& JFactory::getDocument();
+$document    = JFactory::getDocument();
 $document->addStyleSheet($module_base . 'css/style.css');
 
 require(JModuleHelper::getLayoutPath('mod_redmasscart'));

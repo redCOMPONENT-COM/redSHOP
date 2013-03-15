@@ -179,7 +179,7 @@ if (!in_array('MagicToolboxMakeThumb', get_declared_classes()))
 			}
 
 			imagedestroy($this->data);
-			$this->data = & $out;
+			$this->data = $out;
 		}
 
 		function save()

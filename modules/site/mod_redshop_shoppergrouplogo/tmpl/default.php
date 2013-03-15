@@ -12,10 +12,10 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$uri    =& JURI::getInstance();
+$uri    = JURI::getInstance();
 $url    = $uri->root();
 $Itemid = JRequest::getVar('Itemid');
-$user   = & JFactory::getUser();
+$user   = JFactory::getUser();
 $option = 'com_redshop';
 //echo $user->id;
 echo "<div class='mod_redshop_shoppergrouplogo'>";

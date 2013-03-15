@@ -10,7 +10,7 @@
 ddefined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $Itemid = JRequest::getVar('Itemid');
 $option = JRequest::getVar('option');

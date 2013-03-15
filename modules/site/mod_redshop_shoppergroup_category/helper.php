@@ -249,7 +249,7 @@ class redmodMenuHelper
 	{
 
 		$db   = JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if ($user->id > 0)
 			$query = "SELECT count(*) as total,sg.* FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = " . $user->id . " AND FIND_IN_SET(" . $cid . ",sg.shopper_group_categories) GROUP BY sg.shopper_group_id ";
