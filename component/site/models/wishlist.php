@@ -24,7 +24,7 @@ class wishlistModelwishlist extends JModel
 	var $_comment = null;
 	var $_cdate = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
@@ -33,7 +33,7 @@ class wishlistModelwishlist extends JModel
 		//$this->_catid = ( int ) JRequest::getVar ( 'cid', 0 );
 	}
 
-	function getUserWishlist()
+	public function getUserWishlist()
 	{
 		$user = & JFactory::getUser();
 		$db   = JFactory::getDBO();
@@ -44,7 +44,7 @@ class wishlistModelwishlist extends JModel
 		return $db->loadObjectlist();
 	}
 
-	function getWishlistProduct()
+	public function getWishlistProduct()
 	{
 		$user = & JFactory::getUser();
 		$db   = JFactory::getDBO();
@@ -87,7 +87,7 @@ class wishlistModelwishlist extends JModel
 		}
 	}
 
-	function getWishlistProductFromSession()
+	public function getWishlistProductFromSession()
 	{
 		$db      = JFactory::getDBO();
 		$prod_id = "";
@@ -113,7 +113,7 @@ class wishlistModelwishlist extends JModel
 		return $rows;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
@@ -185,7 +185,7 @@ class wishlistModelwishlist extends JModel
 		return true;
 	}
 
-	function savewishlist()
+	public function savewishlist()
 	{
 
 		$cid        = JRequest :: getVar('cid', '', 'request', 'array');
@@ -213,7 +213,7 @@ class wishlistModelwishlist extends JModel
 		return true;
 	}
 
-	function check_user_wishlist_authority($userid, $wishlist_id)
+	public function check_user_wishlist_authority($userid, $wishlist_id)
 	{
 		$db    = JFactory::getDBO();
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
@@ -227,7 +227,7 @@ class wishlistModelwishlist extends JModel
 			return false;
 	}
 
-	function delwishlist($userid, $wishlist_id)
+	public function delwishlist($userid, $wishlist_id)
 	{
 		$db    = JFactory::getDBO();
 		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
@@ -253,7 +253,7 @@ class wishlistModelwishlist extends JModel
 			return false;
 	}
 
-	function mysessdelwishlist($wishlist_id)
+	public function mysessdelwishlist($wishlist_id)
 	{
 
 		if (!empty($_SESSION["no_of_prod"]))

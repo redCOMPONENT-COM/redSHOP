@@ -19,7 +19,7 @@ class reddesignModelreddesign extends JModel
 	var $_pagination = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		// redshop product detail
 		$this->_pid = (int) JRequest::getVar('pid', 0);
@@ -29,7 +29,7 @@ class reddesignModelreddesign extends JModel
 		parent::__construct();
 	}
 
-	function getDesignTypeImages($designtype_id)
+	public function getDesignTypeImages($designtype_id)
 	{
 		$db = & JFactory :: getDBO();
 
@@ -40,7 +40,7 @@ class reddesignModelreddesign extends JModel
 		return $db->loadObjectlist();
 	}
 
-	function getProductDetail($product_id, $field_name = "")
+	public function getProductDetail($product_id, $field_name = "")
 	{
 
 		$db = & JFactory :: getDBO();
@@ -57,7 +57,7 @@ class reddesignModelreddesign extends JModel
 		return $db->loadObject();
 	}
 
-	function getProductDesign($product_id)
+	public function getProductDesign($product_id)
 	{
 		$db = & JFactory :: getDBO();
 

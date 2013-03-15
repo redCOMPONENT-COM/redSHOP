@@ -21,7 +21,7 @@ class send_friendModelsend_friend extends JModel
 	var $_table_prefix = null;
 	var $_template = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -31,13 +31,13 @@ class send_friendModelsend_friend extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
-	function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
+	public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
 	{
 		$producthelper = new producthelper();
 		$redshopMail   = new redshopMail();

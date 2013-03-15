@@ -17,7 +17,7 @@ class product_ratingModelproduct_rating extends JModel
 	var $_data = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe;
 		parent::__construct();
@@ -29,7 +29,7 @@ class product_ratingModelproduct_rating extends JModel
 		$cid                 = JRequest::getInt('cid');
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$user                = JFactory::getUser();
 		$data['userid']      = $user->id;
@@ -60,7 +60,7 @@ class product_ratingModelproduct_rating extends JModel
 		return true;
 	}
 
-	function sendMailForReview($data)
+	public function sendMailForReview($data)
 	{
 		$this->store($data);
 		$producthelper = new producthelper();
@@ -115,7 +115,7 @@ class product_ratingModelproduct_rating extends JModel
 		}
 	}
 
-	function getuserfullname($uid)
+	public function getuserfullname($uid)
 	{
 		$db = & JFactory::getDBO();
 
@@ -126,7 +126,7 @@ class product_ratingModelproduct_rating extends JModel
 		return $userfullname;
 	}
 
-	function checkRatedProduct($pid, $uid)
+	public function checkRatedProduct($pid, $uid)
 	{
 		$db    = & JFactory::getDBO();
 		$query = "SELECT count(*) as rec from " . $this->_table_prefix . "product_rating WHERE product_id=" . $pid . " AND userid=" . $uid;

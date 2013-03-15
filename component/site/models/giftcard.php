@@ -20,7 +20,7 @@ class giftcardModelgiftcard extends JModel
 	var $_template = null;
 	var $_limit = null;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe;
 		parent::__construct();
@@ -31,13 +31,13 @@ class giftcardModelgiftcard extends JModel
 		$this->setId(( int ) $Id);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
-	function _buildQuery()
+	private function _buildQuery()
 	{
 		global $mainframe;
 
@@ -54,7 +54,7 @@ class giftcardModelgiftcard extends JModel
 		return $query;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty ($this->_data))
 		{
@@ -65,7 +65,7 @@ class giftcardModelgiftcard extends JModel
 		return $this->_data;
 	}
 
-	function getGiftcardTemplate()
+	public function getGiftcardTemplate()
 	{
 		global $mainframe, $context;
 
