@@ -12,7 +12,7 @@ if (!defined('_JEXEC')) die('Direct access to ' . basename(__FILE__) . ' is not 
 
 global $mainframe, $root_label, $jscook_type, $jscookMenu_style, $jscookTree_style, $mm_action_url, $urlpath, $Itemid, $redproduct_menu, $categorysorttype;
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $urlpath = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDBO();

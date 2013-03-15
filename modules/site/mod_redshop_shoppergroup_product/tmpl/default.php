@@ -11,16 +11,16 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $Itemid    = JRequest::getVar('Itemid');
-$user      = & JFactory::getUser();
+$user      = JFactory::getUser();
 $option    = 'com_redshop';
 $view      = JRequest::getCmd('view');
 $getoption = JRequest::getCmd('option');
 
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 JHTML::Stylesheet('products.css', 'modules/mod_redshop_shoppergroup_product/css/');
 // 	include redshop js file.
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php');

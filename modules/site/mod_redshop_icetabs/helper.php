@@ -35,7 +35,7 @@ abstract class modIceTabsHelper
 	{
 		if ($params->get('enable_cache'))
 		{
-			$cache =& JFactory::getCache('mod_icetabs');
+			$cache = JFactory::getCache('mod_icetabs');
 			$cache->setCaching(true);
 			$cache->setLifeTime($params->get('cache_time', 15) * 60);
 
@@ -111,7 +111,7 @@ abstract class modIceTabsHelper
 		// load js of modalbox
 		if ($params->get('load_jslibs', 'modal') && !defined('LOF_ADDED_MODALBOX') && $params->get('open_target', '') == 'modalbox')
 		{
-			$doc    =& JFactory::getDocument();
+			$doc    = JFactory::getDocument();
 			$string = '<script type="text/javascript">';
 			$string .= "
 				var box = {};

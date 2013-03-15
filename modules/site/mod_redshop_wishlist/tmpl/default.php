@@ -11,10 +11,10 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
-$user      =& JFactory::getUser();
+$user      = JFactory::getUser();
 $redhelper = new redhelper();
 $Itemid    = $redhelper->getItemid();
 //$option = JRequest::getVar('option');

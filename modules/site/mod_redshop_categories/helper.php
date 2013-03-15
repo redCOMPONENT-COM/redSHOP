@@ -17,7 +17,7 @@ class modProMenuHelper
 	function has_childs($category_id)
 	{
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (empty($GLOBALS['category_info'][$category_id]['has_childs']))
 		{
@@ -58,7 +58,7 @@ class modProMenuHelper
 		$category_tmp = Array();
 		for ($i = 0; $i < $size; $i++)
 		{
-			$category_tmp[$i] = & $categoryArr[$key[$i]];
+			$category_tmp[$i] = $categoryArr[$key[$i]];
 			$parent_ids[$i]   = $category_tmp[$i]['category_parent_id'];
 			if ($category_tmp[$i]["category_parent_id"] == $parent_selected)
 			{
@@ -130,7 +130,7 @@ class modProMenuHelper
 	function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove)
 	{
 		global $categorysorttype;
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (empty($GLOBALS['category_info']['category_tree']))
 		{
@@ -221,7 +221,7 @@ class modProMenuHelper
 
 	function product_count($category_id)
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!isset($GLOBALS['category_info'][$category_id]['product_count']))
 		{
@@ -248,7 +248,7 @@ class modProMenuHelper
 	function products_in_category($category_id, $params = '')
 	{
 		global $urlpath;
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$show_noofproducts = $params->get('show_noofproducts', 'yes');
 		$num               = $this->product_count($category_id);
@@ -405,7 +405,7 @@ class modProMenuHelper
 				if (!$Itemid)
 					$Itemid = JRequest::getVar('Itemid');
 
-				$uri =& JURI::getInstance();
+				$uri = JURI::getInstance();
 				$url = $uri->root();
 
 				$catlink = 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category_tmp[$row_list[$n]]["category_child_id"] . $append . '&Itemid=' . $Itemid;
@@ -424,7 +424,7 @@ class modProMenuHelper
 
 	function get_shoppergroup_cat($shopper_group_id)
 	{
-		$db    = & JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT shopper_group_categories  FROM #__redshop_shopper_group "
 			. "WHERE shopper_group_id='" . $shopper_group_id . "' ";
 		$db->setQuery($query);

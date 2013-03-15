@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 //global $mainframe;
-$mainframe =& JFactory::getApplication();
-$user =& JFactory::getUser();
+$mainframe = JFactory::getApplication();
+$user = JFactory::getUser();
 $email = JRequest::getVar('email');
 $name = JRequest::getVar('name');
 $option = JRequest::getVar('option');
@@ -21,7 +21,7 @@ if ($user->id != "")
 	$email = $user->email;
 	$name  = $user->name;
 }
-$params = & $mainframe->getParams($option);
+$params = $mainframe->getParams($option);
 
 ?>
 <form method="post" action="" name="subscribeForm" onsubmit="return validation();">

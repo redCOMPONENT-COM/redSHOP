@@ -204,7 +204,7 @@ if (!defined('CLASS_DG'))
 
 		if ($load_curr == 1)
 		{
-			$curr_uri = & JFactory::getURI();
+			$curr_uri = JFactory::getURI();
 
 			$curr_uri_query = $curr_uri->getQuery(true);
 

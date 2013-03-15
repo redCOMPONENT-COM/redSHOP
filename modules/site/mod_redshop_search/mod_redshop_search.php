@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $option = JRequest::getVar('option');
 
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $cart    = $session->get('cart');
 $count   = 0;
 if (isset($cart['idx']))
