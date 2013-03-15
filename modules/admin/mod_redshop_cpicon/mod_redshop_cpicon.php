@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$lang = & JFactory::getLanguage();
-$app = & JFactory::getApplication();
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet(JURI::root() . 'administrator/modules/mod_redshop_cpicon/styles.css');
 
 ?>
