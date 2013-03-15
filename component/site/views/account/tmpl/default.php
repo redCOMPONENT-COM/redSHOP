@@ -24,7 +24,7 @@ $redTemplate = new Redtemplate();
 $extra_field = new extra_field();
 $extraField = new extraField();
 $carthelper = new rsCarthelper();
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 

@@ -110,7 +110,7 @@ class CaptchaSecurityImages
 
 	function CaptchaSecurityImages($width = '120', $height = '40', $characters = '6', $captchaname = 'security_code')
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		$code = $this->generateCode($characters);
 		/* font size will be 75% of the image height */

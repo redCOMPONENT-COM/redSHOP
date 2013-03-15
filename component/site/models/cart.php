@@ -58,7 +58,7 @@ class cartModelcart extends JModel
 		}
 		$user = & JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$task    = JRequest::getVar('task');
 		if (!empty($cart))
@@ -174,7 +174,7 @@ class cartModelcart extends JModel
 	///////////////// Update cart ///////////////////////////
 	function update($data)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = & JFactory::getUser();
 
@@ -265,7 +265,7 @@ class cartModelcart extends JModel
 
 	function update_all($data)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = & JFactory::getUser();
 

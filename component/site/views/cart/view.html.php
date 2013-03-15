@@ -18,7 +18,7 @@ class cartViewcart extends JView
 		$redTemplate = new Redtemplate();
 		$user        = & JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$layout  = JRequest::getVar('layout');
 

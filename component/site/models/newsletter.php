@@ -31,7 +31,7 @@ class newsletterModelnewsletter extends JModel
 	function checksubscriptionbymail($email)
 	{
 		Global $mainframe;
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$and  = "";
 		if ($user->id)
 		{

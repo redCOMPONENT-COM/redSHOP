@@ -16,7 +16,7 @@ class loginViewlogin extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$params = & $mainframe->getParams('com_redshop');
 
@@ -28,7 +28,7 @@ class loginViewlogin extends JView
 
 		$layout = JRequest::getVar('layout', '');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$check = $model->CheckShopperGroup($user->username, $shoppergroupid);
 

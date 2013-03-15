@@ -21,7 +21,7 @@ $Itemid = JRequest::getVar('Itemid');
 $oid = JRequest::getInt('oid');
 
 $model = $this->getModel('split_payment');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $orderdetails = $model->getordersdetail($oid);
 

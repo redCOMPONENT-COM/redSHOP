@@ -29,7 +29,7 @@ class account_billtoViewaccount_billto extends JView
 		}
 		$user    =& JFactory::getUser();
 		$uri     =& JFactory::getURI();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		if (!is_array($auth))
 		{

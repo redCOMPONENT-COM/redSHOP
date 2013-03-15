@@ -33,7 +33,7 @@ class checkoutViewcheckout extends JView
 		$task    = JRequest::getVar('task');
 
 		$model   = $this->getModel('checkout');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		if ($issplit != '')
 		{
 			$session->set('issplit', $issplit);

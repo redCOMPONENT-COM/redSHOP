@@ -15,7 +15,7 @@ global $mainframe;
 JHTML::_('behavior.tooltip');
 $option = JRequest::getVar('option');
 
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $params = & $mainframe->getParams($option);
 
 $Itemid = JRequest::getInt('Itemid');

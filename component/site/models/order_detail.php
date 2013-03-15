@@ -101,7 +101,7 @@ class order_detailModelorder_detail extends JModel
 	{
 		$db = JFactory::getDBO();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
 		$order_payment_code     = $ccdata['creditcard_code'];

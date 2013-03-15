@@ -228,7 +228,7 @@ class extraField
 //		if(!$p_id){
 //			$p_id = JRequest::getVar('gid');
 //		}
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$url     = JURI::base();
 

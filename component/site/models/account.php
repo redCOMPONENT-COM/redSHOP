@@ -35,7 +35,7 @@ class accountModelaccount extends JModel
 
 		$user = & JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		$auth = $session->get('auth');
 
@@ -219,7 +219,7 @@ class accountModelaccount extends JModel
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$pid         = JRequest::getInt('pid', 0, '', 'int');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		// check is user have access to wishlist
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE user_id='" . $user->id . "' AND wishlist_id='" . $wishlist_id . "' ";
@@ -270,7 +270,7 @@ class accountModelaccount extends JModel
 
 	function removeTags($tagid)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$xref = "DELETE FROM " . $this->_table_prefix . "product_tags_xref "
 			. "WHERE tags_id = '" . $tagid . "' AND users_id='" . $user->id . "' ";
 		$this->_db->setQuery($xref);
@@ -336,7 +336,7 @@ class accountModelaccount extends JModel
 		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('pid', 0, '', 'int');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$query = "DELETE FROM " . $this->_table_prefix . "product_compare "
 			. "WHERE product_id = '" . $product_id . "' AND user_id='" . $user->id . "' ";

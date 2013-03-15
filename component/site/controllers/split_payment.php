@@ -23,7 +23,7 @@ class split_paymentController extends JController
 	{
 		parent::__construct($default);
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$model = $this->getModel('split_payment');
 	}
 

@@ -25,7 +25,7 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 

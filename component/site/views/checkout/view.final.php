@@ -16,7 +16,7 @@ class checkoutViewcheckout extends JView
 {
 	function display($tpl = null)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 
 		parent::display("checkoutfinal");

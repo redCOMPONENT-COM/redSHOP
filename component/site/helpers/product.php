@@ -379,7 +379,7 @@ class producthelper
 
 	function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -415,7 +415,7 @@ class producthelper
 
 	function getVatUserinfo($user_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -476,7 +476,7 @@ class producthelper
 
 	function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1573,7 +1573,7 @@ class producthelper
 
 	function getDiscountAmount($cart = array(), $user_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;

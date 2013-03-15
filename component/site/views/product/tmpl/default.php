@@ -21,7 +21,7 @@ $Itemid = JRequest::getVar('Itemid');
 $print = JRequest::getVar('print');
 $model = $this->getModel('product');
 $user = & JFactory::getUser();
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $document = & JFactory::getDocument();
 $dispatcher =& JDispatcher::getInstance();
 

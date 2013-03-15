@@ -143,7 +143,7 @@ class checkoutModelcheckout extends JModel
 		if ($gls_mobile)
 			$shop_id = $shop_id . '###' . $gls_mobile;
 		$user    =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		if (!$user->id && $auth['users_info_id'])
 		{
@@ -1437,7 +1437,7 @@ class checkoutModelcheckout extends JModel
 	function billingaddresses()
 	{
 		$user    =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$list    = array();
 
@@ -1468,7 +1468,7 @@ class checkoutModelcheckout extends JModel
 	function shippingaddresses()
 	{
 		$user    =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$list    = array();
 
@@ -1497,7 +1497,7 @@ class checkoutModelcheckout extends JModel
 
 	function validatepaymentccinfo()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
 
@@ -1844,14 +1844,14 @@ class checkoutModelcheckout extends JModel
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfiled', null);
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
 
 	}
 
 	function getCouponPrice()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons "
 			. "WHERE coupon_id='" . $cart['coupon_id'] . "' "
@@ -1886,7 +1886,7 @@ class checkoutModelcheckout extends JModel
 
 	function voucher($cart, $order_id)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		//$cart 	 		= $session->get( 'cart') ;
 		$user        =& JFactory::getUser();
 		$vouchertype = array();
@@ -1950,7 +1950,7 @@ class checkoutModelcheckout extends JModel
 
 	function coupon($cart, $order_id = 0)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		//$cart 	 	= $session->get( 'cart');
 		$user       =& JFactory::getUser();
 		$coupontype = array();

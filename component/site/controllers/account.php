@@ -115,7 +115,7 @@ class accountController extends JController
 	 */
 	function newsletterUnsubscribe()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 
