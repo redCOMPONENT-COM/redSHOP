@@ -26,7 +26,7 @@ class newsletterController extends JController
 	/*
 	 *  Method to subscribe newsletter
 	 */
-	function subscribe()
+	public function subscribe()
 	{
 		$post = JRequest::get('post');
 		$model = $this->getModel('newsletter');
@@ -74,7 +74,7 @@ class newsletterController extends JController
 	/*
 	 *  Method to unsubscribe newsletter
 	 */
-	function unsubscribe()
+	public function unsubscribe()
 	{
 		$post = JRequest::get('get');
 		$model = $this->getModel('newsletter');

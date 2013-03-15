@@ -24,7 +24,7 @@ class categoryController extends JController
 	/*
 	 *  Method to Export XML file
 	 */
-	function download()
+	public function download()
 	{
 		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
@@ -140,7 +140,7 @@ class categoryController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function downloadFile($fil, $p = null)
+	public function downloadFile($fil, $p = null)
 	{
 		// only show errors and remove warnings from corrupting file
 		error_reporting(E_ERROR);
@@ -240,7 +240,7 @@ class categoryController extends JController
 		return ((connection_status() == 0) and !connection_aborted());
 	}
 
-	function autofillcityname()
+	public function autofillcityname()
 	{
 		$db = JFactory::getDBO();
 		ob_clean();
@@ -251,7 +251,7 @@ class categoryController extends JController
 		exit;
 	}
 
-	function generateXMLExportFile()
+	public function generateXMLExportFile()
 	{
 		global $mainframe;
 		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');

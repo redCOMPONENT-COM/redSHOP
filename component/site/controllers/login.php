@@ -24,7 +24,7 @@ class loginController extends JController
 	/*
 	 *  setlogin function
 	 */
-	function setlogin()
+	public function setlogin()
 	{
 		$username = JRequest::getVar('username', '', 'method', 'username');
 		$password = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
@@ -105,7 +105,7 @@ class loginController extends JController
 	/*
 	 *  logout function
 	 */
-	function logout()
+	public function logout()
 	{
 
 		$mainframe = JFactory::getApplication();
