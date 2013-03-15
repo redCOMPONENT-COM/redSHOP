@@ -27,7 +27,7 @@ class send_friendController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function sendmail()
+	public function sendmail()
 	{
 		$post = JRequest::get('post');
 		$your_name = $post['your_name'];

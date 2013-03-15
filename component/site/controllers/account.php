@@ -25,7 +25,7 @@ class accountController extends JController
 	 * Method to edit created Tag
 	 *
 	 */
-	function editTag()
+	public function editTag()
 	{
 		global $mainframe;
 		$Itemid = JRequest::getVar('Itemid');
@@ -51,7 +51,7 @@ class accountController extends JController
 	 * Method to send created wishlist
 	 *
 	 */
-	function sendWishlist()
+	public function sendWishlist()
 	{
 
 		$post = JRequest::get('post');
@@ -95,7 +95,7 @@ class accountController extends JController
 	/*
 	 *  Method to subscribe newsletter
 	 */
-	function newsletterSubscribe()
+	public function newsletterSubscribe()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
@@ -110,7 +110,7 @@ class accountController extends JController
 	/*
 	 *  Method to unsubscribe newsletter
 	 */
-	function newsletterUnsubscribe()
+	public function newsletterUnsubscribe()
 	{
 		$user =& JFactory::getUser();
 		$option = JRequest::getVar('option');

@@ -27,7 +27,7 @@ class price_filterController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function display()
+	public function display()
 	{
 		parent::display();
 	}

@@ -24,7 +24,7 @@ class productController extends JController
 {
 
 
-	function displayProductaddprice()
+	public function displayProductaddprice()
 	{
 		ob_clean();
 		$get = JRequest::get('get');
@@ -79,7 +79,7 @@ class productController extends JController
 		exit;
 	}
 
-	function writeReview()
+	public function writeReview()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
@@ -125,7 +125,7 @@ class productController extends JController
 	}
 
 
-	function displaySubProperty()
+	public function displaySubProperty()
 	{
 		$propid = $subpropid = array();
 		$get = JRequest::get('get');
@@ -156,7 +156,7 @@ class productController extends JController
 		exit;
 	}
 
-	function displayAdditionImage()
+	public function displayAdditionImage()
 	{
 		$url = JURI::base();
 		$get = JRequest::get('get');
@@ -214,7 +214,7 @@ class productController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function addtowishlist()
+	public function addtowishlist()
 	{
 		ob_clean();
 		global $mainframe;
@@ -380,7 +380,7 @@ class productController extends JController
 	 * @return void
 	 */
 
-	function addProductTags()
+	public function addProductTags()
 	{
 
 		global $mainframe;
@@ -474,7 +474,7 @@ class productController extends JController
 	 * @access public
 	 * @return product compare list through ajax
 	 */
-	function addtocompare()
+	public function addtocompare()
 	{
 
 		ob_clean();
@@ -535,7 +535,7 @@ class productController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function removecompare()
+	public function removecompare()
 	{
 		$post = JRequest::get('REQUEST');
 
@@ -552,7 +552,7 @@ class productController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function downloadProduct()
+	public function downloadProduct()
 	{
 		$Itemid = JRequest::getVar('Itemid');
 		$model = $this->getModel('product');
@@ -600,7 +600,7 @@ class productController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function Download()
+	public function Download()
 	{
 		$post = JRequest::get('POST');
 
@@ -729,7 +729,7 @@ class productController extends JController
 	 * @access public
 	 * @return file data
 	 */
-	function readfile_chunked($filename, $retbytes = true)
+	public function readfile_chunked($filename, $retbytes = true)
 	{
 
 		$chunksize = 10 * (1024 * 1024); // how many bytes per chunk
@@ -768,7 +768,7 @@ class productController extends JController
 	 * @access public
 	 * @return filename on successfull file upload
 	 */
-	function ajaxupload()
+	public function ajaxupload()
 	{
 		$uploaddir = JPATH_COMPONENT_SITE . DS . 'assets' . DS . 'document' . DS . 'product' . DS;
 		$name = JRequest::getVar('mname');
@@ -793,7 +793,7 @@ class productController extends JController
 	 * @access public
 	 * @return filename on successfull file download
 	 */
-	function downloadDocument()
+	public function downloadDocument()
 	{
 		$fname = JRequest::getVar('fname', '', 'request', 'string');
 		$fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
@@ -856,7 +856,7 @@ class productController extends JController
 	}
 
 
-	function gotochild()
+	public function gotochild()
 	{
 
 		$producthelper = new producthelper();
@@ -882,7 +882,7 @@ class productController extends JController
 		$this->setRedirect($link);
 	}
 
-	function gotonavproduct()
+	public function gotonavproduct()
 	{
 
 		$producthelper = new producthelper();
@@ -908,7 +908,7 @@ class productController extends JController
 		$this->setRedirect($link);
 	}
 
-	function addNotifystock()
+	public function addNotifystock()
 	{
 		ob_clean();
 		$model = $this->getModel('product');
