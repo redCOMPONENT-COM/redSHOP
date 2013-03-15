@@ -24,10 +24,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
  */
 class registrationController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/**
 	 * newregistration function

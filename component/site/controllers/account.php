@@ -19,10 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class accountController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/**
 	 * Method to edit created Tag

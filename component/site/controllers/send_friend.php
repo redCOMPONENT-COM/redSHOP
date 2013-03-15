@@ -19,10 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class send_friendController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/**
 	 * sendmail function
