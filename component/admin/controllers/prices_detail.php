@@ -114,4 +114,4 @@ class prices_detailController extends JController
 	}
 }
 
-?>
+

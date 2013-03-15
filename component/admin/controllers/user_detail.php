@@ -198,4 +198,4 @@ class user_detailController extends JController
 	}
 }
 
-?>
+

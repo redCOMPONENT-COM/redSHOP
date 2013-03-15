@@ -31,4 +31,4 @@ class shipping_ratecontroller extends JController
 	}
 }
 
-?>
+
