@@ -10,11 +10,11 @@
 defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controller');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'PDFMerger.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'PDFMerger.php';
 
 class orderController extends JController
 {
@@ -245,7 +245,7 @@ class orderController extends JController
 		$extrafile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'extras' . DS . 'order_export.php';
 		if (file_exists($extrafile))
 		{
-			require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras' . DS . 'order_export.php');
+			require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras' . DS . 'order_export.php';
 			$orderExport = new orderExport();
 			$orderExport->createOrderExport();
 			exit;
@@ -381,7 +381,7 @@ class orderController extends JController
 		$extrafile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'extras' . DS . 'order_export.php';
 		if (file_exists($extrafile))
 		{
-			require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras' . DS . 'order_export.php');
+			require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras' . DS . 'order_export.php';
 			$orderExport = new orderExport();
 			$orderExport->createOrderExport();
 			exit;

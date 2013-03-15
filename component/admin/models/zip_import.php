@@ -15,9 +15,9 @@ jimport('joomla.installer.helper');
 
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
-//require_once( JPATH_COMPONENT.DS.'helpers'.DS.'reader.php' );
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php';
+//require_once  JPATH_COMPONENT.DS.'helpers'.DS.'reader.php' ;
 
 
 class zip_importModelzip_import extends JModel

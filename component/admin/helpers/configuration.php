@@ -9,7 +9,7 @@
 
 if (!defined('_VALID_MOS') && !defined('_JEXEC'))
 	die ('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
 
 class Redconfiguration
 {
@@ -76,7 +76,7 @@ class Redconfiguration
 		{
 			return false;
 		}
-		require_once ($this->_configpath);
+		require_once $this->_configpath;
 		return true;
 	}
 
@@ -261,7 +261,7 @@ class Redconfiguration
 		{
 			if ($this->isTMPFileWritable())
 			{
-				require_once ($this->_config_tmp_path);
+				require_once $this->_config_tmp_path;
 				return true;
 			}
 		}
@@ -288,7 +288,7 @@ class Redconfiguration
 		{
 			if ($this->isDEFFileWritable())
 			{
-				require_once ($this->_config_def_path);
+				require_once $this->_config_def_path;
 				return true;
 			}
 		}
@@ -873,7 +873,7 @@ class Redconfiguration
 	{
 		if (empty($this->_country_list))
 		{
-			require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+			require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 			$redhelper = new redhelper();
 
 			$countries = array();

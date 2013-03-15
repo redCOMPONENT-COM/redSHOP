@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php';
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php';
 
 class shopper_group_detailVIEWshopper_group_detail extends JView
 {

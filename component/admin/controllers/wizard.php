@@ -34,7 +34,7 @@ class wizardController extends JController
 
 			if ($this->isWritable())
 			{
-				require_once ($this->_temp_file);
+				require_once $this->_temp_file;
 				return true;
 			}
 		}

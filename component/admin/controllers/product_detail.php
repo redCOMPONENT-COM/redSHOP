@@ -12,8 +12,8 @@ defined('_JEXEC') or die ('Restricted access');
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 
 class product_detailController extends JController
 {
@@ -76,7 +76,7 @@ class product_detailController extends JController
 		if (USE_CONTAINER == 1)
 			$stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
 		////////// include extra field class  /////////////////////////////////////
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 		////////// include extra field class  /////////////////////////////////////
 
 

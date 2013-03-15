@@ -10,11 +10,11 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
 
 $producthelper = new producthelper();
 $carthelper = new rsCarthelper();
@@ -1085,7 +1085,7 @@ $session->set('cart', $cart); ?>
 // order status log end here
 // reddesign
 $live_site = JURI::base();
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'helper.php';
 $reddesignhelper = new reddesignhelper();
 $CheckRedDesign = $reddesignhelper->CheckIfRedDesign();
 if ($CheckRedDesign)

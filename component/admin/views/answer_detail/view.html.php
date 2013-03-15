@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view' );
 
-require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' );
+require_once  JPATH_COMPONENT_SITE.DS.'helpers'.DS.'product.php' ;
 
 class answer_detailVIEWanswer_detail extends JView
 {

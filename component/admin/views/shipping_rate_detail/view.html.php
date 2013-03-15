@@ -10,9 +10,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php';
 
 class shipping_rate_detailViewshipping_rate_detail extends JView
 {

@@ -12,8 +12,8 @@ jimport('joomla.application.component.model');
 
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php';
 class configurationModelconfiguration extends JModel
 {
 	var $_id = null;

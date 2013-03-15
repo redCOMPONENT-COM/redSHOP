@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 jimport('joomla.application.component.view');
 $context = 'ddd';
 ;
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php';
 class stockroom_listingViewstockroom_listing extends JView
 {
 	function __construct($config = array())

@@ -42,7 +42,7 @@ class stateViewstate extends JView
 
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
-		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+		require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
 		$redhelper = new redhelper();
 		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);

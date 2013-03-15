@@ -11,9 +11,9 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 
 
 class order_detailController extends JController
@@ -435,8 +435,8 @@ class order_detailController extends JController
 
 		global $mainframe;
 		$session =& JFactory::getSession();
-		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
+		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 		$redconfig = new Redconfiguration();
 		$model = $this->getModel();
 		$order_functions = new order_functions();
@@ -562,7 +562,7 @@ class order_detailController extends JController
 		$request = JRequest::get('request');
 
 
-		require_once (JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions();
 
 		JPluginHelper::importPlugin('redshop_payment');

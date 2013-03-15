@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class template_detailVIEWtemplate_detail extends JView
 {
 	function display($tpl = null)

@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
 
 jimport('joomla.application.component.view');
 
