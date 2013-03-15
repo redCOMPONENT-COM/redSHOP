@@ -19,7 +19,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 class checkoutViewcheckout extends JView
 {
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 		$shippinghelper  = new shipping();

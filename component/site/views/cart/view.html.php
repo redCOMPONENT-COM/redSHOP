@@ -11,7 +11,7 @@ jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 class cartViewcart extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 		// Request variables

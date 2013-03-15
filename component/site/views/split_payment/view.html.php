@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 class split_paymentViewsplit_payment extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 

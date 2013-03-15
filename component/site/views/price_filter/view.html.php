@@ -12,7 +12,7 @@ jimport('joomla.application.component.view');
 
 class price_filterViewprice_filter extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$prdlist = $this->get('Data');
 //		$prdlist = JRequest::getVar('prdlist');
