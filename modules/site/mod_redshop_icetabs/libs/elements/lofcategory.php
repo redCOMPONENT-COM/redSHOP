@@ -28,7 +28,7 @@ class JFormFieldLofCategory extends JFormField
 	 */
 	function getInput()
 	{
-		$db                   = & JFactory::getDBO();
+		$db                   = JFactory::getDBO();
 		$data                 = JHtml::_('category.options', 'com_content');
 		$categories           = array();
 		$categories[0]        = new stdClass();

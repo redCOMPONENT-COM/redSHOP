@@ -22,7 +22,7 @@ class JFormFieldRedshopcategory extends JFormField
 
 	function getInput()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_redshop')) return JText::_('COM_REDSHOP_REDSHOP_IS_NOT_INSTALLED');
 		if (!is_array($this->value))
 		{

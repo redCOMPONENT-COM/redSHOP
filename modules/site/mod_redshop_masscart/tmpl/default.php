@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
-$u =& JFactory::getURI();
+$u = JFactory::getURI();
 
 ?>
 

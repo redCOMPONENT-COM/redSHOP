@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$user           =& JFactory::getUser();
+$user           = JFactory::getUser();
 $count          = trim($params->get('count', 1));
 $image          = trim($params->get('image', 0));
 $show_price     = trim($params->get('show_price', 0));
