@@ -11,8 +11,8 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-//require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
-//require_once( JPATH_COMPONENT_SITE.DS.'helpers'.DS.'helper.php' );
+//require_once  JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' ;
+//require_once  JPATH_COMPONENT_SITE.DS.'helpers'.DS.'helper.php' ;
 
 class quotationViewquotation extends JView
 {

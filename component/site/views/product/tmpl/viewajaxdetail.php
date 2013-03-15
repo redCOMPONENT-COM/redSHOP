@@ -10,9 +10,9 @@
 defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 $producthelper = new producthelper();
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 $extraField = new extraField ();
 
 JHTMLBehavior::modal();

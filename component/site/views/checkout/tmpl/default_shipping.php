@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die ('restricted access');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

@@ -10,8 +10,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
 /**
  * checkout Controller
  *
@@ -627,7 +627,7 @@ class checkoutController extends JController
 	function captcha()
 	{
 
-		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
+		require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php';
 
 		$width = JRequest::getInt('width', 120); //isset($_GET['width']) ? $_GET['width'] : '120';
 		$height = JRequest::getInt('height', 40); //isset($_GET['height']) ? $_GET['height'] : '40';

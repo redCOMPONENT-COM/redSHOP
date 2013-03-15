@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php';
 /*
  *  cron class
  */

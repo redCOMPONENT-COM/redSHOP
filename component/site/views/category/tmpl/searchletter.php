@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die ('restricted access');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.application.module.helper');

@@ -261,7 +261,7 @@ class categoryController extends JController
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
 		if ($xmlexport_id)
 		{
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php';
 
 			$xmlHelper = new xmlHelper();
 			$xmlHelper->writeXMLExportFile($xmlexport_id);

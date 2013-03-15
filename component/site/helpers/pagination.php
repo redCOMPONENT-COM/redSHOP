@@ -35,7 +35,7 @@ class redPagination extends JPagination
 			if (file_exists($templatefile_path))
 			{
 
-				require_once ($templatefile_path);
+				require_once $templatefile_path;
 
 				if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 				{

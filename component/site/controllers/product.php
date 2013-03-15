@@ -10,8 +10,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
 
 /**
  * Product Controller
@@ -481,7 +481,7 @@ class productController extends JController
 	{
 
 		ob_clean();
-		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+		require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
 
 		$producthelper = new producthelper ();
 		// getVariables

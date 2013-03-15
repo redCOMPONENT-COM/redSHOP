@@ -21,8 +21,8 @@ define('FPDI_VERSION','1.3.1');
 
 
 
-require_once('fpdf_tpl.php');
-require_once('fpdi_pdf_parser.php');
+require_once 'fpdf_tpl.php';
+require_once 'fpdi_pdf_parser.php';
 
 
 class FPDI extends FPDF_TPL {
