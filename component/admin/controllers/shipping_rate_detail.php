@@ -149,4 +149,4 @@ class shipping_rate_detailController extends JController
 	}
 }
 
-?>
+

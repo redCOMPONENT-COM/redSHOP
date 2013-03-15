@@ -108,4 +108,4 @@ class state_detailController extends JController
 
 }
 
-?>
+

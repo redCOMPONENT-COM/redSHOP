@@ -9,25 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-
 jimport('joomla.application.component.controller');
 
 class manufacturerController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
-	}
-
-	function display()
-	{
-
-		parent::display();
 	}
 
 	/**
@@ -36,9 +24,8 @@ class manufacturerController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function saveorder()
+	public function saveorder()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
