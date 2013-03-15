@@ -19,10 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class account_shiptoController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 	/**
 	 * Method to save Shipping Address
 	 *
