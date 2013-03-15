@@ -24,10 +24,7 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
  */
 class quotation_detailController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/**
 	 * update status function
@@ -68,7 +65,7 @@ class quotation_detailController extends JController
 
 		$quotationHelper = new quotationHelper;
 		$model = $this->getmodel();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$redhelper = new redhelper;
 
 		$cart = array();

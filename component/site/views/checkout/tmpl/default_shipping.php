@@ -17,7 +17,7 @@ $redTemplate = new Redtemplate();
 $carthelper = new rsCarthelper();
 
 $post = JRequest::get('POST');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $shippingbox_template = $redTemplate->getTemplate("shipping_box");
 if (count($shippingbox_template) > 0 && $shippingbox_template[0]->template_desc)

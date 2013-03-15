@@ -5571,7 +5571,7 @@ class rsCarthelper
 
 	function update($data)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = & JFactory::getUser();
 

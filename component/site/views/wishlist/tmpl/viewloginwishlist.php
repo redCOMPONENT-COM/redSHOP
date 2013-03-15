@@ -26,7 +26,7 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $session = & JFactory::getSession();
 $auth = $session->get('auth');
 ?>

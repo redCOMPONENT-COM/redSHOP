@@ -843,7 +843,7 @@ class rsUserhelper
 
 	function newsletterUnsubscribe($email = "")
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$and  = "";
 		if (DEFAULT_NEWSLETTER != "")
 		{

@@ -140,7 +140,7 @@ $ReceiptTemplate = $o->text;
 echo eval("?>" . $ReceiptTemplate . "<?php ");
 
 # handle order total for split payment
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $issplit = $session->get('issplit');
 if ($issplit)
 {

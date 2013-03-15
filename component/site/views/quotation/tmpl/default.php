@@ -16,7 +16,7 @@ $carthelper = new rsCarthelper();
 $Itemid = JRequest::getVar('Itemid');
 $option = JRequest::getVar('option');
 $return = JRequest::getVar('return');
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 
 $detail = $this->detail;

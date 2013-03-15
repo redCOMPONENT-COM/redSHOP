@@ -20,7 +20,7 @@ $tagid = JRequest::getInt('tagid');
 $edit = JRequest::getVar('edit');
 
 $model = $this->getModel('account');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_TAGS');
 if ($this->params->get('show_page_heading', 1))

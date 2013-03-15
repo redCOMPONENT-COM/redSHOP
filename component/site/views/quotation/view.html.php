@@ -25,7 +25,7 @@ class quotationViewquotation extends JView
 
 		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getVar('Itemid');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$return  = JRequest::getVar('return');
 //		if(!DEFAULT_QUOTATION_MODE)

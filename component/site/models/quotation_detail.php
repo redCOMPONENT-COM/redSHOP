@@ -43,7 +43,7 @@ class quotation_detailModelquotation_detail extends JModel
 		global $mainframe;
 
 		$Itemid  = JRequest::getVar("Itemid");
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
 //		$user = &JFactory::getUser();
 

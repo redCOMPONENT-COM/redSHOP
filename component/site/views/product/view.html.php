@@ -45,7 +45,7 @@ class productViewproduct extends JView
 		$menu_robots           = $params->get('robots');
 
 		$model   = $this->getModel('product');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		if (!$pid)
 		{
