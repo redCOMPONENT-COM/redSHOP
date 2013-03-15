@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
 
 jimport('joomla.application.component.view');
@@ -50,7 +50,7 @@ class categoryViewcategory extends JView
 			$this->setLayout('detail');
 		}
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);

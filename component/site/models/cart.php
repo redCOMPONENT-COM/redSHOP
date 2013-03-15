@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
@@ -58,7 +58,7 @@ class cartModelcart extends JModel
 		}
 		$user = & JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$task    = JRequest::getVar('task');
 		if (!empty($cart))
@@ -94,7 +94,7 @@ class cartModelcart extends JModel
 		if (IS_PRODUCT_RESERVE)
 		{
 			$stockroomhelper = new rsstockroomhelper();
-			$session         =& JFactory::getSession();
+			$session         = JFactory::getSession();
 			$db              = JFactory::getDbo();
 			$cart            = $session->get('cart');
 			$session_id      = session_id();
@@ -139,7 +139,7 @@ class cartModelcart extends JModel
 	 */
 	function empty_cart()
 	{
-		$session         =& JFactory::getSession();
+		$session         = JFactory::getSession();
 		$stockroomhelper = new rsstockroomhelper();
 
 		$cart = $session->get('cart');
@@ -174,7 +174,7 @@ class cartModelcart extends JModel
 	///////////////// Update cart ///////////////////////////
 	function update($data)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = & JFactory::getUser();
 
@@ -265,7 +265,7 @@ class cartModelcart extends JModel
 
 	function update_all($data)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = & JFactory::getUser();
 
@@ -359,7 +359,7 @@ class cartModelcart extends JModel
 	function delete($cartElement)
 	{
 		$stockroomhelper = new rsstockroomhelper();
-		$session         =& JFactory::getSession();
+		$session         = JFactory::getSession();
 
 		$cart = $session->get('cart');
 		if (array_key_exists($cartElement, $cart))
@@ -629,7 +629,7 @@ class cartModelcart extends JModel
 	{
 		$imagename = '';
 		$type      = '';
-		$session   =& JFactory::getSession();
+		$session   = JFactory::getSession();
 		$cart      = $session->get('cart');
 
 		$generateAttributeCart = array();

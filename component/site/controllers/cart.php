@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -84,7 +84,7 @@ class cartController extends JController
 		/* store cart entry in db */
 
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		if (isset($cart['AccessoryAsProduct']))
 		{
@@ -210,7 +210,7 @@ class cartController extends JController
 		$producthelper = new producthelper();
 		$calArr = $this->_carthelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$discount_amount = 0;
 		$voucherDiscount = 0;
 		$couponDiscount = 0;
@@ -278,7 +278,7 @@ class cartController extends JController
 	 */
 	function coupon()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -320,7 +320,7 @@ class cartController extends JController
 	 */
 	function voucher()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -508,7 +508,7 @@ class cartController extends JController
 		$cart = $model->changeAttribute($post);
 		$cart = $this->_carthelper->modifyCart($cart, $user_id);
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set('cart', $cart);
 		$this->_carthelper->cartFinalCalculation();        ?>
 

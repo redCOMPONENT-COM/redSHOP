@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -21,10 +21,7 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
  */
 class newsletterController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/*
 	 *  Method to subscribe newsletter

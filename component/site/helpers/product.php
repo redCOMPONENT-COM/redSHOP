@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
@@ -47,7 +47,7 @@ class producthelper
 		$this->_db           = & JFactory :: getDBO();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper   = new rsUserhelper();
-		$this->_session      =& JFactory::getSession();
+		$this->_session      = JFactory::getSession();
 //	  	$this->_carthelper 		= new rsCarthelper();
 	}
 
@@ -267,7 +267,7 @@ class producthelper
 		$userArr = $this->_session->get('rs_user');
 		if ($user_id == 0)
 		{
-			$user    =& JFactory::getUser();
+			$user    = JFactory::getUser();
 			$user_id = $user->id;
 		}
 		$proinfo = array();
@@ -379,7 +379,7 @@ class producthelper
 
 	function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -415,7 +415,7 @@ class producthelper
 
 	function getVatUserinfo($user_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -476,7 +476,7 @@ class producthelper
 
 	function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1573,7 +1573,7 @@ class producthelper
 
 	function getDiscountAmount($cart = array(), $user_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1798,7 +1798,7 @@ class producthelper
 
 	function getApplyVatOrNot($data_add = "", $user_id = 0)
 	{
-		$user            =& JFactory::getUser();
+		$user            = JFactory::getUser();
 		$userInformation = array();
 		if ($user_id == 0)
 		{
@@ -1835,7 +1835,7 @@ class producthelper
 
 	function getApplyattributeVatOrNot($data_add = "", $user_id = 0)
 	{
-		$user            =& JFactory::getUser();
+		$user            = JFactory::getUser();
 		$userInformation = array();
 		if ($user_id == 0)
 		{
@@ -5724,7 +5724,7 @@ class producthelper
 		if (MY_WISHLIST != 0)
 		{
 
-			$u           =& JFactory::getURI();
+			$u           = JFactory::getURI();
 			$user        = & JFactory::getUser();
 			$my_wishlist = '';
 

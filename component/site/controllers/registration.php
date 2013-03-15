@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
@@ -24,10 +24,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
  */
 class registrationController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/**
 	 * newregistration function

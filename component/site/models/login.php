@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -40,7 +40,7 @@ class loginModellogin extends JModel
 
 	function ShopperGroupDetail($sid = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($sid == 0)
 			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__" . TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;
 		else
