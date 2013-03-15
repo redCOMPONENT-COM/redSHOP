@@ -10,13 +10,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php';
 class manufacturer_detailVIEWmanufacturer_detail extends JView
 {
 	function display($tpl = null)
 	{
 
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 

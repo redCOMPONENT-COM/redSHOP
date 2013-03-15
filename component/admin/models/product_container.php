@@ -185,7 +185,7 @@ class product_containerModelproduct_container extends JModel
 
 	function product_template($template_id, $product_id, $section)
 	{
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 		$query = 'SELECT template_desc FROM ' . $this->_table_prefix . 'template  WHERE template_id =' . $template_id;
 
 		if ($section == 1)

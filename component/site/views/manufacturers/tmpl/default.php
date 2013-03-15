@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 $producthelper = new producthelper();
 $redTemplate = new Redtemplate();
 $extraField = new extraField();

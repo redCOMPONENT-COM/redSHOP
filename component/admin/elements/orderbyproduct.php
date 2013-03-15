@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
-//require_once( JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php' );
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+//require_once  JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php' ;
 
 /**
  * Renders a searchtype Form

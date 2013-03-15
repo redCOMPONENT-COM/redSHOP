@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
 class split_paymentModelsplit_payment extends JModel
 {
@@ -56,24 +56,24 @@ class split_paymentModelsplit_payment extends JModel
 		/*$session =&JFactory::getSession();
    		$issplit=$session->get('issplit') ;
    		 		
-		require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 		$field = new extraField ( );
 		
 		if (GOOGLE_ANA_TRACKER_KEY != "") {
-			require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php');
+			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
 		}
 		
 		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-		require_once ($adminpath . DS . 'helpers' . DS . 'shipping.php');
+		require_once $adminpath . DS . 'helpers' . DS . 'shipping.php';
 		$objshipping = new shipping ( );
 		
 		include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 		$producthelper = new producthelper ( );
 		
-		require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 		$field = new extraField ( );
 		
-		require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 		$ps = new producthelper ( );*/
 
 		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';

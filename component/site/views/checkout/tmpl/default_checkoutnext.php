@@ -28,7 +28,7 @@ $user = JFactory::getUser();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');

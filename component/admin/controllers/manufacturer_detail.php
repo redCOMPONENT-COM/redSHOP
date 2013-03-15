@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controller');
 ////////// include extra field class  /////////////////////////////////////
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 ////////// include extra field class  /////////////////////////////////////
 
 class manufacturer_detailController extends JController

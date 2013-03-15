@@ -10,9 +10,9 @@
 defined('_JEXEC') or die ('restricted access');
 
 JHTML::_('behavior.tooltip');
-//require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'configuration.php' );
+//require_once  JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'configuration.php' ;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 $order_functions = new order_functions();
 
 $url = JURI::base();

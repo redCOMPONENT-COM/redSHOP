@@ -10,7 +10,7 @@ $my_path = dirname(__FILE__);
 if (file_exists($my_path . "/../../../../configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/../../../../configuration.php");
-	require_once($my_path . "/../../../../configuration.php");
+	require_once $my_path . "/../../../../configuration.php";
 }
 else
 {
@@ -24,8 +24,8 @@ define('JPATH_BASE', $absolute_path);
 define('DS', DIRECTORY_SEPARATOR);
 
 // Load the framework
-require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
+require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
+require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
 $mainframe = & JFactory::getApplication('site');
@@ -34,7 +34,7 @@ $mainframe = & JFactory::getApplication('site');
 $mainframe->initialise();
 /*** END of Joomla config ***/
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php';
 
 class xmlcron
 {

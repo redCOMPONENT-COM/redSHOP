@@ -58,7 +58,7 @@ class category_detailController extends JController
 		$post ['category_id'] = $cid [0];
 		$model = $this->getModel('category_detail');
 		////////// include extra field class  /////////////////////////////////////
-//		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
+//		require_once  JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' ;
 		////////// include extra field class  /////////////////////////////////////
 
 		if ($row = $model->store($post))

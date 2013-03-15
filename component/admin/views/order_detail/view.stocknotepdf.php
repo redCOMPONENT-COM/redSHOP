@@ -11,10 +11,10 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
 //
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 class order_detailVIEWorder_detail extends JView
 {
 	function display($tpl = null)

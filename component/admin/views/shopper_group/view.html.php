@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php';
 class shopper_groupViewshopper_group extends JView
 {
 	function __construct($config = array())

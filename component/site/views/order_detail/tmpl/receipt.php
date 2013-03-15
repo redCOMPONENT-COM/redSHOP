@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 
@@ -153,7 +153,7 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 # google analytics code added
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
 $googleanalytics = new googleanalytics();
 
 $analytics_status = $order->analytics_status;

@@ -17,7 +17,7 @@
 //  limitations under the License.
 //
 
-require_once('pdf_parser.php');
+require_once 'pdf_parser.php';
 
 class fpdi_pdf_parser extends pdf_parser {
 

@@ -22,7 +22,7 @@ class orderreddesignVieworderreddesign extends JView
 		global $mainframe, $context;
 
 
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php';
 		$order_function = new order_functions();
 
 		$document = & JFactory::getDocument();

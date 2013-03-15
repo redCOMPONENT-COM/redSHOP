@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php';
 
 class attribute_set_detailController extends JController
 {
@@ -48,7 +48,7 @@ class attribute_set_detailController extends JController
 		//$post ['attribute_set_id'] = $cid [0];
 
 		////////// include extra field class  /////////////////////////////////////
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 		////////// include extra field class  /////////////////////////////////////
 
 		$model = $this->getModel('attribute_set_detail');

@@ -26,14 +26,14 @@
    		JRequest::setVar('view','redshop' );
    		JRequest::setVar('layout','noconfig' );
    }else{
-  	 require_once( $configpath );
+  	 require_once  $configpath ;
    }
-   require_once( JPATH_COMPONENT.DS.'helpers'.DS.'configuration.php' );
-   require_once( JPATH_COMPONENT.DS.'helpers'.DS.'template.php' );
-   require_once( JPATH_COMPONENT.DS.'helpers'.DS.'stockroom.php' );
-   require_once( JPATH_COMPONENT.DS.'helpers'.DS.'economic.php' );
-   require_once( JPATH_COMPONENT.DS.'helpers'.DS.'access_level.php' );
-   require_once(JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php');
+   require_once  JPATH_COMPONENT.DS.'helpers'.DS.'configuration.php' ;
+   require_once  JPATH_COMPONENT.DS.'helpers'.DS.'template.php' ;
+   require_once  JPATH_COMPONENT.DS.'helpers'.DS.'stockroom.php' ;
+   require_once  JPATH_COMPONENT.DS.'helpers'.DS.'economic.php' ;
+   require_once  JPATH_COMPONENT.DS.'helpers'.DS.'access_level.php' ;
+   require_once JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php';
 
    $redhelper= new redhelper();
    $redhelper->removeShippingRate();
@@ -76,7 +76,7 @@
 	   endif;
 
 
-  	   require_once( JPATH_COMPONENT.DS.'helpers'.DS.'wizard' .DS.'wizard.php' );
+  	   require_once  JPATH_COMPONENT.DS.'helpers'.DS.'wizard' .DS.'wizard.php' ;
 	   $redSHOPWizard = new redSHOPWizard();
 	   $redSHOPWizard->initialize();
 	   return true;
@@ -122,14 +122,14 @@ if($controller!="search" && $controller!="order_detail" && $controller!="wizard"
 	if($controller!="redshop" && $controller!="configuration" && $controller!="product_detail" && $controller!="country_detail" && $controller!="state_detail" && $controller!="category_detail" && $controller!="fields_detail" && $controller!="container_detail" && $controller!="stockroom_detail" && $controller!="shipping_detail" && $controller!="user_detail" && $controller!="template_detail" && $controller!="voucher_detail" && $controller!="textlibrary_detail" && $controller!="manufacturer_detail" && $controller!="rating_detail" && $controller!="newslettersubscr_detail" && $controller!="discount_detail" && $controller!="mail_detail" && $controller!="newsletter_detail" && $controller!="media_detail" && $controller!="shopper_group_detail" && $controller!="sample_detail" && $controller!="attributeprices" && $controller!="attributeprices_detail" && $controller!="prices_detail" && $controller!="wrapper_detail"  && $controller!="tax_group_detail" && $controller!="addorder_detail" && $controller!="tax_detail" && $controller!="coupon_detail" && $controller!="giftcard_detail" && $controller!="attribute_set_detail" && $controller != 'shipping_box_detail' && $controller != 'quotation_detail' && $controller != 'question_detail' && $controller != 'answer_detail' && $controller != 'xmlimport_detail' && $controller != 'addquotation_detail' && $controller != 'xmlexport_detail' && $task != 'element'  && $controller != 'stockimage_detail' && $controller != 'mass_discount_detail' && $controller != 'supplier_detail' && $controller!='orderstatus_detail')
 	{
 	   echo '<div style="float:left;width:19%; margin-right:1%;">';
-	   require_once (JPATH_COMPONENT.DS.'helpers/menu.php');
+	   require_once JPATH_COMPONENT.DS.'helpers/menu.php';
 	   $menu = new leftmenu();
 	   echo '</div>';
 	   echo '<div style="float:left;width:80%;">';
 	}
 }
 
-   require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+   require_once JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
    $classname  = $controller.'controller';
    $controller = new $classname( array('default_task' => 'display') );
    $controller->execute( JRequest::getVar('task' ));

@@ -11,19 +11,19 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php');
-require_once(JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'user.php';
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
 
 class checkoutModelcheckout extends JModel
 {

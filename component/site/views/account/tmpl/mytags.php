@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 $url = JURI::base();
 
 // get product helper	
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 $extra_data = new producthelper();
 
 $option = JRequest::getVar('option');

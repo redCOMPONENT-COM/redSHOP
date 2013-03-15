@@ -119,7 +119,7 @@ class order_containerModelorder_container extends JModel
 	function update_status()
 	{
 
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php';
 		$order_function = new order_functions();
 
 		$order_function->update_status();

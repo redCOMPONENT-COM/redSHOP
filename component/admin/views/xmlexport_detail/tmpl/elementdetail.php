@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php';
 
 $option = JRequest::getVar('option');
 $section_type = JRequest::getVar('section_type');
