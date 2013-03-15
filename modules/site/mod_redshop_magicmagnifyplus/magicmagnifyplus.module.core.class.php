@@ -10,7 +10,7 @@
 if (!in_array('MagicMagnifyPlusModuleCoreClass', get_declared_classes()))
 {
 
-	require_once(dirname(__FILE__) . '/magictoolbox.params.class.php');
+	require_once dirname(__FILE__) . '/magictoolbox.params.class.php';
 
 	class MagicMagnifyPlusModuleCoreClass
 	{
