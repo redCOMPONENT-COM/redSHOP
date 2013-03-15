@@ -39,7 +39,7 @@ $vmTigraTree = new redTigraTreeMenu();
 // A unique name for our tree (to support multiple instances of the menu)
 $varname = uniqid("TigraTree_");
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 JHTML::Script('tree_tpl.js.php', $js_src . '/tigratree/', false);
 JHTML::Script('tree.js', $js_src . '/tigratree/', false);
 
@@ -79,7 +79,7 @@ class redTigraTreeMenu
 		static $ibg = 0;
 		global $Itemid, $urlpath, $sortparam;
 
-		$db        = & JFactory :: getDBO();
+		$db        = JFactory :: getDBO();
 		$objhelper = new redhelper ();
 		$Itemid    = JRequest::getInt('Itemid');
 		$level++;

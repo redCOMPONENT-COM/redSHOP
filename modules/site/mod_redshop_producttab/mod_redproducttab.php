@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$user    =& JFactory::getUser();
+$user    = JFactory::getUser();
 $newprd  = trim($params->get('show_newprd', 1));
 $ltsprd  = trim($params->get('show_ltsprd', 1));
 $soldprd = trim($params->get('show_soldprd', 1));

@@ -33,9 +33,9 @@ else
 	require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
 
 	// Get a $mainframe
-	$mainframe = & JFactory::getApplication('site');
+	$mainframe = JFactory::getApplication('site');
 
-	// Get the appropriate url	
+	// Get the appropriate url
 	$url                 = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 	$mosConfig_live_site = substr_replace($url, '', -1, 1);
 	$icon_path           = $mosConfig_live_site . '/icons';

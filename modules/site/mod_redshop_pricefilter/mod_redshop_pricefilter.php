@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-$user                     =& JFactory::getUser();
+$user                     = JFactory::getUser();
 $minslider                = trim($params->get('minslider', 0));
 $maxslider                = trim($params->get('maxslider', 5000));
 $category                 = trim($params->get('category', 0));

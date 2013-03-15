@@ -11,14 +11,14 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $Itemid = JRequest::getVar('Itemid');
-$user   = & JFactory::getUser();
+$user   = JFactory::getUser();
 $option = 'com_redshop';
 
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet('modules/mod_redshop_products/css/products.css');
 
 // 	include redshop js file.

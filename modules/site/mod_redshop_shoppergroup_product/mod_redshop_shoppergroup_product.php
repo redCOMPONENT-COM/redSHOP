@@ -23,7 +23,7 @@ $show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
 $show_desc                = trim($params->get('show_desc', 1));
 $show_vat                 = trim($params->get('show_vat', 1));
 
-$user = & JFactory::getUser();
+$user = JFactory::getUser();
 $db   = JFactory::getDBO();
 if ($option != 'com_redshop')
 {

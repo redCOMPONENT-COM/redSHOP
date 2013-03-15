@@ -91,7 +91,7 @@ if( !class_exists('redFeatureproduct'))
 			global $Redconfiguration;
 			$uri = JUri::getInstance();
 			$url = $uri->root();
-			$user = &JFactory::getUser();
+			$user =JFactory::getUser();
 			$producthelper = new producthelper();
 			$redhelper = new redhelper();
 			$Itemid = JRequest::getVar('Itemid');

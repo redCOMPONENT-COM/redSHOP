@@ -22,7 +22,7 @@ class JFormFieldRedshopcategory extends JFormField
 
 	protected function getInput()
 	{
-		$db           = & JFactory::getDBO();
+		$db           = JFactory::getDBO();
 		$this->_cats  = array();
 		$name         = $this->name;
 		$control_name = $this->name;

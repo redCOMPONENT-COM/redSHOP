@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die ('restricted access');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 // get product helper

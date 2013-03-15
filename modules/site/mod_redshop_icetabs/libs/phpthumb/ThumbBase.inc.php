@@ -146,7 +146,7 @@ abstract class ThumbBase
 		// add the methods to the registry
 		foreach ($importFunctions as $key => $functionName)
 		{
-			$this->importedFunctions[$functionName] = & $newImport;
+			$this->importedFunctions[$functionName] = $newImport;
 		}
 	}
 
