@@ -313,7 +313,7 @@ class attribute_set_detailController extends JController
 
 		$files = JFolder::listFolderTree($path, '.', 1);
 		$tbl = '';
-		$tbl .= "<table cellspacing='7' cellpdding='2' width='100%' border='0'>";
+		$tbl .= "<table cellspacing='7' cellpadding='2' width='100%' border='0'>";
 		$tbl .= "<tr>";
 
 		if ($folder_path)
@@ -356,7 +356,7 @@ class attribute_set_detailController extends JController
 
 				$link_bk = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . $path_bk . "&dirpath=" . $dir_path;
 				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1'
-				cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'>
+				cellpadding='1'><tr><td align='center' style='background-color:#FFFFFF;'>
 				<a href='" . $link_bk . "'><img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr>
 				<tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
 			}
