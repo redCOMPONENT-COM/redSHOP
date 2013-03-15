@@ -17,7 +17,7 @@ class ordertrackerModelordertracker extends JModel
 	var $_table_prefix = null;
 	var $_template = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 

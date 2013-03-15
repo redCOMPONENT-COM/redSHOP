@@ -21,7 +21,7 @@ class searchModelsearch extends JModel
 	var $_pagination = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe, $context;
@@ -55,7 +55,7 @@ class searchModelsearch extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function getData()
+	public function getData()
 	{
 		$post = JRequest::get('POST');
 
@@ -112,7 +112,7 @@ class searchModelsearch extends JModel
 		return $this->_data;
 	}
 
-	function getProductPerPage()
+	public function getProductPerPage()
 	{
 		global $mainframe;
 		$redconfig   = & $mainframe->getParams();
@@ -158,7 +158,7 @@ class searchModelsearch extends JModel
 		return $limit;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		global $mainframe;
 		$context      = 'search';
@@ -185,7 +185,7 @@ class searchModelsearch extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -195,7 +195,7 @@ class searchModelsearch extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery($manudata = 0)
+	private function _buildQuery($manudata = 0)
 	{
 
 		global $mainframe;
@@ -476,7 +476,7 @@ class searchModelsearch extends JModel
 	}
 
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe, $context;
 
@@ -488,7 +488,7 @@ class searchModelsearch extends JModel
 		return $orderby;
 	}
 
-	function getCategoryTemplet()
+	public function getCategoryTemplet()
 	{
 		global $mainframe;
 		$context = 'search';
@@ -546,7 +546,7 @@ class searchModelsearch extends JModel
 	}
 
 	// red Product Filter
-	function getRedFilterProduct($remove = 0)
+	public function getRedFilterProduct($remove = 0)
 	{
 		// get seeion filter data
 
@@ -704,7 +704,7 @@ class searchModelsearch extends JModel
 	}
 
 
-	function mod_redProductfilter($Itemid)
+	public function mod_redProductfilter($Itemid)
 	{
 
 		$query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
@@ -959,7 +959,7 @@ class searchModelsearch extends JModel
 		}
 	}
 
-	function getTagsDetail($id, $all = 1)
+	public function getTagsDetail($id, $all = 1)
 	{
 		// for session
 		$session      = JSession::getInstance('none', array());
@@ -1017,7 +1017,7 @@ class searchModelsearch extends JModel
 	}
 
 	// get Category products selected in search Module
-	function loadCatProductsManufacturer($cid)
+	public function loadCatProductsManufacturer($cid)
 	{
 		$db    =& JFactory::getDBO();
 		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
@@ -1042,7 +1042,7 @@ class searchModelsearch extends JModel
 		return $db->loadObjectList();
 	}
 
-	function getajaxData()
+	public function getajaxData()
 	{
 		jimport('joomla.application.module.helper');
 		$module      = JModuleHelper::getModule('redshop_search');

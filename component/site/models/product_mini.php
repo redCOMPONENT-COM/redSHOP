@@ -18,7 +18,7 @@ class product_miniModelproduct_mini extends JModel
 	var $_pagination = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -34,7 +34,7 @@ class product_miniModelproduct_mini extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -45,7 +45,7 @@ class product_miniModelproduct_mini extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		global $mainframe, $context;
 
@@ -85,7 +85,7 @@ class product_miniModelproduct_mini extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -96,7 +96,7 @@ class product_miniModelproduct_mini extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	private function _buildQuery()
 	{
 		global $mainframe, $context;
 
@@ -139,7 +139,7 @@ class product_miniModelproduct_mini extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	private function _buildContentOrderBy()
 	{
 		global $mainframe, $context;
 

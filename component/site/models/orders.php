@@ -20,7 +20,7 @@ class ordersModelorders extends JModel
 	var $_limitstart = null;
 	var $_limit = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe, $option;
@@ -30,7 +30,7 @@ class ordersModelorders extends JModel
 		$this->_limit        = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
 	}
 
-	function _buildQuery()
+	private function _buildQuery()
 	{
 		$user  =& JFactory::getUser();
 		$query = "SELECT * FROM  " . $this->_table_prefix . "orders "
@@ -39,7 +39,7 @@ class ordersModelorders extends JModel
 		return $query;
 	}
 
-	function getData()
+	public function getData()
 	{
 //		if (empty( $this->_data ))
 //		{
@@ -50,7 +50,7 @@ class ordersModelorders extends JModel
 		return $this->_data;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -61,7 +61,7 @@ class ordersModelorders extends JModel
 		return $this->_pagination;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
