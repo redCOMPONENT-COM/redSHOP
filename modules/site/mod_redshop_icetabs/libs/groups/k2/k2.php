@@ -80,7 +80,7 @@ if (!class_exists('LofSliderGroupK2'))
 			$date           = JFactory::getDate();
 			$now            = $date->toMySQL();
 
-			require_once (JPath::clean(JPATH_SITE . '/components/com_k2/helpers/route.php'));
+			require_once JPath::clean(JPATH_SITE . '/components/com_k2/helpers/route.php');
 			$query = "SELECT a.*, cr.rating_sum/cr.rating_count as rating, c.name as categoryname,
 							c.id as categoryid, c.alias as categoryalias, c.params as categoryparams, cc.commentcount as commentcount" .
 				" FROM #__k2_items as a" .

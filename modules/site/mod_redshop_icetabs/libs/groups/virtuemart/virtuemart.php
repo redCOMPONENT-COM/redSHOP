@@ -13,11 +13,11 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 {
 	if (file_exists(dirname(dirname(dirname(dirname(__FILE__)))) . '/../../components/com_virtuemart/virtuemart_parser.php'))
 	{
-		require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/../../components/com_virtuemart/virtuemart_parser.php');
+		require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/../../components/com_virtuemart/virtuemart_parser.php';
 	}
 	else
 	{
-		require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/../components/com_virtuemart/virtuemart_parser.php');
+		require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/../components/com_virtuemart/virtuemart_parser.php';
 	}
 
 	class LofSliderGroupVirtuemart extends LofSliderGroupBase
@@ -97,7 +97,7 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 			$query .= ' ORDER BY  ' . $ordering;
 			$query .= ' LIMIT ' . $limit;
 
-			require_once (CLASSPATH . 'ps_product.php');
+			require_once CLASSPATH . 'ps_product.php';
 			$ps_product = new ps_product;
 			$database   = new ps_DB();
 			$database->query($query);
