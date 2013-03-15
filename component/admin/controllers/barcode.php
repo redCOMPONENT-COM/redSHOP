@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.controller');
@@ -43,14 +43,14 @@ class barcodeController extends JController
 		{
 
 
-			$model = $this->getModel('barcode');
+			$model   = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 
-			$user =& JFactory::getUser();
-			$uid = $user->get('id');
+			$user      =& JFactory::getUser();
+			$uid       = $user->get('id');
 			$mainframe = JFactory::getApplication();
-			$row = $model->checkorder($barcode);
+			$row       = $model->checkorder($barcode);
 
 
 			if ($row)
@@ -58,8 +58,8 @@ class barcodeController extends JController
 
 
 				$post['search_date'] = date("y-m-d H:i:s");
-				$post['user_id'] = $uid;
-				$post['order_id'] = $row->order_id;
+				$post['user_id']     = $uid;
+				$post['order_id']    = $row->order_id;
 
 				if ($model->save($post))
 				{
@@ -98,12 +98,12 @@ class barcodeController extends JController
 		else
 		{
 
-			$model = $this->getModel('barcode');
+			$model   = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 
 			$mainframe = JFactory::getApplication();
-			$row = $model->checkorder($barcode);
+			$row       = $model->checkorder($barcode);
 			if ($row)
 			{
 

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -17,10 +17,10 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-		$extra_field = new extra_field();
+		$option          = JRequest::getVar('option');
+		$extra_field     = new extra_field();
 		$order_functions = new order_functions();
-		$document = & JFactory::getDocument();
+		$document        = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
 		$document->addScript('components/' . $option . '/assets/js/json.js');
@@ -31,12 +31,12 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 		$session =& JFactory::getSession();
-		$uri =& JFactory::getURI();
+		$uri     =& JFactory::getURI();
 //		$layout = JRequest::getVar('layout');
-		$lists = array();
-		$billing = array();
-		$model = $this->getModel();
-		$detail =& $this->get('data');
+		$lists            = array();
+		$billing          = array();
+		$model            = $this->getModel();
+		$detail           =& $this->get('data');
 		$Redconfiguration = new Redconfiguration();
 
 		$user_id = JRequest::getVar('user_id', 0);
@@ -53,10 +53,10 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$session->set('offlineuser_id', $user_id);
 
 		$userop[0]->user_id = 0;
-		$userop[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$userlists = $model->getUserData(0, "BT");
-		$userlist = array_merge($userop, $userlists);
-		$lists['userlist'] = JHTML::_('select.genericlist', $userlist, 'user_id', 'class="inputbox" onchange="showquotationUserDetail();" ', 'user_id', 'text');
+		$userop[0]->text    = JText::_('COM_REDSHOP_SELECT');
+		$userlists          = $model->getUserData(0, "BT");
+		$userlist           = array_merge($userop, $userlists);
+		$lists['userlist']  = JHTML::_('select.genericlist', $userlist, 'user_id', 'class="inputbox" onchange="showquotationUserDetail();" ', 'user_id', 'text');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT') . ': <small><small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'redshop_order48');
 
@@ -66,11 +66,11 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 
 		// PRODUCT/ATTRIBUTE STOCK ROOM QUANTITY CHECKING IS IMPLEMENTED
 
-		$countryarray = $Redconfiguration->getCountryList((array) $billing);
-		$billing->country_code = $countryarray['country_code'];
-		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $billing);
-		$lists['state_code'] = $statearray['state_dropdown'];
+		$countryarray                  = $Redconfiguration->getCountryList((array) $billing);
+		$billing->country_code         = $countryarray['country_code'];
+		$lists['country_code']         = $countryarray['country_dropdown'];
+		$statearray                    = $Redconfiguration->getStateList((array) $billing);
+		$lists['state_code']           = $statearray['state_dropdown'];
 		$lists['quotation_extrafield'] = $extra_field->list_all_field(16, $billing->users_info_id);
 
 		$this->assignRef('lists', $lists);

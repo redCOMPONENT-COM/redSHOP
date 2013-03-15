@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -23,13 +23,13 @@ class media_detailModelmedia_detail extends JModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -53,8 +53,10 @@ class media_detailModelmedia_detail extends JModel
 				. 'order by section_id';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -62,18 +64,20 @@ class media_detailModelmedia_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->media_id = 0;
-			$detail->media_title = null;
-			$detail->media_type = null;
-			$detail->media_name = null;
+			$detail                       = new stdClass();
+			$detail->media_id             = 0;
+			$detail->media_title          = null;
+			$detail->media_type           = null;
+			$detail->media_name           = null;
 			$detail->media_alternate_text = null;
-			$detail->media_section = null;
-			$detail->section_id = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->media_section        = null;
+			$detail->section_id           = null;
+			$detail->published            = 1;
+			$this->_data                  = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -83,13 +87,16 @@ class media_detailModelmedia_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -107,7 +114,7 @@ class media_detailModelmedia_detail extends JModel
 			foreach ($this->_data as $mediadata)
 			{
 				$ntsrc = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/' . $mediadata->media_section . '/thumb' . DS . $mediadata->media_name;
-				$nsrc = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/' . $mediadata->media_section . '/' . $mediadata->media_name;
+				$nsrc  = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/' . $mediadata->media_section . '/' . $mediadata->media_name;
 
 				if (is_file($nsrc))
 				{
@@ -128,10 +135,12 @@ class media_detailModelmedia_detail extends JModel
 				if (!$this->_db->query())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -148,9 +157,11 @@ class media_detailModelmedia_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -165,6 +176,7 @@ class media_detailModelmedia_detail extends JModel
 			$query = 'SELECT category_name as name,category_id as id FROM ' . $this->_table_prefix . 'category  WHERE category_id = "' . $id . '" ';
 		}
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObject();
 	}
 
@@ -191,6 +203,7 @@ class media_detailModelmedia_detail extends JModel
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
@@ -202,6 +215,7 @@ class media_detailModelmedia_detail extends JModel
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
@@ -213,19 +227,21 @@ class media_detailModelmedia_detail extends JModel
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
 				}
 			}
 		}
+
 		return true;
 	}
 
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$row        =& $this->getTable();
+		$order      = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
 		//$groupings = array();
 
@@ -242,11 +258,12 @@ class media_detailModelmedia_detail extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 				// remember to updateOrder this group
 				$condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"';
-				$found = false;
+				$found     = false;
 				foreach ($conditions as $cond)
 					if ($cond[1] == $condition)
 					{
@@ -272,6 +289,7 @@ class media_detailModelmedia_detail extends JModel
 		//$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
 		$row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
+
 		return true;
 	}
 
@@ -282,6 +300,7 @@ class media_detailModelmedia_detail extends JModel
 		//$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
 		$row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
+
 		return true;
 	}
 }

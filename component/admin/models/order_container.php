@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -24,13 +24,13 @@ class order_containerModelorder_container extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'order_id';
+		$this->_context      = 'order_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter        = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
@@ -42,7 +42,7 @@ class order_containerModelorder_container extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -53,7 +53,7 @@ class order_containerModelorder_container extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -76,7 +76,7 @@ class order_containerModelorder_container extends JModel
 		$where = "";
 
 
-		$filter = $this->getState('filter');
+		$filter        = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
 
 
@@ -108,7 +108,7 @@ class order_containerModelorder_container extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'order_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'order_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
@@ -134,6 +134,7 @@ class order_containerModelorder_container extends JModel
 			. ' FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix . 'users_info as uf WHERE  o.user_id=uf.user_id and address_type Like "BT" ';
 
 		$query = $this->_buildQuery();
+
 		return $this->_getList($query);
 	}
 

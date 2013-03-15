@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
@@ -21,16 +21,17 @@ class product_categoryModelproduct_category extends JModel
 
 	function getProductlist()
 	{
-		$pid = JRequest::getVar('cid', array(), 'post', 'array');
-		$pids = implode(",", $pid);
+		$pid   = JRequest::getVar('cid', array(), 'post', 'array');
+		$pids  = implode(",", $pid);
 		$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product  WHERE product_id IN(' . $pids . ')';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
 	function saveProduct_Category()
 	{
-		$pid = JRequest::getVar('cid', array(), 'post', 'array');
+		$pid    = JRequest::getVar('cid', array(), 'post', 'array');
 		$cat_id = JRequest::getVar('category_id');
 		for ($i = 0; $i < count($pid); $i++)
 		{
@@ -46,13 +47,14 @@ class product_categoryModelproduct_category extends JModel
 				}
 			}
 		}
+
 		return true;
 	}
 
 	function removeProduct_Category()
 	{
-		$pid = JRequest::getVar('cid', array(), 'post', 'array');
-		$cat_id = JRequest::getVar('category_id', array(), 'post', 'array');
+		$pid     = JRequest::getVar('cid', array(), 'post', 'array');
+		$cat_id  = JRequest::getVar('category_id', array(), 'post', 'array');
 		$cat_ids = implode(",", $cat_id);
 		for ($i = 0; $i < count($pid); $i++)
 		{
@@ -62,6 +64,7 @@ class product_categoryModelproduct_category extends JModel
 			if (!$this->_db->Query())
 				return false;
 		}
+
 		return true;
 	}
 
@@ -70,6 +73,7 @@ class product_categoryModelproduct_category extends JModel
 		$query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product_category_xref '
 			. ' WHERE product_id ="' . $pid . '" AND category_id="' . $cid . '"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 }

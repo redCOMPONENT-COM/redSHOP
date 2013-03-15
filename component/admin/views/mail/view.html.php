@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.view');
@@ -23,7 +23,7 @@ class mailViewmail extends JView
 	{
 		global $mainframe, $context;
 
-		$context = 'mail_id';
+		$context  = 'mail_id';
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_MAIL'));
 		jimport('joomla.html.pagination');
@@ -38,15 +38,15 @@ class mailViewmail extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.mail_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.mail_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filter_section = $mainframe->getUserStateFromRequest($context . 'filter_section', 'filter_section', 0);
+		$filter_section   = $mainframe->getUserStateFromRequest($context . 'filter_section', 'filter_section', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$redtemplate = new Redtemplate();
-		$optionsection = $redtemplate->getMailSections();
+		$redtemplate          = new Redtemplate();
+		$optionsection        = $redtemplate->getMailSections();
 		$lists['mailsection'] = JHTML::_('select.genericlist', $optionsection, 'filter_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_section);
 
 

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
@@ -41,14 +41,16 @@ $date =& JFactory::getDate();
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm"
       id="adminForm" <?php if (USE_CONTAINER != 0)
-{ ?> onSubmit="return selectAll(this.elements['container_product[]']);" <?php }?>>
+{
+	?> onSubmit="return selectAll(this.elements['container_product[]']);" <?php }?>>
 	<?php
 	if ($this->detail->stockroom_id)
 	{
 		?>
 		<div style="width:100%; text-align:right; font-weight:bold; font-size:14px;">
 			<?php if (USE_CONTAINER != 0)
-			{ ?>
+			{
+				?>
 				<a class="modal"
 				   href="index.php?tmpl=component&option=com_redshop&amp;view=container_detail&amp;task=edit&showbuttons=1&stockroom_id=<?php echo $this->detail->stockroom_id; ?>"
 				   rel="{handler: 'iframe', size: {x: 900, y: 500}}">

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 class Tableproduct_discount_calc extends JTable
@@ -36,6 +36,7 @@ class Tableproduct_discount_calc extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -51,7 +52,7 @@ class Tableproduct_discount_calc extends JTable
 
 		# updating value
 		$converted_area_start = $this->area_start * $unit * $unit;
-		$converted_area_end = $this->area_end * $unit * $unit;
+		$converted_area_end   = $this->area_end * $unit * $unit;
 		# End
 
 		/**** check for valid area *****/
@@ -73,8 +74,10 @@ class Tableproduct_discount_calc extends JTable
 		if ($xid)
 		{
 			$this->_error = JText::_('COM_REDSHOP_SAME_RANGE');
+
 			return false;
 		}
+
 		return true;
 	}
 }

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -30,7 +30,7 @@ class rating_detailModelrating_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -55,6 +55,7 @@ class rating_detailModelrating_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -63,19 +64,21 @@ class rating_detailModelrating_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->rating_id = null;
-			$detail->product_id = null;
-			$detail->title = null;
-			$detail->comment = null;
-			$detail->userid = null;
-			$detail->time = null;
+			$detail              = new stdClass();
+			$detail->rating_id   = null;
+			$detail->product_id  = null;
+			$detail->title       = null;
+			$detail->comment     = null;
+			$detail->userid      = null;
+			$detail->time        = null;
 			$detail->user_rating = null;
-			$detail->favoured = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->favoured    = null;
+			$detail->published   = 1;
+			$this->_data         = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -86,14 +89,17 @@ class rating_detailModelrating_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -108,6 +114,7 @@ class rating_detailModelrating_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -128,6 +135,7 @@ class rating_detailModelrating_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -148,6 +156,7 @@ class rating_detailModelrating_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -159,6 +168,7 @@ class rating_detailModelrating_detail extends JModel
 	{
 		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix . 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -169,6 +179,7 @@ class rating_detailModelrating_detail extends JModel
 		{
 			$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product WHERE product_id =' . $product_id;
 			$this->_db->setQuery($query);
+
 			return $this->_db->loadObject();
 		}
 	}
@@ -178,7 +189,8 @@ class rating_detailModelrating_detail extends JModel
 		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id=" . $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
-		$fullname = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
+		$fullname        = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
+
 		return $fullname;
 	}
 }

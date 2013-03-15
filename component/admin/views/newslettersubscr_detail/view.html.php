@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -54,11 +54,11 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
-		$model = $this->getModel('newslettersubscr_detail');
+		$model       = $this->getModel('newslettersubscr_detail');
 		$newsletters = $model->getnewsletters();
 
 		$lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->newsletter_id);
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published']   = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);

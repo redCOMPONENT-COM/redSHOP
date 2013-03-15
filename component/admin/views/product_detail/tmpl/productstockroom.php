@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $model = $this->getModel();
 
@@ -45,8 +45,8 @@ $stockrooms = $model->StockRoomList();
 
 						if (ENABLE_ITEM_TRACKING_SYSTEM)
 						{
-							$iscrm = true;
-							$crmHelper = new crmHelper();
+							$iscrm                  = true;
+							$crmHelper              = new crmHelper();
 							$crmSupplierOrderHelper = new crmSupplierOrderHelper();
 
 							$stockWhere = (USE_STOCKROOM) ? " 1=1" : " stockroom_id = " . DEFAULT_STOCKROOM;
@@ -56,9 +56,9 @@ $stockrooms = $model->StockRoomList();
 
 							$stockroomname = $stockroom_list[0]->text;
 
-							$data = new stdClass();
-							$data->product_id = $this->detail->product_id;
-							$data->property_id = 0;
+							$data                 = new stdClass();
+							$data->product_id     = $this->detail->product_id;
+							$data->property_id    = 0;
 							$data->subproperty_id = 0;
 
 							if ($section == 'property')
@@ -68,12 +68,12 @@ $stockrooms = $model->StockRoomList();
 							else if ($section == 'subproperty')
 							{
 								# get data for property id
-								$subattribute_data = $this->getAttibuteSubProperty($section_id);
-								$data->property_id = $subattribute_data[0]->subattribute_id;
+								$subattribute_data    = $this->getAttibuteSubProperty($section_id);
+								$data->property_id    = $subattribute_data[0]->subattribute_id;
 								$data->subproperty_id = $section_id;
 							}
 
-							$stockAmount = $crmSupplierOrderHelper->getSupplierStock($data);
+							$stockAmount  = $crmSupplierOrderHelper->getSupplierStock($data);
 							$deliveryTime = DEFAULT_DELIVERY_DAYS_STATUS_PENDING;
 							if ($stockAmount > 0) $deliveryTime = DEFAULT_DELIVERY_DAYS_STATUS_ACTIVE;
 
@@ -90,15 +90,15 @@ $stockrooms = $model->StockRoomList();
 						foreach ($stockrooms as $s)
 						{
 
-							$ordered_preorder = "";
-							$preorder_stock = "";
-							$quantity = $model->StockRoomAttProductQuantity($section_id, $s->stockroom_id, $section);
+							$ordered_preorder    = "";
+							$preorder_stock      = "";
+							$quantity            = $model->StockRoomAttProductQuantity($section_id, $s->stockroom_id, $section);
 							$preorder_stock_data = $model->StockRoomAttProductPreorderstock($section_id, $s->stockroom_id, $section);
 
 							if ($preorder_stock_data)
 							{
 								$ordered_preorder = $preorder_stock_data[0]->ordered_preorder;
-								$preorder_stock = $preorder_stock_data[0]->preorder_stock;
+								$preorder_stock   = $preorder_stock_data[0]->preorder_stock;
 							}
 
 							?>
@@ -133,7 +133,8 @@ $stockrooms = $model->StockRoomList();
 		<tr>
 			<td colspan="2">
 				<?php if (!$iscrm)
-				{ ?>
+				{
+					?>
 					<input type="submit" name="submit" value="Save">
 				<?php }?>
 			</td>

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.view');
@@ -28,7 +28,7 @@ class categoryViewcategory extends JView
 		$redTemplate = new Redtemplate();
 
 		$product_category = new product_category();
-		$document = & JFactory::getDocument();
+		$document         = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CATEGORY'));
 		jimport('joomla.html.pagination');
 
@@ -44,31 +44,31 @@ class categoryViewcategory extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$limitstart       = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit            = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		// $categories	= & $this->get( 'Data');
 		$GLOBALS['catlist'] = array();
-		$catid = JRequest::getVar('category_id', 0, '');
-		$categories = & $this->get('Data');
+		$catid              = JRequest::getVar('category_id', 0, '');
+		$categories         = & $this->get('Data');
 
-		$pagination = & $this->get('Pagination');
+		$pagination           = & $this->get('Pagination');
 		$category_main_filter = $mainframe->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
-		$optionsection = array();
-		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$category_id = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
-		$category_name = $mainframe->getUserStateFromRequest($context . 'category_name', 'category_name', 0);
-		$category = new product_category();
-		$categories_parent = $category->getParentCategories();
+		$optionsection        = array();
+		$optionsection[]      = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$category_id          = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
+		$category_name        = $mainframe->getUserStateFromRequest($context . 'category_name', 'category_name', 0);
+		$category             = new product_category();
+		$categories_parent    = $category->getParentCategories();
 
-		$temps = array();
-		$temps[0]->category_id = "0";
+		$temps                   = array();
+		$temps[0]->category_id   = "0";
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
-		$categories_parent = @array_merge($temps, $categories_parent);
+		$categories_parent       = @array_merge($temps, $categories_parent);
 
 		$lists['category'] = JHTML::_('select.genericlist', $categories_parent, 'category_id', 'class="inputbox" onchange="document.adminForm.submit();"      ', 'category_id', 'category_name', $category_id);
 
@@ -76,11 +76,11 @@ class categoryViewcategory extends JView
 		/*
 	    * assign template
 	    */
-		$templates = $redTemplate->getTemplate('category');
-		$temps = array();
-		$temps[0]->template_id = "0";
+		$templates               = $redTemplate->getTemplate('category');
+		$temps                   = array();
+		$temps[0]->template_id   = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
-		$templates = @array_merge($temps, $templates);
+		$templates               = @array_merge($temps, $templates);
 
 		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0);
 

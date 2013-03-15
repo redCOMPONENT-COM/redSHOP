@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 /**
@@ -51,7 +51,7 @@ class JFormFieldcurrency extends JFormField
 		}
 
 		$shop_currency = $this->getCurrency($currency);
-		$ctrl = $this->name;
+		$ctrl          = $this->name;
 
 		// Construct the various argument calls that are supported.
 		$attribs = ' ';
@@ -98,6 +98,7 @@ class JFormFieldcurrency extends JFormField
 		}
 		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
 		$db->setQuery($query);
+
 		return $db->loadObjectlist();
 	}
 }

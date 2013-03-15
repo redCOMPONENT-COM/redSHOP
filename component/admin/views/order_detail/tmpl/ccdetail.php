@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $ccdetail = $this->ccdetail;
 $cardnumber = base64_decode($ccdetail->order_payment_number);
@@ -17,7 +17,7 @@ $edate = $ccdetail->order_payment_expire;
 $j = 1;
 if (!isset($edate[5]))
 {
-	$j = 0;
+	$j      = 0;
 	$emonth = "0" . $edate[0];
 }
 else

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.controller');
@@ -34,9 +34,9 @@ class addressfields_listingController extends JController
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
-		$model = $this->getModel('addressfields_listing');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$order  = JRequest::getVar('order', array(), 'post', 'array');
+		$model  = $this->getModel('addressfields_listing');
 		if ($model->saveorder($cid, $order))
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -57,10 +57,10 @@ class addressfields_listingController extends JController
 	function orderup()
 	{
 		global $mainframe, $context;
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$option = JRequest::getVar('option');
+		$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
+		$option           = JRequest::getVar('option');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$up = 1;
+		$up               = 1;
 		if (strtolower($filter_order_Dir) == "asc")
 		{
 			$up = -1;
@@ -82,10 +82,10 @@ class addressfields_listingController extends JController
 	function orderdown()
 	{
 		global $mainframe, $context;
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$option           = JRequest::getVar('option');
+		$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$down = -1;
+		$down             = -1;
 		if (strtolower($filter_order_Dir) == "asc")
 		{
 			$down = 1;

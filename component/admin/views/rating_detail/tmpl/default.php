@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option');
 $editor =& JFactory::getEditor();
@@ -150,7 +150,8 @@ $model = $this->getModel('rating_detail');
 							if ($this->detail->product_id) echo $this->detail->product_name;
 						} ?>"
 							<?php if ($product_data)
-						{ ?>
+						{
+							?>
 							disabled="disabled"
 						<?php }?>
 							/><input type="hidden" name="product_id" id="product_id" value="<?php if ($product_data)

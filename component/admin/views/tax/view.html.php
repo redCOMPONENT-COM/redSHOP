@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.view');
@@ -38,14 +38,14 @@ class taxViewtax extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_rate_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_rate_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$limitstart       = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit            = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$tax_group_id =& $this->get('ProductId');
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$tax_group_id          =& $this->get('ProductId');
+		$lists['order']        = $filter_order;
+		$lists['order_Dir']    = $filter_order_Dir;
 		$lists['tax_group_id'] = $tax_group_id;
 
 		$total = & $this->get('Total');

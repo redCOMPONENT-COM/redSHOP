@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -102,13 +102,13 @@ class payment_detailViewpayment_detail extends JView
 			$ret = $myparams->render();
 
 		}
-		$cc_list = array();
-		$cc_list['VISA'] = 'Visa';
-		$cc_list['MC'] = 'MasterCard';
-		$cc_list['amex'] = 'American Express';
+		$cc_list            = array();
+		$cc_list['VISA']    = 'Visa';
+		$cc_list['MC']      = 'MasterCard';
+		$cc_list['amex']    = 'American Express';
 		$cc_list['maestro'] = 'Maestro';
-		$cc_list['jcb'] = 'JCB';
-		$cc_list['diners'] = 'Diners Club';
+		$cc_list['jcb']     = 'JCB';
+		$cc_list['diners']  = 'Diners Club';
 
 		$query = ' SELECT shopper_group_id as value, shopper_group_name as text '
 			. ' FROM  #__' . TABLE_PREFIX . '_shopper_group where  published=1';
@@ -118,8 +118,8 @@ class payment_detailViewpayment_detail extends JView
 		$shopper_groups = $db->loadObjectList();
 
 		$detail->shopper_group = explode(',', $detail->shopper_group);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $detail->shopper_group);
+		$tmp                   = new stdClass;
+		$tmp                   = @array_merge($tmp, $detail->shopper_group);
 
 		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'shopper_group[]', 'size="10" multiple', 'value', 'text', @$detail->shopper_group);
 

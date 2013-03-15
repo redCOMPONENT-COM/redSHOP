@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 $redhelper = new redhelper();
@@ -74,10 +74,10 @@ $redhelper = new redhelper();
 			$k = 0;
 			for ($i = 0, $n = count($this->orderstatus); $i < $n; $i++)
 			{
-				$row = & $this->orderstatus[$i];
-				$row->id = $row->order_status_id;
-				$link = 'index.php?option=' . $option . '&view=orderstatus_detail&task=edit&cid[]=' . $row->order_status_id;
-				$link = $redhelper->sslLink($link);
+				$row       = & $this->orderstatus[$i];
+				$row->id   = $row->order_status_id;
+				$link      = 'index.php?option=' . $option . '&view=orderstatus_detail&task=edit&cid[]=' . $row->order_status_id;
+				$link      = $redhelper->sslLink($link);
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
 				?>

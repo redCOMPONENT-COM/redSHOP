@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
@@ -24,13 +24,13 @@ class orderreddesignModelorderreddesign extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'order_id';
+		$this->_context      = 'order_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter        = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
@@ -42,7 +42,7 @@ class orderreddesignModelorderreddesign extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -53,9 +53,10 @@ class orderreddesignModelorderreddesign extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -72,11 +73,11 @@ class orderreddesignModelorderreddesign extends JModel
 
 	function _buildQuery()
 	{
-		$order_id = array();
-		$filter = $this->getState('filter');
+		$order_id      = array();
+		$filter        = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$order_id = implode(',', $cid);
+		$cid           = JRequest::getVar('cid', array(0), 'method', 'array');
+		$order_id      = implode(',', $cid);
 
 		$where = array();
 		if ($filter_status)
@@ -90,7 +91,7 @@ class orderreddesignModelorderreddesign extends JModel
 
 		$query = "SELECT order_id FROM  #__reddesign_order ";
 		$this->_db->setQuery($query);
-		$designorder = $this->_db->loadResultArray();
+		$designorder    = $this->_db->loadResultArray();
 		$designorderstr = join(",", $designorder);
 		if (count($designorder) > 0)
 		{
@@ -106,7 +107,7 @@ class orderreddesignModelorderreddesign extends JModel
 			$where[] = " o.order_id IN (" . $order_id . ")";
 		}
 
-		$where = count($where) ? ' AND ' . implode(' AND ', $where) : '';
+		$where   = count($where) ? ' AND ' . implode(' AND ', $where) : '';
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = ' SELECT * FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix . 'users_info as uf WHERE  o.user_id=uf.user_id and address_type Like "BT" ' . $where . $orderby;
@@ -118,7 +119,7 @@ class orderreddesignModelorderreddesign extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' cdate ');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' cdate ');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
@@ -141,9 +142,10 @@ class orderreddesignModelorderreddesign extends JModel
 	function export_data()
 	{
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid      = JRequest::getVar('cid', array(0), 'method', 'array');
 		$order_id = implode(',', $cid);
-		$query1 = $this->_buildQuery();
+		$query1   = $this->_buildQuery();
+
 		return $this->_getList($query1);
 	}
 
@@ -153,6 +155,7 @@ class orderreddesignModelorderreddesign extends JModel
 		$query = "SELECT order_id FROM #__reddesign_order ";
 		$this->_db->setQuery($query);
 		$designorder = $this->_db->loadResultArray();
+
 		//$designorderstr = join(",",$designorder);
 		return $designorder;
 	}

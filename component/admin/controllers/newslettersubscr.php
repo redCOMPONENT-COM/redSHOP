@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -61,7 +61,7 @@ class newslettersubscrController extends JController
 
 			$handle = fopen($dest, "r");
 
-			while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE)
+			while (($data = fgetcsv($handle, 1000, $separator)) !== false)
 			{
 				if ($data[0] != "" && $data[1] != "")
 				{

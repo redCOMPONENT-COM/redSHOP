@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -35,13 +35,14 @@ class shipping_detailModelshipping_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
 	function &getData()
 	{
 		$this->_loadData();
+
 		return $this->_data;
 	}
 
@@ -50,6 +51,7 @@ class shipping_detailModelshipping_detail extends JModel
 		$query = 'SELECT * FROM #__extensions WHERE folder="redshop_shipping" and extension_id ="' . $this->_id . '" ';
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
+
 		return (boolean) $this->_data;
 	}
 
@@ -64,11 +66,13 @@ class shipping_detailModelshipping_detail extends JModel
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher =& JDispatcher::getInstance();
-		$payment = $dispatcher->trigger('onWriteconfig', array($data));
+		$payment    = $dispatcher->trigger('onWriteconfig', array($data));
+
 		return true;
 	}
 
@@ -76,7 +80,7 @@ class shipping_detailModelshipping_detail extends JModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE #__extensions'
 				. ' SET enabled = ' . intval($publish)
 				. ' WHERE  extension_id IN ( ' . $cids . ' )';
@@ -84,6 +88,7 @@ class shipping_detailModelshipping_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -95,7 +100,7 @@ class shipping_detailModelshipping_detail extends JModel
 	{
 		global $mainframe;
 		//$scope 		= JRequest::getCmd( 'scope' );
-		$db =& JFactory::getDBO();
+		$db  =& JFactory::getDBO();
 		$row =& $this->getTable();
 
 		$total = count($cid);
@@ -116,6 +121,7 @@ class shipping_detailModelshipping_detail extends JModel
 			}
 		}
 		$row->reorder();
+
 		return true;
 	}
 
@@ -129,6 +135,7 @@ class shipping_detailModelshipping_detail extends JModel
 	{
 		$query = "SELECT (max(ordering)+1) FROM #__extensions where folder='redshop_shipping'";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -147,12 +154,14 @@ class shipping_detailModelshipping_detail extends JModel
 		if (!$row->load($this->_id))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->move($direction))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 

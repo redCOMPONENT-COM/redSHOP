@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $editor =& JFactory::getEditor();
 
@@ -164,7 +164,7 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CONTAINER_INFO'), 'tab
 				<td>
 					<?php if ($showbuttons)
 					{
-						$model = $this->getModel('container_detail');
+						$model     = $this->getModel('container_detail');
 						$stockdata = $model->stockroom_Data($stockroom_id);
 						echo $stockdata[0]->text;
 						?>
@@ -255,14 +255,16 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CONTAINER_PRODUCT'), 'tab2');
 								<tr align="left">
 									<td><input type="checkbox" onclick="chk_newproduct(this);"
 									           value="1" <?php if ($this->chk_new != 1)
-										{ ?>  <?php } ?> /></td>
+										{
+											?>  <?php } ?> /></td>
 									<td><?php echo JText::_('COM_REDSHOP_EXISTING_PRODUCTS'); ?> </td>
 								</tr>
 								<tr align="left">
 									<td>
 										<input type="checkbox" name="porder" id="porder1"
 										       onclick="chk_preorder();" <?php if ($this->chk_new == 1)
-										{ ?>   <?php } ?> value="0"/>
+										{
+											?>   <?php } ?> value="0"/>
 									</td>
 									<td><?php echo JText::_('COM_REDSHOP_CONTAINER_PRE_ORDER_PRODUCT'); ?></td>
 								</tr>
@@ -304,7 +306,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CONTAINER_PRODUCT'), 'tab2');
 
 								for ($f = 0; $f < count($container_product); $f++)
 								{
-									$tmp_array[] = $container_product[$f]->product_id;
+									$tmp_array[]                                                     = $container_product[$f]->product_id;
 									$pr_quantity["quantity"][$container_product[$f]->product_id][$f] = $container_product[$f]->quantity;
 								}
 

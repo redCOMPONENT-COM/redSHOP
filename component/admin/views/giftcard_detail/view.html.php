@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 class giftcard_detailVIEWgiftcard_detail extends JView
 {
@@ -48,15 +48,15 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 		}
 
 		$lists['customer_amount'] = JHTML::_('select.booleanlist', 'customer_amount', 'class="inputbox" ', $detail->customer_amount);
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published']       = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$redhelper = new redhelper();
-			$accountgroup = $redhelper->getEconomicAccountGroup();
-			$op = array();
-			$op[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-			$accountgroup = array_merge($op, $accountgroup);
+			$redhelper                = new redhelper();
+			$accountgroup             = $redhelper->getEconomicAccountGroup();
+			$op                       = array();
+			$op[]                     = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+			$accountgroup             = array_merge($op, $accountgroup);
 			$lists["accountgroup_id"] = JHTML::_('select.genericlist', $accountgroup, 'accountgroup_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->accountgroup_id);
 		}
 

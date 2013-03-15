@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -30,7 +30,7 @@ class coupon_detailModelcoupon_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -55,6 +55,7 @@ class coupon_detailModelcoupon_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -63,22 +64,24 @@ class coupon_detailModelcoupon_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->coupon_id = null;
-			$detail->coupon_code = null;
-			$detail->start_date = 0;
-			$detail->end_date = 0;
+			$detail                   = new stdClass();
+			$detail->coupon_id        = null;
+			$detail->coupon_code      = null;
+			$detail->start_date       = 0;
+			$detail->end_date         = 0;
 			$detail->percent_or_total = null;
-			$detail->free_shipping = 0;
-			$detail->coupon_value = null;
-			$detail->coupon_type = null;
-			$detail->subtotal = null;
-			$detail->userid = null;
-			$detail->coupon_left = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->free_shipping    = 0;
+			$detail->coupon_value     = null;
+			$detail->coupon_type      = null;
+			$detail->subtotal         = null;
+			$detail->userid           = null;
+			$detail->coupon_left      = null;
+			$detail->published        = 1;
+			$this->_data              = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -89,14 +92,17 @@ class coupon_detailModelcoupon_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -111,6 +117,7 @@ class coupon_detailModelcoupon_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -122,6 +129,7 @@ class coupon_detailModelcoupon_detail extends JModel
 	{
 		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE coupon_id =' . $this->_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -138,6 +146,7 @@ class coupon_detailModelcoupon_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -149,6 +158,7 @@ class coupon_detailModelcoupon_detail extends JModel
 	{
 		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix . 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -159,6 +169,7 @@ class coupon_detailModelcoupon_detail extends JModel
 		{
 			$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product WHERE product_id =' . $product_id;
 			$this->_db->setQuery($query);
+
 			return $this->_db->loadObject();
 		}
 	}
@@ -168,9 +179,10 @@ class coupon_detailModelcoupon_detail extends JModel
 		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id=" . $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
-		$fullname = '';
+		$fullname        = '';
 		if ($this->_username)
 			$fullname = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
+
 		return $fullname;
 	}
 
@@ -182,6 +194,7 @@ class coupon_detailModelcoupon_detail extends JModel
 			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
 
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 }

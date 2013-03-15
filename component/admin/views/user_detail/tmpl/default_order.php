@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $option = JRequest::getVar('option', '', 'request', 'string');    ?>
 <div id="editcell">
 	<table class="adminlist">
@@ -24,9 +24,9 @@ $option = JRequest::getVar('option', '', 'request', 'string');    ?>
 		$k = 0;
 		for ($i = 0; $i < count($this->userorders); $i++)
 		{
-			$row = $this->userorders[$i];
+			$row     = $this->userorders[$i];
 			$row->id = $row->order_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id); ?>
+			$link    = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id); ?>
 			<tr>
 				<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
 				<td align="center">

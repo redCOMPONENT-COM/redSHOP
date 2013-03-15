@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class SubInstaller extends JObject
 {
@@ -79,12 +79,12 @@ class SubInstaller extends JObject
 		// Since we are running from within the current installation,
 		// we can use getInstance() to fetch the current installer and
 		// thus get access to our own manifest.
-		$parent =& JInstaller::getInstance();
-		$manifest =& $parent->getManifest();
-		$this->_mainDb =& $parent->getDBO();
+		$parent            =& JInstaller::getInstance();
+		$manifest          =& $parent->getManifest();
+		$this->_mainDb     =& $parent->getDBO();
 		$this->_mainSource = $parent->getPath('source');
-		$this->_mysection =& $manifest->document->getElementByPath('subinstall');
-		$this->_app =& JFactory::getApplication();
+		$this->_mysection  =& $manifest->document->getElementByPath('subinstall');
+		$this->_app        =& JFactory::getApplication();
 	}
 
 	/**
@@ -152,6 +152,7 @@ class SubInstaller extends JObject
 				if (!$this->_mainDb->query())
 				{
 					$this->_abort('Database query failed!');
+
 					return null;
 				}
 				if ($this->_mainDb->loadResult())
@@ -169,6 +170,7 @@ class SubInstaller extends JObject
 						return $e->name;
 					}
 				}
+
 				return null;
 				break;
 			case 'language':
@@ -190,6 +192,7 @@ class SubInstaller extends JObject
 						return $ldir . DS . $lang;
 					}
 				}
+
 				return null;
 				break;
 		}
@@ -199,10 +202,13 @@ class SubInstaller extends JObject
 			if (!$this->_mainDb->query())
 			{
 				$this->_abort('Database query failed!');
+
 				return null;
 			}
+
 			return $this->_mainDb->loadResult();
 		}
+
 		return null;
 	}
 
@@ -226,6 +232,7 @@ class SubInstaller extends JObject
 				return $this->_abort('Database query failed!');
 			}
 		}
+
 		return true;
 	}
 
@@ -267,6 +274,7 @@ class SubInstaller extends JObject
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -302,6 +310,7 @@ class SubInstaller extends JObject
 			}
 		}
 		$this->_inabort--;
+
 		return false;
 	}
 
@@ -320,6 +329,7 @@ class SubInstaller extends JObject
 		{
 			return ((strcasecmp($arg, 'true') == 0) || ($arg == '1'));
 		}
+
 		return false;
 	}
 
@@ -333,12 +343,13 @@ class SubInstaller extends JObject
 	 */
 	function &_parseAttributes(&$e)
 	{
-		$ret = new stdClass();
+		$ret       = new stdClass();
 		$ret->skip = false;
 		if ($e->name() != 'extension')
 		{
 			// skip unknown elements
 			$ret->skip = true;
+
 			return $ext;
 		}
 		$ret->type = $e->attributes('type');
@@ -349,16 +360,17 @@ class SubInstaller extends JObject
 		{
 			$ret->dname = $ret->name;
 		}
-		$ret->folder = $e->attributes('folder');
-		$ret->core = $this->_tobool($e->attributes('lock')) ? 1 : 0;
+		$ret->folder  = $e->attributes('folder');
+		$ret->core    = $this->_tobool($e->attributes('lock')) ? 1 : 0;
 		$ret->publish = $this->_tobool($e->attributes('publish')) ? 1 : 0;
-		$optional = $this->_tobool($e->attributes('optional'));
-		$client = $e->attributes('client');
-		$subdir = $e->attributes('subdir');
-		$archive = $e->attributes('archive');
+		$optional     = $this->_tobool($e->attributes('optional'));
+		$client       = $e->attributes('client');
+		$subdir       = $e->attributes('subdir');
+		$archive      = $e->attributes('archive');
 		if (!$ret->type)
 		{
 			$this->_abort('Missing type attribute in sub extension!');
+
 			return null;
 		}
 		switch ($ret->type)
@@ -367,6 +379,7 @@ class SubInstaller extends JObject
 				if (!$ret->folder)
 				{
 					$this->_abort('Missing folder attribute in sub extension!');
+
 					return null;
 				}
 				$client = 'site';
@@ -383,11 +396,13 @@ class SubInstaller extends JObject
 				break;
 			default:
 				$this->_abort('Unsupported sub install type "' . $ret->type . '"!');
+
 				return null;
 		}
 		if (!$ret->name)
 		{
 			$this->_abort('Missing name attribute in sub extension!');
+
 			return null;
 		}
 		if (!$client)
@@ -399,6 +414,7 @@ class SubInstaller extends JObject
 			if (empty($subdir) && empty($archive))
 			{
 				$this->_abort('Missing subdir and archive attribute in sub extension!');
+
 				return null;
 			}
 			if (!empty($subdir))
@@ -409,9 +425,11 @@ class SubInstaller extends JObject
 					if ($optional)
 					{
 						$ret->skip = true;
+
 						return $ret;
 					}
 					$this->_abort('Could not find source directory for sub install "' . $ret->dname . '"!');
+
 					return null;
 				}
 			}
@@ -423,9 +441,11 @@ class SubInstaller extends JObject
 					if ($optional)
 					{
 						$ret->skip = true;
+
 						return $ret;
 					}
 					$this->_abort('Could not find source archive for sub install "' . $ret->dname . '"!');
+
 					return null;
 				}
 			}
@@ -440,8 +460,10 @@ class SubInstaller extends JObject
 				break;
 			default:
 				$this->_abort('Unsupported sub install client "' . $client . '"!');
+
 				return null;
 		}
+
 		return $ret;
 	}
 
@@ -483,7 +505,7 @@ class SubInstaller extends JObject
 					$ext->source = $res['dir'];
 				}
 				$subInstaller = new JInstaller();
-				$result = $subInstaller->install($ext->source);
+				$result       = $subInstaller->install($ext->source);
 				if ($res)
 				{
 					// Cleanup temporary extract dir.
@@ -493,7 +515,7 @@ class SubInstaller extends JObject
 					}
 				}
 				$smsg = $subInstaller->get('message');
-				$msg = $subInstaller->get('extension.message');
+				$msg  = $subInstaller->get('extension.message');
 				if (!empty($msg))
 				{
 					echo $msg;
@@ -530,6 +552,7 @@ class SubInstaller extends JObject
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -566,8 +589,8 @@ class SubInstaller extends JObject
 						$this->_setcore($id, $ext->type, 0);
 					}
 					$subInstaller = new JInstaller();
-					$result = $subInstaller->uninstall($ext->type, $id, 1);
-					$msg = $subInstaller->get('message');
+					$result       = $subInstaller->uninstall($ext->type, $id, 1);
+					$msg          = $subInstaller->get('message');
 					$this->_msg($msg, $result ? 'message' : 'warning');
 					$msg = $subInstaller->get('extension.message');
 					if (!empty($msg))
@@ -581,6 +604,7 @@ class SubInstaller extends JObject
 				}
 			}
 		}
+
 		return true;
 	}
 }

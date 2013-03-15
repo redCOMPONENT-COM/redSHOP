@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
 
@@ -31,9 +31,9 @@ class JFormFieldcategory extends JFormField
 
 	protected function getInput()
 	{
-		$db = & JFactory::getDBO();
-		$this->_cats = array();
-		$name = $this->name;
+		$db           = & JFactory::getDBO();
+		$this->_cats  = array();
+		$name         = $this->name;
 		$control_name = $this->name;
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$categories = $this->getCategoryListArray(0, 0, 0);
@@ -63,8 +63,8 @@ class JFormFieldcategory extends JFormField
 
 		for ($x = 0; $x < count($cats); $x++)
 		{
-			$html = '';
-			$cat = $cats[$x];
+			$html     = '';
+			$cat      = $cats[$x];
 			$child_id = $cat->category_child_id;
 			if ($child_id != $cid)
 			{
@@ -79,7 +79,7 @@ class JFormFieldcategory extends JFormField
 				$html .= $cat->category_name;
 			}
 			$cat->category_name = $html;
-			$this->_cats[] = $cat;
+			$this->_cats[]      = $cat;
 
 			$this->getCategoryListArray($category_id, $child_id, $level);
 		}

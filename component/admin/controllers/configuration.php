@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -216,13 +216,13 @@ class configurationController extends JController
 			$post['administrator_email'] = implode(",", $post['administrator_email']);
 		}
 
-		$option = JRequest::getVar('option');
-		$model = $this->getModel('configuration');
-		$country_list = JRequest::getVar('country_list', array(), 'array');
+		$option                = JRequest::getVar('option');
+		$model                 = $this->getModel('configuration');
+		$country_list          = JRequest::getVar('country_list', array(), 'array');
 		$newsletter_test_email = JRequest::getVar('newsletter_test_email');
 
 
-		$i = 0;
+		$i                = 0;
 		$country_listCode = '';
 		if ($country_list)
 		{
@@ -340,10 +340,10 @@ class configurationController extends JController
 	function removeimg()
 	{
 		ob_clean();
-		$imname = JRequest::getString('imname', '');
-		$divname = JRequest::getString('divname', '');
-		$spath = JRequest::getString('spath', '');
-		$data_id = JRequest::getInt('data_id', 0);
+		$imname      = JRequest::getString('imname', '');
+		$divname     = JRequest::getString('divname', '');
+		$spath       = JRequest::getString('spath', '');
+		$data_id     = JRequest::getInt('data_id', 0);
 		$extra_field = new    extra_field();
 		if ($data_id)
 		{
@@ -364,7 +364,7 @@ class configurationController extends JController
 
 	function display()
 	{
-		$model = $this->getModel('configuration');
+		$model         = $this->getModel('configuration');
 		$currency_data = $model->getCurrency();
 		JRequest::setVar('currency_data', $currency_data);
 		parent::display();
@@ -372,7 +372,7 @@ class configurationController extends JController
 
 	function clearsef()
 	{
-		$model = $this->getModel('configuration');
+		$model     = $this->getModel('configuration');
 		$cleardata = $model->cleardata();
 		echo $cleardata;
 		exit;
@@ -380,8 +380,8 @@ class configurationController extends JController
 
 	function resetTemplate()
 	{
-		$model = $this->getModel('configuration');
-		$option = JRequest::getVar('option');
+		$model         = $this->getModel('configuration');
+		$option        = JRequest::getVar('option');
 		$resetTemplate = $model->resetTemplate();
 
 		$msg = JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET');

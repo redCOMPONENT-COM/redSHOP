@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 ?>
@@ -76,9 +76,9 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0, $n = count($this->tags); $i < $n; $i++)
 			{
-				$row = & $this->tags[$i];
+				$row     = & $this->tags[$i];
 				$row->id = $row->tags_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=producttags_detail&task=edit&cid[]=' . $row->tags_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=producttags_detail&task=edit&cid[]=' . $row->tags_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>

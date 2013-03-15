@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -32,7 +32,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -54,8 +54,10 @@ class giftcard_detailModelgiftcard_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'giftcard WHERE giftcard_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -64,23 +66,24 @@ class giftcard_detailModelgiftcard_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->giftcard_id = 0;
-			$detail->giftcard_name = null;
+			$detail                    = new stdClass();
+			$detail->giftcard_id       = 0;
+			$detail->giftcard_name     = null;
 			$detail->giftcard_validity = null;
-			$detail->giftcard_date = null;
-			$detail->giftcard_bgimage = null;
-			$detail->giftcard_image = null;
-			$detail->giftcard_price = 0;
-			$detail->giftcard_value = 0;
-			$detail->published = 1;
-			$detail->customer_amount = 0;
-			$detail->giftcard_desc = null;
-			$this->_data = $detail;
+			$detail->giftcard_date     = null;
+			$detail->giftcard_bgimage  = null;
+			$detail->giftcard_image    = null;
+			$detail->giftcard_price    = 0;
+			$detail->giftcard_value    = 0;
+			$detail->published         = 1;
+			$detail->customer_amount   = 0;
+			$detail->giftcard_desc     = null;
+			$this->_data               = $detail;
 
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -91,18 +94,19 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		//------------ Start Giftcard Image insertion --------------------
 
 		$giftcardfile =& JRequest::getVar('giftcard_image', '', 'files', 'array');
-		$giftcardimg = "";
+		$giftcardimg  = "";
 		if ($giftcardfile['name'] != "")
 		{
 			$giftcardfile['name'] = str_replace(" ", "_", $giftcardfile['name']);
-			$giftcardimg = JPath::clean(time() . '_' . $giftcardfile['name']); //Make the filename unique
+			$giftcardimg          = JPath::clean(time() . '_' . $giftcardfile['name']); //Make the filename unique
 
-			$src = $giftcardfile['tmp_name'];
+			$src  = $giftcardfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard' . DS . $giftcardimg; //specific path of the file
 
 			$row->giftcard_image = $giftcardimg;
@@ -114,13 +118,13 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		//------------ Start Giftcard BgImage insertion --------------------
 
 		$giftcardbgfile =& JRequest::getVar('giftcard_bgimage', '', 'files', 'array');
-		$giftcardbgimg = "";
+		$giftcardbgimg  = "";
 		if ($giftcardbgfile['name'] != "")
 		{
 			$giftcardbgfile['name'] = str_replace(" ", "_", $giftcardbgfile['name']);
-			$giftcardbgimg = JPath::clean(time() . '_' . $giftcardbgfile['name']); //Make the filename unique
-			$src = $giftcardbgfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard' . DS . $giftcardbgimg; //specific path of the file
+			$giftcardbgimg          = JPath::clean(time() . '_' . $giftcardbgfile['name']); //Make the filename unique
+			$src                    = $giftcardbgfile['tmp_name'];
+			$dest                   = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard' . DS . $giftcardbgimg; //specific path of the file
 
 			$row->giftcard_bgimage = $giftcardbgimg;
 			JFile::upload($src, $dest);
@@ -132,6 +136,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -139,13 +144,13 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		{
 			$economic = new economic();
 
-			$giftdata = new stdClass();
-			$giftdata->product_id = $row->giftcard_id;
-			$giftdata->product_number = "gift_" . $row->giftcard_id . "_" . $row->giftcard_name;
-			$giftdata->product_name = $row->giftcard_name;
-			$giftdata->product_price = $row->giftcard_price;
+			$giftdata                  = new stdClass();
+			$giftdata->product_id      = $row->giftcard_id;
+			$giftdata->product_number  = "gift_" . $row->giftcard_id . "_" . $row->giftcard_name;
+			$giftdata->product_name    = $row->giftcard_name;
+			$giftdata->product_price   = $row->giftcard_price;
 			$giftdata->accountgroup_id = $row->accountgroup_id;
-			$giftdata->product_volume = 0;
+			$giftdata->product_volume  = 0;
 
 			$ecoProductNumber = $economic->createProductInEconomic($giftdata);
 
@@ -165,6 +170,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -176,7 +182,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE ' . $this->_table_prefix . 'giftcard'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE giftcard_id IN ( ' . $cids . ' )';
@@ -184,6 +190,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -205,17 +212,17 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		foreach ($this->_copydata as $cdata)
 		{
 
-			$post['giftcard_id'] = 0;
-			$post['giftcard_name'] = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $cdata->giftcard_name;
+			$post['giftcard_id']       = 0;
+			$post['giftcard_name']     = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $cdata->giftcard_name;
 			$post['giftcard_validity'] = $cdata->giftcard_validity;
-			$post['giftcard_date'] = $cdata->giftcard_date;
-			$post['giftcard_bgimage'] = $cdata->giftcard_bgimage;
-			$post['giftcard_image'] = $cdata->giftcard_image;
-			$post['published'] = $cdata->published;
-			$post['giftcard_price'] = $cdata->giftcard_price;
-			$post['giftcard_value'] = $cdata->giftcard_value;
-			$post['giftcard_desc'] = $cdata->giftcard_desc;
-			$post['customer_amount'] = $cdata->customer_amount;
+			$post['giftcard_date']     = $cdata->giftcard_date;
+			$post['giftcard_bgimage']  = $cdata->giftcard_bgimage;
+			$post['giftcard_image']    = $cdata->giftcard_image;
+			$post['published']         = $cdata->published;
+			$post['giftcard_price']    = $cdata->giftcard_price;
+			$post['giftcard_value']    = $cdata->giftcard_value;
+			$post['giftcard_desc']     = $cdata->giftcard_desc;
+			$post['customer_amount']   = $cdata->customer_amount;
 
 
 			$this->store($post);

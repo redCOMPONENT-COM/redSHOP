@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -39,16 +39,16 @@ class newsletterController extends JController
 	function send_newsletter()
 	{
 		$session =& JFactory::getSession();
-		$option = JRequest::getVar('option');
+		$option  = JRequest::getVar('option');
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$userid = JRequest::getVar('userid', array(0), 'post', 'array');
+		$cid      = JRequest::getVar('cid', array(0), 'post', 'array');
+		$userid   = JRequest::getVar('userid', array(0), 'post', 'array');
 		$username = JRequest::getVar('username', array(0), 'post', 'array');
 
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
-		$tmpcid = array_chunk($cid, NEWSLETTER_MAIL_CHUNK); //NEWSLETTER_MAIL_CHUNK
-		$tmpuserid = array_chunk($userid, NEWSLETTER_MAIL_CHUNK);
+		$tmpcid      = array_chunk($cid, NEWSLETTER_MAIL_CHUNK); //NEWSLETTER_MAIL_CHUNK
+		$tmpuserid   = array_chunk($userid, NEWSLETTER_MAIL_CHUNK);
 		$tmpusername = array_chunk($username, NEWSLETTER_MAIL_CHUNK);
 
 		$session->set('subscribers', $tmpcid);
@@ -57,24 +57,25 @@ class newsletterController extends JController
 		$session->set('incNo', 1);
 
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter&layout=previewlog&newsletter_id=' . $newsletter_id);
+
 		return;
 	}
 
 	function sendRecursiveNewsletter()
 	{
-		$session =& JFactory::getSession();
+		$session       =& JFactory::getSession();
 		$newsletter_id = JRequest::getVar('newsletter_id');
-		$option = JRequest::getVar('option');
+		$option        = JRequest::getVar('option');
 
 		$model = $this->getModel('newsletter');
 
-		$subscribers = $session->get('subscribers');
-		$subscribersuid = $session->get('subscribersuid');
+		$subscribers      = $session->get('subscribers');
+		$subscribersuid   = $session->get('subscribersuid');
 		$subscribersuname = $session->get('subscribersuname');
-		$incNo = $session->get('incNo');
+		$incNo            = $session->get('incNo');
 
-		$cid = array();
-		$user_id = array();
+		$cid      = array();
+		$user_id  = array();
 		$username = array();
 		if (count($subscribers) > 0)
 		{

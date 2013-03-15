@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 s
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 jimport('joomla.application.component.view');
@@ -34,13 +34,13 @@ class accountgroupViewaccountgroup extends JView
 		JToolBarHelper::unpublishList();
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$lists['order'] = $filter_order;
+		$filter_order       = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');
+		$filter_order_Dir   = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$detail = & $this->get('Data');
-		$total = & $this->get('Total');
+		$detail     = & $this->get('Data');
+		$total      = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 
 		$this->assignRef('pagination', $pagination);

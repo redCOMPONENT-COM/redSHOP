@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.view');
@@ -30,14 +30,14 @@ class addressfields_listingViewaddressfields_listing extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$fields             = & $this->get('Data');
+		$total              = & $this->get('Total');
+		$pagination         = & $this->get('Pagination');
 
 		$section_id = $mainframe->getUserStateFromRequest($context . 'section_id', 'section_id', 0);
 		//$sectionlist	= $helpobj->getForumSectionList();
@@ -49,9 +49,9 @@ class addressfields_listingViewaddressfields_listing extends JView
 		);
 
 
-		$option = array();
+		$option           = array();
 		$option[0]->value = "0";
-		$option[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$option[0]->text  = JText::_('COM_REDSHOP_SELECT');
 		if (count($sectionlist) > 0)
 		{
 			$option = @array_merge($option, $sectionlist);

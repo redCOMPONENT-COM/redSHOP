@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
@@ -74,7 +74,7 @@ $filter = JRequest::getVar('filter');
 		$k = 0;
 		for ($i = 0, $n = count($this->fields); $i < $n; $i++)
 		{
-			$row =& $this->fields[$i];
+			$row     =& $this->fields[$i];
 			$row->id = $row->state_id;
 
 			$link = JRoute::_('index.php?option=' . $option . '&view=state_detail&task=edit&cid[]=' . $row->state_id);

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -35,7 +35,7 @@ class tax_group_detailModeltax_group_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -57,8 +57,10 @@ class tax_group_detailModeltax_group_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'tax_group WHERE tax_group_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -67,11 +69,11 @@ class tax_group_detailModeltax_group_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->tax_group_id = 0;
+			$detail                 = new stdClass();
+			$detail->tax_group_id   = 0;
 			$detail->tax_group_name = null;
-			$detail->published = 0;
-			$detail->tax_rate = null;
+			$detail->published      = 0;
+			$detail->tax_rate       = null;
 
 			$this->_data = $detail;
 
@@ -90,12 +92,14 @@ class tax_group_detailModeltax_group_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -113,6 +117,7 @@ class tax_group_detailModeltax_group_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -137,6 +142,7 @@ class tax_group_detailModeltax_group_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}

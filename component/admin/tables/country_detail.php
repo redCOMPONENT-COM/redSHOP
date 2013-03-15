@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -35,6 +35,7 @@ class Tablecountry_detail extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -53,6 +54,7 @@ class Tablecountry_detail extends JTable
 
 			$this->_error = JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS');
 			JError::raiseWarning('', $this->_error);
+
 			return false;
 		}
 		else
@@ -66,9 +68,11 @@ class Tablecountry_detail extends JTable
 			{
 				$this->_error = JText::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS');
 				JError::raiseWarning('', $this->_error);
+
 				return false;
 			}
 		}
+
 		return true;
 
 	}

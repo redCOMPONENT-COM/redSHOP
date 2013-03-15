@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -18,7 +18,7 @@ class fields_detailVIEWfields_detail extends JView
 	function display($tpl = null)
 	{
 		$extra_field = new extra_field();
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option      = JRequest::getVar('option', '', 'request', 'string');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
 
@@ -30,12 +30,12 @@ class fields_detailVIEWfields_detail extends JView
 		$lists = array();
 
 		$detail =& $this->get('data');
-		$model = $this->getModel('fields_detail');
+		$model  = $this->getModel('fields_detail');
 
 		$filed_data = $extra_field->getFieldValue($detail->field_id);
 
 		$isNew = ($detail->field_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_fields48');
 		JToolBarHelper::apply();
@@ -50,15 +50,15 @@ class fields_detailVIEWfields_detail extends JView
 
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
-		$redtemplate = new Redtemplate();
-		$optiontype = $redtemplate->getFieldTypeSections();
+		$redtemplate   = new Redtemplate();
+		$optiontype    = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
 		$lists['show_in_front'] = JHTML::_('select.booleanlist', 'field_show_in_front', 'class="inputbox"', $detail->field_show_in_front);
 
-		$lists['display_in_product'] = JHTML::_('select.booleanlist', 'display_in_product', 'class="inputbox"', $detail->display_in_product);
+		$lists['display_in_product']  = JHTML::_('select.booleanlist', 'display_in_product', 'class="inputbox"', $detail->display_in_product);
 		$lists['display_in_checkout'] = JHTML::_('select.booleanlist', 'display_in_checkout', 'class="inputbox"', $detail->display_in_checkout);
 
 		$lists['required'] = JHTML::_('select.booleanlist', 'required', 'class="inputbox"', $detail->required);

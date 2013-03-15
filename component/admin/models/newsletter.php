@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
@@ -25,12 +25,12 @@ class newsletterModelnewsletter extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'newsletter_id';
+		$this->_context      = 'newsletter_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter              = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -40,9 +40,10 @@ class newsletterModelnewsletter extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -50,9 +51,10 @@ class newsletterModelnewsletter extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -63,14 +65,15 @@ class newsletterModelnewsletter extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$filter = $this->getState('filter');
-		$where = '';
+		$filter  = $this->getState('filter');
+		$where   = '';
 		if ($filter)
 		{
 			$where = " WHERE n.name like '%" . $filter . "%' ";
@@ -80,6 +83,7 @@ class newsletterModelnewsletter extends JModel
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -87,7 +91,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'newsletter_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'newsletter_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
@@ -103,6 +107,7 @@ class newsletterModelnewsletter extends JModel
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -111,6 +116,7 @@ class newsletterModelnewsletter extends JModel
 		$query = 'SELECT nt.template_desc FROM ' . $this->_table_prefix . 'template as nt '
 			. 'WHERE nt.template_section="newsletter_product" ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -118,6 +124,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -125,23 +132,24 @@ class newsletterModelnewsletter extends JModel
 	{
 		$query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'newsletter_subscription WHERE newsletter_id=' . $nid . ' AND published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
 	function listallsubscribers($n = 0)
 	{
-		$post = JRequest::get('post');
+		$post  = JRequest::get('post');
 		$where = "";
 		//$filter = $post['filter'];
-		$zipstart = (isset($post['zipstart'])) ? $post['zipstart'] : "";
-		$zipend = (isset($post['zipend'])) ? $post['zipend'] : "";
-		$cityfilter = (isset($post['cityfilter'])) ? $post['cityfilter'] : "";
+		$zipstart      = (isset($post['zipstart'])) ? $post['zipstart'] : "";
+		$zipend        = (isset($post['zipend'])) ? $post['zipend'] : "";
+		$cityfilter    = (isset($post['cityfilter'])) ? $post['cityfilter'] : "";
 		$newsletter_id = (isset($post['newsletter_id'])) ? $post['newsletter_id'] : 0;
-		$between = "";
-		$start_date = (isset($post['start_date'])) ? $post['start_date'] : "";
-		$end_date = (isset($post['end_date'])) ? $post['end_date'] : "";
+		$between       = "";
+		$start_date    = (isset($post['start_date'])) ? $post['start_date'] : "";
+		$end_date      = (isset($post['end_date'])) ? $post['end_date'] : "";
 		$country_value = (isset($post['country'])) ? $post['country'] : "";
-		$country = "";
+		$country       = "";
 
 		if ($country_value)
 		{
@@ -187,7 +195,7 @@ class newsletterModelnewsletter extends JModel
 		$shopper_group_ids = "";
 		if (isset($post['shoppergroups']) && count($post['shoppergroups']) > 0 && isset($post['checkoutshoppers']))
 		{
-			$shoppergroupids = implode("','", $post['shoppergroups']);
+			$shoppergroupids   = implode("','", $post['shoppergroups']);
 			$shopper_group_ids = "  AND uf.shopper_group_id IN ('" . $shoppergroupids . "') ";
 		}
 		// end
@@ -216,6 +224,7 @@ class newsletterModelnewsletter extends JModel
 		}
 
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -227,17 +236,18 @@ class newsletterModelnewsletter extends JModel
 			. 'AND published=1 ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
 	function category($uid)
 	{
-		$return = 1;
+		$return     = 1;
 		$categories = JRequest::getVar('product_category');
 		if (count($categories) > 0)
 		{
 			$categories_ids = implode("','", $categories);
-			$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref AS pcx "
+			$query          = "SELECT * FROM " . $this->_table_prefix . "product_category_xref AS pcx "
 				. "LEFT JOIN " . $this->_table_prefix . "order_item AS oi ON pcx.product_id = oi.product_id "
 				. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oi.order_id "
 				. "WHERE o.user_id='" . $uid . "' "
@@ -249,17 +259,18 @@ class newsletterModelnewsletter extends JModel
 				$return = 0;
 			}
 		}
+
 		return $return;
 	}
 
 	function product($user_id)
 	{
-		$return = 1;
+		$return  = 1;
 		$product = JRequest::getVar('product');
 		if (count($product) > 0)
 		{
 			$product_ids = implode("','", $product);
-			$query = "SELECT o.* FROM " . $this->_table_prefix . "orders AS o "
+			$query       = "SELECT o.* FROM " . $this->_table_prefix . "orders AS o "
 				. "LEFT JOIN " . $this->_table_prefix . "order_item AS oi ON o.order_id=oi.order_id "
 				. "WHERE o.user_id='" . $user_id . "' "
 				. "AND product_id IN ('" . $product_ids . "') ";
@@ -270,16 +281,17 @@ class newsletterModelnewsletter extends JModel
 				$return = 0;
 			}
 		}
+
 		return $return;
 	}
 
 	function order_user($uid)
 	{
 		$number_order = JRequest::getVar('number_order');
-		$oprand = JRequest::getVar('oprand', 'select');
+		$oprand       = JRequest::getVar('oprand', 'select');
 
-		$start = JRequest::getVar('total_start', '');
-		$end = JRequest::getVar('total_end', '');
+		$start       = JRequest::getVar('total_start', '');
+		$end         = JRequest::getVar('total_end', '');
 		$order_total = '';
 		if ($start != '' && $end != '')
 		{
@@ -309,6 +321,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		$query = "SELECT country_3_code as value, country_name as text from " . $this->_table_prefix . "country";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -317,6 +330,7 @@ class newsletterModelnewsletter extends JModel
 		$query = "SELECT product_name as text, product_id as value from " . $this->_table_prefix . "product"
 			. " ORDER BY product_id	";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -325,6 +339,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		$query = "SELECT shopper_group_id as value,shopper_group_name as text FROM `" . $this->_table_prefix . "shopper_group`	";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -333,13 +348,14 @@ class newsletterModelnewsletter extends JModel
 	{
 		$query = "SELECT * FROM `" . $this->_table_prefix . "users_info` WHERE `shopper_group_id` IN (" . $shopperid . ")";
 		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectlist();
+		$data   = $this->_db->loadObjectlist();
 		$userid = array();
 		for ($d = 0; $d < count($data); $d++)
 		{
 			$userid[] = $data[$d]->user_id;
 		}
 		$uids = implode(",", $userid);
+
 		return $uids;
 	}
 
@@ -350,14 +366,15 @@ class newsletterModelnewsletter extends JModel
 			. "AND subscription_id='" . $subscription_id . "' ";
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
+
 		return $result;
 	}
 
 	function newsletterEntry($cid = array(), $userid = array(), $username = array())
 	{
 		$producthelper = new producthelper();
-		$jconfig = new jconfig();
-		$db = JFactory::getDBO();
+		$jconfig       = new jconfig();
+		$db            = JFactory::getDBO();
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
 		$uri =& JURI::getInstance();
@@ -378,22 +395,22 @@ class newsletterModelnewsletter extends JModel
 		// Getting newsletter content
 		$newsbody = $this->getnewsletter_content($newsletter_id);
 
-		$subject = "";
-		$newsletter_body = "";
+		$subject             = "";
+		$newsletter_body     = "";
 		$newsletter_template = "";
 		if (count($newsbody) > 0)
 		{
-			$subject = $newsbody[0]->subject;
-			$newsletter_body = $newsbody[0]->body;
+			$subject             = $newsbody[0]->subject;
+			$newsletter_body     = $newsbody[0]->body;
 			$newsletter_template = $newsbody[0]->template_desc;
 		}
 
-		$o = new stdClass();
+		$o       = new stdClass();
 		$o->text = $newsletter_body;
 		JPluginHelper::importPlugin('content');
-		$dispatcher = & JDispatcher::getInstance();
-		$x = array();
-		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 1));
+		$dispatcher           = & JDispatcher::getInstance();
+		$x                    = array();
+		$results              = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 1));
 		$newsletter_template2 = $o->text;
 		// $newsletter_template1=$newsletter_template1.$newsletter_template;
 
@@ -411,9 +428,9 @@ class newsletterModelnewsletter extends JModel
 			if (strstr($content, '{Newsletter Products:' . $product_id . '}'))
 			{
 
-				$product_id = $product_id_list[$i]->product_id;
+				$product_id      = $product_id_list[$i]->product_id;
 				$newsproductbody = $this->getnewsletterproducts_content();
-				$np_temp_desc = $newsproductbody[0]->template_desc;
+				$np_temp_desc    = $newsproductbody[0]->template_desc;
 
 				$thum_image = "";
 				if ($product_id_list[$i]->product_full_image)
@@ -432,7 +449,7 @@ class newsletterModelnewsletter extends JModel
 			}
 		}
 		//Replacing the Text library texts
-		$texts = new text_library();
+		$texts   = new text_library();
 		$content = $texts->replace_texts($content);
 
 		//If the template contains the images, then revising the path of the images,
@@ -444,8 +461,8 @@ class newsletterModelnewsletter extends JModel
 		foreach ($matches[0] as $match)
 		{
 			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
-			$images[] = array_combine($m[1], $m[2]);
-			$imagescur = array_combine($m[1], $m[2]);
+			$images[]         = array_combine($m[1], $m[2]);
+			$imagescur        = array_combine($m[1], $m[2]);
 			$imagescurarray[] = $imagescur['src'];
 		}
 		$imagescurarray = array_unique($imagescurarray);
@@ -467,7 +484,7 @@ class newsletterModelnewsletter extends JModel
 			$subscriberinfo = $this->subscribersinfo($cid[$j]);
 			if (count($subscriberinfo) > 0)
 			{
-				$today = time();
+				$today           = time();
 				$subscribe_email = trim($subscriberinfo[0]->email);
 
 				$unsub_link = $url . 'index.php?option=com_redshop&view=newsletter&task=unsubscribe&email1=' . $subscribe_email;
@@ -485,8 +502,8 @@ class newsletterModelnewsletter extends JModel
 
 
 				$unsubscriberlink = "<a href='" . $unsub_link . "'>" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>";
-				$content = str_replace("{unsubscribe_link}", $unsubscriberlink, $content);
-				$message = $content;
+				$content          = str_replace("{unsubscribe_link}", $unsubscriberlink, $content);
+				$message          = $content;
 
 				if ($subscribe_email != "")
 				{
@@ -503,6 +520,7 @@ class newsletterModelnewsletter extends JModel
 				}
 			}
 		}
+
 		return $retsubscriberid;
 	}
 

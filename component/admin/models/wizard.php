@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -26,6 +26,7 @@ class wizardModelwizard extends configurationModelconfiguration
 	function getTaxRates()
 	{
 		$query = "SELECT tax_group_id,tax_rate_id,tax_country,tax_rate FROM " . $this->_table_prefix . "tax_rate WHERE tax_group_id = 1";
+
 		return $this->_getList($query);
 	}
 }

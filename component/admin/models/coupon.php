@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -23,12 +23,12 @@ class couponModelcoupon extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'coupon_id';
+		$this->_context      = 'coupon_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter              = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
@@ -38,9 +38,10 @@ class couponModelcoupon extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -48,9 +49,10 @@ class couponModelcoupon extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -68,7 +70,7 @@ class couponModelcoupon extends JModel
 	function _buildQuery()
 	{
 		$filter = $this->getState('filter');
-		$where = '';
+		$where  = '';
 		if ($filter)
 		{
 			if ($filter == "Percentage" || $filter == "percentage")
@@ -88,9 +90,10 @@ class couponModelcoupon extends JModel
 				$where .= " OR coupon_type='" . $coupon_type . "'";
 		}
 		$orderby = $this->_buildContentOrderBy();
-		$query = "SELECT distinct(c.coupon_id),c.* FROM " . $this->_table_prefix . "coupons c "
+		$query   = "SELECT distinct(c.coupon_id),c.* FROM " . $this->_table_prefix . "coupons c "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -98,7 +101,7 @@ class couponModelcoupon extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'coupon_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'coupon_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;

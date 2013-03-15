@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -22,7 +22,7 @@ class wizardController extends JController
 	{
 		parent::__construct($default);
 
-		$this->_temp_file = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.php';
+		$this->_temp_file      = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.php';
 		$this->_temp_file_dist = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.dist.php';
 	}
 
@@ -35,6 +35,7 @@ class wizardController extends JController
 			if ($this->isWritable())
 			{
 				require_once ($this->_temp_file);
+
 				return true;
 			}
 		}
@@ -53,8 +54,10 @@ class wizardController extends JController
 		{
 
 			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -76,6 +79,7 @@ class wizardController extends JController
 		{
 			fwrite($fp, $html, strlen($html));
 			fclose($fp);
+
 			return true;
 		}
 		else
@@ -103,7 +107,7 @@ class wizardController extends JController
 
 
 		$substep = $post['substep'];
-		$go = $post['go'];
+		$go      = $post['go'];
 
 		global $temparray;
 
@@ -114,7 +118,7 @@ class wizardController extends JController
 
 			$country_list = JRequest::getVar('country_list');
 
-			$i = 0;
+			$i                = 0;
 			$country_listCode = '';
 			if ($country_list)
 			{
@@ -150,14 +154,14 @@ class wizardController extends JController
 		{
 
 			$substep = $substep - 1;
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STEP_DETAIL');
+			$msg     = JText::_('COM_REDSHOP_ERROR_SAVING_STEP_DETAIL');
 		}
 
 		if ($post['vatremove'] == 1)
 		{
 
 			$tax_rate_id = $post['vattax_rate_id'];
-			$vatlink = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $tax_rate_id . '&tax_group_id=1';
+			$vatlink     = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $tax_rate_id . '&tax_group_id=1';
 
 			$this->setRedirect($vatlink);
 
@@ -225,6 +229,7 @@ class wizardController extends JController
 		{
 			return false;
 		}
+
 		return true;
 	}
 }

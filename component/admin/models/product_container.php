@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -24,12 +24,12 @@ class product_containerModelproduct_container extends JModel
 
 		global $mainframe;
 
-		$this->_context = 'product_id';
+		$this->_context      = 'product_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter_supplier = $mainframe->getUserStateFromRequest($this->_context . 'filter_supplier', 'filter_supplier', 0);
-		$filter_container = $mainframe->getUserStateFromRequest($this->_context . 'filter_container', 'filter_container', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter_supplier     = $mainframe->getUserStateFromRequest($this->_context . 'filter_supplier', 'filter_supplier', 0);
+		$filter_container    = $mainframe->getUserStateFromRequest($this->_context . 'filter_container', 'filter_container', 0);
 
 		$this->setState('filter_supplier', $filter_supplier);
 		$this->setState('filter_container', $filter_container);
@@ -44,8 +44,8 @@ class product_containerModelproduct_container extends JModel
 		{
 			$query = $this->_buildQuery();
 
-			$preorder = JRequest::getVar('preorder', '', 'request', 0);
-			$newproducts = JRequest::getVar('newproducts', '', 'request', 0);
+			$preorder         = JRequest::getVar('preorder', '', 'request', 0);
+			$newproducts      = JRequest::getVar('newproducts', '', 'request', 0);
 			$existingproducts = JRequest::getVar('existingproducts', '', 'request', 0);
 
 			if (!$preorder)
@@ -70,7 +70,7 @@ class product_containerModelproduct_container extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -132,8 +132,8 @@ class product_containerModelproduct_container extends JModel
 
 		$query = ' SELECT p.*,s.supplier_name,op.order_id,op.order_item_id,op.product_quantity,op.container_id as ocontainer_id FROM ' . $this->_table_prefix . 'product as p left join ' . $this->_table_prefix . 'supplier as s on s.supplier_id = p.supplier_id , ' . $this->_table_prefix . 'order_item as op WHERE   op.product_id = p.product_id ' . $where . ' ' . $orderby;
 
-		$preorder = JRequest::getVar('preorder', '', 'request', 0);
-		$newproducts = JRequest::getVar('newproducts', '', 'request', 0);
+		$preorder         = JRequest::getVar('preorder', '', 'request', 0);
+		$newproducts      = JRequest::getVar('newproducts', '', 'request', 0);
 		$existingproducts = JRequest::getVar('existingproducts', '', 'request', 0);
 
 		if ($preorder == '1')
@@ -168,7 +168,7 @@ class product_containerModelproduct_container extends JModel
 	function _buildContentOrderBy()
 	{
 		global $mainframe;
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'product_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'product_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
@@ -180,6 +180,7 @@ class product_containerModelproduct_container extends JModel
 	{
 		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' . $this->_table_prefix . 'category as c WHERE product_id =' . $pid . ' AND ref.category_id=c.category_id ORDER BY c.category_name';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -195,9 +196,9 @@ class product_containerModelproduct_container extends JModel
 
 		$this->_db->setQuery($query);
 		$template_desc = $this->_db->loadObject();
-		$template = $template_desc->template_desc;
-		$tmp1 = explode("{", $template);
-		$str = '';
+		$template      = $template_desc->template_desc;
+		$tmp1          = explode("{", $template);
+		$str           = '';
 		for ($h = 0; $h < count($tmp1); $h++)
 		{
 			$word = explode("}", $tmp1[$h]);
@@ -207,7 +208,7 @@ class product_containerModelproduct_container extends JModel
 			if ($h != 0 && $h != count($tmp1) - 1)
 				$str .= ",";
 		}
-		$field = new extra_field();
+		$field      = new extra_field();
 		$list_field = $field->list_all_field($section, $product_id, $str); /// field_section 6 :Userinformations
 		return $list_field;
 	}
@@ -216,6 +217,7 @@ class product_containerModelproduct_container extends JModel
 	{
 		$query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id=' . $mid;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -227,8 +229,8 @@ class product_containerModelproduct_container extends JModel
 			. "\n FROM " . $this->_table_prefix . "manufacturer  where published = '1'";
 
 		$db->setQuery($query);
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -');
-		$types = array_merge($types, $db->loadObjectList());
+		$types[]                   = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -');
+		$types                     = array_merge($types, $db->loadObjectList());
 		$mylist['manufacturelist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['manufacturelist'];
@@ -243,8 +245,8 @@ class product_containerModelproduct_container extends JModel
 			. "\n FROM " . $this->_table_prefix . "supplier  where published = '1'";
 
 		$db->setQuery($query);
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_SUPPLIER') . ' -');
-		$types = array_merge($types, $db->loadObjectList());
+		$types[]                = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_SUPPLIER') . ' -');
+		$types                  = array_merge($types, $db->loadObjectList());
 		$mylist['supplierlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['supplierlist'];
@@ -259,8 +261,8 @@ class product_containerModelproduct_container extends JModel
 			. "\n FROM " . $this->_table_prefix . "container  where published = '1'";
 
 		$db->setQuery($query);
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CONTAINER') . ' -');
-		$types = array_merge($types, $db->loadObjectList());
+		$types[]                 = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CONTAINER') . ' -');
+		$types                   = array_merge($types, $db->loadObjectList());
 		$mylist['containerlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['containerlist'];
@@ -273,6 +275,7 @@ class product_containerModelproduct_container extends JModel
 		$query = $this->_buildQuery();
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObjectlist();
+
 		return $this->_data;
 	}
 

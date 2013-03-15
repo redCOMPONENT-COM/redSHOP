@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -20,7 +20,7 @@ class questionViewquestion extends JView
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-		$context = 'question_id';
+		$context  = 'question_id';
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_question'));
 		$model = $this->getModel('question');
@@ -35,20 +35,20 @@ class questionViewquestion extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'question_date');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'question_date');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$product_id = $mainframe->getUserStateFromRequest($context . 'product_id', 'product_id', 0);
+		$product_id       = $mainframe->getUserStateFromRequest($context . 'product_id', 'product_id', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$question = & $this->get('Data');
-		$total = & $this->get('Total');
+		$question   = & $this->get('Data');
+		$total      = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 
-		$option = $model->getProduct();
-		$optionsection = array();
-		$optionsection[0]->product_id = 0;
+		$option                         = $model->getProduct();
+		$optionsection                  = array();
+		$optionsection[0]->product_id   = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
 		if (count($option) > 0)
 		{

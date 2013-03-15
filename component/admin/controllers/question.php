@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -36,8 +36,8 @@ class questionController extends JController
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(), 'post', 'array');
+		$order  = JRequest::getVar('order', array(), 'post', 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

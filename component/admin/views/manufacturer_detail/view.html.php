@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
@@ -20,9 +20,9 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 
-		$uri =& JFactory::getURI();
+		$uri      =& JFactory::getURI();
 		$document = & JFactory::getDocument();
-		$option = JRequest::getVar('option');
+		$option   = JRequest::getVar('option');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$this->setLayout('default');
 
@@ -53,21 +53,21 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
-		$optiontemplet = array();
+		$optiontemplet   = array();
 		$optiontemplet[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
 		$result = array_merge($optiontemplet, $template_data);
 
 		$lists['template'] = JHTML::_('select.genericlist', $result, 'template_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->template_id);
 
-		$detail->excluding_category_list = explode(',', $detail->excluding_category_list);
-		$product_category = new product_category();
+		$detail->excluding_category_list  = explode(',', $detail->excluding_category_list);
+		$product_category                 = new product_category();
 		$lists['excluding_category_list'] = $product_category->list_all("excluding_category_list[]", 0, $detail->excluding_category_list, 10, false, true);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$field = new extra_field();
+		$field              = new extra_field();
 		//////// Extra field //////////
-		$list_field = $field->list_all_field(10, $detail->manufacturer_id); /// field_section 6 :Userinformations
+		$list_field           = $field->list_all_field(10, $detail->manufacturer_id); /// field_section 6 :Userinformations
 		$lists['extra_field'] = $list_field;
 		//////////////////////////////
 

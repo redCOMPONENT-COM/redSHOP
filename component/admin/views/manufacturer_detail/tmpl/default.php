@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
@@ -176,12 +176,12 @@ if ($this->detail->manufacturer_id != 0)
 				$media_id = $model->getMediaId($this->detail->manufacturer_id);
 				if ($media_id)
 				{
-					$mediaId = $media_id->media_id;
+					$mediaId   = $media_id->media_id;
 					$mediaName = $media_id->media_name;
 				}
 				else
 				{
-					$mediaId = 0;
+					$mediaId   = 0;
 					$mediaName = '';
 				}
 				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media_detail&cid[]=' . $mediaId . '&section_id=' . $this->detail->manufacturer_id . '&showbuttons=1&media_section=manufacturer&section_name=' . $this->detail->manufacturer_name);

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -50,7 +50,7 @@ class sample_detailVIEWsample_detail extends JView
 		if ($layout == 'default')
 		{
 
-			$isNew = ($detail->sample_id < 1);
+			$isNew      = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
 			if (count($color_data) > 0)

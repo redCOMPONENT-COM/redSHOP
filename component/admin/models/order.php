@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -25,14 +25,14 @@ class orderModelorder extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'order_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
+		$this->_context        = 'order_id';
+		$this->_table_prefix   = '#__redshop_';
+		$limit                 = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart            = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter_status         = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
 		$filter_payment_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$filter                = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limitstart            = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
@@ -44,9 +44,10 @@ class orderModelorder extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -54,7 +55,7 @@ class orderModelorder extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -74,15 +75,15 @@ class orderModelorder extends JModel
 
 	function _buildQuery()
 	{
-		$where = "";
+		$where    = "";
 		$order_id = array();
 
-		$filter = $this->getState('filter');
-		$filter_status = $this->getState('filter_status');
+		$filter                = $this->getState('filter');
+		$filter_status         = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$order_id = implode(',', $cid);
-		$layout = JRequest::getVar('layout');
+		$cid                   = JRequest::getVar('cid', array(0), 'method', 'array');
+		$order_id              = implode(',', $cid);
+		$layout                = JRequest::getVar('layout');
 
 		$where[] = "1=1";
 		if ($filter_status)
@@ -101,7 +102,7 @@ class orderModelorder extends JModel
 		{
 			$where[] = " o.order_id IN (" . $order_id . ")";
 		}
-		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
+		$where   = count($where) ? '  ' . implode(' AND ', $where) : '';
 		$orderby = $this->_buildContentOrderBy();
 		if ($layout == 'labellisting')
 		{
@@ -113,6 +114,7 @@ class orderModelorder extends JModel
 			. 'AND ' . $where . ' '
 			. 'group by o.order_id '
 			. $orderby;
+
 		return $query;
 	}
 
@@ -120,7 +122,7 @@ class orderModelorder extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
@@ -155,7 +157,7 @@ class orderModelorder extends JModel
 		{
 			$where[] = " o.order_id IN (" . $order_id . ")";
 		}
-		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
+		$where   = count($where) ? '  ' . implode(' AND ', $where) : '';
 		$orderby = " order by o.order_id DESC";
 
 		$query = 'SELECT distinct(o.cdate),o.*,ouf.* FROM ' . $this->_table_prefix . 'orders AS o '
@@ -179,25 +181,26 @@ class orderModelorder extends JModel
 		{
 			return false;
 		}
+
 		return true;
 	}
 
 	function gls_export($cid)
 	{
 		global $mainframe;
-		$oids = implode(',', $cid);
-		$where = "";
-		$redhelper = new redhelper();
-		$order_helper = new order_functions();
-		$shipping = new shipping();
-		$plugin = & JPluginHelper::getPlugin('rs_labels_GLS');
-		$glsparams = new JParameter($plugin[0]->params);
+		$oids                       = implode(',', $cid);
+		$where                      = "";
+		$redhelper                  = new redhelper();
+		$order_helper               = new order_functions();
+		$shipping                   = new shipping();
+		$plugin                     = & JPluginHelper::getPlugin('rs_labels_GLS');
+		$glsparams                  = new JParameter($plugin[0]->params);
 		$normal_parcel_weight_start = $glsparams->get('normal_parcel_weight_start', '');
-		$normal_parcel_weight_end = $glsparams->get('normal_parcel_weight_end', '');
-		$small_parcel_weight_start = $glsparams->get('small_parcel_weight_start', '');
-		$small_parcel_weight_end = $glsparams->get('small_parcel_weight_end', '');
+		$normal_parcel_weight_end   = $glsparams->get('normal_parcel_weight_end', '');
+		$small_parcel_weight_start  = $glsparams->get('small_parcel_weight_start', '');
+		$small_parcel_weight_end    = $glsparams->get('small_parcel_weight_end', '');
 		$pallet_parcel_weight_start = $glsparams->get('pallet_parcel_weight_start', '');
-		$pallet_parcel_weight_end = $glsparams->get('pallet_parcel_weight_end', '');
+		$pallet_parcel_weight_end   = $glsparams->get('pallet_parcel_weight_end', '');
 		/* Set the export filename */
 
 		$exportfilename = 'redshop_gls_order_export.csv';
@@ -240,7 +243,7 @@ class orderModelorder extends JModel
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
 		$db = & JFactory::getDBO();
-		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
+		$q  = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();
 
@@ -257,13 +260,13 @@ class orderModelorder extends JModel
 
 			if (($details[0] == 'plgredshop_shippingdefault_shipping_GLS') && $gls_arr[$i]->shop_id != "")
 			{
-				$orderproducts = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
+				$orderproducts   = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
 				$shippingDetails = $order_helper->getOrderShippingUserInfo($gls_arr[$i]->order_id);
-				$billingDetails = $order_helper->getOrderBillingUserInfo($gls_arr[$i]->order_id);
+				$billingDetails  = $order_helper->getOrderBillingUserInfo($gls_arr[$i]->order_id);
 
 				$totalWeight = "";
-				$parceltype = "";
-				$qty = "";
+				$parceltype  = "";
+				$qty         = "";
 				for ($c = 0; $c < count($orderproducts); $c++)
 				{
 					$product_id[] = $orderproducts [$c]->product_id;
@@ -281,17 +284,17 @@ class orderModelorder extends JModel
 					$totalWeight = 1;
 				}
 
-				$parceltype = 'A';
+				$parceltype      = 'A';
 				$shopDetails_arr = explode("|", $gls_arr[$i]->shop_id);
 
 				$userphoneArr = explode("###", $gls_arr[$i]->shop_id);
 
 				$shopDetails_temparr = explode("###", $shopDetails_arr[7]);
-				$shopDetails_arr[7] = $shopDetails_temparr[0];
+				$shopDetails_arr[7]  = $shopDetails_temparr[0];
 
 
 				$shopDetails_arr[2] = str_replace(',', '-', $shopDetails_arr[2]);
-				$userDetail = "";
+				$userDetail         = "";
 				if ($shopDetails_arr[4] != 'DK')
 				{
 					$shipmenttype = 'U';
@@ -318,11 +321,11 @@ class orderModelorder extends JModel
 	function business_gls_export($cid)
 	{
 		global $mainframe;
-		$oids = implode(',', $cid);
-		$where = "";
-		$redhelper = new redhelper();
+		$oids         = implode(',', $cid);
+		$where        = "";
+		$redhelper    = new redhelper();
 		$order_helper = new order_functions();
-		$shipping = new shipping();
+		$shipping     = new shipping();
 
 		$exportfilename = 'redshop_gls_order_export.csv';
 		/* Start output to the browser */
@@ -363,7 +366,7 @@ class orderModelorder extends JModel
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
 		$db = & JFactory::getDBO();
-		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
+		$q  = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();
 
@@ -380,13 +383,13 @@ class orderModelorder extends JModel
 
 			if ($details[0] == 'shipper')
 			{
-				$orderproducts = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
+				$orderproducts   = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
 				$shippingDetails = $order_helper->getOrderShippingUserInfo($gls_arr[$i]->order_id);
-				$billingDetails = $order_helper->getOrderBillingUserInfo($gls_arr[$i]->order_id);
+				$billingDetails  = $order_helper->getOrderBillingUserInfo($gls_arr[$i]->order_id);
 
 
 				$totalWeight = "";
-				$qty = "";
+				$qty         = "";
 				for ($c = 0; $c < count($orderproducts); $c++)
 				{
 					$product_id[] = $orderproducts [$c]->product_id;

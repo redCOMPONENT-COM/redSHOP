@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Renders a Productfinder Form
@@ -32,13 +32,13 @@ class JFormFieldcreditcards extends JFormField
 		$db = & JFactory::getDBO();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$cc_list = array();
-		$cc_list['VISA'] = 'Visa';
-		$cc_list['MC'] = 'MasterCard';
-		$cc_list['amex'] = 'American Express';
-		$cc_list['maestro'] = 'Maestro';
-		$cc_list['jcb'] = 'JCB';
-		$cc_list['diners'] = 'Diners Club';
+		$cc_list             = array();
+		$cc_list['VISA']     = 'Visa';
+		$cc_list['MC']       = 'MasterCard';
+		$cc_list['amex']     = 'American Express';
+		$cc_list['maestro']  = 'Maestro';
+		$cc_list['jcb']      = 'JCB';
+		$cc_list['diners']   = 'Diners Club';
 		$cc_list['discover'] = 'Discover';
 
 		//$selected_cc = explode(",",$this->detail->accepted_credict_card);

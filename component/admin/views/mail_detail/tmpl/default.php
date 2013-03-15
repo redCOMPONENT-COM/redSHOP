@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 JHTML::_('behavior.tooltip');
@@ -69,7 +69,8 @@ $extra_field = new extra_field();
 				       value="<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MAIL_SECTION'); ?>"></td>
 		</tr>
 		<tr id="order_state" <?php if ($this->detail->mail_section != 'order_status' || $this->detail->mail_section == "0")
-		{ ?>    style="display: none;"    <?php }?>>
+		{
+			?>    style="display: none;"    <?php }?>>
 			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MAIL_ORDER_STATUS'); ?>:</td>
 			<td>
 				<div id="responce"></div>

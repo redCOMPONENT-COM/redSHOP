@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.view');
@@ -18,7 +18,7 @@ class container_detailVIEWcontainer_detail extends JView
 	{
 
 		$option = JRequest::getVar('option');
-		$conid = JRequest::getVar('conid');
+		$conid  = JRequest::getVar('conid');
 
 		$layout = JRequest::getVar('layout');
 
@@ -78,7 +78,7 @@ class container_detailVIEWcontainer_detail extends JView
 		$model = $this->getModel('container_detail');
 		if (count($conid) > 0)
 		{
-			$chk_new = 1;
+			$chk_new                = 1;
 			$container_product_data = $model->Container_newProduct($conid);
 			if (count($container_product_data) > 0)
 				$detail->supplier_id = $container_product_data[0]->supplier_id;
@@ -86,7 +86,7 @@ class container_detailVIEWcontainer_detail extends JView
 		else
 		{
 			$container_product_data = $model->Container_Product_Data($detail->container_id);
-			$chk_new = 0;
+			$chk_new                = 0;
 		}
 
 
@@ -97,30 +97,30 @@ class container_detailVIEWcontainer_detail extends JView
 
 
 		$lists['container_product'] = $result_container;
-		$manufacturers = $model->getmanufacturers();
-		$supplier = $model->getsupplier();
-		$result = array();
+		$manufacturers              = $model->getmanufacturers();
+		$supplier                   = $model->getsupplier();
+		$result                     = array();
 
 		//	$lists['product_all'] 	= JHTML::_('select.genericlist',$result,  'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
 
-		$manufac = array();
-		$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$manufac       = array();
+		$manufac[]     = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$manufacturers = @array_merge($manufac, $manufacturers);
 
 
 		//	$lists['manufacturers'] = JHTML::_('select.genericlist',$manufacturers,'manufacture_id','class="inputbox"  size="1" ','value','text',$detail->manufacture_id);
 
-		$manufac = array();
+		$manufac   = array();
 		$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$supplier = @array_merge($manufac, $supplier);
+		$supplier  = @array_merge($manufac, $supplier);
 
 		$lists['supplier'] = JHTML::_('select.genericlist', $supplier, 'supplier_id', 'class="inputbox" onchange="chk_manufacturer();"  size="1" ', 'value', 'text', $detail->supplier_id);
 
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$stock = array();
-		$stock[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$stock    = array();
+		$stock[]  = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$stokroom = @array_merge($stock, $stock_data);
 
 		$lists['stock'] = JHTML::_('select.genericlist', $stokroom, 'stockroom_id', 'class="inputbox" size="1"', 'value', 'text', $detail->stockroom_id);

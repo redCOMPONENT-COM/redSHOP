@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -30,7 +30,7 @@ class sample_catalogModelsample_catalog extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -64,6 +64,7 @@ class sample_catalogModelsample_catalog extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -72,13 +73,15 @@ class sample_catalogModelsample_catalog extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->sample_id = null;
+			$detail              = new stdClass();
+			$detail->sample_id   = null;
 			$detail->sample_name = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published   = 1;
+			$this->_data         = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -25,12 +25,12 @@ class stockimageModelstockimage extends JModel
 
 		global $mainframe;
 
-		$this->_context = 'stock_amount_id';
+		$this->_context      = 'stock_amount_id';
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter     = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
@@ -41,9 +41,10 @@ class stockimageModelstockimage extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -51,9 +52,10 @@ class stockimageModelstockimage extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -64,12 +66,13 @@ class stockimageModelstockimage extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
-		$filter = $this->getState('filter');
+		$filter  = $this->getState('filter');
 		$orderby = $this->_buildOrderBy();
 
 		$where = '';
@@ -81,6 +84,7 @@ class stockimageModelstockimage extends JModel
 			. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id=si.stockroom_id "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -88,7 +92,7 @@ class stockimageModelstockimage extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'stock_amount_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'stock_amount_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
@@ -98,7 +102,7 @@ class stockimageModelstockimage extends JModel
 
 	function getStockAmountOption($select = 0)
 	{
-		$option = array();
+		$option   = array();
 		$option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
 		$option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
@@ -107,6 +111,7 @@ class stockimageModelstockimage extends JModel
 		{
 			$option = $option[$select]->text;
 		}
+
 		return $option;
 	}
 }

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.controller');
@@ -65,7 +65,7 @@ class product_containerController extends JController
 
 		echo "Container,Product SKU,Product Name,Quantity,M3\n\n";
 
-		$data = $model->getcontainerproducts();
+		$data   = $model->getcontainerproducts();
 		$totvol = 0;
 		for ($i = 0; $i < count($data); $i++)
 		{

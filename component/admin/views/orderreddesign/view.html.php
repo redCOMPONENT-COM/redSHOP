@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -35,18 +35,18 @@ class orderreddesignVieworderreddesign extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' cdate ');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' cdate ');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filter_status = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
+		$filter_status    = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
 
 
 		//$lists['detailorder'] 		= $model->getdesignorder(); // reddesign
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$orders = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$orders             = & $this->get('Data');
+		$total              = & $this->get('Total');
+		$pagination         = & $this->get('Pagination');
 
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
 

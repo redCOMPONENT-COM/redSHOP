@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.controller');
@@ -33,8 +33,8 @@ class fieldsController extends JController
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('fields');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('fields');
 		if ($model->saveorder($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
@@ -173,257 +173,259 @@ else
 	}
 </script>
 <?php if (!JRequest::getvar('ajaxtask'))
-{ ?>
+{
+?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
-	<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
-		<tbody>
-		<tr>
-			<td>
-				<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
-					<tbody>
-					<tr>
-						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER'); ?>:</td>
-						<td><?php echo $this->lists['userlist']; ?>
-							<!-- <a href="<?php echo JRoute::_('index.php?option='.$option.'&view=addquotation_detail&user_id=0&uid=add');?>"><?php echo JText::_('COM_REDSHOP_ADD_USER');?></a> -->
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td id="userinforesult">
-				<?php }
-				?>
-				<table width="100%" class="adminlist">
-					<tbody>
-					<tr style="background-color: #cccccc">
-						<th colspan="2"><?php echo JText::_('COM_REDSHOP_ACCOUNT_INFORMATION'); ?></th>
-					</tr>
-					<tr>
-						<td width="25%"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
-						<td><input type="text" name="firstname" id="firstname"
-						           value="<?php echo $billing->firstname; ?>"/></td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
-						<td><input type="text" name="lastname" id="lastname" value="<?php echo $billing->lastname; ?>"/>
-						</td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
-						<td><input type="text" name="address" id="address" value="<?php echo $billing->address; ?>"/>
-						</td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</td>
-						<td><input type="text" name="zipcode" id="zipcode" value="<?php echo $billing->zipcode; ?>"/>
-						</td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
-						<td><input type="text" name="city" id="city" value="<?php echo $billing->city; ?>"/></td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
-						<td><?php echo $this->lists['country_code']; ?></td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-						<td><?php echo $this->lists['state_code']; ?></td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
-						<td><input type="text" name="phone" id="phone" value="<?php echo $billing->phone; ?>"/></td>
-					</tr>
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
-						<td><input type="text" name="user_email" id="user_email"
-						           value="<?php echo $billing->user_email; ?>"/></td>
-					</tr>
-					<tr>
-						<td colspan="2"><?php echo $this->lists['quotation_extrafield'];?>    </td>
-					</tr>
+<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+<tbody>
+<tr>
+	<td>
+		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+			<tbody>
+			<tr>
+				<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER'); ?>:</td>
+				<td><?php echo $this->lists['userlist']; ?>
+					<!-- <a href="<?php echo JRoute::_('index.php?option='.$option.'&view=addquotation_detail&user_id=0&uid=add');?>"><?php echo JText::_('COM_REDSHOP_ADD_USER');?></a> -->
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td id="userinforesult">
+		<?php }
+		?>
+		<table width="100%" class="adminlist">
+			<tbody>
+			<tr style="background-color: #cccccc">
+				<th colspan="2"><?php echo JText::_('COM_REDSHOP_ACCOUNT_INFORMATION'); ?></th>
+			</tr>
+			<tr>
+				<td width="25%"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
+				<td><input type="text" name="firstname" id="firstname"
+				           value="<?php echo $billing->firstname; ?>"/></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
+				<td><input type="text" name="lastname" id="lastname" value="<?php echo $billing->lastname; ?>"/>
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
+				<td><input type="text" name="address" id="address" value="<?php echo $billing->address; ?>"/>
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</td>
+				<td><input type="text" name="zipcode" id="zipcode" value="<?php echo $billing->zipcode; ?>"/>
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
+				<td><input type="text" name="city" id="city" value="<?php echo $billing->city; ?>"/></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
+				<td><?php echo $this->lists['country_code']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
+				<td><?php echo $this->lists['state_code']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
+				<td><input type="text" name="phone" id="phone" value="<?php echo $billing->phone; ?>"/></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
+				<td><input type="text" name="user_email" id="user_email"
+				           value="<?php echo $billing->user_email; ?>"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php echo $this->lists['quotation_extrafield'];?>    </td>
+			</tr>
 
-					<input type="hidden" name="users_info_id" value="<?php echo $billing->users_info_id; ?>"/>
-					</tbody>
-				</table>
-				<?php    if ($this->detail->user_id <= 0)
-				{ ?>
-					<table id="tblcreat" style="display:<?php echo $style; ?>;">
+			<input type="hidden" name="users_info_id" value="<?php echo $billing->users_info_id; ?>"/>
+			</tbody>
+		</table>
+		<?php    if ($this->detail->user_id <= 0)
+		{
+			?>
+			<table id="tblcreat" style="display:<?php echo $style; ?>;">
+				<tr>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:
+					</td>
+					<td><input class="inputbox" type="text" name="username" id="username" size="32"
+					           maxlength="250" value="" onblur="validate(1);"/><span id="user_valid"></span>
+					</td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?>:</td>
+					<td><input class="inputbox" type="password" name="password" id="password" size="32"
+					           maxlength="250" value=""/></td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'); ?>
+						:
+					</td>
+					<td><input class="inputbox" type="password" name="password2" id="password2" size="32"
+					           maxlength="250" value=""/></td>
+				</tr>
+			</table>
+		<?php
+		}
+		if (JRequest::getvar('ajaxtask') == "getuser")
+		{
+			die();
+		}
+		if(!JRequest::getvar('ajaxtask')) {    ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
+			<tbody>
+			<tr style="background-color: #cccccc">
+				<th align="left"><?php echo JText::_('COM_REDSHOP_QUOTATION_DETAILS'); ?></th>
+			</tr>
+			<tr>
+				<td align="right"><a
+						href="javascript:addNewproductRow('tblproductRow');"><?php echo JText::_('COM_REDSHOP_NEW'); ?></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table class="adminlist" id="tblproductRow" width="100%">
 						<tr>
-							<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:
-							</td>
-							<td><input class="inputbox" type="text" name="username" id="username" size="32"
-							           maxlength="250" value="" onblur="validate(1);"/><span id="user_valid"></span>
-							</td>
+							<th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></th>
+							<th width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
+							<th width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></th>
+							<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></td>
+							<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
+							<th width="10%"
+							    align="right"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
+							<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></th>
+							<th width="10%"
+							    align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></th>
 						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?>:</td>
-							<td><input class="inputbox" type="password" name="password" id="password" size="32"
-							           maxlength="250" value=""/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'); ?>
-								:
+						<tr id="trPrd1">
+							<td align="center"></td>
+							<td><input type="text" name="searchproduct1" id="searchproduct1" size="30"/>
+								<input type="hidden" name="product1" id="product1" value="0"/>
+
+								<div id="divAttproduct1"></div>
+								<div id="divAccproduct1"></div>
+								<div id="divUserFieldproduct1"></div>
 							</td>
-							<td><input class="inputbox" type="password" name="password2" id="password2" size="32"
-							           maxlength="250" value=""/></td>
+							<td id="tdnoteproduct1"></td>
+							<td><input type="text" name="prdexclpriceproduct1" id="prdexclpriceproduct1"
+							           onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
+							<td align="right">
+								<div id="prdtaxproduct1"></div>
+								<input name="taxpriceproduct1" id="taxpriceproduct1" type="hidden" value="0"/>
+							</td>
+							<td align="right">
+								<div id="prdpriceproduct1"></div>
+								<input name="productpriceproduct1" id="productpriceproduct1" type="hidden"
+								       value="0"/></td>
+							<td><input type="text" name="quantityproduct1" id="quantityproduct1"
+							           onchange="changeOfflineQuantityBox('product1');" value="1"
+							           size="<?php echo DEFAULT_QUANTITY; ?>"
+							           maxlength="<?php echo DEFAULT_QUANTITY; ?>"></td>
+							<td align="right">
+								<div id="tdtotalprdproduct1"></div>
+								<input name="subpriceproduct1" id="subpriceproduct1" type="hidden" value="0"/>
+
+								<input type="hidden" name="main_priceproduct1" id="main_priceproduct1"
+								       value="0"/>
+								<input type="hidden" name="tmp_product_priceproduct1"
+								       id="tmp_product_priceproduct1" value="0">
+								<input type="hidden" name="product_vatpriceproduct1"
+								       id="product_vatpriceproduct1" value="0">
+								<input type="hidden" name="tmp_product_vatpriceproduct1"
+								       id="tmp_product_vatpriceproduct1" value="0">
+								<input type="hidden" name="wrapper_dataproduct1" id="wrapper_dataproduct1"
+								       value="0">
+								<input type="hidden" name="wrapper_vatpriceproduct1"
+								       id="wrapper_vatpriceproduct1" value="0">
+
+								<input type="hidden" name="accessory_dataproduct1" id="accessory_dataproduct1"
+								       value="0">
+								<input type="hidden" name="acc_attribute_dataproduct1"
+								       id="acc_attribute_dataproduct1" value="0">
+								<input type="hidden" name="acc_property_dataproduct1"
+								       id="acc_property_dataproduct1" value="0">
+								<input type="hidden" name="acc_subproperty_dataproduct1"
+								       id="acc_subproperty_dataproduct1" value="0">
+								<input type="hidden" name="accessory_priceproduct1" id="accessory_priceproduct1"
+								       value="0">
+								<input type="hidden" name="accessory_vatpriceproduct1"
+								       id="accessory_vatpriceproduct1" value="0">
+
+								<input type="hidden" name="attribute_dataproduct1" id="attribute_dataproduct1"
+								       value="0">
+								<input type="hidden" name="property_dataproduct1" id="property_dataproduct1"
+								       value="0">
+								<input type="hidden" name="subproperty_dataproduct1"
+								       id="subproperty_dataproduct1" value="0">
+								<input type="hidden" name="requiedAttributeproduct1"
+								       id="requiedAttributeproduct1" value="0">
+
+							</td>
 						</tr>
 					</table>
-				<?php
-				}
-				if (JRequest::getvar('ajaxtask') == "getuser")
-				{
-					die();
-				}
-				if(!JRequest::getvar('ajaxtask')) {    ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
-					<tbody>
-					<tr style="background-color: #cccccc">
-						<th align="left"><?php echo JText::_('COM_REDSHOP_QUOTATION_DETAILS'); ?></th>
-					</tr>
-					<tr>
-						<td align="right"><a
-								href="javascript:addNewproductRow('tblproductRow');"><?php echo JText::_('COM_REDSHOP_NEW'); ?></a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<table class="adminlist" id="tblproductRow" width="100%">
-								<tr>
-									<th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></th>
-									<th width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
-									<th width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></th>
-									<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></td>
-									<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
-									<th width="10%"
-									    align="right"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
-									<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></th>
-									<th width="10%"
-									    align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></th>
-								</tr>
-								<tr id="trPrd1">
-									<td align="center"></td>
-									<td><input type="text" name="searchproduct1" id="searchproduct1" size="30"/>
-										<input type="hidden" name="product1" id="product1" value="0"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
+						<tbody>
+						<tr align="left">
+							<td align="right" width="70%">
+								<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?>:</strong></td>
+							<td align="right" width="30%">
+								<div id="divSubTotal"></div>
+								<input name="order_subtotal" id="order_subtotal" type="hidden" value="0"/></td>
+						</tr>
+						<tr align="left">
+							<td align="right" width="70%">
+								<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TAX'); ?>:</strong></td>
+							<td align="right" width="30%">
+								<div id="divTax"></div>
+								<input name="order_tax" id="order_tax" type="hidden" value="0"/></td>
+						</tr>
 
-										<div id="divAttproduct1"></div>
-										<div id="divAccproduct1"></div>
-										<div id="divUserFieldproduct1"></div>
-									</td>
-									<td id="tdnoteproduct1"></td>
-									<td><input type="text" name="prdexclpriceproduct1" id="prdexclpriceproduct1"
-									           onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
-									<td align="right">
-										<div id="prdtaxproduct1"></div>
-										<input name="taxpriceproduct1" id="taxpriceproduct1" type="hidden" value="0"/>
-									</td>
-									<td align="right">
-										<div id="prdpriceproduct1"></div>
-										<input name="productpriceproduct1" id="productpriceproduct1" type="hidden"
-										       value="0"/></td>
-									<td><input type="text" name="quantityproduct1" id="quantityproduct1"
-									           onchange="changeOfflineQuantityBox('product1');" value="1"
-									           size="<?php echo DEFAULT_QUANTITY; ?>"
-									           maxlength="<?php echo DEFAULT_QUANTITY; ?>"></td>
-									<td align="right">
-										<div id="tdtotalprdproduct1"></div>
-										<input name="subpriceproduct1" id="subpriceproduct1" type="hidden" value="0"/>
-
-										<input type="hidden" name="main_priceproduct1" id="main_priceproduct1"
-										       value="0"/>
-										<input type="hidden" name="tmp_product_priceproduct1"
-										       id="tmp_product_priceproduct1" value="0">
-										<input type="hidden" name="product_vatpriceproduct1"
-										       id="product_vatpriceproduct1" value="0">
-										<input type="hidden" name="tmp_product_vatpriceproduct1"
-										       id="tmp_product_vatpriceproduct1" value="0">
-										<input type="hidden" name="wrapper_dataproduct1" id="wrapper_dataproduct1"
-										       value="0">
-										<input type="hidden" name="wrapper_vatpriceproduct1"
-										       id="wrapper_vatpriceproduct1" value="0">
-
-										<input type="hidden" name="accessory_dataproduct1" id="accessory_dataproduct1"
-										       value="0">
-										<input type="hidden" name="acc_attribute_dataproduct1"
-										       id="acc_attribute_dataproduct1" value="0">
-										<input type="hidden" name="acc_property_dataproduct1"
-										       id="acc_property_dataproduct1" value="0">
-										<input type="hidden" name="acc_subproperty_dataproduct1"
-										       id="acc_subproperty_dataproduct1" value="0">
-										<input type="hidden" name="accessory_priceproduct1" id="accessory_priceproduct1"
-										       value="0">
-										<input type="hidden" name="accessory_vatpriceproduct1"
-										       id="accessory_vatpriceproduct1" value="0">
-
-										<input type="hidden" name="attribute_dataproduct1" id="attribute_dataproduct1"
-										       value="0">
-										<input type="hidden" name="property_dataproduct1" id="property_dataproduct1"
-										       value="0">
-										<input type="hidden" name="subproperty_dataproduct1"
-										       id="subproperty_dataproduct1" value="0">
-										<input type="hidden" name="requiedAttributeproduct1"
-										       id="requiedAttributeproduct1" value="0">
-
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
-								<tbody>
-								<tr align="left">
-									<td align="right" width="70%">
-										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?>:</strong></td>
-									<td align="right" width="30%">
-										<div id="divSubTotal"></div>
-										<input name="order_subtotal" id="order_subtotal" type="hidden" value="0"/></td>
-								</tr>
-								<tr align="left">
-									<td align="right" width="70%">
-										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TAX'); ?>:</strong></td>
-									<td align="right" width="30%">
-										<div id="divTax"></div>
-										<input name="order_tax" id="order_tax" type="hidden" value="0"/></td>
-								</tr>
-
-								<tr align="left">
-									<td colspan="2" align="left">
-										<hr/>
-									</td>
-								</tr>
-								<tr align="left">
-									<td align="right" width="70%">
-										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TOTAL'); ?>:</strong></td>
-									<td align="right" width="30%">
-										<div id="divFinalTotal"></div>
-										<input name="order_total" id="order_total" type="hidden" value="0"/></td>
-								</tr>
-								<tr align="left">
-									<td colspan="2" align="left">
-										<hr/>
-									</td>
-								</tr>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
-	<input type="hidden" name="view" value="addquotation_detail"/>
+						<tr align="left">
+							<td colspan="2" align="left">
+								<hr/>
+							</td>
+						</tr>
+						<tr align="left">
+							<td align="right" width="70%">
+								<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TOTAL'); ?>:</strong></td>
+							<td align="right" width="30%">
+								<div id="divFinalTotal"></div>
+								<input name="order_total" id="order_total" type="hidden" value="0"/></td>
+						</tr>
+						<tr align="left">
+							<td colspan="2" align="left">
+								<hr/>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</td>
+</tr>
+</tbody>
+</table>
+<input type="hidden" name="task" value=""/>
+<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+<input type="hidden" name="view" value="addquotation_detail"/>
 </form>
 	<div id="divCalc"></div>
 <?php } ?>

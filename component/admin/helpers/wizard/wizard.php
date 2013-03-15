@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -13,37 +13,39 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-class redSHOPWizard{
+class redSHOPWizard
+{
 
-	function initialize(){
+	function initialize()
+	{
 
-		$step 		= JRequest::getVar('step', '');
+		$step = JRequest::getVar('step', '');
 
-		$helper = new redSHOPWizardHelper();
+		$helper   = new redSHOPWizardHelper();
 		$template = new redSHOPWizardTemplate();
 
-		if(!empty($step))
+		if (!empty($step))
 		{
-			$progress 	= $helper->install($step);
-			$html 		= $progress->message;
-			$status		= $progress->status;
-			$nextstep 	= $progress->step;
-			$title 		= $progress->title;
-			$install 	= $progress->install;
-			$substep	= isset($progress->substep) ? $progress->substep : 0 ;
+			$progress = $helper->install($step);
+			$html     = $progress->message;
+			$status   = $progress->status;
+			$nextstep = $progress->step;
+			$title    = $progress->title;
+			$install  = $progress->install;
+			$substep  = isset($progress->substep) ? $progress->substep : 0;
 		}
 		else
 		{
 			$nextstep = 1;
 
-			$html		= $template->getHTML('welcome');
+			$html = $template->getHTML('welcome');
 
-			$status 	= true;
-			$title 		= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
-			$install 	= 1;
-			$substep	= 0;
+			$status  = true;
+			$title   = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+			$install = 1;
+			$substep = 0;
 		}
 
 		$template->setHTML($html, $nextstep, $title, $status, $install, $substep);
@@ -54,9 +56,9 @@ class redSHOPWizard{
 class redSHOPWizardHelper
 {
 
-	function install($step=1)
+	function install($step = 1)
 	{
-		switch($step)
+		switch ($step)
 		{
 			case 1:
 				//check requirement
@@ -79,109 +81,113 @@ class redSHOPWizardHelper
 				$status = $this->finish(0);
 				break;
 			default:
-				$status 			= new stdClass();
-				$status->message	= $this->getErrorMessage(0, '0a');
-				$status->step 		= '-99';
-				$status->title 		= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
-				$status->install 	= 1;
+				$status          = new stdClass();
+				$status->message = $this->getErrorMessage(0, '0a');
+				$status->step    = '-99';
+				$status->title   = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+				$status->install = 1;
 				break;
 		}
 		return $status;
 	}
 
-	function general( $step )
+	function general($step)
 	{
 		$template = new redSHOPWizardTemplate();
 
-		$status				= true;
+		$status = true;
 
-		$params = new stdClass();
+		$params       = new stdClass();
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
-		$drawdata->message	= $template->getHTML('general',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_GENERAL_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass();
+		$drawdata->message = $template->getHTML('general', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_GENERAL_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function terms($step){
+	function terms($step)
+	{
 
 		$template = new redSHOPWizardTemplate();
 
-		$status				= true;
-		$this->pageTitle 	= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+		$status          = true;
+		$this->pageTitle = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
-		$params = new stdClass();
+		$params       = new stdClass();
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
-		$drawdata->message	= $template->getHTML('terms',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_TERMS_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass();
+		$drawdata->message = $template->getHTML('terms', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_TERMS_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function user($step){
+	function user($step)
+	{
 
 		$template = new redSHOPWizardTemplate();
 
-		$status				= true;
-		$this->pageTitle 	= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+		$status          = true;
+		$this->pageTitle = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
-		$params = new stdClass();
+		$params       = new stdClass();
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
-		$drawdata->message	= $template->getHTML('user',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_USER_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass();
+		$drawdata->message = $template->getHTML('user', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_USER_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function price($step){
+	function price($step)
+	{
 
 		$template = new redSHOPWizardTemplate();
 
-		$status				= true;
+		$status = true;
 
-		$params = new stdClass();
+		$params       = new stdClass();
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
-		$drawdata->message	= $template->getHTML('price',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_PRICE_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass();
+		$drawdata->message = $template->getHTML('price', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_PRICE_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function finish($step){
+	function finish($step)
+	{
 
 		$template = new redSHOPWizardTemplate();
 
-		$status				= true;
+		$status = true;
 
-		$params = new stdClass();
+		$params       = new stdClass();
 		$params->step = '';
 
-		$drawdata 			= new stdClass();
-		$drawdata->message	= $template->getHTML('finish',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_FINISH_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass();
+		$drawdata->message = $template->getHTML('finish', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_FINISH_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
@@ -195,16 +201,17 @@ class redSHOPWizardTemplate
 
 	function __construct()
 	{
-		require_once (JPATH_COMPONENT.DS.'controllers'.DS.'wizard.php');
+		require_once (JPATH_COMPONENT . DS . 'controllers' . DS . 'wizard.php');
 
-		$this->title	= '';
-		$classname  = 'wizardController';
-	   	$this->controller = new $classname( array('default_task' => 'display') );
+		$this->title      = '';
+		$classname        = 'wizardController';
+		$this->controller = new $classname(array('default_task' => 'display'));
 	}
 
-	function getHTML($page='', $params='')
+	function getHTML($page = '', $params = '')
 	{
-		$page	= '_'.$page;
+		$page = '_' . $page;
+
 		return $this->$page($params);
 	}
 
@@ -212,12 +219,12 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','welcome');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		JRequest::setVar('layout', 'welcome');
+		JRequest::setVar('params', $params);
+		$this->controller->execute(JRequest::getVar('task'));
 
-	   	# update temp file with config data
-		$this->controller->execute( 'copyTempFile');
+		# update temp file with config data
+		$this->controller->execute('copyTempFile');
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -230,10 +237,10 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','general');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
-	   	//$this->controller->redirect();
+		JRequest::setVar('layout', 'general');
+		JRequest::setVar('params', $params);
+		$this->controller->execute(JRequest::getVar('task'));
+		//$this->controller->redirect();
 
 
 		$html = ob_get_contents();
@@ -246,9 +253,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','terms');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		JRequest::setVar('layout', 'terms');
+		JRequest::setVar('params', $params);
+		$this->controller->execute(JRequest::getVar('task'));
 
 
 		$html = ob_get_contents();
@@ -261,9 +268,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','user');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		JRequest::setVar('layout', 'user');
+		JRequest::setVar('params', $params);
+		$this->controller->execute(JRequest::getVar('task'));
 
 
 		$html = ob_get_contents();
@@ -276,9 +283,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','price');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		JRequest::setVar('layout', 'price');
+		JRequest::setVar('params', $params);
+		$this->controller->execute(JRequest::getVar('task'));
 
 
 		$html = ob_get_contents();
@@ -291,9 +298,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','finish');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		JRequest::setVar('layout', 'finish');
+		JRequest::setVar('params', $params);
+		$this->controller->execute(JRequest::getVar('task'));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -301,10 +308,10 @@ class redSHOPWizardTemplate
 		return $html;
 	}
 
-	function setHTML($output, $step, $title, $status, $install= 1, $substep=0)
+	function setHTML($output, $step, $title, $status, $install = 1, $substep = 0)
 	{
 
-		$html 		= '';
+		$html = '';
 
 		$html .= '
 	<style type="text/css">
@@ -327,14 +334,14 @@ class redSHOPWizardTemplate
 	}
 
 	.button1-right {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_button1_right.png) 100% 0 no-repeat;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_button1_right.png) 100% 0 no-repeat;
 		float: left;
 		margin-left: 5px;
 	}
 
 	.button1-right .prev {
 		float: left;
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_button1_prev.png) no-repeat;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_button1_prev.png) no-repeat;
 	}
 
 	.button-previous{
@@ -348,19 +355,19 @@ class redSHOPWizardTemplate
 	}
 
 	.button1-left {
-		background: transparent url('.JURI::root().'administrator/templates/khepri/images/j_button1_left.png) no-repeat scroll 0 0;
+		background: transparent url(' . JURI::root() . 'administrator/templates/khepri/images/j_button1_left.png) no-repeat scroll 0 0;
 		float: left;
 		margin-left: 5px;
 		cursor: pointer;
 	}
 	.button1-left .next {
-		background: transparent url('.JURI::root().'administrator/templates/khepri/images/j_button1_next.png) no-repeat scroll 100% 0;
+		background: transparent url(' . JURI::root() . 'administrator/templates/khepri/images/j_button1_next.png) no-repeat scroll 100% 0;
 		float: left;
 		cursor: pointer;
 	}
 
 	.button1-left .exit {
-		background: transparent url('.JURI::root().'administrator/templates/khepri/images/j_button1_admin.png) no-repeat scroll 100% 0;
+		background: transparent url(' . JURI::root() . 'administrator/templates/khepri/images/j_button1_admin.png) no-repeat scroll 100% 0;
 		float: left;
 		cursor: pointer;
 	}
@@ -388,7 +395,7 @@ class redSHOPWizardTemplate
 		font-weight: bold;
 		padding-bottom: 12px;
 		padding-top: 10px;
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_divider.png) 0 100% repeat-x;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_divider.png) 0 100% repeat-x;
 	}
 
 	div.on {
@@ -415,27 +422,27 @@ class redSHOPWizardTemplate
 	}
 
 	div#cElement-box div.t {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
 	}
 
 	div#cElement-box div.t div.t {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tr_light.png) 100% 0 no-repeat;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_tr_light.png) 100% 0 no-repeat;
 	}
 
 	div#cElement-box div.t div.t div.t {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tl_light.png) 0 0 no-repeat;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_tl_light.png) 0 0 no-repeat;
 	}
 
 	div#cElement-box div.b {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
 	}
 
 	div#cElement-box div.b div.b {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_br_light.png) 100% 0 no-repeat;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_br_light.png) 100% 0 no-repeat;
 	}
 
 	div#cElement-box div.b div.b div.b {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_bl_light.png) 0 0 no-repeat;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_bl_light.png) 0 0 no-repeat;
 	}
 	#stepbar {
 		float: left;
@@ -443,7 +450,7 @@ class redSHOPWizardTemplate
 	}
 
 	#stepbar div.box {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard_48.png) 0 0 no-repeat;
+		background: url(' . JURI::root() . 'administrator/components/com_redshop/assets/images/wizard_48.png) 0 0 no-repeat;
 		height: 140px;
 		background-position: center;
 	}
@@ -454,7 +461,7 @@ class redSHOPWizardTemplate
 		font-size: 20px;
 		color: #0B55C4;
 		font-weight: bold;
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_divider.png) 0 100% repeat-x;
+		background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_divider.png) 0 100% repeat-x;
 	}
 
 	div#stepbar {
@@ -462,27 +469,27 @@ class redSHOPWizardTemplate
 	}
 
 	div#stepbar div.t {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
+	  background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
 	}
 
 	div#stepbar div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tr_dark.png) 100% 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_tr_dark.png) 100% 0 no-repeat;
 	}
 
 	div#stepbar div.t div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tl_dark.png) 0 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_tl_dark.png) 0 0 no-repeat;
 	}
 
 	div#stepbar div.b {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
+	  background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
 	}
 
 	div#stepbar div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_br_dark.png) 100% 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_br_dark.png) 100% 0 no-repeat;
 	}
 
 	div#stepbar div.b div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_bl_dark.png) 0 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_bl_dark.png) 0 0 no-repeat;
 	}
 
 	div#stepbar div.t, div#stepbar div.b {
@@ -527,27 +534,27 @@ class redSHOPWizardTemplate
 	}
 
 	div#cToolbar-box div.t {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
+	  background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
 	}
 
 	div#cToolbar-box div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tr_med.png) 100% 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_tr_med.png) 100% 0 no-repeat;
 	}
 
 	div#cToolbar-box div.t div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tl_med.png) 0 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_tl_med.png) 0 0 no-repeat;
 	}
 
 	div#cToolbar-box div.b {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
+	  background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
 	}
 
 	div#cToolbar-box div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_br_med.png) 100% 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_br_med.png) 100% 0 no-repeat;
 	}
 
 	div#cToolbar-box div.b div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_bl_med.png) 0 0 no-repeat;
+	   background: url(' . JURI::root() . 'administrator/templates/khepri/images/j_crn_bl_med.png) 0 0 no-repeat;
 	}
 	</style>
 	<script>
@@ -588,7 +595,7 @@ class redSHOPWizardTemplate
 				 		</div>
 					</div>
 					<div class="m">
-					'. $output . '
+					' . $output . '
 					</div>
 					<div class="b">
 						<div class="b">
@@ -616,90 +623,104 @@ class redSHOPWizardTemplate
 			</div>
 			<div class="m">
 				<h1 class="steps"><?php echo JText::_('COM_REDSHOP_WIZARD_STEPS');?></h1>
-				<div id="stepFirst" class="steps<?php if($activeSteps == 1) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_WELCOME_STEP1');?></div>
-				<div class="steps<?php if($activeSteps == 2) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_GENERAL_STEP2');?></div>
-				<div class="steps<?php if($activeSteps == 3) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_TERM_STEP3');?></div>
-				<div class="steps<?php if($activeSteps == 4) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_USER_STEP3');?></div>
-				<div class="steps<?php if($activeSteps == 5) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_PRICE_STEP4');?></div>
-				<div id="stepLast" class="steps<?php if($activeSteps == 0) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_FINISH');?></div>
+
+				<div id="stepFirst"
+				     class="steps<?php if ($activeSteps == 1) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_WELCOME_STEP1');?></div>
+				<div
+					class="steps<?php if ($activeSteps == 2) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_GENERAL_STEP2');?></div>
+				<div
+					class="steps<?php if ($activeSteps == 3) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_TERM_STEP3');?></div>
+				<div
+					class="steps<?php if ($activeSteps == 4) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_USER_STEP3');?></div>
+				<div
+					class="steps<?php if ($activeSteps == 5) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_PRICE_STEP4');?></div>
+				<div id="stepLast"
+				     class="steps<?php if ($activeSteps == 0) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_FINISH');?></div>
 				<div class="box"></div>
-		  	</div>
+			</div>
 			<div class="b">
 				<div class="b">
 					<div class="b"></div>
 				</div>
 			</div>
-	  	</div>
+		</div>
 
 		<?php
-		 $html = ob_get_contents();
-		 ob_end_clean();
-		 return $html;
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		return $html;
 	}
 
 	function setHTMLTitle($title, $step, $status, $install = 1, $substep = 0)
 	{
 		ob_start();
 		?>
-			<div id="cToolbar-box">
-	   			<div class="t">
-					<div class="t">
-						<div class="t"></div>
-					</div>
+		<div id="cToolbar-box">
+			<div class="t">
+				<div class="t">
+					<div class="t"></div>
 				</div>
-				<div class="m">
-					<?php
+			</div>
+			<div class="m">
+				<?php
 
-					if($step >2 || $step==0){
+				if ($step > 2 || $step == 0)
+				{
 					?>
 					<div>
 						<div id="Container">
 							<div class="button1-right">
 								<div id="div-button-prev" class="prev">
 									<?php $vaule = JText::_('COM_REDSHOP_WIZARD_PREVIOUS_BUTTON'); ?>
-									<input type="button" id="input-button-next" class="button-previous" onclick="submitwizard('pre','<?php echo $step;?>');" value="<?php echo $vaule;?>"/>
+									<input type="button" id="input-button-next" class="button-previous"
+									       onclick="submitwizard('pre','<?php echo $step; ?>');"
+									       value="<?php echo $vaule; ?>"/>
 								</div>
 							</div>
 						</div>
 					</div>
-					<?php
-					}
-					?>
-					<span class="title">
+				<?php
+				}
+				?>
+				<span class="title">
 						<?php echo $title; ?>
 					</span>
 
-					<div style="position: absolute; top: 8px; right: 150px;">
-						<div id="Container">
-							<div class="button1-left">
-								<div id="div-button-next" class="next">
-									<?php $vaule = ($step == 0) ? JText::_('COM_REDSHOP_WIZARD_FINISH_BUTTON') : JText::_('COM_REDSHOP_WIZARD_NEXT_BUTTON'); ?>
-									<input type="button" id="input-button-next" class="button-next" onclick="submitwizard('next',1);" value="<?php echo $vaule;?>"/>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div style="position: absolute; top: 8px; right: 10px;">
-						<div id="Container">
-							<div class="button1-left">
-								<div id="div-button-next" class="exit">
-									<?php $vaule = JText::_('COM_REDSHOP_SKIP_DO_IT_LATER')?>
-									<input type="button" id="input-button-next" class="button-next" onclick="submitwizard('exit');" value="<?php echo $vaule;?>"/>
-								</div>
+				<div style="position: absolute; top: 8px; right: 150px;">
+					<div id="Container">
+						<div class="button1-left">
+							<div id="div-button-next" class="next">
+								<?php $vaule = ($step == 0) ? JText::_('COM_REDSHOP_WIZARD_FINISH_BUTTON') : JText::_('COM_REDSHOP_WIZARD_NEXT_BUTTON'); ?>
+								<input type="button" id="input-button-next" class="button-next"
+								       onclick="submitwizard('next',1);" value="<?php echo $vaule; ?>"/>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div style="position: absolute; top: 8px; right: 10px;">
+					<div id="Container">
+						<div class="button1-left">
+							<div id="div-button-next" class="exit">
+								<?php $vaule = JText::_('COM_REDSHOP_SKIP_DO_IT_LATER')?>
+								<input type="button" id="input-button-next" class="button-next"
+								       onclick="submitwizard('exit');" value="<?php echo $vaule; ?>"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="b">
 				<div class="b">
-					<div class="b">
-						<div class="b"></div>
-					</div>
+					<div class="b"></div>
 				</div>
-	  		</div>
+			</div>
+		</div>
 
 		<?php
 		$html = ob_get_contents();
 		ob_end_clean();
+
 		return $html;
 	}
 }

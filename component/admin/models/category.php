@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -23,12 +23,12 @@ class categoryModelcategory extends JModel
 		parent::__construct();
 		global $mainframe;
 
-		$this->_context = 'category_id';
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$this->_context       = 'category_id';
+		$this->_table_prefix  = '#__' . TABLE_PREFIX . '_';
+		$limit                = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart           = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$category_main_filter = $mainframe->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
-		$category_id = $mainframe->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
+		$category_id          = $mainframe->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
 
 		$this->setState('category_main_filter', $category_main_filter);
 		$this->setState('limit', $limit);
@@ -42,6 +42,7 @@ class categoryModelcategory extends JModel
 		{
 			$this->_data = $this->_buildQuery();
 		}
+
 		return $this->_data;
 	}
 
@@ -51,6 +52,7 @@ class categoryModelcategory extends JModel
 		{
 			$this->_buildQuery();
 		}
+
 		return $this->_pagination;
 	}
 
@@ -58,15 +60,15 @@ class categoryModelcategory extends JModel
 	{
 		global $mainframe;
 		$view = JRequest::getVar('view');
-		$db = jFactory::getDBO();
+		$db   = jFactory::getDBO();
 
-		$category_id = $this->getState('category_id');
+		$category_id          = $this->getState('category_id');
 		$category_main_filter = $this->getState('category_main_filter');
-		$limit = $this->getState('limit');
-		$limitstart = $this->getState('limitstart');
+		$limit                = $this->getState('limit');
+		$limitstart           = $this->getState('limitstart');
 
 		$orderby = $this->_buildContentOrderBy();
-		$and = "";
+		$and     = "";
 		if ($category_main_filter)
 		{
 			$and .= " AND category_name like '%" . $category_main_filter . "%' ";
@@ -90,7 +92,7 @@ class categoryModelcategory extends JModel
 			// first pass - collect children
 			foreach ($rows as $v)
 			{
-				$pt = $v->parent_id;
+				$pt   = $v->parent_id;
 				$list = @$children[$pt] ? $children[$pt] : array();
 				array_push($list, $v);
 				$children[$pt] = $list;
@@ -102,7 +104,7 @@ class categoryModelcategory extends JModel
 		}
 		else
 		{
-			$total = count($rows);
+			$total    = count($rows);
 			$treelist = $rows;
 		}
 
@@ -111,6 +113,7 @@ class categoryModelcategory extends JModel
 
 		// slice out elements based on limits
 		$items = array_slice($treelist, $this->_pagination->limitstart, $this->_pagination->limit);
+
 		return $items;
 	}
 
@@ -118,10 +121,11 @@ class categoryModelcategory extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'c.ordering');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'c.ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
@@ -129,6 +133,7 @@ class categoryModelcategory extends JModel
 	{
 		$query = 'SELECT count(category_id) FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id="' . $cid . '" ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -146,7 +151,7 @@ class categoryModelcategory extends JModel
 
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE ' . $this->_table_prefix . 'category'
 				. ' SET `category_template` = "' . intval($category_template) . '" '
 				. ' WHERE category_id IN ( ' . $cids . ' )';
@@ -154,15 +159,17 @@ class categoryModelcategory extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('category_detail');
+		$row       =& $this->getTable('category_detail');
 		$groupings = array();
 
 		// update ordering values
@@ -180,15 +187,18 @@ class categoryModelcategory extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
 		}
+
 		// execute updateOrder for each parent group
 		/*$groupings = array_unique( $groupings );
 		foreach ($groupings as $group){
 			$row->reorder('catid = '.(int) $group);
 		}*/
+
 		return true;
 	}
 }

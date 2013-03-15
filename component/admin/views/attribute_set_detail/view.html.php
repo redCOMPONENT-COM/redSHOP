@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -16,11 +16,11 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 	{
 		$redTemplate = new Redtemplate();
 
-		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
-		$cfg = JFactory::getConfig();
+		$option   = JRequest::getVar('option');
+		$db       = JFactory::getDBO();
+		$cfg      = JFactory::getConfig();
 		$dbPrefix = $cfg->getValue('config.dbprefix');
-		$lists = array();
+		$lists    = array();
 
 		$model = $this->getModel('attribute_set_detail');
 

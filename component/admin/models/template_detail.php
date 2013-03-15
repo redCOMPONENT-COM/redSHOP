@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 //Import filesystem libraries. Perhaps not necessary, but does not hurt
@@ -33,7 +33,7 @@ class template_detailModeltemplate_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -62,7 +62,7 @@ class template_detailModeltemplate_detail extends JModel
 			{
 				$this->_data->template_name = strtolower($this->_data->template_name);
 				$this->_data->template_name = str_replace(" ", "_", $this->_data->template_name);
-				$template_desc = $this->_data->template_desc;
+				$template_desc              = $this->_data->template_desc;
 
 				$this->_data->template_desc = $red_template->readtemplateFile($this->_data->template_section, $this->_data->template_name, true);
 				if ($this->_data->template_desc == "")
@@ -73,6 +73,7 @@ class template_detailModeltemplate_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -80,18 +81,20 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->template_id = 0;
-			$detail->template_name = null;
-			$detail->template_desc = null;
+			$detail                   = new stdClass();
+			$detail->template_id      = 0;
+			$detail->template_name    = null;
+			$detail->template_desc    = null;
 			$detail->template_section = null;
-			$detail->published = 1;
-			$detail->payment_methods = null;
+			$detail->published        = 1;
+			$detail->payment_methods  = null;
 			$detail->shipping_methods = null;
-			$detail->order_status = null;
-			$this->_data = $detail;
+			$detail->order_status     = null;
+			$this->_data              = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -126,12 +129,13 @@ class template_detailModeltemplate_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		$row->shipping_methods = $row->shipping_methods ? $row->shipping_methods : '';
-		$row->payment_methods = $row->payment_methods ? $row->payment_methods : '';
-		$row->order_status = $row->order_status ? $row->order_status : '';
+		$row->payment_methods  = $row->payment_methods ? $row->payment_methods : '';
+		$row->order_status     = $row->order_status ? $row->order_status : '';
 
 		if ($row->template_id)
 		{
@@ -146,8 +150,10 @@ class template_detailModeltemplate_detail extends JModel
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -174,6 +180,7 @@ class template_detailModeltemplate_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -185,7 +192,7 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE ' . $this->_table_prefix . 'template'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE template_id IN ( ' . $cids . ' )';
@@ -193,6 +200,7 @@ class template_detailModeltemplate_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -214,17 +222,18 @@ class template_detailModeltemplate_detail extends JModel
 		foreach ($this->_copydata as $cdata)
 		{
 
-			$post['template_id'] = 0;
-			$post['template_name'] = 'Copy Of ' . $cdata->template_name;
+			$post['template_id']      = 0;
+			$post['template_name']    = 'Copy Of ' . $cdata->template_name;
 			$post['template_section'] = $cdata->template_section;
-			$post['template_desc'] = $cdata->template_desc;
-			$post['order_status'] = $cdata->order_status;
-			$post['payment_methods'] = $cdata->payment_methods;
-			$post['published'] = $cdata->published;
+			$post['template_desc']    = $cdata->template_desc;
+			$post['order_status']     = $cdata->order_status;
+			$post['payment_methods']  = $cdata->payment_methods;
+			$post['published']        = $cdata->published;
 			$post['shipping_methods'] = $cdata->shipping_methods;
 
 			template_detailModeltemplate_detail::store($post);
 		}
+
 		return true;
 
 	}
@@ -234,6 +243,7 @@ class template_detailModeltemplate_detail extends JModel
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE published=1 AND section like "' . $section . '"';
 		$this->_db->setQuery($query);
 		$this->textdata = $this->_db->loadObjectList();
+
 		return $this->textdata;
 	}
 
@@ -241,6 +251,7 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		$query = 'SELECT template_name FROM ' . $this->_table_prefix . 'template WHERE published=1 AND template_section = "' . $section . '"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -262,7 +273,7 @@ class template_detailModeltemplate_detail extends JModel
 			if (is_null($uid))
 			{
 				$user = JFactory::getUser();
-				$uid = (int) $user->get('id');
+				$uid  = (int) $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
 			$template_detail = & $this->getTable('template_detail');
@@ -271,11 +282,13 @@ class template_detailModeltemplate_detail extends JModel
 			if (!$template_detail->checkout($uid, $this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -294,9 +307,11 @@ class template_detailModeltemplate_detail extends JModel
 			if (!$template_detail->checkin($this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return false;
 	}
 

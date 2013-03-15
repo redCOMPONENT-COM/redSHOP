@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 class stateViewstate extends JView
@@ -35,24 +35,24 @@ class stateViewstate extends JView
 		$uri =& JFactory::getURI();
 
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'state_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$lists['order'] = $filter_order;
+		$filter_order       = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'state_id');
+		$filter_order_Dir   = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 		$redhelper = new redhelper();
-		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
 		$temps[0]->value = "0";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$countries = @array_merge($temps, $countries);
-		$country_list = explode(',', COUNTRY_LIST);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$countries       = @array_merge($temps, $countries);
+		$country_list    = explode(',', COUNTRY_LIST);
 
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $country_list);
@@ -64,8 +64,8 @@ class stateViewstate extends JView
 		$country_main_filter = $mainframe->getUserStateFromRequest($context . 'country_main_filter', 'country_main_filter', '');
 
 
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
+		$fields     = & $this->get('Data');
+		$total      = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 		$this->assignRef('country_main_filter', $country_main_filter);
 		$this->assignRef('user', JFactory::getUser());

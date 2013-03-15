@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -18,8 +18,8 @@ class quotation_detailVIEWquotation_detail extends JView
 	function display($tpl = null)
 	{
 		$quotationHelper = new quotationHelper();
-		$option = JRequest::getVar('option');
-		$layout = JRequest::getVar('layout', 'default');
+		$option          = JRequest::getVar('option');
+		$layout          = JRequest::getVar('layout', 'default');
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
@@ -30,7 +30,7 @@ class quotation_detailVIEWquotation_detail extends JView
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/json.js');
 
-		$uri =& JFactory::getURI();
+		$uri   =& JFactory::getURI();
 		$lists = array();
 		$model = $this->getModel();
 
@@ -38,10 +38,10 @@ class quotation_detailVIEWquotation_detail extends JView
 		{
 			$this->setLayout($layout);
 		}
-		$detail =& $this->get('data');
+		$detail    =& $this->get('data');
 		$redconfig = new Redconfiguration();
 
-		$isNew = ($detail->quotation_id < 1);
+		$isNew   = ($detail->quotation_id < 1);
 		$userarr = & $this->get('userdata');
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -58,7 +58,7 @@ class quotation_detailVIEWquotation_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
-		$status = $quotationHelper->getQuotationStatusList();
+		$status                    = $quotationHelper->getQuotationStatusList();
 		$lists['quotation_status'] = JHTML::_('select.genericlist', $status, 'quotation_status', 'class="inputbox" size="1" ', 'value', 'text', $detail->quotation_status);
 
 		$this->assignRef('lists', $lists);

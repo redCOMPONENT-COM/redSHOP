@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 ?>
@@ -55,9 +55,9 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 		$k = 0;
 		for ($i = 0, $n = count($this->detail); $i < $n; $i++)
 		{
-			$row = $this->detail[$i];
-			$row->id = $row->accountgroup_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
+			$row       = $this->detail[$i];
+			$row->id   = $row->accountgroup_id;
+			$link      = JRoute::_('index.php?option=' . $option . '&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
 			$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>

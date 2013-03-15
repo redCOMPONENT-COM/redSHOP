@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -22,15 +22,15 @@ class state_detailVIEWstate_detail extends JView
 	{
 		$document = & JFactory::getDocument();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
-		$uri =& JFactory::getURI();
-		$user =& JFactory::getUser();
+		$uri   =& JFactory::getURI();
+		$user  =& JFactory::getUser();
 		$model = $this->getModel('state_detail');
 
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		$lists = array();
+		$lists  = array();
 		$detail =& $this->get('data');
-		$isNew = ($detail->state_id < 1);
+		$isNew  = ($detail->state_id < 1);
 
 		// 	fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
@@ -40,19 +40,19 @@ class state_detailVIEWstate_detail extends JView
 		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
-		$db = jFactory::getDBO();
+		$db   = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 		$redhelper = new redhelper();
-		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
 		$temps[0]->value = "0";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$countries = @array_merge($temps, $countries);
-		$country_list = explode(',', COUNTRY_LIST);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$countries       = @array_merge($temps, $countries);
+		$country_list    = explode(',', COUNTRY_LIST);
 
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $country_list);

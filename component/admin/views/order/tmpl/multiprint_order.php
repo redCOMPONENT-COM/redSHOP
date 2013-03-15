@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
@@ -36,21 +36,21 @@ for ($k = 0; $k < count($mysplit); $k++)
 
 		$option = JRequest::getVar('option');
 		$config = new Redconfiguration();
-		$model = $this->getModel('order_detail');
+		$model  = $this->getModel('order_detail');
 
 		$extra_field = new extra_field();
 
 
-		$uri = & JURI::getInstance();
-		$url = $uri->root();
+		$uri         = & JURI::getInstance();
+		$url         = $uri->root();
 		$redTemplate = new Redtemplate();
 
 //$model = $this->getModel ( 'order_detail' );
 
 		$OrderProducts = $order_functions->getOrderItemDetail($mysplit[$k]);
-		$OrdersDetail = $order_functions->getmultiOrderDetails($mysplit[$k]);
+		$OrdersDetail  = $order_functions->getmultiOrderDetails($mysplit[$k]);
 
-		$billing = $order_functions->getOrderBillingUserInfo($OrdersDetail[0]->order_id);
+		$billing  = $order_functions->getOrderBillingUserInfo($OrdersDetail[0]->order_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($OrdersDetail[0]->order_id);
 
 		$is_company = $billing->is_company;
@@ -79,27 +79,27 @@ for ($k = 0; $k < count($mysplit); $k++)
 		$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
 			. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='" . JText::_('COM_REDSHOP_PRINT') . "' /></a>";
 
-		$search[] = "{print}";
+		$search[]  = "{print}";
 		$replace[] = $print_tag;
 
-		$search[] = "{order_id}";
+		$search[]  = "{order_id}";
 		$replace[] = $OrdersDetail[0]->order_id;
 
-		$search[] = "{order_number}";
+		$search[]  = "{order_number}";
 		$replace[] = $OrdersDetail[0]->order_number;
 
-		$search[] = "{order_date}";
+		$search[]  = "{order_date}";
 		$replace[] = $config->convertDateFormat($OrdersDetail[0]->cdate);
 
-		$search[] = "{customer_note}";
+		$search[]  = "{customer_note}";
 		$replace[] = $OrdersDetail[0]->customer_note;
 
 
 // set order paymethod name
-		$search[] = "{payment_lbl}";
+		$search[]  = "{payment_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD');
 
-		$search[] = "{payment_method}";
+		$search[]  = "{payment_method}";
 		$replace[] = $paymentmethod->order_payment_name;
 
 		$statustext = $order_functions->getOrderStatusTitle($OrdersDetail[0]->order_status);
@@ -126,22 +126,22 @@ for ($k = 0; $k < count($mysplit); $k++)
 
 		$replace[] = $statustext . " - " . $orderPaymentStatus;
 
-		$search [] = "{order_status_order_only}";
+		$search []  = "{order_status_order_only}";
 		$replace [] = $statustext;
 
 
-		$search [] = "{order_status_payment_only}";
+		$search []  = "{order_status_payment_only}";
 		$replace [] = $orderPaymentStatus;
 
-		$search[] = "{customer_note_lbl}";
+		$search[]  = "{customer_note_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_COMMENT');
-		$search[] = "{customer_note}";
+		$search[]  = "{customer_note}";
 		$replace[] = $OrdersDetail->customer_note;
-		$search[] = "{shipping_method_lbl}";
+		$search[]  = "{shipping_method_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL');
 
 
-		$shipping_method = '';
+		$shipping_method    = '';
 		$shipping_rate_name = '';
 		if ($OrdersDetail[0]->ship_method_id != '')
 		{
@@ -150,7 +150,7 @@ for ($k = 0; $k < count($mysplit); $k++)
 			{
 				$ship_method = explode("|", $OrdersDetail[0]->ship_method_id);
 			}
-			$shipping_method = "";
+			$shipping_method    = "";
 			$shipping_rate_name = "";
 			if (count($ship_method) > 0)
 			{
@@ -166,31 +166,31 @@ for ($k = 0; $k < count($mysplit); $k++)
 
 		}
 
-		$search[] = "{shipping_method}";
+		$search[]  = "{shipping_method}";
 		$replace[] = $shipping_method;
-		$search[] = "{shipping}";
+		$search[]  = "{shipping}";
 		$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_shipping);
-		$search[] = "{shipping_rate_name}";
+		$search[]  = "{shipping_rate_name}";
 		$replace[] = $shipping_rate_name;
 
 		$ordersprint_template = $carthelper->replaceBillingAddress($ordersprint_template, $billing);
 		$ordersprint_template = $carthelper->replaceShippingAddress($ordersprint_template, $shipping);
 
-		$product_name = "";
-		$product_note = "";
-		$product_price = "";
-		$product_quantity = "";
+		$product_name        = "";
+		$product_note        = "";
+		$product_price       = "";
+		$product_quantity    = "";
 		$product_total_price = "";
 
-		$template_start = "";
+		$template_start  = "";
 		$template_middle = "";
-		$template_end = "";
+		$template_end    = "";
 		if (strstr($ordersprint_template, "{product_loop_start}"))
 		{
-			$template_sdata = explode('{product_loop_start}', $ordersprint_template);
-			$template_start = $template_sdata [0];
-			$template_edata = explode('{product_loop_end}', $template_sdata [1]);
-			$template_end = $template_edata [1];
+			$template_sdata  = explode('{product_loop_start}', $ordersprint_template);
+			$template_start  = $template_sdata [0];
+			$template_edata  = explode('{product_loop_end}', $template_sdata [1]);
+			$template_end    = $template_edata [1];
 			$template_middle = $template_edata [0];
 		}
 		$cart_tr = '';
@@ -275,7 +275,7 @@ for ($k = 0; $k < count($mysplit); $k++)
 			$user_subscribe_detail = $producthelper->getUserProductSubscriptionDetail($OrderProducts[$i]->order_item_id);
 			if (count($user_subscribe_detail) > 0 && $user_subscribe_detail->subscription_id)
 			{
-				$subscription_detail = $producthelper->getProductSubscriptionDetail($OrderProducts [$i]->product_id, $user_subscribe_detail->subscription_id);
+				$subscription_detail   = $producthelper->getProductSubscriptionDetail($OrderProducts [$i]->product_id, $user_subscribe_detail->subscription_id);
 				$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
 
 				$cart_mdata = str_replace("{product_subscription_lbl}", JText::_('COM_REDSHOP_SUBSCRIPTION'), $cart_mdata);
@@ -304,30 +304,30 @@ for ($k = 0; $k < count($mysplit); $k++)
 
 		$ordersprint_template = $template_start . $cart_tr . $template_end;
 
-		$search[] = "{order_subtotal}";
+		$search[]  = "{order_subtotal}";
 		$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_subtotal);
 
 
 		if ($OrdersDetail[0]->order_tax <= 0)
 		{
-			$template_vat_sdata = explode('{if vat}', $ordersprint_template);
-			$template_vat_start = $template_vat_sdata[0];
-			$template_vat_edata = explode('{vat end if}', $template_vat_sdata[1]);
-			$template_vat_end = $template_vat_edata[1];
-			$template_vat_middle = $template_vat_edata[0];
+			$template_vat_sdata   = explode('{if vat}', $ordersprint_template);
+			$template_vat_start   = $template_vat_sdata[0];
+			$template_vat_edata   = explode('{vat end if}', $template_vat_sdata[1]);
+			$template_vat_end     = $template_vat_edata[1];
+			$template_vat_middle  = $template_vat_edata[0];
 			$ordersprint_template = $template_vat_start . $template_vat_end;
 		}
 		else
 		{
-			$search[] = "{if vat}";
+			$search[]  = "{if vat}";
 			$replace[] = '';
-			$search[] = "{order_tax}";
+			$search[]  = "{order_tax}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_tax);
-			$search[] = "{tax}";
+			$search[]  = "{tax}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_tax);
-			$search[] = "{vat_lbl}";
+			$search[]  = "{vat_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_TAX');
-			$search[] = "{vat end if}";
+			$search[]  = "{vat end if}";
 			$replace[] = '';
 
 		}
@@ -336,25 +336,25 @@ for ($k = 0; $k < count($mysplit); $k++)
 		{
 			if (strstr($ordersprint_template, "{if payment_discount}"))
 			{
-				$template_pd_sdata = explode('{if payment_discount}', $ordersprint_template);
-				$template_pd_start = $template_pd_sdata[0];
-				$template_pd_edata = explode('{payment_discount end if}', $template_pd_sdata[1]);
-				$template_pd_end = $template_pd_edata[1];
-				$template_pd_middle = $template_pd_edata[0];
+				$template_pd_sdata    = explode('{if payment_discount}', $ordersprint_template);
+				$template_pd_start    = $template_pd_sdata[0];
+				$template_pd_edata    = explode('{payment_discount end if}', $template_pd_sdata[1]);
+				$template_pd_end      = $template_pd_edata[1];
+				$template_pd_middle   = $template_pd_edata[0];
 				$ordersprint_template = $template_pd_start . $template_pd_end;
 			}
 		}
 		else
 		{
 			$OrdersDetail->order_discount = $OrdersDetail[0]->order_discount - $OrdersDetail[0]->payment_discount;
-			$search[] = "{if payment_discount}";
-			$replace[] = '';
-			$search[] = "{payment_order_discount}";
-			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->payment_discount);
-			$search[] = "{payment_discount_lbl}";
-			$replace[] = JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
-			$search[] = "{payment_discount end if}";
-			$replace[] = '';
+			$search[]                     = "{if payment_discount}";
+			$replace[]                    = '';
+			$search[]                     = "{payment_order_discount}";
+			$replace[]                    = $producthelper->getProductFormattedPrice($OrdersDetail[0]->payment_discount);
+			$search[]                     = "{payment_discount_lbl}";
+			$replace[]                    = JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
+			$search[]                     = "{payment_discount end if}";
+			$replace[]                    = '';
 
 		}
 
@@ -362,86 +362,86 @@ for ($k = 0; $k < count($mysplit); $k++)
 		{
 			if (strstr($ordersprint_template, "{if discount}"))
 			{
-				$template_discount_sdata = explode('{if discount}', $ordersprint_template);
-				$template_discount_start = $template_discount_sdata[0];
-				$template_discount_edata = explode('{discount end if}', $template_discount_sdata[1]);
-				$template_discount_end = $template_discount_edata[1];
+				$template_discount_sdata  = explode('{if discount}', $ordersprint_template);
+				$template_discount_start  = $template_discount_sdata[0];
+				$template_discount_edata  = explode('{discount end if}', $template_discount_sdata[1]);
+				$template_discount_end    = $template_discount_edata[1];
 				$template_discount_middle = $template_discount_edata[0];
-				$ordersprint_template = $template_discount_start . $template_discount_end;
+				$ordersprint_template     = $template_discount_start . $template_discount_end;
 			}
 		}
 		else
 		{
-			$search[] = "{if discount}";
+			$search[]  = "{if discount}";
 			$replace[] = '';
-			$search[] = "{order_discount}";
+			$search[]  = "{order_discount}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_discount);
-			$search[] = "{discount_lbl}";
+			$search[]  = "{discount_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_DISCOUNT');
-			$search[] = "{discount end if}";
+			$search[]  = "{discount end if}";
 			$replace[] = '';
 		}
 
 
-		$search[] = "{order_id_lbl}";
+		$search[]  = "{order_id_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_ID');
 
-		$search[] = "{order_number_lbl}";
+		$search[]  = "{order_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_NUMBER');
 
-		$search[] = "{order_date_lbl}";
+		$search[]  = "{order_date_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_DATE');
 
-		$search[] = "{order_status_lbl}";
+		$search[]  = "{order_status_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_STATUS');
 
-		$search[] = "{shipping_lbl}";
+		$search[]  = "{shipping_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_SHIPPING');
 
-		$search[] = "{order_information_lbl}";
+		$search[]  = "{order_information_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_INFORMATION');
 
-		$search[] = "{billing_address_information_lbl}";
+		$search[]  = "{billing_address_information_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION');
 
-		$search[] = "{shipping_address_info_lbl}";
+		$search[]  = "{shipping_address_info_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION');
 
-		$search[] = "{order_detail_lbl}";
+		$search[]  = "{order_detail_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_DETAILS');
 
-		$search[] = "{product_name_lbl}";
+		$search[]  = "{product_name_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_PRODUCT_NAME');
 
-		$search[] = "{note_lbl}";
+		$search[]  = "{note_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_NOTE');
 
-		$search[] = "{price_lbl}";
+		$search[]  = "{price_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_PRICE');
 
-		$search[] = "{quantity_lbl}";
+		$search[]  = "{quantity_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_QUANTITY');
 
-		$search[] = "{total_price_lbl}";
+		$search[]  = "{total_price_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE');
 
 
-		$search[] = "{order_subtotal_lbl}";
+		$search[]  = "{order_subtotal_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_SUBTOTAL');
 
-		$search[] = "{product_number_lbl}";
+		$search[]  = "{product_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
 
-		$search[] = "{total_lbl}";
+		$search[]  = "{total_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_TOTAL');
 
-		$search[] = "{order_shipping}";
+		$search[]  = "{order_shipping}";
 		$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_shipping);
 
-		$search[] = "{shipping}";
+		$search[]  = "{shipping}";
 		$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_shipping);
 
-		$search[] = "{order_total}";
+		$search[]  = "{order_total}";
 		$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_total);
 
 

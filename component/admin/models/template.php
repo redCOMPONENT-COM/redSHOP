@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -25,12 +25,12 @@ class templateModeltemplate extends JModel
 
 		global $mainframe;
 
-		$this->_context = 'template_id';
+		$this->_context      = 'template_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$template_section = $mainframe->getUserStateFromRequest($this->_context . 'template_section', 'template_section', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$template_section    = $mainframe->getUserStateFromRequest($this->_context . 'template_section', 'template_section', 0);
+		$filter              = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
@@ -42,9 +42,10 @@ class templateModeltemplate extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -52,9 +53,10 @@ class templateModeltemplate extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -65,13 +67,14 @@ class templateModeltemplate extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$filter = $this->getState('filter');
+		$orderby          = $this->_buildContentOrderBy();
+		$filter           = $this->getState('filter');
 		$template_section = $this->getState('template_section');
 
 		$where = '';
@@ -87,6 +90,7 @@ class templateModeltemplate extends JModel
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 

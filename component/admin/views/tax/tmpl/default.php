@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 $producthelper = new producthelper();
 $redconfig = new Redconfiguration();
@@ -69,7 +69,7 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0; $i < count($this->media); $i++)
 			{
-				$row = & $this->media[$i];
+				$row        = & $this->media[$i];
 				$country_id = $redconfig->getCountryId($row->tax_country);
 				$state_code = $redconfig->getStateCode($country_id, $row->tax_state);
 

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -31,7 +31,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -63,8 +63,10 @@ class discount_detailModeldiscount_detail extends JModel
 
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -75,22 +77,23 @@ class discount_detailModeldiscount_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->discount_id = 0;
+			$detail->discount_id         = 0;
 			$detail->discount_product_id = 0;
-			$detail->condition = 0;
-			$detail->shopper_group_id = 0;
-			$detail->amount = 0;
-			$detail->discount_amount = 0;
-			$detail->discount_type = 'no';
-			$detail->category_ids = null;
-			$detail->start_date = time();
-			$detail->end_date = time();
-			$detail->published = 1;
+			$detail->condition           = 0;
+			$detail->shopper_group_id    = 0;
+			$detail->amount              = 0;
+			$detail->discount_amount     = 0;
+			$detail->discount_type       = 'no';
+			$detail->category_ids        = null;
+			$detail->start_date          = time();
+			$detail->end_date            = time();
+			$detail->published           = 1;
 
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -101,12 +104,14 @@ class discount_detailModeldiscount_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		// Remove Relation With Shoppers
@@ -115,6 +120,7 @@ class discount_detailModeldiscount_detail extends JModel
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -137,6 +143,7 @@ class discount_detailModeldiscount_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -165,6 +172,7 @@ class discount_detailModeldiscount_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -202,6 +210,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 
 	}
@@ -224,6 +233,7 @@ class discount_detailModeldiscount_detail extends JModel
 			}
 
 		}
+
 		return true;
 	}
 
@@ -234,12 +244,14 @@ class discount_detailModeldiscount_detail extends JModel
 		if (!$dprow->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$dprow->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -249,6 +261,7 @@ class discount_detailModeldiscount_detail extends JModel
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 

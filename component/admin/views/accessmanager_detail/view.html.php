@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -17,10 +17,10 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 	function display($tpl = null)
 	{
 		$producthelper = new producthelper();
-		$option = JRequest::getVar('option');
+		$option        = JRequest::getVar('option');
 
-		$section = JRequest::getVar('section');
-		$model = $this->getModel('accessmanager_detail');
+		$section       = JRequest::getVar('section');
+		$model         = $this->getModel('accessmanager_detail');
 		$accessmanager = $model->getaccessmanager();
 
 		/**
@@ -50,7 +50,7 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 	{
 
 		// Compute usergroups
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
   FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
   ORDER BY a.lft asc";
@@ -63,6 +63,7 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 		if ($db->getErrorNum())
 		{
 			JError::raiseNotice(500, $db->getErrorMsg());
+
 			return null;
 		}
 
@@ -78,6 +79,7 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 		{
 			$returnable[$val->id] = str_repeat('<span class="gi">|&mdash;</span>', $val->level) . $val->title;
 		}
+
 		return $returnable;
 	}
 }

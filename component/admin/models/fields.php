@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -24,14 +24,14 @@ class fieldsModelfields extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'field_id';
+		$this->_context      = 'field_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$filtertype = $mainframe->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
-		$filtersection = $mainframe->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter              = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filtertype          = $mainframe->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
+		$filtersection       = $mainframe->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
@@ -44,9 +44,10 @@ class fieldsModelfields extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -54,9 +55,10 @@ class fieldsModelfields extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -67,14 +69,15 @@ class fieldsModelfields extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$filter = $this->getState('filter');
-		$filtertype = $this->getState('filtertype');
+		$orderby       = $this->_buildContentOrderBy();
+		$filter        = $this->getState('filter');
+		$filtertype    = $this->getState('filtertype');
 		$filtersection = $this->getState('filtersection');
 
 		$where = '';
@@ -94,6 +97,7 @@ class fieldsModelfields extends JModel
 			. "WHERE 1=1 "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -101,7 +105,7 @@ class fieldsModelfields extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		if ($filter_order == 'ordering')
@@ -118,8 +122,8 @@ class fieldsModelfields extends JModel
 
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('fields_detail');
-		$groupings = array();
+		$row        =& $this->getTable('fields_detail');
+		$groupings  = array();
 		$conditions = array();
 
 		// update ordering values
@@ -135,11 +139,12 @@ class fieldsModelfields extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 				// remember to updateOrder this group
 				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
+				$found     = false;
 				foreach ($conditions as $cond)
 					if ($cond[1] == $condition)
 					{
@@ -156,6 +161,7 @@ class fieldsModelfields extends JModel
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
+
 //		// execute updateOrder for each parent group
 //		$groupings = array_unique( $groupings );
 //		foreach ($groupings as $group){

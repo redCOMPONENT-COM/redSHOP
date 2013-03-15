@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -24,14 +24,14 @@ class question_detailModelquestion_detail extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -41,6 +41,7 @@ class question_detailModelquestion_detail extends JModel
 		{
 		}
 		else  $this->_initAnswer();
+
 		return $this->_answers;
 
 	}
@@ -51,6 +52,7 @@ class question_detailModelquestion_detail extends JModel
 			. "WHERE q.parent_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_answers = $this->_db->loadObjectList();
+
 		return $this->_answers;
 	}
 
@@ -59,19 +61,21 @@ class question_detailModelquestion_detail extends JModel
 		$user =& JFactory::getUser();
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail              = new stdClass();
 			$detail->question_id = 0;
-			$detail->product_id = null;
-			$detail->parent_id = null;
-			$detail->user_id = $user->id;
-			$detail->user_name = $user->name;
-			$detail->user_email = $user->email;
-			$detail->address = null;
-			$detail->telephone = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->product_id  = null;
+			$detail->parent_id   = null;
+			$detail->user_id     = $user->id;
+			$detail->user_name   = $user->name;
+			$detail->user_email  = $user->email;
+			$detail->address     = null;
+			$detail->telephone   = null;
+			$detail->published   = 1;
+			$this->_data         = $detail;
+
 			return (boolean) $this->_answers;
 		}
+
 		return true;
 	}
 
@@ -93,6 +97,7 @@ class question_detailModelquestion_detail extends JModel
 			. "WHERE q.question_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
+
 		return (boolean) $this->_data;
 	}
 
@@ -100,9 +105,10 @@ class question_detailModelquestion_detail extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -110,6 +116,7 @@ class question_detailModelquestion_detail extends JModel
 	{
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
 			. "WHERE q.parent_id=" . $this->_id;
+
 		return $query;
 	}
 
@@ -128,7 +135,8 @@ class question_detailModelquestion_detail extends JModel
 	function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
-		$list = $this->_data = $this->_getList($query);
+		$list  = $this->_data = $this->_getList($query);
+
 		return $list;
 	}
 
@@ -137,18 +145,20 @@ class question_detailModelquestion_detail extends JModel
 		$user =& JFactory::getUser();
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail              = new stdClass();
 			$detail->question_id = 0;
-			$detail->product_id = null;
-			$detail->parent_id = null;
-			$detail->user_id = $user->id;
-			$detail->user_name = $user->name;
-			$detail->user_email = $user->email;
-			$detail->question = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->product_id  = null;
+			$detail->parent_id   = null;
+			$detail->user_id     = $user->id;
+			$detail->user_name   = $user->name;
+			$detail->user_email  = $user->email;
+			$detail->question    = null;
+			$detail->published   = 1;
+			$this->_data         = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -161,8 +171,8 @@ class question_detailModelquestion_detail extends JModel
 	function store($data)
 	{
 		$user = JFactory::getUser();
-		$db = JFactory::getDBO();
-		$row =& $this->getTable();
+		$db   = JFactory::getDBO();
+		$row  =& $this->getTable();
 
 		if (!$data['question_id'])
 		{
@@ -171,15 +181,17 @@ class question_detailModelquestion_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
-		$time = time();
+		$time             = time();
 		$data['ordering'] = $this->MaxOrdering();
 		if (isset($data['answer']))
 		{
@@ -205,6 +217,7 @@ class question_detailModelquestion_detail extends JModel
 		$query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question "
 			. "WHERE parent_id=0 ";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -226,6 +239,7 @@ class question_detailModelquestion_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -235,9 +249,11 @@ class question_detailModelquestion_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -260,9 +276,11 @@ class question_detailModelquestion_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -274,8 +292,8 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$row       =& $this->getTable();
+		$order     = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 
 		// update ordering values
@@ -291,6 +309,7 @@ class question_detailModelquestion_detail extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
@@ -301,6 +320,7 @@ class question_detailModelquestion_detail extends JModel
 		{
 			$row->reorder((int) $group);
 		}
+
 		return true;
 	}
 
@@ -316,6 +336,7 @@ class question_detailModelquestion_detail extends JModel
 		$row->load($this->_id);
 		$row->move(-1);
 		$row->store();
+
 		return true;
 	}
 
@@ -331,13 +352,15 @@ class question_detailModelquestion_detail extends JModel
 		$row->load($this->_id);
 		$row->move(1);
 		$row->store();
+
 		return true;
 	}
 
 	function sendMailForAskQuestion($ansid)
 	{
 		$redshopMail = new redshopMail();
-		$rs = $redshopMail->sendAskQuestionMail($ansid);
+		$rs          = $redshopMail->sendAskQuestionMail($ansid);
+
 		return $rs;
 	}
 

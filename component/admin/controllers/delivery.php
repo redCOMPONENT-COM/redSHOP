@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -29,11 +29,11 @@ class deliverycontroller extends JController
 
 	function export_data()
 	{
-		$db = jFactory::getDBO();
+		$db    = jFactory::getDBO();
 		$query = "SELECT  * FROM   #__" . TABLE_PREFIX . "_users_info as uf , #__" . TABLE_PREFIX . "_orders as o LEFT JOIN #__" . TABLE_PREFIX . "_order_status os ON o.order_status=os.order_status_code WHERE o.user_id = uf.user_id AND uf.address_type = 'BT'  AND o.order_status  IN ('RD','RD1','RD2')   ";
 		$db->setQuery($query);
 		$orders = $db->loadObjectList();
-		$k = 0;
+		$k      = 0;
 
 		$del = ",";
 

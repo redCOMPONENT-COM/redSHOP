@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class redMediahelper
 {
@@ -21,6 +21,7 @@ class redMediahelper
 	function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+
 		return preg_match("/$imageTypes/i", $fileName);
 	}
 
@@ -71,7 +72,7 @@ class redMediahelper
 		}
 
 		//gets the new value and applies the percentage, then rounds the value
-		$width = round($width * $percentage);
+		$width  = round($width * $percentage);
 		$height = round($height * $percentage);
 
 		return array($width, $height);
@@ -80,7 +81,7 @@ class redMediahelper
 	function countFiles($dir)
 	{
 		$total_file = 0;
-		$total_dir = 0;
+		$total_dir  = 0;
 
 		if (is_dir($dir))
 		{

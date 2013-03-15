@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -254,8 +254,9 @@ class redshopModelredshop extends JModel
 	function getNewcustomers()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$custquery = "SELECT *  FROM " . $this->_table_prefix . "users_info ORDER BY users_info_id DESC LIMIT 0, 5";
+		$custquery           = "SELECT *  FROM " . $this->_table_prefix . "users_info ORDER BY users_info_id DESC LIMIT 0, 5";
 		$this->_db->setQuery($custquery);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -266,53 +267,59 @@ class redshopModelredshop extends JModel
 			. 'ORDER BY o.order_id desc limit 0, 5';
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
+
 		return $rows;
 	}
 
 	function getUser($user_id)
 	{
 		$this->_table_prefix = '#__';
-		$userquery = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
+		$userquery           = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
 		$this->_db->setQuery($userquery);
+
 		return $this->_db->loadObject();
 	}
 
 	function gettotalOrder($id = 0)
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$userquery = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM " . $this->_table_prefix . "orders "
+		$userquery           = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM " . $this->_table_prefix . "orders "
 			. "WHERE `user_info_id`='" . $id . "' ";
 		$this->_db->setQuery($userquery);
+
 		return $this->_db->loadObject();
 	}
 
 	function gettotalAmount($user_id)
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$query = 'SELECT  SUM(o.order_total) AS order_total '
+		$query               = 'SELECT  SUM(o.order_total) AS order_total '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id =uf.user_id'
 			. ' AND address_type LIKE "BT" '
 			. 'WHERE o.user_id = ' . $user_id . ' and  (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S")';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObject();
 	}
 
 	function getavgAmount($user_id)
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$query = 'SELECT  (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
+		$query               = 'SELECT  (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'WHERE o.user_id =' . $user_id . ' and (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObject();
 	}
 
 	function getUserinfo($user_id)
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$userquery = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix . "users_info where address_type='BT' and user_id=" . $user_id;
+		$userquery           = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix . "users_info where address_type='BT' and user_id=" . $user_id;
 		$this->_db->setQuery($userquery);
+
 		return $this->_db->loadObject();
 	}
 }

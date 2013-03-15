@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
@@ -239,17 +239,17 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				{
 					$giftcardData = $producthelper->getGiftcardData($quo->product_id);
 
-					$actual_price = $giftcardData->giftcard_price;
+					$actual_price   = $giftcardData->giftcard_price;
 					$product_number = "";
-					$section = 13;
+					$section        = 13;
 				}
 				else
 				{
-					$product = $producthelper->getProductById($quo->product_id);
-					$actual_price = $product->product_price;
+					$product        = $producthelper->getProductById($quo->product_id);
+					$actual_price   = $product->product_price;
 					$product_number = "<br/>" . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . ": ( " . $product->product_number . " ) ";
-					$section = 12;
-					$vat = 0;
+					$section        = 12;
+					$vat            = 0;
 					if ($quo->product_excl_price > 0)
 					{
 						$vat = $producthelper->getProductTax($quo->product_id, $quo->product_excl_price, $quotation->user_id);
@@ -273,7 +273,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $product_userfield;
 
 				$product_total = $quo->product_price * $quo->product_quantity;
-				$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
+				$product_tax   = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
 
 				$delete_itemlink = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id);
 				?>

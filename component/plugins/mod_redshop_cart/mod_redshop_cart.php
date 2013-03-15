@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $option = JRequest::getVar('option');
 
 $show_with_vat = trim($params->get('show_with_vat', 0));

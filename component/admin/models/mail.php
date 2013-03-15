@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -23,12 +23,12 @@ class mailModelmail extends JModel
 		parent::__construct();
 		global $mainframe;
 
-		$this->_context = 'mail_id';
+		$this->_context      = 'mail_id';
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limit          = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart     = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter         = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$filter_section = $mainframe->getUserStateFromRequest($this->_context . 'filter_section', 'filter_section', 0);
 
 		$this->setState('filter', $filter);
@@ -41,9 +41,10 @@ class mailModelmail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -51,9 +52,10 @@ class mailModelmail extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -64,16 +66,17 @@ class mailModelmail extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
-		$filter = $this->getState('filter');
+		$filter         = $this->getState('filter');
 		$filter_section = $this->getState('filter_section');
-		$orderby = $this->_buildContentOrderBy();
-		$where = '';
-		$limit = "";
+		$orderby        = $this->_buildContentOrderBy();
+		$where          = '';
+		$limit          = "";
 		if ($filter)
 		{
 			$where .= "AND mail_name LIKE '" . $filter . "%' ";
@@ -86,6 +89,7 @@ class mailModelmail extends JModel
 			. "WHERE 1=1 "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -93,9 +97,10 @@ class mailModelmail extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.mail_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.mail_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 }

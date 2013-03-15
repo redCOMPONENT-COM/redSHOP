@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -24,9 +24,9 @@ class accountgroup_detailVIEWaccountgroup_detail extends JView
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 
-		$lists = array();
+		$lists  = array();
 		$detail =& $this->get('data');
-		$isNew = ($detail->accountgroup_id < 1);
+		$isNew  = ($detail->accountgroup_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		if ($isNew)

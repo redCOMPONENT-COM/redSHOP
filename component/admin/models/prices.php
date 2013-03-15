@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -27,8 +27,8 @@ class pricesModelprices extends JModel
 		$this->_context = 'price';
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -41,7 +41,7 @@ class pricesModelprices extends JModel
 	{
 		// Set employees_detail id and wipe data
 		$this->_prodid = $id;
-		$this->_data = null;
+		$this->_data   = null;
 	}
 
 	function getProductId()
@@ -53,9 +53,10 @@ class pricesModelprices extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -63,9 +64,10 @@ class pricesModelprices extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -76,6 +78,7 @@ class pricesModelprices extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -87,6 +90,7 @@ class pricesModelprices extends JModel
 			. ' LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
 			. ' LEFT JOIN ' . $this->_table_prefix . 'product as prd ON p.product_id = prd.product_id '
 			. 'WHERE p.product_id = \'' . $this->_prodid . '\' ';
+
 		return $query;
 	}
 }

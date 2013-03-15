@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 $producthelper = new producthelper();
 $option = JRequest::getVar('option', '', 'request', 'string');
@@ -68,9 +68,9 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0, $n = count($this->discounts); $i < $n; $i++)
 			{
-				$row = & $this->discounts[$i];
+				$row     = & $this->discounts[$i];
 				$row->id = $row->mass_discount_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=mass_discount_detail&task=edit&cid[]=' . $row->mass_discount_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=mass_discount_detail&task=edit&cid[]=' . $row->mass_discount_id);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
