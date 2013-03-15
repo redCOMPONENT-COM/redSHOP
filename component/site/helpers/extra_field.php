@@ -228,7 +228,7 @@ class extraField
 //		if(!$p_id){
 //			$p_id = JRequest::getVar('gid');
 //		}
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$url     = JURI::base();
 
@@ -239,7 +239,7 @@ class extraField
 		}
 		$addtocartFormName = 'addtocart_' . $preprefix . 'prd_' . $product_id;
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "

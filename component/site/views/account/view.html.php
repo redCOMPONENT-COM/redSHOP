@@ -28,7 +28,7 @@ class accountViewaccount extends JView
 		$document = & JFactory::getDocument();
 
 		$model = $this->getModel();
-		$user  =& JFactory::getUser();
+		$user  = JFactory::getUser();
 
 		$userdata = $model->getuseraccountinfo($user->id);
 		if (!count($userdata) && $layout != 'mywishlist')

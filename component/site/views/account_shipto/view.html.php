@@ -23,10 +23,10 @@ class account_shiptoViewaccount_shipto extends JView
 		$extra_field     = new extraField(); //extra_field();
 
 		$task = JRequest::getVar('task');
-		$user =& JFactory::getUser();
-		$uri  =& JFactory::getURI();
+		$user = JFactory::getUser();
+		$uri  = JFactory::getURI();
 		// preform security checks
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$params  = & $mainframe->getParams('com_redshop');
 		if ($user->id)

@@ -385,7 +385,7 @@ class productModelproduct extends JModel
 
 	function checkComparelist($product_id)
 	{
-		$session         =& JFactory::getSession();
+		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 		$cid             = JRequest::getInt('cid');
 		$catid           = $compare_product[0]['category_id'];
@@ -424,7 +424,7 @@ class productModelproduct extends JModel
 
 	function addtocompare($data)
 	{
-		$session         =& JFactory::getSession();
+		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 		if (!$compare_product)
 		{
@@ -451,7 +451,7 @@ class productModelproduct extends JModel
 
 	function removeCompare($product_id)
 	{
-		$session         =& JFactory::getSession();
+		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 
 		if (!$compare_product)
@@ -557,7 +557,7 @@ class productModelproduct extends JModel
 	function addNotifystock($product_id, $property_id, $subproperty_id)
 	{
 		ob_clean();
-		$user                   =& JFactory::getUser();
+		$user                   = JFactory::getUser();
 		$user_id                = $user->id;
 		$data                   = array();
 		$data['product_id']     = $product_id;

@@ -25,7 +25,7 @@ class split_paymentViewsplit_payment extends JView
 		$pathway->addItem(JText::_('COM_REDSHOP_SPLIT_PAYMENT'), '');
 
 		$userdata = JRequest::getVar('userdata');
-		$user     =& JFactory::getUser();
+		$user     = JFactory::getUser();
 
 		// preform security checks
 		if ($user->id == 0)
