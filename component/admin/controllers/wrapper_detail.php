@@ -214,4 +214,4 @@ class wrapper_detailController extends JController
 	}
 }
 
-?>
+

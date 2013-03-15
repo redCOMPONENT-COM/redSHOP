@@ -13,25 +13,13 @@ jimport('joomla.application.component.controller');
 
 class catalog_requestController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
+	public function publish()
 	{
-
-		parent::display();
-	}
-
-	function publish()
-	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -42,17 +30,18 @@ class catalog_requestController extends JController
 		}
 
 		$model = $this->getModel('catalog_request');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_SUCCESFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -68,13 +57,13 @@ class catalog_requestController extends JController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -85,10 +74,12 @@ class catalog_requestController extends JController
 		}
 
 		$model = $this->getModel('catalog_request');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
 	}
