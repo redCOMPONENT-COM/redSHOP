@@ -21,10 +21,7 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
  */
 class newsletterController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/*
 	 *  Method to subscribe newsletter
