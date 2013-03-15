@@ -1,19 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  mod_redshop_promote_free_shipping
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+defined('_JEXEC') or die ('Restricted access');
+
 $condition_text = $params->get("condition_text");
-echo "<div id='rs_promote_free_shipping_div'>".$text."</div><br><div id='redconditionDiv'>".$condition_text."</div>";
-?>
+
+echo "<div id='rs_promote_free_shipping_div'>" . $text . "</div><br><div id='redconditionDiv'>" . $condition_text . "</div>";
