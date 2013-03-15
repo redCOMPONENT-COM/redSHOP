@@ -19,7 +19,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 
 class productViewproduct extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 //   		global $mainframe;
 		// Request variables
