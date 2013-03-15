@@ -58,7 +58,7 @@ $Itemid = JRequest::getVar('Itemid');
 			' JLanguage.LOGIN_WITH_OPENID = \'' . JText::_('COM_REDSHOP_LOGIN_WITH_OPENID') . '\';' .
 			' JLanguage.NORMAL_LOGIN = \'' . JText::_('COM_REDSHOP_NORMAL_LOGIN') . '\';' .
 			' var modlogin = 1;';
-		$document   = & JFactory::getDocument();
+		$document   = JFactory::getDocument();
 		$document->addScriptDeclaration($langScript);
 		JHTML::_('script', 'openid.js');
 	endif; ?>
@@ -129,7 +129,7 @@ $Itemid = JRequest::getVar('Itemid');
 
 					if ($creat_account)
 					{
-						$usersConfig = & JComponentHelper::getParams('com_users');
+						$usersConfig = JComponentHelper::getParams('com_users');
 						$usersConfig->set('allowUserRegistration', 1);
 						if ($usersConfig->get('allowUserRegistration')) : ?>
 							<div id="link-login-register">
@@ -194,7 +194,7 @@ $Itemid = JRequest::getVar('Itemid');
 
 						if ($creat_account)
 						{
-							$usersConfig = & JComponentHelper::getParams('com_users');
+							$usersConfig = JComponentHelper::getParams('com_users');
 							$usersConfig->set('allowUserRegistration', 1);
 							if ($usersConfig->get('allowUserRegistration')) : ?>
 								<div id="link-login-register">

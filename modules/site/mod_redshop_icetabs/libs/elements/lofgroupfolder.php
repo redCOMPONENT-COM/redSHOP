@@ -98,8 +98,8 @@ class JFormFieldLofgroupfolder extends JFormField
 		$moduleId = (int) JRequest::getVar('id') ? (int) JRequest::getVar('id') : JRequest::getVar('extension_id');
 		//get module as an object
 		$moduleId = is_array($moduleId) ? $moduleId[0] : $moduleId;
-		//$db =& JFactory::getDBO(); 
-		//$db->setQuery("SELECT * FROM #__plugins WHERE id='$moduleId' "); 
+		//$db = JFactory::getDBO();
+		//$db->setQuery("SELECT * FROM #__plugins WHERE id='$moduleId' ");
 		//$obj = $db->loadObject();
 		$table = JTable::getInstance("Extension", "JTable");
 		// Attempt to load the row.
@@ -123,7 +123,7 @@ class JFormFieldLofgroupfolder extends JFormField
 			$tmpp    = new JRegistry;
 			$tmpp->loadJSON($params);
 
-			$paramsForm = & JForm::getInstance($fileName, $path, $options);
+			$paramsForm = JForm::getInstance($fileName, $path, $options);
 			$paramsForm->bind($tmpp);
 			$content = $this->loadFormView($paramsForm);
 

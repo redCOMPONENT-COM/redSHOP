@@ -195,7 +195,7 @@ if (!class_exists('LofSliderGroupContent'))
 			{
 				$ordering = ' RAND() ';
 			}
-			$my             = & JFactory::getUser();
+			$my             = JFactory::getUser();
 			$aid            = $my->get('aid', 0);
 			$thumbWidth     = (int) $params->get('thumbnail_width', 60);
 			$thumbHeight    = (int) $params->get('thumbnail_height', 60);
@@ -204,10 +204,10 @@ if (!class_exists('LofSliderGroupContent'))
 			$isStripedTags  = $params->get('auto_strip_tags', 0);
 			$image_quanlity = $params->get('image_quanlity', 100);
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
-			$db             = & JFactory::getDBO();
-			$date           =& JFactory::getDate();
+			$db             = JFactory::getDBO();
+			$date           = JFactory::getDate();
 			$now            = $date->toMySQL();
-			$cparam         = & JComponentHelper::getParams('com_content');
+			$cparam         = JComponentHelper::getParams('com_content');
 			// make sql query
 			$query = 'SELECT a.*,cc.description as catdesc, cc.title as category_title, cc.title as cattitle,s.description as secdesc, s.title as sectitle,'
 				. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
@@ -227,7 +227,7 @@ if (!class_exists('LofSliderGroupContent'))
 			$data = $db->loadObjectlist();
 			if (empty($data)) return array();
 			JPluginHelper::importPlugin('content');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			foreach ($data as $key => $item)
 			{
 				if ($item->access <= $aid)

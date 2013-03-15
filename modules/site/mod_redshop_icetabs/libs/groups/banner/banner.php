@@ -46,10 +46,10 @@ if (!class_exists('LofSliderGroupBanner'))
 				$catids = !is_array($catids) ? $catids : '"' . implode('","', $catids) . '"';
 				$query .= ' AND  b.catid IN(' . $catids . ')';
 			}
-			// order by	
+			// order by
 			$query .= " ORDER BY " . ($ordering[0] == 'random' ? " RAND() " : $ordering[0] . " " . $ordering[1]);
 			$query .= " LIMIT " . (int) $limit;
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$db->setQuery($query);
 
 			$banners = $db->loadObjectList();
