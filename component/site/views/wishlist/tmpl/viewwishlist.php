@@ -25,7 +25,7 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
@@ -164,7 +164,7 @@ function display_products($rows)
 	$url           = JURI::base();
 	$option        = JRequest::getVar('option');
 	$extraField    = new extraField();
-	$session       =& JFactory::getSession();
+	$session       = JFactory::getSession();
 	$producthelper = new producthelper();
 	$redhelper     = new redhelper();
 	$config        = new Redconfiguration();

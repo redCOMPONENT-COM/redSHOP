@@ -27,7 +27,7 @@ $print = JRequest::getVar('print');
 $order_by_select = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
 $filter_by_select = JRequest::getVar('filter_by', 0);
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $manufacturer = $this->detail[0];
 $limit = $model->getProductLimit(); //( JRequest::getVar( 'limit', 0, '', 'int' ) );
 

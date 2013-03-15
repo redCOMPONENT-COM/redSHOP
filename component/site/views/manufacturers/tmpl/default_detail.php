@@ -18,7 +18,7 @@ $Itemid = JRequest::getVar('Itemid');
 $mid = JRequest::getInt('mid');
 $redTemplate = new Redtemplate();
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 
 $model = $this->getModel('manufacturers');
 $manufacturers_template = $model->getManufacturertemplate("manufacturer");

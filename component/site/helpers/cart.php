@@ -32,7 +32,7 @@ class rsCarthelper
 		global $mainframe, $context;
 		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
 		$this->_db              = Jfactory::getDBO();
-		$this->_session         =& JFactory::getSession();
+		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions();
 		$this->_extra_field     = new extra_field();
 		$this->_extraFieldFront = new extraField();
@@ -42,7 +42,7 @@ class rsCarthelper
 
 		// Load language file
 		$payment_lang_list = $this->_redhelper->getPlugins("redshop_payment");
-		$language          =& JFactory::getLanguage();
+		$language          = JFactory::getLanguage();
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
@@ -3650,7 +3650,7 @@ class rsCarthelper
 	{
 		$coupon_code = JRequest::getVar('discount_code', '');
 		$view        = JRequest::getVar('view', '');
-		$user        =& JFactory::getUser();
+		$user        = JFactory::getUser();
 		$return      = false;
 
 		$cart = (count($c_data) <= 0) ? $this->_session->get('cart') : $c_data;
@@ -4625,7 +4625,7 @@ class rsCarthelper
 
 		if ($userid == 0)
 		{
-			$user   =& JFactory::getUser();
+			$user   = JFactory::getUser();
 			$userid = $user->id;
 		}
 		if ($cart_id == 0)
@@ -5217,7 +5217,7 @@ class rsCarthelper
 			{
 				if (!$generateAccessoryCart)
 				{
-					$document =& JFactory::getDocument();
+					$document = JFactory::getDocument();
 
 					return $document->getError();
 				}
@@ -5571,7 +5571,7 @@ class rsCarthelper
 
 	function update($data)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = & JFactory::getUser();
 
@@ -5794,7 +5794,7 @@ class rsCarthelper
 						}
 						$requied_attribute_name = implode(", ", $requied_attributeArr);
 						$msg                    = urldecode($requied_attribute_name) . " " . JText::_('IS_REQUIRED'); // give error as first attribute is required
-						$document               =& JFactory::getDocument();
+						$document               = JFactory::getDocument();
 						$document->setError($msg);
 
 						return false;

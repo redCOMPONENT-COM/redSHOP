@@ -26,7 +26,7 @@ class newsletterViewnewsletter extends JView
 
 		$userdata = JRequest::getVar('userdata');
 		$layout   = JRequest::getVar('layout');
-		$user     =& JFactory::getUser();
+		$user     = JFactory::getUser();
 
 		$this->assignRef('user', $user);
 		$this->assignRef('userdata', $userdata);

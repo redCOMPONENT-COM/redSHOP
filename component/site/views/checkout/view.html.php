@@ -12,7 +12,7 @@ defined('_JEXEC') or die ('restricted access');
 jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-//$language =& JFactory::getLanguage();	 
+//$language = JFactory::getLanguage();
 class checkoutViewcheckout extends JView
 {
 	function display($tpl = null)
@@ -25,11 +25,11 @@ class checkoutViewcheckout extends JView
 		$user      = JFactory::getUser();
 		$redhelper = new redhelper();
 		$field     = new extraField();
-		$session   =& JFactory::getSession();
+		$session   = JFactory::getSession();
 
 		// Load language file
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
-		$language          =& JFactory::getLanguage();
+		$language          = JFactory::getLanguage();
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 

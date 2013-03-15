@@ -64,7 +64,7 @@ class checkoutController extends JController
 		global $mainframe;
 		$session = & JFactory::getSession();
 		$post = JRequest::get('post');
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$cart = $session->get('cart');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -358,7 +358,7 @@ class checkoutController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$model = $this->getModel('checkout');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
@@ -501,7 +501,7 @@ class checkoutController extends JController
 	function setcreditcardInfo()
 	{
 		$model = $this->getModel('checkout');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		$errormsg = "";
@@ -538,8 +538,8 @@ class checkoutController extends JController
 		$model = $this->getModel('checkout');
 		$post = JRequest::get('post');
 
-		$user =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$user = JFactory::getUser();
+		$session = JFactory::getSession();
 
 		$cart = $session->get('cart');
 		$users_info_id = $post['users_info_id'];
@@ -598,7 +598,7 @@ class checkoutController extends JController
 		$display_cart = '<div id="onestepdisplaycart">' . $onestep_template_desc . '</div>';
 
 		$description = $display_shippingrate . $display_cart;
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$Locale = $lang->getLocale();
 		if (in_array('ru', $Locale))
 			$description = html_entity_decode($description, ENT_QUOTES, 'KOI8-R'); //commented because redshop currency symbole has been changed because of ajax responce
