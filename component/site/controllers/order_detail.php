@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
@@ -65,7 +65,7 @@ class order_detailController extends JController
 
 		global $mainframe;
 		$db = jFactory::getDBO();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$model = $this->getModel('order_detail');
 
 		$redconfig = new Redconfiguration();
@@ -291,7 +291,7 @@ class order_detailController extends JController
 	function reorder()
 	{
 		global $mainframe;
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
 		$Itemid = JRequest::getVar('Itemid');

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 /**
@@ -28,9 +28,9 @@ class categoryController extends JController
 	{
 		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
-		$db =& JFactory::getDBO();
+		$db = JFactorygetDBO();
 		$this->_table_prefix = "#__redshop_";
-//		$user		=& JFactory::getUser();
+//		$user		= JFactorygetUser();
 //		$gid		= (int) $user->get('gid', 0);
 //		if($gid!=25)
 //		{

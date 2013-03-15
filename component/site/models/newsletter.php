@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 class newsletterModelnewsletter extends JModel
@@ -31,7 +31,7 @@ class newsletterModelnewsletter extends JModel
 	function checksubscriptionbymail($email)
 	{
 		Global $mainframe;
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$and  = "";
 		if ($user->id)
 		{

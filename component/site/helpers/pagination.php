@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class redPagination extends JPagination
 {
@@ -16,7 +16,7 @@ class redPagination extends JPagination
 	{
 		global $mainframe;
 
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		// Build the page navigation list
 		$data = $this->_buildDataObject();

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -51,7 +51,7 @@ class split_paymentModelsplit_payment extends JModel
 		$option          = JRequest::getVar('option');
 		$Itemid          = JRequest::getVar('Itemid');
 		$task            = JRequest::getVar('task');
-		$user            =& JFactory::getUser();
+		$user            = JFactory::getUser();
 		$order_functions = new order_functions();
 		/*$session =&JFactory::getSession();
    		$issplit=$session->get('issplit') ;

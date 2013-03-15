@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 /**
@@ -41,7 +41,7 @@ class quotationController extends JController
 		}
 
 		$model = $this->getModel('quotation');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$cart['quotation_note'] = $post['quotation_note'];
 		$row = $model->store($cart, $post);

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -1019,7 +1019,7 @@ class searchModelsearch extends JModel
 	// get Category products selected in search Module
 	function loadCatProductsManufacturer($cid)
 	{
-		$db    =& JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
 			. ", " . $this->_table_prefix . "product AS p "
 			. "WHERE cx.category_id='" . $cid . "' "
