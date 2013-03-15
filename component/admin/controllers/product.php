@@ -61,19 +61,19 @@ class productController extends JController
 	function importeconomic()
 	{
 		#Add product to economic
-		$cnt = JRequest::getInt('cnt', 0);
+		$cnt      = JRequest::getInt('cnt', 0);
 		$totalprd = 0;
-		$msg = '';
+		$msg      = '';
 		if (ECONOMIC_INTEGRATION == 1)
 		{
 			$economic = new economic();
-			$db = & JFactory::getDBO();
-			$incNo = $cnt;
-			$query = 'SELECT p.* FROM #__redshop_product AS p '
+			$db       = & JFactory::getDBO();
+			$incNo    = $cnt;
+			$query    = 'SELECT p.* FROM #__redshop_product AS p '
 				. 'LIMIT ' . $cnt . ', 10 ';
 			$db->setQuery($query);
-			$prd = $db->loadObjectlist();
-			$totalprd = count($prd);
+			$prd         = $db->loadObjectlist();
+			$totalprd    = count($prd);
 			$responcemsg = '';
 			for ($i = 0; $i < count($prd); $i++)
 			{
@@ -89,7 +89,7 @@ class productController extends JController
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
 					if (JError::isError(JError::getError()))
 					{
-						$error = JError::getError();
+						$error  = JError::getError();
 						$errmsg = $error->message;
 					}
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
@@ -112,15 +112,15 @@ class productController extends JController
 	function importatteco()
 	{
 		#Add product attribute to economic
-		$cnt = JRequest::getInt('cnt', 0);
+		$cnt      = JRequest::getInt('cnt', 0);
 		$totalprd = 0;
-		$msg = '';
+		$msg      = '';
 		if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
 		{
 			$economic = new economic();
-			$db = & JFactory::getDBO();
-			$incNo = $cnt;
-			$query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
+			$db       = & JFactory::getDBO();
+			$incNo    = $cnt;
+			$query    = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
 				. "FROM #__redshop_product_attribute_property AS ap "
 				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
 				. "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
@@ -129,15 +129,15 @@ class productController extends JController
 				. "AND ap.property_number!='' "
 				. "LIMIT " . $cnt . ", 10 ";
 			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-			$totalprd = count($list);
+			$list        = $db->loadObjectlist();
+			$totalprd    = count($list);
 			$responcemsg = '';
 			for ($i = 0; $i < count($list); $i++)
 			{
 				$incNo++;
-				$prdrow->product_id = $list[$i]->product_id;
+				$prdrow->product_id      = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createPropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber        = $economic->createPropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PROPERTY_NUMBER') . " " . $list[$i]->property_number . " -> ";
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
 				{
@@ -148,7 +148,7 @@ class productController extends JController
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 					if (JError::isError(JError::getError()))
 					{
-						$error = JError::getError();
+						$error  = JError::getError();
 						$errmsg = $error->message;
 					}
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
@@ -165,14 +165,14 @@ class productController extends JController
 				. "AND sp.subattribute_color_number!='' "
 				. "LIMIT " . $cnt . ", 10 ";
 			$db->setQuery($query);
-			$list = $db->loadObjectlist();
+			$list     = $db->loadObjectlist();
 			$totalprd = $totalprd + count($list);
 			for ($i = 0; $i < count($list); $i++)
 			{
 				$incNo++;
-				$prdrow->product_id = $list[$i]->product_id;
+				$prdrow->product_id      = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createSubpropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber        = $economic->createSubpropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " " . $list[$i]->subattribute_color_number . " -> ";
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
 				{
@@ -183,7 +183,7 @@ class productController extends JController
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 					if (JError::isError(JError::getError()))
 					{
-						$error = JError::getError();
+						$error  = JError::getError();
 						$errmsg = $error->message;
 					}
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
@@ -207,8 +207,8 @@ class productController extends JController
 	function saveprice()
 	{
 
-		$db = JFactory::getDBO();
-		$pid = JRequest::getVar('pid', array(), 'post', 'array');
+		$db    = JFactory::getDBO();
+		$pid   = JRequest::getVar('pid', array(), 'post', 'array');
 		$price = JRequest::getVar('price', array(), 'post', 'array');
 
 
@@ -228,8 +228,8 @@ class productController extends JController
 	function savediscountprice()
 	{
 
-		$db = JFactory::getDBO();
-		$pid = JRequest::getVar('pid', array(), 'post', 'array');
+		$db             = JFactory::getDBO();
+		$pid            = JRequest::getVar('pid', array(), 'post', 'array');
 		$discount_price = JRequest::getVar('discount_price', array(), 'post', 'array');
 
 
@@ -250,9 +250,9 @@ class productController extends JController
 	{
 
 		$template_id = JRequest::getVar('template_id', '');
-		$product_id = JRequest::getVar('product_id', '');
-		$section = JRequest::getVar('section', '');
-		$model = $this->getModel('product');
+		$product_id  = JRequest::getVar('product_id', '');
+		$section     = JRequest::getVar('section', '');
+		$model       = $this->getModel('product');
 
 		$data_product = $model->product_template($template_id, $product_id, $section);
 		if (is_array($data_product))
@@ -290,7 +290,7 @@ class productController extends JController
 	function gbasefeed()
 	{
 		global $mainframe;
-		$post = JRequest::get('post');
+		$post  = JRequest::get('post');
 		$model = $this->getModel('product');
 
 		if ($model->gbasefeed($post))
@@ -308,7 +308,7 @@ class productController extends JController
 	{
 		$option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid   = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

@@ -33,7 +33,8 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 				</div>
 
 				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . CATEGORY_DEFAULT_IMAGE))
-				{ ?>
+				{
+					?>
 					<div id="catdiv">
 						<a class="modal" href="<?php
 						echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . CATEGORY_DEFAULT_IMAGE;
@@ -193,7 +194,8 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 					?>
 				</div>
 				<?php  if (is_file($slimbox_image_path))
-				{ ?>
+				{
+					?>
 					<div id="slimboximglinkdiv">
 					<div style='float:right'>
 						<a href="#123"

@@ -18,7 +18,7 @@ class text_library
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__redshop_';
-		$this->_db = JFactory::getDbo();
+		$this->_db           = JFactory::getDbo();
 	}
 
 	function getTextLibraryData()
@@ -27,17 +27,19 @@ class text_library
 			. "WHERE published=1 ";
 		$this->_db->setQuery($query);
 		$textdata = $this->_db->loadObjectlist();
+
 		return $textdata;
 	}
 
 	function getTextLibraryTagArray()
 	{
-		$result = array();
+		$result   = array();
 		$textdata = $this->getTextLibraryData();
 		for ($i = 0; $i < count($textdata); $i++)
 		{
 			$result[] = $textdata[$i]->text_name;
 		}
+
 		return $result;
 	}
 
@@ -46,10 +48,11 @@ class text_library
 		$textdata = $this->getTextLibraryData();
 		for ($i = 0; $i < count($textdata); $i++)
 		{
-			$textname = "{" . $textdata[$i]->text_name . "}";
+			$textname    = "{" . $textdata[$i]->text_name . "}";
 			$textreplace = $textdata[$i]->text_field;
-			$data = str_replace($textname, $textreplace, $data);
+			$data        = str_replace($textname, $textreplace, $data);
 		}
+
 		return $data;
 	}
 }

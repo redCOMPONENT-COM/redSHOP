@@ -16,7 +16,7 @@ JPluginHelper::importPlugin('redshop_product');
  * Show content return by plugin directly into product page after display product title
  */
 $data->loadhtml = new stdClass();
-$results = $dispatcher->trigger('onBackendOrderDetailFooter', array(& $this));
+$results        = $dispatcher->trigger('onBackendOrderDetailFooter', array(& $this));
 $data->loadhtml = trim(implode("\n", $results));
 
 echo $data->loadhtml;

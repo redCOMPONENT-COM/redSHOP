@@ -29,11 +29,12 @@ class Redaccesslevel
 		$mainframe =& JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
-		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
+		$db     = JFactory::getDBO();
+		$query  = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
 			. " WHERE `view`=1 and `gid` = '" . $group_id . "'";
 		$db->setQuery($query);
 		$access_section = $db->loadResultArray();
+
 		return $access_section;
 	}
 
@@ -68,7 +69,7 @@ class Redaccesslevel
 		$mainframe =& JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
+		$db     = JFactory::getDBO();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
@@ -119,7 +120,7 @@ class Redaccesslevel
 	function getgroup_accesstaskadd($view, $task, $group_id)
 	{
 		$mainframe =& JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db        = JFactory::getDBO();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
@@ -169,7 +170,7 @@ class Redaccesslevel
 	{
 
 		$mainframe =& JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db        = JFactory::getDBO();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
@@ -224,7 +225,7 @@ class Redaccesslevel
 	function getgroup_accesstaskdelete($view, $task, $group_id)
 	{
 		$mainframe =& JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db        = JFactory::getDBO();
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
 			$view = "shipping";

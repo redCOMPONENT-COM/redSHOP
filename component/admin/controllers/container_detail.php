@@ -21,7 +21,7 @@ class container_detailController extends JController
 
 	function edit()
 	{
-		$model = $this->getModel('container_detail');
+		$model          = $this->getModel('container_detail');
 		$stockroom_data = $model->stockroom_data($id = 0);
 		JRequest::setVar('stockroom_data', $stockroom_data);
 		JRequest::setVar('view', 'container_detail');
@@ -75,58 +75,58 @@ class container_detailController extends JController
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+function save($apply = 0)
+{
+
+	$post = JRequest::get('post');
+
+	$container_desc = JRequest::getVar('container_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+
+	$post["container_desc"] = $container_desc;
+
+	$option = JRequest::getVar('option');
+
+	//	$post ['container_id'] = $cid [0];
+
+	$post ['creation_date'] = strtotime($post ['creation_date']);
+
+
+	$model = $this->getModel('container_detail');
+
+	if ($row = $model->store($post))
 	{
 
-		$post = JRequest::get('post');
+		$msg = JText::_('COM_REDSHOP_CONTAINER_DETAIL_SAVED');
 
-		$container_desc = JRequest::getVar('container_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
-		$post["container_desc"] = $container_desc;
-
-		$option = JRequest::getVar('option');
-
-		//	$post ['container_id'] = $cid [0];
-
-		$post ['creation_date'] = strtotime($post ['creation_date']);
-
-
-		$model = $this->getModel('container_detail');
-
-		if ($row = $model->store($post))
-		{
-
-			$msg = JText::_('COM_REDSHOP_CONTAINER_DETAIL_SAVED');
-
-		}
-		else
-		{
-
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_CONTAINER_DETAIL');
-		}
-
-		//-------------- Stockroom Container Add --------------------
-
-		if (isset($post['showbuttons']))
-		{
-			?>
-        <script language="javascript" type="text/javascript">
-				<?php
-				if (isset($post['showbuttons']))
-					$link = 'index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $post['stockroom_id'];
-				?>
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script>
-		<?php
-			exit;
-		}
-
-		//-------------- End Stockroom Container Add ----------------
-		if ($apply == 1)
-			$this->setRedirect('index.php?option=' . $option . '&view=container_detail&task=edit&cid[]=' . $row->container_id, $msg);
-		else
-			$this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
 	}
+	else
+	{
+
+		$msg = JText::_('COM_REDSHOP_ERROR_SAVING_CONTAINER_DETAIL');
+	}
+
+	//-------------- Stockroom Container Add --------------------
+
+if (isset($post['showbuttons']))
+{
+	?>
+	<script language="javascript" type="text/javascript">
+		<?php
+		if (isset($post['showbuttons']))
+			$link = 'index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $post['stockroom_id'];
+		?>
+		window.parent.document.location = '<?php echo $link; ?>';
+	</script>
+	<?php
+	exit;
+}
+
+	//-------------- End Stockroom Container Add ----------------
+	if ($apply == 1)
+		$this->setRedirect('index.php?option=' . $option . '&view=container_detail&task=edit&cid[]=' . $row->container_id, $msg);
+	else
+		$this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
+}
 
 	function remove()
 	{
@@ -195,7 +195,7 @@ class container_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$model = $this->getModel('container_detail');
+		$model  = $this->getModel('container_detail');
 
 		$model->cancel();
 		$msg = JText::_('COM_REDSHOP_CONTAINER_DETAIL_EDITING_CANCELLED');

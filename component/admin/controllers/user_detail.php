@@ -18,7 +18,7 @@ class user_detailController extends JController
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->_table_prefix = '#__redshop_';
-		$this->redhelper = new redhelper();
+		$this->redhelper     = new redhelper();
 	}
 
 	function edit()
@@ -37,9 +37,9 @@ class user_detailController extends JController
 	function save($apply = 0)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 
-		$model = $this->getModel('user_detail');
+		$model    = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
 
 		if ($row = $model->store($post))
@@ -54,7 +54,7 @@ class user_detailController extends JController
 		if ($shipping)
 		{
 			$info_id = JRequest::getVar('info_id', '', 'request', 'string');
-			$link = 'index.php?option=' . $option . '&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			$link    = 'index.php?option=' . $option . '&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
 		}
 		else
 		{
@@ -74,9 +74,9 @@ class user_detailController extends JController
 
 	function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option   = JRequest::getVar('option', '', 'request', 'string');
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
+		$cid      = JRequest::getVar('cid', array(0), 'request', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -130,9 +130,9 @@ class user_detailController extends JController
 
 	function unpublish()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option   = JRequest::getVar('option', '', 'request', 'string');
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid      = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -158,9 +158,9 @@ class user_detailController extends JController
 
 	function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option   = JRequest::getVar('option', '', 'request', 'string');
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$info_id = JRequest::getVar('info_id', '', 'request', 'string');
+		$info_id  = JRequest::getVar('info_id', '', 'request', 'string');
 
 		$msg = JText::_('COM_REDSHOP_USER_DETAIL_EDITING_CANCELLED');
 		if ($shipping)
@@ -177,23 +177,23 @@ class user_detailController extends JController
 
 	function order()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option  = JRequest::getVar('option', '', 'request', 'string');
 		$user_id = JRequest::getVar('user_id', 0, 'request', 'string');
 		$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id);
 	}
 
 	function validation()
 	{
-		$json = JRequest::getVar('json', '');
-		$decoded = json_decode($json);
-		$model = $this->getModel('user_detail');
-		$username = $model->validate_user($decoded->username, $decoded->userid);
-		$email = $model->validate_email($decoded->email, $decoded->userid);
-		$json = array();
-		$json['ind'] = $decoded->ind;
+		$json             = JRequest::getVar('json', '');
+		$decoded          = json_decode($json);
+		$model            = $this->getModel('user_detail');
+		$username         = $model->validate_user($decoded->username, $decoded->userid);
+		$email            = $model->validate_email($decoded->email, $decoded->userid);
+		$json             = array();
+		$json['ind']      = $decoded->ind;
 		$json['username'] = $username;
-		$json['email'] = $email;
-		$encoded = json_encode($json);
+		$json['email']    = $email;
+		$encoded          = json_encode($json);
 		die($encoded);
 	}
 }

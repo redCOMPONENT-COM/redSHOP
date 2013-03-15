@@ -14,17 +14,17 @@ class prices_detailVIEWprices_detail extends JView
 	{
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE_MANAGEMENT_DETAIL'), 'redshop_vatrates48');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option   = JRequest::getVar('option', '', 'request', 'string');
 		$document = & JFactory::getDocument();
-		$uri =& JFactory::getURI();
+		$uri      =& JFactory::getURI();
 
 		$this->setLayout('default');
 
-		$lists = array();
+		$lists  = array();
 		$detail =& $this->get('data');
 
 		$isNew = ($detail->price_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vatrates48');
 		JToolBarHelper::save();
@@ -38,8 +38,8 @@ class prices_detailVIEWprices_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
-		$model = $this->getModel('prices_detail');
-		$lists['product_id'] = $detail->product_id;
+		$model                 = $this->getModel('prices_detail');
+		$lists['product_id']   = $detail->product_id;
 		$lists['product_name'] = $detail->product_name;
 
 		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '

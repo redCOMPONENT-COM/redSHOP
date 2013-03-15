@@ -140,7 +140,7 @@ class tax_group_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
 	}
 

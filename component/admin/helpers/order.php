@@ -27,9 +27,9 @@ class order_functions
 	function __construct()
 	{
 		global $mainframe, $context;
-		$this->_table_prefix = '#__redshop_';
+		$this->_table_prefix     = '#__redshop_';
 		$this->_table_prefix_crm = '#__redcrm_';
-		$this->_db =& JFactory::getDBO();
+		$this->_db               =& JFactory::getDBO();
 	}
 
 	function resetOrderId()
@@ -74,6 +74,7 @@ class order_functions
 		$query = 'SELECT order_status_name FROM ' . $this->_table_prefix . 'order_status ' . 'WHERE order_status_code ="' . $order_status_code . '"';
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadResult();
+
 		return $res;
 	}
 
@@ -85,7 +86,7 @@ class order_functions
 
 		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount FROM #__extensions AS p " . "LEFT JOIN " . $this->_table_prefix . "order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id='" . $order_id . "' " . "AND p.folder='redshop_payment' ";
 		$this->_db->setQuery($query);
-		$result = $this->_db->loadObjectlist();
+		$result           = $this->_db->loadObjectlist();
 		$authorize_status = $result[0]->authorize_status;
 
 		$paymentmethod = $this->getPaymentMethodInfo($result[0]->element);
@@ -94,35 +95,35 @@ class order_functions
 		//getting the order details
 		$orderdetail = $this->getOrderDetails($order_id);
 
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
-		$paymentparams = new JRegistry($paymentmethod->params);
+		$paymentpath          = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
+		$paymentparams        = new JRegistry($paymentmethod->params);
 		$order_status_capture = $paymentparams->get('capture_status', '');
-		$auth_type = $paymentparams->get('auth_type', '');
-		$order_status_code = $order_status_capture;
+		$auth_type            = $paymentparams->get('auth_type', '');
+		$order_status_code    = $order_status_capture;
 
 		if ($order_status_capture == $newstatus && ($authorize_status == "Authorized" || $authorize_status == ""))
 		{
-			$values["order_number"] = $orderdetail->order_number;
-			$values["order_id"] = $order_id;
+			$values["order_number"]        = $orderdetail->order_number;
+			$values["order_id"]            = $order_id;
 			$values["order_transactionid"] = $result[0]->order_payment_trans_id;
-			$values["order_amount"] = $orderdetail->order_total + $result[0]->order_transfee;
-			$values["order_userid"] = $values['billinginfo']->user_id;
-			$values['shippinginfo'] = $this->getOrderShippingUserInfo($order_id);
-			$values['billinginfo'] = $this->getOrderBillingUserInfo($order_id);
+			$values["order_amount"]        = $orderdetail->order_total + $result[0]->order_transfee;
+			$values["order_userid"]        = $values['billinginfo']->user_id;
+			$values['shippinginfo']        = $this->getOrderShippingUserInfo($order_id);
+			$values['billinginfo']         = $this->getOrderBillingUserInfo($order_id);
 
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher =& JDispatcher::getInstance();
-			$data = $dispatcher->trigger('onCapture_Payment' . $result[0]->element, array($result[0]->element, $values));
-			$results = $data[0];
+			$data       = $dispatcher->trigger('onCapture_Payment' . $result[0]->element, array($result[0]->element, $values));
+			$results    = $data[0];
 
 			if (!empty($data))
 			{
 				$message = $results->message;
 
-				$orderstatuslog =& JTable::getInstance('order_status_log', 'Table');
-				$orderstatuslog->order_id = $order_id;
-				$orderstatuslog->order_status = $order_status_code;
-				$orderstatuslog->date_changed = time();
+				$orderstatuslog                =& JTable::getInstance('order_status_log', 'Table');
+				$orderstatuslog->order_id      = $order_id;
+				$orderstatuslog->order_status  = $order_status_code;
+				$orderstatuslog->date_changed  = time();
 				$orderstatuslog->customer_note = $message;
 				$orderstatuslog->store();
 			}
@@ -133,25 +134,25 @@ class order_functions
 		if ($newstatus == "X" && $refund_type == 1)
 		{
 
-			$values["order_number"] = $orderdetail->order_number;
-			$values["order_id"] = $order_id;
+			$values["order_number"]        = $orderdetail->order_number;
+			$values["order_id"]            = $order_id;
 			$values["order_transactionid"] = $result[0]->order_payment_trans_id;
-			$values["order_amount"] = $orderdetail->order_total + $result[0]->order_transfee;
-			$values["order_userid"] = $values['billinginfo']->user_id;
+			$values["order_amount"]        = $orderdetail->order_total + $result[0]->order_transfee;
+			$values["order_userid"]        = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher =& JDispatcher::getInstance();
 			// get status and refund if capture/cancel if authorize (for quickpay only)
-			$data = $dispatcher->trigger('onStatus_Payment' . $result[0]->element, array($result[0]->element, $values));
+			$data    = $dispatcher->trigger('onStatus_Payment' . $result[0]->element, array($result[0]->element, $values));
 			$results = $data[0];
 
 			if (!empty($data))
 			{
-				$message = $results->message;
-				$orderstatuslog =& JTable::getInstance('order_status_log', 'Table');
-				$orderstatuslog->order_id = $order_id;
-				$orderstatuslog->order_status = $newstatus;
-				$orderstatuslog->date_changed = time();
+				$message                       = $results->message;
+				$orderstatuslog                =& JTable::getInstance('order_status_log', 'Table');
+				$orderstatuslog->order_id      = $order_id;
+				$orderstatuslog->order_status  = $newstatus;
+				$orderstatuslog->date_changed  = time();
 				$orderstatuslog->customer_note = $message;
 				$orderstatuslog->store();
 			}
@@ -165,8 +166,8 @@ class order_functions
 		$order_details = $this->getOrderDetails($order_id);
 		$producthelper = new producthelper();
 		$orderproducts = $this->getOrderItemDetail($order_id);
-		$billingInfo = $this->getOrderBillingUserInfo($order_id);
-		$shippingInfo = $this->getOrderShippingUserInfo($order_id);
+		$billingInfo   = $this->getOrderBillingUserInfo($order_id);
+		$shippingInfo  = $this->getOrderShippingUserInfo($order_id);
 
 		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = '" . SHOP_COUNTRY . "'";
 		$this->_db->setQuery($sql);
@@ -181,7 +182,7 @@ class order_functions
 		$shippingInfo->country_code = $this->_db->loadResult();
 
 		// for product conetent
-		$totalWeight = 0;
+		$totalWeight      = 0;
 		$content_products = array();
 		for ($c = 0; $c < count($orderproducts); $c++)
 		{
@@ -196,14 +197,14 @@ class order_functions
 
 			// Accessory Weight
 			$orderAccItemdata = $this->getOrderItemAccessoryDetail($orderproducts[$c]->order_item_id);
-			$acc_weight = 0;
+			$acc_weight       = 0;
 			if (count($orderAccItemdata) > 0)
 			{
 
 				for ($a = 0; $a < count($orderAccItemdata); $a++)
 				{
 					$accessory_quantity = $orderAccItemdata[$a]->product_quantity;
-					$acc_sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id ='" . $orderAccItemdata[$a]->product_id . "'";
+					$acc_sql            = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id ='" . $orderAccItemdata[$a]->product_id . "'";
 					$this->_db->setQuery($acc_sql);
 					$accessory_weight = $this->_db->loadResult();
 					$acc_weight += ($accessory_weight * $accessory_quantity);
@@ -221,14 +222,14 @@ class order_functions
 
 		if (SHOW_PRODUCT_DETAIL)
 		{
-			$content_products = array_unique($content_products);
-			$content_products = implode(",", $content_products);
-			$content_products = mb_convert_encoding($content_products, "ISO-8859-1", "UTF-8");
+			$content_products        = array_unique($content_products);
+			$content_products        = implode(",", $content_products);
+			$content_products        = mb_convert_encoding($content_products, "ISO-8859-1", "UTF-8");
 			$content_products_remark = substr(mb_convert_encoding($content_products, "ISO-8859-1", "UTF-8"), 0, 29);
 		}
 		else
 		{
-			$content_products = " ";
+			$content_products        = " ";
 			$content_products_remark = " ";
 		}
 
@@ -236,25 +237,25 @@ class order_functions
 		// total quantity
 		$total_qty = $qty;
 		$firstname = mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8");
-		$lastname = mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8");
+		$lastname  = mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8");
 		$full_name = $firstname . " " . $lastname;
-		$address = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
-		$city = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
+		$address   = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
+		$city      = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
 
 
 		if ($billingInfo->is_company)
 		{
-			$company_name = mb_convert_encoding($shippingInfo->company_name, "ISO-8859-1", "UTF-8");
-			$fproductCode = "PDKEP";
-			$addon = "<addon adnid='POD'></addon>";
+			$company_name  = mb_convert_encoding($shippingInfo->company_name, "ISO-8859-1", "UTF-8");
+			$fproductCode  = "PDKEP";
+			$addon         = "<addon adnid='POD'></addon>";
 			$finaladdress1 = $company_name;
 			$finaladdress2 = $address;
 		}
 		else
 		{
 
-			$fproductCode = "P19DK";
-			$addon = "<addon adnid='DLV'></addon>";
+			$fproductCode  = "P19DK";
+			$addon         = "<addon adnid='DLV'></addon>";
 			$finaladdress1 = $address;
 			$finaladdress2 = "";
 		}
@@ -303,7 +304,7 @@ class order_functions
 				</pacsoftonline>';
 
 		$postURL = "http://www.pacsoftonline.com/ufoweb/order?session=po_DK&user=" . POSTDK_CUSTOMER_NO . "&pin=" . POSTDK_CUSTOMER_PASSWORD . "&type=xml";
-		$ch = curl_init();
+		$ch      = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $postURL);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -312,7 +313,7 @@ class order_functions
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
 		$response = curl_exec($ch);
-		$error = curl_error($ch);
+		$error    = curl_error($ch);
 		curl_close($ch);
 
 		$oXML = new SimpleXMLElement($response);
@@ -321,6 +322,7 @@ class order_functions
 			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id=' . $order_id;
 			$this->_db->setQuery($query);
 			$this->_db->query();
+
 			return "success";
 
 		}
@@ -348,7 +350,7 @@ class order_functions
 		$helper = new redhelper();
 
 		$mainframe =& JFactory::getApplication('site');
-		$user =& JFactory::getUser();
+		$user      =& JFactory::getUser();
 
 		$order_id = $data->order_id;
 
@@ -356,16 +358,16 @@ class order_functions
 		if ($pos !== false)
 		{
 			$explode = explode("plugins", JURI::base());
-			$uri = $explode[0];
+			$uri     = $explode[0];
 		}
 		else
 		{
 			$uri = JURI::base();
 		}
 
-		$data->order_status_code = trim($data->order_status_code);
+		$data->order_status_code         = trim($data->order_status_code);
 		$data->order_payment_status_code = trim($data->order_payment_status_code);
-		$checkupdateordersts = $this->checkupdateordersts($data);
+		$checkupdateordersts             = $this->checkupdateordersts($data);
 		if ($checkupdateordersts == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "")
 		{
 			if ($data->order_status_code == "C")
@@ -383,7 +385,7 @@ class order_functions
 			$this->_db->Query();
 
 			$statusmsg = $data->msg;
-			$query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = '" . $data->order_status_code . "' ,order_payment_status ='" . $data->order_payment_status_code . "', date_changed='" . time() . "',order_id = " . $order_id . ",customer_note = '" . $data->log . "'";
+			$query     = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = '" . $data->order_status_code . "' ,order_payment_status ='" . $data->order_payment_status_code . "', date_changed='" . time() . "',order_id = " . $order_id . ",customer_note = '" . $data->log . "'";
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 			$this->changeOrderStatusMail($order_id, $data->order_status_code);
@@ -413,7 +415,7 @@ class order_functions
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
 				$dispatcher =& JDispatcher::getInstance();
-				$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $data->order_status_code, $data->order_payment_status_code));
+				$results    = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $data->order_status_code, $data->order_payment_status_code));
 
 			}
 			// For Webpack Postdk Label Generation
@@ -429,8 +431,8 @@ class order_functions
 				# Supplier order helper object
 				$crmSupplierOrderHelper = new crmSupplierOrderHelper();
 
-				$getStatus = array();
-				$getStatus['orderstatus'] = $data->order_status_code;
+				$getStatus                  = array();
+				$getStatus['orderstatus']   = $data->order_status_code;
 				$getStatus['paymentstatus'] = $data->order_payment_status_code;
 
 				$crmSupplierOrderHelper->redSHOPOrderUpdate($order_id, $getStatus);
@@ -466,13 +468,13 @@ class order_functions
 			if (ECONOMIC_INTEGRATION == 1)
 			{
 				$economic = new economic();
-				$oid = explode(",", $order_id);
+				$oid      = explode(",", $order_id);
 
 				for ($i = 0; $i < count($oid); $i++)
 				{
 					if (isset($oid[$i]) && $oid[$i] != 0 && $oid[$i] != "")
 					{
-						$orderdata = $this->getOrderDetails($oid[$i]);
+						$orderdata     = $this->getOrderDetails($oid[$i]);
 						$invoiceHandle = $economic->renewInvoiceInEconomic($orderdata);
 					}
 				}
@@ -483,8 +485,8 @@ class order_functions
 
 	function updateOrderItemStatus($order_id = 0, $product_id = 0, $newstatus = "", $comment = "", $order_item_id = 0)
 	{
-		$and = "";
-		$field = "";
+		$and            = "";
+		$field          = "";
 		$and_order_item = "";
 
 		if ($product_id != 0)
@@ -526,8 +528,9 @@ class order_functions
 	{
 		$query = "SELECT order_status_code AS value, order_status_name AS text " . "FROM " . $this->_table_prefix . "order_status " . "where published='1' ";
 		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$list                   = $this->_db->loadObjectList();
 		$this->_orderstatuslist = $list;
+
 		return $list;
 	}
 
@@ -538,9 +541,9 @@ class order_functions
 			$this->_orderstatuslist = $this->getOrderStatus();
 		}
 		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
-		$types = array_merge($types, $this->_orderstatuslist);
+		$types   = array_merge($types, $this->_orderstatuslist);
 
-		$tot_status = @explode(",", $selected);
+		$tot_status           = @explode(",", $selected);
 		$mylist['statuslist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $tot_status);
 
 		return $mylist['statuslist'];
@@ -564,8 +567,9 @@ class order_functions
 		$query = "SELECT " . $fieldname . " AS value " . "FROM " . $this->_table_prefix_crm . "configuration ";
 		$this->_db->setQuery($query);
 
-		$list = $this->_db->loadObjectList();
+		$list                         = $this->_db->loadObjectList();
 		$this->_customorderstatuslist = $list;
+
 		return $list;
 	}
 
@@ -581,10 +585,10 @@ class order_functions
 		for ($t = 0; $t < count($tot_status_change); $t++)
 		{
 			$this->_customorderstatuslist[$t]->value = $tot_status_change[$t];
-			$this->_customorderstatuslist[$t]->text = $this->getOrderStatusTitle($tot_status_change[$t]);
+			$this->_customorderstatuslist[$t]->text  = $this->getOrderStatusTitle($tot_status_change[$t]);
 		}
 		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
-		$types = array_merge($types, $this->_customorderstatuslist);
+		$types   = array_merge($types, $this->_customorderstatuslist);
 
 		$mylist['customstatuslist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
@@ -593,10 +597,10 @@ class order_functions
 
 	function getpaymentstatuslist($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$types[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_PAYMENT_STATUS'));
-		$types[] = JHTML::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
-		$types[] = JHTML::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
-		$types[] = JHTML::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
+		$types[]                     = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_PAYMENT_STATUS'));
+		$types[]                     = JHTML::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
+		$types[]                     = JHTML::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
+		$types[]                     = JHTML::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
 		$mylist['paymentstatuslist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['paymentstatuslist'];
@@ -605,25 +609,25 @@ class order_functions
 	function update_status()
 	{
 		global $mainframe;
-		$helper = new redhelper();
-		$producthelper = new producthelper();
+		$helper          = new redhelper();
+		$producthelper   = new producthelper();
 		$stockroomhelper = new rsstockroomhelper();
 
-		$post = JRequest::get('post');
-		$tmpl = JRequest::getVar('tmpl');
-		$newstatus = JRequest::getVar('status');
+		$post          = JRequest::get('post');
+		$tmpl          = JRequest::getVar('tmpl');
+		$newstatus     = JRequest::getVar('status');
 		$paymentstatus = JRequest::getVar('order_paymentstatus');
-		$option = JRequest::getVar('option');
-		$return = JRequest::getVar('return');
+		$option        = JRequest::getVar('option');
+		$return        = JRequest::getVar('return');
 
-		$customer_note = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
+		$customer_note      = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
 		$requisition_number = JRequest::getVar('requisition_number', '');
-		$oid = JRequest::getVar('order_id', array(), 'method', 'array');
-		$order_id = $oid[0];
-		$sendordermail = JRequest::getVar("order_sendordermail");
+		$oid                = JRequest::getVar('order_id', array(), 'method', 'array');
+		$order_id           = $oid[0];
+		$sendordermail      = JRequest::getVar("order_sendordermail");
 
-		$isproduct = JRequest::getInt('isproduct', 0);
-		$product_id = JRequest::getInt('product_id', 0);
+		$isproduct     = JRequest::getInt('isproduct', 0);
+		$product_id    = JRequest::getInt('product_id', 0);
 		$order_item_id = JRequest::getInt('order_item_id', 0);
 
 		if (JRequest::getVar('isarchive') != 0 && JRequest::getVar('isarchive') != "")
@@ -684,8 +688,8 @@ class order_functions
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
 				# Supplier order helper object
-				$getStatus = array();
-				$getStatus['orderstatus'] = $newstatus;
+				$getStatus                  = array();
+				$getStatus['orderstatus']   = $newstatus;
 				$getStatus['paymentstatus'] = $paymentstatus;
 
 				$crmSupplierOrderHelper->redSHOPOrderUpdate($order_id, $getStatus);
@@ -699,11 +703,11 @@ class order_functions
 		$order_log =& JTable::getInstance('order_status_log', 'Table');
 		if (!$isproduct)
 		{
-			$data['order_id'] = $order_id;
-			$data['order_status'] = $newstatus;
+			$data['order_id']             = $order_id;
+			$data['order_status']         = $newstatus;
 			$data['order_payment_status'] = $paymentstatus;
-			$data['date_changed'] = time();
-			$data['customer_note'] = $customer_note;
+			$data['date_changed']         = time();
+			$data['customer_note']        = $customer_note;
 			if (!$order_log->bind($data))
 			{
 				return JError::raiseWarning(500, $order_log->getError());
@@ -726,7 +730,7 @@ class order_functions
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
 				$dispatcher =& JDispatcher::getInstance();
-				$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
+				$results    = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
 			}
 
@@ -763,8 +767,8 @@ class order_functions
 				$orderproducts = $this->getOrderItemDetail($order_id);
 				for ($i = 0; $i < count($orderproducts); $i++)
 				{
-					$conid = $orderproducts[$i]->container_id;
-					$prodid = $orderproducts[$i]->product_id;
+					$conid   = $orderproducts[$i]->container_id;
+					$prodid  = $orderproducts[$i]->product_id;
 					$prodqty = $orderproducts[$i]->stockroom_quantity;
 
 					//when the order is set to "cancelled",product will return to stock
@@ -785,8 +789,8 @@ class order_functions
 					if (USE_CONTAINER)
 					{
 						$orderproductdetail = $this->getOrderItemDetail($order_id, $product_id);
-						$conid = $orderproductdetail[0]->container_id;
-						$prodqty = $orderproductdetail[0]->product_quantity;
+						$conid              = $orderproductdetail[0]->container_id;
+						$prodqty            = $orderproductdetail[0]->product_quantity;
 
 						$this->manageContainerStock($product_id, $prodqty, $conid);
 					}
@@ -801,8 +805,8 @@ class order_functions
 					$orderproducts = $this->getOrderItemDetail($order_id);
 					for ($i = 0; $i < count($orderproducts); $i++)
 					{
-						$conid = $orderproducts[$i]->container_id;
-						$prodid = $orderproducts[$i]->product_id;
+						$conid   = $orderproducts[$i]->container_id;
+						$prodid  = $orderproducts[$i]->product_id;
 						$prodqty = $orderproducts[$i]->product_quantity;
 
 						if (USE_CONTAINER)
@@ -827,8 +831,8 @@ class order_functions
 					$orderproducts = $this->getOrderItemDetail($order_id);
 					for ($i = 0; $i < count($orderproducts); $i++)
 					{
-						$conid = $orderproducts[$i]->container_id;
-						$prodid = $orderproducts[$i]->product_id;
+						$conid   = $orderproducts[$i]->container_id;
+						$prodid  = $orderproducts[$i]->product_id;
 						$prodqty = $orderproducts[$i]->product_quantity;
 
 						if (USE_CONTAINER)
@@ -893,29 +897,29 @@ class order_functions
 	{
 		global $mainframe;
 
-		$helper = new redhelper();
+		$helper          = new redhelper();
 		$stockroomhelper = new rsstockroomhelper();
-		$producthelper = new producthelper();
-		$newstatus = JRequest::getVar('order_status_all');
-		$option = JRequest::getVar('option');
-		$return = JRequest::getVar('return');
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$producthelper   = new producthelper();
+		$newstatus       = JRequest::getVar('order_status_all');
+		$option          = JRequest::getVar('option');
+		$return          = JRequest::getVar('return');
+		$cid             = JRequest::getVar('cid', array(0), 'method', 'array');
 
 		$data['order_status'] = $newstatus;
 		$data['date_changed'] = time();
-		$invociepdfname = "";
+		$invociepdfname       = "";
 		//	$order_shipped_id = array();
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$oid = array((int) $cid[$i]);
 
-			$nc = JRequest::getVar('nc' . $oid[0]);
-			$c_note = JRequest::getVar('customer_note' . $oid[0]);
+			$nc        = JRequest::getVar('nc' . $oid[0]);
+			$c_note    = JRequest::getVar('customer_note' . $oid[0]);
 			$isproduct = JRequest::getVar('isproduct');
 
 			// Add status log...
-			$order_log =& JTable::getInstance('order_status_log', 'Table');
-			$data['order_id'] = $oid[0];
+			$order_log             =& JTable::getInstance('order_status_log', 'Table');
+			$data['order_id']      = $oid[0];
 			$data['customer_note'] = $c_note;
 
 			if (!$order_log->bind($data))
@@ -961,12 +965,12 @@ class order_functions
 			{
 				// For shipped pdf generaton
 				$order_shipped_id = $oid[0];
-				$invociepdfname = $this->createShippedInvoicePdf($order_shipped_id);
+				$invociepdfname   = $this->createShippedInvoicePdf($order_shipped_id);
 
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
 				$dispatcher =& JDispatcher::getInstance();
-				$results = $dispatcher->trigger('onChangeStatusToShipped', array($oid[0], $newstatus, $paymentstatus));
+				$results    = $dispatcher->trigger('onChangeStatusToShipped', array($oid[0], $newstatus, $paymentstatus));
 
 			}
 
@@ -989,8 +993,8 @@ class order_functions
 				$orderproducts = $this->getOrderItemDetail($oid[0]);
 				for ($j = 0; $j < count($orderproducts); $j++)
 				{
-					$conid = $orderproducts[$j]->container_id;
-					$prodid = $orderproducts[$j]->product_id;
+					$conid   = $orderproducts[$j]->container_id;
+					$prodid  = $orderproducts[$j]->product_id;
 					$prodqty = $orderproducts[$j]->stockroom_quantity;
 
 					//when the order is set to "cancelled",product will return to stock
@@ -1018,8 +1022,8 @@ class order_functions
 
 					$orderproductdetail = $this->getOrderItemDetail($oid[0], $pid);
 
-					$conid = $orderproductdetail[0]->container_id;
-					$prodid = $orderproductdetail[0]->product_id;
+					$conid   = $orderproductdetail[0]->container_id;
+					$prodid  = $orderproductdetail[0]->product_id;
 					$prodqty = $orderproductdetail[0]->product_quantity;
 
 					if (USE_CONTAINER)
@@ -1039,8 +1043,8 @@ class order_functions
 					$orderproducts = $this->getOrderItemDetail($oid[0]);
 					for ($k = 0; $k < count($orderproducts); $k++)
 					{
-						$conid = $orderproducts[$k]->container_id;
-						$prodid = $orderproducts[$k]->product_id;
+						$conid   = $orderproducts[$k]->container_id;
+						$prodid  = $orderproducts[$k]->product_id;
 						$prodqty = $orderproducts[$k]->product_quantity;
 						if (USE_CONTAINER)
 						{
@@ -1072,8 +1076,8 @@ class order_functions
 					$orderproducts = $this->getOrderItemDetail($oid[0]);
 					for ($l = 0; $l < count($orderproducts); $l++)
 					{
-						$conid = $orderproducts[$l]->container_id;
-						$prodid = $orderproducts[$l]->product_id;
+						$conid   = $orderproducts[$l]->container_id;
+						$prodid  = $orderproducts[$l]->product_id;
 						$prodqty = $orderproducts[$l]->product_quantity;
 
 
@@ -1116,18 +1120,18 @@ class order_functions
 		else
 			$link = 'index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $oid[0];
 		?>
-    <script type="text/javascript">    <?php
+		<script type="text/javascript">    <?php
 		if ($invociepdfname != "")
 		{
 			if (file_exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "invoice/" . $invociepdfname . ".pdf"))
 			{
 				?>
-            window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invociepdfname?>.pdf");
-				<?php
-			}
-		}  ?>
-    window.parent.location = '<?php echo $link?>';
-    </script><?php
+			window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invociepdfname?>.pdf");
+			<?php
+		}
+	}  ?>
+			window.parent.location = '<?php echo $link?>';
+		</script><?php
 	}
 
 	function getOrderDetails($order_id)
@@ -1135,6 +1139,7 @@ class order_functions
 		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $order_id . "' ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
+
 		return $list;
 	}
 
@@ -1143,6 +1148,7 @@ class order_functions
 		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $order_id . "' ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
@@ -1156,6 +1162,7 @@ class order_functions
 		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE user_id='" . $user_id . "' ORDER BY `order_id` DESC";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -1177,6 +1184,7 @@ class order_functions
 		$query = "SELECT * FROM  " . $this->_table_prefix . "order_item " . "WHERE 1=1 " . $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -1190,6 +1198,7 @@ class order_functions
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_payment ' . 'WHERE order_id="' . $order_id . '" ' . $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -1207,6 +1216,7 @@ class order_functions
 				$spilt_payment_amount = $list[$i]->order_payment_amount;
 			}
 		}
+
 		return $spilt_payment_amount;
 	}
 
@@ -1222,6 +1232,7 @@ class order_functions
 		$query = "SELECT * FROM #__extensions " . "WHERE enabled = '1' " . "AND LOWER(`folder`) = '{$folder}' " . $and . "ORDER BY ordering ASC ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
@@ -1238,6 +1249,7 @@ class order_functions
 
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
@@ -1253,7 +1265,7 @@ class order_functions
 
 		# get redCRM Contact person session array
 		$isredcrmuser = $session->get('isredcrmuser', false);
-		$list = array();
+		$list         = array();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1291,11 +1303,11 @@ class order_functions
 				if (count($contact_person) > 0)
 				{
 					$contact_person = $contact_person[0];
-					$person_name = explode(" ", $contact_person->person_name);
+					$person_name    = explode(" ", $contact_person->person_name);
 
-					$list->firstname = @$person_name[0];
-					$list->lastname = @$person_name[1];
-					$list->text = $contact_person->person_name;
+					$list->firstname  = @$person_name[0];
+					$list->lastname   = @$person_name[1];
+					$list->text       = $contact_person->person_name;
 					$list->user_email = $contact_person->person_email;
 				}
 			}
@@ -1307,6 +1319,7 @@ class order_functions
 		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM ' . $this->_table_prefix . 'users_info ' . 'WHERE address_type like "BT" ' . 'AND user_id="' . $user_id . '" ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
+
 		return $list;
 	}
 
@@ -1324,6 +1337,7 @@ class order_functions
 
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
+
 		return $list;
 	}
 
@@ -1341,7 +1355,7 @@ class order_functions
 
 		$isredcrmuser_debitor = $session->get('isredcrmuser_debitor', false);
 
-		$app = JFactory::getApplication();
+		$app      = JFactory::getApplication();
 		$is_admin = $app->isAdmin();
 
 		if ($user_id == 0)
@@ -1352,7 +1366,7 @@ class order_functions
 		if ($helper->isredCRM())
 		{
 
-			$crmHelper = new crmHelper();
+			$crmHelper        = new crmHelper();
 			$crmDebitorHelper = new crmDebitorHelper();
 
 			/*
@@ -1362,14 +1376,14 @@ class order_functions
 			 * @return: joomla user of redSHOP shipping user belong to contact person
 			 */
 			$crmuserssid = 0;
-			$crmusers = array();
+			$crmusers    = array();
 			if ($isredcrmuser)
 			{
 				$contact_person = $crmDebitorHelper->getContactPersons(0, 0, 0, $user_id);
 				$contact_person = $contact_person[0];
 
 				$crmuserssid = $contact_person->shipping_id;
-				$crmusers = $crmHelper->getShippingUserId(0, $crmuserssid);
+				$crmusers    = $crmHelper->getShippingUserId(0, $crmuserssid);
 			}
 
 			$list = array();
@@ -1402,6 +1416,7 @@ class order_functions
 		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM ' . $this->_table_prefix . 'users_info ' . 'WHERE address_type="ST" ' . 'AND user_id="' . $user_id . '" ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -1410,7 +1425,7 @@ class order_functions
 		$helper = new redhelper();
 		if ($helper->isredCRM())
 		{
-			$order = $this->getOrderDetails($order_id);
+			$order            = $this->getOrderDetails($order_id);
 			$crmDebitorHelper = new crmDebitorHelper();
 
 			/*
@@ -1420,19 +1435,21 @@ class order_functions
 			if (count($crmusers) > 0)
 			{
 				$crmusers = $crmusers[0];
+
 				return $crmusers;
 			}
 		}
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_users_info ' . 'WHERE address_type LIKE "ST" ' . 'AND order_id="' . $order_id . '" ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
+
 		return $list;
 	}
 
 	function getUserFullname($user_id)
 	{
 		$fullname = "";
-		$user =& JFactory::getUser();
+		$user     =& JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1454,6 +1471,7 @@ class order_functions
 				$fullname = $list->name;
 			}
 		}
+
 		return $fullname;
 	}
 
@@ -1467,6 +1485,7 @@ class order_functions
 		$query = "SELECT * FROM  " . $this->_table_prefix . "order_acc_item " . "WHERE 1=1 " . $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -1484,6 +1503,7 @@ class order_functions
 		$query = "SELECT * FROM  " . $this->_table_prefix . "order_attribute_item " . "WHERE is_accessory_att='" . $is_accessory . "' " . "AND section='" . $section . "' " . $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -1492,6 +1512,7 @@ class order_functions
 		$query = "SELECT fd.*,f.field_title,f.field_type,f.field_name FROM " . $this->_table_prefix . "fields_data AS fd " . "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid " . "WHERE fd.itemid='" . $order_item_id . "' " . "AND fd.section='" . $section . "' ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -1512,36 +1533,36 @@ class order_functions
 			$query = "SELECT order_number FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $maxId . "'";
 			$this->_db->setQuery($query);
 			$maxOrderNumber = $this->_db->loadResult();
-			$economic = new economic();
-			$maxInvoice = $economic->getMaxOrderNumberInEconomic();
-			$maxId = max(intval($maxOrderNumber), $maxInvoice);
+			$economic       = new economic();
+			$maxInvoice     = $economic->getMaxOrderNumberInEconomic();
+			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
 		}
 		else
 			if (INVOICE_NUMBER_TEMPLATE)
 			{
 				$maxId = ($maxId + FIRST_INVOICE_NUMBER + 1);
 
-				$format = sprintf("%06d", $maxId);
+				$format       = sprintf("%06d", $maxId);
 				$order_number = str_replace("XXXXXX", $format, INVOICE_NUMBER_TEMPLATE);
 				$order_number = str_replace("xxxxxx", $format, INVOICE_NUMBER_TEMPLATE);
 				$order_number = str_replace("######", $format, INVOICE_NUMBER_TEMPLATE);
 
-				$format = sprintf("%05d", $maxId);
+				$format       = sprintf("%05d", $maxId);
 				$order_number = str_replace("XXXXX", $format, $order_number);
 				$order_number = str_replace("xxxxx", $format, $order_number);
 				$order_number = str_replace("#####", $format, $order_number);
 
-				$format = sprintf("%04d", $maxId);
+				$format       = sprintf("%04d", $maxId);
 				$order_number = str_replace("XXXX", $format, $order_number);
 				$order_number = str_replace("xxxx", $format, $order_number);
 				$order_number = str_replace("####", $format, $order_number);
 
-				$format = sprintf("%03d", $maxId);
+				$format       = sprintf("%03d", $maxId);
 				$order_number = str_replace("XXX", $format, $order_number);
 				$order_number = str_replace("xxx", $format, $order_number);
 				$order_number = str_replace("###", $format, $order_number);
 
-				$format = sprintf("%02d", $maxId);
+				$format       = sprintf("%02d", $maxId);
 				$order_number = str_replace("XX", $format, $order_number);
 				$order_number = str_replace("xx", $format, $order_number);
 				$order_number = str_replace("##", $format, $order_number);
@@ -1549,6 +1570,7 @@ class order_functions
 				return $order_number;
 			}
 		$order_number = $maxId + 1;
+
 		return ($order_number);
 	}
 
@@ -1565,14 +1587,15 @@ class order_functions
 		{
 			$random .= substr($char_list, (rand() % (strlen($char_list))), 1);
 		}
+
 		return $random;
 	}
 
 	function getCountryName($cnt3 = "")
 	{
 		$redhelper = new redhelper();
-		$and = '';
-		$cntname = '';
+		$and       = '';
+		$cntname   = '';
 
 		if ($cnt3 != "")
 		{
@@ -1590,13 +1613,14 @@ class order_functions
 		{
 			$cntname = $countries[0]->text;
 		}
+
 		return $cntname;
 	}
 
 	function getStateName($st3 = "", $cnt3 = "")
 	{
 		$stname = '';
-		$and = '';
+		$and    = '';
 		if ($st3 != "")
 		{
 			$and .= ' AND s.state_2_code="' . $st3 . '" ';
@@ -1612,6 +1636,7 @@ class order_functions
 		$query = 'SELECT s.state_name FROM ' . $this->_table_prefix . 'state AS s ' . ',' . $this->_table_prefix . 'country AS c ' . 'WHERE c.country_id=s.country_id ' . $and;
 		$this->_db->setQuery($query);
 		$stname = $this->_db->loadResult();
+
 		return $stname;
 	}
 
@@ -1626,13 +1651,13 @@ class order_functions
 		$FromName = $mainframe->getCfg('fromname');
 		$SiteName = $mainframe->getCfg('sitename');
 
-		$maildata = "";
+		$maildata    = "";
 		$mailsubject = "";
-		$mailbcc = NULL;
-		$mailinfo = $redshopMail->getMailtemplate(0, "downloadable_product_mail");
+		$mailbcc     = null;
+		$mailinfo    = $redshopMail->getMailtemplate(0, "downloadable_product_mail");
 		if (count($mailinfo) > 0)
 		{
-			$maildata = $mailinfo[0]->mail_body;
+			$maildata    = $mailinfo[0]->mail_body;
 			$mailsubject = $mailinfo[0]->mail_subject;
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
@@ -1657,7 +1682,7 @@ class order_functions
 		$userdetail = $this->_db->loadObject();
 
 		$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
-		$useremail = $userdetail->email;
+		$useremail    = $userdetail->email;
 		//getting user details end
 
 		$mailbody = "";
@@ -1670,20 +1695,20 @@ class order_functions
 			$maildata = str_replace("{order_number}", $orderdetail->order_number, $maildata);
 			$maildata = str_replace("{order_date}", $config->convertDateFormat($orderdetail->cdate), $maildata);
 
-			$mailtoken = "";
-			$productstart = "";
-			$productend = "";
+			$mailtoken     = "";
+			$productstart  = "";
+			$productend    = "";
 			$productmiddle = "";
-			$pmiddle = "";
-			$mailfirst = explode("{product_serial_loop_start}", $maildata);
+			$pmiddle       = "";
+			$mailfirst     = explode("{product_serial_loop_start}", $maildata);
 			if (count($mailfirst) > 1)
 			{
 				$productstart = $mailfirst[0];
-				$mailsec = explode("{product_serial_loop_end}", $mailfirst[1]);
+				$mailsec      = explode("{product_serial_loop_end}", $mailfirst[1]);
 				if (count($mailsec) > 1)
 				{
 					$productmiddle = $mailsec[0];
-					$productend = $mailsec[1];
+					$productend    = $mailsec[1];
 				}
 			}
 			foreach ($rows as $row)
@@ -1702,15 +1727,16 @@ class order_functions
 
 				$pmiddle .= $datamessage;
 			}
-			$maildata = $productstart . $pmiddle . $productend;
-			$mailbody = $maildata;
+			$maildata    = $productstart . $pmiddle . $productend;
+			$mailbody    = $maildata;
 			$mailsubject = str_replace("{order_number}", $orderdetail->order_number, $mailsubject);
 
 			if ($mailbody && $useremail != "")
 			{
-				JUtility::sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, NULL, $mailbcc);
+				JUtility::sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
+
 		return true;
 	}
 
@@ -1718,6 +1744,7 @@ class order_functions
 	{
 		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd " . "," . $this->_table_prefix . "product AS p " . "WHERE pd.product_id=p.product_id " . "AND order_id='" . $order_id . "' ";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -1727,6 +1754,7 @@ class order_functions
 
 		$query = "SELECT pdl . * , pd.order_id, pd.product_id, pd.file_name " . " FROM `" . $this->_table_prefix . "product_download_log` AS pdl " . " LEFT JOIN " . $this->_table_prefix . "product_download AS pd ON pd.download_id = pdl.download_id" . " WHERE pd.order_id = '" . $order_id . "' " . $whereDownload_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -1735,6 +1763,7 @@ class order_functions
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$this->_db->setQuery($sql);
 		$params = $this->_db->loadObjectList();
+
 		return $params;
 	}
 
@@ -1745,19 +1774,19 @@ class order_functions
 		$redconfig = new Redconfiguration();
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
-		$paymentinfo = $plugin_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		$paymentinfo       = $plugin_parameters[0];
+		$paymentparams     = new JRegistry($paymentinfo->params);
 
 		$is_creditcard = $paymentparams->get('is_creditcard', '');
 
 		$order = $this->getOrderDetails($row->order_id);
 
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath        = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
 		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$objorder = new order_functions();
-		$user =& JFactory::getUser();
+		$user     =& JFactory::getUser();
 
 		$userbillinginfo = $this->getOrderBillingUserInfo($row->order_id);
 
@@ -1780,14 +1809,14 @@ class order_functions
 
 		}
 
-		$values['shippinginfo'] = $shippingaddress;
-		$values['billinginfo'] = $userbillinginfo;
-		$values['carttotal'] = $order->order_total;
+		$values['shippinginfo']   = $shippingaddress;
+		$values['billinginfo']    = $userbillinginfo;
+		$values['carttotal']      = $order->order_total;
 		$values['order_subtotal'] = $order->order_subtotal;
-		$values["order_id"] = $row->order_id;
+		$values["order_id"]       = $row->order_id;
 		$values['payment_plugin'] = $post['payment_method_class'];
-		$values['task'] = $task;
-		$values['order'] = $order;
+		$values['task']           = $task;
+		$values['order']          = $order;
 
 		if ($is_creditcard == 0)
 		{
@@ -1799,7 +1828,7 @@ class order_functions
 
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher =& JDispatcher::getInstance();
-			$results = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
+			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 		}
 		else
@@ -1814,27 +1843,28 @@ class order_functions
 		$sql = "SELECT shipping_location_info FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_rate_name='" . $shippingname . "'";
 		$this->_db->setQuery($sql);
 		$shippingloc = $this->_db->loadObjectList();
+
 		return $shippingloc;
 	}
 
 	function barcode_randon_number($lenth = 12, $barcodekey = 0)
 	{
 
-		$mainhelper = new redshopMail();
+		$mainhelper  = new redshopMail();
 		$redTemplate = new Redtemplate();
 
-		$ordermail = $mainhelper->getMailtemplate(0, "order");
+		$ordermail     = $mainhelper->getMailtemplate(0, "order");
 		$ordermailbody = $ordermail[0]->mail_body;
 
-		$invoicemail = $mainhelper->getMailtemplate(0, "invoice_mail");
+		$invoicemail     = $mainhelper->getMailtemplate(0, "invoice_mail");
 		$invoicemailbody = $invoicemail[0]->mail_body;
 
-		$receipttemp = $redTemplate->getTemplate('order_receipt');
+		$receipttemp     = $redTemplate->getTemplate('order_receipt');
 		$receipttempbody = $receipttemp[0]->template_desc;
 
 		if (strstr($ordermailbody, "{barcode}") || strstr($invoicemailbody, "{barcode}") || strstr($receipttempbody, "{barcode}") || $barcodekey == 1)
 		{
-			$aZ09 = array_merge(range(1, 9));
+			$aZ09         = array_merge(range(1, 9));
 			$rand_barcode = '';
 			for ($c = 0; $c < $lenth; $c++)
 			{
@@ -1843,7 +1873,7 @@ class order_functions
 			if (function_exists("curl_init"))
 			{
 				$url = JUri::root() . 'administrator/components/com_redshop/helpers/barcode/barcode.php?code=' . $rand_barcode . '&encoding=EAN&scale=2&mode=png';
-				$ch = curl_init(); // initialize curl handle
+				$ch  = curl_init(); // initialize curl handle
 				curl_setopt($ch, CURLOPT_URL, $url); // set url to post to
 				curl_setopt($ch, CURLOPT_FAILONERROR, 1);
 				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // allow redirects
@@ -1860,6 +1890,7 @@ class order_functions
 		else
 		{
 			$rand_barcode = "";
+
 			return $rand_barcode;
 
 		}
@@ -1874,7 +1905,7 @@ class order_functions
 
 	function checkupdateordersts($data)
 	{
-		$res = 1;
+		$res   = 1;
 		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_status='" . $data->order_status_code . "' " . "AND order_payment_status='" . $data->order_payment_status_code . "' " . "AND order_id='" . $data->order_id . "' ";
 		$this->_db->setQuery($query);
 		$order_payment = $this->_db->loadObjectList();
@@ -1882,45 +1913,46 @@ class order_functions
 		{
 			$res = 0;
 		}
+
 		return $res;
 	}
 
 	function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
 	{
 		global $mainframe;
-		$config = new Redconfiguration();
-		$carthelper = new rsCarthelper();
+		$config          = new Redconfiguration();
+		$carthelper      = new rsCarthelper();
 		$order_functions = new order_functions();
-		$redshopMail = new redshopMail();
-		$shippinghelper = new shipping();
-		$MailFrom = $mainframe->getCfg('mailfrom');
-		$FromName = $mainframe->getCfg('fromname');
-		$mailbcc = NULL;
-		$mailtemplate = $redshopMail->getMailtemplate(0, '', 'mail_section LIKE "order_status" AND mail_order_status LIKE "' . $newstatus . '" ');
+		$redshopMail     = new redshopMail();
+		$shippinghelper  = new shipping();
+		$MailFrom        = $mainframe->getCfg('mailfrom');
+		$FromName        = $mainframe->getCfg('fromname');
+		$mailbcc         = null;
+		$mailtemplate    = $redshopMail->getMailtemplate(0, '', 'mail_section LIKE "order_status" AND mail_order_status LIKE "' . $newstatus . '" ');
 		if (count($mailtemplate) > 0)
 		{
-			$maildata = $mailtemplate[0]->mail_body;
+			$maildata    = $mailtemplate[0]->mail_body;
 			$mailsubject = $mailtemplate[0]->mail_subject;
 			if (trim($mailtemplate[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailtemplate[0]->mail_bcc);
 			}
 			//getting the order details
-			$orderdetail = $this->getOrderDetails($order_id);
+			$orderdetail  = $this->getOrderDetails($order_id);
 			$barcode_code = $orderdetail->barcode;
 			//getting the order details end
 
 			// changes to parse all tags same as order mail start
 
-			$row = $order_functions->getOrderDetails($order_id);
+			$row      = $order_functions->getOrderDetails($order_id);
 			$maildata = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $maildata);
 			$maildata = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $maildata);
 
 			$maildata = $carthelper->replaceOrderTemplate($row, $maildata);
 
 			$arr_discount_type = array();
-			$arr_discount = explode('@', $row->discount_type);
-			$discount_type = '';
+			$arr_discount      = explode('@', $row->discount_type);
+			$discount_type     = '';
 			for ($d = 0; $d < count($arr_discount); $d++)
 			{
 				if ($arr_discount [$d])
@@ -1937,9 +1969,9 @@ class order_functions
 				$discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
 			}
 
-			$search [] = "{discount_type}";
+			$search []  = "{discount_type}";
 			$replace [] = $discount_type;
-			$maildata = str_replace($search_sub, $replace_sub, $maildata);
+			$maildata   = str_replace($search_sub, $replace_sub, $maildata);
 
 			// changes to parse all tags same as order mail end
 
@@ -1958,10 +1990,10 @@ class order_functions
 					$barcode_code = $this->barcode_randon_number(12, 1);
 					$this->updatebarcode($order_id, $barcode_code);
 				}
-				$img_url = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
+				$img_url     = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
 				$bar_replace = '<img alt="" src="' . $img_url . '">';
-				$search[] = "{barcode}";
-				$replace[] = $bar_replace;
+				$search[]    = "{barcode}";
+				$replace[]   = $bar_replace;
 			}
 			// end for barcode
 
@@ -1975,36 +2007,36 @@ class order_functions
 			}
 			$maildata = $carthelper->replaceShippingAddress($maildata, $shippingaddresses);
 
-			$search[] = "{shopname}";
+			$search[]  = "{shopname}";
 			$replace[] = SHOP_NAME;
 
-			$search[] = "{fullname}";
+			$search[]  = "{fullname}";
 			$replace[] = $userdetail->firstname . " " . $userdetail->lastname;
 
-			$search[] = "{customer_id}";
+			$search[]  = "{customer_id}";
 			$replace[] = $userdetail->users_info_id;
 
-			$search[] = "{order_id}";
+			$search[]  = "{order_id}";
 			$replace[] = $order_id;
 
-			$search[] = "{order_number}";
+			$search[]  = "{order_number}";
 			$replace[] = $orderdetail->order_number;
 
-			$search[] = "{order_date}";
+			$search[]  = "{order_date}";
 			$replace[] = $config->convertDateFormat($orderdetail->cdate);
 
-			$search[] = "{customer_note_lbl}";
+			$search[]  = "{customer_note_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_COMMENT');
 
-			$search[] = "{customer_note}";
+			$search[]  = "{customer_note}";
 			$replace[] = $order_comment;
 
-			$search[] = "{order_detail_link_lbl}";
+			$search[]  = "{order_detail_link_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_DETAIL_LBL');
 
 			$orderdetailurl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $order_id . '&encr=' . $orderdetail->encr_key;
-			$search[] = "{order_detail_link}";
-			$replace[] = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
+			$search[]       = "{order_detail_link}";
+			$replace[]      = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderdetail->ship_method_id)));
 			if (count($details) <= 1)
@@ -2015,22 +2047,22 @@ class order_functions
 			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
 				$shopLocation = '';
 
-			$arrLocationDetails = explode('|', $shopLocation);
+			$arrLocationDetails    = explode('|', $shopLocation);
 			$orderdetail->track_no = $arrLocationDetails[0];
 
-			$search[] = "{order_track_no}";
+			$search[]  = "{order_track_no}";
 			$replace[] = trim($orderdetail->track_no);
 
 			$order_trackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . POSTDK_CUSTOMER_NO . '&order=' . $order_id;
-			$search[] = "{order_track_url}";
-			$replace[] = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+			$search[]       = "{order_track_url}";
+			$replace[]      = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
-			$mailbody = str_replace($search, $replace, $maildata);
+			$mailbody    = str_replace($search, $replace, $maildata);
 			$mailsubject = str_replace($search, $replace, $mailsubject);
 
 			if ($userdetail->user_email != '' && $mailbody)
 			{
-				JUtility::sendMail($MailFrom, $FromName, $userdetail->user_email, $mailsubject, $mailbody, 1, NULL, $mailbcc);
+				JUtility::sendMail($MailFrom, $FromName, $userdetail->user_email, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 	}
@@ -2047,30 +2079,30 @@ class order_functions
 				if (count($paymentInfo) > 0)
 				{
 					$payment_name = $paymentInfo[0]->payment_method_class;
-					$paymentArr = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+					$paymentArr   = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
 					if (count($paymentArr) > 0)
 					{
 						$payment_name = $paymentArr[1];
 					}
 					$economicdata['economic_payment_method'] = $payment_name;
-					$paymentmethod = $this->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+					$paymentmethod                           = $this->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 					if (count($paymentmethod) > 0)
 					{
-						$paymentparams = new JRegistry($paymentmethod[0]->params);
+						$paymentparams                             = new JRegistry($paymentmethod[0]->params);
 						$economicdata['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-						$economicdata['economic_design_layout'] = $paymentparams->get('economic_design_layout');
-						$economicdata['economic_is_creditcard'] = $paymentparams->get('is_creditcard');
+						$economicdata['economic_design_layout']    = $paymentparams->get('economic_design_layout');
+						$economicdata['economic_is_creditcard']    = $paymentparams->get('is_creditcard');
 					}
 				}
 
 				$economicdata['split_payment'] = 0;
-				$invoiceHandle = $economic->createInvoiceInEconomic($order_id, $economicdata);
+				$invoiceHandle                 = $economic->createInvoiceInEconomic($order_id, $economicdata);
 			}
 			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, ECONOMIC_INVOICE_DRAFT);
 			if (is_file($bookinvoicepdf))
 			{
 				$redshopMail = new redshopMail();
-				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				$ret         = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 		// End Economic
@@ -2078,10 +2110,11 @@ class order_functions
 
 	function createMultiprintInvoicePdf($order_id)
 	{
-		$invoice = "";
+		$invoice     = "";
 		$redshopMail = new redshopMail();
 
 		$invoice = $redshopMail->createMultiprintInvoicePdf($order_id);
+
 		return $invoice;
 	}
 
@@ -2090,8 +2123,8 @@ class order_functions
 		if (POSTDK_INTEGRATION && ($order_status == "S" && $paymentstatus == "Paid"))
 		{
 			$shippinghelper = new shipping();
-			$order_details = $this->getOrderDetails($order_id);
-			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+			$order_details  = $this->getOrderDetails($order_id);
+			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 			//$generate_consignor_label= $this->generateConsignorParcel($order_id);
 
 			if (strstr($details[0], 'default_shipping') && !$order_details->order_label_create)
@@ -2109,22 +2142,22 @@ class order_functions
 	function createShippedInvoicePdf($order_id)
 	{
 
-		$redconfig = new Redconfiguration();
+		$redconfig     = new Redconfiguration();
 		$producthelper = new producthelper();
-		$extra_field = new extra_field();
-		$config =& JFactory::getConfig();
-		$redTemplate = new Redtemplate();
-		$carthelper = new rsCarthelper();
-		$redshopMail = new redshopMail();
-		$message = "";
-		$subject = "";
-		$cart = '';
+		$extra_field   = new extra_field();
+		$config        =& JFactory::getConfig();
+		$redTemplate   = new Redtemplate();
+		$carthelper    = new rsCarthelper();
+		$redshopMail   = new redshopMail();
+		$message       = "";
+		$subject       = "";
+		$cart          = '';
 
 		//for($o=0;$o<count($oid);$o++)
 		//{
 
 		$arr_discount_type = array();
-		$mailinfo = $redTemplate->getTemplate("shippment_invoice_template");
+		$mailinfo          = $redTemplate->getTemplate("shippment_invoice_template");
 		if (count($mailinfo) > 0)
 		{
 			$message = $mailinfo[0]->template_desc;
@@ -2137,8 +2170,8 @@ class order_functions
 
 		$row = $this->getOrderDetails($order_id);
 
-		$barcode_code = $row->barcode;
-		$arr_discount = explode('@', $row->discount_type);
+		$barcode_code  = $row->barcode;
+		$arr_discount  = explode('@', $row->discount_type);
 		$discount_type = '';
 
 		for ($d = 0; $d < count($arr_discount); $d++)
@@ -2159,17 +2192,17 @@ class order_functions
 			$discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
 		}
 
-		$search[] = "{discount_type}";
+		$search[]  = "{discount_type}";
 		$replace[] = $discount_type;
 
 		$message = str_replace($search, $replace, $message);
 
-		$message = $redshopMail->imginmail($message);
-		$user =& JFactory::getUser();
+		$message          = $redshopMail->imginmail($message);
+		$user             =& JFactory::getUser();
 		$billingaddresses = $this->getOrderBillingUserInfo($order_id);
-		$email = $billingaddresses->user_email;
-		$userfullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
-		$message = $carthelper->replaceOrderTemplate($row, $message);
+		$email            = $billingaddresses->user_email;
+		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
+		$message          = $carthelper->replaceOrderTemplate($row, $message);
 
 		echo "<div id='redshopcomponent' class='redshop'>";
 
@@ -2180,7 +2213,7 @@ class order_functions
 			if (function_exists("curl_init"))
 			{
 				$bar_codeIMG = '<img src="' . $img_url . '" alt="Barcode"  border="0" />';
-				$message = str_replace("{barcode}", $bar_codeIMG, $message);
+				$message     = str_replace("{barcode}", $bar_codeIMG, $message);
 
 			}
 
@@ -2196,22 +2229,22 @@ class order_functions
 
 	function orderStatusUpdate($order_id, $post = array())
 	{
-		$helper = new redhelper();
+		$helper          = new redhelper();
 		$stockroomhelper = new rsstockroomhelper();
-		$producthelper = new producthelper();
-		$newstatus = $post['order_status_all'];
-		$customer_note = $post['customer_note' . $order_id];
-		$isproduct = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
-		$product_id = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentstatus = $post['order_paymentstatus' . $order_id];
+		$producthelper   = new producthelper();
+		$newstatus       = $post['order_status_all'];
+		$customer_note   = $post['customer_note' . $order_id];
+		$isproduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
+		$product_id      = (isset($post['product_id'])) ? $post['product_id'] : 0;
+		$paymentstatus   = $post['order_paymentstatus' . $order_id];
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
 		// Add status log...
-		$order_log =& JTable::getInstance('order_status_log', 'Table');
-		$order_log->order_id = $customer_note;
+		$order_log                =& JTable::getInstance('order_status_log', 'Table');
+		$order_log->order_id      = $customer_note;
 		$order_log->customer_note = $customer_note;
-		$order_log->order_status = $newstatus;
-		$order_log->date_changed = time();
+		$order_log->order_status  = $newstatus;
+		$order_log->date_changed  = time();
 		if (!$order_log->store())
 		{
 			return JError::raiseWarning('', $order_log->getError());
@@ -2231,7 +2264,7 @@ class order_functions
 		// For Consignor Label generation
 		JPluginHelper::importPlugin('redshop_shippinglabel');
 		$dispatcher =& JDispatcher::getInstance();
-		$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
+		$results    = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
 		// For Webpack Postdk Label Generation
 		$this->createWebPacklabel($order_id, "", $newstatus, $paymentstatus);
@@ -2255,8 +2288,8 @@ class order_functions
 
 			for ($j = 0; $j < count($orderproducts); $j++)
 			{
-				$conid = $orderproducts[$j]->container_id;
-				$prodid = $orderproducts[$j]->product_id;
+				$conid   = $orderproducts[$j]->container_id;
+				$prodid  = $orderproducts[$j]->product_id;
 				$prodqty = $orderproducts[$j]->stockroom_quantity;
 
 				//when the order is set to "cancelled",product will return to stock
@@ -2281,8 +2314,8 @@ class order_functions
 				{
 					$orderproductdetail = $this->getOrderItemDetail($order_id, $product_id);
 
-					$conid = $orderproductdetail[0]->container_id;
-					$prodid = $orderproductdetail[0]->product_id;
+					$conid   = $orderproductdetail[0]->container_id;
+					$prodid  = $orderproductdetail[0]->product_id;
 					$prodqty = $orderproductdetail[0]->product_quantity;
 
 					if (USE_CONTAINER)
@@ -2302,8 +2335,8 @@ class order_functions
 					$orderproducts = $this->getOrderItemDetail($order_id);
 					for ($k = 0; $k < count($orderproducts); $k++)
 					{
-						$conid = $orderproducts[$k]->container_id;
-						$prodid = $orderproducts[$k]->product_id;
+						$conid   = $orderproducts[$k]->container_id;
+						$prodid  = $orderproducts[$k]->product_id;
 						$prodqty = $orderproducts[$k]->product_quantity;
 						if (USE_CONTAINER)
 						{
@@ -2334,8 +2367,8 @@ class order_functions
 						$orderproducts = $this->getOrderItemDetail($order_id);
 						for ($l = 0; $l < count($orderproducts); $l++)
 						{
-							$conid = $orderproducts[$l]->container_id;
-							$prodid = $orderproducts[$l]->product_id;
+							$conid   = $orderproducts[$l]->container_id;
+							$prodid  = $orderproducts[$l]->product_id;
 							$prodqty = $orderproducts[$l]->product_quantity;
 
 							if (USE_CONTAINER)

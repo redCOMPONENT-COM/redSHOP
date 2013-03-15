@@ -41,13 +41,13 @@ class state_detailController extends JController
 	{
 		$post = JRequest::get('post');
 
-		$state_name = JRequest::getVar('state_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$state_name         = JRequest::getVar('state_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["state_name"] = $state_name;
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post ['state_id'] = $cid [0];
-		$model = $this->getModel('state_detail');
-		$row = $model->store($post);
+		$option             = JRequest::getVar('option');
+		$cid                = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post ['state_id']  = $cid [0];
+		$model              = $this->getModel('state_detail');
+		$row                = $model->store($post);
 		if ($row)
 		{
 

@@ -27,13 +27,13 @@ class stockroom_listingController extends JController
 
 	function saveStock()
 	{
-		$model = $this->getModel('stockroom_listing');
+		$model          = $this->getModel('stockroom_listing');
 		$stockroom_type = JRequest::getVar('stockroom_type', 'product', 'post', 'string');
 
-		$pid = JRequest::getVar('pid', array(0), 'post', 'array');
-		$sid = JRequest::getVar('sid', array(0), 'post', 'array');
-		$quantity = JRequest::getVar('quantity', array(0), 'post', 'array');
-		$preorder_stock = JRequest::getVar('preorder_stock', array(0), 'post', 'array');
+		$pid              = JRequest::getVar('pid', array(0), 'post', 'array');
+		$sid              = JRequest::getVar('sid', array(0), 'post', 'array');
+		$quantity         = JRequest::getVar('quantity', array(0), 'post', 'array');
+		$preorder_stock   = JRequest::getVar('preorder_stock', array(0), 'post', 'array');
 		$ordered_preorder = JRequest::getVar('ordered_preorder', array(0), 'post', 'array');
 //
 
@@ -47,10 +47,10 @@ class stockroom_listingController extends JController
 
 	function ResetPreorderStock()
 	{
-		$model = $this->getModel('stockroom_listing');
+		$model          = $this->getModel('stockroom_listing');
 		$stockroom_type = JRequest::getVar('stockroom_type', 'product');
-		$pid = JRequest::getVar('product_id');
-		$sid = JRequest::getVar('stockroom_id');
+		$pid            = JRequest::getVar('product_id');
+		$sid            = JRequest::getVar('stockroom_id');
 
 
 		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid);
@@ -66,7 +66,7 @@ class stockroom_listingController extends JController
 	function export_data()
 	{
 		$model = $this->getModel('stockroom_listing');
-		$cid = JRequest::getVar('category_id');
+		$cid   = JRequest::getVar('category_id');
 		/* Start output to the browser */
 		if (preg_match('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
 		{

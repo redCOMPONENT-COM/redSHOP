@@ -30,22 +30,22 @@ class attributeprices_detailController extends JController
 
 	function save()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
+		$post                 = JRequest::get('post');
+		$option               = JRequest::getVar('option');
+		$section_id           = JRequest::getVar('section_id');
+		$section              = JRequest::getVar('section');
 		$price_quantity_start = JRequest::getVar('price_quantity_start');
-		$price_quantity_end = JRequest::getVar('price_quantity_end');
+		$price_quantity_end   = JRequest::getVar('price_quantity_end');
 
-		$post['product_currency'] = CURRENCY_CODE;
-		$post['cdate'] = time();
+		$post['product_currency']    = CURRENCY_CODE;
+		$post['cdate']               = time();
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
 		if ($post['discount_end_date'])
 		{
 			$post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
 		}
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid               = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['price_id'] = $cid [0];
 
 		$model = $this->getModel('attributeprices_detail');
@@ -63,10 +63,10 @@ class attributeprices_detailController extends JController
 	function remove()
 	{
 
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section    = JRequest::getVar('section');
+		$cid        = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -85,7 +85,7 @@ class attributeprices_detailController extends JController
 	function cancel()
 	{
 
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');

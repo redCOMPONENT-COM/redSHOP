@@ -20,7 +20,7 @@ class sampleViewsample extends JView
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-		$context = 'sample_id';
+		$context  = 'sample_id';
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CATALOG'));
 
@@ -34,14 +34,14 @@ class sampleViewsample extends JView
 
 		$uri =& JFactory::getURI();
 		//$context = "rating";
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'sample_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'sample_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$catalog = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$catalog            = & $this->get('Data');
+		$total              = & $this->get('Total');
+		$pagination         = & $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('catalog', $catalog);

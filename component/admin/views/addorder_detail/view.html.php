@@ -18,9 +18,9 @@ class addorder_detailVIEWaddorder_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-		$extra_field = new extra_field();
-		$order_functions = new order_functions();
+		$option           = JRequest::getVar('option');
+		$extra_field      = new extra_field();
+		$order_functions  = new order_functions();
 		$Redconfiguration = new Redconfiguration();
 
 		$document = & JFactory::getDocument();
@@ -35,18 +35,18 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/order.js');
 		$document->addScript('components/' . $option . '/assets/js/common.js');
 
-		$uri =& JFactory::getURI();
-		$lists = array();
-		$billing = array();
+		$uri          =& JFactory::getURI();
+		$lists        = array();
+		$billing      = array();
 		$shippinginfo = array();
-		$model = $this->getModel();
-		$detail =& $this->get('data');
-		$redhelper = new redhelper();
+		$model        = $this->getModel();
+		$detail       =& $this->get('data');
+		$redhelper    = new redhelper();
 		// Load language file
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
-		$language =& JFactory::getLanguage();
-		$base_dir = JPATH_ADMINISTRATOR;
+		$language     =& JFactory::getLanguage();
+		$base_dir     = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 
 
@@ -57,24 +57,24 @@ class addorder_detailVIEWaddorder_detail extends JView
 		}
 		//End
 
-		$err = JRequest::getVar('err', '');
+		$err              = JRequest::getVar('err', '');
 		$shipping_rate_id = JRequest::getVar('shipping_rate_id');
-		$user_id = JRequest::getVar('user_id', 0);
+		$user_id          = JRequest::getVar('user_id', 0);
 		if ($user_id != 0)
 		{
-			$billing = $order_functions->getBillingAddress($user_id);
+			$billing      = $order_functions->getBillingAddress($user_id);
 			$shippinginfo = $order_functions->getShippingAddress($user_id);
 		}
 		else
 		{
 			$billing = $model->setBilling();
 		}
-		$shipping_country = 0;
-		$shipping_state = 0;
-		$key = 0;
-		$shippingop = array();
+		$shipping_country             = 0;
+		$shipping_state               = 0;
+		$key                          = 0;
+		$shippingop                   = array();
 		$shippingop[0]->users_info_id = 0;
-		$shippingop[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$shippingop[0]->text          = JText::_('COM_REDSHOP_SELECT');
 		if (count($shippinginfo) > 0)
 		{
 			$shipping_users_info_id = JRequest::getVar('shipping_users_info_id', 0);
@@ -89,20 +89,20 @@ class addorder_detailVIEWaddorder_detail extends JView
 					}
 				}
 				$shipping_country = $shippinginfo[$key]->country_code;
-				$shipping_state = $shippinginfo[$key]->state_code;
+				$shipping_state   = $shippinginfo[$key]->state_code;
 			}
 			$shippingop = array_merge($shippingop, $shippinginfo);
 			$billisship = $shippinginfo[$key]->billisship = ($shipping_users_info_id) ? 0 : 1;
 		}
 		else
 		{
-			$shippinginfo[0] = $model->setShipping(); //$shipping = $billing;
+			$shippinginfo[0]        = $model->setShipping(); //$shipping = $billing;
 			$shipping_users_info_id = $shippinginfo[0]->users_info_id = 0;
-			$billisship = $shippinginfo[0]->billisship;
+			$billisship             = $shippinginfo[0]->billisship;
 		}
 		$shdisable = ($billisship) ? "disabled" : "";
 
-		$detail->user_id = $user_id;
+		$detail->user_id            = $user_id;
 		$lists['shippinginfo_list'] = JHTML::_('select.genericlist', $shippingop, 'shipp_users_info_id', 'class="inputbox" ' . $shdisable . ' onchange="getShippinginfo(this.value, ' . $billing->is_company . ');" ', 'users_info_id', 'text', $shipping_users_info_id);
 
 		$payment_detail =& $this->get('payment');
@@ -115,25 +115,25 @@ class addorder_detailVIEWaddorder_detail extends JView
 		}
 		JToolBarHelper::cancel();
 
-		$countryarray = $Redconfiguration->getCountryList((array) $billing, "country_code", "BT");
+		$countryarray          = $Redconfiguration->getCountryList((array) $billing, "country_code", "BT");
 		$billing->country_code = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $billing, "state_code", "country_code", "BT", 1);
-		$lists['state_code'] = $statearray['state_dropdown'];
+		$statearray            = $Redconfiguration->getStateList((array) $billing, "state_code", "country_code", "BT", 1);
+		$lists['state_code']   = $statearray['state_dropdown'];
 
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
-		$countryarray = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
+		$countryarray                = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code = $countryarray['country_code_ST'];
-		$lists['country_code_ST'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
-		$lists['state_code_ST'] = $statearray['state_dropdown'];
+		$lists['country_code_ST']    = $countryarray['country_dropdown'];
+		$statearray                  = $Redconfiguration->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
+		$lists['state_code_ST']      = $statearray['state_dropdown'];
 
 		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company', 'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ', $billing->is_company, JText::_('COM_REDSHOP_USER_COMPANY'), JText::_('COM_REDSHOP_USER_CUSTOMER'));
 //		$lists['extra_field'] = $extra_field->list_all_field(6, $billing->users_info_id); /// field_section 6 :Userinformations
-		$lists['customer_field'] = $extra_field->list_all_field(7, $billing->users_info_id); /// field_section 7 :Customer Address
-		$lists['company_field'] = $extra_field->list_all_field(8, $billing->users_info_id); /// field_section 8 :Company Address
+		$lists['customer_field']          = $extra_field->list_all_field(7, $billing->users_info_id); /// field_section 7 :Customer Address
+		$lists['company_field']           = $extra_field->list_all_field(8, $billing->users_info_id); /// field_section 8 :Company Address
 		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shippinginfo[0]->users_info_id); /// field_section 7 :Customer Address
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shippinginfo[0]->users_info_id); /// field_section 8 :Company Address
+		$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shippinginfo[0]->users_info_id); /// field_section 8 :Company Address
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);

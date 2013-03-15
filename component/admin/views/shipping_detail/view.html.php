@@ -17,24 +17,24 @@ class shipping_detailViewshipping_detail extends JView
 	{
 		$uri =& JFactory::getURI();
 		$this->setLayout('default');
-		$lists = array();
+		$lists  = array();
 		$detail =& $this->get('data');
 
 		$isNew = ($detail->extension_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_shipping48');
 
-		$adminpath = JPATH_ROOT . DS . 'plugins';
+		$adminpath    = JPATH_ROOT . DS . 'plugins';
 		$shippingpath = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.xml';
-		$shippingcfg = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.cfg.php';
+		$shippingcfg  = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.cfg.php';
 		if (file_exists($shippingcfg))
 		{
 			include_once ($shippingcfg);
 		}
 
-		$myparams = new JRegistry($detail->params, $shippingpath);
-		$is_shipper = $myparams->get('is_shipper');
+		$myparams         = new JRegistry($detail->params, $shippingpath);
+		$is_shipper       = $myparams->get('is_shipper');
 		$shipper_location = $myparams->get('shipper_location');
 		if ($is_shipper)
 		{

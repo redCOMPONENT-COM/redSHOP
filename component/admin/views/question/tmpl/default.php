@@ -90,16 +90,16 @@ $ordering = ($this->lists['order'] == 'ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->question); $i < $n; $i++)
 			{
-				$row = & $this->question[$i];
+				$row     = & $this->question[$i];
 				$row->id = $row->question_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $row->id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $row->id);
 				$anslink = JRoute::_('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $row->id . '#answerlists');
 				//$anslink= JRoute::_( 'index.php?option='.$option.'&view=answer&parent_id[]='.$row->id );
 
 
 				$product = $producthelper->getProductById($row->product_id);
-				$answer = $producthelper->getQuestionAnswer($row->id, 0, 1);
-				$answer = count($answer);
+				$answer  = $producthelper->getQuestionAnswer($row->id, 0, 1);
+				$answer  = count($answer);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -124,7 +124,8 @@ $ordering = ($this->lists['order'] == 'ordering');
 						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', 'Move Down', $ordering); ?></span>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
 						       class="text_area" style="text-align: center" <?php if (!$ordering)
-						{ ?> disabled="disabled"<?php }?> /></td>
+						{
+							?> disabled="disabled"<?php }?> /></td>
 					<td align="center"><?php echo $published;?></td>
 					<td align="center"><?php echo $row->id; ?></td>
 				</tr>

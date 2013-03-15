@@ -361,7 +361,8 @@ else
 							<input value="Delete" onclick="deleteRow(this)" class="button" type="button"/></td>
 						<td>
 							<?php    if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '')
-							{ ?>
+							{
+								?>
 								<img
 									src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"/>
 							<?php }?>

@@ -39,12 +39,12 @@ class shopper_group_detailController extends JController
 
 	function save($apply = 0)
 	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post = JRequest::get('post');
+		$option                     = JRequest::getVar('option');
+		$cid                        = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post                       = JRequest::get('post');
 		$post["shopper_group_desc"] = JRequest::getVar('shopper_group_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["shopper_group_url"] = "";
-		$post["shopper_group_id"] = $cid [0];
+		$post["shopper_group_url"]  = "";
+		$post["shopper_group_id"]   = $cid [0];
 
 		if (isset($post['shopper_group_categories']) && count($post['shopper_group_categories']) > 0)
 		{
@@ -65,7 +65,7 @@ class shopper_group_detailController extends JController
 		}
 
 		$model = $this->getModel('shopper_group_detail');
-		$row = $model->store($post);
+		$row   = $model->store($post);
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_SAVED');
@@ -83,7 +83,7 @@ class shopper_group_detailController extends JController
 	function remove()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
@@ -119,7 +119,7 @@ class shopper_group_detailController extends JController
 	function publish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
@@ -136,7 +136,7 @@ class shopper_group_detailController extends JController
 	function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
@@ -153,7 +153,7 @@ class shopper_group_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=shopper_group', $msg);
 	}
 }

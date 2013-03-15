@@ -26,6 +26,7 @@ class wizardModelwizard extends configurationModelconfiguration
 	function getTaxRates()
 	{
 		$query = "SELECT tax_group_id,tax_rate_id,tax_country,tax_rate FROM " . $this->_table_prefix . "tax_rate WHERE tax_group_id = 1";
+
 		return $this->_getList($query);
 	}
 }

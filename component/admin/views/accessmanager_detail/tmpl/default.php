@@ -70,7 +70,8 @@ $view = JRequest::getVar('view');
 
 				</td>
 				<?php if ($groupValue == 8)
-				{ ?>
+				{
+					?>
 					<td align="center"><input type="checkbox" value="1"
 					                          name="groupaccess_<?php echo $groupValue ?>[view]"
 					                          id="access_section<?php echo $groupValue ?>" checked='checked' DISABLED/>
@@ -86,9 +87,11 @@ $view = JRequest::getVar('view');
 					                          name="groupaccess_<?php echo $groupValue ?>[delete]"
 					                          id="delete<?php echo $groupValue ?>" checked='checked' DISABLED/></td>
 				<?php endif; ?>
-				<?php }
+				<?php
+				}
 				else
-				{ ?>
+				{
+					?>
 					<td align="center"><input type="checkbox" value="1"
 					                          name="groupaccess_<?php echo $groupValue ?>[view]"
 					                          id="access_section<?php echo $groupValue ?>" <?php if (@$this->accessmanager[$i]->view == 1)

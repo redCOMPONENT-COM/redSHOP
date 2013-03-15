@@ -35,7 +35,7 @@ class media_detailVIEWmedia_detail extends JView
 		$lists = array();
 
 		$detail =& $this->get('data');
-		$model = $this->getModel('media_detail');
+		$model  = $this->getModel('media_detail');
 
 //		$filed_data	= $model->media_data();
 
@@ -59,9 +59,9 @@ class media_detailVIEWmedia_detail extends JView
 		}
 
 		$media_section = JRequest::getVar('media_section');
-		$showbuttons = JRequest::getVar('showbuttons');
+		$showbuttons   = JRequest::getVar('showbuttons');
 
-		$optiontype = array();
+		$optiontype   = array();
 		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optiontype[] = JHTML::_('select.option', 'images', JText::_('COM_REDSHOP_Image'));
 		$optiontype[] = JHTML::_('select.option', 'video', JText::_('COM_REDSHOP_Video'));
@@ -69,14 +69,14 @@ class media_detailVIEWmedia_detail extends JView
 		if ($media_section == 'product' && $showbuttons == 1)
 			$optiontype[] = JHTML::_('select.option', 'download', JText::_('COM_REDSHOP_Download'));
 
-		$optionsection = array();
+		$optionsection   = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_Product'));
 		$optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_Category'));
 		$optionsection[] = JHTML::_('select.option', 'catalog', JText::_('COM_REDSHOP_Catalog'));
 		$optionsection[] = JHTML::_('select.option', 'media', JText::_('COM_REDSHOP_Media'));
 
-		$optionbulk = array();
+		$optionbulk   = array();
 		$optionbulk[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionbulk[] = JHTML::_('select.option', 'yes', JText::_('COM_REDSHOP_YES_ZIP_UPLOAD'));
 		$optionbulk[] = JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_NO_ZIP_UPLOAD'));
@@ -84,16 +84,16 @@ class media_detailVIEWmedia_detail extends JView
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$section_id = JRequest::getVar('section_id');
-		$section_name = JRequest::getVar('section_name');
+		$section_id    = JRequest::getVar('section_id');
+		$section_name  = JRequest::getVar('section_name');
 		$media_section = JRequest::getVar('media_section');
 
 		if ($media_section == 'catalog')
 		{
-			$detail->media_type = 'document';
+			$detail->media_type    = 'document';
 			$detail->media_section = $media_section;
-			$detail->section_name = $section_name;
-			$detail->section_id = $section_id;
+			$detail->section_name  = $section_name;
+			$detail->section_id    = $section_id;
 		}
 
 		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type', 'class="inputbox" size="1" ', 'value', 'text', $detail->media_type, '0');

@@ -32,9 +32,9 @@ class orderstatus_detailController extends JController
 	{
 		$post = JRequest::get('post');
 
-		$option = JRequest::getVar('option');
+		$option    = JRequest::getVar('option');
 		$redhelper = new redhelper();
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post ['order_status_id'] = $cid[0];
 
@@ -129,7 +129,7 @@ class orderstatus_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
 	}
 

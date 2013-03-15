@@ -16,7 +16,7 @@ class rating_detailVIEWrating_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+		$option    = JRequest::getVar('option');
 		$userslist = JRequest::getVar('userslist');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT_DETAIL'), 'redshop_rating48');
@@ -53,9 +53,9 @@ class rating_detailVIEWrating_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
-		$model = $this->getModel('rating_detail');
+		$model              = $this->getModel('rating_detail');
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$lists['favoured'] = JHTML::_('select.booleanlist', 'favoured', 'class="inputbox"', $detail->favoured);
+		$lists['favoured']  = JHTML::_('select.booleanlist', 'favoured', 'class="inputbox"', $detail->favoured);
 
 		$lists['userslist'] = JHTML::_('select.genericlist', $userslist, 'userid', 'class="inputbox" size="1" ', 'value', 'text', $detail->userid);
 

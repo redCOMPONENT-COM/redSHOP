@@ -49,12 +49,12 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 		$post = JRequest::get('post');
 		if ($isNew && (isset($post['shipping_box_name']) && $post['shipping_box_name'] != ""))
 		{
-			$detail->template_name = $post['template_name'];
+			$detail->template_name    = $post['template_name'];
 			$detail->template_section = $post['template_section'];
-			$template_desc = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$detail->template_desc = $template_desc;
-			$detail->published = $post['published'];
-			$detail->msg = JText ::_('PLEASE_CHANGE_FILE_NAME_IT_IS_ALREADY_EXISTS');
+			$template_desc            = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$detail->template_desc    = $template_desc;
+			$detail->published        = $post['published'];
+			$detail->msg              = JText ::_('PLEASE_CHANGE_FILE_NAME_IT_IS_ALREADY_EXISTS');
 		}
 		// TEMPLATE MOVE DB TO FILE END
 

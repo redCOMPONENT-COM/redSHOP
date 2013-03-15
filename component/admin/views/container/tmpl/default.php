@@ -89,9 +89,9 @@ if ($showbuttons == 1)
 			$k = 0;
 			for ($i = 0, $n = count($this->containers); $i < $n; $i++)
 			{
-				$row = & $this->containers[$i];
+				$row     = & $this->containers[$i];
 				$row->id = $row->container_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=container_detail&task=edit&cid[]=' . $row->container_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=container_detail&task=edit&cid[]=' . $row->container_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

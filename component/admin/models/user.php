@@ -25,12 +25,12 @@ class userModeluser extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'user_info_id';
+		$this->_context      = 'user_info_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter       = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$spgrp_filter = $mainframe->getUserStateFromRequest($this->_context . 'spgrp_filter', 'spgrp_filter', 0);
 
 		$approved_filter = $mainframe->getUserStateFromRequest($this->_context . 'approved_filter', 'approved_filter', 0);
@@ -58,7 +58,7 @@ class userModeluser extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -69,7 +69,7 @@ class userModeluser extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -89,9 +89,9 @@ class userModeluser extends JModel
 
 	function _buildQuery()
 	{
-		$filter = $this->getState('filter');
-		$spgrp_filter = $this->getState('spgrp_filter');
-		$approved_filter = $this->getState('approved_filter');
+		$filter                    = $this->getState('filter');
+		$spgrp_filter              = $this->getState('spgrp_filter');
+		$approved_filter           = $this->getState('approved_filter');
 		$tax_exempt_request_filter = $this->getState('tax_exempt_request_filter');
 
 		$where = '';
@@ -138,6 +138,7 @@ class userModeluser extends JModel
 				. $where
 				. $orderby;
 		}
+
 		return $query;
 	}
 
@@ -145,9 +146,10 @@ class userModeluser extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'users_info_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'users_info_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
@@ -160,6 +162,7 @@ class userModeluser extends JModel
 		{
 			$re = 0;
 		}
+
 		return $re;
 	}
 }

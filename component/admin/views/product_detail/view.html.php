@@ -20,19 +20,19 @@ class product_detailVIEWproduct_detail extends JView
 	{
 		global $mainframe;
 
-		$redTemplate = new Redtemplate();
-		$redhelper = new redhelper();
+		$redTemplate   = new Redtemplate();
+		$redhelper     = new redhelper();
 		$producthelper = new producthelper();
 
-		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
-		$cfg = JFactory::getConfig();
+		$option   = JRequest::getVar('option');
+		$db       = JFactory::getDBO();
+		$cfg      = JFactory::getConfig();
 		$dbPrefix = $cfg->getValue('config.dbprefix');
-		$lists = array();
+		$lists    = array();
 
-		$model = $this->getModel('product_detail');
+		$model  = $this->getModel('product_detail');
 		$detail =& $this->get('data');
-		$user =& JFactory::getUser();
+		$user   =& JFactory::getUser();
 
 		// 	fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
@@ -56,11 +56,11 @@ class product_detailVIEWproduct_detail extends JView
 
 		$sql = "SHOW TABLE STATUS LIKE '" . $dbPrefix . "redshop_product'";
 		$db->setQuery($sql);
-		$row = $db->loadObject();
+		$row          = $db->loadObject();
 		$next_product = $row->Auto_increment;
 
 		/* Get the tag names */
-		$tags = $model->Tags();
+		$tags            = $model->Tags();
 		$associationtags = 0;
 		if (isset($getAssociation) && count($getAssociation) > 0)
 			$associationtags = $model->AssociationTags($getAssociation->id);
@@ -112,7 +112,7 @@ class product_detailVIEWproduct_detail extends JView
 			foreach ($types as $typeid => $type)
 			{
 				$counttags = count($type['tags']);
-				$rand = rand();
+				$rand      = rand();
 				/* Add the type */
 				$html .= '<div class="select_box_parent" onClick="showBox(' . $rand . ')">' . JText::_('COM_REDSHOP_TYPE_LIST') . ' ' . $type['type_name'] . '</div>';
 				$html .= '<div id="' . $rand . '" class="select_box_child';
@@ -177,23 +177,23 @@ class product_detailVIEWproduct_detail extends JView
 		$product_category = new product_category();
 
 		//merging select option in the select box
-		$temps = array();
-		$temps[0]->template_id = "0";
+		$temps                   = array();
+		$temps[0]->template_id   = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_SELECT');
-		$templates = @array_merge($temps, $templates);
+		$templates               = @array_merge($temps, $templates);
 
 
 		//merging select option in the select box
-		$supps = array();
+		$supps           = array();
 		$supps[0]->value = "0";
-		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$manufacturers = @array_merge($supps, $manufacturers);
+		$supps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$manufacturers   = @array_merge($supps, $manufacturers);
 
 		//merging select option in the select box
-		$supps = array();
+		$supps           = array();
 		$supps[0]->value = "0";
-		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$supplier = @array_merge($supps, $supplier);
+		$supps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$supplier        = @array_merge($supps, $supplier);
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'redshop_products48');
 
@@ -306,7 +306,7 @@ class product_detailVIEWproduct_detail extends JView
 		$related_product_data = $model->related_product_data($detail->product_id);
 
 		$lists['related_product'] = JHTML::_('select.genericlist', $related_product_data, 'related_product[]', 'class="inputbox" onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
-		$result_related = $detail->product_id;
+		$result_related           = $detail->product_id;
 
 		$result = array();
 
@@ -317,22 +317,22 @@ class product_detailVIEWproduct_detail extends JView
 		// for preselected
 		if ($detail->product_template == "")
 		{
-			$default_preselected = PRODUCT_TEMPLATE;
+			$default_preselected      = PRODUCT_TEMPLATE;
 			$detail->product_template = $default_preselected;
 		}
 		// end
 		$lists['product_template'] = JHTML::_('select.genericlist', $templates, 'product_template', 'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"  ', 'template_id', 'template_name', $detail->product_template);
 
-		$product_tax = $model->gettax();
-		$temps = array();
+		$product_tax     = $model->gettax();
+		$temps           = array();
 		$temps[0]->value = "0";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$product_tax = @array_merge($temps, $product_tax);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$product_tax     = @array_merge($temps, $product_tax);
 
 		$lists['product_tax'] = JHTML::_('select.genericlist', $product_tax, 'product_tax_id', 'class="inputbox" size="1"  ', 'value', 'text', $detail->product_tax_id);
 
-		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
-		$lists['categories'] = $categories;
+		$categories                         = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
+		$lists['categories']                = $categories;
 		$detail->first_selected_category_id = $productcats[0];
 
 		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->manufacturer_id);
@@ -356,25 +356,25 @@ class product_detailVIEWproduct_detail extends JView
 
 		// for individual pre-order
 
-		$preorder_data = $redhelper->getPreOrderByList();
+		$preorder_data     = $redhelper->getPreOrderByList();
 		$lists['preorder'] = JHTML::_('select.genericlist', $preorder_data, 'preorder', 'class="inputbox" size="1" ', 'value', 'text', $detail->preorder);
 
 
 		// discount calculator
 		$lists['use_discount_calc'] = JHTML::_('select.booleanlist', 'use_discount_calc', 'class="inputbox"', $detail->use_discount_calc);
 
-		$option = array();
-		$option[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_RANGE'));
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_PRICE_PER_PIECE'));
+		$option             = array();
+		$option[]           = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_RANGE'));
+		$option[]           = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_PRICE_PER_PIECE'));
 		$lists['use_range'] = JHTML::_('select.genericlist', $option, 'use_range', 'class="inputbox" size="1" ', 'value', 'text', $detail->use_range);
 		unset($option);
 
 		// calculation method
 
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$option[] = JHTML::_('select.option', 'volume', JText::_('COM_REDSHOP_VOLUME'));
-		$option[] = JHTML::_('select.option', 'area', JText::_('COM_REDSHOP_AREA'));
-		$option[] = JHTML::_('select.option', 'circumference', JText::_('COM_REDSHOP_CIRCUMFERENCE'));
+		$option[]                      = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$option[]                      = JHTML::_('select.option', 'volume', JText::_('COM_REDSHOP_VOLUME'));
+		$option[]                      = JHTML::_('select.option', 'area', JText::_('COM_REDSHOP_AREA'));
+		$option[]                      = JHTML::_('select.option', 'circumference', JText::_('COM_REDSHOP_CIRCUMFERENCE'));
 		$lists['discount_calc_method'] = JHTML::_('select.genericlist', $option, 'discount_calc_method', 'class="inputbox" size="1" ', 'value', 'text', $detail->discount_calc_method);
 
 
@@ -384,9 +384,9 @@ class product_detailVIEWproduct_detail extends JView
 
 		$remove_format = JHtml::$formatOptions;
 
-		$option[] = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
-		$option[] = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
-		$option[] = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
+		$option[]                    = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
+		$option[]                    = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
+		$option[]                    = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
 		$lists['discount_calc_unit'] = JHTML::_('select.genericlist', $option, 'discount_calc_unit[]', 'class="inputbox" size="1" ', 'value', 'text', DEFAULT_VOLUME_UNIT);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_unit']);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_unit']);
@@ -399,9 +399,9 @@ class product_detailVIEWproduct_detail extends JView
 		$lists['product_type'] = JHTML::_('select.genericlist',$prod_types,'product_type','class="inputbox" size="1" ','value','text',$detail->product_type);*/
 
 		$productVatGroup = $model->getVatGroup();
-		$temps = array();
+		$temps           = array();
 		$temps[0]->value = "";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
 		$productVatGroup = @array_merge($temps, $productVatGroup);
 
 		if (DEFAULT_VAT_GROUP && !$detail->product_tax_group_id)
@@ -412,34 +412,34 @@ class product_detailVIEWproduct_detail extends JView
 
 		$append_to_global_seo = array();
 		//	$append_to_global_seo[] = JHTML::_('select.option','select',JText::_( 'SELECT') );
-		$append_to_global_seo[] = JHTML::_('select.option', 'append', JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
-		$append_to_global_seo[] = JHTML::_('select.option', 'prepend', JText::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO'));
-		$append_to_global_seo[] = JHTML::_('select.option', 'replace', JText::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO'));
+		$append_to_global_seo[]        = JHTML::_('select.option', 'append', JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
+		$append_to_global_seo[]        = JHTML::_('select.option', 'prepend', JText::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO'));
+		$append_to_global_seo[]        = JHTML::_('select.option', 'replace', JText::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO'));
 		$lists['append_to_global_seo'] = JHTML::_('select.genericlist', $append_to_global_seo, 'append_to_global_seo', 'class="inputbox" size="1" ', 'value', 'text', $detail->append_to_global_seo);
 
 
 		$lists['product_tax_group_id'] = JHTML::_('select.genericlist', $productVatGroup, 'product_tax_group_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->product_tax_group_id);
-		$prop_oprand = array();
-		$prop_oprand[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-		$prop_oprand[] = JHTML::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
-		$prop_oprand[] = JHTML::_('select.option', '=', JText::_('COM_REDSHOP_EQUAL'));
-		$prop_oprand[] = JHTML::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
+		$prop_oprand                   = array();
+		$prop_oprand[]                 = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
+		$prop_oprand[]                 = JHTML::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
+		$prop_oprand[]                 = JHTML::_('select.option', '=', JText::_('COM_REDSHOP_EQUAL'));
+		$prop_oprand[]                 = JHTML::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
 		//$lists['prop_oprand'] = JHTML::_('select.genericlist',$prop_oprand,'oprand','class="inputbox" size="1" ','value','text',$detail->oprand);
 
 		//	$field = new extra_field();
 		//	$list_field=$field->list_all_field(1, $detail->product_id); /// field_section 6 :Userinformations
 		//	$lists['extra_field']=$list_field;
 
-		$cat_in_sefurl = $model->catin_sefurl($detail->product_id);
+		$cat_in_sefurl          = $model->catin_sefurl($detail->product_id);
 		$lists['cat_in_sefurl'] = JHTML::_('select.genericlist', $cat_in_sefurl, 'cat_in_sefurl', 'class="inputbox" size="1" ', 'value', 'text', $detail->cat_in_sefurl);
 
 		$lists['attributes'] = $attributes;
 
-		$temps = array();
+		$temps           = array();
 		$temps[0]->value = "";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
 
-		$attributesSet = @array_merge($temps, $attributesSet);
+		$attributesSet          = @array_merge($temps, $attributesSet);
 		$lists['attributesSet'] = JHTML::_('select.genericlist', $attributesSet, 'attribute_set_id', 'class="inputbox" size="1" ', 'value', 'text', @$detail->attribute_set_id);
 
 
@@ -453,7 +453,7 @@ class product_detailVIEWproduct_detail extends JView
 
 				$designtype = $model->getDesignType();
 
-				$optiondtype = array();
+				$optiondtype   = array();
 				$optiondtype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 				for ($i = 0; $i < count($designtype); $i++)
 					$optiondtype[] = JHTML::_('select.option', $designtype[$i]->designtype_id, $designtype[$i]->designtype_name);
@@ -464,14 +464,14 @@ class product_detailVIEWproduct_detail extends JView
 				$lists['reddesign_enable'] = JHTML::_('select.booleanlist', 'reddesign_enable', 'class="inputbox"', $product_designtype[0]->reddesign_enable);
 
 
-				$shoppergroup = new shoppergroup();
+				$shoppergroup              = new shoppergroup();
 				$lists["shoppergrouplist"] = $shoppergroup->getshopperGroupListArray();
 			}
 		}
 		//var_dump($shoppergroup);
 		// reddesign End
 		// Product type selection
-		$product_type_opt = array();
+		$product_type_opt   = array();
 		$product_type_opt[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
 
 		if ($CheckRedDesign)
@@ -484,10 +484,10 @@ class product_detailVIEWproduct_detail extends JView
 			$detail->product_type = 'file';
 		$lists["product_type"] = JHTML::_('select.genericlist', $product_type_opt, 'product_type', 'class="inputbox" size="1" onChange="changeProductDiv(this.value)" ', 'value', 'text', $detail->product_type);
 
-		$accountgroup = $redhelper->getEconomicAccountGroup();
-		$op = array();
-		$op[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$accountgroup = array_merge($op, $accountgroup);
+		$accountgroup             = $redhelper->getEconomicAccountGroup();
+		$op                       = array();
+		$op[]                     = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$accountgroup             = array_merge($op, $accountgroup);
 		$lists["accountgroup_id"] = JHTML::_('select.genericlist', $accountgroup, 'accountgroup_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->accountgroup_id);
 
 		// for downloadable products

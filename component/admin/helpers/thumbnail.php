@@ -26,9 +26,9 @@ class thumbnail
 		if ($filetype == "gif")
 		{
 
-			$im = ImageCreateFromGIF($dest);
-			$width = ImageSx($im); // Original picture width is stored
-			$height = ImageSy($im); // Original picture height is stored
+			$im       = ImageCreateFromGIF($dest);
+			$width    = ImageSx($im); // Original picture width is stored
+			$height   = ImageSy($im); // Original picture height is stored
 			$newimage = imagecreatetruecolor($n_width, $n_height);
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 
@@ -38,9 +38,9 @@ class thumbnail
 		}
 		if ($filetype == "jpg")
 		{
-			$im = ImageCreateFromJPEG($dest);
-			$width = ImageSx($im); // Original picture width is stored
-			$height = ImageSy($im); // Original picture height is stored
+			$im       = ImageCreateFromJPEG($dest);
+			$width    = ImageSx($im); // Original picture width is stored
+			$height   = ImageSy($im); // Original picture height is stored
 			$newimage = imagecreatetruecolor($n_width, $n_height);
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 			ImageJpeg($newimage, $tsrc);
@@ -49,9 +49,9 @@ class thumbnail
 		}
 		if ($filetype == "png")
 		{
-			$im = ImageCreateFromPNG($dest);
-			$width = ImageSx($im); // Original picture width is stored
-			$height = ImageSy($im); // Original picture height is stored
+			$im       = ImageCreateFromPNG($dest);
+			$width    = ImageSx($im); // Original picture width is stored
+			$height   = ImageSy($im); // Original picture height is stored
 			$newimage = imagecreatetruecolor($n_width, $n_height);
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 			imagepng($newimage, $tsrc);
@@ -84,6 +84,7 @@ class thumbnail_images
 		elseif ($this->mime == 'image/gif') imagegif($NewImg, $path_img);
 		elseif ($this->mime == 'image/png') imagepng($NewImg, $path_img);
 		else return (false);
+
 		return (true);
 	}
 
@@ -93,6 +94,7 @@ class thumbnail_images
 		elseif ($this->mime == 'image/gif') $OldImg = imagecreatefromgif($path_img);
 		elseif ($this->mime == 'image/png') $OldImg = imagecreatefrompng($path_img);
 		else return (false);
+
 		return ($OldImg);
 	}
 
@@ -100,13 +102,13 @@ class thumbnail_images
 	{
 		$PathImgOld = $this->PathImgOld;
 		$PathImgNew = $this->PathImgNew;
-		$NewWidth = $this->NewWidth;
-		$NewHeight = $this->NewHeight;
+		$NewWidth   = $this->NewWidth;
+		$NewHeight  = $this->NewHeight;
 
-		$Oldsize = @getimagesize($PathImgOld);
+		$Oldsize    = @getimagesize($PathImgOld);
 		$this->mime = $Oldsize['mime'];
-		$OldWidth = $Oldsize[0];
-		$OldHeight = $Oldsize[1];
+		$OldWidth   = $Oldsize[0];
+		$OldHeight  = $Oldsize[1];
 
 		if ($NewHeight == '' and $NewWidth != '')
 		{
@@ -122,27 +124,27 @@ class thumbnail_images
 		}
 
 		$OldHeight_castr = ceil(($OldWidth * $NewHeight) / $NewWidth);
-		$castr_bottom = ($OldHeight - $OldHeight_castr) / 2;
+		$castr_bottom    = ($OldHeight - $OldHeight_castr) / 2;
 
 		$OldWidth_castr = ceil(($OldHeight * $NewWidth) / $NewHeight);
-		$castr_right = ($OldWidth - $OldWidth_castr) / 2;
+		$castr_right    = ($OldWidth - $OldWidth_castr) / 2;
 
 		if ($castr_bottom > 0)
 		{
 			$OldWidth_castr = $OldWidth;
-			$castr_right = 0;
+			$castr_right    = 0;
 		}
 		elseif ($castr_right > 0)
 		{
 			$OldHeight_castr = $OldHeight;
-			$castr_bottom = 0;
+			$castr_bottom    = 0;
 		}
 		else
 		{
-			$OldWidth_castr = $OldWidth;
+			$OldWidth_castr  = $OldWidth;
 			$OldHeight_castr = $OldHeight;
-			$castr_right = 0;
-			$castr_bottom = 0;
+			$castr_right     = 0;
+			$castr_bottom    = 0;
 		}
 
 		$OldImg = $this->imagecreatefromjpeg_new($PathImgOld);

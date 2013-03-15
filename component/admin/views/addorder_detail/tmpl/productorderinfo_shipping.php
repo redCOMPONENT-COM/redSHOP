@@ -9,19 +9,19 @@
 defined('_JEXEC') or die ('restricted access');
 
 $adminproducthelper = new adminproducthelper();
-$session =& JFactory::getSession();
+$session            =& JFactory::getSession();
 
-$ordertotal = $session->get('ordertotal');
-$ordersubtotal = $session->get('ordersubtotal');
-$user_id = $session->get('order_user_id');
-$shipp_users_info_id = $session->get('shipp_users_info_id');
+$ordertotal           = $session->get('ordertotal');
+$ordersubtotal        = $session->get('ordersubtotal');
+$user_id              = $session->get('order_user_id');
+$shipp_users_info_id  = $session->get('shipp_users_info_id');
 $shipping_box_post_id = 0;
 
-$d['user_id'] = $user_id;
-$d['users_info_id'] = $shipp_users_info_id;
+$d['user_id']         = $user_id;
+$d['users_info_id']   = $shipp_users_info_id;
 $d['shipping_box_id'] = $shipping_box_post_id;
-$d['ordertotal'] = $ordertotal;
-$d['order_subtotal'] = $ordersubtotal;
+$d['ordertotal']      = $ordertotal;
+$d['order_subtotal']  = $ordersubtotal;
 
 $responce = $adminproducthelper->replaceShippingMethod($d, $shipp_users_info_id, 0, $shipping_box_post_id);
 

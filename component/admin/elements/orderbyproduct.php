@@ -30,23 +30,23 @@ class JFormFieldorderbyproduct extends JFormField
 
 	protected function getInput()
 	{
-		$order_data = array();
+		$order_data           = array();
 		$order_data[0]->value = "p.product_name ASC";
-		$order_data[0]->text = JText::_('COM_REDSHOP_PRODUCT_NAME');
+		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
 		$order_data[1]->value = "p.product_price ASC";
-		$order_data[1]->text = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
+		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
 		$order_data[2]->value = "p.product_price DESC";
-		$order_data[2]->text = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
+		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
 		$order_data[3]->value = "p.product_number ASC";
-		$order_data[3]->text = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
+		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
 		$order_data[4]->value = "p.product_id DESC";
-		$order_data[4]->text = JText::_('COM_REDSHOP_NEWEST');
+		$order_data[4]->text  = JText::_('COM_REDSHOP_NEWEST');
 		$order_data[5]->value = "pc.ordering ASC";
-		$order_data[5]->text = JText::_('COM_REDSHOP_ORDERING');
+		$order_data[5]->text  = JText::_('COM_REDSHOP_ORDERING');
 		$order_data[6]->value = "m.manufacturer_name ASC";
-		$order_data[6]->text = JText::_('COM_REDSHOP_MANUFACTURER_NAME');
+		$order_data[6]->text  = JText::_('COM_REDSHOP_MANUFACTURER_NAME');
 
-		$name = $this->name;
+		$name  = $this->name;
 		$value = $this->value;
 		if (!$value)
 		{

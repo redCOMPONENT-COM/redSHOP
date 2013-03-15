@@ -42,6 +42,7 @@ class JFormFieldextrafieldshipping extends JFormField
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_EXTRA_FIELD') . ' -', 'field_name', 'field_title'));
+
 		return JHTML::_('select.genericlist', $options, '' . $this->name . '[]', 'multiple="multiple" size="5"', 'field_name', 'field_title', $this->value, $this->id);
 
 	}

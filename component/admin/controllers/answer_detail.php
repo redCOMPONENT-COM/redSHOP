@@ -30,15 +30,15 @@ class answer_detailController extends JController
 
 	function save($send = 0)
 	{
-		$post = JRequest::get('post');
-		$question = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post             = JRequest::get('post');
+		$question         = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["question"] = $question;
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$option           = JRequest::getVar('option', '', 'request', 'string');
+		$cid              = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['question_id'] = $cid [0];
-		$parent_id = JRequest::getVar('parent_id');
-		$model = $this->getModel('answer_detail');
+		$parent_id           = JRequest::getVar('parent_id');
+		$model               = $this->getModel('answer_detail');
 
 		if ($post['question_id'] == 0)
 		{
@@ -68,8 +68,8 @@ class answer_detailController extends JController
 	function remove()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$option    = JRequest::getVar('option', '', 'request', 'string');
+		$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -88,17 +88,17 @@ class answer_detailController extends JController
 	function cancel()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$msg = JText::_('COM_REDSHOP_ANSWER_DETAIL_EDITING_CANCELLED');
+		$option    = JRequest::getVar('option', '', 'request', 'string');
+		$msg       = JText::_('COM_REDSHOP_ANSWER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	function publish()
 	{
 
-		$option = JRequest::getVar('option');
+		$option    = JRequest::getVar('option');
 		$parent_id = JRequest::getVar('parent_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -117,9 +117,9 @@ class answer_detailController extends JController
 	function unpublish()
 	{
 
-		$option = JRequest::getVar('option');
+		$option    = JRequest::getVar('option');
 		$parent_id = JRequest::getVar('parent_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -144,8 +144,8 @@ class answer_detailController extends JController
 	function orderup()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option');
-		$model = $this->getModel('answer_detail');
+		$option    = JRequest::getVar('option');
+		$model     = $this->getModel('answer_detail');
 		$model->orderup();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
@@ -160,8 +160,8 @@ class answer_detailController extends JController
 	function orderdown()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option');
-		$model = $this->getModel('answer_detail');
+		$option    = JRequest::getVar('option');
+		$model     = $this->getModel('answer_detail');
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
@@ -176,9 +176,9 @@ class answer_detailController extends JController
 	function saveorder()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$option    = JRequest::getVar('option');
+		$cid       = JRequest::getVar('cid', array(), 'post', 'array');
+		$order     = JRequest::getVar('order', array(), 'post', 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

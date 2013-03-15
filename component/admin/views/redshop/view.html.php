@@ -47,7 +47,7 @@ class redshopViewredshop extends JView
 		{
 			$filteroption = 4;
 		}
-		$statsticmodel = JModel::getInstance('statistic', 'statisticModel');
+		$statsticmodel  = JModel::getInstance('statistic', 'statisticModel');
 		$this->turnover = $statsticmodel->getTotalTurnover();
 
 		//JRequest::setVar("filteroption", 0);
@@ -57,13 +57,13 @@ class redshopViewredshop extends JView
 		$document = & JFactory::getDocument();
 		$document->addScript('http://www.google.com/jsapi');
 
-		$lists = array();
-		$option = array();
-		$option[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
-		$option[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
-		$option[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
-		$option[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
-		$option[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
+		$lists                 = array();
+		$option                = array();
+		$option[]              = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
+		$option[]              = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
+		$option[]              = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
+		$option[]              = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
+		$option[]              = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
 		$lists['filteroption'] = JHTML::_('select.genericlist', $option, 'filteroption', 'class="inputbox" size="1" onchange="document.chartform.submit();"', 'value', 'text', $filteroption);
 
 		// end

@@ -36,6 +36,7 @@ class Tableproduct_download extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 

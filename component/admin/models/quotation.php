@@ -27,11 +27,11 @@ class quotationModelquotation extends JModel
 		$this->_context = 'quotation_id';
 
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter        = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 //		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('limit', $limit);
@@ -44,9 +44,10 @@ class quotationModelquotation extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -54,9 +55,10 @@ class quotationModelquotation extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -77,7 +79,7 @@ class quotationModelquotation extends JModel
 		$where = "";
 //	    $order_id = array();
 //	   	
-		$filter = $this->getState('filter');
+		$filter        = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
 //		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 //		$order_id = implode(',',$cid);
@@ -112,7 +114,7 @@ class quotationModelquotation extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'quotation_cdate');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'quotation_cdate');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;

@@ -32,10 +32,10 @@ class discountModeldiscount extends JModel
 			$this->_context = 'discount_id';
 
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$spgrpdis_filter = $mainframe->getUserStateFromRequest($this->_context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$spgrpdis_filter     = $mainframe->getUserStateFromRequest($this->_context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('spgrpdis_filter', $spgrpdis_filter);
@@ -45,9 +45,10 @@ class discountModeldiscount extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -55,9 +56,10 @@ class discountModeldiscount extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -74,9 +76,9 @@ class discountModeldiscount extends JModel
 
 	function _buildQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$where = '';
-		$layout = JRequest::getVar('layout');
+		$orderby         = $this->_buildContentOrderBy();
+		$where           = '';
+		$layout          = JRequest::getVar('layout');
 		$spgrpdis_filter = $this->getState('spgrpdis_filter');
 
 
@@ -99,6 +101,7 @@ class discountModeldiscount extends JModel
 				$query = ' SELECT * FROM ' . $this->_table_prefix . 'discount ' . $orderby;
 			}
 		}
+
 		return $query;
 	}
 

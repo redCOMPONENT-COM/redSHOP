@@ -133,7 +133,8 @@ $total_serial = count($productSerialDetail);
 		</tr>
 	</table>
 	<?php if ($total_serial > 0)
-	{ ?>
+	{
+		?>
 		<table class="adminlist">
 			<tr>
 				<th></th>

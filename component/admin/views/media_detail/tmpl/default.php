@@ -23,9 +23,9 @@ $url = $uri->root();
 
 $option = JRequest::getVar('option');
 
-$showbuttons = JRequest::getVar('showbuttons');
-$section_id = JRequest::getVar('section_id');
-$section_name = JRequest::getVar('section_name');
+$showbuttons   = JRequest::getVar('showbuttons');
+$section_id    = JRequest::getVar('section_id');
+$section_name  = JRequest::getVar('section_name');
 $media_section = JRequest::getVar('media_section');
 
 if ($showbuttons)
@@ -118,7 +118,8 @@ if ($showbuttons)
 
 			<fieldset id="bulk_field"
 				<?php if ($this->detail->media_id == 0)
-			{ ?>
+			{
+				?>
 				style="display: none;"
 			<?php }?>
 				>
@@ -155,7 +156,8 @@ if ($showbuttons)
 						<td><?php echo JText::_('COM_REDSHOP_MEDIA_NAME'); ?></td>
 						<td>
 							<?php if ($this->detail->media_id == 0)
-							{ ?>
+							{
+								?>
 								<input type="file" name="bulkfile" id="bulkfile" size="75">
 
 							<?php
@@ -190,7 +192,8 @@ if ($showbuttons)
 						</td>
 					</tr>
 					<?php if ($media_section == 'product')
-					{ ?>
+					{
+						?>
 						<tr>
 							<td><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER');?></td>
 							<td><?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
@@ -208,7 +211,8 @@ if ($showbuttons)
 				</table>
 			</fieldset>
 			<?php if ($this->detail->media_id == 0)
-			{ ?>
+			{
+				?>
 				<fieldset id="extra_field">
 					<table cellpadding="0" cellspacing="5" border="0" id="extra_table">
 
@@ -332,7 +336,7 @@ if ($showbuttons)
 						else
 						{
 							$model = $this->getModel('media_detail');
-							$data = $model->getSection($this->detail->section_id, $this->detail->media_section);
+							$data  = $model->getSection($this->detail->section_id, $this->detail->media_section);
 							?>
 							<input type="text" onclick="return false;" name="section_name" id="section_name"
 							       value="<?php if ($data) echo $data->name; ?>" size="75"/><input type="hidden"

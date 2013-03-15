@@ -102,9 +102,9 @@ JHTMLBehavior::modal();
 
 					$tax = $this->taxrates [$i];
 
-					$tax_rate_id = $tax->tax_rate_id;
-					$tax_country = $tax->tax_country;
-					$tax_rate = $tax->tax_rate;
+					$tax_rate_id  = $tax->tax_rate_id;
+					$tax_country  = $tax->tax_country;
+					$tax_rate     = $tax->tax_rate;
 					$tax_group_id = $tax->tax_group_id;
 
 					$rate_html = $tax_country . " (" . $tax_rate . ")";

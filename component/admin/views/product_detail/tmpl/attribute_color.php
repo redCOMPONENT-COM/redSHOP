@@ -81,8 +81,8 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 				{
 					for ($i = 0; $i < count($images); $i++)
 					{
-						$image = $images[$i];
-						$thumb = $image->subattribute_color_image;
+						$image   = $images[$i];
+						$thumb   = $image->subattribute_color_image;
 						$imgpath = "/components/" . $option . "/helpers/thumb.php?filename=subcolor/" . $thumb . "&newxsize=" . PRODUCT_ADDITIONAL_IMAGE . "&newysize=" . PRODUCT_ADDITIONAL_IMAGE;
 						?>
 						<tr>

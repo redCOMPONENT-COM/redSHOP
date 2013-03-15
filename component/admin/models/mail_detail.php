@@ -35,7 +35,7 @@ class mail_detailModelmail_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -57,8 +57,10 @@ class mail_detailModelmail_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'mail WHERE mail_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -67,16 +69,16 @@ class mail_detailModelmail_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->mail_id = 0;
-			$detail->mail_name = null;
-			$detail->mail_subject = null;
-			$detail->mail_section = 0;
+			$detail                    = new stdClass();
+			$detail->mail_id           = 0;
+			$detail->mail_name         = null;
+			$detail->mail_subject      = null;
+			$detail->mail_section      = 0;
 			$detail->mail_order_status = null;
-			$detail->mail_body = null;
-			$detail->published = 1;
-			$detail->mail_bcc = null;
-			$this->_data = $detail;
+			$detail->mail_body         = null;
+			$detail->published         = 1;
+			$detail->mail_bcc          = null;
+			$this->_data               = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -91,12 +93,14 @@ class mail_detailModelmail_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -114,6 +118,7 @@ class mail_detailModelmail_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -134,6 +139,7 @@ class mail_detailModelmail_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}

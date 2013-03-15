@@ -202,7 +202,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 	$row = & $this->products[$i];
 
 	$row->id = $row->product_id;
-	$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+	$link    = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 	//	$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
 
@@ -293,7 +293,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 		<?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
 		{
-			$field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->field_id, 1, $row->product_id);
+			$field_arr   = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->field_id, 1, $row->product_id);
 			$field_value = '';
 			if (count($field_arr) > 0)
 			{

@@ -30,7 +30,7 @@ class currency_detailModelcurrency_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -52,8 +52,10 @@ class currency_detailModelcurrency_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'currency WHERE currency_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -64,10 +66,10 @@ class currency_detailModelcurrency_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->currency_id = 0;
+			$detail->currency_id   = 0;
 			$detail->currency_name = null;
 			$detail->currency_code = null;
-			$this->_data = $detail;
+			$this->_data           = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -84,18 +86,21 @@ class currency_detailModelcurrency_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -113,6 +118,7 @@ class currency_detailModelcurrency_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}

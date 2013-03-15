@@ -40,12 +40,12 @@ $billisshipcheck = ($this->shipping->billisship) ? "checked" : "";
 $shippingblock = ($this->shipping->billisship) ? "none" : "";
 if ($this->detail->user_id < 0)
 {
-	$style = "none";
+	$style          = "none";
 	$create_account = 0;
 }
 else
 {
-	$style = "block";
+	$style          = "block";
 	$create_account = 1;
 }
 $allowCustomer = '';
@@ -283,7 +283,8 @@ function validateUserDetail() {
 }
 </script>
 <?php if (!JRequest::getvar('ajaxtask'))
-{ ?>
+{
+?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <table border="0" cellspacing="0" cellpadding="0" class="adminlist">
 <tbody>
@@ -309,232 +310,235 @@ function validateUserDetail() {
 	</td>
 </tr>
 <tr>
-	<td id="userinforesult">
-		<?php }    ?>
-		<table width="100%" class="adminlist">
-			<tbody>
-			<tr style="background-color: #cccccc">
-				<th><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></th>
-				<th><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></th>
-			</tr>
-			<tr valign="top">
-				<td width="50%">
-					<table class="adminlist" border="0" width="100%">
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?>:</td>
-							<td><?php echo $this->lists['is_company'];?></td>
-						</tr>
-						<tr id="trCompanyName" <?php echo $allowCompany;?>>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
-							<td><input class="inputbox" type="text" name="company_name" id="company_name" size="32"
-							           maxlength="250" value="<?php echo $billing->company_name; ?>"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>
-								:
-							</td>
-							<td><input class="inputbox" type="text" name="firstname" id="firstname" size="32"
-							           maxlength="250" value="<?php echo $billing->firstname; ?>"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
-							<td><input class="inputbox" type="text" name="lastname" id="lastname" size="32"
-							           maxlength="250" value="<?php echo $billing->lastname; ?>"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
-							<td><input class="inputbox" type="text" name="address" id="address" size="32"
-							           maxlength="250" value="<?php echo $billing->address; ?>"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</td>
-							<td><input class="inputbox" type="text" name="zipcode" id="zipcode" size="32"
-							           maxlength="250" value="<?php echo $billing->zipcode; ?>"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
-							<td><input class="inputbox" type="text" name="city" id="city" size="32" maxlength="250"
-							           value="<?php echo $billing->city; ?>"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
-							<td><?php echo $this->lists['country_code'];?></td>
-						</tr>
-						<tr id="div_state_txt">
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-							<td><?php echo $this->lists['state_code']; ?></td>
-						</tr>
-
-						<script type="text/javascript" language="javascript">
-							///alert(document.getElementById('state_code').options[1].value);
-
-
-							if (document.getElementById('state_code').options[1] == undefined) {
-								document.getElementById('div_state_txt').style.display = 'none';
-							}
-						</script>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
-							<td><input class="inputbox" type="text" name="phone" id="phone" size="32" maxlength="250"
-							           value="<?php echo $billing->phone; ?>"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
-							<td><input class="inputbox" type="text" name="email" id="email" size="32" maxlength="250"
-							           value="<?php echo $billing->user_email; ?>"
-							           <?php if ($this->detail->user_id <= 0 && $style == "block")
-							           { ?>onblur="validate(2);"<?php }?> />
-								<input type="hidden" name="user_email" id="user_email" value=""/><span
-									id="email_valid"></span></td>
-						</tr>
-						<tr id="trVatNumber" <?php echo $allowCompany;?>>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
-							<td><input class="inputbox" type="text" name="vat_number" id="vat_number" size="32"
-							           maxlength="250" value="<?php echo $billing->vat_number; ?>"/></td>
-						</tr>
-						<tr id="trEANnumber" <?php echo $allowCompany;?>>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
-							<td><input class="inputbox" type="text" name="ean_number" id="ean_number" size="32"
-							           maxlength="250" value="<?php echo $billing->ean_number; ?>"/></td>
-						</tr>
-						<?php    if (USE_TAX_EXEMPT == 1)
-						{
-							?>
-							<tr id="trTaxExempt" <?php echo $allowCompany;?>>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
-								<td><?php echo JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $billing->tax_exempt); ?></td>
-							</tr>
-							<tr id="trTaxExemptRequest" <?php echo $allowCompany;?>>
-								<td width="100"
-								    align="right"><?php echo JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'); ?>:
-								</td>
-								<td><?php echo JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $billing->requesting_tax_exempt); ?></td>
-							</tr>
-							<tr id="trTaxExemptApproved" <?php echo $allowCompany;?>>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'); ?>
-									:
-								</td>
-								<td><?php echo JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $billing->tax_exempt_approved); ?>
-									<input type="hidden" name="tax_exempt_approved_id"
-									       value="<?php echo $billing->tax_exempt_approved; ?>"/></td>
-							</tr>
-						<?php }    ?>
-						<tr>
-							<td colspan="2">
-								<div
-									id="exCustomerField" <?php echo $allowCustomer;?>><?php echo $this->lists['customer_field'];?></div>
-								<div
-									id="exCompanyField" <?php echo $allowCompany;?>><?php echo $this->lists['company_field'];?></div>
-							</td>
-						</tr>
-						<input type="hidden" name="users_info_id" id="users_info_id"
-						       value="<?php echo $billing->users_info_id; ?>"/>
-					</table>
-				</td>
-				<td width="50%">
-					<table class="adminlist" border="0" width="100%">
-						<tr>
-							<td width="100"
-							    align="right"><?php echo JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'); ?>:
-							</td>
-							<td><input type="checkbox" id="billisship" name="billisship"
-							           value="1" <?php echo $billisshipcheck;?>
-							           onchange="getShippinginfo(<?php echo $billing->users_info_id; ?>);"/></td>
-						</tr>
-						<tr>
-							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_SHIPPING'); ?>:</td>
-							<td><?php echo $this->lists['shippinginfo_list']; ?></td>
-						</tr>
-					</table>
-					<div id="order_shipping_div" style="display:<?php echo $shippingblock; ?>;">
-						<table class="adminlist" border="0" width="100%" align="center">
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
-								<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250"
-								           value="<?php echo $shipping->firstname; ?>"/></td>
-							</tr>
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
-								<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250"
-								           value="<?php echo $shipping->lastname; ?>"/></td>
-							</tr>
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
-								<td><input class="inputbox" type="text" name="address_ST" maxlength="250"
-								           value="<?php echo $shipping->address; ?>"/></td>
-							</tr>
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</td>
-								<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250"
-								           value="<?php echo $shipping->zipcode; ?>"/></td>
-							</tr>
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
-								<td><input class="inputbox" type="text" name="city_ST" maxlength="250"
-								           value="<?php echo $shipping->city; ?>"/></td>
-							</tr>
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
-								<td><?php echo $this->lists['country_code_ST']; ?></td>
-							</tr>
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-								<td><?php echo $this->lists['state_code_ST']; ?></td>
-							</tr>
-							<tr>
-								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
-								<td><input class="inputbox" type="text" name="phone_ST" maxlength="20"
-								           value="<?php echo $shipping->phone; ?>"/></td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<div
-										id="exCustomerFieldST" <?php echo $allowCustomer;?>><?php echo $this->lists['shipping_customer_field'];?></div>
-									<div
-										id="exCompanyFieldST" <?php echo $allowCompany;?>><?php echo $this->lists['shipping_company_field'];?></div>
-								</td>
-							</tr>
-						</table>
-					</div>
-
-				</td>
-			</tr>
-			</tbody>
-		</table>
-
-		<?php if ($this->detail->user_id <= 0)
-		{ ?>
-			<table id="tblcreat" style="display:<?php echo $style; ?>;">
+<td id="userinforesult">
+<?php }    ?>
+<table width="100%" class="adminlist">
+	<tbody>
+	<tr style="background-color: #cccccc">
+		<th><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></th>
+		<th><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></th>
+	</tr>
+	<tr valign="top">
+		<td width="50%">
+			<table class="adminlist" border="0" width="100%">
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</td>
-					<td><input class="inputbox" type="text" name="username" id="username" size="32" maxlength="250"
-					           value="" onblur="validate(1);"/><span id="user_valid"></span></td>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?>:</td>
+					<td><?php echo $this->lists['is_company'];?></td>
+				</tr>
+				<tr id="trCompanyName" <?php echo $allowCompany;?>>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
+					<td><input class="inputbox" type="text" name="company_name" id="company_name" size="32"
+					           maxlength="250" value="<?php echo $billing->company_name; ?>"/></td>
 				</tr>
 				<tr>
-					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?>:</td>
-					<td><input class="inputbox" type="password" name="password" id="password" size="32" maxlength="250"
-					           value=""/></td>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>
+						:
+					</td>
+					<td><input class="inputbox" type="text" name="firstname" id="firstname" size="32"
+					           maxlength="250" value="<?php echo $billing->firstname; ?>"/></td>
 				</tr>
 				<tr>
-					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'); ?>:</td>
-					<td><input class="inputbox" type="password" name="password2" id="password2" size="32"
-					           maxlength="250" value=""/></td>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
+					<td><input class="inputbox" type="text" name="lastname" id="lastname" size="32"
+					           maxlength="250" value="<?php echo $billing->lastname; ?>"/></td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
+					<td><input class="inputbox" type="text" name="address" id="address" size="32"
+					           maxlength="250" value="<?php echo $billing->address; ?>"/></td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</td>
+					<td><input class="inputbox" type="text" name="zipcode" id="zipcode" size="32"
+					           maxlength="250" value="<?php echo $billing->zipcode; ?>"/></td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
+					<td><input class="inputbox" type="text" name="city" id="city" size="32" maxlength="250"
+					           value="<?php echo $billing->city; ?>"/></td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
+					<td><?php echo $this->lists['country_code'];?></td>
+				</tr>
+				<tr id="div_state_txt">
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
+					<td><?php echo $this->lists['state_code']; ?></td>
+				</tr>
+
+				<script type="text/javascript" language="javascript">
+					///alert(document.getElementById('state_code').options[1].value);
+
+
+					if (document.getElementById('state_code').options[1] == undefined) {
+						document.getElementById('div_state_txt').style.display = 'none';
+					}
+				</script>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
+					<td><input class="inputbox" type="text" name="phone" id="phone" size="32" maxlength="250"
+					           value="<?php echo $billing->phone; ?>"/></td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
+					<td><input class="inputbox" type="text" name="email" id="email" size="32" maxlength="250"
+					           value="<?php echo $billing->user_email; ?>"
+					           <?php if ($this->detail->user_id <= 0 && $style == "block")
+					           {
+					           ?>onblur="validate(2);"<?php }?> />
+						<input type="hidden" name="user_email" id="user_email" value=""/><span
+							id="email_valid"></span></td>
+				</tr>
+				<tr id="trVatNumber" <?php echo $allowCompany;?>>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
+					<td><input class="inputbox" type="text" name="vat_number" id="vat_number" size="32"
+					           maxlength="250" value="<?php echo $billing->vat_number; ?>"/></td>
+				</tr>
+				<tr id="trEANnumber" <?php echo $allowCompany;?>>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
+					<td><input class="inputbox" type="text" name="ean_number" id="ean_number" size="32"
+					           maxlength="250" value="<?php echo $billing->ean_number; ?>"/></td>
+				</tr>
+				<?php    if (USE_TAX_EXEMPT == 1)
+				{
+					?>
+					<tr id="trTaxExempt" <?php echo $allowCompany;?>>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
+						<td><?php echo JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $billing->tax_exempt); ?></td>
+					</tr>
+					<tr id="trTaxExemptRequest" <?php echo $allowCompany;?>>
+						<td width="100"
+						    align="right"><?php echo JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'); ?>:
+						</td>
+						<td><?php echo JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $billing->requesting_tax_exempt); ?></td>
+					</tr>
+					<tr id="trTaxExemptApproved" <?php echo $allowCompany;?>>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'); ?>
+							:
+						</td>
+						<td><?php echo JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $billing->tax_exempt_approved); ?>
+							<input type="hidden" name="tax_exempt_approved_id"
+							       value="<?php echo $billing->tax_exempt_approved; ?>"/></td>
+					</tr>
+				<?php }    ?>
+				<tr>
+					<td colspan="2">
+						<div
+							id="exCustomerField" <?php echo $allowCustomer;?>><?php echo $this->lists['customer_field'];?></div>
+						<div
+							id="exCompanyField" <?php echo $allowCompany;?>><?php echo $this->lists['company_field'];?></div>
+					</td>
+				</tr>
+				<input type="hidden" name="users_info_id" id="users_info_id"
+				       value="<?php echo $billing->users_info_id; ?>"/>
+			</table>
+		</td>
+		<td width="50%">
+			<table class="adminlist" border="0" width="100%">
+				<tr>
+					<td width="100"
+					    align="right"><?php echo JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'); ?>:
+					</td>
+					<td><input type="checkbox" id="billisship" name="billisship"
+					           value="1" <?php echo $billisshipcheck;?>
+					           onchange="getShippinginfo(<?php echo $billing->users_info_id; ?>);"/></td>
+				</tr>
+				<tr>
+					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_SHIPPING'); ?>:</td>
+					<td><?php echo $this->lists['shippinginfo_list']; ?></td>
 				</tr>
 			</table>
-		<?php
-		}
-		if (JRequest::getvar('ajaxtask') == "getuser")
-		{
-			die();
-		}    ?>
-	</td>
+			<div id="order_shipping_div" style="display:<?php echo $shippingblock; ?>;">
+				<table class="adminlist" border="0" width="100%" align="center">
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
+						<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250"
+						           value="<?php echo $shipping->firstname; ?>"/></td>
+					</tr>
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
+						<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250"
+						           value="<?php echo $shipping->lastname; ?>"/></td>
+					</tr>
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
+						<td><input class="inputbox" type="text" name="address_ST" maxlength="250"
+						           value="<?php echo $shipping->address; ?>"/></td>
+					</tr>
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</td>
+						<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250"
+						           value="<?php echo $shipping->zipcode; ?>"/></td>
+					</tr>
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
+						<td><input class="inputbox" type="text" name="city_ST" maxlength="250"
+						           value="<?php echo $shipping->city; ?>"/></td>
+					</tr>
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
+						<td><?php echo $this->lists['country_code_ST']; ?></td>
+					</tr>
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
+						<td><?php echo $this->lists['state_code_ST']; ?></td>
+					</tr>
+					<tr>
+						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
+						<td><input class="inputbox" type="text" name="phone_ST" maxlength="20"
+						           value="<?php echo $shipping->phone; ?>"/></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div
+								id="exCustomerFieldST" <?php echo $allowCustomer;?>><?php echo $this->lists['shipping_customer_field'];?></div>
+							<div
+								id="exCompanyFieldST" <?php echo $allowCompany;?>><?php echo $this->lists['shipping_company_field'];?></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+<?php if ($this->detail->user_id <= 0)
+{
+	?>
+	<table id="tblcreat" style="display:<?php echo $style; ?>;">
+		<tr>
+			<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</td>
+			<td><input class="inputbox" type="text" name="username" id="username" size="32" maxlength="250"
+			           value="" onblur="validate(1);"/><span id="user_valid"></span></td>
+		</tr>
+		<tr>
+			<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?>:</td>
+			<td><input class="inputbox" type="password" name="password" id="password" size="32" maxlength="250"
+			           value=""/></td>
+		</tr>
+		<tr>
+			<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'); ?>:</td>
+			<td><input class="inputbox" type="password" name="password2" id="password2" size="32"
+			           maxlength="250" value=""/></td>
+		</tr>
+	</table>
+<?php
+}
+if (JRequest::getvar('ajaxtask') == "getuser")
+{
+	die();
+}    ?>
+</td>
 </tr>
 <tr>
 	<td align="right"><input type="button" value="<?php echo JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'); ?>"
 	                         name="next" id="next" onclick="validateUserDetail();"/></td>
 </tr>
 <?php if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id)
-{ ?>
+{
+	?>
 	<tr>
 		<td>
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">

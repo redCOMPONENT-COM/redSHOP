@@ -30,7 +30,7 @@ class producttags_detailModelproducttags_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -52,8 +52,10 @@ class producttags_detailModelproducttags_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_tags WHERE tags_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -64,14 +66,15 @@ class producttags_detailModelproducttags_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->tags_id = 0;
-			$detail->tags_name = null;
+			$detail->tags_id      = 0;
+			$detail->tags_name    = null;
 			$detail->tags_counter = 0;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published    = 1;
+			$this->_data          = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -82,12 +85,14 @@ class producttags_detailModelproducttags_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -105,6 +110,7 @@ class producttags_detailModelproducttags_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 			else
@@ -114,6 +120,7 @@ class producttags_detailModelproducttags_detail extends JModel
 				if (!$this->_db->query())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
@@ -136,6 +143,7 @@ class producttags_detailModelproducttags_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}

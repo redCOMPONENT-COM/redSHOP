@@ -51,9 +51,9 @@ class zip_importModelzip_import extends JModel
 
 	function getzipfilescount()
 	{
-		$x = 5;
+		$x   = 5;
 		$url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_reviews&domainname=" . $_SERVER['HTTP_HOST'] . "";
-		$ch = curl_init();
+		$ch  = curl_init();
 		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1");
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -63,21 +63,22 @@ class zip_importModelzip_import extends JModel
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); # required for https urls
 		$content = curl_exec($ch);
 		preg_match_all("#<span id='zip'>(.*?)</span>#is", $content, $out);
-		$content = trim($out[0][0]);
+		$content  = trim($out[0][0]);
 		$response = curl_getinfo($ch);
 		print_r($response);
 		exit;
 		curl_close($ch);
 		$x = count(explode(",", $content));
+
 		return $x;
 	}
 
 	function getzipfilenames()
 	{
 		$live_path = JURI::base();
-		$user = JFactory::getUser();
-		$x = 5;
-		$url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" . $user->username . "&reddomain=" . JURI::base() . "";
+		$user      = JFactory::getUser();
+		$x         = 5;
+		$url       = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" . $user->username . "&reddomain=" . JURI::base() . "";
 
 		$ch = curl_init();
 
@@ -98,7 +99,7 @@ class zip_importModelzip_import extends JModel
 		fclose($fp);
 
 
-		$filename = JURI::base() . '/tmp/com_jcomments_new.zip';
+		$filename                = JURI::base() . '/tmp/com_jcomments_new.zip';
 		$_SESSION['filename'][0] = $filename;
 
 	}
@@ -118,6 +119,7 @@ class zip_importModelzip_import extends JModel
 
 			default:
 				$this->setState('message', 'No Install Type Found');
+
 				return false;
 				break;
 		}
@@ -161,7 +163,7 @@ class zip_importModelzip_import extends JModel
 		// Cleanup the install files
 		if (!is_file($package['packagefile']))
 		{
-			$config =& JFactory::getConfig();
+			$config                 =& JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
 		}
 
@@ -186,7 +188,7 @@ class zip_importModelzip_import extends JModel
 	{
 		// Get a database connector
 
-		$db = & JFactory::getDBO();
+		$db     = & JFactory::getDBO();
 		$tempno = $_SESSION['zipno'];
 
 		// Get the URL of the package to install
@@ -220,7 +222,7 @@ class zip_importModelzip_import extends JModel
 		<?php
 		}
 /////////////////////////////////// Comment add on 28-7-2010 /////////////////////////////////////////
-		$config =& JFactory::getConfig();
+		$config   =& JFactory::getConfig();
 		$tmp_dest = $config->getValue('config.tmp_path');
 
 		// Unpack the downloaded package file
@@ -244,6 +246,7 @@ class zip_importModelzip_import extends JModel
 		if (!is_dir($p_dir))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
+
 			return false;
 		}
 
@@ -254,13 +257,14 @@ class zip_importModelzip_import extends JModel
 		if (!$type)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
+
 			return false;
 		}
 
 		$package['packagefile'] = null;
-		$package['extractdir'] = null;
-		$package['dir'] = $p_dir;
-		$package['type'] = $type;
+		$package['extractdir']  = null;
+		$package['dir']         = $p_dir;
+		$package['type']        = $type;
 
 		return $package;
 	}

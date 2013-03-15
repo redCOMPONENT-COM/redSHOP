@@ -39,7 +39,7 @@ class catalog_detailController extends JController
 
 
 		$post ['catalog_id'] = $cid [0];
-		$link = 'index.php?option=' . $option . '&view=catalog';
+		$link                = 'index.php?option=' . $option . '&view=catalog';
 
 
 		$model = $this->getModel('catalog_detail');
@@ -136,7 +136,7 @@ class catalog_detailController extends JController
 
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout');
-		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
 
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
 

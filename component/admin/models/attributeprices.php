@@ -28,13 +28,13 @@ class attributepricesModelattributeprices extends JModel
 		$this->_context = 'price_id';
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$section_id = JRequest::getVar('section_id');
+		$section_id     = JRequest::getVar('section_id');
 		$this->_section = JRequest::getVar('section');
 		$this->setSectionId((int) $section_id);
 	}
@@ -43,16 +43,17 @@ class attributepricesModelattributeprices extends JModel
 	{
 		// Set employees_detail id and wipe data
 		$this->_sectionid = $id;
-		$this->_data = null;
+		$this->_data      = null;
 	}
 
 	function getData()
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -60,9 +61,10 @@ class attributepricesModelattributeprices extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -73,6 +75,7 @@ class attributepricesModelattributeprices extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -81,18 +84,19 @@ class attributepricesModelattributeprices extends JModel
 		if ($this->_section == "property")
 		{
 			$field = "ap.property_name ";
-			$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
+			$q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
 		}
 		else
 		{
 			$field = "ap.subattribute_color_name AS property_name ";
-			$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
+			$q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
 		}
 		$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' FROM ' . $this->_table_prefix . 'product_attribute_price AS p '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group AS g ON p.shopper_group_id = g.shopper_group_id '
 			. $q
 			. 'WHERE p.section_id="' . $this->_sectionid . '" '
 			. 'AND p.section = "' . $this->_section . '" ';
+
 		return $query;
 	}
 }

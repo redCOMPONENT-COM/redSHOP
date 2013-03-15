@@ -71,18 +71,18 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 			$lists['shopper_group_id'] = JHTML::_('select.genericlist', $shoppers , 'shopper_group_id[]', 'class="inputbox" multiple="multiple" size="10"', 'value', 'text', $selectedShoppers);
 		*/
 		$category_id = explode(',', $detail->category_id);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $category_id);
+		$tmp         = new stdClass;
+		$tmp         = @array_merge($tmp, $category_id);
 
-		$discount_type = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE')));
+		$discount_type          = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE')));
 		$lists['discount_type'] = JHTML::_('select.genericlist', $discount_type, 'discount_type', 'class="inputbox" size="1"', 'value', 'text', $detail->discount_type);
 
-		$categories = $product_category->list_all("category_id[]", 0, $category_id, 10, true, true);
+		$categories          = $product_category->list_all("category_id[]", 0, $category_id, 10, true, true);
 		$lists['categories'] = $categories;
 
 		$manufacturer_id = explode(',', $detail->manufacturer_id);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $manufacturer_id);
+		$tmp             = new stdClass;
+		$tmp             = @array_merge($tmp, $manufacturer_id);
 
 		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $manufacturer_id);
 
@@ -95,11 +95,11 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 
 
 		$detail->discount_product = explode(',', $detail->discount_product);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $detail->discount_product);
+		$tmp                      = new stdClass;
+		$tmp                      = @array_merge($tmp, $detail->discount_product);
 
 		$lists['discount_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
-		$lists['product_all'] = JHTML::_('select.genericlist', array(), 'product_all[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->discount_product);
+		$lists['product_all']      = JHTML::_('select.genericlist', array(), 'product_all[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->discount_product);
 //		$lists['product_all'] = JHTML::_('select.genericlist',$productData,'product_all[]','class="inputbox" multiple="multiple" ','value','text',$detail->discount_product);
 
 

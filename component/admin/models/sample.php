@@ -23,11 +23,11 @@ class sampleModelsample extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'sample_id';
+		$this->_context      = 'sample_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 	}
@@ -36,9 +36,10 @@ class sampleModelsample extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -46,9 +47,10 @@ class sampleModelsample extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -59,15 +61,17 @@ class sampleModelsample extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = "SELECT distinct(c.sample_id),c.* FROM " . $this->_table_prefix . "catalog_sample AS c "
+		$query   = "SELECT distinct(c.sample_id),c.* FROM " . $this->_table_prefix . "catalog_sample AS c "
 			. "WHERE 1=1 "
 			. $orderby;
+
 		return $query;
 	}
 
@@ -75,10 +79,11 @@ class sampleModelsample extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'sample_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'sample_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 }

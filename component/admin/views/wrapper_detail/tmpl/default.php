@@ -68,7 +68,8 @@ $producthelper = new producthelper();
 					</td>
 				</tr>
 				<?php if (!$showall)
-				{ ?>
+				{
+					?>
 					<tr>
 						<td width="100" align="right"
 						    class="key"><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME');?></td>

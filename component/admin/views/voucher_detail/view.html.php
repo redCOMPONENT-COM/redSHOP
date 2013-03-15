@@ -50,12 +50,12 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
-		$voucher_type = array(JHTML::_('select.option', 'Total', JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 'Percentage', JText::_('COM_REDSHOP_PERCENTAGE')));
+		$voucher_type          = array(JHTML::_('select.option', 'Total', JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 'Percentage', JText::_('COM_REDSHOP_PERCENTAGE')));
 		$lists['voucher_type'] = JHTML::_('select.genericlist', $voucher_type, 'voucher_type', 'class="inputbox" size="1"', 'value', 'text', $detail->voucher_type);
 
 		$lists['free_shipping'] = JHTML::_('select.booleanlist', 'free_shipping', 'class="inputbox" ', $detail->free_shipping);
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$model = $this->getModel('voucher_detail');
+		$lists['published']     = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$model                  = $this->getModel('voucher_detail');
 
 		//$container_product_data = $model->Container_Product_Data($detail->container_id);
 

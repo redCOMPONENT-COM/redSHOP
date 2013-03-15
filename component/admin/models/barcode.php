@@ -28,7 +28,7 @@ class barcodeModelbarcode extends JModel
 	{
 		parent::__construct();
 
-		$mainframe = JFactory::getApplication();
+		$mainframe           = JFactory::getApplication();
 		$this->_table_prefix = '#__redshop_';
 
 
@@ -42,11 +42,13 @@ class barcodeModelbarcode extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 	}
@@ -70,6 +72,7 @@ class barcodeModelbarcode extends JModel
 	{
 		$query = "SELECT count(*) as log FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObject();
 	}
 
@@ -77,6 +80,7 @@ class barcodeModelbarcode extends JModel
 	{
 		$logquery = "SELECT *  FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
 		$this->_db->setQuery($logquery);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -84,8 +88,9 @@ class barcodeModelbarcode extends JModel
 	{
 
 		$this->_table_prefix = '#__';
-		$userquery = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
+		$userquery           = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
 		$this->_db->setQuery($userquery);
+
 		return $this->_db->loadObject();
 	}
 

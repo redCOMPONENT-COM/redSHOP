@@ -62,7 +62,7 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			{
 				$row = & $this->products[$i];
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link       = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 				$link_order = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
 				$link_order = $redhelper->sslLink($link_order);    ?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -85,7 +85,8 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			</td>
 			</tr>
 			<?php if ($showbuttons != 1)
-			{ ?>
+			{
+				?>
 				<tfoot>
 				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
 				</tfoot>

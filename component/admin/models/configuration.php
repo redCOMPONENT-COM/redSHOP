@@ -38,14 +38,14 @@ class configurationModelconfiguration extends JModel
 	{
 		//$value = htmlspecialchars($name, ENT_QUOTES);
 		$filetype = JFile::getExt($name);
-		$values = preg_replace("/[&'#]/", "", $name);
+		$values   = preg_replace("/[&'#]/", "", $name);
 
 
 		$valuess = str_replace('_', 'and', $values);
 
 		if (strlen($valuess) == 0)
 		{
-			$valuess = $id;
+			$valuess  = $id;
 			$filename = JPath::clean(time() . '_' . $valuess) . "." . $filetype; //Make the filename unique
 		}
 		else
@@ -118,9 +118,9 @@ class configurationModelconfiguration extends JModel
 			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
 			{
 
-				$logoname = $this->cleanFileName($default_portalLogo['name']);
+				$logoname                    = $this->cleanFileName($default_portalLogo['name']);
 				$data["default_portal_logo"] = $logoname;
-				$src = $default_portalLogo['tmp_name'];
+				$src                         = $default_portalLogo['tmp_name'];
 
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $logoname; //specific path of the file
 
@@ -440,25 +440,25 @@ class configurationModelconfiguration extends JModel
 		//  Product Detail Lightbox close button Image End
 
 		//Save the HTML tags into the tables
-		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["welcomepage_introtext"]        = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["category_frontpage_introtext"] = JRequest::getVar('category_frontpage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["registration_introtext"] = JRequest::getVar('registration_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["registration_comp_introtext"] = JRequest::getVar('registration_comp_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["vat_introtext"] = JRequest::getVar('vat_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["order_lists_introtext"] = JRequest::getVar('order_lists_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["order_detail_introtext"] = JRequest::getVar('order_detail_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["order_receipt_introtext"] = JRequest::getVar('order_receipt_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["product_expire_text"] = JRequest::getVar('product_expire_text', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["cart_reservation_message"] = JRequest::getVar('cart_reservation_message', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["with_vat_text_info"] = JRequest::getVar('with_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["without_vat_text_info"] = JRequest::getVar('without_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["registration_introtext"]       = JRequest::getVar('registration_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["registration_comp_introtext"]  = JRequest::getVar('registration_comp_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["vat_introtext"]                = JRequest::getVar('vat_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["order_lists_introtext"]        = JRequest::getVar('order_lists_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["order_detail_introtext"]       = JRequest::getVar('order_detail_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["welcomepage_introtext"]        = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["order_receipt_introtext"]      = JRequest::getVar('order_receipt_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["product_expire_text"]          = JRequest::getVar('product_expire_text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["cart_reservation_message"]     = JRequest::getVar('cart_reservation_message', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["with_vat_text_info"]           = JRequest::getVar('with_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["without_vat_text_info"]        = JRequest::getVar('without_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 
-		$data["show_price_user_group_list"] = @implode(",", $data['show_price_user_group_list']);
+		$data["show_price_user_group_list"]    = @implode(",", $data['show_price_user_group_list']);
 		$data["show_price_shopper_group_list"] = @implode(",", $data['show_price_shopper_group_list']);
 
-		$data["show_price_user_group_list"] = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
+		$data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
 		$data["show_price_shopper_group_list"] = $data["show_price_shopper_group_list"] ? $data["show_price_shopper_group_list"] : '';
 		if ($data['image_quality_output'] <= 10) $data['image_quality_output'] = 100;
 		if ($data['image_quality_output'] >= 100) $data['image_quality_output'] = 100;
@@ -475,6 +475,7 @@ class configurationModelconfiguration extends JModel
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -535,6 +536,7 @@ class configurationModelconfiguration extends JModel
 		{
 			fputs($fp, $config, strlen($config));
 			fclose($fp);
+
 			return true;
 		}
 		else
@@ -561,6 +563,7 @@ class configurationModelconfiguration extends JModel
 		}
 		$query = 'SELECT currency_code as value, currency_name as text FROM ' . $this->_table_prefix . 'currency' . $where . ' ORDER BY currency_name ASC';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -568,6 +571,7 @@ class configurationModelconfiguration extends JModel
 	{
 		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -607,6 +611,7 @@ class configurationModelconfiguration extends JModel
 			. " FROM " . $this->_table_prefix . "shopper_group "
 			. " WHERE `shopper_group_customer_type` = '1'";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -617,6 +622,7 @@ class configurationModelconfiguration extends JModel
 			. " FROM " . $this->_table_prefix . "shopper_group "
 			. " WHERE `shopper_group_customer_type` = '0'";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -672,6 +678,7 @@ class configurationModelconfiguration extends JModel
 	{
 		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM ' . $this->_table_prefix . 'tax_group as tg WHERE tg.published=1 ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -683,6 +690,7 @@ class configurationModelconfiguration extends JModel
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -690,6 +698,7 @@ class configurationModelconfiguration extends JModel
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -698,39 +707,40 @@ class configurationModelconfiguration extends JModel
 		$query = 'SELECT nt.template_desc FROM ' . $this->_table_prefix . 'template as nt '
 			. 'WHERE nt.template_section="newsletter_product" ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
 	function newsletterEntry($data)
 	{
-		$db = JFactory::getDBO();
+		$db            = JFactory::getDBO();
 		$newsletter_id = $data['default_newsletter'];
-		$mailfrom = $data['news_mail_from'];
-		$mailfromname = $data['news_from_name'];
-		$to = $data['newsletter_test_email'];
+		$mailfrom      = $data['news_mail_from'];
+		$mailfromname  = $data['news_from_name'];
+		$to            = $data['newsletter_test_email'];
 		$producthelper = new producthelper();
-		$uri =& JURI::getInstance();
-		$url = $uri->root();
+		$uri           =& JURI::getInstance();
+		$url           = $uri->root();
 
 		// Getting newsletter content
 		$newsbody = $this->getnewsletter_content($newsletter_id);
 
-		$subject = "";
-		$newsletter_body = "";
+		$subject             = "";
+		$newsletter_body     = "";
 		$newsletter_template = "";
 		if (count($newsbody) > 0)
 		{
-			$subject = $newsbody[0]->subject;
-			$newsletter_body = $newsbody[0]->body;
+			$subject             = $newsbody[0]->subject;
+			$newsletter_body     = $newsbody[0]->body;
 			$newsletter_template = $newsbody[0]->template_desc;
 		}
 
-		$o = new stdClass();
+		$o       = new stdClass();
 		$o->text = $newsletter_body;
 		JPluginHelper::importPlugin('content');
-		$dispatcher = & JDispatcher::getInstance();
-		$x = array();
-		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
+		$dispatcher           = & JDispatcher::getInstance();
+		$x                    = array();
+		$results              = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 		$newsletter_template2 = $o->text;
 		// $newsletter_template1=$newsletter_template1.$newsletter_template;
 
@@ -747,9 +757,9 @@ class configurationModelconfiguration extends JModel
 			if (strstr($content, '{Newsletter Products:' . $product_id . '}'))
 			{
 
-				$product_id = $product_id_list[$i]->product_id;
+				$product_id      = $product_id_list[$i]->product_id;
 				$newsproductbody = $this->getnewsletterproducts_content();
-				$np_temp_desc = $newsproductbody[0]->template_desc;
+				$np_temp_desc    = $newsproductbody[0]->template_desc;
 
 				$thum_image = "";
 				if ($product_id_list[$i]->product_full_image)
@@ -768,7 +778,7 @@ class configurationModelconfiguration extends JModel
 			}
 		}
 		//Replacing the Text library texts
-		$texts = new text_library();
+		$texts   = new text_library();
 		$content = $texts->replace_texts($content);
 
 
@@ -781,8 +791,8 @@ class configurationModelconfiguration extends JModel
 		foreach ($matches[0] as $match)
 		{
 			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
-			$images[] = array_combine($m[1], $m[2]);
-			$imagescur = array_combine($m[1], $m[2]);
+			$images[]         = array_combine($m[1], $m[2]);
+			$imagescur        = array_combine($m[1], $m[2]);
 			$imagescurarray[] = $imagescur['src'];
 		}
 		$imagescurarray = array_unique($imagescurarray);
@@ -797,7 +807,7 @@ class configurationModelconfiguration extends JModel
 			}
 		}
 
-		$to = trim($to);
+		$to    = trim($to);
 		$today = time();
 		//replacing the tags with the values
 		$name = explode('@', $to);
@@ -816,6 +826,7 @@ class configurationModelconfiguration extends JModel
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -826,6 +837,7 @@ class configurationModelconfiguration extends JModel
 
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
@@ -892,16 +904,17 @@ class configurationModelconfiguration extends JModel
 		if (file_exists($xmlfile))
 		{
 
-			$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
+			$data    = JApplicationHelper::parseXMLInstallFile($xmlfile);
 			$version = $data['version'];
 		}
+
 		return $version;
 	}
 
 	/* Get all installed module for redshop*/
 	function getinstalledmodule()
 	{
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT * FROM #__extensions WHERE `element` LIKE '%mod_redshop%'";
 		$db->setQuery($query);
 		$redshop_modules = $db->loadObjectList();
@@ -912,18 +925,19 @@ class configurationModelconfiguration extends JModel
 	/* Get all installed payment plugins for redshop*/
 	function getinstalledplugins($secion = 'redshop_payment')
 	{
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT * FROM #__extensions WHERE `folder` = '" . $secion . "' ";
 		$db->setQuery($query);
 		$redshop_plugins = $db->loadObjectList();
+
 		return $redshop_plugins;
 	}
 
 	function resetTemplate()
 	{
 		$Redtemplate = new Redtemplate();
-		$db = JFactory::getDBO();
-		$q = "SELECT * FROM #__redshop_template";
+		$db          = JFactory::getDBO();
+		$q           = "SELECT * FROM #__redshop_template";
 		$db->setQuery($q);
 		$list = $db->loadObjectList();
 
@@ -931,16 +945,16 @@ class configurationModelconfiguration extends JModel
 		{
 			$data = & $list[$i];
 
-			$red_template = new Redtemplate();
-			$tname = $data->template_name;
+			$red_template        = new Redtemplate();
+			$tname               = $data->template_name;
 			$data->template_name = strtolower($data->template_name);
 			$data->template_name = str_replace(" ", "_", $data->template_name);
-			$tempate_file = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);
+			$tempate_file        = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);
 
 			if (is_file($tempate_file))
 			{
 				$template_desc = $red_template->getInstallSectionTemplate($data->template_name);
-				$fp = fopen($tempate_file, "w");
+				$fp            = fopen($tempate_file, "w");
 				fwrite($fp, $template_desc);
 				fclose($fp);
 			}

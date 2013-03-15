@@ -44,7 +44,7 @@ class mass_discount_detailController extends JController
 		$post ['discount_product'] = $post ['container_product'];
 
 		$post ['discount_startdate'] = strtotime($post ['discount_startdate']);
-		$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
+		$post ['discount_enddate']   = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
 
 		$model = $this->getModel('mass_discount_detail');
 
@@ -100,7 +100,7 @@ class mass_discount_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
 
 		$this->setRedirect('index.php?option=' . $option . '&view=mass_discount', $msg);
 	}

@@ -44,7 +44,7 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 		// Section can be added from here
-		$optionsection = array();
+		$optionsection   = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_Product'));
 		$optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_Category'));

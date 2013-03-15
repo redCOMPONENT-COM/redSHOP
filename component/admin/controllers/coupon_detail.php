@@ -25,7 +25,7 @@ class coupon_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('coupon_detail');
+		$model     = $this->getModel('coupon_detail');
 		$userslist = $model->getuserslist();
 		JRequest::setVar('userslist', $userslist);
 
@@ -39,15 +39,15 @@ class coupon_detailController extends JController
 	function save()
 	{
 		global $mainframe;
-		$post = JRequest::get('post');
-		$comment = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post            = JRequest::get('post');
+		$comment         = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["comment"] = $comment;
 
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$post ['coupon_id'] = $cid [0];
+		$post ['coupon_id']  = $cid [0];
 		$post ['start_date'] = strtotime($post ['start_date']);
 		if ($post ['end_date'])
 			$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
@@ -146,7 +146,7 @@ class coupon_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_COUPON_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
 	}
 }

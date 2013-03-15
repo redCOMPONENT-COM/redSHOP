@@ -35,12 +35,12 @@ class stockroom_listingViewstockroom_listing extends JView
 		$stockroom_type = $mainframe->getUserStateFromRequest($context2 . 'stockroom_type', 'stockroom_type', 'product');
 		//$stock_type = $mainframe->getUserStateFromRequest( $context2.'stock_type','stock_type',0 );
 //		$atttype = $mainframe->getUserStateFromRequest( $context2.'atttype','atttype','property' );
-		$uri = & JFactory::getURI();
-		$filter_order = $mainframe->getUserStateFromRequest($context2 . 'filter_order', 'filter_order', 'p.product_id');
+		$uri              = & JFactory::getURI();
+		$filter_order     = $mainframe->getUserStateFromRequest($context2 . 'filter_order', 'filter_order', 'p.product_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context2 . 'filter_order_Dir', 'filter_order_Dir', '');
-		$search_field = $mainframe->getUserStateFromRequest($context2 . 'search_field', 'search_field', '');
-		$keyword = $mainframe->getUserStateFromRequest($context2 . 'keyword', 'keyword', '');
-		$category_id = $mainframe->getUserStateFromRequest($context2 . 'category_id', 'category_id', '');
+		$search_field     = $mainframe->getUserStateFromRequest($context2 . 'search_field', 'search_field', '');
+		$keyword          = $mainframe->getUserStateFromRequest($context2 . 'keyword', 'keyword', '');
+		$category_id      = $mainframe->getUserStateFromRequest($context2 . 'category_id', 'category_id', '');
 
 		//stockroom type and attribute type
 		$optiontype = array();
@@ -57,18 +57,18 @@ class stockroom_listingViewstockroom_listing extends JView
 //		$lists['atttype'] 		= JHTML::_('select.genericlist',$optionval,  'atttype', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text',  $atttype);
 
 		$product_category = new product_category();
-		$categories = $product_category->getCategoryListArray();
+		$categories       = $product_category->getCategoryListArray();
 
-		$temps = array();
-		$temps[0]->category_id = "0";
+		$temps                   = array();
+		$temps[0]->category_id   = "0";
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
-		$categories = @array_merge($temps, $categories);
-		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id', 'class="inputbox" onchange="getTaskChange();document.adminForm.submit();" ', 'category_id', 'category_name', $category_id);
+		$categories              = @array_merge($temps, $categories);
+		$lists['category']       = JHTML::_('select.genericlist', $categories, 'category_id', 'class="inputbox" onchange="getTaskChange();document.adminForm.submit();" ', 'category_id', 'category_name', $category_id);
 
-		$lists ['order'] = $filter_order;
+		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$resultlisting = & $this->get('Data');
-		$stockroom = & $this->get('Stockroom');
+		$resultlisting       = & $this->get('Data');
+		$stockroom           = & $this->get('Stockroom');
 
 		$total = & $this->get('Total');
 

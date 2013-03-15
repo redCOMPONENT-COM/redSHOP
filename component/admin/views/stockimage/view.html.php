@@ -34,14 +34,14 @@ class stockimageViewstockimage extends JView
 
 		$uri = & JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stock_amount_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stock_amount_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists ['order'] = $filter_order;
+		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
 
-		$data = & $this->get('Data');
-		$total = & $this->get('Total');
+		$data       = & $this->get('Data');
+		$total      = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);

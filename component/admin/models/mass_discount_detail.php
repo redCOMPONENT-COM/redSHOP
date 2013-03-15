@@ -32,7 +32,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -57,8 +57,10 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -69,19 +71,20 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->mass_discount_id = 0;
-			$detail->discount_name = null;
-			$detail->category_id = 0;
-			$detail->discount_amount = 0;
-			$detail->discount_type = 0;
+			$detail->mass_discount_id   = 0;
+			$detail->discount_name      = null;
+			$detail->category_id        = 0;
+			$detail->discount_amount    = 0;
+			$detail->discount_type      = 0;
 			$detail->discount_startdate = time();
-			$detail->discount_enddate = time();
-			$detail->manufacturer_id = 0;
-			$detail->discount_product = 0;
-			$this->_data = $detail;
+			$detail->discount_enddate   = time();
+			$detail->manufacturer_id    = 0;
+			$detail->discount_product   = 0;
+			$this->_data                = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -94,27 +97,28 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
-		$row->category_id = @implode(",", $data['category_id']);
-		$row->manufacturer_id = @implode(",", $data['manufacturer_id']);
+		$row->category_id      = @implode(",", $data['category_id']);
+		$row->manufacturer_id  = @implode(",", $data['manufacturer_id']);
 		$row->discount_product = @implode(",", $data['discount_product']);
 
-		$change_product = false;
+		$change_product    = false;
 		$newchange_product = false;
 
 		$this->setId($row->mass_discount_id);
 		$dataDiscount =& $this->getData();
 
 		$discount_product = explode(',', $dataDiscount->discount_product);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $discount_product);
+		$tmp              = new stdClass;
+		$tmp              = @array_merge($tmp, $discount_product);
 
 
 		$newdiscount_product = explode(',', $row->discount_product);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $newdiscount_product);
+		$tmp                 = new stdClass;
+		$tmp                 = @array_merge($tmp, $newdiscount_product);
 
 		$arr_diff = array_diff($discount_product, $newdiscount_product);
 
@@ -137,6 +141,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -164,11 +169,12 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 			{
 				$p_price = ($data['discount_type'] == 1) ? ($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) : $productData->product_price - ($data['discount_amount']); //$data['discount_amount'] ;
 				$p_price = $producthelper->productPriceRound($p_price);
-				$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="' . $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="' . $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
+				$query   = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="' . $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="' . $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
 				$this->_db->setQuery($query);
 				if (!$this->_db->query())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
@@ -176,16 +182,16 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 
 		$category_id = explode(',', $dataDiscount->category_id);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $category_id);
+		$tmp         = new stdClass;
+		$tmp         = @array_merge($tmp, $category_id);
 
 
-		$newcategory_id = explode(',', $row->category_id);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $newcategory_id);
-		$change_category = false;
+		$newcategory_id     = explode(',', $row->category_id);
+		$tmp                = new stdClass;
+		$tmp                = @array_merge($tmp, $newcategory_id);
+		$change_category    = false;
 		$newchange_category = false;
-		$arr_diff = array_diff($category_id, $newcategory_id);
+		$arr_diff           = array_diff($category_id, $newcategory_id);
 
 		if (count($arr_diff) > 0)
 		{
@@ -209,6 +215,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				if (!$this->_db->query())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 
@@ -241,12 +248,13 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				{
 					$p_price = ($data['discount_type'] == 1) ? ($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) : $data['discount_amount'];
 					$p_price = $producthelper->productPriceRound($p_price);
-					$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="' . $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="' . $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
+					$query   = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="' . $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="' . $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 
 					$this->_db->setQuery($query);
 					if (!$this->_db->query())
 					{
 						$this->setError($this->_db->getErrorMsg());
+
 						return false;
 					}
 				}
@@ -254,15 +262,15 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 		}
 
-		$manufacturer_id = explode(',', $dataDiscount->manufacturer_id);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $manufacturer_id);
-		$change_manufacturer = false;
+		$manufacturer_id        = explode(',', $dataDiscount->manufacturer_id);
+		$tmp                    = new stdClass;
+		$tmp                    = @array_merge($tmp, $manufacturer_id);
+		$change_manufacturer    = false;
 		$newchange_manufacturer = false;
 
 		$newmanufacturer_id = explode(',', $row->manufacturer_id);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $newmanufacturer_id);
+		$tmp                = new stdClass;
+		$tmp                = @array_merge($tmp, $newmanufacturer_id);
 
 		$manu_arr_diff = array_diff($manufacturer_id, $newmanufacturer_id);
 
@@ -288,6 +296,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 					if (!$this->_db->query())
 					{
 						$this->setError($this->_db->getErrorMsg());
+
 						return false;
 					}
 
@@ -317,28 +326,30 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				for ($p = 0; $p < count($product_Ids); $p++)
 				{
 					$productData = $producthelper->getProductById($product_Ids[$p]->product_id);
-					$p_price = ($data['discount_type'] == 1) ? ($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) : $data['discount_amount'];
+					$p_price     = ($data['discount_type'] == 1) ? ($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) : $data['discount_amount'];
 					if ($productData->product_on_sale != 1)
 					{
 						$p_price = $producthelper->productPriceRound($p_price);
-						$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="' . $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="' . $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
+						$query   = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="' . $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="' . $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 						$this->_db->setQuery($query);
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 					}
 				}
 			}
 		}
-		$row->manufacturer_id = $row->manufacturer_id ? $row->manufacturer_id : '';
-		$row->category_id = $row->category_id ? $row->category_id : '';
+		$row->manufacturer_id  = $row->manufacturer_id ? $row->manufacturer_id : '';
+		$row->category_id      = $row->category_id ? $row->category_id : '';
 		$row->discount_product = $row->discount_product ? $row->discount_product : '';
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -347,7 +358,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 	function delete($cid = array())
 	{
-		$layout = JRequest::getVar('layout');
+		$layout        = JRequest::getVar('layout');
 		$producthelper = new producthelper();
 		if (count($cid))
 		{
@@ -367,7 +378,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				for ($c = 0; $c < count($categoryArr); $c++)
 				{
 					$product_Ids = $producthelper->getProductCategory($categoryArr[$c]);
-					$cproduct = $this->customImplode($product_Ids);
+					$cproduct    = $this->customImplode($product_Ids);
 					$this->updateProduct($cproduct);
 				}
 
@@ -375,7 +386,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				for ($mn = 0; $mn < count($manufacturerArr); $mn++)
 				{
 					$product_Ids = $this->GetProductmanufacturer($manufacturerArr[$mn]);
-					$mproduct = $this->customImplode($product_Ids);
+					$mproduct    = $this->customImplode($product_Ids);
 					$this->updateProduct($mproduct);
 				}
 			}
@@ -384,6 +395,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -398,6 +410,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		{
 			$pArr[] = $productArr[$i]->product_id;
 		}
+
 		return implode(',', $pArr);
 	}
 
@@ -409,6 +422,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 	}
@@ -417,6 +431,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -424,6 +439,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 	{
 		$query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product   WHERE manufacturer_id="' . $id . '" ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -439,6 +455,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1 and product_id =""';
 		}
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -446,6 +463,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 	{
 		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 }

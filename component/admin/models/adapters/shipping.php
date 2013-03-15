@@ -22,7 +22,7 @@ class JInstallerShipping extends JObject
 		$db =& $this->parent->getDBO();
 
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
+		$manifest       =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
 
 		// Set the extensions name
@@ -93,6 +93,7 @@ class JInstallerShipping extends JObject
 		else
 		{
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_NO_PLUGIN_FILE_OR_CLASS_NAME_SPECIFIED'));
+
 			return false;
 		}
 
@@ -109,6 +110,7 @@ class JInstallerShipping extends JObject
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_FAILED_TO_CREATE_DIRECTORY') . ': "' . $this->parent->getPath('extension_root') . '"');
+
 				return false;
 			}
 		}
@@ -128,6 +130,7 @@ class JInstallerShipping extends JObject
 		{
 			// Install failed, roll back changes
 			$this->parent->abort();
+
 			return false;
 		}
 
@@ -147,6 +150,7 @@ class JInstallerShipping extends JObject
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . $db->stderr(true));
+
 			return false;
 		}
 		$shipping_id = $db->loadResult();
@@ -159,6 +163,7 @@ class JInstallerShipping extends JObject
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_Plugin') . ' "' . $pname . '" ' . JText::_('COM_REDSHOP_ALREADY_EXISTS'));
+
 				return false;
 			}
 
@@ -166,17 +171,18 @@ class JInstallerShipping extends JObject
 		else
 		{
 			//$row =& JTable::getTable('shipping_detail'); 
-			$row =& JTable::getInstance('shipping_detail', 'Table');
-			$row->shipping_name = $this->get('name');
-			$row->shipping_class = $this->get('shipping_class');
+			$row                       =& JTable::getInstance('shipping_detail', 'Table');
+			$row->shipping_name        = $this->get('name');
+			$row->shipping_class       = $this->get('shipping_class');
 			$row->shipping_method_code = $this->get('shipping_method_code');
-			$row->published = 1;
-			$row->params = $this->parent->getParams();
-			$row->plugin = $pname;
+			$row->published            = 1;
+			$row->params               = $this->parent->getParams();
+			$row->plugin               = $pname;
 			if (!$row->store())
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . $db->stderr(true));
+
 				return false;
 			}
 
@@ -188,22 +194,25 @@ class JInstallerShipping extends JObject
 		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_COULD_NOT_COPY_SETUP_FILE'));
+
 			return false;
 		}
+
 		return true;
 	}
 
 	function uninstall($id, $clientId)
 	{
 		// Initialize variables
-		$row = null;
+		$row    = null;
 		$retval = true;
-		$db =& $this->parent->getDBO();
+		$db     =& $this->parent->getDBO();
 
 		$row =& JTable::getInstance('shipping_detail', 'Table');
 		if (!$row->load((int) $clientId))
 		{
 			JError::raiseWarning(100, JText::_('COM_REDSHOP_ERRORUNKOWNEXTENSION'));
+
 			return false;
 		}
 
@@ -219,6 +228,7 @@ class JInstallerShipping extends JObject
 			if (!$xml->loadFile($manifestFile))
 			{
 				JError::raiseWarning(100, JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Uninstall') . ': ' . JText::_('COM_REDSHOP_COULD_NOT_LOAD_MANIFEST_FILE'));
+
 				return false;
 			}
 
@@ -227,6 +237,7 @@ class JInstallerShipping extends JObject
 			if ($root->name() != 'install' && $root->name() != 'mosinstall')
 			{
 				JError::raiseWarning(100, JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Uninstall') . ': ' . JText::_('COM_REDSHOP_INVALID_MANIFEST_FILE'));
+
 				return false;
 			}
 
@@ -253,6 +264,7 @@ class JInstallerShipping extends JObject
 		JFolder::delete($this->parent->getPath('extension_root') . DS . $row->plugin);
 		//}
 		unset ($row);
+
 		return $retval;
 	}
 
@@ -266,6 +278,7 @@ class JInstallerShipping extends JObject
 			' FROM `#__' . TABLE_PREFIX . '_shipping_method`' .
 			' WHERE shipping_id=' . (int) $arg['shipping_id'];
 		$db->setQuery($query);
+
 		return ($db->query() !== false);
 	}
 }

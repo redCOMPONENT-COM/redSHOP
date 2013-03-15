@@ -28,10 +28,10 @@ class questionModelquestion extends JModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter     = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$product_id = $mainframe->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
 
 		$this->setState('limit', $limit);
@@ -44,9 +44,10 @@ class questionModelquestion extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -54,9 +55,10 @@ class questionModelquestion extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -74,14 +76,15 @@ class questionModelquestion extends JModel
 	function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
-		$list = $this->_data = $this->_getList($query);
+		$list  = $this->_data = $this->_getList($query);
+
 		return $list;
 	}
 
 	function _buildQuery()
 	{
-		$where = "";
-		$filter = $this->getState('filter');
+		$where      = "";
+		$filter     = $this->getState('filter');
 		$product_id = $this->getState('product_id');
 		if ($filter)
 		{
@@ -97,6 +100,7 @@ class questionModelquestion extends JModel
 			. "WHERE q.parent_id=0 "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -104,10 +108,11 @@ class questionModelquestion extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
+
 		return $orderby;
 	}
 
@@ -119,8 +124,8 @@ class questionModelquestion extends JModel
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('question_detail');
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$row       =& $this->getTable('question_detail');
+		$order     = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 
 		// update ordering values
@@ -136,6 +141,7 @@ class questionModelquestion extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
@@ -146,6 +152,7 @@ class questionModelquestion extends JModel
 		{
 			$row->reorder((int) $group);
 		}
+
 		return true;
 	}
 }

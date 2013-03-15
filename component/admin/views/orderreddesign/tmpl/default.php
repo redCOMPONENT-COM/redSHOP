@@ -110,7 +110,7 @@ $live_site = JURI::base();
 				}*/
 
 				$row->id = $row->order_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td class="order">

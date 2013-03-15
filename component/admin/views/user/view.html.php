@@ -20,14 +20,14 @@ class userViewuser extends JView
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-		$context = 'user_info_id';
+		$context    = 'user_info_id';
 		$userhelper = new rsUserhelper();
-		$uri = & JFactory::getURI();
-		$sync = JRequest::getVar('sync');
+		$uri        = & JFactory::getURI();
+		$sync       = JRequest::getVar('sync');
 //		$user_id = JRequest::getVar( 'user_id', '', 'request', 'string');
 //		$shipping = JRequest::getVar( 'shipping', '', 'request', 'string');
-		$spgrp_filter = JRequest::getVar('spgrp_filter', '', 'request', 'string');
-		$approved_filter = JRequest::getVar('approved_filter', '', 'request', 'string');
+		$spgrp_filter              = JRequest::getVar('spgrp_filter', '', 'request', 'string');
+		$approved_filter           = JRequest::getVar('approved_filter', '', 'request', 'string');
 		$tax_exempt_request_filter = JRequest::getVar('tax_exempt_request_filter', '', 'request', 'string');
 
 		$document = & JFactory::getDocument();
@@ -59,30 +59,30 @@ class userViewuser extends JView
 			JToolBarHelper::deleteList();
 		}
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'users_info_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$lists ['order'] = $filter_order;
+		$filter_order        = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'users_info_id');
+		$filter_order_Dir    = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
 
-		$user = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$user           = & $this->get('Data');
+		$total          = & $this->get('Total');
+		$pagination     = & $this->get('Pagination');
 		$shopper_groups = $userhelper->getShopperGroupList();
 
 //		$lists ['user_id'] = $user_id;
 //	 	$lists ['shipping'] = $shipping;
 
-		$temps = array();
+		$temps           = array();
 		$temps[0]->value = 0;
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$shopper_groups = array_merge($temps, $shopper_groups);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$shopper_groups  = array_merge($temps, $shopper_groups);
 
 		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'spgrp_filter', 'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrp_filter);
 
-		$optiontax_req = array();
-		$optiontax_req[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-		$optiontax_req[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_yes'));
-		$optiontax_req[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_no'));
+		$optiontax_req               = array();
+		$optiontax_req[]             = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
+		$optiontax_req[]             = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_yes'));
+		$optiontax_req[]             = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_no'));
 		$lists['tax_exempt_request'] = JHTML::_('select.genericlist', $optiontax_req, 'tax_exempt_request_filter', 'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $tax_exempt_request_filter);
 
 		$this->assignRef('lists', $lists);

@@ -33,16 +33,16 @@ class shipping_boxViewshipping_box extends JView
 		JToolBarHelper::unpublishList();
 
 
-		$uri =& JFactory::getURI();
-		$context = 'shipping_box_id';
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_box_id');
+		$uri              =& JFactory::getURI();
+		$context          = 'shipping_box_id';
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_box_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$shipping_box = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$shipping_box       = & $this->get('Data');
+		$total              = & $this->get('Total');
+		$pagination         = & $this->get('Pagination');
 
 
 		$this->assignRef('user', JFactory::getUser());

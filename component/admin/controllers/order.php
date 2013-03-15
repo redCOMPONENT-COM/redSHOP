@@ -25,36 +25,37 @@ class orderController extends JController
 
 	function multiprint_order()
 	{
-		$mypost = JRequest::getVar('cid');
-		$mycid = implode(",", $mypost);
-		$option = JRequest::getVar('option');
+		$mypost         = JRequest::getVar('cid');
+		$mycid          = implode(",", $mypost);
+		$option         = JRequest::getVar('option');
 		$order_function = new order_functions ();
 
 		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
 		?>
-    <script type="text/javascript">
+		<script type="text/javascript">
 			<?php if ($invoicePdf != "")
 		{
 			if (file_exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "invoice/" . $invoicePdf . ".pdf"))
 			{
 				?>
-            window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invoicePdf?>.pdf");
+			window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invoicePdf?>.pdf");
 
-				<?php
-			}
-		}   for ($i = 0; $i < count($mypost); $i++)
+			<?php
+		}
+	}   for ($i = 0; $i < count($mypost); $i++)
+	{
+		if (file_exists(JPATH_COMPONENT_SITE . DS . "assets/labels/label_" . $mypost[$i] . ".pdf"))
 		{
-			if (file_exists(JPATH_COMPONENT_SITE . DS . "assets/labels/label_" . $mypost[$i] . ".pdf"))
-			{
-				?>
-            window.open("<?php echo JURI::root()?>/components/com_redshop/assets/labels/label_<?php echo $mypost[$i]?>.pdf");
+			?>
+			window.open("<?php echo JURI::root()?>/components/com_redshop/assets/labels/label_<?php echo $mypost[$i]?>.pdf");
 
-				<?php }
-		} ?>
-        //window.open("index.php?tmpl=component&json=1&option=com_redshop&view=order&layout=multiprint_order&cid=<?php echo $mycid?>","mywindow","scrollbars=1","location=1");
-        window.parent.location = 'index.php?option=com_redshop&view=order';
-    </script>
-	<?php
+			<?php }
+	} ?>
+			//window.open("index.php?tmpl=component&json=1&option=com_redshop&view=order&layout=multiprint_order&cid=
+			<?php echo $mycid?>","mywindow","scrollbars=1","location=1");
+			window.parent.location = 'index.php?option=com_redshop&view=order';
+		</script>
+		<?php
 
 		//$this->setRedirect ( 'index.php?option=com_redshop&view=order');
 	}
@@ -78,9 +79,9 @@ class orderController extends JController
 
 	function allstatus()
 	{
-		$session =& JFactory::getSession();
-		$post = JRequest::get('post');
-		$option = $post['option'];
+		$session           =& JFactory::getSession();
+		$post              = JRequest::get('post');
+		$option            = $post['option'];
 		$merge_invoice_arr = array();
 
 		$session->clear('updateOrderIdPost');
@@ -88,18 +89,19 @@ class orderController extends JController
 		$session->set('merge_invoice_arr', $merge_invoice_arr);
 
 		$this->setRedirect('index.php?option=' . $option . '&view=order&layout=previewlog');
+
 		return;
 	}
 
 	function updateOrderStatus()
 	{
-		$session =& JFactory::getSession();
-		$post = $session->get('updateOrderIdPost');
+		$session           =& JFactory::getSession();
+		$post              = $session->get('updateOrderIdPost');
 		$merge_invoice_arr = $session->get('merge_invoice_arr');
 		$rand_invoice_name = JRequest::getVar('rand_invoice_name', '');
-		$order_functions = new order_functions();
-		$cnt = JRequest::getInt('cnt', 0);
-		$order_id = $post['cid'];
+		$order_functions   = new order_functions();
+		$cnt               = JRequest::getInt('cnt', 0);
+		$order_id          = $post['cid'];
 
 		$responcemsg = "";
 		for ($i = $cnt, $j = 0; $j < 1; $j++)
@@ -107,7 +109,7 @@ class orderController extends JController
 			if (!isset($order_id[$i]))
 			{
 
-				$pdf = new PDFMerger;
+				$pdf               = new PDFMerger;
 				$merge_invoice_arr = $session->get('merge_invoice_arr');
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
@@ -129,7 +131,7 @@ class orderController extends JController
 
 				}
 
-				$session->set('merge_invoice_arr', NULL);
+				$session->set('merge_invoice_arr', null);
 				break;
 			}
 			$returnmsg = $order_functions->orderStatusUpdate($order_id[$i], $post);
@@ -152,7 +154,7 @@ class orderController extends JController
 				$pdfObj->AddPage();
 				$pdfObj->WriteHTML($invoice, true, false, true, false, '');
 				//$rand= rand();
-				$invoice_pdfName = "shipped_" . $order_id[$i];
+				$invoice_pdfName     = "shipped_" . $order_id[$i];
 				$merge_invoice_arr[] = $order_id[$i];
 				$session->set('merge_invoice_arr', $merge_invoice_arr);
 				$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
@@ -179,20 +181,20 @@ class orderController extends JController
 
 	function bookInvoice()
 	{
-		$post = JRequest::get('post');
+		$post            = JRequest::get('post');
 		$bookInvoiceDate = $post ['bookInvoiceDate'];
-		$order_id = JRequest::getCmd('order_id');
-		$ecomsg = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
+		$order_id        = JRequest::getCmd('order_id');
+		$ecomsg          = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic ();
+			$economic       = new economic ();
 			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, 0, $bookInvoiceDate);
 			if (is_file($bookinvoicepdf))
 			{
 				$redshopMail = new redshopMail ();
-				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
-				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				$ecomsg      = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
+				$ret         = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 		// End Economic
@@ -203,37 +205,37 @@ class orderController extends JController
 	{
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
-			$order_id = JRequest::getCmd('order_id');
+			$order_id       = JRequest::getCmd('order_id');
 			$order_function = new order_functions ();
-			$paymentInfo = $order_function->getOrderPaymentDetail($order_id);
+			$paymentInfo    = $order_function->getOrderPaymentDetail($order_id);
 			if (count($paymentInfo) > 0)
 			{
 				$payment_name = $paymentInfo[0]->payment_method_class;
-				$paymentArr = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+				$paymentArr   = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
 				if (count($paymentArr) > 0)
 				{
 					$payment_name = $paymentArr[1];
 				}
 				$economicdata['economic_payment_method'] = $payment_name;
-				$paymentmethod = $order_function->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+				$paymentmethod                           = $order_function->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 				if (count($paymentmethod) > 0)
 				{
-					$paymentparams = new JRegistry($paymentmethod[0]->params);
+					$paymentparams                             = new JRegistry($paymentmethod[0]->params);
 					$economicdata['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-					$economicdata['economic_design_layout'] = $paymentparams->get('economic_design_layout');
-					$economicdata['economic_is_creditcard'] = $paymentparams->get('is_creditcard');
+					$economicdata['economic_design_layout']    = $paymentparams->get('economic_design_layout');
+					$economicdata['economic_is_creditcard']    = $paymentparams->get('is_creditcard');
 				}
 			}
-			$economic = new economic ();
+			$economic                       = new economic ();
 			$economicdata ['split_payment'] = 0;
-			$invoiceHandle = $economic->createInvoiceInEconomic($order_id, $economicdata);
+			$invoiceHandle                  = $economic->createInvoiceInEconomic($order_id, $economicdata);
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 1);
 				if (is_file($bookinvoicepdf))
 				{
 					$redshopMail = new redshopMail ();
-					$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					$ret         = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -252,19 +254,19 @@ class orderController extends JController
 		}
 		# End
 
-		$producthelper = new producthelper ();
+		$producthelper  = new producthelper ();
 		$order_function = new order_functions ();
-		$model = $this->getModel('order');
-		$data = $model->export_data();
-		$product_count = array();
-		$db = JFactory::getDBO();
+		$model          = $this->getModel('order');
+		$data           = $model->export_data();
+		$product_count  = array();
+		$db             = JFactory::getDBO();
 
 		$order_id = array();
 
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid      = JRequest::getVar('cid', array(0), 'method', 'array');
 		$order_id = implode(',', $cid);
-		$where = "";
+		$where    = "";
 		if ($order_id != 0)
 		{
 			//$where .= " where order_id IN (".$order_id.") ";
@@ -388,20 +390,20 @@ class orderController extends JController
 		}
 		# End
 
-		$producthelper = new producthelper ();
+		$producthelper  = new producthelper ();
 		$order_function = new order_functions ();
-		$model = $this->getModel('order');
+		$model          = $this->getModel('order');
 
 		$product_count = array();
-		$db = JFactory::getDBO();
+		$db            = JFactory::getDBO();
 
 		$order_id = array();
 
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$data = $model->export_data($cid);
+		$cid      = JRequest::getVar('cid', array(0), 'method', 'array');
+		$data     = $model->export_data($cid);
 		$order_id = implode(',', $cid);
-		$where = "";
+		$where    = "";
 		if ($order_id != 0)
 		{
 			$where .= " where order_id IN (" . $order_id . ") ";
@@ -446,8 +448,8 @@ class orderController extends JController
 			echo $data [$i]->firstname . " " . $data [$i]->lastname . ",";
 			echo $data [$i]->user_email . ",";
 			echo $data [$i]->phone . ",";
-			$user_address = str_replace(",", "<br/>", $data [$i]->address);
-			$user_address = strip_tags($user_address);
+			$user_address          = str_replace(",", "<br/>", $data [$i]->address);
+			$user_address          = strip_tags($user_address);
 			$user_shipping_address = str_replace(",", "<br/>", $shipping_address->address);
 			$user_shipping_address = strip_tags($user_shipping_address);
 
@@ -506,11 +508,11 @@ class orderController extends JController
 
 	function generateParcel()
 	{
-		$order_function = new order_functions ();
-		$post = JRequest::get('post');
+		$order_function    = new order_functions ();
+		$post              = JRequest::get('post');
 		$specifiedSendDate = $post ['specifiedSendDate'];
-		$db = JFactory::getDBO();
-		$order_id = JRequest::getCmd('order_id');
+		$db                = JFactory::getDBO();
+		$order_id          = JRequest::getCmd('order_id');
 
 		$generate_label = $order_function->generateParcel($order_id, $specifiedSendDate);
 		if ($generate_label == "success")
@@ -527,9 +529,9 @@ class orderController extends JController
 	function download_token()
 	{
 
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel();
 
@@ -541,19 +543,19 @@ class orderController extends JController
 			$download_id = $download_id_arr [$i];
 
 			$product_download_infinite_var = 'product_download_infinite_' . $download_id;
-			$product_download_infinite = $post [$product_download_infinite_var];
+			$product_download_infinite     = $post [$product_download_infinite_var];
 
 			$limit_var = 'limit_' . $download_id;
-			$limit = $post [$limit_var];
+			$limit     = $post [$limit_var];
 
 			$days_var = 'days_' . $download_id;
-			$days = $post [$days_var];
+			$days     = $post [$days_var];
 
 			$clock_var = 'clock_' . $download_id;
-			$clock = $post [$clock_var];
+			$clock     = $post [$clock_var];
 
 			$clock_min_var = 'clock_min_' . $download_id;
-			$clock_min = $post [$clock_min_var];
+			$clock_min     = $post [$clock_min_var];
 
 			$days = (date("H") > $clock && $days == 0) ? 1 : $days;
 
@@ -573,14 +575,14 @@ class orderController extends JController
 
 	function gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid   = JRequest::getVar('cid', array(0), 'method', 'array');
 		$model = $this->getModel();
 		$model->gls_export($cid);
 	}
 
 	function business_gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid   = JRequest::getVar('cid', array(0), 'method', 'array');
 		$model = $this->getModel();
 		$model->business_gls_export($cid);
 	}

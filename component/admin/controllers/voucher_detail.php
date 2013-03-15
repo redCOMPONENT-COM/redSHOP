@@ -36,16 +36,16 @@ class voucher_detailController extends JController
 	function save($apply = 0)
 	{
 		global $mainframe;
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post               = JRequest::get('post');
+		$option             = JRequest::getVar('option', '', 'request', 'string');
+		$cid                = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post['start_date'] = strtotime($post['start_date']);
 
 		if ($post ['end_date'])
 			$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
 
 		$post ['voucher_id'] = $cid[0];
-		$model = $this->getModel('voucher_detail');
+		$model               = $this->getModel('voucher_detail');
 		if ($post['old_voucher_code'] != $post['voucher_code'])
 		{
 			$code = $model->checkduplicate($post['voucher_code']);
@@ -144,7 +144,7 @@ class voucher_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
 	}
 

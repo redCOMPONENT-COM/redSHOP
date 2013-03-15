@@ -54,7 +54,7 @@ $end = $this->pagination->limit;
 				<?php
 				}
 				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
-				if ($row->product_id != NULL)
+				if ($row->product_id != null)
 				{
 					?>
 					<tr>

@@ -38,9 +38,9 @@ class tax_detailModeltax_detail extends JModel
 
 	function setId($id, $_tax_group_id)
 	{
-		$this->_id = $id;
+		$this->_id           = $id;
 		$this->_tax_group_id = $_tax_group_id;
-		$this->_data = null;
+		$this->_data         = null;
 	}
 
 	function &getData()
@@ -65,8 +65,10 @@ class tax_detailModeltax_detail extends JModel
 				. ' WHERE tr.tax_rate_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -75,13 +77,13 @@ class tax_detailModeltax_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->tax_rate_id = 0;
-			$detail->tax_state = null;
-			$detail->tax_country = null;
-			$detail->mdate = 0;
-			$detail->tax_rate = null;
-			$detail->tax_group_id = $this->_tax_group_id;
+			$detail                = new stdClass();
+			$detail->tax_rate_id   = 0;
+			$detail->tax_state     = null;
+			$detail->tax_country   = null;
+			$detail->mdate         = 0;
+			$detail->tax_rate      = null;
+			$detail->tax_group_id  = $this->_tax_group_id;
 			$detail->is_eu_country = 0;
 
 			$this->_data = $detail;
@@ -99,12 +101,14 @@ class tax_detailModeltax_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -122,6 +126,7 @@ class tax_detailModeltax_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}

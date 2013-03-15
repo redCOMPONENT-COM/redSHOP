@@ -30,16 +30,16 @@ class prices_detailController extends JController
 
 	function save()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$product_id = JRequest::getVar('product_id');
+		$post                 = JRequest::get('post');
+		$option               = JRequest::getVar('option');
+		$product_id           = JRequest::getVar('product_id');
 		$price_quantity_start = JRequest::getVar('price_quantity_start');
-		$price_quantity_end = JRequest::getVar('price_quantity_end');
+		$price_quantity_end   = JRequest::getVar('price_quantity_end');
 
 		$post['product_currency'] = CURRENCY_CODE;
-		$post['cdate'] = time(); //date("Y-m-d");
+		$post['cdate']            = time(); //date("Y-m-d");
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid               = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['price_id'] = $cid [0];
 
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
@@ -85,9 +85,9 @@ class prices_detailController extends JController
 	function remove()
 	{
 
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid        = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -106,7 +106,7 @@ class prices_detailController extends JController
 	function cancel()
 	{
 
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');

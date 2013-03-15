@@ -11,13 +11,13 @@ JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 
-$model = $this->getModel('product_container');
-$lists = $this->lists;
-$filter_container = $this->filter_container;
+$model               = $this->getModel('product_container');
+$lists               = $this->lists;
+$filter_container    = $this->filter_container;
 $filter_manufacturer = $this->filter_manufacturer;
-$container = JRequest::getVar('container', '', 'request', 0);
-$showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);
-$print_display = JRequest::getVar('print_display', '', 'request', 0);
+$container           = JRequest::getVar('container', '', 'request', 0);
+$showbuttons         = JRequest::getVar('showbuttons', '', 'request', 0);
+$print_display       = JRequest::getVar('print_display', '', 'request', 0);
 
 
 $print_link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_container&showbuttons=1&container=' . $container . '&filter_manufacturer=' . $filter_manufacturer . '&filter_container=' . $filter_container);
@@ -71,7 +71,8 @@ if ($showbuttons != 1 && $print_display != 1)
 
 		<div id="editcell">
 			<?php if ($showbuttons != 1)
-			{ ?>
+			{
+				?>
 				<table class="adminlist">
 					<tr>
 						<td valign="top" align="right" class="key">
@@ -139,7 +140,7 @@ if ($showbuttons != 1 && $print_display != 1)
 					$row = & $this->products[$i];
 					//var_dump($row);
 					$row->id = $row->product_id;
-					$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+					$link    = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 					$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -213,7 +214,8 @@ if ($showbuttons != 1 && $print_display != 1)
 					</td>
 				</tr>
 				<?php if ($showbuttons != 1)
-				{ ?>
+				{
+					?>
 					<tfoot>
 					<td colspan="12">
 						<?php echo $this->pagination->getListFooter(); ?>
@@ -225,7 +227,8 @@ if ($showbuttons != 1 && $print_display != 1)
 			</table>
 		</div>
 		<?php if ($print_display != 1)
-		{ ?>
+		{
+			?>
 			<input type="hidden" name="view" value="product_container"/>
 			<input type="hidden" name="task" value=""/>
 			<input type="hidden" name="boxchecked" value="0"/>

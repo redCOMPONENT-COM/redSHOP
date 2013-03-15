@@ -30,12 +30,12 @@ class user_detailModeluser_detail extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_context = 'order_id';
+		$this->_context      = 'order_id';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array      = JRequest::getVar('cid', 0, '', 'array');
 		$this->_uid = JRequest::getVar('user_id', 0);
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
@@ -45,7 +45,7 @@ class user_detailModeluser_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -55,6 +55,7 @@ class user_detailModeluser_detail extends JModel
 		{
 		}
 		else  $this->_initData();
+
 		return $this->_data;
 	}
 
@@ -63,7 +64,7 @@ class user_detailModeluser_detail extends JModel
 		if (empty($this->_data))
 		{
 			$this->_uid = 0;
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
+			$query      = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
 				. 'LEFT JOIN #__users as u on u.id = uf.user_id '
 				. 'WHERE users_info_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
@@ -76,8 +77,10 @@ class user_detailModeluser_detail extends JModel
 			{
 				$this->_data->email = $this->_data->user_email;
 			}
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -87,43 +90,43 @@ class user_detailModeluser_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->users_info_id = 0;
-			$detail->user_id = 0;
-			$detail->id = 0;
-			$detail->gid = null;
-			$detail->name = null;
-			$detail->username = null;
-			$detail->email = null;
-			$detail->password = null;
-			$detail->usertype = null;
-			$detail->block = null;
-			$detail->sendEmail = null;
-			$detail->registerDate = null;
-			$detail->lastvisitDate = null;
-			$detail->activation = null;
-			$detail->is_company = null;
-			$detail->firstname = null;
-			$detail->lastname = null;
-			$detail->contact_info = null;
-			$detail->address_type = null;
-			$detail->company_name = null;
-			$detail->vat_number = null;
-			$detail->tax_exempt = 0;
-			$detail->country_code = null;
-			$detail->state_code = null;
-			$detail->shopper_group_id = null;
-			$detail->published = 1;
-			$detail->address = null;
-			$detail->city = null;
-			$detail->zipcode = null;
-			$detail->phone = null;
+			$detail->users_info_id         = 0;
+			$detail->user_id               = 0;
+			$detail->id                    = 0;
+			$detail->gid                   = null;
+			$detail->name                  = null;
+			$detail->username              = null;
+			$detail->email                 = null;
+			$detail->password              = null;
+			$detail->usertype              = null;
+			$detail->block                 = null;
+			$detail->sendEmail             = null;
+			$detail->registerDate          = null;
+			$detail->lastvisitDate         = null;
+			$detail->activation            = null;
+			$detail->is_company            = null;
+			$detail->firstname             = null;
+			$detail->lastname              = null;
+			$detail->contact_info          = null;
+			$detail->address_type          = null;
+			$detail->company_name          = null;
+			$detail->vat_number            = null;
+			$detail->tax_exempt            = 0;
+			$detail->country_code          = null;
+			$detail->state_code            = null;
+			$detail->shopper_group_id      = null;
+			$detail->published             = 1;
+			$detail->address               = null;
+			$detail->city                  = null;
+			$detail->zipcode               = null;
+			$detail->phone                 = null;
 			$detail->requesting_tax_exempt = 0;
-			$detail->tax_exempt_approved = 0;
-			$detail->approved = 1;
-			$detail->ean_number = null;
+			$detail->tax_exempt_approved   = 0;
+			$detail->approved              = 1;
+			$detail->ean_number            = null;
 //			$detail->requisition_number			= null;
 
-			$info_id = JRequest::getVar('info_id', 0);
+			$info_id  = JRequest::getVar('info_id', 0);
 			$shipping = JRequest::getVar('shipping', 0);
 			if ($shipping)
 			{
@@ -133,22 +136,24 @@ class user_detailModeluser_detail extends JModel
 				$this->_db->setQuery($query);
 				$bill_data = $this->_db->loadObject();
 
-				$detail->id = $detail->user_id = $this->_uid = $bill_data->user_id;
-				$detail->email = $bill_data->user_email;
-				$detail->is_company = $bill_data->is_company;
-				$detail->company_name = $bill_data->company_name;
-				$detail->vat_number = $bill_data->vat_number;
-				$detail->tax_exempt = $bill_data->tax_exempt;
-				$detail->shopper_group_id = $bill_data->shopper_group_id;
+				$detail->id                    = $detail->user_id = $this->_uid = $bill_data->user_id;
+				$detail->email                 = $bill_data->user_email;
+				$detail->is_company            = $bill_data->is_company;
+				$detail->company_name          = $bill_data->company_name;
+				$detail->vat_number            = $bill_data->vat_number;
+				$detail->tax_exempt            = $bill_data->tax_exempt;
+				$detail->shopper_group_id      = $bill_data->shopper_group_id;
 				$detail->requesting_tax_exempt = $bill_data->requesting_tax_exempt;
-				$detail->tax_exempt_approved = $bill_data->tax_exempt_approved;
-				$detail->ean_number = $bill_data->ean_number;
+				$detail->tax_exempt_approved   = $bill_data->tax_exempt_approved;
+				$detail->ean_number            = $bill_data->ean_number;
 //				$detail->requisition_number			= $bill_data->requisition_number;
 			}
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -166,12 +171,12 @@ class user_detailModeluser_detail extends JModel
 		$redshopMail = new redshopMail();
 		// Start data into user table
 		// Initialize some variables
-		$db = & JFactory::getDBO();
-		$me = & JFactory::getUser();
+		$db  = & JFactory::getDBO();
+		$me  = & JFactory::getUser();
 		$acl = & JFactory::getACL();
 
 		// Create a new JUser object
-		$user = new JUser($post['id']);
+		$user         = new JUser($post['id']);
 		$original_gid = $user->get('gid');
 
 		//$post['username']	= JRequest::getVar('username', '', 'post', 'username');
@@ -185,35 +190,40 @@ class user_detailModeluser_detail extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
 			$mainframe->enqueueMessage($user->getError(), 'error');
+
 			return false;
 		}
 
-		$objectID = $acl->get_object_id('users', $user->get('id'), 'ARO');
-		$groups = $acl->get_object_groups($objectID, 'ARO');
+		$objectID   = $acl->get_object_id('users', $user->get('id'), 'ARO');
+		$groups     = $acl->get_object_groups($objectID, 'ARO');
 		$this_group = strtolower($acl->get_group_name($groups[0], 'ARO'));
 
 		if ($user->get('id') == $me->get('id') && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_YOURSELF');
 			$mainframe->enqueueMessage($msg, 'message');
+
 			return false;
 		}
 		else if (($this_group == 'super administrator') && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_A_SUPER_ADMINISTRATOR');
 			$mainframe->enqueueMessage($msg, 'message');
+
 			return false;
 		}
 		else if (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_WARNBLOCK');
 			$mainframe->enqueueMessage($msg, 'message');
+
 			return false;
 		}
 		else if (($this_group == 'super administrator') && ($me->get('gid') != 25))
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_EDIT_A_SUPER_ADMINISTRATOR_ACCOUNT');
 			$mainframe->enqueueMessage($msg, 'message');
+
 			return false;
 		}
 
@@ -236,6 +246,7 @@ class user_detailModeluser_detail extends JModel
 				{
 					// disallow change if only one Super Admin exists
 					$this->setRedirect('index.php?option=' . $option . '&view=user', JText::_('COM_REDSHOP_WARN_ONLY_SUPER'));
+
 					return false;
 				}
 			}
@@ -247,6 +258,7 @@ class user_detailModeluser_detail extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
 			$mainframe->enqueueMessage($user->getError(), 'error');
+
 			return false;
 		}
 		/*
@@ -295,9 +307,9 @@ class user_detailModeluser_detail extends JModel
 
 		$userhelper = new rsUserhelper();
 
-		$shipping = isset($post["shipping"]) ? true : false;
+		$shipping              = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
-		$post['user_email'] = $post['email1'] = $post['email'];
+		$post['user_email']    = $post['email1'] = $post['email'];
 
 
 		$post['billisship'] = 1;
@@ -320,33 +332,34 @@ class user_detailModeluser_detail extends JModel
 	{
 		$userhelper = new rsUserhelper();
 
-		$shipping = isset($post["shipping"]) ? true : false;
+		$shipping              = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
-		$post['user_email'] = $post['email1'] = $post['email'];
+		$post['user_email']    = $post['email1'] = $post['email'];
 
 		if ($shipping)
 		{
 			$post['country_code_ST'] = $post['country_code'];
-			$post['state_code_ST'] = $post['state_code'];
-			$post['firstname_ST'] = $post['firstname'];
-			$post['lastname_ST'] = $post['lastname'];
-			$post['address_ST'] = $post['address'];
-			$post['city_ST'] = $post['city'];
-			$post['zipcode_ST'] = $post['zipcode'];
-			$post['phone_ST'] = $post['phone'];
+			$post['state_code_ST']   = $post['state_code'];
+			$post['firstname_ST']    = $post['firstname'];
+			$post['lastname_ST']     = $post['lastname'];
+			$post['address_ST']      = $post['address'];
+			$post['city_ST']         = $post['city'];
+			$post['zipcode_ST']      = $post['zipcode'];
+			$post['phone_ST']        = $post['phone'];
 
 			$reduser = $userhelper->storeRedshopUserShipping($post);
 		}
 		else
 		{
 			$post['billisship'] = 1;
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser         = $userhelper->updateJoomlaUser($post);
 			if (!$joomlauser)
 			{
 				return false;
 			}
 			$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
 		}
+
 		return $reduser;
 	}
 
@@ -354,15 +367,17 @@ class user_detailModeluser_detail extends JModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -379,9 +394,11 @@ class user_detailModeluser_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -390,6 +407,7 @@ class user_detailModeluser_detail extends JModel
 		$query = "SELECT username FROM #__users WHERE username='" . $user . "' AND id !=" . $uid;
 		$this->_db->setQuery($query);
 		$users = $this->_db->loadObjectList();
+
 		return count($users);
 	}
 
@@ -398,13 +416,15 @@ class user_detailModeluser_detail extends JModel
 		$query = "SELECT email FROM #__users WHERE email = '" . $email . "' AND id !=" . $uid;
 		$this->_db->setQuery($query);
 		$emails = $this->_db->loadObjectList();
+
 		return count($emails);
 	}
 
 	function userOrders()
 	{
 		$query = $this->_buildUserorderQuery();
-		$list = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		$list  = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
 		return $list;
 	}
 
@@ -413,6 +433,7 @@ class user_detailModeluser_detail extends JModel
 		$query = "SELECT * FROM `" . $this->_table_prefix . "orders` "
 			. "WHERE `user_id`='" . $this->_uid . "' "
 			. "ORDER BY order_id DESC ";
+
 		return $query;
 	}
 
@@ -420,8 +441,9 @@ class user_detailModeluser_detail extends JModel
 	{
 		if ($this->_id)
 		{
-			$query = $this->_buildUserorderQuery();
+			$query        = $this->_buildUserorderQuery();
 			$this->_total = $this->_getListCount($query);
+
 			return $this->_total;
 		}
 	}
@@ -433,6 +455,7 @@ class user_detailModeluser_detail extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 }

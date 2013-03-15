@@ -36,8 +36,8 @@ class newsletter_detailController extends JController
 	function save($apply = 0)
 	{
 
-		$post = JRequest::get('post');
-		$body = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post         = JRequest::get('post');
+		$body         = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["body"] = $body;
 
 
@@ -73,7 +73,7 @@ class newsletter_detailController extends JController
 
 		$option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid  = JRequest::getVar('cid', array(0), 'post', 'array');
 		$msg1 = "";
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -149,15 +149,15 @@ class newsletter_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
 	}
 
 	function copy()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('newsletter_detail');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('newsletter_detail');
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_COPIED_WITH_SUBSCRIBER');

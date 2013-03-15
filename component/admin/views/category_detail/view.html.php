@@ -17,14 +17,14 @@ class category_detailVIEWcategory_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$redTemplate = new Redtemplate();
+		$redTemplate      = new Redtemplate();
 		$product_category = new product_category();
-		$producthelper = new producthelper();
+		$producthelper    = new producthelper();
 
 		$option = JRequest::getVar('option');
 		$this->setLayout('default');
-		$uri =& JFactory::getURI();
-		$model = $this->getModel('category_detail');
+		$uri        =& JFactory::getURI();
+		$model      = $this->getModel('category_detail');
 		$categories = $model->getcategories();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT_DETAIL'), 'redshop_categories48');
@@ -48,8 +48,8 @@ class category_detailVIEWcategory_detail extends JView
 		$document->addScript('components/com_redshop/assets/js/related.js');
 
 		$detail =& $this->get('data');
-		$isNew = ($detail->category_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->category_name . " - " . JText::_('COM_REDSHOP_EDIT');
+		$isNew  = ($detail->category_id < 1);
+		$text   = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->category_name . " - " . JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_categories48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
@@ -87,16 +87,16 @@ class category_detailVIEWcategory_detail extends JView
 
 		$append_to_global_seo = array();
 		//	$append_to_global_seo[] = JHTML::_('select.option','select',JText::_( 'SELECT') );
-		$append_to_global_seo[] = JHTML::_('select.option', 'append', JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
-		$append_to_global_seo[] = JHTML::_('select.option', 'prepend', JText::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO'));
-		$append_to_global_seo[] = JHTML::_('select.option', 'replace', JText::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO'));
+		$append_to_global_seo[]        = JHTML::_('select.option', 'append', JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
+		$append_to_global_seo[]        = JHTML::_('select.option', 'prepend', JText::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO'));
+		$append_to_global_seo[]        = JHTML::_('select.option', 'replace', JText::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO'));
 		$lists['append_to_global_seo'] = JHTML::_('select.genericlist', $append_to_global_seo, 'append_to_global_seo', 'class="inputbox" size="1" ', 'value', 'text', $detail->append_to_global_seo);
 
 		//merging select option in the select box
-		$temps = array();
-		$temps[0]->template_id = 0;
-		$temps[0]->template_name = JText::_('COM_REDSHOP_SELECT');
-		$templates = @array_merge($temps, $templates);
+		$temps                      = array();
+		$temps[0]->template_id      = 0;
+		$temps[0]->template_name    = JText::_('COM_REDSHOP_SELECT');
+		$templates                  = @array_merge($temps, $templates);
 		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'$detail->category_id\',\'2\');" ', 'template_id', 'template_name', $detail->category_template);
 
 		// End
@@ -105,16 +105,16 @@ class category_detailVIEWcategory_detail extends JView
 		 * from helper/category.php
 		 * get select box for select category parent Id
 		 */
-		$categories = $product_category->list_all("category_parent_id", $detail->category_id);
+		$categories          = $product_category->list_all("category_parent_id", $detail->category_id);
 		$lists['categories'] = $categories;
 		// End
 
 		//Select box for ProductCompareTemplate
-		$comparetemplate = $redTemplate->getTemplate('compare_product');
-		$temp = array();
-		$temp[0]->template_id = 0;
-		$temp[0]->template_name = JText::_('COM_REDSHOP_SELECT');
-		$comparetemplate = @array_merge($temp, $comparetemplate);
+		$comparetemplate              = $redTemplate->getTemplate('compare_product');
+		$temp                         = array();
+		$temp[0]->template_id         = 0;
+		$temp[0]->template_name       = JText::_('COM_REDSHOP_SELECT');
+		$comparetemplate              = @array_merge($temp, $comparetemplate);
 		$lists['compare_template_id'] = JHTML::_('select.genericlist', $comparetemplate, 'compare_template_id', 'class="inputbox" size="1" ', 'template_id', 'template_name', $detail->compare_template_id);
 
 

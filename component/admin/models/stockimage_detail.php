@@ -21,13 +21,13 @@ class stockimage_detailModelstockimage_detail extends JModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -37,6 +37,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 		{
 		}
 		else  $this->_initData();
+
 		return $this->_data;
 	}
 
@@ -48,8 +49,10 @@ class stockimage_detailModelstockimage_detail extends JModel
 				. 'WHERE stock_amount_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -58,32 +61,34 @@ class stockimage_detailModelstockimage_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->stock_amount_id = 0;
-			$detail->stockroom_id = 0;
-			$detail->stock_option = null;
-			$detail->stock_quantity = 0;
-			$detail->stock_amount_image = null;
+			$detail                             = new stdClass();
+			$detail->stock_amount_id            = 0;
+			$detail->stockroom_id               = 0;
+			$detail->stock_option               = null;
+			$detail->stock_quantity             = 0;
+			$detail->stock_amount_image         = null;
 			$detail->stock_amount_image_tooltip = null;
-			$this->_data = $detail;
+			$this->_data                        = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
 	function store($data)
 	{
-		$row =& $this->getTable('stockimage_detail');
+		$row  =& $this->getTable('stockimage_detail');
 		$file =& JRequest::getVar('stock_amount_image', '', 'files', 'array');
 		if ($_FILES['stock_amount_image']['name'] != "")
 		{
-			$ext = explode(".", $file['name']);
+			$ext         = explode(".", $file['name']);
 			$filetmpname = substr($file['name'], 0, strlen($file['name']) - strlen($ext[count($ext) - 1]));
 
-			$filename = JPath::clean(time() . '_' . $filetmpname . "jpg"); //Make the filename unique
+			$filename                = JPath::clean(time() . '_' . $filetmpname . "jpg"); //Make the filename unique
 			$row->stock_amount_image = $filename;
 
-			$src = $file['tmp_name'];
+			$src  = $file['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $filename;
 			JFile::upload($src, $dest);
 
@@ -95,13 +100,16 @@ class stockimage_detailModelstockimage_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -129,15 +137,17 @@ class stockimage_detailModelstockimage_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
 	function getStockAmountOption($select = 0)
 	{
-		$option = array();
+		$option   = array();
 		$option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
 		$option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
@@ -146,6 +156,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 		{
 			$option = $option[$select]->text;
 		}
+
 		return $option;
 	}
 
@@ -154,6 +165,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 		$query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 

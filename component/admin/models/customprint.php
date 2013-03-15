@@ -27,9 +27,10 @@ class customprintModelcustomprint extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query);
 		}
+
 		return $this->_data;
 	}
 
@@ -37,6 +38,7 @@ class customprintModelcustomprint extends JModel
 	{
 		$where = " where folder='redshop_custom_views' and published=1";
 		$query = ' SELECT p.* FROM ' . $this->_table_prefix . 'plugins p' . $where;
+
 		return $query;
 	}
 

@@ -39,8 +39,8 @@ class manufacturer_detailController extends JController
 	function save($apply = 0)
 	{
 
-		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
-		$manufacturer_desc = JRequest::getVar('manufacturer_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post                      = JRequest::get('post', JREQUEST_ALLOWRAW);
+		$manufacturer_desc         = JRequest::getVar('manufacturer_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["manufacturer_desc"] = $manufacturer_desc;
 
 		$option = JRequest::getVar('option');
@@ -148,7 +148,7 @@ class manufacturer_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
 	}
 
@@ -202,7 +202,7 @@ class manufacturer_detailController extends JController
 	function orderdown()
 	{
 		$option = JRequest::getVar('option');
-		$model = $this->getModel('manufacturer_detail');
+		$model  = $this->getModel('manufacturer_detail');
 		$model->move(1);
 		//$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -219,7 +219,7 @@ class manufacturer_detailController extends JController
 	{
 		$option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid   = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 
 		JArrayHelper::toInteger($cid);

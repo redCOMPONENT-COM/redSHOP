@@ -36,18 +36,18 @@ class paymentViewpayment extends JView
 		JToolBarHelper::unpublishList();
 
 
-		$uri =& JFactory::getURI();
-		$context = 'payment';
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
+		$uri              =& JFactory::getURI();
+		$context          = 'payment';
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$payment_section = $mainframe->getUserStateFromRequest($context . 'payment_section', 'payment_section', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$payments = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$payments           = & $this->get('Data');
+		$total              = & $this->get('Total');
+		$pagination         = & $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('payments', $payments);

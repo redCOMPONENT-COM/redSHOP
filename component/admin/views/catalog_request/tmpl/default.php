@@ -77,10 +77,10 @@ $Redconfiguration = new Redconfiguration();?>
 			$k = 0;
 			for ($i = 0, $n = count($this->catalog); $i < $n; $i++)
 			{
-				$row = & $this->catalog[$i];
-				$row->id = $row->catalog_user_id;
+				$row            = & $this->catalog[$i];
+				$row->id        = $row->catalog_user_id;
 				$row->published = $row->block;
-				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
+				$published      = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
 				$reminder1 = JHtml::_('jgrid.published', $row->reminder_1, $i, '', 1);
 				$reminder2 = JHtml::_('jgrid.published', $row->reminder_2, $i, '', 1);

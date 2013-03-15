@@ -24,14 +24,14 @@ class opsearchModelopsearch extends JModel
 
 		global $mainframe;
 
-		$this->_context = 'order_item_name';
+		$this->_context      = 'order_item_name';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$filter_user = $mainframe->getUserStateFromRequest($this->_context . 'filter_user', 'filter_user', 0);
-		$filter_product = $mainframe->getUserStateFromRequest($this->_context . 'filter_product', 'filter_product', 0);
-		$filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$filter_user         = $mainframe->getUserStateFromRequest($this->_context . 'filter_user', 'filter_user', 0);
+		$filter_product      = $mainframe->getUserStateFromRequest($this->_context . 'filter_product', 'filter_product', 0);
+		$filter_status       = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', 0);
 
 		$this->setState('filter_user', $filter_user);
 		$this->setState('filter_product', $filter_product);
@@ -44,9 +44,10 @@ class opsearchModelopsearch extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -57,6 +58,7 @@ class opsearchModelopsearch extends JModel
 		{
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -67,15 +69,16 @@ class opsearchModelopsearch extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$filter_user = $this->getState('filter_user', '');
+		$orderby        = $this->_buildContentOrderBy();
+		$filter_user    = $this->getState('filter_user', '');
 		$filter_product = $this->getState('filter_product', '');
-		$filter_status = $this->getState('filter_status', '');
+		$filter_status  = $this->getState('filter_status', '');
 
 		$where = '';
 		if ($filter_user)
@@ -95,6 +98,7 @@ class opsearchModelopsearch extends JModel
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -102,7 +106,7 @@ class opsearchModelopsearch extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'order_item_name');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'order_item_name');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
@@ -112,12 +116,12 @@ class opsearchModelopsearch extends JModel
 
 	function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$query = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM " . $this->_table_prefix . "users_info AS uf "
+		$query              = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM " . $this->_table_prefix . "users_info AS uf "
 			. "WHERE uf.address_type='BT' "
 			. "ORDER BY text ";
-		$userlist = $this->_getList($query);
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_USER') . ' -');
-		$types = array_merge($types, $userlist);
+		$userlist           = $this->_getList($query);
+		$types[]            = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_USER') . ' -');
+		$types              = array_merge($types, $userlist);
 		$mylist['userlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['userlist'];

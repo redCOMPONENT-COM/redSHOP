@@ -28,44 +28,44 @@ class tax_detailController extends JController
 		parent::display();
 	}
 
-	function save()
+function save()
+{
+
+	$post = JRequest::get('post');
+
+	$option       = JRequest::getVar('option');
+	$tax_group_id = JRequest::getVar('tax_group_id');
+	$model        = $this->getModel('tax_detail');
+
+	if ($model->store($post))
 	{
 
-		$post = JRequest::get('post');
+		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_SAVED');
 
-		$option = JRequest::getVar('option');
-		$tax_group_id = JRequest::getVar('tax_group_id');
-		$model = $this->getModel('tax_detail');
-
-		if ($model->store($post))
-		{
-
-			$msg = JText::_('COM_REDSHOP_TAX_DETAIL_SAVED');
-
-		}
-		else
-		{
-
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TAX_DETAIL');
-		}
-
-		if (isset($post['tmpl']) && $post['tmpl'] == "component")
-		{
-			//$this->setRedirect ( 'index.php?option=com_redshop&step=3', $msg );
-			?>
-        <script>
-            //window.parent.location.reload();
-            window.parent.document.getElementById('installform').substep.value = 4;
-            window.parent.document.getElementById('installform').submit();
-            window.parent.SqueezeBox.close();
-        </script>
-		<?php
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
-		}
 	}
+	else
+	{
+
+		$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TAX_DETAIL');
+	}
+
+if (isset($post['tmpl']) && $post['tmpl'] == "component")
+{
+	//$this->setRedirect ( 'index.php?option=com_redshop&step=3', $msg );
+	?>
+	<script>
+		//window.parent.location.reload();
+		window.parent.document.getElementById('installform').substep.value = 4;
+		window.parent.document.getElementById('installform').submit();
+		window.parent.SqueezeBox.close();
+	</script>
+<?php
+}
+else
+{
+	$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
+}
+}
 
 	function remove()
 	{
@@ -73,7 +73,7 @@ class tax_detailController extends JController
 		$option = JRequest::getVar('option');
 
 		$tax_group_id = JRequest::getVar('tax_group_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid          = JRequest::getVar('cid', array(0), 'post', 'array');
 
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -98,7 +98,7 @@ class tax_detailController extends JController
 		$option = JRequest::getVar('option');
 
 		$tax_group_id = JRequest::getVar('tax_group_id');
-		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
+		$cid          = JRequest::getVar('cid', array(0), 'request', 'array');
 
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -120,9 +120,9 @@ class tax_detailController extends JController
 	function cancel()
 	{
 
-		$option = JRequest::getVar('option');
+		$option       = JRequest::getVar('option');
 		$tax_group_id = JRequest::getVar('tax_group_id');
-		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_EDITING_CANCELLED');
+		$msg          = JText::_('COM_REDSHOP_TAX_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
 	}
 

@@ -18,15 +18,15 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 		$layout = JRequest::getVar('layout');
 
 		//$templates = JRequest::getVar ('templates',array());
-		$model = $this->getModel('newsletter_detail');
+		$model     = $this->getModel('newsletter_detail');
 		$templates = $model->gettemplates();
 
 
 		//merging select option in the select box
-		$temps = array();
+		$temps           = array();
 		$temps[0]->value = 0;
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$templates = @array_merge($temps, $templates);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$templates       = @array_merge($temps, $templates);
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT_DETAIL'), 'redshop_newsletter48');
 
@@ -34,11 +34,11 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 
-		$uri =& JFactory::getURI();
-		$lists = array();
+		$uri    =& JFactory::getURI();
+		$lists  = array();
 		$detail =& $this->get('data');
-		$isNew = ($detail->newsletter_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$isNew  = ($detail->newsletter_id < 1);
+		$text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		if ($layout == "statistics")
 		{

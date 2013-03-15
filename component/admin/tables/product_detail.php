@@ -95,7 +95,7 @@ class Tableproduct_detail extends JTable
 	{
 
 		$db = JFactory::getDBO();
-		$q = "SELECT product_id
+		$q  = "SELECT product_id
 			FROM " . $this->_table_prefix . "product
 			WHERE product_number = " . $db->Quote($this->product_number);
 		$db->setQuery($q);
@@ -106,9 +106,11 @@ class Tableproduct_detail extends JTable
 		{
 
 			$this->setError(JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'));
+
 			//$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'));
 			return false;
 		}
+
 		return true;
 	}
 }

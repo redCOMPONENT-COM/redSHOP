@@ -30,7 +30,7 @@ class JFormFieldsearchtype extends JFormField
 	{
 		$db = & JFactory::getDBO();
 
-		$searchType = array();
+		$searchType   = array();
 		$searchType[] = JHTML::_('select.option', 'product_name', JText::_('COM_REDSHOP_PRODUCT_NAME'));
 		$searchType[] = JHTML::_('select.option', 'product_desc', JText::_('COM_REDSHOP_PRODUCT_DESCRIPTION'));
 		$searchType[] = JHTML::_('select.option', 'product_number', JText::_('COM_REDSHOP_PRODUCT_NUMBER'));

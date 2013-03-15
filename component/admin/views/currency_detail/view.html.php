@@ -17,13 +17,13 @@ class currency_detailVIEWcurrency_detail extends JView
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_currency_MANAGEMENT'), 'redshop_currencies_48');
 		$document = & JFactory::getDocument();
-		$uri =& JFactory::getURI();
+		$uri      =& JFactory::getURI();
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		$lists = array();
+		$lists  = array();
 		$detail =& $this->get('data');
-		$isNew = ($detail->currency_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$isNew  = ($detail->currency_id < 1);
+		$text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();

@@ -39,6 +39,7 @@ class JFormFieldplugins extends JFormField
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP') . ' -', 'shopper_group_id', 'shopper_group_name'));
+
 		return JHTML::_('select.genericlist', $options, '' . $this->name . '[]', 'multiple="multiple" size="5"', 'shopper_group_id', 'shopper_group_name', $this->value, $this->id);
 
 	}

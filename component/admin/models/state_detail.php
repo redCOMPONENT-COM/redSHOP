@@ -30,7 +30,7 @@ class state_detailModelstate_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -52,8 +52,10 @@ class state_detailModelstate_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'state WHERE state_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -64,13 +66,13 @@ class state_detailModelstate_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->state_id = 0;
-			$detail->state_name = null;
+			$detail->state_id     = 0;
+			$detail->state_name   = null;
 			$detail->state_3_code = null;
-			$detail->country_id = null;
+			$detail->country_id   = null;
 			$detail->state_2_code = null;
-			$detail->show_state = 2;
-			$this->_data = $detail;
+			$detail->show_state   = 2;
+			$this->_data          = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -86,18 +88,21 @@ class state_detailModelstate_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -115,6 +120,7 @@ class state_detailModelstate_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -126,10 +132,11 @@ class state_detailModelstate_detail extends JModel
 	{
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 		$redhelper = new redhelper();
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY 					    	country_name ASC";
+		$q         = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY 					    	country_name ASC";
 		$this->_db->setQuery($q);
 		$countries = $this->_db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
+
 		return $countries;
 	}
 
@@ -151,7 +158,7 @@ class state_detailModelstate_detail extends JModel
 			if (is_null($uid))
 			{
 				$user = JFactory::getUser();
-				$uid = (int) $user->get('id');
+				$uid  = (int) $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
 			$state_detail = & $this->getTable('state_detail');
@@ -160,11 +167,13 @@ class state_detailModelstate_detail extends JModel
 			if (!$state_detail->checkout($uid, $this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -183,9 +192,11 @@ class state_detailModelstate_detail extends JModel
 			if (!$state_detail->checkin($this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return false;
 	}
 

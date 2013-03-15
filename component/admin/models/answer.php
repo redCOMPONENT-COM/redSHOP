@@ -27,12 +27,12 @@ class answerModelanswer extends JModel
 		$this->_context = 'question_id';
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('parent_id', 0, '', 'array');
+		$array               = JRequest::getVar('parent_id', 0, '', 'array');
 		$this->setId((int) $array[0]);
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter     = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$product_id = $mainframe->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
 
 		$this->setState('limit', $limit);
@@ -43,7 +43,7 @@ class answerModelanswer extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -51,9 +51,10 @@ class answerModelanswer extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -61,9 +62,10 @@ class answerModelanswer extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -81,14 +83,15 @@ class answerModelanswer extends JModel
 	function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
-		$list = $this->_data = $this->_getList($query);
+		$list  = $this->_data = $this->_getList($query);
+
 		return $list;
 	}
 
 	function _buildQuery()
 	{
-		$where = "";
-		$filter = $this->getState('filter');
+		$where      = "";
+		$filter     = $this->getState('filter');
 		$product_id = $this->getState('product_id');
 		if ($filter)
 		{
@@ -104,6 +107,7 @@ class answerModelanswer extends JModel
 			. "WHERE q.parent_id='" . $this->_id . "' "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
@@ -111,10 +115,11 @@ class answerModelanswer extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
+
 		return $orderby;
 	}
 }

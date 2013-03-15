@@ -81,16 +81,16 @@ $ordering = ($this->lists['order'] == 'ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->payments); $i < $n; $i++)
 			{
-				$row = & $this->payments[$i];
+				$row     = & $this->payments[$i];
 				$row->id = $row->payment_method_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=payment_detail&task=edit&cid[]=' . $row->payment_method_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=payment_detail&task=edit&cid[]=' . $row->payment_method_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
 				$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
 
 				$paymentxml = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . '.xml';
-				$xml = JFactory::getXMLParser('Simple');
+				$xml        = JFactory::getXMLParser('Simple');
 				$xml->loadFile($paymentxml);
 
 

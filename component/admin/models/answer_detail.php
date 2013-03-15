@@ -24,14 +24,14 @@ class answer_detailModelanswer_detail extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_parent_id = JRequest::getVar('parent_id');
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$this->_parent_id    = JRequest::getVar('parent_id');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -52,13 +52,15 @@ class answer_detailModelanswer_detail extends JModel
 			. "WHERE q.question_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
+
 		return (boolean) $this->_data;
 	}
 
 	function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
-		$list = $this->_getList($query);
+		$list  = $this->_getList($query);
+
 		return $list;
 	}
 
@@ -67,18 +69,20 @@ class answer_detailModelanswer_detail extends JModel
 		$user =& JFactory::getUser();
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail              = new stdClass();
 			$detail->question_id = 0;
-			$detail->product_id = null;
-			$detail->parent_id = $this->_parent_id;
-			$detail->user_id = $user->id;
-			$detail->user_name = $user->name;
-			$detail->user_email = $user->email;
-			$detail->question = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->product_id  = null;
+			$detail->parent_id   = $this->_parent_id;
+			$detail->user_id     = $user->id;
+			$detail->user_name   = $user->name;
+			$detail->user_email  = $user->email;
+			$detail->question    = null;
+			$detail->published   = 1;
+			$this->_data         = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -98,13 +102,16 @@ class answer_detailModelanswer_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -119,6 +126,7 @@ class answer_detailModelanswer_detail extends JModel
 		$query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question "
 			. "WHERE parent_id='" . $this->_parent_id . "' ";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -140,9 +148,11 @@ class answer_detailModelanswer_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -165,9 +175,11 @@ class answer_detailModelanswer_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -179,9 +191,9 @@ class answer_detailModelanswer_detail extends JModel
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('question_detail');
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
-		$groupings = array();
+		$row        =& $this->getTable('question_detail');
+		$order      = JRequest::getVar('order', array(0), 'post', 'array');
+		$groupings  = array();
 		$conditions = array();
 		// update ordering values
 		for ($i = 0; $i < count($cid); $i++)
@@ -196,11 +208,12 @@ class answer_detailModelanswer_detail extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 				// remember to updateOrder this group
 				$condition = 'parent_id = ' . (int) $row->parent_id;
-				$found = false;
+				$found     = false;
 				foreach ($conditions as $cond)
 					if ($cond[1] == $condition)
 					{
@@ -221,6 +234,7 @@ class answer_detailModelanswer_detail extends JModel
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
+
 		return true;
 	}
 
@@ -236,6 +250,7 @@ class answer_detailModelanswer_detail extends JModel
 		$row->load($this->_id);
 		$row->move(-1, 'parent_id= ' . (int) $row->parent_id);
 		$row->store();
+
 		return true;
 	}
 
@@ -251,13 +266,15 @@ class answer_detailModelanswer_detail extends JModel
 		$row->load($this->_id);
 		$row->move(1, 'parent_id = ' . (int) $row->parent_id);
 		$row->store();
+
 		return true;
 	}
 
 	function sendMailForAskQuestion($ansid)
 	{
 		$redshopMail = new redshopMail();
-		$rs = $redshopMail->sendAskQuestionMail($ansid);
+		$rs          = $redshopMail->sendAskQuestionMail($ansid);
+
 		return $rs;
 	}
 }

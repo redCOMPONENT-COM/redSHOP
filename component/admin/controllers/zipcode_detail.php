@@ -41,12 +41,12 @@ class zipcode_detailController extends JController
 		$post = JRequest::get('post');
 
 
-		$city_name = JRequest::getVar('city_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["city_name"] = $city_name;
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$city_name           = JRequest::getVar('city_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post["city_name"]   = $city_name;
+		$option              = JRequest::getVar('option');
+		$cid                 = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['zipcode_id'] = $cid [0];
-		$model = $this->getModel('zipcode_detail');
+		$model               = $this->getModel('zipcode_detail');
 
 		if ($post["zipcode_to"] == "")
 		{
@@ -57,7 +57,7 @@ class zipcode_detailController extends JController
 			for ($i = $post["zipcode"]; $i <= $post["zipcode_to"]; $i++)
 			{
 				$post['zipcode'] = $i;
-				$row = $model->store($post);
+				$row             = $model->store($post);
 			}
 		}
 
@@ -91,7 +91,7 @@ class zipcode_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
 	}
 

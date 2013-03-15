@@ -23,7 +23,7 @@ class product_containerViewproduct_container extends JView
 	{
 		global $mainframe, $context;
 
-		$model = $this->getModel('product_container');
+		$model    = $this->getModel('product_container');
 		$document = & JFactory::getDocument();
 
 		$container = JRequest::getVar('container', '', 'request', 0);
@@ -66,18 +66,18 @@ class product_containerViewproduct_container extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		//$filter_manufacturer	  = $mainframe->getUserStateFromRequest( $context.'filter_manufacturer',		'filter_manufacturer',		0);
-		$filter_supplier = $mainframe->getUserStateFromRequest($context . 'filter_supplier', 'filter_supplier', 0);
+		$filter_supplier  = $mainframe->getUserStateFromRequest($context . 'filter_supplier', 'filter_supplier', 0);
 		$filter_container = $mainframe->getUserStateFromRequest($context . 'filter_container', 'filter_container', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$products = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$products           = & $this->get('Data');
+		$total              = & $this->get('Total');
+		$pagination         = & $this->get('Pagination');
 
 		//$lists['filter_manufacturer'] = $model->getmanufacturelist('filter_manufacturer',$filter_manufacturer,'class="inputbox" size="1" onchange="document.adminForm.submit();"' );
 

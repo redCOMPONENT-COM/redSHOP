@@ -32,10 +32,10 @@ class accessmanager_detailController extends JController
 	{
 		$post = JRequest::get('post');
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$model = $this->getModel('accessmanager_detail');
+		$option  = JRequest::getVar('option', '', 'request', 'string');
+		$model   = $this->getModel('accessmanager_detail');
 		$section = JRequest::getVar('section', '', 'request', 'string');
-		$row = $model->store($post);
+		$row     = $model->store($post);
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_SAVED');
@@ -63,7 +63,7 @@ class accessmanager_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
+		$msg    = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
 		$this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
 	}
 

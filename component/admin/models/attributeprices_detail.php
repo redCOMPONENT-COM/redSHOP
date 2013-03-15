@@ -22,16 +22,16 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array            = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('section_id', 0, '', 'int');
-		$this->_section = JRequest::getVar('section');
+		$this->_section   = JRequest::getVar('section');
 
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -52,12 +52,12 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 			if ($this->_section == "property")
 			{
 				$field = "ap.property_name ";
-				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
+				$q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
 			}
 			else
 			{
 				$field = "ap.subattribute_color_name AS property_name ";
-				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
+				$q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
 			}
 			$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' '
 				. 'FROM ' . $this->_table_prefix . 'product_attribute_price as p '
@@ -66,8 +66,10 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				. 'WHERE p.price_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -75,21 +77,23 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->price_id = 0;
-			$detail->section_id = $this->_sectionid;
-			$detail->product_price = 0.00;
-			$detail->product_currency = null;
-			$detail->shopper_group_id = 0;
+			$detail                       = new stdClass();
+			$detail->price_id             = 0;
+			$detail->section_id           = $this->_sectionid;
+			$detail->product_price        = 0.00;
+			$detail->product_currency     = null;
+			$detail->shopper_group_id     = 0;
 			$detail->price_quantity_start = 0;
-			$detail->price_quantity_end = 0;
-			$detail->discount_price = 0;
-			$detail->discount_start_date = 0;
-			$detail->discount_end_date = 0;
+			$detail->price_quantity_end   = 0;
+			$detail->discount_price       = 0;
+			$detail->discount_start_date  = 0;
+			$detail->discount_end_date    = 0;
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -99,6 +103,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 			. 'FROM ' . $this->_table_prefix . 'shopper_group';
 		$this->_db->setQuery($q);
 		$shoppergroup = $this->_db->loadObjectList();
+
 		return $shoppergroup;
 	}
 
@@ -119,6 +124,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		}
 		$this->_db->setQuery($q);
 		$rs = $this->_db->loadObject();
+
 		return $rs;
 	}
 
@@ -128,18 +134,22 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -147,16 +157,18 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price '
 				. 'WHERE price_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

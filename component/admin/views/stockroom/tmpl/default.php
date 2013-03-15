@@ -67,9 +67,9 @@ $filter = JRequest::getVar('filter');
 			$k = 0;
 			for ($i = 0, $n = count($this->stockroom); $i < $n; $i++)
 			{
-				$row = & $this->stockroom [$i];
+				$row     = & $this->stockroom [$i];
 				$row->id = $row->stockroom_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id);?>
+				$link    = JRoute::_('index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id);?></td>

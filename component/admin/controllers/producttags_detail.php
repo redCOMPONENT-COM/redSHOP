@@ -118,7 +118,7 @@ class producttags_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_TAGS_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
 	}
 

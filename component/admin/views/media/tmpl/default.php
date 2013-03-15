@@ -31,22 +31,22 @@ if ($showbuttons == 1)
 	switch ($media_section)
 	{
 		case "product";
-			$sectionadata = $producthelper->getProductById($section_id);
-			$section_name = $sectionadata->product_name;
+			$sectionadata           = $producthelper->getProductById($section_id);
+			$section_name           = $sectionadata->product_name;
 			$sectiona_primary_image = $sectionadata->product_full_image;
-			$directory = $media_section;
+			$directory              = $media_section;
 			break;
 		case "property";
-			$sectionadata = $producthelper->getAttibuteProperty($section_id);
-			$section_name = $sectionadata[0]->property_name;
+			$sectionadata           = $producthelper->getAttibuteProperty($section_id);
+			$section_name           = $sectionadata[0]->property_name;
 			$sectiona_primary_image = $sectionadata[0]->property_main_image;
-			$directory = 'property';
+			$directory              = 'property';
 			break;
 		case "subproperty";
-			$sectionadata = $producthelper->getAttibuteSubProperty($section_id);
-			$section_name = $sectionadata[0]->subattribute_color_name;
+			$sectionadata           = $producthelper->getAttibuteSubProperty($section_id);
+			$section_name           = $sectionadata[0]->subattribute_color_name;
 			$sectiona_primary_image = $sectionadata[0]->subattribute_color_main_image;
-			$directory = 'subproperty';
+			$directory              = 'subproperty';
 			break;
 	}
 }
@@ -145,7 +145,8 @@ else
 					else
 						echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_type', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
 				<?php    if ($showbuttons == 1)
-				{ ?>
+				{
+					?>
 					<th width="10%"><?php echo JTEXT::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES'); ?></th><?php }?>
 				<th width="15%"><?php    if ($showbuttons == 1)
 						echo JTEXT::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT');
@@ -182,8 +183,8 @@ else
 			$k = 0;
 			for ($i = 0, $n = count($this->media); $i < $n; $i++)
 			{
-				$row = & $this->media[$i];
-				$row->id = $row->media_id;
+				$row       = & $this->media[$i];
+				$row->id   = $row->media_id;
 				$published = JHTML::_('grid.published', $row, $i);    ?>
 
 				<tr class="<?php echo "row$k"; ?>">
@@ -205,7 +206,8 @@ else
 						}    ?></td>
 					<td align="center" class="order"><?php echo $row->media_type;?></td>
 					<?php    if ($showbuttons == 1)
-					{ ?>
+					{
+						?>
 						<td class="order"><?php
 							if ($row->media_type == 'download')
 							{

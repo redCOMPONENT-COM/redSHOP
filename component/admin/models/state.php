@@ -29,11 +29,11 @@ class stateModelstate extends JModel
 		$this->_context = 'state_id';
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$country_id_filter = $mainframe->getUserStateFromRequest($this->_context . 'country_id_filter', 'country_id_filter', 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$country_id_filter   = $mainframe->getUserStateFromRequest($this->_context . 'country_id_filter', 'country_id_filter', 0);
 		$country_main_filter = $mainframe->getUserStateFromRequest($this->_context . 'country_main_filter', 'country_main_filter', '');
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('country_id_filter', $country_id_filter);
 		$this->setState('country_main_filter', $country_main_filter);
@@ -58,7 +58,7 @@ class stateModelstate extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getListCount($query);
 		}
 
@@ -72,17 +72,18 @@ class stateModelstate extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$country_id_filter = $this->getState('country_id_filter');
+		$orderby             = $this->_buildContentOrderBy();
+		$country_id_filter   = $this->getState('country_id_filter');
 		$country_main_filter = $this->getState('country_main_filter');
-		$limitstart = $this->getState('limitstart');
-		$limit = $this->getState('limit');
-		$andcondition = '1=1';
+		$limitstart          = $this->getState('limitstart');
+		$limit               = $this->getState('limit');
+		$andcondition        = '1=1';
 		$country_main_filter = addslashes($country_main_filter);
 		if ($country_id_filter > 0 && $country_main_filter == '')
 		{
@@ -101,16 +102,17 @@ class stateModelstate extends JModel
 			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON s.country_id = c.country_id WHERE ' . $andcondition . $orderby;
 
 		$this->_db->setQuery($query);
-		$rows = $this->_db->loadObjectlist();
-		$list = $rows;
+		$rows  = $this->_db->loadObjectlist();
+		$list  = $rows;
 		$total = count($list);
 
 		jimport('joomla.html.pagination');
 		$this->_pagination = new JPagination($total, $limitstart, $limit);
 
 		// slice out elements based on limits
-		$list = array_slice($list, $this->_pagination->limitstart, $this->_pagination->limit);
+		$list  = array_slice($list, $this->_pagination->limitstart, $this->_pagination->limit);
 		$items = $list;
+
 		return $items;
 		//return $query;
 	}
@@ -118,9 +120,10 @@ class stateModelstate extends JModel
 	function _buildContentOrderBy()
 	{
 		global $mainframe;
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
@@ -128,6 +131,7 @@ class stateModelstate extends JModel
 	{
 		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 }

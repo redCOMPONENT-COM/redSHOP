@@ -34,12 +34,12 @@ class xmlimport_detailController extends JController
 
 	function save($import = 0)
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['xmlimport_id'] = $cid [0];
-		$model = $this->getModel('xmlimport_detail');
+		$model                = $this->getModel('xmlimport_detail');
 
 		if ($post['xmlimport_id'] == 0)
 		{
@@ -74,7 +74,7 @@ class xmlimport_detailController extends JController
 	function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -93,14 +93,14 @@ class xmlimport_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
 	}
 
 	function auto_syncpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -118,7 +118,7 @@ class xmlimport_detailController extends JController
 	function auto_syncunpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -142,7 +142,7 @@ class xmlimport_detailController extends JController
 	function publish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
@@ -165,7 +165,7 @@ class xmlimport_detailController extends JController
 	function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));

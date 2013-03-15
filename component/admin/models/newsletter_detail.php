@@ -20,13 +20,13 @@ class newsletter_detailModelnewsletter_detail extends JModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -36,6 +36,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		{
 		}
 		else  $this->_initData();
+
 		return $this->_data;
 	}
 
@@ -46,8 +47,10 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -55,16 +58,18 @@ class newsletter_detailModelnewsletter_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail                = new stdClass();
 			$detail->newsletter_id = 0;
-			$detail->name = null;
-			$detail->subject = null;
-			$detail->body = null;
-			$detail->template_id = 0;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->name          = null;
+			$detail->subject       = null;
+			$detail->body          = null;
+			$detail->template_id   = 0;
+			$detail->published     = 1;
+			$this->_data           = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -74,13 +79,16 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -95,9 +103,11 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -114,9 +124,11 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -136,11 +148,11 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		for ($i = 0; $i < count($copydata); $i++)
 		{
 			$post['newsletter_id'] = 0;
-			$post['name'] = 'Copy Of ' . $copydata[$i]->name;
-			$post['subject'] = $copydata[$i]->subject;
-			$post['body'] = $copydata[$i]->body;
-			$post['template_id'] = $copydata[$i]->template_id;
-			$post['published'] = $copydata[$i]->published;
+			$post['name']          = 'Copy Of ' . $copydata[$i]->name;
+			$post['subject']       = $copydata[$i]->subject;
+			$post['body']          = $copydata[$i]->body;
+			$post['template_id']   = $copydata[$i]->template_id;
+			$post['published']     = $copydata[$i]->published;
 
 			$row = newsletter_detailModelnewsletter_detail::store($post);
 
@@ -152,18 +164,19 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 			for ($j = 0; $j < count($subscriberdata); $j++)
 			{
-				$rowsubscr = & $this->getTable('newslettersubscr_detail');
+				$rowsubscr                  = & $this->getTable('newslettersubscr_detail');
 				$rowsubscr->subscription_id = 0;
-				$rowsubscr->user_id = $subscriberdata[$j]->user_id;
-				$rowsubscr->date = time();
-				$rowsubscr->newsletter_id = $row->newsletter_id;
-				$rowsubscr->name = $subscriberdata[$j]->name;
-				$rowsubscr->email = $subscriberdata[$j]->email;
-				$rowsubscr->published = $subscriberdata[$j]->published;
-				$rowsubscr->checkout = $subscriberdata[$j]->checkout;
+				$rowsubscr->user_id         = $subscriberdata[$j]->user_id;
+				$rowsubscr->date            = time();
+				$rowsubscr->newsletter_id   = $row->newsletter_id;
+				$rowsubscr->name            = $subscriberdata[$j]->name;
+				$rowsubscr->email           = $subscriberdata[$j]->email;
+				$rowsubscr->published       = $subscriberdata[$j]->published;
+				$rowsubscr->checkout        = $subscriberdata[$j]->checkout;
 				$rowsubscr->store();
 			}
 		}
+
 		return true;
 	}
 
@@ -173,6 +186,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			. 'WHERE template_section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -182,6 +196,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			. 'WHERE section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -197,6 +212,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -205,8 +221,8 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		$data = $this->getNewsletterList($newsletter_id);
 
 		$return = array();
-		$qs = array();
-		$j = 0;
+		$qs     = array();
+		$j      = 0;
 		for ($d = 0; $d < count($data); $d++)
 		{
 			$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
@@ -219,7 +235,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			}
 			if ($newsletter_id != 0)
 			{
-				$totalread = $this->getReadNewsletter($data[$d]->newsletter_id);
+				$totalread    = $this->getReadNewsletter($data[$d]->newsletter_id);
 				$qs[0]->xdata = JText::_('COM_REDSHOP_NO_OF_UNREAD_NEWSLETTER');
 				$qs[0]->ydata = $totalresult - $totalread;
 				$qs[1]->xdata = JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');
@@ -239,6 +255,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		{
 			$return = array($qs, JText::_('COM_REDSHOP_NO_OF_SENT_NEWSLETTER'));
 		}
+
 		return $return;
 	}
 
@@ -253,6 +270,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		{
 			$result->total = 0;
 		}
+
 		return $result->total;
 	}
 }

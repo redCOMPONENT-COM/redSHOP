@@ -28,7 +28,7 @@ class xmlexportModelxmlexport extends JModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limit      = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
@@ -39,9 +39,10 @@ class xmlexportModelxmlexport extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -49,9 +50,10 @@ class xmlexportModelxmlexport extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -69,7 +71,8 @@ class xmlexportModelxmlexport extends JModel
 	function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export ";
-		$list = $this->_data = $this->_getList($query);
+		$list  = $this->_data = $this->_getList($query);
+
 		return $list;
 	}
 
@@ -80,6 +83,7 @@ class xmlexportModelxmlexport extends JModel
 		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
 			. "WHERE 1=1 "
 			. $orderby;
+
 		return $query;
 	}
 
@@ -87,10 +91,11 @@ class xmlexportModelxmlexport extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'xmlexport_date');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'xmlexport_date');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
+
 		return $orderby;
 	}
 }

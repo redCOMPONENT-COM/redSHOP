@@ -20,7 +20,7 @@ class zip_importViewzip_import extends JView
 	function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
-		$layout = JRequest::getVar('layout');
+		$layout   = JRequest::getVar('layout');
 		if ($layout == 'confirmupdate')
 		{
 			$this->setLayout('confirmupdate');

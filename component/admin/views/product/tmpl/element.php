@@ -50,7 +50,7 @@ for ($i = $this->pagination->limitstart, $j = 0; $i < ($this->pagination->limits
 		break;
 	}
 	// change ordering
-	$row->orderup = $this->pagination->orderUpIcon($j, ($row->product_parent_id == @$this->products[$j - 1]->product_parent_id), 'orderup', 'Move Up', $ordering);
+	$row->orderup   = $this->pagination->orderUpIcon($j, ($row->product_parent_id == @$this->products[$j - 1]->product_parent_id), 'orderup', 'Move Up', $ordering);
 	$row->orderdown = $this->pagination->orderDownIcon($j, $n, ($row->product_parent_id == @$this->products[$j + 1]->product_parent_id), 'orderdown', 'Move Down', $ordering);
 	// end
 	$tmpCats[$kk] = $row;
@@ -122,9 +122,9 @@ if ($this->pagination->limit > 0)
 
 			for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			{
-				$row = & $this->products[$i];
+				$row     = & $this->products[$i];
 				$row->id = $row->product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

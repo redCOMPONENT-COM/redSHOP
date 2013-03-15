@@ -40,10 +40,10 @@ class shipping_rate_detailController extends JController
 		// include extra field class
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
-		$option = JRequest::getVar('option');
+		$option                           = JRequest::getVar('option');
 		$post['shipping_rate_on_product'] = $post['container_product'];
-		$post["shipping_location_info"] = JRequest::getVar('shipping_location_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$model = $this->getModel('shipping_rate_detail');
+		$post["shipping_location_info"]   = JRequest::getVar('shipping_location_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$model                            = $this->getModel('shipping_rate_detail');
 
 		if ($row = $model->store($post))
 		{
@@ -67,10 +67,10 @@ class shipping_rate_detailController extends JController
 
 	function remove()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('shipping_rate_detail');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('shipping_rate_detail');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
@@ -86,7 +86,7 @@ class shipping_rate_detailController extends JController
 	function publish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
@@ -102,7 +102,7 @@ class shipping_rate_detailController extends JController
 	function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
@@ -118,17 +118,17 @@ class shipping_rate_detailController extends JController
 
 	function cancel()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
 	}
 
 	function copy()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('shipping_rate_detail');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('shipping_rate_detail');
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_SHIPPING_RATE_SAVED');
@@ -142,8 +142,8 @@ class shipping_rate_detailController extends JController
 
 	function GetStateDropdown()
 	{
-		$get = JRequest::get('get');
-		$model = $this->getModel('shipping_rate_detail');
+		$get                 = JRequest::get('get');
+		$model               = $this->getModel('shipping_rate_detail');
 		$shipping_rate_state = $model->GetStateDropdown($get);
 		exit;
 	}

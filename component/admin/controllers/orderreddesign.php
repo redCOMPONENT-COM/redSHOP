@@ -79,7 +79,7 @@ class orderreddesignController extends JController
 	function downloaddesign()
 	{
 		$filename = JRequest::getVar('filename');
-		$type = JRequest::getVar('type');
+		$type     = JRequest::getVar('type');
 
 		//var_dump($_SERVER); die();
 		//$path = $_SERVER['DOCUMENT_ROOT']."/path2file/"; // play with the path if the document root does noet exist
@@ -87,20 +87,20 @@ class orderreddesignController extends JController
 		if ($type == "pdf")
 		{
 			$filename = $filename . ".pdf";
-			$file = JPATH_ROOT . "/components/com_reddesign/assets/order/pdf/" . $filename;
+			$file     = JPATH_ROOT . "/components/com_reddesign/assets/order/pdf/" . $filename;
 			header("Content-Type: application/force-download");
 		}
 		else if ($type == "eps")
 		{
 			$filename = $filename . ".eps";
-			$file = JPATH_ROOT . "/components/com_reddesign/assets/order/eps/" . $filename;
+			$file     = JPATH_ROOT . "/components/com_reddesign/assets/order/eps/" . $filename;
 			header("Content-Type: application/eps");
 			// header("Content-Type: application/postscript");
 		}
 		else if ($type == "original")
 		{
 			$filename = "bg_" . $filename . ".jpeg";
-			$file = JPATH_ROOT . "/components/com_reddesign/assets/order/eps/" . $filename;
+			$file     = JPATH_ROOT . "/components/com_reddesign/assets/order/eps/" . $filename;
 			header('Content-Description: File Transfer');
 			header('Content-Type: image/jpg');
 			header('Content-Disposition: attachment; filename=' . basename($file));
@@ -113,7 +113,7 @@ class orderreddesignController extends JController
 		else if ($type == "design")
 		{
 			$filename = $filename . ".jpeg";
-			$file = JPATH_ROOT . "/components/com_reddesign/assets/order/design/" . $filename;
+			$file     = JPATH_ROOT . "/components/com_reddesign/assets/order/design/" . $filename;
 
 			header('Content-Type: image/jpg');
 			header('Content-Disposition: attachment; filename=' . basename($file));

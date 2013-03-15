@@ -40,9 +40,9 @@
 /* ******************************************************************** */
 /*                          COLORS                                      */
 /* ******************************************************************** */
-$bar_color = Array (0, 0, 0 );
-$bg_color = Array (255, 255, 255 );
-$text_color = Array (0, 0, 0 );
+$bar_color = Array(0, 0, 0);
+$bg_color = Array(255, 255, 255);
+$text_color = Array(0, 0, 0);
 
 /* ******************************************************************** */
 /*                          FONT FILE                                   */
@@ -65,7 +65,8 @@ $font_loc = 'monofont.ttf';
 
 /* Automatic-Detection of Font if running Windows
  * kick this lines if you don't need them! */
-if (isset ( $_ENV ['windir'] ) && file_exists ( $_ENV ['windir'] )) {
+if (isset ($_ENV ['windir']) && file_exists($_ENV ['windir']))
+{
 	$font_loc = $_ENV ['windir'] . "\Fonts\arialbd.ttf";
 }
 
@@ -78,7 +79,7 @@ if (isset ( $_ENV ['windir'] ) && file_exists ( $_ENV ['windir'] )) {
  */
 //$genbarcode_loc="c:\winnt\genbarcode.exe";
 $genbarcode_loc = "/usr/local/bin/genbarcode";
-$barcode_path="/var/www/html/redshopnew/components/com_redshop/assets/images/barcode";
+$barcode_path = "/var/www/html/redshopnew/components/com_redshop/assets/images/barcode";
 
 /* CONFIGURATION ENDS HERE */
 
@@ -104,7 +105,8 @@ require ("encode_bars.php"); /* build-in encoders */
  *		$space[right] = 2 * $scale;
  */
 
-function barcode_outimage($text, $bars, $scale = 1, $mode = "png", $code,$total_y = 0, $space = '') {
+function barcode_outimage($text, $bars, $scale = 1, $mode = "png", $code, $total_y = 0, $space = '')
+{
 	global $bar_color, $bg_color, $text_color;
 	global $font_loc;
 	/* set defaults */
@@ -113,22 +115,25 @@ function barcode_outimage($text, $bars, $scale = 1, $mode = "png", $code,$total_
 	$total_y = ( int ) ($total_y);
 	if ($total_y < 1)
 		$total_y = ( int ) $scale * 60;
-	if (! $space)
-		$space = array ('top' => 2 * $scale, 'bottom' => 2 * $scale, 'left' => 2 * $scale, 'right' => 2 * $scale );
+	if (!$space)
+		$space = array('top' => 2 * $scale, 'bottom' => 2 * $scale, 'left' => 2 * $scale, 'right' => 2 * $scale);
 
 	/* count total width */
-	$xpos = 0;
+	$xpos  = 0;
 	$width = true;
-	for($i = 0; $i < strlen ( $bars ); $i ++) {
-		$val = strtolower ( $bars [$i] );
-		if ($width) {
+	for ($i = 0; $i < strlen($bars); $i++)
+	{
+		$val = strtolower($bars [$i]);
+		if ($width)
+		{
 			$xpos += $val * $scale;
 			$width = false;
 			continue;
 		}
-		if (ereg ( "[a-z]", $val )) {
+		if (ereg("[a-z]", $val))
+		{
 			/* tall bar */
-			$val = ord ( $val ) - ord ( 'a' ) + 1;
+			$val = ord($val) - ord('a') + 1;
 		}
 		$xpos += $val * $scale;
 		$width = true;
@@ -136,8 +141,9 @@ function barcode_outimage($text, $bars, $scale = 1, $mode = "png", $code,$total_
 
 	/* allocate the image */
 	$total_x = ($xpos) + $space ['right'] + $space ['right'];
-	$xpos = $space ['left'];
-	if (! function_exists ( "imagecreate" )) {
+	$xpos    = $space ['left'];
+	if (!function_exists("imagecreate"))
+	{
 		print "You don't have the gd2 extension enabled<BR>\n";
 		print "<BR>\n";
 		print "<BR>\n";
@@ -156,59 +162,71 @@ function barcode_outimage($text, $bars, $scale = 1, $mode = "png", $code,$total_
 		print "<BR>\n";
 		print "<BR>\n";
 		print "<A HREF=\"http://www.ashberg.de/bar/\">Folke Ashberg's OpenSource PHP-Barcode</A><BR>\n";
+
 		return "";
 	}
-	$im = imagecreate ( $total_x, $total_y );
+	$im = imagecreate($total_x, $total_y);
 	/* create two images */
-	$col_bg = ImageColorAllocate ( $im, $bg_color [0], $bg_color [1], $bg_color [2] );
-	$col_bar = ImageColorAllocate ( $im, $bar_color [0], $bar_color [1], $bar_color [2] );
-	$col_text = ImageColorAllocate ( $im, $text_color [0], $text_color [1], $text_color [2] );
-	$height = round ( $total_y - ($scale * 10) );
-	$height2 = round ( $total_y - $space ['bottom'] );
+	$col_bg   = ImageColorAllocate($im, $bg_color [0], $bg_color [1], $bg_color [2]);
+	$col_bar  = ImageColorAllocate($im, $bar_color [0], $bar_color [1], $bar_color [2]);
+	$col_text = ImageColorAllocate($im, $text_color [0], $text_color [1], $text_color [2]);
+	$height   = round($total_y - ($scale * 10));
+	$height2  = round($total_y - $space ['bottom']);
 
 	/* paint the bars */
 	$width = true;
-	for($i = 0; $i < strlen ( $bars ); $i ++) {
-		$val = strtolower ( $bars [$i] );
-		if ($width) {
+	for ($i = 0; $i < strlen($bars); $i++)
+	{
+		$val = strtolower($bars [$i]);
+		if ($width)
+		{
 			$xpos += $val * $scale;
 			$width = false;
 			continue;
 		}
-		if (ereg ( "[a-z]", $val )) {
+		if (ereg("[a-z]", $val))
+		{
 			/* tall bar */
-			$val = ord ( $val ) - ord ( 'a' ) + 1;
-			$h = $height2;
-		} else
+			$val = ord($val) - ord('a') + 1;
+			$h   = $height2;
+		}
+		else
 			$h = $height;
-		imagefilledrectangle ( $im, $xpos, $space ['top'], $xpos + ($val * $scale) - 1, $h, $col_bar );
+		imagefilledrectangle($im, $xpos, $space ['top'], $xpos + ($val * $scale) - 1, $h, $col_bar);
 		$xpos += $val * $scale;
 		$width = true;
 	}
 	/* write out the text */
 	global $_SERVER;
-	$chars = explode ( " ", $text );
-	reset ( $chars );
-	while ( list ( $n, $v ) = each ( $chars ) ) {
-		if (trim ( $v )) {
-			$inf = explode ( ":", $v );
-			$fontsize = $scale * ($inf [1] / 1.8);
+	$chars = explode(" ", $text);
+	reset($chars);
+	while (list ($n, $v) = each($chars))
+	{
+		if (trim($v))
+		{
+			$inf        = explode(":", $v);
+			$fontsize   = $scale * ($inf [1] / 1.8);
 			$fontheight = $total_y - ($fontsize / 2.7) + 2;
-			@imagettftext ( $im, $fontsize, 0, $space ['left'] + ($scale * $inf [0]) + 2, $fontheight, $col_text, $font_loc, $inf [2] );
+			@imagettftext($im, $fontsize, 0, $space ['left'] + ($scale * $inf [0]) + 2, $fontheight, $col_text, $font_loc, $inf [2]);
 		}
 	}
 
 	/* output the image */
-	$mode = strtolower ( $mode );
-	if ($mode == 'jpg' || $mode == 'jpeg') {
-		header ( "Content-Type: image/jpeg; name=\"barcode.jpg\"" );
-		imagejpeg ( $im );
-	} else if ($mode == 'gif') {
-		header ( "Content-Type: image/gif; name=\"barcode.gif\"" );
-		imagegif ( $im );
-	} else {
-		header ( "Content-Type: image/png; name=\"barcode.png\"" );
-	 	imagepng ( $im, "../../../../../components/com_redshop/assets/images/barcode/".$code.".png" );//die();
+	$mode = strtolower($mode);
+	if ($mode == 'jpg' || $mode == 'jpeg')
+	{
+		header("Content-Type: image/jpeg; name=\"barcode.jpg\"");
+		imagejpeg($im);
+	}
+	else if ($mode == 'gif')
+	{
+		header("Content-Type: image/gif; name=\"barcode.gif\"");
+		imagegif($im);
+	}
+	else
+	{
+		header("Content-Type: image/png; name=\"barcode.png\"");
+		imagepng($im, "../../../../../components/com_redshop/assets/images/barcode/" . $code . ".png"); //die();
 
 	}
 
@@ -224,30 +242,36 @@ function barcode_outimage($text, $bars, $scale = 1, $mode = "png", $code,$total_
  *    bars   : where to place the bars  (<space-width><bar-width><space-width><bar-width>...)
  */
 
-function barcode_outtext($code, $bars) {
-	$width = true;
-	$xpos = $heigh2 = 0;
+function barcode_outtext($code, $bars)
+{
+	$width    = true;
+	$xpos     = $heigh2 = 0;
 	$bar_line = "";
-	for($i = 0; $i < strlen ( $bars ); $i ++) {
-		$val = strtolower ( $bars [$i] );
-		if ($width) {
+	for ($i = 0; $i < strlen($bars); $i++)
+	{
+		$val = strtolower($bars [$i]);
+		if ($width)
+		{
 			$xpos += $val;
 			$width = false;
-			for($a = 0; $a < $val; $a ++)
+			for ($a = 0; $a < $val; $a++)
 				$bar_line .= "-";
 			continue;
 		}
-		if (ereg ( "[a-z]", $val )) {
-			$val = ord ( $val ) - ord ( 'a' ) + 1;
-			$h = $heigh2;
-			for($a = 0; $a < $val; $a ++)
+		if (ereg("[a-z]", $val))
+		{
+			$val = ord($val) - ord('a') + 1;
+			$h   = $heigh2;
+			for ($a = 0; $a < $val; $a++)
 				$bar_line .= "I";
-		} else
-			for($a = 0; $a < $val; $a ++)
+		}
+		else
+			for ($a = 0; $a < $val; $a++)
 				$bar_line .= "#";
 		$xpos += $val;
 		$width = true;
 	}
+
 	return $bar_line;
 }
 
@@ -270,36 +294,41 @@ function barcode_outtext($code, $bars) {
  *		$space[right] = 2 * $scale;
  */
 
-function barcode_outhtml($code, $bars, $scale = 1, $total_y = 0, $space = '') {
+function barcode_outhtml($code, $bars, $scale = 1, $total_y = 0, $space = '')
+{
 	/* set defaults */
 	$total_y = ( int ) ($total_y);
 	if ($scale < 1)
 		$scale = 2;
 	if ($total_y < 1)
 		$total_y = ( int ) $scale * 60;
-	if (! $space)
-		$space = array ('top' => 2 * $scale, 'bottom' => 2 * $scale, 'left' => 2 * $scale, 'right' => 2 * $scale );
+	if (!$space)
+		$space = array('top' => 2 * $scale, 'bottom' => 2 * $scale, 'left' => 2 * $scale, 'right' => 2 * $scale);
 
 	/* generate html-code */
-	$height = round ( $total_y - ($scale * 10) );
-	$height2 = round ( $total_y ) - $space ['bottom'];
-	$out = '<Table border=0 cellspacing=0 cellpadding=0 bgcolor="white">' . "\n" . '<TR><TD><img src=white.png height="' . $space ['top'] . '" width=1></TD></TR>' . "\n" . '<TR><TD>' . "\n" . '<IMG src=white.png height="' . $height2 . '" width="' . $space ['left'] . '">';
+	$height  = round($total_y - ($scale * 10));
+	$height2 = round($total_y) - $space ['bottom'];
+	$out     = '<Table border=0 cellspacing=0 cellpadding=0 bgcolor="white">' . "\n" . '<TR><TD><img src=white.png height="' . $space ['top'] . '" width=1></TD></TR>' . "\n" . '<TR><TD>' . "\n" . '<IMG src=white.png height="' . $height2 . '" width="' . $space ['left'] . '">';
 
 	$width = true;
-	for($i = 0; $i < strlen ( $bars ); $i ++) {
-		$val = strtolower ( $bars [$i] );
-		if ($width) {
+	for ($i = 0; $i < strlen($bars); $i++)
+	{
+		$val = strtolower($bars [$i]);
+		if ($width)
+		{
 			$w = $val * $scale;
 			if ($w > 0)
 				$out .= "<IMG src=white.png height=\"$total_y\" width=\"$w\" align=top>";
 			$width = false;
 			continue;
 		}
-		if (ereg ( "[a-z]", $val )) {
+		if (ereg("[a-z]", $val))
+		{
 			//hoher strich
-			$val = ord ( $val ) - ord ( 'a' ) + 1;
-			$h = $height2;
-		} else
+			$val = ord($val) - ord('a') + 1;
+			$h   = $height2;
+		}
+		else
 			$h = $height;
 		$w = $val * $scale;
 		if ($w > 0)
@@ -307,6 +336,7 @@ function barcode_outhtml($code, $bars, $scale = 1, $total_y = 0, $space = '') {
 		$width = true;
 	}
 	$out .= '<IMG src=white.png height="' . $height2 . '" width=".' . $space ['right'] . '">' . '</TD></TR>' . "\n" . '<TR><TD><img src="white.png" height="' . $space ['bottom'] . '" width="1"></TD></TR>' . "\n" . '</TABLE>' . "\n";
+
 	//for ($i=0;$i<strlen($bars);$i+=2) print $line[$i]."<B>".$line[$i+1]."</B>&nbsp;";
 	return $out;
 }
@@ -319,32 +349,36 @@ function barcode_outhtml($code, $bars, $scale = 1, $total_y = 0, $space = '') {
  *    array[bars]     : the bars
  *    array[text]     : text-positioning info
  */
-function barcode_encode_genbarcode($code, $encoding) {
+function barcode_encode_genbarcode($code, $encoding)
+{
 	global $genbarcode_loc;
 	/* delete EAN-13 checksum */
-	if (eregi ( "^ean$", $encoding ) && strlen ( $code ) == 13)
-		$code = substr ( $code, 0, 12 );
-	if (! $encoding)
+	if (eregi("^ean$", $encoding) && strlen($code) == 13)
+		$code = substr($code, 0, 12);
+	if (!$encoding)
 		$encoding = "ANY";
-	$encoding = ereg_replace ( "[|\\]", "_", $encoding );
-	$code = ereg_replace ( "[|\\]", "_", $code );
-	$cmd = $genbarcode_loc . " \"" . str_replace ( "\"", "\\\"", $code ) . "\" \"" . str_replace ( "\"", "\\\"", strtoupper ( $encoding ) ) . "\"";
+	$encoding = ereg_replace("[|\\]", "_", $encoding);
+	$code     = ereg_replace("[|\\]", "_", $code);
+	$cmd      = $genbarcode_loc . " \"" . str_replace("\"", "\\\"", $code) . "\" \"" . str_replace("\"", "\\\"", strtoupper($encoding)) . "\"";
 	//print "'$cmd'<BR>\n";
-	$fp = popen ( $cmd, "r" );
-	if ($fp) {
-		$bars = fgets ( $fp, 1024 );
-		$text = fgets ( $fp, 1024 );
-		$encoding = fgets ( $fp, 1024 );
-		pclose ( $fp );
-	} else
+	$fp = popen($cmd, "r");
+	if ($fp)
+	{
+		$bars     = fgets($fp, 1024);
+		$text     = fgets($fp, 1024);
+		$encoding = fgets($fp, 1024);
+		pclose($fp);
+	}
+	else
 		return false;
-	$ret = array ("encoding" => trim ( $encoding ), "bars" => trim ( $bars ), "text" => trim ( $text ) );
-	if (! $ret ['encoding'])
+	$ret = array("encoding" => trim($encoding), "bars" => trim($bars), "text" => trim($text));
+	if (!$ret ['encoding'])
 		return false;
-	if (! $ret ['bars'])
+	if (!$ret ['bars'])
 		return false;
-	if (! $ret ['text'])
+	if (!$ret ['text'])
 		return false;
+
 	return $ret;
 }
 
@@ -372,21 +406,27 @@ function barcode_encode_genbarcode($code, $encoding) {
  *    array[bars]     : the bars
  *    array[text]     : text-positioning info
  */
-function barcode_encode($code, $encoding) {
+function barcode_encode($code, $encoding)
+{
 	global $genbarcode_loc;
-	if (((eregi ( "^ean$", $encoding ) && (strlen ( $code ) == 12 || strlen ( $code ) == 13))) ||
+	if (((eregi("^ean$", $encoding) && (strlen($code) == 12 || strlen($code) == 13))) ||
 
-	(($encoding) && (eregi ( "^isbn$", $encoding )) && ((strlen ( $code ) == 9 || strlen ( $code ) == 10) || (((ereg ( "^978", $code ) && strlen ( $code ) == 12) || (strlen ( $code ) == 13))))) ||
+		(($encoding) && (eregi("^isbn$", $encoding)) && ((strlen($code) == 9 || strlen($code) == 10) || (((ereg("^978", $code) && strlen($code) == 12) || (strlen($code) == 13))))) ||
 
-	((! isset ( $encoding ) || ! $encoding || (eregi ( "^ANY$", $encoding ))) && (ereg ( "^[0-9]{12,13}$", $code ))))
+		((!isset ($encoding) || !$encoding || (eregi("^ANY$", $encoding))) && (ereg("^[0-9]{12,13}$", $code)))
+	)
 
 	{
 		/* use built-in EAN-Encoder */
-		$bars = barcode_encode_ean ( $code, $encoding );
-	} else if (file_exists ( $genbarcode_loc )) {
+		$bars = barcode_encode_ean($code, $encoding);
+	}
+	else if (file_exists($genbarcode_loc))
+	{
 		/* use genbarcode */
-		$bars = barcode_encode_genbarcode ( $code, $encoding );
-	} else {
+		$bars = barcode_encode_genbarcode($code, $encoding);
+	}
+	else
+	{
 		print "php-barcode needs an external programm for encodings other then EAN/ISBN<BR>\n";
 		print "<UL>\n";
 		print "<LI>download gnu-barcode from <A href=\"http://www.gnu.org/software/barcode/\">www.gnu.org/software/barcode/</A>\n";
@@ -397,8 +437,10 @@ function barcode_encode($code, $encoding) {
 		print "</UL>\n";
 		print "<BR>\n";
 		print "<A HREF=\"http://www.ashberg.de/bar/\">Folke Ashberg's OpenSource PHP-Barcode</A><BR>\n";
+
 		return false;
 	}
+
 	return $bars;
 }
 
@@ -412,18 +454,20 @@ function barcode_encode($code, $encoding) {
  *    array[text]     : text-positioning info
  */
 
-function barcode_print($code, $encoding = "ANY", $scale = 2, $mode = "png") {
-	$bars = barcode_encode ( $code, $encoding );
-	if (! $bars)
+function barcode_print($code, $encoding = "ANY", $scale = 2, $mode = "png")
+{
+	$bars = barcode_encode($code, $encoding);
+	if (!$bars)
 		return;
-	if (! $mode)
+	if (!$mode)
 		$mode = "png";
-	if (eregi ( $mode, "^(text|txt|plain)$" ))
-		print barcode_outtext ( $bars ['text'], $bars ['bars'] );
-	elseif (eregi ( $mode, "^(html|htm)$" ))
-		print barcode_outhtml ( $bars ['text'], $bars ['bars'], $scale, 0, 0 );
+	if (eregi($mode, "^(text|txt|plain)$"))
+		print barcode_outtext($bars ['text'], $bars ['bars']);
+	elseif (eregi($mode, "^(html|htm)$"))
+		print barcode_outhtml($bars ['text'], $bars ['bars'], $scale, 0, 0);
 	else
-		barcode_outimage ( $bars ['text'], $bars ['bars'], $scale, $mode ,$code);
+		barcode_outimage($bars ['text'], $bars ['bars'], $scale, $mode, $code);
+
 	return $bars;
 }
 ?>
