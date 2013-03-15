@@ -40,7 +40,7 @@ $helper = new redhelper;
 $helper->dbtocart();
 
 $output_view = $params->get('cart_output', 'simple');
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 
 if (count($cart) <= 0 || $cart == "")
