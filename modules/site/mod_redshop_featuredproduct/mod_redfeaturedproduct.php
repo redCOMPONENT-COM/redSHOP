@@ -19,20 +19,20 @@ defined('_JEXEC') or die('Restricted access');
 JHTMLBehavior::modal();
 // Getting the configuration in redshop.js.php
 
-require_once( JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.js.php' );
+require_once  JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.js.php' ;
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration();
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'category.php');
+require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'category.php';
 
 // get product helper
-require_once( JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'product.php' );
+require_once  JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'product.php' ;
 
  // get default helper
-require_once( JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php' );
+require_once  JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php' ;
 
 /**
 * This class sets all Parameters.

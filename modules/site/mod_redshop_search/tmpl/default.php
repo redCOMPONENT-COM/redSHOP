@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_ROOT . DS . 'components/com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_ROOT . DS . 'components/com_redshop' . DS . 'helpers' . DS . 'helper.php';
 
 $templateid = $params->get('templateid');
 $defaultSearchType = trim($params->get('defaultSearchType', 'product_name'));

@@ -93,7 +93,7 @@ if (!class_exists('redCategoryMenu'))
 	}
 }
 
-//require_once(CATEGORY_MODULE_PATH.DS.'helper.php');
+//require_once CATEGORY_MODULE_PATH.DS.'helper.php';
 //$redproduct_menu = new modProMenuHelper();
 
 
