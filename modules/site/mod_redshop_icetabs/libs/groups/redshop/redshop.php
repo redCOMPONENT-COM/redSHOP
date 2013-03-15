@@ -51,7 +51,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 		{
 
 			global $mm_action_url;
-			require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+			require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 
 			$db                  = JFactory::getDBO();
 			$producthelper       = new producthelper();
