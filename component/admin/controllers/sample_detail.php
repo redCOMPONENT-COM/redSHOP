@@ -40,7 +40,7 @@ class sample_detailController extends JController
 
 
 		$post ['sample_id'] = $cid [0];
-		$link = 'index.php?option=' . $option . '&view=sample';
+		$link               = 'index.php?option=' . $option . '&view=sample';
 
 
 		$model = $this->getModel('sample_detail');
@@ -65,7 +65,7 @@ class sample_detailController extends JController
 
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -87,7 +87,7 @@ class sample_detailController extends JController
 
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -133,7 +133,7 @@ class sample_detailController extends JController
 
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout');
-		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
 
 		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
 	}

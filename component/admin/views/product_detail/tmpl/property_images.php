@@ -13,24 +13,24 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 $producthelper = new producthelper();
 
 JHTMLBehavior::modal();
-$uri = & JURI::getInstance();
-$url = $uri->root();
+$uri         = & JURI::getInstance();
+$url         = $uri->root();
 $showbuttons = JRequest::getCmd('showbuttons');
 
 $section_id = JRequest::getCmd('section_id');
-$fsec = JRequest::getCmd('fsec');
+$fsec       = JRequest::getCmd('fsec');
 
 $product_id = JRequest::getCmd('cid');
 if ($fsec == 'subproperty')
 {
-	$images = $this->model->getSubpropertyImages($section_id);
+	$images    = $this->model->getSubpropertyImages($section_id);
 	$mainImage = $producthelper->getAttibuteSubProperty($section_id);
 
 }
 else
 {
 	$mainImage = $producthelper->getAttibuteProperty($section_id);
-	$images = $this->model->getpropertyImages($section_id);
+	$images    = $this->model->getpropertyImages($section_id);
 }
 $product_id = JRequest::getCmd('cid');
 //$images = $this->model->getPropertyImages($section_id);
@@ -117,12 +117,12 @@ $mainImage = $mainImage[0];
 
 if ($fsec == 'subproperty')
 {
-	$thumb = $mainImage->subattribute_color_image;
+	$thumb     = $mainImage->subattribute_color_image;
 	$rs_folder = 'subcolor';
 }
 else
 {
-	$thumb = $mainImage->property_main_image;
+	$thumb     = $mainImage->property_main_image;
 	$rs_folder = 'property';
 }
 

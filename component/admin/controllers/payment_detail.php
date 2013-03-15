@@ -48,8 +48,8 @@ class payment_detailController extends JController
 	{
 		$post = JRequest::get('post');
 
-		$accepted_credit_card = JRequest::getVar('accepted_credict_card', '', 'post', 'array');
-		$accepted_credit_card = implode(",", $accepted_credit_card);
+		$accepted_credit_card          = JRequest::getVar('accepted_credict_card', '', 'post', 'array');
+		$accepted_credit_card          = implode(",", $accepted_credit_card);
 		$post["accepted_credict_card"] = $accepted_credit_card;
 
 		$option = JRequest::getVar('option');
@@ -175,7 +175,7 @@ class payment_detailController extends JController
 	function orderdown()
 	{
 		$option = JRequest::getVar('option');
-		$model = $this->getModel('payment_detail');
+		$model  = $this->getModel('payment_detail');
 		$model->move(1);
 		//$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -192,7 +192,7 @@ class payment_detailController extends JController
 	{
 		$option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid   = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 
 		JArrayHelper::toInteger($cid);

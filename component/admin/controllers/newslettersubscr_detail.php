@@ -29,10 +29,10 @@ class newslettersubscr_detailController extends JController
 
 		$userlist = $model->getuserlist();
 		//merging select option in the select box
-		$temps = array();
+		$temps           = array();
 		$temps[0]->value = 0;
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$userlist = array_merge($temps, $userlist);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$userlist        = array_merge($temps, $userlist);
 
 		JRequest::setVar('userlist', $userlist);
 
@@ -47,15 +47,15 @@ class newslettersubscr_detailController extends JController
 	function save($apply = 0)
 	{
 
-		$post = JRequest::get('post');
-		$body = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post         = JRequest::get('post');
+		$body         = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["body"] = $body;
 
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$option                   = JRequest::getVar('option');
+		$cid                      = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['subscription_id'] = $cid [0];
-		$model = $this->getModel('newslettersubscr_detail');
-		$userinfo = $model->getUserFromEmail($post['email']);
+		$model                    = $this->getModel('newslettersubscr_detail');
+		$userinfo                 = $model->getUserFromEmail($post['email']);
 		if (count($userinfo) > 0)
 		{
 			$post['email'] = $userinfo->user_email;
@@ -148,7 +148,7 @@ class newslettersubscr_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
 	}
 
@@ -197,10 +197,10 @@ class newslettersubscr_detailController extends JController
 	function export_acy_data()
 	{
 		ob_clean();
-		$model = $this->getModel('newslettersubscr_detail');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$model          = $this->getModel('newslettersubscr_detail');
+		$cid            = JRequest::getVar('cid', array(), 'post', 'array');
 		$order_function = new order_functions();
-		$data = $model->getnewslettersbsc($cid);
+		$data           = $model->getnewslettersbsc($cid);
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");

@@ -50,7 +50,7 @@ class sample_detailVIEWsample_detail extends JView
 		if ($layout == 'default')
 		{
 
-			$isNew = ($detail->sample_id < 1);
+			$isNew      = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
 			if (count($color_data) > 0)

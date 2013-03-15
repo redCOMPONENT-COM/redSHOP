@@ -22,14 +22,14 @@ class wrapper_detailModelwrapper_detail extends JModel
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array            = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -53,8 +53,10 @@ class wrapper_detailModelwrapper_detail extends JModel
 				. 'WHERE w.wrapper_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -62,19 +64,21 @@ class wrapper_detailModelwrapper_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->wrapper_id = 0;
-			$detail->product_id = $this->_productid;
-			$detail->category_id = 0;
-			$detail->wrapper_price = 0.00;
-			$detail->wrapper_name = null;
-			$detail->wrapper_image = null;
-			$detail->published = 1;
+			$detail                     = new stdClass();
+			$detail->wrapper_id         = 0;
+			$detail->product_id         = $this->_productid;
+			$detail->category_id        = 0;
+			$detail->wrapper_price      = 0.00;
+			$detail->wrapper_name       = null;
+			$detail->wrapper_image      = null;
+			$detail->published          = 1;
 			$detail->wrapper_use_to_all = 0;
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -85,6 +89,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 			. 'WHERE product_id = ' . $productid;
 		$this->_db->setQuery($q);
 		$pname = $this->_db->loadResult();
+
 		return $pname;
 	}
 
@@ -93,6 +98,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1 and product_id in   (' . $productid . ')';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
@@ -103,6 +109,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 			. 'WHERE category_id = ' . $categoryid;
 		$this->_db->setQuery($q);
 		$name = $this->_db->loadResult();
+
 		return $name;
 	}
 
@@ -118,6 +125,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 			. $and;
 		$this->_db->setQuery($q);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
@@ -133,14 +141,15 @@ class wrapper_detailModelwrapper_detail extends JModel
 		}
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
 	function getMultiselectBox($name, $list, $sellist, $displayid, $displayname, $multiple = false)
 	{
 		$multiple = $multiple ? "multiple='multiple'" : "";
-		$id = str_replace('[]', '', $name);
-		$html = "<select class='inputbox' size='10' " . $multiple . " name='" . $name . "' id='" . $id . "'>";
+		$id       = str_replace('[]', '', $name);
+		$html     = "<select class='inputbox' size='10' " . $multiple . " name='" . $name . "' id='" . $id . "'>";
 		for ($i = 0; $i < count($list); $i++)
 		{
 			$selected = '';
@@ -155,6 +164,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 			$html .= "<option $selected value='" . $list[$i]->$displayid . "'>" . $list[$i]->$displayname . "</option>";
 		}
 		$html .= "</select>";
+
 		return $html;
 	}
 
@@ -164,18 +174,19 @@ class wrapper_detailModelwrapper_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		//------------ Start Product Wrapper insert --------------------
 
 		$wrapperfile =& JRequest::getVar('wrapper_image', '', 'files', 'array');
-		$wrapperimg = "";
+		$wrapperimg  = "";
 		if ($wrapperfile['name'] != "")
 		{
 			$wrapperimg = JPath::clean(time() . '_' . $wrapperfile['name']); //Make the filename unique
 
-			$src = $wrapperfile['tmp_name'];
+			$src  = $wrapperfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper' . DS . $wrapperimg; //specific path of the file
 			if ($data['wrapper_name'] == "")
 			{
@@ -187,7 +198,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 		if ($row->wrapper_id)
 		{
 			$productobj = new producthelper();
-			$wrapper = $productobj->getWrapper($row->product_id, $row->wrapper_id);
+			$wrapper    = $productobj->getWrapper($row->product_id, $row->wrapper_id);
 			if (count($wrapper) > 0 && $wrapperimg != "")
 			{
 				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/thumb' . DS . $wrapper[0]->wrapper_image;
@@ -218,8 +229,10 @@ class wrapper_detailModelwrapper_detail extends JModel
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -227,16 +240,18 @@ class wrapper_detailModelwrapper_detail extends JModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'wrapper '
 				. 'WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -259,9 +274,11 @@ class wrapper_detailModelwrapper_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -278,9 +295,11 @@ class wrapper_detailModelwrapper_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

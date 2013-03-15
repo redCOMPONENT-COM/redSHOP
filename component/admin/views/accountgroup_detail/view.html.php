@@ -24,9 +24,9 @@ class accountgroup_detailVIEWaccountgroup_detail extends JView
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 
-		$lists = array();
+		$lists  = array();
 		$detail =& $this->get('data');
-		$isNew = ($detail->accountgroup_id < 1);
+		$isNew  = ($detail->accountgroup_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		if ($isNew)

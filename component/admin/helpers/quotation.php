@@ -22,19 +22,20 @@ class quotationHelper
 
 	function __construct()
 	{
-		$this->_db = JFactory::getDbo();
+		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
 	function getQuotationStatusList()
 	{
-		$status = array();
+		$status   = array();
 		$status[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$status[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_REQUESTED'));
 		$status[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_REPLIED'));
 		$status[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_ACCEPTED'));
 		$status[] = JHTML::_('select.option', 4, JText::_('COM_REDSHOP_REJECTED'));
 		$status[] = JHTML::_('select.option', 5, JText::_('COM_REDSHOP_ORDERED'));
+
 		return $status;
 	}
 
@@ -59,6 +60,7 @@ class quotationHelper
 				$name = JText::_('COM_REDSHOP_ORDERED');
 				break;
 		}
+
 		return $name;
 	}
 
@@ -78,6 +80,7 @@ class quotationHelper
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -88,6 +91,7 @@ class quotationHelper
 			. "WHERE q.quotation_id='" . $quotation_id . "' ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
+
 		return $list;
 	}
 
@@ -99,6 +103,7 @@ class quotationHelper
 		$maxId = $this->_db->loadResult();
 
 		$number = $maxId + 1;
+
 		return ($number);
 	}
 
@@ -114,7 +119,7 @@ class quotationHelper
 	function getQuotationUserList()
 	{
 		$user =& JFactory::getUser();
-		$and = "";
+		$and  = "";
 		if ($user->id)
 		{
 			$and = " AND q.user_id='" . $user->id . "' ";
@@ -125,6 +130,7 @@ class quotationHelper
 			. "ORDER BY quotation_cdate DESC ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -140,13 +146,14 @@ class quotationHelper
 		{
 			$random .= substr($char_list, (rand() % (strlen($char_list))), 1);
 		}
+
 		return $random;
 	}
 
 	function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
 	{
 		$extra_field = new extra_field();
-		$row_data = $extra_field->getSectionFieldList($section_id, 1);
+		$row_data    = $extra_field->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
@@ -159,6 +166,7 @@ class quotationHelper
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -184,9 +192,9 @@ class quotationHelper
 
 	function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
 	{
-		$redTemplate = new Redtemplate();
+		$redTemplate   = new Redtemplate();
 		$producthelper = new producthelper();
-		$resultArr = array();
+		$resultArr     = array();
 
 		$sql = "SELECT fd.*,f.field_title,f.field_type,f.field_name "
 			. "FROM " . $this->_table_prefix . "quotation_fields_data AS fd "
@@ -197,12 +205,12 @@ class quotationHelper
 		if (count($userfield) > 0)
 		{
 			$quotationItem = $this->getQuotationProduct(0, $quotation_item_id);
-			$product_id = $quotationItem[0]->product_id;
+			$product_id    = $quotationItem[0]->product_id;
 
-			$productdetail = $producthelper->getProductById($product_id);
+			$productdetail   = $producthelper->getProductById($product_id);
 			$productTemplate = $redTemplate->getTemplate("product", $productdetail->product_template);
 
-			$returnArr = $producthelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
+			$returnArr    = $producthelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag = $returnArr[1];
 
 			for ($i = 0; $i < count($userFieldTag); $i++)
@@ -213,7 +221,7 @@ class quotationHelper
 					{
 						if ($userfield[$j]->field_type == 10)
 						{
-							$files = explode(",", $userfield[$j]->data_txt);
+							$files    = explode(",", $userfield[$j]->data_txt);
 							$data_txt = "";
 							for ($f = 0; $f < count($files); $f++)
 							{
@@ -236,6 +244,7 @@ class quotationHelper
 //			$resultstr = "<br/>".JText::_("COM_REDSHOP_PRODUCT_USERFIELD");
 			$resultstr .= "<br/>" . implode("<br/>", $resultArr);
 		}
+
 		return $resultstr;
 	}
 
@@ -247,6 +256,7 @@ class quotationHelper
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		$this->updateQuotationStatus($quotation_id, 5);
+
 		return true;
 	}
 
@@ -264,6 +274,7 @@ class quotationHelper
 			. "ORDER BY quotation_cdate DESC ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -279,6 +290,7 @@ class quotationHelper
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
@@ -299,6 +311,7 @@ class quotationHelper
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 }

@@ -24,7 +24,7 @@ class shopper_groupViewshopper_group extends JView
 		global $mainframe, $context;
 
 		$shoppergroup = new shoppergroup();
-		$document = & JFactory::getDocument();
+		$document     = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_SHOPPER_GROUP'));
 		jimport('joomla.html.pagination');
 
@@ -39,14 +39,14 @@ class shopper_groupViewshopper_group extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shopper_group_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shopper_group_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$groups = $shoppergroup->getshopperGroupListArray();
-		$total = count($groups); //& $this->get( 'Total');
+		$total  = count($groups); //& $this->get( 'Total');
 
 		$media = & $this->get('Data');
 

@@ -177,7 +177,7 @@ else
 						</td>
 						<td>
 							<?php
-							if ($row->username != NULL)
+							if ($row->username != null)
 							{
 								echo $uname = $row->firstname . " " . $row->lastname . " (" . $row->username . ")";
 							}

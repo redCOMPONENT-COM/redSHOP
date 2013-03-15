@@ -30,7 +30,7 @@ class orderstatus_detailModelorderstatus_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -52,8 +52,10 @@ class orderstatus_detailModelorderstatus_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_status WHERE order_status_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -64,14 +66,15 @@ class orderstatus_detailModelorderstatus_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->order_status_id = 0;
+			$detail->order_status_id   = 0;
 			$detail->order_status_code = 0;
 			$detail->order_status_name = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published         = 1;
+			$this->_data               = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -82,12 +85,14 @@ class orderstatus_detailModelorderstatus_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -105,6 +110,7 @@ class orderstatus_detailModelorderstatus_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -125,6 +131,7 @@ class orderstatus_detailModelorderstatus_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}

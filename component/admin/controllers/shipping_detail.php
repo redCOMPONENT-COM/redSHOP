@@ -35,11 +35,11 @@ class shipping_detailController extends JController
 
 	function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post   = JRequest::get('post');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		$option = JRequest::getVar('option');
-		$model = $this->getModel('shipping_detail');
-		$row = $model->store($post);
+		$model  = $this->getModel('shipping_detail');
+		$row    = $model->store($post);
 
 		if ($row)
 		{
@@ -62,7 +62,7 @@ class shipping_detailController extends JController
 	function publish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -80,7 +80,7 @@ class shipping_detailController extends JController
 	function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -109,7 +109,7 @@ class shipping_detailController extends JController
 	function orderup()
 	{
 		$option = JRequest::getVar('option');
-		$model = $this->getModel('shipping_detail');
+		$model  = $this->getModel('shipping_detail');
 		$model->move(-1);
 		//$model->orderup();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -125,7 +125,7 @@ class shipping_detailController extends JController
 	function orderdown()
 	{
 		$option = JRequest::getVar('option');
-		$model = $this->getModel('shipping_detail');
+		$model  = $this->getModel('shipping_detail');
 		$model->move(1);
 		//$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -141,8 +141,8 @@ class shipping_detailController extends JController
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(), 'post', 'array');
+		$order  = JRequest::getVar('order', array(), 'post', 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

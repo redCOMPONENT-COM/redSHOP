@@ -86,7 +86,7 @@ $model = $this->getModel('quotation');
 			$k = 0;
 			for ($i = 0, $n = count($this->quotation); $i < $n; $i++)
 			{
-				$row = & $this->quotation[$i];
+				$row     = & $this->quotation[$i];
 				$row->id = $row->quotation_id;
 				$display = $row->user_email;
 				if ($row->user_id)
@@ -98,7 +98,7 @@ $model = $this->getModel('quotation');
 						$display .= ($userarr->is_company && $userarr->company_name != "") ? "<br>" . $userarr->company_name : "";
 					}
 				}
-				$link = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
+				$link   = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
 				$status = $quotationHelper->getQuotationStatusName($row->quotation_status);
 				if ($row->quotation_status == 5)
 				{

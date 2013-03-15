@@ -20,7 +20,7 @@ class templateViewtemplate extends JView
 	function display($tpl = null)
 	{
 		global $mainframe, $context;
-		$context = 'template_id';
+		$context  = 'template_id';
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_TEMPLATES'));
 
@@ -34,22 +34,22 @@ class templateViewtemplate extends JView
 		JToolBarHelper::unpublishList();
 
 
-		$uri =& JFactory::getURI();
-		$context = 'template';
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
+		$uri              =& JFactory::getURI();
+		$context          = 'template';
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$template_section = $mainframe->getUserStateFromRequest($context . 'template_section', 'template_section', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$templates = & $this->get('Data');
+		$templates          = & $this->get('Data');
 
-		$total = & $this->get('Total');
+		$total      = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 
-		$redtemplate = new Redtemplate();
-		$optionsection = $redtemplate->getTemplateSections();
+		$redtemplate      = new Redtemplate();
+		$optionsection    = $redtemplate->getTemplateSections();
 		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'template_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $template_section);
 
 		$this->assignRef('user', JFactory::getUser());

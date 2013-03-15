@@ -32,7 +32,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -54,8 +54,10 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -64,16 +66,18 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail                 = new stdClass();
 			$detail->textlibrary_id = 0;
-			$detail->text_name = null;
-			$detail->text_desc = null;
-			$detail->text_field = null;
-			$detail->section = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->text_name      = null;
+			$detail->text_desc      = null;
+			$detail->text_field     = null;
+			$detail->section        = null;
+			$detail->published      = 1;
+			$this->_data            = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -84,11 +88,13 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -106,6 +112,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -126,6 +133,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -148,11 +156,11 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		{
 
 			$post['textlibrary_id'] = 0;
-			$post['text_name'] = 'Copy Of ' . $cdata->text_name;
-			$post['text_desc'] = $cdata->text_desc;
-			$post['text_field'] = $cdata->text_field;
-			$post['section'] = $cdata->section;
-			$post['published'] = $cdata->published;
+			$post['text_name']      = 'Copy Of ' . $cdata->text_name;
+			$post['text_desc']      = $cdata->text_desc;
+			$post['text_field']     = $cdata->text_field;
+			$post['section']        = $cdata->section;
+			$post['published']      = $cdata->published;
 
 			textlibrary_detailModeltextlibrary_detail::store($post);
 		}

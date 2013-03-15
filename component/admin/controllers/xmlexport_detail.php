@@ -36,14 +36,14 @@ class xmlexport_detailController extends JController
 
 	function save($export = 0)
 	{
-		$session =& JFactory::getSession();
+		$session   =& JFactory::getSession();
 		$xmlhelper = new xmlHelper();
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post      = JRequest::get('post');
+		$option    = JRequest::getVar('option', '', 'request', 'string');
+		$cid       = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['xmlexport_id'] = $cid [0];
-		$model = $this->getModel('xmlexport_detail');
+		$model                = $this->getModel('xmlexport_detail');
 
 		if ($post['xmlexport_id'] == 0)
 		{
@@ -54,12 +54,12 @@ class xmlexport_detailController extends JController
 
 		if (isset($childelement['orderdetail']))
 		{
-			$post['element_name'] = ($childelement['orderdetail'][0]) ? $childelement['orderdetail'][0] : "orderdetail";
+			$post['element_name']      = ($childelement['orderdetail'][0]) ? $childelement['orderdetail'][0] : "orderdetail";
 			$post['xmlexport_filetag'] = $childelement['orderdetail'][1];
 		}
 		elseif (isset($childelement['productdetail']))
 		{
-			$post['element_name'] = ($childelement['productdetail'][0]) ? $childelement['productdetail'][0] : "productdetail";
+			$post['element_name']      = ($childelement['productdetail'][0]) ? $childelement['productdetail'][0] : "productdetail";
 			$post['xmlexport_filetag'] = $childelement['productdetail'][1];
 		}
 
@@ -113,7 +113,7 @@ class xmlexport_detailController extends JController
 			}
 		}
 
-		$session->set('childelement', NULL);
+		$session->set('childelement', null);
 		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
 	}
 
@@ -121,28 +121,28 @@ class xmlexport_detailController extends JController
 	{
 		JHTMLBehavior::modal();
 
-		$xmlhelper = new xmlHelper();
-		$post = JRequest::get('post');
-		$session =& JFactory::getSession();
+		$xmlhelper    = new xmlHelper();
+		$post         = JRequest::get('post');
+		$session      =& JFactory::getSession();
 		$childelement = $session->get('childelement');
 
 		$model = $this->getModel('xmlexport_detail');
 
 		$resarray = array();
-		$uarray = array();
-		$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
+		$uarray   = array();
+		$columns  = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
 
 		for ($i = 0; $i < count($columns); $i++)
 		{
 			if (trim($post[$columns[$i]->Field]) != "")
 			{
-				$xmltag = str_replace(" ", "_", strtolower(trim($post[$columns[$i]->Field])));
-				$uarray[] = $xmltag;
+				$xmltag     = str_replace(" ", "_", strtolower(trim($post[$columns[$i]->Field])));
+				$uarray[]   = $xmltag;
 				$resarray[] = $columns[$i]->Field . "=" . $xmltag;
 			}
 		}
 		$firstlen = count($uarray);
-		$uarray1 = array_unique($uarray);
+		$uarray1  = array_unique($uarray);
 		sort($uarray1);
 		$seclen = count($uarray1);
 //		if(count($resarray)<=0)
@@ -154,6 +154,7 @@ class xmlexport_detailController extends JController
 		if ($seclen != $firstlen)
 		{
 			echo $msg = JText::_('COM_REDSHOP_DUPLICATE_FIELDNAME');
+
 //			$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport_detail&task=edit&cid[]='.$cid[0], $msg );
 			return;
 		}
@@ -164,9 +165,9 @@ class xmlexport_detailController extends JController
 //			print_r($childelement);die();
 //		}
 		$session->set('childelement', $childelement);    ?>
-    <script language="javascript">
-        window.parent.SqueezeBox.close();
-    </script>
+		<script language="javascript">
+			window.parent.SqueezeBox.close();
+		</script>
 	<?php
 	}
 
@@ -182,7 +183,7 @@ class xmlexport_detailController extends JController
 	function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -200,9 +201,9 @@ class xmlexport_detailController extends JController
 
 	function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option  = JRequest::getVar('option', '', 'request', 'string');
 		$session =& JFactory::getSession();
-		$session->set('childelement', NULL);
+		$session->set('childelement', null);
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
 	}
@@ -216,7 +217,7 @@ class xmlexport_detailController extends JController
 	function auto_syncpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -240,7 +241,7 @@ class xmlexport_detailController extends JController
 	function auto_syncunpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -264,7 +265,7 @@ class xmlexport_detailController extends JController
 	function usetoallpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -288,7 +289,7 @@ class xmlexport_detailController extends JController
 	function usetoallunpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -312,7 +313,7 @@ class xmlexport_detailController extends JController
 	function publish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
@@ -335,7 +336,7 @@ class xmlexport_detailController extends JController
 	function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));

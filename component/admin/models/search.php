@@ -99,7 +99,7 @@ class searchModelsearch extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 		//$this->_search	= null;
 	}
@@ -109,11 +109,13 @@ class searchModelsearch extends JModel
 		if ($this->_alert == 'termsarticle')
 		{
 			$this->_data = $this->_buildQuery();
+
 			return $this->_data;
 		}
 		$query = $this->_buildQuery();
 		//return $query;
 		$this->_data = $this->_getList($query);
+
 		return $this->_data;
 	}
 
@@ -163,7 +165,7 @@ class searchModelsearch extends JModel
 			}
 			if ($this->_productdata)
 			{
-				$pid = @implode(",", $pid);
+				$pid   = @implode(",", $pid);
 				$where = " and p.product_id not in (" . $pid . ") and p.product_name like '%" . $this->_search . "%'";
 			}
 			else
@@ -194,7 +196,7 @@ class searchModelsearch extends JModel
 			}
 			if ($this->_productdata)
 			{
-				$pid = @implode(",", $pid);
+				$pid   = @implode(",", $pid);
 				$where = " and p.product_id not in (" . $pid . ") and p.product_name like '%" . $this->_search . "%'";
 			}
 			else
@@ -225,7 +227,7 @@ class searchModelsearch extends JModel
 			}
 			if ($result_stock)
 			{
-				$pid = @implode(",", $pid);
+				$pid   = @implode(",", $pid);
 				$where = " and p.container_id not in ($pid)";
 			}
 			else
@@ -244,7 +246,7 @@ class searchModelsearch extends JModel
 				. 'WHERE a.state = 1 '
 				. 'AND a.title LIKE "' . $this->_search . '%"';
 			$this->_db->setQuery($query);
-			$rows = $this->_db->loadObjectList();
+			$rows    = $this->_db->loadObjectList();
 			$article = array();
 			for ($j = 0; $j < count($rows); $j++)
 			{
@@ -264,16 +266,17 @@ class searchModelsearch extends JModel
 					foreach ($r as $value)
 					{
 						$article[$i]->value = $value->text;
-						$article[$i]->id = $value->value;
+						$article[$i]->id    = $value->value;
 						$i++;
 					}
 				}
 				else
 				{
 					$article[$j]->value = $rows[$j]->text;
-					$article[$j]->id = $rows[$j]->value;
+					$article[$j]->id    = $rows[$j]->value;
 				}
 			}
+
 			return $article;
 		}
 		else if ($this->_user == 1)
@@ -331,9 +334,9 @@ class searchModelsearch extends JModel
 					. "FROM " . $this->_table_prefix . "product_related "
 					. "WHERE product_id='" . $this->_product_id . "' ";
 				$this->_db->setQuery($query);
-				$related = $this->_db->loadResultArray();
+				$related                  = $this->_db->loadResultArray();
 				$related[count($related)] = $this->_product_id;
-				$relatedid = implode(", ", $related);
+				$relatedid                = implode(", ", $related);
 
 				$and = "AND p.product_id NOT IN (" . $relatedid . ") ";
 			}
@@ -385,6 +388,7 @@ class searchModelsearch extends JModel
 			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " . $this->_table_prefix . "product as p left join   " . $this->_table_prefix . "product_accessory as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
 
 		}
+
 		return $query;
 	}
 }

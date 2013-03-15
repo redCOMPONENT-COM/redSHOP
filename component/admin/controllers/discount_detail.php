@@ -54,7 +54,7 @@ class discount_detailController extends JController
 
 
 		$post ['start_date'] = strtotime($post ['start_date']);
-		$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
+		$post ['end_date']   = strtotime($post ['end_date']) + (23 * 59 * 59);
 
 		$model = $this->getModel('discount_detail');
 
@@ -66,15 +66,15 @@ class discount_detailController extends JController
 		if (isset($layout) && $layout == 'product')
 		{
 			$post ['discount_product_id'] = $cid[0];
-			$row = $model->storeDiscountProduct($post);
-			$did = $row->discount_product_id;
+			$row                          = $model->storeDiscountProduct($post);
+			$did                          = $row->discount_product_id;
 		}
 		else
 		{
 
 			$post ['discount_id'] = $cid[0];
-			$row = $model->store($post);
-			$did = $row->discount_id;
+			$row                  = $model->store($post);
+			$did                  = $row->discount_id;
 		}
 		if ($row)
 		{
@@ -190,7 +190,7 @@ class discount_detailController extends JController
 	{
 		$layout = JRequest::getVar('layout');
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
 
 		if (isset($layout) && $layout == 'product')
 			$this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);

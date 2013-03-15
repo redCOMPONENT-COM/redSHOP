@@ -38,8 +38,8 @@ class fields_detailController extends JController
 	function save($apply = 0)
 	{
 
-		$post = JRequest::get('post');
-		$field_desc = JRequest::getVar('field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post               = JRequest::get('post');
+		$field_desc         = JRequest::getVar('field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["field_desc"] = $field_desc;
 
 		$option = JRequest::getVar('option');
@@ -68,6 +68,7 @@ class fields_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST');
 			$this->setRedirect('index.php?option=' . $option . '&view=fields_detail&task=edit&cid[]=' . $cid[0], $msg);
+
 			return;
 		}
 		else if ($row = $model->store($post))
@@ -170,15 +171,15 @@ class fields_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
 	}
 
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('fields_detail');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('fields_detail');
 		if ($model->saveorder($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -199,9 +200,9 @@ class fields_detailController extends JController
 	function orderup()
 	{
 		global $mainframe, $context;
-		$option = JRequest::getVar('option');
+		$option           = JRequest::getVar('option');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$up = 1;
+		$up               = 1;
 		if (strtolower($filter_order_Dir) == "asc")
 		{
 			$up = -1;
@@ -223,9 +224,9 @@ class fields_detailController extends JController
 	function orderdown()
 	{
 		global $mainframe, $context;
-		$option = JRequest::getVar('option');
+		$option           = JRequest::getVar('option');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$down = -1;
+		$down             = -1;
 		if (strtolower($filter_order_Dir) == "asc")
 		{
 			$down = 1;

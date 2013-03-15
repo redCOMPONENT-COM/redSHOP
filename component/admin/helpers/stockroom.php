@@ -27,7 +27,7 @@ class rsstockroomhelper
 		$list = array();
 		if (USE_STOCKROOM == 1)
 		{
-			$db =& JFactory::getDBO();
+			$db  =& JFactory::getDBO();
 			$and = "";
 			if ($stockroom_id != 0)
 			{
@@ -39,6 +39,7 @@ class rsstockroomhelper
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
 		}
+
 		return $list;
 	}
 
@@ -51,8 +52,10 @@ class rsstockroomhelper
 			{
 				return true;
 			}
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -60,17 +63,18 @@ class rsstockroomhelper
 	{
 		$isStockExists = false;
 		$producthelper = new producthelper();
-		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
+		$property      = $producthelper->getAttibuteProperty(0, 0, $product_id);
 		for ($att_j = 0; $att_j < count($property); $att_j++)
 		{
 			$isSubpropertyStock = false;
-			$sub_property = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+			$sub_property       = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
 			for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 			{
 				$isSubpropertyStock = $this->isStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');
 				if ($isSubpropertyStock)
 				{
 					$isStockExists = $isSubpropertyStock;
+
 					return $isStockExists;
 				}
 			}
@@ -84,6 +88,7 @@ class rsstockroomhelper
 				if ($isPropertystock)
 				{
 					$isStockExists = $isPropertystock;
+
 					return $isStockExists;
 				}
 			}
@@ -101,25 +106,28 @@ class rsstockroomhelper
 			{
 				return true;
 			}
+
 			return false;
 		}
+
 		return true;
 	}
 
 	function isAttributePreorderStockExists($product_id)
 	{
 		$producthelper = new producthelper();
-		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
+		$property      = $producthelper->getAttibuteProperty(0, 0, $product_id);
 		for ($att_j = 0; $att_j < count($property); $att_j++)
 		{
 			$isSubpropertyStock = false;
-			$sub_property = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+			$sub_property       = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
 			for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 			{
 				$isSubpropertyStock = $this->isPreorderStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');
 				if ($isSubpropertyStock)
 				{
 					$isPreorderStockExists = $isSubpropertyStock;
+
 					return $isPreorderStockExists;
 				}
 			}
@@ -133,10 +141,12 @@ class rsstockroomhelper
 				if ($isPropertystock)
 				{
 					$isPreorderStockExists = $isPropertystock;
+
 					return $isPreorderStockExists;
 				}
 			}
 		}
+
 		return $isPreorderStockExists;
 	}
 
@@ -148,13 +158,14 @@ class rsstockroomhelper
 			$quantity = $this->getStockAmountwithReserve($section_id, $section, $stockroom_id);
 
 			$reserve_quantity = $this->getReservedStock($section_id, $section);
-			$quantity = $quantity - $reserve_quantity;
+			$quantity         = $quantity - $reserve_quantity;
 
 			if ($quantity < 0)
 			{
 				$quantity = 0;
 			}
 		}
+
 		return $quantity;
 	}
 
@@ -167,13 +178,14 @@ class rsstockroomhelper
 			$quantity = $this->getPreorderStockAmountwithReserve($section_id, $section, $stockroom_id);
 
 			$reserve_quantity = $this->getReservedStock($section_id, $section);
-			$quantity = $quantity - $reserve_quantity;
+			$quantity         = $quantity - $reserve_quantity;
 
 			if ($quantity < 0)
 			{
 				$quantity = 0;
 			}
 		}
+
 		return $quantity;
 	}
 
@@ -182,9 +194,9 @@ class rsstockroomhelper
 		$quantity = 1;
 		if (USE_STOCKROOM == 1)
 		{
-			$and = "";
+			$and   = "";
 			$table = "product";
-			$db =& JFactory::getDBO();
+			$db    =& JFactory::getDBO();
 			if ($section != "product")
 			{
 				$table = "product_attribute";
@@ -234,7 +246,7 @@ class rsstockroomhelper
 
 					$getstockdata = new stdClass();
 
-					$getstockdata->property_id = 0;
+					$getstockdata->property_id    = 0;
 					$getstockdata->subproperty_id = 0;
 					if ($section == "product")
 					{
@@ -243,26 +255,26 @@ class rsstockroomhelper
 					else if ($section == "property")
 					{
 
-						$property = $producthelper->getAttibuteProperty($section_id);
+						$property     = $producthelper->getAttibuteProperty($section_id);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
+						$attribute    = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$product_id   = $attribute[0]->product_id;
 
-						$getstockdata->product_id = $product_id;
+						$getstockdata->product_id  = $product_id;
 						$getstockdata->property_id = $section_id;
 					}
 					else if ($section == "subproperty")
 					{
 
-						$subproperty = $producthelper->getAttibuteSubProperty($section_id);
-						$property_id = $subproperty[0]->subattribute_id;
-						$property = $producthelper->getAttibuteProperty($property_id);
+						$subproperty  = $producthelper->getAttibuteSubProperty($section_id);
+						$property_id  = $subproperty[0]->subattribute_id;
+						$property     = $producthelper->getAttibuteProperty($property_id);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
+						$attribute    = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$product_id   = $attribute[0]->product_id;
 
-						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $property_id;
+						$getstockdata->product_id     = $product_id;
+						$getstockdata->property_id    = $property_id;
 						$getstockdata->subproperty_id = $section_id;
 					}
 
@@ -272,10 +284,11 @@ class rsstockroomhelper
 		}
 
 		//echo $quantity;die();
-		if ($quantity == NULL)
+		if ($quantity == null)
 		{
 			$quantity = (USE_BLANK_AS_INFINITE) ? 1000000000 : 0;
 		}
+
 		return $quantity;
 	}
 
@@ -284,9 +297,9 @@ class rsstockroomhelper
 		$quantity = 1;
 		if (USE_STOCKROOM == 1)
 		{
-			$and = "";
+			$and   = "";
 			$table = "product";
-			$db =& JFactory::getDBO();
+			$db    =& JFactory::getDBO();
 			if ($section != "product")
 			{
 				$table = "product_attribute";
@@ -344,7 +357,7 @@ class rsstockroomhelper
 
 					$getstockdata = new stdClass();
 
-					$getstockdata->property_id = 0;
+					$getstockdata->property_id    = 0;
 					$getstockdata->subproperty_id = 0;
 					if ($section == "product")
 					{
@@ -353,26 +366,26 @@ class rsstockroomhelper
 					else if ($section == "property")
 					{
 
-						$property = $producthelper->getAttibuteProperty($section_id);
+						$property     = $producthelper->getAttibuteProperty($section_id);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
+						$attribute    = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$product_id   = $attribute[0]->product_id;
 
-						$getstockdata->product_id = $product_id;
+						$getstockdata->product_id  = $product_id;
 						$getstockdata->property_id = $section_id;
 					}
 					else if ($section == "subproperty")
 					{
 
-						$subproperty = $producthelper->getAttibuteSubProperty($section_id);
-						$property_id = $subproperty[0]->subattribute_id;
-						$property = $producthelper->getAttibuteProperty($property_id);
+						$subproperty  = $producthelper->getAttibuteSubProperty($section_id);
+						$property_id  = $subproperty[0]->subattribute_id;
+						$property     = $producthelper->getAttibuteProperty($property_id);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
+						$attribute    = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$product_id   = $attribute[0]->product_id;
 
-						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $property_id;
+						$getstockdata->product_id     = $product_id;
+						$getstockdata->property_id    = $property_id;
 						$getstockdata->subproperty_id = $section_id;
 					}
 
@@ -392,9 +405,9 @@ class rsstockroomhelper
 
 		if (USE_STOCKROOM == 1)
 		{
-			$and = "";
+			$and   = "";
 			$table = "product";
-			$db =& JFactory::getDBO();
+			$db    =& JFactory::getDBO();
 			if ($section != "product")
 			{
 				$table = "product_attribute";
@@ -424,6 +437,7 @@ class rsstockroomhelper
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
 		}
+
 		return $list;
 	}
 
@@ -434,9 +448,9 @@ class rsstockroomhelper
 
 		if (USE_STOCKROOM == 1)
 		{
-			$and = "";
+			$and   = "";
 			$table = "product";
-			$db =& JFactory::getDBO();
+			$db    =& JFactory::getDBO();
 			if ($section != "product")
 			{
 				$table = "product_attribute";
@@ -467,12 +481,13 @@ class rsstockroomhelper
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
 		}
+
 		return $list;
 	}
 
 	function updateStockroomQuantity($section_id = 0, $quantity = 0, $section = "product", $product_id = 0)
 	{
-		$affected_row = array();
+		$affected_row       = array();
 		$stockroom_quantity = array();
 		if (USE_STOCKROOM == 1)
 		{
@@ -484,7 +499,7 @@ class rsstockroomhelper
 
 				if ($list[$i]->quantity < $quantity)
 				{
-					$quantity = $quantity - $list[$i]->quantity;
+					$quantity           = $quantity - $list[$i]->quantity;
 					$remaining_quantity = $list[$i]->quantity;
 				}
 				else
@@ -496,7 +511,7 @@ class rsstockroomhelper
 				if ($remaining_quantity > 0)
 				{
 					$this->updateStockAmount($section_id, $remaining_quantity, $list[$i]->stockroom_id, $section);
-					$affected_row[] = $list[$i]->stockroom_id;
+					$affected_row[]       = $list[$i]->stockroom_id;
 					$stockroom_quantity[] = $remaining_quantity;
 				}
 			}
@@ -524,7 +539,7 @@ class rsstockroomhelper
 					{
 						if ($preorder_list[$i]->preorder_stock < $quantity)
 						{
-							$quantity = $quantity - $preorder_list[$i]->preorder_stock;
+							$quantity           = $quantity - $preorder_list[$i]->preorder_stock;
 							$remaining_quantity = $preorder_list[$i]->preorder_stock;
 						}
 						else
@@ -545,17 +560,18 @@ class rsstockroomhelper
 
 
 		}
-		$list = implode(",", $affected_row);
-		$stockroom_quantity_list = implode(",", $stockroom_quantity);
-		$result_array = array();
-		$result_array['stockroom_list'] = $list;
+		$list                                    = implode(",", $affected_row);
+		$stockroom_quantity_list                 = implode(",", $stockroom_quantity);
+		$result_array                            = array();
+		$result_array['stockroom_list']          = $list;
 		$result_array['stockroom_quantity_list'] = $stockroom_quantity_list;
+
 		return $result_array;
 	}
 
 	function updateStockAmount($section_id = 0, $quantity = 0, $stockroom_id = 0, $section = "product")
 	{
-		$and = "";
+		$and   = "";
 		$table = "product";
 		if (USE_STOCKROOM == 1)
 		{
@@ -585,13 +601,14 @@ class rsstockroomhelper
 			}
 
 		}
+
 		return true;
 	}
 
 
 	function updatePreorderStockAmount($section_id = 0, $quantity = 0, $stockroom_id = 0, $section = "product")
 	{
-		$and = "";
+		$and   = "";
 		$table = "product";
 		if (USE_STOCKROOM == 1)
 		{
@@ -622,6 +639,7 @@ class rsstockroomhelper
 			}
 
 		}
+
 		return true;
 	}
 
@@ -629,8 +647,8 @@ class rsstockroomhelper
 	{
 		if (USE_STOCKROOM == 1)
 		{
-			$db = & JFactory :: getDBO();
-			$and = "";
+			$db    = & JFactory :: getDBO();
+			$and   = "";
 			$table = "product";
 			if ($section != "product")
 			{
@@ -648,7 +666,7 @@ class rsstockroomhelper
 				}
 			}
 
-			$stockId = explode(",", $stockroom_id);
+			$stockId   = explode(",", $stockroom_id);
 			$stock_Qty = explode(",", $quantity);
 			for ($i = 0; $i < count($stockId); $i++)
 			{
@@ -668,6 +686,7 @@ class rsstockroomhelper
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -683,6 +702,7 @@ class rsstockroomhelper
 			}
 		}
 		$template_desc = str_replace('{stockroom_detail}', $productinstock, $template_desc);
+
 		return $template_desc;
 	}
 
@@ -715,6 +735,7 @@ class rsstockroomhelper
 				}
 			}
 		}
+
 		return $list;
 	}
 
@@ -726,7 +747,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
-			$db = JFactory::getDBO();
+			$db         = JFactory::getDBO();
 			$session_id = session_id();
 
 			$query = "SELECT SUM(qty) FROM " . $this->_table_prefix . "cart "
@@ -734,8 +755,10 @@ class rsstockroomhelper
 				. "AND section='" . $section . "' ";
 			$db->setQuery($query);
 			$count = intval($db->loadResult());
+
 			return $count;
 		}
+
 		return 0;
 	}
 
@@ -744,7 +767,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
-			$db = JFactory::getDBO();
+			$db         = JFactory::getDBO();
 			$session_id = session_id();
 
 			$query = "SELECT SUM(qty) FROM " . $this->_table_prefix . "cart "
@@ -753,8 +776,10 @@ class rsstockroomhelper
 				. "AND section='" . $section . "' ";
 			$db->setQuery($query);
 			$count = intval($db->loadResult());
+
 			return $count;
 		}
+
 		return 0;
 	}
 
@@ -762,7 +787,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE) //&& USE_STOCKROOM
 		{
-			$db = JFactory::getDBO();
+			$db   = JFactory::getDBO();
 			$time = time() - (CART_TIMEOUT * 60);
 
 			$query = "DELETE FROM " . $this->_table_prefix . "cart "
@@ -770,6 +795,7 @@ class rsstockroomhelper
 			$db->setQuery($query);
 			$db->query();
 		}
+
 		return true;
 	}
 
@@ -777,9 +803,9 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE) // && USE_STOCKROOM
 		{
-			$db = JFactory::getDBO();
+			$db         = JFactory::getDBO();
 			$session_id = session_id();
-			$and = "";
+			$and        = "";
 			if ($section_id != 0)
 			{
 				$and .= "AND product_id='" . $section_id . "' AND section='" . $section . "' ";
@@ -790,6 +816,7 @@ class rsstockroomhelper
 			$db->setQuery($query);
 			$db->query();
 		}
+
 		return true;
 	}
 
@@ -797,11 +824,11 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE) // && USE_STOCKROOM
 		{
-			$db = JFactory::getDBO();
+			$db         = JFactory::getDBO();
 			$session_id = session_id();
 
 			$time = time();
-			$and = "AND session_id='" . $session_id . "' "
+			$and  = "AND session_id='" . $session_id . "' "
 				. "AND product_id='" . $section_id . "' "
 				. "AND section='" . $section . "' ";
 
@@ -827,6 +854,7 @@ class rsstockroomhelper
 			$db->setQuery($query);
 			$db->query();
 		}
+
 		return true;
 	}
 
@@ -834,7 +862,7 @@ class rsstockroomhelper
 	// function to get enabled Stockroom
 	function getStockroom($stockroom_id)
 	{
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id in  (' . $stockroom_id . ') and published=1';
 		$db->setQuery($query);
 
@@ -846,7 +874,7 @@ class rsstockroomhelper
 	// function to get min delivery time
 	function getStockroom_maxdelivery($stockroom_id)
 	{
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = 'SELECT max_del_time,delivery_time  FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id in  (' . $stockroom_id . ') and published=1 order by max_del_time desc';
 		//mysql_query($query) or die(mysql_error());
 		$db->setQuery($query);
@@ -860,10 +888,11 @@ class rsstockroomhelper
 	function getdatediff($endDate, $beginDate)
 	{
 
-		$epoch_1 = mktime(0, 0, 0, date("m", $endDate), date("d", $endDate), date("Y", $endDate));
-		$epoch_2 = mktime(0, 0, 0, date("m", $beginDate), date("d", $beginDate), date("Y", $beginDate));
+		$epoch_1  = mktime(0, 0, 0, date("m", $endDate), date("d", $endDate), date("Y", $endDate));
+		$epoch_2  = mktime(0, 0, 0, date("m", $beginDate), date("d", $beginDate), date("Y", $beginDate));
 		$dateDiff = $epoch_1 - $epoch_2;
 		$fullDays = floor($dateDiff / (60 * 60 * 24));
+
 		return $fullDays;
 
 	}
@@ -872,7 +901,7 @@ class rsstockroomhelper
 	{
 		$producthelper = new producthelper();
 
-		$isStockExists = $this->isStockExists($product_id);
+		$isStockExists         = $this->isStockExists($product_id);
 		$isPreorderStockExists = '';
 		if ($totalatt > 0 && !$isStockExists)
 		{
@@ -880,7 +909,7 @@ class rsstockroomhelper
 			for ($att_j = 0; $att_j < count($property); $att_j++)
 			{
 				$isSubpropertyStock = false;
-				$sub_property = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+				$sub_property       = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
 				for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 				{
 					$isSubpropertyStock = $this->isStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');
@@ -914,7 +943,7 @@ class rsstockroomhelper
 	{
 		$producthelper = new producthelper();
 
-		$isStockExists = $this->isPreorderStockExists($product_id);
+		$isStockExists         = $this->isPreorderStockExists($product_id);
 		$isPreorderStockExists = '';
 		if ($totalatt > 0 && !$isStockExists)
 		{
@@ -922,7 +951,7 @@ class rsstockroomhelper
 			for ($att_j = 0; $att_j < count($property); $att_j++)
 			{
 				$isSubpropertyStock = false;
-				$sub_property = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+				$sub_property       = $producthelper->getAttibuteSubProperty(0, $property[$att_j]->property_id);
 				for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 				{
 					$isSubpropertyStock = $this->isPreorderStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');

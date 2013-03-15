@@ -82,7 +82,8 @@ $link_path = "/components/com_redshop/assets/images/";
 					   onclick="delimg('<?php echo IMAGE_PREVIOUS_LINK_FIND ?>','prvlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
 				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . IMAGE_PREVIOUS_LINK_FIND))
-				{ ?>
+				{
+					?>
 					<div id="prvlinkdiv">
 						<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_PREVIOUS_LINK_FIND; ?>"
 						   title="<?php echo IMAGE_PREVIOUS_LINK_FIND; ?>" rel="{handler: 'image', size: {}}"><img
@@ -113,7 +114,8 @@ $link_path = "/components/com_redshop/assets/images/";
 					   onclick="delimg('<?php echo IMAGE_NEXT_LINK_FIND ?>','nxtlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
 				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . IMAGE_NEXT_LINK_FIND))
-				{ ?>
+				{
+					?>
 					<div id="nxtlinkdiv">
 					<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_NEXT_LINK_FIND; ?>"
 					   title="<?php echo IMAGE_NEXT_LINK_FIND; ?>" rel="{handler: 'image', size: {}}"><img

@@ -27,7 +27,7 @@ class orderVieworder extends JView
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$model = $this->getModel('order');
+		$model  = $this->getModel('order');
 		$layout = JRequest::getVar('layout');
 
 		if ($layout == 'previewlog')
@@ -54,18 +54,18 @@ class orderVieworder extends JView
 		}
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' o.order_id ');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$filter_status = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
+		$filter_order          = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' o.order_id ');
+		$filter_order_Dir      = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$filter_status         = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
 		$filter_payment_status = $mainframe->getUserStateFromRequest($context . 'filter_payment_status', 'filter_payment_status', '', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$orders = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$orders             = & $this->get('Data');
+		$total              = & $this->get('Total');
+		$pagination         = & $this->get('Pagination');
 
-		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
+		$lists['filter_status']         = $order_function->getstatuslist('filter_status', $filter_status, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
 		$lists['filter_payment_status'] = $order_function->getpaymentstatuslist('filter_payment_status', $filter_payment_status, 'class="inputbox" size="1" onchange="document.adminForm.submit();" ');
 
 		$this->assignRef('user', JFactory::getUser());

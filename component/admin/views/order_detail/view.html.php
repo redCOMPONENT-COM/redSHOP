@@ -18,11 +18,11 @@ class order_detailVIEWorder_detail extends JView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+		$option   = JRequest::getVar('option');
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = new order_functions();
-		$redhelper = new redhelper();
+		$redhelper       = new redhelper();
 
 		$uri =& JFactory::getURI();
 
@@ -30,8 +30,8 @@ class order_detailVIEWorder_detail extends JView
 		// Load language file
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
-		$language =& JFactory::getLanguage();
-		$base_dir = JPATH_ADMINISTRATOR;
+		$language     =& JFactory::getLanguage();
+		$base_dir     = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 
 
@@ -57,7 +57,7 @@ class order_detailVIEWorder_detail extends JView
 
 		$detail =& $this->get('data');
 
-		$billing = $order_functions->getOrderBillingUserInfo($detail->order_id);
+		$billing  = $order_functions->getOrderBillingUserInfo($detail->order_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
 
 		$task = JRequest :: getVar('task');
@@ -79,13 +79,13 @@ class order_detailVIEWorder_detail extends JView
 			$this->setLayout($layout);
 			$Redconfiguration = new Redconfiguration();
 
-			$countryarray = $Redconfiguration->getCountryList((array) $shipping);
+			$countryarray           = $Redconfiguration->getCountryList((array) $shipping);
 			$shipping->country_code = $countryarray['country_code'];
-			$lists['country_code'] = $countryarray['country_dropdown'];
-			$statearray = $Redconfiguration->getStateList((array) $shipping);
-			$lists['state_code'] = $statearray['state_dropdown'];
-			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
-			$showstate = ($statearray['is_states'] <= 0) ? 0 : 1;
+			$lists['country_code']  = $countryarray['country_dropdown'];
+			$statearray             = $Redconfiguration->getStateList((array) $shipping);
+			$lists['state_code']    = $statearray['state_dropdown'];
+			$showcountry            = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
+			$showstate              = ($statearray['is_states'] <= 0) ? 0 : 1;
 
 			$this->assignRef('showcountry', $showcountry);
 			$this->assignRef('showstate', $showstate);
@@ -111,13 +111,13 @@ class order_detailVIEWorder_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_order48');
 
 		$redhelper = new redhelper();
-		$backlink = 'index.php?option=com_redshop&view=order';
-		$backlink = $redhelper->sslLink($backlink, 0);
-		$new_link = 'index.php?option=com_redshop&view=order';
+		$backlink  = 'index.php?option=com_redshop&view=order';
+		$backlink  = $redhelper->sslLink($backlink, 0);
+		$new_link  = 'index.php?option=com_redshop&view=order';
 		JToolBarHelper::back(JText::_('COM_REDSHOP_ORDERLIST'), 'javascript:location.href=\'' . $new_link . '\';');
 
 		// Section can be added from here
-		$option = array();
+		$option   = array();
 		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$products = $model->getProducts($detail->order_id);
 		$products = array_merge($option, $products);

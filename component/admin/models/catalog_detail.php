@@ -30,7 +30,7 @@ class catalog_detailModelcatalog_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -58,6 +58,7 @@ class catalog_detailModelcatalog_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -70,14 +71,16 @@ class catalog_detailModelcatalog_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->catalog_id = null;
+			$detail->catalog_id   = null;
 			$detail->catalog_name = null;
 
 			$detail->published = 1;
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -88,14 +91,17 @@ class catalog_detailModelcatalog_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -113,9 +119,11 @@ class catalog_detailModelcatalog_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -136,6 +144,7 @@ class catalog_detailModelcatalog_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -147,6 +156,7 @@ class catalog_detailModelcatalog_detail extends JModel
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour  WHERE sample_id=' . $sample_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 }

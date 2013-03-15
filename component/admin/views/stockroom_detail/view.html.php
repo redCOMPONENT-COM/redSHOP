@@ -21,19 +21,20 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		if ($layout == 'default_product')
 		{
 			$this->display_product();
+
 			return false;
 		}
-		$lists = array();
-		$uri =& JFactory::getURI();
+		$lists  = array();
+		$uri    =& JFactory::getURI();
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$model = $this->getModel('stockroom_detail');
+		$model  = $this->getModel('stockroom_detail');
 		if ($layout == 'importstock')
 		{
-			$stockroom_name = $model->getStockRoomList();
-			$op = array();
-			$op[0]->value = 0;
-			$op[0]->text = JText::_('COM_REDSHOP_SELECT');
-			$stockroom_name = array_merge($op, $stockroom_name);
+			$stockroom_name        = $model->getStockRoomList();
+			$op                    = array();
+			$op[0]->value          = 0;
+			$op[0]->text           = JText::_('COM_REDSHOP_SELECT');
+			$stockroom_name        = array_merge($op, $stockroom_name);
 			$lists['stockroom_id'] = JHTML::_('select.genericlist', $stockroom_name, 'stockroom_id', 'class="inputbox" size="1" ', 'value', 'text');
 
 			JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC'), 'redshop_stockroom48');
@@ -51,7 +52,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 			$detail =& $this->get('data');
 
 			$isNew = ($detail->stockroom_id < 1);
-			$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+			$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 			JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');
 
 			//create the toolbar
@@ -87,7 +88,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 
 			$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-			$delivery_time = array();
+			$delivery_time          = array();
 			$delivery_time['value'] = "days";
 			$delivery_time['value'] .= "weeks";
 
@@ -108,7 +109,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		$id = JRequest::getVar('id', '');
 
 		// Get data from the model
-		$model = $this->getModel('stockroom_detail');
+		$model     = $this->getModel('stockroom_detail');
 		$container = $model->stock_container($id);
 
 		//assign stock room product template

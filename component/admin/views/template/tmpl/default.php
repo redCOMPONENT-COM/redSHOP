@@ -93,9 +93,9 @@ $redtemplate = new Redtemplate();
 			$k = 0;
 			for ($i = 0, $n = count($this->templates); $i < $n; $i++)
 			{
-				$row = & $this->templates[$i];
+				$row     = & $this->templates[$i];
 				$row->id = $row->template_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=template_detail&task=edit&cid[]=' . $row->template_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=template_detail&task=edit&cid[]=' . $row->template_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

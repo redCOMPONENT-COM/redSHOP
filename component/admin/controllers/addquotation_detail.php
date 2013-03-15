@@ -24,13 +24,13 @@ class addquotation_detailController extends JController
 
 	function save($send = 0)
 	{
-		$post = JRequest::get('post');
+		$post               = JRequest::get('post');
 		$adminproducthelper = new adminproducthelper();
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$option                = JRequest::getVar('option', '', 'request', 'string');
+		$cid                   = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['quotation_id'] = $cid [0];
-		$model = $this->getModel('addquotation_detail');
+		$model                 = $this->getModel('addquotation_detail');
 
 		global $mainframe;
 
@@ -38,19 +38,19 @@ class addquotation_detailController extends JController
 
 		if (!$post['users_info_id'])
 		{
-			$name = $post['firstname'] . ' ' . $post['lastname'];
+			$name             = $post['firstname'] . ' ' . $post['lastname'];
 			$post['usertype'] = "Registered";
-			$post['email'] = $post['user_email'];
+			$post['email']    = $post['user_email'];
 			$post['username'] = JRequest::getVar('username', '', 'post', 'username');
-			$post['name'] = $name;
+			$post['name']     = $name;
 			JRequest:
 			etVar('password1', $post['password']);
 			//$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 			$post['groups'] = array(0 => 2);
 
-			$date =& JFactory::getDate();
+			$date                 =& JFactory::getDate();
 			$post['registerDate'] = $date->toMySQL();
-			$post['block'] = 0;
+			$post['block']        = 0;
 
 			# get Admin order detail Model Object
 			$usermodel = & JModel::getInstance('user_detail', 'user_detailModel');
@@ -61,13 +61,14 @@ class addquotation_detailController extends JController
 			if (!$user)
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 			/*echo "<pre>";
 			print_r($user);
 			exit;*/
 			$post['user_id'] = $user->user_id;
-			$user_id = $user->user_id;
+			$user_id         = $user->user_id;
 
 			//$user_data = $model->storeShipping($post);
 			$post['users_info_id'] = $user_data->users_info_id;
@@ -77,7 +78,7 @@ class addquotation_detailController extends JController
 			}
 		}
 
-		$orderItem = $adminproducthelper->redesignProductItem($post);
+		$orderItem          = $adminproducthelper->redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
 		$post['user_info_id'] = $post['users_info_id'];
@@ -109,21 +110,21 @@ class addquotation_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
 
 	function displayOfflineSubProperty()
 	{
-		$get = JRequest::get('get');
+		$get   = JRequest::get('get');
 		$model = $this->getModel('addquotation_detail');
 
-		$product_id = $get['product_id'];
+		$product_id   = $get['product_id'];
 		$accessory_id = $get['accessory_id'];
 		$attribute_id = $get['attribute_id'];
-		$user_id = $get['user_id'];
-		$unique_id = $get['unique_id'];
+		$user_id      = $get['user_id'];
+		$unique_id    = $get['unique_id'];
 
 		$propid = explode(",", $get['property_id']);
 

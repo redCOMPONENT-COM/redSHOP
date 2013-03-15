@@ -29,8 +29,8 @@ class JFormFieldmanufacturer extends JFormField
 
 	protected function getInput()
 	{
-		$db = & JFactory::getDBO();
-		$name = $this->name;
+		$db           = & JFactory::getDBO();
+		$name         = $this->name;
 		$control_name = $this->name;
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT manufacturer_id,manufacturer_name ' .

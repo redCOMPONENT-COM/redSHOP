@@ -24,11 +24,11 @@ class shippingModelShipping extends JModel
 		parent::__construct();
 		global $mainframe;
 
-		$this->_context = 'shipping_id';
+		$this->_context      = 'shipping_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
@@ -39,9 +39,10 @@ class shippingModelShipping extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -49,9 +50,10 @@ class shippingModelShipping extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -62,15 +64,17 @@ class shippingModelShipping extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
 	function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT s.* FROM #__extensions AS s '
+		$query   = 'SELECT s.* FROM #__extensions AS s '
 			. 'WHERE s.folder="redshop_shipping" '
 			. $orderby;
+
 		return $query;
 	}
 
@@ -79,9 +83,10 @@ class shippingModelShipping extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
@@ -89,7 +94,7 @@ class shippingModelShipping extends JModel
 	{
 		global $mainframe;
 		//$scope 		= JRequest::getCmd( 'scope' );
-		$db =& JFactory::getDBO();
+		$db  =& JFactory::getDBO();
 		$row =& $this->getTable('shipping_detail');
 
 		$total = count($cid);
@@ -110,6 +115,7 @@ class shippingModelShipping extends JModel
 			}
 		}
 		$row->reorder();
+
 		return true;
 	}
 }

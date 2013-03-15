@@ -20,14 +20,14 @@ class stockimage_detailVIEWstockimage_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');
 
 		$document = & JFactory::getDocument();
-		$uri =& JFactory::getURI();
+		$uri      =& JFactory::getURI();
 		$this->setLayout('default');
 
 		$lists = array();
 
 		$detail =& $this->get('data');
-		$isNew = ($detail->stock_amount_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$isNew  = ($detail->stock_amount_id < 1);
+		$text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');
 
 		//create the toolbar
@@ -42,11 +42,11 @@ class stockimage_detailVIEWstockimage_detail extends JView
 		}
 		$model = $this->getModel('stockimage_detail');
 
-		$stock_option = $model->getStockAmountOption();
+		$stock_option   = $model->getStockAmountOption();
 		$stockroom_name = $model->getStockRoomList();
-		$op = array();
-		$op[0]->value = 0;
-		$op[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$op             = array();
+		$op[0]->value   = 0;
+		$op[0]->text    = JText::_('COM_REDSHOP_SELECT');
 		$stockroom_name = array_merge($op, $stockroom_name);
 
 		$lists['stock_option'] = JHTML::_('select.genericlist', $stock_option, 'stock_option', 'class="inputbox" size="1" ', 'value', 'text', $detail->stock_option);

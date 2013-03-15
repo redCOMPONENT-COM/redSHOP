@@ -36,14 +36,14 @@ class attribute_setViewattribute_set extends JView
 
 		$uri =& JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'attribute_set_id');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'attribute_set_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists = array();
-		$lists['order'] = $filter_order;
+		$lists              = array();
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$products = & $this->get('Data');
+		$products   = & $this->get('Data');
 		$pagination = & $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);

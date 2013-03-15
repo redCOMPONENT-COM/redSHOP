@@ -131,7 +131,7 @@ $media_id = JRequest::getInt('media_id');
 	{
 
 		$filename = $additionalfiles[$i]->name;
-		$fileId = $additionalfiles[$i]->id;
+		$fileId   = $additionalfiles[$i]->id;
 
 		$link = JURI::root() . DS . "components/com_redshop/assets/download/product/" . $filename;
 

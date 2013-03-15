@@ -29,14 +29,14 @@ class JFormFieldProducts extends JFormField
 
 	protected function getInput()
 	{
-		$doc =& JFactory::getDocument();
-		$name = $this->name;
+		$doc       =& JFactory::getDocument();
+		$name      = $this->name;
 		$fieldName = $this->name; //$this->control_name.'['.$name.']';
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
 
 		$product =& JTable::getInstance('product_detail', 'Table');
-		$value = $this->value;
+		$value   = $this->value;
 		if ($value)
 		{
 			$product->load($value);

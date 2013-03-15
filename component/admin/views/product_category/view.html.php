@@ -37,16 +37,16 @@ class product_categoryViewproduct_category extends JView
 
 		JToolBarHelper::back();
 
-		$model = $this->getModel("product_category");
+		$model    = $this->getModel("product_category");
 		$products = $model->getProductlist();
 
 		$product_category = new product_category();
-		$categories = $product_category->getCategoryListArray();
+		$categories       = $product_category->getCategoryListArray();
 
-		$temps = array();
-		$temps[0]->category_id = "0";
+		$temps                   = array();
+		$temps[0]->category_id   = "0";
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
-		$categories = @array_merge($temps, $categories);
+		$categories              = @array_merge($temps, $categories);
 
 		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id[]', 'class="inputbox" multiple="multiple"', 'category_id', 'category_name');
 

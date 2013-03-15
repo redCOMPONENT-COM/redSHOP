@@ -43,15 +43,15 @@ class product_attribute_priceController extends JController
 	function saveprice()
 	{
 
-		$db = JFactory::getDBO();
-		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
-		$cid = JRequest::getVar('cid');
-		$shopper_group_id = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
-		$price = JRequest::getVar('price', array(), 'post', 'array');
+		$db                   = JFactory::getDBO();
+		$section_id           = JRequest::getVar('section_id');
+		$section              = JRequest::getVar('section');
+		$cid                  = JRequest::getVar('cid');
+		$shopper_group_id     = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
+		$price                = JRequest::getVar('price', array(), 'post', 'array');
 		$price_quantity_start = JRequest::getVar('price_quantity_start', array(), 'post', 'array');
-		$price_quantity_end = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
-		$price_id = JRequest::getVar('price_id', array(), 'post', 'array');
+		$price_quantity_end   = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
+		$price_id             = JRequest::getVar('price_id', array(), 'post', 'array');
 
 		for ($i = 0; $i < count($price); $i++)
 		{

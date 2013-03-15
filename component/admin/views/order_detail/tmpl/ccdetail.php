@@ -17,7 +17,7 @@ $edate = $ccdetail->order_payment_expire;
 $j = 1;
 if (!isset($edate[5]))
 {
-	$j = 0;
+	$j      = 0;
 	$emonth = "0" . $edate[0];
 }
 else

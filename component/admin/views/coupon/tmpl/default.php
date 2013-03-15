@@ -98,9 +98,9 @@ $comment = JRequest::getVar('filter');
 			$k = 0;
 			for ($i = 0, $n = count($this->coupons); $i < $n; $i++)
 			{
-				$row = & $this->coupons[$i];
+				$row     = & $this->coupons[$i];
 				$row->id = $row->coupon_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

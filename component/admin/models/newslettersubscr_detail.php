@@ -30,7 +30,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -52,8 +52,10 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 			$query = 'SELECT ns.*,uf.firstname FROM ' . $this->_table_prefix . 'newsletter_subscription as ns left join ' . $this->_table_prefix . 'users_info as uf on  ns.user_id = uf.user_id  WHERE ns.subscription_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -62,17 +64,19 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail                  = new stdClass();
 			$detail->subscription_id = 0;
-			$detail->user_id = 0;
-			$detail->date = null;
-			$detail->newsletter_id = null;
-			$detail->name = null;
-			$detail->email = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->user_id         = 0;
+			$detail->date            = null;
+			$detail->newsletter_id   = null;
+			$detail->name            = null;
+			$detail->email           = null;
+			$detail->published       = 1;
+			$this->_data             = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -83,11 +87,13 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -105,6 +111,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -125,6 +132,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -136,6 +144,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 	{
 		$query = 'SELECT user_id as value,firstname as text FROM ' . $this->_table_prefix . 'users_info as rdu, #__users as u WHERE  rdu.user_id=u.id AND rdu.address_type LIKE "BT"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -143,6 +152,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 	{
 		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -160,6 +170,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		{
 			$fullname = "";
 		}
+
 		return $fullname;
 	}
 
@@ -170,12 +181,13 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		if (count($subsc) > 0)
 		{
 			$sbscids = implode(",", $subsc);
-			$where = " AND ns.subscription_id IN (" . $sbscids . ")";
+			$where   = " AND ns.subscription_id IN (" . $sbscids . ")";
 		}
 		$query = 'SELECT ns.*,ns.name as subscribername,n.name'
 			. ' FROM ' . $this->_table_prefix . 'newsletter_subscription as ns,' . $this->_table_prefix . 'newsletter as n WHERE ns.newsletter_id=n.newsletter_id '
 			. $where;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -183,6 +195,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 	{
 		$query = "SELECT uf.firstname,uf.lastname,IFNULL(u.email,uf.user_email)  as email FROM " . $this->_table_prefix . "users_info as uf LEFT JOIN #__users as u ON uf.user_id = u.id WHERE uf.user_id='" . $uid . "' and uf.address_type like 'BT'";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObject();
 	}
 
@@ -193,6 +206,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 			. "AND uf.user_email='" . $email . "' ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
+
 		return $list;
 	}
 }

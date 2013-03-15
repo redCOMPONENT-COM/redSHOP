@@ -27,7 +27,7 @@ class wrapperViewwrapper extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
 		$total = & $this->get('Total');
-		$data = & $this->get('Data');
+		$data  = & $this->get('Data');
 //	    if(count($data) > 0)
 //	    {
 //	    	$product_name = " :: ".$data[0]->product_name;
@@ -40,7 +40,7 @@ class wrapperViewwrapper extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		$pagination = & $this->get('Pagination');
-		$uri =& JFactory::getURI();
+		$uri        =& JFactory::getURI();
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('data', $data);

@@ -120,14 +120,14 @@ class exportModelexport extends JModel
 		$db = JFactory::getDBO();
 
 		$export_product_extra_field = JRequest::getInt('export_product_extra_field', 0);
-		$product_category = JRequest::getVar('product_category');
-		$product_category_value = "";
+		$product_category           = JRequest::getVar('product_category');
+		$product_category_value     = "";
 		for ($j = 0; $j < count($product_category); $j++)
 		{
 			$product_category_value .= "'" . $product_category[$j] . "'" . ",";
 		}
 
-		$manufacturer_id = JRequest::getVar('manufacturer_id');
+		$manufacturer_id       = JRequest::getVar('manufacturer_id');
 		$manufacturer_id_value = "";
 		for ($i = 0; $i < count($manufacturer_id); $i++)
 		{
@@ -167,22 +167,22 @@ class exportModelexport extends JModel
 			return null;
 		}
 		$ret = null;
-		$i = 0;
+		$i   = 0;
 		//while ($row = mysql_fetch_assoc( $cur )) {
 		if (count($cur) > 0)
 		{
 			for ($p = 0; $p < count($cur); $p++)
 			{
-				$row = $cur[$p];
-				$row = (array) $row;
+				$row    = $cur[$p];
+				$row    = (array) $row;
 				$fields = count($row);
 
 				# Get product extra fields data - collect data
 				if ($export_product_extra_field)
 				{
-					$extrafields = $this->getProductExtrafield();
+					$extrafields  = $this->getProductExtrafield();
 					$extrafheader = $extrafields['header'];
-					$efieldsdata = $extrafields['rowdata'];
+					$efieldsdata  = $extrafields['rowdata'];
 				}
 				# End
 
@@ -261,15 +261,15 @@ class exportModelexport extends JModel
 						. " WHERE product_id ='" . $row['product_id'] . "' ";
 					$this->_db->setQuery($query);
 					$category = $this->_db->loadObjectList();
-					$cats = array();
+					$cats     = array();
 					$cat_name = array();
 					for ($cat = 0; $cat < count($category); $cat++)
 					{
 
-						$cats[] = $category[$cat]->category_id;
+						$cats[]     = $category[$cat]->category_id;
 						$cat_name[] = $category[$cat]->category_name;
 					}
-					$categoryids = implode("###", $cats);
+					$categoryids   = implode("###", $cats);
 					$categorynames = implode("###", $cat_name);
 					echo $categoryids . "," . $categorynames . ",";
 				}
@@ -281,9 +281,9 @@ class exportModelexport extends JModel
 						. " LEFT JOIN " . $this->_table_prefix . "product p ON p.product_id = pa.child_product_id"
 						. " WHERE pa.`product_id` = '" . $row['product_id'] . "' ";
 					$this->_db->setQuery($query);
-					$accessory = $this->_db->loadObjectList();
+					$accessory   = $this->_db->loadObjectList();
 					$accessories = "";
-					$accs = array();
+					$accs        = array();
 					for ($acc = 0; $acc < count($accessory); $acc++)
 					{
 						$accs[] = $accessory[$acc]->accsdata;
@@ -642,7 +642,7 @@ class exportModelexport extends JModel
 	private function loadCategories()
 	{
 		$db = JFactory::getDBO();
-		$q = "SELECT c.*,cx.category_parent_id
+		$q  = "SELECT c.*,cx.category_parent_id
 			FROM " . $this->_table_prefix . "category c LEFT JOIN " . $this->_table_prefix . "category_xref cx ON c.category_id = cx.category_child_id WHERE cx.category_parent_id IS NOT NULL ORDER BY c.category_id";
 		$db->setQuery($q);
 		if (!($cur = $db->LoadObjectList()))
@@ -650,14 +650,14 @@ class exportModelexport extends JModel
 			return null;
 		}
 		$ret = null;
-		$i = 0;
+		$i   = 0;
 		//while ($row = mysql_fetch_assoc( $cur )) {
 		if (count($cur) > 0)
 		{
 			for ($c = 0; $c < count($cur); $c++)
 			{
-				$row = $cur[$c];
-				$row = (array) $row;
+				$row    = $cur[$c];
+				$row    = (array) $row;
 				$fields = count($row);
 				if ($i == 0)
 				{
@@ -701,7 +701,7 @@ class exportModelexport extends JModel
 
 		$producthelper = new producthelper();
 
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT * FROM `" . $this->_table_prefix . "product` ORDER BY product_id asc ";
 		$this->_db->setQuery($query);
 		$cur = $this->_db->loadObjectList();
@@ -710,7 +710,7 @@ class exportModelexport extends JModel
 		if (count($cur) > 0)
 		{
 			$redhelper = new redhelper();
-			$isrecrm = false;
+			$isrecrm   = false;
 			if ($redhelper->isredCRM())
 			{
 				$isrecrm = true;
@@ -734,7 +734,7 @@ class exportModelexport extends JModel
 
 				// added attribute of products
 				$attribute = $producthelper->getProductAttribute($cur[$i]->product_id);
-				$attr = array();
+				$attr      = array();
 
 				for ($att = 0; $att < count($attribute); $att++)
 				{
@@ -746,8 +746,8 @@ class exportModelexport extends JModel
 						$att_property = $producthelper->getAttibuteProperty(0, $attribute[$att]->attribute_id);
 						for ($prop = 0; $prop < count($att_property); $prop++)
 						{
-							$property_image = "";
-							$property_main_image = "";
+							$property_image       = "";
+							$property_main_image  = "";
 							$main_attribute_stock = "";
 
 							$sel_arrtibute_stock = "select * from `" . $this->_table_prefix . "product_attribute_stockroom_xref` where section_id='" . $att_property[$prop]->property_id . "'";
@@ -812,7 +812,7 @@ class exportModelexport extends JModel
 
 	private function loadManufacturer()
 	{
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT m.* "
 			. "FROM `" . $this->_table_prefix . "manufacturer` AS m ";
 		$db->setQuery($query);
@@ -825,8 +825,8 @@ class exportModelexport extends JModel
 		{
 			for ($e = 0; $e < count($manufacturers); $e++)
 			{
-				$row = $manufacturers[$e];
-				$row = (array) $row;
+				$row    = $manufacturers[$e];
+				$row    = (array) $row;
 				$fields = count($row);
 				if ($i == 0)
 				{
@@ -839,7 +839,7 @@ class exportModelexport extends JModel
 					echo ',' . $this->_text_qul . 'product_id' . $this->_text_qul;
 					echo "\r\n";
 				}
-				$i = 0;
+				$i     = 0;
 				$query = "SELECT p.product_id "
 					. "FROM `" . $this->_table_prefix . "product` AS p "
 					. "WHERE p.manufacturer_id=" . $manufacturers[$e]->manufacturer_id;
@@ -863,8 +863,8 @@ class exportModelexport extends JModel
 	 */
 	private function loadRelatedProducts()
 	{
-		$db = JFactory::getDBO();
-		$relsku = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`related_id`";
+		$db      = JFactory::getDBO();
+		$relsku  = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`related_id`";
 		$mainsku = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`product_id`";
 
 		$q = "SELECT (" . $relsku . ") as related_sku,(" . $mainsku . ") as product_sku FROM `" . $this->_table_prefix . "product_related` as pr WHERE (" . $relsku . ") IS NOT NULL AND (" . $mainsku . ") IS NOT NULL ";
@@ -874,14 +874,14 @@ class exportModelexport extends JModel
 			return null;
 		}
 		$ret = null;
-		$i = 0;
+		$i   = 0;
 		//while ($row = mysql_fetch_assoc( $cur )) {
 		if (count($cur) > 0)
 		{
 			for ($r = 0; $r < count($cur); $r++)
 			{
-				$row = $cur[$r];
-				$row = (array) $row;
+				$row    = $cur[$r];
+				$row    = (array) $row;
 				$fields = count($row);
 				if ($i == 0)
 				{
@@ -912,10 +912,10 @@ class exportModelexport extends JModel
 	 */
 	private function loadFields()
 	{
-		$extra_field = new extra_field();
+		$extra_field   = new extra_field();
 		$producthelper = new producthelper();
-		$db = JFactory::getDBO();
-		$query = "SELECT * FROM `" . $this->_table_prefix . "fields` ORDER BY field_id asc ";
+		$db            = JFactory::getDBO();
+		$query         = "SELECT * FROM `" . $this->_table_prefix . "fields` ORDER BY field_id asc ";
 		$this->_db->setQuery($query);
 		$cur = $this->_db->loadObjectList();
 		$ret = null;
@@ -957,7 +957,7 @@ class exportModelexport extends JModel
 	private function loadUsers()
 	{
 
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT ui.`users_info_id` , sg.shopper_group_name, IFNULL( u.id, ui.user_id ) as id , IFNULL( u.email, ui.user_email ) as email , u.username,u.name, u.password, u.usertype, u.block, u.sendEmail, ui.company_name, ui.firstname, ui.lastname, ui.vat_number, ui.tax_exempt, ui.shopper_group_id, ui.country_code, ui.address, ui.city, ui.state_code, ui.zipcode, ui.tax_exempt_approved, ui.approved, ui.is_company, ui.phone
 			FROM (
 			`" . $this->_table_prefix . "users_info` AS ui
@@ -972,14 +972,14 @@ class exportModelexport extends JModel
 			return null;
 		}
 		$ret = null;
-		$i = 0;
+		$i   = 0;
 		//while ($row = mysql_fetch_assoc( $cur )) {
 		if (count($cur) > 0)
 		{
 			for ($u = 0; $u < count($cur); $u++)
 			{
-				$row = $cur[$u];
-				$row = (array) $row;
+				$row    = $cur[$u];
+				$row    = (array) $row;
 				$fields = count($row);
 				if ($i == 0)
 				{
@@ -1010,7 +1010,7 @@ class exportModelexport extends JModel
 	 */
 	private function loadshippingaddress()
 	{
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname, ui.lastname, ui.address, ui.city, ui.state_code, ui.zipcode, ui.country_code, ui.phone
 			FROM (
 			`" . $this->_table_prefix . "users_info` AS ui
@@ -1021,14 +1021,14 @@ class exportModelexport extends JModel
 			return null;
 		}
 		$ret = null;
-		$i = 0;
+		$i   = 0;
 		//while ($row = mysql_fetch_assoc( $cur )) {
 		if (count($cur) > 0)
 		{
 			for ($s = 0; $s < count($cur); $s++)
 			{
-				$row = $cur[$s];
-				$row = (array) $row;
+				$row    = $cur[$s];
+				$row    = (array) $row;
 				$fields = count($row);
 				if ($i == 0)
 				{
@@ -1056,7 +1056,7 @@ class exportModelexport extends JModel
 
 	function loadShoppergroupPrice()
 	{
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price, price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date "
 			. "FROM `" . $this->_table_prefix . "product_price` AS pp "
 			. "LEFT JOIN `" . $this->_table_prefix . "product` AS p ON p.product_id = pp.product_id "
@@ -1073,8 +1073,8 @@ class exportModelexport extends JModel
 		{
 			for ($e = 0; $e < count($cur); $e++)
 			{
-				$row = $cur[$e];
-				$row = (array) $row;
+				$row    = $cur[$e];
+				$row    = (array) $row;
 				$fields = count($row);
 				if ($i == 0)
 				{
@@ -1113,8 +1113,8 @@ class exportModelexport extends JModel
 		{
 			for ($f = 0; $f < count($cur1); $f++)
 			{
-				$row = $cur1[$f];
-				$row = (array) $row;
+				$row    = $cur1[$f];
+				$row    = (array) $row;
 				$fields = count($row);
 				if ($i == 0)
 				{
@@ -1145,6 +1145,7 @@ class exportModelexport extends JModel
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
@@ -1180,14 +1181,14 @@ class exportModelexport extends JModel
 
 		for ($i = 0; $i < count($fielddata); $i++)
 		{
-			$product_id = $fielddata[$i]->itemid;
-			$data = $fielddata[$i]->data_txt;
-			$field_id = $fielddata[$i]->fieldid;
+			$product_id                           = $fielddata[$i]->itemid;
+			$data                                 = $fielddata[$i]->data_txt;
+			$field_id                             = $fielddata[$i]->fieldid;
 			$fieldrowdata[$product_id][$field_id] = $data;
 		}
 
-		$fieldExport = array();
-		$fieldExport['header'] = $listfields;
+		$fieldExport            = array();
+		$fieldExport['header']  = $listfields;
 		$fieldExport['rowdata'] = $fieldrowdata;
 
 		return $fieldExport;

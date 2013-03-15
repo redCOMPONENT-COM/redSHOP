@@ -82,7 +82,7 @@ $model = $this->getModel('user');    ?>
 			$k = 0;
 			for ($i = 0, $n = count($this->user); $i < $n; $i++)
 			{
-				$row = & $this->user [$i];
+				$row     = & $this->user [$i];
 				$row->id = $row->user_id;
 //		$row->published = $row->approved;
 //		if($this->lists ['shipping'])
@@ -107,7 +107,7 @@ $model = $this->getModel('user');    ?>
 
 				//$contact_person = '';
 				$fisrt_name = '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_EDIT_USER') . '">' . $row->firstname . '</a>';
-				$last_name = $row->lastname;
+				$last_name  = $row->lastname;
 //		$approved = JHTML::_('grid.published',$row, $i );
 				?>
 

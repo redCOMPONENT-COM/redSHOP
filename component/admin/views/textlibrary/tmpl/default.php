@@ -87,9 +87,9 @@ $filter = JRequest::getVar('filter');
 			$k = 0;
 			for ($i = 0, $n = count($this->textlibrarys); $i < $n; $i++)
 			{
-				$row = & $this->textlibrarys[$i];
+				$row     = & $this->textlibrarys[$i];
 				$row->id = $row->textlibrary_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

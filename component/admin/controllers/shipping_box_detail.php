@@ -43,7 +43,7 @@ class shipping_box_detailController extends JController
 		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('shipping_box_detail');
-		$row = $model->store($post);
+		$row   = $model->store($post);
 		if ($row)
 		{
 

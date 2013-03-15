@@ -14,7 +14,7 @@ $shippname = JText::_('COM_REDSHOP_SHIPPING_RATE_NAME');
 if ($this->shipper_location)
 {
 	// FOR SELF PICKUP
-	$bool = false;
+	$bool      = false;
 	$shippname = JText::_('COM_REDSHOP_SHIPPING_LOCATION');
 }
 ?>
@@ -59,7 +59,8 @@ if ($this->shipper_location)
 					<?php echo JHTML::_('grid.sort', $shippname, 'shipping_rate_name ', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<?php if ($bool)
-				{ ?>
+				{
+					?>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHIPPING_RATE_VALUE', 'shipping_rate_value ', $this->lists['order_Dir'], $this->lists['order']); ?>
 					</th>
@@ -83,7 +84,8 @@ if ($this->shipper_location)
 					       title="<?php echo JText::_('COM_REDSHOP_EDIT_SHIPPING'); ?>"><?php echo $row->shipping_rate_name; ?></a>
 					</td>
 					<?php if ($bool)
-					{ ?>
+					{
+						?>
 						<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->shipping_rate_value); ?></td>
 					<?php }    ?>
 					<td align="center"><?php echo $row->shipping_rate_id; ?></td>

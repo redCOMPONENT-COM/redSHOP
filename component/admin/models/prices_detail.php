@@ -25,7 +25,7 @@ class prices_detailModelprices_detail extends JModel
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array         = JRequest::getVar('cid', 0, '', 'array');
 		$this->_prodid = JRequest::getVar('product_id', 0, '', 'int');
 
 		$this->setId((int) $array[0]);
@@ -34,7 +34,7 @@ class prices_detailModelprices_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -69,8 +69,10 @@ class prices_detailModelprices_detail extends JModel
 				. ' WHERE p.price_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -79,22 +81,24 @@ class prices_detailModelprices_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->price_id = 0;
-			$detail->product_id = $this->_prodid;
-			$detail->product_name = $this->_prodname;
-			$detail->product_price = 0.00;
-			$detail->product_currency = null;
-			$detail->shopper_group_id = 0;
+			$detail                       = new stdClass();
+			$detail->price_id             = 0;
+			$detail->product_id           = $this->_prodid;
+			$detail->product_name         = $this->_prodname;
+			$detail->product_price        = 0.00;
+			$detail->product_currency     = null;
+			$detail->shopper_group_id     = 0;
 			$detail->price_quantity_start = 0;
-			$detail->price_quantity_end = 0;
-			$detail->shopper_group_name = null;
-			$detail->discount_price = 0;
-			$detail->discount_start_date = 0;
-			$detail->discount_end_date = 0;
-			$this->_data = $detail;
+			$detail->price_quantity_end   = 0;
+			$detail->shopper_group_name   = null;
+			$detail->discount_price       = 0;
+			$detail->discount_start_date  = 0;
+			$detail->discount_end_date    = 0;
+			$this->_data                  = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -104,18 +108,22 @@ class prices_detailModelprices_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -130,9 +138,11 @@ class prices_detailModelprices_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

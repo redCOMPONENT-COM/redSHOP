@@ -26,40 +26,44 @@
 
 require ("php-barcode.php");
 
-function getvar($name) {
+function getvar($name)
+{
 	global $_GET, $_POST;
-	if (isset ( $_GET [$name] ))
+	if (isset ($_GET [$name]))
 		return $_GET [$name];
-	else if (isset ( $_POST [$name] ))
+	else if (isset ($_POST [$name]))
 		return $_POST [$name];
 	else
 		return false;
 }
 
-if (get_magic_quotes_gpc ()) {
+if (get_magic_quotes_gpc())
+{
 
-	$code = stripslashes ( getvar ( 'code' ) );
-	$mode = stripslashes ( getvar ( 'mode' ) );
-	$scale = stripslashes ( getvar ( 'scale' ) );
-	$encoding = stripslashes ( getvar ( 'encoding' ) );
+	$code     = stripslashes(getvar('code'));
+	$mode     = stripslashes(getvar('mode'));
+	$scale    = stripslashes(getvar('scale'));
+	$encoding = stripslashes(getvar('encoding'));
 
-} else {
-
-	$code = getvar ( 'code' );
-	$mode = getvar ( 'mode' );
-	$scale = getvar ( 'scale' );
-	$encoding = getvar ( 'encoding' );
 }
-if (! $code)
+else
+{
+
+	$code     = getvar('code');
+	$mode     = getvar('mode');
+	$scale    = getvar('scale');
+	$encoding = getvar('encoding');
+}
+if (!$code)
 	$code = '123456789012';
-if (! $mode)
+if (!$mode)
 	$mode = 'png';
-if (! $scale)
+if (!$scale)
 	$scale = '2';
-if (! $encoding)
+if (!$encoding)
 	$encoding = 'EAN';
 
-barcode_print ( $code, $encoding , $scale , $mode );
+barcode_print($code, $encoding, $scale, $mode);
 
 /*
  * call

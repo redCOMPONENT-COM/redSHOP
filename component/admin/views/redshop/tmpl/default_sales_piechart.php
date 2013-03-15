@@ -32,7 +32,7 @@ $title = addslashes(JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'));
 if (is_array($rowdata))
 {
 	$rowdata = implode(",", $rowdata);
-	$data = "[$rowdata]";
+	$data    = "[$rowdata]";
 }
 ?>
 

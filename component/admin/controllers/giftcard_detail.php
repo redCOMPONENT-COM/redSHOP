@@ -33,52 +33,52 @@ class giftcard_detailController extends JController
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+function save($apply = 0)
+{
+
+	$post = JRequest::get('post', JREQUEST_ALLOWRAW);
+
+	$giftcard_desc         = JRequest::getVar('giftcard_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+	$post["giftcard_desc"] = $giftcard_desc;
+
+	$showbuttons = JRequest::getVar('showbuttons');
+
+
+	$option = JRequest::getVar('option');
+
+	$model = $this->getModel('giftcard_detail');
+	$row   = $model->store($post);
+	if ($row)
 	{
 
-		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
+		$msg = JText::_('COM_REDSHOP_GIFTCARD_SAVED');
 
-		$giftcard_desc = JRequest::getVar('giftcard_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["giftcard_desc"] = $giftcard_desc;
-
-		$showbuttons = JRequest::getVar('showbuttons');
-
-
-		$option = JRequest::getVar('option');
-
-		$model = $this->getModel('giftcard_detail');
-		$row = $model->store($post);
-		if ($row)
-		{
-
-			$msg = JText::_('COM_REDSHOP_GIFTCARD_SAVED');
-
-		}
-		else
-		{
-
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_GIFTCARD');
-		}
-		if (!$showbuttons)
-		{
-			if ($apply == 1)
-			{
-				$this->setRedirect('index.php?option=' . $option . '&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id, $msg);
-			}
-			else
-			{
-				$this->setRedirect('index.php?option=' . $option . '&view=giftcard', $msg);
-			}
-		}
-		else
-		{
-			?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
-		<?php
-		}
 	}
+	else
+	{
+
+		$msg = JText::_('COM_REDSHOP_ERROR_SAVING_GIFTCARD');
+	}
+if (!$showbuttons)
+{
+	if ($apply == 1)
+	{
+		$this->setRedirect('index.php?option=' . $option . '&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id, $msg);
+	}
+	else
+	{
+		$this->setRedirect('index.php?option=' . $option . '&view=giftcard', $msg);
+	}
+}
+else
+{
+	?>
+	<script language="javascript" type="text/javascript">
+		window.parent.SqueezeBox.close();
+	</script>
+<?php
+}
+}
 
 	function remove()
 	{

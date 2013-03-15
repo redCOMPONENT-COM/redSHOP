@@ -35,49 +35,49 @@ class template_detailController extends JController
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+function save($apply = 0)
+{
+	$post        = JRequest::get('post');
+	$showbuttons = JRequest::getVar('showbuttons');
+
+	$template_desc         = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+	$post["template_desc"] = $template_desc;
+
+	$option = JRequest::getVar('option');
+
+	$model = $this->getModel('template_detail');
+	$row   = $model->store($post);
+	if ($row)
 	{
-		$post = JRequest::get('post');
-		$showbuttons = JRequest::getVar('showbuttons');
 
-		$template_desc = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["template_desc"] = $template_desc;
+		$msg = JText::_('COM_REDSHOP_TEMPLATE_SAVED');
 
-		$option = JRequest::getVar('option');
-
-		$model = $this->getModel('template_detail');
-		$row = $model->store($post);
-		if ($row)
-		{
-
-			$msg = JText::_('COM_REDSHOP_TEMPLATE_SAVED');
-
-		}
-		else
-		{
-
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TEMPLATE');
-		}
-		if (!$showbuttons)
-		{
-			if ($apply == 1)
-			{
-				$this->setRedirect('index.php?option=' . $option . '&view=template_detail&task=edit&cid[]=' . $row->template_id, $msg);
-			}
-			else
-			{
-				$this->setRedirect('index.php?option=' . $option . '&view=template', $msg);
-			}
-		}
-		else
-		{
-			?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
-		<?php
-		}
 	}
+	else
+	{
+
+		$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TEMPLATE');
+	}
+if (!$showbuttons)
+{
+	if ($apply == 1)
+	{
+		$this->setRedirect('index.php?option=' . $option . '&view=template_detail&task=edit&cid[]=' . $row->template_id, $msg);
+	}
+	else
+	{
+		$this->setRedirect('index.php?option=' . $option . '&view=template', $msg);
+	}
+}
+else
+{
+	?>
+	<script language="javascript" type="text/javascript">
+		window.parent.SqueezeBox.close();
+	</script>
+<?php
+}
+}
 
 	function remove()
 	{

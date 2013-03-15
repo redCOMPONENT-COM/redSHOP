@@ -23,13 +23,13 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -50,6 +50,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			. "WHERE x.xmlexport_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
+
 		return (boolean) $this->_data;
 	}
 
@@ -57,34 +58,36 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->xmlexport_id = 0;
-			$detail->filename = null;
-			$detail->display_filename = null;
-			$detail->parent_name = null;
-			$detail->element_name = null;
-			$detail->section_type = null;
-			$detail->auto_sync = 0;
-			$detail->sync_on_request = 0;
-			$detail->auto_sync_interval = null;
-			$detail->xmlexport_filetag = null;
-			$detail->stock_element_name = null;
-			$detail->xmlexport_stocktag = null;
-			$detail->xmlexport_billingtag = null;
-			$detail->billing_element_name = null;
-			$detail->xmlexport_shippingtag = null;
-			$detail->shipping_element_name = null;
-			$detail->xmlexport_orderitemtag = null;
-			$detail->orderitem_element_name = null;
+			$detail                             = new stdClass();
+			$detail->xmlexport_id               = 0;
+			$detail->filename                   = null;
+			$detail->display_filename           = null;
+			$detail->parent_name                = null;
+			$detail->element_name               = null;
+			$detail->section_type               = null;
+			$detail->auto_sync                  = 0;
+			$detail->sync_on_request            = 0;
+			$detail->auto_sync_interval         = null;
+			$detail->xmlexport_filetag          = null;
+			$detail->stock_element_name         = null;
+			$detail->xmlexport_stocktag         = null;
+			$detail->xmlexport_billingtag       = null;
+			$detail->billing_element_name       = null;
+			$detail->xmlexport_shippingtag      = null;
+			$detail->shipping_element_name      = null;
+			$detail->xmlexport_orderitemtag     = null;
+			$detail->orderitem_element_name     = null;
 			$detail->xmlexport_prdextrafieldtag = null;
 			$detail->prdextrafield_element_name = null;
-			$detail->published = 0;
-			$detail->use_to_all_users = 1;
-			$detail->xmlexport_on_category = null;
+			$detail->published                  = 0;
+			$detail->use_to_all_users           = 1;
+			$detail->xmlexport_on_category      = null;
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -96,14 +99,15 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 	 */
 	function store($data, $export = 0)
 	{
-		$resarray = array();
+		$resarray  = array();
 		$xmlhelper = new xmlHelper();
 
 		$data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
-		$row =& $this->getTable();
+		$row                           =& $this->getTable();
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->xmlexport_on_category) $row->xmlexport_on_category = '';
@@ -112,9 +116,10 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
-		$xmlexport_ip_id = $data['xmlexport_ip_id'];
+		$xmlexport_ip_id  = $data['xmlexport_ip_id'];
 		$access_ipaddress = $data['access_ipaddress'];
 		for ($i = 0; $i < count($xmlexport_ip_id); $i++)
 		{
@@ -142,6 +147,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		{
 			$filename = $xmlhelper->writeXMLExportFile($row->xmlexport_id);
 		}
+
 		return $row;
 	}
 
@@ -160,7 +166,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 
 			for ($i = 0; $i < count($cid); $i++)
 			{
-				$result = $xmlhelper->getXMLExportInfo($cid[$i]);
+				$result   = $xmlhelper->getXMLExportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/export" . DS . $result->filename;
 				if (is_file($rootpath))
 				{
@@ -174,6 +180,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -183,6 +190,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -192,9 +200,11 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -206,8 +216,10 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -224,9 +236,11 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -243,9 +257,11 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -268,9 +284,11 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -280,6 +298,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			. 'WHERE published=1 ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 }

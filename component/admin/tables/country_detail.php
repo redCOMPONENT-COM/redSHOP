@@ -35,6 +35,7 @@ class Tablecountry_detail extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -53,6 +54,7 @@ class Tablecountry_detail extends JTable
 
 			$this->_error = JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS');
 			JError::raiseWarning('', $this->_error);
+
 			return false;
 		}
 		else
@@ -66,9 +68,11 @@ class Tablecountry_detail extends JTable
 			{
 				$this->_error = JText::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS');
 				JError::raiseWarning('', $this->_error);
+
 				return false;
 			}
 		}
+
 		return true;
 
 	}

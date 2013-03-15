@@ -19,15 +19,15 @@ class order_detailVIEWorder_detail extends JView
 	function display($tpl = null)
 	{
 
-		$config = new Redconfiguration();
+		$config      = new Redconfiguration();
 		$redTemplate = new Redtemplate();
 
 		$order_functions = new order_functions();
-		$model = $this->getModel();
+		$model           = $this->getModel();
 
 		$detail =& $this->get('data');
 
-		$billing = $order_functions->getBillingAddress($detail->user_id);
+		$billing  = $order_functions->getBillingAddress($detail->user_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
 		if (!$shipping)
 		{
@@ -39,7 +39,7 @@ class order_detailVIEWorder_detail extends JView
 		$html_template = $template[0]->template_desc;
 
 		ob_start();
-		$order_status = $order_functions->getOrderStatusTitle($detail->order_status);
+		$order_status  = $order_functions->getOrderStatusTitle($detail->order_status);
 		$html_template = str_replace("{order_information_lbl}", JText::_('COM_REDSHOP_ORDER_INFORMATION'), $html_template);
 		$html_template = str_replace("{order_id_lbl}", JText::_('COM_REDSHOP_ORDER_ID'), $html_template);
 		$html_template = str_replace("{order_number_lbl}", JText::_('COM_REDSHOP_ORDER_NUMBER'), $html_template);

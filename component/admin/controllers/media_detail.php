@@ -31,10 +31,10 @@ class media_detailController extends JController
 
 	function save()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('media_detail');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('media_detail');
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
@@ -42,18 +42,18 @@ class media_detailController extends JController
 			$product_download_root = PRODUCT_DOWNLOAD_ROOT . DS;
 		}
 
-		$bulkfile = JRequest::getVar('bulkfile', null, 'files', 'array');
+		$bulkfile     = JRequest::getVar('bulkfile', null, 'files', 'array');
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
-		$file = JRequest::getVar('file', 'array', 'files', 'array');
+		$file         = JRequest::getVar('file', 'array', 'files', 'array');
 		if ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
 		{
 			if ($post['media_bank_image'] == "")
 			{
-				$post ['media_id'] = $cid[0];
+				$post ['media_id']  = $cid[0];
 				$post['media_name'] = $post['oldmedia'];
 				if ($post['media_type'] != $post['oldtype'])
 				{
-					$old_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype'] . DS . $post['media_section'] . DS . $post['media_name'];
+					$old_path       = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype'] . DS . $post['media_section'] . DS . $post['media_name'];
 					$old_thumb_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype'] . DS . $post['media_section'] . DS . 'thumb' . DS . $post['media_name'];
 
 					$new_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . time() . '_' . $post['media_name'];
@@ -79,9 +79,9 @@ class media_detailController extends JController
 						else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 						{
 							$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
-                        <script language="javascript" type="text/javascript">
-                            window.parent.document.location = '<?php echo $link; ?>';
-                        </script><?php
+							<script language="javascript" type="text/javascript">
+								window.parent.document.location = '<?php echo $link; ?>';
+							</script><?php
 						}
 						else
 						{
@@ -105,24 +105,24 @@ class media_detailController extends JController
 			{
 				if ($cid [0] != 0)
 				{
-					$delete = $model->delete($cid);
-					$post['bulk'] = 'no';
+					$delete            = $model->delete($cid);
+					$post['bulk']      = 'no';
 					$post ['media_id'] = 0;
 				}
 				// Media Bank Start
 
 				$image_split = explode('/', $post['media_bank_image']);
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
+				$filename    = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
 				// download product changes
 				if ($post['media_type'] == 'download')
 				{
 					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
-					$dest = $post['media_name'];
+					$dest               = $post['media_name'];
 				}
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest               = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
 				}
 				$save = $model->store($post);
 
@@ -143,9 +143,9 @@ class media_detailController extends JController
 				else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
 					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
-                <script language="javascript" type="text/javascript">
-                    window.parent.document.location = '<?php echo $link; ?>';
-                </script><?php
+					<script language="javascript" type="text/javascript">
+						window.parent.document.location = '<?php echo $link; ?>';
+					</script><?php
 				}
 				else
 				{
@@ -157,7 +157,7 @@ class media_detailController extends JController
 		{
 			if ($cid [0] != 0)
 			{
-				$delete = $model->delete($cid);
+				$delete       = $model->delete($cid);
 				$post['bulk'] = 'no';
 			}
 			// if file selected from download folder...
@@ -165,15 +165,15 @@ class media_detailController extends JController
 			{
 				if ($post['media_type'] == 'download')
 				{
-					$download_path = $product_download_root . $post['hdn_download_file_path'];
+					$download_path      = $product_download_root . $post['hdn_download_file_path'];
 					$post['media_name'] = $post['hdn_download_file'];
 				}
 				else
 				{
-					$download_path = "product" . DS . $post['hdn_download_file'];
+					$download_path      = "product" . DS . $post['hdn_download_file'];
 					$post['media_name'] = $post['hdn_download_file'];
 				}
-				$filenewtype = strtolower(JFile::getExt($post['hdn_download_file']));
+				$filenewtype            = strtolower(JFile::getExt($post['hdn_download_file']));
 				$post['media_mimetype'] = $filenewtype;
 				if ($post['hdn_download_file_path'] != $download_path)
 				{
@@ -222,17 +222,17 @@ class media_detailController extends JController
 			if ($post['media_bank_image'] != "")
 			{
 				$image_split = preg_split('/', $post['media_bank_image']);
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
+				$filename    = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
 				// download product changes
 				if ($post['media_type'] == 'download')
 				{
 					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
-					$dest = $post['media_name'];
+					$dest               = $post['media_name'];
 				}
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest               = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
 				}
 
 				$save = $model->store($post);
@@ -252,9 +252,9 @@ class media_detailController extends JController
 				else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
 					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
-                <script language="javascript" type="text/javascript">
-                    window.parent.document.location = '<?php echo $link; ?>';
-                </script><?php
+					<script language="javascript" type="text/javascript">
+						window.parent.document.location = '<?php echo $link; ?>';
+					</script><?php
 				}
 				else
 				{
@@ -264,7 +264,7 @@ class media_detailController extends JController
 			// Media Bank End
 
 			$post ['media_id'] = 0;
-			$directory = media_detailController::writableCell('components/' . $option . '/assets');
+			$directory         = media_detailController::writableCell('components/' . $option . '/assets');
 			if ($directory == 0)
 			{
 				$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
@@ -277,10 +277,10 @@ class media_detailController extends JController
 			{
 				if ($bulkfiletype == "zip" || $bulkfiletype == "gz" || $bulkfiletype == "tar" || $bulkfiletype == "tgz" || $bulkfiletype == "gzip")
 				{
-					$n_width = THUMB_WIDTH; // Fix the width of the thumb nail images
-					$n_height = THUMB_HEIGHT;
-					$src = $bulkfile['tmp_name'];
-					$dest = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $bulkfile['name'];
+					$n_width     = THUMB_WIDTH; // Fix the width of the thumb nail images
+					$n_height    = THUMB_HEIGHT;
+					$src         = $bulkfile['tmp_name'];
+					$dest        = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $bulkfile['name'];
 					$file_upload = JFile::upload($src, $dest);
 					if ($file_upload != 1)
 					{
@@ -289,8 +289,8 @@ class media_detailController extends JController
 					}
 					$target = 'components/' . $option . '/assets/media/extracted/' . $bulkfile['name'];
 					$result = JArchive::extract($dest, $target);
-					$name = explode('.', $bulkfile['name']);
-					$scan = scandir($target);
+					$name   = explode('.', $bulkfile['name']);
+					$scan   = scandir($target);
 
 					for ($i = 2; $i < count($scan); $i++)
 					{
@@ -299,9 +299,9 @@ class media_detailController extends JController
 							$newscan = scandir($target . '/' . $scan[$i]);
 							for ($j = 2; $j < count($newscan); $j++)
 							{
-								$filenewtype = strtolower(JFile::getExt($newscan[$j]));
-								$btsrc = $target . '/' . $scan[$i] . '/' . $newscan[$j];
-								$post['media_name'] = time() . "_" . $newscan[$j];
+								$filenewtype            = strtolower(JFile::getExt($newscan[$j]));
+								$btsrc                  = $target . '/' . $scan[$i] . '/' . $newscan[$j];
+								$post['media_name']     = time() . "_" . $newscan[$j];
 								$post['media_mimetype'] = $filenewtype;
 								if ($post['media_type'] == 'download')
 								{
@@ -324,9 +324,9 @@ class media_detailController extends JController
 										else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
 											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                        <script language="javascript" type="text/javascript">
-                                            window.parent.document.location = '<?php echo $link; ?>';
-                                        </script><?php
+											<script language="javascript" type="text/javascript">
+												window.parent.document.location = '<?php echo $link; ?>';
+											</script><?php
 										}
 										else
 										{
@@ -368,9 +368,9 @@ class media_detailController extends JController
 											else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 											{
 												$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                            <script language="javascript" type="text/javascript">
-                                                window.parent.document.location = '<?php echo $link; ?>';
-                                            </script><?php
+												<script language="javascript" type="text/javascript">
+													window.parent.document.location = '<?php echo $link; ?>';
+												</script><?php
 											}
 											else
 											{
@@ -395,9 +395,9 @@ class media_detailController extends JController
 						}
 						else
 						{
-							$filenewtype = strtolower(JFile::getExt($scan[$i]));
-							$btsrc = $target . '/' . $scan[$i];
-							$post['media_name'] = time() . "_" . $scan[$i];
+							$filenewtype            = strtolower(JFile::getExt($scan[$i]));
+							$btsrc                  = $target . '/' . $scan[$i];
+							$post['media_name']     = time() . "_" . $scan[$i];
 							$post['media_mimetype'] = $filenewtype;
 							if ($post['media_type'] == 'download')
 							{
@@ -420,9 +420,9 @@ class media_detailController extends JController
 									else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 									{
 										$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                    <script language="javascript" type="text/javascript">
-                                        window.parent.document.location = '<?php echo $link; ?>';
-                                    </script><?php
+										<script language="javascript" type="text/javascript">
+											window.parent.document.location = '<?php echo $link; ?>';
+										</script><?php
 									}
 									else
 									{
@@ -463,6 +463,7 @@ class media_detailController extends JController
 											rmdir($target . '/' . $name[0]);
 											rmdir($target);
 											unlink($dest);
+
 											return true;
 										}
 										$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
@@ -473,9 +474,9 @@ class media_detailController extends JController
 										else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
 											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                                        <script language="javascript" type="text/javascript">
-                                            window.parent.document.location = '<?php echo $link; ?>';
-                                        </script><?php
+											<script language="javascript" type="text/javascript">
+												window.parent.document.location = '<?php echo $link; ?>';
+											</script><?php
 										}
 										else
 										{
@@ -582,8 +583,8 @@ class media_detailController extends JController
 					}
 					else
 					{
-						$src = $file['tmp_name'][$i];
-						$n_width = THUMB_WIDTH; // Fix the width of the thumb nail images
+						$src      = $file['tmp_name'][$i];
+						$n_width  = THUMB_WIDTH; // Fix the width of the thumb nail images
 						$n_height = THUMB_HEIGHT; // Fix the height of the thumb nail imaage
 						//if($filetype == 'png' || $filetype == 'gif' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'mpeg' || $filetype == 'mp4' || $filetype == 'avi' || $filetype == '3gp' || $filetype == 'swf' || $filetype == 'pdf' || $post['media_type'] != 'download' )
 						//{
@@ -593,15 +594,15 @@ class media_detailController extends JController
 						if ($post['media_type'] == 'download')
 						{
 							$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $file['name'][$i]);
-							$dest = $post['media_name'];
+							$dest               = $post['media_name'];
 						}
 						else
 						{
 							$post['media_name'] = time() . "_" . $file['name'][$i];
-							$dest = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . time() . '_' . $file['name'][$i];
+							$dest               = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . time() . '_' . $file['name'][$i];
 						}
 						$post['media_mimetype'] = $file['type'][$i];
-						$file_upload = JFile::upload($src, $dest);
+						$file_upload            = JFile::upload($src, $dest);
 						if ($file_upload == 1 && $row = $model->store($post))
 						{
 							// Set First Image as product Main Imaged
@@ -617,9 +618,9 @@ class media_detailController extends JController
 							else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 							{
 								$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-                            <script language="javascript" type="text/javascript">
-                                window.parent.document.location = '<?php echo $link; ?>';
-                            </script><?php
+								<script language="javascript" type="text/javascript">
+									window.parent.document.location = '<?php echo $link; ?>';
+								</script><?php
 							}
 							else
 							{
@@ -647,11 +648,11 @@ class media_detailController extends JController
 
 	function remove()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$post          = JRequest::get('post');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid           = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
@@ -670,9 +671,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -682,11 +683,11 @@ class media_detailController extends JController
 
 	function publish()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$post          = JRequest::get('post');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid           = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
@@ -705,9 +706,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -717,12 +718,12 @@ class media_detailController extends JController
 
 	function defaultmedia()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$post          = JRequest::get('post');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$primary = JRequest::getVar('primary');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$primary       = JRequest::getVar('primary');
+		$cid           = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
@@ -744,9 +745,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -756,11 +757,11 @@ class media_detailController extends JController
 
 	function unpublish()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$post          = JRequest::get('post');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid           = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
@@ -779,9 +780,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -792,7 +793,7 @@ class media_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
 	}
 
@@ -811,12 +812,12 @@ class media_detailController extends JController
 	//ordering
 	function saveorder()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$post          = JRequest::get('post');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid           = JRequest::getVar('cid', array(), 'post', 'array');
+		$order         = JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 		if (!is_array($cid) || count($cid) < 1)
@@ -837,9 +838,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -849,11 +850,11 @@ class media_detailController extends JController
 
 	function orderup()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$post          = JRequest::get('post');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid           = JRequest::getVar('cid', array(), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
@@ -872,9 +873,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -884,11 +885,11 @@ class media_detailController extends JController
 
 	function orderdown()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$post          = JRequest::get('post');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid           = JRequest::getVar('cid', array(), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
@@ -907,9 +908,9 @@ class media_detailController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{

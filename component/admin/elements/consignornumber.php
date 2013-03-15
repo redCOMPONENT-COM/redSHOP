@@ -37,8 +37,8 @@ class JFormFieldconsignornumber extends JFormField
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
-		$html = '<table border="0">';
-		$name = $this->name;
+		$html  = '<table border="0">';
+		$name  = $this->name;
 		$value = $this->value;
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
@@ -50,6 +50,7 @@ class JFormFieldconsignornumber extends JFormField
 		}
 
 		$html .= '</table>';
+
 		return $html;
 	}
 }

@@ -26,12 +26,12 @@ class economic
 
 	function economic()
 	{
-		$db = JFactory::getDbo();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_db = $db;
-		$this->_producthelper = new producthelper();
-		$this->_shippinghelper = new shipping();
-		$this->_redhelper = new redhelper();
+		$db                     = JFactory::getDbo();
+		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
+		$this->_db              = $db;
+		$this->_producthelper   = new producthelper();
+		$this->_shippinghelper  = new shipping();
+		$this->_redhelper       = new redhelper();
 		$this->_order_functions = new order_functions();
 		$this->_stockroomhelper = new rsstockroomhelper();
 
@@ -47,13 +47,13 @@ class economic
 	 */
 	function createUserInEconomic($row = array(), $data = array())
 	{
-		$eco['user_id'] = $row->user_id;
+		$eco['user_id']      = $row->user_id;
 		$eco['user_info_id'] = $row->users_info_id;
-		$debtorHandle = $this->_dispatcher->trigger('Debtor_FindByNumber', array($eco));
+		$debtorHandle        = $this->_dispatcher->trigger('Debtor_FindByNumber', array($eco));
 
 		$eco['currency_code'] = CURRENCY_CODE;
-		$eco['vatzone'] = $this->getEconomicTaxZone($row->country_code); //'EU';
-		$eco['email'] = $row->user_email;
+		$eco['vatzone']       = $this->getEconomicTaxZone($row->country_code); //'EU';
+		$eco['email']         = $row->user_email;
 		if ($row->is_company == 1)
 		{
 			if ($row->vat_number != "")
@@ -74,11 +74,11 @@ class economic
 		{
 			$name = $row->company_name;
 		}
-		$eco['name'] = $name;
-		$eco['phone'] = $row->phone;
+		$eco['name']    = $name;
+		$eco['phone']   = $row->phone;
 		$eco['address'] = $row->address;
 		$eco['zipcode'] = $row->zipcode;
-		$eco['city'] = $row->city;
+		$eco['city']    = $row->city;
 		$eco['country'] = $this->_order_functions->getCountryName($row->country_code);
 
 		if ($this->_redhelper->isredCRM())
@@ -95,7 +95,7 @@ class economic
 		}
 
 		$eco['eco_user_number'] = "";
-		$eco['newuserFlag'] = false;
+		$eco['newuserFlag']     = false;
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
 			$debtorEmailHandle = $this->_dispatcher->trigger('Debtor_FindByEmail', array($eco));
@@ -128,6 +128,7 @@ class economic
 		}
 
 		$ecodebtorNumber = $this->_dispatcher->trigger('storeDebtor', array($eco));
+
 		return $ecodebtorNumber;
 	}
 
@@ -139,7 +140,7 @@ class economic
 	 */
 	function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
 	{
-		$ecoProductGroupNumber = new stdclass();
+		$ecoProductGroupNumber         = new stdclass();
 		$ecoProductGroupNumber->Number = 1;
 
 		$accountgroup = array();
@@ -158,45 +159,45 @@ class economic
 			{
 				if ($isvat == 1)
 				{
-					$eco['productgroup_id'] = $accountgroup[0]->economic_shipping_vat_account;
+					$eco['productgroup_id']   = $accountgroup[0]->economic_shipping_vat_account;
 					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' shipping vat';
-					$eco['vataccount'] = $accountgroup[0]->economic_shipping_vat_account;
-					$eco['novataccount'] = $accountgroup[0]->economic_shipping_nonvat_account;
+					$eco['vataccount']        = $accountgroup[0]->economic_shipping_vat_account;
+					$eco['novataccount']      = $accountgroup[0]->economic_shipping_nonvat_account;
 				}
 				else
 				{
-					$eco['productgroup_id'] = $accountgroup[0]->economic_shipping_nonvat_account;
+					$eco['productgroup_id']   = $accountgroup[0]->economic_shipping_nonvat_account;
 					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' shipping novat';
-					$eco['vataccount'] = $accountgroup[0]->economic_shipping_nonvat_account;
-					$eco['novataccount'] = $accountgroup[0]->economic_shipping_nonvat_account;
+					$eco['vataccount']        = $accountgroup[0]->economic_shipping_nonvat_account;
+					$eco['novataccount']      = $accountgroup[0]->economic_shipping_nonvat_account;
 				}
 			}
 			elseif ($isDiscount == 1)
 			{
 				if ($isvat == 1)
 				{
-					$eco['productgroup_id'] = $accountgroup[0]->economic_discount_vat_account;
+					$eco['productgroup_id']   = $accountgroup[0]->economic_discount_vat_account;
 					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' discount vat';
-					$eco['vataccount'] = $accountgroup[0]->economic_discount_vat_account;
-					$eco['novataccount'] = $accountgroup[0]->economic_discount_nonvat_account;
+					$eco['vataccount']        = $accountgroup[0]->economic_discount_vat_account;
+					$eco['novataccount']      = $accountgroup[0]->economic_discount_nonvat_account;
 				}
 				else
 				{
-					$eco['productgroup_id'] = $accountgroup[0]->economic_discount_nonvat_account;
+					$eco['productgroup_id']   = $accountgroup[0]->economic_discount_nonvat_account;
 					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' discount novat';
-					$eco['vataccount'] = $accountgroup[0]->economic_discount_nonvat_account;
-					$eco['novataccount'] = $accountgroup[0]->economic_discount_nonvat_account;
+					$eco['vataccount']        = $accountgroup[0]->economic_discount_nonvat_account;
+					$eco['novataccount']      = $accountgroup[0]->economic_discount_nonvat_account;
 				}
 			}
 			else
 			{
-				$eco['productgroup_id'] = $accountgroup[0]->accountgroup_id;
+				$eco['productgroup_id']   = $accountgroup[0]->accountgroup_id;
 				$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name;
-				$eco['vataccount'] = $accountgroup[0]->economic_vat_account;
-				$eco['novataccount'] = $accountgroup[0]->economic_nonvat_account;
+				$eco['vataccount']        = $accountgroup[0]->economic_vat_account;
+				$eco['novataccount']      = $accountgroup[0]->economic_nonvat_account;
 			}
 
-			$groupHandle = $this->_dispatcher->trigger('ProductGroup_FindByNumber', array($eco));
+			$groupHandle              = $this->_dispatcher->trigger('ProductGroup_FindByNumber', array($eco));
 			$eco['eco_prdgro_number'] = "";
 			if (count($groupHandle) > 0 && isset($groupHandle[0]->Number) != "")
 			{
@@ -204,6 +205,7 @@ class economic
 			}
 			$ecoProductGroupNumber = $this->_dispatcher->trigger('storeProductGroup', array($eco));
 		}
+
 		return $ecoProductGroupNumber;
 	}
 
@@ -217,7 +219,7 @@ class economic
 	{
 		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0) return;
 
-		$eco['product_desc'] = utf8_encode(substr(strip_tags($row->product_desc), 0, 499));
+		$eco['product_desc']   = utf8_encode(substr(strip_tags($row->product_desc), 0, 499));
 		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc), 0, 499));
 
 		$ecoProductGroupNumber = $this->createProductGroupInEconomic($row);
@@ -227,10 +229,10 @@ class economic
 		}
 
 		$eco['product_number'] = trim($row->product_number);
-		$eco['product_name'] = addslashes($row->product_name);
-		$eco['product_price'] = $row->product_price;
+		$eco['product_name']   = addslashes($row->product_name);
+		$eco['product_price']  = $row->product_price;
 		$eco['product_volume'] = $row->product_volume;
-		$debtorHandle = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
@@ -245,17 +247,18 @@ class economic
 			# Supplier order helper object
 			$crmSupplierOrderHelper = new crmSupplierOrderHelper();
 
-			$stockdata = new stdClass();
-			$stockdata->product_id = $row->product_id;
-			$stockdata->property_id = 0;
+			$stockdata                 = new stdClass();
+			$stockdata->product_id     = $row->product_id;
+			$stockdata->property_id    = 0;
 			$stockdata->subproperty_id = 0;
-			$stockamount = $crmSupplierOrderHelper->getSupplierStock($stockdata);
+			$stockamount               = $crmSupplierOrderHelper->getSupplierStock($stockdata);
 		}
 		# End update stock info for redCRM stock tracking system
 
 		$eco['product_stock'] = $stockamount;
 
 		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+
 		return $ecoProductNumber;
 	}
 
@@ -265,11 +268,12 @@ class economic
 		$producthelper = new producthelper();
 
 		# Collect Attributes
-		$attribute = $producthelper->getProductAttribute($productId);
+		$attribute   = $producthelper->getProductAttribute($productId);
 		$attributeId = $attribute[0]->value; # for this plugin we need only first attribute ;)
 
 		# Collect Property
 		$property = $producthelper->getAttibuteProperty(0, $attributeId, $productId);
+
 		return count($property);
 	}
 
@@ -281,7 +285,7 @@ class economic
 	 */
 	function createPropertyInEconomic($prdrow = array(), $row = array())
 	{
-		$eco['product_desc'] = '';
+		$eco['product_desc']   = '';
 		$eco['product_s_desc'] = '';
 
 		$ecoProductGroupNumber = $this->createProductGroupInEconomic($prdrow);
@@ -302,12 +306,12 @@ class economic
 		}
 		else
 		{
-			$eco['product_name'] = addslashes($row->property_name);
+			$eco['product_name']  = addslashes($row->property_name);
 			$eco['product_price'] = $row->property_price;
 		}
 
 		$eco['product_volume'] = 1;
-		$debtorHandle = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
@@ -322,17 +326,18 @@ class economic
 			# Supplier order helper object
 			$crmSupplierOrderHelper = new crmSupplierOrderHelper();
 
-			$stockdata = new stdClass();
-			$stockdata->product_id = $prdrow->product_id;
-			$stockdata->property_id = $row->property_id;
+			$stockdata                 = new stdClass();
+			$stockdata->product_id     = $prdrow->product_id;
+			$stockdata->property_id    = $row->property_id;
 			$stockdata->subproperty_id = 0;
-			$stockamount = $crmSupplierOrderHelper->getSupplierStock($stockdata);
+			$stockamount               = $crmSupplierOrderHelper->getSupplierStock($stockdata);
 		}
 		# End update stock info for redCRM stock tracking system
 
 		$eco['product_stock'] = $stockamount;
 
 		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+
 		return $ecoProductNumber;
 	}
 
@@ -344,7 +349,7 @@ class economic
 	 */
 	function createSubpropertyInEconomic($prdrow = array(), $row = array())
 	{
-		$eco['product_desc'] = '';
+		$eco['product_desc']   = '';
 		$eco['product_s_desc'] = '';
 
 		$ecoProductGroupNumber = $this->createProductGroupInEconomic($prdrow);
@@ -358,17 +363,17 @@ class economic
 		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
 		{
 			$eco['product_name'] = addslashes($row->subattribute_color_name);
-			$string = trim($prdrow->product_price . $row->oprand . $row->subattribute_color_price);
+			$string              = trim($prdrow->product_price . $row->oprand . $row->subattribute_color_price);
 			eval('$eco["product_price"] = ' . $string . ';');
 		}
 		else
 		{
-			$eco['product_name'] = addslashes($row->subattribute_color_name);
+			$eco['product_name']  = addslashes($row->subattribute_color_name);
 			$eco['product_price'] = $row->subattribute_color_price;
 		}
 
 		$eco['product_volume'] = 1;
-		$debtorHandle = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
@@ -387,24 +392,26 @@ class economic
 			# get subattribute info for property id
 			$subattributeData = $this->_producthelper->getAttibuteSubProperty($row->subattribute_color_id);
 
-			$stockdata = new stdClass();
-			$stockdata->product_id = $prdrow->product_id;
-			$stockdata->property_id = $subattributeData[0]->subattribute_id;
+			$stockdata                 = new stdClass();
+			$stockdata->product_id     = $prdrow->product_id;
+			$stockdata->property_id    = $subattributeData[0]->subattribute_id;
 			$stockdata->subproperty_id = $row->subattribute_color_id;
-			$stockamount = $crmSupplierOrderHelper->getSupplierStock($stockdata);
+			$stockamount               = $crmSupplierOrderHelper->getSupplierStock($stockdata);
 		}
 		# End update stock info for redCRM stock tracking system
 
 		$eco['product_stock'] = $stockamount;
 
 		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+
 		return $ecoProductNumber;
 	}
 
 	function importStockFromEconomic($prdrow = array())
 	{
 		$eco['product_number'] = $prdrow->product_number;
-		$ecoStockNumber = $this->_dispatcher->trigger('getProductStock', array($eco));
+		$ecoStockNumber        = $this->_dispatcher->trigger('getProductStock', array($eco));
+
 		return $ecoStockNumber;
 	}
 
@@ -416,7 +423,7 @@ class economic
 	 */
 	function createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate = 0, $isvat = 1)
 	{
-		$eco['product_desc'] = "";
+		$eco['product_desc']   = "";
 		$eco['product_s_desc'] = "";
 
 		$ecoProductGroupNumber = $this->createProductGroupInEconomic(array(), 1, 0, $isvat);
@@ -431,10 +438,10 @@ class economic
 			$shipping_number = substr($shipping_number, 0, 25);
 		}
 		$eco['product_number'] = $shipping_number;
-		$eco['product_name'] = addslashes($shipping_name);
-		$eco['product_price'] = $shipping_rate;
+		$eco['product_name']   = addslashes($shipping_name);
+		$eco['product_price']  = $shipping_rate;
 		$eco['product_volume'] = 1;
-		$debtorHandle = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
@@ -443,6 +450,7 @@ class economic
 		$eco['product_stock'] = 1;
 
 		$ecoShippingRateNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+
 		return $ecoShippingRateNumber;
 	}
 
@@ -455,6 +463,7 @@ class economic
 	function getMaxDebtorInEconomic()
 	{
 		$ecoMaxNumber = $this->_dispatcher->trigger('getMaxDebtor');
+
 		return $ecoMaxNumber;
 	}
 
@@ -467,9 +476,10 @@ class economic
 	function getMaxOrderNumberInEconomic()
 	{
 		$ecoMaxInvoiceNumber = $this->_dispatcher->trigger('getMaxInvoiceNumber');
-		$ecoMaxDraftNumber = $this->_dispatcher->trigger('getMaxDraftInvoiceNumber');
+		$ecoMaxDraftNumber   = $this->_dispatcher->trigger('getMaxDraftInvoiceNumber');
 
 		$ecoMaxNumber = max($ecoMaxInvoiceNumber[0], $ecoMaxDraftNumber[0]);
+
 		return $ecoMaxNumber;
 	}
 
@@ -485,20 +495,20 @@ class economic
 
 		if ($orderdetail->is_booked == 0 && !$orderdetail->invoice_no)
 		{
-			$user_billinginfo = $this->_order_functions->getOrderBillingUserInfo($order_id);
+			$user_billinginfo  = $this->_order_functions->getOrderBillingUserInfo($order_id);
 			$user_shippinginfo = $this->_order_functions->getOrderShippingUserInfo($order_id);
-			$orderitem = $this->_order_functions->getOrderItemDetail($order_id);
+			$orderitem         = $this->_order_functions->getOrderItemDetail($order_id);
 
-			$eco['shop_name'] = SHOP_NAME;
-			$eco['split_payment'] = $data['split_payment'];
+			$eco['shop_name']                 = SHOP_NAME;
+			$eco['split_payment']             = $data['split_payment'];
 			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
-			$eco['economic_design_layout'] = $data['economic_design_layout'];
+			$eco['economic_design_layout']    = $data['economic_design_layout'];
 
 			$ecodebtorNumber = $this->createUserInEconomic($user_billinginfo, $data);
 
 			if (count($ecodebtorNumber) > 0 && is_object($ecodebtorNumber[0]))
 			{
-				$eco['order_id'] = $orderdetail->order_id;
+				$eco['order_id']   = $orderdetail->order_id;
 				$eco['setAttname'] = 0;
 				if ($user_billinginfo->is_company == 1)
 				{
@@ -506,15 +516,15 @@ class economic
 				}
 				$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
 				//			$eco['isvat'] = ($user_billinginfo->requesting_tax_exempt && $user_billinginfo->tax_exempt_approved) ? 0 : 1;
-				$eco['isvat'] = ($orderdetail->order_tax != 0) ? 1 : 0;
-				$currency = CURRENCY_CODE;
-				$eco['email'] = $user_billinginfo->user_email;
-				$eco['phone'] = $user_billinginfo->phone;
+				$eco['isvat']         = ($orderdetail->order_tax != 0) ? 1 : 0;
+				$currency             = CURRENCY_CODE;
+				$eco['email']         = $user_billinginfo->user_email;
+				$eco['phone']         = $user_billinginfo->phone;
 				$eco['currency_code'] = $currency;
-				$eco['order_number'] = $orderdetail->order_number;
-				$eco['amount'] = $orderdetail->order_total;
-				$eco['debtorHandle'] = intVal($ecodebtorNumber[0]->Number);
-				$eco['user_info_id'] = $user_billinginfo->users_info_id;
+				$eco['order_number']  = $orderdetail->order_number;
+				$eco['amount']        = $orderdetail->order_total;
+				$eco['debtorHandle']  = intVal($ecodebtorNumber[0]->Number);
+				$eco['user_info_id']  = $user_billinginfo->users_info_id;
 				$eco['customer_note'] = $orderdetail->customer_note;
 //				if($user_billinginfo->is_company)
 //				{
@@ -530,11 +540,11 @@ class economic
 					$this->updateInvoiceNumber($order_id, $invoice_no);
 
 					$eco['invoiceHandle'] = $invoice_no;
-					$eco['name_ST'] = ($user_billinginfo->is_company == 1 && $user_billinginfo->company_name != '') ? $user_billinginfo->company_name : $user_billinginfo->firstname . ' ' . $user_billinginfo->lastname;
-					$eco['address_ST'] = $user_shippinginfo->address;
-					$eco['city_ST'] = $user_shippinginfo->city;
-					$eco['country_ST'] = $this->_order_functions->getCountryName($user_shippinginfo->country_code);
-					$eco['zipcode_ST'] = $user_shippinginfo->zipcode;
+					$eco['name_ST']       = ($user_billinginfo->is_company == 1 && $user_billinginfo->company_name != '') ? $user_billinginfo->company_name : $user_billinginfo->firstname . ' ' . $user_billinginfo->lastname;
+					$eco['address_ST']    = $user_shippinginfo->address;
+					$eco['city_ST']       = $user_shippinginfo->city;
+					$eco['country_ST']    = $this->_order_functions->getCountryName($user_shippinginfo->country_code);
+					$eco['zipcode_ST']    = $user_shippinginfo->zipcode;
 
 					$this->_dispatcher->trigger('setDeliveryAddress', array($eco));
 
@@ -553,10 +563,10 @@ class economic
 					$isVatDiscount = 0;
 					if (APPLY_VAT_ON_DISCOUNT == '0' && VAT_RATE_AFTER_DISCOUNT && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
 					{
-						$totaldiscount = $orderdetail->order_discount;
-						$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+						$totaldiscount               = $orderdetail->order_discount;
+						$Discountvat                 = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 						$orderdetail->order_discount = $totaldiscount - $Discountvat;
-						$isVatDiscount = 1;
+						$isVatDiscount               = 1;
 					}
 
 					$order_discount = $orderdetail->order_discount + $orderdetail->special_discount_amount;
@@ -569,6 +579,7 @@ class economic
 						$this->createInvoiceDiscountLineInEconomic($orderdetail, $invoice_no, $data, 1);
 					}
 				}
+
 				return $invoiceHandle;
 			}
 			else
@@ -577,6 +588,7 @@ class economic
 			}
 
 		}
+
 		return true;
 	}
 
@@ -592,7 +604,7 @@ class economic
 
 		for ($i = 0; $i < count($orderitem); $i++)
 		{
-			$displaywrapper = "";
+			$displaywrapper   = "";
 			$displayattribute = "";
 			$displayaccessory = "";
 
@@ -605,7 +617,7 @@ class economic
 			}
 
 			$product_id = $orderitem[$i]->product_id;
-			$product = $this->_producthelper->getProductById($product_id);
+			$product    = $this->_producthelper->getProductById($product_id);
 			$this->createProductInEconomic($product);
 
 			if ($orderitem[$i]->wrapper_id)
@@ -619,9 +631,9 @@ class economic
 			}
 			//$displayaccessory = $this->makeAccessoryOrder($invoice_no, $orderitem[$i] );
 
-			$eco ['updateInvoice'] = 0;
-			$eco ['invoiceHandle'] = $invoice_no;
-			$eco ['order_item_id'] = $orderitem[$i]->order_item_id;
+			$eco ['updateInvoice']  = 0;
+			$eco ['invoiceHandle']  = $invoice_no;
+			$eco ['order_item_id']  = $orderitem[$i]->order_item_id;
 			$eco ['product_number'] = $orderitem[$i]->order_item_sku;
 
 			$discount_calc = "";
@@ -633,14 +645,14 @@ class economic
 			}
 
 			// Product user field Information
-			$p_userfield = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
+			$p_userfield    = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
 			$displaywrapper = $displaywrapper . "\n" . strip_tags($p_userfield);
 			// End
 
-			$eco ['product_name'] = $orderitem[$i]->order_item_name . $displaywrapper . $displayattribute . $discount_calc . $displayaccessory;
-			$eco ['product_price'] = $orderitem[$i]->product_item_price_excl_vat;
+			$eco ['product_name']     = $orderitem[$i]->order_item_name . $displaywrapper . $displayattribute . $discount_calc . $displayaccessory;
+			$eco ['product_price']    = $orderitem[$i]->product_item_price_excl_vat;
 			$eco ['product_quantity'] = $orderitem[$i]->product_quantity;
-			$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
+			$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
 			$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
 
@@ -660,15 +672,15 @@ class economic
 
 			if (count($InvoiceLine_no) > 0 && $InvoiceLine_no[0]->Number)
 			{
-				$updateInvoiceLine = $InvoiceLine_no[0]->Number;
-				$eco ['updateInvoice'] = 1;
-				$eco ['invoiceHandle'] = $invoice_no;
-				$eco ['order_item_id'] = $updateInvoiceLine;
-				$eco ['product_number'] = $orderitem[$i]->order_item_sku;
-				$eco ['product_name'] = $orderitem[$i]->order_item_name . $displaywrapper . $displayattribute . $discount_calc . $displayaccessory;
-				$eco ['product_price'] = $orderitem[$i]->product_item_price_excl_vat;
+				$updateInvoiceLine        = $InvoiceLine_no[0]->Number;
+				$eco ['updateInvoice']    = 1;
+				$eco ['invoiceHandle']    = $invoice_no;
+				$eco ['order_item_id']    = $updateInvoiceLine;
+				$eco ['product_number']   = $orderitem[$i]->order_item_sku;
+				$eco ['product_name']     = $orderitem[$i]->order_item_name . $displaywrapper . $displayattribute . $discount_calc . $displayaccessory;
+				$eco ['product_price']    = $orderitem[$i]->product_item_price_excl_vat;
 				$eco ['product_quantity'] = $orderitem[$i]->product_quantity;
-				$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
+				$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
 				$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
 			}
@@ -684,26 +696,26 @@ class economic
 	function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
 
-		$product = new stdClass();
-		$product->product_id = $orderitem->product_id;
+		$product                 = new stdClass();
+		$product->product_id     = $orderitem->product_id;
 		$product->product_number = $orderitem->order_item_sku = "gift_" . $orderitem->product_id . "_" . $orderitem->order_item_name;
-		$product->product_name = $orderitem->order_item_name;
-		$product->product_price = $orderitem->product_item_price_excl_vat;
+		$product->product_name   = $orderitem->order_item_name;
+		$product->product_price  = $orderitem->product_item_price_excl_vat;
 
-		$giftdata = $this->_producthelper->getGiftcardData($orderitem->product_id);
+		$giftdata                 = $this->_producthelper->getGiftcardData($orderitem->product_id);
 		$product->accountgroup_id = $giftdata->accountgroup_id;
-		$product->product_volume = 0;
+		$product->product_volume  = 0;
 
 		$this->createProductInEconomic($product);
 
-		$eco ['updateInvoice'] = 0;
-		$eco ['invoiceHandle'] = $invoice_no;
-		$eco ['order_item_id'] = $orderitem->order_item_id;
-		$eco ['product_number'] = $orderitem->order_item_sku;
-		$eco ['product_name'] = $orderitem->order_item_name;
-		$eco ['product_price'] = $orderitem->product_item_price_excl_vat;
+		$eco ['updateInvoice']    = 0;
+		$eco ['invoiceHandle']    = $invoice_no;
+		$eco ['order_item_id']    = $orderitem->order_item_id;
+		$eco ['product_number']   = $orderitem->order_item_sku;
+		$eco ['product_name']     = $orderitem->order_item_name;
+		$eco ['product_price']    = $orderitem->product_item_price_excl_vat;
 		$eco ['product_quantity'] = $orderitem->product_quantity;
-		$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
+		$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
 		$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
 
@@ -721,12 +733,12 @@ class economic
 	{
 		for ($i = 0; $i < count($orderitem); $i++)
 		{
-			$displaywrapper = "";
+			$displaywrapper   = "";
 			$displayattribute = "";
 			$displayaccessory = "";
 
 			$product_id = $orderitem[$i]->product_id;
-			$product = $this->_producthelper->getProductById($product_id);
+			$product    = $this->_producthelper->getProductById($product_id);
 			$this->createProductInEconomic($product);
 
 			if ($orderitem[$i]->wrapper_id)
@@ -743,9 +755,9 @@ class economic
 			$displayaccessory = $this->makeAccessoryOrder($invoice_no, $orderitem[$i], $user_id);
 
 			# Fetch Attribute from Order Item
-			$eco ['updateInvoice'] = 0;
-			$eco ['invoiceHandle'] = $invoice_no;
-			$eco ['order_item_id'] = $orderitem[$i]->order_item_id;
+			$eco ['updateInvoice']  = 0;
+			$eco ['invoiceHandle']  = $invoice_no;
+			$eco ['order_item_id']  = $orderitem[$i]->order_item_id;
 			$eco ['product_number'] = $orderitem[$i]->order_item_sku;
 
 			$discount_calc = "";
@@ -757,14 +769,14 @@ class economic
 			}
 
 			// Product user field Information
-			$p_userfield = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
+			$p_userfield    = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
 			$displaywrapper = $displaywrapper . "\n" . strip_tags($p_userfield);
 			// End
 
-			$eco ['product_name'] = $orderitem[$i]->order_item_name . $displaywrapper . $discount_calc . $displayaccessory;
-			$eco ['product_price'] = $orderitem[$i]->product_item_price_excl_vat;
+			$eco ['product_name']     = $orderitem[$i]->order_item_name . $displaywrapper . $discount_calc . $displayaccessory;
+			$eco ['product_price']    = $orderitem[$i]->product_item_price_excl_vat;
 			$eco ['product_quantity'] = $orderitem[$i]->product_quantity;
-			$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
+			$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
 			/**
 			 * My Procedure on Attribute
@@ -773,7 +785,7 @@ class economic
 			if (count($orderItemAttdata) > 0)
 			{
 				$attributeId = $orderItemAttdata[0]->section_id;
-				$productId = $orderitem[$i]->product_id;
+				$productId   = $orderitem[$i]->product_id;
 
 				$orderPropdata = $this->_order_functions->getOrderItemAttributeDetail($orderitem[$i]->order_item_id, 0, "property", $attributeId);
 				if (count($orderPropdata) > 0)
@@ -785,11 +797,11 @@ class economic
 
 					$property_number = $orderProperty[0]->property_number; # get From Original Property Table
 					$property_oprand = $orderPropdata[0]->section_oprand; # get From Order Table
-					$property_price = $orderPropdata[0]->section_price; # get From Order Table
-					$property_name = $orderPropdata[0]->section_name; # get From Order Table
+					$property_price  = $orderPropdata[0]->section_price; # get From Order Table
+					$property_name   = $orderPropdata[0]->section_name; # get From Order Table
 
 					$eco ['product_number'] = $property_number;
-					$eco ['product_name'] = $orderitem[$i]->order_item_name . " " . $property_name . $displaywrapper . $discount_calc;
+					$eco ['product_name']   = $orderitem[$i]->order_item_name . " " . $property_name . $displaywrapper . $discount_calc;
 				}
 			}
 			# End
@@ -813,14 +825,14 @@ class economic
 			if (count($order_shipping) > 5)
 			{
 				$shipping_nshortname = (strlen($order_shipping[1]) > 15) ? substr($order_shipping[1], 0, 15) : $order_shipping[1];
-				$shipping_number = $shipping_nshortname . ' ' . $order_shipping[4];
-				$shipping_name = $order_shipping[2];
-				$shipping_rate = $order_shipping[3];
+				$shipping_number     = $shipping_nshortname . ' ' . $order_shipping[4];
+				$shipping_name       = $order_shipping[2];
+				$shipping_rate       = $order_shipping[3];
 
 				$isvat = 0;
 				if (isset($order_shipping[6]) && $order_shipping[6] != 0)
 				{
-					$isvat = 1;
+					$isvat         = 1;
 					$shipping_rate = $shipping_rate - $order_shipping[6];
 				}
 				if (isset($order_shipping[7]) && $order_shipping[7] != '')
@@ -832,14 +844,14 @@ class economic
 				{
 					$eco ['product_number'] = $ecoShippingrateNumber[0]->Number;
 
-					$eco ['invoiceHandle'] = $invoice_no;
-					$eco ['product_name'] = $shipping_name;
-					$eco ['order_item_id'] = "";
-					$eco ['product_id'] = $shipping_number;
+					$eco ['invoiceHandle']    = $invoice_no;
+					$eco ['product_name']     = $shipping_name;
+					$eco ['order_item_id']    = "";
+					$eco ['product_id']       = $shipping_number;
 					$eco ['product_quantity'] = 1;
-					$eco ['product_price'] = $shipping_rate;
-					$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
-					$eco ['shipping'] = 1;
+					$eco ['product_price']    = $shipping_rate;
+					$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
+					$eco ['shipping']         = 1;
 
 					$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
 				}
@@ -866,30 +878,30 @@ class economic
 					$eco['product_group'] = $ecoProductGroupNumber[0]->Number;
 				}
 
-				$discount = $orderdetail->order_discount + $orderdetail->special_discount_amount;
-				$product_name = JText::_("ORDER_DISCOUNT");
+				$discount       = $orderdetail->order_discount + $orderdetail->special_discount_amount;
+				$product_name   = JText::_("ORDER_DISCOUNT");
 				$product_number = $accountgroup[0]->economic_discount_product_number;
 				if ($isPaymentDiscount)
 				{
 					$product_number = $accountgroup[0]->economic_discount_product_number . "_" . $data['economic_payment_method'];
-					$product_name = ($orderdetail->payment_oprand == '+') ? JText::_('PAYMENT_CHARGES_LBL') : JText::_('PAYMENT_DISCOUNT_LBL');
-					$discount = ($orderdetail->payment_oprand == "+") ? (0 - $orderdetail->payment_discount) : $orderdetail->payment_discount;
+					$product_name   = ($orderdetail->payment_oprand == '+') ? JText::_('PAYMENT_CHARGES_LBL') : JText::_('PAYMENT_DISCOUNT_LBL');
+					$discount       = ($orderdetail->payment_oprand == "+") ? (0 - $orderdetail->payment_discount) : $orderdetail->payment_discount;
 				}
 				$discount_short = (strlen($product_number) > 20) ? substr($product_number, 0, 20) : $product_number;
 
-				$eco ['invoiceHandle'] = $invoice_no;
-				$eco ['product_number'] = $discount_short;
-				$eco ['product_name'] = $product_name;
-				$eco ['order_item_id'] = "";
-				$eco ['product_desc'] = "";
-				$eco ['product_s_desc'] = "";
-				$eco ['product_id'] = $discount_short;
+				$eco ['invoiceHandle']    = $invoice_no;
+				$eco ['product_number']   = $discount_short;
+				$eco ['product_name']     = $product_name;
+				$eco ['order_item_id']    = "";
+				$eco ['product_desc']     = "";
+				$eco ['product_s_desc']   = "";
+				$eco ['product_id']       = $discount_short;
 				$eco ['product_quantity'] = 1;
-				$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
-				$eco ['product_price'] = (0 - $discount);
-				$eco ['product_volume'] = 1;
+				$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
+				$eco ['product_price']    = (0 - $discount);
+				$eco ['product_volume']   = 1;
 
-				$debtorHandle = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+				$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
 				$eco['eco_prd_number'] = "";
 				if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 				{
@@ -915,31 +927,32 @@ class economic
 		$invoiceHandle = array();
 		if ($orderdata->is_booked == 0 && $orderdata->invoice_no)
 		{
-			$data = array();
+			$data                  = array();
 			$data['split_payment'] = $orderdata->split_payment;
 
 			$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdata->order_id);
 			if (count($paymentInfo) > 0)
 			{
 				$payment_name = $paymentInfo[0]->payment_method_class;
-				$paymentArr = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+				$paymentArr   = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
 				if (count($paymentArr) > 0)
 				{
 					$payment_name = $paymentArr[1];
 				}
 				$data['economic_payment_method'] = $payment_name;
-				$paymentmethod = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+				$paymentmethod                   = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 				if (count($paymentmethod) > 0)
 				{
-					$paymentparams = new JRegistry($paymentmethod[0]->params);
+					$paymentparams                     = new JRegistry($paymentmethod[0]->params);
 					$data['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-					$data['economic_design_layout'] = $paymentparams->get('economic_design_layout');
-					$data['economic_is_creditcard'] = $paymentparams->get('is_creditcard');
+					$data['economic_design_layout']    = $paymentparams->get('economic_design_layout');
+					$data['economic_is_creditcard']    = $paymentparams->get('is_creditcard');
 				}
 			}
 			$this->deleteInvoiceInEconomic($orderdata);
 			$invoiceHandle = $this->createInvoiceInEconomic($orderdata->order_id, $data);
 		}
+
 		return $invoiceHandle;
 	}
 
@@ -968,8 +981,8 @@ class economic
 	function checkInvoiceDraftorBookInEconomic($orderdetail)
 	{
 		$eco ['invoiceHandle'] = $orderdetail->invoice_no;
-		$eco ['order_number'] = $orderdetail->order_number;
-		$bookInvoiceData = $this->_dispatcher->trigger('checkBookInvoice', array($eco));
+		$eco ['order_number']  = $orderdetail->order_number;
+		$bookInvoiceData       = $this->_dispatcher->trigger('checkBookInvoice', array($eco));
 		if (count($bookInvoiceData) > 0 && isset($bookInvoiceData[0]->InvoiceHandle))
 		{
 			$bookInvoiceData = $bookInvoiceData[0]->InvoiceHandle;
@@ -989,6 +1002,7 @@ class economic
 			$invoiceData[0]->invoiceStatus = "draft";
 //			}
 		}
+
 		return $invoiceData;
 	}
 
@@ -1010,7 +1024,7 @@ class economic
 			$eco ['invoiceDate'] = date("Y-m-d") . "T" . date("h:i:s");
 		}
 		$bookinvoice_date = strtotime($eco['invoiceDate']);
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
+		$query            = 'UPDATE ' . $this->_table_prefix . 'orders '
 			. 'SET bookinvoice_date="' . $bookinvoice_date . '" '
 			. 'WHERE order_id="' . $orderdetail->order_id . '" ';
 		$this->_db->setQuery($query);
@@ -1043,11 +1057,11 @@ class economic
 						$currency = CURRENCY_CODE;
 
 						$eco['invoiceHandle'] = $orderdetail->invoice_no;
-						$eco['debtorHandle'] = intVal($user_billinginfo->users_info_id);
+						$eco['debtorHandle']  = intVal($user_billinginfo->users_info_id);
 						$eco['currency_code'] = $currency;
-						$eco['amount'] = $orderdetail->order_total;
-						$eco['order_number'] = $orderdetail->order_number;
-						$eco['order_id'] = $orderdetail->order_id;
+						$eco['amount']        = $orderdetail->order_total;
+						$eco['order_number']  = $orderdetail->order_number;
+						$eco['order_id']      = $orderdetail->order_id;
 
 						$currectinvoiceData = $this->_dispatcher->trigger('checkDraftInvoice', array($eco));
 						if (count($currectinvoiceData) > 0 && trim($currectinvoiceData[0]->OtherReference) == $orderdetail->order_number)
@@ -1068,9 +1082,9 @@ class economic
 								$paymentmethod = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 								if (count($paymentmethod) > 0)
 								{
-									$paymentparams = new JRegistry($paymentmethod[0]->params);
+									$paymentparams                    = new JRegistry($paymentmethod[0]->params);
 									$eco['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-									$eco['economic_design_layout'] = $paymentparams->get('economic_design_layout');
+									$eco['economic_design_layout']    = $paymentparams->get('economic_design_layout');
 								}
 							}
 
@@ -1113,6 +1127,7 @@ class economic
 				}
 			}
 		}
+
 		return $file;
 	}
 
@@ -1149,14 +1164,15 @@ class economic
 			. 'WHERE product_number="' . $product_number . '" ';
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
+
 		return $result;
 	}
 
 	function makeAccessoryOrder($invoice_no, $orderItem, $user_id = 0)
 	{
 		$displayaccessory = "";
-		$retPrice = 0;
-		$orderItemdata = $this->_order_functions->getOrderItemAccessoryDetail($orderItem->order_item_id);
+		$retPrice         = 0;
+		$orderItemdata    = $this->_order_functions->getOrderItemAccessoryDetail($orderItem->order_item_id);
 		if (count($orderItemdata) > 0)
 		{
 			$displayaccessory .= "\n" . JText::_("COM_REDSHOP_ACCESSORY");
@@ -1176,15 +1192,15 @@ class economic
 				{
 					$retPrice += $orderItemdata[$i]->product_acc_item_price;
 
-					$eco ['updateInvoice'] = 0;
-					$eco ['invoiceHandle'] = $invoice_no;
-					$eco ['order_item_id'] = $orderItem->order_item_id;
-					$eco ['product_number'] = $orderItemdata[$i]->order_acc_item_sku;
-					$eco ['product_name'] = $orderItemdata[$i]->order_acc_item_name;
-					$eco ['product_price'] = $orderItemdata[$i]->product_acc_item_price;
+					$eco ['updateInvoice']    = 0;
+					$eco ['invoiceHandle']    = $invoice_no;
+					$eco ['order_item_id']    = $orderItem->order_item_id;
+					$eco ['product_number']   = $orderItemdata[$i]->order_acc_item_sku;
+					$eco ['product_name']     = $orderItemdata[$i]->order_acc_item_name;
+					$eco ['product_price']    = $orderItemdata[$i]->product_acc_item_price;
 					$eco ['product_quantity'] = $orderItemdata[$i]->product_quantity;
-					$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
-					$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+					$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
+					$InvoiceLine_no           = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 				$displayattribute = $this->makeAttributeOrder($invoice_no, $orderItem, 1, $orderItemdata[$i]->product_id, $user_id);
 				$displayaccessory .= $displayattribute;
@@ -1195,14 +1211,14 @@ class economic
 				}
 				if (true && count($InvoiceLine_no) > 0 && $InvoiceLine_no[0]->Number)
 				{
-					$eco ['updateInvoice'] = 1;
-					$eco ['invoiceHandle'] = $invoice_no;
-					$eco ['order_item_id'] = $InvoiceLine_no[0]->Number;
-					$eco ['product_number'] = $orderItemdata[$i]->order_acc_item_sku;
-					$eco ['product_name'] = $orderItemdata[$i]->order_acc_item_name . $displayattribute;
-					$eco ['product_price'] = $orderItemdata[$i]->product_acc_item_price;
+					$eco ['updateInvoice']    = 1;
+					$eco ['invoiceHandle']    = $invoice_no;
+					$eco ['order_item_id']    = $InvoiceLine_no[0]->Number;
+					$eco ['product_number']   = $orderItemdata[$i]->order_acc_item_sku;
+					$eco ['product_name']     = $orderItemdata[$i]->order_acc_item_name . $displayattribute;
+					$eco ['product_price']    = $orderItemdata[$i]->product_acc_item_price;
 					$eco ['product_quantity'] = $orderItemdata[$i]->product_quantity;
-					$eco ['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
+					$eco ['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
 					$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
 				}
@@ -1212,14 +1228,15 @@ class economic
 		{
 			$displayaccessory = $retPrice;
 		}
+
 		return $displayaccessory;
 	}
 
 	function makeAttributeOrder($invoice_no, $orderItem, $is_accessory = 0, $parent_section_id = 0, $user_id = 0)
 	{
 		$displayattribute = "";
-		$retPrice = 0;
-		$chktag = $this->_producthelper->getApplyattributeVatOrNot('', $user_id);
+		$retPrice         = 0;
+		$chktag           = $this->_producthelper->getApplyattributeVatOrNot('', $user_id);
 		$orderItemAttdata = $this->_order_functions->getOrderItemAttributeDetail($orderItem->order_item_id, $is_accessory, "attribute", $parent_section_id);
 		if (count($orderItemAttdata) > 0)
 		{
@@ -1230,7 +1247,7 @@ class economic
 			$product = $this->_producthelper->getProductById($parent_section_id);
 			for ($i = 0; $i < count($orderItemAttdata); $i++)
 			{
-				$attribute = $this->_producthelper->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
+				$attribute            = $this->_producthelper->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
 				$hide_attribute_price = 0;
 				if (count($attribute) > 0)
 				{
@@ -1240,7 +1257,7 @@ class economic
 				$orderPropdata = $this->_order_functions->getOrderItemAttributeDetail($orderItem->order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
 				for ($p = 0; $p < count($orderPropdata); $p++)
 				{
-					$property = $this->_producthelper->getAttibuteProperty($orderPropdata[$p]->section_id);
+					$property      = $this->_producthelper->getAttibuteProperty($orderPropdata[$p]->section_id);
 					$virtualNumber = "";
 					if (count($property) > 0 && $property[0]->property_number)
 					{
@@ -1272,7 +1289,7 @@ class economic
 					{
 						for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
 						{
-							$subproperty = $this->_producthelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
+							$subproperty   = $this->_producthelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
 							$virtualNumber = "";
 							if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
 							{
@@ -1311,6 +1328,7 @@ class economic
 		{
 			$displayattribute = $retPrice;
 		}
+
 		return $displayattribute;
 	}
 
@@ -1318,14 +1336,14 @@ class economic
 	{
 		for ($i = 0; $i < count($orderAttitem); $i++)
 		{
-			$eco[$i]['invoiceHandle'] = $invoice_no;
-			$eco[$i]['order_item_id'] = $orderItem->order_item_id;
-			$eco[$i]['product_number'] = $orderAttitem[$i]->virtualNumber;
-			$eco[$i]['product_name'] = $orderAttitem[$i]->section_name;
-			$eco[$i]['product_price'] = $orderAttitem[$i]->section_price;
+			$eco[$i]['invoiceHandle']    = $invoice_no;
+			$eco[$i]['order_item_id']    = $orderItem->order_item_id;
+			$eco[$i]['product_number']   = $orderAttitem[$i]->virtualNumber;
+			$eco[$i]['product_name']     = $orderAttitem[$i]->section_name;
+			$eco[$i]['product_price']    = $orderAttitem[$i]->section_price;
 			$eco[$i]['product_quantity'] = $orderItem->product_quantity;
-			$eco[$i]['delivery_date'] = date("Y-m-d") . "T" . date("h:i:s");
-			$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco[$i]));
+			$eco[$i]['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
+			$InvoiceLine_no              = $this->_dispatcher->trigger('createInvoiceLine', array($eco[$i]));
 		}
 
 		/*for($i=0;$i<count($orderAttitem);$i++)
@@ -1353,6 +1371,7 @@ class economic
 		{
 			$taxzone = 'Abroad'; //'3';//Non EU Country
 		}
+
 		return $taxzone;
 	}
 
@@ -1361,6 +1380,7 @@ class economic
 		$eu_country = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST', 'FIN',
 			'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU', 'LUX',
 			'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
+
 		return in_array($country, $eu_country);
 	}
 }

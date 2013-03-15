@@ -24,9 +24,9 @@ class product_category
 	function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
 	{
 
-		$db = jFactory::getDBO();
+		$db   = jFactory::getDBO();
 		$html = '';
-		$q = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref ";
+		$q    = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref ";
 		if ($category_id)
 		{
 			$q .= "WHERE category_child_id='$category_id'";
@@ -38,7 +38,7 @@ class product_category
 			$selected_categories[] = $cats[0]->category_parent_id;
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
-		$id = str_replace('[]', '', $name);
+		$id       = str_replace('[]', '', $name);
 		$html .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 		if ($toplevel)
 		{
@@ -46,6 +46,7 @@ class product_category
 		}
 		$html .= $this->list_tree($category_id, '0', '0', $selected_categories, $disabledFields);
 		$html .= "</select>\n";
+
 		return $html;
 	}
 
@@ -66,7 +67,7 @@ class product_category
 
 		for ($x = 0; $x < count($cats); $x++)
 		{
-			$cat = $cats[$x];
+			$cat      = $cats[$x];
 			$child_id = $cat->category_child_id;
 			if ($child_id != $cid)
 			{
@@ -104,6 +105,7 @@ class product_category
 			}
 			$html .= $this->list_tree($category_id, $child_id, $level, $selected_categories, $disabledFields);
 		}
+
 		return $html;
 	}
 
@@ -111,9 +113,9 @@ class product_category
 	{
 
 		global $context;
-		$mainframe = JFactory::getApplication();
+		$mainframe          = JFactory::getApplication();
 		$GLOBALS['catlist'] = array();
-		$db = jFactory::getDBO();
+		$db                 = jFactory::getDBO();
 		$level++;
 		$view = JRequest::getVar('view');
 
@@ -157,8 +159,8 @@ class product_category
 
 		for ($x = 0; $x < count($cats); $x++)
 		{
-			$html = '';
-			$cat = $cats[$x];
+			$html     = '';
+			$cat      = $cats[$x];
 			$child_id = $cat->category_child_id;
 			if ($child_id != $cid)
 			{
@@ -171,7 +173,7 @@ class product_category
 				$html .= "&nbsp;" . $cat->category_name;
 			}
 			$cat->category_name = $html;
-			$this->_cats[] = $cat;
+			$this->_cats[]      = $cat;
 
 			$this->getCategoryListArray($category_id, $child_id, $level);
 		}
@@ -183,7 +185,7 @@ class product_category
 	{
 
 		$db = jFactory::getDBO();
-		$q = "SELECT c.category_id,c.category_name "
+		$q  = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
 			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
 			. "WHERE cx.category_child_id='" . $cid . "' "
@@ -193,11 +195,12 @@ class product_category
 
 		for ($x = 0; $x < count($cats); $x++)
 		{
-			$cat = $cats[$x];
-			$parent_id = $cat->category_parent_id;
+			$cat                          = $cats[$x];
+			$parent_id                    = $cat->category_parent_id;
 			$GLOBALS['catlist_reverse'][] = $cat;
 			$this->getCategoryListReverceArray($parent_id);
 		}
+
 		return $GLOBALS['catlist_reverse'];
 	}
 
@@ -205,20 +208,22 @@ class product_category
 	{
 		global $mainframe, $context;
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby          = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
 	function getParentCategories()
 	{
-		$db = jFactory::getDBO();
+		$db    = jFactory::getDBO();
 		$query = 'SELECT DISTINCT c.category_name, c.category_id'
 			. ' FROM ' . $this->_table_prefix . 'category c '
 			. ' LEFT JOIN ' . $this->_table_prefix . 'category_xref AS x ON c.category_id = x.category_child_id '
 			. 'WHERE x.category_parent_id=0 ';
 		$db->setQuery($query);
+
 		return $db->loadObjectList();
 	}
 
@@ -235,7 +240,7 @@ class product_category
 	{
 
 		$db = jFactory::getDBO();
-		$q = "SELECT c.category_id,c.category_name "
+		$q  = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
 			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
 			. "WHERE cx.category_parent_id='" . $cid . "' "
@@ -247,18 +252,19 @@ class product_category
 
 		for ($x = 0; $x < count($cats); $x++)
 		{
-			$cat = $cats[$x];
-			$parent_id = $cat->category_child_id;
+			$cat                  = $cats[$x];
+			$parent_id            = $cat->category_child_id;
 			$GLOBALS['catlist'][] = $cat;
 			$this->getCategoryTree($parent_id);
 		}
+
 		return $GLOBALS['catlist'];
 	}
 
 
 	function getCategoryProductList($cid) // pass category id
 	{
-		$db = jFactory::getDBO();
+		$db    = jFactory::getDBO();
 		$query = "SELECT p.product_id AS id "
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id "
@@ -296,6 +302,7 @@ class product_category
 		{
 			$return = 0;
 		}
+
 		return $return;
 
 	}

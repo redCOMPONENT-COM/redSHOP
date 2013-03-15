@@ -30,7 +30,7 @@ echo $pane->startPane('stat-pane');
 <?php
 for ($i = 0; $i < count($this->lists); $i++)
 {
-	$model = $this->getModel('stockroom_detail');
+	$model   = $this->getModel('stockroom_detail');
 	$product = $model->stock_product($this->lists[$i]->container_id);
 	echo $pane->startPanel($this->lists[$i]->container_name, $this->lists[$i]->container_name);
 	echo '<table class="adminlist">';

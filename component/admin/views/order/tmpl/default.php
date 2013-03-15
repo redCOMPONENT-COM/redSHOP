@@ -102,7 +102,8 @@ JPluginHelper::importPlugin('redshop_product');
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_NUMBER', 'order_number', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</th>
 	<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2)
-	{ ?>
+	{
+		?>
 		<th width="10%">
 			<?php echo  JHTML::_('grid.sort', 'COM_REDSHOP_BOOKINVOICE_NUMBER', 'bookinvoice_number', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
@@ -114,7 +115,8 @@ JPluginHelper::importPlugin('redshop_product');
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</th>
 	<?php if (USE_STOCKROOM == 1)
-	{ ?>
+	{
+		?>
 		<th width="15%">
 			<?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
 		</th>
@@ -145,17 +147,17 @@ if (SEND_MAIL_TO_CUSTOMER)
 $k = 0;
 for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 {
-	$row = & $this->orders[$i];
+	$row     = & $this->orders[$i];
 	$row->id = $row->order_id;
-	$link = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
-	$link = $redhelper->sslLink($link);
+	$link    = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
+	$link    = $redhelper->sslLink($link);
 	/**
 	 * @var $data
 	 * Trigger event onAfterDisplayProduct
 	 * Show content return by plugin directly into product page after display product title
 	 */
-	$data->highlight = new stdClass();
-	$results = $dispatcher->trigger('toHighlightGrid', array(& $row));
+	$data->highlight                  = new stdClass();
+	$results                          = $dispatcher->trigger('toHighlightGrid', array(& $row));
 	$data->highlight->toHighlightGrid = trim(implode("\n", $results));
 	?>
 	<tr class="<?php echo "row$k"; ?>">
@@ -221,7 +223,8 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			</table>
 		</td>
 		<?php if (USE_STOCKROOM == 1)
-		{ ?>
+		{
+			?>
 			<td align="center">
 				<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 
@@ -255,12 +258,12 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				if ($stockroom_id != "")
 				{
 					$max_delivery = $stockroomhelper->getStockroom_maxdelivery(substr_replace($stockroom_id, "", -1));
-					$orderdate = $config->convertDateFormat($row->cdate);
+					$orderdate    = $config->convertDateFormat($row->cdate);
 
-					$stamp = mktime(0, 0, 0, date('m', $row->cdate), date('d', $row->cdate) + $max_delivery[0]->max_del_time, date('Y', $row->cdate));
+					$stamp         = mktime(0, 0, 0, date('m', $row->cdate), date('d', $row->cdate) + $max_delivery[0]->max_del_time, date('Y', $row->cdate));
 					$delivery_date = date('d/m/Y', $stamp);
-					$current_date = date('d/m/Y');
-					$datediff = $stockroomhelper->getdateDiff($stamp, time());
+					$current_date  = date('d/m/Y');
+					$datediff      = $stockroomhelper->getdateDiff($stamp, time());
 					if ($datediff < 0)
 					{
 						$datediff = 0;

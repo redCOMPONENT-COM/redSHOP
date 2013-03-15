@@ -31,8 +31,8 @@ class supplier_detailController extends JController
 	function save()
 	{
 
-		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
-		$supplier_desc = JRequest::getVar('supplier_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post                  = JRequest::get('post', JREQUEST_ALLOWRAW);
+		$supplier_desc         = JRequest::getVar('supplier_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["supplier_desc"] = $supplier_desc;
 
 
@@ -126,7 +126,7 @@ class supplier_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 

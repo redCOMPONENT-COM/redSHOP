@@ -43,13 +43,13 @@ class product_priceController extends JController
 	function saveprice()
 	{
 
-		$db = JFactory::getDBO();
-		$product_id = JRequest::getVar('pid');
-		$shopper_group_id = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
-		$price = JRequest::getVar('price', array(), 'post', 'array');
+		$db                   = JFactory::getDBO();
+		$product_id           = JRequest::getVar('pid');
+		$shopper_group_id     = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
+		$price                = JRequest::getVar('price', array(), 'post', 'array');
 		$price_quantity_start = JRequest::getVar('price_quantity_start', array(), 'post', 'array');
-		$price_quantity_end = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
-		$price_id = JRequest::getVar('price_id', array(), 'post', 'array');
+		$price_quantity_end   = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
+		$price_id             = JRequest::getVar('price_id', array(), 'post', 'array');
 
 		for ($i = 0; $i < count($price); $i++)
 		{
@@ -105,9 +105,9 @@ class product_priceController extends JController
 	{
 
 		$template_id = JRequest::getVar('template_id', '');
-		$product_id = JRequest::getVar('product_id', '');
-		$section = JRequest::getVar('section', '');
-		$model = $this->getModel('product');
+		$product_id  = JRequest::getVar('product_id', '');
+		$section     = JRequest::getVar('section', '');
+		$model       = $this->getModel('product');
 
 		$data_product = $model->product_template($template_id, $product_id, $section);
 		echo $data_product;

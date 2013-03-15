@@ -137,11 +137,11 @@ $stockrooms = $model->StockRoomList();
 					{
 
 						// calculation UNIT
-						$lists = array();
-						$options = array();
-						$options[] = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
-						$options[] = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
-						$options[] = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
+						$lists                       = array();
+						$options                     = array();
+						$options[]                   = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
+						$options[]                   = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
+						$options[]                   = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
 						$lists['discount_calc_unit'] = JHTML::_('select.genericlist', $options, 'discount_calc_unit[]', 'class="inputbox" size="1" ', 'value', 'text', $calc_data[$i]->discount_calc_unit);
 						unset($options);
 						?>
@@ -188,10 +188,10 @@ $stockrooms = $model->StockRoomList();
 					{
 
 						// calculation UNIT
-						$options = array();
-						$options[] = JHTML::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
-						$options[] = JHTML::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
-						$options[] = JHTML::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
+						$options                       = array();
+						$options[]                     = JHTML::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
+						$options[]                     = JHTML::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
+						$options[]                     = JHTML::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
 						$lists['discount_calc_oprand'] = JHTML::_('select.genericlist', $options, 'pdc_oprand[]', 'class="inputbox" size="1" ', 'value', 'text', $calc_data[$i]->oprand);
 
 						unset($options);

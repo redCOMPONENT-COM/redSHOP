@@ -57,16 +57,16 @@ class mail_detailVIEWmail_detail extends JView
 		if ($detail->mail_section == 'order_status' && $detail->mail_section != '0')
 		{
 			$order_status = $model->mail_section();
-			$select = array();
-			$select[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
-			$merge = array_merge($select, $order_status);
+			$select       = array();
+			$select[]     = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
+			$merge        = array_merge($select, $order_status);
 
 			$lists['order_status'] = JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text', $detail->mail_order_status);
 		}
 
 
-		$redtemplate = new Redtemplate();
-		$optiontype = $redtemplate->getMailSections();
+		$redtemplate   = new Redtemplate();
+		$optiontype    = $redtemplate->getMailSections();
 		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'mail_section', 'class="inputbox" size="1" onchange="mail_select(this)" ', 'value', 'text', $detail->mail_section);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);

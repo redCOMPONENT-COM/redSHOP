@@ -31,10 +31,10 @@ class mediaController extends JController
 
 	function saveAdditionalFiles()
 	{
-		$post = JRequest::get('POST');
-		$file = JRequest::getVar('downloadfile', 'array', 'files', 'array');
+		$post      = JRequest::get('POST');
+		$file      = JRequest::getVar('downloadfile', 'array', 'files', 'array');
 		$totalFile = count($file['name']);
-		$model = $this->getModel();
+		$model     = $this->getModel();
 //		if file selected from download folder...
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
@@ -43,14 +43,14 @@ class mediaController extends JController
 		if ($post['hdn_download_file'] != "")
 		{
 			$download_path = $product_download_root . $post['hdn_download_file_path'];
-			$post['name'] = $post['hdn_download_file'];
-			$filenewtype = strtolower(JFile::getExt($post['hdn_download_file']));
+			$post['name']  = $post['hdn_download_file'];
+			$filenewtype   = strtolower(JFile::getExt($post['hdn_download_file']));
 			if ($post['hdn_download_file_path'] != $download_path)
 			{
-				$filename = time() . '_' . $post['hdn_download_file']; //Make the filename unique
+				$filename     = time() . '_' . $post['hdn_download_file']; //Make the filename unique
 				$post['name'] = $product_download_root . str_replace(" ", "_", $filename);
-				$down_src = $download_path;
-				$down_dest = $post['name'];
+				$down_src     = $download_path;
+				$down_dest    = $post['name'];
 				copy($down_src, $down_dest);
 			}
 
@@ -69,11 +69,11 @@ class mediaController extends JController
 			if (!$errors)
 			{
 				$filename = time() . "_" . $file['name'][$i];
-				$fileExt = strtolower(JFile::getExt($filename));
+				$fileExt  = strtolower(JFile::getExt($filename));
 				if ($fileExt)
 				{
-					$src = $file['tmp_name'][$i];
-					$dest = $product_download_root . str_replace(" ", "_", $filename);
+					$src         = $file['tmp_name'][$i];
+					$dest        = $product_download_root . str_replace(" ", "_", $filename);
 					$file_upload = JFile::upload($src, $dest);
 					if ($file_upload != 1)
 					{
@@ -101,8 +101,8 @@ class mediaController extends JController
 	function deleteAddtionalFiles()
 	{
 		$media_id = JRequest::getInt('media_id');
-		$fileId = JRequest::getInt('fileId');
-		$model = $this->getModel();
+		$fileId   = JRequest::getInt('fileId');
+		$model    = $this->getModel();
 		if ($model->deleteAddtionalFiles($fileId))
 		{
 			$msg = JText::_('COM_REDSHOP_FILE_DELETED');
@@ -117,12 +117,12 @@ class mediaController extends JController
 	//ordering
 	function saveorder()
 	{
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$section_name = JRequest::getVar('section_name');
+		$option        = JRequest::getVar('option');
+		$section_id    = JRequest::getVar('section_id');
+		$section_name  = JRequest::getVar('section_name');
 		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid           = JRequest::getVar('cid', array(), 'post', 'array');
+		$order         = JRequest::getVar('order', array(), 'post', 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
@@ -144,9 +144,9 @@ class mediaController extends JController
 		else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-        <script language="javascript" type="text/javascript">
-            window.parent.document.location = '<?php echo $link; ?>';
-        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{

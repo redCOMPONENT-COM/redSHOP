@@ -23,13 +23,13 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -93,6 +93,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$this->_data->prdextrafield_element_name = $post['prdextrafield_element_name'];
 		}
+
 		return $this->_data;
 	}
 
@@ -102,6 +103,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			. "WHERE x.xmlimport_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
+
 		return (boolean) $this->_data;
 	}
 
@@ -115,20 +117,20 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$post = JRequest::get('post');
 
 		$xmlimport_url = $this->_data->xmlimport_url;
-		$file =& JRequest::getVar('filename_url', '', 'files', 'array');
+		$file          =& JRequest::getVar('filename_url', '', 'files', 'array');
 
 		if (array_key_exists("xmlimport_url", $post) && $post["xmlimport_url"] != "")
 		{
-			$xmlimport_url = $post['xmlimport_url'];
+			$xmlimport_url              = $post['xmlimport_url'];
 			$this->_data->xmlimport_url = $post['xmlimport_url'];
 		}
 		else if (array_key_exists("name", $file) && $file['name'] != "" && $file['type'] == "text/xml")
 		{
-			$src = $file['tmp_name'];
+			$src      = $file['tmp_name'];
 			$destpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import";
 
 			$filename = JPath::clean($file['name']); //Make the filename unique
-			$dest = $destpath . DS . $filename; //specific path of the file
+			$dest     = $destpath . DS . $filename; //specific path of the file
 
 			JFile::upload($src, $dest);
 			$xmlimport_url = $dest;
@@ -137,6 +139,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$xmlimport_url = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $this->_data->filename;
 		}
+
 		return $xmlimport_url;
 	}
 
@@ -145,33 +148,35 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$user =& JFactory::getUser();
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->xmlimport_id = 0;
-			$detail->filename = null;
-			$detail->display_filename = null;
-			$detail->xmlimport_url = null;
-			$detail->section_type = null;
-			$detail->auto_sync = 0;
-			$detail->sync_on_request = 0;
-			$detail->element_name = null;
-			$detail->billing_element_name = null;
-			$detail->shipping_element_name = null;
-			$detail->orderitem_element_name = null;
-			$detail->stock_element_name = null;
+			$detail                             = new stdClass();
+			$detail->xmlimport_id               = 0;
+			$detail->filename                   = null;
+			$detail->display_filename           = null;
+			$detail->xmlimport_url              = null;
+			$detail->section_type               = null;
+			$detail->auto_sync                  = 0;
+			$detail->sync_on_request            = 0;
+			$detail->element_name               = null;
+			$detail->billing_element_name       = null;
+			$detail->shipping_element_name      = null;
+			$detail->orderitem_element_name     = null;
+			$detail->stock_element_name         = null;
 			$detail->prdextrafield_element_name = null;
-			$detail->auto_sync_interval = null;
-			$detail->override_existing = 0;
-			$detail->add_prefix_for_existing = null;
-			$detail->xmlimport_filetag = null;
-			$detail->xmlimport_billingtag = null;
-			$detail->xmlimport_shippingtag = null;
-			$detail->xmlimport_orderitemtag = null;
-			$detail->xmlimport_stocktag = null;
+			$detail->auto_sync_interval         = null;
+			$detail->override_existing          = 0;
+			$detail->add_prefix_for_existing    = null;
+			$detail->xmlimport_filetag          = null;
+			$detail->xmlimport_billingtag       = null;
+			$detail->xmlimport_shippingtag      = null;
+			$detail->xmlimport_orderitemtag     = null;
+			$detail->xmlimport_stocktag         = null;
 			$detail->xmlimport_prdextrafieldtag = null;
-			$detail->published = 0;
-			$this->_data = $detail;
+			$detail->published                  = 0;
+			$this->_data                        = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -187,15 +192,15 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 //		print_r($data);
 //		die();
 		$xmlhelper = new xmlHelper();
-		$resarray = array();
+		$resarray  = array();
 		if (array_key_exists("xmlfiletag", $data))
 		{
-			$xmlfiletag = $data['xmlfiletag'];
+			$xmlfiletag    = $data['xmlfiletag'];
 			$updatefiletag = (isset($data['updatefiletag'])) ? $data['updatefiletag'] : array();
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
-				$xmltag = trim($data[$xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data[$xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -204,12 +209,12 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$resarray = array();
 		if (array_key_exists("xmlbillingtag", $data))
 		{
-			$xmlfiletag = $data['xmlbillingtag'];
+			$xmlfiletag    = $data['xmlbillingtag'];
 			$updatefiletag = (isset($data['updatebillingtag'])) ? $data['updatebillingtag'] : array();
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
-				$xmltag = trim($data["bill_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["bill_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -218,12 +223,12 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$resarray = array();
 		if (array_key_exists("xmlshippingtag", $data))
 		{
-			$xmlfiletag = $data['xmlshippingtag'];
+			$xmlfiletag    = $data['xmlshippingtag'];
 			$updatefiletag = (isset($data['updateshippingtag'])) ? $data['updateshippingtag'] : array();
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
-				$xmltag = trim($data["shipp_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["shipp_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -232,12 +237,12 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$resarray = array();
 		if (array_key_exists("xmlitemtag", $data))
 		{
-			$xmlfiletag = $data['xmlitemtag'];
+			$xmlfiletag    = $data['xmlitemtag'];
 			$updatefiletag = (isset($data['updateitemtag'])) ? $data['updateitemtag'] : array();
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
-				$xmltag = trim($data["item_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["item_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -246,12 +251,12 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$resarray = array();
 		if (array_key_exists("xmlstocktag", $data))
 		{
-			$xmlfiletag = $data['xmlstocktag'];
+			$xmlfiletag    = $data['xmlstocktag'];
 			$updatefiletag = (isset($data['updatestocktag'])) ? $data['updatestocktag'] : array();
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
-				$xmltag = trim($data["stock_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["stock_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -260,12 +265,12 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$resarray = array();
 		if (array_key_exists("xmlprdextrafieldtag", $data))
 		{
-			$xmlfiletag = $data['xmlprdextrafieldtag'];
+			$xmlfiletag    = $data['xmlprdextrafieldtag'];
 			$updatefiletag = (isset($data['updateprdexttag'])) ? $data['updateprdexttag'] : array();
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
-				$xmltag = trim($data["prdext_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["prdext_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -280,12 +285,14 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		$row->published = $data['xmlpublished'];
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		$filename = $xmlhelper->writeXMLImportFile($row->xmlimport_id, $data['tmpxmlimport_url']);
@@ -294,6 +301,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 //			XML IMPORTED FILE WILL IMPORT IN DATABASE
 			$xmlhelper->importXMLFile($row->xmlimport_id);
 		}
+
 		return $row;
 	}
 
@@ -312,7 +320,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 			for ($i = 0; $i < count($cid); $i++)
 			{
-				$result = $xmlhelper->getXMLImportInfo($cid[$i]);
+				$result   = $xmlhelper->getXMLImportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $result->filename;
 				if (is_file($rootpath))
 				{
@@ -326,6 +334,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -335,9 +344,11 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -354,9 +365,11 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -379,9 +392,11 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

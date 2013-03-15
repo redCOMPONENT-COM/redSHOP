@@ -102,15 +102,18 @@ if ($showbuttons == 1)
 						}?></th>
 				<?php
 				}
-				for($j = 0;$j < count($this->stockroom);$j++)
-				{    ?>
-				<th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;//JText::_('COM_REDSHOP_QUANTITY'); ?>
-					&nbsp;&nbsp;
-					<a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a></th>
-				<th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;?>
-					&nbsp;<?php  echo JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?>&nbsp;&nbsp;
-					<a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a></th>
-			<?php }    ?>
+				for ($j = 0; $j < count($this->stockroom); $j++)
+				{
+					?>
+					<th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;//JText::_('COM_REDSHOP_QUANTITY'); ?>
+						&nbsp;&nbsp;
+						<a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a>
+					</th>
+					<th width="5%"><?php echo $this->stockroom[$j]->stockroom_name;?>
+						&nbsp;<?php  echo JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?>&nbsp;&nbsp;
+						<a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder" title="Save Stock"></a>
+					</th>
+				<?php }    ?>
 			<tr>
 			</thead>
 			<?php
@@ -120,10 +123,10 @@ if ($showbuttons == 1)
 
 			for ($i = 0, $n = count($this->resultlisting); $i < $n; $i++)
 			{
-				$quntotal[$i] = array(0);
+				$quntotal[$i]            = array(0);
 				$preorder_stocktotal[$i] = array(0);
-				$row = & $this->resultlisting [$i];
-				$link1 = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
+				$row                     = & $this->resultlisting [$i];
+				$link1                   = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td><a href="<?php echo $link1; ?>"><?php echo $row->product_number; ?></a></td>
@@ -163,18 +166,18 @@ if ($showbuttons == 1)
 
 						if (count($secrow) > 0)
 						{
-							$secrow = $secrow[0];
-							$quantity = $secrow->quantity;
-							$preorder_stock = $secrow->preorder_stock;
+							$secrow           = $secrow[0];
+							$quantity         = $secrow->quantity;
+							$preorder_stock   = $secrow->preorder_stock;
 							$ordered_preorder = $secrow->ordered_preorder;
 						}
 						else
 						{
-							$quantity = "";
-							$preorder_stock = "";
+							$quantity         = "";
+							$preorder_stock   = "";
 							$ordered_preorder = "";
 						}
-						$quntotal[$i][$j] = $quantity;
+						$quntotal[$i][$j]            = $quantity;
 						$preorder_stocktotal[$i][$j] = $preorder_stock;
 						?>
 						<td align="center">
@@ -188,7 +191,8 @@ if ($showbuttons == 1)
 							<input type="hidden" value="<?php echo $ordered_preorder; ?>" name="ordered_preorder[]"
 							       size="4">
 							<?php if ($ordered_preorder > 0)
-							{ ?>
+							{
+								?>
 								( <?php echo $ordered_preorder ?> )
 
 								<input type="button" name="preorder_reset" value="Reset"

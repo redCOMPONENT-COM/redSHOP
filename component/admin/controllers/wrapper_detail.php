@@ -31,18 +31,18 @@ class wrapper_detailController extends JController
 	function save()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$page    = "";
 		if ($showall)
 		{
 			$page = "3";
 		}
-		$post = JRequest::get('post');
+		$post               = JRequest::get('post');
 		$post['product_id'] = (isset($post['container_product'])) ? $post['container_product'] : 0;
-		$option = JRequest::getVar('option');
-		$product_id = JRequest::getInt('product_id', 0);
-		$category_id = JRequest::getVar('category_id');
+		$option             = JRequest::getVar('option');
+		$product_id         = JRequest::getInt('product_id', 0);
+		$category_id        = JRequest::getVar('category_id');
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid                 = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['wrapper_id'] = $cid [0];
 
 		$model = $this->getModel('wrapper_detail');
@@ -61,14 +61,14 @@ class wrapper_detailController extends JController
 	{
 
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$page    = "";
 		if ($showall)
 		{
 			$page = "3";
 		}
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid        = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -88,12 +88,12 @@ class wrapper_detailController extends JController
 	{
 
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$page    = "";
 		if ($showall)
 		{
 			$page = "3";
 		}
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_EDITING_CANCELLED');
@@ -109,14 +109,14 @@ class wrapper_detailController extends JController
 	function publish()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$page    = "";
 		if ($showall)
 		{
 			$page = "3";
 		}
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid        = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
@@ -139,14 +139,14 @@ class wrapper_detailController extends JController
 	function unpublish()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$page    = "";
 		if ($showall)
 		{
 			$page = "3";
 		}
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid        = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
@@ -163,14 +163,14 @@ class wrapper_detailController extends JController
 	function enable_defaultpublish()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$page    = "";
 		if ($showall)
 		{
 			$page = "3";
 		}
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid        = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -190,14 +190,14 @@ class wrapper_detailController extends JController
 	{
 
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$page    = "";
 		if ($showall)
 		{
 			$page = "3";
 		}
-		$option = JRequest::getVar('option');
+		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid        = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

@@ -22,7 +22,7 @@ class manufacturerViewmanufacturer extends JView
 	{
 		global $mainframe, $context;
 
-		$context = 'manufacturer_id';
+		$context  = 'manufacturer_id';
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_MANUFACTURER'));
 
@@ -38,14 +38,14 @@ class manufacturerViewmanufacturer extends JView
 
 		$uri = & JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.ordering');
+		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists ['order'] = $filter_order;
+		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$manufacturer = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$manufacturer        = & $this->get('Data');
+		$total               = & $this->get('Total');
+		$pagination          = & $this->get('Pagination');
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);

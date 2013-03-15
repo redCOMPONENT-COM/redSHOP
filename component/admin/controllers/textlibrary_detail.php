@@ -37,8 +37,8 @@ class textlibrary_detailController extends JController
 	{
 		//$post = JRequest::get ( 'post' );
 
-		$post = JRequest::get('post');
-		$text_field = JRequest::getVar('text_field', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post               = JRequest::get('post');
+		$text_field         = JRequest::getVar('text_field', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["text_field"] = $text_field;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -138,7 +138,7 @@ class textlibrary_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
 	}
 

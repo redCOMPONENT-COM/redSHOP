@@ -43,13 +43,13 @@ class currency_detailController extends JController
 	{
 		$post = JRequest::get('post');
 
-		$currency_name = JRequest::getVar('currency_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$currency_name         = JRequest::getVar('currency_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["currency_name"] = $currency_name;
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post ['currency_id'] = $cid [0];
-		$model = $this->getModel('currency_detail');
-		$row = $model->store($post);
+		$option                = JRequest::getVar('option');
+		$cid                   = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post ['currency_id']  = $cid [0];
+		$model                 = $this->getModel('currency_detail');
+		$row                   = $model->store($post);
 		if ($row)
 		{
 
@@ -79,7 +79,7 @@ class currency_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_CURRENCY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
 	}
 

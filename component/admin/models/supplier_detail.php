@@ -33,7 +33,7 @@ class supplier_detailModelsupplier_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -55,8 +55,10 @@ class supplier_detailModelsupplier_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'supplier WHERE supplier_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -65,15 +67,17 @@ class supplier_detailModelsupplier_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->supplier_id = 0;
-			$detail->supplier_name = null;
-			$detail->supplier_desc = null;
+			$detail                 = new stdClass();
+			$detail->supplier_id    = 0;
+			$detail->supplier_name  = null;
+			$detail->supplier_desc  = null;
 			$detail->supplier_email = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published      = 1;
+			$this->_data            = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -84,11 +88,13 @@ class supplier_detailModelsupplier_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -106,6 +112,7 @@ class supplier_detailModelsupplier_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -126,6 +133,7 @@ class supplier_detailModelsupplier_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -147,11 +155,11 @@ class supplier_detailModelsupplier_detail extends JModel
 		foreach ($this->_copydata as $cdata)
 		{
 
-			$post['supplier_id'] = 0;
-			$post['supplier_name'] = 'Copy Of ' . $cdata->supplier_name;
-			$post['supplier_desc'] = $cdata->supplier_desc;
+			$post['supplier_id']    = 0;
+			$post['supplier_name']  = 'Copy Of ' . $cdata->supplier_name;
+			$post['supplier_desc']  = $cdata->supplier_desc;
 			$post['supplier_email'] = $cdata->supplier_email;
-			$post['published'] = $cdata->published;
+			$post['published']      = $cdata->published;
 
 			supplier_detailModelsupplier_detail::store($post);
 		}

@@ -24,7 +24,7 @@ class rating_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('rating_detail');
+		$model     = $this->getModel('rating_detail');
 		$userslist = $model->getuserslist();
 		JRequest::setVar('userslist', $userslist);
 
@@ -38,8 +38,8 @@ class rating_detailController extends JController
 	function save()
 	{
 
-		$post = JRequest::get('post');
-		$comment = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post            = JRequest::get('post');
+		$comment         = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["comment"] = $comment;
 
 		$option = JRequest::getVar('option');
@@ -172,7 +172,7 @@ class rating_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 }

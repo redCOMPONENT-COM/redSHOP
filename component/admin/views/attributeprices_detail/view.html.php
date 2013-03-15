@@ -14,12 +14,12 @@ class attributeprices_detailVIEWattributeprices_detail extends JView
 	{
 		$uri =& JFactory::getURI();
 
-		$lists = array();
+		$lists  = array();
 		$detail =& $this->get('data');
 
-		$model = $this->getModel('attributeprices_detail');
-		$property = $model->getPropertyName();
-		$shoppergroup = $model->getShopperGroup();
+		$model                       = $this->getModel('attributeprices_detail');
+		$property                    = $model->getPropertyName();
+		$shoppergroup                = $model->getShopperGroup();
 		$lists['shopper_group_name'] = JHTML::_('select.genericlist', $shoppergroup, 'shopper_group_id', 'class="inputbox" size="1"', 'value', 'text', $detail->shopper_group_id);
 
 		$this->assignRef('lists', $lists);

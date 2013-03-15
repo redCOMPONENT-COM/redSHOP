@@ -115,9 +115,9 @@ echo 'index.php?option=' . $option;
 			$k = 0;
 			for ($i = 0, $n = count($this->giftcard); $i < $n; $i++)
 			{
-				$row = & $this->giftcard [$i];
+				$row     = & $this->giftcard [$i];
 				$row->id = $row->giftcard_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id);
 
 				$published = JHTML::_('grid.published', $row, $i);
 

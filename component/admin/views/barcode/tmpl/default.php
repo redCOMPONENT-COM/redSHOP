@@ -8,10 +8,10 @@
  */
 JHTMLBehavior::modal();
 $option = JRequest::getVar('option');
-$url = JUri::base();
+$url    = JUri::base();
 
 $order_id = JRequest::getInt('order_id', 0);
-$log = JRequest::getVar('log');
+$log      = JRequest::getVar('log');
 
 
 ?>
@@ -46,7 +46,8 @@ $log = JRequest::getVar('log');
 	</form>
 
 <?php if ($order_id != 0)
-{ ?>
+{
+	?>
 	<div>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_BARCODE_INFO'); ?></legend>

@@ -43,7 +43,7 @@ class category_detailController extends JController
 		$post = JRequest::get('post');
 
 
-		$category_description = JRequest::getVar('category_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$category_description       = JRequest::getVar('category_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$category_short_description = JRequest::getVar('category_short_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		$post["category_description"] = $category_description;
@@ -53,10 +53,10 @@ class category_detailController extends JController
 		if (is_array($post["category_more_template"]))
 			$post["category_more_template"] = implode(",", $post["category_more_template"]);
 
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$option               = JRequest::getVar('option');
+		$cid                  = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['category_id'] = $cid [0];
-		$model = $this->getModel('category_detail');
+		$model                = $this->getModel('category_detail');
 		////////// include extra field class  /////////////////////////////////////
 //		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'extra_field.php' );
 		////////// include extra field class  /////////////////////////////////////
@@ -158,7 +158,7 @@ class category_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_CATEGORY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
@@ -190,7 +190,7 @@ class category_detailController extends JController
 	{
 		$option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid   = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
@@ -206,8 +206,8 @@ class category_detailController extends JController
 	function copy()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('category_detail');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('category_detail');
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');

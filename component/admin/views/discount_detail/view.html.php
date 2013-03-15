@@ -66,16 +66,16 @@ class discount_detailVIEWdiscount_detail extends JView
 
 		$lists['shopper_group_id'] = JHTML::_('select.genericlist', $shoppers, 'shopper_group_id[]', 'class="inputbox" multiple="multiple" size="10"', 'value', 'text', $selectedShoppers);
 
-		$discount_type = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE')));
+		$discount_type          = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE')));
 		$lists['discount_type'] = JHTML::_('select.genericlist', $discount_type, 'discount_type', 'class="inputbox" size="1"', 'value', 'text', $detail->discount_type);
 
 		$detail->category_ids = explode(',', $detail->category_ids);
 //		$tmp = new stdClass;
 //		$tmp = @array_merge($tmp,$detail->shipping_rate_on_category);
-		$product_category = new product_category();
+		$product_category      = new product_category();
 		$lists['category_ids'] = $product_category->list_all("category_ids[]", 0, $detail->category_ids, 10, false, true);
 
-		$discount_condition = array(JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_LOWER')), JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL')), JHTML::_('select.option', 3, JText::_('COM_REDSHOP_HIGHER')));
+		$discount_condition          = array(JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_LOWER')), JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL')), JHTML::_('select.option', 3, JText::_('COM_REDSHOP_HIGHER')));
 		$lists['discount_condition'] = JHTML::_('select.genericlist', $discount_condition, 'condition', 'class="inputbox" size="1"', 'value', 'text', $detail->condition);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);

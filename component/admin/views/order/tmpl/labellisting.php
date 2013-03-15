@@ -12,10 +12,10 @@ $option = JRequest::getVar('option');
 $download = JRequest::getVar('download');
 if ($download)
 {
-	$oid = JRequest::getInt('oid');
+	$oid     = JRequest::getInt('oid');
 	$baseURL = JURI::root();
 
-	$name = 'label_' . $oid . '.pdf';
+	$name     = 'label_' . $oid . '.pdf';
 	$tmp_name = JPATH_COMPONENT_ADMINISTRATOR . DS . '/assets/lables/' . $name;
 
 	$tmp_type = strtolower(JFile::getExt($name));
@@ -66,11 +66,11 @@ if ($download)
 			$k = 0;
 			for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			{
-				$row = & $this->orders[$i];
+				$row     = & $this->orders[$i];
 				$row->id = $row->order_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);
-				$dlink = JRoute::_('index.php?option=' . $option . '&view=order&layout=labellisting&download=1&oid=' . $row->order_id);
-				$plink = JURI::base() . 'components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf';
+				$link    = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);
+				$dlink   = JRoute::_('index.php?option=' . $option . '&view=order&layout=labellisting&download=1&oid=' . $row->order_id);
+				$plink   = JURI::base() . 'components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf';
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center" class="order" width="5%">

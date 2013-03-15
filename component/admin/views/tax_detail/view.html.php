@@ -56,7 +56,7 @@ class tax_detailVIEWtax_detail extends JView
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 
-		$lists['tax_country'] = JHTML::_('select.genericlist', $countries, 'tax_country', 'class="inputbox" size="1" onchange="changeStateList();"', 'value', 'text', $detail->tax_country);
+		$lists['tax_country']   = JHTML::_('select.genericlist', $countries, 'tax_country', 'class="inputbox" size="1" onchange="changeStateList();"', 'value', 'text', $detail->tax_country);
 		$lists['is_eu_country'] = JHTML::_('select.booleanlist', 'is_eu_country', 'class="inputbox"', $detail->is_eu_country);
 
 		//		$q = "SELECT  country_3_code as value,country_name as text from #__".TABLE_PREFIX."_country ORDER BY country_name ASC";
@@ -65,10 +65,10 @@ class tax_detailVIEWtax_detail extends JView
 //
 //		$lists['tax_country'] = JHTML::_('select.genericlist',$countries,'tax_country','class="inputbox" size="1" ','value','text',$detail->tax_country);
 
-		$country_list_name = 'tax_country';
-		$state_list_name = 'tax_state';
+		$country_list_name     = 'tax_country';
+		$state_list_name       = 'tax_state';
 		$selected_country_code = $detail->tax_country;
-		$selected_state_code = $detail->tax_state;
+		$selected_state_code   = $detail->tax_state;
 
 
 		if (empty($selected_state_code))
@@ -94,7 +94,7 @@ class tax_detailVIEWtax_detail extends JView
 		$script .= "var originalOrder = '1';\n";
 		$script .= "var originalPos = '$selected_country_code';\n";
 		$script .= "var states = new Array();	// array in the format [key,value,text]\n";
-		$i = 0;
+		$i            = 0;
 		$prev_country = '';
 		for ($j = 0; $j < count($states); $j++)
 		{

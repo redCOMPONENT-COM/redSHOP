@@ -21,7 +21,7 @@ class attributepricesViewattributeprices extends JView
 		global $mainframe, $context;
 
 		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
+		$section    = JRequest::getVar('section');
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'));
@@ -34,10 +34,10 @@ class attributepricesViewattributeprices extends JView
 		$uri =& JFactory::getURI();
 
 		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$total = & $this->get('Total');
-		$data = & $this->get('Data');
+		$total      = & $this->get('Total');
+		$data       = & $this->get('Data');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->assignRef('user', JFactory::getUser());

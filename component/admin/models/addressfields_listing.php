@@ -24,12 +24,12 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		parent::__construct();
 
 		global $mainframe;
-		$this->_context = 'ordering';
+		$this->_context      = 'ordering';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$field_section_drop = $mainframe->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$field_section_drop  = $mainframe->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('section_id', $field_section_drop);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -40,9 +40,10 @@ class addressfields_listingModeladdressfields_listing extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query);
 		}
+
 		return $this->_data;
 	}
 
@@ -56,6 +57,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 			$this->_db->setQuery($query);
 			$this->_total = $this->_db->loadResult();
 		}
+
 		return $this->_total;
 	}
 
@@ -73,7 +75,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 	function _buildQuerycount()
 	{
 		$filter = $this->getState('section_id');
-		$where = '';
+		$where  = '';
 		if ($filter)
 			$where = " WHERE field_section = '" . $filter . "'";
 		if ($where == '')
@@ -84,16 +86,17 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		{
 			$query = " SELECT count(*)  FROM " . $this->_table_prefix . "fields f" . $where;
 		}
+
 		return $query;
 	}
 
 
 	function _buildQuery()
 	{
-		$filter = $this->getState('section_id');
+		$filter  = $this->getState('section_id');
 		$orderby = $this->_buildContentOrderBy();
-		$where = '';
-		$limit = "";
+		$where   = '';
+		$limit   = "";
 		if ($this->getState('limit') > 0)
 		{
 			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');
@@ -108,6 +111,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		{
 			$query = " SELECT distinct(f.field_id),f.*  FROM " . $this->_table_prefix . "fields f" . $where . $orderby . $limit;
 		}
+
 		return $query;
 	}
 
@@ -115,7 +119,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 	{
 		global $mainframe;
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order     = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		if ($filter_order == 'ordering')
@@ -132,8 +136,8 @@ class addressfields_listingModeladdressfields_listing extends JModel
 
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable("fields_detail");
-		$groupings = array();
+		$row        =& $this->getTable("fields_detail");
+		$groupings  = array();
 		$conditions = array();
 
 		// update ordering values
@@ -149,12 +153,13 @@ class addressfields_listingModeladdressfields_listing extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 
 				// remember to updateOrder this group
 				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
+				$found     = false;
 				foreach ($conditions as $cond)
 					if ($cond[1] == $condition)
 					{
@@ -195,6 +200,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -212,12 +218,14 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		if (!$row->load($field_id))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->move($direction, 'field_section = ' . (int) $row->field_section))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 

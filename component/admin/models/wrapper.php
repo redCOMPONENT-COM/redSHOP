@@ -27,9 +27,9 @@ class wrapperModelwrapper extends JModel
 		$this->_context = 'wrapper_id';
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart          = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
@@ -40,16 +40,17 @@ class wrapperModelwrapper extends JModel
 	function setProductId($id)
 	{
 		$this->_productid = $id;
-		$this->_data = null;
+		$this->_data      = null;
 	}
 
 	function getData()
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -57,9 +58,10 @@ class wrapperModelwrapper extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -70,6 +72,7 @@ class wrapperModelwrapper extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -78,14 +81,14 @@ class wrapperModelwrapper extends JModel
 	{
 		//$orderby	= $this->_buildContentOrderBy();
 		$showall = JRequest::getVar('showall', '0');
-		$and = '';
+		$and     = '';
 		if ($showall && $this->_productid != 0)
 		{
 			$and = 'WHERE FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1 ';
 
 			$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
 				. "WHERE product_id = " . $this->_productid;
-			$cat = $this->_getList($query);
+			$cat   = $this->_getList($query);
 			for ($i = 0; $i < count($cat); $i++)
 			{
 				$and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
@@ -94,6 +97,7 @@ class wrapperModelwrapper extends JModel
 		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w '
 //				.'LEFT JOIN '.$this->_table_prefix.'product AS p ON p.product_id = w.product_id '
 			. $and;
+
 		return $query;
 	}
 }

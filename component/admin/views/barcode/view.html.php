@@ -23,8 +23,8 @@ class barcodeViewbarcode extends JView
 
 		$order_id = JRequest::getInt('order_id', 0);
 
-		$model = $this->getModel();
-		$this->logData = $model->getLog($order_id);
+		$model           = $this->getModel();
+		$this->logData   = $model->getLog($order_id);
 		$this->logDetail = $model->getLogdetail($order_id);
 
 		parent::display($tpl);

@@ -113,7 +113,7 @@ if ($this->detail->template_section == "category")
 	</table>
 	<?php
 	echo $this->pane->endPanel();
-	$cat_desc = $redtemplate->getInstallSectionTemplate("category", $setflag = True);
+	$cat_desc = $redtemplate->getInstallSectionTemplate("category", $setflag = true);
 	if ($cat_desc != "")
 	{
 
@@ -160,7 +160,7 @@ if ($this->detail->template_section == "giftcard")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$gift_desc = $redtemplate->getInstallSectionTemplate("giftcard", $setflag = True);
+	$gift_desc = $redtemplate->getInstallSectionTemplate("giftcard", $setflag = true);
 	if ($gift_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -271,7 +271,7 @@ if ($this->detail->template_section == "product")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$prd_desc = $redtemplate->getInstallSectionTemplate("product", $setflag = True);
+	$prd_desc = $redtemplate->getInstallSectionTemplate("product", $setflag = true);
 	if ($prd_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -312,7 +312,7 @@ if ($this->detail->template_section == "product_sample")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$prdsamp_desc = $redtemplate->getInstallSectionTemplate("catalog_sample", $setflag = True);
+	$prdsamp_desc = $redtemplate->getInstallSectionTemplate("catalog_sample", $setflag = true);
 	if ($prdsamp_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -354,7 +354,7 @@ if ($this->detail->template_section == "manufacturer")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$manu_desc = $redtemplate->getInstallSectionTemplate("manufacturer_listings", $setflag = True);
+	$manu_desc = $redtemplate->getInstallSectionTemplate("manufacturer_listings", $setflag = true);
 	if ($manu_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -381,7 +381,7 @@ if ($this->detail->template_section == "manufacturer_products")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$manuprd_desc = $redtemplate->getInstallSectionTemplate("manufacturer_products", $setflag = True);
+	$manuprd_desc = $redtemplate->getInstallSectionTemplate("manufacturer_products", $setflag = true);
 	if ($manuprd_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -420,7 +420,7 @@ if ($this->detail->template_section == "cart")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$cart_desc = $redtemplate->getInstallSectionTemplate("cart", $setflag = True);
+	$cart_desc = $redtemplate->getInstallSectionTemplate("cart", $setflag = true);
 	if ($cart_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -447,7 +447,7 @@ if ($this->detail->template_section == "checkout")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$checkout_desc = $redtemplate->getInstallSectionTemplate("checkout", $setflag = True);
+	$checkout_desc = $redtemplate->getInstallSectionTemplate("checkout", $setflag = true);
 	if ($checkout_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -475,7 +475,7 @@ if ($this->detail->template_section == "catalogue_cart")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$catcart_desc = $redtemplate->getInstallSectionTemplate("catalogue_cart", $setflag = True);
+	$catcart_desc = $redtemplate->getInstallSectionTemplate("catalogue_cart", $setflag = true);
 	if ($catcart_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -502,7 +502,7 @@ if ($this->detail->template_section == "catalogue_order_detail")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$catordetail_desc = $redtemplate->getInstallSectionTemplate("catalogue_order_detail", $setflag = True);
+	$catordetail_desc = $redtemplate->getInstallSectionTemplate("catalogue_order_detail", $setflag = true);
 	if ($catordetail_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -530,7 +530,7 @@ if ($this->detail->template_section == "catalogue_order_receipt")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$catorrcp_desc = $redtemplate->getInstallSectionTemplate("catalogue_order_receipt", $setflag = True);
+	$catorrcp_desc = $redtemplate->getInstallSectionTemplate("catalogue_order_receipt", $setflag = true);
 	if ($catorrcp_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -557,7 +557,7 @@ if ($this->detail->template_section == "categoryproduct")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$catprd = $redtemplate->getInstallSectionTemplate("category_product_template", $setflag = True);
+	$catprd = $redtemplate->getInstallSectionTemplate("category_product_template", $setflag = true);
 	if ($catprd != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -586,7 +586,7 @@ if ($this->detail->template_section == "clicktell_sms_message")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$click_desc = $redtemplate->getInstallSectionTemplate("clicktell_sms_message", $setflag = True);
+	$click_desc = $redtemplate->getInstallSectionTemplate("clicktell_sms_message", $setflag = true);
 	if ($click_desc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -605,7 +605,7 @@ if ($this->detail->template_section == "clicktell_sms_message")
 //Empty Cart Template Start
 if ($this->detail->template_section == "empty_cart")
 {
-	$emp_cart = $redtemplate->getInstallSectionTemplate("empty_cart", $setflag = True);
+	$emp_cart = $redtemplate->getInstallSectionTemplate("empty_cart", $setflag = true);
 	if ($emp_cart != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -633,7 +633,7 @@ if ($this->detail->template_section == "frontpage_category")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$fr_cat = $redtemplate->getInstallSectionTemplate("frontpage_category", $setflag = True);
+	$fr_cat = $redtemplate->getInstallSectionTemplate("frontpage_category", $setflag = true);
 	if ($fr_cat != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -660,7 +660,7 @@ if ($this->detail->template_section == "giftcard_list")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$gift_list = $redtemplate->getInstallSectionTemplate("giftcard_listing", $setflag = True);
+	$gift_list = $redtemplate->getInstallSectionTemplate("giftcard_listing", $setflag = true);
 	if ($gift_list != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -688,7 +688,7 @@ if ($this->detail->template_section == "manufacturer_detail")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$manu_detail = $redtemplate->getInstallSectionTemplate($this->detail->template_name, $setflag = True);
+	$manu_detail = $redtemplate->getInstallSectionTemplate($this->detail->template_name, $setflag = true);
 	if ($manu_detail != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -715,7 +715,7 @@ if ($this->detail->template_section == "catalog")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$catlog = $redtemplate->getInstallSectionTemplate("catalog", $setflag = True);
+	$catlog = $redtemplate->getInstallSectionTemplate("catalog", $setflag = true);
 	if ($catlog != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -776,7 +776,7 @@ if ($this->detail->template_section == "order_detail")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ord_detail = $redtemplate->getInstallSectionTemplate("order_detail", $setflag = True);
+	$ord_detail = $redtemplate->getInstallSectionTemplate("order_detail", $setflag = true);
 	if ($ord_detail != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -836,7 +836,7 @@ if ($this->detail->template_section == "order_receipt")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ord_receipt = $redtemplate->getInstallSectionTemplate("order_receipt", $setflag = True);
+	$ord_receipt = $redtemplate->getInstallSectionTemplate("order_receipt", $setflag = true);
 	if ($ord_receipt != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -864,7 +864,7 @@ if ($this->detail->template_section == "quotation_detail")
 	</tr>
 	</table><?php
 	echo $this->pane->endPanel();
-	$quo_detail = $redtemplate->getInstallSectionTemplate("quotation_detail", $setflag = True);
+	$quo_detail = $redtemplate->getInstallSectionTemplate("quotation_detail", $setflag = true);
 	if ($quo_detail != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -891,7 +891,7 @@ if ($this->detail->template_section == "quotation_request")
 	</tr>
 	</table><?php
 	echo $this->pane->endPanel();
-	$quo_req = $redtemplate->getInstallSectionTemplate("quotation_request_template", $setflag = True);
+	$quo_req = $redtemplate->getInstallSectionTemplate("quotation_request_template", $setflag = true);
 	if ($quo_req != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -954,7 +954,7 @@ if ($this->detail->template_section == "order_print")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ord_print = $redtemplate->getInstallSectionTemplate("order_print", $setflag = True);
+	$ord_print = $redtemplate->getInstallSectionTemplate("order_print", $setflag = true);
 	if ($ord_print != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -981,7 +981,7 @@ if ($this->detail->template_section == "order_list")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ord_list = $redtemplate->getInstallSectionTemplate("order_list", $setflag = True);
+	$ord_list = $redtemplate->getInstallSectionTemplate("order_list", $setflag = true);
 	if ($ord_list != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1032,7 +1032,7 @@ if ($this->detail->template_section == "newsletter")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$newsletter = $redtemplate->getInstallSectionTemplate("newsletter1", $setflag = True);
+	$newsletter = $redtemplate->getInstallSectionTemplate("newsletter1", $setflag = true);
 	if ($newsletter != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1060,7 +1060,7 @@ if ($this->detail->template_section == "newsletter_product")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$newsletter_prd = $redtemplate->getInstallSectionTemplate("newsletter_products", $setflag = True);
+	$newsletter_prd = $redtemplate->getInstallSectionTemplate("newsletter_products", $setflag = true);
 	if ($newsletter_prd != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1088,7 +1088,7 @@ if ($this->detail->template_section == "related_product")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$related_prd = $redtemplate->getInstallSectionTemplate("related_products", $setflag = True);
+	$related_prd = $redtemplate->getInstallSectionTemplate("related_products", $setflag = true);
 	if ($related_prd != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1116,7 +1116,7 @@ if ($this->detail->template_section == "add_to_cart")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$add_to_cart = $redtemplate->getInstallSectionTemplate("add_to_cart1", $setflag = True);
+	$add_to_cart = $redtemplate->getInstallSectionTemplate("add_to_cart1", $setflag = true);
 	if ($add_to_cart != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1145,7 +1145,7 @@ if ($this->detail->template_section == "review")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$review = $redtemplate->getInstallSectionTemplate("review", $setflag = True);
+	$review = $redtemplate->getInstallSectionTemplate("review", $setflag = true);
 	if ($review != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1173,7 +1173,7 @@ if ($this->detail->template_section == "attribute_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$attrib = $redtemplate->getInstallSectionTemplate("attributes", $setflag = True);
+	$attrib = $redtemplate->getInstallSectionTemplate("attributes", $setflag = true);
 	if ($attrib != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1211,7 +1211,7 @@ if ($this->detail->template_section == "attributewithcart_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$attrib_cart = $redtemplate->getInstallSectionTemplate("attributewithcart_template", $setflag = True);
+	$attrib_cart = $redtemplate->getInstallSectionTemplate("attributewithcart_template", $setflag = true);
 	if ($attrib_cart != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1238,7 +1238,7 @@ if ($this->detail->template_section == "accessory_template")
 		</tr>
 	</table>
 	<?php        echo $this->pane->endPanel();
-	$acc = $redtemplate->getInstallSectionTemplate("accessory", $setflag = True);
+	$acc = $redtemplate->getInstallSectionTemplate("accessory", $setflag = true);
 	if ($acc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1266,7 +1266,7 @@ if ($this->detail->template_section == "wrapper_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$wrapper = $redtemplate->getInstallSectionTemplate("wrapper", $setflag = True);
+	$wrapper = $redtemplate->getInstallSectionTemplate("wrapper", $setflag = true);
 	if ($wrapper != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1293,7 +1293,7 @@ if ($this->detail->template_section == "wishlist_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$wishlist = $redtemplate->getInstallSectionTemplate("wishlist_list", $setflag = True);
+	$wishlist = $redtemplate->getInstallSectionTemplate("wishlist_list", $setflag = true);
 	if ($wishlist != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1321,7 +1321,7 @@ if ($this->detail->template_section == "wishlist_mail_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$wishlist_mail = $redtemplate->getInstallSectionTemplate("wishlist_mail", $setflag = True);
+	$wishlist_mail = $redtemplate->getInstallSectionTemplate("wishlist_mail", $setflag = true);
 	if ($wishlist_mail != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1348,7 +1348,7 @@ if ($this->detail->template_section == "shipping_pdf")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ship_pdf = $redtemplate->getInstallSectionTemplate("shipping_pdf", $setflag = True);
+	$ship_pdf = $redtemplate->getInstallSectionTemplate("shipping_pdf", $setflag = true);
 	if ($ship_pdf != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1376,7 +1376,7 @@ if ($this->detail->template_section == "ask_question_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ask_ques = $redtemplate->getInstallSectionTemplate("ask_question", $setflag = True);
+	$ask_ques = $redtemplate->getInstallSectionTemplate("ask_question", $setflag = true);
 	if ($ask_ques != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1404,7 +1404,7 @@ if ($this->detail->template_section == "ajax_cart_box")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ajax_cart = $redtemplate->getInstallSectionTemplate("ajax_cart_box", $setflag = True);
+	$ajax_cart = $redtemplate->getInstallSectionTemplate("ajax_cart_box", $setflag = true);
 	if ($ajax_cart != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1482,7 +1482,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ajax_cart_box_detail = $redtemplate->getInstallSectionTemplate("ajax_cart_detail_box", $setflag = True);
+	$ajax_cart_box_detail = $redtemplate->getInstallSectionTemplate("ajax_cart_detail_box", $setflag = true);
 	if ($ajax_cart_box_detail != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1521,7 +1521,7 @@ if ($this->detail->template_section == "redproductfinder")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$redprdfinder = $redtemplate->getInstallSectionTemplate("redproductfinder", $setflag = True);
+	$redprdfinder = $redtemplate->getInstallSectionTemplate("redproductfinder", $setflag = true);
 	if ($redprdfinder != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1548,7 +1548,7 @@ if ($this->detail->template_section == "account_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$acc = $redtemplate->getInstallSectionTemplate("my_account_template", $setflag = True);
+	$acc = $redtemplate->getInstallSectionTemplate("my_account_template", $setflag = true);
 	if ($acc != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1576,7 +1576,7 @@ if ($this->detail->template_section == "compare_product")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$cmp_prd = $redtemplate->getInstallSectionTemplate("compare_product", $setflag = True);
+	$cmp_prd = $redtemplate->getInstallSectionTemplate("compare_product", $setflag = true);
 	if ($cmp_prd != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1603,7 +1603,7 @@ if ($this->detail->template_section == "redshop_payment")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$payment = $redtemplate->getInstallSectionTemplate("payment_method", $setflag = True);
+	$payment = $redtemplate->getInstallSectionTemplate("payment_method", $setflag = true);
 	if ($payment != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1631,7 +1631,7 @@ if ($this->detail->template_section == "redshop_shipping")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$shipping = $redtemplate->getInstallSectionTemplate("shipping_method", $setflag = True);
+	$shipping = $redtemplate->getInstallSectionTemplate("shipping_method", $setflag = true);
 	if ($shipping != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1659,7 +1659,7 @@ if ($this->detail->template_section == "shippingbox")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$ship_box = $redtemplate->getInstallSectionTemplate("shipping_box", $setflag = True);
+	$ship_box = $redtemplate->getInstallSectionTemplate("shipping_box", $setflag = true);
 	if ($ship_box != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1730,7 +1730,7 @@ if ($this->detail->template_section == "onestep_checkout")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$one_step = $redtemplate->getInstallSectionTemplate("onestep_checkout", $setflag = True);
+	$one_step = $redtemplate->getInstallSectionTemplate("onestep_checkout", $setflag = true);
 	if ($one_step != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1777,7 +1777,7 @@ if ($this->detail->template_section == "change_cart_attribute")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$change_cart_attrib = $redtemplate->getInstallSectionTemplate("change_cart_attribute_template", $setflag = True);
+	$change_cart_attrib = $redtemplate->getInstallSectionTemplate("change_cart_attribute_template", $setflag = true);
 	if ($change_cart_attrib != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1820,7 +1820,7 @@ if ($this->detail->template_section == "searchletter")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$letter = $redtemplate->getInstallSectionTemplate("letter_search_product", $setflag = True);
+	$letter = $redtemplate->getInstallSectionTemplate("letter_search_product", $setflag = true);
 	if ($letter != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1848,7 +1848,7 @@ if ($this->detail->template_section == "product_content_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$product_content = $redtemplate->getInstallSectionTemplate("product_content", $setflag = True);
+	$product_content = $redtemplate->getInstallSectionTemplate("product_content", $setflag = true);
 	if ($product_content != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1876,7 +1876,7 @@ if ($this->detail->template_section == "quotation_cart")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$quotation_cart = $redtemplate->getInstallSectionTemplate("quotation_cart_template", $setflag = True);
+	$quotation_cart = $redtemplate->getInstallSectionTemplate("quotation_cart_template", $setflag = true);
 	if ($quotation_cart != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1924,7 +1924,7 @@ if ($this->detail->template_section == "billing_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$billing_template = $redtemplate->getInstallSectionTemplate("billing_template", $setflag = True);
+	$billing_template = $redtemplate->getInstallSectionTemplate("billing_template", $setflag = true);
 	if ($billing_template != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1952,7 +1952,7 @@ if ($this->detail->template_section == "private_billing_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$billing_template = $redtemplate->getInstallSectionTemplate("private_billing_template", $setflag = True);
+	$billing_template = $redtemplate->getInstallSectionTemplate("private_billing_template", $setflag = true);
 	if ($billing_template != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -1977,7 +1977,7 @@ if ($this->detail->template_section == "company_billing_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$billing_template = $redtemplate->getInstallSectionTemplate("company_billing_template", $setflag = True);
+	$billing_template = $redtemplate->getInstallSectionTemplate("company_billing_template", $setflag = true);
 	if ($billing_template != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -2002,7 +2002,7 @@ if ($this->detail->template_section == "shipping_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$shipping_template = $redtemplate->getInstallSectionTemplate("shipping_template", $setflag = True);
+	$shipping_template = $redtemplate->getInstallSectionTemplate("shipping_template", $setflag = true);
 	if ($shipping_template != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -2032,7 +2032,7 @@ if ($this->detail->template_section == "stock_note")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$stock_note = $redtemplate->getInstallSectionTemplate("stock_note", $setflag = True);
+	$stock_note = $redtemplate->getInstallSectionTemplate("stock_note", $setflag = true);
 	if ($stock_note != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>
@@ -2059,7 +2059,7 @@ if ($this->detail->template_section == "shippment_invoice_template")
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
-	$shipment = $redtemplate->getInstallSectionTemplate("shippment_invoice_template", $setflag = True);
+	$shipment = $redtemplate->getInstallSectionTemplate("shippment_invoice_template", $setflag = true);
 	if ($shipment != "")
 	{
 		echo $this->pane->startPanel($default_template, 'events');    ?>

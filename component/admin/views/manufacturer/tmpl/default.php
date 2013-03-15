@@ -104,9 +104,9 @@ echo 'index.php?option=' . $option;
 			$k = 0;
 			for ($i = 0, $n = count($this->manufacturer); $i < $n; $i++)
 			{
-				$row = & $this->manufacturer [$i];
+				$row     = & $this->manufacturer [$i];
 				$row->id = $row->manufacturer_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=manufacturer_detail&task=edit&cid[]=' . $row->manufacturer_id);
+				$link    = JRoute::_('index.php?option=' . $option . '&view=manufacturer_detail&task=edit&cid[]=' . $row->manufacturer_id);
 
 				$published = JHTML::_('grid.published', $row, $i);
 

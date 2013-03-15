@@ -33,8 +33,8 @@ class statisticModelstatistic extends JModel
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
-		$this->_startdate = strtotime(JRequest::getVar('startdate'));
-		$this->_enddate = strtotime(JRequest::getVar('enddate'));
+		$this->_startdate    = strtotime(JRequest::getVar('startdate'));
+		$this->_enddate      = strtotime(JRequest::getVar('enddate'));
 		$this->_filteroption = JRequest::getVar('filteroption');
 		if ($this->_filteroption == "" && JRequest::getVar('view') == "")
 		{
@@ -44,22 +44,22 @@ class statisticModelstatistic extends JModel
 
 	function getMostPopular()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT pv.created_date '
+		$result  = array();
+		$query   = 'SELECT pv.created_date '
 			. 'FROM ' . $this->_table_prefix . 'pageviewer AS pv '
 			. 'WHERE pv.section="product" '
 			. 'ORDER BY pv.created_date ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT FROM_UNIXTIME(pv.created_date,"' . $formate . '") AS viewdate '
+		$query              = 'SELECT FROM_UNIXTIME(pv.created_date,"' . $formate . '") AS viewdate '
 			. ', p.product_id, p.product_name, p.product_price, count(*) AS visited '
 			. 'FROM ' . $this->_table_prefix . 'pageviewer AS pv '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=pv.section_id '
 			. 'WHERE pv.section="product" AND pv.sectoon_id!=0 ';
-		$query1 = ' GROUP BY pv.section_id '
+		$query1             = ' GROUP BY pv.section_id '
 			. 'ORDER BY visited desc ';
 		$this->_mostpopular = $this->_getList($query . $query1);
 
@@ -68,7 +68,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " AND created_date > " . strtotime($list->preday)
+				$q    = $query . " AND created_date > " . strtotime($list->preday)
 					. " AND created_date <= " . strtotime($today)
 					. $query1;
 				$this->_db->setQuery($q);
@@ -88,27 +88,28 @@ class statisticModelstatistic extends JModel
 				$this->_mostpopular = $result;
 			}
 		}
+
 		return $this->_mostpopular;
 	}
 
 	function getBestSellers()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT cdate '
+		$result  = array();
+		$query   = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'order_item '
 //				.'WHERE order_status = "C" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT count(oi.product_id) AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate '
+		$query              = 'SELECT count(oi.product_id) AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate '
 			. ', p.product_id, p.product_name, p.product_price '
 			. 'FROM ' . $this->_table_prefix . 'order_item as oi '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=oi.product_id '//				.'WHERE oi.order_status = "C" '
 		;
-		$query1 = ' GROUP BY oi.product_id '
+		$query1             = ' GROUP BY oi.product_id '
 			. 'ORDER BY totalproduct desc ';
 		$this->_bestsallers = $this->_getList($query . $query1);
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
@@ -116,7 +117,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " WHERE oi.cdate > " . strtotime($list->preday)
+				$q    = $query . " WHERE oi.cdate > " . strtotime($list->preday)
 					. " AND oi.cdate <= " . strtotime($today)
 					. $query1;
 				$this->_db->setQuery($q);
@@ -136,31 +137,32 @@ class statisticModelstatistic extends JModel
 				$this->_bestsallers = $result;
 			}
 		}
+
 		return $this->_bestsallers;
 	}
 
 	function getNewProducts()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT publish_date '
+		$result  = array();
+		$query   = 'SELECT publish_date '
 			. 'FROM ' . $this->_table_prefix . 'product '
 			. 'ORDER BY publish_date ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT product_id,product_name,product_price '
+		$query              = 'SELECT product_id,product_name,product_price '
 			. ', DATE_FORMAT(publish_date,"' . $formate . '") AS viewdate '
 			. 'FROM ' . $this->_table_prefix . 'product ';
-		$query1 = ' ORDER BY publish_date desc ';
+		$query1             = ' ORDER BY publish_date desc ';
 		$this->_newproducts = $this->_getList($query . $query1);
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
 		{
 			while (strtotime($mindate) < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " WHERE publish_date > '" . $list->preday . "' "
+				$q    = $query . " WHERE publish_date > '" . $list->preday . "' "
 					. " AND publish_date <= '" . $today . "' "
 					. $query1;
 				$this->_db->setQuery($q);
@@ -180,33 +182,34 @@ class statisticModelstatistic extends JModel
 				$this->_newproducts = $result;
 			}
 		}
+
 		return $this->_newproducts;
 	}
 
 	function getNewOrders()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT cdate '
+		$result  = array();
+		$query   = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'orders '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT uf.firstname, uf.lastname,o.order_id, o.order_total '
+		$query            = 'SELECT uf.firstname, uf.lastname,o.order_id, o.order_total '
 			. ', FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" ';
-		$query1 = ' ORDER BY cdate desc ';
+		$query1           = ' ORDER BY cdate desc ';
 		$this->_neworders = $this->_getList($query . $query1);
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
 		{
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " WHERE o.cdate > " . strtotime($list->preday)
+				$q    = $query . " WHERE o.cdate > " . strtotime($list->preday)
 					. " AND o.cdate <= " . strtotime($today)
 					. $query1;
 				$this->_db->setQuery($q);
@@ -226,14 +229,15 @@ class statisticModelstatistic extends JModel
 				$this->_neworders = $result;
 			}
 		}
+
 		return $this->_neworders;
 	}
 
 	function getTotalTurnover()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
+		$result  = array();
 
 		$query = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'orders '
@@ -242,7 +246,7 @@ class statisticModelstatistic extends JModel
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, SUM(o.order_total) AS turnover '
+		$query   = 'SELECT FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, SUM(o.order_total) AS turnover '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
 			//.'AND address_type LIKE "BT" '
@@ -258,7 +262,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " AND cdate > " . strtotime($list->preday)
+				$q    = $query . " AND cdate > " . strtotime($list->preday)
 					. " AND cdate <= " . strtotime($today)
 					. $quesry1;
 				$this->_db->setQuery($q);
@@ -279,26 +283,27 @@ class statisticModelstatistic extends JModel
 				$this->_turnover = array_reverse($result);
 			}
 		}
+
 		return $this->_turnover;
 	}
 
 	function getAvgOrderAmount()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT cdate '
+		$result  = array();
+		$query   = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
+		$query              = 'SELECT FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
 			. ', (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$quesry1 = ' GROUP BY 1 '; //o.order_status ';
+		$quesry1            = ' GROUP BY 1 '; //o.order_status ';
 		$this->_amountprice = $this->_getList($query . $quesry1);
 
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
@@ -306,7 +311,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . ' AND cdate > ' . strtotime($list->preday)
+				$q    = $query . ' AND cdate > ' . strtotime($list->preday)
 					. ' AND cdate <= ' . strtotime($today)
 					. $quesry1;
 				$this->_db->setQuery($q);
@@ -326,27 +331,28 @@ class statisticModelstatistic extends JModel
 				$this->_amountprice = $result;
 			}
 		}
+
 		return $this->_amountprice;
 	}
 
 	function getAmountPrice()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT cdate '
+		$result  = array();
+		$query   = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, MAX(o.order_total) AS order_total '
+		$query              = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, MAX(o.order_total) AS order_total '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$query1 = ' GROUP by o.user_id '
+		$query1             = ' GROUP by o.user_id '
 			. 'ORDER BY order_total desc ';
 		$this->_amountprice = $this->_getList($query . $query1);
 
@@ -355,7 +361,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " AND cdate > " . strtotime($list->preday)
+				$q    = $query . " AND cdate > " . strtotime($list->preday)
 					. " AND cdate <= " . strtotime($today)
 					. $query1;
 				$this->_db->setQuery($q);
@@ -375,27 +381,28 @@ class statisticModelstatistic extends JModel
 				$this->_amountprice = $result;
 			}
 		}
+
 		return $this->_amountprice;
 	}
 
 	function getAmountSpentInTotal()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT cdate '
+		$result  = array();
+		$query   = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, SUM(o.order_total) AS order_total '
+		$query              = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, SUM(o.order_total) AS order_total '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$query1 = ' GROUP by o.user_id '
+		$query1             = ' GROUP by o.user_id '
 			. 'ORDER BY order_total desc ';
 		$this->_amountprice = $this->_getList($query . $query1);
 
@@ -404,7 +411,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " AND cdate > " . strtotime($list->preday)
+				$q    = $query . " AND cdate > " . strtotime($list->preday)
 					. " AND cdate <= " . strtotime($today)
 					. $query1;
 				$this->_db->setQuery($q);
@@ -424,28 +431,29 @@ class statisticModelstatistic extends JModel
 				$this->_amountprice = $result;
 			}
 		}
+
 		return $this->_amountprice;
 	}
 
 	function getAmountOrder()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT cdate '
+		$result  = array();
+		$query   = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
+		$query              = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
 			. ', COUNT(o.user_id) AS totalorder '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$query1 = ' GROUP BY o.user_id '
+		$query1             = ' GROUP BY o.user_id '
 			. 'ORDER BY totalorder desc '//				.'LIMIT 0,5 '
 		;
 		$this->_amountorder = $this->_getList($query . $query1);
@@ -455,7 +463,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " AND cdate > " . strtotime($list->preday)
+				$q    = $query . " AND cdate > " . strtotime($list->preday)
 					. " AND cdate <= " . strtotime($today)
 					. $query1;
 				$this->_db->setQuery($q);
@@ -475,25 +483,26 @@ class statisticModelstatistic extends JModel
 				$this->_amountorder = $result;
 			}
 		}
+
 		return $this->_amountorder;
 	}
 
 	function getPageViewer()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT created_date '
+		$result  = array();
+		$query   = 'SELECT created_date '
 			. 'FROM ' . $this->_table_prefix . 'pageviewer '
 			. 'ORDER BY created_date ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT section, section_id, count(*) as totalpage '
+		$query             = 'SELECT section, section_id, count(*) as totalpage '
 			. ', FROM_UNIXTIME(created_date,"' . $formate . '") AS viewdate '
 			. 'FROM ' . $this->_table_prefix . 'pageviewer '
 			. 'WHERE section_id != 0 ';
-		$query1 = ' GROUP BY `section`,`section_id` '
+		$query1            = ' GROUP BY `section`,`section_id` '
 			. 'ORDER BY totalpage DESC '//				.'LIMIT 0,5'
 		;
 		$this->_pageviewer = $this->_getList($query . $query1);
@@ -503,7 +512,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " AND created_date > " . strtotime($list->preday)
+				$q    = $query . " AND created_date > " . strtotime($list->preday)
 					. " AND created_date <= " . strtotime($today)
 					. $query1;
 				$this->_db->setQuery($q);
@@ -523,21 +532,22 @@ class statisticModelstatistic extends JModel
 				$this->_pageviewer = $result;
 			}
 		}
+
 		return $this->_pageviewer;
 	}
 
 	function getRedshopViewer()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$query = 'SELECT created_date '
+		$result  = array();
+		$query   = 'SELECT created_date '
 			. 'FROM ' . $this->_table_prefix . 'siteviewer '
 			. 'ORDER BY created_date ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT COUNT(*) AS viewer '
+		$query            = 'SELECT COUNT(*) AS viewer '
 			. 'FROM ' . $this->_table_prefix . 'siteviewer ';
 		$this->siteviewer = $this->_getList($query);
 
@@ -548,7 +558,7 @@ class statisticModelstatistic extends JModel
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . " WHERE created_date > " . strtotime($list->preday)
+				$q    = $query . " WHERE created_date > " . strtotime($list->preday)
 					. " AND created_date <= " . strtotime($today);
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
@@ -570,6 +580,7 @@ class statisticModelstatistic extends JModel
 				$this->siteviewer = $result;
 			}
 		}
+
 		return $this->siteviewer;
 	}
 
@@ -591,7 +602,7 @@ class statisticModelstatistic extends JModel
 			case 3:
 				$query = 'SELECT LAST_DAY(SUBDATE("' . $today . '", INTERVAL 1 MONTH)) AS preday';
 				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
+				$list         = $this->_db->loadObject();
 				$list->preday = $list->preday . " 23:59:59";
 				break;
 			case 4:
@@ -600,6 +611,7 @@ class statisticModelstatistic extends JModel
 				$list = $this->_db->loadObject();
 				break;
 		}
+
 		return $list;
 	}
 
@@ -611,28 +623,29 @@ class statisticModelstatistic extends JModel
 			case 1:
 				$query = 'SELECT CURDATE() AS date';
 				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
+				$list   = $this->_db->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 			case 2:
 				$query = 'SELECT ADDDATE(CURDATE(), INTERVAL 6-weekday(CURDATE()) DAY) AS date';
 				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
+				$list   = $this->_db->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 			case 3:
 				$query = 'SELECT LAST_DAY(CURDATE()) as date';
 				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
+				$list   = $this->_db->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 			case 4:
 				$query = 'SELECT LAST_DAY("' . date("Y-12-d") . '") as date';
 				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
+				$list   = $this->_db->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 		}
+
 		return $return;
 	}
 
@@ -657,6 +670,7 @@ class statisticModelstatistic extends JModel
 				$return = "%Y";
 				break;
 		}
+
 		return $return;
 	}
 
@@ -684,6 +698,7 @@ class statisticModelstatistic extends JModel
 				$return = $this->_db->loadObject();
 				break;
 		}
+
 		return $return;
 	}
 }

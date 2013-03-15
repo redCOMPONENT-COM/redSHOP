@@ -24,7 +24,7 @@ class RedShopHelperImages extends JObject
 	public static function generateImages($file_path, $dest, $command = 'upload', $type, $width, $height, $proportional)
 	{
 		$info = getimagesize($file_path);
-		$ret = false;
+		$ret  = false;
 
 		switch (strtolower($info['mime']))
 		{
@@ -71,10 +71,10 @@ class RedShopHelperImages extends JObject
 				else
 				{
 					// THUMB
-					$src = $file_path;
+					$src           = $file_path;
 					$src_path_info = pathinfo($src);
-					$dest = $src_path_info['dirname'] . DS . 'thumb' . DS . $src_path_info['filename'] . '_w' . $width . '_h' . $height . '_dope' . '.' . $src_path_info['extension'];
-					$alt_dest = '';
+					$dest          = $src_path_info['dirname'] . DS . 'thumb' . DS . $src_path_info['filename'] . '_w' . $width . '_h' . $height . '_dope' . '.' . $src_path_info['extension'];
+					$alt_dest      = '';
 
 					if (!JFile::exists($dest))
 					{
@@ -143,9 +143,9 @@ class RedShopHelperImages extends JObject
 		if ($height <= 0 && $width <= 0) return false;
 
 		// Setting defaults and meta
-		$info = getimagesize($file);
-		$image = '';
-		$final_width = 0;
+		$info         = getimagesize($file);
+		$image        = '';
+		$final_width  = 0;
 		$final_height = 0;
 		list($width_old, $height_old) = $info;
 
@@ -156,12 +156,12 @@ class RedShopHelperImages extends JObject
 			elseif ($height == 0) $factor = $width / $width_old;
 			else $factor = min($width / $width_old, $height / $height_old);
 
-			$final_width = round($width_old * $factor);
+			$final_width  = round($width_old * $factor);
 			$final_height = round($height_old * $factor);
 		}
 		else
 		{
-			$final_width = ($width <= 0) ? $width_old : $width;
+			$final_width  = ($width <= 0) ? $width_old : $width;
 			$final_height = ($height <= 0) ? $height_old : $height;
 		}
 
@@ -218,7 +218,7 @@ class RedShopHelperImages extends JObject
 			case 'browser':
 				//$mime = image_type_to_mime_type($info[2]);
 				//header("Content-type: $mime");
-				$output = NULL;
+				$output = null;
 				break;
 			case 'file':
 				$output = $destPath;
@@ -245,11 +245,13 @@ class RedShopHelperImages extends JObject
 			default:
 				@ImageDestroy($image_resized);
 				@ImageDestroy($image);
+
 				return false;
 		}
 
 		@ImageDestroy($image_resized);
 		@ImageDestroy($image);
+
 		return true;
 	}
 }

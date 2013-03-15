@@ -33,12 +33,12 @@ class accountgroup_detailController extends JController
 
 	function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post                     = JRequest::get('post');
+		$option                   = JRequest::getVar('option');
+		$cid                      = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['accountgroup_id'] = $cid [0];
-		$model = $this->getModel('accountgroup_detail');
-		$row = $model->store($post);
+		$model                    = $this->getModel('accountgroup_detail');
+		$row                      = $model->store($post);
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED');
@@ -60,14 +60,14 @@ class accountgroup_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
 	}
 
 	function remove()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
@@ -104,7 +104,7 @@ class accountgroup_detailController extends JController
 	function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));

@@ -47,9 +47,9 @@ class shippingcontroller extends JController
 			for ($i = 0; $i < count($shipping); $i++)
 			{
 				$shipping_nshortname = (strlen($shipping[$i]->name) > 15) ? substr($shipping[$i]->name, 0, 15) : $shipping[$i]->name;
-				$shipping_number = $shipping_nshortname . ' ' . $shipping[$i]->shipping_rate_id;
-				$shipping_name = $shipping[$i]->shipping_rate_name;
-				$shipping_rate = $shipping[$i]->shipping_rate_value;
+				$shipping_number     = $shipping_nshortname . ' ' . $shipping[$i]->shipping_rate_id;
+				$shipping_name       = $shipping[$i]->shipping_rate_name;
+				$shipping_rate       = $shipping[$i]->shipping_rate_value;
 				if ($shipping[$i]->economic_displayname)
 					$shipping_number = $shipping[$i]->economic_displayname;
 				$ecoShippingrateNumber = $economic->createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate, $shipping[$i]->apply_vat);
@@ -68,8 +68,8 @@ class shippingcontroller extends JController
 	function saveorder()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(), 'post', 'array');
+		$order  = JRequest::getVar('order', array(), 'post', 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

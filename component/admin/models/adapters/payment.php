@@ -22,7 +22,7 @@ class JInstallerPayment extends JObject
 		$db =& $this->parent->getDBO();
 
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
+		$manifest       =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
 
 		/**
@@ -145,6 +145,7 @@ class JInstallerPayment extends JObject
 		else
 		{
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_NO_PLUGIN_FILE_OR_CLASS_NAME_SPECIFIED'));
+
 			return false;
 		}
 
@@ -161,6 +162,7 @@ class JInstallerPayment extends JObject
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_FAILED_TO_CREATE_DIRECTORY') . ': "' . $this->parent->getPath('extension_root') . '"');
+
 				return false;
 			}
 		}
@@ -180,6 +182,7 @@ class JInstallerPayment extends JObject
 		{
 			// Install failed, roll back changes
 			$this->parent->abort();
+
 			return false;
 		}
 
@@ -199,6 +202,7 @@ class JInstallerPayment extends JObject
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . $db->stderr(true));
+
 			return false;
 		}
 		$payment_method_id = $db->loadResult();
@@ -211,6 +215,7 @@ class JInstallerPayment extends JObject
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_Plugin') . ' "' . $pname . '" ' . JText::_('COM_REDSHOP_ALREADY_EXISTS'));
+
 				return false;
 			}
 
@@ -218,22 +223,23 @@ class JInstallerPayment extends JObject
 		else
 		{
 			//$row =& JTable::getTable('payment_detail'); 
-			$row =& JTable::getInstance('payment_detail', 'Table');
-			$row->payment_method_name = $this->get('name');
-			$row->payment_class = $this->get('payment_class');
-			$row->payment_method_code = $this->get('payment_method_code');
-			$row->published = 1;
-			$row->is_creditcard = $this->get('is_creditcard');
-			$row->payment_price = $this->get('payment_price');
+			$row                              =& JTable::getInstance('payment_detail', 'Table');
+			$row->payment_method_name         = $this->get('name');
+			$row->payment_class               = $this->get('payment_class');
+			$row->payment_method_code         = $this->get('payment_method_code');
+			$row->published                   = 1;
+			$row->is_creditcard               = $this->get('is_creditcard');
+			$row->payment_price               = $this->get('payment_price');
 			$row->payment_discount_is_percent = $this->get('payment_discount_is_percent');
-			$row->payment_passkey = $this->get('payment_passkey');
-			$row->params = $this->parent->getParams();
-			$row->plugin = $pname;
-			$row->payment_extrainfo = $this->get('payment_extrainfo');
+			$row->payment_passkey             = $this->get('payment_passkey');
+			$row->params                      = $this->parent->getParams();
+			$row->plugin                      = $pname;
+			$row->payment_extrainfo           = $this->get('payment_extrainfo');
 			if (!$row->store())
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . $db->stderr(true));
+
 				return false;
 			}
 
@@ -245,22 +251,25 @@ class JInstallerPayment extends JObject
 		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_COULD_NOT_COPY_SETUP_FILE'));
+
 			return false;
 		}
+
 		return true;
 	}
 
 	function uninstall($id, $clientId)
 	{
 		// Initialize variables
-		$row = null;
+		$row    = null;
 		$retval = true;
-		$db =& $this->parent->getDBO();
+		$db     =& $this->parent->getDBO();
 
 		$row =& JTable::getInstance('payment_detail', 'Table');
 		if (!$row->load((int) $clientId))
 		{
 			JError::raiseWarning(100, JText::_('COM_REDSHOP_ERRORUNKOWNEXTENSION'));
+
 			return false;
 		}
 
@@ -276,6 +285,7 @@ class JInstallerPayment extends JObject
 			if (!$xml->loadFile($manifestFile))
 			{
 				JError::raiseWarning(100, JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Uninstall') . ': ' . JText::_('COM_REDSHOP_COULD_NOT_LOAD_MANIFEST_FILE'));
+
 				return false;
 			}
 
@@ -284,6 +294,7 @@ class JInstallerPayment extends JObject
 			if ($root->name() != 'install' && $root->name() != 'mosinstall')
 			{
 				JError::raiseWarning(100, JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Uninstall') . ': ' . JText::_('COM_REDSHOP_INVALID_MANIFEST_FILE'));
+
 				return false;
 			}
 
@@ -310,6 +321,7 @@ class JInstallerPayment extends JObject
 		JFolder::delete($this->parent->getPath('extension_root') . DS . $row->plugin);
 		//}
 		unset ($row);
+
 		return $retval;
 	}
 
@@ -323,6 +335,7 @@ class JInstallerPayment extends JObject
 			' FROM `#__' . TABLE_PREFIX . '_payment_method`' .
 			' WHERE payment_method_id=' . (int) $arg['payment_method_id'];
 		$db->setQuery($query);
+
 		return ($db->query() !== false);
 	}
 }

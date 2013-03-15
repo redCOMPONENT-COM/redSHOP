@@ -35,19 +35,19 @@ class quotation_detailController extends JController
 	function save($send = 0)
 	{
 		$quotationHelper = new quotationHelper();
-		$post = JRequest::get('post');
+		$post            = JRequest::get('post');
 
 //		$text_field = JRequest::getVar( 'text_field', '', 'post', 'string', JREQUEST_ALLOWRAW );
 //		$post["text_field"]=$text_field;
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['quotation_id'] = $cid [0];
-		$model = $this->getModel('quotation_detail');
+		$model                = $this->getModel('quotation_detail');
 
 		if ($post['quotation_id'] == 0)
 		{
-			$post['quotation_cdate'] = time();
+			$post['quotation_cdate']   = time();
 			$post['quotation_encrkey'] = $quotationHelper->randomQuotationEncrkey();
 		}
 		if ($post['user_id'] == 0 && $post['quotation_email'] == "")
@@ -56,7 +56,7 @@ class quotation_detailController extends JController
 			$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $post['quotation_id'], $msg);
 		}
 		$quotation_item = array();
-		$i = 0;
+		$i              = 0;
 //		print_r($post);
 //		die();
 		foreach ($post as $key => $value)
@@ -75,14 +75,14 @@ class quotation_detailController extends JController
 			}
 			if (!strcmp("quantity", substr($key, 0, 8)) && strlen($key) < 12)
 			{
-				$quotation_item[$i]->product_quantity = $value;
+				$quotation_item[$i]->product_quantity    = $value;
 				$quotation_item[$i]->product_final_price = $quotation_item[$i]->product_price * $quotation_item[$i]->product_quantity;
 				$i++;
 			}
 		}
 
 		$post['quotation_item'] = $quotation_item;
-		$row = $model->store($post);
+		$row                    = $model->store($post);
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
@@ -114,7 +114,7 @@ class quotation_detailController extends JController
 	function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -132,9 +132,9 @@ class quotation_detailController extends JController
 
 	function deleteitem()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+		$option  = JRequest::getVar('option', '', 'request', 'string');
 		$qitemid = JRequest::getVar('qitemid', 0, 'request', 'int');
-		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
+		$cid     = JRequest::getVar('cid', array(0), 'request', 'array');
 
 		$model = $this->getModel('quotation_detail');
 		if (!$model->deleteitem($qitemid, $cid[0]))
@@ -148,16 +148,16 @@ class quotation_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
 	function newQuotationItem()
 	{
 		$adminproducthelper = new adminproducthelper();
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post               = JRequest::get('post');
+		$option             = JRequest::getVar('option', '', 'request', 'string');
+		$cid                = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('quotation_detail');
 
@@ -179,11 +179,11 @@ class quotation_detailController extends JController
 	function getQuotationPriceTax()
 	{
 		$producthelper = new producthelper();
-		$get = JRequest::get('get');
-		$product_id = $get['product_id'];
-		$user_id = $get['user_id'];
-		$newprice = $get['newprice'];
-		$vatprice = 0;
+		$get           = JRequest::get('get');
+		$product_id    = $get['product_id'];
+		$user_id       = $get['user_id'];
+		$newprice      = $get['newprice'];
+		$vatprice      = 0;
 		if ($newprice > 0)
 		{
 			$vatprice = $producthelper->getProductTax($product_id, $newprice, $user_id);

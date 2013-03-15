@@ -30,7 +30,7 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -53,8 +53,10 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 				. 'WHERE accountgroup_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -65,17 +67,17 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 		{
 			$detail = new stdClass();
 
-			$detail->accountgroup_id = 0;
-			$detail->accountgroup_name = null;
-			$detail->economic_vat_account = null;
-			$detail->economic_nonvat_account = null;
-			$detail->economic_discount_vat_account = null;
+			$detail->accountgroup_id                  = 0;
+			$detail->accountgroup_name                = null;
+			$detail->economic_vat_account             = null;
+			$detail->economic_nonvat_account          = null;
+			$detail->economic_discount_vat_account    = null;
 			$detail->economic_discount_nonvat_account = null;
-			$detail->economic_shipping_vat_account = null;
+			$detail->economic_shipping_vat_account    = null;
 			$detail->economic_shipping_nonvat_account = null;
 			$detail->economic_discount_product_number = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published                        = 1;
+			$this->_data                              = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -89,13 +91,16 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -111,9 +116,11 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -130,9 +137,11 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

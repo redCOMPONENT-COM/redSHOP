@@ -55,7 +55,7 @@ class mail_detailController extends JController
 		}
 
 		$model = $this->getModel('mail_detail');
-		$row = $model->store($post);
+		$row   = $model->store($post);
 		if ($row)
 		{
 
@@ -145,7 +145,7 @@ class mail_detailController extends JController
 	{
 
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_MAIL_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_MAIL_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
 	}
 
@@ -158,12 +158,12 @@ class mail_detailController extends JController
 
 		$model = $this->getModel('mail_detail');
 
-		$order_status = $model->mail_section();
+		$order_status     = $model->mail_section();
 		$order_statusHtml = $model->order_statusHtml($order_status);
 
 		$json = array();
 
-		$json['order_status'] = $order_status;
+		$json['order_status']     = $order_status;
 		$json['order_statusHtml'] = $order_statusHtml;
 
 		$encoded = json_encode($json);

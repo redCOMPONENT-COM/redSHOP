@@ -31,15 +31,15 @@ class addorder_detailModeladdorder_detail extends JModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 		$this->_order_functions = new order_functions();
-		$this->_db = & JFactory::getDBO();
+		$this->_db              = & JFactory::getDBO();
 	}
 
 	function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -60,6 +60,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		if (empty($this->_data))
 		{
 			$this->_data = $order_functions->getOrderDetails($this->_id);
+
 			return (boolean) $this->_data;
 		}
 
@@ -70,26 +71,27 @@ class addorder_detailModeladdorder_detail extends JModel
 	{
 		$post = JRequest::get('post');
 
-		$is_company = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
-		$detail = new stdClass();
-		$detail->users_info_id = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
-		$detail->address_type = (isset($post['address_type'])) ? $post['address_type'] : "";
-		$detail->company_name = (isset($post['company_name'])) ? $post['company_name'] : null;
-		$detail->firstname = (isset($post['firstname'])) ? $post['firstname'] : null;
-		$detail->lastname = (isset($post['lastname'])) ? $post['lastname'] : null;
-		$detail->country_code = (isset($post['country_code'])) ? $post['country_code'] : null;
-		$detail->state_code = (isset($post['state_code'])) ? $post['state_code'] : null;
-		$detail->zipcode = (isset($post['zipcode'])) ? $post['zipcode'] : null;
-		$detail->user_email = (isset($post['user_email'])) ? $post['user_email'] : null;
-		$detail->address = (isset($post['address'])) ? $post['address'] : null;
-		$detail->is_company = (isset($post['is_company'])) ? $post['is_company'] : $is_company;
-		$detail->city = (isset($post['city'])) ? $post['city'] : null;
-		$detail->phone = (isset($post['phone'])) ? $post['phone'] : null;
-		$detail->vat_number = (isset($post['vat_number'])) ? $post['vat_number'] : null;
-		$detail->tax_exempt_approved = (isset($post['tax_exempt_approved'])) ? $post['tax_exempt_approved'] : null;
+		$is_company                    = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
+		$detail                        = new stdClass();
+		$detail->users_info_id         = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
+		$detail->address_type          = (isset($post['address_type'])) ? $post['address_type'] : "";
+		$detail->company_name          = (isset($post['company_name'])) ? $post['company_name'] : null;
+		$detail->firstname             = (isset($post['firstname'])) ? $post['firstname'] : null;
+		$detail->lastname              = (isset($post['lastname'])) ? $post['lastname'] : null;
+		$detail->country_code          = (isset($post['country_code'])) ? $post['country_code'] : null;
+		$detail->state_code            = (isset($post['state_code'])) ? $post['state_code'] : null;
+		$detail->zipcode               = (isset($post['zipcode'])) ? $post['zipcode'] : null;
+		$detail->user_email            = (isset($post['user_email'])) ? $post['user_email'] : null;
+		$detail->address               = (isset($post['address'])) ? $post['address'] : null;
+		$detail->is_company            = (isset($post['is_company'])) ? $post['is_company'] : $is_company;
+		$detail->city                  = (isset($post['city'])) ? $post['city'] : null;
+		$detail->phone                 = (isset($post['phone'])) ? $post['phone'] : null;
+		$detail->vat_number            = (isset($post['vat_number'])) ? $post['vat_number'] : null;
+		$detail->tax_exempt_approved   = (isset($post['tax_exempt_approved'])) ? $post['tax_exempt_approved'] : null;
 		$detail->requesting_tax_exempt = (isset($post['requesting_tax_exempt'])) ? $post['requesting_tax_exempt'] : null;
-		$detail->ean_number = (isset($post['ean_number'])) ? $post['ean_number'] : null;
-		$detail->tax_exempt = (isset($post['tax_exempt'])) ? $post['tax_exempt'] : null;
+		$detail->ean_number            = (isset($post['ean_number'])) ? $post['ean_number'] : null;
+		$detail->tax_exempt            = (isset($post['tax_exempt'])) ? $post['tax_exempt'] : null;
+
 		return $detail;
 	}
 
@@ -97,17 +99,17 @@ class addorder_detailModeladdorder_detail extends JModel
 	{
 		$post = JRequest::get('post');
 
-		$detail = new stdClass();
-		$detail->billisship = (isset($post['billisship'])) ? $post['billisship'] : 1;
+		$detail                = new stdClass();
+		$detail->billisship    = (isset($post['billisship'])) ? $post['billisship'] : 1;
 		$detail->users_info_id = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
-		$detail->firstname = (isset($post['firstname_ST'])) ? $post['firstname_ST'] : null;
-		$detail->lastname = (isset($post['lastname_ST'])) ? $post['lastname_ST'] : null;
-		$detail->country_code = (isset($post['country_code_ST'])) ? $post['country_code_ST'] : null;
-		$detail->state_code = (isset($post['state_code_ST'])) ? $post['state_code_ST'] : null;
-		$detail->zipcode = (isset($post['zipcode_ST'])) ? $post['zipcode_ST'] : null;
-		$detail->address = (isset($post['address_ST'])) ? $post['address_ST'] : null;
-		$detail->city = (isset($post['city_ST'])) ? $post['city_ST'] : null;
-		$detail->phone = (isset($post['phone_ST'])) ? $post['phone_ST'] : null;
+		$detail->firstname     = (isset($post['firstname_ST'])) ? $post['firstname_ST'] : null;
+		$detail->lastname      = (isset($post['lastname_ST'])) ? $post['lastname_ST'] : null;
+		$detail->country_code  = (isset($post['country_code_ST'])) ? $post['country_code_ST'] : null;
+		$detail->state_code    = (isset($post['state_code_ST'])) ? $post['state_code_ST'] : null;
+		$detail->zipcode       = (isset($post['zipcode_ST'])) ? $post['zipcode_ST'] : null;
+		$detail->address       = (isset($post['address_ST'])) ? $post['address_ST'] : null;
+		$detail->city          = (isset($post['city_ST'])) ? $post['city_ST'] : null;
+		$detail->phone         = (isset($post['phone_ST'])) ? $post['phone_ST'] : null;
 
 		return $detail;
 	}
@@ -116,41 +118,43 @@ class addorder_detailModeladdorder_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
-			$detail->order_id = 0;
-			$detail->user_id = null;
-			$detail->order_number = null;
-			$detail->user_info_id = null;
-			$detail->order_total = null;
-			$detail->order_subtotal = null;
-			$detail->order_tax = null;
-			$detail->order_tax_details = null;
-			$detail->order_shipping = null;
+			$detail                     = new stdClass();
+			$detail->order_id           = 0;
+			$detail->user_id            = null;
+			$detail->order_number       = null;
+			$detail->user_info_id       = null;
+			$detail->order_total        = null;
+			$detail->order_subtotal     = null;
+			$detail->order_tax          = null;
+			$detail->order_tax_details  = null;
+			$detail->order_shipping     = null;
 			$detail->order_shipping_tax = null;
-			$detail->coupon_discount = null;
-			$detail->payment_discount = null;
-			$detail->order_discount = null;
-			$detail->order_status = null;
-			$detail->cdate = null;
-			$detail->mdate = null;
-			$detail->ship_method_id = null;
-			$detail->customer_note = null;
-			$detail->ip_address = null;
-			$this->_data = $detail;
+			$detail->coupon_discount    = null;
+			$detail->payment_discount   = null;
+			$detail->order_discount     = null;
+			$detail->order_status       = null;
+			$detail->cdate              = null;
+			$detail->mdate              = null;
+			$detail->ship_method_id     = null;
+			$detail->customer_note      = null;
+			$detail->ip_address         = null;
+			$this->_data                = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
 	function storeShipping($data)
 	{
-		$userhelper = new rsUserhelper();
-		$data['address_type'] = 'BT';
+		$userhelper            = new rsUserhelper();
+		$data['address_type']  = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
-		$data['user_email'] = $data['email1'] = $data['email'];
+		$data['user_email']    = $data['email1'] = $data['email'];
 		$data['sameasbilling'] = (isset($data['billisship']) && $data['billisship'] == 1) ? 1 : 0;
-		$data['billisship'] = 1;
-		$data['groups'] = array("Registered" => "2");
+		$data['billisship']    = 1;
+		$data['groups']        = array("Registered" => "2");
 		if ($data['guestuser'] && !$data['user_id'])
 		{
 			$joomlauser = $userhelper->updateJoomlaUser($data);
@@ -164,15 +168,15 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 			if ($data['sameasbilling'] != 1)
 			{
-				$data['users_info_id'] = ($data['shipp_users_info_id'] != "") ? $data['shipp_users_info_id'] : 0;
-				$data['user_email'] = $reduser->user_email;
-				$data['user_id'] = $reduser->user_id;
-				$data['tax_exempt'] = $reduser->tax_exempt;
+				$data['users_info_id']         = ($data['shipp_users_info_id'] != "") ? $data['shipp_users_info_id'] : 0;
+				$data['user_email']            = $reduser->user_email;
+				$data['user_id']               = $reduser->user_id;
+				$data['tax_exempt']            = $reduser->tax_exempt;
 				$data['requesting_tax_exempt'] = $reduser->requesting_tax_exempt;
-				$data['shopper_group_id'] = $reduser->shopper_group_id;
-				$data['tax_exempt_approved'] = $reduser->tax_exempt_approved;
-				$data['company_name'] = $reduser->company_name;
-				$data['vat_number'] = $reduser->vat_number;
+				$data['shopper_group_id']      = $reduser->shopper_group_id;
+				$data['tax_exempt_approved']   = $reduser->tax_exempt_approved;
+				$data['company_name']          = $reduser->company_name;
+				$data['vat_number']            = $reduser->vat_number;
 				if ($data['firstname_ST'] == "")
 				{
 					$data['firstname_ST'] = $data['firstname'];
@@ -207,29 +211,32 @@ class addorder_detailModeladdorder_detail extends JModel
 				}
 
 				$rowsh = $userhelper->storeRedshopUserShipping($data);
+
 				return $rowsh;
 			}
 			else
 			{
 				$reduser->users_info_id = 0;
+
 				return $reduser;
 			}
 		}
+
 		return $reduser;
 	}
 
 	function store($postdata)
 	{
-		$redconfig = new Redconfiguration();
-		$redshopMail = new redshopMail();
-		$order_functions = new order_functions();
-		$helper = new redhelper();
-		$producthelper = new producthelper();
-		$rsCarthelper = new rsCarthelper();
-		$shippinghelper = new shipping();
-		$objshipping = new shipping();
+		$redconfig          = new Redconfiguration();
+		$redshopMail        = new redshopMail();
+		$order_functions    = new order_functions();
+		$helper             = new redhelper();
+		$producthelper      = new producthelper();
+		$rsCarthelper       = new rsCarthelper();
+		$shippinghelper     = new shipping();
+		$objshipping        = new shipping();
 		$adminproducthelper = new adminproducthelper();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper    = new rsstockroomhelper();
 
 		// for barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
@@ -240,18 +247,20 @@ class addorder_detailModeladdorder_detail extends JModel
 		if (!$row->bind($postdata))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		$iscrm = $helper->isredCRM();
 		if ($iscrm)
 		{
-			$postdata['order_id'] = $row->order_id;
+			$postdata['order_id']   = $row->order_id;
 			$postdata['debitor_id'] = $postdata['user_info_id'];
 			JTable :: addIncludePath(REDCRM_ADMIN . DS . 'tables');
 
@@ -260,11 +269,13 @@ class addorder_detailModeladdorder_detail extends JModel
 			if (!$crmorder->bind($postdata))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 			if (!$crmorder->store())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -274,10 +285,10 @@ class addorder_detailModeladdorder_detail extends JModel
 
 				$rmaInfo =& $this->getTable('rma_orders');
 
-				$rmaInfo->rma_number = $postdata['rma_number'];
-				$rmaInfo->original_order_id = $postdata['main_order_id'];
+				$rmaInfo->rma_number           = $postdata['rma_number'];
+				$rmaInfo->original_order_id    = $postdata['main_order_id'];
 				$rmaInfo->credit_note_order_id = $row->order_id;
-				$rmaInfo->rma_note = $postdata['rmanotes'];
+				$rmaInfo->rma_note             = $postdata['rmanotes'];
 				$rmaInfo->store();
 			}
 			# END
@@ -286,10 +297,10 @@ class addorder_detailModeladdorder_detail extends JModel
 		}
 		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 
-		$rowOrderStatus = & $this->getTable('order_status_log');
-		$rowOrderStatus->order_id = $row->order_id;
-		$rowOrderStatus->order_status = $row->order_status;
-		$rowOrderStatus->date_changed = time();
+		$rowOrderStatus                = & $this->getTable('order_status_log');
+		$rowOrderStatus->order_id      = $row->order_id;
+		$rowOrderStatus->order_status  = $row->order_status;
+		$rowOrderStatus->date_changed  = time();
 		$rowOrderStatus->customer_note = $row->customer_note;
 		$rowOrderStatus->store();
 
@@ -300,8 +311,8 @@ class addorder_detailModeladdorder_detail extends JModel
 		}
 		else
 		{
-			$key = 0;
-			$shippingaddresses = $order_functions->getShippingAddress($row->user_id);
+			$key                 = 0;
+			$shippingaddresses   = $order_functions->getShippingAddress($row->user_id);
 			$shipp_users_info_id = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
 			if ($shipp_users_info_id != 0)
 			{
@@ -320,28 +331,28 @@ class addorder_detailModeladdorder_detail extends JModel
 		//ORDER DELIVERY TIME IS REMAINING
 
 		$user_id = $row->user_id;
-		$item = $postdata['order_item'];
+		$item    = $postdata['order_item'];
 		for ($i = 0; $i < count($item); $i++)
 		{
-			$product_id = $item[$i]->product_id;
-			$quantity = $item[$i]->quantity;
+			$product_id         = $item[$i]->product_id;
+			$quantity           = $item[$i]->quantity;
 			$product_excl_price = $item[$i]->prdexclprice;
-			$product_price = $item[$i]->productprice;
+			$product_price      = $item[$i]->productprice;
 
 			///////////// Attribute price added ///////////////////////
 			$generateAttributeCart = $rsCarthelper->generateAttributeArray((array) $item[$i], $user_id);
-			$retAttArr = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
-			$product_attribute = $retAttArr[0];
+			$retAttArr             = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
+			$product_attribute     = $retAttArr[0];
 
 			////////////// Accessory price /////////////
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
-			$retAccArr = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
-			$product_accessory = $retAccArr[0];
+			$retAccArr             = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
+			$product_accessory     = $retAccArr[0];
 			$accessory_total_price = $retAccArr[1];
-			$accessory_vat_price = $retAccArr[2];
+			$accessory_vat_price   = $retAccArr[2];
 
 			$wrapper_price = 0;
-			$wrapper_vat = 0;
+			$wrapper_vat   = 0;
 			if ($item[$i]->wrapper_data != 0 && $item[$i]->wrapper_data != '')
 			{
 				$wrapper = $producthelper->getWrapper($product_id, $item[$i]->wrapper_data);
@@ -360,41 +371,42 @@ class addorder_detailModeladdorder_detail extends JModel
 			if (!$rowitem->bind($postdata))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 			//	STOCKROOM update
-			$updatestock = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
-			$stockroom_id_list = $updatestock['stockroom_list'];
-			$stockroom_quantity_list = $updatestock['stockroom_quantity_list'];
-			$rowitem->stockroom_id = $stockroom_id_list;
-			$rowitem->stockroom_quantity = $stockroom_quantity_list;
-			$rowitem->order_item_id = 0;
-			$rowitem->order_id = $row->order_id;
-			$rowitem->user_info_id = $row->user_info_id;
-			$rowitem->supplier_id = $product->manufacturer_id;
-			$rowitem->product_id = $product_id;
-			$rowitem->order_item_sku = $product->product_number;
-			$rowitem->order_item_name = $product->product_name;
-			$rowitem->product_quantity = $quantity;
-			$rowitem->product_item_price = $product_price;
+			$updatestock                          = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
+			$stockroom_id_list                    = $updatestock['stockroom_list'];
+			$stockroom_quantity_list              = $updatestock['stockroom_quantity_list'];
+			$rowitem->stockroom_id                = $stockroom_id_list;
+			$rowitem->stockroom_quantity          = $stockroom_quantity_list;
+			$rowitem->order_item_id               = 0;
+			$rowitem->order_id                    = $row->order_id;
+			$rowitem->user_info_id                = $row->user_info_id;
+			$rowitem->supplier_id                 = $product->manufacturer_id;
+			$rowitem->product_id                  = $product_id;
+			$rowitem->order_item_sku              = $product->product_number;
+			$rowitem->order_item_name             = $product->product_name;
+			$rowitem->product_quantity            = $quantity;
+			$rowitem->product_item_price          = $product_price;
 			$rowitem->product_item_price_excl_vat = $product_excl_price;
-			$rowitem->product_final_price = $product_price * $quantity;
-			$rowitem->order_item_currency = REDCURRENCY_SYMBOL;
-			$rowitem->order_status = $row->order_status;
-			$rowitem->cdate = $row->cdate;
-			$rowitem->mdate = $row->cdate;
-			$rowitem->product_attribute = $product_attribute;
-			$rowitem->product_accessory = $product_accessory;
+			$rowitem->product_final_price         = $product_price * $quantity;
+			$rowitem->order_item_currency         = REDCURRENCY_SYMBOL;
+			$rowitem->order_status                = $row->order_status;
+			$rowitem->cdate                       = $row->cdate;
+			$rowitem->mdate                       = $row->cdate;
+			$rowitem->product_attribute           = $product_attribute;
+			$rowitem->product_accessory           = $product_accessory;
 //			$rowitem->container_id = $objshipping->getProductContainerId ( $product_id );
-			$rowitem->wrapper_id = $item[$i]->wrapper_data;
+			$rowitem->wrapper_id    = $item[$i]->wrapper_data;
 			$rowitem->wrapper_price = $wrapper_price;
-			$rowitem->is_giftcard = 0;
+			$rowitem->is_giftcard   = 0;
 
 			# redCRM product purchase price
 			if ($iscrm)
 			{
 				$crmProductHelper = new crmProductHelper();
-				$crmproduct = $crmProductHelper->getProductById($product_id);
+				$crmproduct       = $crmProductHelper->getProductById($product_id);
 
 				$rowitem->product_purchase_price = $crmproduct->product_purchase_price > 0 ? $crmproduct->product_purchase_price : $crmproduct->product_price;
 			}
@@ -412,6 +424,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			if (!$rowitem->store())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -423,9 +436,9 @@ class addorder_detailModeladdorder_detail extends JModel
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
-					$accessory_id = $attArr[$a]['accessory_id'];
-					$accessory_name = $attArr[$a]['accessory_name'];
-					$accessory_price = $attArr[$a]['accessory_price'];
+					$accessory_id        = $attArr[$a]['accessory_id'];
+					$accessory_name      = $attArr[$a]['accessory_name'];
+					$accessory_price     = $attArr[$a]['accessory_price'];
 					$accessory_org_price = $accessory_price;
 					if ($accessory_price > 0)
 					{
@@ -437,19 +450,20 @@ class addorder_detailModeladdorder_detail extends JModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem = & $this->getTable('order_attribute_item');
+						$rowattitem                    = & $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id = $rowitem->order_item_id;
-						$rowattitem->section_id = $attribute_id;
-						$rowattitem->section = "attribute";
+						$rowattitem->order_item_id     = $rowitem->order_item_id;
+						$rowattitem->section_id        = $attribute_id;
+						$rowattitem->section           = "attribute";
 						$rowattitem->parent_section_id = $accessory_id;
-						$rowattitem->section_name = $attchildArr[$j]['attribute_name'];
-						$rowattitem->is_accessory_att = 1;
+						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
+						$rowattitem->is_accessory_att  = 1;
 						if ($attribute_id > 0)
 						{
 							if (!$rowattitem->store())
 							{
 								$this->setError($this->_db->getErrorMsg());
+
 								return false;
 							}
 						}
@@ -466,22 +480,23 @@ class addorder_detailModeladdorder_detail extends JModel
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							$rowattitem = & $this->getTable('order_attribute_item');
+							$rowattitem                    = & $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
-							$rowattitem->order_item_id = $rowitem->order_item_id;
-							$rowattitem->section_id = $property_id;
-							$rowattitem->section = "property";
+							$rowattitem->order_item_id     = $rowitem->order_item_id;
+							$rowattitem->section_id        = $property_id;
+							$rowattitem->section           = "property";
 							$rowattitem->parent_section_id = $attribute_id;
-							$rowattitem->section_name = $propArr[$k]['property_name'];
-							$rowattitem->section_price = $propArr[$k]['property_price'];
-							$rowattitem->section_vat = $section_vat;
-							$rowattitem->section_oprand = $propArr[$k]['property_oprand'];
-							$rowattitem->is_accessory_att = 1;
+							$rowattitem->section_name      = $propArr[$k]['property_name'];
+							$rowattitem->section_price     = $propArr[$k]['property_price'];
+							$rowattitem->section_vat       = $section_vat;
+							$rowattitem->section_oprand    = $propArr[$k]['property_oprand'];
+							$rowattitem->is_accessory_att  = 1;
 							if ($property_id > 0)
 							{
 								if (!$rowattitem->store())
 								{
 									$this->setError($this->_db->getErrorMsg());
+
 									return false;
 								}
 							}
@@ -496,22 +511,23 @@ class addorder_detailModeladdorder_detail extends JModel
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem = & $this->getTable('order_attribute_item');
+								$rowattitem                    = & $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
-								$rowattitem->order_item_id = $rowitem->order_item_id;
-								$rowattitem->section_id = $subproperty_id;
-								$rowattitem->section = "subproperty";
+								$rowattitem->order_item_id     = $rowitem->order_item_id;
+								$rowattitem->section_id        = $subproperty_id;
+								$rowattitem->section           = "subproperty";
 								$rowattitem->parent_section_id = $property_id;
-								$rowattitem->section_name = $subpropArr[$l]['subproperty_name'];
-								$rowattitem->section_price = $subpropArr[$l]['subproperty_price'];
-								$rowattitem->section_vat = $section_vat;
-								$rowattitem->section_oprand = $subpropArr[$l]['subproperty_oprand'];
-								$rowattitem->is_accessory_att = 1;
+								$rowattitem->section_name      = $subpropArr[$l]['subproperty_name'];
+								$rowattitem->section_price     = $subpropArr[$l]['subproperty_price'];
+								$rowattitem->section_vat       = $section_vat;
+								$rowattitem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
+								$rowattitem->is_accessory_att  = 1;
 								if ($subproperty_id > 0)
 								{
 									if (!$rowattitem->store())
 									{
 										$this->setError($this->_db->getErrorMsg());
+
 										return false;
 									}
 								}
@@ -524,24 +540,25 @@ class addorder_detailModeladdorder_detail extends JModel
 					{
 						$accdata->load($accessory_id);
 					}
-					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem = & $this->getTable('order_acc_item');
-					$rowaccitem->order_item_acc_id = 0;
-					$rowaccitem->order_item_id = $rowitem->order_item_id;
-					$rowaccitem->product_id = $accessory_id;
-					$rowaccitem->order_acc_item_sku = $accProductinfo->product_number;
-					$rowaccitem->order_acc_item_name = $accessory_name;
-					$rowaccitem->order_acc_price = $accessory_org_price;
-					$rowaccitem->order_acc_vat = $accessory_vat_price;
-					$rowaccitem->product_quantity = $quantity;
-					$rowaccitem->product_acc_item_price = $accessory_price;
+					$accProductinfo                      = $producthelper->getProductById($accdata->child_product_id);
+					$rowaccitem                          = & $this->getTable('order_acc_item');
+					$rowaccitem->order_item_acc_id       = 0;
+					$rowaccitem->order_item_id           = $rowitem->order_item_id;
+					$rowaccitem->product_id              = $accessory_id;
+					$rowaccitem->order_acc_item_sku      = $accProductinfo->product_number;
+					$rowaccitem->order_acc_item_name     = $accessory_name;
+					$rowaccitem->order_acc_price         = $accessory_org_price;
+					$rowaccitem->order_acc_vat           = $accessory_vat_price;
+					$rowaccitem->product_quantity        = $quantity;
+					$rowaccitem->product_acc_item_price  = $accessory_price;
 					$rowaccitem->product_acc_final_price = ($accessory_price * $quantity);
-					$rowaccitem->product_attribute = $accessory_attribute;
+					$rowaccitem->product_attribute       = $accessory_attribute;
 					if ($accessory_id > 0)
 					{
 						if (!$rowaccitem->store())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 					}
@@ -556,19 +573,20 @@ class addorder_detailModeladdorder_detail extends JModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem = & $this->getTable('order_attribute_item');
+					$rowattitem                    = & $this->getTable('order_attribute_item');
 					$rowattitem->order_att_item_id = 0;
-					$rowattitem->order_item_id = $rowitem->order_item_id;
-					$rowattitem->section_id = $attribute_id;
-					$rowattitem->section = "attribute";
+					$rowattitem->order_item_id     = $rowitem->order_item_id;
+					$rowattitem->section_id        = $attribute_id;
+					$rowattitem->section           = "attribute";
 					$rowattitem->parent_section_id = $rowitem->product_id;
-					$rowattitem->section_name = $attArr[$j]['attribute_name'];
-					$rowattitem->is_accessory_att = 0;
+					$rowattitem->section_name      = $attArr[$j]['attribute_name'];
+					$rowattitem->is_accessory_att  = 0;
 					if ($attribute_id > 0)
 					{
 						if (!$rowattitem->store())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 					}
@@ -585,22 +603,23 @@ class addorder_detailModeladdorder_detail extends JModel
 						/** product property STOCKROOM update start */
 						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
 
-						$rowattitem = & $this->getTable('order_attribute_item');
+						$rowattitem                    = & $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id = $rowitem->order_item_id;
-						$rowattitem->section_id = $property_id;
-						$rowattitem->section = "property";
+						$rowattitem->order_item_id     = $rowitem->order_item_id;
+						$rowattitem->section_id        = $property_id;
+						$rowattitem->section           = "property";
 						$rowattitem->parent_section_id = $attribute_id;
-						$rowattitem->section_name = $propArr[$k]['property_name'];
-						$rowattitem->section_price = $propArr[$k]['property_price'];
-						$rowattitem->section_vat = $section_vat;
-						$rowattitem->section_oprand = $propArr[$k]['property_oprand'];
-						$rowattitem->is_accessory_att = 0;
+						$rowattitem->section_name      = $propArr[$k]['property_name'];
+						$rowattitem->section_price     = $propArr[$k]['property_price'];
+						$rowattitem->section_vat       = $section_vat;
+						$rowattitem->section_oprand    = $propArr[$k]['property_oprand'];
+						$rowattitem->is_accessory_att  = 0;
 						if ($property_id > 0)
 						{
 							if (!$rowattitem->store())
 							{
 								$this->setError($this->_db->getErrorMsg());
+
 								return false;
 							}
 						}
@@ -617,22 +636,23 @@ class addorder_detailModeladdorder_detail extends JModel
 							/** product subproperty STOCKROOM update start */
 							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
-							$rowattitem = & $this->getTable('order_attribute_item');
+							$rowattitem                    = & $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
-							$rowattitem->order_item_id = $rowitem->order_item_id;
-							$rowattitem->section_id = $subproperty_id;
-							$rowattitem->section = "subproperty";
+							$rowattitem->order_item_id     = $rowitem->order_item_id;
+							$rowattitem->section_id        = $subproperty_id;
+							$rowattitem->section           = "subproperty";
 							$rowattitem->parent_section_id = $property_id;
-							$rowattitem->section_name = $subpropArr[$l]['subproperty_name'];
-							$rowattitem->section_price = $subpropArr[$l]['subproperty_price'];
-							$rowattitem->section_vat = $section_vat;
-							$rowattitem->section_oprand = $subpropArr[$l]['subproperty_oprand'];
-							$rowattitem->is_accessory_att = 0;
+							$rowattitem->section_name      = $subpropArr[$l]['subproperty_name'];
+							$rowattitem->section_price     = $subpropArr[$l]['subproperty_price'];
+							$rowattitem->section_vat       = $section_vat;
+							$rowattitem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
+							$rowattitem->is_accessory_att  = 0;
 							if ($subproperty_id > 0)
 							{
 								if (!$rowattitem->store())
 								{
 									$this->setError($this->_db->getErrorMsg());
+
 									return false;
 								}
 							}
@@ -647,7 +667,7 @@ class addorder_detailModeladdorder_detail extends JModel
 				$producthelper->updateContainerStock($product_id, $quantity, $rowitem->container_id);
 			}
 			// store userfields
-			$userfields = $item[$i]->extrafieldname;
+			$userfields    = $item[$i]->extrafieldname;
 			$userfields_id = $item[$i]->extrafieldId;
 			for ($ui = 0; $ui < count($userfields); $ui++)
 			{
@@ -664,14 +684,14 @@ class addorder_detailModeladdorder_detail extends JModel
 					if (isset($item[$i]->reason))
 					{
 
-						$rmaTrans =& $this->getTable('rma_transaction');
-						$rmaTrans->rma_transaction_id = 0;
-						$rmaTrans->rma_number = $postdata['rma_number'];
-						$rmaTrans->order_item_return_id = $rowitem->order_item_id;
+						$rmaTrans                           =& $this->getTable('rma_transaction');
+						$rmaTrans->rma_transaction_id       = 0;
+						$rmaTrans->rma_number               = $postdata['rma_number'];
+						$rmaTrans->order_item_return_id     = $rowitem->order_item_id;
 						$rmaTrans->order_item_return_reason = $item[$i]->reason;
 						$rmaTrans->order_item_return_status = $item[$i]->deposition;
 						$rmaTrans->order_item_return_action = $item[$i]->action;
-						$rmaTrans->cdate = time();
+						$rmaTrans->cdate                    = time();
 						$rmaTrans->store();
 
 						if (ENABLE_ITEM_TRACKING_SYSTEM)
@@ -680,11 +700,11 @@ class addorder_detailModeladdorder_detail extends JModel
 							$crmSupplierOrderHelper = new crmSupplierOrderHelper();
 
 							$senddata['main_order_number'] = $postdata['main_order_number'];
-							$senddata['order_status'] = $row->order_status;
-							$senddata['product_id'] = $rowitem->product_id;
-							$senddata['property_id'] = $property_id;
-							$senddata['subproperty_id'] = $subproperty_id;
-							$senddata['deposition'] = $item[$i]->deposition;
+							$senddata['order_status']      = $row->order_status;
+							$senddata['product_id']        = $rowitem->product_id;
+							$senddata['property_id']       = $property_id;
+							$senddata['subproperty_id']    = $subproperty_id;
+							$senddata['deposition']        = $item[$i]->deposition;
 
 							$itemqty = $rowitem->product_quantity;
 							for ($r = 0; $r < $itemqty; $r++)
@@ -704,16 +724,18 @@ class addorder_detailModeladdorder_detail extends JModel
 		if (!$rowpayment->bind($postdata))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
-		$rowpayment->order_id = $row->order_id;
-		$rowpayment->payment_method_id = $postdata['payment_method_class'];
+		$rowpayment->order_id             = $row->order_id;
+		$rowpayment->payment_method_id    = $postdata['payment_method_class'];
 		$rowpayment->order_payment_amount = $row->order_total;
-		$rowpayment->order_payment_name = $postdata['order_payment_name'];
+		$rowpayment->order_payment_name   = $postdata['order_payment_name'];
 		$rowpayment->payment_method_class = $postdata['payment_method_class'];
 		if (!$rowpayment->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -724,13 +746,15 @@ class addorder_detailModeladdorder_detail extends JModel
 		if (!$orderuserrow->bind($userrow))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
-		$orderuserrow->order_id = $row->order_id;
+		$orderuserrow->order_id     = $row->order_id;
 		$orderuserrow->address_type = 'BT';
 		if (!$orderuserrow->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -744,13 +768,15 @@ class addorder_detailModeladdorder_detail extends JModel
 		if (!$orderuserrow->bind($userrow))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
-		$orderuserrow->order_id = $row->order_id;
+		$orderuserrow->order_id     = $row->order_id;
 		$orderuserrow->address_type = 'ST';
 		if (!$orderuserrow->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -768,8 +794,8 @@ class addorder_detailModeladdorder_detail extends JModel
 				# Supplier order helper object
 				$crmSupplierOrderHelper = new crmSupplierOrderHelper();
 
-				$getStatus = array();
-				$getStatus['orderstatus'] = $row->order_status;
+				$getStatus                  = array();
+				$getStatus['orderstatus']   = $row->order_status;
 				$getStatus['paymentstatus'] = $row->order_payment_status;
 
 				$crmSupplierOrderHelper->redSHOPOrderUpdate($row->order_id, $getStatus);
@@ -786,18 +812,18 @@ class addorder_detailModeladdorder_detail extends JModel
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
-			$issplit = 0;
+			$issplit  = 0;
 			$economic = new economic();
 			if (isset($postdata['issplit']) && $postdata['issplit'] == 1)
 			{
 				$issplit = 1;
 			}
-			$economicdata['split_payment'] = $issplit;
+			$economicdata['split_payment']             = $issplit;
 			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
-			$economicdata['economic_design_layout'] = $postdata['economic_design_layout'];
-			$economicdata['economic_is_creditcard'] = $postdata['economic_is_creditcard'];
-			$payment_name = $postdata['payment_method_class'];
-			$paymentArr = explode("rs_payment_", $postdata['payment_method_class']);
+			$economicdata['economic_design_layout']    = $postdata['economic_design_layout'];
+			$economicdata['economic_is_creditcard']    = $postdata['economic_is_creditcard'];
+			$payment_name                              = $postdata['payment_method_class'];
+			$paymentArr                                = explode("rs_payment_", $postdata['payment_method_class']);
 			if (count($paymentArr) > 0)
 			{
 				$payment_name = $paymentArr[1];
@@ -821,6 +847,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 			$redshopMail->sendOrderMail($row->order_id);
 		}
+
 		return $row;
 	}
 
@@ -833,7 +860,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 	function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
-		$extra_field = new extra_field();
+		$extra_field      = new extra_field();
 		$Redconfiguration = new Redconfiguration();
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
@@ -851,7 +878,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			$shipping = $this->setShipping();
 		}
 		$allowCustomer = '';
-		$allowCompany = '';
+		$allowCompany  = '';
 		if ($is_company)
 		{
 			$allowCustomer = 'style="display:none;"';
@@ -861,12 +888,12 @@ class addorder_detailModeladdorder_detail extends JModel
 			$allowCompany = 'style="display:none;"';
 		}
 		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shipping->users_info_id); /// field_section 7 :Customer Address
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shipping->users_info_id); /// field_section 8 :Company Address
-		$countryarray = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
-		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
-		$lists['country_code_ST'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
-		$lists['state_code_ST'] = $statearray['state_dropdown'];
+		$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shipping->users_info_id); /// field_section 8 :Company Address
+		$countryarray                     = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
+		$shipping->country_code_ST        = $shipping->country_code = $countryarray['country_code_ST'];
+		$lists['country_code_ST']         = $countryarray['country_dropdown'];
+		$statearray                       = $Redconfiguration->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
+		$lists['state_code_ST']           = $statearray['state_dropdown'];
 
 		$htmlshipping = '<table class="adminlist" border="0" width="100%">';
 		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';

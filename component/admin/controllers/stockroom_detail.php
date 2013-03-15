@@ -42,19 +42,19 @@ class stockroom_detailController extends JController
 
 	function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$stockroom_desc = JRequest::getVar('stockroom_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post                   = JRequest::get('post');
+		$stockroom_desc         = JRequest::getVar('stockroom_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["stockroom_desc"] = $stockroom_desc;
 		if ($post["delivery_time"] == 'Weeks')
 		{
 			$post["min_del_time"] = $post["min_del_time"] * 7;
 			$post["max_del_time"] = $post["max_del_time"] * 7;
 		}
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post ['stockroom_id'] = $cid [0];
+		$option                 = JRequest::getVar('option');
+		$cid                    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post ['stockroom_id']  = $cid [0];
 		$post ['creation_date'] = strtotime($post ['creation_date']);
-		$model = $this->getModel('stockroom_detail');
+		$model                  = $this->getModel('stockroom_detail');
 		$post['stockroom_name'] = htmlspecialchars($post['stockroom_name']);
 
 		if ($row = $model->store($post))
@@ -74,7 +74,7 @@ class stockroom_detailController extends JController
 	function remove()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -93,7 +93,7 @@ class stockroom_detailController extends JController
 	function publish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -112,7 +112,7 @@ class stockroom_detailController extends JController
 	function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -131,7 +131,7 @@ class stockroom_detailController extends JController
 	function frontpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -150,7 +150,7 @@ class stockroom_detailController extends JController
 	function frontunpublish()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -169,15 +169,15 @@ class stockroom_detailController extends JController
 	function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED');
+		$msg    = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
 	}
 
 	function copy()
 	{
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('stockroom_detail');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$model  = $this->getModel('stockroom_detail');
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_COPIED');
@@ -226,20 +226,20 @@ class stockroom_detailController extends JController
 	function importStockFromEconomic()
 	{
 		#Add product stock from economic
-		$cnt = JRequest::getInt('cnt', 0);
+		$cnt          = JRequest::getInt('cnt', 0);
 		$stockroom_id = JRequest::getInt('stockroom_id', 0);
-		$totalprd = 0;
-		$msg = '';
+		$totalprd     = 0;
+		$msg          = '';
 		if (ECONOMIC_INTEGRATION == 1)
 		{
 			$economic = new economic();
-			$db = & JFactory::getDBO();
-			$incNo = $cnt;
-			$query = 'SELECT p.* FROM #__redshop_product AS p '
+			$db       = & JFactory::getDBO();
+			$incNo    = $cnt;
+			$query    = 'SELECT p.* FROM #__redshop_product AS p '
 				. 'LIMIT ' . $cnt . ', 10 ';
 			$db->setQuery($query);
-			$prd = $db->loadObjectlist();
-			$totalprd = count($prd);
+			$prd         = $db->loadObjectlist();
+			$totalprd    = count($prd);
 			$responcemsg = '';
 			for ($i = 0; $i < count($prd); $i++)
 			{
@@ -261,7 +261,7 @@ class stockroom_detailController extends JController
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_STOCK_FROM_ECONOMIC');
 					if (JError::isError(JError::getError()))
 					{
-						$error = JError::getError();
+						$error  = JError::getError();
 						$errmsg = $error->message;
 					}
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";

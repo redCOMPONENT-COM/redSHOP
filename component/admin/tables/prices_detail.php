@@ -35,6 +35,7 @@ class Tableprices_detail extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -52,8 +53,10 @@ class Tableprices_detail extends JTable
 		if (($xid || $xid_end) && ($xid != intval($this->price_id) || $xid_end != intval($this->price_id)))
 		{
 			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
+
 			return false;
 		}
+
 		return true;
 	}
 }

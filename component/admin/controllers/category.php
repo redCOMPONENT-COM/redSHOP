@@ -56,7 +56,7 @@ class categoryController extends JController
 	{
 		$option = JRequest::getVar('option');
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid   = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

@@ -32,6 +32,7 @@ class Tableproduct_discount_calc_extra extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 }

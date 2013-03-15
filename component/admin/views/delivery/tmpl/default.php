@@ -78,7 +78,7 @@ $option = JRequest::getVar('option');
 			$k = 0;
 			for ($i = 0, $n = count($orders); $i < $n; $i++)
 			{
-				$row = & $orders[$i];
+				$row     = & $orders[$i];
 				$row->id = $row->order_id;
 
 				$query = "SELECT oi.*,p.product_volume FROM #__" . TABLE_PREFIX . "_order_item oi "
@@ -86,11 +86,11 @@ $option = JRequest::getVar('option');
 					. "WHERE order_id = '" . $row->order_id . "' ORDER BY delivery_time";
 				$db->setQuery($query);
 				$products = $db->loadObjectList();
-				$total = count($products);
+				$total    = count($products);
 				for ($j = 0; $j < count($products); $j++)
 				{
 					$product = $products[$j];
-					$query = "SELECT * FROM #__" . TABLE_PREFIX . "_container WHERE container_id = '" . $product->container_id . "'";
+					$query   = "SELECT * FROM #__" . TABLE_PREFIX . "_container WHERE container_id = '" . $product->container_id . "'";
 					$db->setQuery($query);
 					if (!$container = $db->loadObject())
 					{
@@ -111,9 +111,11 @@ $option = JRequest::getVar('option');
 							<td><?php echo $container->container_name;?></td>
 							<td rowspan="<?php echo $total; ?>"><?php echo $row->order_status_name;?></td>
 						</tr>
-					<?php }
+					<?php
+					}
 					else
-					{ ?>
+					{
+						?>
 						<tr>
 							<td align="center"><?php echo $product->product_quantity;?></td>
 							<td align="center"><?php echo $product->order_item_sku;?></td>

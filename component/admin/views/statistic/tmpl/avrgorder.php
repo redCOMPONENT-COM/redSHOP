@@ -32,7 +32,8 @@ $end = $this->pagination->limit;
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
 				<?php if ($this->filteroption)
-				{ ?>
+				{
+					?>
 					<th width="60%" align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
 				<?php }    ?>
 				<th width="40%" align="center"><?php echo JText::_('COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER'); ?></th>
@@ -48,7 +49,8 @@ $end = $this->pagination->limit;
 				<tr>
 					<td align="center"><?php echo $i + 1;?></td>
 					<?php if ($this->filteroption)
-					{ ?>
+					{
+						?>
 						<td align="center"><?php echo $row->viewdate;?></td>
 					<?php }        ?>
 					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->avg_order);//CURRENCY_SYMBOL.number_format($row->avg_order,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);?></td>

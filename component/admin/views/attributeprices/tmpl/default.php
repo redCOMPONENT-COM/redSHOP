@@ -66,9 +66,9 @@ $producthelper = new producthelper();
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->data); $i++)
 			{
-				$row = & $this->data[$i];
+				$row     = & $this->data[$i];
 				$row->id = $row->price_id;
-				$link = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id);?>
+				$link    = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>

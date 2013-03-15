@@ -20,9 +20,9 @@ class product_priceViewproduct_price extends JView
 	{
 		global $mainframe, $context;
 
-		$db = JFactory::getDBO();
+		$db         = JFactory::getDBO();
 		$product_id = JRequest::getVar('pid');
-		$document = & JFactory::getDocument();
+		$document   = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
 		jimport('joomla.html.pagination');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
@@ -34,7 +34,7 @@ class product_priceViewproduct_price extends JView
 		$sql = "SELECT g.*,p.product_price,p.price_id,p.price_quantity_end,p.price_quantity_start FROM #__redshop_shopper_group g LEFT JOIN #__redshop_product_price p ON g.shopper_group_id = p.shopper_group_id   AND product_id = '$product_id'";
 		$db->setQuery($sql);
 		$prices = $db->loadObjectList();
-		$uri =& JFactory::getURI();
+		$uri    =& JFactory::getURI();
 
 		$this->assignRef('product', $product);
 

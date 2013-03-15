@@ -14,9 +14,9 @@ class shoppergroup
 	function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array())
 	{
 
-		$db = jFactory::getDBO();
+		$db   = jFactory::getDBO();
 		$html = '';
-		$q = "SELECT parent_id,shopper_group_id FROM #__" . TABLE_PREFIX . "_shopper_group ";
+		$q    = "SELECT parent_id,shopper_group_id FROM #__" . TABLE_PREFIX . "_shopper_group ";
 		if ($shopper_group_id)
 		{
 			$q .= "WHERE shopper_group_id='$shopper_group_id'";
@@ -28,7 +28,7 @@ class shoppergroup
 			$selected_groups[] = $groups[0]->parent_id;
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
-		$id = str_replace('[]', '', $name);
+		$id       = str_replace('[]', '', $name);
 		$html .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 		if ($toplevel)
 		{
@@ -57,7 +57,7 @@ class shoppergroup
 
 		for ($x = 0; $x < count($groups); $x++)
 		{
-			$group = $groups[$x];
+			$group    = $groups[$x];
 			$child_id = $group->shopper_group_id;
 
 
@@ -92,6 +92,7 @@ class shoppergroup
 			}
 			$html .= $this->list_tree($shopper_group_id, $child_id, $level, $selected_groups, $disabledFields);
 		}
+
 		return $html;
 	}
 
@@ -99,7 +100,7 @@ class shoppergroup
 	{
 
 
-		$db = jFactory::getDBO();
+		$db   = jFactory::getDBO();
 		$html = '';
 		$level++;
 
@@ -113,8 +114,8 @@ class shoppergroup
 
 		for ($x = 0; $x < count($groups); $x++)
 		{
-			$html = '';
-			$group = $groups[$x];
+			$html     = '';
+			$group    = $groups[$x];
 			$child_id = $group->shopper_group_id;
 			if ($child_id != $cid)
 			{
@@ -126,7 +127,7 @@ class shoppergroup
 				$html .= "&nbsp;" . $group->shopper_group_name;
 			}
 			$group->shopper_group_name = $html;
-			$GLOBALS['grouplist'][] = $group;
+			$GLOBALS['grouplist'][]    = $group;
 			$this->getshopperGroupListArray($shopper_group_id, $child_id, $level);
 		}
 
@@ -147,11 +148,12 @@ class shoppergroup
 
 		for ($x = 0; $x < count($groups); $x++)
 		{
-			$group = $groups[$x];
-			$parent_id = $group->parent_id;
+			$group                        = $groups[$x];
+			$parent_id                    = $group->parent_id;
 			$GLOBALS['catlist_reverse'][] = $group;
 			$this->getCategoryListReverceArray($parent_id);
 		}
+
 		return $GLOBALS['catlist_reverse'];
 	}
 }

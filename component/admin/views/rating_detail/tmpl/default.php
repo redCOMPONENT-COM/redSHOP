@@ -150,7 +150,8 @@ $model = $this->getModel('rating_detail');
 							if ($this->detail->product_id) echo $this->detail->product_name;
 						} ?>"
 							<?php if ($product_data)
-						{ ?>
+						{
+							?>
 							disabled="disabled"
 						<?php }?>
 							/><input type="hidden" name="product_id" id="product_id" value="<?php if ($product_data)

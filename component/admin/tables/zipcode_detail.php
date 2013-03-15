@@ -35,6 +35,7 @@ class Tablezipcode_detail extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -53,8 +54,10 @@ class Tablezipcode_detail extends JTable
 
 			$this->_error = JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $this->zipcode;
 			JError::raiseWarning('', $this->_error);
+
 			return false;
 		}
+
 		return true;
 
 	}
