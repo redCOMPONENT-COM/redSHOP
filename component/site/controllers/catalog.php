@@ -19,10 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class catalogController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/*
 	 * Method to send catalog

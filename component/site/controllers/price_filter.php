@@ -19,10 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class price_filterController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/**
 	 * logic for display

@@ -19,10 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class wishlistController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/**
 	 * createsave wishlist function
