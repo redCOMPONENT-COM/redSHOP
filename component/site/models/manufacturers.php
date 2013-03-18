@@ -66,7 +66,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->_productlimit;
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$and     = "";
@@ -122,7 +122,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->_data;
 	}
 
-	private function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe, $context;
 		$layout  = JRequest::getVar('layout');
@@ -177,7 +177,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->products;
 	}
 
-	private function _buildProductQuery($template_data = '')
+	public function _buildProductQuery($template_data = '')
 	{
 		$filter_by = JRequest::getVar('filter_by', 0);
 		$and       = '';
@@ -255,7 +255,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $productpagination;
 	}
 
-	private function _buildProductOrderBy($template_data = '')
+	public function _buildProductOrderBy($template_data = '')
 	{
 		$layout  = JRequest::getVar('layout');
 		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);

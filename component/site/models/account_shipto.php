@@ -44,7 +44,7 @@ class account_shiptoModelaccount_shipto extends JModel
 		return $this->_data;
 	}
 
-	private function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
@@ -68,7 +68,7 @@ class account_shiptoModelaccount_shipto extends JModel
 		return true;
 	}
 
-	private function _loadData($users_info_id = 0)
+	public function _loadData($users_info_id = 0)
 	{
 
 		if ($users_info_id)

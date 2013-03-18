@@ -37,7 +37,7 @@ class giftcardModelgiftcard extends JModel
 		$this->_data = null;
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		global $mainframe;
 

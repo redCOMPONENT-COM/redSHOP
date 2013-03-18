@@ -41,7 +41,7 @@ class quotationModelquotation extends JModel
 		return $this->_data;
 	}
 
-	private function _loadData()
+	public function _loadData()
 	{
 		$order_functions = new order_functions();
 		$user            = JFactory::getUser();
@@ -57,7 +57,7 @@ class quotationModelquotation extends JModel
 //		return (boolean) $this->_data;
 	}
 
-	private function _initData()
+	public function _initData()
 	{
 		$detail                        = new stdClass();
 		$detail->user_info_id          = 0;

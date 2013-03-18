@@ -195,7 +195,7 @@ class searchModelsearch extends JModel
 		return $this->_pagination;
 	}
 
-	private function _buildQuery($manudata = 0)
+	public function _buildQuery($manudata = 0)
 	{
 
 		global $mainframe;

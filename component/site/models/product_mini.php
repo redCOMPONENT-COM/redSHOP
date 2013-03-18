@@ -96,7 +96,7 @@ class product_miniModelproduct_mini extends JModel
 		return $this->_pagination;
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		global $mainframe, $context;
 
@@ -139,7 +139,7 @@ class product_miniModelproduct_mini extends JModel
 		return $query;
 	}
 
-	private function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe, $context;
 

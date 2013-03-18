@@ -45,7 +45,7 @@ class productModelproduct extends JModel
 		$this->_data = null;
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		$and = "";
 
