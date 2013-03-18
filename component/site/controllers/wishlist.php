@@ -109,10 +109,10 @@ function savewishlist()
 				$msg = JText::_('COM_REDSHOP_ERROR_IN_DELETING_WISHLIST');
 		}
 		else
+		{
 			$msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
-
-		$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
-		;
+			$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+		}
 
 		$mainframe->redirect($link, $msg);
 	}
