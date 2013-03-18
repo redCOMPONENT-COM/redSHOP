@@ -50,12 +50,12 @@ class checkoutModelcheckout extends JModel
 		$this->_table_prefix = '#__redshop_';
 		$session             = JFactory::getSession();
 
-		$this->_carthelper      = new rsCarthelper();
-		$this->_userhelper      = new rsUserhelper();
-		$this->_shippinghelper  = new shipping();
-		$this->_producthelper   = new producthelper();
+		$this->_carthelper      = new rsCarthelper;
+		$this->_userhelper      = new rsUserhelper;
+		$this->_shippinghelper  = new shipping;
+		$this->_producthelper   = new producthelper;
 		$this->_order_functions = new order_functions();
-		$this->_redshopMail     = new redshopMail();
+		$this->_redshopMail     = new redshopMail;
 
 		$user = & JFactory::getUser();
 		$cart = $session->get('cart');
@@ -124,11 +124,11 @@ class checkoutModelcheckout extends JModel
 		global $mainframe;
 
 
-		$redconfig       = new Redconfiguration();
-		$quotationHelper = new quotationHelper();
-		$stockroomhelper = new rsstockroomhelper();
-		$helper          = new redhelper();
-		$shippinghelper  = new shipping();
+		$redconfig       = new Redconfiguration;
+		$quotationHelper = new quotationHelper;
+		$stockroomhelper = new rsstockroomhelper;
+		$helper          = new redhelper;
+		$shippinghelper  = new shipping;
 		$order_functions = new order_functions();
 
 		$post = JRequest::get('post');
@@ -621,14 +621,14 @@ class checkoutModelcheckout extends JModel
 			# redCRM product purchase price
 			if ($helper->isredCRM())
 			{
-				$crmProductHelper = new crmProductHelper();
+				$crmProductHelper = new crmProductHelper;
 				$crmproduct       = $crmProductHelper->getProductById($product_id);
 
 				$rowitem->product_purchase_price = $crmproduct->product_purchase_price > 0 ? $crmproduct->product_purchase_price : $crmproduct->product_price;
 
 				$crmdata = array();
 
-				$crmDebitorHelper        = new crmDebitorHelper();
+				$crmDebitorHelper        = new crmDebitorHelper;
 				$crmDebitorHelper_values = $crmDebitorHelper->getShippingDestination(0, 0, $shippingaddresses->users_info_id);
 
 				if ($session->get('isredcrmuser'))
@@ -663,7 +663,7 @@ class checkoutModelcheckout extends JModel
 				}
 
 
-				$crmOrderHelper = new crmOrderHelper();
+				$crmOrderHelper = new crmOrderHelper;
 				$crmOrderHelper->storeCRMOrder($crmdata);
 
 			}
@@ -1268,7 +1268,7 @@ class checkoutModelcheckout extends JModel
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
-			$economic = new economic();
+			$economic = new economic;
 
 			$economicdata['split_payment']             = $issplit;
 			$economicdata['economic_payment_terms_id'] = $economic_payment_terms_id;
@@ -1320,7 +1320,7 @@ class checkoutModelcheckout extends JModel
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
 				# Supplier order helper object
-				$crmSupplierOrderHelper = new crmSupplierOrderHelper();
+				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 				$getStatus                  = array();
 				$getStatus['orderstatus']   = $row->order_status;

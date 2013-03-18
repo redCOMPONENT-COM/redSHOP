@@ -48,7 +48,7 @@ class account_shiptoModelaccount_shipto extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail                = new stdClass();
+			$detail                = new stdClass;
 			$detail->users_info_id = 0;
 			$detail->user_id       = 0;
 			$detail->firstname     = null;
@@ -111,7 +111,7 @@ class account_shiptoModelaccount_shipto extends JModel
 
 	public function store($post)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 
 		$post['user_email'] = $post['email1'] = $post['email'];
 		$reduser            = $userhelper->storeRedshopUserShipping($post);

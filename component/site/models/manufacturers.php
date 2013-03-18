@@ -73,7 +73,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -185,7 +185,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")

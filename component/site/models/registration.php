@@ -28,7 +28,7 @@ class registrationModelregistration extends JModel
 
 	public function store(&$data)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 		$captcha    = $userhelper->checkCaptcha($data);
 
 		if (!$captcha)

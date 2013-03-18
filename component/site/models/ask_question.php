@@ -84,8 +84,8 @@ class ask_questionModelask_question extends JModel
 	public function sendMailForAskQuestion($data)
 	{
 		$this->store($data);
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 
 		$url        = JURI::base();
 		$option     = JRequest::getVar('option');

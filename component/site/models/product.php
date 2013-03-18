@@ -51,7 +51,7 @@ class productModelproduct extends JModel
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -194,8 +194,8 @@ class productModelproduct extends JModel
 			return false;
 		}
 
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -324,7 +324,7 @@ class productModelproduct extends JModel
 		$_SESSION [$no_prod_i]->comment = isset ( $data ['comment'] ) ? $data ['comment'] : "";
 		$_SESSION [$no_prod_i]->cdate = $data ['cdate'];*/
 		ob_clean();
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
 

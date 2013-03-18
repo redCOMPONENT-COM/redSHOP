@@ -31,7 +31,7 @@ class categoryModelcategory extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->producthelper = new producthelper();
+		$this->producthelper = new producthelper;
 
 		$params = & $mainframe->getParams('com_redshop');
 		$layout = JRequest::getVar('layout');
@@ -191,7 +191,7 @@ class categoryModelcategory extends JModel
 		$item            =& $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 
-		$setproductfinderobj = new redhelper();
+		$setproductfinderobj = new redhelper;
 		$order_by            = $this->_buildProductOrderBy();
 		$manufacturer_id     = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
 
@@ -202,7 +202,7 @@ class categoryModelcategory extends JModel
 		// Shopper group - choose from manufactures Start
 
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -452,7 +452,7 @@ class categoryModelcategory extends JModel
 		$params            = & $mainframe->getParams('com_redshop');
 		$category_template = $this->getState('category_template');
 
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
 		if ($this->_id)
 		{
@@ -486,7 +486,7 @@ class categoryModelcategory extends JModel
 
 		$params            = & $mainframe->getParams('com_redshop');
 		$category_template = ( int ) $this->getState('category_template');
-		$redTemplate       = new Redtemplate();
+		$redTemplate       = new Redtemplate;
 
 		$selected_template = 0;
 		$template_section  = "frontpage_category";
@@ -607,7 +607,7 @@ class categoryModelcategory extends JModel
 	{
 		global $mainframe, $context;
 
-		$setproductfinderobj = new redhelper();
+		$setproductfinderobj = new redhelper;
 		$setproductfinder    = $setproductfinderobj->isredProductfinder();
 		$finder_condition    = "";
 
