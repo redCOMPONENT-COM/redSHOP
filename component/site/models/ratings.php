@@ -30,7 +30,7 @@ class ratingsModelratings extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		$query = "SELECT distinct(p.product_id),p.product_name FROM  " . $this->_table_prefix . "product p"
 			. ", " . $this->_table_prefix . "product_rating AS r "

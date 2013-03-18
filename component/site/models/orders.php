@@ -30,7 +30,7 @@ class ordersModelorders extends JModel
 		$this->_limit        = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		$user  =& JFactory::getUser();
 		$query = "SELECT * FROM  " . $this->_table_prefix . "orders "

@@ -82,7 +82,7 @@ class accountModelaccount extends JModel
 		return $this->_data;
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		global $mainframe;
 

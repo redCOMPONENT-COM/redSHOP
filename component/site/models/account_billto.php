@@ -24,7 +24,7 @@ class account_billtoModelaccount_billto extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	private function _initData()
+	public function _initData()
 	{
 		if (empty($GLOBALS['billingaddresses']))
 		{

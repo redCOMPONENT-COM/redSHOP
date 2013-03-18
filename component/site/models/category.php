@@ -58,7 +58,7 @@ class categoryModelcategory extends JModel
 		$this->_data = null;
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		global $mainframe;
 		$menu            =& $mainframe->getMenu();
@@ -90,7 +90,7 @@ class categoryModelcategory extends JModel
 	}
 
 
-	private function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 		$menu =& $mainframe->getMenu();
@@ -107,7 +107,7 @@ class categoryModelcategory extends JModel
 		return $orderby;
 	}
 
-	private function _loadCategory()
+	public function _loadCategory()
 	{
 		$this->_maincat = array();
 		if ($this->_id)
@@ -341,7 +341,7 @@ class categoryModelcategory extends JModel
 		return $sorted;
 	}
 
-	private function _buildProductOrderBy()
+	public function _buildProductOrderBy()
 	{
 		global $mainframe, $context;
 		$params   = & $mainframe->getParams("com_redshop");
@@ -560,7 +560,7 @@ class categoryModelcategory extends JModel
 		return $product_lists;
 	}
 
-	private function _buildfletterQuery($letter, $fieldid)
+	public function _buildfletterQuery($letter, $fieldid)
 	{
 		$query = "SELECT p.*, fd.* FROM " . $this->_table_prefix . "product AS p ";
 		$query .= " LEFT JOIN #__redshop_fields_data AS fd ON fd.itemid = p.product_id";

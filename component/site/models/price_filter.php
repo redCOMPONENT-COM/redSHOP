@@ -23,7 +23,7 @@ class price_filterModelprice_filter extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	private function _buildQuery()
+	public function _buildQuery()
 	{
 		$category = JRequest::getVar('category');
 		$catfld   = '';
