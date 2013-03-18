@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 class shipping_detailViewshipping_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$uri =& JFactory::getURI();
 		$this->setLayout('default');
@@ -28,6 +28,7 @@ class shipping_detailViewshipping_detail extends JView
 		$adminpath = JPATH_ROOT . DS . 'plugins';
 		$shippingpath = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.xml';
 		$shippingcfg = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.cfg.php';
+
 		if (file_exists($shippingcfg))
 		{
 			include_once ($shippingcfg);
@@ -36,14 +37,20 @@ class shipping_detailViewshipping_detail extends JView
 		$myparams = new JRegistry($detail->params, $shippingpath);
 		$is_shipper = $myparams->get('is_shipper');
 		$shipper_location = $myparams->get('shipper_location');
+
 		if ($is_shipper)
 		{
-			JToolBarHelper :: custom('shipping_rate', 'redshop_shipping_rates32', JText::_('COM_REDSHOP_SHIPPING_RATE_LBL'), JText::_('COM_REDSHOP_SHIPPING_RATE_LBL'), false, false);
+			JToolBarHelper::custom('shipping_rate', 'redshop_shipping_rates32',
+				JText::_('COM_REDSHOP_SHIPPING_RATE_LBL'), JText::_('COM_REDSHOP_SHIPPING_RATE_LBL'), false, false
+			);
 		}
 		elseif ($shipper_location)
 		{
-			JToolBarHelper :: custom('shipping_rate', 'redshop_shipping_rates32', JText::_('COM_REDSHOP_SHIPPING_LOCATION'), JText::_('COM_REDSHOP_SHIPPING_LOCATION'), false, false);
+			JToolBarHelper::custom('shipping_rate', 'redshop_shipping_rates32',
+				JText::_('COM_REDSHOP_SHIPPING_LOCATION'), JText::_('COM_REDSHOP_SHIPPING_LOCATION'), false, false
+			);
 		}
+
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 		JToolBarHelper::cancel();
@@ -53,6 +60,7 @@ class shipping_detailViewshipping_detail extends JView
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

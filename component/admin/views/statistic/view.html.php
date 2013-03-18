@@ -6,15 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
 class statisticViewstatistic extends JView
 {
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -33,7 +33,9 @@ class statisticViewstatistic extends JView
 		$option[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
 		$option[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
 
-		$lists['filteroption'] = JHTML::_('select.genericlist', $option, 'filteroption', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $filteroption);
+		$lists['filteroption'] = JHTML::_('select.genericlist', $option, 'filteroption',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $filteroption
+		);
 
 		$redshopviewer = array();
 		$pageviewer = array();
@@ -130,7 +132,6 @@ class statisticViewstatistic extends JView
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
-//		$document->addScript('http://www.google.com/jsapi');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'redshop_statistic48');
 

@@ -13,17 +13,12 @@ jimport('joomla.application.component.view');
 
 class shipping_rateViewshipping_rate extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'shipping_rate';
 		$uri =& JFactory::getURI();
-		$shippinghelper = new shipping();
+		$shippinghelper = new shipping;
 
 		$lists['order'] = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
 		$lists['order_Dir'] = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -44,10 +39,12 @@ class shipping_rateViewshipping_rate extends JView
 		JToolBarHelper::title($jtitle . ' <small><small>[ ' . $shipping->name . ' ]</small></small>', 'redshop_shipping_rates48');
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
+
 		if ($is_shipper)
 		{
 			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		}
+
 		JToolBarHelper::deleteList();
 		JToolBarHelper::cancel('cancel', 'Close');
 
@@ -58,6 +55,7 @@ class shipping_rateViewshipping_rate extends JView
 		$this->assignRef('is_shipper', $is_shipper);
 		$this->assignRef('shipper_location', $shipper_location);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

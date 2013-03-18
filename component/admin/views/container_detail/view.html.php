@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class container_detailVIEWcontainer_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-
 		$option = JRequest::getVar('option');
 		$conid = JRequest::getVar('conid');
 
@@ -27,15 +25,10 @@ class container_detailVIEWcontainer_detail extends JView
 		$document = & JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-
 		$document->addScript('components/com_redshop/assets/js/search.js');
-
 		$document->addScript('components/' . $option . '/assets/js/fields.js');
-
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
-
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 
 		$uri =& JFactory::getURI();
@@ -46,9 +39,9 @@ class container_detailVIEWcontainer_detail extends JView
 		{
 			$this->setLayout('products');
 		}
+
 		else
 		{
-
 			$this->setLayout('default');
 		}
 
@@ -70,18 +63,20 @@ class container_detailVIEWcontainer_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
-
 		$model = $this->getModel('container_detail');
+
 		if (count($conid) > 0)
 		{
 			$chk_new = 1;
 			$container_product_data = $model->Container_newProduct($conid);
+
 			if (count($container_product_data) > 0)
+			{
 				$detail->supplier_id = $container_product_data[0]->supplier_id;
+			}
 		}
 		else
 		{
@@ -89,33 +84,33 @@ class container_detailVIEWcontainer_detail extends JView
 			$chk_new = 0;
 		}
 
-
 		if (count($container_product_data) > 0)
+		{
 			$result_container = $container_product_data;
-		else
-			$result_container = array();
+		}
 
+		else
+		{
+			$result_container = array();
+		}
 
 		$lists['container_product'] = $result_container;
 		$manufacturers = $model->getmanufacturers();
 		$supplier = $model->getsupplier();
 		$result = array();
 
-		//	$lists['product_all'] 	= JHTML::_('select.genericlist',$result,  'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0 );
-
 		$manufac = array();
 		$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$manufacturers = @array_merge($manufac, $manufacturers);
-
-
-		//	$lists['manufacturers'] = JHTML::_('select.genericlist',$manufacturers,'manufacture_id','class="inputbox"  size="1" ','value','text',$detail->manufacture_id);
 
 		$manufac = array();
 		$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$supplier = @array_merge($manufac, $supplier);
 
-		$lists['supplier'] = JHTML::_('select.genericlist', $supplier, 'supplier_id', 'class="inputbox" onchange="chk_manufacturer();"  size="1" ', 'value', 'text', $detail->supplier_id);
-
+		$lists['supplier'] = JHTML::_('select.genericlist', $supplier, 'supplier_id',
+			'class="inputbox" onchange="chk_manufacturer();"  size="1" ',
+			'value', 'text', $detail->supplier_id
+		);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
@@ -123,7 +118,9 @@ class container_detailVIEWcontainer_detail extends JView
 		$stock[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$stokroom = @array_merge($stock, $stock_data);
 
-		$lists['stock'] = JHTML::_('select.genericlist', $stokroom, 'stockroom_id', 'class="inputbox" size="1"', 'value', 'text', $detail->stockroom_id);
+		$lists['stock'] = JHTML::_('select.genericlist', $stokroom, 'stockroom_id',
+			'class="inputbox" size="1"', 'value', 'text', $detail->stockroom_id
+		);
 
 		$this->assignRef('conid', $conid);
 		$this->assignRef('chk_new', $chk_new);
@@ -133,7 +130,4 @@ class container_detailVIEWcontainer_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }
-
-?>

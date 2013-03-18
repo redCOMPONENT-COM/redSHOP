@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -14,9 +15,9 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class accessmanager_detailVIEWaccessmanager_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$option = JRequest::getVar('option');
 
 		$section = JRequest::getVar('section');
@@ -32,9 +33,11 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 		 * format groups
 		 */
 		$groups = $this->formatGroup($groups);
-		//$groups = $acl->format_groups( array(8),'html',28 );
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER') . ': <small><small>[ ' . $section . ' ]</small></small>', 'redshop_catalogmanagement48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER') . ': <small><small>[ ' . $section . ' ]</small></small>',
+			'redshop_catalogmanagement48'
+		);
+
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		JToolBarHelper::cancel();
@@ -46,40 +49,39 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 		parent::display($tpl);
 	}
 
-	function getGroup()
+	public function getGroup()
 	{
 
 		// Compute usergroups
 		$db = JFactory::getDbo();
 		$query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
-  FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
+FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
   ORDER BY a.lft asc";
 
 		$db->setQuery($query);
-		// echo $db->getQuery();
+
 		$groups = $db->loadObjectList();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
 			JError::raiseNotice(500, $db->getErrorMsg());
+
 			return null;
 		}
 
-
 		return ($groups);
-
 	}
 
-	function formatGroup($groups)
+	public function formatGroup($groups)
 	{
 		$returnable = array();
+
 		foreach ($groups as $key => $val)
 		{
 			$returnable[$val->id] = str_repeat('<span class="gi">|&mdash;</span>', $val->level) . $val->title;
 		}
+
 		return $returnable;
 	}
 }
-
-?>

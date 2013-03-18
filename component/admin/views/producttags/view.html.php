@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class producttagsViewproducttags extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 't.tags_id';
@@ -25,9 +21,6 @@ class producttagsViewproducttags extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_TAGS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT'), 'redshop_textlibrary48');
-
-
-		//JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
@@ -49,8 +42,7 @@ class producttagsViewproducttags extends JView
 		$this->assignRef('tags', $tags);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>

@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class catalog_detailVIEWcatalog_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 
@@ -31,7 +32,6 @@ class catalog_detailVIEWcatalog_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/utils.js');
 		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
 
-
 		$uri =& JFactory::getURI();
 
 		$this->setLayout('default');
@@ -46,9 +46,7 @@ class catalog_detailVIEWcatalog_detail extends JView
 
 		$model = $this->getModel('catalog_detail');
 
-
 		$isNew = ($detail->catalog_id < 1);
-
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -66,7 +64,6 @@ class catalog_detailVIEWcatalog_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
-
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
 		$this->assignRef('lists', $lists);
@@ -75,5 +72,4 @@ class catalog_detailVIEWcatalog_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }

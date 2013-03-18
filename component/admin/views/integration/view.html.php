@@ -10,20 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
+
 class integrationViewintegration extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_INTEGRATION'), 'redshop_products48');
 
-		$task = JRequest :: getVar('task');
+		$task = JRequest::getVar('task');
 
 		switch ($task)
 		{
@@ -31,6 +27,7 @@ class integrationViewintegration extends JView
 				$tpl = 'gbase';
 				break;
 		}
+
 		parent::display($tpl);
 	}
 }

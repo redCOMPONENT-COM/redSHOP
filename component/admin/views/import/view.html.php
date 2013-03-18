@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class importViewimport extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
 
@@ -38,12 +34,14 @@ class importViewimport extends JView
 		}
 		else
 		{
-			$layout = JRequest::getVar('layout'); //die();
+			$layout = JRequest::getVar('layout');
+
 			if ($layout == 'importlog')
 			{
 				$this->setLayout($layout);
 			}
 			$task = JRequest::getVar('task');
+
 			if ($task == 'importfile')
 			{
 				/* Load the data to export */
@@ -53,11 +51,13 @@ class importViewimport extends JView
 			$document->setTitle(JText::_('COM_REDSHOP_IMPORT'));
 
 			JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_MANAGEMENT'), 'redshop_import48');
-			JToolBarHelper :: custom('importfile', 'redshop_import_import32.png', JText::_('COM_REDSHOP_IMPORT'), JText::_('COM_REDSHOP_IMPORT'), false, false);
-
+			JToolBarHelper::custom('importfile', 'redshop_import_import32.png',
+				JText::_('COM_REDSHOP_IMPORT'), JText::_('COM_REDSHOP_IMPORT'), false, false
+			);
 
 			$this->assignRef('result', $result);
 		}
+
 		parent::display($tpl);
 	}
 }

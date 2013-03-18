@@ -9,17 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class mailViewmail extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -45,22 +39,24 @@ class mailViewmail extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$redtemplate = new Redtemplate();
+		$redtemplate = new Redtemplate;
 		$optionsection = $redtemplate->getMailSections();
-		$lists['mailsection'] = JHTML::_('select.genericlist', $optionsection, 'filter_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_section);
-
+		$lists['mailsection'] = JHTML::_('select.genericlist', $optionsection, 'filter_section',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"',
+			'value', 'text', $filter_section
+		);
 
 		$total = & $this->get('Total');
 		$media = & $this->get('Data');
 
 		$pagination = & $this->get('Pagination');
 
-
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('media', $media);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

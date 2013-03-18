@@ -13,12 +13,7 @@ jimport('joomla.application.component.view');
 
 class attribute_setViewattribute_set extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -50,6 +45,7 @@ class attribute_setViewattribute_set extends JView
 		$this->assignRef('products', $products);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

@@ -9,27 +9,19 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class fieldsViewfields extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'field_id';
-		$redtemplate = new Redtemplate();
+		$redtemplate = new Redtemplate;
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT'), 'redshop_fields48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
@@ -51,14 +43,21 @@ class fieldsViewfields extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'filtertypes', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $filtertypes);
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'filtersection', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filtersection);
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'filtertypes',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ',
+			'value', 'text', $filtertypes
+		);
+		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'filtersection',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"',
+			'value', 'text', $filtersection
+		);
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('fields', $fields);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

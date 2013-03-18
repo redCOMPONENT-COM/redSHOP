@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-s
+
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
@@ -14,12 +14,7 @@ jimport('joomla.application.component.view');
 
 class accountgroupViewaccountgroup extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -47,8 +42,7 @@ class accountgroupViewaccountgroup extends JView
 		$this->assignRef('detail', $detail);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
-
 	}
-
 }
