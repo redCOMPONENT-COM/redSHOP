@@ -36,9 +36,9 @@ class cartModelcart extends JModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_producthelper = new producthelper();
-		$this->_carthelper    = new rsCarthelper();
-		$this->_userhelper    = new rsUserhelper();
+		$this->_producthelper = new producthelper;
+		$this->_carthelper    = new rsCarthelper;
+		$this->_userhelper    = new rsUserhelper;
 		$this->_objshipping   = new shipping ();
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
@@ -94,7 +94,7 @@ class cartModelcart extends JModel
 	{
 		if (IS_PRODUCT_RESERVE)
 		{
-			$stockroomhelper = new rsstockroomhelper();
+			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
 			$db              = JFactory::getDbo();
 			$cart            = $session->get('cart');
@@ -142,7 +142,7 @@ class cartModelcart extends JModel
 	public function empty_cart()
 	{
 		$session         = JFactory::getSession();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 
 		$cart = $session->get('cart');
 		unset($cart);
@@ -156,7 +156,7 @@ class cartModelcart extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$redTemplate = new Redtemplate();
+			$redTemplate = new Redtemplate;
 
 			if (DEFAULT_QUOTATION_MODE)
 			{
@@ -363,7 +363,7 @@ class cartModelcart extends JModel
 
 	public function delete($cartElement)
 	{
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$session         = JFactory::getSession();
 
 		$cart = $session->get('cart');
@@ -459,7 +459,7 @@ class cartModelcart extends JModel
 	public function checkifTagAvailable($product_id)
 	{
 		$db          = & JFactory :: getDBO();
-		$redTemplate = new redTemplate();
+		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
 			. "WHERE product_id='" . $product_id;
 
@@ -483,7 +483,7 @@ class cartModelcart extends JModel
 	{
 		$document = & JFactory :: getDocument();
 		JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
-		$redConfig = new Redconfiguration();
+		$redConfig = new Redconfiguration;
 
 		$countryarray         = $redConfig->getCountryList();
 		$post['country_code'] = $countryarray['country_code'];

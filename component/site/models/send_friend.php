@@ -39,8 +39,8 @@ class send_friendModelsend_friend extends JModel
 
 	public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
 	{
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 		$url           = JURI::base();
 		$option        = JRequest::getVar('option');
 

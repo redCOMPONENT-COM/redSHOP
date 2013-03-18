@@ -362,7 +362,7 @@ class accountModelaccount extends JModel
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
-		$redshopMail = new redshopMail();
+		$redshopMail = new redshopMail;
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$emailto     = $post['emailto'];
@@ -371,7 +371,7 @@ class accountModelaccount extends JModel
 		$subject     = $post['subject'];
 		$Itemid      = $post['Itemid'];
 
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 
 		// Get data from database if not than fetch from session
 		if ($user->id && $wishlist_id)

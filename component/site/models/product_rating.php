@@ -63,8 +63,8 @@ class product_ratingModelproduct_rating extends JModel
 	public function sendMailForReview($data)
 	{
 		$this->store($data);
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();

@@ -61,7 +61,7 @@ class searchModelsearch extends JModel
 	{
 		$post = JRequest::get('POST');
 
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
 		if (empty($this->_data))
 		{
@@ -119,7 +119,7 @@ class searchModelsearch extends JModel
 	{
 		global $mainframe;
 		$redconfig   = & $mainframe->getParams();
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 		$template    = $this->getCategoryTemplet();
 		for ($i = 0; $i < count($template); $i++)
 		{
@@ -306,7 +306,7 @@ class searchModelsearch extends JModel
 		$layout = JRequest::getVar('layout', 'default');
 
 		$category_helper = new product_category ();
-		$producthelper   = new producthelper();
+		$producthelper   = new producthelper;
 
 		$manufacture_id = JRequest::getInt('manufacture_id', 0);
 		$category_id    = JRequest::getInt('category_id', 0);
@@ -344,7 +344,7 @@ class searchModelsearch extends JModel
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")

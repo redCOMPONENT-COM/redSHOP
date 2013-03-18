@@ -47,9 +47,9 @@ class quotation_detailModelquotation_detail extends JModel
 		$db      = JFactory::getDbo();
 //		$user = &JFactory::getUser();
 
-		$carthelper      = new rsCarthelper();
-		$producthelper   = new producthelper();
-		$quotationHelper = new quotationHelper();
+		$carthelper      = new rsCarthelper;
+		$producthelper   = new producthelper;
+		$quotationHelper = new quotationHelper;
 
 		$cart = $session->get('cart');
 
@@ -201,7 +201,7 @@ class quotation_detailModelquotation_detail extends JModel
 	public function modifyQuotation($user_id = 0)
 	{
 		$session    = JFactory::getSession();
-		$carthelper = new rsCarthelper();
+		$carthelper = new rsCarthelper;
 		$cart       = $session->get('cart');
 
 		$cart = $carthelper->modifyCart($cart, $user_id);

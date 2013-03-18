@@ -153,7 +153,7 @@ class wishlistModelwishlist extends JModel
 			elseif (!empty($_SESSION["no_of_prod"]))
 			{
 				ob_clean();
-				$extraField = new extraField();
+				$extraField = new extraField;
 				$section    = 12;
 				$row_data   = $extraField->getSectionFieldList($section);
 				for ($si = 1; $si <= $_SESSION["no_of_prod"]; $si++)

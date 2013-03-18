@@ -59,7 +59,7 @@ class quotationModelquotation extends JModel
 
 	public function _initData()
 	{
-		$detail                        = new stdClass();
+		$detail                        = new stdClass;
 		$detail->user_info_id          = 0;
 		$detail->user_id               = 0;
 		$detail->firstname             = null;
@@ -81,8 +81,8 @@ class quotationModelquotation extends JModel
 	public function store($data, $post)
 	{
 		$this->_loadData();
-		$quotationHelper = new quotationHelper();
-		$producthelper   = new producthelper();
+		$quotationHelper = new quotationHelper;
+		$producthelper   = new producthelper;
 		$extra_field     = new extra_field();
 		$user            = JFactory::getUser();
 		$user_id         = 0;
@@ -418,7 +418,7 @@ class quotationModelquotation extends JModel
 
 	public function usercreate($data)
 	{
-		$redshopMail     = new redshopMail();
+		$redshopMail     = new redshopMail;
 		$order_functions = new order_functions();
 		$Itemid          = JRequest::getVar('Itemid');
 		global $mainframe;
@@ -588,7 +588,7 @@ class quotationModelquotation extends JModel
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 		}
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$user          = JFactory::getUser();
@@ -621,7 +621,7 @@ class quotationModelquotation extends JModel
 
 	public function sendQuotationMail($quotaion_id)
 	{
-		$redshopMail = new redshopMail();
+		$redshopMail = new redshopMail;
 		$send        = $redshopMail->sendQuotationMail($quotaion_id);
 
 		return $send;

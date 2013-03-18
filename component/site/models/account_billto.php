@@ -57,7 +57,7 @@ class account_billtoModelaccount_billto extends JModel
 				}
 
 				$user   = & JFactory::getUser();
-				$detail = new stdClass();
+				$detail = new stdClass;
 
 				$detail->users_info_id         = 0;
 				$detail->user_id               = $user->id;
@@ -93,7 +93,7 @@ class account_billtoModelaccount_billto extends JModel
 
 	public function store($post)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 
 		$post['billisship']    = 1;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;

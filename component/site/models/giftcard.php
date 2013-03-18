@@ -70,7 +70,7 @@ class giftcardModelgiftcard extends JModel
 	{
 		global $mainframe, $context;
 
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
 		if (!$this->_id)
 		{
