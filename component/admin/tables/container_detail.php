@@ -7,42 +7,48 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tablecontainer_detail extends JTable
 {
-	var $container_id = null;
-	var $container_name = null;
-	var $creation_date = null;
-	var $container_desc = null;
-	var $min_del_time = null;
-	var $max_del_time = null;
-	var $container_volume = null;
-	var $stockroom_id = null;
-	var $manufacture_id = null;
-	var $supplier_id = null;
-	var $published = null;
+	public $container_id = null;
 
-	function Tablecontainer_detail(& $db)
+	public $container_name = null;
+
+	public $creation_date = null;
+
+	public $container_desc = null;
+
+	public $min_del_time = null;
+
+	public $max_del_time = null;
+
+	public $container_volume = null;
+
+	public $stockroom_id = null;
+
+	public $manufacture_id = null;
+
+	public $supplier_id = null;
+
+	public $published = null;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'container', 'container_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
-?>

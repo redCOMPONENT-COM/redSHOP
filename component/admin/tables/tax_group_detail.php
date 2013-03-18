@@ -7,34 +7,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tabletax_group_detail extends JTable
 {
-	var $tax_group_id = null;
-	var $tax_group_name = null;
-	var $published = null;
+	public $tax_group_id = null;
 
+	public $tax_group_name = null;
 
-	function Tabletax_group_detail(& $db)
+	public $published = null;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'tax_group', 'tax_group_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }

@@ -7,35 +7,36 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableproduct_subscription extends JTable
 {
-	var $subscription_id = 0;
-	var $product_id = 0;
-	var $subscription_period = 0;
-	var $period_type = null;
-	var $subscription_price = null;
+	public $subscription_id = 0;
 
-	function Tableproduct_subscription(& $db)
+	public $product_id = 0;
+
+	public $subscription_period = 0;
+
+	public $period_type = null;
+
+	public $subscription_price = null;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'product_subscription', 'subscription_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
