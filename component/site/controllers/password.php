@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  */
 class PasswordController extends JController
 {
-	/*
+	/**
 	 *  Metod to reset Password
 	 */
 	public function reset()
@@ -29,7 +29,8 @@ class PasswordController extends JController
 		$model = & $this->getModel('password');
 		$Itemid = JRequest::getVar('Itemid');
 		$layout = "";
-		//Request a reset
+
+		// Request a reset
 		if ($model->resetpassword($post))
 		{
 			$redshopMail = new redshopMail;
@@ -48,10 +49,11 @@ class PasswordController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_NOT_SEND');
 		}
+
 		$this->setRedirect('index.php?option=com_redshop&view=password' . $layout . '&Itemid=' . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to changepassword
 	 */
 	public function changepassword()
@@ -72,7 +74,7 @@ class PasswordController extends JController
 		}
 	}
 
-	/*
+	/**
 	 *  Method to setpassword
 	 */
 	public function setpassword()

@@ -20,7 +20,6 @@ jimport('joomla.application.component.controller');
  */
 class QuotationController extends JController
 {
-
 	/**
 	 * add quotation function
 	 *

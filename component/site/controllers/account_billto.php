@@ -22,20 +22,27 @@ jimport('joomla.application.component.controller');
  */
 class Account_billtoController extends JController
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $default  config array.
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->registerTask('', 'edit');
 	}
+
 	/**
 	 * Method to edit billing Address
 	 *
+	 * @return  boolean  True if the ID is in the edit list.
 	 */
 	public function edit()
 	{
 		$user = & JFactory::getUser();
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$billingaddresses = $order_functions->getBillingAddress($user->id);
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 
@@ -45,11 +52,14 @@ class Account_billtoController extends JController
 		{
 			$this->registerTask('save', 'cancel');
 		}
+
 		parent::display();
 	}
+
 	/**
 	 * Method to save Billing Address
 	 *
+	 * @return void
 	 */
 	public function save()
 	{
@@ -82,6 +92,7 @@ class Account_billtoController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
 		}
+
 		$setexit = JRequest::getInt('setexit', 1);
 		$link = '';
 
@@ -103,40 +114,45 @@ class Account_billtoController extends JController
 		{
 			$link = JRoute::_('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid, false);
 		}
+
 		$this->setRedirect($link, $msg);
 	}
+
 	/**
 	 * Method called when user pressed cancel button
 	 *
+	 * @return void
 	 */
-function cancel()
-{
-	$option = JRequest::getVar('option');
-	$Itemid = JRequest::getVar('Itemid');
+	function cancel()
+	{
+		$option = JRequest::getVar('option');
+		$Itemid = JRequest::getVar('Itemid');
 
-	$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
+		$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
 
-	$return = JRequest::getVar('return');
-	$setexit = JRequest::getInt('setexit', 1);
-	$link = '';
-if ($return != "")
-{
-	$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
-if (!isset($setexit) || $setexit != 0)
-{
-	?>
-	<script language="javascript">
-		window.parent.location.href = "<?php echo $link ?>";
-	</script>
-	<?php
-	exit;
-}
+		$return = JRequest::getVar('return');
+		$setexit = JRequest::getInt('setexit', 1);
+		$link = '';
 
+		if ($return != "")
+		{
+			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+
+			if (!isset($setexit) || $setexit != 0)
+			{
+				?>
+				<script language="javascript">
+					window.parent.location.href = "<?php echo $link ?>";
+				</script>
+				<?php
+				exit;
+			}
+		}
+		else
+		{
+			$link = 'index.php?option=' . $option . '&view=account&Itemid=' . $Itemid;
+		}
+
+		$this->setRedirect($link, $msg);
+	}
 }
-else
-{
-	$link = 'index.php?option=' . $option . '&view=account&Itemid=' . $Itemid;
-}
-	$this->setRedirect($link, $msg);
-}
-}    ?>

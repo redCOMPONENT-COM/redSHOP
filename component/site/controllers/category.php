@@ -20,8 +20,10 @@ jimport('joomla.application.component.controller');
  */
 class CategoryController extends JController
 {
-	/*
+	/**
 	 *  Method to Export XML file
+	 *
+	 * @return void
 	 */
 	public function download()
 	{
@@ -29,19 +31,15 @@ class CategoryController extends JController
 		$filename = JRequest::getVar('file', '', 'request', 'string');
 		$db = JFactory::getDBO();
 		$this->_table_prefix = "#__redshop_";
-//		$user		= JFactory::getUser();
-//		$gid		= (int) $user->get('gid', 0);
-//		if($gid!=25)
-//		{
-//			return false;
-//		}
+
 		session_cache_limiter('public');
 
-		// to avoid an error notice of an undefined index.
+		// To avoid an error notice of an undefined index.
 		if (empty($_SERVER['HTTP_REFERER']))
 		{
 			$_SERVER['HTTP_REFERER'] = 'NoRef';
 		}
+
 		if (empty($_SERVER['REMOTE_ADDR']))
 		{
 			return false;
@@ -71,6 +69,7 @@ class CategoryController extends JController
 				if (count($data) <= 0)
 				{
 					echo $msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZED_TO_ACCESS');
+
 					return false;
 				}
 			}
@@ -78,6 +77,7 @@ class CategoryController extends JController
 		else
 		{
 			echo $msg = JText::_('COM_REDSHOP_XMLFILE_IS_UNPUBLISHED');
+
 			return false;
 		}
 
@@ -90,6 +90,7 @@ class CategoryController extends JController
 		{
 			$tempvar = 'NoRef';
 		}
+
 		define('HTTP_REF', $tempvar);
 
 		if (preg_match('/^([0-9.]{7,24})$/', stripslashes($_SERVER['REMOTE_ADDR']), $matchadd))
@@ -101,11 +102,12 @@ class CategoryController extends JController
 			$tempvar = '1.1.1.1';
 		}
 
-		// required for IE, otherwise Content-disposition is ignored
+		// Required for IE, otherwise Content-disposition is ignored
 		if (ini_get('zlib.output_compression'))
 		{
 			ini_set('zlib.output_compression', 'Off');
 		}
+
 		$filepath = '#';
 
 		if ($filename != "")
@@ -122,9 +124,10 @@ class CategoryController extends JController
 		{
 			JError::raiseError(500, "File name not specified");
 		}
+
 		session_write_close();
 
-		//IE Bug in download name workaround
+		// IE Bug in download name workaround
 		if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
 		{
 			@ini_set('zlib.output_compression', 'Off');
@@ -134,23 +137,29 @@ class CategoryController extends JController
 		{
 			JError::raiseError('', 'The file transfer failed');
 		}
+
 		die();
 	}
 
 	/**
-	 * logic for download
+	 * Logic for download
 	 *
-	 * @access public
-	 * @return void
+	 * @param   string  $fil  path
+	 * @param   null    $p    null variable not used
+	 *
+	 * @return bool
 	 */
 	public function downloadFile($fil, $p = null)
 	{
-		// only show errors and remove warnings from corrupting file
+		// Only show errors and remove warnings from corrupting file
 		error_reporting(E_ERROR);
 
 		ob_clean();
 
-		if (connection_status() != 0) return (FALSE);
+		if (connection_status() != 0)
+		{
+			return (false);
+		}
 
 		$fn = basename($fil);
 		header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -160,7 +169,7 @@ class CategoryController extends JController
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Content-Transfer-Encoding: binary");
 
-		//TODO:  Not sure of this is working
+		// TODO:  Not sure of this is working
 		if (function_exists('mime_content_type'))
 		{
 			$ctype = mime_content_type($fil);
@@ -180,8 +189,8 @@ class CategoryController extends JController
 
 		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
 		{
-			//workaround for IE filename bug with multiple periods / multiple dots in filename
-			//that adds square brackets to filename - eg. setup.abc.exe becomes setup[1].abc.exe
+			// Workaround for IE filename bug with multiple periods / multiple dots in filename
+			// that adds square brackets to filename - eg. setup.abc.exe becomes setup[1].abc.exe
 			$iefilename = preg_replace('/\./', '%2e', $fn, substr_count($fn, '.') - 1);
 			header("Content-Disposition: attachment; filename=\"$iefilename\"");
 		}
@@ -192,11 +201,13 @@ class CategoryController extends JController
 
 		header("Accept-Ranges: bytes");
 
-		$range = 0; // default to begining of file
-		//TODO make the download speed configurable
+		// Default to begining of file
+		$range = 0;
+
+		// @ToDo make the download speed configurable
 		$size = filesize($fil);
 
-		//check if http_range is set. If so, change the range of the download to complete.
+		// Check if http_range is set. If so, change the range of the download to complete.
 		if (isset($_SERVER['HTTP_RANGE']))
 		{
 			list($a, $range) = explode("=", $_SERVER['HTTP_RANGE']);
@@ -215,36 +226,49 @@ class CategoryController extends JController
 			header("Content-Length: " . $size);
 		}
 
-		//check to ensure it is not an empty file so the feof does not get stuck in an infinte loop.
+		// Check to ensure it is not an empty file so the feof does not get stuck in an infinte loop.
 		if ($size == 0)
 		{
 			JError::raiseError(500, 'ERROR.ZERO_BYE_FILE');
 			exit;
 		}
-		set_magic_quotes_runtime(0); // in case someone has magic quotes on. Which they shouldn't as good practice.
 
-		// we should check to ensure the file really exits to ensure feof does not get stuck in an infite loop, but we do so earlier on, so no need here.
+		// In case someone has magic quotes on. Which they shouldn't as good practice.
+		set_magic_quotes_runtime(0);
+
+		// We should check to ensure the file really exits to ensure feof does not get stuck in an infite loop, but we do so earlier on, so no need here.
 		$fp = fopen("$fil", "rb");
 
-		//go to the start of missing part of the file
+		// Go to the start of missing part of the file
 		fseek($fp, $range);
 
 		if (function_exists("set_time_limit"))
 			set_time_limit(0);
+
 		while (!feof($fp) && connection_status() == 0)
 		{
-			//reset time limit for big files
+			// Reset time limit for big files
 			if (function_exists("set_time_limit"))
+			{
 				set_time_limit(0);
+			}
+
 			print(fread($fp, 1024 * 8));
 			flush();
 			ob_flush();
 		}
+
 		sleep(1);
 		fclose($fp);
+
 		return ((connection_status() == 0) and !connection_aborted());
 	}
 
+	/**
+	 * Autofill city name
+	 *
+	 * @return string
+	 */
 	public function autofillcityname()
 	{
 		$db = JFactory::getDBO();
@@ -256,6 +280,11 @@ class CategoryController extends JController
 		exit;
 	}
 
+	/**
+	 * Generate XML file.
+	 *
+	 * @return void
+	 */
 	public function generateXMLExportFile()
 	{
 		global $mainframe;
@@ -264,7 +293,7 @@ class CategoryController extends JController
 
 		if ($xmlexport_id)
 		{
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php';
 
 			$xmlHelper = new xmlHelper;
 			$xmlHelper->writeXMLExportFile($xmlexport_id);

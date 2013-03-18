@@ -70,6 +70,7 @@ class NewsletterController extends JController
 				$msg = JText::_('COM_REDSHOP_NEWSLEETER_SUBSCRIBE_FAIL');
 			}
 		}
+
 		$this->setRedirect($return, $msg);
 	}
 
