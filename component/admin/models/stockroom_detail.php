@@ -13,11 +13,11 @@ jimport('joomla.application.component.model');
 
 class stockroom_detailModelstockroom_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_copydata = null;
-	var $_containerdata = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_copydata = null;
+	public $_containerdata = null;
 
 	function __construct()
 	{

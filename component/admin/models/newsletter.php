@@ -14,11 +14,11 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
 
 class newsletterModelnewsletter extends JModel
 {
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_context = null;
+	public $_data = null;
+	public $_total = null;
+	public $_pagination = null;
+	public $_table_prefix = null;
+	public $_context = null;
 
 	function __construct()
 	{

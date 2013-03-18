@@ -13,10 +13,10 @@ jimport('joomla.application.component.model');
 
 class mass_discount_detailModelmass_discount_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_shoppers = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_shoppers = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{
