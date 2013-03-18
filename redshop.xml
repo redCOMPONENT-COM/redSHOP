@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+    <name>redSHOP</name>
+    <creationDate>07th Aug 2012</creationDate>
+    <author>redWEB.dk</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <copyright>(c) Redweb.dk</copyright>
+    <license>GNU/GPL</license>
+    <version>1.1.20</version>
+    <description>redSHOP Joomla Webshop Component</description>
+    <scriptfile>install.php</scriptfile>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
+    <files folder="component/site">
+        <folder>assets</folder>
+        <folder>controllers</folder>
+        <folder>helpers</folder>
+        <folder>models</folder>
+        <folder>templates</folder>
+        <folder>views</folder>
+        <filename>index.html</filename>
+        <filename>redshop.php</filename>
+        <filename>router.php</filename>
+    </files>
+
+    <languages folder="component/site/language">
+        <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
+    </languages>
+
+    <administration>
+        <menu img="components/com_redshop/assets/images/redshopcart16.png">redSHOP</menu>
+        <files folder="component/admin">
+            <folder>assets</folder>
+            <folder>controllers</folder>
+            <folder>elements</folder>
+            <folder>extras</folder>
+            <folder>help</folder>
+            <folder>helpers</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+            <filename>config.xml</filename>
+            <filename>index.html</filename>
+            <filename>install.mysql.utf8.sql</filename>
+            <filename>redshop.php</filename>
+            <filename>uninstall.mysql.utf8.sql</filename>
+        </files>
+        <languages folder="component/admin/language">
+            <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_redshop.sys.ini</language>
+        </languages>
+    </administration>
+
+    <!-- Libraries to install with the component -->
+    <libraries>
+        <!--library name="redshop" /-->
+    </libraries>
+
+    <!-- Modules to install with the component -->
+    <modules>
+        <module name="mod_redshop_cart" client="site" />
+    </modules>
+
+    <!-- Plugins to install with the component -->
+    <plugins>
+        <plugin name="rs_payment_banktransfer" group="redshop_payment" />
+        <plugin name="rs_payment_paypal" group="redshop_payment" />
+        <plugin name="default_shipping" group="redshop_shipping" />
+    </plugins>
+</extension>

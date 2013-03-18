@@ -7,38 +7,42 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableproduct_subscribe_detail extends JTable
 {
-	var $product_subscribe_id = 0;
-	var $order_id = 0;
-	var $order_item_id = 0;
-	var $product_id = 0;
-	var $subscription_id = 0;
-	var $user_id = 0;
-	var $start_date = 0;
-	var $end_date = 0;
+	public $product_subscribe_id = 0;
 
-	function Tableproduct_subscribe_detail(& $db)
+	public $order_id = 0;
+
+	public $order_item_id = 0;
+
+	public $product_id = 0;
+
+	public $subscription_id = 0;
+
+	public $user_id = 0;
+
+	public $start_date = 0;
+
+	public $end_date = 0;
+
+	public function __construct(& $db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'product_subscribe_detail', 'product_subscribe_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
