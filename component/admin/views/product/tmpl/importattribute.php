@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getCmd('option', 'com_redshop', 'request', 'string');
 $import_start = JRequest::getInt('import_start', 0);
