@@ -117,58 +117,58 @@ class xmlexport_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
 	}
 
-	function setChildElement()
+function setChildElement()
+{
+	JHTMLBehavior::modal();
+
+	$xmlhelper = new xmlHelper();
+	$post = JRequest::get('post');
+	$session =& JFactory::getSession();
+	$childelement = $session->get('childelement');
+
+	$model = $this->getModel('xmlexport_detail');
+
+	$resarray = array();
+	$uarray = array();
+	$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
+
+	for ($i = 0; $i < count($columns); $i++)
 	{
-		JHTMLBehavior::modal();
-
-		$xmlhelper = new xmlHelper();
-		$post = JRequest::get('post');
-		$session =& JFactory::getSession();
-		$childelement = $session->get('childelement');
-
-		$model = $this->getModel('xmlexport_detail');
-
-		$resarray = array();
-		$uarray = array();
-		$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
-
-		for ($i = 0; $i < count($columns); $i++)
+		if (trim($post[$columns[$i]->Field]) != "")
 		{
-			if (trim($post[$columns[$i]->Field]) != "")
-			{
-				$xmltag = str_replace(" ", "_", strtolower(trim($post[$columns[$i]->Field])));
-				$uarray[] = $xmltag;
-				$resarray[] = $columns[$i]->Field . "=" . $xmltag;
-			}
+			$xmltag = str_replace(" ", "_", strtolower(trim($post[$columns[$i]->Field])));
+			$uarray[] = $xmltag;
+			$resarray[] = $columns[$i]->Field . "=" . $xmltag;
 		}
-		$firstlen = count($uarray);
-		$uarray1 = array_unique($uarray);
-		sort($uarray1);
-		$seclen = count($uarray1);
+	}
+	$firstlen = count($uarray);
+	$uarray1 = array_unique($uarray);
+	sort($uarray1);
+	$seclen = count($uarray1);
 //		if(count($resarray)<=0)
 //		{
 //			echo $msg = JText::_('COM_REDSHOP_SELECT_FIELDNAME' );
 ////			$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport_detail&task=edit&cid[]='.$cid[0], $msg );
 //			return;
 //		}
-		if ($seclen != $firstlen)
-		{
-			echo $msg = JText::_('COM_REDSHOP_DUPLICATE_FIELDNAME');
+	if ($seclen != $firstlen)
+	{
+		echo $msg = JText::_('COM_REDSHOP_DUPLICATE_FIELDNAME');
 //			$this->setRedirect ( 'index.php?option='.$option.'&view=xmlexport_detail&task=edit&cid[]='.$cid[0], $msg );
-			return;
-		}
+		return;
+	}
 
 //		if(count($resarray)>0)
 //		{
-		$childelement[$post['parentsection']] = array($post['element_name'], implode(";", $resarray));
+	$childelement[$post['parentsection']] = array($post['element_name'], implode(";", $resarray));
 //			print_r($childelement);die();
 //		}
-		$session->set('childelement', $childelement);    ?>
-    <script language="javascript">
-        window.parent.SqueezeBox.close();
-    </script>
-	<?php
-	}
+	$session->set('childelement', $childelement);    ?>
+	<script language="javascript">
+		window.parent.SqueezeBox.close();
+	</script>
+<?php
+}
 
 	function removeIpAddress()
 	{
@@ -350,4 +350,4 @@ class xmlexport_detailController extends JController
 	}
 }
 
-?>
+

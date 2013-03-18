@@ -180,4 +180,4 @@ class xmlimport_detailController extends JController
 	}
 }
 
-?>
+

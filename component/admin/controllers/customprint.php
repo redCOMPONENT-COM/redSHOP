@@ -9,19 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-
 jimport('joomla.application.component.controller');
 
 class customprintController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function display()
-	{
-
-		parent::display();
-	}
 }

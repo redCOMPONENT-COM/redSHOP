@@ -23,7 +23,7 @@ if (!defined('PhpThumbFactoryLoaded'))
 }
 if (!class_exists('LofSliderGroupBase'))
 {
-	require_once(dirname(__FILE__) . DS . 'libs' . DS . 'group_base.php');
+	require_once dirname(__FILE__) . DS . 'libs' . DS . 'group_base.php';
 }
 
 abstract class modIceTabsHelper
@@ -57,7 +57,7 @@ abstract class modIceTabsHelper
 
 		if (file_exists($file))
 		{
-			require_once($file);
+			require_once $file;
 			$className = 'LofSliderGroup' . ucfirst($group);
 			if (class_exists($className))
 			{

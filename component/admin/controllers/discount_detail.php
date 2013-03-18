@@ -13,13 +13,13 @@ jimport('joomla.application.component.controller');
 
 class discount_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		$layout = JRequest::getVar('layout');
 
@@ -39,12 +39,12 @@ class discount_detailController extends JController
 		parent::display();
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 
@@ -52,14 +52,12 @@ class discount_detailController extends JController
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-
 		$post ['start_date'] = strtotime($post ['start_date']);
 		$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
 
 		$model = $this->getModel('discount_detail');
 
 		$layout = JRequest::getVar('layout');
-
 
 		$post ['category_ids'] = ($post ['category_ids']) ? implode(',', $post ['category_ids']) : '';
 
@@ -71,22 +69,23 @@ class discount_detailController extends JController
 		}
 		else
 		{
-
 			$post ['discount_id'] = $cid[0];
 			$row = $model->store($post);
 			$did = $row->discount_id;
 		}
+
 		if ($row)
 		{
 			$model->saveShoppers($did, $post['shopper_group_id']);
 			$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_SAVED');
-
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_DISCOUNT_DETAIL');
 		}
+
 		if ($apply == 1)
+		{
 			if (isset($layout) && $layout == 'product')
 			{
 				$this->setRedirect('index.php?option=' . $option . '&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg);
@@ -95,19 +94,24 @@ class discount_detailController extends JController
 			{
 				$this->setRedirect('index.php?option=' . $option . '&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg);
 			}
+		}
+
 		else
 		{
 			if (isset($layout) && $layout == 'product')
+			{
 				$this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
-			else
-				$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
-		}
+			}
 
+			else
+			{
+				$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+			}
+		}
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$layout = JRequest::getVar('layout');
@@ -120,6 +124,7 @@ class discount_detailController extends JController
 		}
 
 		$model = $this->getModel('discount_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -128,12 +133,17 @@ class discount_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_DELETED_SUCCESSFULLY');
 
 		if (isset($layout) && $layout == 'product')
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
+		}
+
 		else
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+		}
 	}
 
-	function publish()
+	public function publish()
 	{
 		$layout = JRequest::getVar('layout');
 
@@ -147,6 +157,7 @@ class discount_detailController extends JController
 		}
 
 		$model = $this->getModel('discount_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -154,12 +165,17 @@ class discount_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
 
 		if (isset($layout) && $layout == 'product')
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
+		}
+
 		else
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+		}
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
 		$layout = JRequest::getVar('layout');
 
@@ -173,6 +189,7 @@ class discount_detailController extends JController
 		}
 
 		$model = $this->getModel('discount_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -180,22 +197,30 @@ class discount_detailController extends JController
 		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
 		if (isset($layout) && $layout == 'product')
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
-		else
-			$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+		}
 
+		else
+		{
+			$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+		}
 	}
 
-	function cancel()
+	public function cancel()
 	{
 		$layout = JRequest::getVar('layout');
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
 
 		if (isset($layout) && $layout == 'product')
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=discount&layout=product', $msg);
-		else
-			$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
-	}
+		}
 
+		else
+		{
+			$this->setRedirect('index.php?option=' . $option . '&view=discount', $msg);
+		}
+	}
 }

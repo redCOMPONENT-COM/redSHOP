@@ -158,4 +158,4 @@ class shopper_group_detailController extends JController
 	}
 }
 
-?>
+

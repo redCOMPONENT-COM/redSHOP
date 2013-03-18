@@ -119,4 +119,4 @@ class zipcode_detailController extends JController
 
 }
 
-?>
+
