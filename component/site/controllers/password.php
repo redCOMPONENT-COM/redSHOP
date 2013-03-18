@@ -24,7 +24,7 @@ class passwordController extends JController
 	/*
 	 *  Metod to reset Password
 	 */
-	function reset()
+	public function reset()
 	{
 		$post = JRequest::get('post');
 		$model = & $this->getModel('password');
@@ -54,7 +54,7 @@ class passwordController extends JController
 	/*
 	 *  Method to changepassword
 	 */
-	function changepassword()
+	public function changepassword()
 	{
 		$post = JRequest::get('post');
 		$model = & $this->getModel('password');
@@ -74,7 +74,7 @@ class passwordController extends JController
 	/*
 	 *  Method to setpassword
 	 */
-	function setpassword()
+	public function setpassword()
 	{
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');

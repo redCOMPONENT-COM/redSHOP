@@ -15,7 +15,7 @@ jimport('joomla.application.component.view');
 class categoryViewcategory extends JView
 {
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 
 		//echo SHOW_PRICE;die();

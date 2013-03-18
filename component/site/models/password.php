@@ -15,13 +15,13 @@ class passwordModelpassword extends JModel
 {
 	var $_db = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_db = & JFactory::getDBO();
 	}
 
-	function resetpassword($data)
+	public function resetpassword($data)
 	{
 		$query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";
 		$this->_db->setQuery($query);
@@ -49,7 +49,7 @@ class passwordModelpassword extends JModel
 		}
 	}
 
-	function genRandomString()
+	public function genRandomString()
 	{
 		$length     = 0;
 		$length     = 35;
@@ -63,7 +63,7 @@ class passwordModelpassword extends JModel
 		return $string;
 	}
 
-	function changepassword($token)
+	public function changepassword($token)
 	{
 		$query = "SELECT id FROM #__users WHERE activation='" . $token . "' ";
 		$this->_db->setQuery($query);
@@ -80,7 +80,7 @@ class passwordModelpassword extends JModel
 		return true;
 	}
 
-	function setpassword($data)
+	public function setpassword($data)
 	{
 		$query = 'UPDATE #__users SET password = "' . md5($data['password']) . '", activation = NULL '
 			. 'WHERE id="' . (int) $data['uid'] . '" '

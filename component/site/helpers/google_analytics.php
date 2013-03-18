@@ -19,7 +19,7 @@ class googleanalytics
 	var $_data = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX;
 	}
@@ -29,10 +29,9 @@ class googleanalytics
 	 * The generic tracking code snippet consists of two parts: a script tag that references the ga.js tracking code,
 	 * and another script that executes the tracking code.
 	 */
-	function pageTrackerView()
+	public function pageTrackerView()
 	{
-
-		# The first line of the tracking script should always initialize the page tracker object.
+		// The first line of the tracking script should always initialize the page tracker object.
 		$pagecode = "
 			var _gaq = _gaq || [];
 		 	 _gaq.push(['_setAccount', '" . GOOGLE_ANA_TRACKER_KEY . "']);
@@ -48,7 +47,7 @@ class googleanalytics
 	 * Therefore, if the transaction is a duplicate of an existing transaction for that session, the old transaction values are over-written with the new transaction values.
 	 * Arguments for this method are matched by position, so be sure to supply all parameters, even if some of them have an empty value.
 	 */
-	function addTrans($data)
+	public function addTrans($data)
 	{
 		$packegecode = "
 			_gaq.push(['_addTrans',
@@ -73,7 +72,7 @@ class googleanalytics
 	 * This means that the sku parameter is required.
 	 * This method then associates the item to the parent transaction object via the orderId argument.
 	 */
-	function addItem($itemdata)
+	public function addItem($itemdata)
 	{
 		$itemdata['product_name'] = str_replace("\n", " ", $itemdata['product_name']);
 		$itemdata['product_name'] = str_replace("\r", " ", $itemdata['product_name']);
@@ -100,7 +99,7 @@ class googleanalytics
 	 * This method should be called after _trackPageview(), and used in conjunction with the _addItem() and addTrans() methods.
 	 * It should be called after items and transaction elements have been set up.
 	 */
-	function trackTrans()
+	public function trackTrans()
 	{
 
 		# submits transaction to the Analytics servers
@@ -117,7 +116,7 @@ class googleanalytics
 	 * As per ecoomerce tracking API
 	 * @source: http://code.google.com/apis/analytics/docs/tracking/gaTrackingEcommerce.html
 	 */
-	function placeTrans($analyticsData = array())
+	public function placeTrans($analyticsData = array())
 	{
 
 		$pageCode = '';

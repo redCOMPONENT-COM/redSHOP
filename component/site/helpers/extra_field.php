@@ -47,14 +47,14 @@ class extraField
 	var $_table_prefix = null;
 	var $_db = null;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe, $context;
 		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	function list_all_field($field_section = "", $section_id = 0, $uclass = '')
+	public function list_all_field($field_section = "", $section_id = 0, $uclass = '')
 	{
 		$row_data = $this->getSectionFieldList($field_section, 1);
 
@@ -222,7 +222,7 @@ class extraField
 		return $ex_field;
 	}
 
-	function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
+	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
 //		$p_id = $product_id;
 //		if(!$p_id){
@@ -486,7 +486,7 @@ class extraField
 		return $ex;
 	}
 
-	function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
+	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
 		$redTemplate = new Redtemplate ();
 		$url         = JURI::base();
@@ -656,7 +656,7 @@ class extraField
 		return $template_data;
 	}
 
-	function getFieldValue($id)
+	public function getFieldValue($id)
 	{
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
 			. "WHERE field_id='" . $id . "' "
@@ -667,7 +667,7 @@ class extraField
 		return $list;
 	}
 
-	function getSectionFieldList($section = 12, $front = 1, $published = 1, $required = 0)
+	public function getSectionFieldList($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$and = "";
 		if ($published == 1)
@@ -693,7 +693,7 @@ class extraField
 		return $list;
 	}
 
-	function getSectionFieldNameArray($section = 12, $front = 1, $published = 1, $required = 0)
+	public function getSectionFieldNameArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$and = "";
 		if ($published == 1)
@@ -715,7 +715,7 @@ class extraField
 		return $list;
 	}
 
-	function getSectionFieldIdArray($section = 12, $front = 1, $published = 1, $required = 0)
+	public function getSectionFieldIdArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$and = "";
 		if ($published == 1)
@@ -737,7 +737,7 @@ class extraField
 		return $list;
 	}
 
-	function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
+	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
 	{
 		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
 			. "WHERE fd.itemid='" . $orderitemid . "' "
