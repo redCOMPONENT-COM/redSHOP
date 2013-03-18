@@ -21,8 +21,6 @@ jimport('joomla.application.component.controller');
  */
 class Product_miniController extends JController
 {
-
-
 	/**
 	 * cancel function
 	 *

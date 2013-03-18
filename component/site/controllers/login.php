@@ -102,8 +102,10 @@ class LoginController extends JController
 
 	}
 
-	/*
+	/**
 	 *  logout function
+	 *
+	 * @return void
 	 */
 	public function logout()
 	{
@@ -125,6 +127,7 @@ class LoginController extends JController
 		{
 			$link = JRoute::_('index.php?option=com_redshop');
 		}
+
 		$mainframe->logout();
 		$this->setRedirect($link);
 	}

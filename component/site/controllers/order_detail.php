@@ -27,35 +27,30 @@ jimport('joomla.application.component.controller');
  */
 class Order_detailController extends JController
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $default  config
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->_producthelper = new producthelper;
 		$this->_redshopMail = new redshopMail;
-		$this->_order_functions = new order_functions();
+		$this->_order_functions = new order_functions;
 		$this->_extraField = new extraField;
 		$this->_redhelper = new redhelper;
 		$this->_userhelper = new rsUserhelper;
 		$this->_carthelper = new rsCarthelper;
 	}
 
-	/*
+	/**
 	 *  bookinvoice function
+	 *
+	 * @return void
 	 */
 	public function bookinvoice()
 	{
-		// Economic Integration start for invoice generate and book current invoice
-//		if(ECONOMIC_INTEGRATION==1)
-//		{
-//			$order_id = JRequest::getInt ( 'order_id' );
-//			$economic = new economic;
-//			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id);
-//			if(is_file($bookinvoicepdf))
-//			{
-//				$ret = $this->_redshopMail->sendEconomicBookInvoiceMail($order_id,$bookinvoicepdf);
-//			}
-//		}
-		// End Economic
 	}
 
 	/*
@@ -75,8 +70,7 @@ class Order_detailController extends JController
 		// Get Order Detail
 		$order = $this->_order_functions->getOrderDetails($request['order_id']);
 
-		// get Billing and Shipping Info
-
+		// Get Billing and Shipping Info
 		$billingaddresses = $this->_order_functions->getBillingAddress($order->user_id);
 		$d['billingaddress'] = $billingaddresses;
 
@@ -159,7 +153,7 @@ class Order_detailController extends JController
 		}
 
 
-		// update order payment table with  credit card details
+		// Update order payment table with  credit card details
 		$model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 		$model->resetcart();
 
@@ -218,7 +212,7 @@ class Order_detailController extends JController
 		}
 		if ($request['payment_plugin'] != "rs_payment_worldpay")
 		{
-			# new checkout flow
+			// New checkout flow
 			$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id);
 			$this->setRedirect($redirect_url, $msg);
 		}
@@ -253,6 +247,7 @@ class Order_detailController extends JController
 					$subscription_id = $productSubscription->subscription_id;
 				}
 			}
+
 			$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
 			$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
 
@@ -262,6 +257,7 @@ class Order_detailController extends JController
 			$row['sel_wrapper_id'] = $row['wrapper_id'];
 			$row['category_id'] = 0;
 		}
+
 		$result = $this->_carthelper->addProductToCart($row);
 
 		if (is_bool($result) && $result)
@@ -283,6 +279,7 @@ class Order_detailController extends JController
 			{
 				$Itemid = $this->_redhelper->getItemid($row['product_id']);
 			}
+
 			$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
 			if (JError::isError(JError::getError()))
@@ -290,11 +287,17 @@ class Order_detailController extends JController
 				$error = JError::getError();
 				$errmsg = $error->message;
 			}
+
 			$returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
 			$mainframe->redirect($returnlink, $errmsg);
 		}
 	}
 
+	/**
+	 * Reorder
+	 *
+	 * @return void
+	 */
 	public function reorder()
 	{
 		global $mainframe;
@@ -308,11 +311,12 @@ class Order_detailController extends JController
 
 		if ($order_id)
 		{
-			//First Empty Cart and then oder it again
+			// First Empty Cart and then oder it again
 			$cart['idx'] = 0;
 			$session->set('cart', $cart);
 
 			$orderItem = $this->_order_functions->getOrderItemDetail($order_id);
+
 			for ($i = 0; $i < count($orderItem); $i++)
 			{
 				$row = (array) $orderItem[$i];
@@ -328,14 +332,17 @@ class Order_detailController extends JController
 				else
 				{
 					$product_data = $this->_producthelper->getProductById($row['product_id']);
+
 					if ($product_data->product_type == 'subscription')
 					{
 						$productSubscription = $this->_producthelper->getUserProductSubscriptionDetail($row['order_item_id']);
+
 						if ($productSubscription->subscription_id != "")
 						{
 							$subscription_id = $productSubscription->subscription_id;
 						}
 					}
+
 					$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
 					$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
 
@@ -356,6 +363,7 @@ class Order_detailController extends JController
 
 					$row['reorder'] = 1;
 				}
+
 				$result = $this->_carthelper->addProductToCart($row);
 
 				if (is_bool($result) && $result)
@@ -365,6 +373,7 @@ class Order_detailController extends JController
 				else
 				{
 					$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
+
 					if (count($ItemData) > 0)
 					{
 						$Itemid = $ItemData->id;
@@ -373,18 +382,23 @@ class Order_detailController extends JController
 					{
 						$Itemid = $this->_redhelper->getItemid($row['product_id']);
 					}
+
 					$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+
 					if (JError::isError(JError::getError()))
 					{
 						$error = JError::getError();
 						$errmsg = $error->message;
 					}
+
 					$returnmsg .= $row['order_item_name'] . ": " . $errmsg . "<br>";
 					$returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
 				}
 			}
+
 			$this->_carthelper->cartFinalCalculation();
 		}
+
 		$cart = $session->get('cart');
 
 		if (!$cart || !array_key_exists("idx", $cart) || ($cart && $cart['idx'] <= 0))
@@ -397,8 +411,10 @@ class Order_detailController extends JController
 		}
 	}
 
-	/*
+	/**
 	 *  payment function
+	 *
+	 * @return void
 	 */
 	public function payment()
 	{
@@ -453,5 +469,3 @@ class Order_detailController extends JController
 		}
 	}
 }
-
-?>

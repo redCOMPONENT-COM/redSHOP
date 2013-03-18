@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
 
 jimport('joomla.application.component.controller');
 
@@ -27,10 +27,5 @@ jimport('joomla.application.component.controller');
  */
 class EpayrelayController extends JController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-
-	}
 }
 

@@ -22,8 +22,9 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
  */
 class ProductController extends JController
 {
-
-
+	/**
+	 * Display Product add price
+	 */
 	public function displayProductaddprice()
 	{
 		ob_clean();
@@ -698,7 +699,7 @@ class ProductController extends JController
 
 				header("Pragma: public");
 				header('Expires: 0');
-				header("Content-Type: $ctype", FALSE);
+				header("Content-Type: $ctype", false);
 				header('Content-Length: ' . filesize($name));
 				header('Content-Disposition: attachment; filename=' . $downloadname);
 
@@ -711,14 +712,17 @@ class ProductController extends JController
 	}
 
 	/**
-	 * file read function
+	 * File read function
 	 *
-	 * @access public
-	 * @return file data
+	 * @param   string  $filename  file name
+	 * @param   bool    $retbytes  retbytes
+	 *
+	 * @return bool|int
 	 */
 	public function readfile_chunked($filename, $retbytes = true)
 	{
-		$chunksize = 10 * (1024 * 1024); // how many bytes per chunk
+		// How many bytes per chunk
+		$chunksize = 10 * (1024 * 1024);
 		$buffer = '';
 		$cnt = 0;
 
@@ -728,6 +732,7 @@ class ProductController extends JController
 		{
 			return false;
 		}
+
 		while (!feof($handle))
 		{
 			$buffer = fread($handle, $chunksize);
@@ -745,8 +750,10 @@ class ProductController extends JController
 
 		if ($retbytes && $status)
 		{
-			return $cnt; // return num. bytes delivered like readfile() does.
+			// Return num. bytes delivered like readfile() does.
+			return $cnt;
 		}
+
 		return $status;
 
 	}
@@ -774,6 +781,7 @@ class ProductController extends JController
 			// Otherwise onSubmit event will not be fired
 			echo "error";
 		}
+
 		exit;
 	}
 
@@ -835,18 +843,22 @@ class ProductController extends JController
 
 			header("Pragma: public");
 			header('Expires: 0');
-			header("Content-Type: $ctype", FALSE);
+			header("Content-Type: $ctype", false);
 			header('Content-Length: ' . filesize($fpath));
 			header('Content-Disposition: attachment; filename=' . $downloadname);
 
 
-			// red file using chunksize
+			// Red file using chunksize
 			$this->readfile_chunked($fpath);
 			exit;
 		}
 	}
 
-
+	/**
+	 *  Go to child
+	 *
+	 * @return void
+	 */
 	public function gotochild()
 	{
 		$producthelper = new producthelper;
@@ -872,6 +884,9 @@ class ProductController extends JController
 		$this->setRedirect($link);
 	}
 
+	/**
+	 * Go to nav Product
+	 */
 	public function gotonavproduct()
 	{
 		$producthelper = new producthelper;
@@ -897,6 +912,11 @@ class ProductController extends JController
 		$this->setRedirect($link);
 	}
 
+	/**
+	 * Add Notify stock
+	 *
+	 * @return void
+	 */
 	public function addNotifystock()
 	{
 		ob_clean();
@@ -914,7 +934,7 @@ class ProductController extends JController
 		{
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}
+
 		exit;
 	}
-
 }

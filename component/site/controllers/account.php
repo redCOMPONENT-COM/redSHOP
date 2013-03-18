@@ -23,6 +23,7 @@ class AccountController extends JController
 	/**
 	 * Method to edit created Tag
 	 *
+	 * @return void
 	 */
 	public function editTag()
 	{
@@ -49,6 +50,7 @@ class AccountController extends JController
 	/**
 	 * Method to send created wishlist
 	 *
+	 * @return void
 	 */
 	public function sendWishlist()
 	{
@@ -90,8 +92,10 @@ class AccountController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component&wishlist_id=' . $wishlis_id . '&Itemid' . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to subscribe newsletter
+	 *
+	 * @return void
 	 */
 	public function newsletterSubscribe()
 	{
@@ -105,8 +109,10 @@ class AccountController extends JController
 		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to unsubscribe newsletter
+	 *
+	 * @return void
 	 */
 	public function newsletterUnsubscribe()
 	{
