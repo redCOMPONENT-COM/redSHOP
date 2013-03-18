@@ -39,6 +39,7 @@ class account_billtoController extends JController
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 
 		$task = JRequest::getVar('submit', 'post');
+
 		if ($task == 'Cancel')
 		{
 			$this->registerTask('save', 'cancel');
@@ -64,12 +65,14 @@ class account_billtoController extends JController
 		$post['email'] = $post['email1'];
 		$post['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post['password2'] = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+
 		if (isset($user->username))
 		{
 			$post['username'] = $user->username;
 		}
 
 		$model = $this->getModel('account_billto');
+
 		if ($reduser = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_SAVE');
@@ -80,9 +83,11 @@ class account_billtoController extends JController
 		}
 		$setexit = JRequest::getInt('setexit', 1);
 		$link = '';
+
 		if ($return != "")
 		{
 			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+
 			if (!isset($setexit) || $setexit != 0)
 			{
 				?>

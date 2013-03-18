@@ -37,6 +37,7 @@ class account_shiptoController extends JController
 		$post['address_type'] = "ST";
 
 		$model = $this->getModel('account_shipto');
+
 		if ($reduser = $model->store($post))
 		{
 			$post['users_info_id'] = $reduser->users_info_id;

@@ -43,6 +43,7 @@ class checkoutController extends JController
 		$Itemid = JRequest::getVar('Itemid');
 
 		$model = $this->getModel('checkout');
+
 		if ($model->store($post))
 		{
 			//$link = 'index.php?option='.$option.'&view=checkout&Itemid='.$Itemid;
@@ -116,6 +117,7 @@ class checkoutController extends JController
 				}
 
 				$details = $crmDebitorHelper->getDebitor($debitor_id);
+
 				if (count($details) > 0 && $details[0]->is_company == 1)
 				{
 					$unpaid = $details[0]->debitor_unpaid_balance;
@@ -139,6 +141,7 @@ class checkoutController extends JController
 		$ccinfo = JRequest::getVar('ccinfo');
 
 		$errormsg = "";
+
 		if ($ccinfo == 1)
 		{
 			$errormsg = $this->setcreditcardInfo();
@@ -232,6 +235,7 @@ class checkoutController extends JController
 			{
 				$economic = new economic();
 				$debtorHandle = $economic->createUserInEconomic($billingaddresses);
+
 				if (JError::isError(JError::getError()))
 				{
 					$return = 1;
@@ -295,6 +299,7 @@ class checkoutController extends JController
 		if ($billingaddresses->is_company == 1)
 		{
 			$extrafield_name = $extra_field->chk_extrafieldValidation(8, $billingaddresses->users_info_id);
+
 			if (!empty($extrafield_name))
 			{
 				$return = 1;
@@ -306,6 +311,7 @@ class checkoutController extends JController
 		else
 		{
 			$extrafield_name = $extra_field->chk_extrafieldValidation(7, $billingaddresses->users_info_id);
+
 			if (!empty($extrafield_name))
 			{
 				$return = 1;
@@ -319,6 +325,7 @@ class checkoutController extends JController
 			if ($billingaddresses->is_company == 1)
 			{
 				$extrafield_name = $extra_field->chk_extrafieldValidation(15, $users_info_id);
+
 				if (!empty($extrafield_name))
 				{
 					$return = 2;
@@ -330,6 +337,7 @@ class checkoutController extends JController
 			else
 			{
 				$extrafield_name = $extra_field->chk_extrafieldValidation(14, $users_info_id);
+
 				if (!empty($extrafield_name))
 				{
 					$return = 2;
@@ -375,6 +383,7 @@ class checkoutController extends JController
 		{
 			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
 			$shippingdetail = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+
 			if (count($shippingdetail) < 4)
 			{
 				$shipping_rate_id = "";
@@ -404,6 +413,7 @@ class checkoutController extends JController
 			{
 				$users_info_id = JRequest::getInt('users_info_id');
 				$chk = $this->chkvalidation($users_info_id);
+
 				if (!empty($chk))
 				{
 					if ($chk == 1)
@@ -418,6 +428,7 @@ class checkoutController extends JController
 					return;
 				}
 				$errormsg = $this->setcreditcardInfo();
+
 				if ($errormsg != "")
 				{
 					$mainframe->Redirect('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, $errormsg);
@@ -504,6 +515,7 @@ class checkoutController extends JController
 		$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentparams = new JRegistry($paymentmethod[0]->params);
 		$is_creditcard = $paymentparams->get('is_creditcard', 0);
+
 		if ($is_creditcard)
 		{
 			$ccdata['order_payment_name'] = JRequest::getVar('order_payment_name');
@@ -516,6 +528,7 @@ class checkoutController extends JController
 
 
 			$validpayment = $model->validatepaymentccinfo();
+
 			if (!$validpayment[0])
 			{
 				$errormsg = $validpayment[1];
@@ -557,11 +570,13 @@ class checkoutController extends JController
 
 		$onestep_template_desc = "";
 		$rate_template_desc = "";
+
 		if ($objectname == "users_info_id" || $objectname == "shipping_box_id")
 		{
 			if ($users_info_id > 0)
 			{
 				$shipping_template = $redTemplate->getTemplate("redshop_shipping", $rate_template_id);
+
 				if (count($shipping_template) > 0)
 				{
 					$rate_template_desc = $shipping_template[0]->template_desc;
@@ -596,6 +611,7 @@ class checkoutController extends JController
 		$description = $display_shippingrate . $display_cart;
 		$lang = JFactory::getLanguage();
 		$Locale = $lang->getLocale();
+
 		if (in_array('ru', $Locale))
 			$description = html_entity_decode($description, ENT_QUOTES, 'KOI8-R'); //commented because redshop currency symbole has been changed because of ajax responce
 
@@ -611,6 +627,7 @@ class checkoutController extends JController
 		$creditcard = "";
 
 		$payment_method_id = $get['payment_method_id'];
+
 		if ($payment_method_id != "")
 		{
 			$creditcard = $carthelper->replaceCreditCardInformation($payment_method_id);
@@ -642,6 +659,7 @@ class checkoutController extends JController
 
 		$extraField = new extraField();
 		$extrafield_total = "";
+
 		if (count($extrafield_payment) > 0)
 		{
 			for ($ui = 0; $ui < count($extrafield_payment); $ui++)
@@ -668,6 +686,7 @@ class checkoutController extends JController
 
 		$extraField = new extraField();
 		$extrafield_total = "";
+
 		if (count($extrafield_shipping) > 0)
 		{
 			for ($ui = 0; $ui < count($extrafield_shipping); $ui++)

@@ -136,6 +136,7 @@ class productController extends JController
 		$relatedprd_id = $get['relatedprd_id'];
 		$attribute_id = $get['attribute_id'];
 		$isAjaxBox = $get['isAjaxBox'];
+
 		if (isset($get['property_id']) && $get['property_id'])
 		{
 			$propid = explode(",", $get['property_id']);
@@ -232,6 +233,7 @@ class productController extends JController
 
 		$ajaxvar = JRequest::getVar('ajaxon');
 		$mywid = JRequest::getVar('wid');
+
 		if ($ajaxvar == 1 && ($mywid == 1 || $mywid == 2))
 		{
 			$post = JRequest::get('post');
@@ -254,6 +256,7 @@ class productController extends JController
 					$data_txt = '';
 				//$tmparray = explode('`',$data_txt);
 				$tmpstr = strpbrk($data_txt, '`');
+
 				if ($tmpstr)
 				{
 					$tmparray = explode('`', $data_txt);
@@ -289,6 +292,7 @@ class productController extends JController
 					$data_txt = '';
 				//$tmparray = explode('`',$data_txt);
 				$tmpstr = strpbrk($data_txt, '`');
+
 				if ($tmpstr)
 				{
 					$tmparray = explode('`', $data_txt);
@@ -306,6 +310,7 @@ class productController extends JController
 		}
 
 		$rurl = "";
+
 		if (isset($post['rurl']))
 			$rurl = base64_decode($post['rurl']);
 		// initiallize variable
@@ -315,6 +320,7 @@ class productController extends JController
 		$post['cdate'] = time();
 
 		$model = $this->getModel('product');
+
 		if ($user->id && $ajaxvar != '1')
 		{
 			if ($model->checkWishlist($post['product_id']) == null)
@@ -346,6 +352,7 @@ class productController extends JController
 			sleep(2);
 			$getproductimage = $producthelper->getProductById($post['product_id']);
 			$finalproductimgname = $getproductimage->product_full_image;
+
 			if ($finalproductimgname != '')
 			{
 				$mainimg = "product/" . $finalproductimgname;
@@ -716,6 +723,7 @@ class productController extends JController
 		$cnt = 0;
 
 		$handle = fopen($filename, 'rb');
+
 		if ($handle === false)
 		{
 			return false;
@@ -726,6 +734,7 @@ class productController extends JController
 			echo $buffer;
 			ob_flush();
 			flush();
+
 			if ($retbytes)
 			{
 				$cnt += strlen($buffer);
@@ -733,6 +742,7 @@ class productController extends JController
 		}
 
 		$status = fclose($handle);
+
 		if ($retbytes && $status)
 		{
 			return $cnt; // return num. bytes delivered like readfile() does.
@@ -753,6 +763,7 @@ class productController extends JController
 		$name = JRequest::getVar('mname');
 		$filename = time() . '_' . basename($_FILES[$name]['name']);
 		$uploadfile = $uploaddir . $filename;
+
 		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
 		{
 			echo $filename;
@@ -776,6 +787,7 @@ class productController extends JController
 	{
 		$fname = JRequest::getVar('fname', '', 'request', 'string');
 		$fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
+
 		if (is_file($fpath))
 		{
 			$tmp_type = strtolower(JFile::getExt($fpath));
@@ -897,6 +909,7 @@ class productController extends JController
 		$subproperty_id = $post['subproperty_id'];
 
 		$notify_user = $model->addNotifystock($product_id, $property_id, $subproperty_id);
+
 		if ($notify_user)
 		{
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");

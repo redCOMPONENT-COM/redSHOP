@@ -48,12 +48,14 @@ class cartController extends JController
 		$userfiled = JRequest::getVar('userfiled');
 
 		$result = $this->_carthelper->addProductToCart($post);
+
 		if (is_bool($result) && $result)
 		{
 		}
 		else
 		{
 			$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+
 			if (AJAX_CART_BOX == 1)
 			{
 				echo "`0`" . $errmsg;
@@ -62,6 +64,7 @@ class cartController extends JController
 			else
 			{
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+
 				if (count($ItemData) > 0)
 				{
 					$prdItemid = $ItemData->id;
@@ -86,9 +89,11 @@ class cartController extends JController
 
 		$session =& JFactory::getSession();
 		$cart = $session->get('cart');
+
 		if (isset($cart['AccessoryAsProduct']))
 		{
 			$attArr = $cart['AccessoryAsProduct'];
+
 			if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
 			{
 				$data['accessory_data'] = $attArr[0];
@@ -215,11 +220,13 @@ class cartController extends JController
 		$discount_excl_vat = 0;
 
 		$totaldiscount = 0;
+
 		if (DISCOUNT_ENABLE == 1)
 		{
 			$discount_amount = $producthelper->getDiscountAmount($cart);
 		}
 		$cart['cart_discount'] = $discount_amount;
+
 		if (array_key_exists('voucher', $cart))
 		{
 			$voucherDiscount = $this->_carthelper->calculateDiscount('voucher', $cart['voucher']);
@@ -249,6 +256,7 @@ class cartController extends JController
 		$cart['total'] = $calArr[0] - $totaldiscount;
 		$cart['subtotal'] = $calArr[1] + $calArr[3] - $totaldiscount;
 		$cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totaldiscount - $Discountvat);
+
 		if ($cart['total'] <= 0)
 		{
 			$cart['subtotal_excl_vat'] = 0;
@@ -404,6 +412,7 @@ class cartController extends JController
 		// call empty_cart method of model to remove all products from cart
 		$model->empty_cart();
 		$user = JFactory :: getUser();
+
 		if ($user->id)
 			$this->_carthelper->removecartfromdb(0, $user->id, true);
 
@@ -456,6 +465,7 @@ class cartController extends JController
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
+
 		if ($post["numbercart"] == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');

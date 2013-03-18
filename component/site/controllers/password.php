@@ -34,6 +34,7 @@ class passwordController extends JController
 		if ($model->resetpassword($post))
 		{
 			$redshopMail = new redshopMail();
+
 			if ($redshopMail->sendResetPasswordMail($post['email']))
 			{
 				$layout = "&layout=token";
@@ -60,6 +61,7 @@ class passwordController extends JController
 		$model = & $this->getModel('password');
 		$token = $post['token'];
 		$Itemid = JRequest::getVar('Itemid');
+
 		if ($model->changepassword($token))
 		{
 			parent::display();
