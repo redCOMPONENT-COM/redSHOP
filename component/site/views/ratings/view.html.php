@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 class ratingsViewratings extends JView
 {
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 

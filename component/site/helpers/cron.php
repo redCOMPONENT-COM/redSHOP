@@ -18,7 +18,7 @@ class cron
 	/*
 	 * cron constructor
 	 */
-	function cron()
+	public function cron()
 	{
 		// mail center
 		$date =& JFactory::getDate();
@@ -103,7 +103,7 @@ class cron
 	 * @access public
 	 * @return boolean
 	 */
-	function move($container_id, $stockroom_id)
+	public function move($container_id, $stockroom_id)
 	{ // Move Container To Stockroom
 
 		$db = $db = & JFactory :: getDBO();
@@ -123,7 +123,7 @@ class cron
 	 * @access public
 	 * @return boolean
 	 */
-	function order_status($container_id)
+	public function order_status($container_id)
 	{ // Change Order Status
 
 		$db = $db = & JFactory :: getDBO();
@@ -160,7 +160,7 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function catalog_mail()
+	public function catalog_mail()
 	{
 
 		$date        =& JFactory::getDate();
@@ -337,7 +337,7 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function after_purchased_order_mail()
+	public function after_purchased_order_mail()
 	{
 		$redshopMail     = new redshopMail();
 		$redconfig       = new Redconfiguration();
@@ -503,7 +503,7 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function color_mail()
+	public function color_mail()
 	{
 
 		$date        =& JFactory::getDate();
@@ -718,7 +718,7 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function subscription_renewal_mail()
+	public function subscription_renewal_mail()
 	{
 		$db          = $db = & JFactory :: getDBO();
 		$redshopMail = new redshopMail();

@@ -20,7 +20,7 @@ class manufacturersModelmanufacturers extends JModel
 	var $_table_prefix = null;
 	var $_template = null;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe, $context;
 
@@ -49,24 +49,24 @@ class manufacturersModelmanufacturers extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
-	function setProductLimit($limit)
+	public function setProductLimit($limit)
 	{
 		$this->_productlimit = $limit;
 	}
 
-	function getProductLimit()
+	public function getProductLimit()
 	{
 
 		return $this->_productlimit;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$and     = "";
@@ -95,7 +95,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $query;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -106,7 +106,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->_total;
 	}
 
-	function getData()
+	public function getData()
 	{
 		$layout = JRequest::getVar('layout');
 		$query  = $this->_buildQuery();
@@ -122,7 +122,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->_data;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe, $context;
 		$layout  = JRequest::getVar('layout');
@@ -140,7 +140,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $orderby;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -152,7 +152,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->_pagination;
 	}
 
-	function getCategoryList()
+	public function getCategoryList()
 	{
 		$query = "SELECT DISTINCT(c.category_id) as value, c.category_name as text "
 			. "FROM " . $this->_table_prefix . "category AS c "
@@ -167,7 +167,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $list;
 	}
 
-	function getManufacturerProducts($template_data = '')
+	public function getManufacturerProducts($template_data = '')
 	{
 		$limit          = $this->getProductLimit();
 		$limitstart     = JRequest::getVar('limitstart', 0, '', 'int');
@@ -177,7 +177,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->products;
 	}
 
-	function _buildProductQuery($template_data = '')
+	public function _buildProductQuery($template_data = '')
 	{
 		$filter_by = JRequest::getVar('filter_by', 0);
 		$and       = '';
@@ -214,7 +214,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $query;
 	}
 
-	function getmanufacturercategory($mid, $tblobj)
+	public function getmanufacturercategory($mid, $tblobj)
 	{
 		$and              = "";
 		$order_functions  = new order_functions();
@@ -238,7 +238,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
-	function getProductTotal()
+	public function getProductTotal()
 	{
 		$query = $this->_buildProductQuery();
 		$total = $this->_getListCount($query);
@@ -246,7 +246,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $total;
 	}
 
-	function getProductPagination()
+	public function getProductPagination()
 	{
 		$limit             = $this->getProductLimit();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
@@ -255,7 +255,7 @@ class manufacturersModelmanufacturers extends JModel
 		return $productpagination;
 	}
 
-	function _buildProductOrderBy($template_data = '')
+	public function _buildProductOrderBy($template_data = '')
 	{
 		$layout  = JRequest::getVar('layout');
 		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);

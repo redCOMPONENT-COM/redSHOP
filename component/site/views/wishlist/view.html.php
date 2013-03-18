@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 class wishlistViewwishlist extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 		// Request variables
