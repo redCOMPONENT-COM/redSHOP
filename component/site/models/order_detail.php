@@ -36,7 +36,6 @@ class order_detailModelorder_detail extends JModel
 	 */
 	public function UpdateAnalytics_status($oid)
 	{
-
 		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . $oid . "'";
 		$this->_db->setQuery($query);
 		if (!$this->_db->Query())

@@ -45,7 +45,6 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function orderplace()
 	{
-
 		global $mainframe;
 		$post            = JRequest::get('post');
 		$option          = JRequest::getVar('option');
@@ -266,7 +265,6 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
-
 		// Define the cards we support. You may add additional card types.
 
 
@@ -296,7 +294,6 @@ class split_paymentModelsplit_payment extends JModel
 		$cardType = -1;
 		for ($i = 0; $i < sizeof($cards); $i++)
 		{
-
 			// See if it is this card (ignoring the case of the string)
 			if (strtolower($cardname) == strtolower($cards [$i] ['name']))
 			{
@@ -346,8 +343,7 @@ class split_paymentModelsplit_payment extends JModel
 			// Process each digit one by one starting at the right
 			for ($i = strlen($cardNo) - 1; $i >= 0; $i--)
 			{
-
-				// Extract the next digit and multiply by 1 or 2 on alternative digits.      
+				// Extract the next digit and multiply by 1 or 2 on alternative digits.
 				$calc = $cardNo{$i} * $j;
 
 				// If the result is in two digits add 1 to the checksum total
@@ -438,7 +434,6 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function validateCC($cc_num, $type)
 	{
-
 		if ($type == "American")
 		{
 			$denum = "American Express";

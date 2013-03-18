@@ -89,7 +89,6 @@ class product_miniModelproduct_mini extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-
 			$this->_pagination = new RedPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 

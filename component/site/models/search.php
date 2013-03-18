@@ -197,7 +197,6 @@ class searchModelsearch extends JModel
 
 	public function _buildQuery($manudata = 0)
 	{
-
 		global $mainframe;
 		$context = 'search';
 
@@ -392,7 +391,6 @@ class searchModelsearch extends JModel
 		}
 		else if ($layout == 'newproduct')
 		{
-
 			$catid = $item->query['categorytemplate'];
 
 			$cat_main       = $category_helper->getCategoryTree($catid);
@@ -418,7 +416,6 @@ class searchModelsearch extends JModel
 		}
 		else if ($layout == 'redfilter')
 		{
-
 			// get products for filtering
 			$products = $this->getRedFilterProduct();
 
@@ -567,7 +564,6 @@ class searchModelsearch extends JModel
 
 		if (count($getredfilter) != 0)
 		{
-
 			$main_sal_sp   = array();
 			$main_sal_type = array();
 			$main_sal_tag  = array();
@@ -601,7 +597,6 @@ class searchModelsearch extends JModel
 			$dep_cond = array();
 			for ($i = 0; $i < count($main_sal_type); $i++)
 			{
-
 				$chk_q = "";
 				//Search for checkboxes
 				if ($i != 0)
@@ -706,7 +701,6 @@ class searchModelsearch extends JModel
 
 	public function mod_redProductfilter($Itemid)
 	{
-
 		$query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
 		LEFT JOIN #__redproductfinder_forms f
 		ON t.form_id = f.id
@@ -723,7 +717,6 @@ class searchModelsearch extends JModel
 
 		foreach ($types as $key => $type)
 		{
-
 			if (@!array_key_exists($type->id, $getredfilter))
 			{
 				$str                        = htmlentities($type->type_name, ENT_COMPAT, "UTF-8");
@@ -803,7 +796,6 @@ class searchModelsearch extends JModel
 
 					for ($t = 0; $t < count($tags); $t++)
 					{
-
 						//$ptotal = getProducttotal($type->id,$tags[$t]->tagid,1);
 
 						$type_id = explode('.', $tags[$t]->tag_id);
@@ -826,7 +818,6 @@ class searchModelsearch extends JModel
 
 						if ($finalcount > 0)
 						{
-
 							$tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
 
 						}
@@ -846,10 +837,8 @@ class searchModelsearch extends JModel
 		{
 			foreach ($getredfilter as $typeid => $tag_id)
 			{
-
 				foreach ($types as $key => $type)
 				{
-
 					if ($typeid == $type->id)
 					{
 						$str                        = htmlentities($type->type_name, ENT_COMPAT, "UTF-8");
@@ -899,7 +888,6 @@ class searchModelsearch extends JModel
 			{
 				foreach ($types as $key => $type)
 				{
-
 					if ($typeid == $type->id)
 					{
 						?>
@@ -936,12 +924,10 @@ class searchModelsearch extends JModel
 
 			foreach ($types as $key => $type)
 			{
-
 //	$ptotal = getProducttotal($type->id);
 
 				if (@!array_key_exists($type->id, $getredfilter) && @array_key_exists('type' . $key, $lists))
 				{
-
 
 					?>
 					<div id="<?php echo $type->id; ?>"

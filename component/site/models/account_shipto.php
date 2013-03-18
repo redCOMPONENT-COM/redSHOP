@@ -70,7 +70,6 @@ class account_shiptoModelaccount_shipto extends JModel
 
 	public function _loadData($users_info_id = 0)
 	{
-
 		if ($users_info_id)
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id="' . $users_info_id . '" ';

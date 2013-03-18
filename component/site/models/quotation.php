@@ -34,7 +34,6 @@ class quotationModelquotation extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else  $this->_initData();
 
@@ -523,7 +522,6 @@ class quotationModelquotation extends JModel
 
 		if ($data['is_company'] == 1)
 		{
-
 			if (SHOPPER_GROUP_DEFAULT_COMPANY != 0)
 			{
 				$row->shopper_group_id = SHOPPER_GROUP_DEFAULT_COMPANY;
@@ -535,7 +533,6 @@ class quotationModelquotation extends JModel
 		}
 		else
 		{
-
 			if (SHOPPER_GROUP_DEFAULT_PRIVATE != 0)
 			{
 				$row->shopper_group_id = SHOPPER_GROUP_DEFAULT_PRIVATE;

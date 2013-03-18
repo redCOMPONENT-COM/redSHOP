@@ -187,7 +187,6 @@ class wishlistModelwishlist extends JModel
 
 	public function savewishlist()
 	{
-
 		$cid        = JRequest :: getVar('cid', '', 'request', 'array');
 		$db         = JFactory::getDBO();
 		$product_id = JRequest :: getInt('product_id');
@@ -255,7 +254,6 @@ class wishlistModelwishlist extends JModel
 
 	public function mysessdelwishlist($wishlist_id)
 	{
-
 		if (!empty($_SESSION["no_of_prod"]))
 		{
 			for ($k = 1; $k <= $_SESSION["no_of_prod"]; $k++)
