@@ -28,9 +28,9 @@ class categoryController extends JController
 	{
 		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$this->_table_prefix = "#__redshop_";
-//		$user		=& JFactory::getUser();
+//		$user		= JFactory::getUser();
 //		$gid		= (int) $user->get('gid', 0);
 //		if($gid!=25)
 //		{

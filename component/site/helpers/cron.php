@@ -21,7 +21,7 @@ class cron
 	public function cron()
 	{
 		// mail center
-		$date =& JFactory::getDate();
+		$date = JFactory::getDate();
 
 		$today = time();
 		$day   = date('D', $today);
@@ -163,7 +163,7 @@ class cron
 	public function catalog_mail()
 	{
 
-		$date        =& JFactory::getDate();
+		$date        = JFactory::getDate();
 		$redshopMail = new redshopMail();
 		$fdate       = $date->toFormat('%Y-%m-%d');
 
@@ -343,7 +343,7 @@ class cron
 		$redconfig       = new Redconfiguration();
 		$stockroomhelper = new rsstockroomhelper();
 		$db              = & JFactory :: getDBO();
-		$date            =& JFactory::getDate();
+		$date            = JFactory::getDate();
 		$fdate           = $date->toFormat('%Y-%m-%d');
 
 		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
@@ -506,7 +506,7 @@ class cron
 	public function color_mail()
 	{
 
-		$date        =& JFactory::getDate();
+		$date        = JFactory::getDate();
 		$redshopMail = new redshopMail();
 		$today       = time();
 

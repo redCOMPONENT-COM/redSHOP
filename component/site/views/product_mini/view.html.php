@@ -28,7 +28,7 @@ class product_miniViewproduct_mini extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

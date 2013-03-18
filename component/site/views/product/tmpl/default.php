@@ -21,7 +21,7 @@ $Itemid = JRequest::getVar('Itemid');
 $print = JRequest::getVar('print');
 $model = $this->getModel('product');
 $user = & JFactory::getUser();
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $document = & JFactory::getDocument();
 $dispatcher =& JDispatcher::getInstance();
 
@@ -397,12 +397,12 @@ if (strstr($template_desc, "{product_delivery_time}"))
 // facebook I like Button
 if (strstr($template_desc, "{facebook_like_button}"))
 {
-	$uri           =& JFactory::getURI();
+	$uri           = JFactory::getURI();
 	$facebook_link = urlencode($uri->toString());
 	$facebook_like = '<iframe src="' . $Scheme . '://www.facebook.com/plugins/like.php?href=' . $facebook_link . '&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>';
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
-	$jconfig  =& JFactory::getConfig();
+	$jconfig  = JFactory::getConfig();
 	$sitename = $jconfig->getValue('config.sitename');
 
 	$document->setMetaData("og:url", $uri->toString());
@@ -414,7 +414,7 @@ if (strstr($template_desc, "{facebook_like_button}"))
 if (strstr($template_desc, "{googleplus1}"))
 {
 	JHTML::Script('plusone.js', 'https://apis.google.com/js/', false);
-	$uri           =& JFactory::getURI();
+	$uri           = JFactory::getURI();
 	$google_like   = '<g:plusone></g:plusone>';
 	$template_desc = str_replace("{googleplus1}", $google_like, $template_desc);
 }

@@ -27,10 +27,10 @@ class searchViewsearch extends JView
 		$redTemplate = new Redtemplate();
 		$lists       = array();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$params   = & $mainframe->getParams('com_redshop');
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$layout = JRequest::getVar('layout', '');
 		$model  = $this->getModel('search');
@@ -40,7 +40,7 @@ class searchViewsearch extends JView
 			$document->setTitle($pagetitle);
 		}
 		$option   = JRequest::getVar('option');
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		if (AJAX_CART_BOX == 0)
 		{

@@ -35,7 +35,7 @@ class accountModelaccount extends JModel
 
 		$user = & JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		$auth = $session->get('auth');
 
@@ -86,7 +86,7 @@ class accountModelaccount extends JModel
 	{
 		global $mainframe;
 
-		$user   =& JFactory::getUser();
+		$user   = JFactory::getUser();
 		$userid = $user->id;
 
 		$tagid       = JRequest::getInt('tagid', 0, 'int');
@@ -188,7 +188,7 @@ class accountModelaccount extends JModel
 
 	public function countMyTags()
 	{
-		$user   =& JFactory::getUser();
+		$user   = JFactory::getUser();
 		$userid = $user->id;
 		$query  = "SELECT COUNT(pt.tags_id) FROM " . $this->_table_prefix . "product_tags AS pt "
 			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id = ptx.tags_id "
@@ -200,7 +200,7 @@ class accountModelaccount extends JModel
 
 	public function countMyWishlist()
 	{
-		$user   =& JFactory::getUser();
+		$user   = JFactory::getUser();
 		$userid = $user->id;
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist AS pw "
@@ -219,7 +219,7 @@ class accountModelaccount extends JModel
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$pid         = JRequest::getInt('pid', 0, '', 'int');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		// check is user have access to wishlist
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE user_id='" . $user->id . "' AND wishlist_id='" . $wishlist_id . "' ";
@@ -270,7 +270,7 @@ class accountModelaccount extends JModel
 
 	public function removeTags($tagid)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$xref = "DELETE FROM " . $this->_table_prefix . "product_tags_xref "
 			. "WHERE tags_id = '" . $tagid . "' AND users_id='" . $user->id . "' ";
 		$this->_db->setQuery($xref);
@@ -320,7 +320,7 @@ class accountModelaccount extends JModel
 
 	public function getCompare()
 	{
-		$user  =& JFactory::getUser();
+		$user  = JFactory::getUser();
 		$query = "SELECT pc.compare_id,pc.user_id,p.* FROM " . $this->_table_prefix . "product_compare AS pc "
 			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pc.product_id "
 			. "WHERE user_id='" . $user->id . "' ";
@@ -336,7 +336,7 @@ class accountModelaccount extends JModel
 		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('pid', 0, '', 'int');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$query = "DELETE FROM " . $this->_table_prefix . "product_compare "
 			. "WHERE product_id = '" . $product_id . "' AND user_id='" . $user->id . "' ";
@@ -354,7 +354,7 @@ class accountModelaccount extends JModel
 
 	public function sendWishlist($post)
 	{
-		$user        =& JFactory::getUser();
+		$user        = JFactory::getUser();
 		$redshopMail = new redshopMail();
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
@@ -508,7 +508,7 @@ class accountModelaccount extends JModel
 
 	public function getReserveDiscount()
 	{
-		$user            =& JFactory::getUser();
+		$user            = JFactory::getUser();
 		$query           = "SELECT * FROM " . $this->_table_prefix . "coupons_transaction "
 			. "WHERE userid='" . $user->id . "' AND coupon_value > 0 limit 0,1 ";
 		$Data            = $this->_getList($query);

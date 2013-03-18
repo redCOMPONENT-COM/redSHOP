@@ -24,7 +24,7 @@ $url        = JURI::base();
 $option     = JRequest::getVar('option');
 $wishlists  = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
-$user       =& JFactory::getUser();
+$user       = JFactory::getUser();
 if (!$user->id)
 {
 	$rows = & $this->wish_products;

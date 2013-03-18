@@ -29,7 +29,7 @@ class rsUserhelper
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_session      =& JFactory::getSession();
+		$this->_session      = JFactory::getSession();
 		$this->_db           = & JFactory :: getDBO();
 	}
 
@@ -416,7 +416,7 @@ class rsUserhelper
 
 				return false;
 			}
-			$date =& JFactory::getDate();
+			$date = JFactory::getDate();
 			$user->set('id', 0);
 			$user->set('registerDate', $date->toMySQL());
 			// If user activation is turned on, we need to set the activation information
@@ -632,7 +632,7 @@ class rsUserhelper
 			$u->set('username', $row->user_email);
 			$u->set('email', $row->user_email);
 			$u->set('usertype', 'Registered');
-			$date =& JFactory::getDate();
+			$date = JFactory::getDate();
 			$u->set('registerDate', $date->toMySQL());
 			$data['user_id']  = $row->user_id;
 			$data['username'] = $row->user_email;
@@ -781,7 +781,7 @@ class rsUserhelper
 	public function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
 	{
 		$newsletter = 1;
-		$user       =& JFactory::getUser();
+		$user       = JFactory::getUser();
 
 		if ($user_id == 0)
 		{
@@ -843,7 +843,7 @@ class rsUserhelper
 
 	public function newsletterUnsubscribe($email = "")
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$and  = "";
 		if (DEFAULT_NEWSLETTER != "")
 		{
