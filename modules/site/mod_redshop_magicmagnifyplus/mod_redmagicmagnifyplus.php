@@ -18,7 +18,7 @@
  **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-require_once(dirname(__FILE__) . "/magicmagnifyplus.module.core.class.php");
+require_once dirname(__FILE__) . "/magicmagnifyplus.module.core.class.php";
 
 class redMagicMagnifyPlus
 {
@@ -48,7 +48,7 @@ class redMagicMagnifyPlus
 	function registerEvent($event, $handler)
 	{
 		/* can't use $mainframe->registerEvent function when System.Cache plugin activated */
-		$dispatcher             =& JDispatcher::getInstance();
+		$dispatcher             = JDispatcher::getInstance();
 		$obs                    = Array("event" => $event, "handler" => $handler);
 		$dispatcher->_observers = array_merge(Array($obs), $dispatcher->_observers);
 	}
@@ -56,7 +56,7 @@ class redMagicMagnifyPlus
 	function loadConf()
 	{
 
-		$this->conf = & $this->coreClass->params;
+		$this->conf = $this->coreClass->params;
 
 		foreach ($this->conf->getArray() as $key => $c)
 		{

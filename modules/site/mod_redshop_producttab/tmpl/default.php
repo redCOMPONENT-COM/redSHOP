@@ -11,19 +11,19 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 jimport('joomla.html.pane');
-$pane = & JPane::getInstance('sliders');
+$pane = JPane::getInstance('sliders');
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $Itemid = JRequest::getVar('Itemid');
-$user   =& JFactory::getUser();
+$user   = JFactory::getUser();
 $option = 'com_redshop';
 
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 JHTML::Stylesheet('products.css', 'modules/mod_redshop_products/css/');
 // 	include redshop js file.
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
 
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
@@ -33,7 +33,7 @@ JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 $module_id = "mod_" . $module->id;
 
 // get product helper
-require_once(JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php');
+require_once JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php';
 $producthelper = new producthelper();
 $redhelper     = new redhelper();
 $extraField    = new extraField();
@@ -83,7 +83,7 @@ $extraField    = new extraField();
 	</style>
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 //Create Pane
 echo $myTabs->startPane('pane');
 //Create 1st Tab

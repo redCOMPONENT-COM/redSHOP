@@ -29,4 +29,4 @@ class zip_importController extends JController
 	}
 }
 
-?>
+

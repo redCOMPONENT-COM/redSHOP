@@ -19,10 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class loginController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 
 	/*
 	 *  setlogin function

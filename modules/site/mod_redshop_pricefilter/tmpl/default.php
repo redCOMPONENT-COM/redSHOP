@@ -10,7 +10,7 @@
 ddefined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $Itemid = JRequest::getVar('Itemid');
 $option = JRequest::getVar('option');
@@ -21,7 +21,7 @@ $document = JFactory::getDocument();
 //$document->addstylesheet('components/com_redshop/assets/css/redshop_pricefilter.css');
 
 // 	include redshop js file.
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
 
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);

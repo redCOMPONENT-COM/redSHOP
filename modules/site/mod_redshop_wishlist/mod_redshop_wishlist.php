@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$user           =& JFactory::getUser();
+$user           = JFactory::getUser();
 $count          = trim($params->get('count', 1));
 $image          = trim($params->get('image', 0));
 $show_price     = trim($params->get('show_price', 0));
@@ -22,14 +22,14 @@ $thumbheight    = $params->get('thumbheight', "100");
 $db = JFactory::getDBO();
 
 // Getting the configuration
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 $Redconfiguration = new Redconfiguration();
 $Redconfiguration->defineDynamicVars();
 
 
 $rows = array();
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 
 if (MY_WISHLIST)
 {

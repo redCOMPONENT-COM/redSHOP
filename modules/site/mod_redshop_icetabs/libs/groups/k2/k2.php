@@ -66,7 +66,7 @@ if (!class_exists('LofSliderGroupK2'))
 			$ordering       = $params->get('k2_ordering', 'created_asc');
 			$limit          = $params->get('limit_items', 5);
 			$ordering       = str_replace('_', '  ', $ordering);
-			$my             = & JFactory::getUser();
+			$my             = JFactory::getUser();
 			$aid            = $my->get('aid', 0);
 			$thumbWidth     = (int) $params->get('thumbnail_width', 35);
 			$thumbHeight    = (int) $params->get('thumbnail_height', 60);
@@ -76,11 +76,11 @@ if (!class_exists('LofSliderGroupK2'))
 			$image_quanlity = $params->get('image_quanlity', 100);
 			$isStripedTags  = $params->get('auto_strip_tags', 0);
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
-			$db             = & JFactory::getDBO();
-			$date           =& JFactory::getDate();
+			$db             = JFactory::getDBO();
+			$date           = JFactory::getDate();
 			$now            = $date->toMySQL();
 
-			require_once (JPath::clean(JPATH_SITE . '/components/com_k2/helpers/route.php'));
+			require_once JPath::clean(JPATH_SITE . '/components/com_k2/helpers/route.php');
 			$query = "SELECT a.*, cr.rating_sum/cr.rating_count as rating, c.name as categoryname,
 							c.id as categoryid, c.alias as categoryalias, c.params as categoryparams, cc.commentcount as commentcount" .
 				" FROM #__k2_items as a" .

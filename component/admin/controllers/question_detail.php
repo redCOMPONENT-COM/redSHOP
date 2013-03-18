@@ -227,4 +227,4 @@ class question_detailController extends JController
 
 }
 
-?>
+

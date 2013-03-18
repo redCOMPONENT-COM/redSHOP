@@ -19,9 +19,6 @@ jimport('joomla.application.component.controller');
  */
 class pluginController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+
 }
 

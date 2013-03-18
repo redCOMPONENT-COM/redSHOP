@@ -13,7 +13,7 @@ global $root_label, $urlpath;
 $urllive = $urlpath;
 
 
-$db              = & JFactory :: getDBO();
+$db              = JFactory :: getDBO();
 $objhelper       = new redhelper ();
 $Itemid          = JRequest::getVar('Itemid', '1');
 $redproduct_menu = new modProMenuHelper();
@@ -138,7 +138,7 @@ $target = "";
 $menu_htmlcode .= "$tree.add(\"$baseid\",\"-1\",\"$basename\",\"$baselink\",\"\",\"$target\");\n";
 
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 
 
 foreach ($catdatas as $catdata)

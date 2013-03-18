@@ -23,7 +23,7 @@ if (!defined('PhpThumbFactoryLoaded'))
 }
 if (!class_exists('LofSliderGroupBase'))
 {
-	require_once(dirname(__FILE__) . DS . 'libs' . DS . 'group_base.php');
+	require_once dirname(__FILE__) . DS . 'libs' . DS . 'group_base.php';
 }
 
 abstract class modIceTabsHelper
@@ -35,7 +35,7 @@ abstract class modIceTabsHelper
 	{
 		if ($params->get('enable_cache'))
 		{
-			$cache =& JFactory::getCache('mod_icetabs');
+			$cache = JFactory::getCache('mod_icetabs');
 			$cache->setCaching(true);
 			$cache->setLifeTime($params->get('cache_time', 15) * 60);
 
@@ -57,7 +57,7 @@ abstract class modIceTabsHelper
 
 		if (file_exists($file))
 		{
-			require_once($file);
+			require_once $file;
 			$className = 'LofSliderGroup' . ucfirst($group);
 			if (class_exists($className))
 			{
@@ -111,7 +111,7 @@ abstract class modIceTabsHelper
 		// load js of modalbox
 		if ($params->get('load_jslibs', 'modal') && !defined('LOF_ADDED_MODALBOX') && $params->get('open_target', '') == 'modalbox')
 		{
-			$doc    =& JFactory::getDocument();
+			$doc    = JFactory::getDocument();
 			$string = '<script type="text/javascript">';
 			$string .= "
 				var box = {};

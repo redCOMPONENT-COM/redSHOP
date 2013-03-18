@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$user    =& JFactory::getUser();
+$user    = JFactory::getUser();
 $newprd  = trim($params->get('show_newprd', 1));
 $ltsprd  = trim($params->get('show_ltsprd', 1));
 $soldprd = trim($params->get('show_soldprd', 1));
@@ -28,11 +28,11 @@ $thumbheight    = trim($params->get('thumbheight', 100)); // get show image thum
 $db             = JFactory::getDBO();
 
 // Getting the configuration
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 $Redconfiguration = new Redconfiguration();
 $Redconfiguration->defineDynamicVars();
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
 
 $catfld = '';
 if ($adjcat == 0)

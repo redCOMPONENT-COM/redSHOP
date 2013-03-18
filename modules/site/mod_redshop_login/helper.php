@@ -15,7 +15,7 @@ class modRedshopLoginHelper
 	{
 		if ($itemid = $params->get($type))
 		{
-			$menu =& JSite::getMenu();
+			$menu = JSite::getMenu();
 			$item = $menu->getItem($itemid);
 			$url  = JRoute::_($item->link . '&Itemid=' . $itemid, false);
 		}
@@ -31,7 +31,7 @@ class modRedshopLoginHelper
 
 	function getType()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 
 		return (!$user->get('guest')) ? 'logout' : 'login';
 	}

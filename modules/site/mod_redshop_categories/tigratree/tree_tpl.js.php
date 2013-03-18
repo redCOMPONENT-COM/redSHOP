@@ -6,7 +6,7 @@ if (file_exists(dirname(__FILE__) . '/../../configuration.php'))
 }
 elseif (file_exists(dirname(__FILE__) . '/../../../configuration.php'))
 {
-	require_once(dirname(__FILE__) . '/../../../configuration.php');
+	require_once dirname(__FILE__) . '/../../../configuration.php';
 }
 else
 {
@@ -29,13 +29,13 @@ else
 	define('DS', DIRECTORY_SEPARATOR);
 
 	// Initialize the framework
-	require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-	require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
+	require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
+	require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
 
 	// Get a $mainframe
-	$mainframe = & JFactory::getApplication('site');
+	$mainframe = JFactory::getApplication('site');
 
-	// Get the appropriate url	
+	// Get the appropriate url
 	$url                 = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 	$mosConfig_live_site = substr_replace($url, '', -1, 1);
 	$icon_path           = $mosConfig_live_site . '/icons';

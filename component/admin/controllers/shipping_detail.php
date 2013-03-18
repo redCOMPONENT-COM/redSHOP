@@ -155,4 +155,4 @@ class shipping_detailController extends JController
 	}
 }
 
-?>
+

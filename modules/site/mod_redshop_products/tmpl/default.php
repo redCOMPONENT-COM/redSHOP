@@ -11,18 +11,18 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $Itemid = JRequest::getVar('Itemid');
-$user   = & JFactory::getUser();
+$user   = JFactory::getUser();
 $option = 'com_redshop';
 
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet('modules/mod_redshop_products/css/products.css');
 
 // 	include redshop js file.
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
 
 // lightbox Javascript
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);

@@ -13,18 +13,8 @@ jimport('joomla.application.component.controller');
 
 class answerController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
-	}
-
-	function display()
-	{
-		parent::display();
 	}
 }

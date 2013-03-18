@@ -21,17 +21,17 @@ class JFormFieldVmcategory extends JFormField
 
 	function getInput()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_virtuemart')) return JText::_('Virtuemart is not installed');
 		// Load the virtuemart main parse code
 		if (file_exists(JPATH_ADMINISTRATOR . '/components/com_virtuemart/virtuemart_parser.php'))
 		{
-			require_once(JPATH_ADMINISTRATOR . '/components/com_virtuemart/virtuemart_parser.php');
+			require_once JPATH_ADMINISTRATOR . '/components/com_virtuemart/virtuemart_parser.php';
 			$mosConfig_absolute_path = realpath(dirname(__FILE__) . '/../..');
 		}
 		else
 		{
-			require_once(JPATH_SITE . '/components/com_virtuemart/virtuemart_parser.php');
+			require_once JPATH_SITE . '/components/com_virtuemart/virtuemart_parser.php';
 		}
 		if (!is_array($this->value))
 		{
@@ -45,7 +45,7 @@ class JFormFieldVmcategory extends JFormField
 			}
 		}
 
-		require_once(CLASSPATH . 'ps_product_category.php');
+		require_once CLASSPATH . 'ps_product_category.php';
 		$ps_product_category = new ps_product_category();
 		ob_start();
 		$output = $ps_product_category->list_all('' . $this->name . '[]', '', ($this->value), 10, true, true);

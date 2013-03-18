@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $option = JRequest::getVar('option');
 
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $cart    = $session->get('cart');
 $count   = 0;
 if (isset($cart['idx']))
@@ -19,8 +19,8 @@ if (isset($cart['idx']))
 	$count = $cart['idx'];
 }
 
-require_once(JPATH_ROOT . DS . 'administrator/components/com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
+require_once JPATH_ROOT . DS . 'administrator/components/com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 $Redconfiguration = new Redconfiguration();
 $Redconfiguration->defineDynamicVars();
 

@@ -23,7 +23,7 @@ if (!class_exists('redCategoryMenu'))
 		{
 			static $ibg = 0;
 			global $urlpath, $redproduct_menu;
-			$db = & JFactory :: getDBO();
+			$db = JFactory :: getDBO();
 			$level++;
 			$redproduct_menu = new modProMenuHelper();
 
@@ -93,7 +93,7 @@ if (!class_exists('redCategoryMenu'))
 	}
 }
 
-//require_once(CATEGORY_MODULE_PATH.DS.'helper.php');
+//require_once CATEGORY_MODULE_PATH.DS.'helper.php';
 //$redproduct_menu = new modProMenuHelper();
 
 
@@ -101,7 +101,7 @@ $Itemid = JRequest::getInt('Itemid');
 $TreeId = JRequest::getInt('TreeId');
 $js_src = JURI::root() . 'modules/mod_redshop_categories';
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 //JHTML::Script('JSCookMenu.js', $urlpath.'includes/js/',false);
 JHTML::Script('JSCookMenu.js', $js_src . '/JSCook/', false);
 $document->addScriptDeclaration('var ctThemeXPBase = "' . $js_src . '/ThemeXP/"');

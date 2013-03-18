@@ -10,13 +10,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Include the syndicate functions only once
-require_once (dirname(__FILE__) . DS . 'helper.php');
+require_once dirname(__FILE__) . DS . 'helper.php';
 
 $params->def('greeting', 1);
 
 $type    = modRedshopLoginHelper::getType();
 $return  = modRedshopLoginHelper::getReturnURL($params, $type);
 $rItemid = trim($params->get('registrationitemid', ''));
-$user    =& JFactory::getUser();
+$user    = JFactory::getUser();
 
 require(JModuleHelper::getLayoutPath('mod_redshop_login'));

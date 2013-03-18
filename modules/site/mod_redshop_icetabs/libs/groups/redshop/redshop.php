@@ -51,9 +51,9 @@ if (!class_exists('LofSliderGroupRedshop'))
 		{
 
 			global $mm_action_url;
-			require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+			require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 
-			$db                  =& JFactory::getDBO();
+			$db                  = JFactory::getDBO();
 			$producthelper       = new producthelper();
 			$ordering            = $params->get('redshop_ordering', 'cdate_asc');
 			$limit               = $params->get('limit_items', 4);
@@ -113,7 +113,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 					$rows[$key]->title = $rows[$key]->product_name;
 
 					/*$rows[$key]->mainImage = $producthelper->getProductImage($rows[$key]->product_id,'',$imageWidth,$imageHeight,1);
-					
+
 					$rows[$key]->thumbnail = $producthelper->getProductImage($rows[$key]->product_id,'',$thumbWidth,$thumbHeight,1);
 					*/
 					$middlepath = "/components/com_redshop/assets/images/product/";
