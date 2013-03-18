@@ -67,19 +67,19 @@ class accountController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
 		}
-		else if ($sender == "")
+		elseif ($sender == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_NAME');
 		}
-		else if ($email == "")
+		elseif ($email == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_EMAIL');
 		}
-		else if ($subject == "")
+		elseif ($subject == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
 		}
-		else if ($model->sendWishlist($post))
+		elseif ($model->sendWishlist($post))
 		{
 			$msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
 		}
