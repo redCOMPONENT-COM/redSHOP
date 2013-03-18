@@ -42,6 +42,7 @@ class giftcardModelgiftcard extends JModel
 		global $mainframe;
 
 		$and = "";
+
 		if ($this->_id)
 		{
 			$and .= "AND giftcard_id='" . $this->_id . "' ";

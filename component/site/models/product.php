@@ -82,6 +82,7 @@ class productModelproduct extends JModel
 	public function getData()
 	{
 		$redTemplate = new Redtemplate ();
+
 		if (empty ($this->_data))
 		{
 			$query = $this->_buildQuery();
@@ -97,6 +98,7 @@ class productModelproduct extends JModel
 	public function getProductTemplate()
 	{
 		$redTemplate = new Redtemplate ();
+
 		if (empty ($this->_template))
 		{
 			$this->_template = $redTemplate->getTemplate("product", $this->_data->product_template);
@@ -178,6 +180,7 @@ class productModelproduct extends JModel
 
 
 		$row = & $this->getTable('rating_detail');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -210,10 +213,12 @@ class productModelproduct extends JModel
 		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
 
 		$data_add = $message;
+
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
 			$subject  = $mailbody[0]->mail_subject;
+
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
@@ -232,6 +237,7 @@ class productModelproduct extends JModel
 		if (ADMINISTRATOR_EMAIL != "")
 		{
 			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;
@@ -269,6 +275,7 @@ class productModelproduct extends JModel
 	public function addProductTags($data)
 	{
 		$tags = & $this->getTable('product_tags');
+
 		if (!$tags->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -288,6 +295,7 @@ class productModelproduct extends JModel
 	public function addtowishlist($data)
 	{
 		$row = & $this->getTable('wishlist');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -386,6 +394,7 @@ class productModelproduct extends JModel
 		$compare_product = $session->get('compare_product');
 		$cid             = JRequest::getInt('cid');
 		$catid           = $compare_product[0]['category_id'];
+
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
 		{
 			unset($compare_product);
@@ -423,6 +432,7 @@ class productModelproduct extends JModel
 	{
 		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
+
 		if (!$compare_product)
 		{
 			$compare_product        = array();
@@ -432,6 +442,7 @@ class productModelproduct extends JModel
 			$compare_product = $session->get('compare_product');
 		}
 		$idx = (int) ($compare_product['idx']);
+
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $compare_product[0]["category_id"] != $data["cid"])
 		{
 			unset($compare_product);
@@ -470,6 +481,7 @@ class productModelproduct extends JModel
 			}
 		}
 		$idx -= $tmp_i;
+
 		if ($idx < 0)
 		{
 			$idx = 0;
@@ -495,6 +507,7 @@ class productModelproduct extends JModel
 	public function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)
 	{
 		$where = "";
+
 		if ($mid != 0)
 		{
 			$where .= "AND media_id='" . $mid . "' ";
@@ -526,6 +539,7 @@ class productModelproduct extends JModel
 			. "WHERE download_id='" . $did . "' ";
 		$this->_db->setQuery($query);
 		$ret = $this->_db->Query();
+
 		if ($ret)
 		{
 			return true;
@@ -562,6 +576,7 @@ class productModelproduct extends JModel
 		$data['subproperty_id'] = $subproperty_id;
 		$data['user_id']        = $user_id;
 		$row                    =& $this->getTable('notifystock_user');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());

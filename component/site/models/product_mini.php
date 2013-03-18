@@ -55,6 +55,7 @@ class product_miniModelproduct_mini extends JModel
 		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
 
 		$where = '';
+
 		if (trim($keyword) != '')
 		{
 			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
@@ -105,6 +106,7 @@ class product_miniModelproduct_mini extends JModel
 		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
 
 		$where = '';
+
 		if (trim($keyword) != '')
 		{
 			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
@@ -115,6 +117,7 @@ class product_miniModelproduct_mini extends JModel
 		}
 		// change limit condition for all issue
 		$limit = "";
+
 		if ($this->getState('limit') > 0)
 		{
 			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');

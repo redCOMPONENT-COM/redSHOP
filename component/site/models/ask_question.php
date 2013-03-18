@@ -100,10 +100,12 @@ class ask_questionModelask_question extends JModel
 		$mailbody = $redshopMail->getMailtemplate(0, "ask_question_mail");
 
 		$data_add = $message;
+
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
 			$subject  = $mailbody[0]->mail_subject;
+
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
@@ -125,9 +127,11 @@ class ask_questionModelask_question extends JModel
 		$data_add    = str_replace("{user_telephone}", $data['telephone'], $data_add);
 		$data_add    = str_replace("{user_telephone_lbl}", JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
 		$data_add    = str_replace("{user_address_lbl}", JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
+
 		if (ADMINISTRATOR_EMAIL != "")
 		{
 			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;

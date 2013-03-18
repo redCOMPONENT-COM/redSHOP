@@ -44,6 +44,7 @@ class quotationModelquotation extends JModel
 	{
 		$order_functions = new order_functions();
 		$user            = JFactory::getUser();
+
 		if ($user->id)
 		{
 			$this->_data               = $order_functions->getBillingAddress($user->id);
@@ -87,6 +88,7 @@ class quotationModelquotation extends JModel
 		$user_id         = 0;
 		$user_info_id    = 0;
 		$user_email      = $post['user_email'];
+
 		if ($user->id)
 		{
 			$user_id      = $user->id;
@@ -95,6 +97,7 @@ class quotationModelquotation extends JModel
 		}
 
 		$res = $this->getUserIdByEmail($user_email);
+
 		if (count($res) > 0)
 		{
 			$user_id      = $res->user_id;
@@ -122,6 +125,7 @@ class quotationModelquotation extends JModel
 		$quotation_item = array();
 
 		$row =& $this->getTable('quotation_detail');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -431,6 +435,7 @@ class quotationModelquotation extends JModel
 
 		$usersConfig = & JComponentHelper::getParams('com_users');
 		$usersConfig->set('allowUserRegistration', 1);
+
 		if ($usersConfig->get('allowUserRegistration') == '0')
 		{
 			JError::raiseError(403, JText::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
@@ -440,6 +445,7 @@ class quotationModelquotation extends JModel
 
 		// Initialize new usertype setting
 		$newUsertype = $usersConfig->get('new_usertype');
+
 		if (!$newUsertype)
 		{
 			$newUsertype = 'Registered';
@@ -551,6 +557,7 @@ class quotationModelquotation extends JModel
 		}
 		$row->user_email   = $user->email;
 		$row->address_type = 'BT';
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -570,10 +577,12 @@ class quotationModelquotation extends JModel
 		$mailsubject = 'Register';
 		$mailbcc     = null;
 		$mailinfo    = $redshopMail->getMailtemplate(0, "quotation_user_register");
+
 		if (count($mailinfo) > 0)
 		{
 			$mailbody    = $mailinfo[0]->mail_body;
 			$mailsubject = $mailinfo[0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);

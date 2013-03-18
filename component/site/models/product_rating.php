@@ -82,10 +82,12 @@ class product_ratingModelproduct_rating extends JModel
 		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
 
 		$data_add = $message;
+
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
 			$subject  = $mailbody[0]->mail_subject;
+
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
@@ -104,6 +106,7 @@ class product_ratingModelproduct_rating extends JModel
 		if (ADMINISTRATOR_EMAIL != "")
 		{
 			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;

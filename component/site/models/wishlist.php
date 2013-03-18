@@ -48,6 +48,7 @@ class wishlistModelwishlist extends JModel
 	{
 		$user = & JFactory::getUser();
 		$db   = JFactory::getDBO();
+
 		if ($user->id)
 		{
 			$whislists     = $this->getUserWishlist();
@@ -69,6 +70,7 @@ class wishlistModelwishlist extends JModel
 		{
 			$prod_id = "";
 			$rows    = array();
+
 			if (isset($_SESSION["no_of_prod"]))
 			{
 				for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
@@ -92,6 +94,7 @@ class wishlistModelwishlist extends JModel
 		$db      = JFactory::getDBO();
 		$prod_id = "";
 		$rows    = array();
+
 		if (isset($_SESSION["no_of_prod"]))
 		{
 			for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
@@ -141,6 +144,7 @@ class wishlistModelwishlist extends JModel
 					. ", product_id=" . $product_id
 					. ", cdate=" . time();
 				$db->setQuery($ins_query);
+
 				if ($db->Query())
 					return true;
 				else
@@ -203,6 +207,7 @@ class wishlistModelwishlist extends JModel
 				. ", product_id=" . $product_id
 				. ", cdate=" . time();
 			$db->setQuery($ins_query);
+
 			if ($db->query())
 				continue;
 			else
@@ -220,6 +225,7 @@ class wishlistModelwishlist extends JModel
 		$db->setQuery($query);
 
 		$rs = $db->loadResult();
+
 		if ($rs)
 			return true;
 		else
@@ -243,6 +249,7 @@ class wishlistModelwishlist extends JModel
 			$query = "DELETE FROM " . $this->_table_prefix . "wishlist "
 				. " WHERE wishlist_id=" . $wishlist_id . " AND user_id=" . $userid;
 			$db->setQuery($query);
+
 			if ($db->Query())
 				return true;
 			else

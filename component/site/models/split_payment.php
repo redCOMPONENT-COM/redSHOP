@@ -126,6 +126,7 @@ class split_paymentModelsplit_payment extends JModel
 		}
 
 		$data['amount'] = 0;
+
 		if ($paymentmethod->is_creditcard == 1)
 		{
 			$validpayment = $this->validatepaymentccinfo();
@@ -159,6 +160,7 @@ class split_paymentModelsplit_payment extends JModel
 				$order_status      = 'ACCP';
 				$order_status_full = 'Awaiting credit card payment';
 				$data['amount']    = $tmporder_total;
+
 				if ($d ["order_payment_log"] == 'SUCCESS')
 				{
 					// If partial payment success, then update the payment and status					
@@ -390,6 +392,7 @@ class split_paymentModelsplit_payment extends JModel
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
 			$exp = '^' . $prefix [$i];
+
 			if (ereg($exp, $cardNo))
 			{
 				$PrefixValid = true;

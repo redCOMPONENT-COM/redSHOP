@@ -37,6 +37,7 @@ class searchModelsearch extends JModel
 		$module         = JModuleHelper::getModule('redshop_search');
 		$module_params  = new JRegistry($module->params);
 		$perpageproduct = $module_params->get('productperpage', 5);
+
 		if ($layout == 'default')
 			$limit = $perpageproduct;
 		elseif ($layout == 'productonsale')
@@ -44,6 +45,7 @@ class searchModelsearch extends JModel
 		else
 			$limit = $params->get('maxcategory', 5);
 		$productlimit = 0;
+
 		if (isset($item->query['productlimit']))
 			$productlimit = $item->query['productlimit'];
 		//$limit			= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $limit, 5);
@@ -60,6 +62,7 @@ class searchModelsearch extends JModel
 		$post = JRequest::get('POST');
 
 		$redTemplate = new Redtemplate();
+
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery($post);
@@ -133,6 +136,7 @@ class searchModelsearch extends JModel
 		else
 		{
 			$productperpage = $this->getState('productperpage');
+
 			if ($productperpage != 0 && $productperpage != '')
 			{
 				$limit = $productperpage;
@@ -140,6 +144,7 @@ class searchModelsearch extends JModel
 			elseif ($this->_id)
 			{
 				$limit = intval($redconfig->get('maxproduct', 0));
+
 				if ($limit == 0)
 				{
 					$limit = $this->_maincat->products_per_page;
@@ -204,6 +209,7 @@ class searchModelsearch extends JModel
 		//$defaultSearchType	= $mainframe->getUserStateFromRequest( $context.'defaultSearchType', 'defaultSearchType','');
 		//$keyword=$manudata['keyword'];
 		$defaultSearchType = '';
+
 		if (!empty($manudata['search_type']))
 		{
 			$defaultSearchType     = $manudata['search_type'];
@@ -269,6 +275,7 @@ class searchModelsearch extends JModel
 			for($k=0;$k<count($arr_keyword);$k++)
 			{
 				$product_s_desc_srch .= " p.product_s_desc LIKE '%".$arr_keyword[$k]."%' OR p.product_desc LIKE '%".$arr_keyword[$k]."%' ";
+
 				if($k!=count($arr_keyword)-1)
 				{
 					$product_s_desc_srch .= ' OR ';
@@ -277,6 +284,7 @@ class searchModelsearch extends JModel
 		}*/
 
 		//$defaultSearchType .= " OR (p.product_s_desc LIKE '%".$keyword."%' or p.product_desc LIKE '%".$keyword."%') ";
+
 		if ($product_s_desc_srch != '')
 		{
 			$defaultSearchType .= " OR (" . $product_s_desc_srch . ") ";
@@ -286,6 +294,7 @@ class searchModelsearch extends JModel
 		$getorderby = JRequest::getVar('order_by', '');
 
 		$order_by = $getorderby;
+
 		if ($getorderby == "")
 		{
 			$order_by = $redconfig->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
@@ -307,6 +316,7 @@ class searchModelsearch extends JModel
 		for ($j = 0; $j < count($cat); $j++)
 		{
 			$cat_group[$j] = $cat[$j]->category_id;
+
 			if ($j == count($cat) - 1)
 			{
 				$cat_group[$j + 1] = $category_id;
@@ -354,6 +364,7 @@ class searchModelsearch extends JModel
 			$categoryid = $item->params->get('categorytemplate');
 			$cat_array  = "";
 			$left_join  = "";
+
 			if ($categoryid)
 			{
 				$cat_main       = $category_helper->getCategoryTree($categoryid);
@@ -404,6 +415,7 @@ class searchModelsearch extends JModel
 			$cat_group_main   = join(',', $cat_group_main);
 
 			$extracond = "";
+
 			if ($catid)
 				$extracond = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
 			$query = " SELECT distinct p.* "
@@ -440,6 +452,7 @@ class searchModelsearch extends JModel
 
 			$query = "SELECT distinct p.* "
 				. " FROM  " . $this->_table_prefix . "product as p  ";
+
 			if ($category_id != 0)
 			{
 				$query .= " LEFT JOIN  " . $this->_table_prefix . "product_category_xref as pcx on p.product_id = pcx.product_id ";
@@ -496,6 +509,7 @@ class searchModelsearch extends JModel
 		$params = & JComponentHelper::getParams('com_redshop');
 		$menu   =& $mainframe->getMenu();
 		$item   =& $menu->getActive();
+
 		if ($layout == 'newproduct')
 		{
 			$cid = $item->query['categorytemplate'];
@@ -507,6 +521,7 @@ class searchModelsearch extends JModel
 		if ($layout == 'productonsale' || $layout == 'featuredproduct')
 		{
 			$templateid = $item->params->get('template_id');
+
 			if ($templateid != 0)
 			{
 				$cid = 0;
@@ -520,12 +535,14 @@ class searchModelsearch extends JModel
 		{
 			$module        = JModuleHelper::getModule('redPRODUCTFILTER');
 			$module_params = new JRegistry($module->params);
+
 			if ($module_params->get('filtertemplate') != "")
 			{
 				$templateid = $module_params->get('filtertemplate');
 			}
 		}
 		$and = "";
+
 		if ($cid != 0)
 		{
 			$and .= " AND c.category_id = '" . $cid . "' ";
@@ -567,6 +584,7 @@ class searchModelsearch extends JModel
 			$main_sal_sp   = array();
 			$main_sal_type = array();
 			$main_sal_tag  = array();
+
 			if (JRequest::getVar('main_sel') != "")
 			{
 				$main_sal_sp = explode(",", JRequest::getVar('main_sel'));
@@ -728,6 +746,7 @@ class searchModelsearch extends JModel
 				$id         = $type->id;
 				$all        = 1;
 				$productids = "";
+
 				if (count($getredfilter) > 0 && $all == 1)
 				{
 					$type_id = array();
@@ -952,6 +971,7 @@ class searchModelsearch extends JModel
 		$getredfilter = $session->get('redfilter');
 		$db           = JFactory::getDBO();
 		$productids   = "";
+
 		if (count($getredfilter) > 0 && $all == 1)
 		{
 			$type_id = array();
@@ -962,6 +982,7 @@ class searchModelsearch extends JModel
 				$type_id[] = $typeid;
 				$tags      = explode(".", $tags);
 				$tag_id[]  = $tags[0];
+
 				if (count($getredfilter) - 1 == $k)
 				{
 					$lasttypeid = $typeid;
@@ -992,6 +1013,7 @@ class searchModelsearch extends JModel
 			. "LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id "
 			. "WHERE j.tag_id = t.id "
 			. "AND j.type_id = " . $id . " ";
+
 		if ($productids != "")
 		{
 			$q .= " AND ra.product_id IN (" . $productids . ") ";
@@ -1054,8 +1076,10 @@ class searchModelsearch extends JModel
 			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
 		elseif ($search_type == 'name_number_desc')
 			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+
 		if ($category_id != "0")
 			$where[] = "c.category_id = '" . $category_id . "'";
+
 		if ($manufacture_id != "0")
 			$where[] = "p.manufacturer_id = '" . $manufacture_id . "'";
 

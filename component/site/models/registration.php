@@ -30,11 +30,13 @@ class registrationModelregistration extends JModel
 	{
 		$userhelper = new rsUserhelper();
 		$captcha    = $userhelper->checkCaptcha($data);
+
 		if (!$captcha)
 		{
 			return false;
 		}
 		$joomlauser = $userhelper->createJoomlaUser($data, 1);
+
 		if (!$joomlauser)
 		{
 			return false;
