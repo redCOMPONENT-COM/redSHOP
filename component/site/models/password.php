@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class passwordModelpassword
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class passwordModelpassword extends JModel
 {
 	var $_db = null;
@@ -26,6 +33,7 @@ class passwordModelpassword extends JModel
 		$query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";
 		$this->_db->setQuery($query);
 		$id = $this->_db->loadResult();
+
 		if ($id)
 		{
 			// Generate a new token

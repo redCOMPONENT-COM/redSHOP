@@ -11,7 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class ordersController extends JController
+/**
+ * Orders controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class OrdersController extends JController
 {
-
 }

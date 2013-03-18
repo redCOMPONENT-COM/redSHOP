@@ -14,7 +14,14 @@ jimport('joomla.application.component.model');
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 
-class accountModelaccount extends JModel
+/**
+ * Class accountModelaccount
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class AccountModelaccount extends JModel
 {
 	var $_id = null;
 
@@ -227,12 +234,14 @@ class accountModelaccount extends JModel
 		print_r($query);
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadResult();
+
 		if (count($list) > 0)
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
 				. "WHERE product_id = '" . $pid . "' AND wishlist_id='" . $wishlist_id . "' ";
 
 			$this->_db->setQuery($query);
+
 			if ($this->_db->Query())
 			{
 				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
@@ -274,14 +283,17 @@ class accountModelaccount extends JModel
 		$xref = "DELETE FROM " . $this->_table_prefix . "product_tags_xref "
 			. "WHERE tags_id = '" . $tagid . "' AND users_id='" . $user->id . "' ";
 		$this->_db->setQuery($xref);
+
 		if ($this->_db->Query())
 		{
 			$check = "SELECT count(tags_id) FROM " . $this->_table_prefix . "product_tags_xref  WHERE tags_id ='" . $tagid . "' ";
 			$this->_db->setQuery($check);
+
 			if ($this->_db->loadResult() == 0)
 			{
 				$query = "DELETE FROM " . $this->_table_prefix . "product_tags WHERE tags_id = '" . $tagid . "' ";
 				$this->_db->setQuery($query);
+
 				if (!$this->_db->Query())
 				{
 					return false;
@@ -310,6 +322,7 @@ class accountModelaccount extends JModel
 	{
 		$query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = '" . $post['tags_name'] . "' WHERE tags_id = '" . $post['tags_id'] . "' ";
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->Query())
 		{
 			return false;
@@ -341,6 +354,7 @@ class accountModelaccount extends JModel
 		$query = "DELETE FROM " . $this->_table_prefix . "product_compare "
 			. "WHERE product_id = '" . $product_id . "' AND user_id='" . $user->id . "' ";
 		$this->_db->setQuery($query);
+
 		if ($this->_db->Query())
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
@@ -355,7 +369,7 @@ class accountModelaccount extends JModel
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
-		$redshopMail = new redshopMail();
+		$redshopMail = new redshopMail;
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$emailto     = $post['emailto'];
@@ -364,7 +378,7 @@ class accountModelaccount extends JModel
 		$subject     = $post['subject'];
 		$Itemid      = $post['Itemid'];
 
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 
 		// Get data from database if not than fetch from session
 		if ($user->id && $wishlist_id)
@@ -392,6 +406,7 @@ class accountModelaccount extends JModel
 		$data          = "";
 		$mailbcc       = null;
 		$wishlist_body = $redshopMail->getMailtemplate(0, "mywishlist_mail");
+
 		if (count($wishlist_body) > 0)
 		{
 			$wishlist_body = $wishlist_body[0];
@@ -522,6 +537,7 @@ class accountModelaccount extends JModel
 			. "WHERE user_id='" . $user->id . "' AND amount > 0 limit 0,1 ";
 		$this->_db->setQuery($query);
 		$Data = $this->_getList($query);
+
 		if ($Data)
 		{
 			$remain_discount += $Data[0]->amount;

@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * login Controller
+ * login Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class loginController extends JController
+class LoginController extends JController
 {
-
-
 	/*
 	 *  setlogin function
 	 */
@@ -36,7 +35,7 @@ class loginController extends JController
 		$item = $menu->getItem($returnitemid);
 
 		include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 
 
 		$model = & $this->getModel('login');
@@ -50,6 +49,7 @@ class loginController extends JController
 		{
 			$check = $model->CheckShopperGroup($username, $shoppergroupid);
 			$link = "index.php?option=" . $option . "&view=login&layout=portal&protalid=" . $shoppergroupid;
+
 			if ($check > 0)
 			{
 				$model->setlogin($username, $password);
@@ -102,12 +102,13 @@ class loginController extends JController
 
 	}
 
-	/*
+	/**
 	 *  logout function
+	 *
+	 * @return void
 	 */
 	public function logout()
 	{
-
 		$mainframe = JFactory::getApplication();
 		$params = & $mainframe->getParams('com_redshop');
 		$logout_itemid = JRequest::getVar('logout');
@@ -117,6 +118,7 @@ class loginController extends JController
 		$item = $menu->getItem($redconfig['logout']);*/
 		$menu =& JSite::getMenu();
 		$item = $menu->getItem($logout_itemid);
+
 		if ($item)
 		{
 			$link = JRoute::_($item->link . '&Itemid=' . $logout_itemid);
@@ -125,6 +127,7 @@ class loginController extends JController
 		{
 			$link = JRoute::_('index.php?option=com_redshop');
 		}
+
 		$mainframe->logout();
 		$this->setRedirect($link);
 	}

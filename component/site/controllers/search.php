@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * search Controller
+ * search Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class searchController extends JController
+class SearchController extends JController
 {
-
-
 	/**
 	 * cancel function
 	 *
@@ -51,7 +50,6 @@ class searchController extends JController
 	 */
 	public function loadProducts()
 	{
-
 		$get = JRequest::get('get');
 		$taskid = $get['taskid'];
 
@@ -73,7 +71,6 @@ class searchController extends JController
 
 		if (count($brands) > 0)
 		{
-
 			$manufac = array();
 			$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
 			$manufacdata = @array_merge($manufac, $brands);

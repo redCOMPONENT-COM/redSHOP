@@ -10,18 +10,17 @@
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 jimport('joomla.application.component.controller');
+
 /**
- * Order Detail Controller
+ * Password Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class passwordController extends JController
+class PasswordController extends JController
 {
-
-
-	/*
+	/**
 	 *  Metod to reset Password
 	 */
 	public function reset()
@@ -30,10 +29,12 @@ class passwordController extends JController
 		$model = & $this->getModel('password');
 		$Itemid = JRequest::getVar('Itemid');
 		$layout = "";
-		//Request a reset
+
+		// Request a reset
 		if ($model->resetpassword($post))
 		{
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
+
 			if ($redshopMail->sendResetPasswordMail($post['email']))
 			{
 				$layout = "&layout=token";
@@ -48,10 +49,11 @@ class passwordController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_NOT_SEND');
 		}
+
 		$this->setRedirect('index.php?option=com_redshop&view=password' . $layout . '&Itemid=' . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to changepassword
 	 */
 	public function changepassword()
@@ -60,6 +62,7 @@ class passwordController extends JController
 		$model = & $this->getModel('password');
 		$token = $post['token'];
 		$Itemid = JRequest::getVar('Itemid');
+
 		if ($model->changepassword($token))
 		{
 			parent::display();
@@ -71,7 +74,7 @@ class passwordController extends JController
 		}
 	}
 
-	/*
+	/**
 	 *  Method to setpassword
 	 */
 	public function setpassword()

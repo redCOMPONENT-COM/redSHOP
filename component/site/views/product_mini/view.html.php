@@ -11,14 +11,10 @@ defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
+
 class product_miniViewproduct_mini extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
