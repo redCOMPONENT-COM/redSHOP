@@ -7,36 +7,38 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableusercart_attribute_item extends JTable
 {
-	var $cart_att_item_id = 0;
-	var $cart_item_id = 0;
-	var $section_id = 0;
-	var $section = null;
-	var $parent_section_id = 0;
-	var $is_accessory_att = 0;
+	public $cart_att_item_id = 0;
 
-	function Tableusercart_attribute_item(& $db)
+	public $cart_item_id = 0;
+
+	public $section_id = 0;
+
+	public $section = null;
+
+	public $parent_section_id = 0;
+
+	public $is_accessory_att = 0;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'usercart_attribute_item', 'cart_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
