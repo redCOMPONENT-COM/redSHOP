@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
 
 /**
  * Class ask_questionModelask_question
