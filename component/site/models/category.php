@@ -11,8 +11,14 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.model');
 
-
-class categoryModelcategory extends JModel
+/**
+ * Class categoryModelcategory
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CategoryModelCategory extends JModel
 {
 	var $_id = null;
 	var $_data = null;

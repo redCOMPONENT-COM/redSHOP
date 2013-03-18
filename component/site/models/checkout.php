@@ -25,7 +25,14 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
 
-class checkoutModelcheckout extends JModel
+/**
+ * Class checkoutModelcheckout
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CheckoutModelCheckout extends JModel
 {
 
 	var $_id = null;

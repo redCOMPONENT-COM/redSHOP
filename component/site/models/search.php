@@ -14,6 +14,13 @@ jimport('joomla.application.component.model');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 
+/**
+ * Class searchModelsearch
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class searchModelsearch extends JModel
 {
 	var $_data = null;

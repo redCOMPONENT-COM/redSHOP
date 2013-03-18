@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class product_ratingModelproduct_rating
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class product_ratingModelproduct_rating extends JModel
 {
 	var $_id = null;

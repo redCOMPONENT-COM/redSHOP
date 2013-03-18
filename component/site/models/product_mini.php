@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class product_miniModelproduct_mini
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class product_miniModelproduct_mini extends JModel
 {
 	var $_data = null;

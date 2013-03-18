@@ -15,6 +15,13 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
 
+/**
+ * Class wishlistModelwishlist
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class wishlistModelwishlist extends JModel
 {
 	var $_id = null;

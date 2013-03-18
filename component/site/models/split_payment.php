@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
+/**
+ * Class split_paymentModelsplit_payment
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class split_paymentModelsplit_payment extends JModel
 {
 	var $_id = null;

@@ -16,6 +16,13 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 
+/**
+ * Class productModelproduct
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class productModelproduct extends JModel
 {
 	var $_id = null;
