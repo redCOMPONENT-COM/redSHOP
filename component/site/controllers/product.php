@@ -30,8 +30,8 @@ class productController extends JController
 		$get = JRequest::get('get');
 		$data = array();
 
-		$producthelper = new producthelper();
-		$carthelper = new rsCarthelper();
+		$producthelper = new producthelper;
+		$carthelper = new rsCarthelper;
 		$total_attribute = 0;
 
 		$product_id = $get['product_id'];
@@ -129,7 +129,7 @@ class productController extends JController
 	{
 		$propid = $subpropid = array();
 		$get = JRequest::get('get');
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 
 		$product_id = $get['product_id'];
 		$accessory_id = $get['accessory_id'];
@@ -162,7 +162,7 @@ class productController extends JController
 		$url = JURI::base();
 		$get = JRequest::get('get');
 		$option = JRequest::getVar('option');
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 
 		$property_id = urldecode($get['property_id']);
 		$subproperty_id = urldecode($get['subproperty_id']);
@@ -219,12 +219,12 @@ class productController extends JController
 	{
 		ob_clean();
 		global $mainframe;
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$section = 12;
 		$row_data = $extraField->getSectionFieldList($section);
 		// getVariables
 		$cid = JRequest::getInt('cid');
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$user = & JFactory::getUser();
 
 		$Itemid = JRequest::getVar('Itemid');
@@ -849,8 +849,8 @@ class productController extends JController
 
 	public function gotochild()
 	{
-		$producthelper = new producthelper();
-		$objhelper = new redhelper();
+		$producthelper = new producthelper;
+		$objhelper = new redhelper;
 
 		$post = JRequest::get('post');
 
@@ -874,8 +874,8 @@ class productController extends JController
 
 	public function gotonavproduct()
 	{
-		$producthelper = new producthelper();
-		$objhelper = new redhelper();
+		$producthelper = new producthelper;
+		$objhelper = new redhelper;
 
 		$post = JRequest::get('post');
 

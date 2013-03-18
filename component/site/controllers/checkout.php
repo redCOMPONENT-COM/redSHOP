@@ -27,7 +27,7 @@ class checkoutController extends JController
 	public function __construct($default = array())
 	{
 		$this->_order_functions = new order_functions();
-		$this->_shippinghelper = new shipping();
+		$this->_shippinghelper = new shipping;
 		JRequest::setVar('layout', 'default');
 		parent::__construct($default);
 	}
@@ -83,7 +83,7 @@ class checkoutController extends JController
 
 		$Itemid = JRequest::getInt('Itemid');
 		$users_info_id = JRequest::getInt('users_info_id');
-		$helper = new redhelper();
+		$helper = new redhelper;
 		$chk = $this->chkvalidation($users_info_id);
 
 
@@ -104,7 +104,7 @@ class checkoutController extends JController
 		{
 			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && ($post['payment_method_id'] == "rs_payment_banktransfer" || $post['payment_method_id'] == "rs_payment_banktransfer2" || $post['payment_method_id'] == "rs_payment_banktransfer3" || $post['payment_method_id'] == "rs_payment_banktransfer4" || $post['payment_method_id'] == "rs_payment_banktransfer5" || $post['payment_method_id'] == "rs_payment_cashtransfer" || $post['payment_method_id'] == "rs_payment_cashsale" || $post['payment_method_id'] == "rs_payment_banktransfer_discount"))
 			{
-				$crmDebitorHelper = new crmDebitorHelper();
+				$crmDebitorHelper = new crmDebitorHelper;
 
 				if ($session->get('isredcrmuser_debitor'))
 				{
@@ -233,7 +233,7 @@ class checkoutController extends JController
 			}
 			elseif (ECONOMIC_INTEGRATION == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				$economic = new economic();
+				$economic = new economic;
 				$debtorHandle = $economic->createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
@@ -539,9 +539,9 @@ class checkoutController extends JController
 
 	public function oneStepCheckoutProcess()
 	{
-		$producthelper = new producthelper();
-		$redTemplate = new Redtemplate();
-		$carthelper = new rsCarthelper();
+		$producthelper = new producthelper;
+		$redTemplate = new Redtemplate;
+		$carthelper = new rsCarthelper;
 		$order_functions = new order_functions();
 
 		$model = $this->getModel('checkout');
@@ -622,7 +622,7 @@ class checkoutController extends JController
 
 	public function displaycreditcard()
 	{
-		$carthelper = new rsCarthelper();
+		$carthelper = new rsCarthelper;
 		$get = JRequest::get('get');
 		$creditcard = "";
 
@@ -657,7 +657,7 @@ class checkoutController extends JController
 		$paymentparams = new JRegistry($paymentmethod[0]->params);
 		$extrafield_payment = $paymentparams->get('extrafield_payment', '');
 
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$extrafield_total = "";
 
 		if (count($extrafield_payment) > 0)
@@ -684,7 +684,7 @@ class checkoutController extends JController
 		$shippingparams = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$extrafield_total = "";
 
 		if (count($extrafield_shipping) > 0)

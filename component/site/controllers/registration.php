@@ -41,8 +41,8 @@ class registrationController extends JController
 		$option = JRequest::getCmd('option');
 		$Itemid = JRequest::getInt('Itemid', 0);
 
-		$prodhelperobj = new producthelper();
-		$redshopMail = new redshopMail();
+		$prodhelperobj = new producthelper;
+		$redshopMail = new redshopMail;
 
 		$model = $this->getModel('registration');
 		$success = $model->store($post);

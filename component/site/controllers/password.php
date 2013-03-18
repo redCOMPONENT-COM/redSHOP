@@ -33,7 +33,7 @@ class passwordController extends JController
 		//Request a reset
 		if ($model->resetpassword($post))
 		{
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
 
 			if ($redshopMail->sendResetPasswordMail($post['email']))
 			{

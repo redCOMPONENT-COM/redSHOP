@@ -25,7 +25,7 @@ class cartController extends JController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_carthelper = new rsCarthelper();
+		$this->_carthelper = new producthelper;
 	}
 
 	/**
@@ -39,8 +39,8 @@ class cartController extends JController
 		$post = JRequest::get('post');
 		$parent_accessory_productid = $post['product_id'];
 		$Itemid = JRequest::getVar('Itemid');
-		$producthelper = new producthelper();
-		$redhelper = new redhelper();
+		$producthelper = new producthelper;
+		$redhelper = new redhelper;
 		$Itemid = $redhelper->getCartItemid($Itemid);
 		$model = $this->getModel('cart');
 
@@ -210,7 +210,7 @@ class cartController extends JController
 
 	public function modifyCalculation($cart)
 	{
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$calArr = $this->_carthelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
 		$session =& JFactory::getSession();
@@ -288,7 +288,7 @@ class cartController extends JController
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$Itemid = $redhelper->getCartItemid($Itemid);
 		$model = $this->getModel('cart');
 
@@ -328,7 +328,7 @@ class cartController extends JController
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$Itemid = $redhelper->getCartItemid($Itemid);
 
 		$model = $this->getModel('cart');
@@ -364,7 +364,7 @@ class cartController extends JController
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$Itemid = $redhelper->getCartItemid($Itemid);
 		$model = $this->getModel('cart');
 
@@ -385,7 +385,7 @@ class cartController extends JController
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$Itemid = $redhelper->getCartItemid($Itemid);
 		$model = $this->getModel('cart');
 
@@ -405,7 +405,7 @@ class cartController extends JController
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$Itemid = $redhelper->getCartItemid($Itemid);
 		$model = $this->getModel('cart');
 
@@ -430,7 +430,7 @@ class cartController extends JController
 		$post = JRequest::get('post');
 		$cartElement = $post['cart_index'];
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$Itemid = $redhelper->getCartItemid($Itemid);
 		$model = $this->getModel('cart');
 
@@ -491,7 +491,7 @@ class cartController extends JController
 	public function getShippingrate()
 	{
 		include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
-		$shipping = new shipping();
+		$shipping = new shipping;
 		echo $shipping->getShippingrate_calc();
 		exit;
 	}
