@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 class account_billtoViewaccount_billto extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 		$extra_field = new extraField();

@@ -15,7 +15,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 //$language =& JFactory::getLanguage();	 
 class checkoutViewcheckout extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 		$model     = $this->getModel('checkout');

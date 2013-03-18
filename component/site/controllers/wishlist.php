@@ -27,7 +27,7 @@ class wishlistController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function createsave()
+	public function createsave()
 	{
 		$user = & JFactory::getUser();
 		$model = & $this->getModel("wishlist");
@@ -88,7 +88,7 @@ function savewishlist()
 	 * @access public
 	 * @return void
 	 */
-	function delwishlist()
+	public function delwishlist()
 	{
 		global $mainframe;
 
@@ -118,7 +118,7 @@ function savewishlist()
 		$mainframe->redirect($link, $msg);
 	}
 
-	function mysessdelwishlist()
+	public function mysessdelwishlist()
 	{
 		$post = array();
 		$post['wishlist_id'] = JRequest::getVar('wishlist_id');

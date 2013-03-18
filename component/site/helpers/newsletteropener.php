@@ -14,7 +14,7 @@ if (file_exists($my_path . "/../../../configuration.php"))
 {
 
 	$absolute_path = dirname($my_path . "/../../../configuration.php");
-	require_once($my_path . "/../../../configuration.php");
+	require_once $my_path . "/../../../configuration.php";
 }
 else
 {

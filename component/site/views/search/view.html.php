@@ -20,7 +20,7 @@ class searchViewsearch extends JView
 		parent::__construct($config);
 	}
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 

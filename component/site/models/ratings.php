@@ -17,7 +17,7 @@ class ratingsModelratings extends JModel
 	var $_data = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe;
 		parent::__construct();
@@ -30,7 +30,7 @@ class ratingsModelratings extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$query = "SELECT distinct(p.product_id),p.product_name FROM  " . $this->_table_prefix . "product p"
 			. ", " . $this->_table_prefix . "product_rating AS r "
@@ -39,7 +39,7 @@ class ratingsModelratings extends JModel
 		return $query;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -50,7 +50,7 @@ class ratingsModelratings extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -61,7 +61,7 @@ class ratingsModelratings extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -72,7 +72,7 @@ class ratingsModelratings extends JModel
 		return $this->_pagination;
 	}
 
-	function getProductreviews($pid)
+	public function getProductreviews($pid)
 	{
 		$query = "SELECT pr.*,uf.firstname,uf.lastname FROM  " . $this->_table_prefix . "product_rating as pr"
 			. ", " . $this->_table_prefix . "users_info as uf "

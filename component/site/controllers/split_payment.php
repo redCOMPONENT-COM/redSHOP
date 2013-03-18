@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class split_paymentController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 
@@ -33,7 +33,7 @@ class split_paymentController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function payremaining()
+	public function payremaining()
 	{
 		global $mainframe;
 		$post = JRequest::get('post');
