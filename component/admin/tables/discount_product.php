@@ -6,38 +6,45 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tablediscount_product extends JTable
 {
-	var $discount_product_id = 0;
-	var $amount = null;
-	var $condition = null;
-	var $discount_amount = null;
-	var $discount_type = null;
-	var $category_ids = null;
-	var $start_date = null;
-	var $end_date = null;
-	var $published = null;
+	public $discount_product_id = 0;
 
-	function Tablediscount_product(& $db)
+	public $amount = null;
+
+	public $condition = null;
+
+	public $discount_amount = null;
+
+	public $discount_type = null;
+
+	public $category_ids = null;
+
+	public $start_date = null;
+
+	public $end_date = null;
+
+	public $published = null;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'discount_product', 'discount_product_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
-
 }

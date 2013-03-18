@@ -7,42 +7,50 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tablerating_detail extends JTable
 {
-	var $rating_id = 0;
-	var $product_id = 0;
-	var $title = null;
-	var $comment = null;
-	var $userid = 0;
-	var $time = 0;
-	var $user_rating = 0;
-	var $favoured = 0;
-	var $published = null;
-	var $email = null;
-	var $username = null;
-	var $company_name = null;
+	public $rating_id = 0;
 
-	function Tablerating_detail(& $db)
+	public $product_id = 0;
+
+	public $title = null;
+
+	public $comment = null;
+
+	public $userid = 0;
+
+	public $time = 0;
+
+	public $user_rating = 0;
+
+	public $favoured = 0;
+
+	public $published = null;
+
+	public $email = null;
+
+	public $username = null;
+
+	public $company_name = null;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'product_rating', 'rating_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
