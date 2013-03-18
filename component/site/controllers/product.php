@@ -234,7 +234,6 @@ class productController extends JController
 		$mywid = JRequest::getVar('wid');
 		if ($ajaxvar == 1 && ($mywid == 1 || $mywid == 2))
 		{
-
 			$post = JRequest::get('post');
 
 			$post['product_id'] = JRequest::getVar('product_id');
@@ -320,7 +319,6 @@ class productController extends JController
 		{
 			if ($model->checkWishlist($post['product_id']) == null)
 			{
-
 				if ($model->addToWishlist($post))
 				{
 					$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
@@ -332,7 +330,6 @@ class productController extends JController
 			}
 			else
 			{
-
 				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
 			}
 		}
@@ -363,7 +360,6 @@ class productController extends JController
 		}
 		elseif ($mywid == 1)
 		{
-
 			$this->setRedirect('index.php?option=' . $option . 'wishlist=1&view=login&Itemid=' . $Itemid);
 
 		}
@@ -382,7 +378,6 @@ class productController extends JController
 
 	public function addProductTags()
 	{
-
 		global $mainframe;
 
 		// getVariables
@@ -408,15 +403,12 @@ class productController extends JController
 
 			if ($model->checkProductTags($tagname, $productid) == null)
 			{
-
 				$tags = $model->getProductTags($tagname, $productid);
 
 				if (count($tags) != 0)
 				{
-
 					foreach ($tags as $tag)
 					{
-
 						if ($tag->product_id == $productid)
 						{
 							if ($tag->users_id != $userid)
@@ -435,7 +427,6 @@ class productController extends JController
 				}
 				else
 				{
-
 					$ntag['tags_id'] = 0;
 					$ntag['tags_name'] = $tagname;
 					$ntag['tags_counter'] = 1;
@@ -446,7 +437,6 @@ class productController extends JController
 
 				if ($tags = $model->addProductTags($ntag))
 				{
-
 					$model->addProductTagsXref($ntag, $tags);
 
 					$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
@@ -460,7 +450,6 @@ class productController extends JController
 			}
 			else
 			{
-
 				$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
 			}
 		}
@@ -476,7 +465,6 @@ class productController extends JController
 	 */
 	public function addtocompare()
 	{
-
 		ob_clean();
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
@@ -580,14 +568,12 @@ class productController extends JController
 			}
 			else
 			{
-
 				$msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
 				$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
 			}
 		}
 		else
 		{
-
 			$msg = JText::_("COM_REDSHOP_TOKEN_VERIFICATION_FAIL");
 			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
 		}
@@ -620,21 +606,18 @@ class productController extends JController
 
 		if ($end_date != 0 && ($limit == 0 || $today > $end_date))
 		{
-
 			$msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
 			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct", $msg);
 
 		}
 		else if (isset($post['mainindex']) && isset($post['additional']))
 		{
-
 			$task = $post['mainindex'];
 
 			$id = $post['additional'];
 
 			if ($task == "main")
 			{
-
 				$finalname = $model->AdditionaldownloadProduct($id, 0, 1);
 
 				$name = $finalname[0]->media_name;
@@ -642,7 +625,6 @@ class productController extends JController
 			}
 			else if ($task == "additional")
 			{
-
 				$finalname = $model->AdditionaldownloadProduct(0, $id);
 
 				$name = $finalname[0]->name;
@@ -659,10 +641,8 @@ class productController extends JController
 
 		if (isset($post['additional']) && $tid != "" && $end_date == 0 || ($limit != 0 && $today <= $end_date))
 		{
-
 			if ($model->setDownloadLimit($tid))
 			{
-
 				$baseURL = JURI::root();
 				$tmp_name = JPATH_SITE . '/components/com_redshop/assets/download/product/' . $name;
 
@@ -731,7 +711,6 @@ class productController extends JController
 	 */
 	public function readfile_chunked($filename, $retbytes = true)
 	{
-
 		$chunksize = 10 * (1024 * 1024); // how many bytes per chunk
 		$buffer = '';
 		$cnt = 0;
@@ -858,7 +837,6 @@ class productController extends JController
 
 	public function gotochild()
 	{
-
 		$producthelper = new producthelper();
 		$objhelper = new redhelper();
 
@@ -884,7 +862,6 @@ class productController extends JController
 
 	public function gotonavproduct()
 	{
-
 		$producthelper = new producthelper();
 		$objhelper = new redhelper();
 

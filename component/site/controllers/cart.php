@@ -186,7 +186,6 @@ class cartController extends JController
 				}
 				else
 				{
-
 					$link = JRoute::_($_SERVER['HTTP_REFERER'], false);
 					if ($cart['notice_message'] != "")
 					{
@@ -199,7 +198,6 @@ class cartController extends JController
 		}
 		else
 		{
-
 			$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $post['p_id'] . '&Itemid=' . $Itemid, false);
 			$mainframe->Redirect($link);
 		}
@@ -300,13 +298,11 @@ class cartController extends JController
 
 		if ($valid)
 		{
-
 			$link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
 			$this->setRedirect($link);
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
 
 			$link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
@@ -357,7 +353,6 @@ class cartController extends JController
 	 */
 	public function update()
 	{
-
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -379,7 +374,6 @@ class cartController extends JController
 	 */
 	public function update_all()
 	{
-
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -401,7 +395,6 @@ class cartController extends JController
 	 */
 	public function empty_cart()
 	{
-
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$redhelper = new redhelper();
@@ -424,7 +417,6 @@ class cartController extends JController
 	 */
 	public function delete()
 	{
-
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$cartElement = $post['cart_index'];
@@ -460,7 +452,6 @@ class cartController extends JController
 	 */
 	public function redmasscart()
 	{
-
 		global $mainframe;
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');

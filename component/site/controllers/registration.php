@@ -89,7 +89,6 @@ class registrationController extends JController
 
 	public function captcha()
 	{
-
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
 
 		$width = JRequest::getInt('width', 120); //isset($_GET['width']) ? $_GET['width'] : '120';

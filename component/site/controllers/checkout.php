@@ -94,7 +94,6 @@ class checkoutController extends JController
 			}
 			else
 			{
-
 				$link = 'index.php?option=com_redshop&view=account_shipto&task=addshipping&setexit=0&return=checkout&infoid=' . $users_info_id . '&Itemid=' . $Itemid;
 			}
 			$mainframe->Redirect($link);
@@ -102,7 +101,6 @@ class checkoutController extends JController
 
 		if ($helper->isredCRM())
 		{
-
 			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && ($post['payment_method_id'] == "rs_payment_banktransfer" || $post['payment_method_id'] == "rs_payment_banktransfer2" || $post['payment_method_id'] == "rs_payment_banktransfer3" || $post['payment_method_id'] == "rs_payment_banktransfer4" || $post['payment_method_id'] == "rs_payment_banktransfer5" || $post['payment_method_id'] == "rs_payment_cashtransfer" || $post['payment_method_id'] == "rs_payment_cashsale" || $post['payment_method_id'] == "rs_payment_banktransfer_discount"))
 			{
 				$crmDebitorHelper = new crmDebitorHelper();
@@ -183,7 +181,6 @@ class checkoutController extends JController
 
 	public function chkvalidation($users_info_id)
 	{
-
 		$model = $this->getModel('checkout');
 		$billingaddresses = $model->billingaddresses();
 		$shippingaddresses = $model->shipaddress($users_info_id);
@@ -308,7 +305,6 @@ class checkoutController extends JController
 		}
 		else
 		{
-
 			$extrafield_name = $extra_field->chk_extrafieldValidation(7, $billingaddresses->users_info_id);
 			if (!empty($extrafield_name))
 			{
@@ -626,7 +622,6 @@ class checkoutController extends JController
 
 	public function captcha()
 	{
-
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
 
 		$width = JRequest::getInt('width', 120); //isset($_GET['width']) ? $_GET['width'] : '120';
