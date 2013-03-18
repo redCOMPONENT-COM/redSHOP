@@ -29,13 +29,13 @@ class order_detailController extends JController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_producthelper = new producthelper();
-		$this->_redshopMail = new redshopMail();
+		$this->_producthelper = new producthelper;
+		$this->_redshopMail = new redshopMail;
 		$this->_order_functions = new order_functions();
-		$this->_extraField = new extraField();
-		$this->_redhelper = new redhelper();
-		$this->_userhelper = new rsUserhelper();
-		$this->_carthelper = new rsCarthelper();
+		$this->_extraField = new extraField;
+		$this->_redhelper = new redhelper;
+		$this->_userhelper = new rsUserhelper;
+		$this->_carthelper = new rsCarthelper;
 	}
 
 	/*
@@ -47,7 +47,7 @@ class order_detailController extends JController
 //		if(ECONOMIC_INTEGRATION==1)
 //		{
 //			$order_id = JRequest::getInt ( 'order_id' );
-//			$economic = new economic();
+//			$economic = new economic;
 //			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id);
 //			if(is_file($bookinvoicepdf))
 //			{
@@ -67,7 +67,7 @@ class order_detailController extends JController
 		$session =& JFactory::getSession();
 		$model = $this->getModel('order_detail');
 
-		$redconfig = new Redconfiguration();
+		$redconfig = new Redconfiguration;
 
 		$request = JRequest::get('request');
 
@@ -402,7 +402,7 @@ class order_detailController extends JController
 	public function payment()
 	{
 		global $mainframe;
-		$redconfig = new Redconfiguration();
+		$redconfig = new Redconfiguration;
 		$Itemid = JRequest::getVar('Itemid');
 		$order_id = JRequest::getInt('order_id');
 		$option = JRequest::getVar('option');

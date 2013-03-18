@@ -57,7 +57,7 @@ class newsletterController extends JController
 		}
 		else
 		{
-			$userhelper = new rsUserhelper();
+			$userhelper = new rsUserhelper;
 
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
@@ -105,7 +105,7 @@ class newsletterController extends JController
 
 		if ($alreadysubscriberbymail)
 		{
-			$userhelper = new rsUserhelper();
+			$userhelper = new rsUserhelper;
 
 			if ($userhelper->newsletterUnsubscribe($email))
 			{

@@ -36,7 +36,7 @@ class loginController extends JController
 		$item = $menu->getItem($returnitemid);
 
 		include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 
 
 		$model = & $this->getModel('login');

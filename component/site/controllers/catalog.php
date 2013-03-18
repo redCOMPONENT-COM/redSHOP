@@ -36,7 +36,7 @@ class catalogController extends JController
 
 		if ($row = $model->catalogStore($post))
 		{
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
 			$redshopMail->sendCatalogRequest($row);
 			$msg = JText::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
 		}

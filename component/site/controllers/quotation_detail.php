@@ -39,8 +39,8 @@ class quotation_detailController extends JController
 		$Itemid = JRequest::getVar('Itemid');
 		$encr = JRequest::getVar('encr');
 
-		$quotationHelper = new quotationHelper();
-		$redshopMail = new redshopMail();
+		$quotationHelper = new quotationHelper;
+		$redshopMail = new redshopMail;
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
 
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
