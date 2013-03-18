@@ -16,7 +16,14 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
 
-class cartModelcart extends JModel
+/**
+ * Class cartModelcart.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CartModelCart extends JModel
 {
 	var $_id = null;
 	var $_data = null;

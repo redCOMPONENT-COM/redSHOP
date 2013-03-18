@@ -11,7 +11,14 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class account_shiptoModelaccount_shipto extends JModel
+/**
+ * Class account_shiptoModelaccount_shipto
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class Account_shiptoModelaccount_shipto extends JModel
 {
 	var $_id = null;
 	var $_data = null;

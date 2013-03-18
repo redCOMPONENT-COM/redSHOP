@@ -11,7 +11,14 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class loginModellogin extends JModel
+/**
+ * Class LoginModelLogin
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class LoginModelLogin extends JModel
 {
 	public function __construct()
 	{

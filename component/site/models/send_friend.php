@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
+/**
+ * Class send_friendModelsend_friend
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class send_friendModelsend_friend extends JModel
 {
 	var $_id = null;

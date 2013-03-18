@@ -12,7 +12,14 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
-class catalogModelcatalog extends JModel
+/**
+ * Class catalogModelcatalog
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CatalogModelCatalog extends JModel
 {
 	var $_table_prefix = null;
 

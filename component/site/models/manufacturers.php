@@ -12,6 +12,13 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.html.pagination');
 
+/**
+ * Class manufacturersModelmanufacturers
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class manufacturersModelmanufacturers extends JModel
 {
 	var $_id = null;

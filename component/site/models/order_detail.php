@@ -10,7 +10,14 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
-class order_detailModelorder_detail extends JModel
+/**
+ * Class Order_detailModelOrder_detail
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class Order_detailModelOrder_detail extends JModel
 {
 	var $_id = null;
 	var $_data = null;

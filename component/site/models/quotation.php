@@ -16,7 +16,13 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
-
+/**
+ * Class quotationModelquotation
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class quotationModelquotation extends JModel
 {
 	var $_id = null;
