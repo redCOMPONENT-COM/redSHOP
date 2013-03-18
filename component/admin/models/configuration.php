@@ -16,12 +16,12 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
 class configurationModelconfiguration extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_configpath = null;
-	var $_configdata = null;
-	var $Redconfiguration = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_configpath = null;
+	public $_configdata = null;
+	public $Redconfiguration = null;
 
 	function __construct()
 	{

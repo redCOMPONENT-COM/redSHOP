@@ -12,11 +12,11 @@ jimport('joomla.application.component.model');
 
 class manufacturer_detailModelmanufacturer_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_copydata = null;
-	var $_templatedata = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_copydata = null;
+	public $_templatedata = null;
 
 	function __construct()
 	{

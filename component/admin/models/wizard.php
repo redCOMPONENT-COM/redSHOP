@@ -16,7 +16,7 @@ require_once 'components' . DS . 'com_redshop' . DS . 'models' . DS . 'configura
 class wizardModelwizard extends configurationModelconfiguration
 {
 
-	var $_tax_rates = null;
+	public $_tax_rates = null;
 
 	function __construct()
 	{

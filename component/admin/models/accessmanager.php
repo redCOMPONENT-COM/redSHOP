@@ -13,11 +13,11 @@ jimport('joomla.application.component.model');
 
 class accessmanagerModelaccessmanager extends JModel
 {
-	var $_context = null;
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
+	public $_context = null;
+	public $_data = null;
+	public $_total = null;
+	public $_pagination = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{

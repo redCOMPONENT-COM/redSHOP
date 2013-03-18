@@ -19,12 +19,12 @@ require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS 
 require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 class product_detailModelproduct_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $attribute_data = null;
-	var $_copydata = null;
-	var $_copycategorydata = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $attribute_data = null;
+	public $_copydata = null;
+	public $_copycategorydata = null;
 
 	function __construct()
 	{
