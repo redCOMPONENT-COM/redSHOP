@@ -43,7 +43,7 @@ class quotation_detailModelquotation_detail extends JModel
 		global $mainframe;
 
 		$Itemid  = JRequest::getVar("Itemid");
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
 //		$user = &JFactory::getUser();
 
@@ -200,7 +200,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public function modifyQuotation($user_id = 0)
 	{
-		$session    =& JFactory::getSession();
+		$session    = JFactory::getSession();
 		$carthelper = new rsCarthelper();
 		$cart       = $session->get('cart');
 

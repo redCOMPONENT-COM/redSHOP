@@ -55,7 +55,7 @@ class order_detailModelorder_detail extends JModel
 		global $mainframe;
 		$order_functions = new order_functions();
 		$user            = & JFactory::getUser();
-		$session         =& JFactory::getSession();
+		$session         = JFactory::getSession();
 
 
 		$auth = $session->get('auth');
@@ -101,7 +101,7 @@ class order_detailModelorder_detail extends JModel
 	{
 		$db = JFactory::getDBO();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
 		$order_payment_code     = $ccdata['creditcard_code'];

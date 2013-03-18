@@ -35,7 +35,7 @@ if ($print)
 //		$document = &JFactory::getDocument();
 
 //   	$pathway->addItem(JText::_('COM_REDSHOP_ORDER_DETAILS'),'');
-	$user   =& JFactory::getUser();
+	$user   = JFactory::getUser();
 	$option = JRequest::getVar('option');
 	$Itemid = JRequest::getVar('Itemid');
 
