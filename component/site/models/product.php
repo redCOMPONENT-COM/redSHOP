@@ -131,7 +131,7 @@ class productModelproduct extends JModel
 			$sql .= $where;
 			$sql .= ' ORDER BY ordering DESC';
 		}
-		else if ($dirn > 0)
+		elseif ($dirn > 0)
 		{
 			$sql .= ' WHERE ordering > (' . $query . ')';
 			$sql .= $where;

@@ -239,7 +239,7 @@ class categoryModelcategory extends JModel
 			}
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
 		}
-		else if (strstr($order_by, "p.product_price DESC"))
+		elseif (strstr($order_by, "p.product_price DESC"))
 		{
 			$priceSort = true;
 			$sort      = "DESC";
@@ -284,7 +284,7 @@ class categoryModelcategory extends JModel
 			$this->_product[0]->maxprice = ceil($max);
 			$this->setMaxMinProductPrice(array(floor($min), ceil($max)));
 		}
-		else if ($isSlider)
+		elseif ($isSlider)
 		{
 			$newProduct = array();
 			for ($i = 0; $i < count($this->_product); $i++)
@@ -610,7 +610,7 @@ class categoryModelcategory extends JModel
 				{
 					$tag = $tmp_tag;
 				}
-				else if ($tmp_tag != "" && $tmp_tag != "0")
+				elseif ($tmp_tag != "" && $tmp_tag != "0")
 				{
 					$tag[] = $tmp_tag;
 				}

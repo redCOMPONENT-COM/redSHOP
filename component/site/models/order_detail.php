@@ -63,7 +63,7 @@ class order_detailModelorder_detail extends JModel
 		{
 			$list = $order_functions->getBillingAddress($user->id);
 		}
-		else if ($auth['users_info_id'])
+		elseif ($auth['users_info_id'])
 		{
 			$uid  = -$auth['users_info_id'];
 			$list = $order_functions->getBillingAddress($uid);

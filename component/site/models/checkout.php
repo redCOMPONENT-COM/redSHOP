@@ -80,7 +80,7 @@ class checkoutModelcheckout extends JModel
 		{
 			$cart['free_shipping'] = 1;
 		}
-		else if ($cart['free_shipping'] != 1)
+		elseif ($cart['free_shipping'] != 1)
 		{
 			$cart['free_shipping'] = 0;
 		}
@@ -539,7 +539,7 @@ class checkoutModelcheckout extends JModel
 			$regDel = $objshipping->getRegularDelivery();
 			JRequest::setVar('order_delivery', "Delivered in one instance � DELIVERY TIME: " . current($regDel) . " weeks</td>");
 		}
-		else if ($order_shipping [5] == 'split')
+		elseif ($order_shipping [5] == 'split')
 		{
 			$delArray = $objshipping->getProductDeliveryArray($shipping_rate_id);
 			$splitdel = $objshipping->getSplitDelivery();
@@ -669,7 +669,7 @@ class checkoutModelcheckout extends JModel
 			{
 				$rowitem->delivery_time = $regDel;
 			}
-			else if ($order_shipping [5] == 'split')
+			elseif ($order_shipping [5] == 'split')
 			{
 				$rowitem->delivery_time = $delArray [$product_id];
 			}
@@ -1436,7 +1436,7 @@ class checkoutModelcheckout extends JModel
 			$list = $this->_order_functions->getBillingAddress($user->id);
 
 		}
-		else if ($auth['users_info_id'])
+		elseif ($auth['users_info_id'])
 		{
 			$uid  = -$auth['users_info_id'];
 			$list = $this->_order_functions->getBillingAddress($uid);

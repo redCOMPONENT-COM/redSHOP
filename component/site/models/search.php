@@ -39,7 +39,7 @@ class searchModelsearch extends JModel
 		$perpageproduct = $module_params->get('productperpage', 5);
 		if ($layout == 'default')
 			$limit = $perpageproduct;
-		else if ($layout == 'productonsale')
+		elseif ($layout == 'productonsale')
 			$limit = $params->get('productlimit', 5);
 		else
 			$limit = $params->get('maxcategory', 5);
@@ -77,7 +77,7 @@ class searchModelsearch extends JModel
 				{
 					$this->_data = $this->_getList($query);
 				}
-				else if (strstr($template[0]->template_desc, "{pagination}"))
+				elseif (strstr($template[0]->template_desc, "{pagination}"))
 				{
 					if (strstr($template[0]->template_desc, "perpagelimit:"))
 					{
@@ -94,7 +94,7 @@ class searchModelsearch extends JModel
 					}
 					$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 				}
-				else if ($this->getState('productlimit') > 0)
+				elseif ($this->getState('productlimit') > 0)
 				{
 					$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('productlimit'));
 				}
@@ -137,7 +137,7 @@ class searchModelsearch extends JModel
 			{
 				$limit = $productperpage;
 			}
-			else if ($this->_id)
+			elseif ($this->_id)
 			{
 				$limit = intval($redconfig->get('maxproduct', 0));
 				if ($limit == 0)
@@ -380,7 +380,7 @@ class searchModelsearch extends JModel
 
 
 		}
-		else if ($layout == 'featuredproduct')
+		elseif ($layout == 'featuredproduct')
 		{
 			$query = " SELECT * FROM " . $this->_table_prefix . "product AS p "
 				. "WHERE p.published = 1 "
@@ -389,7 +389,7 @@ class searchModelsearch extends JModel
 				. "order by " . $order_by;
 
 		}
-		else if ($layout == 'newproduct')
+		elseif ($layout == 'newproduct')
 		{
 			$catid = $item->query['categorytemplate'];
 
@@ -414,7 +414,7 @@ class searchModelsearch extends JModel
 				. "order by " . $order_by;
 
 		}
-		else if ($layout == 'redfilter')
+		elseif ($layout == 'redfilter')
 		{
 			// get products for filtering
 			$products = $this->getRedFilterProduct();
@@ -500,7 +500,7 @@ class searchModelsearch extends JModel
 		{
 			$cid = $item->query['categorytemplate'];
 		}
-		else if ($layout == 'productonsale')
+		elseif ($layout == 'productonsale')
 		{
 			$cid = $item->params->get('categorytemplate');
 		}
@@ -1044,15 +1044,15 @@ class searchModelsearch extends JModel
 
 		if ($search_type == 'product_name')
 			$where[] = "p.product_name LIKE('%" . $keyword . "%')";
-		else if ($search_type == 'product_number')
+		elseif ($search_type == 'product_number')
 			$where[] = "p.product_number LIKE('%" . $keyword . "%')";
-		else if ($search_type == 'name_number')
+		elseif ($search_type == 'name_number')
 			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%')";
-		else if ($search_type == 'product_desc')
+		elseif ($search_type == 'product_desc')
 			$where[] = "p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
-		else if ($search_type == 'name_desc')
+		elseif ($search_type == 'name_desc')
 			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
-		else if ($search_type == 'name_number_desc')
+		elseif ($search_type == 'name_number_desc')
 			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
 		if ($category_id != "0")
 			$where[] = "c.category_id = '" . $category_id . "'";

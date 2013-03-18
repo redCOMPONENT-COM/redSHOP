@@ -49,7 +49,7 @@ class account_billtoModelaccount_billto extends JModel
 				{
 					$is_company = 0;
 				}
-				else if (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+				elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
 				{
 					$is_company = 1;
 				}
