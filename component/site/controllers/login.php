@@ -107,7 +107,6 @@ class loginController extends JController
 	 */
 	public function logout()
 	{
-
 		$mainframe = JFactory::getApplication();
 		$params = & $mainframe->getParams('com_redshop');
 		$logout_itemid = JRequest::getVar('logout');

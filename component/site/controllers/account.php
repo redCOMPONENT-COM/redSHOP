@@ -53,7 +53,6 @@ class accountController extends JController
 	 */
 	public function sendWishlist()
 	{
-
 		$post = JRequest::get('post');
 
 		$emailto = $post['emailto'];

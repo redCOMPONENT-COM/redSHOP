@@ -62,7 +62,6 @@ class order_detailController extends JController
 	 */
 	public function process_payment()
 	{
-
 		global $mainframe;
 		$db = jFactory::getDBO();
 		$session =& JFactory::getSession();
@@ -148,7 +147,6 @@ class order_detailController extends JController
 
 		if ($paymentResponse->responsestatus == "Success" || $values['payment_plugin'] == "")
 		{
-
 			$paymentResponse->order_status_code = 'C';
 			$paymentResponse->order_payment_status_code = 'Paid';
 			$paymentResponse->order_id = $request['order_id'];
@@ -175,7 +173,6 @@ class order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-
 
 		$mainframe = & JFactory::getApplication('site');
 		$db = jFactory::getDBO();
@@ -434,7 +431,6 @@ class order_detailController extends JController
 				}
 				else
 				{
-
 					$link = 'index.php?option=com_redshop&view=checkout&format=final&oid=' . $order_id . '&Itemid=' . $Itemid;
 					$this->setRedirect($link);
 				}
