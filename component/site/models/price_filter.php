@@ -27,6 +27,7 @@ class price_filterModelprice_filter extends JModel
 	{
 		$category = JRequest::getVar('category');
 		$catfld   = '';
+
 		if ($category != 0)
 		{
 			$catfld .= " AND cx.category_id IN ($category) ";

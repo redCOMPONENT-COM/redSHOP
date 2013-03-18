@@ -48,10 +48,12 @@ class send_friendModelsend_friend extends JModel
 		$data_add = "";
 		$subject  = "";
 		$mailbcc  = null;
+
 		if (count($mailinfo) > 0)
 		{
 			$data_add = $mailinfo[0]->mail_body;
 			$subject  = $mailinfo[0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);

@@ -30,10 +30,12 @@ class account_billtoModelaccount_billto extends JModel
 		{
 			$session =& JFactory::getSession();
 			$auth    = $session->get('auth');
+
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
 				$order_functions = new order_functions();
 				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
+
 				if (!isset($detail->user_id))
 				{
 					$detail->user_id = -$auth['users_info_id'];
@@ -97,6 +99,7 @@ class account_billtoModelaccount_billto extends JModel
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 
 		$joomlauser = $userhelper->updateJoomlaUser($post);
+
 		if (!$joomlauser)
 		{
 			return false;

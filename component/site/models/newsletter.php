@@ -22,6 +22,7 @@ class newsletterModelnewsletter extends JModel
 		$this->_db           = & JFactory :: getDBO();
 		$this->_table_prefix = '#__redshop_';
 		$sub_id              = JRequest::getInt('sid', '', 'request');
+
 		if ($sub_id)
 		{
 			$this->confirmsubscribe($sub_id);
@@ -33,6 +34,7 @@ class newsletterModelnewsletter extends JModel
 		Global $mainframe;
 		$user =& JFactory::getUser();
 		$and  = "";
+
 		if ($user->id)
 		{
 			$and .= "AND `user_id`='" . $user->id . "' ";
@@ -43,6 +45,7 @@ class newsletterModelnewsletter extends JModel
 		$newsletter = $this->_db->loadResult();
 		$url        =& JURI::root();
 		$link       = $url . 'index.php?option=com_redshop&view=newsletter';
+
 		if ($newsletter != 0)
 		{
 			$query = "SELECT subscription_id FROM  " . $this->_table_prefix . "newsletter_subscription "

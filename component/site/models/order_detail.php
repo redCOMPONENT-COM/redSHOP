@@ -38,6 +38,7 @@ class order_detailModelorder_detail extends JModel
 	{
 		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . $oid . "'";
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->Query())
 		{
 			return false;
@@ -59,6 +60,7 @@ class order_detailModelorder_detail extends JModel
 
 		$auth = $session->get('auth');
 		$list = array();
+
 		if ($user->id)
 		{
 			$list = $order_functions->getBillingAddress($user->id);
@@ -120,6 +122,7 @@ class order_detailModelorder_detail extends JModel
 			. " WHERE order_id  = '" . $order_id . "'";
 
 		$db->setQuery($payment_update);
+
 		if (!$db->Query())
 		{
 			return false;

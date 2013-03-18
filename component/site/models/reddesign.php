@@ -43,6 +43,7 @@ class reddesignModelreddesign extends JModel
 	public function getProductDetail($product_id, $field_name = "")
 	{
 		$db = & JFactory :: getDBO();
+
 		if (!$field_name)
 		{
 			$query = 'SELECT * FROM `#__redshop_product` WHERE product_id = ' . $product_id;

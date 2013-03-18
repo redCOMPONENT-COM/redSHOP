@@ -26,6 +26,7 @@ class passwordModelpassword extends JModel
 		$query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";
 		$this->_db->setQuery($query);
 		$id = $this->_db->loadResult();
+
 		if ($id)
 		{
 			// Generate a new token
