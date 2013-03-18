@@ -15,12 +15,12 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 class productModelproduct extends JModel
 {
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_categorytreelist = null;
-	var $_context = null;
+	public $_data = null;
+	public $_total = null;
+	public $_pagination = null;
+	public $_table_prefix = null;
+	public $_categorytreelist = null;
+	public $_context = null;
 
 	function __construct()
 	{

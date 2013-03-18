@@ -12,7 +12,7 @@ jimport('joomla.application.component.model');
 
 class redshopModelredshop extends JModel
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{

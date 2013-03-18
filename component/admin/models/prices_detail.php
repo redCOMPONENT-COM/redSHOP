@@ -14,11 +14,11 @@ jimport('joomla.filesystem.file');
 
 class prices_detailModelprices_detail extends JModel
 {
-	var $_id = null;
-	var $_prodid = null;
-	var $_prodname = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_prodid = null;
+	public $_prodname = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{

@@ -14,10 +14,10 @@ jimport('joomla.filesystem.file');
 
 class template_detailModeltemplate_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_copydata = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_copydata = null;
 
 	function __construct()
 	{
