@@ -16,7 +16,7 @@ class redPagination extends JPagination
 	{
 		global $mainframe;
 
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		// Build the page navigation list
 		$data = $this->_buildDataObject();

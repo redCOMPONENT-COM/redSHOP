@@ -18,7 +18,7 @@ class cartViewcart extends JView
 		$redTemplate = new Redtemplate();
 		$user        = & JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$layout  = JRequest::getVar('layout');
 
@@ -34,7 +34,7 @@ class cartViewcart extends JView
 		{
 			$mainframe->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
 		}
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{

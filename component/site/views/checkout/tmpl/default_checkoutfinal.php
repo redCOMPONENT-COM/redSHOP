@@ -140,14 +140,14 @@ if ($preloader)
 
 			if (is_array($results) && $key !== false)
 			{
-				$mainframe =& JFactory::getApplication();
+				$mainframe = JFactory::getApplication();
 				$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
 			}
 		}
 	}
 	}else
 	{
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
 	}
 	?>

@@ -159,7 +159,7 @@ class googleanalytics
 		  	})();
 
 		";
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$doc->addScriptDeclaration($pageCode);
 	}
 }

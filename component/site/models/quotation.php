@@ -422,9 +422,9 @@ class quotationModelquotation extends JModel
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
 		$pathway   =& $mainframe->getPathway();
-		$config    =& JFactory::getConfig();
-		$authorize =& JFactory::getACL();
-		$document  =& JFactory::getDocument();
+		$config    = JFactory::getConfig();
+		$authorize = JFactory::getACL();
+		$document  = JFactory::getDocument();
 
 		$MailFrom = $mainframe->getCfg('mailfrom');
 		$FromName = $mainframe->getCfg('fromname');
@@ -457,7 +457,7 @@ class quotationModelquotation extends JModel
 		$user->set('usertype', 'Registered');
 		$user->set('gid', $authorize->get_group_id('', $newUsertype, 'ARO'));
 
-		$date =& JFactory::getDate();
+		$date = JFactory::getDate();
 		$user->set('registerDate', $date->toMySQL());
 
 		$useractivation = $usersConfig->get('useractivation');
@@ -583,7 +583,7 @@ class quotationModelquotation extends JModel
 			}
 		}
 		$producthelper = new producthelper();
-		$session       =& JFactory::getSession();
+		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$user          = JFactory::getUser();
 

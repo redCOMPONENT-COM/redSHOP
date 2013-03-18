@@ -22,7 +22,7 @@ $objhelper = new redhelper();
 $model     = $this->getModel('category');
 $view      = JRequest::getVar('view');
 $user      = & JFactory::getUser();
-$session   =& JFactory::getSession();
+$session   = JFactory::getSession();
 $document  = & JFactory::getDocument();
 
 $extraField      = new extraField ();
