@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
 /*
  *  cron class
@@ -18,10 +18,10 @@ class cron
 	/*
 	 * cron constructor
 	 */
-	function cron()
+	public function cron()
 	{
 		// mail center
-		$date =& JFactory::getDate();
+		$date = JFactory::getDate();
 
 		$today = time();
 		$day   = date('D', $today);
@@ -103,7 +103,7 @@ class cron
 	 * @access public
 	 * @return boolean
 	 */
-	function move($container_id, $stockroom_id)
+	public function move($container_id, $stockroom_id)
 	{ // Move Container To Stockroom
 
 		$db = $db = & JFactory :: getDBO();
@@ -123,7 +123,7 @@ class cron
 	 * @access public
 	 * @return boolean
 	 */
-	function order_status($container_id)
+	public function order_status($container_id)
 	{ // Change Order Status
 
 		$db = $db = & JFactory :: getDBO();
@@ -160,10 +160,10 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function catalog_mail()
+	public function catalog_mail()
 	{
 
-		$date        =& JFactory::getDate();
+		$date        = JFactory::getDate();
 		$redshopMail = new redshopMail();
 		$fdate       = $date->toFormat('%Y-%m-%d');
 
@@ -337,13 +337,13 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function after_purchased_order_mail()
+	public function after_purchased_order_mail()
 	{
 		$redshopMail     = new redshopMail();
 		$redconfig       = new Redconfiguration();
 		$stockroomhelper = new rsstockroomhelper();
 		$db              = & JFactory :: getDBO();
-		$date            =& JFactory::getDate();
+		$date            = JFactory::getDate();
 		$fdate           = $date->toFormat('%Y-%m-%d');
 
 		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
@@ -503,10 +503,10 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function color_mail()
+	public function color_mail()
 	{
 
-		$date        =& JFactory::getDate();
+		$date        = JFactory::getDate();
 		$redshopMail = new redshopMail();
 		$today       = time();
 
@@ -718,7 +718,7 @@ class cron
 	 * @access public
 	 * @return void
 	 */
-	function subscription_renewal_mail()
+	public function subscription_renewal_mail()
 	{
 		$db          = $db = & JFactory :: getDBO();
 		$redshopMail = new redshopMail();

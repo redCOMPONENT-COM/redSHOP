@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 /**
@@ -24,7 +24,7 @@ class account_shiptoController extends JController
 	 * Method to save Shipping Address
 	 *
 	 */
-	function save()
+	public function save()
 	{
 		$post = JRequest::get('post');
 		$return = JRequest::getVar('return');
@@ -74,7 +74,7 @@ class account_shiptoController extends JController
 	 * Method to delete shipping address
 	 *
 	 */
-	function remove()
+	public function remove()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');

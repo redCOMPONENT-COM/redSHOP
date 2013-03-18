@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -19,14 +19,14 @@ class split_paymentModelsplit_payment extends JModel
 	var $_data = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	function getordersdetail($oid)
+	public function getordersdetail($oid)
 	{
 		$query = "SELECT * FROM  " . $this->_table_prefix . "orders WHERE order_id = '" . $oid . "' ";
 		$this->_db->setQuery($query);
@@ -35,7 +35,7 @@ class split_paymentModelsplit_payment extends JModel
 		return $order_detail;
 	}
 
-	function getuseraccountinfo($uid)
+	public function getuseraccountinfo($uid)
 	{
 		$query = 'SELECT uf.*,u.email FROM ' . $this->_table_prefix . 'users_info as uf, #__users as u WHERE user_id=' . $uid . ' AND uf.user_id=u.id';
 		$this->_db->setQuery($query);
@@ -43,7 +43,7 @@ class split_paymentModelsplit_payment extends JModel
 		return $this->_db->loadObject();
 	}
 
-	function orderplace()
+	public function orderplace()
 	{
 
 		global $mainframe;
@@ -51,7 +51,7 @@ class split_paymentModelsplit_payment extends JModel
 		$option          = JRequest::getVar('option');
 		$Itemid          = JRequest::getVar('Itemid');
 		$task            = JRequest::getVar('task');
-		$user            =& JFactory::getUser();
+		$user            = JFactory::getUser();
 		$order_functions = new order_functions();
 		/*$session =&JFactory::getSession();
    		$issplit=$session->get('issplit') ;
@@ -218,7 +218,7 @@ class split_paymentModelsplit_payment extends JModel
 		return $this->_db->loadObject ();
 	}*/
 
-	function validatepaymentccinfo()
+	public function validatepaymentccinfo()
 	{
 		$validpayment [0] = 1;
 		$validpayment [1] = '';
@@ -264,7 +264,7 @@ class split_paymentModelsplit_payment extends JModel
 
 	}
 
-	function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
+	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
 
 		// Define the cards we support. You may add additional card types.
@@ -436,7 +436,7 @@ class split_paymentModelsplit_payment extends JModel
 		return true;
 	}
 
-	function validateCC($cc_num, $type)
+	public function validateCC($cc_num, $type)
 	{
 
 		if ($type == "American")

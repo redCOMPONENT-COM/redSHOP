@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 /**
@@ -26,7 +26,7 @@ class quotationController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function addquotation()
+	public function addquotation()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
@@ -88,7 +88,7 @@ class quotationController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function usercreate()
+	public function usercreate()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
@@ -112,7 +112,7 @@ class quotationController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');

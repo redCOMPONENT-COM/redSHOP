@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -18,7 +18,7 @@ class account_shiptoModelaccount_shipto extends JModel
 	var $_table_prefix = null;
 
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -28,13 +28,13 @@ class account_shiptoModelaccount_shipto extends JModel
 		$this->setId($infoid);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if (!$this->_loadData())
 		{
@@ -44,7 +44,7 @@ class account_shiptoModelaccount_shipto extends JModel
 		return $this->_data;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
@@ -68,7 +68,7 @@ class account_shiptoModelaccount_shipto extends JModel
 		return true;
 	}
 
-	function _loadData($users_info_id = 0)
+	public function _loadData($users_info_id = 0)
 	{
 
 		if ($users_info_id)
@@ -91,7 +91,7 @@ class account_shiptoModelaccount_shipto extends JModel
 		return true;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -109,7 +109,7 @@ class account_shiptoModelaccount_shipto extends JModel
 		return true;
 	}
 
-	function store($post)
+	public function store($post)
 	{
 		$userhelper = new rsUserhelper();
 

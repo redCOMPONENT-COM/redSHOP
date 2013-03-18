@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
@@ -47,16 +47,16 @@ class producthelper
 		$this->_db           = & JFactory :: getDBO();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper   = new rsUserhelper();
-		$this->_session      =& JFactory::getSession();
+		$this->_session      = JFactory::getSession();
 //	  	$this->_carthelper 		= new rsCarthelper();
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 	}
 
-	function getWishlistmodule($menu_id)
+	public function getWishlistmodule($menu_id)
 	{
 		$query = 'SELECT * FROM #__extensions WHERE element = "' . $menu_id . '" ';
 		$this->_db->setQuery($query);
@@ -65,7 +65,7 @@ class producthelper
 		return $result;
 	}
 
-	function getwishlistuserfieldata($wishlistid, $productid)
+	public function getwishlistuserfieldata($wishlistid, $productid)
 	{
 		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = "' . $wishlistid . '"  and product_id="' . $productid . '" order by fieldid ASC';
 		$this->_db->setQuery($query);
@@ -74,7 +74,7 @@ class producthelper
 		return $result;
 	}
 
-	function getProductById($product_id, $field_name = "", $test = '')
+	public function getProductById($product_id, $field_name = "", $test = '')
 	{
 		$query = $this->_db->getQuery(true);
 
@@ -96,7 +96,7 @@ class producthelper
 		return $result;
 	}
 
-	function country_in_eu_common_vat_zone($country)
+	public function country_in_eu_common_vat_zone($country)
 	{
 		$eu_countries = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST',
 			'FIN', 'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU',
@@ -105,7 +105,7 @@ class producthelper
 		return in_array($country, $eu_countries);
 	}
 
-	function getProductPrices($product_id, $userid, $quantity = 1)
+	public function getProductPrices($product_id, $userid, $quantity = 1)
 	{
 		$leftjoin = "";
 		$userArr  = $this->_session->get('rs_user');
@@ -161,7 +161,7 @@ class producthelper
 		return $result;
 	}
 
-	function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
+	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
 	{
 		$result = array();
 
@@ -218,7 +218,7 @@ class producthelper
 		return $result;
 	}
 
-	function getProductSpecialId($userid)
+	public function getProductSpecialId($userid)
 	{
 
 		if ($userid)
@@ -262,12 +262,12 @@ class producthelper
 		return $discount_product_id;
 	}
 
-	function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
+	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
 	{
 		$userArr = $this->_session->get('rs_user');
 		if ($user_id == 0)
 		{
-			$user    =& JFactory::getUser();
+			$user    = JFactory::getUser();
 			$user_id = $user->id;
 		}
 		$proinfo = array();
@@ -354,7 +354,7 @@ class producthelper
 		return $protax;
 	}
 
-	function replaceVatinfo($data_add)
+	public function replaceVatinfo($data_add)
 	{
 
 		if (strstr($data_add, "{vat_info}"))
@@ -377,9 +377,9 @@ class producthelper
 		return $data_add;
 	}
 
-	function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
+	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -413,9 +413,9 @@ class producthelper
 		return true;
 	}
 
-	function getVatUserinfo($user_id = 0)
+	public function getVatUserinfo($user_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -474,9 +474,9 @@ class producthelper
 		return $userdata;
 	}
 
-	function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
+	public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -547,7 +547,7 @@ class producthelper
 	}
 
 	// Get Vat for Googlebase xml
-	function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
+	public function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
 	{
 		$proinfo         = $this->getProductById($product_id);
 		$tax_group_id    = 0;
@@ -620,7 +620,7 @@ class producthelper
 	 * $categorypage aregument for product section extra field for category page
 	 *
 	 */
-	function getExtraSectionTag($filedname = array(), $product_id, $section, $template_data, $categorypage = 0)
+	public function getExtraSectionTag($filedname = array(), $product_id, $section, $template_data, $categorypage = 0)
 	{
 		$extraField = new extraField();
 
@@ -653,7 +653,7 @@ class producthelper
 		return $template_data;
 	}
 
-	function getPriceReplacement($product_price)
+	public function getPriceReplacement($product_price)
 	{
 		$return = "";
 		if ($product_price)
@@ -688,7 +688,7 @@ class producthelper
 	 * @return   float    Product Formatted Price
 	 * @since    1.5
 	 */
-	function getProductFormattedPrice($product_price, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
+	public function getProductFormattedPrice($product_price, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
 	{
 		// get Current Currency of SHOP
 		$session = JFactory::getSession('product_currency');
@@ -731,7 +731,7 @@ class producthelper
 		return $price;
 	}
 
-	function productPriceRound($product_price)
+	public function productPriceRound($product_price)
 	{
 		$cal_no = 4;
 		if (defined('CALCULATION_PRICE_DECIMAL') && CALCULATION_PRICE_DECIMAL != "")
@@ -743,7 +743,7 @@ class producthelper
 		return $product_price;
 	}
 
-	function getProductparentImage($product_parent_id)
+	public function getProductparentImage($product_parent_id)
 	{
 		$result = $this->getProductById($product_parent_id);
 		if ($result->product_full_image == '' && $result->product_parent_id > 0)
@@ -754,7 +754,7 @@ class producthelper
 		return $result;
 	}
 
-	function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
+	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
 
 
@@ -838,7 +838,7 @@ class producthelper
 		return $thum_image;
 	}
 
-	function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
+	public function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
 	{
 		$url           = JURI::root();
 		$imagename     = trim($imagename);
@@ -951,7 +951,7 @@ class producthelper
 		return $thum_image;
 	}
 
-	function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
+	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
 		$redhelper  = new redhelper();
 		$result     = $this->getProductById($product_id);
@@ -983,7 +983,7 @@ class producthelper
 		return $thum_image;
 	}
 
-	function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
+	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
 		$helper = new redhelper();
 
@@ -1091,7 +1091,7 @@ class producthelper
 		return $product_delivery_time;
 	}
 
-	function GetDefaultQuantity($product_id = 0, $data_add = "")
+	public function GetDefaultQuantity($product_id = 0, $data_add = "")
 	{
 		$cart_template = $this->getAddtoCartTemplate($data_add);
 		$cartform      = (count($cart_template) > 0) ? $cart_template->template_desc : "";
@@ -1120,7 +1120,7 @@ class producthelper
 		return $qunselect;
 	}
 
-	function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
+	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
 	{
 		$product_price                  = '';
 		$price_excluding_vat            = '';
@@ -1251,7 +1251,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function getProductNetPrice($product_id, $user_id = 0, $quantity = 1, $data_add = '', $attributes = array())
+	public function getProductNetPrice($product_id, $user_id = 0, $quantity = 1, $data_add = '', $attributes = array())
 	{
 		$user = & JFactory::getUser();
 		if ($user_id == 0)
@@ -1463,7 +1463,7 @@ class producthelper
 		return $ProductPriceArr;
 	}
 
-	function getProductQuantityPrice($product_id, $userid)
+	public function getProductQuantityPrice($product_id, $userid)
 	{
 		$userArr = $this->_session->get('rs_user');
 		if (empty($userArr))
@@ -1509,7 +1509,7 @@ class producthelper
 		return $quantitytable;
 	}
 
-	function getDiscountId($subtotal = 0, $user_id = 0)
+	public function getDiscountId($subtotal = 0, $user_id = 0)
 	{
 		$user = & JFactory::getUser();
 		if ($user_id == 0)
@@ -1571,9 +1571,9 @@ class producthelper
 		return;
 	}
 
-	function getDiscountAmount($cart = array(), $user_id = 0)
+	public function getDiscountAmount($cart = array(), $user_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1660,7 +1660,7 @@ class producthelper
 	 * content_product plugin
 	 *****************************************/
 
-	function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
+	public function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
 	{
 		$user = & JFactory::getUser();
 		if ($user_id == 0)
@@ -1709,7 +1709,7 @@ class producthelper
 		return $product_price;
 	}
 
-	function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
+	public function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
 	{
 		$left = "";
 		if ($section == "product")
@@ -1741,7 +1741,7 @@ class producthelper
 		return $list;
 	}
 
-	function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
+	public function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
 	{
 		$and = '';
 		if ($media_name != '')
@@ -1765,7 +1765,7 @@ class producthelper
 		return $mediadata->media_alternate_text;
 	}
 
-	function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
+	public function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
 	{
 		$list = array();
 		$user = & JFactory::getUser();
@@ -1796,9 +1796,9 @@ class producthelper
 		return $list;
 	}
 
-	function getApplyVatOrNot($data_add = "", $user_id = 0)
+	public function getApplyVatOrNot($data_add = "", $user_id = 0)
 	{
-		$user            =& JFactory::getUser();
+		$user            = JFactory::getUser();
 		$userInformation = array();
 		if ($user_id == 0)
 		{
@@ -1833,9 +1833,9 @@ class producthelper
 		return true;
 	}
 
-	function getApplyattributeVatOrNot($data_add = "", $user_id = 0)
+	public function getApplyattributeVatOrNot($data_add = "", $user_id = 0)
 	{
-		$user            =& JFactory::getUser();
+		$user            = JFactory::getUser();
 		$userInformation = array();
 		if ($user_id == 0)
 		{
@@ -1874,7 +1874,7 @@ class producthelper
 		return true;
 	}
 
-	function GetdefaultshopperGroupData()
+	public function GetdefaultshopperGroupData()
 	{
 		$list           = array();
 		$shopperGroupId = $this->_userhelper->getShopperGroup();
@@ -1887,7 +1887,7 @@ class producthelper
 		return $list;
 	}
 
-	function checkDiscountDate($productid = 0)
+	public function checkDiscountDate($productid = 0)
 	{
 		$discountprice = 0;
 		$today         = time();
@@ -1906,7 +1906,7 @@ class producthelper
 		return $discountprice;
 	}
 
-	function getPropertyPrice($section_id = '', $quantity = '', $section = '', $user_id = 0)
+	public function getPropertyPrice($section_id = '', $quantity = '', $section = '', $user_id = 0)
 	{
 		$leftjoin = "";
 		$and      = "";
@@ -1948,7 +1948,7 @@ class producthelper
 		return $result;
 	}
 
-	function getProperty($section_id, $section)
+	public function getProperty($section_id, $section)
 	{
 		if ($section == 'property')
 		{
@@ -1970,7 +1970,7 @@ class producthelper
 		return $result;
 	}
 
-	function getWrapper($product_id, $wrapper_id = 0, $default = 1)
+	public function getWrapper($product_id, $wrapper_id = 0, $default = 1)
 	{
 		$usetoall = "";
 		$and      = "";
@@ -2001,7 +2001,7 @@ class producthelper
 		return $list;
 	}
 
-	function getBreadcrumbPathway($category = array())
+	public function getBreadcrumbPathway($category = array())
 	{
 		$pathway_items = array();
 		for ($i = 0; $i < count($category); $i++)
@@ -2015,7 +2015,7 @@ class producthelper
 		return $pathway_items;
 	}
 
-	function getCategoryNavigationlist($category_id)
+	public function getCategoryNavigationlist($category_id)
 	{
 		$redhelper = new redhelper();
 		static $i = 0;
@@ -2047,7 +2047,7 @@ class producthelper
 		return $category_list;
 	}
 
-	function generateBreadcrumb($sectionid = 0)
+	public function generateBreadcrumb($sectionid = 0)
 	{
 		$mainframe     = JFactory::getApplication();
 		$pathway       =& $mainframe->getPathway();
@@ -2310,7 +2310,7 @@ class producthelper
 		}
 	}
 
-	function getSection($section = "", $id = 0)
+	public function getSection($section = "", $id = 0)
 	{
 		$and = "";
 		if ($id != 0)
@@ -2325,7 +2325,7 @@ class producthelper
 		return $res;
 	}
 
-	function getMenuDetail($link = "")
+	public function getMenuDetail($link = "")
 	{
 		$and = "";
 		if ($link != "")
@@ -2342,7 +2342,7 @@ class producthelper
 		return $res;
 	}
 
-	function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
+	public function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
 	{
 
 		$and = "";
@@ -2382,7 +2382,7 @@ class producthelper
 		return $res;
 	}
 
-	function getParentCategory($id = 0)
+	public function getParentCategory($id = 0)
 	{
 		$query = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref "
 			. "WHERE category_child_id='" . $id . "' ";
@@ -2392,7 +2392,7 @@ class producthelper
 		return $res;
 	}
 
-	function getCategoryProduct($id = 0)
+	public function getCategoryProduct($id = 0)
 	{
 		$query = "SELECT category_id FROM " . $this->_table_prefix . "product_category_xref "
 			. "WHERE product_id='" . $id . "' ";
@@ -2402,7 +2402,7 @@ class producthelper
 		return $res;
 	}
 
-	function getProductCategory($id = 0)
+	public function getProductCategory($id = 0)
 	{
 		$rsUserhelper               = new rsUserhelper();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
@@ -2431,7 +2431,7 @@ class producthelper
 	 *  @return: boolean
 	 *
 	 */
-	function checkProductDownload($pid, $return = false)
+	public function checkProductDownload($pid, $return = false)
 	{
 		$query = 'SELECT product_download,product_download_days,product_download_limit,product_download_clock,product_download_clock_min,product_download_infinite FROM ' . $this->_table_prefix . 'product '
 			. 'WHERE product_id ="' . $pid . '" ';
@@ -2444,7 +2444,7 @@ class producthelper
 			return $res->product_download;
 	}
 
-	function getProductMediaName($product_id)
+	public function getProductMediaName($product_id)
 	{
 		$query = 'SELECT media_name FROM ' . $this->_table_prefix . 'media '
 			. 'WHERE media_section = "product" '
@@ -2456,7 +2456,7 @@ class producthelper
 		return $res;
 	}
 
-	function updateContainerStock($product_id, $quantity, $container_id)
+	public function updateContainerStock($product_id, $quantity, $container_id)
 	{
 		// Subtracting the products from the container. means decreasing stock
 		$query = "SELECT quantity FROM " . $this->_table_prefix . "container_product_xref "
@@ -2477,7 +2477,7 @@ class producthelper
 	}
 
 
-	function getGiftcardData($gid)
+	public function getGiftcardData($gid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "
 			. "WHERE giftcard_id='" . $gid . "' ";
@@ -2487,7 +2487,7 @@ class producthelper
 		return $res;
 	}
 
-	function getValidityDate($period, $data)
+	public function getValidityDate($period, $data)
 	{
 
 		$todate = mktime(0, 0, 0, date('m'), date('d') + $period, date('Y'));
@@ -2505,7 +2505,7 @@ class producthelper
 
 	}
 
-	function getAccessoryPrice($product_id = 0, $accessory_price = 0, $accessory_main_price = 0, $vat = 0, $user_id = 0)
+	public function getAccessoryPrice($product_id = 0, $accessory_price = 0, $accessory_main_price = 0, $vat = 0, $user_id = 0)
 	{
 		$return = array();
 		$saved  = 0;
@@ -2543,7 +2543,7 @@ class producthelper
 		return $return;
 	}
 
-	function getuserfield($orderitemid = 0, $section_id = 12)
+	public function getuserfield($orderitemid = 0, $section_id = 12)
 	{
 		$redTemplate     = new Redtemplate();
 		$order_functions = new order_functions();
@@ -2603,7 +2603,7 @@ class producthelper
 		return $resultstr;
 	}
 
-	function getProductUserfieldFromTemplate($templatedata = "", $giftcard = 0)
+	public function getProductUserfieldFromTemplate($templatedata = "", $giftcard = 0)
 	{
 		$userfields      = array();
 		$userfields_lbl  = array();
@@ -2675,7 +2675,7 @@ class producthelper
 		return $retArr;
 	}
 
-	function GetProdcutUserfield($id = 'NULL', $section_id = 12)
+	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
 		$extraField  = new extraField();
 		$redTemplate = new Redtemplate();
@@ -2736,7 +2736,7 @@ class producthelper
 		return $resultstr;
 	}
 
-	function GetProdcutfield($id = 'NULL', $section_id = 1)
+	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
 		$extraField = new extraField();
 		$cart       = $this->_session->get('cart');
@@ -2762,7 +2762,7 @@ class producthelper
 		return $resultstr;
 	}
 
-	function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
+	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
 		$extraField      = new extraField();
 		$order_functions = new order_functions();
@@ -2791,7 +2791,7 @@ class producthelper
 		return $resultstr;
 	}
 
-	function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
+	public function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
 	{
 		$extraField = new extraField();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
@@ -2816,7 +2816,7 @@ class producthelper
 		return;
 	}
 
-	function getProductAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
+	public function getProductAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		$and          = "";
 		$astpublished = "";
@@ -2856,7 +2856,7 @@ class producthelper
 		return $list;
 	}
 
-	function getAttibuteProperty($property_id = 0, $attribute_id = 0, $product_id = 0, $attribute_set_id = 0, $required = 0, $notPropertyId = 0)
+	public function getAttibuteProperty($property_id = 0, $attribute_id = 0, $product_id = 0, $attribute_set_id = 0, $required = 0, $notPropertyId = 0)
 	{
 		$and = "";
 		if ($attribute_id != 0)
@@ -2895,7 +2895,7 @@ class producthelper
 		return $list;
 	}
 
-	function getAttibutePropertyWithStock($property)
+	public function getAttibutePropertyWithStock($property)
 	{
 		$stockroomhelper     = new rsstockroomhelper();
 		$property_with_stock = array();
@@ -2911,7 +2911,7 @@ class producthelper
 		return $property_with_stock;
 	}
 
-	function getAttibuteSubPropertyWithStock($subproperty)
+	public function getAttibuteSubPropertyWithStock($subproperty)
 	{
 		$stockroomhelper        = new rsstockroomhelper();
 		$subproperty_with_stock = array();
@@ -2928,7 +2928,7 @@ class producthelper
 		return $subproperty_with_stock;
 	}
 
-	function getAttibuteSubProperty($subproperty_id = 0, $property_id = 0)
+	public function getAttibuteSubProperty($subproperty_id = 0, $property_id = 0)
 	{
 		$and = "";
 		if ($subproperty_id != 0)
@@ -2951,7 +2951,7 @@ class producthelper
 		return $list;
 	}
 
-	function getAttributeTemplate($data_add = "", $display = true)
+	public function getAttributeTemplate($data_add = "", $display = true)
 	{
 		$attribute_template      = array();
 		$attribute_template_data = array();
@@ -3003,7 +3003,7 @@ class producthelper
 		return $attribute_template_data;
 	}
 
-	function getProductAccessory($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
+	public function getProductAccessory($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
 	{
 		$orderby = "ORDER BY child_product_id ASC";
 		if (DEFAULT_ACCESSORY_ORDERING_METHOD)
@@ -3058,7 +3058,7 @@ class producthelper
 		return $list;
 	}
 
-	function getProductNavigator($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
+	public function getProductNavigator($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
 	{
 		$orderby = "ORDER BY ordering ASC";
 
@@ -3084,7 +3084,7 @@ class producthelper
 		return $list;
 	}
 
-	function getAddtoCartTemplate($data_add = "")
+	public function getAddtoCartTemplate($data_add = "")
 	{
 		$redTemplate = new Redtemplate();
 		if (is_null($this->_cart_template))
@@ -3115,7 +3115,7 @@ class producthelper
 		return $cart_template_data;
 	}
 
-	function getAccessoryTemplate($data_add = "")
+	public function getAccessoryTemplate($data_add = "")
 	{
 		$redTemplate = new Redtemplate();
 		if (is_null($this->_acc_template))
@@ -3146,7 +3146,7 @@ class producthelper
 		return $acc_template_data;
 	}
 
-	function getRelatedProductTemplate($data_add = "")
+	public function getRelatedProductTemplate($data_add = "")
 	{
 		$redTemplate   = new Redtemplate();
 		$template      = $redTemplate->getTemplate("related_product");
@@ -3167,7 +3167,7 @@ class producthelper
 		return $template_data;
 	}
 
-	function getRelatedProduct($product_id = 0, $related_id = 0)
+	public function getRelatedProduct($product_id = 0, $related_id = 0)
 	{
 		$helper          = new redhelper();
 		$and             = "";
@@ -3282,7 +3282,7 @@ class producthelper
 		return $list;
 	}
 
-	function makeTotalPriceByOprand($price = 0, $oprandArr = array(), $priceArr = array())
+	public function makeTotalPriceByOprand($price = 0, $oprandArr = array(), $priceArr = array())
 	{
 		$setEqual = true;
 		for ($i = 0; $i < count($oprandArr); $i++)
@@ -3320,7 +3320,7 @@ class producthelper
 		return $retArr;
 	}
 
-	function getProductOnSaleComment($product = array(), $data_add = "")
+	public function getProductOnSaleComment($product = array(), $data_add = "")
 	{
 		$redconfig = new Redconfiguration();
 		if (strstr($data_add, "{if product_on_sale}") && strstr($data_add, "{product_on_sale end if}"))
@@ -3347,7 +3347,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function getProductNotForSaleComment($product = array(), $data_add = "", $attributes = array(), $is_relatedproduct = 0, $seoTemplate = "")
+	public function getProductNotForSaleComment($product = array(), $data_add = "", $attributes = array(), $is_relatedproduct = 0, $seoTemplate = "")
 	{
 		if (!$product->not_for_sale)
 		{
@@ -3379,7 +3379,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function getSpecialProductComment($product = array(), $data_add = "")
+	public function getSpecialProductComment($product = array(), $data_add = "")
 	{
 		if (strstr($data_add, "{if product_special}") && strstr($data_add, "{product_special end if}"))
 		{
@@ -3396,7 +3396,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function getAjaxDetailboxTemplate($product = array())
+	public function getAjaxDetailboxTemplate($product = array())
 	{
 		if (!AJAX_CART_BOX)
 			return array();
@@ -3434,7 +3434,7 @@ class producthelper
 		return $this->_ajaxdetail_templatedata;
 	}
 
-	function replaceAccessoryData($product_id = 0, $relproduct_id = 0, $accessory = array(), $data_add, $isChilds = false, $selectAcc = array())
+	public function replaceAccessoryData($product_id = 0, $relproduct_id = 0, $accessory = array(), $data_add, $isChilds = false, $selectAcc = array())
 	{
 		$user_id   = 0;
 		$url       = JURI::base();
@@ -3777,7 +3777,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function replaceAttributewithCartData($product_id = 0, $accessory_id = 0, $relproduct_id = 0, $attributes = array(), $data_add, $attribute_template = array(), $isChilds = false)
+	public function replaceAttributewithCartData($product_id = 0, $accessory_id = 0, $relproduct_id = 0, $attributes = array(), $data_add, $attribute_template = array(), $isChilds = false)
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
@@ -3959,7 +3959,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function get_hidden_attribute_cartimage($product_id, $property_id, $subproperty_id)
+	public function get_hidden_attribute_cartimage($product_id, $property_id, $subproperty_id)
 	{
 		$url      = JURI::base();
 		$attrbimg = "";
@@ -3984,7 +3984,7 @@ class producthelper
 		return $attrbimg;
 	}
 
-	function replaceAttributeData($product_id = 0, $accessory_id = 0, $relproduct_id = 0, $attributes = array(), $data_add, $attribute_template = array(), $isChilds = false, $selectAtt = array(), $displayIndCart = 1, $category_id = 0)
+	public function replaceAttributeData($product_id = 0, $accessory_id = 0, $relproduct_id = 0, $attributes = array(), $data_add, $attribute_template = array(), $isChilds = false, $selectAtt = array(), $displayIndCart = 1, $category_id = 0)
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
@@ -4415,7 +4415,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
+	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
 	{
 		$redTemplate     = new Redtemplate();
 		$stockroomhelper = new rsstockroomhelper();
@@ -4727,7 +4727,7 @@ class producthelper
 		return $attribute_table;
 	}
 
-	function defaultAttributeDataPrice($product_id = 0, $product_showprice = 0, $data_add, $user_id = 0, $applyTax = 0, $attributes = array())
+	public function defaultAttributeDataPrice($product_id = 0, $product_showprice = 0, $data_add, $user_id = 0, $applyTax = 0, $attributes = array())
 	{
 		if (count($attributes) <= 0 || INDIVIDUAL_ADD_TO_CART_ENABLE)
 		{
@@ -4812,7 +4812,7 @@ class producthelper
 		return $product_showprice;
 	}
 
-	function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
+	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
@@ -4999,7 +4999,7 @@ class producthelper
 		return $property_data;
 	}
 
-	function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
+	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
 		$user_id         = 0;
 		$url             = JURI::root();
@@ -5706,7 +5706,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function replaceWishlistButton($product_id = 0, $data_add = "")
+	public function replaceWishlistButton($product_id = 0, $data_add = "")
 	{
 
 		$my_wishlist = '';
@@ -5724,7 +5724,7 @@ class producthelper
 		if (MY_WISHLIST != 0)
 		{
 
-			$u           =& JFactory::getURI();
+			$u           = JFactory::getURI();
 			$user        = & JFactory::getUser();
 			$my_wishlist = '';
 
@@ -5781,7 +5781,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function replaceCompareProductsButton($product_id = 0, $category_id = 0, $data_add = "", $is_relatedproduct = 0)
+	public function replaceCompareProductsButton($product_id = 0, $category_id = 0, $data_add = "", $is_relatedproduct = 0)
 	{
 		$Itemid = JRequest::getInt('Itemid');
 		$prefix = ($is_relatedproduct == 1) ? "related" : "";
@@ -5817,7 +5817,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function makeAccessoryCart($attArr = array(), $product_id = 0, $user_id = 0, $data = '')
+	public function makeAccessoryCart($attArr = array(), $product_id = 0, $user_id = 0, $data = '')
 	{
 		$user = JFactory::getUser();
 		if ($user_id == 0)
@@ -6000,7 +6000,7 @@ class producthelper
 		return array($displayaccessory, $accessory_total_price, $accessory_vat_price);
 	}
 
-	function getcartTemplate()
+	public function getcartTemplate()
 	{
 
 
@@ -6017,7 +6017,7 @@ class producthelper
 	}
 
 
-	function makeAttributeCart($attArr = array(), $product_id = 0, $user_id = 0, $new_product_price = 0, $quantity = 1, $data = '')
+	public function makeAttributeCart($attArr = array(), $product_id = 0, $user_id = 0, $new_product_price = 0, $quantity = 1, $data = '')
 	{
 		$user            = JFactory::getUser();
 		$cart            = $this->_session->get('cart');
@@ -6227,7 +6227,7 @@ class producthelper
 		return array($displayattribute, $product_price, $product_vat_price, $selectedAttributs, $isStock, $productOldprice, $product_vat_Oldprice, $isPreorderStock, $selectedProperty);
 	}
 
-	function makeAccessoryOrder($order_item_id = 0)
+	public function makeAccessoryOrder($order_item_id = 0)
 	{
 		$order_functions  = new order_functions();
 		$displayaccessory = "";
@@ -6251,7 +6251,7 @@ class producthelper
 		return $displayaccessory;
 	}
 
-	function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
+	public function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
 	{
 		$stockroomhelper   = new rsstockroomhelper();
 		$order_functions   = new order_functions();
@@ -6393,7 +6393,7 @@ class producthelper
 		return $displayattribute;
 	}
 
-	function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
+	public function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
 	{
 		$quotationHelper  = new quotationHelper();
 		$displayaccessory = "";
@@ -6422,7 +6422,7 @@ class producthelper
 		return $displayaccessory;
 	}
 
-	function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
+	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
 //		$stockroomhelper = new rsstockroomhelper();
 		$quotationHelper  = new quotationHelper();
@@ -6487,7 +6487,7 @@ class producthelper
 	 *
 	 *  return : "," separated product string
 	 */
-	function loadAclProducts()
+	public function loadAclProducts()
 	{
 		$user    = JFactory::getUser();
 		$userArr = $this->_session->get('rs_user');
@@ -6531,7 +6531,7 @@ class producthelper
 	 * $calcUnit: Unit ratio which to convert
 	 */
 
-	function getUnitConversation($globalUnit, $calcUnit)
+	public function getUnitConversation($globalUnit, $calcUnit)
 	{
 		/*
 		 * calculation for setting unit value
@@ -6739,7 +6739,7 @@ class producthelper
 	}
 
 	// get Product subscription price
-	function getProductSubscriptionDetail($product_id, $subscription_id)
+	public function getProductSubscriptionDetail($product_id, $subscription_id)
 	{
 		$query = "SELECT * "
 			. " FROM " . $this->_table_prefix . "product_subscription"
@@ -6751,7 +6751,7 @@ class producthelper
 	}
 
 	// get User Product subscription detail
-	function getUserProductSubscriptionDetail($order_item_id)
+	public function getUserProductSubscriptionDetail($order_item_id)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscribe_detail AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_subscription AS ps ON ps.subscription_id=p.subscription_id "
@@ -6762,7 +6762,7 @@ class producthelper
 		return $list;
 	}
 
-	function insertProductDownload($product_id, $user_id, $order_id, $media_name, $serial_number)
+	public function insertProductDownload($product_id, $user_id, $order_id, $media_name, $serial_number)
 	{
 		// download data
 		$downloadable_product = $this->checkProductDownload($product_id, true); //die();
@@ -6800,7 +6800,7 @@ class producthelper
 	 *  Get serial number for downloadable product only retrive one number.
 	 */
 
-	function getProdcutSerialNumber($product_id, $is_used = 0)
+	public function getProdcutSerialNumber($product_id, $is_used = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_serial_number "
 			. "WHERE product_id = '" . $product_id . "' "
@@ -6819,7 +6819,7 @@ class producthelper
 	/*
 	 *  Update used seraial number status
 	 */
-	function updateProdcutSerialNumber($serial_id)
+	public function updateProdcutSerialNumber($serial_id)
 	{
 		$update_query = "UPDATE " . $this->_table_prefix . "product_serial_number "
 			. " SET is_used='1' WHERE serial_id='" . $serial_id . "'";
@@ -6827,7 +6827,7 @@ class producthelper
 		$this->_db->Query();
 	}
 
-	function getSubscription($product_id = 0)
+	public function getSubscription($product_id = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscription "
 			. "WHERE product_id='" . $product_id . "' "
@@ -6838,7 +6838,7 @@ class producthelper
 		return $list;
 	}
 
-	function getQuestionAnswer($questionid = 0, $productid = 0, $faq = 0, $front = 0)
+	public function getQuestionAnswer($questionid = 0, $productid = 0, $faq = 0, $front = 0)
 	{
 		$and = "";
 		if ($questionid != 0)
@@ -6870,7 +6870,7 @@ class producthelper
 		return $rs;
 	}
 
-	function getProductRating($product_id)
+	public function getProductRating($product_id)
 	{
 		$url        = JURI::base();
 		$avgratings = 0;
@@ -6899,7 +6899,7 @@ class producthelper
 		return $final_avgreview_data;
 	}
 
-	function getProductReviewList($product_id)
+	public function getProductReviewList($product_id)
 	{
 		$query = "SELECT ui.firstname,ui.lastname,pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
 			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.user_id=pr.userid "
@@ -6912,7 +6912,7 @@ class producthelper
 		return $reviews;
 	}
 
-	function calOprandPrice($price_1, $oprand, $price_2)
+	public function calOprandPrice($price_1, $oprand, $price_2)
 	{
 		switch ($oprand)
 		{
@@ -6941,7 +6941,7 @@ class producthelper
 	 * 	return checked if product is in session of compare product cart else blank
 	 */
 
-	function checkcompareproduct($product_id)
+	public function checkcompareproduct($product_id)
 	{
 		$compare_product = $this->_session->get('compare_product');
 
@@ -6961,7 +6961,7 @@ class producthelper
 		}
 	}
 
-	function makeCompareProductDiv()
+	public function makeCompareProductDiv()
 	{
 		$Itemid          = JRequest::getVar('Itemid');
 		$cmd             = JRequest::getVar('cmd');
@@ -6999,7 +6999,7 @@ class producthelper
 		return $div;
 	}
 
-	function getCompare()
+	public function getCompare()
 	{
 		$compare_product = $this->_session->get('compare_product');
 		if (!$compare_product)
@@ -7014,7 +7014,7 @@ class producthelper
 	 * function which will return product tag array form  given template
 	 *
 	 */
-	function product_tag($template_id, $section, $template_data)
+	public function product_tag($template_id, $section, $template_data)
 	{
 		$q = "SELECT field_name from " . $this->_table_prefix . "fields where field_section='" . $section . "' ";
 
@@ -7035,7 +7035,7 @@ class producthelper
 		return $str;
 	}
 
-	function getJcommentEditor($product = array(), $data_add = "")
+	public function getJcommentEditor($product = array(), $data_add = "")
 	{
 		$mainframe       = JFactory::getApplication();
 		$product_reviews = "";
@@ -7056,7 +7056,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function getSelectedAccessoryArray($data = array())
+	public function getSelectedAccessoryArray($data = array())
 	{
 		$selectedAccessory    = array();
 		$selectedAccessoryQua = array();
@@ -7126,7 +7126,7 @@ class producthelper
 		return $ret;
 	}
 
-	function getSelectedAttributeArray($data = array())
+	public function getSelectedAttributeArray($data = array())
 	{
 		$selectedproperty    = array();
 		$selectedsubproperty = array();
@@ -7171,7 +7171,7 @@ class producthelper
 		return $ret;
 	}
 
-	function replaceProductInStock($product_id = 0, $data_add, $attributes = array(), $attribute_template = array())
+	public function replaceProductInStock($product_id = 0, $data_add, $attributes = array(), $attribute_template = array())
 	{
 		if (count($attribute_template) <= 0)
 		{
@@ -7283,7 +7283,7 @@ class producthelper
 	 * @return: integer
 	 */
 
-	function getChildProduct($product_id = 0)
+	public function getChildProduct($product_id = 0)
 	{
 		$query = "SELECT product_parent_id,product_id,product_name,product_number FROM " . $this->_table_prefix . "product "
 			. "WHERE product_parent_id='" . $product_id . "' and published = 1 order by product_id";
@@ -7298,7 +7298,7 @@ class producthelper
 	 *
 	 * @return: int
 	 */
-	function getMainParentProduct($parent_id)
+	public function getMainParentProduct($parent_id)
 	{
 		$query = "SELECT product_parent_id FROM " . $this->_table_prefix . "product "
 			. "WHERE published=1 "
@@ -7313,12 +7313,12 @@ class producthelper
 		return $parent_id;
 	}
 
-	function redpriceDecimal($price)
+	public function redpriceDecimal($price)
 	{
 		return number_format($price, PRICE_DECIMAL, '.', '');
 	}
 
-	function redunitDecimal($price)
+	public function redunitDecimal($price)
 	{
 		if (defined('UNIT_DECIMAL') && UNIT_DECIMAL != "")
 			return number_format($price, UNIT_DECIMAL, '.', '');
@@ -7326,7 +7326,7 @@ class producthelper
 			return $price;
 	}
 
-	function isProductDateRange($userfieldArr, $product_id)
+	public function isProductDateRange($userfieldArr, $product_id)
 	{
 		$isEnable = true;
 		if (count($userfieldArr) <= 0)
@@ -7394,7 +7394,7 @@ class producthelper
 		return $isEnable;
 	}
 
-	function getassociatetag($product_id = 0)
+	public function getassociatetag($product_id = 0)
 	{
 		$query = " SELECT a.product_id,at.tag_id,rg.tag_name,ty.type_name FROM  #__redproductfinder_associations as a left outer join #__redproductfinder_association_tag as at on a.id=at.association_id left outer join #__redproductfinder_tags as rg on at.tag_id=rg.id left outer join #__redproductfinder_types as ty on at.type_id=ty.id where a.product_id='" . $product_id . "' ";
 		$this->_db->setQuery($query);
@@ -7403,7 +7403,7 @@ class producthelper
 		return $res;
 	}
 
-	function getCategoryCompareTemplate($cid)
+	public function getCategoryCompareTemplate($cid)
 	{
 
 		$query = "SELECT t.template_id  FROM " . $this->_table_prefix . "template  AS t "
@@ -7416,7 +7416,7 @@ class producthelper
 		return $tmp_name;
 	}
 
-	function getProductCaterories($product_id, $displaylink = 0)
+	public function getProductCaterories($product_id, $displaylink = 0)
 	{
 		$prodCatsObjectArray = array();
 		$query               = "SELECT  ct.category_name, ct.category_id FROM " . $this->_table_prefix . "category AS ct "
@@ -7466,7 +7466,7 @@ class producthelper
 		return $prodCatsObjectArray;
 	}
 
-	function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
+	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
 		$url                 = JURI::base();
 		$option              = JRequest::getVar('option');
@@ -7596,7 +7596,7 @@ class producthelper
 		return $Arrreturn;
 	}
 
-	function displayAdditionalImage($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $property_id = 0, $subproperty_id = 0, $main_imgwidth = 0, $main_imgheight = 0, $redview = "", $redlayout = "")
+	public function displayAdditionalImage($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $property_id = 0, $subproperty_id = 0, $main_imgwidth = 0, $main_imgheight = 0, $redview = "", $redlayout = "")
 	{
 		$redshopconfig   = new Redconfiguration ();
 		$redTemplate     = new Redtemplate ();
@@ -8143,7 +8143,7 @@ class producthelper
 	}
 
 
-	function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
+	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
 		$extraField = new extraField();
 		if (count($fieldArray) > 0)
@@ -8169,7 +8169,7 @@ class producthelper
 
 // function for related product layout
 
-	function getRelatedtemplateView($template_desc, $product_id)
+	public function getRelatedtemplateView($template_desc, $product_id)
 	{
 		$extra_field      = new extraField();
 		$config           = new Redconfiguration();
@@ -8341,7 +8341,7 @@ class producthelper
 	 * @params: $id :  product id
 	 * @params: $templatedata : template data
 	 */
-	function replaceAttributePriceList($id, $templatedata)
+	public function replaceAttributePriceList($id, $templatedata)
 	{
 
 		$output     = "";
@@ -8394,7 +8394,7 @@ class producthelper
 		return $templatedata;
 	}
 
-	function getCategoryNameByProductId($pid)
+	public function getCategoryNameByProductId($pid)
 	{
 		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
@@ -8406,7 +8406,7 @@ class producthelper
 
 	}
 
-	function removeOutofstockProduct($products)
+	public function removeOutofstockProduct($products)
 	{
 		$stockroomhelper = new rsstockroomhelper();
 		$filter_products = array();
@@ -8437,7 +8437,7 @@ class producthelper
 		return $filter_products;
 	}
 
-	function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
+	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
 	{
 		$stockroomhelper            = new rsstockroomhelper();
 		$producDetail               = $this->getProductById($product_id);
@@ -8486,7 +8486,7 @@ class producthelper
 		return $rsltdata;
 	}
 
-	function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
+	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
 	{
 		if (strstr($data_add, "{stock_status"))
 		{
@@ -8599,7 +8599,7 @@ class producthelper
 		return $data_add;
 	}
 
-	function isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id)
+	public function isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'notifystock_users  WHERE product_id = ' . $product_id . ' and property_id = ' . $property_id . ' and subproperty_id = ' . $subproperty_id . ' and user_id =' . $user_id . ' and notification_status=0';
 		$this->_db->setQuery($query);
@@ -8607,7 +8607,7 @@ class producthelper
 		return $this->_db->loadResult();
 	}
 
-	function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
+	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
 	{
 		$extraField = new extraField();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
@@ -8628,7 +8628,7 @@ class producthelper
 		return;
 	}
 
-	function getPaymentandShippingExtrafields($order, $section_id)
+	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
 
 		$extraField = new extraField();

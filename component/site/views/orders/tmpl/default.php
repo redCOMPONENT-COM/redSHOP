@@ -22,7 +22,7 @@ $carthelper = new rsCarthelper();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $print = JRequest::getVar('print');
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $redTemplate = new Redtemplate();
 
 $template_id = $this->params->get('template_id');

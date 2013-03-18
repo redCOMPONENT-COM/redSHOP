@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class redPagination extends JPagination
 {
 
-	function getPagesLinks()
+	public function getPagesLinks()
 	{
 		global $mainframe;
 
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		// Build the page navigation list
 		$data = $this->_buildDataObject();
@@ -127,7 +127,7 @@ class redPagination extends JPagination
 		}
 	}
 
-	function getPagesCounter()
+	public function getPagesCounter()
 	{
 		// Initialize variables
 		return;
@@ -139,7 +139,7 @@ class redPagination extends JPagination
 		//return $html;
 	}
 
-	function _list_footer($list)
+	public function _list_footer($list)
 	{
 		$html = "<div class=\"pagination-list-footer\">\n";
 
@@ -154,7 +154,7 @@ class redPagination extends JPagination
 	}
 
 
-	function _list_render($list)
+	public function _list_render($list)
 	{
 		// Initialize variables
 		$html = "<span class=\"pagination-links\" >";
@@ -194,7 +194,7 @@ class redPagination extends JPagination
 
 	}
 
-	function _item_active(&$item)
+	public function _item_active(&$item)
 	{
 
 		if (PAGINATION == 0) return $this->_item_active_joomla($item);
@@ -202,7 +202,7 @@ class redPagination extends JPagination
 
 	}
 
-	function _item_inactive(&$item)
+	public function _item_inactive(&$item)
 	{
 		if (PAGINATION == 0) return $this->_item_inactive_joomla($item);
 		else return $this->_item_inactive_redshop($item);

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 class order_detailModelorder_detail extends JModel
@@ -16,13 +16,13 @@ class order_detailModelorder_detail extends JModel
 	var $_data = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	function checkauthorization($oid, $encr)
+	public function checkauthorization($oid, $encr)
 	{
 		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = '" . $oid . "' AND encr_key like '" . $encr . "' ";
 		$this->_db->setQuery($query);
@@ -34,7 +34,7 @@ class order_detailModelorder_detail extends JModel
 	/*
 	 * update analytics status
 	 */
-	function UpdateAnalytics_status($oid)
+	public function UpdateAnalytics_status($oid)
 	{
 
 		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . $oid . "'";
@@ -50,12 +50,12 @@ class order_detailModelorder_detail extends JModel
 	/*
 	 * getBilling Addresses
 	 */
-	function billingaddresses()
+	public function billingaddresses()
 	{
 		global $mainframe;
 		$order_functions = new order_functions();
 		$user            = & JFactory::getUser();
-		$session         =& JFactory::getSession();
+		$session         = JFactory::getSession();
 
 
 		$auth = $session->get('auth');
@@ -76,7 +76,7 @@ class order_detailModelorder_detail extends JModel
 	/*
 	 * get category name from Product Id
 	 */
-	function getCategoryNameByProductId($pid)
+	public function getCategoryNameByProductId($pid)
 	{
 		$db    = & JFactory::getDBO();
 		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
@@ -87,7 +87,7 @@ class order_detailModelorder_detail extends JModel
 		return $db->loadResult();
 	}
 
-	function resetcart()
+	public function resetcart()
 	{
 		$session = & JFactory::getSession();
 		$session->set('cart', null);
@@ -97,11 +97,11 @@ class order_detailModelorder_detail extends JModel
 		unset ($_SESSION ['ccdata']);
 	}
 
-	function update_ccdata($order_id, $payment_transaction_id)
+	public function update_ccdata($order_id, $payment_transaction_id)
 	{
 		$db = JFactory::getDBO();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
 		$order_payment_code     = $ccdata['creditcard_code'];

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.utilities.simplexml');
 
@@ -31,7 +31,7 @@ class convertPrice
 	 *
 	 * @return mixed
 	 */
-	function init()
+	public function init()
 	{
 		global $mainframe;
 
@@ -149,7 +149,7 @@ class convertPrice
 		return true;
 	}
 
-	function convert($amountA, $currA = '', $currB = '')
+	public function convert($amountA, $currA = '', $currB = '')
 	{
 
 		$config = new Redconfiguration();

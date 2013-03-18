@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -17,13 +17,13 @@ class price_filterModelprice_filter extends JModel
 	var $_data = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$category = JRequest::getVar('category');
 		$catfld   = '';
@@ -41,7 +41,7 @@ class price_filterModelprice_filter extends JModel
 		return $sql;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{

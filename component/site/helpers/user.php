@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 //jimport('joomla.user.helper');
 //
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
@@ -25,11 +25,11 @@ class rsUserhelper
 	var $_shopper_group_id = null;
 	var $_shopper_group_data = null;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_session      =& JFactory::getSession();
+		$this->_session      = JFactory::getSession();
 		$this->_db           = & JFactory :: getDBO();
 	}
 
@@ -38,7 +38,7 @@ class rsUserhelper
 	 */
 
 
-	function getShopperGroup($user_id = 0)
+	public function getShopperGroup($user_id = 0)
 	{
 		# get redCRM Contact person session array
 		$isredcrmuser = $this->_session->get('isredcrmuser', false);
@@ -62,7 +62,7 @@ class rsUserhelper
 	}
 
 	// get User groups
-	function getUserGroupList($user_id = 0)
+	public function getUserGroupList($user_id = 0)
 	{
 		$query = 'SELECT group_id FROM ' . $this->_table_prefix . 'users_info AS uf '
 			. 'LEFT JOIN #__user_usergroup_map as u on u.user_id = uf.user_id '
@@ -73,7 +73,7 @@ class rsUserhelper
 		return $usergroups;
 	}
 
-	function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
+	public function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
 	{
 		$and = '';
 		if ($users_info_id != 0)
@@ -88,7 +88,7 @@ class rsUserhelper
 		$this->_db->Query();
 	}
 
-	function getShoppergroupData($user_id = 0)
+	public function getShoppergroupData($user_id = 0)
 	{
 		$list = array();
 		$user = JFactory::getUser();
@@ -116,7 +116,7 @@ class rsUserhelper
 		return $list;
 	}
 
-	function getShopperGroupList($shopper_group_id = 0)
+	public function getShopperGroupList($shopper_group_id = 0)
 	{
 		$and = '';
 		if ($shopper_group_id != 0)
@@ -135,7 +135,7 @@ class rsUserhelper
 		return $list;
 	}
 
-	function createUserSession($user_id)
+	public function createUserSession($user_id)
 	{
 		$userArr = $this->_session->get('rs_user');
 
@@ -171,7 +171,7 @@ class rsUserhelper
 		return $userArr;
 	}
 
-	function validate_user($username, $id = 0)
+	public function validate_user($username, $id = 0)
 	{
 		$query = "SELECT username FROM #__users "
 			. "WHERE username='" . $username . "' "
@@ -182,7 +182,7 @@ class rsUserhelper
 		return count($users);
 	}
 
-	function validate_email($email, $id = 0)
+	public function validate_email($email, $id = 0)
 	{
 		$query = "SELECT email FROM #__users "
 			. "WHERE email = '" . $email . "' "
@@ -193,7 +193,7 @@ class rsUserhelper
 		return count($emails);
 	}
 
-	function updateJoomlaUser($data)
+	public function updateJoomlaUser($data)
 	{
 		$app = JFactory::getApplication();
 		if (!$app->isAdmin())
@@ -322,7 +322,7 @@ class rsUserhelper
 		return $user;
 	}
 
-	function createJoomlaUser($data, $createuser = 0)
+	public function createJoomlaUser($data, $createuser = 0)
 	{
 		global $mainframe;
 
@@ -416,7 +416,7 @@ class rsUserhelper
 
 				return false;
 			}
-			$date =& JFactory::getDate();
+			$date = JFactory::getDate();
 			$user->set('id', 0);
 			$user->set('registerDate', $date->toMySQL());
 			// If user activation is turned on, we need to set the activation information
@@ -449,7 +449,7 @@ class rsUserhelper
 		return true;
 	}
 
-	function checkCaptcha($data)
+	public function checkCaptcha($data)
 	{
 		if (SHOW_CAPTCHA)
 		{
@@ -467,7 +467,7 @@ class rsUserhelper
 		return true;
 	}
 
-	function storeRedshopUser($data, $user_id = 0, $admin = 0)
+	public function storeRedshopUser($data, $user_id = 0, $admin = 0)
 	{
 		$redshopMail = new redshopMail();
 		$extra_field = new extra_field();
@@ -632,7 +632,7 @@ class rsUserhelper
 			$u->set('username', $row->user_email);
 			$u->set('email', $row->user_email);
 			$u->set('usertype', 'Registered');
-			$date =& JFactory::getDate();
+			$date = JFactory::getDate();
 			$u->set('registerDate', $date->toMySQL());
 			$data['user_id']  = $row->user_id;
 			$data['username'] = $row->user_email;
@@ -699,7 +699,7 @@ class rsUserhelper
 		return $row;
 	}
 
-	function storeRedshopUserShipping($data)
+	public function storeRedshopUserShipping($data)
 	{
 		$extra_field = new extra_field();
 
@@ -753,7 +753,7 @@ class rsUserhelper
 		return $rowShip;
 	}
 
-	function userSynchronization()
+	public function userSynchronization()
 	{
 		$query = "SELECT u.* FROM #__users AS u "
 			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ru ON ru.user_id = u.id "
@@ -778,10 +778,10 @@ class rsUserhelper
 		return count($jusers);
 	}
 
-	function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
+	public function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
 	{
 		$newsletter = 1;
-		$user       =& JFactory::getUser();
+		$user       = JFactory::getUser();
 
 		if ($user_id == 0)
 		{
@@ -841,9 +841,9 @@ class rsUserhelper
 		return true;
 	}
 
-	function newsletterUnsubscribe($email = "")
+	public function newsletterUnsubscribe($email = "")
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$and  = "";
 		if (DEFAULT_NEWSLETTER != "")
 		{
@@ -868,7 +868,7 @@ class rsUserhelper
 		return true;
 	}
 
-	function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
+	public function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
 	{
 		$redTemplate = new Redtemplate();
 
@@ -1002,7 +1002,7 @@ class rsUserhelper
 		return $template_desc;
 	}
 
-	function replaceBillingCommonFields($template_desc, $post = array(), $lists)
+	public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
 	{
 		$Redconfiguration = new Redconfiguration();
 
@@ -1060,7 +1060,7 @@ class rsUserhelper
 		return $template_desc;
 	}
 
-	function replacePrivateCustomer($template_desc, $post = array(), $lists)
+	public function replacePrivateCustomer($template_desc, $post = array(), $lists)
 	{
 		$template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
 		if (strstr($template_desc, "{private_extrafield}"))
@@ -1072,7 +1072,7 @@ class rsUserhelper
 		return $template_desc;
 	}
 
-	function replaceCompanyCustomer($template_desc, $post = array(), $lists)
+	public function replaceCompanyCustomer($template_desc, $post = array(), $lists)
 	{
 		$template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
 
@@ -1121,7 +1121,7 @@ class rsUserhelper
 		return $template_desc;
 	}
 
-	function getShippingTable($post = array(), $is_company = 0, $lists)
+	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
 		$Redconfiguration  = new Redconfiguration();
 		$redTemplate       = new Redtemplate();
@@ -1199,7 +1199,7 @@ class rsUserhelper
 		return $template_desc;
 	}
 
-	function getCaptchaTable()
+	public function getCaptchaTable()
 	{
 		$html = '';
 		if (SHOW_CAPTCHA)
@@ -1216,7 +1216,7 @@ class rsUserhelper
 		return $html;
 	}
 
-	function getAskQuestionCaptcha()
+	public function getAskQuestionCaptcha()
 	{
 		$html = '';
 		$html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
@@ -1232,7 +1232,7 @@ class rsUserhelper
 	/**
 	 * function to store redCRM user
 	 */
-	function setoreredCRMDebtor($row)
+	public function setoreredCRMDebtor($row)
 	{
 		$this->_db->setQuery("SELECT debitor_id FROM #__redcrm_debitors WHERE users_info_id = '" . $row->users_info_id . "'");
 		$row->debitor_id = $this->_db->loadResult();
@@ -1264,7 +1264,7 @@ class rsUserhelper
 		return $debtor;
 	}
 
-	function getShopperGroupManufacturers()
+	public function getShopperGroupManufacturers()
 	{
 		$user                       = JFactory::getUser();
 		$user_id                    = $user->id;

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
@@ -26,7 +26,7 @@ jimport('joomla.application.component.controller');
  */
 class order_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->_producthelper = new producthelper();
@@ -41,7 +41,7 @@ class order_detailController extends JController
 	/*
 	 *  bookinvoice function
 	 */
-	function bookinvoice()
+	public function bookinvoice()
 	{
 		// Economic Integration start for invoice generate and book current invoice
 //		if(ECONOMIC_INTEGRATION==1)
@@ -60,7 +60,7 @@ class order_detailController extends JController
 	/*
 	 *  process payment function for creditcard payment
 	 */
-	function process_payment()
+	public function process_payment()
 	{
 
 		global $mainframe;
@@ -173,7 +173,7 @@ class order_detailController extends JController
 	/*
 	 * Notify payment function
 	 */
-	function notify_payment()
+	public function notify_payment()
 	{
 
 
@@ -224,7 +224,7 @@ class order_detailController extends JController
 
 	}
 
-	function copyorderitemtocart()
+	public function copyorderitemtocart()
 	{
 		global $mainframe;
 		$order_item_id = JRequest::getInt('order_item_id');
@@ -288,7 +288,7 @@ class order_detailController extends JController
 		}
 	}
 
-	function reorder()
+	public function reorder()
 	{
 		global $mainframe;
 		$session =& JFactory::getSession();
@@ -389,7 +389,7 @@ class order_detailController extends JController
 	/*
 	 *  payment function
 	 */
-	function payment()
+	public function payment()
 	{
 		global $mainframe;
 		$redconfig = new Redconfiguration();

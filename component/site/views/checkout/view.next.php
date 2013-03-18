@@ -19,7 +19,7 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 class checkoutViewcheckout extends JView
 {
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 		$shippinghelper  = new shipping();
@@ -33,7 +33,7 @@ class checkoutViewcheckout extends JView
 		$task    = JRequest::getVar('task');
 
 		$model   = $this->getModel('checkout');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		if ($issplit != '')
 		{
 			$session->set('issplit', $issplit);
@@ -87,7 +87,7 @@ class checkoutViewcheckout extends JView
 		$is_subscription = $paymentparams->get('is_subscription', 0);
 		if (@$is_creditcard == 1)
 		{
-			$document =& JFactory::getDocument();
+			$document = JFactory::getDocument();
 			JHTML::Script('credit_card.js', 'components/com_redshop/assets/js/', false);
 		}
 

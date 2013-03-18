@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -22,7 +22,7 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
  */
 class cartController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->_carthelper = new rsCarthelper();
@@ -32,7 +32,7 @@ class cartController extends JController
 	 * Method to add product in cart
 	 *
 	 */
-	function add()
+	public function add()
 	{
 		global $mainframe;
 		$option = JRequest::getVar('option');
@@ -205,7 +205,7 @@ class cartController extends JController
 		}
 	}
 
-	function modifyCalculation($cart)
+	public function modifyCalculation($cart)
 	{
 		$producthelper = new producthelper();
 		$calArr = $this->_carthelper->calculation($cart);
@@ -276,7 +276,7 @@ class cartController extends JController
 	 * Method to add coupon code in cart for discount
 	 *
 	 */
-	function coupon()
+	public function coupon()
 	{
 		$session =& JFactory::getSession();
 		$option = JRequest::getVar('option');
@@ -318,7 +318,7 @@ class cartController extends JController
 	 * Method to add voucher code in cart for discount
 	 *
 	 */
-	function voucher()
+	public function voucher()
 	{
 		$session =& JFactory::getSession();
 		$option = JRequest::getVar('option');
@@ -355,7 +355,7 @@ class cartController extends JController
 	 * Method to update product info in cart
 	 *
 	 */
-	function update()
+	public function update()
 	{
 
 		$option = JRequest::getVar('option');
@@ -377,7 +377,7 @@ class cartController extends JController
 	 * Method to update all product info in cart
 	 *
 	 */
-	function update_all()
+	public function update_all()
 	{
 
 		$option = JRequest::getVar('option');
@@ -399,7 +399,7 @@ class cartController extends JController
 	 * Method to make cart empty
 	 *
 	 */
-	function empty_cart()
+	public function empty_cart()
 	{
 
 		$option = JRequest::getVar('option');
@@ -422,7 +422,7 @@ class cartController extends JController
 	 * Method to delete cart entry from session
 	 *
 	 */
-	function delete()
+	public function delete()
 	{
 
 		$option = JRequest::getVar('option');
@@ -445,7 +445,7 @@ class cartController extends JController
 	 *
 	 * @return: ajax responce
 	 */
-	function discountCalculator()
+	public function discountCalculator()
 	{
 		ob_clean();
 		$get = JRequest::get('GET');
@@ -458,7 +458,7 @@ class cartController extends JController
 	 * using mod_redmasscart module.
 	 *
 	 */
-	function redmasscart()
+	public function redmasscart()
 	{
 
 		global $mainframe;
@@ -487,7 +487,7 @@ class cartController extends JController
 	 *  Get Shipping rate function
 	 * @return: shipping rate by Ajax
 	 */
-	function getShippingrate()
+	public function getShippingrate()
 	{
 		include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
 		$shipping = new shipping();
@@ -498,7 +498,7 @@ class cartController extends JController
 	/*
 	 * change Attribute
 	 */
-	function changeAttribute()
+	public function changeAttribute()
 	{
 		$post = JRequest::get('post');
 		$model = $this->getModel('cart');
@@ -522,7 +522,7 @@ class cartController extends JController
 	 * Method called when user pressed cancel button
 	 *
 	 */
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');

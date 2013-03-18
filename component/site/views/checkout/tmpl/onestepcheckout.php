@@ -27,8 +27,8 @@ $order_functions = new order_functions();
 $redhelper = new redhelper();
 $redTemplate = new Redtemplate();
 $shippinghelper = new shipping();
-$session =& JFactory::getSession();
-$document =& JFactory::getDocument();
+$session = JFactory::getSession();
+$document = JFactory::getDocument();
 
 // get redshop helper
 $Itemid = $redhelper->getCheckoutItemid();

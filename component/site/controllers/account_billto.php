@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
@@ -21,7 +21,7 @@ jimport('joomla.application.component.controller');
  */
 class account_billtoController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
@@ -31,7 +31,7 @@ class account_billtoController extends JController
 	 * Method to edit billing Address
 	 *
 	 */
-	function edit()
+	public function edit()
 	{
 		$user = & JFactory::getUser();
 		$order_functions = new order_functions();
@@ -49,7 +49,7 @@ class account_billtoController extends JController
 	 * Method to save Billing Address
 	 *
 	 */
-	function save()
+	public function save()
 	{
 		$user = & JFactory::getUser();
 		$post = JRequest::get('post');

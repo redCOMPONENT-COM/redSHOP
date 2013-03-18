@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 class newsletterViewnewsletter extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 
@@ -26,7 +26,7 @@ class newsletterViewnewsletter extends JView
 
 		$userdata = JRequest::getVar('userdata');
 		$layout   = JRequest::getVar('layout');
-		$user     =& JFactory::getUser();
+		$user     = JFactory::getUser();
 
 		$this->assignRef('user', $user);
 		$this->assignRef('userdata', $userdata);
