@@ -13,9 +13,9 @@ jimport('joomla.application.component.model');
 
 class container_detailModelcontainer_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{
@@ -133,24 +133,24 @@ class container_detailModelcontainer_detail extends JModel
 				////////// Start Add Container in orderitem ////////////////
 				/*if($data["container_porder"][$h]==1)
 				{
-				
+
 				$sql="select  order_item_id,product_id,product_quantity from ".$this->_table_prefix."order_item where container_id < 1 and product_id= ".$cp;
 				$this->_db->setQuery($sql);
 				$porder_data=$this->_db->loadObjectList();
 				$add_quantity=$data["quantity"][$h];
 				for($p=0;$p<count($porder_data);$p++)
 				 {
-				 
+
 					if($add_quantity>=$porder_data[$p]->product_quantity)
 					{
 						$sql="update   ".$this->_table_prefix."order_item set container_id='".$container_id."' where order_item_id= ".$porder_data[$p]->order_item_id;
 						$this->_db->setQuery($sql);
-						$this->_db->query();						
+						$this->_db->query();
 						$add_quantity=$add_quantity-$porder_data[$p]->product_quantity;
-					}					 
-				 }				
+					}
+				 }
 				}*/
-				////////// end Container orderitem ////////////////				
+				////////// end Container orderitem ////////////////
 				$h++;
 			}
 		}

@@ -12,12 +12,12 @@ jimport('joomla.application.component.model');
 
 class wrapperModelwrapper extends JModel
 {
-	var $_productid = 0;
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_context = null;
+	public $_productid = 0;
+	public $_data = null;
+	public $_total = null;
+	public $_pagination = null;
+	public $_table_prefix = null;
+	public $_context = null;
 
 	function __construct()
 	{
