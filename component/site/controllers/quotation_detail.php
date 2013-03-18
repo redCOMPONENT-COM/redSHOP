@@ -16,16 +16,14 @@ require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 
 /**
- * Quotation Detail Controller
+ * Quotation Detail Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class quotation_detailController extends JController
+class Quotation_detailController extends JController
 {
-
-
 	/**
 	 * update status function
 	 *

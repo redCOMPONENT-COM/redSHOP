@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-/**
- * Order tracker Controller
- *
- * @static
- * @package        redSHOP
- * @since          1.0
- */
-class ordertrackerController extends JController
-{
 
+/**
+ * Order tracker Controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class OrdertrackerController extends JController
+{
 }

@@ -12,17 +12,16 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+
 /**
- * newsletter Controller
+ * Newsletter Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class newsletterController extends JController
+class NewsletterController extends JController
 {
-
-
 	/*
 	 *  Method to subscribe newsletter
 	 */
@@ -124,5 +123,3 @@ class newsletterController extends JController
 		$this->setRedirect($return, $msg);
 	}
 }
-
-?>

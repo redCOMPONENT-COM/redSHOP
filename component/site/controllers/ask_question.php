@@ -10,16 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-/**
- * Ask Question Controller
- *
- * @static
- * @package        redSHOP
- * @since          1.0
- */
-class ask_questionController extends JController
-{
 
+/**
+ * Ask Question Controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class Ask_questionController extends JController
+{
 	/**
 	 * Method to send Ask Question Mail.
 	 *

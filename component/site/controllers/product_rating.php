@@ -10,14 +10,15 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * Product rating Controller
+ * Product rating Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class product_ratingController extends JController
+class Product_ratingController extends JController
 {
 
 	/**

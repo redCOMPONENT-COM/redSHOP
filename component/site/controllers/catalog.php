@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * catalog Controller
+ * Catalog Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class catalogController extends JController
+class CatalogController extends JController
 {
-
-
 	/*
 	 * Method to send catalog
 	 */
