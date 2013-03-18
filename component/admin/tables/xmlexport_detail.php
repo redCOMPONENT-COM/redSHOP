@@ -6,53 +6,75 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tablexmlexport_detail extends JTable
 {
-	var $xmlexport_id = null;
-	var $filename = null;
-	var $display_filename = null;
-	var $parent_name = null;
-	var $element_name = null;
-	var $section_type = null;
-	var $sync_on_request = 0;
-	var $auto_sync = 0;
-	var $auto_sync_interval = 0;
-	var $xmlexport_date = null;
-	var $xmlexport_filetag = null;
-	var $xmlexport_billingtag = null;
-	var $billing_element_name = null;
-	var $xmlexport_shippingtag = null;
-	var $shipping_element_name = null;
-	var $xmlexport_orderitemtag = null;
-	var $orderitem_element_name = null;
-	var $xmlexport_stocktag = null;
-	var $stock_element_name = null;
-	var $xmlexport_prdextrafieldtag = null;
-	var $prdextrafield_element_name = null;
-	var $published = 0;
-	var $use_to_all_users = 1;
-	var $xmlexport_on_category = null;
+	public $xmlexport_id = null;
 
-	function Tablexmlexport_detail(& $db)
+	public $filename = null;
+
+	public $display_filename = null;
+
+	public $parent_name = null;
+
+	public $element_name = null;
+
+	public $section_type = null;
+
+	public $sync_on_request = 0;
+
+	public $auto_sync = 0;
+
+	public $auto_sync_interval = 0;
+
+	public $xmlexport_date = null;
+
+	public $xmlexport_filetag = null;
+
+	public $xmlexport_billingtag = null;
+
+	public $billing_element_name = null;
+
+	public $xmlexport_shippingtag = null;
+
+	public $shipping_element_name = null;
+
+	public $xmlexport_orderitemtag = null;
+
+	public $orderitem_element_name = null;
+
+	public $xmlexport_stocktag = null;
+
+	public $stock_element_name = null;
+
+	public $xmlexport_prdextrafieldtag = null;
+
+	public $prdextrafield_element_name = null;
+
+	public $published = 0;
+
+	public $use_to_all_users = 1;
+
+	public $xmlexport_on_category = null;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'xml_export', 'xmlexport_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
-
 }

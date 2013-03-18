@@ -7,26 +7,35 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tablesubattribute_property extends JTable
 {
-	var $subattribute_color_id = null;
-	var $subattribute_color_name = null;
-	var $subattribute_color_title = null;
-	var $subattribute_color_price = null;
-	var $oprand = null;
-	var $subattribute_color_image = null;
-	var $subattribute_id = null;
-	var $ordering = null;
-	var $subattribute_color_number = null;
-	var $setdefault_selected = 0;
-	var $subattribute_color_main_image = null;
-	var $subattribute_published = 1;
+	public $subattribute_color_id = null;
 
-	function Tablesubattribute_property(& $db)
+	public $subattribute_color_name = null;
+
+	public $subattribute_color_title = null;
+
+	public $subattribute_color_price = null;
+
+	public $oprand = null;
+
+	public $subattribute_color_image = null;
+
+	public $subattribute_id = null;
+
+	public $ordering = null;
+
+	public $subattribute_color_number = null;
+
+	public $setdefault_selected = 0;
+
+	public $subattribute_color_main_image = null;
+
+	public $subattribute_published = 1;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
@@ -35,15 +44,13 @@ class Tablesubattribute_property extends JTable
 
 	function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
-?>
