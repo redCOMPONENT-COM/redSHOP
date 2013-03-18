@@ -161,7 +161,7 @@ class categoryController extends JController
 		{
 			$ctype = mime_content_type($fil);
 		}
-		else if (function_exists('finfo_file'))
+		elseif (function_exists('finfo_file'))
 		{
 			$finfo = finfo_open(FILEINFO_MIME);
 			$ctype = finfo_file($finfo, $fil);

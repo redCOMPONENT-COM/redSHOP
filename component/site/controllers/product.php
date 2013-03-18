@@ -104,7 +104,7 @@ class productController extends JController
 			{
 				$msg = JText::_('COM_REDSHOP_REVIEW_ALREADY_EXIST');
 			}
-			else if ($model->sendMailForReview($post))
+			elseif ($model->sendMailForReview($post))
 			{
 				$msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
 			}
@@ -508,7 +508,7 @@ class productController extends JController
 				echo $Message;
 			}
 		}
-		else if ($post['cmd'] == 'remove')
+		elseif ($post['cmd'] == 'remove')
 		{
 			$model->removeCompare($post['pid']);
 			$Message = "1`" . $producthelper->makeCompareProductDiv();
@@ -610,7 +610,7 @@ class productController extends JController
 			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct", $msg);
 
 		}
-		else if (isset($post['mainindex']) && isset($post['additional']))
+		elseif (isset($post['mainindex']) && isset($post['additional']))
 		{
 			$task = $post['mainindex'];
 
@@ -623,7 +623,7 @@ class productController extends JController
 				$name = $finalname[0]->media_name;
 
 			}
-			else if ($task == "additional")
+			elseif ($task == "additional")
 			{
 				$finalname = $model->AdditionaldownloadProduct(0, $id);
 

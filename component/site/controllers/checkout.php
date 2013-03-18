@@ -197,7 +197,7 @@ class checkoutController extends JController
 				JError::raiseWarning('', $msg);
 				return $return;
 			}
-			else if ($billingaddresses->lastname == '')
+			elseif ($billingaddresses->lastname == '')
 			{
 				$return = 1;
 				$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME');
@@ -221,14 +221,14 @@ class checkoutController extends JController
 				JError::raiseWarning('', $msg);
 				return $return;
 			}
-			else if ($billingaddresses->lastname == '')
+			elseif ($billingaddresses->lastname == '')
 			{
 				$return = 1;
 				$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME');
 				JError::raiseWarning('', $msg);
 				return $return;
 			}
-			else if (ECONOMIC_INTEGRATION == 1 && trim($billingaddresses->ean_number) != '')
+			elseif (ECONOMIC_INTEGRATION == 1 && trim($billingaddresses->ean_number) != '')
 			{
 				$economic = new economic();
 				$debtorHandle = $economic->createUserInEconomic($billingaddresses);
@@ -270,21 +270,21 @@ class checkoutController extends JController
 			JError::raiseWarning('', $msg);
 			return $return;
 		}
-		else if (!$billingaddresses->country_code)
+		elseif (!$billingaddresses->country_code)
 		{
 			$return = 1;
 			$msg = JText::_('COM_REDSHOP_PLEASE_SELECT_COUNTRY');
 			JError::raiseWarning('', $msg);
 			return $return;
 		}
-		else if (!$billingaddresses->zipcode)
+		elseif (!$billingaddresses->zipcode)
 		{
 			$return = 1;
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE');
 			JError::raiseWarning('', $msg);
 			return $return;
 		}
-		else if (!$billingaddresses->phone)
+		elseif (!$billingaddresses->phone)
 		{
 			$return = 1;
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE');
