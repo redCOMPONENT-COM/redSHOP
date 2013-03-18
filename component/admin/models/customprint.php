@@ -13,8 +13,8 @@ jimport('joomla.application.component.model');
 
 class customprintModelcustomprint extends JModel
 {
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{

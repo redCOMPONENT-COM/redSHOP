@@ -13,9 +13,9 @@ jimport('joomla.application.component.model');
 
 class stockimage_detailModelstockimage_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{
@@ -158,11 +158,11 @@ class stockimage_detailModelstockimage_detail extends JModel
 	}
 
 	/*function publish($cid = array(), $publish = 1)
-	{		
+	{
 		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
-			
+
 			$query = 'UPDATE '.$this->_table_prefix.'stockroom_amount_image '
 					.'SET published="'.intval( $publish ).'" '
 					.'WHERE stock_amount_id IN ( '.$cids.' )';
