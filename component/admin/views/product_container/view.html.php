@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.view');
@@ -60,7 +60,7 @@ class product_containerViewproduct_container extends JView
 
 		/*JToolBarHelper::addNewX();
 		 JToolBarHelper::editListX();
-		JToolBarHelper::deleteList();		
+		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();*/
 
