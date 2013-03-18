@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 jimport('joomla.application.component.controller');
+
 /**
- * Order Detail Controller
+ * Password Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class passwordController extends JController
+class PasswordController extends JController
 {
-
-
 	/*
 	 *  Metod to reset Password
 	 */

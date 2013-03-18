@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * search Controller
+ * search Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class searchController extends JController
+class SearchController extends JController
 {
-
-
 	/**
 	 * cancel function
 	 *

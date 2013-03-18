@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+
 /**
- * checkout Controller
+ * Checkout Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class checkoutController extends JController
+class CheckoutController extends JController
 {
 	var $_order_functions = null;
 	var $_shippinghelper = null;

@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * wishlist Controller
+ * wishlist Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class wishlistController extends JController
+class WishlistController extends JController
 {
-
-
 	/**
 	 * createsave wishlist function
 	 *

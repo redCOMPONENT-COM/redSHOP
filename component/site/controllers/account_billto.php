@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
 jimport('joomla.application.component.controller');
+
 /**
- * Account Billing Address Controller
+ * Account Billing Address Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class account_billtoController extends JController
+class Account_billtoController extends JController
 {
 	public function __construct($default = array())
 	{

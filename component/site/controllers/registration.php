@@ -15,17 +15,16 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 //including extra fields helper file
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
 //including extra fields helper file end
+
 /**
- * registration Controller
+ * registration Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class registrationController extends JController
+class RegistrationController extends JController
 {
-
-
 	/**
 	 * newregistration function
 	 *

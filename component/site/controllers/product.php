@@ -14,13 +14,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
 
 /**
- * Product Controller
+ * Product Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class productController extends JController
+class ProductController extends JController
 {
 
 

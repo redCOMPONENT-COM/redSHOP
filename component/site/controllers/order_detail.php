@@ -17,14 +17,15 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
 
 jimport('joomla.application.component.controller');
+
 /**
- * Order Detail Controller
+ * Order Detail Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class order_detailController extends JController
+class Order_detailController extends JController
 {
 	public function __construct($default = array())
 	{
