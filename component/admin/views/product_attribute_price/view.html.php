@@ -6,16 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
 
 class product_attribute_priceViewproduct_attribute_price extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -50,5 +48,3 @@ class product_attribute_priceViewproduct_attribute_price extends JView
 		parent::display($tpl);
 	}
 }
-
-?>

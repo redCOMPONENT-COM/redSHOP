@@ -6,16 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class sample_catalogVIEWsample_catalog extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
-
 
 		$uri =& JFactory::getURI();
 
@@ -35,5 +35,4 @@ class sample_catalogVIEWsample_catalog extends JView
 
 		parent::display($tpl);
 	}
-
 }

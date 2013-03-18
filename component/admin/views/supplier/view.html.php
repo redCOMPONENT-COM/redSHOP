@@ -13,12 +13,7 @@ jimport('joomla.application.component.view');
 
 class supplierViewsupplier extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -26,8 +21,6 @@ class supplierViewsupplier extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_SUPPLIER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT'), 'redshop_manufact48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
@@ -51,6 +44,7 @@ class supplierViewsupplier extends JView
 		$this->assignRef('supplier', $supplier);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

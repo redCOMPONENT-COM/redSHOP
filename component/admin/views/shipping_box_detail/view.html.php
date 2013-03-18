@@ -6,11 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
+
 class shipping_box_detailVIEWshipping_box_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_templates48');
 
@@ -42,11 +45,12 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
+
 		// TEMPLATE MOVE DB TO FILE
 		$post = JRequest::get('post');
+
 		if ($isNew && (isset($post['shipping_box_name']) && $post['shipping_box_name'] != ""))
 		{
 			$detail->template_name = $post['template_name'];
@@ -54,13 +58,10 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 			$template_desc = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 			$detail->template_desc = $template_desc;
 			$detail->published = $post['published'];
-			$detail->msg = JText ::_('PLEASE_CHANGE_FILE_NAME_IT_IS_ALREADY_EXISTS');
+			$detail->msg = JText::_('PLEASE_CHANGE_FILE_NAME_IT_IS_ALREADY_EXISTS');
 		}
-		// TEMPLATE MOVE DB TO FILE END
-
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
@@ -69,5 +70,3 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 		parent::display($tpl);
 	}
 }
-
-?>

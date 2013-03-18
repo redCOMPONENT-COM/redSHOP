@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class rating_detailVIEWrating_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 		$userslist = JRequest::getVar('userslist');
@@ -49,7 +48,6 @@ class rating_detailVIEWrating_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -65,5 +63,4 @@ class rating_detailVIEWrating_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }

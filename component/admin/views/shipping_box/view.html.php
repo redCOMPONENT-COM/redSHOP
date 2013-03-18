@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class shipping_boxViewshipping_box extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -32,7 +28,6 @@ class shipping_boxViewshipping_box extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-
 		$uri =& JFactory::getURI();
 		$context = 'shipping_box_id';
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_box_id');
@@ -44,14 +39,12 @@ class shipping_boxViewshipping_box extends JView
 		$total = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 
-
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('shipping_box', $shipping_box);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>
