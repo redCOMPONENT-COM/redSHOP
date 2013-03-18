@@ -63,7 +63,6 @@ class cartModelcart extends JModel
 		$task    = JRequest::getVar('task');
 		if (!empty($cart))
 		{
-
 			if (!$cart)
 			{ //  || array_key_exists("quotation_id",$cart)
 				$cart        = array();
@@ -204,7 +203,6 @@ class cartModelcart extends JModel
 			# discount calculator
 			if (!empty($cart[$cartElement]['discount_calc']))
 			{
-
 				$calcdata               = $cart[$cartElement]['discount_calc'];
 				$calcdata['product_id'] = $cart[$cartElement]['product_id'];
 
@@ -301,7 +299,6 @@ class cartModelcart extends JModel
 				# discount calculator
 				if (!empty($cart[$i]['discount_calc']))
 				{
-
 
 					$calcdata               = $cart[$i]['discount_calc'];
 					$calcdata['product_id'] = $cart[$i]['product_id'];

@@ -447,7 +447,6 @@ class checkoutModelcheckout extends JModel
 		}
 		if (USE_AS_CATALOG)
 		{
-
 			$order_status        = 'P';
 			$order_paymentstatus = 'Unpaid';
 		}
@@ -542,13 +541,11 @@ class checkoutModelcheckout extends JModel
 		}
 		else if ($order_shipping [5] == 'split')
 		{
-
 			$delArray = $objshipping->getProductDeliveryArray($shipping_rate_id);
 			$splitdel = $objshipping->getSplitDelivery();
 
 			if (count($splitdel) > 1)
 			{
-
 				$split1 = $splitdel [0];
 				$split2 = $splitdel [1];
 				$prods1 = '';
@@ -556,7 +553,6 @@ class checkoutModelcheckout extends JModel
 
 				for ($i = 0; $i < count($split1); $i++)
 				{
-
 					$value    = current($split1);
 					$deltime1 = $value;
 					$key      = key($split1);
@@ -567,7 +563,6 @@ class checkoutModelcheckout extends JModel
 
 				for ($i = 0; $i < count($split2); $i++)
 				{
-
 					$value    = current($split2);
 					$deltime2 = $value;
 					$key      = key($split2);
@@ -582,7 +577,6 @@ class checkoutModelcheckout extends JModel
 		}
 		else
 		{
-
 			$delArray = $objshipping->getProductDeliveryArray($shipping_rate_id);
 			$splitdel = $objshipping->getSplitDelivery();
 			$split1   = $splitdel [0];
@@ -618,7 +612,6 @@ class checkoutModelcheckout extends JModel
 			# redCRM product purchase price
 			if ($helper->isredCRM())
 			{
-
 				$crmProductHelper = new crmProductHelper();
 				$crmproduct       = $crmProductHelper->getProductById($product_id);
 
@@ -1303,10 +1296,8 @@ class checkoutModelcheckout extends JModel
 		 */
 		if ($helper->isredCRM())
 		{
-
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
-
 				# Supplier order helper object
 				$crmSupplierOrderHelper = new crmSupplierOrderHelper();
 
@@ -1342,7 +1333,6 @@ class checkoutModelcheckout extends JModel
 
 		foreach ($orders as $eachorders)
 		{
-
 
 			$giftcardmailsub = $giftcardmail->mail_subject;
 			$giftcardData    = $this->_producthelper->getGiftcardData($eachorders->product_id);
@@ -1531,7 +1521,6 @@ class checkoutModelcheckout extends JModel
 		}
 		if ($ccdata['order_payment_number'])
 		{
-
 			if (!is_numeric($ccdata['order_payment_number']))
 			{
 				$validpayment [0] = 0;
@@ -1563,7 +1552,6 @@ class checkoutModelcheckout extends JModel
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
 
-
 		// Define the cards we support. You may add additional card types.
 
 		//  Name:      As in the selection box of the form - must be same as user's
@@ -1593,7 +1581,6 @@ class checkoutModelcheckout extends JModel
 
 		for ($i = 0; $i < sizeof($cards); $i++)
 		{
-
 			// See if it is this card (ignoring the case of the string)
 			if (strtolower($cardname) == strtolower($cards [$i] ['name']))
 			{
@@ -1640,7 +1627,6 @@ class checkoutModelcheckout extends JModel
 			// Process each digit one by one starting at the right
 			for ($i = strlen($cardNo) - 1; $i >= 0; $i--)
 			{
-
 				// Extract the next digit and multiply by 1 or 2 on alternative digits.
 				$calc = $cardNo{$i} * $j;
 
@@ -1783,7 +1769,6 @@ class checkoutModelcheckout extends JModel
 		}
 		elseif ($type == "Discover")
 		{
-
 			$pattern = "/^([6011]{4})([0-9]{12})$/"; //Discover Card
 			if (preg_match($pattern, $cc_num))
 			{
@@ -1797,7 +1782,6 @@ class checkoutModelcheckout extends JModel
 		}
 		elseif ($type == "Master")
 		{
-
 			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/"; //Mastercard
 			if (preg_match($pattern, $cc_num))
 			{
@@ -1811,7 +1795,6 @@ class checkoutModelcheckout extends JModel
 		}
 		elseif ($type == "Visa")
 		{
-
 			$pattern = "/^([4]{1})([0-9]{12,15})$/"; //Visa
 			if (preg_match($pattern, $cc_num))
 			{
@@ -1910,7 +1893,6 @@ class checkoutModelcheckout extends JModel
 
 				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
 				{
-
 					$rowvoucher =& $this->getTable('transaction_voucher_detail');
 					if (!$rowvoucher->bind($cart))
 					{
@@ -1933,7 +1915,6 @@ class checkoutModelcheckout extends JModel
 
 					if (!$rowvoucher->store())
 					{
-
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -2031,7 +2012,6 @@ class checkoutModelcheckout extends JModel
 
 	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
 	{
-
 		$session  = JFactory::getSession();
 		$cart     = $session->get('cart');
 		$user     = JFactory::getUser();
@@ -2305,7 +2285,6 @@ class checkoutModelcheckout extends JModel
 	 */
 	public function insertOrdernumberTrack()
 	{
-
 		$query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
 		$this->_db->setQuery($query_in);
 

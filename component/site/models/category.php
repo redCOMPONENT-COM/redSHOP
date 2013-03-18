@@ -447,12 +447,10 @@ class categoryModelcategory extends JModel
 
 			if (isset($category_template) && $category_template != '')
 			{
-
 				$selected_template .= "," . $category_template;
 			}
 			if ($this->_maincat->category_more_template != "")
 			{
-
 				$selected_template .= "," . $this->_maincat->category_more_template;
 			}
 
@@ -461,7 +459,6 @@ class categoryModelcategory extends JModel
 		}
 		else
 		{
-
 			$alltemplate = $redTemplate->getTemplate("frontpage_category");
 
 		}
@@ -489,7 +486,6 @@ class categoryModelcategory extends JModel
 			}
 			elseif (isset($this->_maincat->category_template))
 			{
-
 				$selected_template = $this->_maincat->category_template;
 			}
 		}
@@ -639,7 +635,6 @@ class categoryModelcategory extends JModel
 							$i = 1;
 							for ($t = 1; $t < count($tag); $t++)
 							{
-
 								$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
 								$finder_where[] = " at" . $t . ".tag_id = '" . $tag[$t] . "'";
 								$i++;

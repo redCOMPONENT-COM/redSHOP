@@ -186,7 +186,6 @@ class productModelproduct extends JModel
 		}
 		if (!$row->store())
 		{
-
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -325,7 +324,6 @@ class productModelproduct extends JModel
 			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
 				if ($data['task'] != "")
 				{
-
 					unset($_SESSION["no_of_prod"]);
 				}
 
@@ -337,7 +335,6 @@ class productModelproduct extends JModel
 		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
 		for ($k = 0; $k < count($row_data); $k++)
 		{
-
 			$myfield                        = "productuserfield_" . $k;
 			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
 

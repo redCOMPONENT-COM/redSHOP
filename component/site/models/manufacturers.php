@@ -62,7 +62,6 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function getProductLimit()
 	{
-
 		return $this->_productlimit;
 	}
 
@@ -144,7 +143,6 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-
 			$this->_pagination = new redPagination ($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 //			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
 		}
