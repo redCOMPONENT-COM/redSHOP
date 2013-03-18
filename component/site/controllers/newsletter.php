@@ -36,6 +36,7 @@ class newsletterController extends JController
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu =& JSite::getMenu();
 		$item = $menu->getItem($newsletteritemid);
+
 		if ($item)
 		{
 			$return = $item->link . '&Itemid=' . $newsletteritemid;
@@ -49,6 +50,7 @@ class newsletterController extends JController
 		  *  check if user has alreday subscribe.
 		  */
 		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email1']);
+
 		if ($alreadysubscriberbymail)
 		{
 			$msg = JText::_('COM_REDSHOP_ALREADY_NEWSLETTER_SUBSCRIBER');
@@ -56,6 +58,7 @@ class newsletterController extends JController
 		else
 		{
 			$userhelper = new rsUserhelper();
+
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
 				if (NEWSLETTER_CONFIRMATION)
@@ -85,6 +88,7 @@ class newsletterController extends JController
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu =& JSite::getMenu();
 		$item = $menu->getItem($newsletteritemid);
+
 		if ($item)
 		{
 			$return = $item->link . '&Itemid=' . $newsletteritemid;
@@ -102,6 +106,7 @@ class newsletterController extends JController
 		if ($alreadysubscriberbymail)
 		{
 			$userhelper = new rsUserhelper();
+
 			if ($userhelper->newsletterUnsubscribe($email))
 			{
 				$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');

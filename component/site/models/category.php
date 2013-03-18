@@ -364,6 +364,7 @@ class categoryModelcategory extends JModel
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$layout     = JRequest::getVar('layout');
 		$query      = $this->_buildQuery();
+
 		if ($layout == "categoryproduct")
 		{
 			$menu        =& $mainframe->getMenu();
@@ -509,6 +510,7 @@ class categoryModelcategory extends JModel
 		}
 		$query = "SELECT DISTINCT(m.manufacturer_id ),m.* FROM " . $this->_table_prefix . "manufacturer AS m "
 			. "LEFT JOIN #__redshop_product AS p ON m.manufacturer_id  = p.manufacturer_id ";
+
 		if ($cid != 0)
 		{
 			$query .= "LEFT JOIN #__redshop_product_category_xref AS pcx ON p.product_id  = pcx.product_id ";
@@ -593,6 +595,7 @@ class categoryModelcategory extends JModel
 		$setproductfinderobj = new redhelper();
 		$setproductfinder    = $setproductfinderobj->isredProductfinder();
 		$finder_condition    = "";
+
 		if ($setproductfinder)
 		{
 			$query = "SELECT id FROM #__redproductfinder_filters WHERE published=1";

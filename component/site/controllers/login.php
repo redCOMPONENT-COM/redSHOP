@@ -50,6 +50,7 @@ class loginController extends JController
 		{
 			$check = $model->CheckShopperGroup($username, $shoppergroupid);
 			$link = "index.php?option=" . $option . "&view=login&layout=portal&protalid=" . $shoppergroupid;
+
 			if ($check > 0)
 			{
 				$model->setlogin($username, $password);
@@ -116,6 +117,7 @@ class loginController extends JController
 		$item = $menu->getItem($redconfig['logout']);*/
 		$menu =& JSite::getMenu();
 		$item = $menu->getItem($logout_itemid);
+
 		if ($item)
 		{
 			$link = JRoute::_($item->link . '&Itemid=' . $logout_itemid);

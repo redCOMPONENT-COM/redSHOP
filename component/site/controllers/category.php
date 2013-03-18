@@ -53,6 +53,7 @@ class categoryController extends JController
 			. "AND x.filename='" . $filename . "' ";
 		$db->setQuery($query);
 		$data = $db->loadObject();
+
 		if (count($data) > 0)
 		{
 			if (!$data->use_to_all_users && $_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR'])
@@ -67,6 +68,7 @@ class categoryController extends JController
 					. "ORDER BY xl.xmlexport_date DESC ";
 				$db->setQuery($query);
 				$data = $db->loadObject();
+
 				if (count($data) <= 0)
 				{
 					echo $msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZED_TO_ACCESS');
@@ -106,9 +108,11 @@ class categoryController extends JController
 			ini_set('zlib.output_compression', 'Off');
 		}
 		$filepath = '#';
+
 		if ($filename != "")
 		{
 			$filepath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/export" . DS . $filename;
+
 			if (!JFile::exists($filepath))
 			{
 				JError::raiseError(500, "Oops. File not found");
@@ -146,6 +150,7 @@ class categoryController extends JController
 		error_reporting(E_ERROR);
 
 		ob_clean();
+
 		if (connection_status() != 0) return (FALSE);
 
 		$fn = basename($fil);
@@ -224,6 +229,7 @@ class categoryController extends JController
 
 		//go to the start of missing part of the file
 		fseek($fp, $range);
+
 		if (function_exists("set_time_limit"))
 			set_time_limit(0);
 		while (!feof($fp) && connection_status() == 0)
@@ -256,6 +262,7 @@ class categoryController extends JController
 		global $mainframe;
 		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
+
 		if ($xmlexport_id)
 		{
 			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');

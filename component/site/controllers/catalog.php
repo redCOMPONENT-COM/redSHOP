@@ -33,6 +33,7 @@ class catalogController extends JController
 		$post["registerDate"] = time();
 		$post["email"] = $post["email_address"];
 		$post["name"] = $post["name_2"];
+
 		if ($row = $model->catalogStore($post))
 		{
 			$redshopMail = new redshopMail();
@@ -64,6 +65,7 @@ class catalogController extends JController
 		$post["registerdate"] = time();
 		$post["email"] = $post["email_address"];
 		$post["name"] = $post["name_2"];
+
 		if ($row = $model->catalogSampleStore($post))
 		{
 			$extra_field = new extra_field();

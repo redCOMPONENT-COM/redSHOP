@@ -82,6 +82,7 @@ class order_detailController extends JController
 		$shippingaddresses = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
 		$d['shippingaddress'] = $shippingaddresses;
 		$Itemid = JRequest::getVar('Itemid');
+
 		if (isset($billingaddresses))
 		{
 			if (isset($billingaddresses->country_code))
@@ -190,6 +191,7 @@ class order_detailController extends JController
 		$results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
 
 		$msg = $results[0]->msg;
+
 		if (array_key_exists("order_id_temp", $results[0]))
 		{
 			$order_id = $results[0]->order_id_temp;
@@ -208,6 +210,7 @@ class order_detailController extends JController
 		 * Plugin will trigger onAfterNotifyPayment
 		 */
 		$dispatcher->trigger('onAfterNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $order_id));
+
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
 			die("TRUE");
@@ -231,6 +234,7 @@ class order_detailController extends JController
 
 		$subscription_id = 0;
 		$row['quantity'] = $row['product_quantity'];
+
 		if ($row['is_giftcard'] == 1)
 		{
 			$row['giftcard_id'] = $row['product_id'];
@@ -238,9 +242,11 @@ class order_detailController extends JController
 		else
 		{
 			$product_data = $this->_producthelper->getProductById($row['product_id']);
+
 			if ($product_data->product_type == 'subscription')
 			{
 				$productSubscription = $this->_producthelper->getUserProductSubscriptionDetail($row['order_item_id']);
+
 				if ($productSubscription->subscription_id != "")
 				{
 					$subscription_id = $productSubscription->subscription_id;
@@ -256,6 +262,7 @@ class order_detailController extends JController
 			$row['category_id'] = 0;
 		}
 		$result = $this->_carthelper->addProductToCart($row);
+
 		if (is_bool($result) && $result)
 		{
 			$Itemid = JRequest::getVar('Itemid');
@@ -266,6 +273,7 @@ class order_detailController extends JController
 		else
 		{
 			$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
+
 			if (count($ItemData) > 0)
 			{
 				$Itemid = $ItemData->id;
@@ -275,6 +283,7 @@ class order_detailController extends JController
 				$Itemid = $this->_redhelper->getItemid($row['product_id']);
 			}
 			$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+
 			if (JError::isError(JError::getError()))
 			{
 				$error = JError::getError();
@@ -295,6 +304,7 @@ class order_detailController extends JController
 		$Itemid = $this->_redhelper->getCartItemid($Itemid);
 
 		$returnmsg = "";
+
 		if ($order_id)
 		{
 			//First Empty Cart and then oder it again
@@ -307,6 +317,7 @@ class order_detailController extends JController
 				$row = (array) $orderItem[$i];
 				$subscription_id = 0;
 				$row['quantity'] = $row['product_quantity'];
+
 				if ($row['is_giftcard'] == 1)
 				{
 					$row['giftcard_id'] = $row['product_id'];
@@ -345,6 +356,7 @@ class order_detailController extends JController
 					$row['reorder'] = 1;
 				}
 				$result = $this->_carthelper->addProductToCart($row);
+
 				if (is_bool($result) && $result)
 				{
 					$returnmsg .= $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART") . "<br>";
@@ -373,6 +385,7 @@ class order_detailController extends JController
 			$this->_carthelper->cartFinalCalculation();
 		}
 		$cart = $session->get('cart');
+
 		if (!$cart || !array_key_exists("idx", $cart) || ($cart && $cart['idx'] <= 0))
 		{
 			$mainframe->redirect($returnlink);
@@ -400,6 +413,7 @@ class order_detailController extends JController
 		if (count($paymentInfo) > 0)
 		{
 			$paymentmethod = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+
 			if (count($paymentmethod) > 0)
 			{
 				$paymentparams = new JRegistry($paymentmethod[0]->params);
