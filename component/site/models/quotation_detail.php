@@ -52,6 +52,7 @@ class quotation_detailModelquotation_detail extends JModel
 		$Itemid  = JRequest::getVar("Itemid");
 		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
+
 //		$user = &JFactory::getUser();
 
 		$carthelper      = new rsCarthelper;
@@ -190,7 +191,9 @@ class quotation_detailModelquotation_detail extends JModel
 
 		$cart[$idx]['cart_attribute'] = $generateAttributeCart; //$data->product_attribute;
 		$cart[$idx]['cart_accessory'] = $generateAccessoryCart; //$data->product_accessory;
+
 //     	$cart[$idx]['mycart_accessory'] =  $data->mycart_accessory;
+
 //	    $cart[$idx]['category_id'] = $data['category_id'];
 		$cart[$idx]['wrapper_id']             = $data->product_wrapperid;
 		$cart[$idx]['wrapper_price']          = $data->wrapper_price;

@@ -227,6 +227,7 @@ class AccountModelaccount extends JModel
 		$pid         = JRequest::getInt('pid', 0, '', 'int');
 
 		$user = JFactory::getUser();
+
 		// Check is user have access to wishlist
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE user_id='" . $user->id . "' AND wishlist_id='" . $wishlist_id . "' ";

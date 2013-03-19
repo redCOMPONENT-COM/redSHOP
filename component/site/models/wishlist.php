@@ -37,6 +37,7 @@ class wishlistModelwishlist extends JModel
 		$this->_table_prefix = '#__redshop_';
 
 		//$this->setId ( ( int ) JRequest::getVar ( 'pid', 0 ) );
+
 		//$this->_catid = ( int ) JRequest::getVar ( 'cid', 0 );
 	}
 

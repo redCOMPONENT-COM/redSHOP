@@ -55,6 +55,7 @@ class searchModelsearch extends JModel
 
 		if (isset($item->query['productlimit']))
 			$productlimit = $item->query['productlimit'];
+
 		//$limit			= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $limit, 5);
 		$limitstart = JRequest::getVar('limitstart', 0);
 		$this->setState('productperpage', $perpageproduct);
@@ -213,7 +214,9 @@ class searchModelsearch extends JModel
 		$context = 'search';
 
 		$keyword = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+
 		//$defaultSearchType	= $mainframe->getUserStateFromRequest( $context.'defaultSearchType', 'defaultSearchType','');
+
 		//$keyword=$manudata['keyword'];
 		$defaultSearchType = '';
 
@@ -223,9 +226,11 @@ class searchModelsearch extends JModel
 			$defaultSearchType_tmp = $manudata['search_type'];
 		}
 //		$arr_keyword=array();
+
 //		if(trim($keyword)!='')
 //		{
 //			$arr_keyword = explode('',$keyword)  ;
+
 //		}
 		$product_s_desc_srch = '';
 
@@ -260,6 +265,7 @@ class searchModelsearch extends JModel
 		elseif ($defaultSearchType == "product_name")
 		{
 			//$defaultSearchField = $defaultSearchType;
+
 			//$defaultSearchType = '(p.product_name LIKE "%'.$keyword.'%")';
 
 			$main_sp_name = explode(" ", $keyword);
@@ -572,6 +578,7 @@ class searchModelsearch extends JModel
 		// Get seeion filter data
 
 		$session = JSession::getInstance('none', array());
+
 		// Get filter types and tags
 		$getredfilter = $session->get('redfilter');
 
@@ -623,6 +630,7 @@ class searchModelsearch extends JModel
 			for ($i = 0; $i < count($main_sal_type); $i++)
 			{
 				$chk_q = "";
+
 				//Search for checkboxes
 				if ($i != 0)
 					$chk_q .= "t" . $i . ".tag_id='" . $main_sal_tag[$i] . "' ";
@@ -645,6 +653,7 @@ class searchModelsearch extends JModel
 				$lstproduct_id[] = $product[$i]->product_id;
 			}
 			$products = implode(",", $lstproduct_id);
+
 			// Get last types
 			/*$k=0;
 			  foreach ($getredfilter as $typeid=>$tagid)
@@ -814,6 +823,7 @@ class searchModelsearch extends JModel
 				$tags = $this->_getList($q);
 
 				$tagname = "";
+
 				//$ptot = getProducttotal($type->id);
 				/* Only show if the type has tags */
 				if (count($tags) > 0)
@@ -889,6 +899,7 @@ class searchModelsearch extends JModel
 								{
 									//$ptotal = getProducttotal($type->id,$tags[$t]->tagid,0);
 									$tagname .= "<span style='float:left;'>&nbsp;&nbsp;" . $tags[$t]->tag_name . "</span><span style='float:right;'><a href='javascript:deleteTag(\"$type->id\",\"$Itemid\");' title='" . JText::_('COM_REDSHOP_DELETE') . "' >" . JText::_('COM_REDSHOP_DELETE') . "</a></span><br/>";
+
 									//$tagname .= "<span style='float:left;'>&nbsp;&nbsp;".$tags[$t]->tag_name."</span><span style='float:right;'><a href='".JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid='.$type->id.'&remove=1&Itemid='.$Itemid)."' title='".JText::_('COM_REDSHOP_DELETE')."' >".JText::_('COM_REDSHOP_DELETE')."</a></span><br/>";
 								}
 							}
@@ -1092,6 +1103,7 @@ class searchModelsearch extends JModel
 
 		$wheres = '';
 		$wheres = implode(" AND ", $where);
+
 		//$wheres .= " OR (p.product_s_desc LIKE '%".$keyword."%' or p.product_desc LIKE '%".$keyword."%') ";
 		$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number FROM " . $this->_table_prefix . "product p "
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '

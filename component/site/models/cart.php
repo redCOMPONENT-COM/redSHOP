@@ -83,6 +83,7 @@ class CartModelCart extends JModel
 			if (array_key_exists('user_shopper_group_id', $cart))
 			{
 				$userArr = $this->_producthelper->getVatUserinfo($user_id);
+
 				// Removed due to discount issue $usersess['vatCountry']
 				if ($cart['user_shopper_group_id'] != $shopperGroupId || ($usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code))
 				{
@@ -256,6 +257,7 @@ class CartModelCart extends JModel
 					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
 				$product_vat_price += $subscription_vat;
 				$product_price = $product_price + $subscription_price;
+
 //				$product_price_excl_vat += $subscription_price;
 				$product_old_price_excl_vat += $subscription_price;
 			}
@@ -330,6 +332,7 @@ class CartModelCart extends JModel
 				$product_vat_price          = $retAttArr[2];
 				$product_old_price          = $retAttArr[5] + $retAttArr[6];
 				$product_old_price_excl_vat = $retAttArr[5];
+
 				////////////// Accessory price /////////////
 				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
 				$accessory_total_price = $retAccArr[1];
@@ -351,6 +354,7 @@ class CartModelCart extends JModel
 						$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
 					$product_vat_price += $subscription_vat;
 					$product_price = $product_price + $subscription_price;
+
 //					$product_price_excl_vat += $subscription_price;
 					$product_old_price_excl_vat += $subscription_price;
 				}
@@ -521,7 +525,9 @@ class CartModelCart extends JModel
 			$attchildArr = $attArr[$i]['accessory_childs'];
 
 //			$accessory = $this->_producthelper->getProductAccessory($attArr[$i]['accessory_id']);
+
 //			$accessorypricelist = $this->_producthelper->getAccessoryPrice($data['product_id'], $accessory[0]->newaccessory_price,$accessory[0]->accessory_main_price ,1);
+
 //			$attArr[$i]['accessory_price'] = $accessorypricelist[0];
 			$attArr[$i]['accessory_quantity'] = $newquantity;
 
