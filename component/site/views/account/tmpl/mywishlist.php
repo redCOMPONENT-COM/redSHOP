@@ -250,9 +250,11 @@ if ($mail == 0)
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
 			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
+
 			/////////////////////////////////// Product attribute  Start /////////////////////////////////
 			$totalatt      = count($attributes);
 			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
+
 			/////////////////////////////////// Product attribute  End  	// Checking for child products end/////////////////////////////////
 
 			/////////////////////////////////// Product accessory Start /////////////////////////////////
@@ -260,6 +262,7 @@ if ($mail == 0)
 			$totalAccessory = count($accessory);
 
 			$wishlist_data = $producthelper->replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
+
 			/////////////////////////////////// Product accessory End /////////////////////////////////
 
 			// Product User Field Start
@@ -310,6 +313,7 @@ if ($mail == 0)
 					}
 
 					$ufield .= $product_userfileds[1];
+
 					//
 					if ($product_userfileds[1] != "")
 					{
@@ -347,6 +351,7 @@ if ($mail == 0)
 
 			// Extra field display
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
+
 			// Check product for not for sale
 			// $wishlist_data = $producthelper->getProductNotForSaleComment($row->product_id,$wishlist_data);
 

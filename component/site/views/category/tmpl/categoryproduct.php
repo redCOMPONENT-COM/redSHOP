@@ -449,6 +449,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				else
 				{
 					$isChilds = false;
+
 					// Get attributes
 					$attributes_set = array();
 
@@ -462,12 +463,14 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				}
 				/////////////////////////////////// Product attribute  Start /////////////////////////////////
 				$totalatt = count($attributes);
+
 				// Check product for not for sale
 				$prddata_add = $producthelper->getProductNotForSaleComment($product, $prddata_add, $attributes);
 
 				$prddata_add = $producthelper->replaceProductInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
 
 				$prddata_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
+
 				// Get cart tempalte
 				$prddata_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $prddata_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 			}

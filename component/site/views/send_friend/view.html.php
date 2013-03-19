@@ -36,6 +36,7 @@ class send_friendViewsend_friend extends JView
 
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('json.js', 'components/com_redshop/assets/js/', false);
+
 		//JHTML::Stylesheet('scrollable-minimal.css', 'components/com_redshop/assets/css/');
 		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 		$data =& $this->get('data');

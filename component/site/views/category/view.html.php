@@ -60,9 +60,11 @@ class categoryViewcategory extends JView
 
 		//JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
 		JHTML::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
+
 		// Start Code for fixes IE9 issue
 		//JHTML::Stylesheet('jquery-ui-1.css', 'components/com_redshop/assets/css/');
 		$document->addStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css');
+
 		// End Code for fixes IE9 issue
 		//JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
@@ -393,11 +395,14 @@ class categoryViewcategory extends JView
 				if (count($product) > 0)
 				{
 					$GLOBALS['product_price_slider'] = 1;
+
 					// Start Code for fixes IE9 issue
 					//JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/',false);
+
 					//JHTML::Script('jquery-ui-1.js', 'components/com_redshop/assets/js/',false);
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js');
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js');
+
 					// End Code for fixes IE9 issue
 					require_once JPATH_COMPONENT_SITE . '/assets/js/catprice_filter.php';
 				}

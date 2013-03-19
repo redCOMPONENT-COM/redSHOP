@@ -174,6 +174,7 @@ if ($template_middle != "")
 		else
 		{
 			$isChilds = false;
+
 			// Get attributes
 			$attributes_set = array();
 
@@ -195,6 +196,7 @@ if ($template_middle != "")
 		$cart_mdata         = $producthelper->replaceProductInStock($product_id, $cart_mdata, $attributes, $attribute_template);
 
 		$cart_mdata = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
+
 		// Get cart tempalte
 		$cart_mdata = $producthelper->replaceCartTemplate($product_id, 0, 0, 0, $cart_mdata, $isChilds);
 

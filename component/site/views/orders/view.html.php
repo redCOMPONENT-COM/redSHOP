@@ -18,6 +18,7 @@ class ordersVieworders extends JView
 		global $mainframe;
 
 		$user =& JFactory::getUser();
+
 		// Preform security checks
 		if ($user->id == 0)
 		{

@@ -63,6 +63,7 @@ $is_creditcard = 0;
 
 			<?php
 			$paymentmethod = $order_functions->getPaymentMethodInfo();
+
 			//var_dump($paymentmethod);
 			$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
 

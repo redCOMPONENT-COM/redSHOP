@@ -22,6 +22,7 @@ class productViewproduct extends JView
 	public function display($tpl = null)
 	{
 //   		global $mainframe;
+
 		// Request variables
 		$mainframe     = JFactory::getApplication();
 		$prodhelperobj = new producthelper;

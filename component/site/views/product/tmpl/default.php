@@ -129,6 +129,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 {
 	$nextbutton = '';
 	$prevbutton = '';
+
 	// Next Navigation
 	$nextproducts = $model->getPrevNextproduct($this->data->product_id, $this->data->category_id, 1);
 
@@ -647,7 +648,9 @@ if (strstr($template_desc, "{navigator_products}"))
 		{
 			$navigator_products_lbl = JText::_('COM_REDSHOP_NAVIGATOR_PRODUCTS') . ": ";
 			$cld_name               = array();
+
 			// $cld_name[0]->child_product_id=$parentproductid;
+
 			// $cld_name[0]->product_name=$productInfo->product_name;
 
 			if (count($childproducts) > 0)
@@ -863,6 +866,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	$moreimage_response  = $preselectedresult['response'];
 	$aHrefImageResponse  = $preselectedresult['aHrefImageResponse'];
 	$aTitleImageResponse = $preselectedresult['aTitleImageResponse'];
+
 	// $mainImageResponse = $preselectedresult['mainImageResponse'];
 	$mainImageResponse = $preselectedresult['product_mainimg'];
 
@@ -965,7 +969,9 @@ if (strstr($template_desc, $mpimg_tag))
 				if ($media_image [$m]->media_name)
 				{
 					$thumb = $media_image [$m]->media_name;
+
 					// $pimg = $redhelper->watermark('product',$thumb,$mpw_thumb,$mph_thumb,WATERMARK_PRODUCT_ADDITIONAL_IMAGE);
+
 					// $linkimage = $redhelper->watermark('product',$thumb,'','',WATERMARK_PRODUCT_ADDITIONAL_IMAGE);
 
 					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
@@ -1171,6 +1177,7 @@ if (strstr($template_desc, "{category_product_img}"))
 	$thum_catimage = $producthelper->getProductCategoryImage($this->data->product_id, $this->data->category_full_image, '', $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX);
 	;
 	$template_desc = str_replace("{category_product_img}", $thum_catimage, $template_desc);
+
 	// Category front-back image tag end
 }
 else
@@ -1723,6 +1730,7 @@ if (MY_TAGS != 0 && $user->id && strstr($template_desc, "{my_tags_button}"))
 				</table></form>";
 	$my_tags .= "</div>";
 	$my_tags .= "</div>";
+
 	// End Product Tags
 }
 

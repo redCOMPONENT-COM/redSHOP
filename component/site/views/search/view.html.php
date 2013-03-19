@@ -152,6 +152,7 @@ class searchViewsearch extends JView
 			$Itemid      = JRequest::getInt('Itemid');
 			$search_type = JRequest::getCmd('search_type');
 			$cid         = JRequest::getInt('category_id');
+
 			// $manufacture_id = JRequest::getInt('manufacture_id');
 			$manisrch       = $this->search;
 			$manufacture_id = $manisrch[0]->manufacturer_id;
@@ -268,7 +269,9 @@ class searchViewsearch extends JView
 			$template_org = str_replace("{redproductfinderfilter_formstart}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter:rp_myfilter}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter_formend}", '', $template_org);
+
 			// $template_org =str_replace("{product_display_limit}",'',$template_org);
+
 			//	$template_org =str_replace("{related_product_lightbox:related_products_for_light_box}",'', $template_org);
 			/* replace redproductfilder filter tag */
 			if (strstr($template_org, "{redproductfinderfilter:"))
@@ -391,6 +394,7 @@ class searchViewsearch extends JView
 				// RedSHOP Product Plugin
 				JPluginHelper::importPlugin('redshop_product');
 				$results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, & $params, $this->search[$i]));
+
 				// End
 
 				if (strstr($data_add, "{product_delivery_time}"))
@@ -411,6 +415,7 @@ class searchViewsearch extends JView
 				// Product Review/Rating
 				// Fetching reviews
 				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]->product_id);
+
 				// Attribute ajax chage
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
 				$data_add = $producthelper->getJcommentEditor($this->search[$i], $data_add);
@@ -649,6 +654,7 @@ class searchViewsearch extends JView
 
 				// Replace wishlistbutton
 				$data_add = $producthelper->replaceWishlistButton($this->search[$i]->product_id, $data_add);
+
 				// Replace compare product button
 				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
@@ -663,6 +669,7 @@ class searchViewsearch extends JView
 				else
 				{
 					$isChilds = false;
+
 					// Get attributes
 					$attributes_set = array();
 
@@ -677,6 +684,7 @@ class searchViewsearch extends JView
 				}
 				/////////////////////////////////// Product attribute  Start /////////////////////////////////
 				$totalatt = count($attributes);
+
 				// Check product for not for sale
 				$data_add = $producthelper->getProductNotForSaleComment($this->search[$i], $data_add, $attributes);
 
@@ -694,7 +702,9 @@ class searchViewsearch extends JView
 			$router = & $app->getRouter();
 
 			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+
 			// $uri = new JURI( 'index.php?option='.$option.'&view=search&layout='.$layout.'&keyword='.$keyword.'&manufacture_id='.$manufacture_id.'&order_by='.$getorderby.'&category_id='.$cid.'&Itemid='.$Itemid.'&limit='.$limit);
+
 			// $router->setVars ( $uri->_vars );
 			$vars = array(
 				'option'         => 'com_redshop',

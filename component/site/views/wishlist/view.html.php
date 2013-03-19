@@ -16,6 +16,7 @@ class wishlistViewwishlist extends JView
 	public function display($tpl = null)
 	{
 		global $mainframe;
+
 		// Request variables
 
 		$params = & $mainframe->getParams('com_redshop');
@@ -37,6 +38,7 @@ class wishlistViewwishlist extends JView
 
 		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
+
 		//JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);

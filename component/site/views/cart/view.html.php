@@ -14,6 +14,7 @@ class cartViewcart extends JView
 	public function display($tpl = null)
 	{
 		global $mainframe;
+
 		// Request variables
 		$redTemplate = new Redtemplate;
 		$user        = & JFactory::getUser();
