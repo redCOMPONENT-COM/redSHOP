@@ -10,11 +10,18 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 
+/**
+ * Class quotation_detailModelquotation_detail
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class quotation_detailModelquotation_detail extends JModel
 {
 	var $_id = null;
@@ -47,9 +54,9 @@ class quotation_detailModelquotation_detail extends JModel
 		$db      = JFactory::getDbo();
 //		$user = &JFactory::getUser();
 
-		$carthelper      = new rsCarthelper();
-		$producthelper   = new producthelper();
-		$quotationHelper = new quotationHelper();
+		$carthelper      = new rsCarthelper;
+		$producthelper   = new producthelper;
+		$quotationHelper = new quotationHelper;
 
 		$cart = $session->get('cart');
 
@@ -201,7 +208,7 @@ class quotation_detailModelquotation_detail extends JModel
 	public function modifyQuotation($user_id = 0)
 	{
 		$session    = JFactory::getSession();
-		$carthelper = new rsCarthelper();
+		$carthelper = new rsCarthelper;
 		$cart       = $session->get('cart');
 
 		$cart = $carthelper->modifyCart($cart, $user_id);

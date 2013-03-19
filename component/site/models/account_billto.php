@@ -11,7 +11,14 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class account_billtoModelaccount_billto extends JModel
+/**
+ * Class Account_billtoModelaccount_billto
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class Account_billtoModelaccount_billto extends JModel
 {
 	var $_id = null;
 	var $_data = null;
@@ -30,10 +37,12 @@ class account_billtoModelaccount_billto extends JModel
 		{
 			$session =& JFactory::getSession();
 			$auth    = $session->get('auth');
+
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
 				$order_functions = new order_functions();
 				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
+
 				if (!isset($detail->user_id))
 				{
 					$detail->user_id = -$auth['users_info_id'];
@@ -49,13 +58,13 @@ class account_billtoModelaccount_billto extends JModel
 				{
 					$is_company = 0;
 				}
-				else if (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+				elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
 				{
 					$is_company = 1;
 				}
 
 				$user   = & JFactory::getUser();
-				$detail = new stdClass();
+				$detail = new stdClass;
 
 				$detail->users_info_id         = 0;
 				$detail->user_id               = $user->id;
@@ -91,12 +100,13 @@ class account_billtoModelaccount_billto extends JModel
 
 	public function store($post)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 
 		$post['billisship']    = 1;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 
 		$joomlauser = $userhelper->updateJoomlaUser($post);
+
 		if (!$joomlauser)
 		{
 			return false;

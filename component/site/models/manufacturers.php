@@ -12,6 +12,13 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.html.pagination');
 
+/**
+ * Class manufacturersModelmanufacturers
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class manufacturersModelmanufacturers extends JModel
 {
 	var $_id = null;
@@ -28,6 +35,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		$this->_table_prefix = '#__redshop_';
 		$params              = & $mainframe->getParams('com_redshop');
+
 		if ($params->get('manufacturerid') != "")
 		{
 			$manid = $params->get('manufacturerid');
@@ -62,7 +70,6 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function getProductLimit()
 	{
-
 		return $this->_productlimit;
 	}
 
@@ -73,7 +80,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -110,6 +117,7 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		$layout = JRequest::getVar('layout');
 		$query  = $this->_buildQuery();
+
 		if ($layout == "products")
 		{
 			$this->_data = $this->_getList($query); //, $this->getState('limitstart'), $this->getState('limit') );
@@ -127,6 +135,7 @@ class manufacturersModelmanufacturers extends JModel
 		global $mainframe, $context;
 		$layout  = JRequest::getVar('layout');
 		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+
 		if ($layout != "products" && $orderby)
 		{
 			$filter_order = $orderby;
@@ -144,7 +153,6 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-
 			$this->_pagination = new redPagination ($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 //			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
 		}
@@ -184,7 +192,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -219,6 +227,7 @@ class manufacturersModelmanufacturers extends JModel
 		$and              = "";
 		$order_functions  = new order_functions();
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
 			$and = "AND c.category_id NOT IN (" . $tblobj->excluding_category_list . ") ";
@@ -259,6 +268,7 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		$layout  = JRequest::getVar('layout');
 		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
+
 		if ($layout == "products" && $orderby)
 		{
 			$filter_order = $orderby;

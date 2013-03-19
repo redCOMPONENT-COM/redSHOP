@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-/**
- * Giftcard Controller
- *
- * @static
- * @package        redSHOP
- * @since          1.0
- */
-class giftcardController extends JController
-{
 
+/**
+ * Giftcard Controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class GiftcardController extends JController
+{
 }

@@ -11,12 +11,18 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+include_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
 
-
+/**
+ * Class quotationModelquotation
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class quotationModelquotation extends JModel
 {
 	var $_id = null;
@@ -34,7 +40,6 @@ class quotationModelquotation extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else  $this->_initData();
 
@@ -45,6 +50,7 @@ class quotationModelquotation extends JModel
 	{
 		$order_functions = new order_functions();
 		$user            = JFactory::getUser();
+
 		if ($user->id)
 		{
 			$this->_data               = $order_functions->getBillingAddress($user->id);
@@ -59,7 +65,7 @@ class quotationModelquotation extends JModel
 
 	public function _initData()
 	{
-		$detail                        = new stdClass();
+		$detail                        = new stdClass;
 		$detail->user_info_id          = 0;
 		$detail->user_id               = 0;
 		$detail->firstname             = null;
@@ -81,13 +87,14 @@ class quotationModelquotation extends JModel
 	public function store($data, $post)
 	{
 		$this->_loadData();
-		$quotationHelper = new quotationHelper();
-		$producthelper   = new producthelper();
+		$quotationHelper = new quotationHelper;
+		$producthelper   = new producthelper;
 		$extra_field     = new extra_field();
 		$user            = JFactory::getUser();
 		$user_id         = 0;
 		$user_info_id    = 0;
 		$user_email      = $post['user_email'];
+
 		if ($user->id)
 		{
 			$user_id      = $user->id;
@@ -96,6 +103,7 @@ class quotationModelquotation extends JModel
 		}
 
 		$res = $this->getUserIdByEmail($user_email);
+
 		if (count($res) > 0)
 		{
 			$user_id      = $res->user_id;
@@ -123,6 +131,7 @@ class quotationModelquotation extends JModel
 		$quotation_item = array();
 
 		$row =& $this->getTable('quotation_detail');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -415,7 +424,7 @@ class quotationModelquotation extends JModel
 
 	public function usercreate($data)
 	{
-		$redshopMail     = new redshopMail();
+		$redshopMail     = new redshopMail;
 		$order_functions = new order_functions();
 		$Itemid          = JRequest::getVar('Itemid');
 		global $mainframe;
@@ -432,6 +441,7 @@ class quotationModelquotation extends JModel
 
 		$usersConfig = & JComponentHelper::getParams('com_users');
 		$usersConfig->set('allowUserRegistration', 1);
+
 		if ($usersConfig->get('allowUserRegistration') == '0')
 		{
 			JError::raiseError(403, JText::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
@@ -441,6 +451,7 @@ class quotationModelquotation extends JModel
 
 		// Initialize new usertype setting
 		$newUsertype = $usersConfig->get('new_usertype');
+
 		if (!$newUsertype)
 		{
 			$newUsertype = 'Registered';
@@ -523,7 +534,6 @@ class quotationModelquotation extends JModel
 
 		if ($data['is_company'] == 1)
 		{
-
 			if (SHOPPER_GROUP_DEFAULT_COMPANY != 0)
 			{
 				$row->shopper_group_id = SHOPPER_GROUP_DEFAULT_COMPANY;
@@ -535,7 +545,6 @@ class quotationModelquotation extends JModel
 		}
 		else
 		{
-
 			if (SHOPPER_GROUP_DEFAULT_PRIVATE != 0)
 			{
 				$row->shopper_group_id = SHOPPER_GROUP_DEFAULT_PRIVATE;
@@ -554,6 +563,7 @@ class quotationModelquotation extends JModel
 		}
 		$row->user_email   = $user->email;
 		$row->address_type = 'BT';
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -573,16 +583,18 @@ class quotationModelquotation extends JModel
 		$mailsubject = 'Register';
 		$mailbcc     = null;
 		$mailinfo    = $redshopMail->getMailtemplate(0, "quotation_user_register");
+
 		if (count($mailinfo) > 0)
 		{
 			$mailbody    = $mailinfo[0]->mail_body;
 			$mailsubject = $mailinfo[0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 		}
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$user          = JFactory::getUser();
@@ -615,7 +627,7 @@ class quotationModelquotation extends JModel
 
 	public function sendQuotationMail($quotaion_id)
 	{
-		$redshopMail = new redshopMail();
+		$redshopMail = new redshopMail;
 		$send        = $redshopMail->sendQuotationMail($quotaion_id);
 
 		return $send;

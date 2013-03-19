@@ -11,8 +11,15 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
+/**
+ * Class split_paymentModelsplit_payment
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class split_paymentModelsplit_payment extends JModel
 {
 	var $_id = null;
@@ -45,7 +52,6 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function orderplace()
 	{
-
 		global $mainframe;
 		$post            = JRequest::get('post');
 		$option          = JRequest::getVar('option');
@@ -56,24 +62,24 @@ class split_paymentModelsplit_payment extends JModel
 		/*$session =&JFactory::getSession();
    		$issplit=$session->get('issplit') ;
    		 		
-		require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 		$field = new extraField ( );
 		
 		if (GOOGLE_ANA_TRACKER_KEY != "") {
-			require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php');
+			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
 		}
 		
 		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-		require_once ($adminpath . DS . 'helpers' . DS . 'shipping.php');
+		require_once $adminpath . DS . 'helpers' . DS . 'shipping.php';
 		$objshipping = new shipping ( );
 		
-		include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+		include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 		$producthelper = new producthelper ( );
 		
-		require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 		$field = new extraField ( );
 		
-		require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 		$ps = new producthelper ( );*/
 
 		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
@@ -127,6 +133,7 @@ class split_paymentModelsplit_payment extends JModel
 		}
 
 		$data['amount'] = 0;
+
 		if ($paymentmethod->is_creditcard == 1)
 		{
 			$validpayment = $this->validatepaymentccinfo();
@@ -140,7 +147,7 @@ class split_paymentModelsplit_payment extends JModel
 
 
 			$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
-			include_once ($paymentpath);
+			include_once $paymentpath;
 
 			$payment_class = new $paymentmethod->payment_class ();
 
@@ -160,6 +167,7 @@ class split_paymentModelsplit_payment extends JModel
 				$order_status      = 'ACCP';
 				$order_status_full = 'Awaiting credit card payment';
 				$data['amount']    = $tmporder_total;
+
 				if ($d ["order_payment_log"] == 'SUCCESS')
 				{
 					// If partial payment success, then update the payment and status					
@@ -266,7 +274,6 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
-
 		// Define the cards we support. You may add additional card types.
 
 
@@ -296,7 +303,6 @@ class split_paymentModelsplit_payment extends JModel
 		$cardType = -1;
 		for ($i = 0; $i < sizeof($cards); $i++)
 		{
-
 			// See if it is this card (ignoring the case of the string)
 			if (strtolower($cardname) == strtolower($cards [$i] ['name']))
 			{
@@ -346,8 +352,7 @@ class split_paymentModelsplit_payment extends JModel
 			// Process each digit one by one starting at the right
 			for ($i = strlen($cardNo) - 1; $i >= 0; $i--)
 			{
-
-				// Extract the next digit and multiply by 1 or 2 on alternative digits.      
+				// Extract the next digit and multiply by 1 or 2 on alternative digits.
 				$calc = $cardNo{$i} * $j;
 
 				// If the result is in two digits add 1 to the checksum total
@@ -394,6 +399,7 @@ class split_paymentModelsplit_payment extends JModel
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
 			$exp = '^' . $prefix [$i];
+
 			if (ereg($exp, $cardNo))
 			{
 				$PrefixValid = true;
@@ -438,7 +444,6 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function validateCC($cc_num, $type)
 	{
-
 		if ($type == "American")
 		{
 			$denum = "American Express";

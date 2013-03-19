@@ -11,21 +11,19 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 
 /**
- * Quotation Detail Controller
+ * Quotation Detail Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class quotation_detailController extends JController
+class Quotation_detailController extends JController
 {
-
-
 	/**
 	 * update status function
 	 *
@@ -39,8 +37,8 @@ class quotation_detailController extends JController
 		$Itemid = JRequest::getVar('Itemid');
 		$encr = JRequest::getVar('encr');
 
-		$quotationHelper = new quotationHelper();
-		$redshopMail = new redshopMail();
+		$quotationHelper = new quotationHelper;
+		$redshopMail = new redshopMail;
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
 
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
