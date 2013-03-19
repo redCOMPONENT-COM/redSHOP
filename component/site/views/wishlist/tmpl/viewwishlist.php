@@ -144,6 +144,7 @@ else // if user logged in than display this code.
 		$wish_products = & $this->wish_products;
 		// send mail link
 		echo "<table>";
+
 		for ($j = 0; $j < count($wishlists); $j++)
 		{
 			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=" . $option . "&Itemid=" . $Itemid);
@@ -308,6 +309,7 @@ function display_products($rows)
 						if (count($childproducts) > 0)
 						{
 							$parentid = 0;
+
 							for ($c = 0; $c < count($childproducts); $c++)
 							{
 								if ($childproducts[$c]->product_parent_id == 0)
@@ -449,6 +451,7 @@ function display_products($rows)
 				}
 				$idx     = 0;
 				$cart_id = '';
+
 				for ($j = 0; $j < $idx; $j++)
 				{
 					if ($cart[$j]['product_id'] == $row->product_id)
@@ -464,6 +467,7 @@ function display_products($rows)
 					}
 
 					$mysesspro = "productuserfield_" . $ui;
+
 					for ($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i++)
 					{
 						if ($_SESSION ['wish_' . $check_i]->product_id == $row->product_id)

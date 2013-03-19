@@ -108,6 +108,7 @@ $cname = '';
 if ($template_middle != "")
 {
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+
 	for ($i = 0; $i < count($manufacturer_products); $i++)
 	{
 		$cart_mdata .= $template_middle;

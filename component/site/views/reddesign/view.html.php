@@ -63,6 +63,7 @@ class reddesignViewreddesign extends JView
 		// temporary product id treat as design id....
 		$images      = $model->getDesignTypeImages($product_id);
 		$optionimage = array();
+
 		for ($i = 0; $i < count($images); $i++)
 			$optionimage[] = JHTML::_('select.option', $images[$i]->image_id, $images[$i]->image_name);
 		$lists["selimage"] = JHTML::_('select.genericlist', $optionimage, 'selimage', 'class="inputbox" size="1" ', 'value', 'text');

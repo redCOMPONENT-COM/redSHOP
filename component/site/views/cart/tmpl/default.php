@@ -76,6 +76,7 @@ $cart_data = str_replace("{print}", $print_tag, $cart_data);
 
 $q_id = '';
 $pr_id = '';
+
 for ($i = 0; $i < $idx; $i++)
 {
 	$product_id = $cart[$i]['product_id'];
@@ -296,6 +297,7 @@ echo eval ("?>" . $cart_data . "<?php ");
 <script type="text/javascript" language="javascript">
 	function all_update(u) {
 		q = "";
+
 		for (var i = 0; i < u; i++) {
 			qi = "quantitybox" + i;
 			r = parseInt(document.getElementById(qi).value);

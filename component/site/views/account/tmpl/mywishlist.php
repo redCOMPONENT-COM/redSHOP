@@ -156,7 +156,8 @@ if ($mail == 0)
 						if (count($childproducts) > 0)
 						{
 							$parentid = 0;
-							for ($c = 0; $c < count($childproducts); $c++)
+
+				for ($c = 0; $c < count($childproducts); $c++)
 							{
 								if ($childproducts[$c]->product_parent_id == 0)
 								{
@@ -272,6 +273,7 @@ if ($mail == 0)
 				}
 				$idx     = 0;
 				$cart_id = '';
+
 				for ($j = 0; $j < $idx; $j++)
 				{
 					if ($cart[$j]['product_id'] == $row->product_id)

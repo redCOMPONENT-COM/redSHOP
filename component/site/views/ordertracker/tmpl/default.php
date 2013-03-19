@@ -71,6 +71,7 @@ if ($this->params->get('show_page_heading', 1))
 		<th><?php echo JText::_('COM_REDSHOP_ORDER_DETAIL'); ?></th>
 	</tr>
 	<?php    $order_item_name = array();
+
 	for ($j = 0; $j < count($OrderProducts); $j++)
 	{
 		$order_item_name[$j] = $OrderProducts[$j]->order_item_name;

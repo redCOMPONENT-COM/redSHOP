@@ -50,6 +50,7 @@ if ($this->params->get('show_page_heading', 1))
 	{
 		$catalog_sample = $model->getCatalogSampleList();
 		$saple_data     = "";
+
 		for ($k = 0; $k < count($catalog_sample); $k++)
 		{
 			$saple_data .= $catalog_sample[$k]->sample_name . "<br>";
@@ -58,6 +59,7 @@ if ($this->params->get('show_page_heading', 1))
 
 			$saple_data .= "<table cellpadding='0' border='0' cellspacing='0'><tr>";
 			$saple_check = "<tr>";
+
 			for ($c = 0; $c < count($catalog_colour); $c++)
 			{
 				$saple_data .= "<td style='padding-right:2px;'>";
@@ -129,6 +131,7 @@ if ($this->params->get('show_page_heading', 1))
 		if (document.getElementsByName('sample_code[]')) {
 			var sName = document.getElementsByName('sample_code[]');
 			var i = 0;
+
 			for (var p = 0; p < sName.length; p++) {
 				if (sName[p].checked) {
 					sampleArr[i++] = sName[p].value;

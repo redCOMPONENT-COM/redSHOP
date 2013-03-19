@@ -86,6 +86,7 @@ if (count($ajaxdetal_template) > 0)
 		}
 		$idx     = 0;
 		$cart_id = '';
+
 		for ($j = 0; $j < $idx; $j++)
 		{
 			if ($cart[$j]['product_id'] == $this->data->product_id)

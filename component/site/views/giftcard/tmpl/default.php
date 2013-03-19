@@ -200,6 +200,7 @@ if ($gid != 0)
 		}
 		$idx     = 0;
 		$cart_id = '';
+
 		for ($j = 0; $j < $idx; $j++)
 		{
 			if ($cart[$j]['giftcard_id'] == $gid)
@@ -255,6 +256,7 @@ else
 		$template_desc = $template_d2 [0];
 
 		$data_add = "";
+
 		for ($i = 0; $i < count($detail); $i++)
 		{
 			$data_add .= $template_desc;
