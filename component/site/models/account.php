@@ -38,7 +38,7 @@ class AccountModelaccount extends JModel
 
 	public function getuseraccountinfo($uid)
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 
 		$user = & JFactory::getUser();
 
@@ -54,7 +54,7 @@ class AccountModelaccount extends JModel
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$uid  = -$auth['users_info_id'];
+			$uid  = - $auth['users_info_id'];
 			$list = $order_functions->getBillingAddress($uid);
 		}
 

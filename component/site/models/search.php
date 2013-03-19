@@ -322,7 +322,7 @@ class searchModelsearch extends JModel
 
 		$layout = JRequest::getVar('layout', 'default');
 
-		$category_helper = new product_category ();
+		$category_helper = new product_category;
 		$producthelper   = new producthelper;
 
 		$manufacture_id = JRequest::getInt('manufacture_id', 0);

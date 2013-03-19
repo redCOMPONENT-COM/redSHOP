@@ -40,7 +40,7 @@ class Account_billtoModelaccount_billto extends JModel
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
-				$order_functions = new order_functions();
+				$order_functions = new order_functions;
 				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
 
 				if (!isset($detail->user_id))
