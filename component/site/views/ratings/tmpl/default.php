@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 $redconfig = new Redconfiguration;
 $redTemplate = new Redtemplate;
 $model = $this->getModel('ratings');

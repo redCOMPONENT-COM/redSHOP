@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 $userhelper = new rsUserhelper;
 $user = JFactory::getUser();
 $Itemid = JRequest::getVar('Itemid');
