@@ -480,12 +480,10 @@ class CategoryModelCategory extends JModel
 			}
 
 			$alltemplate = $redTemplate->getTemplate("category", $selected_template);
-
 		}
 		else
 		{
 			$alltemplate = $redTemplate->getTemplate("frontpage_category");
-
 		}
 
 		//print_r($alltemplate);

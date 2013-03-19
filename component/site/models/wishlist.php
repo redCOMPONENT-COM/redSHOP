@@ -72,7 +72,6 @@ class wishlistModelwishlist extends JModel
 			}
 
 			return $wish_products;
-
 		}
 		else
 		{
@@ -179,7 +178,6 @@ class wishlistModelwishlist extends JModel
 
 							$db->setQuery($ins_query);
 							$db->Query();
-
 						}
 					}
 

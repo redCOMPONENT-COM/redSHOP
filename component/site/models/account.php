@@ -128,7 +128,6 @@ class AccountModelaccount extends JModel
 						. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pw.product_id "
 						. "WHERE w.user_id='" . $user->id . "' "
 						. "AND w.wishlist_id='" . $wishlist_id . "' and pw.wishlist_id='" . $wishlist_id . "'";
-
 				}
 				else
 				{
@@ -145,12 +144,10 @@ class AccountModelaccount extends JModel
 							}
 
 						$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
-
 					}
 
 					$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
 						. "WHERE p.product_id IN ('" . substr_replace($prod_id, "", -1) . "') ";
-
 				}
 				break;
 			default:
@@ -526,7 +523,6 @@ class AccountModelaccount extends JModel
 			return true;
 		else
 			return false;
-
 	}
 
 	public function getReserveDiscount()

@@ -35,7 +35,6 @@ class send_friendModelsend_friend extends JModel
 		$this->_table_prefix = '#__redshop_';
 
 		$this->setId((int) JRequest::getVar('pid', 0));
-
 	}
 
 	public function setId($id)

@@ -197,7 +197,6 @@ class CheckoutModelCheckout extends JModel
 
 			$shippingaddresses->country_2_code = $d ["shippingaddress"]->country_2_code;
 			$shippingaddresses->state_2_code   = $d ["shippingaddress"]->state_2_code;
-
 		}
 
 		if (isset($billingaddresses))
@@ -317,7 +316,6 @@ class CheckoutModelCheckout extends JModel
 			if ($paymentmethod->element != "rs_payment_banktransfer" && $paymentmethod->element != "rs_payment_cashtransfer" && $paymentmethod->element != "rs_payment_cashsale" && $paymentmethod->element != "rs_payment_banktransfer_discount" && $paymentmethod->element != "rs_payment_eantransfer")
 			{
 				$paymentmethod->element = substr($paymentmethod->element, 0, -1);
-
 			}
 
 		}
@@ -417,7 +415,6 @@ class CheckoutModelCheckout extends JModel
 		if ($is_creditcard == 1 && $is_redirected == 1)
 		{
 			$redirect_ccdata = $session->set('redirect_ccdata', $ccdata);
-
 		}
 		if ($is_creditcard == 1 && $is_redirected == 0 && $cart['total'] > 0)
 		{
@@ -444,7 +441,6 @@ class CheckoutModelCheckout extends JModel
 				$order_status_log             = $paymentResponse->message;
 				$order_status                 = 'C';
 				$order_paymentstatus          = 'Paid';
-
 			}
 			else
 			{
@@ -684,7 +680,6 @@ class CheckoutModelCheckout extends JModel
 
 				$crmOrderHelper = new crmOrderHelper;
 				$crmOrderHelper->storeCRMOrder($crmdata);
-
 			}
 			# End
 
@@ -1474,7 +1469,6 @@ class CheckoutModelCheckout extends JModel
 
 			//echo $from."<br>". $eachorders->giftcard_user_email;exit;
 			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
-
 		}
 
 	}
@@ -1489,7 +1483,6 @@ class CheckoutModelCheckout extends JModel
 		if ($user->id)
 		{
 			$list = $this->_order_functions->getBillingAddress($user->id);
-
 		}
 		elseif ($auth['users_info_id'])
 		{
@@ -1868,7 +1861,6 @@ class CheckoutModelCheckout extends JModel
 		{
 			//Do something here in case the validation fails
 			echo "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
-
 		}
 		else
 		{ //if it will pass...do something
@@ -1886,7 +1878,6 @@ class CheckoutModelCheckout extends JModel
 		$session->set('userfiled', null);
 		$user = JFactory::getUser();
 		$this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
-
 	}
 
 	public function getCouponPrice()
@@ -1983,7 +1974,6 @@ class CheckoutModelCheckout extends JModel
 			}
 
 			$this->discount_type .= implode('@', $vouchertype);
-
 		}
 
 		return;
@@ -2048,7 +2038,6 @@ class CheckoutModelCheckout extends JModel
 			}
 
 			$this->discount_type = implode('@', $coupontype);
-
 		}
 
 		//echo $this->discount_type;exit;
