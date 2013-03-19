@@ -111,6 +111,7 @@ class Account_billtoModelaccount_billto extends JModel
 		{
 			return false;
 		}
+
 		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id);
 
 		return $reduser;

@@ -43,12 +43,14 @@ class registrationModelregistration extends JModel
 		{
 			return false;
 		}
+
 		$joomlauser = $userhelper->createJoomlaUser($data, 1);
 
 		if (!$joomlauser)
 		{
 			return false;
 		}
+
 		$data['billisship'] = 1;
 		$reduser            = $userhelper->storeRedshopUser($data, $joomlauser->id);
 

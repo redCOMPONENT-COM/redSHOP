@@ -85,6 +85,7 @@ class CategoryModelCategory extends JModel
 			$and     = "AND m.manufacturer_id='" . $manufacturer_id . "' ";
 			$groupby = "GROUP BY c.category_id ";
 		}
+
 		$query = "SELECT c.* FROM " . $this->_table_prefix . "category AS c "
 			. "LEFT JOIN " . $this->_table_prefix . "category_xref AS cx ON cx.category_child_id=c.category_id "
 			. $left
@@ -251,6 +252,7 @@ class CategoryModelCategory extends JModel
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
 			}
+
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
 		}
 		elseif (strstr($order_by, "p.product_price DESC"))
@@ -262,6 +264,7 @@ class CategoryModelCategory extends JModel
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
 			}
+
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'DESC');
 		}
 
@@ -313,6 +316,7 @@ class CategoryModelCategory extends JModel
 					$newProduct[] = $this->_product[$i];
 				}
 			}
+
 			$this->_product = $newProduct;
 			$this->_total   = count($this->_product);
 		}
@@ -370,6 +374,7 @@ class CategoryModelCategory extends JModel
 		{
 			$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
+
 		$orderby = " ORDER BY " . $order_by;
 
 		return $orderby;
@@ -515,6 +520,7 @@ class CategoryModelCategory extends JModel
 		{
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
+
 		$category_template_id = JRequest::getInt('category_template', $selected_template, '', 'int');
 		$this->_template      = $redTemplate->getTemplate($template_section, $category_template_id);
 
@@ -530,6 +536,7 @@ class CategoryModelCategory extends JModel
 		{
 			$and = " AND m.manufacturer_id='" . $mid . "' ";
 		}
+
 		$query = "SELECT DISTINCT(m.manufacturer_id ),m.* FROM " . $this->_table_prefix . "manufacturer AS m "
 			. "LEFT JOIN #__redshop_product AS p ON m.manufacturer_id  = p.manufacturer_id ";
 
@@ -538,6 +545,7 @@ class CategoryModelCategory extends JModel
 			$query .= "LEFT JOIN #__redshop_product_category_xref AS pcx ON p.product_id  = pcx.product_id ";
 			$and .= " AND pcx.category_id='" . $cid . "' ";
 		}
+
 		$query .= "WHERE p.manufacturer_id != 0 AND m.published = 1 " . $and . "ORDER BY m.ordering ASC";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
@@ -628,6 +636,7 @@ class CategoryModelCategory extends JModel
 			{
 				$this->_is_filter_enable = true;
 			}
+
 			$tag = '';
 			for ($f = 0; $f < count($rs_filters); $f++)
 			{
@@ -642,6 +651,7 @@ class CategoryModelCategory extends JModel
 					$tag[] = $tmp_tag;
 				}
 			}
+
 			$finder_where     = "";
 			$finder_query     = "";
 			$finder_condition = "";
@@ -668,11 +678,13 @@ class CategoryModelCategory extends JModel
 								$i++;
 							}
 						}
+
 						$finder_query .= " WHERE a.id=at.association_id AND at.tag_id = '" . $tag[0] . "'";
 						if (is_array($finder_where))
 						{
 							$finder_where = " AND " . implode(" AND ", $finder_where);
 						}
+
 						$finder_query .= $finder_where;
 						$this->_db->setQuery($finder_query);
 						$rs              = $this->_db->loadResultArray();
@@ -681,6 +693,7 @@ class CategoryModelCategory extends JModel
 						{
 							$finder_products = implode("','", $rs);
 						}
+
 						$finder_condition        = " AND p.product_id IN('" . $finder_products . "')";
 						$this->_is_filter_enable = true;
 					}
@@ -689,6 +702,7 @@ class CategoryModelCategory extends JModel
 						$finder_condition = "";
 					}
 				}
+
 				$finder_condition;
 			}
 		}

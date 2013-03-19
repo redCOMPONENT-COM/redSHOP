@@ -48,6 +48,7 @@ class newsletterModelnewsletter extends JModel
 			$and .= "AND `user_id`='" . $user->id . "' ";
 			$email = $user->email;
 		}
+
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "newsletter";
 		$this->_db->setQuery($query);
 		$newsletter = $this->_db->loadResult();

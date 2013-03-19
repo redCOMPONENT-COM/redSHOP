@@ -59,6 +59,7 @@ class reddesignModelreddesign extends JModel
 		{
 			$query = 'SELECT $field_name FROM `#__redshop_product` WHERE product_id = ' . $product_id;
 		}
+
 		$db->setQuery($query);
 
 		return $db->loadObject();

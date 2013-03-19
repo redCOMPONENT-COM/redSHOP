@@ -103,6 +103,7 @@ class searchModelsearch extends JModel
 						$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
 						$this->setState('limit', $limit);
 					}
+
 					$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 				}
 				elseif ($this->getState('productlimit') > 0)
@@ -232,6 +233,7 @@ class searchModelsearch extends JModel
 //			$arr_keyword = explode('',$keyword)  ;
 
 //		}
+
 		$product_s_desc_srch = '';
 
 		if ($defaultSearchType == "")
@@ -275,6 +277,7 @@ class searchModelsearch extends JModel
 			{
 				$defaultSearchType1[] = " p.product_name LIKE '%" . $main_sp_name[$f] . "%' ";
 			}
+
 			$defaultSearchType = "(" . implode("AND", $defaultSearchType1) . ")";
 		}
 		elseif ($defaultSearchType == "product_number")
@@ -316,6 +319,7 @@ class searchModelsearch extends JModel
 		{
 			$order_by = 'p.product_id DESC';
 		}
+
 		$layout = JRequest::getVar('layout', 'default');
 
 		$category_helper = new product_category ();
@@ -343,6 +347,7 @@ class searchModelsearch extends JModel
 		{
 			$cat_group = $category_id;
 		}
+
 		$params = & JComponentHelper::getParams('com_redshop');
 
 		$menu =& $mainframe->getMenu();
@@ -387,12 +392,14 @@ class searchModelsearch extends JModel
 				{
 					$cat_group_main[$j] = $cat_main[$j]->category_id;
 				}
+
 				$cat_group_main[] = $categoryid;
 				$cat_group_main   = join(',', $cat_group_main);
 
 				$cat_array = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
 				$left_join = " LEFT JOIN " . $this->_table_prefix . "product_category_xref pcx ON pcx.product_id=p.product_id ";
 			}
+
 			$query = " SELECT * FROM " . $this->_table_prefix . "product AS p "
 				. $left_join
 				. "WHERE p.published = 1 "
@@ -424,6 +431,7 @@ class searchModelsearch extends JModel
 			{
 				$cat_group_main[$j] = $cat_main[$j]->category_id;
 			}
+
 			$cat_group_main[] = $catid;
 			$cat_group_main   = join(',', $cat_group_main);
 
@@ -476,6 +484,7 @@ class searchModelsearch extends JModel
 					. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
 					. "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
 			}
+
 			$query .= " WHERE 1=1 AND p.expired = 0  " . $whereaclProduct;
 
 			if ($category_id != 0)
@@ -554,6 +563,7 @@ class searchModelsearch extends JModel
 				$templateid = $module_params->get('filtertemplate');
 			}
 		}
+
 		$and = "";
 
 		if ($cid != 0)
@@ -564,6 +574,7 @@ class searchModelsearch extends JModel
 		{
 			$and .= " AND t.template_id = '" . $templateid . "' ";
 		}
+
 		$query = "SELECT c.category_template, t.* FROM " . $this->_table_prefix . "template AS t "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON t.template_id = c.category_template "
 			. "WHERE t.template_section='category' AND t.published=1 "
@@ -652,6 +663,7 @@ class searchModelsearch extends JModel
 			{
 				$lstproduct_id[] = $product[$i]->product_id;
 			}
+
 			$products = implode(",", $lstproduct_id);
 
 			// Get last types
@@ -783,6 +795,7 @@ class searchModelsearch extends JModel
 
 						$k++;
 					}
+
 					$typeids = implode(",", $type_id);
 					$tagids  = implode(",", $tag_id);
 
@@ -1006,8 +1019,10 @@ class searchModelsearch extends JModel
 					$lasttypeid = $typeid;
 					$lasttagid  = $tags[0];
 				}
+
 				$k++;
 			}
+
 			$typeids = implode(",", $type_id);
 			$tagids  = implode(",", $tag_id);
 
@@ -1022,8 +1037,10 @@ class searchModelsearch extends JModel
 			{
 				$products[] = $product[$i]->product_id;
 			}
+
 			$productids = implode(",", $products);
 		}
+
 		$q = "SELECT DISTINCT j.tag_id AS tagid,ra.product_id,count(ra.product_id) AS ptotal, "
 			. "CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name "
 			. "FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t ) "
@@ -1036,6 +1053,7 @@ class searchModelsearch extends JModel
 		{
 			$q .= " AND ra.product_id IN (" . $productids . ") ";
 		}
+
 		$q .= " GROUP BY t.id ORDER BY t.ordering ";
 		$db->setQuery($q);
 
@@ -1059,6 +1077,7 @@ class searchModelsearch extends JModel
 			if ($manufacturer[$i]->manufacturer_id > 0)
 				$mids[] = $manufacturer[$i]->manufacturer_id;
 		}
+
 		$mid = implode(",", $mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM " . $this->_table_prefix . "manufacturer "

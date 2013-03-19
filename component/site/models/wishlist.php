@@ -182,6 +182,7 @@ class wishlistModelwishlist extends JModel
 
 						}
 					}
+
 					$ins_query = "INSERT INTO #__redshop_wishlist_product SET "
 						. " wishlist_id = " . $row->wishlist_id
 						. ", product_id = " . $_SESSION['wish_' . $si]->product_id

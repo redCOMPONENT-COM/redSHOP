@@ -256,6 +256,7 @@ class AccountModelaccount extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
+
 		$mainframe->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
 	}
 
@@ -275,6 +276,7 @@ class AccountModelaccount extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
+
 		$mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
@@ -364,6 +366,7 @@ class AccountModelaccount extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
+
 		$mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
 	}
 
@@ -398,10 +401,12 @@ class AccountModelaccount extends JModel
 			{
 				$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
 			}
+
 			$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
 			$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
 				. "WHERE p.product_id IN (" . $prod_id . ")";
 		}
+
 		$MyWishlist    = $this->_getList($query);
 		$i             = 0;
 		$data          = "";
@@ -477,9 +482,11 @@ class AccountModelaccount extends JModel
 						$wishlist_data = str_replace("{product_old_price}", "", $wishlist_data);
 						$wishlist_data = str_replace("{product_price_saving}", "", $wishlist_data);
 					}
+
 					$temp_template .= $wishlist_data;
 				}
 			}
+
 			$data = $template_d1[0] . $temp_template . $template_d2[1];
 
 			$name     = @ explode('@', $emailto);
@@ -534,6 +541,7 @@ class AccountModelaccount extends JModel
 		{
 			$remain_discount = $Data[0]->coupon_value;
 		}
+
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_voucher_transaction "
 			. "WHERE user_id='" . $user->id . "' AND amount > 0 limit 0,1 ";
 		$this->_db->setQuery($query);
