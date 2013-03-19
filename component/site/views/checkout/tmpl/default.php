@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
@@ -19,11 +19,11 @@ JHTMLBehavior::modal();
 
 $url = JURI::base();
 $user = JFactory::getUser();
-$session = & JFactory::getSession();
+$session = JFactory::getSession();
 
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
-$order_functions = new order_functions();
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
+$order_functions = new order_functions;
 
 $telesearch = $order_functions->getparameters('rs_telesearch');
 $Itemid = $redhelper->getCheckoutItemid();
@@ -74,6 +74,7 @@ else
 		$show_login            = 0;
 		$open_to_mystretchermy = 1;
 	}
+
 	if (NEW_CUSTOMER_SELECTION)
 	{
 		$open_to_mystretchermy = 1;
@@ -81,6 +82,7 @@ else
 
 	$loginuserstyle = '';
 	$newuserstyle   = 'style="display:none;"';
+
 	if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
 	{
 		$loginuserstyle = 'style="display:none;"';
@@ -91,21 +93,31 @@ else
 	{
 		?>
 		<h4><input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerlogin"
-		           onclick="rss( '#login_div' ).slideDown();rss( '#register_div' ).slideUp()" <?php if ($open_to_mystretchermy == 0)
-			{ ?> checked="checked" <?php }    ?> />
+		           onclick="rss( '#login_div' ).slideDown();rss( '#register_div' ).slideUp()"
+				<?php
+				if ($open_to_mystretchermy == 0)
+				{
+				?> checked="checked"
+				<?php
+				}
+				?>
+				/>
 			<label for="mytogglermycheckerlogin"><?php echo JText::_('COM_REDSHOP_RETURNING_CUSTOMERS');?></label></h4>
-		<?php    if (strstr($login_template_desc, "{rs_username}"))
-	{
-		$txtusername         = '<input class="inputbox" type="text" id="username" name="username" value="" />';
-		$login_template_desc = str_replace("{rs_username_lbl}", JText::_('COM_REDSHOP_USERNAME'), $login_template_desc);
-		$login_template_desc = str_replace("{rs_username}", $txtusername, $login_template_desc);
-	}
+		<?php
+		if (strstr($login_template_desc, "{rs_username}"))
+		{
+			$txtusername         = '<input class="inputbox" type="text" id="username" name="username" value="" />';
+			$login_template_desc = str_replace("{rs_username_lbl}", JText::_('COM_REDSHOP_USERNAME'), $login_template_desc);
+			$login_template_desc = str_replace("{rs_username}", $txtusername, $login_template_desc);
+		}
+
 		if (strstr($login_template_desc, "{rs_password}"))
 		{
 			$txtpassword         = '<input class="inputbox" type="password" id="password" name="password" value="" />';
 			$login_template_desc = str_replace("{rs_password_lbl}", JText::_('COM_REDSHOP_PASSWORD'), $login_template_desc);
 			$login_template_desc = str_replace("{rs_password}", $txtpassword, $login_template_desc);
 		}
+
 		if (strstr($login_template_desc, "{rs_login_button}"))
 		{
 			$loginbutton = '<input type="submit" class="button" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
@@ -117,6 +129,7 @@ else
 			$loginbutton .= '<input type="hidden" name="view" id="view" value="login">';
 			$login_template_desc = str_replace("{rs_login_button}", $loginbutton, $login_template_desc);
 		}
+
 		$forgotpwd_link      = JRoute::_('index.php?option=' . $option . '&view=password&Itemid=' . $Itemid);
 		$forgotpwd           = '<a href="' . $forgotpwd_link . '">' . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . '</a>';
 		$login_template_desc = str_replace("{forget_password_link}", $forgotpwd, $login_template_desc);
@@ -126,28 +139,36 @@ else
 		echo eval("?>" . $login_template_desc . "<?php ");    ?>
 
 		<h4><input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerregister"
-		           onclick="rss( '#register_div' ).slideDown();rss( '#login_div' ).slideUp()" <?php if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
-		{ ?> checked="checked" <?php }?> />
+		           onclick="rss( '#register_div' ).slideDown();rss( '#login_div' ).slideUp()" <?php
+			if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
+			{
+			?> checked="checked"
+			<?php
+			}
+			?>
+			/>
 		<label for="mytogglermycheckerregister"><?php echo JText::_('COM_REDSHOP_NEW_CUSTOMERS');?></label></h4><?php
 	}
 
 
-	// toggler settings
+	// Toggler settings
 	$open_to_stretcher = 0;
+
 	if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 	{
 		$open_to_stretcher = 1;
 	}
 
-	// allow registration type settings
+	// Allow registration type settings
 	$allowCustomer = "";
 	$allowCompany  = "";
+
 	if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 	{
 		$allowCompany      = "style='display:none;'";
 		$open_to_stretcher = 0;
 	}
-	else if (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+	elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
 	{
 		$allowCustomer     = "style='display:none;'";
 		$open_to_stretcher = 1;
@@ -157,24 +178,38 @@ else
 
 	<div class="mystretchermy" id="register_div" <?php echo $newuserstyle;?>>
 		<div><span
-				id="customer_registrationintro" <?php echo ($is_company == 1) ? 'style="display:none;"' : '';?>><?php echo REGISTRATION_INTROTEXT; ?></span><span
-				id="company_registrationintro" <?php echo ($is_company == 1) ? '' : 'style="display:none;"';?>><?php echo REGISTRATION_COMPANY_INTROTEXT; ?></span>
+				id="customer_registrationintro" <?php echo ($is_company == 1) ? 'style="display:none;"' : '';?>>
+				<?php echo REGISTRATION_INTROTEXT; ?></span><span
+				id="company_registrationintro" <?php echo ($is_company == 1) ? '' : 'style="display:none;"';?>>
+				<?php echo REGISTRATION_COMPANY_INTROTEXT; ?></span>
 		</div>
 		<table cellpadding="5" cellspacing="0" border="0">
 			<tr>
 				<td><span <?php echo $allowCustomer;?>><h4><input type="radio" name="togglerchecker" id="toggler1"
 				                                                  class="toggler"
-								<?php if ($is_company == 0)
-							{ ?> checked="checked" <?php }?> onclick="showCompanyOrCustomer(this);" value="0"/>
+								<?php
+								if ($is_company == 0)
+								{
+								?> checked="checked"
+								<?php
+								}
+								?> onclick="showCompanyOrCustomer(this);" value="0"/>
 							<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?></h4></span></td>
 
 				<td><span <?php echo $allowCompany;?>><h4><input type="radio" name="togglerchecker" id="toggler2"
 				                                                 class="toggler"
-								<?php if ($is_company == 1)
-							{ ?>    checked="checked" <?php }?> onclick="showCompanyOrCustomer(this);" value="1"/>
+								<?php
+								if ($is_company == 1)
+								{
+								?>
+									 checked="checked"
+								<?php
+								}
+								?> onclick="showCompanyOrCustomer(this);" value="1"/>
 							<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?></h4></span></td>
 			</tr>
-			<?php    if (count($telesearch) > 0 && $telesearch[0]->enabled)
+			<?php
+			if (count($telesearch) > 0 && $telesearch[0]->enabled)
 			{
 				?>
 				<tr>
@@ -185,7 +220,9 @@ else
 						     style="display:none"><?php echo JText::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE');?></div>
 					</td>
 				</tr>
-			<?php }    ?>
+			<?php
+			}
+			?>
 		</table>
 
 		<div class="stretcher" style="height:auto;min-height:600px;"/>
@@ -211,6 +248,7 @@ else
 				<br/>
 				<?php
 				$billingisshipping = "";
+
 				if (count($post) > 0)
 				{
 					if (isset($post['billisship']) && $post['billisship'] == 1)
@@ -218,7 +256,7 @@ else
 						$billingisshipping = "style='display:none'";
 					}
 				}
-				else if (OPTIONAL_SHIPPING_ADDRESS)
+				elseif (OPTIONAL_SHIPPING_ADDRESS)
 				{
 					$billingisshipping = "style='display:none'";
 				}?>
@@ -243,7 +281,8 @@ else
 				</div>
 
 				<div id="divCaptcha">
-					<?php if (SHOW_CAPTCHA)
+					<?php
+					if (SHOW_CAPTCHA)
 					{
 						?>
 						<table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -256,7 +295,9 @@ else
 								</td>
 							</tr>
 						</table>
-					<?php }    ?>
+					<?php
+					}
+					?>
 				</div>
 
 				<div>
@@ -324,6 +365,7 @@ else
 		document.getElementById(val).disabled = true;
 		var op = document.getElementById(val);
 		op.setAttribute("style", "opacity:0.3;");
+
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
 

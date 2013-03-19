@@ -7,26 +7,27 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_function = new order_functions();
-$redconfig = new Redconfiguration();
-$producthelper = new producthelper();
-$carthelper = new rsCarthelper();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_function = new order_functions;
+$redconfig = new Redconfiguration;
+$producthelper = new producthelper;
+$carthelper = new rsCarthelper;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $print = JRequest::getVar('print');
 $document = JFactory::getDocument();
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 
 $template_id = $this->params->get('template_id');
 $orderslist_template = $redTemplate->getTemplate("order_list", $template_id);
+
 if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc != "")
 {
 	$template_desc = $orderslist_template[0]->template_desc;
@@ -42,7 +43,9 @@ if ($this->params->get('show_page_heading', 1))
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_LIST'));?>
 	</div>
-<?php } ?>
+<?php
+}
+?>
 	<div>
 		<?php echo ORDER_LIST_INTROTEXT;?>
 	</div>
@@ -56,11 +59,13 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=orders&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
+
 if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{product_loop_end}"))
 {
 	$template_sdata  = explode('{product_loop_start}', $template_desc);
@@ -70,16 +75,19 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_middle = $template_edata[0];
 
 	$cart_mdata = "";
+
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
 		$prolist    = $order_function->getOrderItemDetail($this->detail[$i]->order_id);
 		$statusname = $order_function->getOrderStatusTitle($this->detail[$i]->order_status);
 
 		$order_item_name = array();
+
 		for ($j = 0; $j < count($prolist); $j++)
 		{
 			$order_item_name[$j] = $prolist[$j]->order_item_name;
 		}
+
 		$orderdetailurl = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $this->detail[$i]->order_id);
 
 		$reorderurl = JUri::root() . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
@@ -118,6 +126,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$cart_mdata = str_replace("{reorder_link}", $reorder_link, $cart_mdata);
 	}
+
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
 	$template_desc = str_replace($template_middle, $cart_mdata, $template_desc);
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
@@ -129,6 +138,7 @@ if (strstr($template_desc, "{pagination}"))
 {
 	$template_desc = str_replace("{pagination}", $this->pagination->getPagesLinks(), $template_desc);
 }
+
 if (strstr($template_desc, "{pagination_limit}"))
 {
 	$limitBox = "<form name='adminForm' method='POST' >";
@@ -139,5 +149,6 @@ if (strstr($template_desc, "{pagination_limit}"))
 	$limitBox .= "</form>";
 	$template_desc = str_replace("{pagination_limit}", $limitBox, $template_desc);
 }
+
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

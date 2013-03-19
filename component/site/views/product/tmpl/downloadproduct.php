@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 jimport('joomla.filesystem.file');
@@ -46,14 +46,12 @@ $model  = $this->getModel();
 					<td colspan="2"><?php
 						echo JText::_('COM_REDSHOP_TOKEN_ID');
 						?></td>
-					<td><input type="text" name="download_id" id="download_id"
-					           value="<?php
-					           echo $tid;
-					           ?>" size="35"/></td>
-					<td><input type="submit" name="submit_token" id="submit_token"
-					           value="<?php
-					           echo JText::_('COM_REDSHOP_SUBMIT_TOKEN');
-					           ?>"/></td>
+					<td>
+						<input type="text" name="download_id" id="download_id"
+							value="<?php echo $tid; ?>" size="35"/></td>
+					<td>
+						<input type="submit" name="submit_token" id="submit_token"
+							value="<?php echo JText::_('COM_REDSHOP_SUBMIT_TOKEN'); ?>"/></td>
 				</tr>
 				<tr>
 					<td>
@@ -70,7 +68,6 @@ $model  = $this->getModel();
 <?php
 if (isset ($tid) && $tid != "")
 {
-
 	$downloaddata = $model->downloadProduct($tid);
 
 	?>
@@ -105,7 +102,6 @@ if (isset ($tid) && $tid != "")
 						<?php
 						for ($i = 0; $i < count($addtional_downloaddata); $i++)
 						{
-
 							$additionalid   = $addtional_downloaddata [$i]->id;
 							$additionalname = $addtional_downloaddata [$i]->name;
 
@@ -151,5 +147,4 @@ if (isset ($tid) && $tid != "")
 		?>
 	</fieldset>
 <?php
-
 }

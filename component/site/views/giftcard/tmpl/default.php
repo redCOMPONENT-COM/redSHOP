@@ -7,29 +7,29 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
-$producthelper = new producthelper();
-$objhelper = new redhelper();
-$extraField = new extraField();
-$redTemplate = new Redtemplate();
+$producthelper = new producthelper;
+$objhelper = new redhelper;
+$extraField = new extraField;
+$redTemplate = new Redtemplate;
 
 $model = $this->getModel('giftcard');
 $url = JURI::base();
 $option = JRequest::getVar('option');
 $itemid = JRequest::getVar('Itemid');
 $gid = JRequest::getVar('gid', 0, '', 'int');
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 $pagetitle = $this->pageheadingtag;
 $detail = $this->detail;
 
-$app = & JFactory::getApplication();
+$app = JFactory::getApplication();
 $router = & $app->getRouter();
 
 if (count($this->template) > 0)
@@ -47,8 +47,10 @@ else
 		$template = "<div>{giftcard_loop_start}<h3>{giftcard_name}</h3><div>{giftcard_price}</div><div>{giftcard_value}</div><div>{giftcard_desc}</div><div>{giftcard_validity}</div>{giftcard_loop_end}</div>";
 	}
 }
-//$uri = new JURI ( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
-//$router->setVars ( $uri->_vars );
+
+// $uri = new JURI( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
+
+// $router->setVars ( $uri->_vars );
 
 if ($this->params->get('show_page_heading', 1))
 {
@@ -60,9 +62,11 @@ if ($this->params->get('show_page_heading', 1))
 			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 				<?php echo $this->escape($this->params->get('page_title')); ?>
 			</h1>
-		<?php }
+		<?php
+		}
 		else
-		{ ?>
+		{
+		?>
 			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 				<?php echo $pagetitle; ?>
 			</h1>
@@ -70,6 +74,7 @@ if ($this->params->get('show_page_heading', 1))
 		}
 	}
 }
+
 if ($gid != 0)
 {
 	$count_no_user_field = 0;
@@ -100,8 +105,8 @@ if ($gid != 0)
 	else
 	{
 		$template = str_replace("{giftcard_price_lbl}", '', $template);
-
 	}
+
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail->giftcard_price), $template);
@@ -109,7 +114,6 @@ if ($gid != 0)
 	else
 	{
 		$template = str_replace("{giftcard_price}", '', $template);
-
 	}
 
 
@@ -121,12 +125,9 @@ if ($gid != 0)
 
 	if ($detail->customer_amount == 1 && $gid != '')
 	{
-
 		$customer_quantity = '<input type="text" name="quantity" id="quantity" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.quantity.value = f_value;">';
 		$customer_amount   = '<input type="text" name="customer_amount" id="customer_amount" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.customer_amount.value = f_value;">';
 	}
-//	$customer_amountsection ='<input type="hidden" name="customer_amountsection" id="customer_amountsection" value="'.$detail->customer_amount.'" onkeyup="var f_value = this.value;addtocart_'.$gid.'.customer_amountsection.value = f_value;">';
-
 
 	if ($detail->customer_amount != 1 || $detail->customer_amount == 1)
 	{
@@ -137,12 +138,13 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
 		$template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
-
 	}
+
 	$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
 	$template = str_replace("{giftcard_reciver_name}", $reciver_name, $template);
 	$template = str_replace("{customer_quantity}", $customer_quantity, $template);
 	$template = str_replace("{customer_amount}", $customer_amount, $template);
+
 	if ($detail->customer_amount == 1)
 	{
 		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
@@ -157,6 +159,7 @@ if ($gid != 0)
 		$template = str_replace("{customer_quantity_lbl}", '', $template);
 		$template = str_replace("{customer_amount_lbl}", '', $template);
 	}
+
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
@@ -166,12 +169,11 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_reciver_email}", '', $template);
 		$template = str_replace("{giftcard_reciver_name}", '', $template);
-
 	}
+
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_validity}", $detail->giftcard_validity, $template);
-
 	}
 	else
 	{
@@ -187,16 +189,20 @@ if ($gid != 0)
 
 	$template_userfield = $returnArr[0];
 	$userfieldArr       = $returnArr[1];
+
 	if (strstr($template, "{if giftcard_userfield}") && strstr($template, "{giftcard_userfield end if}") && $template_userfield != "")
 	{
 		$ufield = "";
 		$cart   = $session->get('cart');
+
 		if (isset($cart['idx']))
 		{
 			$idx = (int) ($cart['idx']);
 		}
+
 		$idx     = 0;
 		$cart_id = '';
+
 		for ($j = 0; $j < $idx; $j++)
 		{
 			if ($cart[$j]['giftcard_id'] == $gid)
@@ -204,15 +210,18 @@ if ($gid != 0)
 				$cart_id = $j;
 			}
 		}
+
 		for ($ui = 0; $ui < count($userfieldArr); $ui++)
 		{
 			if (!$idx)
 			{
 				$cart_id = "";
 			}
+
 			$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
 
 			$ufield .= $product_userfileds[1];
+
 			if ($product_userfileds[1] != "")
 			{
 				$count_no_user_field++;
@@ -221,7 +230,9 @@ if ($gid != 0)
 			$template = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template);
 			$template = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template);
 		}
+
 		$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+
 		if ($ufield != "")
 		{
 			$template = str_replace("{if giftcard_userfield}", $product_userfileds_form, $template);
@@ -233,6 +244,7 @@ if ($gid != 0)
 			$template = str_replace("{giftcard_userfield end if}", "", $template);
 		}
 	}
+
 	// Product User Field End
 
 	// Cart
@@ -250,15 +262,18 @@ else
 		$template_desc = $template_d2 [0];
 
 		$data_add = "";
+
 		for ($i = 0; $i < count($detail); $i++)
 		{
 			$data_add .= $template_desc;
 			$gid  = $detail[$i]->giftcard_id;
 			$link = JRoute::_('index.php?option=' . $option . '&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
+
 			if (strstr($data_add, "{giftcard_image}"))
 			{
 				$product_img = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, GIFTCARD_LIST_THUMB_WIDTH, GIFTCARD_LIST_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, '0');
 				$linkimage   = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, '0');
+
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
 				{
 					/*$thum_image = "<a class=\"modal\" href='".$linkimage."' title='".$detail[$i]->giftcard_name."' rel=\"{handler: 'image', size: {}}\">";
@@ -272,6 +287,7 @@ else
 					$data_add = str_replace("{giftcard_image}", "", $data_add);
 				}
 			}
+
 			$giftcard_name     = "<a href='" . $link . "'>" . $detail[$i]->giftcard_name . "</a>";
 			$giftcard_readmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 			$data_add          = str_replace("{giftcard_name}", $giftcard_name, $data_add);
@@ -296,10 +312,11 @@ else
 			$data_add = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
+
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
 	}
 
-	//$template = $redTemplate->parseredSHOPplugin($template);
+	// $template = $redTemplate->parseredSHOPplugin($template);
 	echo eval("?>" . $template . "<?php ");
 }
 ?>
@@ -307,15 +324,18 @@ else
 <script type="text/javascript">
 	function validateEmail() {
 		var reciver_email = document.getElementById('reciver_email').value;
+
 		if (document.getElementById('reciver_name').value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_NAME')?>");
 			return false;
 		}
+
 		if (reciver_email == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;
 		}
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 		if (reg.test(reciver_email) == false) {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
@@ -323,6 +343,7 @@ else
 
 		if (document.getElementById('customer_amount')) {
 			var customer_amount = document.getElementById('customer_amount').value;
+
 			if (customer_amount == '') {
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_AMOUNT')?>");
 				return false;

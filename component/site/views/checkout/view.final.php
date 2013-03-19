@@ -7,18 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 class checkoutViewcheckout extends JView
 {
 	public function display($tpl = null)
 	{
-		$user =& JFactory::getUser();
-
-
+		$user = JFactory::getUser();
 		parent::display("checkoutfinal");
 	}
 }

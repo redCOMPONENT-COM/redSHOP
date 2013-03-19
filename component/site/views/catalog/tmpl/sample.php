@@ -1,27 +1,22 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
+
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$redTemplate = new Redtemplate();
-$extra_field = new extra_field();
+$redTemplate = new Redtemplate;
+$extra_field = new extra_field;
 $Itemid = JRequest::getVar('Itemid');
 $layout = JRequest::getVar('layout', 'default');
 $model = $this->getModel('catalog');
 
 $template = $redTemplate->getTemplate("product_sample");
+
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
 	$template_desc = $template[0]->template_desc;
@@ -32,6 +27,7 @@ else
 }
 
 $option = JRequest::getVar('option');
+
 if ($this->params->get('show_page_heading', 1))
 {
 	if ($this->params->get('page_title'))
@@ -48,6 +44,7 @@ if ($this->params->get('show_page_heading', 1))
 	{
 		$catalog_sample = $model->getCatalogSampleList();
 		$saple_data     = "";
+
 		for ($k = 0; $k < count($catalog_sample); $k++)
 		{
 			$saple_data .= $catalog_sample[$k]->sample_name . "<br>";
@@ -56,9 +53,11 @@ if ($this->params->get('show_page_heading', 1))
 
 			$saple_data .= "<table cellpadding='0' border='0' cellspacing='0'><tr>";
 			$saple_check = "<tr>";
+
 			for ($c = 0; $c < count($catalog_colour); $c++)
 			{
 				$saple_data .= "<td style='padding-right:2px;'>";
+
 				if ($catalog_colour[$c]->is_image == 1)
 				{
 					$saple_data .= "<img src='" . $catalog_colour[$c]->code_image . "' border='0'  width='27' height='27'/><br>";
@@ -67,12 +66,15 @@ if ($this->params->get('show_page_heading', 1))
 				{
 					$saple_data .= '<div style="background-color:' . $catalog_colour[$c]->code_image . ';width: 27px; height:27px; "></div> ';
 				}
+
 				$saple_check .= "<td><input type='checkbox' name='sample_code[]' id='sample_code" . $c . "' value='" . $catalog_colour[$c]->colour_id . "' ></td>";
 				$saple_data .= "</td>";
 			}
+
 			$saple_check .= "</tr>";
 			$saple_data .= "</tr>" . $saple_check . "<tr><td>&nbsp;</td></tr></table>";
 		}
+
 		$template_desc = str_replace("{product_samples}", $saple_data, $template_desc);
 	}
 
@@ -85,6 +87,7 @@ if ($this->params->get('show_page_heading', 1))
 
 		$template_desc = str_replace("{address_fields}", $myfield, $template_desc);
 	}
+
 	$template_desc = str_replace("{name_lbl}", JText::_('COM_REDSHOP_NAME_LBL'), $template_desc);
 	$template_desc = str_replace("{name}", '<input type="text" name="name_2" id="name" />', $template_desc);
 	$template_desc = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL_LBL'), $template_desc);
@@ -111,26 +114,31 @@ if ($this->params->get('show_page_heading', 1))
 			frm.name_2.focus();
 			return false;
 		}
+
 		if (email == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');?>");
 			frm.email_address.focus();
 			return false;
 		}
-		else if (patt1.test(email) == false) {
+		else if (patt1.test(email) == false)
+		{
 			alert("<?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');?>");
 			frm.email_address.focus();
 			return false;
 		}
-		var sampleArr = new Array();
+		var sampleArr = new Array;
+
 		if (document.getElementsByName('sample_code[]')) {
 			var sName = document.getElementsByName('sample_code[]');
 			var i = 0;
+
 			for (var p = 0; p < sName.length; p++) {
 				if (sName[p].checked) {
 					sampleArr[i++] = sName[p].value;
 				}
 			}
 		}
+
 		if (sampleArr.length > 0) {
 			return true;
 		}

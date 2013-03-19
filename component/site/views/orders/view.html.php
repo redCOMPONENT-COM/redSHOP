@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -17,8 +17,9 @@ class ordersVieworders extends JView
 	{
 		global $mainframe;
 
-		$user =& JFactory::getUser();
-		// preform security checks
+		$user = JFactory::getUser();
+
+		// Preform security checks
 		if ($user->id == 0)
 		{
 			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
@@ -30,7 +31,7 @@ class ordersVieworders extends JView
 		$this->setLayout($layout);
 
 		$params        = & $mainframe->getParams($option);
-		$prodhelperobj = new producthelper();
+		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		// Request variables

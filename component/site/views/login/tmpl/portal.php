@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
@@ -17,6 +17,7 @@ $forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $It
 $shoppergroupid = JRequest::getInt('protalid', 0);
 
 $returnitemid = $Itemid;
+
 if (PORTAL_LOGIN_ITEMID)
 {
 	$returnitemid = PORTAL_LOGIN_ITEMID;
@@ -39,10 +40,14 @@ if ($shoppergroupid != 0)
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td colspan="2" align="center">
-				<?php if (is_file($portallogofile))
-				{ ?>
+				<?php
+				if (is_file($portallogofile))
+				{
+				?>
 					<img src="<?php echo $portallogo; ?>">
-				<?php }?>
+				<?php
+				}
+				?>
 			</td>
 		</tr>
 		<tr>

@@ -7,18 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 
-$config = new Redconfiguration();
-$producthelper = new producthelper();
-$redhelper = new redhelper();
+$config = new Redconfiguration;
+$producthelper = new producthelper;
+$redhelper = new redhelper;
 
 $uri =& JURI::getInstance();
 $url = $uri->root();
@@ -26,8 +26,8 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
-$user =& JFactory::getUser();
-$session = & JFactory::getSession();
+$user = JFactory::getUser();
+$session = JFactory::getSession();
 $auth = $session->get('auth');
 ?>
 <div id="newwishlist" class="wishlist_prompt_header">
@@ -48,13 +48,13 @@ $auth = $session->get('auth');
 
 <div id="wishlist" class="wishlist_prompt_text">
 	<?php
-	if($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
+	if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 	{
-
 		$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
 		$mainframe->Redirect($wishreturn);
-	} else {
-
+	}
+	else
+	{
 	$pagetitle = JText::_('COM_REDSHOP_LOGIN_PROMPTWISHLIST');
 	?>
 	<br/>
@@ -88,5 +88,5 @@ $auth = $session->get('auth');
 		<input type="hidden" name="task" value="viewloginwishlist"/>
 	</form>
 </div>
-<?php } ?>
-
+<?php
+	}

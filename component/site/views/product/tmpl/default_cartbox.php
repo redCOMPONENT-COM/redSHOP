@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-$helper = new redhelper();
-$redTemplate = new Redtemplate();
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+$helper = new redhelper;
+$redTemplate = new Redtemplate;
 
 $Itemid = $helper->getCheckoutItemid();
 $Itemid = JRequest::getVar('Itemid', $Itemid);
@@ -19,6 +19,7 @@ $Itemid = $helper->getCartItemid($Itemid);
 
 $cart_template = "";
 $ajax_template = $redTemplate->getTemplate("ajax_cart_box");
+
 if (count($ajax_template) > 0 && $ajax_template[0]->template_desc)
 {
 	$cart_template = $ajax_template[0]->template_desc;
@@ -50,7 +51,5 @@ else
 $cart_template = str_replace("{show_cart_button}", $viewbutton, $cart_template);
 $cart_template = str_replace("{continue_shopping_button}", $countinuebutton, $cart_template);
 
-
-//echo $cart_template;
 echo eval("?>" . $cart_template . "<?php ");
 exit;
