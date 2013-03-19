@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 
@@ -23,9 +24,7 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 		$document = & JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
 		$uri =& JFactory::getURI();
@@ -50,14 +49,15 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
 		$model = $this->getModel('newslettersubscr_detail');
 		$newsletters = $model->getnewsletters();
 
-		$lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->newsletter_id);
+		$lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->newsletter_id
+		);
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
 		$this->assignRef('lists', $lists);
@@ -67,5 +67,3 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 		parent::display($tpl);
 	}
 }
-
-?>

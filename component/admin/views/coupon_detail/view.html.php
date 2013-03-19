@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class coupon_detailVIEWcoupon_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 		$userslist = JRequest::getVar('userslist', array());
@@ -20,9 +21,7 @@ class coupon_detailVIEWcoupon_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUPON_MANAGEMENT_DETAIL'), 'redshop_coupon48');
 
 		$document = & JFactory::getDocument();
-
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
 		$uri =& JFactory::getURI();
@@ -47,17 +46,26 @@ class coupon_detailVIEWcoupon_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
 		$model = $this->getModel('coupon_detail');
 		$lists['free_shipping'] = JHTML::_('select.booleanlist', 'free_shipping', 'class="inputbox" ', $detail->free_shipping);
-		$percent_or_total = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE')));
-		$lists['percent_or_total'] = JHTML::_('select.genericlist', $percent_or_total, 'percent_or_total', 'class="inputbox" size="1"', 'value', 'text', $detail->percent_or_total);
+		$percent_or_total = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')),
+			JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')),
+			JHTML::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE'))
+		);
+		$lists['percent_or_total'] = JHTML::_('select.genericlist', $percent_or_total, 'percent_or_total',
+			'class="inputbox" size="1"', 'value', 'text', $detail->percent_or_total
+		);
 
-		$coupon_type = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')), JHTML::_('select.option', 0, JText::_('COM_REDSHOP_GLOBAL')), JHTML::_('select.option', 1, JText::_('COM_REDSHOP_USER_SPECIFIC')));
-		$lists['coupon_type'] = JHTML::_('select.genericlist', $coupon_type, 'coupon_type', 'class="inputbox" size="1"', 'value', 'text', $detail->coupon_type);
+		$coupon_type = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')),
+			JHTML::_('select.option', 0, JText::_('COM_REDSHOP_GLOBAL')),
+			JHTML::_('select.option', 1, JText::_('COM_REDSHOP_USER_SPECIFIC'))
+		);
+		$lists['coupon_type'] = JHTML::_('select.genericlist', $coupon_type, 'coupon_type',
+			'class="inputbox" size="1"', 'value', 'text', $detail->coupon_type
+		);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
@@ -69,5 +77,4 @@ class coupon_detailVIEWcoupon_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }

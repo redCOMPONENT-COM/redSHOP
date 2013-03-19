@@ -9,17 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class paymentViewpayment extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -30,11 +24,9 @@ class paymentViewpayment extends JView
 
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
-		//JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-
 
 		$uri =& JFactory::getURI();
 		$context = 'payment';
@@ -53,7 +45,7 @@ class paymentViewpayment extends JView
 		$this->assignRef('payments', $payments);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-?>

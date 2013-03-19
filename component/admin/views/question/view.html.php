@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class questionViewquestion extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'question_id';
@@ -31,7 +27,6 @@ class questionViewquestion extends JView
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-
 
 		$uri =& JFactory::getURI();
 
@@ -50,18 +45,21 @@ class questionViewquestion extends JView
 		$optionsection = array();
 		$optionsection[0]->product_id = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
+
 		if (count($option) > 0)
 		{
 			$optionsection = @array_merge($optionsection, $option);
 		}
-		$lists['product_id'] = JHTML::_('select.genericlist', $optionsection, 'product_id', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name', $product_id);
+
+		$lists['product_id'] = JHTML::_('select.genericlist', $optionsection, 'product_id',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name', $product_id
+		);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('question', $question);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>

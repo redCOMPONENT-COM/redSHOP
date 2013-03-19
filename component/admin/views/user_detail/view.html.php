@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 
@@ -15,11 +16,11 @@ jimport('joomla.application.component.view');
 
 class user_detailVIEWuser_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$Redconfiguration = new Redconfiguration();
-		$userhelper = new rsUserhelper();
-		$extra_field = new extra_field();
+		$Redconfiguration = new Redconfiguration;
+		$userhelper = new rsUserhelper;
+		$extra_field = new extra_field;
 
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -62,11 +63,8 @@ class user_detailVIEWuser_detail extends JView
 		$model = $this->getModel('user_detail');
 		$pagination = & $this->get('Pagination');
 
-		// get groups
-
 		$user_groups = $userhelper->getUserGroupList($detail->users_info_id);
 		$detail->user_groups = $user_groups;
-
 
 		$shopper_detail = $userhelper->getShopperGroupList();
 		$temps = array();
@@ -74,30 +72,20 @@ class user_detailVIEWuser_detail extends JView
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$shopper_detail = array_merge($temps, $shopper_detail);
 		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_detail, 'shopper_group_id', '', 'value', 'text', $detail->shopper_group_id);
-
-		//$gtree = $acl->get_group_children_tree( null, 'USERS', false );
-		//$lists['gid'] 	= JHTML::_('select.genericlist',   $gtree, 'gid', 'size="10"', 'value', 'text', $detail->gid );
-
 		$lists['tax_exempt'] = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $detail->tax_exempt);
-
 		$lists['block'] = JHTML::_('select.booleanlist', 'block', 'class="inputbox"', $detail->block);
-
 		$lists['tax_exempt_approved'] = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $detail->tax_exempt_approved);
-
 		$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $detail->requesting_tax_exempt);
-
-//		$lists['approved'] 			= JHTML::_('select.booleanlist',  'approved', 'class="inputbox"', $detail->approved );
-
-		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company', 'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ', $detail->is_company, JText::_('COM_REDSHOP_USER_COMPANY'), JText::_('COM_REDSHOP_USER_CUSTOMER'));
-
+		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company',
+			'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
+			$detail->is_company, JText::_('COM_REDSHOP_USER_COMPANY'), JText::_('COM_REDSHOP_USER_CUSTOMER')
+		);
 		$lists['sendEmail'] = JHTML::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $detail->sendEmail);
-
-
-		$lists['extra_field'] = $extra_field->list_all_field(6, $detail->users_info_id); /// field_section 6 :Userinformations
-		$lists['customer_field'] = $extra_field->list_all_field(7, $detail->users_info_id); /// field_section 7 :Customer Address
-		$lists['company_field'] = $extra_field->list_all_field(8, $detail->users_info_id); /// field_section 8 :Company Address
-		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $detail->users_info_id); /// field_section 7 :Customer Address
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $detail->users_info_id); /// field_section 8 :Company Address
+		$lists['extra_field'] = $extra_field->list_all_field(6, $detail->users_info_id);
+		$lists['customer_field'] = $extra_field->list_all_field(7, $detail->users_info_id);
+		$lists['company_field'] = $extra_field->list_all_field(8, $detail->users_info_id);
+		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $detail->users_info_id);
+		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $detail->users_info_id);
 
 		$countryarray = $Redconfiguration->getCountryList((array) $detail);
 		$detail->country_code = $countryarray['country_code'];
@@ -111,6 +99,7 @@ class user_detailVIEWuser_detail extends JView
 		$this->assignRef('detail', $detail);
 		$this->assignRef('request_url', $uri->toString());
 		$this->assignRef('pagination', $pagination);
+
 		parent::display($tpl);
 	}
-}    ?>
+}

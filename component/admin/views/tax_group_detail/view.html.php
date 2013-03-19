@@ -6,16 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-
 class tax_group_detailVIEWtax_group_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-
 		$db = jFactory::getDBO();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT_DETAIL'), 'redshop_vatgroup48');
@@ -36,9 +35,7 @@ class tax_group_detailVIEWtax_group_detail extends JView
 
 		if ($detail->tax_group_id > 0)
 		{
-
-			JToolBarHelper :: custom('tax', 'redshop_tax_tax32', JText::_('COM_REDSHOP_TAX'), JText::_('COM_REDSHOP_TAX'), false, false);
-
+			JToolBarHelper::custom('tax', 'redshop_tax_tax32', JText::_('COM_REDSHOP_TAX'), JText::_('COM_REDSHOP_TAX'), false, false);
 		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -53,7 +50,6 @@ class tax_group_detailVIEWtax_group_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -66,5 +62,3 @@ class tax_group_detailVIEWtax_group_detail extends JView
 		parent::display($tpl);
 	}
 }
-
-?>
