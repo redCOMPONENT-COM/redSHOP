@@ -344,9 +344,9 @@ class split_paymentModelsplit_payment extends JModel
 		// Now check the modulus 10 check digit - if required
 		if ($cards [$cardType] ['checkdigit'])
 		{
-			$checksum = 0; // running checksum total
-			$mychar   = ""; // next char to process
-			$j        = 1; // takes value of 1 or 2
+			$checksum = 0; // Running checksum total
+			$mychar   = ""; // Next char to process
+			$j        = 1; // Takes value of 1 or 2
 
 
 			// Process each digit one by one starting at the right

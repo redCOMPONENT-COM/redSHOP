@@ -27,7 +27,7 @@ class CartModelCart extends JModel
 {
 	var $_id = null;
 	var $_data = null;
-	var $_product = null; /// product data
+	var $_product = null; /// Product data
 	var $_table_prefix = null;
 	var $_template = null;
 	var $_r_voucher = 0;
@@ -83,7 +83,7 @@ class CartModelCart extends JModel
 			if (array_key_exists('user_shopper_group_id', $cart))
 			{
 				$userArr = $this->_producthelper->getVatUserinfo($user_id);
-				// removed due to discount issue $usersess['vatCountry']
+				// Removed due to discount issue $usersess['vatCountry']
 				if ($cart['user_shopper_group_id'] != $shopperGroupId || ($usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code))
 				{
 					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);

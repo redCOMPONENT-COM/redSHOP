@@ -26,7 +26,7 @@ class wishlistModelwishlist extends JModel
 {
 	var $_id = null;
 	var $_name = null;
-	var $_userid = null; // product data
+	var $_userid = null; // Product data
 	var $_table_prefix = null;
 	var $_comment = null;
 	var $_cdate = null;

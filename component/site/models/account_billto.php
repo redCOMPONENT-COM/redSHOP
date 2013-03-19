@@ -50,10 +50,10 @@ class Account_billtoModelaccount_billto extends JModel
 			}
 			else
 			{
-				// toggler settings
+				// Toggler settings
 				$is_company = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
 
-				// allow registration type settings
+				// Allow registration type settings
 				if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 				{
 					$is_company = 0;

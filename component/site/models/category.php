@@ -608,7 +608,7 @@ class CategoryModelCategory extends JModel
 		return $this->_total;
 	}
 
-	// function for redproductfinder
+	// Function for redproductfinder
 	public function getredproductfindertags()
 	{
 		global $mainframe, $context;
