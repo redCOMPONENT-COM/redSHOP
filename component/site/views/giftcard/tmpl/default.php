@@ -47,8 +47,8 @@ else
 		$template = "<div>{giftcard_loop_start}<h3>{giftcard_name}</h3><div>{giftcard_price}</div><div>{giftcard_value}</div><div>{giftcard_desc}</div><div>{giftcard_validity}</div>{giftcard_loop_end}</div>";
 	}
 }
-//$uri = new JURI ( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
-//$router->setVars ( $uri->_vars );
+// $uri = new JURI ( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
+// $router->setVars ( $uri->_vars );
 
 if ($this->params->get('show_page_heading', 1))
 {
@@ -308,7 +308,7 @@ else
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
 	}
 
-	//$template = $redTemplate->parseredSHOPplugin($template);
+	// $template = $redTemplate->parseredSHOPplugin($template);
 	echo eval("?>" . $template . "<?php ");
 }
 ?>

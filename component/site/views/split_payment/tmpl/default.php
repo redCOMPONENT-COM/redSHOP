@@ -71,7 +71,7 @@ $is_creditcard = 0;
 				$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod[$p]->plugin . DS . $paymentmethod[$p]->plugin . '.php';
 				include_once $paymentpath;
 
-				//$payment_class = new $paymentmethod[$p]->payment_class;
+				// $payment_class = new $paymentmethod[$p]->payment_class;
 				?>
 				<input type="radio" name="payment_method_id"
 				       value="<?php echo $paymentmethod[$p]->payment_method_id; ?>"  <?php if ($this->payment_method_id == $paymentmethod[$p]->payment_method_id || !$this->payment_method_id)

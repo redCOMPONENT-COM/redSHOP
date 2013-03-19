@@ -255,11 +255,11 @@ function display_products($rows)
 
 			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
-			//$pname ="<a href='".$link."' >".$row->product_name."</a>";
-			//$thum_image = $producthelper->getProductImage($row->product_id,$link,"100","100");
-			//$wishlist_data = str_replace('{product_thumb_image}', $thum_image , $wishlist_data);
-			//$wishlist_data = str_replace('{product_name}', $pname , $wishlist_data);
-			//$temp_template .= $wishlist_data ;
+			// $pname ="<a href='".$link."' >".$row->product_name."</a>";
+			// $thum_image = $producthelper->getProductImage($row->product_id,$link,"100","100");
+			// $wishlist_data = str_replace('{product_thumb_image}', $thum_image , $wishlist_data);
+			// $wishlist_data = str_replace('{product_name}', $pname , $wishlist_data);
+			// $temp_template .= $wishlist_data ;
 			//echo "<pre>";print_r($row);exit;
 			$Itemid = $redhelper->getItemid($rows[$i]->product_id);
 			$link   = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
@@ -408,7 +408,7 @@ function display_products($rows)
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 							$product_price     = $product_price_discount;
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price_discount);
-							//$mainproduct_price .="<div id='mod_redsavedprice' class='mod_redsavedprice'>".JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED').' '.$producthelper->getProductFormattedPrice($s_price)."</div>";
+							// $mainproduct_price .="<div id='mod_redsavedprice' class='mod_redsavedprice'>".JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED').' '.$producthelper->getProductFormattedPrice($s_price)."</div>";
 
 						}
 						else

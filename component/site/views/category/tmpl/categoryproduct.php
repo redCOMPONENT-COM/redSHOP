@@ -35,20 +35,14 @@ if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc 
 }
 else
 {
-
 	$template_desc = "<div><div>{print}</div><div>{filter_by_lbl}{filter_by}</div><div>{order_by_lbl}{order_by}</div><p>{category_loop_start}</p><div style='border: 1px solid;'><div id='categories'><div style='width: 200px;'><div class='category_image'>{category_thumb_image}</div><div class='category_description'><h4 class='category_title'>{category_name}</h4>{category_description}</div></div></div><div class='category_box_wrapper clearfix'>{product_loop_start}<div class='category_product_box_outside'><div class='category_box_inside'><table border='0'><tbody><tr><td><div class='category_product_image'>{product_thumb_image}</div></td></tr><tr><td><div class='category_product_title'><h3>{product_name}</h3></div></td></tr><tr><td><div class='category_product_price'>{product_price}</div></td></tr>
 <tr><td><div class='category_product_readmore'>{read_more}</div></td></tr><tr><td><div class='category_product_addtocart'>{attribute_template:attributes}</div></td></tr><tr><td><div class='category_product_addtocart'>{form_addtocart:add_to_cart1}</div></td></tr></tbody></table></div></div>
 {product_loop_end}</div></div><p>{category_loop_end}</p><div class='category_pagination'>{pagination}</div></div>";
 }
 
-/*if (!strstr($template_desc, "{show_all_products_in_category}" ) && strstr($template_desc, "{pagination}" )) {
-	$endlimit = $model->getProductPerPage ();
-}
-*/
 $app    = & JFactory::getApplication();
 $router = & $app->getRouter();
 $uri    = new JURI ('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
-//$router->setVars ( $uri->_vars );
 
 
 if ($print)
@@ -60,8 +54,6 @@ if ($print)
 else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=category&layout=categoryproduct&print=1&tmpl=component&Itemid=" . $Itemid;
-//		$print_url .= "&limit=".$endlimit."&texpricemin=".$texpricemin."&texpricemax=".$texpricemax."&order_by=".$this->order_by_select;
-//		$print_url .= "&manufacturer_id=".$this->manufacturer_id."&category_template=".$this->category_template_id;
 
 	$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }

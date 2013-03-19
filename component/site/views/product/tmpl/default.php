@@ -94,7 +94,7 @@ $discount_calculator = "";
 if ($this->data->use_discount_calc)
 {
 	// get discount calculator Template
-	//$template_desc = $this->loadTemplate('calculator');
+	// $template_desc = $this->loadTemplate('calculator');
 	$template_desc = str_replace('{discount_calculator}', $this->loadTemplate('calculator'), $template_desc);
 }
 else
@@ -298,7 +298,7 @@ $template_desc = str_replace("{product_desc}", htmlspecialchars_decode($this->da
 $template_desc = str_replace("{view_full_size_image_lbl}", JText::_('COM_REDSHOP_VIEW_FULL_SIZE_IMAGE_LBL'), $template_desc);
 
 if (strstr($template_desc, "{zoom_image}"))
-{ //$this->data->product_length
+{ // $this->data->product_length
 	$sendlink      = $url . 'components/com_redshop/assets/images/product/' . $this->data->product_full_image;
 	$send_image    = "<a  onclick=\"setZoomImagepath(this)\" title='" . $this->data->product_name . "' id='rsZoom_image" . $this->data->product_id . "' href='" . $sendlink . "' rel=\"lightbox[gallery]\">
 			<div class='zoom_image' id='rsDiv_zoom_image'>" . JText::_('SEND_MAIL_IMAGE_LBL') . "</div></a>";
@@ -630,8 +630,8 @@ if (strstr($template_desc, "{navigator_products}"))
 		{
 			$navigator_products_lbl = JText::_('COM_REDSHOP_NAVIGATOR_PRODUCTS') . ": ";
 			$cld_name               = array();
-			//$cld_name[0]->child_product_id=$parentproductid;
-			//$cld_name[0]->product_name=$productInfo->product_name;
+			// $cld_name[0]->child_product_id=$parentproductid;
+			// $cld_name[0]->product_name=$productInfo->product_name;
 
 			if (count($childproducts) > 0)
 			{
@@ -775,7 +775,7 @@ $attribute_template = $producthelper->getAttributeTemplate($template_desc);
 // check product for not for sale
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
 
-//$template_desc = $producthelper->replaceProductInStock($this->data->product_id,$template_desc,$attributes,$attribute_template);
+// $template_desc = $producthelper->replaceProductInStock($this->data->product_id,$template_desc,$attributes,$attribute_template);
 
 /////////////////////////////////// Product attribute  Start /////////////////////////////////
 $totalatt = count($attributes);
@@ -839,7 +839,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	$moreimage_response  = $preselectedresult['response'];
 	$aHrefImageResponse  = $preselectedresult['aHrefImageResponse'];
 	$aTitleImageResponse = $preselectedresult['aTitleImageResponse'];
-	//$mainImageResponse = $preselectedresult['mainImageResponse'];
+	// $mainImageResponse = $preselectedresult['mainImageResponse'];
 	$mainImageResponse = $preselectedresult['product_mainimg'];
 //	$stockamountSrc = $preselectedresult['stockamountSrc'];
 //	$stockamountTooltip = $preselectedresult['stockamountTooltip'];
@@ -936,8 +936,8 @@ if (strstr($template_desc, $mpimg_tag))
 				if ($media_image [$m]->media_name)
 				{
 					$thumb = $media_image [$m]->media_name;
-					//$pimg = $redhelper->watermark('product',$thumb,$mpw_thumb,$mph_thumb,WATERMARK_PRODUCT_ADDITIONAL_IMAGE);
-					//$linkimage = $redhelper->watermark('product',$thumb,'','',WATERMARK_PRODUCT_ADDITIONAL_IMAGE);
+					// $pimg = $redhelper->watermark('product',$thumb,$mpw_thumb,$mph_thumb,WATERMARK_PRODUCT_ADDITIONAL_IMAGE);
+					// $linkimage = $redhelper->watermark('product',$thumb,'','',WATERMARK_PRODUCT_ADDITIONAL_IMAGE);
 
 					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
 					{
@@ -1040,7 +1040,7 @@ if (count($preselectedresult) > 0)
 }
 else
 {
-	//$thum_image = $producthelper->getProductImage ( $this->data->product_id, $link, $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX );
+	// $thum_image = $producthelper->getProductImage ( $this->data->product_id, $link, $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX );
 	/* product image flying addwishlist time start*/
 	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" . $producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX) . "</div>";
 
@@ -1494,7 +1494,7 @@ if (strstr($template_desc, "{product_rating}"))
 
 		for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)
 		{
-			$fullname  = $reviews[$j]->username; //$reviews[$j]->firstname." ".$reviews[$j]->lastname;
+			$fullname  = $reviews[$j]->username; // $reviews[$j]->firstname." ".$reviews[$j]->lastname;
 			$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
 
 			$reviews_data1 = str_replace("{fullname}", $fullname, $reviews_template);
@@ -1692,7 +1692,7 @@ $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 $template_desc = $texts->replace_texts($template_desc);
 
 
-//$related_product = $producthelper->getRelatedProduct($product_id);
+// $related_product = $producthelper->getRelatedProduct($product_id);
 
 $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->data->product_id);
 
@@ -1703,7 +1703,7 @@ $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->d
  */
 $dispatcher->trigger('onAfterDisplayProduct', array(& $template_desc, & $this->params, $this->data));
 
-//$related_template = $producthelper->getRelatedProductTemplate($data_add);
+// $related_template = $producthelper->getRelatedProductTemplate($data_add);
 
 echo eval("?>" . $template_desc . "<?php ");
 

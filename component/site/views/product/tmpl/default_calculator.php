@@ -25,7 +25,7 @@ $model = $this->getModel('product');
 $calcMethod = $this->data->discount_calc_method;
 
 // default calculation unit
-//$globalUnit = $this->data->discount_calc_unit;
+// $globalUnit = $this->data->discount_calc_unit;
 
 // calculation prices as per various area
 $discount_calc_data = $rsCarthelper->getDiscountCalcData(0, $this->data->product_id);

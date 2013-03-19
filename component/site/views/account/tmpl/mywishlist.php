@@ -281,6 +281,7 @@ if ($mail == 0)
 						$cart_id = $j;
 					}
 				}
+
 				for ($ui = 0; $ui < count($userfieldArr); $ui++)
 				{
 					if (!$idx)
@@ -324,6 +325,7 @@ if ($mail == 0)
 				}
 
 			}
+
 			// Product User Field End
 
 			$rmore         = "<a href='" . $link . "' title='" . $row->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
@@ -332,14 +334,14 @@ if ($mail == 0)
 			$remove        = '<a href="' . $link_remove . '" title="" style="text-decoration:none;">' . JText::_("COM_REDSHOP_REMOVE_PRODUCT_FROM_WISHLIST") . '</a>';
 			$wishlist_data = str_replace('{remove_product_link}', $remove, $wishlist_data);
 
-			///////// Extra field display
+			// Extra field display
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
 			// check product for not for sale
-			//$wishlist_data = $producthelper->getProductNotForSaleComment($row->product_id,$wishlist_data);
+			// $wishlist_data = $producthelper->getProductNotForSaleComment($row->product_id,$wishlist_data);
 
-			//$wishlist_data = $producthelper->getProductOnSaleComment($row->product_id,$wishlist_data);
+			// $wishlist_data = $producthelper->getProductOnSaleComment($row->product_id,$wishlist_data);
 
-			//$wishlist_data = $producthelper->replaceCartTemplate($row->product_id,0,0,0,$wishlist_data);
+			// $wishlist_data = $producthelper->replaceCartTemplate($row->product_id,0,0,0,$wishlist_data);
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
 

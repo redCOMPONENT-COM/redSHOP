@@ -140,7 +140,7 @@ elseif ($cart_data != "")
 	$print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 	$print_tag .= "</a>";
 
-//	$cart_data=str_replace("{print}", '', $cart_data );//$cart_data=str_replace("{print}", $print_tag, $cart_data );
+//	$cart_data=str_replace("{print}", '', $cart_data );// $cart_data=str_replace("{print}", $print_tag, $cart_data );
 	$cart_data = str_replace("{without_vat}", '', $cart_data);
 	$cart_data = str_replace("{with_vat}", '', $cart_data);
 	$cart_data = $model->displayShoppingCart($cart_data, $this->users_info_id, $this->shipping_rate_id, $this->payment_method_id, $Itemid, '', '', '', '', '', $shop_id);

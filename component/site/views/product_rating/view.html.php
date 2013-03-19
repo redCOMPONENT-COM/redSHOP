@@ -65,7 +65,7 @@ class product_ratingViewproduct_rating extends JView
 
 		$productinfo = $producthelper->getProductById($product_id);
 
-		//$pathway->addItem($productinfo->product_name,'');
+		// $pathway->addItem($productinfo->product_name,'');
 
 		$this->assignRef('user', $user);
 		$this->assignRef('userinfo', $userinfo);

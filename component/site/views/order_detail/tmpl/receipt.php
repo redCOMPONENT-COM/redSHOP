@@ -30,7 +30,7 @@ $order_id = JRequest::getInt('oid');
 
 //for barcode
 $model = $this->getModel('order_detail');
-$order = $this->OrdersDetail; //$order_functions->getOrderDetails($order_id);
+$order = $this->OrdersDetail; // $order_functions->getOrderDetails($order_id);
 $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEIPT_INTROTEXT);
 ?>
 <?php if ($this->params->get('show_page_title', 1))
@@ -79,8 +79,8 @@ else
 $orderitem = $order_functions->getOrderItemDetail($order_id);
 
 $print = JRequest::getVar('print');
-//$p_url =@ explode ('?',$_SERVER['REQUEST_URI']);
-//$print_tag = '';
+// $p_url =@ explode ('?',$_SERVER['REQUEST_URI']);
+// $print_tag = '';
 
 if ($print)
 {

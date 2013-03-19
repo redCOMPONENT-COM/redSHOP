@@ -82,7 +82,7 @@ if ($preloader)
 			}
 			if (isset($billingaddresses->state_code))
 			{
-				$billingaddresses->state_2_code = $billingaddresses->state_code; //$configobj->getCountryCode2($billingaddresses->state_code);
+				$billingaddresses->state_2_code = $billingaddresses->state_code; // $configobj->getCountryCode2($billingaddresses->state_code);
 			}
 		}
 		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order->order_id);
@@ -95,7 +95,7 @@ if ($preloader)
 			}
 			if (isset($shippingaddresses->state_code))
 			{
-				$shippingaddresses->state_2_code = $shippingaddresses->state_code; //$configobj->getCountryCode2($shippingaddresses->state_code);
+				$shippingaddresses->state_2_code = $shippingaddresses->state_code; // $configobj->getCountryCode2($shippingaddresses->state_code);
 			}
 		}
 		$cart_quantity = 0;
