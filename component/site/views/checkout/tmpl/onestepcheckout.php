@@ -206,6 +206,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 			$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
 			$shipp .= '<div><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</div>';
 		}
+
 		for ($i = 0; $i < count($shippingaddresses); $i++)
 		{
 			$shipinfo = $shippingaddresses[$i];

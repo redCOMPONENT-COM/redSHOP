@@ -452,6 +452,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	{
 		$final_endlimit = $endlimit;
 	}
+
 	for ($i = $start; $i < ($start + $final_endlimit); $i++)
 	{
 		$product = & $this->product[$i];
