@@ -394,6 +394,7 @@ class AccountModelaccount extends JModel
 		{
 			// Add this code to send wishlist while user is not loged in ...
 			$prod_id = "";
+
 			for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
 			{
 				$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
@@ -497,6 +498,7 @@ class AccountModelaccount extends JModel
 			if (count($MyWishlist))
 			{
 				$link = JURI::root() . "index.php?tmpl=component&option=com_redshop&view=account&layout=mywishlist&mail=1";
+
 				foreach ($MyWishlist as $row)
 				{
 					$data_add .= '<div class="redProductWishlist">';

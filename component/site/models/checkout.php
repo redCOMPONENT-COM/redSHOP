@@ -78,6 +78,7 @@ class CheckoutModelCheckout extends JModel
 
 		$noOFGIFTCARD = 0;
 		$idx          = $cart['idx'];
+
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if (!is_null($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'] != 0)
@@ -619,6 +620,7 @@ class CheckoutModelCheckout extends JModel
 
 		//reddesign varialble
 		$reddesign = false;
+
 		for ($i = 0; $i < $idx; $i++)
 		{
 			/*********************** GiftCARD start*********************/
@@ -793,6 +795,7 @@ class CheckoutModelCheckout extends JModel
 			if ($this->_producthelper->checkProductDownload($rowitem->product_id))
 			{
 				$medianame = $this->_producthelper->getProductMediaName($rowitem->product_id);
+
 				for ($j = 0; $j < count($medianame); $j++)
 				{
 					$product_serial_number = $this->_producthelper->getProdcutSerialNumber($rowitem->product_id);
@@ -851,6 +854,7 @@ class CheckoutModelCheckout extends JModel
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
+
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
 						$prooprand    = array();
@@ -878,6 +882,7 @@ class CheckoutModelCheckout extends JModel
 						}
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
+
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$prooprand[$k] = $propArr[$k]['property_oprand'];
@@ -1010,6 +1015,7 @@ class CheckoutModelCheckout extends JModel
 			if (count($cart [$i] ['cart_attribute']) > 0)
 			{
 				$attchildArr = $cart [$i] ['cart_attribute'];
+
 				for ($j = 0; $j < count($attchildArr); $j++)
 				{
 					$attribute_id                  = $attchildArr[$j]['attribute_id'];
@@ -1075,6 +1081,7 @@ class CheckoutModelCheckout extends JModel
 							}
 
 							$subpropArr = $propArr[$k]['property_childs'];
+
 							for ($l = 0; $l < count($subpropArr); $l++)
 							{
 								$section_vat = 0;
@@ -1721,6 +1728,7 @@ class CheckoutModelCheckout extends JModel
 		// Now see if any of them match what we have in the card number
 
 		$PrefixValid = false;
+
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
 			$exp = '^' . $prefix [$i];
