@@ -79,7 +79,9 @@ else
 $orderitem = $order_functions->getOrderItemDetail($order_id);
 
 $print = JRequest::getVar('print');
+
 // $p_url =@ explode ('?',$_SERVER['REQUEST_URI']);
+
 // $print_tag = '';
 
 if ($print)
@@ -121,6 +123,7 @@ $params = new JParameter($plugin->params);
 $txtextra_info = $params->get('txtextra_info');
 
 $ReceiptTemplate = str_replace("{txtextra_info}", $txtextra_info, $ReceiptTemplate);
+
 // End
 
 $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
@@ -136,6 +139,7 @@ JPluginHelper::importPlugin('content');
 $x               = array();
 $results         = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 $ReceiptTemplate = $o->text;
+
 // End
 
 echo eval("?>" . $ReceiptTemplate . "<?php ");

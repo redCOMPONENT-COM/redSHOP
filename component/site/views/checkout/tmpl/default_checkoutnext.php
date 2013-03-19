@@ -48,6 +48,7 @@ $user = & JFactory::getUser();
 $session = & JFactory::getSession();
 $cart = $session->get('cart');
 $user_id = $user->id;
+
 // get redshop helper
 
 $Itemid = $redhelper->getCheckoutItemid();
@@ -96,6 +97,7 @@ else
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
+
 // End
 ?>
 <hr/>

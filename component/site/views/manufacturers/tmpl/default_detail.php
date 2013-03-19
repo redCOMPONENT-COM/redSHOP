@@ -33,6 +33,7 @@ for ($i = 0; $i < count($this->detail); $i++)
 		$manufacturers_data = str_replace("{manufacturer_name}", $manufacturer_name, $manufacturers_template);
 		$manufacturers_data = str_replace("{manufacturer_description}", $this->detail[$i]->manufacturer_desc, $manufacturers_data);
 		echo "<div style='float:left;'>";
+
 //		echo $manufacturers_data;
 
 		$manufacturers_data = $redTemplate->parseredSHOPplugin($manufacturers_data);

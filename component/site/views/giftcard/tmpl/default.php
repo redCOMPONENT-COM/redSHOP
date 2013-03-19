@@ -48,6 +48,7 @@ else
 	}
 }
 // $uri = new JURI ( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
+
 // $router->setVars ( $uri->_vars );
 
 if ($this->params->get('show_page_heading', 1))

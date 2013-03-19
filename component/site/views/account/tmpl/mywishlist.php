@@ -11,6 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 $url = JURI::base();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
+
 // get product helper
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 $producthelper = new producthelper;

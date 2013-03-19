@@ -68,6 +68,7 @@ else
 }
 
 $product = $producthelper->getProductById($product_id);
+
 // checking for child products
 $childproduct = $producthelper->getChildProduct($product_id);
 
@@ -104,6 +105,7 @@ else
 }
 $totalatt      = count($attributes);
 $template_desc = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds, $selectAtt, 0);
+
 /////////////////////////////////// Product attribute  End /////////////////////////////////
 
 $stockaddtocart = "stockaddtocartprd_" . $product_id;

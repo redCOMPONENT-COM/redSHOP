@@ -192,6 +192,7 @@ if (DEFAULT_VOLUME_UNIT)
 	$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
 else
 	$product_unit = '';
+
 // product length
 if ($this->data->product_length > 0)
 {
@@ -325,6 +326,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($this->data->manufacturer_id, "manufacturer");
 	$m           = 0;
+
 //	for($m=0; $m<count($media_image); $m++)
 //	{
 	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
@@ -448,6 +450,7 @@ if (strstr($template_desc, "{bookmark}"))
 //  Extra field display
 $extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 $template_desc = $producthelper->getExtraSectionTag($extraFieldName, $this->data->product_id, "1", $template_desc);
+
 // Product thumb image
 if (strstr($template_desc, "{product_thumb_image_3}"))
 {
@@ -778,6 +781,7 @@ $template_desc = $producthelper->getProductNotForSaleComment($this->data, $templ
 /////////////////////////////////// Product attribute  Start /////////////////////////////////
 $totalatt = count($attributes);
 $template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
+
 /////////////////////////////////// Product attribute  End /////////////////////////////////
 
 
@@ -839,8 +843,11 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	$aTitleImageResponse = $preselectedresult['aTitleImageResponse'];
 	// $mainImageResponse = $preselectedresult['mainImageResponse'];
 	$mainImageResponse = $preselectedresult['product_mainimg'];
+
 //	$stockamountSrc = $preselectedresult['stockamountSrc'];
+
 //	$stockamountTooltip = $preselectedresult['stockamountTooltip'];
+
 //	$ProductAttributeDelivery = $preselectedresult['ProductAttributeDelivery'];
 	$attrbimg = $preselectedresult['attrbimg'];
 
@@ -849,6 +856,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 		$pr_number = $preselectedresult['pr_number'];
 	}
 //	$productinstock = $preselectedresult['productinstock'];
+
 //	$stock_status = $preselectedresult['stock_status'];
 }
 else
@@ -905,6 +913,7 @@ $accessory = $producthelper->getProductAccessory(0, $this->data->product_id);
 $totalAccessory = count($accessory);
 
 $template_desc = $producthelper->replaceAccessoryData($this->data->product_id, 0, $accessory, $template_desc, $isChilds);
+
 /////////////////////////////////// Product accessory End /////////////////////////////////
 
 if (strstr($template_desc, $mpimg_tag))
@@ -1224,6 +1233,7 @@ else
 $template_desc = $producthelper->replaceCartTemplate($this->data->product_id, $this->data->category_id, 0, 0, $template_desc, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 $template_desc = str_replace("{ajaxwishlist_icon}", '', $template_desc);
+
 // replace wishlistbutton
 $template_desc = $producthelper->replaceWishlistButton($this->data->product_id, $template_desc);
 
@@ -1425,6 +1435,7 @@ if (strstr($template_desc, "{form_rating_without_link}"))
 	$template_desc = str_replace("{form_rating_without_link}", $reviewform, $template_desc);
 }
 $template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
+
 // Product Review/Rating
 if (strstr($template_desc, "{product_rating_summary}"))
 {

@@ -19,6 +19,7 @@ $redhelper = new redhelper;
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $model = $this->getModel('manufacturers');
+
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL');
 
