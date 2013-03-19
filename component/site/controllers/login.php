@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  */
 class LoginController extends JController
 {
-	/*
+	/**
 	 *  setlogin function
 	 */
 	public function setlogin()
@@ -34,12 +34,10 @@ class LoginController extends JController
 		$mywishlist = JRequest::getVar('mywishlist');
 		$item = $menu->getItem($returnitemid);
 
-		include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+		include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 		$redhelper = new redhelper;
 
-
 		$model = & $this->getModel('login');
-
 
 		$shoppergroupid = JRequest::getInt('protalid', '', 'post', 0);
 
@@ -72,7 +70,6 @@ class LoginController extends JController
 			$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
 			$this->setRedirect($wishreturn);
 
-
 		}
 		else
 		{
@@ -98,7 +95,6 @@ class LoginController extends JController
 				$this->setRedirect($link, $msg);
 			}
 		}
-
 
 	}
 

@@ -48,7 +48,7 @@ class quotationModelquotation extends JModel
 
 	public function _loadData()
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$user            = JFactory::getUser();
 
 		if ($user->id)
@@ -60,6 +60,7 @@ class quotationModelquotation extends JModel
 		}
 
 		return false;
+
 //		return (boolean) $this->_data;
 	}
 
@@ -89,7 +90,7 @@ class quotationModelquotation extends JModel
 		$this->_loadData();
 		$quotationHelper = new quotationHelper;
 		$producthelper   = new producthelper;
-		$extra_field     = new extra_field();
+		$extra_field     = new extra_field;
 		$user            = JFactory::getUser();
 		$user_id         = 0;
 		$user_info_id    = 0;
@@ -183,6 +184,7 @@ class quotationModelquotation extends JModel
 
 				$section = 12;
 			}
+
 			$quotation_item[$i]->product_quantity = $data[$i]['quantity'];
 
 			if (!$rowitem->bind($quotation_item[$i]))
@@ -203,6 +205,7 @@ class quotationModelquotation extends JModel
 			if (count($data[$i]['cart_accessory']) > 0)
 			{
 				$attArr = $data [$i] ['cart_accessory'];
+
 				for ($a = 0; $a < count($attArr); $a++)
 				{
 					$accessory_vat_price = 0;
@@ -215,7 +218,9 @@ class quotationModelquotation extends JModel
 					{
 						$accessory_vat_price = $producthelper->getProductTax($rowitem->product_id, $accessory_price);
 					}
+
 					$attchildArr = $attArr[$a]['accessory_childs'];
+
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
@@ -241,6 +246,7 @@ class quotationModelquotation extends JModel
 
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
+
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
@@ -304,6 +310,7 @@ class quotationModelquotation extends JModel
 					{
 						$accdata->load($accessory_id);
 					}
+
 					$accProductinfo                    = $producthelper->getProductById($accdata->child_product_id);
 					$rowaccitem                        = & $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
@@ -333,6 +340,7 @@ class quotationModelquotation extends JModel
 			if (count($data[$i]['cart_attribute']) > 0)
 			{
 				$attArr = $data [$i] ['cart_attribute'];
+
 				for ($j = 0; $j < count($attArr); $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
@@ -356,10 +364,12 @@ class quotationModelquotation extends JModel
 					}
 
 					$propArr = $attArr[$j]['attribute_childs'];
+
 					for ($k = 0; $k < count($propArr); $k++)
 					{
 						$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 						$property_id = $propArr[$k]['property_id'];
+
 //						/** product property STOCKROOM update start */
 //						$producthelper->updateAttributeStockRoom($property_id,"property",$data [$i] ['quantity']);
 
@@ -385,10 +395,12 @@ class quotationModelquotation extends JModel
 						}
 
 						$subpropArr = $propArr[$k]['property_childs'];
+
 						for ($l = 0; $l < count($subpropArr); $l++)
 						{
 							$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
+
 //							/** product subproperty STOCKROOM update start */
 //							$producthelper->updateAttributeStockRoom($subproperty_id,"subproperty",$data [$i] ['quantity']);
 
@@ -416,6 +428,7 @@ class quotationModelquotation extends JModel
 					}
 				}
 			}
+
 			$quotationHelper->manageQuotationUserfield($data[$i], $rowitem->quotation_item_id, $section);
 		}
 
@@ -425,9 +438,10 @@ class quotationModelquotation extends JModel
 	public function usercreate($data)
 	{
 		$redshopMail     = new redshopMail;
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$Itemid          = JRequest::getVar('Itemid');
 		global $mainframe;
+
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
 		$pathway   =& $mainframe->getPathway();
@@ -476,6 +490,7 @@ class quotationModelquotation extends JModel
 		if ($useractivation == '1')
 		{
 			jimport('joomla.user.helper');
+
 			//	$user->set('activation', JUtility::getHash( JUserHelper::genRandomPassword()) );
 			$user->set('block', '0');
 		}
@@ -490,6 +505,7 @@ class quotationModelquotation extends JModel
 		{
 			$name = JRequest::getVar('firstname') . ' ' . JRequest::getVar('lastname');
 		}
+
 		$email = JRequest::getVar('email');
 
 		$password = $order_functions->random_gen_enc_key(12);
@@ -507,6 +523,7 @@ class quotationModelquotation extends JModel
 			//$this->register();
 			return false;
 		}
+
 		$user_id = $user->id;
 		$user->set('id', 0);
 
@@ -561,6 +578,7 @@ class quotationModelquotation extends JModel
 			$row->firstname = $tmp[0];
 			$row->lastname  = $tmp[1];
 		}
+
 		$row->user_email   = $user->email;
 		$row->address_type = 'BT';
 
@@ -570,6 +588,7 @@ class quotationModelquotation extends JModel
 
 			return false;
 		}
+
 		$email = $user->email;
 
 		$quotation_id       = $quotationDetail->quotation_id;
@@ -594,6 +613,7 @@ class quotationModelquotation extends JModel
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 		}
+
 		$producthelper = new producthelper;
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');

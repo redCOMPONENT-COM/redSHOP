@@ -55,6 +55,7 @@ class searchModelsearch extends JModel
 
 		if (isset($item->query['productlimit']))
 			$productlimit = $item->query['productlimit'];
+
 		//$limit			= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $limit, 5);
 		$limitstart = JRequest::getVar('limitstart', 0);
 		$this->setState('productperpage', $perpageproduct);
@@ -76,6 +77,7 @@ class searchModelsearch extends JModel
 			$this->_db->setQuery($query);
 
 			$template = $this->getCategoryTemplet();
+
 			for ($i = 0; $i < count($template); $i++)
 			{
 				$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
@@ -102,6 +104,7 @@ class searchModelsearch extends JModel
 						$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
 						$this->setState('limit', $limit);
 					}
+
 					$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 				}
 				elseif ($this->getState('productlimit') > 0)
@@ -128,6 +131,7 @@ class searchModelsearch extends JModel
 		$redconfig   = & $mainframe->getParams();
 		$redTemplate = new Redtemplate;
 		$template    = $this->getCategoryTemplet();
+
 		for ($i = 0; $i < count($template); $i++)
 		{
 			$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
@@ -213,7 +217,9 @@ class searchModelsearch extends JModel
 		$context = 'search';
 
 		$keyword = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+
 		//$defaultSearchType	= $mainframe->getUserStateFromRequest( $context.'defaultSearchType', 'defaultSearchType','');
+
 		//$keyword=$manudata['keyword'];
 		$defaultSearchType = '';
 
@@ -223,10 +229,13 @@ class searchModelsearch extends JModel
 			$defaultSearchType_tmp = $manudata['search_type'];
 		}
 //		$arr_keyword=array();
+
 //		if(trim($keyword)!='')
 //		{
 //			$arr_keyword = explode('',$keyword)  ;
+
 //		}
+
 		$product_s_desc_srch = '';
 
 		if ($defaultSearchType == "")
@@ -260,15 +269,18 @@ class searchModelsearch extends JModel
 		elseif ($defaultSearchType == "product_name")
 		{
 			//$defaultSearchField = $defaultSearchType;
+
 			//$defaultSearchType = '(p.product_name LIKE "%'.$keyword.'%")';
 
 			$main_sp_name = explode(" ", $keyword);
 
 			$defaultSearchField = $defaultSearchType;
+
 			for ($f = 0; $f < count($main_sp_name); $f++)
 			{
 				$defaultSearchType1[] = " p.product_name LIKE '%" . $main_sp_name[$f] . "%' ";
 			}
+
 			$defaultSearchType = "(" . implode("AND", $defaultSearchType1) . ")";
 		}
 		elseif ($defaultSearchType == "product_number")
@@ -310,9 +322,10 @@ class searchModelsearch extends JModel
 		{
 			$order_by = 'p.product_id DESC';
 		}
+
 		$layout = JRequest::getVar('layout', 'default');
 
-		$category_helper = new product_category ();
+		$category_helper = new product_category;
 		$producthelper   = new producthelper;
 
 		$manufacture_id = JRequest::getInt('manufacture_id', 0);
@@ -320,6 +333,7 @@ class searchModelsearch extends JModel
 
 		$cat       = $category_helper->getCategoryListArray(0, $category_id);
 		$cat_group = array();
+
 		for ($j = 0; $j < count($cat); $j++)
 		{
 			$cat_group[$j] = $cat[$j]->category_id;
@@ -337,6 +351,7 @@ class searchModelsearch extends JModel
 		{
 			$cat_group = $category_id;
 		}
+
 		$params = & JComponentHelper::getParams('com_redshop');
 
 		$menu =& $mainframe->getMenu();
@@ -381,12 +396,14 @@ class searchModelsearch extends JModel
 				{
 					$cat_group_main[$j] = $cat_main[$j]->category_id;
 				}
+
 				$cat_group_main[] = $categoryid;
 				$cat_group_main   = join(',', $cat_group_main);
 
 				$cat_array = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
 				$left_join = " LEFT JOIN " . $this->_table_prefix . "product_category_xref pcx ON pcx.product_id=p.product_id ";
 			}
+
 			$query = " SELECT * FROM " . $this->_table_prefix . "product AS p "
 				. $left_join
 				. "WHERE p.published = 1 "
@@ -405,7 +422,6 @@ class searchModelsearch extends JModel
 				. "AND p.product_special=1 "
 				. $whereaclProduct
 				. "order by " . $order_by;
-
 		}
 		elseif ($layout == 'newproduct')
 		{
@@ -418,6 +434,7 @@ class searchModelsearch extends JModel
 			{
 				$cat_group_main[$j] = $cat_main[$j]->category_id;
 			}
+
 			$cat_group_main[] = $catid;
 			$cat_group_main   = join(',', $cat_group_main);
 
@@ -431,11 +448,10 @@ class searchModelsearch extends JModel
 				. "and  p.publish_date BETWEEN '" . $days_before . "' AND '" . $today . "' AND p.expired = 0  AND p.product_parent_id = 0 "
 				. $whereaclProduct . $extracond
 				. "order by " . $order_by;
-
 		}
 		elseif ($layout == 'redfilter')
 		{
-			// get products for filtering
+			// Get products for filtering
 			$products = $this->getRedFilterProduct();
 
 			$query = " SELECT * "
@@ -447,7 +463,6 @@ class searchModelsearch extends JModel
 			else
 				$query .= "AND p.product_id IN ( '" . $products . "' )  ";
 			$query .= "order by " . $order_by;
-
 		}
 		else
 		{
@@ -470,6 +485,7 @@ class searchModelsearch extends JModel
 					. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
 					. "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
 			}
+
 			$query .= " WHERE 1=1 AND p.expired = 0  " . $whereaclProduct;
 
 			if ($category_id != 0)
@@ -548,6 +564,7 @@ class searchModelsearch extends JModel
 				$templateid = $module_params->get('filtertemplate');
 			}
 		}
+
 		$and = "";
 
 		if ($cid != 0)
@@ -558,6 +575,7 @@ class searchModelsearch extends JModel
 		{
 			$and .= " AND t.template_id = '" . $templateid . "' ";
 		}
+
 		$query = "SELECT c.category_template, t.* FROM " . $this->_table_prefix . "template AS t "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON t.template_id = c.category_template "
 			. "WHERE t.template_section='category' AND t.published=1 "
@@ -566,19 +584,20 @@ class searchModelsearch extends JModel
 		return $this->_getList($query);
 	}
 
-	// red Product Filter
+	// Red Product Filter
 	public function getRedFilterProduct($remove = 0)
 	{
-		// get seeion filter data
+		// Get seeion filter data
 
 		$session = JSession::getInstance('none', array());
-		// get filter types and tags
+
+		// Get filter types and tags
 		$getredfilter = $session->get('redfilter');
 
 		$type_id_main = explode('.', JRequest::getVar('tagid'));
 
 
-		// initialise variables
+		// Initialise variables
 		$lstproduct_id = array();
 		$lasttypeid    = 0;
 		$lasttagid     = 0;
@@ -595,6 +614,7 @@ class searchModelsearch extends JModel
 			if (JRequest::getVar('main_sel') != "")
 			{
 				$main_sal_sp = explode(",", JRequest::getVar('main_sel'));
+
 				for ($f = 0; $f < count($main_sal_sp); $f++)
 				{
 					if ($main_sal_sp[$f] != "")
@@ -620,9 +640,11 @@ class searchModelsearch extends JModel
 
 			$q .= "where ( ";
 			$dep_cond = array();
+
 			for ($i = 0; $i < count($main_sal_type); $i++)
 			{
 				$chk_q = "";
+
 				//Search for checkboxes
 				if ($i != 0)
 					$chk_q .= "t" . $i . ".tag_id='" . $main_sal_tag[$i] . "' ";
@@ -631,7 +653,6 @@ class searchModelsearch extends JModel
 
 				if ($chk_q != "")
 					$dep_cond[] = " ( " . $chk_q . " ) ";
-
 			}
 			if (count($dep_cond) <= 0)
 				$dep_cond[] = "1=1";
@@ -640,12 +661,15 @@ class searchModelsearch extends JModel
 
 			$q .= ") AND p.published = '1' AND x.category_id='" . JRequest::getVar('cid') . "' order by p.product_name ";
 			$product = $this->_getList($q);
+
 			for ($i = 0; $i < count($product); $i++)
 			{
 				$lstproduct_id[] = $product[$i]->product_id;
 			}
+
 			$products = implode(",", $lstproduct_id);
-			// get last types
+
+			// Get last types
 			/*$k=0;
 			  foreach ($getredfilter as $typeid=>$tagid)
 			  {
@@ -660,7 +684,7 @@ class searchModelsearch extends JModel
 				  $k++;
 			  }
 
-			  // get last product count
+			  // Get last product count
 			  if ($lasttypeid !=0 || $lasttagid != 0){
 
 				$q = "SELECT ra.product_id  FROM `#__redproductfinder_association_tag` as rat "
@@ -675,32 +699,32 @@ class searchModelsearch extends JModel
 					$lstproduct_id[] = $product[$i]->product_id;
 				}
 
-				  // if there are minimum two types in session
+				  // If there are minimum two types in session
 				  if (count($getredfilter) > 1){
 
-					  // count last type product
+					  // Count last type product
 					  $lstprototal = count($lstproduct_id);
 
-					  // get redfilterproduct array from session
+					  // Get redfilterproduct array from session
 					  //$redfilterproduct = $session->get('redfilterproduct');
 
-					  // if redfilterproduct array is not set than initialise
+					  // If redfilterproduct array is not set than initialise
 					  if ($redfilterproduct=="")
 						  $redfilterproduct = array();
 
-						  // session product total
+						  // Session product total
 					  $sprototal = count($redfilterproduct);
 
-					  // initialise final session product array
+					  // Initialise final session product array
 					  $finalproductarray = array();
 
-					  // logic for array intersecting
+					  // Logic for array intersecting
 					  if ($lstprototal > $sprototal)
 						  $finalproductarray = array_intersect($redfilterproduct,$lstproduct_id);
 					  else
 						  $finalproductarray = array_intersect($lstproduct_id,$redfilterproduct);
 
-					  // set finalproductarray in session
+					  // Set finalproductarray in session
 					  if (count($finalproductarray)>0){
 						  $session->set('redfilterproduct',$finalproductarray);
 						  $products = implode(",",$finalproductarray);
@@ -760,6 +784,7 @@ class searchModelsearch extends JModel
 					$tag_id  = array();
 
 					$k = 0;
+
 					foreach ($getredfilter as $typeid => $tags)
 					{
 						$type_id[] = $typeid;
@@ -774,6 +799,7 @@ class searchModelsearch extends JModel
 
 						$k++;
 					}
+
 					$typeids = implode(",", $type_id);
 					$tagids  = implode(",", $tag_id);
 
@@ -794,7 +820,6 @@ class searchModelsearch extends JModel
 					}
 
 					$productids = implode(",", $products);
-
 				}
 
 
@@ -814,6 +839,7 @@ class searchModelsearch extends JModel
 				$tags = $this->_getList($q);
 
 				$tagname = "";
+
 				//$ptot = getProducttotal($type->id);
 				/* Only show if the type has tags */
 				if (count($tags) > 0)
@@ -845,7 +871,6 @@ class searchModelsearch extends JModel
 						if ($finalcount > 0)
 						{
 							$tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
-
 						}
 
 					}
@@ -889,13 +914,13 @@ class searchModelsearch extends JModel
 								{
 									//$ptotal = getProducttotal($type->id,$tags[$t]->tagid,0);
 									$tagname .= "<span style='float:left;'>&nbsp;&nbsp;" . $tags[$t]->tag_name . "</span><span style='float:right;'><a href='javascript:deleteTag(\"$type->id\",\"$Itemid\");' title='" . JText::_('COM_REDSHOP_DELETE') . "' >" . JText::_('COM_REDSHOP_DELETE') . "</a></span><br/>";
+
 									//$tagname .= "<span style='float:left;'>&nbsp;&nbsp;".$tags[$t]->tag_name."</span><span style='float:right;'><a href='".JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid='.$type->id.'&remove=1&Itemid='.$Itemid)."' title='".JText::_('COM_REDSHOP_DELETE')."' >".JText::_('COM_REDSHOP_DELETE')."</a></span><br/>";
 								}
 							}
 
 							if ($tagname != "")
 								$filteredlists['type' . $key] = $tagname;
-
 						}
 						else unset($types[$key]);
 					}
@@ -973,7 +998,7 @@ class searchModelsearch extends JModel
 
 	public function getTagsDetail($id, $all = 1)
 	{
-		// for session
+		// For session
 		$session      = JSession::getInstance('none', array());
 		$getredfilter = $session->get('redfilter');
 		$db           = JFactory::getDBO();
@@ -984,6 +1009,7 @@ class searchModelsearch extends JModel
 			$type_id = array();
 			$tag_id  = array();
 			$k       = 0;
+
 			foreach ($getredfilter as $typeid => $tags)
 			{
 				$type_id[] = $typeid;
@@ -995,8 +1021,10 @@ class searchModelsearch extends JModel
 					$lasttypeid = $typeid;
 					$lasttagid  = $tags[0];
 				}
+
 				$k++;
 			}
+
 			$typeids = implode(",", $type_id);
 			$tagids  = implode(",", $tag_id);
 
@@ -1007,12 +1035,15 @@ class searchModelsearch extends JModel
 			$db->setQuery($query);
 			$product  = $db->loadObjectList();
 			$products = array();
+
 			for ($i = 0; $i < count($product); $i++)
 			{
 				$products[] = $product[$i]->product_id;
 			}
+
 			$productids = implode(",", $products);
 		}
+
 		$q = "SELECT DISTINCT j.tag_id AS tagid,ra.product_id,count(ra.product_id) AS ptotal, "
 			. "CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name "
 			. "FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t ) "
@@ -1025,13 +1056,14 @@ class searchModelsearch extends JModel
 		{
 			$q .= " AND ra.product_id IN (" . $productids . ") ";
 		}
+
 		$q .= " GROUP BY t.id ORDER BY t.ordering ";
 		$db->setQuery($q);
 
 		return $db->loadObjectList();
 	}
 
-	// get Category products selected in search Module
+	// Get Category products selected in search Module
 	public function loadCatProductsManufacturer($cid)
 	{
 		$db    = JFactory::getDBO();
@@ -1043,11 +1075,13 @@ class searchModelsearch extends JModel
 		$manufacturer = $db->loadObjectList();
 
 		$mids = array();
+
 		for ($i = 0; $i < count($manufacturer); $i++)
 		{
 			if ($manufacturer[$i]->manufacturer_id > 0)
 				$mids[] = $manufacturer[$i]->manufacturer_id;
 		}
+
 		$mid = implode(",", $mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM " . $this->_table_prefix . "manufacturer "
@@ -1092,6 +1126,7 @@ class searchModelsearch extends JModel
 
 		$wheres = '';
 		$wheres = implode(" AND ", $where);
+
 		//$wheres .= " OR (p.product_s_desc LIKE '%".$keyword."%' or p.product_desc LIKE '%".$keyword."%') ";
 		$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number FROM " . $this->_table_prefix . "product p "
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '

@@ -26,7 +26,7 @@ class wishlistModelwishlist extends JModel
 {
 	var $_id = null;
 	var $_name = null;
-	var $_userid = null; // product data
+	var $_userid = null; // Product data
 	var $_table_prefix = null;
 	var $_comment = null;
 	var $_cdate = null;
@@ -37,6 +37,7 @@ class wishlistModelwishlist extends JModel
 		$this->_table_prefix = '#__redshop_';
 
 		//$this->setId ( ( int ) JRequest::getVar ( 'pid', 0 ) );
+
 		//$this->_catid = ( int ) JRequest::getVar ( 'cid', 0 );
 	}
 
@@ -60,6 +61,7 @@ class wishlistModelwishlist extends JModel
 		{
 			$whislists     = $this->getUserWishlist();
 			$wish_products = array();
+
 			for ($i = 0; $i < count($whislists); $i++)
 			{
 				$sql = "SELECT DISTINCT wp.* ,p.* "
@@ -71,7 +73,6 @@ class wishlistModelwishlist extends JModel
 			}
 
 			return $wish_products;
-
 		}
 		else
 		{
@@ -163,6 +164,7 @@ class wishlistModelwishlist extends JModel
 				$extraField = new extraField;
 				$section    = 12;
 				$row_data   = $extraField->getSectionFieldList($section);
+
 				for ($si = 1; $si <= $_SESSION["no_of_prod"]; $si++)
 				{
 					for ($k = 0; $k < count($row_data); $k++)
@@ -178,9 +180,9 @@ class wishlistModelwishlist extends JModel
 
 							$db->setQuery($ins_query);
 							$db->Query();
-
 						}
 					}
+
 					$ins_query = "INSERT INTO #__redshop_wishlist_product SET "
 						. " wishlist_id = " . $row->wishlist_id
 						. ", product_id = " . $_SESSION['wish_' . $si]->product_id
@@ -201,6 +203,7 @@ class wishlistModelwishlist extends JModel
 		$cid        = JRequest :: getVar('cid', '', 'request', 'array');
 		$db         = JFactory::getDBO();
 		$product_id = JRequest :: getInt('product_id');
+
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$query = "SELECT wishlist_product_id FROM " . $this->_table_prefix . "wishlist_product "

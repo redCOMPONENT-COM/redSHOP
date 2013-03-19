@@ -60,7 +60,7 @@ class Order_detailModelOrder_detail extends JModel
 	public function billingaddresses()
 	{
 		global $mainframe;
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$user            = & JFactory::getUser();
 		$session         = JFactory::getSession();
 
@@ -115,7 +115,7 @@ class Order_detailModelOrder_detail extends JModel
 		$order_payment_code     = $ccdata['creditcard_code'];
 		$order_payment_cardname = base64_encode($ccdata['order_payment_name']);
 		$order_payment_number   = base64_encode($ccdata['order_payment_number']);
-		$order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // this is ccv code
+		$order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // This is ccv code
 		$order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
 		$order_payment_trans_id = $payment_transaction_id;
 

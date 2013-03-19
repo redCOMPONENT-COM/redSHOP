@@ -27,7 +27,7 @@ class productModelproduct extends JModel
 {
 	var $_id = null;
 	var $_data = null;
-	var $_product = null; // product data
+	var $_product = null; // Product data
 	var $_table_prefix = null;
 	var $_template = null;
 	var $_catid = null;
@@ -73,6 +73,7 @@ class productModelproduct extends JModel
 		{
 			$and .= "AND pcx.category_id='" . $this->_catid . "' ";
 		}
+
 		$query = "SELECT p.*, c.category_id, c.category_name ,c.category_back_full_image,c.category_full_image , m.manufacturer_name,pcx.ordering "
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id = p.product_id "
@@ -88,7 +89,7 @@ class productModelproduct extends JModel
 
 	public function getData()
 	{
-		$redTemplate = new Redtemplate ();
+		$redTemplate = new Redtemplate;
 
 		if (empty ($this->_data))
 		{
@@ -96,6 +97,7 @@ class productModelproduct extends JModel
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 		}
+
 		$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
 		$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
 
@@ -104,7 +106,7 @@ class productModelproduct extends JModel
 
 	public function getProductTemplate()
 	{
-		$redTemplate = new Redtemplate ();
+		$redTemplate = new Redtemplate;
 
 		if (empty ($this->_template))
 		{
@@ -152,6 +154,7 @@ class productModelproduct extends JModel
 			$sql .= $where;
 			$sql .= ' ORDER BY ordering';
 		}
+
 		$this->_db->setQuery($sql, 0, 1);
 		$row = null;
 		$row = $this->_db->loadObject();
@@ -176,6 +179,7 @@ class productModelproduct extends JModel
 	{
 		$user           = JFactory::getUser();
 		$data['userid'] = $user->id;
+
 		//	$data['email'] = $user->email;
 		$data['user_rating'] = $data['user_rating'];
 		$data['username']    = $data['username'];
@@ -231,6 +235,7 @@ class productModelproduct extends JModel
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
 			}
 		}
+
 		$product = $producthelper->getProductById($product_id);
 
 		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
@@ -348,11 +353,11 @@ class productModelproduct extends JModel
 		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
 		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
 		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
+
 		for ($k = 0; $k < count($row_data); $k++)
 		{
 			$myfield                        = "productuserfield_" . $k;
 			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
-
 		}
 
 		return true;
@@ -412,7 +417,7 @@ class productModelproduct extends JModel
 		{
 			if (!$compare_product)
 			{
-				return true; // return true to store product in compare product cart.
+				return true; // Return true to store product in compare product cart.
 			}
 			else
 			{
@@ -422,7 +427,7 @@ class productModelproduct extends JModel
 				{
 					if ($compare_product[$i]["product_id"] == $product_id)
 					{
-						return false; // return false if product is already in compare product cart
+						return false; // Return false if product is already in compare product cart
 					}
 				}
 
@@ -448,6 +453,7 @@ class productModelproduct extends JModel
 			$session->set('compare_product', $compare_product);
 			$compare_product = $session->get('compare_product');
 		}
+
 		$idx = (int) ($compare_product['idx']);
 
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $compare_product[0]["category_id"] != $data["cid"])
@@ -455,6 +461,7 @@ class productModelproduct extends JModel
 			unset($compare_product);
 			$idx = 0;
 		}
+
 		$compare_product[$idx]["product_id"]  = $data["pid"];
 		$compare_product[$idx]["category_id"] = $data["cid"];
 
@@ -473,9 +480,11 @@ class productModelproduct extends JModel
 		{
 			return;
 		}
+
 		$tmp_array = array();
 		$idx       = (int) ($compare_product['idx']);
 		$tmp_i     = 0;
+
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if ($compare_product[$i]["product_id"] != $product_id)
@@ -487,12 +496,14 @@ class productModelproduct extends JModel
 				$tmp_i++;
 			}
 		}
+
 		$idx -= $tmp_i;
 
 		if ($idx < 0)
 		{
 			$idx = 0;
 		}
+
 		$compare_product        = $tmp_array;
 		$compare_product['idx'] = $idx;
 		$session->set('compare_product', $compare_product);
@@ -531,6 +542,7 @@ class productModelproduct extends JModel
 		{
 			$tablename = "media_download ";
 		}
+
 		$query = "SELECT * FROM " . $this->_table_prefix . $tablename
 			. "WHERE 1=1 "
 			. $where;
@@ -557,7 +569,7 @@ class productModelproduct extends JModel
 
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = new producthelper ();
+		$producthelper = new producthelper;
 		$info          = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0; $i < count($info); $i++)

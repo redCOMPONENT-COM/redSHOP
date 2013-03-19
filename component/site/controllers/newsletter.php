@@ -22,7 +22,7 @@ include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
  */
 class NewsletterController extends JController
 {
-	/*
+	/**
 	 *  Method to subscribe newsletter
 	 */
 	public function subscribe()
@@ -74,7 +74,7 @@ class NewsletterController extends JController
 		$this->setRedirect($return, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to unsubscribe newsletter
 	 */
 	public function unsubscribe()

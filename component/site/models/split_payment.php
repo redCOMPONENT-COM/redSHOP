@@ -58,7 +58,7 @@ class split_paymentModelsplit_payment extends JModel
 		$Itemid          = JRequest::getVar('Itemid');
 		$task            = JRequest::getVar('task');
 		$user            = JFactory::getUser();
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		/*$session =&JFactory::getSession();
    		$issplit=$session->get('issplit') ;
    		 		
@@ -97,11 +97,13 @@ class split_paymentModelsplit_payment extends JModel
 		$orderdits = $this->getordersdetail($oid);
 
 		$_SESSION['ccdata']['order_payment_name'] = JRequest::getVar('order_payment_name');
+
 		// VISA, AMEX, DISCOVER....
 		$_SESSION['ccdata']['creditcard_code']            = JRequest::getVar('creditcard_code');
 		$_SESSION['ccdata']['order_payment_number']       = JRequest::getVar('order_payment_number');
 		$_SESSION['ccdata']['order_payment_expire_month'] = JRequest::getVar('order_payment_expire_month');
 		$_SESSION['ccdata']['order_payment_expire_year']  = JRequest::getVar('order_payment_expire_year');
+
 		// 3-digit Security Code (CVV)
 		$_SESSION['ccdata']['credit_card_code'] = JRequest::getVar('credit_card_code');
 
@@ -149,7 +151,7 @@ class split_paymentModelsplit_payment extends JModel
 			$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
 			include_once $paymentpath;
 
-			$payment_class = new $paymentmethod->payment_class ();
+			$payment_class = new $paymentmethod->payment_class;
 
 			//function process_payment($order_number, $order_total, &$d)
 			$payment = $payment_class->process_payment($order_number, $tmporder_total, $d);
@@ -196,6 +198,7 @@ class split_paymentModelsplit_payment extends JModel
 
 						return false;
 					}
+
 					$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 					$msg                 = JText::_('COM_REDSHOP_PARTIAL_PAYMENT_DONE');
 
@@ -204,6 +207,7 @@ class split_paymentModelsplit_payment extends JModel
 					$this->_db->query();
 
 					$userinfo = $this->getuseraccountinfo($user->id);
+
 					// Add Economic integration
 					$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 				}
@@ -216,6 +220,7 @@ class split_paymentModelsplit_payment extends JModel
 			}
 
 		}
+
 		$mainframe->Redirect($return, $msg);
 	}
 
@@ -232,6 +237,7 @@ class split_paymentModelsplit_payment extends JModel
 		$validpayment [1] = '';
 
 		// $_SESSION['ccdata'] = $ccdata;
+
 		// The Data should be in the session
 		if (!isset ($_SESSION ['ccdata']))
 		{ //Not? Then Error
@@ -269,7 +275,6 @@ class split_paymentModelsplit_payment extends JModel
 		}
 
 		return $validpayment;
-
 	}
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
@@ -301,6 +306,7 @@ class split_paymentModelsplit_payment extends JModel
 
 		// Establish card type
 		$cardType = -1;
+
 		for ($i = 0; $i < sizeof($cards); $i++)
 		{
 			// See if it is this card (ignoring the case of the string)
@@ -344,9 +350,9 @@ class split_paymentModelsplit_payment extends JModel
 		// Now check the modulus 10 check digit - if required
 		if ($cards [$cardType] ['checkdigit'])
 		{
-			$checksum = 0; // running checksum total
-			$mychar   = ""; // next char to process
-			$j        = 1; // takes value of 1 or 2
+			$checksum = 0; // Running checksum total
+			$mychar   = ""; // Next char to process
+			$j        = 1; // Takes value of 1 or 2
 
 
 			// Process each digit one by one starting at the right
@@ -396,6 +402,7 @@ class split_paymentModelsplit_payment extends JModel
 
 		// Now see if any of them match what we have in the card number  
 		$PrefixValid = false;
+
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
 			$exp = '^' . $prefix [$i];
@@ -419,6 +426,7 @@ class split_paymentModelsplit_payment extends JModel
 		// See if the length is valid for this card
 		$LengthValid = false;
 		$lengths     = split(',', $cards [$cardType] ['length']);
+
 		for ($j = 0; $j < sizeof($lengths); $j++)
 		{
 			if (strlen($cardNo) == $lengths [$j])
@@ -535,7 +543,6 @@ class split_paymentModelsplit_payment extends JModel
 		{
 			//Do something here in case the validation fails
 			echo "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
-
 		}
 		else
 		{ //if it will pass...do something

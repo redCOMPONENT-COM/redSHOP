@@ -40,7 +40,7 @@ class Account_billtoModelaccount_billto extends JModel
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
-				$order_functions = new order_functions();
+				$order_functions = new order_functions;
 				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
 
 				if (!isset($detail->user_id))
@@ -50,10 +50,10 @@ class Account_billtoModelaccount_billto extends JModel
 			}
 			else
 			{
-				// toggler settings
+				// Toggler settings
 				$is_company = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
 
-				// allow registration type settings
+				// Allow registration type settings
 				if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 				{
 					$is_company = 0;
@@ -111,6 +111,7 @@ class Account_billtoModelaccount_billto extends JModel
 		{
 			return false;
 		}
+
 		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id);
 
 		return $reduser;

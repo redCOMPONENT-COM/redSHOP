@@ -85,7 +85,6 @@ class RegistrationController extends JController
 		}
 	}
 
-
 	public function captcha()
 	{
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');

@@ -52,6 +52,7 @@ class quotation_detailModelquotation_detail extends JModel
 		$Itemid  = JRequest::getVar("Itemid");
 		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
+
 //		$user = &JFactory::getUser();
 
 		$carthelper      = new rsCarthelper;
@@ -98,6 +99,7 @@ class quotation_detailModelquotation_detail extends JModel
 				$field_name              = $row_data[$i]->field_name;
 				$cart[$idx][$field_name] = $row_data[$i]->data_txt;
 			}
+
 			$cart['idx'] = $idx + 1;
 			$session->set('cart', $cart);
 
@@ -118,6 +120,7 @@ class quotation_detailModelquotation_detail extends JModel
 		}
 
 		$generateAccessoryCart = array();
+
 		for ($i = 0; $i < count($quotation_acc_data); $i++)
 		{
 			$generateAccessoryCart[$i]['accessory_id']     = $quotation_acc_data[$i]->accessory_id;
@@ -128,6 +131,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$acc_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "attribute", $quotation_acc_data[$i]->accessory_id);
 
 			$accAttributeCart = array();
+
 			for ($ia = 0; $ia < count($acc_att_data); $ia++)
 			{
 				$accPropertyCart                         = array();
@@ -135,6 +139,7 @@ class quotation_detailModelquotation_detail extends JModel
 				$accAttributeCart[$ia]['attribute_name'] = $acc_att_data[$ia]->section_name;
 
 				$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "property", $acc_att_data[$ia]->section_id);
+
 				for ($ip = 0; $ip < count($acc_prop_data); $ip++)
 				{
 					$accSubpropertyCart                      = array();
@@ -144,6 +149,7 @@ class quotation_detailModelquotation_detail extends JModel
 					$accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;
 
 					$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "subproperty", $acc_prop_data[$ip]->section_id);
+
 					for ($isp = 0; $isp < count($acc_subpro_data); $isp++)
 					{
 						$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
@@ -151,14 +157,18 @@ class quotation_detailModelquotation_detail extends JModel
 						$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
 						$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
 					}
+
 					$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
 				}
+
 				$accAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 			}
+
 			$generateAccessoryCart[$i]['accessory_childs'] = $accAttributeCart;
 		}
 
 		$generateAttributeCart = array();
+
 		for ($ia = 0; $ia < count($quotation_att_data); $ia++)
 		{
 			$accPropertyCart                              = array();
@@ -166,6 +176,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$generateAttributeCart[$ia]['attribute_name'] = $quotation_att_data[$ia]->section_name;
 
 			$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "property", $quotation_att_data[$ia]->section_id);
+
 			for ($ip = 0; $ip < count($acc_prop_data); $ip++)
 			{
 				$accSubpropertyCart                      = array();
@@ -175,6 +186,7 @@ class quotation_detailModelquotation_detail extends JModel
 				$accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;
 
 				$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "subproperty", $acc_prop_data[$ip]->section_id);
+
 				for ($isp = 0; $isp < count($acc_subpro_data); $isp++)
 				{
 					$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
@@ -182,26 +194,32 @@ class quotation_detailModelquotation_detail extends JModel
 					$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
 					$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
 				}
+
 				$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
 			}
+
 			$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 		}
 
 
 		$cart[$idx]['cart_attribute'] = $generateAttributeCart; //$data->product_attribute;
 		$cart[$idx]['cart_accessory'] = $generateAccessoryCart; //$data->product_accessory;
+
 //     	$cart[$idx]['mycart_accessory'] =  $data->mycart_accessory;
+
 //	    $cart[$idx]['category_id'] = $data['category_id'];
 		$cart[$idx]['wrapper_id']             = $data->product_wrapperid;
 		$cart[$idx]['wrapper_price']          = $data->wrapper_price;
 		$cart[$idx]['product_price_excl_vat'] = $data->product_excl_price;
 
 		$cart['idx'] = $idx + 1;
+
 		for ($i = 0; $i < count($row_data); $i++)
 		{
 			$field_name              = $row_data[$i]->field_name;
 			$cart[$idx][$field_name] = $row_data[$i]->data_txt;
 		}
+
 		$session->set('cart', $cart);
 	}
 

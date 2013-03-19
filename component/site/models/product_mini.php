@@ -122,7 +122,7 @@ class product_miniModelproduct_mini extends JModel
 		{
 			$where .= " AND c.category_id = '$category_id'  ";
 		}
-		// change limit condition for all issue
+		// Change limit condition for all issue
 		$limit = "";
 
 		if ($this->getState('limit') > 0)

@@ -27,7 +27,7 @@ class CartModelCart extends JModel
 {
 	var $_id = null;
 	var $_data = null;
-	var $_product = null; /// product data
+	var $_product = null; /// Product data
 	var $_table_prefix = null;
 	var $_template = null;
 	var $_r_voucher = 0;
@@ -46,7 +46,7 @@ class CartModelCart extends JModel
 		$this->_producthelper = new producthelper;
 		$this->_carthelper    = new rsCarthelper;
 		$this->_userhelper    = new rsUserhelper;
-		$this->_objshipping   = new shipping ();
+		$this->_objshipping   = new shipping;
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
 		{
@@ -63,6 +63,7 @@ class CartModelCart extends JModel
 		{
 			$this->emptyExpiredCartProducts();
 		}
+
 		$user = & JFactory::getUser();
 
 		$session = JFactory::getSession();
@@ -72,10 +73,11 @@ class CartModelCart extends JModel
 		if (!empty($cart))
 		{
 			if (!$cart)
-			{ //  || array_key_exists("quotation_id",$cart)
+			{
 				$cart        = array();
 				$cart['idx'] = 0;
 			}
+
 			$user_id        = $user->id;
 			$usersess       = $session->get('rs_user');
 			$shopperGroupId = $this->_userhelper->getShopperGroup($user_id);
@@ -83,7 +85,8 @@ class CartModelCart extends JModel
 			if (array_key_exists('user_shopper_group_id', $cart))
 			{
 				$userArr = $this->_producthelper->getVatUserinfo($user_id);
-				// removed due to discount issue $usersess['vatCountry']
+
+				// Removed due to discount issue $usersess['vatCountry']
 				if ($cart['user_shopper_group_id'] != $shopperGroupId || ($usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code))
 				{
 					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);
@@ -93,6 +96,7 @@ class CartModelCart extends JModel
 				}
 
 			}
+
 			$session->set('cart', $cart);
 		}
 	}
@@ -127,18 +131,21 @@ class CartModelCart extends JModel
 			if ($cart)
 			{
 				$idx = (int) ($cart['idx']);
+
 				for ($j = 0; $j < $idx; $j++)
 				{
 					if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
 					{
 						$this->delete($j);
 					}
+
 					if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
 					{
 						$this->delete($j);
 					}
 				}
 			}
+
 			$stockroomhelper->deleteExpiredCartProduct();
 		}
 	}
@@ -209,6 +216,7 @@ class CartModelCart extends JModel
 			{
 				$cart['notice_message'] = "";
 			}
+
 			$cart[$cartElement]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 			$cart[$cartElement]['cart_attribute'] = $this->updateAttributePriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 
@@ -256,6 +264,7 @@ class CartModelCart extends JModel
 					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
 				$product_vat_price += $subscription_vat;
 				$product_price = $product_price + $subscription_price;
+
 //				$product_price_excl_vat += $subscription_price;
 				$product_old_price_excl_vat += $subscription_price;
 			}
@@ -287,6 +296,7 @@ class CartModelCart extends JModel
 			$session->set('cart', $cart);
 			$cart = $session->get('cart');
 		}
+
 		$idx = (int) ($cart['idx']);
 
 		$prdocut_all = $data['product_all'];
@@ -301,6 +311,7 @@ class CartModelCart extends JModel
 			{
 				$quantity[$i] = $cart[$i]['quantity'];
 			}
+
 			$quantity[$i] = intval(abs($quantity[$i]) > 0 ? $quantity[$i] : 1);
 
 			if ($cart[$i]['product_id'] == $product_id[$i] && $quantity[$i] != $cart[$i]['quantity'])
@@ -330,6 +341,7 @@ class CartModelCart extends JModel
 				$product_vat_price          = $retAttArr[2];
 				$product_old_price          = $retAttArr[5] + $retAttArr[6];
 				$product_old_price_excl_vat = $retAttArr[5];
+
 				////////////// Accessory price /////////////
 				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
 				$accessory_total_price = $retAccArr[1];
@@ -341,6 +353,7 @@ class CartModelCart extends JModel
 					$wrapper_vat   = $wrapperArr['wrapper_vat'];
 					$wrapper_price = $wrapperArr['wrapper_price'];
 				}
+
 				$subscription_vat = 0;
 
 				if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
@@ -351,6 +364,7 @@ class CartModelCart extends JModel
 						$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
 					$product_vat_price += $subscription_vat;
 					$product_price = $product_price + $subscription_price;
+
 //					$product_price_excl_vat += $subscription_price;
 					$product_old_price_excl_vat += $subscription_price;
 				}
@@ -358,6 +372,7 @@ class CartModelCart extends JModel
 				{
 					//return ;
 				}
+
 				$cart[$i]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
 				$cart[$i]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
 				$cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
@@ -365,6 +380,7 @@ class CartModelCart extends JModel
 				$cart[$i]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
 			}
 		}
+
 		$session->set('cart', $cart);
 	}
 
@@ -393,8 +409,8 @@ class CartModelCart extends JModel
 				$cart['idx'] = 0;
 			}
 		}
-		$session->set('cart', $cart);
 
+		$session->set('cart', $cart);
 	}
 
 	public function coupon($c_data = array())
@@ -516,18 +532,22 @@ class CartModelCart extends JModel
 	public function updateAccessoryPriceArray($data = array(), $newquantity = 1)
 	{
 		$attArr = $data['cart_accessory'];
+
 		for ($i = 0; $i < count($attArr); $i++)
 		{
 			$attchildArr = $attArr[$i]['accessory_childs'];
 
 //			$accessory = $this->_producthelper->getProductAccessory($attArr[$i]['accessory_id']);
+
 //			$accessorypricelist = $this->_producthelper->getAccessoryPrice($data['product_id'], $accessory[0]->newaccessory_price,$accessory[0]->accessory_main_price ,1);
+
 //			$attArr[$i]['accessory_price'] = $accessorypricelist[0];
 			$attArr[$i]['accessory_quantity'] = $newquantity;
 
 			for ($j = 0; $j < count($attchildArr); $j++)
 			{
 				$propArr = $attchildArr[$j]['attribute_childs'];
+
 				for ($k = 0; $k < count($propArr); $k++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
@@ -542,6 +562,7 @@ class CartModelCart extends JModel
 					}
 
 					$subpropArr = $propArr[$k]['property_childs'];
+
 					for ($l = 0; $l < count($subpropArr); $l++)
 					{
 						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
@@ -555,10 +576,13 @@ class CartModelCart extends JModel
 							$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 						}
 					}
+
 					$propArr[$k]['property_childs'] = $subpropArr;
 				}
+
 				$attchildArr[$j]['attribute_childs'] = $propArr;
 			}
+
 			$attArr[$i]['accessory_childs'] = $attchildArr;
 		}
 
@@ -572,6 +596,7 @@ class CartModelCart extends JModel
 		for ($i = 0; $i < count($attArr); $i++)
 		{
 			$propArr = $attArr[$i]['attribute_childs'];
+
 			for ($k = 0; $k < count($propArr); $k++)
 			{
 				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
@@ -587,6 +612,7 @@ class CartModelCart extends JModel
 				}
 
 				$subpropArr = $propArr[$k]['property_childs'];
+
 				for ($l = 0; $l < count($subpropArr); $l++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
@@ -600,8 +626,10 @@ class CartModelCart extends JModel
 						$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 					}
 				}
+
 				$propArr[$k]['property_childs'] = $subpropArr;
 			}
+
 			$attArr[$i]['attribute_childs'] = $propArr;
 		}
 
@@ -657,6 +685,7 @@ class CartModelCart extends JModel
 		if (isset($data['attribute_id_prd_' . $product_id . '_0']))
 		{
 			$attribute_data = $data['attribute_id_prd_' . $product_id . '_0'];
+
 			for ($ia = 0; $ia < count($attribute_data); $ia++)
 			{
 				$accPropertyCart                              = array();
@@ -667,6 +696,7 @@ class CartModelCart extends JModel
 				if ($attribute[0]->text != "" && isset($data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]]))
 				{
 					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
+
 					for ($ip = 0; $ip < count($acc_property_data); $ip++)
 					{
 						if ($acc_property_data[$ip] != 0)
@@ -688,6 +718,7 @@ class CartModelCart extends JModel
 								$type      = 'product_attributes';
 								$imagename = $property[0]->property_image;
 							}
+
 							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
@@ -696,6 +727,7 @@ class CartModelCart extends JModel
 							if (isset($data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
 							{
 								$acc_subproperty_data = $data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
+
 								for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
 								{
 									if ($acc_subproperty_data[$isp] != 0)
@@ -716,6 +748,7 @@ class CartModelCart extends JModel
 											$type      = 'subcolor';
 											$imagename = $subproperty[0]->subattribute_color_image;
 										}
+
 										$accSubpropertyCart[$isp]['subproperty_id']           = $acc_subproperty_data[$isp];
 										$accSubpropertyCart[$isp]['subproperty_name']         = $subproperty[0]->text;
 										$accSubpropertyCart[$isp]['subproperty_oprand']       = $subproperty[0]->oprand;
@@ -724,13 +757,16 @@ class CartModelCart extends JModel
 									}
 								}
 							}
+
 							$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
 						}
 					}
 				}
+
 				$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 			}
 		}
+
 		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
 
 		if (!empty($imagename) && !empty($type))
