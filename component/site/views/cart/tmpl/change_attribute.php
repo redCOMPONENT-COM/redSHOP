@@ -46,7 +46,7 @@ JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 				alert(requiedAttribute);
 				return false;
 			}
-			else if (requiedProperty != 0 && requiedProperty != "") {
+			elseif (requiedProperty != 0 && requiedProperty != "") {
 				alert(requiedProperty);
 				return false;
 			}

@@ -338,7 +338,7 @@ class rsCarthelper
 					$billingdata = str_replace("{email}", $billingaddresses->user_email, $billingdata);
 					$billingdata = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $billingdata);
 				}
-				else if ($user->email != '')
+				elseif ($user->email != '')
 				{
 					$billingdata = str_replace("{email}", $billingaddresses->email, $billingdata);
 					$billingdata = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $billingdata);
@@ -470,7 +470,7 @@ class rsCarthelper
 				{
 					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $billingaddresses->user_email . '<br />';
 				}
-				else if ($user->email != '')
+				elseif ($user->email != '')
 				{
 					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $user->email . '<br />';
 				}
@@ -625,7 +625,7 @@ class rsCarthelper
 
 			$data = $template_sdata[0] . $shippingdata . $template_edata[1];
 		}
-		else if (strstr($data, '{shipping_address}'))
+		elseif (strstr($data, '{shipping_address}'))
 		{
 			$shipadd = '';
 			if (isset($shippingaddresses) && SHIPPING_METHOD_ENABLE)
@@ -907,13 +907,13 @@ class rsCarthelper
 					$type               = $val[0];
 
 				}
-				else if ($product->product_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+				elseif ($product->product_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
 					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
 					$prd_image          = $product->product_full_image;
 					$type               = 'product';
 				}
-				else if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+				elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 				{
 					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
 					$prd_image          = PRODUCT_DEFAULT_IMAGE;
@@ -1948,7 +1948,7 @@ class rsCarthelper
 			{
 				$cart['free_shipping'] = 1;
 			}
-			else if ($cart['free_shipping'] != 1)
+			elseif ($cart['free_shipping'] != 1)
 			{
 				$cart['free_shipping'] = 0;
 			}
@@ -2030,11 +2030,11 @@ class rsCarthelper
 		{
 			$mod_cart_total = $total + $shipping - $discount_total;
 		}
-		else if ($show_with_shipping == 0 && $show_with_discount == 1)
+		elseif ($show_with_shipping == 0 && $show_with_discount == 1)
 		{
 			$mod_cart_total = $total - $discount_total;
 		}
-		else if ($show_with_shipping == 1 && $show_with_discount == 0)
+		elseif ($show_with_shipping == 1 && $show_with_discount == 0)
 		{
 			$mod_cart_total = $total + $shipping;
 		}
@@ -2428,11 +2428,11 @@ class rsCarthelper
 		{
 			$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 		}
-		else if (trim($row->order_payment_status) == 'Unpaid')
+		elseif (trim($row->order_payment_status) == 'Unpaid')
 		{
 			$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 		}
-		else if (trim($row->order_payment_status) == 'Partial Paid')
+		elseif (trim($row->order_payment_status) == 'Partial Paid')
 		{
 			$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
 		}
@@ -3412,7 +3412,7 @@ class rsCarthelper
 								}
 							}
 						}
-						else if ($is_subscription)
+						elseif ($is_subscription)
 						{
 							$display_payment = '<input  type="radio" name="payment_method_id" value="' . $paymentmethod[$p]->element . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />' . JText::_($paymentmethod[$p]->name) . '<br>';
 							$display_payment .= '<table><tr><td>' . JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN') . '</td><td>' . $this->getSubscriptionPlans() . '<td></tr><table>';
@@ -3490,7 +3490,7 @@ class rsCarthelper
 				$this->_db->setQuery($query);
 				$list = $this->_db->loadObject();
 			}
-			else if (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)
+			elseif (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)
 			{
 				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
 					. "WHERE u.users_info_id='" . $auth['users_info_id'] . "' "
@@ -3909,7 +3909,7 @@ class rsCarthelper
 					$remaining_voucher_discount = $voucherValue - $product_price;
 					$voucherValue               = $product_price;
 				}
-				else if ($totalDiscount > $tmpsubtotal)
+				elseif ($totalDiscount > $tmpsubtotal)
 				{
 					$remaining_voucher_discount = $voucherValue;
 					$voucherValue               = 0;
@@ -5139,7 +5139,7 @@ class rsCarthelper
 //				return false;
 				return $msg;
 			}
-			else if (!$isPreorderStock)
+			elseif (!$isPreorderStock)
 			{
 				$msg = urldecode(JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
 

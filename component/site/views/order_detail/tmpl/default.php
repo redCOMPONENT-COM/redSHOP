@@ -174,11 +174,11 @@ if (trim($OrdersDetail->order_payment_status) == 'Paid')
 {
 	$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 }
-else if (trim($OrdersDetail->order_payment_status) == 'Unpaid')
+elseif (trim($OrdersDetail->order_payment_status) == 'Unpaid')
 {
 	$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 }
-else if (trim($OrdersDetail->order_payment_status) == 'Partial Paid')
+elseif (trim($OrdersDetail->order_payment_status) == 'Partial Paid')
 {
 	$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
 }

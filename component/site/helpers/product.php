@@ -394,13 +394,13 @@ class producthelper
 				{
 					return true;
 				}
-				else if ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 0)
+				elseif ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 0)
 				{
 					if ($btn_show_addto_cart) return false;
 
 					return true;
 				}
-				else if ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 1)
+				elseif ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 1)
 				{
 					if ($btn_show_addto_cart) return true;
 
@@ -513,7 +513,7 @@ class producthelper
 		{
 			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
 		}
-		else if ($proinfo->product_tax_group_id > 0)
+		elseif ($proinfo->product_tax_group_id > 0)
 		{
 			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
 			$and .= 'AND p.product_id = "' . $product_id . '" ';
@@ -570,7 +570,7 @@ class producthelper
 		{
 			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
 		}
-		else if ($proinfo->product_tax_group_id > 0)
+		elseif ($proinfo->product_tax_group_id > 0)
 		{
 			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
 			$and .= 'AND p.product_id = "' . $product_id . '" ';
@@ -792,17 +792,17 @@ class producthelper
 			{
 				$thum_image = $this->replaceProductImage($result, PRODUCT_OUTOFSTOCK_IMAGE, "", $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 			}
-			else if ($product_image && file_exists($middlepath . $product_image))
+			elseif ($product_image && file_exists($middlepath . $product_image))
 			{
 				if ($result->product_full_image && file_exists($middlepath . $result->product_full_image) && ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image)))
 				{
 					$thum_image = $this->replaceProductImage($result, $product_image, $result->product_thumb_image, $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 				}
-				else if ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
+				elseif ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
 				{
 					$thum_image = $this->replaceProductImage($result, $product_image, "", $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 				}
-				else if ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
+				elseif ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
 				{
 					$thum_image = $this->replaceProductImage($result, $product_image, "", $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 				}
@@ -812,17 +812,17 @@ class producthelper
 				$thum_image = $this->replaceProductImage($result, "", "", $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 			}
 		}
-		else if ($product_image && file_exists($middlepath . $product_image))
+		elseif ($product_image && file_exists($middlepath . $product_image))
 		{
 			if ($result->product_full_image && file_exists($middlepath . $result->product_full_image) && ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image)))
 			{
 				$thum_image = $this->replaceProductImage($result, $product_image, $result->product_thumb_image, $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 			}
-			else if ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
+			elseif ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
 			{
 				$thum_image = $this->replaceProductImage($result, $product_image, "", $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 			}
-			else if ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
+			elseif ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
 			{
 				$thum_image = $this->replaceProductImage($result, $product_image, "", $link, $width, $height, $Product_detail_is_light, $enableHover, array(), $suffixid);
 			}
@@ -915,12 +915,12 @@ class producthelper
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' rel=\"myallimg\">";
 
 			}
-			else if (MAGIC_MAGNIFYPLUS)
+			elseif (MAGIC_MAGNIFYPLUS)
 			{
 				$cat_product_hover = false;
 				$thum_image        = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' class='MagicMagnifyPlus'>";
 			}
-			else if (PRODUCT_IS_LIGHTBOX == 1)
+			elseif (PRODUCT_IS_LIGHTBOX == 1)
 			{
 
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' class=\"modal\" rel=\"{handler: 'image', size: {}}\">";
@@ -1070,7 +1070,7 @@ class producthelper
 				{
 					$sendData->property_id = $section_id;
 				}
-				else if ($section == 'subproperty')
+				elseif ($section == 'subproperty')
 				{
 					# get data for property id
 					$subattribute_data        = $this->getAttibuteSubProperty($section_id);
@@ -1716,15 +1716,15 @@ class producthelper
 		{
 			$left = "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = m.section_id ";
 		}
-		else if ($section == "property")
+		elseif ($section == "property")
 		{
 			$left = "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS p ON p.property_id = m.section_id ";
 		}
-		else if ($section == "subproperty")
+		elseif ($section == "subproperty")
 		{
 			$left = "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS p ON p.subattribute_color_id = m.section_id ";
 		}
-		else if ($section == "manufacturer")
+		elseif ($section == "manufacturer")
 		{
 			$left = "LEFT JOIN " . $this->_table_prefix . "manufacturer AS p ON p.manufacturer_id = m.section_id ";
 		}
@@ -1862,7 +1862,7 @@ class producthelper
 		{
 			return 0;
 		}
-		else if (strstr($data_add, "{attribute_price_with_vat}"))
+		elseif (strstr($data_add, "{attribute_price_with_vat}"))
 		{
 			return 1;
 		}
@@ -3294,19 +3294,19 @@ class producthelper
 			{
 				$price -= $subprice;
 			}
-			else if ($oprand == "+")
+			elseif ($oprand == "+")
 			{
 				$price += $subprice;
 			}
-			else if ($oprand == "*")
+			elseif ($oprand == "*")
 			{
 				$price *= $subprice;
 			}
-			else if ($oprand == "/")
+			elseif ($oprand == "/")
 			{
 				$price /= $subprice;
 			}
-			else if ($oprand == "=")
+			elseif ($oprand == "=")
 			{
 				$price    = $subprice;
 				$setEqual = false;
@@ -3803,7 +3803,7 @@ class producthelper
 			{
 				$prefix = $preprefix . "acc_";
 			}
-			else if ($relproduct_id != 0)
+			elseif ($relproduct_id != 0)
 			{
 				$prefix = $preprefix . "rel_";
 			}
@@ -4041,7 +4041,7 @@ class producthelper
 		{
 			$prefix = $preprefix . "acc_";
 		}
-		else if ($relproduct_id != 0)
+		elseif ($relproduct_id != 0)
 		{
 			$prefix = $preprefix . "rel_";
 		}
@@ -4457,7 +4457,7 @@ class producthelper
 		{
 			$prefix = $preprefix . "acc_";
 		}
-		else if ($relatedprd_id != 0)
+		elseif ($relatedprd_id != 0)
 		{
 			$prefix = $preprefix . "rel_";
 		}
@@ -4715,7 +4715,7 @@ class producthelper
 					$attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
 					$attribute_table = str_replace("{subproperty_image_without_scroller}", $subproperty_woscrollerdiv, $attribute_table);
 				}
-				else if (strstr($subatthtml, "{subproperty_image_scroller}"))
+				elseif (strstr($subatthtml, "{subproperty_image_scroller}"))
 				{
 					$attribute_table = str_replace("{subproperty_image_scroller}", $subproperty_scrollerdiv, $attribute_table);
 					$attribute_table = str_replace("{subproperty_image_without_scroller}", "", $attribute_table);
@@ -5071,7 +5071,7 @@ class producthelper
 		{
 			$prefix = $preprefix . "acc_";
 		}
-		else if ($relproduct_id != 0)
+		elseif ($relproduct_id != 0)
 		{
 			$prefix = $preprefix . "rel_";
 		}
@@ -5102,19 +5102,19 @@ class producthelper
 
 				return $data_add;
 			}
-			else if ($this->isProductDateRange($userfieldArr, $product_id))
+			elseif ($this->isProductDateRange($userfieldArr, $product_id))
 			{ # new type custome field - Selection based on selected conditions
 				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'), $data_add);
 
 				return $data_add;
 			}
-			else if ($product->not_for_sale)
+			elseif ($product->not_for_sale)
 			{
 				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", '', $data_add);
 
 				return $data_add;
 			}
-			else if (!$taxexempt_addtocart)
+			elseif (!$taxexempt_addtocart)
 			{
 				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", '', $data_add);
 
@@ -7491,7 +7491,7 @@ class producthelper
 			$aTitleImageResponse = $product->product_name;
 			$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_thumb_image;
 		}
-		else if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 		{
 			$type                = 'product';
 			$imagename           = $product->product_full_image;
@@ -7619,7 +7619,7 @@ class producthelper
 			$template_desc = $redTemplate->getTemplate("accessory_product");
 			$template_desc = $template_desc[0]->template_desc;
 		}
-		else if ($relatedprd_id != 0)
+		elseif ($relatedprd_id != 0)
 		{
 			$template_desc = $redTemplate->getTemplate("related_product");
 			$template_desc = $template_desc[0]->template_desc;
@@ -7784,7 +7784,7 @@ class producthelper
 					{
 						$thumb_original = $product->product_thumb_image;
 					}
-					else if (is_file($filename_org))
+					elseif (is_file($filename_org))
 					{
 						$thumb_original = $media_image[$m]->product_full_image;
 					}
@@ -7933,11 +7933,11 @@ class producthelper
 		{
 			$response = "<div>" . $subpropadditionImg . "</div>";
 		}
-		else if ($propadditionImg != "")
+		elseif ($propadditionImg != "")
 		{
 			$response = "<div>" . $propadditionImg . "</div>";
 		}
-		else if ($prodadditionImg != "")
+		elseif ($prodadditionImg != "")
 		{
 			$response = "<div>" . $prodadditionImg . "</div>";
 		}
