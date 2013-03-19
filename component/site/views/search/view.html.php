@@ -379,10 +379,10 @@ class searchViewsearch extends JView
 				$data_add = str_replace("{read_more}", $readmore, $data_add);
 				$data_add = str_replace("{read_more_link}", $link, $data_add);
 
-				# redSHOP Product Plugin
+				// redSHOP Product Plugin
 				JPluginHelper::importPlugin('redshop_product');
 				$results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, & $params, $this->search[$i]));
-				# End
+				// End
 
 				if (strstr($data_add, "{product_delivery_time}"))
 				{
