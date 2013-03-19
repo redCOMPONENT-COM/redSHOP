@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
