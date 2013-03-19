@@ -43,6 +43,7 @@ class passwordModelpassword extends JModel
 				. 'WHERE id="' . (int) $id . '" '
 				. 'AND block=0 ';
 			$this->_db->setQuery($query);
+
 			// Save the token
 			if (!$this->_db->query())
 			{
@@ -94,6 +95,7 @@ class passwordModelpassword extends JModel
 			. 'WHERE id="' . (int) $data['uid'] . '" '
 			. 'AND block=0 ';
 		$this->_db->setQuery($query);
+
 		// Saving new password
 		if (!$this->_db->query())
 		{

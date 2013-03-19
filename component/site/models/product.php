@@ -176,6 +176,7 @@ class productModelproduct extends JModel
 	{
 		$user           = JFactory::getUser();
 		$data['userid'] = $user->id;
+
 		//	$data['email'] = $user->email;
 		$data['user_rating'] = $data['user_rating'];
 		$data['username']    = $data['username'];

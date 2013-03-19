@@ -470,6 +470,7 @@ class CheckoutModelCheckout extends JModel
 
 		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
+
 		// End
 
 
@@ -1447,6 +1448,7 @@ class CheckoutModelCheckout extends JModel
 			$from                = $config->getValue('mailfrom');
 			$fromname            = $config->getValue('fromname');
 			$giftcard_attachment = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . $g_pdfName . ".pdf";
+
 			//echo $from."<br>". $eachorders->giftcard_user_email;exit;
 			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 
@@ -1902,6 +1904,7 @@ class CheckoutModelCheckout extends JModel
 	public function voucher($cart, $order_id)
 	{
 		$session = JFactory::getSession();
+
 		//$cart 	 		= $session->get( 'cart') ;
 		$user        = JFactory::getUser();
 		$vouchertype = array();
@@ -1964,6 +1967,7 @@ class CheckoutModelCheckout extends JModel
 	public function coupon($cart, $order_id = 0)
 	{
 		$session = JFactory::getSession();
+
 		//$cart 	 	= $session->get( 'cart');
 		$user       = JFactory::getUser();
 		$coupontype = array();
@@ -2052,12 +2056,15 @@ class CheckoutModelCheckout extends JModel
 		$user_id  = $user->id;
 		$usersess = $session->get('rs_user');
 		$userArr  = $this->_producthelper->getVatUserinfo($user_id);
+
 //		if($usersess['vatCountry'] != $userArr->country_code && $usersess['vatState'] != $userArr->state_code){
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);
 		$usersess = $session->set('rs_user', $usersess);
 		$cart     = $this->_carthelper->modifyCart($cart, $user_id);
+
 //			$cart['user_shopper_group_id'] 		= $shopperGroupId;
+
 //		}
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
@@ -2098,6 +2105,7 @@ class CheckoutModelCheckout extends JModel
 		$payment_amount = $paymentArray[1];
 
 //		$subtotal_excl_vat 	= $cart ['subtotal_excl_vat'];
+
 //		$subtotal 			= $cart ['subtotal'];
 		$subtotal_excl_vat      = $cart ['product_subtotal_excl_vat'];
 		$subtotal               = $cart ['product_subtotal'];
@@ -2170,10 +2178,12 @@ class CheckoutModelCheckout extends JModel
 			$req_number       = '';
 			$req_number_lbl   = '';
 			$billingaddresses = $this->billingaddresses();
+
 //			if($billingaddresses->is_company==1)
 //			{
 			$req_number_lbl = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 			$req_number     = '<input name="requisition_number" id="requisition_number" value="' . $requisition_number . '" />';
+
 //			}
 			$template_desc = str_replace("{requisition_number}", $req_number, $template_desc);
 			$template_desc = str_replace("{requisition_number_lbl}", $req_number_lbl, $template_desc);
@@ -2249,6 +2259,7 @@ class CheckoutModelCheckout extends JModel
 		$checkout .= '<input type="hidden" name="Itemid" id="onestepItemid" value="' . $Itemid . '" />';
 		$checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
 		$checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
+
 		//$checkout .='<input type="hidden" name="shop_id" value="'.$shop_id.'" />';
 
 

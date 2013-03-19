@@ -60,6 +60,7 @@ class quotationModelquotation extends JModel
 		}
 
 		return false;
+
 //		return (boolean) $this->_data;
 	}
 
@@ -360,6 +361,7 @@ class quotationModelquotation extends JModel
 					{
 						$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 						$property_id = $propArr[$k]['property_id'];
+
 //						/** product property STOCKROOM update start */
 //						$producthelper->updateAttributeStockRoom($property_id,"property",$data [$i] ['quantity']);
 
@@ -389,6 +391,7 @@ class quotationModelquotation extends JModel
 						{
 							$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
+
 //							/** product subproperty STOCKROOM update start */
 //							$producthelper->updateAttributeStockRoom($subproperty_id,"subproperty",$data [$i] ['quantity']);
 
@@ -428,6 +431,7 @@ class quotationModelquotation extends JModel
 		$order_functions = new order_functions();
 		$Itemid          = JRequest::getVar('Itemid');
 		global $mainframe;
+
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
 		$pathway   =& $mainframe->getPathway();
@@ -476,6 +480,7 @@ class quotationModelquotation extends JModel
 		if ($useractivation == '1')
 		{
 			jimport('joomla.user.helper');
+
 			//	$user->set('activation', JUtility::getHash( JUserHelper::genRandomPassword()) );
 			$user->set('block', '0');
 		}
