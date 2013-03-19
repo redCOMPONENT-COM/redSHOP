@@ -6,19 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class state_detailVIEWstate_detail extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$document = & JFactory::getDocument();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
@@ -43,7 +38,7 @@ class state_detailVIEWstate_detail extends JView
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
@@ -58,12 +53,15 @@ class state_detailVIEWstate_detail extends JView
 		$tmp = @array_merge($tmp, $country_list);
 
 
-		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->country_id);
+		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id', 'class="inputbox" size="1" ',
+			'value', 'text', $detail->country_id
+		);
 
 		$state_data = $redhelper->getStateAbbrivationByList();
 
-		$lists['show_state'] = JHTML::_('select.genericlist', $state_data, 'show_state', 'class="inputbox" size="1" ', 'value', 'text', $detail->show_state);
-
+		$lists['show_state'] = JHTML::_('select.genericlist', $state_data, 'show_state',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->show_state
+		);
 
 		if ($isNew)
 		{
@@ -71,12 +69,12 @@ class state_detailVIEWstate_detail extends JView
 		}
 		else
 		{
-
-			//EDIT - check out the item
+			// EDIT - check out the item
 			$model->checkout($user->get('id'));
 
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
+
 		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 
 

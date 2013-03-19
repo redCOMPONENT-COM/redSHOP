@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class discountViewdiscount extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -25,13 +21,17 @@ class discountViewdiscount extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
 
 		$layout = JRequest::getVar('layout');
+
 		if (isset($layout) && $layout == 'product')
+		{
 			$context = 'discount_product_id';
+		}
 		else
+		{
 			$context = 'discount_id';
+		}
+
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_discountmanagmenet48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
@@ -45,6 +45,7 @@ class discountViewdiscount extends JView
 			$this->setLayout('product');
 			$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_product_id');
 		}
+
 		else
 		{
 			$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_id');
@@ -59,21 +60,22 @@ class discountViewdiscount extends JView
 		$pagination = & $this->get('Pagination');
 
 		$spgrpdis_filter = $mainframe->getUserStateFromRequest($context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 		$shopper_groups = $userhelper->getShopperGroupList();
 		$temps = array();
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$shopper_groups = array_merge($temps, $shopper_groups);
-		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'spgrpdis_filter', 'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrpdis_filter);
+		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'spgrpdis_filter',
+			'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrpdis_filter
+		);
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('discounts', $discounts);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>

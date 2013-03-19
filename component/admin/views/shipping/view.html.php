@@ -9,17 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class shippingViewshipping extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -27,26 +21,6 @@ class shippingViewshipping extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_SHIPPING'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_MANAGEMENT'), 'redshop_shipping48');
-
-
-		//JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
-		//JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
-//		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-//	  	 $adminpath=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop';
-//		 $paymentpath=$adminpath.DS.'helpers'.DS.'shippings'.DS.'dsv/dsv.php';
-//		 include($paymentpath);
-//
-//		 $dsv = new dsv();
-//		 $d['users_info_id'] = 1;
-//		 $d['ordertotal'] = 100;
-//
-//		 $d['ordervolume']=100;
-//		 $dsv->list_rates($d);
-
 
 		$uri =& JFactory::getURI();
 		$context = 'shipping';
@@ -63,7 +37,7 @@ class shippingViewshipping extends JView
 		$this->assignRef('shippings', $shippings);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-?>

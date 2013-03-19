@@ -6,15 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class attribute_set_detailVIEWattribute_set_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDBO();
@@ -24,7 +25,6 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 
 		$model = $this->getModel('attribute_set_detail');
 
-
 		$attributes = $model->getattributes();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL'), 'redshop_attribute_bank48');
@@ -32,30 +32,14 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		$document = & JFactory::getDocument();
 
 		$document->addScriptDeclaration("
-
-		var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
-
+			var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
 		");
 
 		$document->addScript('components/' . $option . '/assets/js/fields.js');
-
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-
-		//$document->addScript ('components/'.$option.'/assets/js/json.js');
-
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		//$document->addStyleSheet ( 'components/com_redshop/assets/css/search.css' );
-
-		//$document->addScript ('components/com_redshop/assets/js/search.js');
-
-		//$document->addScript ('components/com_redshop/assets/js/related.js');
-
 		$uri =& JFactory::getURI();
-
-
-		//$this->setLayout('default');
-
 
 		$detail =& $this->get('data');
 
@@ -64,7 +48,6 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_attribute_bank48');
-
 
 		JToolBarHelper::apply();
 
@@ -76,15 +59,11 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-
-
 		$lists['attributes'] = $attributes;
-
 
 		$this->assignRef('model', $model);
 		$this->assignRef('lists', $lists);

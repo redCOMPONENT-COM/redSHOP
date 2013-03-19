@@ -6,23 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class newsletter_detailVIEWnewsletter_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$layout = JRequest::getVar('layout');
 
-		//$templates = JRequest::getVar ('templates',array());
 		$model = $this->getModel('newsletter_detail');
 		$templates = $model->gettemplates();
 
-
-		//merging select option in the select box
+		// Merging select option in the select box
 		$temps = array();
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
@@ -53,6 +52,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 		}
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_newsletter48');
+
 		if ($layout != "statistics")
 		{
 			JToolBarHelper::apply();
@@ -69,7 +69,9 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 		$model = $this->getModel('newsletter_detail');
 
-		$lists['newsletter_template'] = JHTML::_('select.genericlist', $templates, 'template_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->template_id);
+		$lists['newsletter_template'] = JHTML::_('select.genericlist', $templates, 'template_id',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->template_id
+		);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
@@ -80,5 +82,3 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 		parent::display($tpl);
 	}
 }
-
-?>

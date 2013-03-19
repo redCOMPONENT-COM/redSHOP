@@ -6,29 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.view');
 
 class mediaViewmedia extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_MEDIA'));
-		//$document->addStyleSheet('assets/medialist-thumbs.css');
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'redshop_media48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
@@ -42,7 +35,6 @@ class mediaViewmedia extends JView
 
 		$media_type = $mainframe->getUserStateFromRequest($context . 'media_type', 'media_type', 0);
 		$media_section = $mainframe->getUserStateFromRequest($context . 'media_section', 'media_section', 0);
-
 
 		$optiontype = array();
 		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -61,13 +53,16 @@ class mediaViewmedia extends JView
 		$optionsection[] = JHTML::_('select.option', 'subproperty', JText::_('COM_REDSHOP_SUBPROPERTY'));
 		$optionsection[] = JHTML::_('select.option', 'manufacturer', JText::_('COM_REDSHOP_MANUFACTURER'));
 
-
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_type);
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_type
+		);
 
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_section);
+		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_section
+		);
 
 		$media = & $this->get('Data');
 		$total = & $this->get('Total');
@@ -84,11 +79,10 @@ class mediaViewmedia extends JView
 		$this->assignRef('folders', $this->get('folders'));
 		$this->assignRef('state', $this->get('state'));
 
-
 		parent::display($tpl);
 	}
 
-	function setFolder($index = 0)
+	public function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index]))
 		{
@@ -100,7 +94,7 @@ class mediaViewmedia extends JView
 		}
 	}
 
-	function setImage($index = 0)
+	public function setImage($index = 0)
 	{
 		if (isset($this->images[$index]))
 		{
@@ -112,7 +106,7 @@ class mediaViewmedia extends JView
 		}
 	}
 
-	function setDoc($index = 0)
+	public function setDoc($index = 0)
 	{
 		if (isset($this->documents[$index]))
 		{
@@ -124,4 +118,3 @@ class mediaViewmedia extends JView
 		}
 	}
 }
-?>

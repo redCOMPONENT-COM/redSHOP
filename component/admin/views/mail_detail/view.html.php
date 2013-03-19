@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -13,7 +14,7 @@ jimport('joomla.html.pane');
 
 class mail_detailVIEWmail_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT_DETAIL'), 'redshop_mailcenter48');
 
@@ -21,7 +22,6 @@ class mail_detailVIEWmail_detail extends JView
 
 		$document = & JFactory::getDocument();
 
-		//$document->addScript ('components/'.$option.'/assets/js/media.js');
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
@@ -48,7 +48,6 @@ class mail_detailVIEWmail_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -61,13 +60,16 @@ class mail_detailVIEWmail_detail extends JView
 			$select[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 			$merge = array_merge($select, $order_status);
 
-			$lists['order_status'] = JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text', $detail->mail_order_status);
+			$lists['order_status'] = JHTML::_('select.genericlist', $merge, 'mail_order_status',
+				'class="inputbox" size="1" title="" ', 'value', 'text', $detail->mail_order_status
+			);
 		}
 
-
-		$redtemplate = new Redtemplate();
+		$redtemplate = new Redtemplate;
 		$optiontype = $redtemplate->getMailSections();
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'mail_section', 'class="inputbox" size="1" onchange="mail_select(this)" ', 'value', 'text', $detail->mail_section);
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'mail_section',
+			'class="inputbox" size="1" onchange="mail_select(this)" ', 'value', 'text', $detail->mail_section
+		);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 

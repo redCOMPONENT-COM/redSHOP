@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+
 class manufacturer_detailVIEWmanufacturer_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
@@ -39,7 +39,6 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');
-
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
@@ -49,7 +48,6 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -58,18 +56,22 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 		$result = array_merge($optiontemplet, $template_data);
 
-		$lists['template'] = JHTML::_('select.genericlist', $result, 'template_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->template_id);
+		$lists['template'] = JHTML::_('select.genericlist', $result, 'template_id',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->template_id
+		);
 
 		$detail->excluding_category_list = explode(',', $detail->excluding_category_list);
-		$product_category = new product_category();
-		$lists['excluding_category_list'] = $product_category->list_all("excluding_category_list[]", 0, $detail->excluding_category_list, 10, false, true);
+		$product_category = new product_category;
+		$lists['excluding_category_list'] = $product_category->list_all("excluding_category_list[]", 0,
+			$detail->excluding_category_list, 10, false, true
+		);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$field = new extra_field();
-		//////// Extra field //////////
-		$list_field = $field->list_all_field(10, $detail->manufacturer_id); /// field_section 6 :Userinformations
+		$field = new extra_field;
+
+		$list_field = $field->list_all_field(10, $detail->manufacturer_id);
 		$lists['extra_field'] = $list_field;
-		//////////////////////////////
+
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
@@ -77,7 +79,4 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }
-
-?>
