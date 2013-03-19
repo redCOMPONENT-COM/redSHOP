@@ -153,7 +153,7 @@ if ($swap == 1)
 					$adjustY = ($maxX - $newxsize) / 2;
 				}
 			}
-			else if ($orig_size[0] > $orig_size[1])
+			elseif ($orig_size[0] > $orig_size[1])
 			{
 
 				$adjustY = $newxsize;
@@ -209,7 +209,7 @@ else
 			$adjustY = $newysize;
 
 		}
-		else if ($orig_size[0] < $orig_size[1])
+		elseif ($orig_size[0] < $orig_size[1])
 		{
 			/*$newxsize = $newysize * ($orig_size[0]/$orig_size[1]);
 			$adjustX = ($maxX - $newxsize)/2;

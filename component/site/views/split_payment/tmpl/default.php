@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-$producthelper = new producthelper();
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_functions = new order_functions();
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+$producthelper = new producthelper;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_functions = new order_functions;
 
 $url = JURI::base();
 
@@ -32,12 +32,15 @@ $partial_paid = $order_functions->getOrderPartialPayment($oid);
 $remaningtopay = $orderdetails->order_total - $partial_paid;
 $remaningtopay = number_format($remaningtopay, 2);
 ?>
-<?php if ($this->params->get('show_page_heading', 1))
+<?php
+if ($this->params->get('show_page_heading', 1))
 { ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_SPLIT_PAYMENT')); ?>
 	</div>
-<?php } ?>
+<?php
+}
+?>
 <?php
 
 $url = JURI::base();
@@ -63,19 +66,24 @@ $is_creditcard = 0;
 
 			<?php
 			$paymentmethod = $order_functions->getPaymentMethodInfo();
-			//var_dump($paymentmethod);
+
 			$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
 
 			for ($p = 0; $p < count($paymentmethod); $p++)
 			{
 				$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod[$p]->plugin . DS . $paymentmethod[$p]->plugin . '.php';
-				include_once($paymentpath);
+				include_once $paymentpath;
 
-				//$payment_class = new $paymentmethod[$p]->payment_class();
+				// $payment_class = new $paymentmethod[$p]->payment_class;
 				?>
 				<input type="radio" name="payment_method_id"
-				       value="<?php echo $paymentmethod[$p]->payment_method_id; ?>"  <?php if ($this->payment_method_id == $paymentmethod[$p]->payment_method_id || !$this->payment_method_id)
-				{ ?> checked="checked" <?php } ?>  />
+				       value="<?php echo $paymentmethod[$p]->payment_method_id; ?>"  <?php
+
+						if ($this->payment_method_id == $paymentmethod[$p]->payment_method_id || !$this->payment_method_id)
+						{
+						?> checked="checked" <?php
+						}
+						?> />
 				<?php
 				echo        $paymentmethod[$p]->payment_method_name;
 
@@ -87,7 +95,6 @@ $is_creditcard = 0;
 
 			if ($is_creditcard)
 			{
-
 				$thisyear = date('Y');
 				?>
 				<table cellpadding="2" cellspacing="2" border="0">
@@ -120,29 +127,61 @@ $is_creditcard = 0;
 											alt="" border="0"/></td>
 								</tr>
 								<tr>
-									<td align="center"><input type="radio" name="creditcard_code"
-									                          value="Visa"  <?php if (empty($_SESSION['ccdata']['creditcard_code']) || $_SESSION['ccdata']['creditcard_code'] == 'Visa')
-										{ ?>  checked="checked" <?php } ?>  /></td>
-									<td align="center"><input type="radio" name="creditcard_code"
-									                          value="MC"  <?php if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'MC')
-										{ ?>  checked="checked" <?php } ?> /></td>
-									<td align="center"><input type="radio" name="creditcard_code"
-									                          value="Maestro" <?php if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'MasterCard')
-										{ ?>  checked="checked" <?php } ?>  /></td>
-									<td align="center"><input type="radio" name="creditcard_code"
-									                          value="JCB" <?php if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'JCB')
-										{ ?>  checked="checked" <?php } ?>  /></td>
-									<td align="center"><input type="radio" name="creditcard_code"
-									                          value="amex"  <?php if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'amex')
-										{ ?>  checked="checked" <?php } ?> /></td>
-									<td align="center"><input type="radio" name="creditcard_code"
-									                          value="diners"  <?php if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'diners')
-										{ ?>  checked="checked" <?php } ?> /></td>
+									<td align="center">
+										<input type="radio" name="creditcard_code"
+											value="Visa"  <?php
+											if (empty($_SESSION['ccdata']['creditcard_code']) || $_SESSION['ccdata']['creditcard_code'] == 'Visa')
+											{
+												?>  checked="checked" <?php
+											}
+											?> /></td>
+									<td align="center">
+										<input type="radio"
+												name="creditcard_code"
+												value="MC"  <?php
+											if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'MC')
+											{
+												?>  checked="checked" <?php
+											}
+											?> /></td>
+									<td align="center">
+										<input type="radio"
+												name="creditcard_code"
+												value="Maestro" <?php
+												if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'MasterCard')
+												{
+													?>  checked="checked" <?php
+												}
+												?>  /></td>
+									<td align="center">
+										<input type="radio"
+												name="creditcard_code"
+												value="JCB" <?php
+												if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'JCB')
+												{
+													?>  checked="checked" <?php
+												}
+												?>  /></td>
+									<td align="center">
+										<input type="radio"
+												name="creditcard_code"
+												value="amex"  <?php
+												if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'amex')
+												{
+													?>  checked="checked" <?php
+												}
+												?> /></td>
+									<td align="center">
+										<input type="radio" name="creditcard_code"
+												value="diners"  <?php
+												if (!empty($_SESSION['ccdata']['creditcard_code']) && $_SESSION['ccdata']['creditcard_code'] == 'diners')
+												{
+												?>  checked="checked" <?php
+												}
+												?> /></td>
 								</tr>
 							</table>
-
 						</td>
-
 					</tr>
 					<tr valign="top">
 						<td align="right" nowrap="nowrap" width="10%">
@@ -150,7 +189,9 @@ $is_creditcard = 0;
 						</td>
 						<td>
 							<input class="inputbox" id="order_payment_name" name="order_payment_name"
-							       value="<?php if (!empty($_SESSION['ccdata']['order_payment_name'])) echo $_SESSION['ccdata']['order_payment_name'] ?>"
+							       value="<?php
+											if (!empty($_SESSION['ccdata']['order_payment_name']))
+												echo $_SESSION['ccdata']['order_payment_name'] ?>"
 							       autocomplete="off" type="text">
 						</td>
 
@@ -161,7 +202,9 @@ $is_creditcard = 0;
 						</td>
 						<td>
 							<input class="inputbox" id="order_payment_number" name="order_payment_number"
-							       value="<?php if (!empty($_SESSION['ccdata']['order_payment_number'])) echo $_SESSION['ccdata']['order_payment_number'] ?>"
+							       value="<?php
+											if (!empty($_SESSION['ccdata']['order_payment_number']))
+												echo $_SESSION['ccdata']['order_payment_number'] ?>"
 							       autocomplete="off" type="text">
 						</td>
 
@@ -173,10 +216,12 @@ $is_creditcard = 0;
 						<td>
 							<?php
 							$value = @$_SESSION['ccdata']['order_payment_expire_month'];
+
 							if ($value == '')
 							{
 								$value = date('m');
 							}
+
 							$arr = array("Month",
 								"01" => JText::_('COM_REDSHOP_JAN'),
 								"02" => JText::_('COM_REDSHOP_FEB'),
@@ -196,6 +241,7 @@ $is_creditcard = 0;
 							while (list($key, $val) = each($arr))
 							{
 								$selected = "";
+
 								if (is_array($value))
 								{
 									if (in_array($key, $value))
@@ -210,6 +256,7 @@ $is_creditcard = 0;
 										$selected = "selected=\"selected\"";
 									}
 								}
+
 								$html .= "<option value=\"$key\" $selected>$val";
 								$html .= "</option>\n";
 							}
@@ -223,11 +270,15 @@ $is_creditcard = 0;
 
 								for ($y = $thisyear; $y < ($thisyear + 10); $y++)
 								{
-
 									?>
 									<option
-										value="<?php echo $y; //echo substr($y,2); ?>" <?php if (!empty($_SESSION['ccdata']['order_payment_expire_year']) && $_SESSION['ccdata']['order_payment_expire_year'] == $y)
-									{ ?> selected="selected" <?php } ?> ><?php echo $y; ?></option>
+										value="<?php echo $y; ?>" <?php
+
+											if (!empty($_SESSION['ccdata']['order_payment_expire_year']) && $_SESSION['ccdata']['order_payment_expire_year'] == $y)
+											{
+												?> selected="selected" <?php
+											}
+?> ><?php echo $y; ?></option>
 								<?php
 								}
 								?> </select>
@@ -242,7 +293,9 @@ $is_creditcard = 0;
 						</td>
 						<td>
 							<input class="inputbox" id="credit_card_code" name="credit_card_code"
-							       value="<?php if (!empty($_SESSION['ccdata']['credit_card_code'])) echo $_SESSION['ccdata']['credit_card_code'] ?>"
+							       value="<?php
+											if (!empty($_SESSION['ccdata']['credit_card_code']))
+												echo $_SESSION['ccdata']['credit_card_code'] ?>"
 							       autocomplete="off" type="text">
 
 

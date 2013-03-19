@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -21,10 +21,12 @@ class catalogViewcatalog extends JView
 
 		$params = & $mainframe->getParams('com_redshop');
 		$layout = JRequest::getVar('layout');
+
 		if ($layout == "sample")
 		{
 			$this->setLayout('sample');
 		}
+
 		$this->assignRef('params', $params);
 		parent::display($tpl);
 	}

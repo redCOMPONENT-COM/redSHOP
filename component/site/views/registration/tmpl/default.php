@@ -7,22 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 $url = JURI::base();
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $post = JRequest::get('post');
 
-$userhelper = new rsUserhelper();
-$rsCarthelper = new rsCarthelper();
+$userhelper = new rsUserhelper;
+$rsCarthelper = new rsCarthelper;
 $open_to_stretcher = 0;
+
 if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 {
 	$open_to_stretcher = 1;
 }
 
-// allow registration type settings
+// Allow registration type settings
 $allowCustomer = "";
 $allowCompany = "";
 $showCustomerdesc = "";
@@ -33,17 +34,19 @@ if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 	$allowCompany      = "style='display:none;'";
 	$open_to_stretcher = 0;
 }
-else if (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
 {
 	$allowCustomer     = "style='display:none;'";
 	$showCustomerdesc  = "style='display:none;'";
 	$open_to_stretcher = 1;
 }
+
 if (DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 {
 	$showCompanydesc  = '';
 	$showCustomerdesc = "style='display:none;'";
 }
+
 $is_company = ($open_to_stretcher == 1 || (isset($post['is_company']) && $post['is_company'] == 1)) ? 1 : 0;
 
 if ($this->params->get('show_page_heading', 1))
@@ -52,29 +55,39 @@ if ($this->params->get('show_page_heading', 1))
 	{
 		?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-			<?php echo JText::_('COM_REDSHOP_REGISTRATION_HEADING');//$this->escape($this->params->get('page_title')); ?>
+			<?php echo JText::_('COM_REDSHOP_REGISTRATION_HEADING'); ?>
 		</h1>
 	<?php
 	}
 }    ?>
 
 <div><span
-		id="customer_registrationintro" <?php echo $showCustomerdesc;?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_INTROTEXT'); ?></span><span
-		id="company_registrationintro" <?php echo $showCompanydesc;?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_COMPANY_INTROTEXT'); ?></span>
+		id="customer_registrationintro" <?php echo $showCustomerdesc;
+		?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_INTROTEXT'); ?></span><span
+		id="company_registrationintro" <?php echo $showCompanydesc;
+		?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_COMPANY_INTROTEXT'); ?></span>
 </div>
 <table cellpadding="5" cellspacing="0" border="0">
 	<tr>
 		<td><span <?php echo $allowCustomer;?>><h4>
 					<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>account/personal-icon.jpg" align="absmiddle">
 					<input type="radio" onclick="showCompanyOrCustomer(this);" name="togglerchecker" id="toggler1"
-					       class="toggler" <?php if ($is_company == 0)
-					{ ?>checked="checked" <?php    }?> value="0"/>
+					       class="toggler" <?php
+							if ($is_company == 0)
+							{
+							?>checked="checked" <?php
+							}
+							?> value="0"/>
 					<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?></h4></span></td>
 		<td><span <?php echo $allowCompany;?>><h4>
 					<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>account/business-icon.jpg" align="absmiddle">
 					<input type="radio" onclick="showCompanyOrCustomer(this);" name="togglerchecker" id="toggler2"
-					       class="toggler" <?php if ($is_company == 1)
-					{ ?>checked="checked" <?php    }?> value="1"/>
+					       class="toggler" <?php
+							if ($is_company == 1)
+							{
+							?>checked="checked" <?php
+							}
+							?> value="1"/>
 					<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?></h4></span></td>
 	</tr>
 </table>
@@ -94,7 +107,8 @@ if ($this->params->get('show_page_heading', 1))
 				</td>
 			</tr>
 
-			<?php if (SHOW_CAPTCHA)
+			<?php
+			if (SHOW_CAPTCHA)
 			{
 				?>
 				<tr>
@@ -108,13 +122,16 @@ if ($this->params->get('show_page_heading', 1))
 				</tr>
 			<?php
 			}
+
 			if (SHOW_TERMS_AND_CONDITIONS == 1)
 			{
 				?>
 				<tr>
 					<td><?php echo $rsCarthelper->replaceTermsConditions("{terms_and_conditions}");?></td>
 				</tr>
-			<?php }    ?>
+			<?php
+			}
+			?>
 			<tr>
 				<td><input type="submit" class="button" name="submit"
 				           value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/></td>

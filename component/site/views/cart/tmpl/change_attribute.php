@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 
-$producthelper = new producthelper ();
-$carthelper    = new rsCarthelper ();
-$redTemplate   = new Redtemplate ();
+$producthelper = new producthelper;
+$carthelper    = new rsCarthelper;
+$redTemplate   = new Redtemplate;
 
 $cart       = $this->cart;
 $idx        = $cart ['idx'];
@@ -26,9 +26,9 @@ $product_id = JRequest::getInt('pid');
 $option     = JRequest::getVar('option');
 $model      = $this->getModel('cart');
 
-$session  = & JFactory::getSession();
+$session  = JFactory::getSession();
 $user     = JFactory::getUser();
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 ?>
@@ -41,21 +41,25 @@ JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 			calculateTotalPrice(<?php echo $product_id;?>, 0);
 			var requiedAttribute = document.getElementById('requiedAttribute').value;
 			var requiedProperty = document.getElementById('requiedProperty').value;
+
 			if (requiedAttribute != 0 && requiedAttribute != "") {
 				alert(requiedAttribute);
 				return false;
 			}
-			else if (requiedProperty != 0 && requiedProperty != "") {
+			else if (requiedProperty != 0 && requiedProperty != "")
+			{
 				alert(requiedProperty);
 				return false;
 			}
-			else {
+			else
+			{
 				document.frmchngAttribute.submit();
 			}
 		}
 	</script>
 <?php
 $cart_attribute = $redTemplate->getTemplate("change_cart_attribute");
+
 if (count($cart_attribute) > 0 && $cart_attribute[0]->template_desc)
 {
 	$template_desc = $cart_attribute[0]->template_desc;
@@ -66,8 +70,10 @@ else
 }
 
 $product = $producthelper->getProductById($product_id);
-// checking for child products
+
+// Checking for child products
 $childproduct = $producthelper->getChildProduct($product_id);
+
 if (count($childproduct) > 0)
 {
 	$isChilds = true;
@@ -76,7 +82,8 @@ else
 {
 	$isChilds = false;
 }
-/////////////////////////////////// Product attribute  Start /////////////////////////////////
+
+// Product attribute  Start
 if ($isChilds)
 {
 	$attributes = array();
@@ -85,10 +92,12 @@ if ($isChilds)
 else
 {
 	$attributes_set = array();
+
 	if ($product->attribute_set_id > 0)
 	{
 		$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 	}
+
 	$bool                              = (INDIVIDUAL_ADD_TO_CART_ENABLE) ? false : true;
 	$attribute_template                = $producthelper->getAttributeTemplate($template_desc, $bool);
 	$attribute_template->template_desc = str_replace("{property_image_scroller}", "", $attribute_template->template_desc);
@@ -98,9 +107,11 @@ else
 
 	$selectAtt = $carthelper->getSelectedCartAttributeArray($cart[$cart_index]['cart_attribute']);
 }
+
 $totalatt      = count($attributes);
 $template_desc = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds, $selectAtt, 0);
-/////////////////////////////////// Product attribute  End /////////////////////////////////
+
+// Product attribute  End
 
 $stockaddtocart = "stockaddtocartprd_" . $product_id;
 $pdaddtocart    = "pdaddtocartprd_" . $product_id;
@@ -119,6 +130,7 @@ $template_desc = str_replace("{cancel_button}", $cancelbutton, $template_desc);
 
 
 $template_desc = '<form name="frmchngAttribute" id="frmchngAttribute" method="post">' . $template_desc . '</form>';
+
 if ($totalatt > 0)
 {
 	$template_desc = $redTemplate->parseredSHOPplugin($template_desc);

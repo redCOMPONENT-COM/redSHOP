@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -20,14 +20,14 @@ class split_paymentViewsplit_payment extends JView
 		$params = & $mainframe->getParams('com_redshop');
 
 		$pathway  = & $mainframe->getPathway();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$pathway->addItem(JText::_('COM_REDSHOP_SPLIT_PAYMENT'), '');
 
 		$userdata = JRequest::getVar('userdata');
 		$user     = JFactory::getUser();
 
-		// preform security checks
+		// Preform security checks
 		if ($user->id == 0)
 		{
 			echo JText::_('COM_REDSHOP_ALERTNOTAUTH_ACCOUNT');

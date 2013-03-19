@@ -19,9 +19,9 @@ class product_miniViewproduct_mini extends JView
 	{
 		global $mainframe, $context;
 
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 
 		$uri = JFactory::getURI();
@@ -35,7 +35,7 @@ class product_miniViewproduct_mini extends JView
 		$keyword      = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 
-		$product_category = new product_category();
+		$product_category = new product_category;
 		$categories       = $product_category->getCategoryListArray();
 
 		$temps                   = array();
@@ -43,7 +43,6 @@ class product_miniViewproduct_mini extends JView
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
 		$categories              = @array_merge($temps, $categories);
 
-		//	echo $lists['categories'] =$categories;
 		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id', 'class="inputbox" onchange="document.adminForm2.submit();"      ', 'category_id', 'category_name', $category_id);
 
 		$lists['order']     = $filter_order;
@@ -52,8 +51,6 @@ class product_miniViewproduct_mini extends JView
 		$products           = & $this->get('Data');
 
 		$pagination = & $this->get('Pagination');
-		//$pagination = new JPagination( $total, $limitstart, $limit);
-
 
 		$this->assignRef('keyword', $keyword);
 		$this->assignRef('search_field', $search_field);

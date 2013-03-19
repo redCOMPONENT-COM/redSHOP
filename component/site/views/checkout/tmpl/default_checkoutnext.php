@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 ?>
 <script type="text/javascript">
@@ -16,6 +16,7 @@ defined('_JEXEC') or die ('restricted access');
 		document.getElementById(val).disabled = true;
 		var op = document.getElementById(val);
 		op.setAttribute("style", "opacity:0.3;");
+
 		if (op.style.setAttribute) //For IE
 		{
 			op.style.setAttribute("filter", "alpha(opacity=30);");
@@ -28,32 +29,35 @@ $user = JFactory::getUser();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 
-$carthelper = new rsCarthelper();
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
-$redTemplate = new Redtemplate();
+$carthelper = new rsCarthelper;
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
+$redTemplate = new Redtemplate;
 $dispatcher =& JDispatcher::getInstance();
 
-$user = & JFactory::getUser();
-$session = & JFactory::getSession();
+$user = JFactory::getUser();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 $user_id = $user->id;
-// get redshop helper
+
+// Get redshop helper
 
 $Itemid = $redhelper->getCheckoutItemid();
+
 if ($Itemid == 0)
 {
 	$Itemid = JRequest::getVar('Itemid');
 }
+
 $ccinfo = JRequest::getVar('ccinfo');
 $print = JRequest::getVar('print');
 $option = JRequest::getVar('option');
@@ -65,9 +69,11 @@ $model = $this->getModel('checkout');
 $is_creditcard = $this->is_creditcard;
 
 $cart_data = "";
+
 if (USE_AS_CATALOG)
 {
 	$carttempdata = $redTemplate->getTemplate("catalogue_cart");
+
 	if ($carttempdata[0]->template_desc != "")
 	{
 		$cart_data = $carttempdata[0]->template_desc;
@@ -76,6 +82,7 @@ if (USE_AS_CATALOG)
 else
 {
 	$carttempdata = $redTemplate->getTemplate("checkout");
+
 	if ($carttempdata[0]->template_desc != "")
 	{
 		$cart_data = $carttempdata[0]->template_desc;
@@ -91,7 +98,8 @@ else
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
-# End
+
+// End
 ?>
 <hr/>
 <table width="100%" class="checkout-bar" border="0" cellspacing="2" cellpadding="2">
@@ -131,11 +139,11 @@ elseif ($cart_data != "")
 		$print_url = $url . "index.php?option=com_redshop&view=checkout&task=checkoutnext&print=1&tmpl=component&Itemid=" . $Itemid;
 		$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 	}
+
 	$print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 	$print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 	$print_tag .= "</a>";
 
-//	$cart_data=str_replace("{print}", '', $cart_data );//$cart_data=str_replace("{print}", $print_tag, $cart_data );
 	$cart_data = str_replace("{without_vat}", '', $cart_data);
 	$cart_data = str_replace("{with_vat}", '', $cart_data);
 	$cart_data = $model->displayShoppingCart($cart_data, $this->users_info_id, $this->shipping_rate_id, $this->payment_method_id, $Itemid, '', '', '', '', '', $shop_id);
@@ -154,13 +162,15 @@ $session->set('cart',$cart);*/
 	function chkvalidaion() {
 		<?php
 			if( MINIMUM_ORDER_TOTAL > 0 && $cart['total'] < MINIMUM_ORDER_TOTAL)
-			{	?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN'). ' ' . MINIMUM_ORDER_TOTAL . '';?>");
+			{
+			?>
+		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . MINIMUM_ORDER_TOTAL . '';?>");
 		return false;
 		<?php
 			}	?>
 		if (document.getElementById('termscondition')) {
 			var termscondition = document.getElementById('termscondition').checked;
+
 			if (!termscondition) {
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
 				return false;

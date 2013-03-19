@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
 
 class quotation_detailViewquotation_detail extends JView
 {
@@ -18,9 +18,10 @@ function display ($tpl = null)
 {
 	global $mainframe;
 
-	$quotationHelper = new quotationHelper();
+	$quotationHelper = new quotationHelper;
 
 	$print = JRequest::getVar('print');
+
 if ($print)
 {
 	?>
@@ -30,11 +31,6 @@ if ($print)
 <?php
 }
 
-//   	$params = &$mainframe->getParams('com_redshop');
-//   	$pathway = &$mainframe->getPathway();
-//		$document = &JFactory::getDocument();
-
-//   	$pathway->addItem(JText::_('COM_REDSHOP_ORDER_DETAILS'),'');
 	$user   = JFactory::getUser();
 	$option = JRequest::getVar('option');
 	$Itemid = JRequest::getVar('Itemid');
@@ -46,6 +42,7 @@ if ($print)
 	{
 		$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
 	}
+
 	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
 
 	if (count($quotationDetail) < 1)
@@ -55,12 +52,14 @@ if ($print)
 
 		return;
 	}
+
 	if (!$user->id)
 	{
 		if (isset($encr))
 		{
 			$model         = $this->getModel('quotation_detail');
 			$authorization = $model->checkAuthorization($quoid, $encr);
+
 			if (!$authorization)
 			{
 				JError::raiseWarning(404, JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE'));
@@ -86,7 +85,6 @@ if ($print)
 			return;
 		}
 	}
-//		$this->assignRef('params',$params);
 
 	parent::display($tpl);
 }

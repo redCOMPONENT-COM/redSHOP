@@ -7,15 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 $url       = JURI::base();
 $pagetitle = JText::_('COM_REDSHOP_WELCOME_TO_REDDESIGN');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-$producthelper   = new producthelper();
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+$producthelper   = new producthelper;
 $Itemid          = JRequest::getVar('Itemid');
-$redhelper       = new redhelper();
+$redhelper       = new redhelper;
 $Itemid          = $redhelper->getCartItemid($Itemid);
 $image_path      = $url . "components" . DS . "com_reddesign" . DS . "assets" . DS . "images" . DS . "designtype" . DS;
 $default_imageId = $this->image_id;
@@ -90,6 +90,7 @@ $default_imageId = $this->image_id;
 		rDesign("#tdAlign button").removeClass("selected");
 		rDesign("#" + btnid).addClass("selected");
 		rDesign("#hdnAlign").val(align);
+
 		if (rDesign("#hdnActive").val())
 			sendRequest(rDesign("#hdnActive").val());
 	}
@@ -123,6 +124,7 @@ $default_imageId = $this->image_id;
 		opt += "&id=" + imageId;
 		opt += "&task=loadimage";
 		opt += hdnurl;
+
 		//opt += "&posleft="+rDesign("#hdnposleft").val()+"&postop="+rDesign("#hdnpostop").val();
 
 		alink = site_url + "index.php?tmpl=component&" + opt;
@@ -130,6 +132,7 @@ $default_imageId = $this->image_id;
 		/*if(rDesign("#txtArea_"+id).val()!="")
 		 {*/
 		rDesign("#idimg").attr("src", alink);
+
 		//}
 	}
 	function saveDesign() {
@@ -137,6 +140,7 @@ $default_imageId = $this->image_id;
 		rDesign(".tdDesign input:hidden").each(function () {
 			hdnflag += rDesign(this).val();
 		});
+
 		if (hdnflag == "") {
 			rDesign.ajax({
 				url: site_url + "index.php?tmpl=component&option=com_reddesign&view=getdesign&tmpl=component&task=blankpdf&id=" + imageId,
@@ -165,6 +169,7 @@ $default_imageId = $this->image_id;
 					rDesign('#hdnargs').val(hdnargs);
 					rDesign('#image_id').val(imageId);
 					rDesign('#reddesignfile').val(html);
+
 					//
 					rDesign.ajax({
 						url: alink + '&saveimage=1&no_html=1&format=pdf',
@@ -177,7 +182,9 @@ $default_imageId = $this->image_id;
 				}
 				else {
 					var area_name = rDesign.trim(rDesign("#hdnAreaName_" + html).val());
-					alert("<?php echo JText::_('COM_REDSHOP_DESIGN_AREA')." "; ?>" + area_name + "<?php echo " ".JText::_('COM_REDSHOP_EXCEEDS_THE_DESIGN_AREA');?>" + ".\n" + "<?php echo JText::_('COM_REDSHOP_PLEASE_CORRECT_THIS');?>");
+					alert("<?php echo JText::_('COM_REDSHOP_DESIGN_AREA') . " ";
+					?>" + area_name + "<?php echo " " . JText::_('COM_REDSHOP_EXCEEDS_THE_DESIGN_AREA');
+					?>" + ".\n" + "<?php echo JText::_('COM_REDSHOP_PLEASE_CORRECT_THIS');?>");
 				}
 			}
 		});
@@ -209,6 +216,7 @@ $default_imageId = $this->image_id;
 				rDesign("div.colorcode").each(function () {
 					rDesign(this).css("border-color", "#CCCCCC");
 					rDesign(this).removeAttr("id");
+
 					if (rDesign(this).css("background-color") == decodeURIComponent(getOpt[2])) {
 						rDesign(this).css("border-color", "#000000");
 						rDesign(this).attr("id", "activecolor");
@@ -233,6 +241,7 @@ $default_imageId = $this->image_id;
 			rDesign("div.colorcode").each(function () {
 				rDesign(this).css("border-color", "#CCCCCC");
 				rDesign(this).removeAttr("id");
+
 				if (rDesign(this).css("background-color") == decodeURIComponent(getOpt[2])) {
 					rDesign(this).css("border-color", "#000000");
 					rDesign(this).attr("id", "activecolor");
@@ -240,6 +249,7 @@ $default_imageId = $this->image_id;
 			});
 			rDesign("div.allcolorcode").css("background-color", decodeURIComponent(getOpt[2]));
 			rDesign("#tdAlign button").removeClass("selected");
+
 			if (getOpt[5] == 1)
 				rDesign("#btnLeft").addClass("selected");
 			else if (getOpt[5] == 2)
@@ -261,6 +271,7 @@ $default_imageId = $this->image_id;
 			rDesign.getJSON(url, {num: Math.random()},
 				function (data) {
 					rDesign("#tdAlign button").removeClass("selected");
+
 					if (data == 3)
 						rDesign("#btnRight").addClass("selected");
 					else if (data == 2)
@@ -279,7 +290,8 @@ $default_imageId = $this->image_id;
 </h1>
 -->
 	<div id="divDesignarea" style="display:none"></div>
-<?php if ($this->designtype_detail->reddesign_autotemplate)
+<?php
+if ($this->designtype_detail->reddesign_autotemplate)
 {
 	?>
 	<form name="addtocart0" action="" id="addtocartdesign" method="post">
@@ -364,7 +376,7 @@ else
 		$data_add = str_replace("{font_align}", '<div id="divDesignFontAlign"></div>', $data_add);
 		$data_add = str_replace("{design_quantity_label}", JText::_('COM_REDSHOP_DESIGN_QUANTITY'), $data_add);
 		$data_add = str_replace("{design_quantity}", '<input name="quantity" id="quantity1" value="1" type="text" size="2" >', $data_add);
-		//	echo $data_add;
+
 		echo eval("?>" . $data_add . "<?php ");
 		?>
 		<input value="<?php echo $Itemid; ?>" name="Itemid" type="hidden">
@@ -380,4 +392,5 @@ else
 		<input name="product_price" value="<?php echo $this->product_detail->product_price; ?>" type="hidden">
 
 	</form>
-<?php }
+<?php
+}
