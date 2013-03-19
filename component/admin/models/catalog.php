@@ -18,7 +18,7 @@ class catalogModelcatalog extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -32,7 +32,7 @@ class catalogModelcatalog extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -42,7 +42,7 @@ class catalogModelcatalog extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -52,7 +52,7 @@ class catalogModelcatalog extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -63,14 +63,15 @@ class catalogModelcatalog extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$query = 'SELECT  distinct(c.catalog_id),c.* FROM ' . $this->_table_prefix . 'catalog c ' . $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 		$layout = JRequest::getVar('layout', 'default');
@@ -83,10 +84,11 @@ class catalogModelcatalog extends JModel
 		return $orderby;
 	}
 
-	function MediaDetail($pid)
+	public function MediaDetail($pid)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE section_id =' . $pid . ' AND media_section = "catalog"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 }

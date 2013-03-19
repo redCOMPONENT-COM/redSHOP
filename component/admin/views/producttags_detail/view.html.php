@@ -6,15 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class producttags_detailVIEWproducttags_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL'), 'redshop_textlibrary48');
 
 		$uri =& JFactory::getURI();
@@ -39,7 +39,6 @@ class producttags_detailVIEWproducttags_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 

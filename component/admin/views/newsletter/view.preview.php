@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -13,12 +14,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class newsletterViewnewsletter extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -29,7 +25,7 @@ class newsletterViewnewsletter extends JView
 		$subscribers = $model->listallsubscribers($n);
 
 		$db = & JFactory::getDBO();
-		$product_category = new product_category();
+		$product_category = new product_category;
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
@@ -68,20 +64,21 @@ class newsletterViewnewsletter extends JView
 
 		$country_value = JRequest::getVar('country', '');
 
-		$lists['country'] = JHTML::_('select.genericlist', $country_data, 'country[]', 'class="inputbox" multiple="multiple" size="4" ', 'value', 'text', $country_value);
+		$lists['country'] = JHTML::_('select.genericlist', $country_data, 'country[]',
+			'class="inputbox" multiple="multiple" size="4" ', 'value', 'text', $country_value
+		);
 
-
-		//$productcats = $model->getproductcats();
 		$categories = array();
 
 		$categories = $product_category->list_all("product_category[]", 0, '', 10, true, true);
 		$lists['categories'] = $categories;
 
-
 		$product_data = array();
 		$product_data = $model->getProduct();
 
-		$lists['product'] = JHTML::_('select.genericlist', $product_data, 'product[]', 'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $selected_product);
+		$lists['product'] = JHTML::_('select.genericlist', $product_data, 'product[]',
+			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $selected_product
+		);
 
 		$shopper_option = array();
 		$shopper_option[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
@@ -89,7 +86,9 @@ class newsletterViewnewsletter extends JView
 		$ShopperGrup = $model->getShopperGroup();
 		$ShopperGroups = array_merge($shopper_option, $ShopperGrup);
 
-		$lists['shoppergroups'] = JHTML::_('select.genericlist', $ShopperGroups, 'shoppergroups[]', 'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $shoppergroup);
+		$lists['shoppergroups'] = JHTML::_('select.genericlist', $ShopperGroups, 'shoppergroups[]',
+			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $shoppergroup
+		);
 
 		$this->assignRef('subscribers', $subscribers);
 		$this->assignRef('lists', $lists);
@@ -98,8 +97,7 @@ class newsletterViewnewsletter extends JView
 		$this->assignRef('request_url', $uri->toString());
 
 		$this->setLayout('preview');
+
 		parent::display($tpl);
 	}
 }
-
-?>

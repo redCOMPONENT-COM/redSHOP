@@ -6,22 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
 
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+
 class product_categoryViewproduct_category extends JView
 {
+	public $_product = array();
 
-	var $_product = array();
-
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -31,16 +26,21 @@ class product_categoryViewproduct_category extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
 
 		if ($task == 'assignCategory')
-			JToolBarHelper::custom('saveProduct_Category', 'save.png', 'save_f2.png', JText :: _('COM_REDSHOP_ASSIGN_CATEGORY'), false);
+		{
+			JToolBarHelper::custom('saveProduct_Category', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), false);
+		}
+
 		else
-			JToolBarHelper::custom('removeProduct_Category', 'delete.png', 'delete.png', JText :: _('COM_REDSHOP_REMOVE_CATEGORY'), false);
+		{
+			JToolBarHelper::custom('removeProduct_Category', 'delete.png', 'delete.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), false);
+		}
 
 		JToolBarHelper::back();
 
 		$model = $this->getModel("product_category");
 		$products = $model->getProductlist();
 
-		$product_category = new product_category();
+		$product_category = new product_category;
 		$categories = $product_category->getCategoryListArray();
 
 		$temps = array();
@@ -48,12 +48,13 @@ class product_categoryViewproduct_category extends JView
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
 		$categories = @array_merge($temps, $categories);
 
-		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id[]', 'class="inputbox" multiple="multiple"', 'category_id', 'category_name');
+		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id[]',
+			'class="inputbox" multiple="multiple"', 'category_id', 'category_name'
+		);
 
 		$this->assignRef('products', $products);
 		$this->assignRef('lists', $lists);
+
 		parent::display($tpl);
 	}
 }
-
-?>

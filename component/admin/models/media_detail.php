@@ -19,7 +19,7 @@ class media_detailModelmedia_detail extends JModel
 	public $_mediadata = null;
 	public $_mediatypedata = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
@@ -27,13 +27,13 @@ class media_detailModelmedia_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -44,7 +44,7 @@ class media_detailModelmedia_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -53,16 +53,17 @@ class media_detailModelmedia_detail extends JModel
 				. 'order by section_id';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->media_id = 0;
 			$detail->media_title = null;
 			$detail->media_type = null;
@@ -72,28 +73,32 @@ class media_detailModelmedia_detail extends JModel
 			$detail->section_id = null;
 			$detail->published = 1;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -125,9 +130,11 @@ class media_detailModelmedia_detail extends JModel
 				}
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
 				$this->_db->setQuery($query);
+
 				if (!$this->_db->query())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
@@ -135,7 +142,7 @@ class media_detailModelmedia_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -145,16 +152,18 @@ class media_detailModelmedia_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE media_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function getSection($id, $type)
+	public function getSection($id, $type)
 	{
 		if ($type == 'product')
 		{
@@ -165,10 +174,11 @@ class media_detailModelmedia_detail extends JModel
 			$query = 'SELECT category_name as name,category_id as id FROM ' . $this->_table_prefix . 'category  WHERE category_id = "' . $id . '" ';
 		}
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObject();
 	}
 
-	function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
+	public function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
 	{
 		if ($media_id && $media_section)
 		{
@@ -179,6 +189,7 @@ class media_detailModelmedia_detail extends JModel
 				. "AND `media_type` = 'images' ";
 			$this->_db->setQuery($query);
 			$rs = $this->_db->loadObject();
+
 			if (count($rs) > 0)
 			{
 				switch ($media_section)
@@ -188,9 +199,11 @@ class media_detailModelmedia_detail extends JModel
 							. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
 							. "WHERE `product_id`='" . $section_id . "' ";
 						$this->_db->setQuery($query);
+
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
@@ -199,9 +212,11 @@ class media_detailModelmedia_detail extends JModel
 							. "SET `property_main_image` = '" . $rs->media_name . "' "
 							. "WHERE `property_id`='" . $section_id . "' ";
 						$this->_db->setQuery($query);
+
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
@@ -210,9 +225,11 @@ class media_detailModelmedia_detail extends JModel
 							. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
 							. "WHERE `subattribute_color_id`='" . $section_id . "' ";
 						$this->_db->setQuery($query);
+
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
@@ -222,7 +239,7 @@ class media_detailModelmedia_detail extends JModel
 		return true;
 	}
 
-	function saveorder($cid = array(), $order)
+	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable();
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
@@ -239,9 +256,11 @@ class media_detailModelmedia_detail extends JModel
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 				// remember to updateOrder this group
@@ -265,25 +284,27 @@ class media_detailModelmedia_detail extends JModel
 		}
 	}
 
-	function orderup()
+	public function orderup()
 	{
 		$row =& $this->getTable();
 		$row->load($this->_id);
 		//$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
 		$row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
+
 		return true;
 	}
 
-	function orderdown()
+	public function orderdown()
 	{
 		$row =& $this->getTable();
 		$row->load($this->_id);
 		//$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
 		$row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
+
 		return true;
 	}
 }
 
-?>
+

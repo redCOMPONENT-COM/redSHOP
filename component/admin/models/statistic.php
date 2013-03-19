@@ -27,7 +27,7 @@ class statisticModelstatistic extends JModel
 	public $_siteviewer = 0;
 	public $_pageviewer = 0;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -36,13 +36,14 @@ class statisticModelstatistic extends JModel
 		$this->_startdate = strtotime(JRequest::getVar('startdate'));
 		$this->_enddate = strtotime(JRequest::getVar('enddate'));
 		$this->_filteroption = JRequest::getVar('filteroption');
+
 		if ($this->_filteroption == "" && JRequest::getVar('view') == "")
 		{
 			$this->_filteroption = 3;
 		}
 	}
 
-	function getMostPopular()
+	public function getMostPopular()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -91,7 +92,7 @@ class statisticModelstatistic extends JModel
 		return $this->_mostpopular;
 	}
 
-	function getBestSellers()
+	public function getBestSellers()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -111,6 +112,7 @@ class statisticModelstatistic extends JModel
 		$query1 = ' GROUP BY oi.product_id '
 			. 'ORDER BY totalproduct desc ';
 		$this->_bestsallers = $this->_getList($query . $query1);
+
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
 		{
 			while ($mindate < strtotime($today))
@@ -139,7 +141,7 @@ class statisticModelstatistic extends JModel
 		return $this->_bestsallers;
 	}
 
-	function getNewProducts()
+	public function getNewProducts()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -155,6 +157,7 @@ class statisticModelstatistic extends JModel
 			. 'FROM ' . $this->_table_prefix . 'product ';
 		$query1 = ' ORDER BY publish_date desc ';
 		$this->_newproducts = $this->_getList($query . $query1);
+
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
 		{
 			while (strtotime($mindate) < strtotime($today))
@@ -183,7 +186,7 @@ class statisticModelstatistic extends JModel
 		return $this->_newproducts;
 	}
 
-	function getNewOrders()
+	public function getNewOrders()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -201,6 +204,7 @@ class statisticModelstatistic extends JModel
 			. 'AND address_type LIKE "BT" ';
 		$query1 = ' ORDER BY cdate desc ';
 		$this->_neworders = $this->_getList($query . $query1);
+
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
 		{
 			while ($mindate < strtotime($today))
@@ -229,7 +233,7 @@ class statisticModelstatistic extends JModel
 		return $this->_neworders;
 	}
 
-	function getTotalTurnover()
+	public function getTotalTurnover()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -282,7 +286,7 @@ class statisticModelstatistic extends JModel
 		return $this->_turnover;
 	}
 
-	function getAvgOrderAmount()
+	public function getAvgOrderAmount()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -311,6 +315,7 @@ class statisticModelstatistic extends JModel
 					. $quesry1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				if (count($rs) > 0 && $rs[0]->avg_order > 0)
 				{
 					if ($this->_filteroption == 2)
@@ -329,7 +334,7 @@ class statisticModelstatistic extends JModel
 		return $this->_amountprice;
 	}
 
-	function getAmountPrice()
+	public function getAmountPrice()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -378,7 +383,7 @@ class statisticModelstatistic extends JModel
 		return $this->_amountprice;
 	}
 
-	function getAmountSpentInTotal()
+	public function getAmountSpentInTotal()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -427,7 +432,7 @@ class statisticModelstatistic extends JModel
 		return $this->_amountprice;
 	}
 
-	function getAmountOrder()
+	public function getAmountOrder()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -478,7 +483,7 @@ class statisticModelstatistic extends JModel
 		return $this->_amountorder;
 	}
 
-	function getPageViewer()
+	public function getPageViewer()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -526,7 +531,7 @@ class statisticModelstatistic extends JModel
 		return $this->_pageviewer;
 	}
 
-	function getRedshopViewer()
+	public function getRedshopViewer()
 	{
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
@@ -573,7 +578,7 @@ class statisticModelstatistic extends JModel
 		return $this->siteviewer;
 	}
 
-	function getNextInterval($today)
+	public function getNextInterval($today)
 	{
 		$list = array();
 		switch ($this->_filteroption)
@@ -603,7 +608,7 @@ class statisticModelstatistic extends JModel
 		return $list;
 	}
 
-	function getStartDate()
+	public function getStartDate()
 	{
 		$return = "";
 		switch ($this->_filteroption)
@@ -636,7 +641,7 @@ class statisticModelstatistic extends JModel
 		return $return;
 	}
 
-	function getDateFormate()
+	public function getDateFormate()
 	{
 		$return = "";
 		switch ($this->_filteroption)
@@ -660,7 +665,7 @@ class statisticModelstatistic extends JModel
 		return $return;
 	}
 
-	function getSectionDetail($section, $sectionid)
+	public function getSectionDetail($section, $sectionid)
 	{
 		$return = array();
 		switch ($section)

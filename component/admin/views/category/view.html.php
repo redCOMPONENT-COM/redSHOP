@@ -9,32 +9,24 @@
 
 defined('_JEXEC') or die;
 
-
+jimport('joomla.html.pagination');
 jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+
 class categoryViewcategory extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
 		$context = 'category_id';
-		// redshop template object
-		$redTemplate = new Redtemplate();
 
-		$product_category = new product_category();
+		$redTemplate = new Redtemplate;
+		$product_category = new product_category;
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CATEGORY'));
-		jimport('joomla.html.pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
@@ -51,7 +43,6 @@ class categoryViewcategory extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		// $categories	= & $this->get( 'Data');
 		$GLOBALS['catlist'] = array();
 		$catid = JRequest::getVar('category_id', 0, '');
 		$categories = & $this->get('Data');
@@ -62,7 +53,7 @@ class categoryViewcategory extends JView
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$category_id = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 		$category_name = $mainframe->getUserStateFromRequest($context . 'category_name', 'category_name', 0);
-		$category = new product_category();
+		$category = new product_category;
 		$categories_parent = $category->getParentCategories();
 
 		$temps = array();
@@ -70,8 +61,10 @@ class categoryViewcategory extends JView
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
 		$categories_parent = @array_merge($temps, $categories_parent);
 
-		$lists['category'] = JHTML::_('select.genericlist', $categories_parent, 'category_id', 'class="inputbox" onchange="document.adminForm.submit();"      ', 'category_id', 'category_name', $category_id);
-
+		$lists['category'] = JHTML::_('select.genericlist', $categories_parent, 'category_id',
+			'class="inputbox" onchange="document.adminForm.submit();"      ',
+			'category_id', 'category_name', $category_id
+		);
 
 		/*
 	    * assign template
@@ -82,10 +75,10 @@ class categoryViewcategory extends JView
 		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
 		$templates = @array_merge($temps, $templates);
 
-		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0);
-
-		// End
-
+		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template',
+			'class="inputbox" size="1"  onchange="return AssignTemplate()" ',
+			'template_id', 'template_name', 0
+		);
 
 		$this->assignRef('category_main_filter', $category_main_filter);
 		$this->assignRef('user', JFactory::getUser());
@@ -93,6 +86,7 @@ class categoryViewcategory extends JView
 		$this->assignRef('categories', $categories);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

@@ -17,7 +17,7 @@ class container_detailModelcontainer_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -29,13 +29,13 @@ class container_detailModelcontainer_detail extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -46,24 +46,25 @@ class container_detailModelcontainer_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'container WHERE container_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->container_id = 0;
 			$detail->container_name = null;
 			$detail->container_desc = null;
@@ -76,12 +77,13 @@ class container_detailModelcontainer_detail extends JModel
 			$detail->supplier_id = null;
 			$detail->creation_date = null;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function cancel()
+	public function cancel()
 	{
 
 		$sql = "DELETE FROM  " . $this->_table_prefix . "container_product_xref   where container_id= 0";
@@ -89,18 +91,20 @@ class container_detailModelcontainer_detail extends JModel
 		$this->_db->query();
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -110,6 +114,7 @@ class container_detailModelcontainer_detail extends JModel
 		$sql = "delete from " . $this->_table_prefix . "container_product_xref where container_id='" . $container_id . "' ";
 		$this->_db->setQuery($sql);
 		$this->_db->query();
+
 		if (isset($data["container_product_2"]))
 			$container_product = $data["container_product_2"];
 		else $container_product = array();
@@ -123,6 +128,7 @@ class container_detailModelcontainer_detail extends JModel
 
 				$sql = "insert into " . $this->_table_prefix . "container_product_xref (container_id,product_id,quantity) value ('" . $container_id . "','" . $cp . "','" . $data["quantity3"][$h] . "')";
 				$this->_db->setQuery($sql);
+
 				if (!$this->_db->query())
 				{
 					$sql = "update " . $this->_table_prefix . "container_product_xref  set  quantity=quantity+'" . $data["quantity3"][$h] . "'  where container_id='" . $container_id . "' and product_id='" . $cp . "' ";
@@ -166,7 +172,7 @@ class container_detailModelcontainer_detail extends JModel
 		return $row;
 	}
 
-	function saveanddisplay($data)
+	public function saveanddisplay($data)
 	{
 
 		$container_id = $data['container_id'];
@@ -219,7 +225,7 @@ class container_detailModelcontainer_detail extends JModel
 
 	}
 
-	function deleteProduct($data)
+	public function deleteProduct($data)
 	{
 
 		$container_id = $data['container_id'];
@@ -233,7 +239,7 @@ class container_detailModelcontainer_detail extends JModel
 
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -241,16 +247,20 @@ class container_detailModelcontainer_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'container WHERE container_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 			$query_stockroom = 'DELETE FROM ' . $this->_table_prefix . 'stockroom_container_xref WHERE container_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_stockroom);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -258,7 +268,7 @@ class container_detailModelcontainer_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -268,9 +278,11 @@ class container_detailModelcontainer_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE container_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -278,25 +290,27 @@ class container_detailModelcontainer_detail extends JModel
 		return true;
 	}
 
-	function Container_Product_Data($container_id)
+	public function Container_Product_Data($container_id)
 	{
 
 		$query = "SELECT cp.product_id,cp.quantity,p.product_name,p.product_volume,cp.container_id FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "container_product_xref as cp  WHERE cp.container_id=$container_id and cp.product_id=p.product_id ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
+
 		return $this->_productdata;
 	}
 
-	function Container_newProduct($conid)
+	public function Container_newProduct($conid)
 	{
 		$conid = implode(",", $conid);
 		$query = "SELECT  op.order_item_id, op.product_id,p.product_name,p.product_volume,op.product_quantity as quantity,p.supplier_id FROM " . $this->_table_prefix . "product as p, " . $this->_table_prefix . "order_item as op WHERE   op.product_id = p.product_id  and op.order_item_id in ($conid)  ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
+
 		return $this->_productdata;
 	}
 
-	function stockroom_Data($id)
+	public function stockroom_Data($id)
 	{
 		if ($id == 0)
 		{
@@ -307,22 +321,25 @@ class container_detailModelcontainer_detail extends JModel
 			$query = "SELECT stockroom_id as value, stockroom_name as text FROM " . $this->_table_prefix . "stockroom where stockroom_id =" . $id;
 		}
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
-	function getmanufacturers()
+	public function getmanufacturers()
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
-	function getsupplier()
+	public function getsupplier()
 	{
 		$query = 'SELECT supplier_id as value,supplier_name as text FROM ' . $this->_table_prefix . 'supplier ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 }
 
-?>
+

@@ -6,21 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class zipcode_detailVIEWzipcode_detail extends JView
 {
-	function __construct($config = array())
+	public function display($tpl = null)
 	{
-		parent::__construct($config);
-
-	}
-
-	function display($tpl = null)
-	{
-		$Redconfiguration = new Redconfiguration();
+		$Redconfiguration = new Redconfiguration;
 		$uri =& JFactory::getURI();
 		$lists = array();
 		$detail =& $this->get('data');
@@ -37,7 +32,6 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 		$countryarray = $Redconfiguration->getCountryList((array) $detail);

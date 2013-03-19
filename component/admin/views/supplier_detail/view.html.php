@@ -6,16 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
 
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class supplier_detailVIEWsupplier_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
@@ -35,8 +34,6 @@ class supplier_detailVIEWsupplier_detail extends JView
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');
-
-
 		JToolBarHelper::save();
 
 		if ($isNew)
@@ -45,10 +42,8 @@ class supplier_detailVIEWsupplier_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
-
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
@@ -58,5 +53,4 @@ class supplier_detailVIEWsupplier_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }

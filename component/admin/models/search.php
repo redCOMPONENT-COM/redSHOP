@@ -24,7 +24,7 @@ class searchModelsearch extends JModel
 	public $_limit = null;
 	public $_iscompany = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -97,27 +97,29 @@ class searchModelsearch extends JModel
 		$this->_products = $products;
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 		//$this->_search	= null;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if ($this->_alert == 'termsarticle')
 		{
 			$this->_data = $this->_buildQuery();
+
 			return $this->_data;
 		}
 		$query = $this->_buildQuery();
 		//return $query;
 		$this->_data = $this->_getList($query);
+
 		return $this->_data;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 
 		//Media secion
@@ -325,6 +327,7 @@ class searchModelsearch extends JModel
 		{
 
 			$and = "";
+
 			if ($this->_product_id != 0)
 			{
 				$query = "SELECT related_id "
@@ -348,6 +351,7 @@ class searchModelsearch extends JModel
 		{
 
 			$and = "";
+
 			if ($this->_product_id != 0)
 			{
 				$and = "AND p.product_id NOT IN (" . $this->_product_id . ") ";
@@ -388,4 +392,4 @@ class searchModelsearch extends JModel
 		return $query;
 	}
 }
-?>
+

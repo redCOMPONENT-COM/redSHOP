@@ -12,12 +12,7 @@ jimport('joomla.application.component.view');
 
 class voucherViewvoucher extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -25,8 +20,6 @@ class voucherViewvoucher extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_VOUCHER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT'), 'redshop_voucher48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
@@ -49,8 +42,7 @@ class voucherViewvoucher extends JView
 		$this->assignRef('vouchers', $vouchers);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>

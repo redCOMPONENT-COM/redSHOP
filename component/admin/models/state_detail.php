@@ -17,7 +17,7 @@ class state_detailModelstate_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -28,13 +28,13 @@ class state_detailModelstate_detail extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -45,24 +45,25 @@ class state_detailModelstate_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'state WHERE state_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 
 			$detail->state_id = 0;
 			$detail->state_name = null;
@@ -78,7 +79,7 @@ class state_detailModelstate_detail extends JModel
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 
 		$row =& $this->getTable('state_detail');
@@ -86,25 +87,28 @@ class state_detailModelstate_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -112,9 +116,11 @@ class state_detailModelstate_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'state WHERE state_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -122,14 +128,15 @@ class state_detailModelstate_detail extends JModel
 		return true;
 	}
 
-	function getcountry()
+	public function getcountry()
 	{
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY 					    	country_name ASC";
 		$this->_db->setQuery($q);
 		$countries = $this->_db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
+
 		return $countries;
 	}
 
@@ -143,7 +150,7 @@ class state_detailModelstate_detail extends JModel
 	 * @return    boolean    True on success
 	 * @since    1.5
 	 */
-	function checkout($uid = null)
+	public function checkout($uid = null)
 	{
 		if ($this->_id)
 		{
@@ -160,6 +167,7 @@ class state_detailModelstate_detail extends JModel
 			if (!$state_detail->checkout($uid, $this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
@@ -175,14 +183,16 @@ class state_detailModelstate_detail extends JModel
 	 * @return    boolean    True on success
 	 * @since    1.5
 	 */
-	function checkin()
+	public function checkin()
 	{
 		if ($this->_id)
 		{
 			$state_detail = & $this->getTable('state_detail');
+
 			if (!$state_detail->checkin($this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -199,7 +209,7 @@ class state_detailModelstate_detail extends JModel
 	 * @return    boolean    True if checked out
 	 * @since    1.5
 	 */
-	function isCheckedOut($uid = 0)
+	public function isCheckedOut($uid = 0)
 	{
 		if ($this->_loadData())
 		{
@@ -216,4 +226,4 @@ class state_detailModelstate_detail extends JModel
 
 }
 
-?>
+

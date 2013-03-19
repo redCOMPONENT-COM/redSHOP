@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class newsletterViewnewsletter extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'newsletter_id';
@@ -42,6 +38,7 @@ class newsletterViewnewsletter extends JView
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
 		}
+
 		$uri =& JFactory::getURI();
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -57,8 +54,7 @@ class newsletterViewnewsletter extends JView
 		$this->assignRef('newsletters', $newsletters);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>

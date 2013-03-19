@@ -19,7 +19,7 @@ class templateModeltemplate extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -38,7 +38,7 @@ class templateModeltemplate extends JModel
 		$this->setState('template_section', $template_section);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -48,7 +48,7 @@ class templateModeltemplate extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -58,7 +58,7 @@ class templateModeltemplate extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -68,13 +68,14 @@ class templateModeltemplate extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$filter = $this->getState('filter');
 		$template_section = $this->getState('template_section');
 
 		$where = '';
+
 		if ($filter)
 		{
 			$where .= "AND t.template_name LIKE '" . $filter . "%' ";
@@ -87,10 +88,11 @@ class templateModeltemplate extends JModel
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -104,4 +106,4 @@ class templateModeltemplate extends JModel
 	}
 }
 
-?>
+
