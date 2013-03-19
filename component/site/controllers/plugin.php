@@ -10,15 +10,15 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-/**
- * Account Controller
- *
- * @static
- * @package        redSHOP
- * @since          1.0
- */
-class pluginController extends JController
-{
 
+/**
+ * Plugin Controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class PluginController extends JController
+{
 }
 

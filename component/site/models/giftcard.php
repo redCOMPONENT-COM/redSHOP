@@ -11,7 +11,14 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class giftcardModelgiftcard extends JModel
+/**
+ * Class GiftcardModelGiftcard
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class GiftcardModelGiftcard extends JModel
 {
 	var $_id = null;
 	var $_data = null;
@@ -42,6 +49,7 @@ class giftcardModelgiftcard extends JModel
 		global $mainframe;
 
 		$and = "";
+
 		if ($this->_id)
 		{
 			$and .= "AND giftcard_id='" . $this->_id . "' ";
@@ -69,7 +77,7 @@ class giftcardModelgiftcard extends JModel
 	{
 		global $mainframe, $context;
 
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
 		if (!$this->_id)
 		{

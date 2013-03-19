@@ -12,17 +12,16 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+
 /**
- * newsletter Controller
+ * Newsletter Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class newsletterController extends JController
+class NewsletterController extends JController
 {
-
-
 	/*
 	 *  Method to subscribe newsletter
 	 */
@@ -36,6 +35,7 @@ class newsletterController extends JController
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu =& JSite::getMenu();
 		$item = $menu->getItem($newsletteritemid);
+
 		if ($item)
 		{
 			$return = $item->link . '&Itemid=' . $newsletteritemid;
@@ -49,13 +49,15 @@ class newsletterController extends JController
 		  *  check if user has alreday subscribe.
 		  */
 		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email1']);
+
 		if ($alreadysubscriberbymail)
 		{
 			$msg = JText::_('COM_REDSHOP_ALREADY_NEWSLETTER_SUBSCRIBER');
 		}
 		else
 		{
-			$userhelper = new rsUserhelper();
+			$userhelper = new rsUserhelper;
+
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
 				if (NEWSLETTER_CONFIRMATION)
@@ -68,6 +70,7 @@ class newsletterController extends JController
 				$msg = JText::_('COM_REDSHOP_NEWSLEETER_SUBSCRIBE_FAIL');
 			}
 		}
+
 		$this->setRedirect($return, $msg);
 	}
 
@@ -85,6 +88,7 @@ class newsletterController extends JController
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu =& JSite::getMenu();
 		$item = $menu->getItem($newsletteritemid);
+
 		if ($item)
 		{
 			$return = $item->link . '&Itemid=' . $newsletteritemid;
@@ -101,7 +105,8 @@ class newsletterController extends JController
 
 		if ($alreadysubscriberbymail)
 		{
-			$userhelper = new rsUserhelper();
+			$userhelper = new rsUserhelper;
+
 			if ($userhelper->newsletterUnsubscribe($email))
 			{
 				$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
@@ -119,5 +124,3 @@ class newsletterController extends JController
 		$this->setRedirect($return, $msg);
 	}
 }
-
-?>

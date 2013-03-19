@@ -113,10 +113,11 @@ class accountViewaccount extends JView
 		$this->assignRef('userdata', $userdata);
 		$this->assignRef('params', $params);
 
-		# redCRM Template
+		// RedCRM Template
 
-		// helper object
+		// Helper object
 		$helper = new redhelper();
+
 		if ($layout == "default" && $helper->isredCRM())
 		{
 			$tmplPath = JPATH_BASE . DS . 'components' . DS . 'com_redcrm' . DS . 'views' . DS . 'account' . DS . 'tmpl';
@@ -125,7 +126,8 @@ class accountViewaccount extends JView
 
 			parent::display('storemanagement');
 		}
-		# redCRM Template END
+
+		// RedCRM Template END
 
 		parent::display($tpl);
 	}

@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * send friend Controller
+ * send friend Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class send_friendController extends JController
+class Send_friendController extends JController
 {
-
-
 	/**
 	 * sendmail function
 	 *

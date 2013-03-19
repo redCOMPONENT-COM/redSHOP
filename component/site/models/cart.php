@@ -10,13 +10,20 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
 
-class cartModelcart extends JModel
+/**
+ * Class cartModelcart.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CartModelCart extends JModel
 {
 	var $_id = null;
 	var $_data = null;
@@ -36,9 +43,9 @@ class cartModelcart extends JModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_producthelper = new producthelper();
-		$this->_carthelper    = new rsCarthelper();
-		$this->_userhelper    = new rsUserhelper();
+		$this->_producthelper = new producthelper;
+		$this->_carthelper    = new rsCarthelper;
+		$this->_userhelper    = new rsUserhelper;
 		$this->_objshipping   = new shipping ();
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
@@ -61,9 +68,9 @@ class cartModelcart extends JModel
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$task    = JRequest::getVar('task');
+
 		if (!empty($cart))
 		{
-
 			if (!$cart)
 			{ //  || array_key_exists("quotation_id",$cart)
 				$cart        = array();
@@ -72,6 +79,7 @@ class cartModelcart extends JModel
 			$user_id        = $user->id;
 			$usersess       = $session->get('rs_user');
 			$shopperGroupId = $this->_userhelper->getShopperGroup($user_id);
+
 			if (array_key_exists('user_shopper_group_id', $cart))
 			{
 				$userArr = $this->_producthelper->getVatUserinfo($user_id);
@@ -93,7 +101,7 @@ class cartModelcart extends JModel
 	{
 		if (IS_PRODUCT_RESERVE)
 		{
-			$stockroomhelper = new rsstockroomhelper();
+			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
 			$db              = JFactory::getDbo();
 			$cart            = $session->get('cart');
@@ -115,6 +123,7 @@ class cartModelcart extends JModel
 			$includedrs = $db->loadResultArray();
 
 			$cart = $session->get('cart');
+
 			if ($cart)
 			{
 				$idx = (int) ($cart['idx']);
@@ -140,7 +149,7 @@ class cartModelcart extends JModel
 	public function empty_cart()
 	{
 		$session         = JFactory::getSession();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 
 		$cart = $session->get('cart');
 		unset($cart);
@@ -154,7 +163,8 @@ class cartModelcart extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$redTemplate = new Redtemplate();
+			$redTemplate = new Redtemplate;
+
 			if (DEFAULT_QUOTATION_MODE)
 			{
 				$this->_data = $redTemplate->getTemplate("quotation_cart");
@@ -190,6 +200,7 @@ class cartModelcart extends JModel
 		if ($newQuantity != $oldQuantity)
 		{
 			$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+
 			if ($newQuantity > $cart[$cartElement]['quantity'])
 			{
 				$cart['notice_message'] = $cart[$cartElement]['quantity'] . " " . JTEXT::_('COM_REDSHOP_AVAILABLE_STOCK_MESSAGE');
@@ -204,7 +215,6 @@ class cartModelcart extends JModel
 			# discount calculator
 			if (!empty($cart[$cartElement]['discount_calc']))
 			{
-
 				$calcdata               = $cart[$cartElement]['discount_calc'];
 				$calcdata['product_id'] = $cart[$cartElement]['product_id'];
 
@@ -241,6 +251,7 @@ class cartModelcart extends JModel
 				$subscription_vat    = 0;
 				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$cartElement]['subscription_id']);
 				$subscription_price  = $subscription_detail->subscription_price;
+
 				if ($subscription_price)
 					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
 				$product_vat_price += $subscription_vat;
@@ -291,6 +302,7 @@ class cartModelcart extends JModel
 				$quantity[$i] = $cart[$i]['quantity'];
 			}
 			$quantity[$i] = intval(abs($quantity[$i]) > 0 ? $quantity[$i] : 1);
+
 			if ($cart[$i]['product_id'] == $product_id[$i] && $quantity[$i] != $cart[$i]['quantity'])
 			{
 				$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
@@ -301,7 +313,6 @@ class cartModelcart extends JModel
 				# discount calculator
 				if (!empty($cart[$i]['discount_calc']))
 				{
-
 
 					$calcdata               = $cart[$i]['discount_calc'];
 					$calcdata['product_id'] = $cart[$i]['product_id'];
@@ -331,6 +342,7 @@ class cartModelcart extends JModel
 					$wrapper_price = $wrapperArr['wrapper_price'];
 				}
 				$subscription_vat = 0;
+
 				if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
 				{
 					$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
@@ -358,10 +370,11 @@ class cartModelcart extends JModel
 
 	public function delete($cartElement)
 	{
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$session         = JFactory::getSession();
 
 		$cart = $session->get('cart');
+
 		if (array_key_exists($cartElement, $cart))
 		{
 			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id']);
@@ -369,6 +382,7 @@ class cartModelcart extends JModel
 			$cart = array_merge(array(), $cart);
 
 			$Index = $cart['idx'] - 1;
+
 			if ($Index > 0)
 			{
 				$cart['idx'] = $Index;
@@ -410,6 +424,7 @@ class cartModelcart extends JModel
 			$product = $this->_db->loadObject();
 
 			$product_id = $product->product_id;
+
 			if ($product_id == "")
 				continue;
 
@@ -435,6 +450,7 @@ class cartModelcart extends JModel
 			}
 
 			$data["product_id"] = $product_id;
+
 			if (isset($post["mod_quantity"]) && $post["mod_quantity"] != "")
 				$data["quantity"] = $post["mod_quantity"];
 			else
@@ -450,7 +466,7 @@ class cartModelcart extends JModel
 	public function checkifTagAvailable($product_id)
 	{
 		$db          = & JFactory :: getDBO();
-		$redTemplate = new redTemplate();
+		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
 			. "WHERE product_id='" . $product_id;
 
@@ -460,6 +476,7 @@ class cartModelcart extends JModel
 
 		$template              = $redTemplate->getTemplate("product", $row_data);
 		$product_template_desc = $template[0]->template_desc;
+
 		if (strstr($product_template_desc, "{attribute_template:"))
 			return true;
 		else
@@ -473,7 +490,7 @@ class cartModelcart extends JModel
 	{
 		$document = & JFactory :: getDocument();
 		JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
-		$redConfig = new Redconfiguration();
+		$redConfig = new Redconfiguration;
 
 		$countryarray         = $redConfig->getCountryList();
 		$post['country_code'] = $countryarray['country_code'];
@@ -558,6 +575,7 @@ class cartModelcart extends JModel
 			for ($k = 0; $k < count($propArr); $k++)
 			{
 				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+
 				if (count($pricelist) > 0)
 				{
 					$propArr[$k]['property_price'] = $pricelist->product_price;
@@ -645,6 +663,7 @@ class cartModelcart extends JModel
 				$attribute                                    = $this->_producthelper->getProductAttribute(0, 0, $attribute_data[$ia]);
 				$generateAttributeCart[$ia]['attribute_id']   = $attribute_data[$ia];
 				$generateAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
+
 				if ($attribute[0]->text != "" && isset($data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]]))
 				{
 					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
@@ -713,6 +732,7 @@ class cartModelcart extends JModel
 			}
 		}
 		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
+
 		if (!empty($imagename) && !empty($type))
 		{
 			$cart[$idx]['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . $type . "/" . $imagename;
