@@ -353,6 +353,7 @@ class productModelproduct extends JModel
 		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
 		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
 		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
+
 		for ($k = 0; $k < count($row_data); $k++)
 		{
 			$myfield                        = "productuserfield_" . $k;
@@ -483,6 +484,7 @@ class productModelproduct extends JModel
 		$tmp_array = array();
 		$idx       = (int) ($compare_product['idx']);
 		$tmp_i     = 0;
+
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if ($compare_product[$i]["product_id"] != $product_id)

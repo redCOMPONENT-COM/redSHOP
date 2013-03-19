@@ -61,6 +61,7 @@ class wishlistModelwishlist extends JModel
 		{
 			$whislists     = $this->getUserWishlist();
 			$wish_products = array();
+
 			for ($i = 0; $i < count($whislists); $i++)
 			{
 				$sql = "SELECT DISTINCT wp.* ,p.* "
@@ -163,6 +164,7 @@ class wishlistModelwishlist extends JModel
 				$extraField = new extraField;
 				$section    = 12;
 				$row_data   = $extraField->getSectionFieldList($section);
+
 				for ($si = 1; $si <= $_SESSION["no_of_prod"]; $si++)
 				{
 					for ($k = 0; $k < count($row_data); $k++)
@@ -201,6 +203,7 @@ class wishlistModelwishlist extends JModel
 		$cid        = JRequest :: getVar('cid', '', 'request', 'array');
 		$db         = JFactory::getDBO();
 		$product_id = JRequest :: getInt('product_id');
+
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$query = "SELECT wishlist_product_id FROM " . $this->_table_prefix . "wishlist_product "

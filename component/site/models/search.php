@@ -77,6 +77,7 @@ class searchModelsearch extends JModel
 			$this->_db->setQuery($query);
 
 			$template = $this->getCategoryTemplet();
+
 			for ($i = 0; $i < count($template); $i++)
 			{
 				$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
@@ -130,6 +131,7 @@ class searchModelsearch extends JModel
 		$redconfig   = & $mainframe->getParams();
 		$redTemplate = new Redtemplate;
 		$template    = $this->getCategoryTemplet();
+
 		for ($i = 0; $i < count($template); $i++)
 		{
 			$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
@@ -273,6 +275,7 @@ class searchModelsearch extends JModel
 			$main_sp_name = explode(" ", $keyword);
 
 			$defaultSearchField = $defaultSearchType;
+
 			for ($f = 0; $f < count($main_sp_name); $f++)
 			{
 				$defaultSearchType1[] = " p.product_name LIKE '%" . $main_sp_name[$f] . "%' ";
@@ -330,6 +333,7 @@ class searchModelsearch extends JModel
 
 		$cat       = $category_helper->getCategoryListArray(0, $category_id);
 		$cat_group = array();
+
 		for ($j = 0; $j < count($cat); $j++)
 		{
 			$cat_group[$j] = $cat[$j]->category_id;
@@ -610,6 +614,7 @@ class searchModelsearch extends JModel
 			if (JRequest::getVar('main_sel') != "")
 			{
 				$main_sal_sp = explode(",", JRequest::getVar('main_sel'));
+
 				for ($f = 0; $f < count($main_sal_sp); $f++)
 				{
 					if ($main_sal_sp[$f] != "")
@@ -635,6 +640,7 @@ class searchModelsearch extends JModel
 
 			$q .= "where ( ";
 			$dep_cond = array();
+
 			for ($i = 0; $i < count($main_sal_type); $i++)
 			{
 				$chk_q = "";
@@ -655,6 +661,7 @@ class searchModelsearch extends JModel
 
 			$q .= ") AND p.published = '1' AND x.category_id='" . JRequest::getVar('cid') . "' order by p.product_name ";
 			$product = $this->_getList($q);
+
 			for ($i = 0; $i < count($product); $i++)
 			{
 				$lstproduct_id[] = $product[$i]->product_id;
@@ -777,6 +784,7 @@ class searchModelsearch extends JModel
 					$tag_id  = array();
 
 					$k = 0;
+
 					foreach ($getredfilter as $typeid => $tags)
 					{
 						$type_id[] = $typeid;
@@ -1001,6 +1009,7 @@ class searchModelsearch extends JModel
 			$type_id = array();
 			$tag_id  = array();
 			$k       = 0;
+
 			foreach ($getredfilter as $typeid => $tags)
 			{
 				$type_id[] = $typeid;
@@ -1026,6 +1035,7 @@ class searchModelsearch extends JModel
 			$db->setQuery($query);
 			$product  = $db->loadObjectList();
 			$products = array();
+
 			for ($i = 0; $i < count($product); $i++)
 			{
 				$products[] = $product[$i]->product_id;
@@ -1065,6 +1075,7 @@ class searchModelsearch extends JModel
 		$manufacturer = $db->loadObjectList();
 
 		$mids = array();
+
 		for ($i = 0; $i < count($manufacturer); $i++)
 		{
 			if ($manufacturer[$i]->manufacturer_id > 0)
