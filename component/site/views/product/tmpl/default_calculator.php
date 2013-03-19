@@ -16,22 +16,22 @@ $product_id = JRequest::getInt('pid', 0);
 $Itemid = JRequest::getVar('Itemid');
 $url    = JURI::base();
 
-// get Model
+// Get Model
 $model = $this->getModel('product');
 
 
-// check that we need to use discount calculator
+// Check that we need to use discount calculator
 
-// default calculation method
+// Default calculation method
 $calcMethod = $this->data->discount_calc_method;
 
-// default calculation unit
+// Default calculation unit
 // $globalUnit = $this->data->discount_calc_unit;
 
-// calculation prices as per various area
+// Calculation prices as per various area
 $discount_calc_data = $rsCarthelper->getDiscountCalcData(0, $this->data->product_id);
 
-// calculation UNIT
+// Calculation UNIT
 $calcoption         = array();
 $calcoption[]       = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
 $calcoption[]       = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));

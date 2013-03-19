@@ -172,7 +172,7 @@ if ($template_middle != "")
 		else
 		{
 			$isChilds = false;
-			// get attributes
+			// Get attributes
 			$attributes_set = array();
 
 			if ($manufacturer_products[$i]->attribute_set_id > 0)
@@ -185,14 +185,14 @@ if ($template_middle != "")
 		/////////////////////////////////// Product attribute  Start /////////////////////////////////
 		$totalatt = count($attributes);
 
-		// check product for not for sale
+		// Check product for not for sale
 		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $product_id, "1", $cart_mdata, 1);
 
 		$attribute_template = $producthelper->getAttributeTemplate($cart_mdata);
 		$cart_mdata         = $producthelper->replaceProductInStock($product_id, $cart_mdata, $attributes, $attribute_template);
 
 		$cart_mdata = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
-		// get cart tempalte
+		// Get cart tempalte
 		$cart_mdata = $producthelper->replaceCartTemplate($product_id, 0, 0, 0, $cart_mdata, $isChilds);
 
 		$cart_mdata = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $cart_mdata);

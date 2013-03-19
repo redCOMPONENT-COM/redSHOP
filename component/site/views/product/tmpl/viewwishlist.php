@@ -33,7 +33,7 @@ if (!$user->id)
 
 	if (count($rows) > 0)
 	{
-		// send mail link
+		// Send mail link
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
 		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
 		display_products($rows);
@@ -46,7 +46,7 @@ if (!$user->id)
 	}
 	echo "</div>";
 }
-else // if user logged in than display this code.
+else // If user logged in than display this code.
 {
 	echo "<div class='mod_redshop_wishlist'>";
 
@@ -63,7 +63,7 @@ else // if user logged in than display this code.
 	if (count($wishlists) > 0)
 	{
 		$wish_products = & $this->wish_products;
-		// send mail link
+		// Send mail link
 		for ($j = 0; $j < count($wishlists); $j++)
 		{
 			$rows  = $wish_products[$wishlists[$j]->wishlist_id];

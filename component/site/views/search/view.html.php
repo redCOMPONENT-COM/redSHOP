@@ -44,7 +44,7 @@ class searchViewsearch extends JView
 			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		}
-		// ajax cart javascript
+		// Ajax cart javascript
 		if (AJAX_CART_BOX == 1)
 		{
 			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
@@ -152,7 +152,7 @@ class searchViewsearch extends JView
 			$manisrch       = $this->search;
 			$manufacture_id = $manisrch[0]->manufacturer_id;
 			$templateid     = JRequest::getInt('templateid');
-			$keyword        = JRequest::getVar('keyword'); // cmd removes space between to words
+			$keyword        = JRequest::getVar('keyword'); // Cmd removes space between to words
 			$layout         = JRequest::getCmd('layout', 'default');
 
 			$db    = jFactory::getDBO();
@@ -379,7 +379,7 @@ class searchViewsearch extends JView
 				$data_add = str_replace("{read_more}", $readmore, $data_add);
 				$data_add = str_replace("{read_more_link}", $link, $data_add);
 
-				// redSHOP Product Plugin
+				// RedSHOP Product Plugin
 				JPluginHelper::importPlugin('redshop_product');
 				$results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, & $params, $this->search[$i]));
 				// End
@@ -402,7 +402,7 @@ class searchViewsearch extends JView
 				// Product Review/Rating
 				// Fetching reviews
 				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]->product_id);
-				// attribute ajax chage
+				// Attribute ajax chage
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
 				$data_add = $producthelper->getJcommentEditor($this->search[$i], $data_add);
 
@@ -628,12 +628,12 @@ class searchViewsearch extends JView
 				}
 				// End
 
-				// replace wishlistbutton
+				// Replace wishlistbutton
 				$data_add = $producthelper->replaceWishlistButton($this->search[$i]->product_id, $data_add);
-				// replace compare product button
+				// Replace compare product button
 				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
-				// checking for child products
+				// Checking for child products
 				$childproduct = $producthelper->getChildProduct($this->search[$i]->product_id);
 
 				if (count($childproduct) > 0)
@@ -644,7 +644,7 @@ class searchViewsearch extends JView
 				else
 				{
 					$isChilds = false;
-					// get attributes
+					// Get attributes
 					$attributes_set = array();
 
 					if ($this->search[$i]->attribute_set_id > 0)
@@ -657,14 +657,14 @@ class searchViewsearch extends JView
 				}
 				/////////////////////////////////// Product attribute  Start /////////////////////////////////
 				$totalatt = count($attributes);
-				// check product for not for sale
+				// Check product for not for sale
 				$data_add = $producthelper->getProductNotForSaleComment($this->search[$i], $data_add, $attributes);
 
 				$data_add = $producthelper->replaceProductInStock($this->search[$i]->product_id, $data_add, $attributes, $attribute_template);
 
 				$data_add = $producthelper->replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
-				// cart Template
+				// Cart Template
 				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
 
 				$data .= $data_add;

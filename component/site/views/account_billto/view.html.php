@@ -45,7 +45,7 @@ class account_billtoViewaccount_billto extends JView
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
-		// preform security checks
+		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{
 			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
@@ -53,7 +53,7 @@ class account_billtoViewaccount_billto extends JView
 		}
 
 		$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', @$billingaddresses->requesting_tax_exempt);
-		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id); /// field_section 7 :Customer Address
+		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id); /// Field_section 7 :Customer Address
 		$lists['extra_field_company']   = $extra_field->list_all_field(8, @$billingaddresses->users_info_id);
 
 		$this->assignRef('lists', $lists);

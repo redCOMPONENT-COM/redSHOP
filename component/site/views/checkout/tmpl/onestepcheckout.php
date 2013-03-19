@@ -30,7 +30,7 @@ $shippinghelper = new shipping;
 $session = JFactory::getSession();
 $document = JFactory::getDocument();
 
-// get redshop helper
+// Get redshop helper
 $Itemid = $redhelper->getCheckoutItemid();
 $option = JRequest::getVar('option', 'com_redshop');
 $model = $this->getModel('checkout');
@@ -105,7 +105,7 @@ for ($i = 0; $i < count($templatelist); $i++)
 		$onestep_template_desc = str_replace($cart_template, $templatelist[$i]->template_desc, $onestep_template_desc);
 	}
 }
-// for shipping template
+// For shipping template
 $shippingbox_template = "";
 $shippingbox_template_desc = "";
 $shipping_template = "";
@@ -173,7 +173,7 @@ else
 	$onestep_template_desc = str_replace($shipping_template, "", $onestep_template_desc);
 }
 
-// get billing info for check is_company
+// Get billing info for check is_company
 $is_company = $billingaddresses->is_company;
 
 if ($billingaddresses->ean_number != "")

@@ -52,7 +52,7 @@ if (!$user->id)
 	echo "<div class='mod_redshop_wishlist'>";
 	if (count($rows) > 0)
 	{
-		// send mail link
+		// Send mail link
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
 		//echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="'.$mlink.'" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="'.REDSHOP_ADMIN_IMAGES_ABSPATH.'mailcenter16.png" ></a></div>';
 		display_products($rows);
@@ -100,7 +100,7 @@ if (!$user->id)
 	}
 	echo "</div>";
 }
-else // if user logged in than display this code.
+else // If user logged in than display this code.
 {
 	echo "<div class='mod_redshop_wishlist'>";
 
@@ -142,7 +142,7 @@ else // if user logged in than display this code.
 	if (count($wishlists) > 0)
 	{
 		$wish_products = & $this->wish_products;
-		// send mail link
+		// Send mail link
 		echo "<table>";
 
 		for ($j = 0; $j < count($wishlists); $j++)
@@ -283,7 +283,7 @@ function display_products($rows)
 			$pnumber = $row->product_number;
 			$pdesc   = $row->product_s_desc;
 
-			// checking for child products start
+			// Checking for child products start
 			if (strstr($wishlist_data, "{child_products}"))
 			{
 				$parentproductid = $row->product_id;
@@ -297,7 +297,7 @@ function display_products($rows)
 				{
 					$productInfo = $producthelper->getProductById($parentproductid);
 
-					// get child products
+					// Get child products
 					$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
 					if (count($childproducts) > 0)
 					{
@@ -387,14 +387,14 @@ function display_products($rows)
 
 			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
 
-			// check product for not for sale
+			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
 			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 			/////////////////////////////////// Product attribute  Start /////////////////////////////////
 			$totalatt      = count($attributes);
 			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
-			/////////////////////////////////// Product attribute  End  	// checking for child products end/////////////////////////////////
+			/////////////////////////////////// Product attribute  End  	// Checking for child products end/////////////////////////////////
 
 			if (!$row->not_for_sale)
 			{

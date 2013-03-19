@@ -14,7 +14,7 @@ $url = JURI::base();
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
 $texts = new text_library;
 
-// get product helper
+// Get product helper
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
 
@@ -92,7 +92,7 @@ else if (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{compare_product_heading}', $pagetitle, $template);
 	$template = str_replace('{returntocategory_name}', JText::_("COM_REDSHOP_GO_BACK"), $template);
 	$template = str_replace('{returntocategory_link}', $returnlink, $template);
-	$field    = new extraField; // make extrafield object..
+	$field    = new extraField; // Make extrafield object..
 
 	$product_tag = array();
 

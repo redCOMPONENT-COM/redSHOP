@@ -26,7 +26,7 @@ else
 	$template_desc = "<fieldset class=\"adminform\"><legend><strong>{payment_heading}</strong></legend><div>{split_payment}</div>\r\n<div>{payment_loop_start}\r\n<div>{payment_method_name}</div>\r\n<div>{creditcard_information}</div>\r\n{payment_loop_end}</div></fieldset>";
 }
 
-// get billing info for check is_company
+// Get billing info for check is_company
 $billingaddresses = $model->billingaddresses();
 $is_company       = $billingaddresses->is_company;
 

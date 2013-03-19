@@ -71,7 +71,7 @@ if ($preloader)
 		$adminpath        = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
-		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$billingaddresses = $order_functions->getBillingAddress($order->user_id);
 
 		if (isset($billingaddresses))

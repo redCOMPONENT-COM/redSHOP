@@ -10,7 +10,7 @@
 defined('_JEXEC') or die ('restricted access');
 $url = JURI::base();
 
-// get product helper	
+// Get product helper	
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 $extra_data = new producthelper;
 
@@ -124,7 +124,7 @@ if ($user->id != 0)
 								else
 									$data_add .= '<div>' . $extra_data->getProductFormattedPrice($tax_amount) . '</div>';
 
-								// start cart
+								// Start cart
 
 								($tax_amount == 0) ? $product_price = $row->product_price : $product_price = $tax_amount;
 

@@ -353,7 +353,7 @@ if (!$slide)
 			 */
 			$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
 
-			// shopper group category ACL
+			// Shopper group category ACL
 			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
 			$sgportal = $objhelper->getShopperGroupPortal();
 			$portal   = 0;
@@ -433,7 +433,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 	$product_data   = '';
-	// for all products
+	// For all products
 	if ($endlimit == 0)
 	{
 		$final_endlimit = count($this->product);
@@ -452,7 +452,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 		$count_no_user_field = 0;
 
-		// counting accessory
+		// Counting accessory
 		$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
 		$totacc        = count($accessorylist);
 
@@ -779,10 +779,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$data_add = str_replace("{front_img_link}", "", $data_add);
 			$data_add = str_replace("{back_img_link}", "", $data_add);
 		}
-		// front-back image tag end
+		// Front-back image tag end
 
 
-		// product preview image.
+		// Product preview image.
 		if (strstr($data_add, '{product_preview_img}'))
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
@@ -823,7 +823,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$data_add = str_replace("{front_preview_img_link}", "", $data_add);
 			$data_add = str_replace("{back_preview_img_link}", "", $data_add);
 		}
-		// front-back preview image tag end
+		// Front-back preview image tag end
 
 		$data_add = $producthelper->getJcommentEditor($product, $data_add);
 
@@ -846,10 +846,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		 ************************************/
 		$data_add = $producthelper->getProductOnSaleComment($product, $data_add);
 
-		// replace wishlistbutton
+		// Replace wishlistbutton
 		$data_add = $producthelper->replaceWishlistButton($product->product_id, $data_add);
 
-		// replace compare product button
+		// Replace compare product button
 		$data_add = $producthelper->replaceCompareProductsButton($product->product_id, $catid, $data_add);
 
 
@@ -857,7 +857,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
 		}
-		// checking for child products
+		// Checking for child products
 		$childproduct = $producthelper->getChildProduct($product->product_id);
 
 
@@ -866,7 +866,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			if (PURCHASE_PARENT_WITH_CHILD == 1)
 			{
 				$isChilds = false;
-				// get attributes
+				// Get attributes
 				$attributes_set = array();
 
 				if ($product->attribute_set_id > 0)
@@ -886,7 +886,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 
 			$isChilds = false;
-			// get attributes
+			// Get attributes
 			$attributes_set = array();
 
 			if ($product->attribute_set_id > 0)
@@ -899,7 +899,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		/////////////////////////////////// Product attribute  Start /////////////////////////////////
 		$totalatt = count($attributes);
-		// check product for not for sale
+		// Check product for not for sale
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
@@ -908,7 +908,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
-		// get cart tempalte
+		// Get cart tempalte
 		$data_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 
 		$product_data .= $data_add;

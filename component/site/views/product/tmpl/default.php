@@ -79,10 +79,10 @@ else
 <div style="clear:both"></div>
 
 <?php
-// display after title data
+// Display after title data
 echo $this->data->event->afterDisplayTitle;
 
-// display before product data
+// Display before product data
 echo $this->data->event->beforeDisplayProduct;
 
 /*
@@ -93,7 +93,7 @@ $discount_calculator = "";
 
 if ($this->data->use_discount_calc)
 {
-	// get discount calculator Template
+	// Get discount calculator Template
 	// $template_desc = $this->loadTemplate('calculator');
 	$template_desc = str_replace('{discount_calculator}', $this->loadTemplate('calculator'), $template_desc);
 }
@@ -148,7 +148,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		}
 	}
 
-	// start previous logic
+	// Start previous logic
 	$previousproducts = $model->getPrevNextproduct($this->data->product_id, $this->data->category_id, -1);
 
 	if (count($previousproducts) > 0)
@@ -193,7 +193,7 @@ if (DEFAULT_VOLUME_UNIT)
 else
 	$product_unit = '';
 
-// product length
+// Product length
 if ($this->data->product_length > 0)
 {
 	$template_desc = str_replace("{product_length_lbl}", JText::_('COM_REDSHOP_PRODUCT_LENGTH_LBL'), $template_desc);
@@ -205,7 +205,7 @@ else
 	$template_desc = str_replace('{product_length}', "", $template_desc);
 }
 
-// product width
+// Product width
 if ($this->data->product_width > 0)
 {
 	$template_desc = str_replace("{product_width_lbl}", JText::_('COM_REDSHOP_PRODUCT_WIDTH_LBL'), $template_desc);
@@ -217,7 +217,7 @@ else
 	$template_desc = str_replace('{product_width}', "", $template_desc);
 }
 
-// product Height
+// Product Height
 if ($this->data->product_height > 0)
 {
 	$template_desc = str_replace("{product_height_lbl}", JText::_('COM_REDSHOP_PRODUCT_HEIGHT_LBL'), $template_desc);
@@ -412,7 +412,7 @@ if (strstr($template_desc, "{product_delivery_time}"))
 	}
 }
 
-// facebook I like Button
+// Facebook I like Button
 if (strstr($template_desc, "{facebook_like_button}"))
 {
 	$uri           = JFactory::getURI();
@@ -625,7 +625,7 @@ if (strstr($template_desc, "{navigator_products}"))
 		$productInfo = $producthelper->getProductById($parentproductid);
 
 
-		// get child products
+		// Get child products
 		$childproducts = $producthelper->getProductNavigator(0, $parentproductid);
 
 		if (count($childproducts) > 0)
@@ -679,7 +679,7 @@ if (strstr($template_desc, "{child_products}"))
 	{
 		$productInfo = $producthelper->getProductById($parentproductid);
 
-		// get child products
+		// Get child products
 		$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
 
 		if (count($childproducts) > 0)
@@ -734,7 +734,7 @@ if (strstr($template_desc, "{child_products}"))
 	$template_desc = str_replace("{child_products}", $frmChild, $template_desc);
 }
 
-// checking for child products
+// Checking for child products
 $childproduct = $producthelper->getChildProduct($this->data->product_id);
 
 if (count($childproduct) > 0)
@@ -773,7 +773,7 @@ else
 $attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
 
-// check product for not for sale
+// Check product for not for sale
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
 
 // $template_desc = $producthelper->replaceProductInStock($this->data->product_id,$template_desc,$attributes,$attribute_template);
@@ -1121,7 +1121,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 }
 // Product User Field End
 
-// category front-back image tag...
+// Category front-back image tag...
 if (strstr($template_desc, "{category_product_img}"))
 {
 	$mainsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=category/" . $this->data->category_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
@@ -1136,11 +1136,11 @@ if (strstr($template_desc, "{category_product_img}"))
 	$template_desc = str_replace("{category_front_img_link}", $product_front_image_link, $template_desc);
 	$template_desc = str_replace("{category_back_img_link}", $product_back_image_link, $template_desc);
 
-	// display category front image
+	// Display category front image
 	$thum_catimage = $producthelper->getProductCategoryImage($this->data->product_id, $this->data->category_full_image, '', $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX);
 	;
 	$template_desc = str_replace("{category_product_img}", $thum_catimage, $template_desc);
-	// category front-back image tag end
+	// Category front-back image tag end
 }
 else
 {
@@ -1184,9 +1184,9 @@ else
 	$template_desc = str_replace("{front_img_link}", "", $template_desc);
 	$template_desc = str_replace("{back_img_link}", "", $template_desc);
 }
-// front-back image tag end
+// Front-back image tag end
 
-// product preview image.
+// Product preview image.
 if (strstr($template_desc, "{product_preview_img}"))
 {
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
@@ -1227,17 +1227,17 @@ else
 	$template_desc = str_replace("{front_preview_img_link}", "", $template_desc);
 	$template_desc = str_replace("{back_preview_img_link}", "", $template_desc);
 }
-// front-back preview image tag end
+// Front-back preview image tag end
 
 // Cart
 $template_desc = $producthelper->replaceCartTemplate($this->data->product_id, $this->data->category_id, 0, 0, $template_desc, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 $template_desc = str_replace("{ajaxwishlist_icon}", '', $template_desc);
 
-// replace wishlistbutton
+// Replace wishlistbutton
 $template_desc = $producthelper->replaceWishlistButton($this->data->product_id, $template_desc);
 
-// replace compare product button
+// Replace compare product button
 $template_desc = $producthelper->replaceCompareProductsButton($this->data->product_id, $this->data->category_id, $template_desc);
 
 // Ajax detail box template
@@ -1565,7 +1565,7 @@ if (strstr($template_desc, "{ask_question_about_product_without_lightbox}"))
 	$template_desc = str_replace ( "{ask_question_about_product_without_lightbox}", $ask_question_link, $template_desc );*/
 	$template_desc = str_replace("{ask_question_about_product_without_lightbox}", $this->loadTemplate('askquestion'), $template_desc);
 }
-// product subscription type
+// Product subscription type
 if (strstr($template_desc, "subscription"))
 {
 	if ($this->data->product_type == 'subscription')
@@ -1591,7 +1591,7 @@ if (strstr($template_desc, "subscription"))
 		$template_desc = str_replace("{subscription}", "", $template_desc);
 	}
 }
-// product subscription type ene here
+// Product subscription type ene here
 
 
 /************************PRODUCT QUESTION START***************************/

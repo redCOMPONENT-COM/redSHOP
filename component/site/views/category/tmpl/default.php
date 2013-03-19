@@ -205,7 +205,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		 */
 		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
 
-		// shopper group category ACL
+		// Shopper group category ACL
 		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
 
 //		$readmorelink = JRoute::_ ( 'index.php?option='.$option.'&view=category&cid='.$row->category_id.'&layout=detail&Itemid='.$tmpItemid );
