@@ -53,7 +53,7 @@ if ($this->params->get('show_page_heading', 1))
 	{
 		?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-			<?php echo JText::_('COM_REDSHOP_REGISTRATION_HEADING');//$this->escape($this->params->get('page_title')); ?>
+			<?php echo JText::_('COM_REDSHOP_REGISTRATION_HEADING');// $this->escape($this->params->get('page_title')); ?>
 		</h1>
 	<?php
 	}

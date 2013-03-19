@@ -37,7 +37,7 @@ class quotationViewquotation extends JView
 //	   	if(!$user->id) 
 //	   	{
 //	   			$tpl='user';
-		//$mainframe->Redirect ( 'index.php?option='.$option.'&view=checkout&Itemid='.$Itemid);
+		// $mainframe->Redirect ( 'index.php?option='.$option.'&view=checkout&Itemid='.$Itemid);
 //		} 
 		if (!$return)
 		{

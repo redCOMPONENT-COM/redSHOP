@@ -18,7 +18,7 @@ include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 $db  = JFactory::getDBO();
 $url = JURI::base();
 
-//$Itemid = $redhelper->getCheckoutItemid();
+// $Itemid = $redhelper->getCheckoutItemid();
 $option = JRequest::getVar('option');
 
 $post = JRequest::get('post');

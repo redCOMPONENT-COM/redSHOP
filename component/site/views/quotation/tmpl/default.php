@@ -22,7 +22,7 @@ $cart = $session->get('cart');
 $detail = $this->detail;
 $user = JFactory::getUser();
 $extra_field = new extra_field;
-//$idx =  $cart['idx'];
+// $idx =  $cart['idx'];
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
 
@@ -116,9 +116,9 @@ $template_desc = str_replace("{customer_note_lbl}", JText::_('COM_REDSHOP_CUSTOM
 $template_desc = str_replace("{customer_note}", '<textarea name="quotation_note" id="quotation_note"></textarea>', $template_desc);
 
 
-//$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+// $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 
-//$template_desc	=	$texts->replace_texts($template_desc);
+// $template_desc	=	$texts->replace_texts($template_desc);
 
 $template_desc = '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">' . $template_desc . '</form>';
 

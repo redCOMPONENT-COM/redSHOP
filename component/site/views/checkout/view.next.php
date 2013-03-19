@@ -112,12 +112,12 @@ class checkoutViewcheckout extends JView
 //			if(!$validpayment[0])
 //			{
 //				$msg =  $validpayment[1];
-//				//$link = 'index.php?option='.$option.'&view=checkout&task=checkoutnext&Itemid='.$Itemid.'&users_info_id='.$users_info_id.'&shipping_rate_id='.$shipping_rate_id.'&payment_method_id='.$payment_method_id;
-//				//$mainframe->Redirect( $link , $msg );
+//				// $link = 'index.php?option='.$option.'&view=checkout&task=checkoutnext&Itemid='.$Itemid.'&users_info_id='.$users_info_id.'&shipping_rate_id='.$shipping_rate_id.'&payment_method_id='.$payment_method_id;
+//				// $mainframe->Redirect( $link , $msg );
 //			 }else
 //			 {
 //			   // $link = 'index.php?option='.$option.'&view=checkout&task=checkoutfinal&Itemid='.$Itemid.'&users_info_id='.$users_info_id.'&shipping_rate_id='.$shipping_rate_id.'&payment_method_id='.$payment_method_id.'&ccinfo='.$ccinfo;
-//				//$mainframe->Redirect( $link , $msg );
+//				// $mainframe->Redirect( $link , $msg );
 //			 }
 //		}
 
