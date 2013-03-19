@@ -275,7 +275,6 @@ class split_paymentModelsplit_payment extends JModel
 		}
 
 		return $validpayment;
-
 	}
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
@@ -541,7 +540,6 @@ class split_paymentModelsplit_payment extends JModel
 		{
 			//Do something here in case the validation fails
 			echo "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
-
 		}
 		else
 		{ //if it will pass...do something

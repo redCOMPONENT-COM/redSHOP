@@ -418,7 +418,6 @@ class searchModelsearch extends JModel
 				. "AND p.product_special=1 "
 				. $whereaclProduct
 				. "order by " . $order_by;
-
 		}
 		elseif ($layout == 'newproduct')
 		{
@@ -445,7 +444,6 @@ class searchModelsearch extends JModel
 				. "and  p.publish_date BETWEEN '" . $days_before . "' AND '" . $today . "' AND p.expired = 0  AND p.product_parent_id = 0 "
 				. $whereaclProduct . $extracond
 				. "order by " . $order_by;
-
 		}
 		elseif ($layout == 'redfilter')
 		{
@@ -461,7 +459,6 @@ class searchModelsearch extends JModel
 			else
 				$query .= "AND p.product_id IN ( '" . $products . "' )  ";
 			$query .= "order by " . $order_by;
-
 		}
 		else
 		{
@@ -650,7 +647,6 @@ class searchModelsearch extends JModel
 
 				if ($chk_q != "")
 					$dep_cond[] = " ( " . $chk_q . " ) ";
-
 			}
 			if (count($dep_cond) <= 0)
 				$dep_cond[] = "1=1";
@@ -816,7 +812,6 @@ class searchModelsearch extends JModel
 					}
 
 					$productids = implode(",", $products);
-
 				}
 
 
@@ -868,7 +863,6 @@ class searchModelsearch extends JModel
 						if ($finalcount > 0)
 						{
 							$tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
-
 						}
 
 					}
@@ -919,7 +913,6 @@ class searchModelsearch extends JModel
 
 							if ($tagname != "")
 								$filteredlists['type' . $key] = $tagname;
-
 						}
 						else unset($types[$key]);
 					}

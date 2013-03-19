@@ -357,7 +357,6 @@ class productModelproduct extends JModel
 		{
 			$myfield                        = "productuserfield_" . $k;
 			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
-
 		}
 
 		return true;

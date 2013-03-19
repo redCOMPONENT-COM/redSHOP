@@ -409,7 +409,6 @@ class CartModelCart extends JModel
 		}
 
 		$session->set('cart', $cart);
-
 	}
 
 	public function coupon($c_data = array())
