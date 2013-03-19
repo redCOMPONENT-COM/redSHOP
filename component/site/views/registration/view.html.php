@@ -23,6 +23,7 @@ class registrationViewregistration extends JView
 		$user    = JFactory::getUser();
 		$session = & JFactory::getSession();
 		$auth    = $session->get('auth');
+
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
 			$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);

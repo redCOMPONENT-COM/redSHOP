@@ -35,10 +35,12 @@ if (count($ajaxdetal_template) > 0)
 	$ajaxdetal_templatedata = $ajaxdetal_template->template_desc;
 	$data_add               = $ajaxdetal_templatedata;
 	$data_add               = str_replace('{product_name}', $this->data->product_name, $data_add);
+
 	if ($this->data->product_price != 0)
 		$data_add = str_replace('{product_price}', $this->data->product_price, $data_add);
 	else
 		$data_add = str_replace('{product_price}', " ", $data_add);
+
 	if (strstr($data_add, "{product_image}"))
 	{
 		if ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
@@ -72,10 +74,12 @@ if (count($ajaxdetal_template) > 0)
 	$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
 	$template_userfield = $returnArr[0];
 	$userfieldArr       = $returnArr[1];
+
 	if ($template_userfield != "")
 	{
 		$ufield = "";
 		$cart   = $session->get('cart');
+
 		if (isset($cart['idx']))
 		{
 			$idx = (int) ($cart['idx']);
@@ -97,6 +101,7 @@ if (count($ajaxdetal_template) > 0)
 			}
 			$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 1, $this->data->product_id);
 			$ufield .= $product_userfileds[0];
+
 			if ($product_userfileds[0] != "")
 			{
 				$count_no_user_field++;
@@ -111,6 +116,7 @@ if (count($ajaxdetal_template) > 0)
 				if ($extrafieldNames)
 				{
 					$extrafieldName = @ explode(',', $extrafieldNames);
+
 					if (!in_array($userfieldArr[$ui], $extrafieldName))
 					{
 						$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', '', $data_add);
@@ -130,6 +136,7 @@ if (count($ajaxdetal_template) > 0)
 			}
 		}
 		$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+
 		if ($ufield != "")
 		{
 			$data_add = str_replace("{if product_userfield}", $product_userfileds_form, $data_add);
@@ -146,6 +153,7 @@ if (count($ajaxdetal_template) > 0)
 		$count_no_user_field = 0;
 	}
 	$childproduct = $producthelper->getChildProduct($this->data->product_id);
+
 	if (count($childproduct) > 0 && PURCHASE_PARENT_WITH_CHILD == 0)
 	{
 		$isChilds = true;
@@ -157,6 +165,7 @@ if (count($ajaxdetal_template) > 0)
 	// get attribute Template data
 	/////////////////////////////////// Product attribute  Start /////////////////////////////////
 	$attributes_set = array();
+
 	if ($this->data->attribute_set_id > 0)
 	{
 		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);

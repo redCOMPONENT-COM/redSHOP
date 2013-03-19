@@ -50,6 +50,7 @@ if ($mail == 0)
 {
 	$MyWishlist = $model->getMyDetail();
 	$template   = $redTemplate->getTemplate("wishlist_template");
+
 	if (count($template) > 0 && $template[0]->template_desc != "")
 	{
 		$data = $template[0]->template_desc;
@@ -64,6 +65,7 @@ if ($mail == 0)
 	$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
 
 	$mail_link = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
+
 	if (count($MyWishlist) > 0)
 	{
 		$template_d1[0] = str_replace('{mail_link}', $mail_link, $template_d1[0]);
@@ -100,6 +102,7 @@ if ($mail == 0)
 	}
 	$temp_template  = '';
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+
 	if (count($MyWishlist) > 0)
 	{
 		foreach ($MyWishlist as $row)
@@ -207,7 +210,9 @@ if ($mail == 0)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
 					}
+
 					$attributes = $producthelper->getProductAttribute($row->product_id);
+
 					$attributes = array_merge($attributes, $wishlist_data);
 				}
 				else
@@ -221,6 +226,7 @@ if ($mail == 0)
 
 				$isChilds       = false;
 				$attributes_set = array();
+
 				if ($row->attribute_set_id > 0)
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
@@ -259,6 +265,7 @@ if ($mail == 0)
 
 				$ufield = "";
 				$cart   = $session->get('cart');
+
 				if (isset($cart['idx']))
 				{
 					$idx = (int) ($cart['idx']);
@@ -302,6 +309,7 @@ if ($mail == 0)
 
 				}
 				$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+
 				if ($ufield != "")
 				{
 					$wishlist_data = str_replace("{if product_userfield}", $product_userfileds_form, $wishlist_data);
@@ -358,6 +366,7 @@ if ($mail == 0)
 	$back_link = '<a href="' . JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid) . '" title="' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '">' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '</a>';
 	$data      = str_replace('{back_link}', $back_link, $data);
 	$mail_link = '';
+
 	if (count($MyWishlist) > 0)
 	{
 		$mlink     = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
@@ -371,6 +380,7 @@ if ($mail == 0)
 else
 {
 	$mailtemplate = $redTemplate->getTemplate("wishlist_mail_template");
+
 	if (count($mailtemplate) > 0 && $mailtemplate[0]->template_desc != "")
 	{
 		$wishlist_maildata = $mailtemplate[0]->template_desc;

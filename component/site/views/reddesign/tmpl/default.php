@@ -90,6 +90,7 @@ $default_imageId = $this->image_id;
 		rDesign("#tdAlign button").removeClass("selected");
 		rDesign("#" + btnid).addClass("selected");
 		rDesign("#hdnAlign").val(align);
+
 		if (rDesign("#hdnActive").val())
 			sendRequest(rDesign("#hdnActive").val());
 	}
@@ -137,6 +138,7 @@ $default_imageId = $this->image_id;
 		rDesign(".tdDesign input:hidden").each(function () {
 			hdnflag += rDesign(this).val();
 		});
+
 		if (hdnflag == "") {
 			rDesign.ajax({
 				url: site_url + "index.php?tmpl=component&option=com_reddesign&view=getdesign&tmpl=component&task=blankpdf&id=" + imageId,
@@ -209,6 +211,7 @@ $default_imageId = $this->image_id;
 				rDesign("div.colorcode").each(function () {
 					rDesign(this).css("border-color", "#CCCCCC");
 					rDesign(this).removeAttr("id");
+
 					if (rDesign(this).css("background-color") == decodeURIComponent(getOpt[2])) {
 						rDesign(this).css("border-color", "#000000");
 						rDesign(this).attr("id", "activecolor");
@@ -233,6 +236,7 @@ $default_imageId = $this->image_id;
 			rDesign("div.colorcode").each(function () {
 				rDesign(this).css("border-color", "#CCCCCC");
 				rDesign(this).removeAttr("id");
+
 				if (rDesign(this).css("background-color") == decodeURIComponent(getOpt[2])) {
 					rDesign(this).css("border-color", "#000000");
 					rDesign(this).attr("id", "activecolor");
@@ -240,6 +244,7 @@ $default_imageId = $this->image_id;
 			});
 			rDesign("div.allcolorcode").css("background-color", decodeURIComponent(getOpt[2]));
 			rDesign("#tdAlign button").removeClass("selected");
+
 			if (getOpt[5] == 1)
 				rDesign("#btnLeft").addClass("selected");
 			else if (getOpt[5] == 2)
@@ -261,6 +266,7 @@ $default_imageId = $this->image_id;
 			rDesign.getJSON(url, {num: Math.random()},
 				function (data) {
 					rDesign("#tdAlign button").removeClass("selected");
+
 					if (data == 3)
 						rDesign("#btnRight").addClass("selected");
 					else if (data == 2)

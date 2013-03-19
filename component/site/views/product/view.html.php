@@ -66,9 +66,11 @@ class productViewproduct extends JView
 
 		// reddesign start
 		$CheckRedDesign = $redhelper->CheckIfRedDesign();
+
 		if ($CheckRedDesign)
 		{
 			$chkprodesign = $redhelper->CheckIfRedProduct($pid);
+
 			if ($chkprodesign)
 			{
 				$mainframe->Redirect('index.php?option=' . $option . '&view=reddesign&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $Itemid);
@@ -110,6 +112,7 @@ class productViewproduct extends JView
 			}
 			$data                     =& $this->get('data');
 			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($data->product_id);
+
 			if ($data->published == 0)
 			{
 				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $data->product_name, $data->product_number));
@@ -124,6 +127,7 @@ class productViewproduct extends JView
 			else if ($data->product_parent_id != 0 && $data->product_parent_id != "")
 			{
 				$product_parent_data = $prodhelperobj->getProductById($data->product_parent_id);
+
 				if ($product_parent_data->canonical_url != "")
 				{
 					$main_url  = JURI::root() . $product_parent_data->canonical_url;
@@ -216,6 +220,7 @@ class productViewproduct extends JView
 			$uri    = JFactory::getURI();
 			$scheme = $uri->getScheme();
 			$host   = $uri->getHost();
+
 			if ($data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_thumb_image))
 			{
 				$document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $data->product_thumb_image);
@@ -374,6 +379,7 @@ class productViewproduct extends JView
 				else
 				{
 					$prodhelperobj_array = $prodhelperobj->getProductNetPrice($data->product_id);
+
 					if ($prodhelperobj_array['product_price_saving'] != "")
 					{
 						$product_price_saving_main = $prodhelperobj_array['product_price_saving'];
@@ -434,6 +440,7 @@ class productViewproduct extends JView
 
 			$visited = array();
 			$visited = $session->get('visited', $visited);
+
 			if ($pid && !(in_array($pid, $visited)))
 			{
 				$visit     = $model->updateVisited($pid);
@@ -456,6 +463,7 @@ class productViewproduct extends JView
 		$this->assignRef('params', $params);
 
 		$for = JRequest::getWord("for", false);
+
 		if ($for)
 		{
 			parent::display('related');

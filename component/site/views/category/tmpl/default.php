@@ -26,6 +26,7 @@ $print  = JRequest::getVar('print');
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
+
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
 	$template_desc = $loadCategorytemplate[0]->template_desc;
@@ -36,6 +37,7 @@ else
 }
 
 $endlimit = count($this->detail);
+
 if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
 {
 	$endlimit = $model->getProductPerPage();
@@ -45,15 +47,18 @@ $mainframe = & JFactory::getApplication();
 $router    = & $mainframe->getRouter();
 $uri       = new JURI ('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
 //$router->setVars ( $uri->_vars );
+
 if ($this->params->get('show_page_heading', 0))
 {
 	if (!$catid)
 		echo '<div class="category_title' . $this->escape($this->params->get('pageclass_sfx')) . '">';
 	else
 		echo '<div class="category' . $this->escape($this->params->get('pageclass_sfx')) . '">';
+
 	if (!$catid)
 	{
 		echo '<h1>';
+
 		if ($this->params->get('page_title') != $this->pageheadingtag)
 		{
 			echo $this->escape($this->params->get('page_title'));
@@ -125,6 +130,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$data_add = $middletemplate_desc;
 
 		$cItemid = $objhelper->getCategoryItemid($row->category_id);
+
 		if ($cItemid != "")
 		{
 			$tmpItemid = $cItemid;
@@ -141,6 +147,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$alt         = " alt='" . $row->category_name . "' ";
 		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 		$linkimage   = $product_img;
+
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
 			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
@@ -203,6 +210,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$data_add  = str_replace("{read_more}", $read_more, $data_add);
 		$sgportal  = $objhelper->getShopperGroupPortal();
 		$portal    = 0;
+
 		if (count($sgportal) > 0)
 		{
 			$portal = $sgportal->shopper_group_portal;

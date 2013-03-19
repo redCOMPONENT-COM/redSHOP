@@ -25,6 +25,7 @@ $redhelper = new redhelper;
 
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER');
+
 if ($this->pageheadingtag != '')
 {
 	$pagetitle = $this->pageheadingtag;
@@ -46,6 +47,7 @@ if ($this->pageheadingtag != '')
 <?php
 // Page title end
 $manufacturers_template = $redTemplate->getTemplate("manufacturer");
+
 if (count($manufacturers_template) > 0 && $manufacturers_template[0]->template_desc != "")
 {
 	$template_desc = $manufacturers_template[0]->template_desc;
@@ -72,6 +74,7 @@ $print_tag .= "</a>";
 $template_start  = $template_desc;
 $template_middle = "";
 $template_end    = "";
+
 if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc, '{manufacturer_loop_end}'))
 {
 	$template_sdata  = explode('{manufacturer_loop_start}', $template_desc);
@@ -82,11 +85,13 @@ if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc
 }
 $extraFieldName     = $extraField->getSectionFieldNameArray(10, 1, 1);
 $replace_middledata = '';
+
 if ($template_middle != "")
 {
 	for ($i = 0; $i < $this->params->get('maxmanufacturer'); $i++)
 	{
 		$row = & $this->detail[$i];
+
 		if ($row != '')
 		{
 			$mimg_tag = '{manufacturer_image}';
@@ -114,6 +119,7 @@ if ($template_middle != "")
 					if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 					{
 						$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
+
 						if (!$altText)
 						{
 							$altText = $media_image[$m]->media_name;

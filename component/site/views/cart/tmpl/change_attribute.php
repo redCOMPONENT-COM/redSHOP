@@ -41,6 +41,7 @@ JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 			calculateTotalPrice(<?php echo $product_id;?>, 0);
 			var requiedAttribute = document.getElementById('requiedAttribute').value;
 			var requiedProperty = document.getElementById('requiedProperty').value;
+
 			if (requiedAttribute != 0 && requiedAttribute != "") {
 				alert(requiedAttribute);
 				return false;
@@ -56,6 +57,7 @@ JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 	</script>
 <?php
 $cart_attribute = $redTemplate->getTemplate("change_cart_attribute");
+
 if (count($cart_attribute) > 0 && $cart_attribute[0]->template_desc)
 {
 	$template_desc = $cart_attribute[0]->template_desc;
@@ -68,6 +70,7 @@ else
 $product = $producthelper->getProductById($product_id);
 // checking for child products
 $childproduct = $producthelper->getChildProduct($product_id);
+
 if (count($childproduct) > 0)
 {
 	$isChilds = true;
@@ -85,6 +88,7 @@ if ($isChilds)
 else
 {
 	$attributes_set = array();
+
 	if ($product->attribute_set_id > 0)
 	{
 		$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
@@ -119,6 +123,7 @@ $template_desc = str_replace("{cancel_button}", $cancelbutton, $template_desc);
 
 
 $template_desc = '<form name="frmchngAttribute" id="frmchngAttribute" method="post">' . $template_desc . '</form>';
+
 if ($totalatt > 0)
 {
 	$template_desc = $redTemplate->parseredSHOPplugin($template_desc);

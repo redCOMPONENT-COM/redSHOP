@@ -65,6 +65,7 @@ if (USE_AS_CATALOG)
 else
 {
 	$ReceiptTemplate = $redTemplate->getTemplate("order_receipt");
+
 	if (count($ReceiptTemplate) > 0 && $ReceiptTemplate[0]->template_desc)
 	{
 		$ReceiptTemplate = $ReceiptTemplate[0]->template_desc;
@@ -142,6 +143,7 @@ echo eval("?>" . $ReceiptTemplate . "<?php ");
 # handle order total for split payment
 $session =& JFactory::getSession();
 $issplit = $session->get('issplit');
+
 if ($issplit)
 {
 
@@ -168,8 +170,10 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 	$orderTrans['order_tax']      = $order->order_tax;
 	$orderTrans['order_shipping'] = $order->order_shipping;
 	$orderTrans['city']           = $billingaddresses->city;
+
 	if (isset($billingaddresses->country_code))
 		$orderTrans['state'] = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
+
 	if (isset($billingaddresses->country_code))
 		$orderTrans['country'] = $order_functions->getCountryName($billingaddresses->country_code);
 

@@ -34,6 +34,7 @@ class checkoutViewcheckout extends JView
 
 		$model   = $this->getModel('checkout');
 		$session = JFactory::getSession();
+
 		if ($issplit != '')
 		{
 			$session->set('issplit', $issplit);
@@ -42,10 +43,12 @@ class checkoutViewcheckout extends JView
 		$payment_method_id = JRequest::getVar('payment_method_id');
 		$users_info_id     = JRequest::getInt('users_info_id');
 		$auth              = $session->get('auth');
+
 		if (empty($users_info_id))
 			$users_info_id = $auth['users_info_id'];
 		$shipping_rate_id = JRequest::getVar('shipping_rate_id');
 		$shippingdetail   = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+
 		if (count($shippingdetail) < 4)
 		{
 			$shipping_rate_id = "";
@@ -85,6 +88,7 @@ class checkoutViewcheckout extends JView
 		$paymentparams   = new JRegistry($paymentinfo->params);
 		$is_creditcard   = $paymentparams->get('is_creditcard', '');
 		$is_subscription = $paymentparams->get('is_subscription', 0);
+
 		if (@$is_creditcard == 1)
 		{
 			$document = JFactory::getDocument();

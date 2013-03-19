@@ -26,6 +26,7 @@ else
 }
 
 $option = JRequest::getVar('option');
+
 if ($this->params->get('show_page_heading', 1))
 {
 	if ($this->params->get('page_title'))

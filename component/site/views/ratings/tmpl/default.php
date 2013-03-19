@@ -13,6 +13,7 @@ $redTemplate = new Redtemplate;
 $model = $this->getModel('ratings');
 
 $main_template = $redTemplate->getTemplate("review");
+
 if (count($main_template) > 0 && $main_template[0]->template_desc)
 {
 	$main_template = $main_template[0]->template_desc;
@@ -47,6 +48,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 	{
 		$product_data .= $product_template;
 		$product_data = str_replace("{product_title}", $this->detail[$i]->product_name, $product_data);
+
 		if (strstr($product_data, "{review_loop_start}") && strstr($product_data, "{review_loop_end}"))
 		{
 			$review_start    = explode("{review_loop_start}", $product_data);
@@ -55,6 +57,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 
 			$review_data = "";
 			$reviews     = $model->getProductreviews($this->detail[$i]->product_id);
+
 			if (count($reviews) > 0)
 			{
 				for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)

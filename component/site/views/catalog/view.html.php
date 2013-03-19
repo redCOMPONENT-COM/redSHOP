@@ -21,6 +21,7 @@ class catalogViewcatalog extends JView
 
 		$params = & $mainframe->getParams('com_redshop');
 		$layout = JRequest::getVar('layout');
+
 		if ($layout == "sample")
 		{
 			$this->setLayout('sample');

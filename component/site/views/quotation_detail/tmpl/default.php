@@ -38,6 +38,7 @@ $quotationProducts = $quotationHelper->getQuotationProduct($quoid);
 $fieldArray = $extra_field_new->getSectionFieldList(17, 0, 0);
 
 $template = $redTemplate->getTemplate("quotation_detail");
+
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
 	$quotation_template = $template[0]->template_desc;
@@ -50,6 +51,7 @@ else
 $print     = JRequest::getVar('print');
 $p_url     = @ explode('?', $_SERVER['REQUEST_URI']);
 $print_tag = '';
+
 if ($print)
 {
 	$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
@@ -117,6 +119,7 @@ $search [] = "{quotation_note}";
 $replace[] = $quotationDetail->quotation_note;
 
 $billadd = "";
+
 if ($quotationDetail->user_id != 0)
 {
 	if ($quotationDetail->firstname != "")
@@ -165,6 +168,7 @@ if ($quotationDetail->user_id != 0)
 		{
 
 			$billadd .= JText::_("TAX_EXEMPT") . ' : ';
+
 			if ($quotationDetail->tax_exempt == 1)
 			{
 				$billadd .= JText::_('COM_REDSHOP_YES');
@@ -176,6 +180,7 @@ if ($quotationDetail->user_id != 0)
 			$billadd .= ' <br>';
 		}
 		$billadd .= JText::_("USER_TAX_EXEMPT_REQUEST_LBL") . ' : ';
+
 		if ($quotationDetail->requesting_tax_exempt == 1)
 		{
 			$billadd .= JText::_('COM_REDSHOP_YES');
@@ -234,12 +239,15 @@ $template_start  = $quotation_template;
 $template_end    = "";
 $template_middle = "";
 $template_sdata  = explode('{product_loop_start}', $quotation_template);
+
 if (count($template_sdata) > 0)
 {
 	$template_start = $template_sdata [0];
+
 	if (count($template_sdata) > 1)
 	{
 		$template_edata = explode('{product_loop_end}', $template_sdata[1]);
+
 		if (count($template_edata) > 1)
 		{
 			$template_end    = $template_edata [1];
@@ -255,9 +263,11 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 {
 	$cart_mdata .= $template_middle;
 	$wrapper_name = "";
+
 	if ($quotationProducts[$i]->product_wrapperid)
 	{
 		$wrapper = $producthelper->getWrapper($quotationProducts[$i]->product_id, $quotationProducts[$i]->product_wrapperid);
+
 		if (count($wrapper) > 0)
 		{
 			$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "(" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->wrapper_price) . ")";
@@ -279,6 +289,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		$product_number = $product->product_number;
 
 		$product_image_path = "";
+
 		if ($product->product_full_image)
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))

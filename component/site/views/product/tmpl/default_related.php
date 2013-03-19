@@ -87,6 +87,7 @@ if (count($relptemplate) > 0)
 
 
 		$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
+
 		if (strstr($related_template_data, "{relproduct_link}"))
 		{
 			$related_template_data = str_replace("{relproduct_name}", "", $related_template_data);
@@ -102,6 +103,7 @@ if (count($relptemplate) > 0)
 		$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
 
 		$manufacturer = $producthelper->getSection("manufacturer", $related_product [$r]->manufacturer_id);
+
 		if (count($manufacturer) > 0)
 		{
 			$man_url               = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $Itemid);
@@ -144,6 +146,7 @@ if (count($relptemplate) > 0)
 		 */
 		$relid          = $related_product [$r]->product_id;
 		$attributes_set = array();
+
 		if ($related_product [$r]->attribute_set_id > 0)
 		{
 			$attributes_set = $producthelper->getProductAttribute(0, $related_product [$r]->attribute_set_id);

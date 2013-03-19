@@ -81,6 +81,7 @@ else
 
 	$loginuserstyle = '';
 	$newuserstyle   = 'style="display:none;"';
+
 	if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
 	{
 		$loginuserstyle = 'style="display:none;"';
@@ -134,6 +135,7 @@ else
 
 	// toggler settings
 	$open_to_stretcher = 0;
+
 	if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 	{
 		$open_to_stretcher = 1;
@@ -142,6 +144,7 @@ else
 	// allow registration type settings
 	$allowCustomer = "";
 	$allowCompany  = "";
+
 	if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 	{
 		$allowCompany      = "style='display:none;'";
@@ -211,6 +214,7 @@ else
 				<br/>
 				<?php
 				$billingisshipping = "";
+
 				if (count($post) > 0)
 				{
 					if (isset($post['billisship']) && $post['billisship'] == 1)
@@ -324,6 +328,7 @@ else
 		document.getElementById(val).disabled = true;
 		var op = document.getElementById(val);
 		op.setAttribute("style", "opacity:0.3;");
+
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
 

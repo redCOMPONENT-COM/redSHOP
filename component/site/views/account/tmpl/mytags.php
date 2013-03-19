@@ -23,6 +23,7 @@ $model = $this->getModel('account');
 $user =& JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_TAGS');
+
 if ($this->params->get('show_page_heading', 1))
 {
 	?>
@@ -93,6 +94,7 @@ if ($user->id != 0)
 					<td width="40%">
 						<?php
 						$i = 0;
+
 						if (count($MyTags) > 0)
 						{
 							foreach ($MyTags as $row)

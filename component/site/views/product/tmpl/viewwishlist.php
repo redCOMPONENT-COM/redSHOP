@@ -25,10 +25,12 @@ $option     = JRequest::getVar('option');
 $wishlists  = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
 $user       = JFactory::getUser();
+
 if (!$user->id)
 {
 	$rows = & $this->wish_products;
 	echo "<div class='mod_redshop_wishlist'>";
+
 	if (count($rows) > 0)
 	{
 		// send mail link
@@ -47,6 +49,7 @@ if (!$user->id)
 else // if user logged in than display this code.
 {
 	echo "<div class='mod_redshop_wishlist'>";
+
 	if (count($this->wish_session) > 0)
 	{
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
@@ -103,11 +106,13 @@ function display_products($rows)
 			</div>";
 		}
 		echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
+
 		if ($row->product_on_sale && $product_price_discount > 0)
 		{
 			if ($product_price > $product_price_discount)
 			{
 				$s_price = $product_price - $product_price_discount;
+
 				if ($this->show_discountpricelayout)
 				{
 					echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";

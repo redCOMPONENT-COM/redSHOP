@@ -21,6 +21,7 @@ function display ($tpl = null)
 	$quotationHelper = new quotationHelper;
 
 	$print = JRequest::getVar('print');
+
 if ($print)
 {
 	?>
@@ -61,6 +62,7 @@ if ($print)
 		{
 			$model         = $this->getModel('quotation_detail');
 			$authorization = $model->checkAuthorization($quoid, $encr);
+
 			if (!$authorization)
 			{
 				JError::raiseWarning(404, JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE'));

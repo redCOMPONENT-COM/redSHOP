@@ -58,6 +58,7 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 		var frm = document.adminForm;
 
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 		if (frm.email.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;

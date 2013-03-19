@@ -16,6 +16,7 @@ $uemail = '';
 $address = '';
 $telephone = '';
 $user = JFactory::getUser();
+
 if ($user->id)
 {
 	$uname  = $user->name;
@@ -31,6 +32,7 @@ $userhelper = new rsUserhelper;
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 
 $template = $redTemplate->getTemplate('ask_question_template'); //& $this->get('template');
+
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
 	$template_desc = $template[0]->template_desc;
@@ -47,6 +49,7 @@ else
 	function validateQuestion() {
 
 		var frm = document.frmaskquestion;
+
 		if (frm.your_name.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME');?>");
 			return false;

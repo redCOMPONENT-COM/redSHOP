@@ -39,6 +39,7 @@ $uri = new JURI ('index.php?option=' . $option . '&view=manufacturers&layout=pro
 
 // Page Title
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS');
+
 if ($this->params->get('show_page_heading', 1))
 {
 	?>
@@ -57,6 +58,7 @@ if ($this->params->get('show_page_heading', 1))
 // Page title end
 
 $manufacturertemplate = $redTemplate->getTemplate("manufacturer_products", $manufacturer->template_id);
+
 if (count($manufacturertemplate) > 0 && $manufacturertemplate[0]->template_desc)
 {
 	$template_desc = $manufacturertemplate[0]->template_desc;
@@ -85,6 +87,7 @@ $print_tag .= "</a>";
 $template_start  = $template_desc;
 $template_middle = "";
 $template_end    = "";
+
 if (strstr($template_desc, '{product_loop_start}') && strstr($template_desc, '{product_loop_end}'))
 {
 	$template_sdata  = explode('{product_loop_start}', $template_desc);
@@ -101,6 +104,7 @@ $manufacturer_products = $model->getManufacturerProducts($template_desc);
 //print_r($manufacturer_products);
 
 $cname = '';
+
 if ($template_middle != "")
 {
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
@@ -112,6 +116,7 @@ if ($template_middle != "")
 		{
 			$cart_mdata1 = explode("{category_heading_start}", $cart_mdata);
 			$cart_mdata2 = explode("{category_heading_end}", $cart_mdata1[1]);
+
 			if ($cname != $manufacturer_products[$i]->category_name)
 			{
 				$cart_mdata = str_replace("{category_name}", $manufacturer_products[$i]->category_name, $cart_mdata);
@@ -151,6 +156,7 @@ if ($template_middle != "")
 		$cart_mdata   = $producthelper->getSpecialProductComment($manufacturer_products[$i], $cart_mdata);
 		$product_id   = $manufacturer_products[$i]->product_id;
 		$childproduct = $producthelper->getChildProduct($product_id);
+
 		if (count($childproduct) > 0)
 		{
 			$isChilds   = true;
@@ -161,6 +167,7 @@ if ($template_middle != "")
 			$isChilds = false;
 			// get attributes
 			$attributes_set = array();
+
 			if ($manufacturer_products[$i]->attribute_set_id > 0)
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $manufacturer_products[$i]->attribute_set_id, 0, 1);
@@ -188,6 +195,7 @@ if ($template_middle != "")
 		$cart_mdata = str_replace("{product_s_desc}", $manufacturer_products[$i]->product_s_desc, $cart_mdata);
 
 		$cart_mdata = str_replace("{category_name}", $manufacturer_products[$i]->category_name, $cart_mdata);
+
 		if (strstr($cart_mdata, '{product_desc}'))
 		{
 			$p_desc     = $Redconfiguration->maxchar($manufacturer_products[$i]->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
@@ -225,6 +233,7 @@ if ($template_middle != "")
 		$redmore          = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$cart_mdata       = str_replace("{read_more}", $redmore, $cart_mdata);
 		$cart_mdata       = str_replace("{read_more_link}", $link, $cart_mdata);
+
 		if (strstr($cart_mdata, '{manufacturer_product_link}'))
 		{
 			$cart_mdata = str_replace("{manufacturer_product_link}", $link, $cart_mdata);
@@ -251,6 +260,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE, '0');
 
 		$altText = $producthelper->getAltText('manufacturer', $manufacturer->manufacturer_id);
+
 		if (!$altText)
 		{
 			$altText = $manufacturer->manufacturer_name;

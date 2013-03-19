@@ -21,6 +21,7 @@ $Itemid = JRequest::getVar('Itemid');
 $model = $this->getModel('manufacturers');
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL');
+
 if ($this->pageheadingtag != '')
 {
 	$pagetitle = $this->pageheadingtag;
@@ -44,6 +45,7 @@ if ($this->params->get('show_page_heading', 1))
 // Page title End
 
 $manufacturerdetail_template = $redTemplate->getTemplate("manufacturer_detail");
+
 if (count($manufacturerdetail_template) > 0 && $manufacturerdetail_template[0]->template_desc != "")
 {
 	$template_desc = $manufacturerdetail_template[0]->template_desc;
@@ -65,6 +67,7 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 	$template_edata  = explode('{category_loop_end}', $template_sdata[1]);
 	$template_end    = $template_edata[1];
 	$template_middle = $template_edata[0];
+
 	if ($template_middle != "")
 	{
 		for ($i = 0; $i < count($category); $i++)
@@ -92,6 +95,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 		{
 			$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
+
 			if (!$altText)
 			{
 				$altText = $row->manufacturer_name;
