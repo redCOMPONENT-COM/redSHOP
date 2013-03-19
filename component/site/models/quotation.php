@@ -48,7 +48,7 @@ class quotationModelquotation extends JModel
 
 	public function _loadData()
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$user            = JFactory::getUser();
 
 		if ($user->id)
@@ -90,7 +90,7 @@ class quotationModelquotation extends JModel
 		$this->_loadData();
 		$quotationHelper = new quotationHelper;
 		$producthelper   = new producthelper;
-		$extra_field     = new extra_field();
+		$extra_field     = new extra_field;
 		$user            = JFactory::getUser();
 		$user_id         = 0;
 		$user_info_id    = 0;
@@ -432,7 +432,7 @@ class quotationModelquotation extends JModel
 	public function usercreate($data)
 	{
 		$redshopMail     = new redshopMail;
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$Itemid          = JRequest::getVar('Itemid');
 		global $mainframe;
 

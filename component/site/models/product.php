@@ -89,7 +89,7 @@ class productModelproduct extends JModel
 
 	public function getData()
 	{
-		$redTemplate = new Redtemplate ();
+		$redTemplate = new Redtemplate;
 
 		if (empty ($this->_data))
 		{
@@ -106,7 +106,7 @@ class productModelproduct extends JModel
 
 	public function getProductTemplate()
 	{
-		$redTemplate = new Redtemplate ();
+		$redTemplate = new Redtemplate;
 
 		if (empty ($this->_template))
 		{
@@ -567,7 +567,7 @@ class productModelproduct extends JModel
 
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = new producthelper ();
+		$producthelper = new producthelper;
 		$info          = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0; $i < count($info); $i++)
