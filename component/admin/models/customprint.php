@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class customprintModelcustomprint extends JModel
 {
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{

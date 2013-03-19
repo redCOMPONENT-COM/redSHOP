@@ -6,23 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class searchModelsearch extends JModel
 {
-	var $_id = null;
-	var $_container_id = null;
-	var $_stockroom_id = null;
-	var $_data = null;
-	var $_search = null;
-	var $_product = null; /// product data
-	var $_table_prefix = null;
-	var $_template = null;
+	public $_id = null;
+	public $_container_id = null;
+	public $_stockroom_id = null;
+	public $_data = null;
+	public $_search = null;
+	public $_product = null; /// product data
+	public $_table_prefix = null;
+	public $_template = null;
 	//var $_search = null;
-	var $_limit = null;
-	var $_iscompany = null;
+	public $_limit = null;
+	public $_iscompany = null;
 
 	function __construct()
 	{

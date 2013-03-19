@@ -7,17 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class quotationModelquotation extends JModel
 {
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_context = null;
+	public $_data = null;
+	public $_total = null;
+	public $_pagination = null;
+	public $_table_prefix = null;
+	public $_context = null;
 
 	function __construct()
 	{
@@ -76,17 +76,17 @@ class quotationModelquotation extends JModel
 
 		$where = "";
 //	    $order_id = array();
-//	   	
+//
 		$filter = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
 //		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 //		$order_id = implode(',',$cid);
-//		
+//
 //		$where[] = "1=1";
 //		if ( $filter_status ) {
-//		 
+//
 //			$where[] = "o.order_status like '%".$filter_status."%'";
-//		 
+//
 //		}
 		if ($filter)
 		{

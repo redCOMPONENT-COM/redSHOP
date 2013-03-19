@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -16,10 +16,10 @@ jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 class payment_detailModelpayment_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_copydata = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_copydata = null;
 
 	function __construct()
 	{
@@ -410,46 +410,46 @@ class JInstaller extends JObject
 {
 	/**
 	 * Array of paths needed by the installer
-	 * @var array
+	 * @public array
 	 */
-	var $_paths = array();
+	public $_paths = array();
 
 	/**
 	 * The installation manifest XML object
 	 * @var object
 	 */
-	var $_manifest = null;
+	public $_manifest = null;
 
 	/**
 	 * True if existing files can be overwritten
 	 * @var boolean
 	 */
-	var $_overwrite = false;
+	public $_overwrite = false;
 
 	/**
 	 * A database connector object
 	 * @var object
 	 */
-	var $_db = null;
+	public $_db = null;
 
 	/**
 	 * Associative array of package installer handlers
 	 * @var array
 	 */
-	var $_adapters = array();
+	public $_adapters = array();
 
 	/**
 	 * Stack of installation steps
 	 *    - Used for installation rollback
 	 * @var array
 	 */
-	var $_stepStack = array();
+	public $_stepStack = array();
 
 	/**
 	 * The output from the install/uninstall scripts
 	 * @var string
 	 */
-	var $message = null;
+	public $message = null;
 
 	/**
 	 * Constructor

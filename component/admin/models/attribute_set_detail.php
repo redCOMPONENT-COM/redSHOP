@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
@@ -18,12 +18,12 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class attribute_set_detailModelattribute_set_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $attribute_data = null;
-	var $_copydata = null;
-	var $_copycategorydata = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $attribute_data = null;
+	public $_copydata = null;
+	public $_copycategorydata = null;
 
 	function __construct()
 	{

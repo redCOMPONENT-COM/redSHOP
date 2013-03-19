@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -16,13 +16,13 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class user_detailModeluser_detail extends JModel
 {
-	var $_id = null;
-	var $_uid = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_pagination = null;
-	var $_copydata = null;
-	var $_context = null;
+	public $_id = null;
+	public $_uid = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_pagination = null;
+	public $_copydata = null;
+	public $_context = null;
 
 	function __construct()
 	{

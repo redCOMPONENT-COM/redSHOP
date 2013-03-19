@@ -7,18 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class stockroom_listingModelstockroom_listing extends JModel
 {
 
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_context2 = null;
+	public $_data = null;
+	public $_total = null;
+	public $_pagination = null;
+	public $_table_prefix = null;
+	public $_context2 = null;
 
 	function __construct()
 	{

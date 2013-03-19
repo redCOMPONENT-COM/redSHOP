@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -32,9 +32,9 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		$document = & JFactory::getDocument();
 
 		$document->addScriptDeclaration("
-		
+
 		var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
-		
+
 		");
 
 		$document->addScript('components/' . $option . '/assets/js/fields.js');

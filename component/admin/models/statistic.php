@@ -6,26 +6,26 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class statisticModelstatistic extends JModel
 {
-	var $_table_prefix = null;
-	var $_startdate = null;
-	var $_enddate = null;
-	var $_filteroption = null;
+	public $_table_prefix = null;
+	public $_startdate = null;
+	public $_enddate = null;
+	public $_filteroption = null;
 
-	var $_mostpopular = null;
-	var $_bestsallers = null;
-	var $_newproducts = null;
-	var $_neworders = null;
-	var $_amountprice = null;
-	var $_amountorder = null;
-	var $_turnover = 0;
-	var $_siteviewer = 0;
-	var $_pageviewer = 0;
+	public $_mostpopular = null;
+	public $_bestsallers = null;
+	public $_newproducts = null;
+	public $_neworders = null;
+	public $_amountprice = null;
+	public $_amountorder = null;
+	public $_turnover = 0;
+	public $_siteviewer = 0;
+	public $_pageviewer = 0;
 
 	function __construct()
 	{

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 
