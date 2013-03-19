@@ -67,7 +67,7 @@ else
 $app = & JFactory::getApplication();
 $router = & $app->getRouter();
 
-$uri = new JURI ('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $catid . '&Itemid=' . $Itemid . '&limit=' . $endlimit . '&texpricemin=' . $texpricemin . '&texpricemax=' . $texpricemax . '&order_by=' . $this->order_by_select . '&manufacturer_id=' . $this->manufacturer_id . '&category_template=' . $this->category_template_id);
+$uri = new JURI('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $catid . '&Itemid=' . $Itemid . '&limit=' . $endlimit . '&texpricemin=' . $texpricemin . '&texpricemax=' . $texpricemax . '&order_by=' . $this->order_by_select . '&manufacturer_id=' . $this->manufacturer_id . '&category_template=' . $this->category_template_id);
 
 // $router->setVars ( $uri->_vars );
 

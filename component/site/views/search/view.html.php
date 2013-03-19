@@ -673,7 +673,7 @@ class searchViewsearch extends JView
 			$router = & $app->getRouter();
 
 			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
-			// $uri = new JURI ( 'index.php?option='.$option.'&view=search&layout='.$layout.'&keyword='.$keyword.'&manufacture_id='.$manufacture_id.'&order_by='.$getorderby.'&category_id='.$cid.'&Itemid='.$Itemid.'&limit='.$limit);
+			// $uri = new JURI( 'index.php?option='.$option.'&view=search&layout='.$layout.'&keyword='.$keyword.'&manufacture_id='.$manufacture_id.'&order_by='.$getorderby.'&category_id='.$cid.'&Itemid='.$Itemid.'&limit='.$limit);
 			// $router->setVars ( $uri->_vars );
 			$vars = array(
 				'option'         => 'com_redshop',
