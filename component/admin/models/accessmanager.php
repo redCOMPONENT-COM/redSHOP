@@ -23,7 +23,7 @@ class accessmanagerModelaccessmanager extends JModel
 
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -45,33 +45,35 @@ class accessmanagerModelaccessmanager extends JModel
 		$this->setState('product_id', $product_id);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -82,36 +84,41 @@ class accessmanagerModelaccessmanager extends JModel
 		return $this->_pagination;
 	}
 
-	function getProduct()
+	public function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
 		$list = $this->_data = $this->_getList($query);
+
 		return $list;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$where = "";
 		$filter = $this->getState('filter');
 		$product_id = $this->getState('product_id');
+
 		if ($filter)
 		{
 			$where .= " AND q.question LIKE '%" . $filter . "%' ";
 		}
+
 		if ($product_id != 0)
 		{
 			$where .= " AND q.product_id ='" . $product_id . "' ";
 		}
+
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
 			. "WHERE q.parent_id='" . $this->_id . "' "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -119,8 +126,9 @@ class accessmanagerModelaccessmanager extends JModel
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
+
 		return $orderby;
 	}
 }
 
-?>
+

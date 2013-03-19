@@ -17,7 +17,7 @@ class currency_detailModelcurrency_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -28,13 +28,13 @@ class currency_detailModelcurrency_detail extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -45,24 +45,25 @@ class currency_detailModelcurrency_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'currency WHERE currency_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 
 			$detail->currency_id = 0;
 			$detail->currency_name = null;
@@ -75,7 +76,7 @@ class currency_detailModelcurrency_detail extends JModel
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 
 		$row =& $this->getTable();
@@ -84,25 +85,28 @@ class currency_detailModelcurrency_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -110,9 +114,11 @@ class currency_detailModelcurrency_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'currency WHERE currency_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -122,4 +128,4 @@ class currency_detailModelcurrency_detail extends JModel
 
 }
 
-?>
+

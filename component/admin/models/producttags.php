@@ -18,7 +18,7 @@ class producttagsModelproducttags extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -35,7 +35,7 @@ class producttagsModelproducttags extends JModel
 
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -46,7 +46,7 @@ class producttagsModelproducttags extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -57,7 +57,7 @@ class producttagsModelproducttags extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -68,7 +68,7 @@ class producttagsModelproducttags extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 
@@ -77,11 +77,12 @@ class producttagsModelproducttags extends JModel
 			. ' left join ' . $this->_table_prefix . 'product_tags_xref as ptx on ptx.tags_id = t.tags_id '
 			. ' GROUP BY t.tags_name '
 			. $orderby;
+
 		return $query;
 
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 

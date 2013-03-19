@@ -16,7 +16,7 @@ class rating_detailModelrating_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -28,13 +28,13 @@ class rating_detailModelrating_detail extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -45,7 +45,7 @@ class rating_detailModelrating_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -59,11 +59,11 @@ class rating_detailModelrating_detail extends JModel
 	}
 
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->rating_id = null;
 			$detail->product_id = null;
 			$detail->title = null;
@@ -74,30 +74,33 @@ class rating_detailModelrating_detail extends JModel
 			$detail->favoured = null;
 			$detail->published = 1;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -105,9 +108,11 @@ class rating_detailModelrating_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_rating WHERE rating_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -115,7 +120,7 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -125,9 +130,11 @@ class rating_detailModelrating_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE rating_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -135,7 +142,7 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
-	function favoured($cid = array(), $publish = 1)
+	public function favoured($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -145,9 +152,11 @@ class rating_detailModelrating_detail extends JModel
 				. ' SET favoured = ' . intval($publish)
 				. ' WHERE rating_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -155,32 +164,36 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
-	function getuserslist()
+	public function getuserslist()
 	{
 		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix . 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
-	function getproducts()
+	public function getproducts()
 	{
 		$product_id = JRequest::getVar('pid');
+
 		if ($product_id)
 		{
 			$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product WHERE product_id =' . $product_id;
 			$this->_db->setQuery($query);
+
 			return $this->_db->loadObject();
 		}
 	}
 
-	function getuserfullname2($uid)
+	public function getuserfullname2($uid)
 	{
 		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id=" . $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
 		$fullname = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
+
 		return $fullname;
 	}
 }
 
-?>
+

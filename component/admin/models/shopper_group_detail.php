@@ -21,7 +21,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -29,22 +29,23 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 		}
 		else  $this->_initData();
+
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -62,17 +63,18 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			$this->_data->shopper_group_id = $this->_id;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->shopper_group_id = 0;
 			$detail->shopper_group_name = null;
 			$detail->shopper_group_customer_type = 0;
@@ -103,7 +105,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$logo = JRequest::getVar('shopper_group_logo', '', 'files', '');
 
@@ -148,12 +150,14 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		}
 
 		$isNew = false;
+
 		if (!$data['shopper_group_id'] && NEW_SHOPPER_GROUP_GET_VALUE_FROM)
 		{
 			$isNew = true;
 			$destname = time() . $data['shopper_group_logo'];
 			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $data['shopper_group_logo'];
 			$copylogopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $destname;
+
 			if (is_file($logopath))
 			{
 				copy($logopath, $copylogopath);
@@ -162,15 +166,18 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		}
 
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -189,6 +196,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				$product_data['cdate'] = date("Y-m-d");
 
 				$prdrow = & JTable::getInstance('prices_detail', 'Table');
+
 				if (!$prdrow->bind($product_data))
 				{
 					$this->setError($this->_db->getErrorMsg());
@@ -214,6 +222,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				$attribute_data['cdate'] = time();
 
 				$attrow = & JTable::getInstance('attributeprices_detail', 'Table');
+
 				if (!$attrow->bind($attribute_data))
 				{
 					$this->setError($this->_db->getErrorMsg());
@@ -229,7 +238,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -242,6 +251,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 			for ($i = 0; $i < count($list); $i++)
 			{
 				$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $list[$i]->shopper_group_logo;
+
 				if (is_file($logopath))
 				{
 					unlink($logopath);
@@ -250,25 +260,31 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'shopper_group WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -276,7 +292,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -285,27 +301,31 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				. 'SET published = ' . intval($publish)
 				. ' WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function getVatGroup()
+	public function getVatGroup()
 	{
 		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
-	function getmanufacturers()
+	public function getmanufacturers()
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 }
-?>
+
