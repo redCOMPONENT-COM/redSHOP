@@ -57,6 +57,7 @@ if ($Itemid == 0)
 {
 	$Itemid = JRequest::getVar('Itemid');
 }
+
 $ccinfo = JRequest::getVar('ccinfo');
 $print = JRequest::getVar('print');
 $option = JRequest::getVar('option');
@@ -138,6 +139,7 @@ elseif ($cart_data != "")
 		$print_url = $url . "index.php?option=com_redshop&view=checkout&task=checkoutnext&print=1&tmpl=component&Itemid=" . $Itemid;
 		$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 	}
+
 	$print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 	$print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 	$print_tag .= "</a>";

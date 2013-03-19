@@ -57,6 +57,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=orders&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -84,6 +85,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$order_item_name[$j] = $prolist[$j]->order_item_name;
 		}
+
 		$orderdetailurl = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $this->detail[$i]->order_id);
 
 		$reorderurl = JUri::root() . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
@@ -122,6 +124,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$cart_mdata = str_replace("{reorder_link}", $reorder_link, $cart_mdata);
 	}
+
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
 	$template_desc = str_replace($template_middle, $cart_mdata, $template_desc);
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
@@ -143,5 +146,6 @@ if (strstr($template_desc, "{pagination_limit}"))
 	$limitBox .= "</form>";
 	$template_desc = str_replace("{pagination_limit}", $limitBox, $template_desc);
 }
+
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

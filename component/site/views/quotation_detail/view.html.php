@@ -49,6 +49,7 @@ if ($print)
 	{
 		$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
 	}
+
 	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
 
 	if (count($quotationDetail) < 1)

@@ -94,6 +94,7 @@ else
 	{
 		$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 	}
+
 	$bool                              = (INDIVIDUAL_ADD_TO_CART_ENABLE) ? false : true;
 	$attribute_template                = $producthelper->getAttributeTemplate($template_desc, $bool);
 	$attribute_template->template_desc = str_replace("{property_image_scroller}", "", $attribute_template->template_desc);
@@ -103,6 +104,7 @@ else
 
 	$selectAtt = $carthelper->getSelectedCartAttributeArray($cart[$cart_index]['cart_attribute']);
 }
+
 $totalatt      = count($attributes);
 $template_desc = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds, $selectAtt, 0);
 

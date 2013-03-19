@@ -76,6 +76,7 @@ if ($this->params->get('show_page_heading', 1))
 	{
 		$order_item_name[$j] = $OrderProducts[$j]->order_item_name;
 	}
+
 	$itemlist = implode(',<br/>', $order_item_name);
 	$statusname = $order_functions->getOrderStatusTitle($order_detail->order_status);
 	$orderdetailurl = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $order_id);    ?>

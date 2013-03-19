@@ -109,6 +109,7 @@ else
 {
 	$frm = '';
 }
+
 $search [] = "{quotation_status}";
 $replace[] = $statustext . $frm;
 
@@ -177,8 +178,10 @@ if ($quotationDetail->user_id != 0)
 			{
 				$billadd .= JText::_('COM_REDSHOP_NO');
 			}
+
 			$billadd .= ' <br>';
 		}
+
 		$billadd .= JText::_("USER_TAX_EXEMPT_REQUEST_LBL") . ' : ';
 
 		if ($quotationDetail->requesting_tax_exempt == 1)
@@ -189,6 +192,7 @@ if ($quotationDetail->user_id != 0)
 		{
 			$billadd .= JText::_('COM_REDSHOP_NO');
 		}
+
 		$billadd .= ' <br>';
 	}
 	if ($quotationDetail->is_company == 1)
@@ -199,6 +203,7 @@ if ($quotationDetail->user_id != 0)
 	{
 		$billadd .= $extra_field->list_all_field_display(7, $quotationDetail->user_info_id, 1);
 	}
+
 	$billadd .= ' <br>';
 }
 else
@@ -320,6 +325,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 			$product_image = "<div class='product_image'></div>";
 		}
 	}
+
 	$product_name       = "<div class='product_name'>" . $quotationProducts[$i]->product_name . "</div>";
 	$product_note       = "<div  class='product_note'>" . $wrapper_name . "</div>";
 	$product_price      = "<div class='product_price'>" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->product_price) . "</div>";
@@ -361,8 +367,10 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		$cart_mdata = str_replace("{product_price_excl_vat}", $product_excl_price, $cart_mdata);
 		$cart_mdata = str_replace("{product_total_price_excl_vat}", $producthelper->getProductFormattedPrice($product_total_excl_price), $cart_mdata);
 	}
+
 	$cart_mdata = str_replace("{product_quantity}", $product_quantity, $cart_mdata);
 }
+
 $quotation_template = $template_start . $cart_mdata . $template_end;
 
 if ($quotationDetail->quotation_status == 1)
@@ -379,6 +387,7 @@ else
 	$quotation_tax      = $producthelper->getProductFormattedPrice($quotationDetail->quotation_tax);
 	$quotation_discount = $producthelper->getProductFormattedPrice($quotationDetail->quotation_discount);
 }
+
 $search []  = "{quotation_discount}";
 $replace [] = $quotation_discount;
 

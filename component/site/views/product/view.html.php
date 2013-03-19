@@ -111,6 +111,7 @@ class productViewproduct extends JView
 			{
 				$this->setLayout('default');
 			}
+
 			$data                     =& $this->get('data');
 			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($data->product_id);
 
@@ -142,6 +143,7 @@ class productViewproduct extends JView
 					$document->addCustomTag($canonical);
 				}
 			}
+
 			$productTemplate =& $model->getProductTemplate();
 
 			/*
@@ -172,6 +174,7 @@ class productViewproduct extends JView
 					$parentcat    = $parentdetail->category_name . "  " . $parentcat;
 					$parentid     = $prodhelperobj->getParentCategory($parentdetail->category_id);
 				}
+
 				$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
 
 				$pagetitletag = $prodhelperobj->getProductNotForSaleComment($data, $pagetitletag);
@@ -389,6 +392,7 @@ class productViewproduct extends JView
 					{
 						$product_price_saving_main = 0;
 					}
+
 					$document->setMetaData('description', JText::_('COM_REDSHOP_META_BUY') . " " . $data->product_name . " " . JText::_('COM_REDSHOP_META_AT_ONLY') . " " . $prodhelperobj_array['product_price'] . " " . JText::_('COM_REDSHOP_META_SAVE') . " " . $product_price_saving_main);
 					$document->setMetaData("og:description", JText::_('COM_REDSHOP_META_BUY') . " " . $data->product_name . " " . JText::_('COM_REDSHOP_META_AT_ONLY') . " " . $prodhelperobj_array['product_price'] . " " . JText::_('COM_REDSHOP_META_SAVE') . " " . $product_price_saving_main);
 				}

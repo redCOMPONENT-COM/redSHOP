@@ -82,6 +82,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -168,6 +169,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		{
 			$cat_thumb = "<a href='" . $link . "' " . $title . ">";
 		}
+
 		$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
 		$cat_thumb .= "</a>";
 		$data_add = str_replace($tag, $cat_thumb, $data_add);

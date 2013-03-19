@@ -22,6 +22,7 @@ if ($user->id)
 	$uname  = $user->name;
 	$uemail = $user->email;
 }
+
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $pid = JRequest::getInt('pid');

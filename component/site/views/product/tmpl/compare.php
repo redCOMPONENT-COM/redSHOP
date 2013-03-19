@@ -87,6 +87,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$print_url = $url . "index.php?option=com_redshop&view=product&layout=compare&print=1&tmpl=component";
 		$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
 	}
+
 	$template = str_replace("{print}", $print_tag, $template);
 
 	$template = str_replace('{compare_product_heading}', $pagetitle, $template);
@@ -115,6 +116,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			$td_start = "<td>";
 			$td_end   = "</td>";
 		}
+
 		$exp_div = "<div name='exp_" . $product->product_id . "'>";
 		$div_end = "</div>";
 
@@ -152,6 +154,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			{
 				$disc_start_date = $config->convertDateFormat($product->discount_stratdate);
 			}
+
 			$template = str_replace('{discount_start_date}', $exp_div . $disc_start_date . $div_end . $td_end . $td_start . "{discount_start_date}", $template);
 		}
 		if (strstr($template, "{discount_end_date}"))
@@ -162,6 +165,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			{
 				$disc_end_date = $config->convertDateFormat($product->discount_enddate);
 			}
+
 			$template = str_replace('{discount_end_date}', $exp_div . $disc_end_date . $div_end . $td_end . $td_start . "{discount_end_date}", $template);
 		}
 
@@ -190,6 +194,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			{
 				$price = $producthelper->getProductFormattedPrice($product->product_price);
 			}
+
 			$template = str_replace('{product_price}', $exp_div . $price . $div_end . $td_end . $td_start . "{product_price}", $template);
 		}
 		if (strstr($template, "{product_rating_summary}"))
@@ -212,6 +217,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $compare[$i]["product_id"] . '">' . $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
 				$stockamountImage .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom' . DS . $stockamountList[0]->stock_amount_image . '" width="150px" height="90px" alt="' . $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $compare[$i]["product_id"] . '" /></a>';
 			}
+
 			$template = str_replace('{product_stock_amount_image}', $exp_div . $stockamountImage . $div_end . $td_end . $td_start . "{product_stock_amount_image}", $template);
 		}
 		if (strstr($template, "{product_delivery_time}"))
@@ -227,6 +233,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			{
 				$available_date = $config->convertDateFormat($product->product_availability_date);
 			}
+
 			$template = str_replace('{product_availability_date}', $exp_div . $available_date . $div_end . $td_end . $td_start . "{product_availability_date}", $template);
 		}
 		if (strstr($template, "{product_category}"))
@@ -234,6 +241,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			$category = $producthelper->getSection('category', $compare[$i]["category_id"]);
 			$template = str_replace('{product_category}', $exp_div . $category->category_name . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
+
 		$template = str_replace('{remove}', $exp_div . $remove . $div_end . $td_end . $td_start . "{remove}", $template);
 
 		if (strstr($template, "{add_to_cart}"))
@@ -254,6 +262,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			$template = str_replace('{addedext_tag}', '{' . $product_tag[$tag] . '}', $template);
 		}
 	}
+
 	$template = str_replace('{expand_collapse}', "", $template);
 	$template = str_replace('{product_name}', "", $template);
 	$template = str_replace('{product_image}', "", $template);

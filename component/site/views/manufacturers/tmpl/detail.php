@@ -81,6 +81,7 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
 		}
 	}
+
 	$template_desc = $template_start . $cart_mdata . $template_end;
 }
 
@@ -126,6 +127,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $url . "/components/" . $option . "/helpers/thumb.php?filename=" . $thumbtype . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a>";
 		}
 	}
+
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
 }
 

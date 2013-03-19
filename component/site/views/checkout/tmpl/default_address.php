@@ -91,6 +91,7 @@ $cart = $session->get('cart');
 					</tr>
 				<?php
 				}
+
 				$shippingaddresses = $model->shippingaddresses();
 				$add_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
 
@@ -100,6 +101,7 @@ $cart = $session->get('cart');
 					{
 						$checked = ($this->users_info_id == $shippingaddresses [$i]->users_info_id) ? 'checked' : '';
 					}
+
 					$edit_addlink   = $url . "index.php?option=" . $option . "&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
 					$delete_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;    ?>
 					<tr>

@@ -140,6 +140,7 @@ if ($gid != 0)
 		$template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
 
 	}
+
 	$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
 	$template = str_replace("{giftcard_reciver_name}", $reciver_name, $template);
 	$template = str_replace("{customer_quantity}", $customer_quantity, $template);
@@ -199,6 +200,7 @@ if ($gid != 0)
 		{
 			$idx = (int) ($cart['idx']);
 		}
+
 		$idx     = 0;
 		$cart_id = '';
 
@@ -215,6 +217,7 @@ if ($gid != 0)
 			{
 				$cart_id = "";
 			}
+
 			$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
 
 			$ufield .= $product_userfileds[1];
@@ -227,6 +230,7 @@ if ($gid != 0)
 			$template = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template);
 			$template = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template);
 		}
+
 		$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 		if ($ufield != "")
@@ -282,6 +286,7 @@ else
 					$data_add = str_replace("{giftcard_image}", "", $data_add);
 				}
 			}
+
 			$giftcard_name     = "<a href='" . $link . "'>" . $detail[$i]->giftcard_name . "</a>";
 			$giftcard_readmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 			$data_add          = str_replace("{giftcard_name}", $giftcard_name, $data_add);
@@ -306,6 +311,7 @@ else
 			$data_add = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
+
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
 	}
 

@@ -68,6 +68,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=cart&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -90,6 +91,7 @@ for ($i = 0; $i < $idx; $i++)
 		$q_id .= ",";
 	}
 }
+
 $cart_data = $carthelper->replaceTemplate($cart, $cart_data, 0);
 $session->set('cart', $cart);
 
@@ -150,6 +152,7 @@ else
 	{
 		$checkout .= ' onclick="javascript:document.location=\'' . $link . '\'">';
 	}
+
 	$checkout .= '</div>';
 }
 
@@ -172,9 +175,11 @@ if (strstr($cart_data, "{shop_more}"))
 	{
 		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $Itemid);
 	}
+
 	$shop_more = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
 	$cart_data = str_replace("{shop_more}", $shop_more, $cart_data);
 }
+
 $product_all = $pr_id;
 
 $update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="POST" >
@@ -217,6 +222,7 @@ if (count($discount) > 0)
 		$discount_amount = ($discount->amount * $discount->discount_amount) / (100);
 		$discount_sign   = " %";
 	}
+
 	$diff  = $discount->amount - $cart ['product_subtotal'];
 	$price = number_format($discount->discount_amount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 
@@ -242,6 +248,7 @@ else
 {
 	$cart_data = str_replace("{discount_rule}", '', $cart_data);
 }
+
 $discount_form = '<div class="update_cart"><form name="discount_form" method="POST" >';
 $coupon_lableFLG = 0;
 $coupon_lable = '';
@@ -266,6 +273,7 @@ elseif (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
 	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
+
 $discount_form .= '<input type="hidden" name="task" value=""><input type="hidden" name="Itemid" value="' . $Itemid . '">';
 $discount_form .= '</form></div>';
 
@@ -278,6 +286,7 @@ if ($coupon_lableFLG)
 {
 	$coupon_lable = "<div id='coupon_label' class='coupon_label'>" . JText::_('COM_REDSHOP_CART_COUPON_CODE_TBL') . "</div>";
 }
+
 $cart_data = str_replace("{discount_form_lbl}", "", $cart_data);
 $cart_data = str_replace("{discount_form}", $discount_form, $cart_data);
 $cart_data = str_replace("{coupon_code_lbl}", $coupon_lable, $cart_data);

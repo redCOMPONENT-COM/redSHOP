@@ -91,6 +91,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $oid . "&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -168,6 +169,7 @@ else
 	$reorder .= "<input type='hidden' name='view' value='order_detail'>";
 	$reorder .= "<input type='hidden' name='task' value='reorder'></form>";
 }
+
 $search [] = "{order_status}";
 
 if (trim($OrdersDetail->order_payment_status) == 'Paid')
@@ -186,6 +188,7 @@ else
 {
 	$orderPaymentStatus = $OrdersDetail->order_payment_status;
 }
+
 $replace[] = $statustext . " - " . $orderPaymentStatus . $split_amounttext . "    " . $payremaininglink . $frm;
 
 if (strstr($orderslist_template, "{order_status_order_only}"))

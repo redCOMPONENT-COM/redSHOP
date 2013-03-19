@@ -29,6 +29,7 @@ class product_ratingViewproduct_rating extends JView
 
 			return;
 		}
+
 		$option        = JRequest::getVar('option');
 		$model         = $this->getModel('product_rating');
 		$userinfo      = $model->getuserfullname($user->id);

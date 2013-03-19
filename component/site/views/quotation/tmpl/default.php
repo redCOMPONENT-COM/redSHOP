@@ -95,6 +95,7 @@ else
 	{
 		$template_desc = $extra_field->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
 	}
+
 	$billing .= '</table>';
 
 	$template_desc = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $template_desc);

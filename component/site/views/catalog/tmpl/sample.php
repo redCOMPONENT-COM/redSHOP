@@ -72,12 +72,15 @@ if ($this->params->get('show_page_heading', 1))
 				{
 					$saple_data .= '<div style="background-color:' . $catalog_colour[$c]->code_image . ';width: 27px; height:27px; "></div> ';
 				}
+
 				$saple_check .= "<td><input type='checkbox' name='sample_code[]' id='sample_code" . $c . "' value='" . $catalog_colour[$c]->colour_id . "' ></td>";
 				$saple_data .= "</td>";
 			}
+
 			$saple_check .= "</tr>";
 			$saple_data .= "</tr>" . $saple_check . "<tr><td>&nbsp;</td></tr></table>";
 		}
+
 		$template_desc = str_replace("{product_samples}", $saple_data, $template_desc);
 	}
 
@@ -90,6 +93,7 @@ if ($this->params->get('show_page_heading', 1))
 
 		$template_desc = str_replace("{address_fields}", $myfield, $template_desc);
 	}
+
 	$template_desc = str_replace("{name_lbl}", JText::_('COM_REDSHOP_NAME_LBL'), $template_desc);
 	$template_desc = str_replace("{name}", '<input type="text" name="name_2" id="name" />', $template_desc);
 	$template_desc = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL_LBL'), $template_desc);

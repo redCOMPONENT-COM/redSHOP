@@ -67,6 +67,7 @@ if (count($relptemplate) > 0)
 			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
 			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
 		}
+
 		$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='" . $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='" . $rph_thumb . "'>";
 		$relimage              = $producthelper->getProductImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
 		$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
@@ -82,6 +83,7 @@ if (count($relptemplate) > 0)
 			$rpname = $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX);
 
 		}
+
 		$rpdesc       = $config->maxchar($related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX);
 		$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, RELATED_PRODUCT_SHORT_DESC_MAX_CHARS, RELATED_PRODUCT_SHORT_DESC_END_SUFFIX);
 
@@ -97,6 +99,7 @@ if (count($relptemplate) > 0)
 			$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
 
 		}
+
 		$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);
 		$related_template_data = str_replace("{relproduct_number}", $related_product [$r]->product_number, $related_template_data);
 		$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
@@ -151,6 +154,7 @@ if (count($relptemplate) > 0)
 		{
 			$attributes_set = $producthelper->getProductAttribute(0, $related_product [$r]->attribute_set_id);
 		}
+
 		$attributes = $producthelper->getProductAttribute($relid);
 		$attributes = array_merge($attributes, $attributes_set);
 

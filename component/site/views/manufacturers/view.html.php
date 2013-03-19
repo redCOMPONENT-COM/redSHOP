@@ -34,6 +34,7 @@ class manufacturersViewmanufacturers extends JView
 		{
 			$limit = $detail[0]->product_per_page;
 		}
+
 		$model->setProductLimit($limit);
 		$pageheadingtag = '';
 		$disabled       = "";
@@ -211,6 +212,7 @@ class manufacturersViewmanufacturers extends JView
 				$document->setMetaData('description', $mainframe->getCfg('sitename'));
 				$document->setMetaData('robots', $mainframe->getCfg('sitename'));
 			}
+
 			$this->setLayout($layout);
 		}
 		// Breadcrumbs
@@ -227,6 +229,7 @@ class manufacturersViewmanufacturers extends JView
 			$order_by_select = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
 			$order_data      = $redhelper->getManufacturerOrderByList();
 		}
+
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ' . $disabled . ' ', 'value', 'text', $order_by_select);
 
 		$categorylist           = $model->getCategoryList();

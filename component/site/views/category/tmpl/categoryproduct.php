@@ -57,6 +57,7 @@ else
 
 	$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -144,6 +145,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		{
 			$cat_thumb = "<a href='" . $link . "' " . $title . ">";
 		}
+
 		$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
 		$cat_thumb .= "</a>";
 		$data_add = str_replace($tag, $cat_thumb, $data_add);
@@ -202,6 +204,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				{
 					break;
 				}
+
 				$count_no_user_field = 0;
 
 				// Counting accessory
@@ -229,9 +232,11 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 						{
 							$count_no_user_field++;
 						}
+
 						$prddata_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $prddata_add);
 						$prddata_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $prddata_add);
 					}
+
 					$product_userfileds_form = "<form method='post' action='' id='user_fields_form_" . $product->product_id . "' name='user_fields_form_" . $product->product_id . "'>";
 
 					if ($ufield != "")
@@ -254,6 +259,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
+
 					$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
 					$template_userfield = $returnArr[0];
 					$userfieldArr       = $returnArr[1];
@@ -271,6 +277,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 							{
 								$count_no_user_field++;
 							}
+
 							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_userfield);
 							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_userfield);
 						}
@@ -280,6 +287,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 						}
 					}
 				}
+
 				$prddata_add = $prddata_add . $hidden_userfield;
 				/************** end user fields ***************************/
 
@@ -293,6 +301,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				{
 					$pItemid = $objhelper->getItemid($product->product_id);
 				}
+
 				$prddata_add = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $prddata_add);
 				$prddata_add = str_replace("{product_id}", $product->product_id, $prddata_add);
 
@@ -388,6 +397,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
 					$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
 				}
+
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 				$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 				/* product image flying addwishlist time start*/
@@ -446,6 +456,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 					}
+
 					$attributes = $producthelper->getProductAttribute($product->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
@@ -460,6 +471,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Get cart tempalte
 				$prddata_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $prddata_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 			}
+
 			$data_add = str_replace("{product_loop_start}", "", $data_add);
 			$data_add = str_replace("{product_loop_end}", "", $data_add);
 			$data_add = str_replace($template_product, $prddata_add, $data_add);
