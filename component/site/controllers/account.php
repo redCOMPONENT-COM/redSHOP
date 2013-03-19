@@ -127,5 +127,3 @@ class AccountController extends JController
 		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
 	}
 }
-
-?>
