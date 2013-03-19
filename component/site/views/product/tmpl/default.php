@@ -45,6 +45,7 @@ foreach ($headerstuff['scripts'] as $key => $value)
 		unset($headerstuff['scripts'][$key]);
 	}
 }
+
 $document->setHeadData($headerstuff);
 $headerstuff = $document->getHeadData();
 
@@ -119,6 +120,7 @@ if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, 
 		$returncatlink    = JRoute::_('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
 		$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . " " . $this->data->category_name . '</a>';
 	}
+
 	$template_desc = str_replace('{returntocategory_link}', $returncatlink, $template_desc);
 	$template_desc = str_replace('{returntocategory_name}', $this->data->category_name, $template_desc);
 	$template_desc = str_replace('{returntocategory}', $returntocategory, $template_desc);
@@ -169,6 +171,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		}
 		// End
 	}
+
 	$template_desc = str_replace('{navigation_link_right}', $nextbutton, $template_desc);
 	$template_desc = str_replace('{navigation_link_left}', $prevbutton, $template_desc);
 }
@@ -265,6 +268,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=product&pid=" . $this->data->product_id . "&cid=" . $this->data->category_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -316,6 +320,7 @@ if (strstr($template_desc, "{product_category_list}"))
 		$pcats .= $prodCat->name;
 		$pcats .= "</a><br />";
 	}
+
 	$template_desc = str_replace("{product_category_list}", $pcats, $template_desc);
 }
 
@@ -340,12 +345,15 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		{
 			$altText = $this->data->manufacturer_name;
 		}
+
 		$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . $linkimage . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $wimg . "'></a>";
 	}
 //	}
+
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
 }
+
 $product_weight_unit = '<span class="product_unit_variable">' . DEFAULT_WEIGHT_UNIT . '</span>';
 
 if ($this->data->weight > 0)
@@ -520,6 +528,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				$wrapper_start        = explode("{product_wrapper_end}", $wrapper_start [1]);
 				$wrappertemplate_data = $wrapper_start [0];
 			}
+
 			$wrappertemplate_data .= "<input type='hidden' name='wrapper_price' id='wrapper_price' value='0' />";
 			$wrappertemplate_data .= "<input type='hidden' name='wrapper_price_withoutvat' id='wrapper_price_withoutvat' value='0' />";
 			$warray                   = array();
@@ -531,6 +540,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 			{
 				$wrapperimage_div .= "<marquee behavior='scroll' direction='left' onmouseover='this.stop()' onmouseout='this.start()' scrolldelay='200' width='200'>";
 			}
+
 			$wrapperimage_div .= "<table cellpadding='5' cellspacing='5'><tr>";
 
 			for ($i = 0; $i < count($wrapper); $i++)
@@ -541,6 +551,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				{
 					$wrapper_vat = $producthelper->getProducttax($this->data->product_id, $wrapper[$i]->wrapper_price);
 				}
+
 				$wp            = $wrapper [$i]->wrapper_price + $wrapper_vat;
 				$wp_withoutvat = $wrapper [$i]->wrapper_price;
 
@@ -556,6 +567,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				{
 					$wrapper [$i]->wrapper_name = $wrapper [$i]->wrapper_name;
 				}
+
 				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
 
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper [$i]->wrapper_image))
@@ -572,8 +584,10 @@ if (strstr($template_desc, "{wrapper_template:"))
 					{
 						$wrapperimage_div .= $producthelper->getProductFormattedPrice($wp);
 					}
+
 					$wrapperimage_div .= "</div>";
 				}
+
 				$wrapperimage_div .= "</td>";
 				$wrappertemplate_data .= "<input type='hidden' name='w_price' id='w_price" . $wid . "' value='" . $wp . "' />";
 				$wrappertemplate_data .= "<input type='hidden' name='w_price_withoutvat' id='w_price_withoutvat" . $wid . "' value='" . $wp_withoutvat . "' />";
@@ -586,6 +600,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 					}
 				}
 			}
+
 			$wrapperimage_div .= "</tr></table>";
 
 			if (AUTO_SCROLL_WRAPPER)
@@ -645,6 +660,7 @@ if (strstr($template_desc, "{navigator_products}"))
 				$cld_name = @array_merge($cld_name, $childproducts);
 
 			}
+
 			$selected = array($this->data->product_id);
 
 			$lists['product_child_id'] = JHTML::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmNav.submit();"', 'child_product_id', 'product_name', $selected);
@@ -660,6 +676,7 @@ if (strstr($template_desc, "{navigator_products}"))
 
 		}
 	}
+
 	$template_desc = str_replace("{navigator_products}", $frmChild, $template_desc);
 	$template_desc = str_replace("{navigator_products_lbl}", $navigator_products_lbl, $template_desc);
 }
@@ -673,6 +690,7 @@ if (strstr($template_desc, "{child_products}"))
 	{
 		$parentproductid = $producthelper->getMainParentProduct($this->data->product_id);
 	}
+
 	$frmChild = "";
 
 	if ($parentproductid != 0)
@@ -706,6 +724,7 @@ if (strstr($template_desc, "{child_products}"))
 							$level = $level; //."_";
 						}
 					}
+
 					$parentid = $childproducts[$c]->product_parent_id;
 
 					$childproducts[$c]->product_name = $level . $childproducts[$c]->product_name;
@@ -731,6 +750,7 @@ if (strstr($template_desc, "{child_products}"))
 
 		}
 	}
+
 	$template_desc = str_replace("{child_products}", $frmChild, $template_desc);
 }
 
@@ -748,6 +768,7 @@ if (count($childproduct) > 0)
 		{
 			$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 		}
+
 		$attributes = $producthelper->getProductAttribute($this->data->product_id);
 		$attributes = array_merge($attributes, $attributes_set);
 	}
@@ -766,6 +787,7 @@ else
 	{
 		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
+
 	$attributes = $producthelper->getProductAttribute($this->data->product_id);
 	$attributes = array_merge($attributes, $attributes_set);
 }
@@ -870,6 +892,7 @@ else
 	/// End
 
 }
+
 $template_desc = $producthelper->replaceProductStockdata($this->data->product_id, $selectedpropertyId, $selectedsubpropertyId, $template_desc, $attributeproductStockStatus);
 
 /*
@@ -1000,12 +1023,14 @@ if (strstr($template_desc, $mpimg_tag))
 					{
 						$more_images .= "<img src='" . $hoverimg_path . "' alt='" . $alttext . "' title='" . $alttext . "' class='redImagepreview'>";
 					}
+
 					$more_images .= $more_images_hrefend;
 					$more_images .= $more_images_div_end;
 				}
 			}
 		}
 	}
+
 	$template_desc = str_replace($mpimg_tag, "<span class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</span>", $template_desc);
 }
 // More images end
@@ -1032,6 +1057,7 @@ if (strstr($template_desc, "{more_documents}"))
 			$more_doc .= "</a></div>";
 		}
 	}
+
 	$template_desc = str_replace("{more_documents}", "<span id='additional_docs" . $this->data->product_id . "'>" . $more_doc . "</span>", $template_desc);
 }
 // More documents end
@@ -1079,6 +1105,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 	{
 		$idx = (int) ($cart['idx']);
 	}
+
 	$idx     = 0;
 	$cart_id = '';
 
@@ -1095,6 +1122,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 		{
 			$cart_id = "";
 		}
+
 		$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $this->data->product_id);
 
 		$ufield .= $product_userfileds[1];
@@ -1103,9 +1131,11 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 		{
 			$count_no_user_field++;
 		}
+
 		$template_desc = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_desc);
 		$template_desc = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_desc);
 	}
+
 	$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 	if ($ufield != "")
@@ -1434,6 +1464,7 @@ if (strstr($template_desc, "{form_rating_without_link}"))
 
 	$template_desc = str_replace("{form_rating_without_link}", $reviewform, $template_desc);
 }
+
 $template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 
 // Product Review/Rating
@@ -1488,6 +1519,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_template = $review_end [0];
 		}
 	}
+
 	$product_data = '';
 	$reviews_all  = '';
 
@@ -1520,6 +1552,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'reviewarrow.gif"> ';
 			$reviews_data .= JText::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';
 		}
+
 		$reviews_data .= '<div style="display:none;" id="showreviews" name="showreviews">';
 
 		for ($k = $mainblock; $k < count($reviews); $k++)
@@ -1537,6 +1570,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data2 = str_replace("{review_date}", $redshopconfig->convertDateFormat($reviews [$k]->time), $reviews_data2);
 			$reviews_data .= $reviews_data2;
 		}
+
 		$reviews_data .= '</div>';
 		$reviews_all .= $reviews_data;
 	}
@@ -1583,6 +1617,7 @@ if (strstr($template_desc, "subscription"))
 			$subscription_data .= "<td align='center'><input type='hidden' id='hdn_subscribe_" . $subscription [$sub]->subscription_id . "' value='" . $subscription [$sub]->subscription_price . "' /><input type='radio' name='rdoSubscription' value='" . $subscription [$sub]->subscription_id . "' onClick=\"changeSubscriptionPrice(" . $subscription [$sub]->subscription_id . ",this.value, " . $this->data->product_id . ")\" /></td>";
 			$subscription_data .= "</tr>";
 		}
+
 		$subscription_data .= "</table>";
 		$template_desc = str_replace("{subscription}", $subscription_data, $template_desc);
 	}
@@ -1641,6 +1676,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 					$aend    = $answer_end [1];
 				}
 			}
+
 			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->question_id, 0, 1, 1);
 			$answerloop     = "";
 
@@ -1652,9 +1688,11 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 
 				$answerloop .= $aloop;
 			}
+
 			$questionloop .= $astart . $answerloop . $aend;
 		}
 	}
+
 	$template_desc = $qstart . $questionloop . $qend;
 }
 /************************PRODUCT QUESTION END***************************/
@@ -1686,6 +1724,7 @@ if (MY_TAGS != 0 && $user->id && strstr($template_desc, "{my_tags_button}"))
 	$my_tags .= "</div>";
 	// End Product Tags
 }
+
 $template_desc = str_replace("{my_tags_button}", $my_tags, $template_desc);
 
 $template_desc = str_replace("{with_vat}", "", $template_desc);

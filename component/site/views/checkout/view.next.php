@@ -53,6 +53,7 @@ class checkoutViewcheckout extends JView
 		{
 			$shipping_rate_id = "";
 		}
+
 		$cart = $session->get('cart');
 
 		if ($cart['idx'] < 1)

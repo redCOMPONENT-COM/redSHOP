@@ -70,6 +70,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	$state = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
 
 	if ($state != "")

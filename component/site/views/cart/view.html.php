@@ -34,6 +34,7 @@ class cartViewcart extends JView
 		{
 			$mainframe->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
 		}
+
 		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 

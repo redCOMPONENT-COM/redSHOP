@@ -92,6 +92,7 @@ class categoryViewcategory extends JView
 			{
 				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_CATEGORY_IS_NOT_PUBLISHED'), $maincat->category_name, $maincat->category_id));
 			}
+
 			$isSlider = false;
 
 			if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
@@ -105,6 +106,7 @@ class categoryViewcategory extends JView
 				$texpricemax = JRequest::getInt('texpricemax', $minmax[1], '', 'int');
 				$model->setMaxMinProductPrice(array($texpricemin, $texpricemax));
 			}
+
 			$product =& $model->getCategoryProduct(0, $isSlider);
 
 			$document->setMetaData('keywords', $maincat->metakey);
@@ -349,6 +351,7 @@ class categoryViewcategory extends JView
 		{
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
+
 		$category_template_id = $mainframe->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template); // Gunjan Template Switcher
 		$order_by_select      = JRequest::getVar('order_by', '');
 		$manufacturer_id      = JRequest::getInt('manufacturer_id', 0, '', 'int');
@@ -372,6 +375,7 @@ class categoryViewcategory extends JView
 		{
 			$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		}
+
 		$lists['order_by'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ', 'value', 'text', $order_by_select);
 
 		/*************THIS FILE MUST LOAD AFTER MODEL CONSTUCTOR LOAD***************/

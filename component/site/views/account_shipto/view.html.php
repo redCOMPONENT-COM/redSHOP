@@ -60,6 +60,7 @@ class account_shiptoViewaccount_shipto extends JView
 
 				return;
 			}
+
 			$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shippingaddresses->users_info_id);
 			$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shippingaddresses->users_info_id);
 

@@ -90,6 +90,7 @@ if (strstr($template_desc, "{redproductfinderfilter:"))
 			if (empty($prodctofcat))
 				$hide_filter_flag = true;
 		}
+
 		$template_desc = $redproductfinder_helper->replaceProductfinder_tag($template_desc, $hdnFields, $hide_filter_flag);
 
 	}
@@ -130,6 +131,7 @@ if (!$slide)
 
 		$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 	}
+
 	$print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 	$print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 	$print_tag .= "</a>";
@@ -154,6 +156,7 @@ if (!$slide)
 			$returncatlink               = JRoute::_("index.php?option=" . $option . "&view=category&manufacturer_id=" . $this->manufacturer_id . "&Itemid=" . $Itemid);
 			$returntocategory            = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '</a>';
 		}
+
 		$template_desc = str_replace("{returntocategory_link}", $returncatlink, $template_desc);
 		$template_desc = str_replace('{returntocategory_name}', $categorylist->category_name, $template_desc);
 		$template_desc = str_replace("{returntocategory}", $returntocategory, $template_desc);
@@ -172,6 +175,7 @@ if (!$slide)
 	{
 		$template_desc = str_replace("{shopname}", SHOP_NAME, $template_desc);
 	}
+
 	$main_cat_name = $Redconfiguration->maxchar($this->maincat->category_name, CATEGORY_TITLE_MAX_CHARS, CATEGORY_TITLE_END_SUFFIX);
 	$template_desc = str_replace("{category_main_name}", $main_cat_name, $template_desc);
 
@@ -199,6 +203,7 @@ if (!$slide)
 		$ch_thumb = THUMB_HEIGHT;
 		$cw_thumb = THUMB_WIDTH;
 	}
+
 	$cItemid = $objhelper->getCategoryItemid($catid);
 
 	if ($cItemid != "")
@@ -209,6 +214,7 @@ if (!$slide)
 	{
 		$tmpItemid = $Itemid;
 	}
+
 	$link = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $catid . '&manufacturer_id=' . $this->manufacturer_id . '&layout=detail&Itemid=' . $tmpItemid);
 
 	$cat_main_thumb = "";
@@ -218,6 +224,7 @@ if (!$slide)
 		$water_cat_img  = $objhelper->watermark('category', $this->maincat->category_full_image, $cw_thumb, $ch_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
 		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name . "'><img src='" . $water_cat_img . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
 	}
+
 	$template_desc = str_replace($ctag, $cat_main_thumb, $template_desc);
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
@@ -235,6 +242,7 @@ if (!$slide)
 			$compare_product_div .= "<div id='divCompareProduct'>" . $comparediv . "</div>";
 			$compare_product_div .= "</form>";
 		}
+
 		$template_desc = str_replace("{compare_product_div}", $compare_product_div, $template_desc);
 	}
 
@@ -315,6 +323,7 @@ if (!$slide)
 			{
 				$cat_thumb = "<a href='" . $link . "' " . $title . ">";
 			}
+
 			$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
 			$cat_thumb .= "</a>";
 			$data_add = str_replace($tag, $cat_thumb, $data_add);
@@ -381,6 +390,7 @@ if (!$slide)
 				}
 			}
 		}
+
 		$template_desc = str_replace("{category_loop_start}", "", $template_desc);
 		$template_desc = str_replace("{category_loop_end}", "", $template_desc);
 		$template_desc = str_replace($subcat_template, $cat_detail, $template_desc);
@@ -450,6 +460,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			break;
 		}
+
 		$count_no_user_field = 0;
 
 		// Counting accessory
@@ -511,6 +522,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 					$more_doc .= "</a></div>";
 				}
 			}
+
 			$data_add = str_replace("{more_documents}", "<span id='additional_docs" . $product->product_id . "'>" . $more_doc . "</span>", $data_add);
 		}
 		// More documents end
@@ -534,9 +546,11 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				{
 					$count_no_user_field++;
 				}
+
 				$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $data_add);
 				$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $data_add);
 			}
+
 			$product_userfileds_form = "<form method='post' action='' id='user_fields_form_" . $product->product_id . "' name='user_fields_form_" . $product->product_id . "'>";
 
 			if ($ufield != "")
@@ -559,6 +573,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 			}
+
 			$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
 			$template_userfield = $returnArr[0];
 			$userfieldArr       = $returnArr[1];
@@ -576,6 +591,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 					{
 						$count_no_user_field++;
 					}
+
 					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_userfield);
 					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_userfield);
 				}
@@ -585,6 +601,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				}
 			}
 		}
+
 		$data_add = $data_add . $hidden_userfield;
 		/************** end user fields ***************************/
 
@@ -671,6 +688,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$rtlna = "";
 			}
+
 			$data_add = str_replace($rtlntag, $rtlna, $data_add);
 		}
 
@@ -736,6 +754,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
 			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
 		}
+
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 		$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 		/* product image flying addwishlist time start*/
@@ -873,6 +892,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 				}
+
 				$attributes = $producthelper->getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
@@ -893,6 +913,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
+
 			$attributes = $producthelper->getProductAttribute($product->product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
@@ -921,6 +942,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	{
 		$product_tmpl = $product_data;
 	}
+
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemin' id='slider_texpricemin' value='" . $texpricemin . "' />";
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemax' id='slider_texpricemax' value='" . $texpricemax . "' />";
 
@@ -931,6 +953,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
 		$template_desc = str_replace("{pagination}", "", $template_desc);
 	}
+
 	$product_display_limit = '';
 
 	if (strstr($template_desc, "{pagination}"))
@@ -944,8 +967,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$template_desc = str_replace("{product_display_limit}", $slidertag, $template_desc);
 			$template_desc = str_replace("{pagination}", '', $template_desc);
 		}
+
 		$template_desc = str_replace("{pagination}", $slidertag, $template_desc);
 	}
+
 	$template_desc = str_replace("{product_display_limit}", "", $template_desc);
 
 	if (strstr($template_desc, "perpagelimit:"))
@@ -995,6 +1020,7 @@ if (!$slide)
 			$template_desc = str_replace("{template_selector_category_lbl}", JText::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'), $template_desc);
 			$template_desc = str_replace("{template_selector_category}", $template_selecter_form, $template_desc);
 		}
+
 		$template_desc = str_replace("{template_selector_category_lbl}", "", $template_desc);
 		$template_desc = str_replace("{template_selector_category}", "", $template_desc);
 	}

@@ -19,6 +19,7 @@ if ($user->username)
 {
 	$post["username"] = $user->username;
 }
+
 $create_account = 1;
 
 if ($post["user_id"] < 0)

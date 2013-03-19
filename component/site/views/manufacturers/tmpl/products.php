@@ -80,6 +80,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->manufacturer_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -130,6 +131,7 @@ if ($template_middle != "")
 			{
 				$cart_mdata = $cart_mdata1[0] . $cart_mdata2[1];
 			}
+
 			$cname = $manufacturer_products[$i]->category_name;
 
 			$cart_mdata = str_replace("{category_heading_start}", "", $cart_mdata);
@@ -179,6 +181,7 @@ if ($template_middle != "")
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $manufacturer_products[$i]->attribute_set_id, 0, 1);
 			}
+
 			$attributes = $producthelper->getProductAttribute($product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
@@ -208,6 +211,7 @@ if ($template_middle != "")
 			$p_desc     = $Redconfiguration->maxchar($manufacturer_products[$i]->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
 			$cart_mdata = str_replace("{product_desc}", $p_desc, $cart_mdata);
 		}
+
 		$cart_mdata = $producthelper->replaceWishlistButton($product_id, $cart_mdata);
 
 
@@ -235,6 +239,7 @@ if ($template_middle != "")
 			$h_thumb = MANUFACTURER_PRODUCT_THUMB_HEIGHT;
 			$w_thumb = MANUFACTURER_PRODUCT_THUMB_WIDTH;
 		}
+
 		$prod_thumb_image = $producthelper->getProductImage($manufacturer_products[$i]->product_id, $link, $w_thumb, $h_thumb);
 		$cart_mdata       = str_replace($tag, $prod_thumb_image, $cart_mdata);
 		$redmore          = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
@@ -274,10 +279,12 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		{
 			$altText = $manufacturer->manufacturer_name;
 		}
+
 		$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . $linkimage . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $wimg . "'></a>";
 	}
 //	}
+
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
 }
 

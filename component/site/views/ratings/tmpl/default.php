@@ -77,6 +77,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 				{
 					$review_data .= '<div style="clear:both;" class="show_reviews"><a href="javascript:showallreviews(' . $this->detail[$i]->product_id . ');"> <img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'reviewarrow.gif">&nbsp;' . JText::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';
 				}
+
 				$review_data .= '<div style="display:none;" id="showreviews' . $this->detail[$i]->product_id . '" name="showreviews' . $this->detail[$i]->product_id . '">';
 
 				for ($k = $mainblock; $k < count($reviews); $k++)
@@ -91,11 +92,14 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 					$review_data = str_replace("{reviewdate}", $redconfig->convertDateFormat($reviews[$k]->time), $review_data);
 					$review_data = str_replace("{stars}", $starimage2, $review_data);
 				}
+
 				$review_data .= '</div>';
 			}
+
 			$product_data = $review_start[0] . $review_data . $review_end[1];
 		}
 	}
+
 	$main_template = $product_start[0] . $product_data . $product_end[1];
 }
 

@@ -67,6 +67,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -84,6 +85,7 @@ if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc
 	$template_end    = $template_edata[1];
 	$template_middle = $template_edata[0];
 }
+
 $extraFieldName     = $extraField->getSectionFieldNameArray(10, 1, 1);
 $replace_middledata = '';
 
@@ -147,6 +149,7 @@ if ($template_middle != "")
 						}
 					}
 				}
+
 				$middledata = str_replace($mimg_tag, $thum_image, $middledata);
 			}
 
@@ -160,6 +163,7 @@ if ($template_middle != "")
 		}
 	}
 }
+
 $template_desc = $template_start . $replace_middledata . $template_end;
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);

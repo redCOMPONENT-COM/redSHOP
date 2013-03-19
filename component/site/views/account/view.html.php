@@ -37,6 +37,7 @@ class accountViewaccount extends JView
 			$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
 			$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid, $msg);
 		}
+
 		$layout = JRequest::getVar('layout', 'default');
 		$mail   = JRequest::getVar('mail');
 		// Preform security checks

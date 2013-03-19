@@ -74,6 +74,7 @@ $producthelper = new producthelper;?>
 							{
 								$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
 							}
+
 							$pricetext   = "";
 							$disply_text = "<div class='mod_redproducts_price'>" . $product_price_dis . "</div>";
 

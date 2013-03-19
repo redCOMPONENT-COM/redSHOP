@@ -28,6 +28,7 @@ class account_billtoViewaccount_billto extends JView
 			$model            = $this->getModel('account_billto');
 			$billingaddresses = $model->_initData();
 		}
+
 		$user    = JFactory::getUser();
 		$uri     = JFactory::getURI();
 		$session = JFactory::getSession();

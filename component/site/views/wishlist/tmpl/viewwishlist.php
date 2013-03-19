@@ -73,6 +73,7 @@ if (!$user->id)
 				}
 
 			}
+
 			$myproductid .= $rows[$p]->product_id . ",";
 		}
 		?>
@@ -125,6 +126,7 @@ else // If user logged in than display this code.
 				}
 
 			}
+
 			$myproductid .= $mysesspro[$p]->product_id . ",";
 		}
 		echo "<br />";
@@ -291,6 +293,7 @@ function display_products($rows)
 				{
 					$parentproductid = $producthelper->getMainParentProduct($row->product_id);
 				}
+
 				$frmChild = "";
 
 				if ($parentproductid != 0)
@@ -323,6 +326,7 @@ function display_products($rows)
 										$level = $level; //."_";
 									}
 								}
+
 								$parentid = $childproducts[$c]->product_parent_id;
 
 								$childproducts[$c]->product_name = $level . $childproducts[$c]->product_name;
@@ -347,6 +351,7 @@ function display_products($rows)
 
 					}
 				}
+
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
 
@@ -363,6 +368,7 @@ function display_products($rows)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
 					}
+
 					$attributes = $producthelper->getProductAttribute($row->product_id);
 					$attributes = array_merge($attributes, $wishlist_data);
 				}
@@ -381,6 +387,7 @@ function display_products($rows)
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
 				}
+
 				$attributes = $producthelper->getProductAttribute($row->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
@@ -429,6 +436,7 @@ function display_products($rows)
 					$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 
 				}
+
 				$wishlist_data = str_replace('{product_price}', $mainproduct_price, $wishlist_data);
 			}
 
@@ -449,6 +457,7 @@ function display_products($rows)
 				{
 					$idx = (int) ($cart['idx']);
 				}
+
 				$idx     = 0;
 				$cart_id = '';
 
@@ -504,6 +513,7 @@ function display_products($rows)
 
 
 				}
+
 				$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 				if ($ufield != "")
 				{

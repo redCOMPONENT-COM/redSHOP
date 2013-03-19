@@ -178,6 +178,7 @@ $is_creditcard = 0;
 							{
 								$value = date('m');
 							}
+
 							$arr = array("Month",
 								"01" => JText::_('COM_REDSHOP_JAN'),
 								"02" => JText::_('COM_REDSHOP_FEB'),
@@ -212,6 +213,7 @@ $is_creditcard = 0;
 										$selected = "selected=\"selected\"";
 									}
 								}
+
 								$html .= "<option value=\"$key\" $selected>$val";
 								$html .= "</option>\n";
 							}

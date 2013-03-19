@@ -89,6 +89,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			break;
 		}
+
 		$count_no_user_field = 0;
 
 		// Counting accessory
@@ -117,9 +118,11 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				{
 					$count_no_user_field++;
 				}
+
 				$prddata_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $prddata_add);
 				$prddata_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $prddata_add);
 			}
+
 			$product_userfileds_form = "<form method='post' action='' id='user_fields_form_" . $product->product_id . "' name='user_fields_form_" . $product->product_id . "'>";
 
 			if ($ufield != "")
@@ -142,6 +145,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 			}
+
 			$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
 			$template_userfield = $returnArr[0];
 			$userfieldArr       = $returnArr[1];
@@ -159,6 +163,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 					{
 						$count_no_user_field++;
 					}
+
 					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_userfield);
 					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_userfield);
 				}
@@ -168,6 +173,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				}
 			}
 		}
+
 		$prddata_add = $prddata_add . $hidden_userfield;
 		/************** end user fields ***************************/
 
@@ -181,6 +187,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$pItemid = $objhelper->getItemid($product->product_id);
 		}
+
 		$prddata_add = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $prddata_add);
 		$prddata_add = str_replace("{product_id}", $product->product_id, $prddata_add);
 		$prddata_add = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $prddata_add);
@@ -282,6 +289,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
 			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
 		}
+
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 		$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 		$prddata_add        = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $prddata_add);
@@ -333,6 +341,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
+
 			$attributes = $producthelper->getProductAttribute($product->product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}

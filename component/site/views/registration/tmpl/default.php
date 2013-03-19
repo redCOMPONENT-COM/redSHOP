@@ -45,6 +45,7 @@ if (DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 	$showCompanydesc  = '';
 	$showCustomerdesc = "style='display:none;'";
 }
+
 $is_company = ($open_to_stretcher == 1 || (isset($post['is_company']) && $post['is_company'] == 1)) ? 1 : 0;
 
 if ($this->params->get('show_page_heading', 1))

@@ -35,6 +35,7 @@ class searchViewsearch extends JView
 			$pagetitle = JText::_('COM_REDSHOP_SEARCH');
 			$document->setTitle($pagetitle);
 		}
+
 		$option   = JRequest::getVar('option');
 		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
@@ -87,6 +88,7 @@ class searchViewsearch extends JView
 				else
 					$session->destroy('redfilter');
 			}
+
 			$session->set('redfilter', $redfilter);
 
 			if ($cntproduct == 1)
@@ -98,6 +100,7 @@ class searchViewsearch extends JView
 			}
 			// $this->setLayout('redfilter');
 		}
+
 		$order_data            = redhelper::getOrderByList();
 		$getorderby            = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
@@ -108,6 +111,7 @@ class searchViewsearch extends JView
 		{
 			$templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
 		}
+
 		$search     = & $this->get('Data');
 		$pagination = & $this->get('Pagination');
 
@@ -204,6 +208,7 @@ class searchViewsearch extends JView
 				$endlimit = $model->getProductPerPage();
 				$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
 			}
+
 			$template_org = $template_desc;
 			$template_d1  = explode("{category_loop_start}", $template_org);
 
@@ -216,6 +221,7 @@ class searchViewsearch extends JView
 					$category_tmpl = $template_d2[0];
 				}
 			}
+
 			$template_org = str_replace($category_tmpl, "", $template_org);
 			$template_org = str_replace("{category_loop_start}", "", $template_org);
 			$template_org = str_replace("{category_loop_end}", "", $template_org);
@@ -281,6 +287,7 @@ class searchViewsearch extends JView
 						if (empty($prodctofcat))
 							$hide_filter_flag = true;
 					}
+
 					$template_org = $redproductfinder_helper->replaceProductfinder_tag($template_org, $hdnFields, $hide_filter_flag);
 				}
 			}
@@ -363,6 +370,7 @@ class searchViewsearch extends JView
 						$pro_desc   = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pro_desc);
 					}
 				}
+
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
 				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
 
@@ -375,6 +383,7 @@ class searchViewsearch extends JView
 				{
 					$data_add = str_replace("{product_name_nolink}", $pname, $template_desc);
 				}
+
 				$readmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 				$data_add = str_replace("{read_more}", $readmore, $data_add);
 				$data_add = str_replace("{read_more_link}", $link, $data_add);
@@ -444,6 +453,7 @@ class searchViewsearch extends JView
 					{
 						$rtlna = "";
 					}
+
 					$data_add = str_replace($rtlntag, $rtlna, $data_add);
 				}
 
@@ -483,6 +493,7 @@ class searchViewsearch extends JView
 					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
 					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
 				}
+
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";
 				$thum_image         = $producthelper->getProductImage($this->search[$i]->product_id, $link, $cw_thumb, $ch_thumb);
 				$data_add           = str_replace($cimg_tag, $thum_image . $hidden_thumb_image, $data_add);
@@ -509,6 +520,7 @@ class searchViewsearch extends JView
 							$more_doc .= "</a></div>";
 						}
 					}
+
 					$data_add = str_replace("{more_documents}", "<span id='additional_docs" . $this->search[$i]->product_id . "'>" . $more_doc . "</span>", $data_add);
 				}
 				// More documents end
@@ -532,9 +544,11 @@ class searchViewsearch extends JView
 						{
 							$count_no_user_field++;
 						}
+
 						$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $data_add);
 						$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $data_add);
 					}
+
 					$product_userfileds_form = "<form method='post' action='' id='user_fields_form_" . $this->search[$i]->product_id . "' name='user_fields_form_" . $this->search[$i]->product_id . "'>";
 
 					if ($ufield != "")
@@ -557,6 +571,7 @@ class searchViewsearch extends JView
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
+
 					$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
 					$template_userfield = $returnArr[0];
 					$userfieldArr       = $returnArr[1];
@@ -574,6 +589,7 @@ class searchViewsearch extends JView
 							{
 								$count_no_user_field++;
 							}
+
 							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_userfield);
 							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_userfield);
 						}
@@ -583,6 +599,7 @@ class searchViewsearch extends JView
 						}
 					}
 				}
+
 				$data_add = $data_add . $hidden_userfield;
 
 				/*************** end user fields ***************/
@@ -609,6 +626,7 @@ class searchViewsearch extends JView
 					{
 						$manufacturer_name = $manufacturer_data->manufacturer_name;
 					}
+
 					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
 
 					if (strstr($data_add, "{manufacturer_link}"))
@@ -619,6 +637,7 @@ class searchViewsearch extends JView
 					{
 						$data_add = str_replace("{manufacturer_name}", $manufacturer_name, $data_add);
 					}
+
 					$data_add = str_replace("{manufacturer_link}", $manufacturer_link, $data_add);
 				}
 				else
@@ -652,6 +671,7 @@ class searchViewsearch extends JView
 						$attributes_set = $producthelper->getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
 
 					}
+
 					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
@@ -669,6 +689,7 @@ class searchViewsearch extends JView
 
 				$data .= $data_add;
 			}
+
 			$app    = & JFactory::getApplication();
 			$router = & $app->getRouter();
 
@@ -703,8 +724,10 @@ class searchViewsearch extends JView
 					$template_org = str_replace("{product_display_limit}", $slidertag, $template_org);
 					$template_org = str_replace("{pagination}", '', $template_org);
 				}
+
 				$template_org = str_replace("{pagination}", $slidertag, $template_org);
 			}
+
 			$template_org = str_replace("{product_display_limit}", "", $template_org);
 
 			if (strstr($template_org, "perpagelimit:"))

@@ -60,6 +60,7 @@ if ($mail == 0)
 	{
 		$data = "<div style=\"float: right;\">{mail_link}</div>{product_loop_start}<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\" width=\"100%\"><tbody><tr valign=\"top\"><td width=\"40%\"><div style=\"float: left; width: 195px; height: 230px; text-align: center;\">{product_thumb_image}<div>{product_name}</div><div>{product_price}</div><div>{form_addtocart:templet1}</div><div> </div><div>{remove_product_link}</div></div>		</td></tr></tbody></table><div> </div><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">	<tbody><tr> <td> <div></div> </td><td align=\"center\" valign=\"top\"><br><br></td> </tr></tbody></table>{product_loop_end}<div style=\"float: right;\">{back_link}</div>";
 	}
+
 	$template_d1 = explode("{product_loop_start}", $data);
 	$template_d2 = explode("{product_loop_end}", $template_d1[1]);
 
@@ -75,6 +76,7 @@ if ($mail == 0)
 	{
 		$template_d1[0] = str_replace('{mail_link}', "", $template_d1[0]);
 	}
+
 	$wishlist_desc = $template_d2[0];
 
 	if (strstr($data, '{product_thumb_image_2}'))
@@ -101,6 +103,7 @@ if ($mail == 0)
 		$h_thumb = THUMB_HEIGHT;
 		$w_thumb = THUMB_WIDTH;
 	}
+
 	$temp_template  = '';
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 
@@ -138,6 +141,7 @@ if ($mail == 0)
 				{
 					$parentproductid = $producthelper->getMainParentProduct($row->product_id);
 				}
+
 				$frmChild = "";
 
 				if ($parentproductid != 0)
@@ -171,6 +175,7 @@ if ($mail == 0)
 										$level = $level; //."_";
 									}
 								}
+
 								$parentid = $childproducts[$c]->product_parent_id;
 
 								$childproducts[$c]->product_name = $level . $childproducts[$c]->product_name;
@@ -195,6 +200,7 @@ if ($mail == 0)
 
 					}
 				}
+
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
 
@@ -233,6 +239,7 @@ if ($mail == 0)
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
 				}
+
 				$attributes = $producthelper->getProductAttribute($row->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
@@ -272,6 +279,7 @@ if ($mail == 0)
 				{
 					$idx = (int) ($cart['idx']);
 				}
+
 				$idx     = 0;
 				$cart_id = '';
 
@@ -307,11 +315,13 @@ if ($mail == 0)
 					{
 						$count_no_user_field++;
 					}
+
 					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $wishlist_data);
 					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $wishlist_data);
 
 
 				}
+
 				$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 				if ($ufield != "")
@@ -354,6 +364,7 @@ if ($mail == 0)
 
 			$temp_template .= $wishlist_data;
 		}
+
 		$my = "<form name='frm' method='POST' action=''>";
 
 		$my .= "<input type='hidden' name='product_id' id='product_id' value='" . $mainid . "' >
@@ -377,6 +388,7 @@ if ($mail == 0)
 		$mlink     = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
 		$mail_link = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
 	}
+
 	$data = str_replace('{mail_link}', $mail_link, $data);
 	$data = str_replace('{all_cart}', $my, $data);
 	$data = $redTemplate->parseredSHOPplugin($data);
@@ -394,6 +406,7 @@ else
 	{
 		$wishlist_maildata = "<table cellpadding=\"10\" cellspacing=\"10\"><tr><th colspan=\"2\">{email_to_friend}</th></tr><tr><td>{emailto_lbl}</td><td>{emailto}</td></tr><tr><td>{sender_lbl}</td><td>{sender}</td></tr><tr><td>{mail_lbl}</td><td>{mail}</td></tr><tr><td>{subject_lbl}</td><td>{subject}</td></tr><tr><td>	{cancel_button}</td><td>	{send_button}</td></tr></table>";
 	}
+
 	$data = '<form name="wishlishtsend" method="post" action="index.php">';
 	$data .= $wishlist_maildata;
 	$data           = str_replace("{email_to_friend}", JText::_("COM_REDSHOP_EMAIL_TO_FRIEND"), $data);

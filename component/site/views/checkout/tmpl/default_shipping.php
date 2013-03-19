@@ -59,6 +59,7 @@ if ($this->users_info_id > 0)
 	{
 		$shipping_box_post_id = $selshipping_box_post_id;
 	}
+
 	$box_template_desc = $carthelper->replaceShippingBoxTemplate($box_template_desc, $shipping_box_post_id);
 	echo eval("?>" . $box_template_desc . "<?php ");
 
@@ -94,6 +95,7 @@ if ($this->users_info_id > 0)
 			if($i<= (count($ShopRespons)-1)){
 				$checked = 'checked="checked"';
 			}
+
 			$output .= "<tr><td><input type='radio' $checked id='shop_id_". $ShopRespons[$i]->Number."' name='shop_id' value='". $ShopRespons[$i]->shop_id ."' />"  ;
 			$output .= $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname.", ". $ShopRespons[$i]->ZipCode . ", ". $ShopRespons[$i]->CityName . "</td></tr>";
 			$output .= "<tr><td>".$ShopRespons[$i]->openingTime. "</td></tr>";

@@ -45,6 +45,7 @@ if (!count($billingaddresses))
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
 	$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
 }
+
 $paymentmethod = $redhelper->getPlugins('redshop_payment');
 $selpayment_method_id = 0;
 
@@ -52,6 +53,7 @@ if (count($paymentmethod) > 0)
 {
 	$selpayment_method_id = $paymentmethod[0]->element;
 }
+
 $shippingBoxes = $shippinghelper->getShippingBox();
 $selshipping_box_post_id = 0;
 
@@ -59,6 +61,7 @@ if (count($shippingBoxes) > 0)
 {
 	$selshipping_box_post_id = $shippingBoxes[0]->shipping_box_id;
 }
+
 $users_info_id = JRequest::getInt('users_info_id', $this->users_info_id);
 $payment_method_id = JRequest::getCmd('payment_method_id', $selpayment_method_id);
 $shipping_box_post_id = JRequest::getInt('shipping_box_id', $selshipping_box_post_id);
@@ -94,6 +97,7 @@ for ($i = 0; $i < count($templatelist); $i++)
 		$onestep_template_desc = str_replace($payment_template, "<div id='divPaymentMethod'>" . $payment_template . "</div>", $onestep_template_desc);
 	}
 }
+
 $templatelist = $redTemplate->getTemplate("checkout");
 
 for ($i = 0; $i < count($templatelist); $i++)
@@ -159,6 +163,7 @@ if (SHIPPING_METHOD_ENABLE)
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
 			$cart                 = $carthelper->modifyDiscount($cart);
 		}
+
 		$onestep_template_desc = str_replace($shipping_template, $shipping_template_desc, $onestep_template_desc);
 	}
 	else
@@ -186,6 +191,7 @@ if (strstr($onestep_template_desc, "{edit_billing_address}"))
 	$edit_billing          = '<a class="modal" href="' . $editbill . '" rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
 	$onestep_template_desc = str_replace("{edit_billing_address}", $edit_billing, $onestep_template_desc);
 }
+
 $onestep_template_desc = $carthelper->replaceBillingAddress($onestep_template_desc, $billingaddresses);
 
 if (strstr($onestep_template_desc, "{shipping_address}"))
@@ -213,6 +219,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 			$shipp .= '<a class="modal" href="' . $edit_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}">(' . JText::_('COM_REDSHOP_EDIT_LBL') . ')</a> ';
 			$shipp .= '<a href="' . $delete_addlink . '" title="">(' . JText::_('COM_REDSHOP_DELETE_LBL') . ')</a></div>';
 		}
+
 		$add_addlink = JRoute::_('index.php?option=' . $option . '&view=account_shipto&tmpl=component&for=true&task=addshipping&return=checkout&Itemid=' . $Itemid . '&infoid=0&is_company=' . $billingaddresses->is_company);
 		$shipp .= '<a class="modal" href="' . $add_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}"> ' . JText::_('COM_REDSHOP_ADD_ADDRESS') . '</a>';
 		$onestep_template_desc = str_replace('{shipping_address}', $shipp, $onestep_template_desc);
@@ -224,6 +231,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 		$onestep_template_desc = str_replace('{shipping_address_information_lbl}', '', $onestep_template_desc);
 	}
 }
+
 $payment_template_desc = $carthelper->replacePaymentTemplate($payment_template_desc, $payment_method_id, $is_company, $ean_number);
 $onestep_template_desc = str_replace($payment_template, $payment_template_desc, $onestep_template_desc);
 

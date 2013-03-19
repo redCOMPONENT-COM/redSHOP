@@ -34,6 +34,7 @@ if ($billingaddresses->ean_number != "")
 {
 	$ean_number = 1;
 }
+
 $template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $ean_number);
 
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);

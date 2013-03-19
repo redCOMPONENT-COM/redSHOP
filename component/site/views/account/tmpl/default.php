@@ -103,6 +103,7 @@ if ($this->userdata->is_company && $this->userdata->company_name != "")
 	$company_name_lbl = JText::_('COM_REDSHOP_COMPANY_NAME');
 	$company_name     = $this->userdata->company_name;
 }
+
 $template_desc = str_replace('{company_name_lbl}', $company_name_lbl, $template_desc);
 $template_desc = str_replace('{company_name}', $company_name, $template_desc);
 
@@ -120,6 +121,7 @@ if (trim($this->userdata->state_code) != "-" && trim($this->userdata->state_code
 		$customer_state     = '';
 	}
 }
+
 $template_desc = str_replace('{state_lbl}', $customer_state_lbl, $template_desc);
 $template_desc = str_replace('{state}', $customer_state, $template_desc);
 
@@ -139,6 +141,7 @@ if ($this->userdata->country_code)
 	}
 
 }
+
 $template_desc = str_replace('{country_lbl}', $customer_country_lbl, $template_desc);
 $template_desc = str_replace('{country}', $customer_country, $template_desc);
 
@@ -194,6 +197,7 @@ if ($this->userdata->email)
 	$customer_email_lbl = JText::_('COM_REDSHOP_CUSTOMER_EMAIL');
 	$customer_email     = $this->userdata->email;
 }
+
 $template_desc = str_replace('{email_lbl}', $customer_email_lbl, $template_desc);
 $template_desc = str_replace('{email}', $customer_email, $template_desc);
 
@@ -205,6 +209,7 @@ if ($this->userdata->city)
 	$customer_city_lbl = JText::_('COM_REDSHOP_CITY');
 	$customer_city     = $this->userdata->city;
 }
+
 $template_desc = str_replace('{city_lbl}', $customer_city_lbl, $template_desc);
 $template_desc = str_replace('{city}', $customer_city, $template_desc);
 
@@ -216,6 +221,7 @@ if ($this->userdata->phone)
 	$customer_phone_lbl = JText::_('COM_REDSHOP_PHONE');
 	$customer_phone     = $this->userdata->phone;
 }
+
 $template_desc = str_replace('{phone_lbl}', $customer_phone_lbl, $template_desc);
 $template_desc = str_replace('{phone}', $customer_phone, $template_desc);
 
@@ -227,6 +233,7 @@ if ($this->userdata->zipcode)
 	$customer_zipcode_lbl = JText::_('COM_REDSHOP_ZIP');
 	$customer_zipcode     = $this->userdata->zipcode;
 }
+
 $template_desc = str_replace('{zipcode_lbl}', $customer_zipcode_lbl, $template_desc);
 $template_desc = str_replace('{zipcode}', $customer_zipcode, $template_desc);
 
@@ -238,6 +245,7 @@ if ($this->userdata->address)
 	$customer_add_lbl = JText::_('COM_REDSHOP_ADDRESS');
 	$customer_add     = $this->userdata->address;
 }
+
 $template_desc = str_replace('{address_lbl}', $customer_add_lbl, $template_desc);
 $template_desc = str_replace('{address}', $customer_add, $template_desc);
 
@@ -288,6 +296,7 @@ else
 {
 	$extrafields = $extra_field->list_all_field_display(7, $this->userdata->users_info_id);
 }
+
 $template_desc = str_replace('{customer_custom_fields}', $extrafields, $template_desc);
 
 if (strstr($template_desc, "{reserve_discount}"))
@@ -320,6 +329,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 		$template_desc = str_replace('{more_orders}', "", $template_desc);
 
 	}
+
 	$template_d1 = explode("{order_loop_start}", $template_desc);
 	$template_d2 = explode("{order_loop_end}", $template_d1[1]);
 	$order_desc  = $template_d2[0];
@@ -334,6 +344,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 			{
 				break;
 			}
+
 			$order_data .= $order_desc;
 			$orderdetailurl = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $orderslist[$j]->order_id . '&Itemid=' . $Itemid);
 			$order_detail   = '<a href="' . $orderdetailurl . '">' . JText::_('COM_REDSHOP_DETAILS') . '</a>';
@@ -350,6 +361,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 		$order_data = str_replace('{order_id}', '', $order_data);
 		$order_data = str_replace('{order_detail_link}', JText::_('COM_REDSHOP_NO_ORDERS_PLACED_YET'), $order_data);
 	}
+
 	$template_desc = str_replace('{order_loop_start}', "", $template_desc);
 	$template_desc = str_replace('{order_loop_end}', "", $template_desc);
 	$template_desc = str_replace($order_desc, $order_data, $template_desc);
@@ -398,6 +410,7 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 			$coupon_data = str_replace('{coupon_value}', JText::_('COM_REDSHOP_NO_COUPONS'), $coupon_data);
 		}
 	}
+
 	$template_desc = str_replace('{coupon_loop_start}', "", $template_desc);
 	$template_desc = str_replace('{coupon_loop_end}', "", $template_desc);
 	$template_desc = str_replace($coupon_desc, $coupon_data, $template_desc);
@@ -421,6 +434,7 @@ if (MY_TAGS)
 		$tag_link = '<a href="' . $mytags_link . '" style="text-decoration: none;">' . JText::_("COM_REDSHOP_SHOW_TAG") . '</a>';
 	}
 }
+
 $template_desc = str_replace('{tag_image}', $tag_image, $template_desc);
 $template_desc = str_replace('{tag_title}', $tag_imagelbl, $template_desc);
 $template_desc = str_replace('{edit_tag_link}', $tag_link, $template_desc);
@@ -453,6 +467,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 			{
 				break;
 			}
+
 			$quotation_data .= $quotation_desc;
 			$quotationurl     = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&quoid=' . $quotationlist[$j]->quotation_id . '&Itemid=' . $Itemid);
 			$quotation_detail = '<a href="' . $quotationurl . '" title="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '"  alt="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '">' . JText::_('COM_REDSHOP_DETAILS') . '</a>';
@@ -469,6 +484,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 		$quotation_data = str_replace('{quotation_id}', '', $quotation_data);
 		$quotation_data = str_replace('{quotation_detail_link}', JText::_('COM_REDSHOP_NO_QUOTATION_PLACED_YET'), $quotation_data);
 	}
+
 	$template_desc = str_replace('{quotation_loop_start}', "", $template_desc);
 	$template_desc = str_replace('{quotation_loop_end}', "", $template_desc);
 	$template_desc = str_replace($quotation_desc, $quotation_data, $template_desc);
@@ -490,6 +506,7 @@ if (MY_WISHLIST)
 		$edit_wishlist_link = '<a href="' . $wishlist_link . '" style="text-decoration: none;">' . JText::_("COM_REDSHOP_SHOW_WISHLIST_PRODUCTS") . '</a>';
 	}
 }
+
 $template_desc = str_replace('{wishlist_image}', $wishlist_image, $template_desc);
 $template_desc = str_replace('{wishlist_title}', $wishlist_imagelbl, $template_desc);
 $template_desc = str_replace('{edit_wishlist_link}', $edit_wishlist_link, $template_desc);
@@ -523,6 +540,7 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 		$serial_data = str_replace('{product_name}', "", $serial_data);
 		$serial_data = str_replace('{product_serial_number}', "", $serial_data);
 	}
+
 	$template_desc = str_replace('{product_serial_loop_start}', "", $template_desc);
 	$template_desc = str_replace('{product_serial_loop_end}', "", $template_desc);
 	$template_desc = str_replace($serial_desc, $serial_data, $template_desc);
@@ -544,6 +562,7 @@ if (COMARE_PRODUCTS)
 		$cmp_link = '<a href="' . $compare_link . '" style="text-decoration: none;">' . JText::_("COM_REDSHOP_SHOW_PRODUCTS_TO_COMPARE") . '</a>';
 	}
 }
+
 $template_desc = str_replace('{compare_image}', $cmp_image, $template_desc);
 $template_desc = str_replace('{compare_title}', $cmp_imagelbl, $template_desc);
 $template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
