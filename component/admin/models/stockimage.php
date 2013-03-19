@@ -19,7 +19,7 @@ class stockimageModelstockimage extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -37,7 +37,7 @@ class stockimageModelstockimage extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -47,7 +47,7 @@ class stockimageModelstockimage extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -57,7 +57,7 @@ class stockimageModelstockimage extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -67,12 +67,13 @@ class stockimageModelstockimage extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
 		$orderby = $this->_buildOrderBy();
 
 		$where = '';
+
 		if ($filter)
 		{
 			$where = " WHERE stockroom_id='" . $filter . "' ";
@@ -81,10 +82,11 @@ class stockimageModelstockimage extends JModel
 			. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id=si.stockroom_id "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildOrderBy()
+	public function _buildOrderBy()
 	{
 		global $mainframe;
 
@@ -96,13 +98,14 @@ class stockimageModelstockimage extends JModel
 		return $orderby;
 	}
 
-	function getStockAmountOption($select = 0)
+	public function getStockAmountOption($select = 0)
 	{
 		$option = array();
 		$option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
 		$option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
 		$option[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_LOWER_THAN'));
+
 		if ($select != 0)
 		{
 			$option = $option[$select]->text;
@@ -111,4 +114,4 @@ class stockimageModelstockimage extends JModel
 	}
 }
 
-?>
+

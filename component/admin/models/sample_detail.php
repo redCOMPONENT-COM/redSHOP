@@ -16,7 +16,7 @@ class sample_detailModelsample_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
@@ -24,61 +24,66 @@ class sample_detailModelsample_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 		}
 		else  $this->_initData();
+
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_sample WHERE sample_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 
 			$detail->sample_id = null;
 			$detail->sample_name = null;
 			$detail->published = 1;
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		else
@@ -88,6 +93,7 @@ class sample_detailModelsample_detail extends JModel
 				. "WHERE sample_id='" . $row->sample_id . "' ";
 			$this->_db->setQuery($sql);
 			$this->_db->query();
+
 			if ($total_loop > 0)
 			{
 				$h = 0;
@@ -105,23 +111,25 @@ class sample_detailModelsample_detail extends JModel
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_sample WHERE sample_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -130,23 +138,26 @@ class sample_detailModelsample_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE sample_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function color_Data($sample_id)
+	public function color_Data($sample_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour '
 			. 'WHERE sample_id="' . $sample_id . '" ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 }
 
-?>
+

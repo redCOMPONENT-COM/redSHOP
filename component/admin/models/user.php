@@ -20,7 +20,7 @@ class userModeluser extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -49,12 +49,12 @@ class userModeluser extends JModel
 		$this->setState('tax_exempt_request_filter', $tax_exempt_request_filter);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -65,7 +65,7 @@ class userModeluser extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -76,7 +76,7 @@ class userModeluser extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -87,7 +87,7 @@ class userModeluser extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
 		$spgrp_filter = $this->getState('spgrp_filter');
@@ -95,6 +95,7 @@ class userModeluser extends JModel
 		$tax_exempt_request_filter = $this->getState('tax_exempt_request_filter');
 
 		$where = '';
+
 		if ($filter)
 		{
 			$where .= "AND (u.username LIKE '%" . $filter . "%' ";
@@ -118,6 +119,7 @@ class userModeluser extends JModel
 		}
 
 		$orderby = $this->_buildContentOrderBy();
+
 		if ($this->_id != 0)
 		{
 			$query = 'SELECT * FROM  #__users AS u '
@@ -141,21 +143,23 @@ class userModeluser extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
 		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'users_info_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
-	function customertotalsales($uid)
+	public function customertotalsales($uid)
 	{
 		$query = 'SELECT SUM(order_total) FROM ' . $this->_table_prefix . 'orders WHERE user_id=' . $uid;
 		$this->_db->setQuery($query);
 		$re = $this->_db->loadResult();
+
 		if (!$re)
 		{
 			$re = 0;
@@ -164,4 +168,4 @@ class userModeluser extends JModel
 	}
 }
 
-?>
+

@@ -19,7 +19,7 @@ class orderreddesignModelorderreddesign extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -38,7 +38,7 @@ class orderreddesignModelorderreddesign extends JModel
 
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -49,7 +49,7 @@ class orderreddesignModelorderreddesign extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -59,7 +59,7 @@ class orderreddesignModelorderreddesign extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -70,7 +70,7 @@ class orderreddesignModelorderreddesign extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$order_id = array();
 		$filter = $this->getState('filter');
@@ -79,6 +79,7 @@ class orderreddesignModelorderreddesign extends JModel
 		$order_id = implode(',', $cid);
 
 		$where = array();
+
 		if ($filter_status)
 		{
 			$where[] = "o.order_status like '%" . $filter_status . "%'";
@@ -92,6 +93,7 @@ class orderreddesignModelorderreddesign extends JModel
 		$this->_db->setQuery($query);
 		$designorder = $this->_db->loadResultArray();
 		$designorderstr = join(",", $designorder);
+
 		if (count($designorder) > 0)
 		{
 			$where[] = " o.order_id IN (" . $designorderstr . ") ";
@@ -114,7 +116,7 @@ class orderreddesignModelorderreddesign extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -126,38 +128,40 @@ class orderreddesignModelorderreddesign extends JModel
 		return $orderby;
 	}
 
-	function update_status()
+	public function update_status()
 	{
-		$order_function = new order_functions();
+		$order_function = new order_functions;
 		$order_function->update_status();
 	}
 
-	function update_status_all()
+	public function update_status_all()
 	{
-		$order_function = new order_functions();
+		$order_function = new order_functions;
 		$order_function->update_status_all();
 	}
 
-	function export_data()
+	public function export_data()
 	{
 
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$order_id = implode(',', $cid);
 		$query1 = $this->_buildQuery();
+
 		return $this->_getList($query1);
 	}
 
 	// reddesign
-	function getdesignorder()
+	public function getdesignorder()
 	{
 		$query = "SELECT order_id FROM #__reddesign_order ";
 		$this->_db->setQuery($query);
 		$designorder = $this->_db->loadResultArray();
 		//$designorderstr = join(",",$designorder);
+
 		return $designorder;
 	}
 
-	function getorderdesign($order_id)
+	public function getorderdesign($order_id)
 	{
 		$query = "SELECT * FROM #__reddesign_order where order_id=" . $order_id;
 		$this->_db->setQuery($query);
@@ -168,4 +172,4 @@ class orderreddesignModelorderreddesign extends JModel
 	// reddesign end
 }
 
-?>
+

@@ -18,7 +18,7 @@ class opsearchModelopsearch extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -40,7 +40,7 @@ class opsearchModelopsearch extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -50,9 +50,10 @@ class opsearchModelopsearch extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		$query = $this->_buildQuery();
+
 		if (empty($this->_total))
 		{
 			$this->_total = $this->_getListCount($query);
@@ -60,7 +61,7 @@ class opsearchModelopsearch extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -70,7 +71,7 @@ class opsearchModelopsearch extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$filter_user = $this->getState('filter_user', '');
@@ -78,6 +79,7 @@ class opsearchModelopsearch extends JModel
 		$filter_status = $this->getState('filter_status', '');
 
 		$where = '';
+
 		if ($filter_user)
 		{
 			$where .= 'AND op.user_info_id="' . $filter_user . '" ';
@@ -95,10 +97,11 @@ class opsearchModelopsearch extends JModel
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -110,7 +113,7 @@ class opsearchModelopsearch extends JModel
 		return $orderby;
 	}
 
-	function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+	public function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$query = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM " . $this->_table_prefix . "users_info AS uf "
 			. "WHERE uf.address_type='BT' "
@@ -125,4 +128,4 @@ class opsearchModelopsearch extends JModel
 	}
 }
 
-?>
+

@@ -17,7 +17,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -29,13 +29,13 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -45,7 +45,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -66,16 +66,17 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				. 'WHERE p.price_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->price_id = 0;
 			$detail->section_id = $this->_sectionid;
 			$detail->product_price = 0.00;
@@ -88,23 +89,26 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 			$detail->discount_end_date = 0;
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function getShopperGroup()
+	public function getShopperGroup()
 	{
 		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '
 			. 'FROM ' . $this->_table_prefix . 'shopper_group';
 		$this->_db->setQuery($q);
 		$shoppergroup = $this->_db->loadObjectList();
+
 		return $shoppergroup;
 	}
 
-	function getPropertyName()
+	public function getPropertyName()
 	{
 		$propertyid = $this->_sectionid;
+
 		if ($this->_section == "property")
 		{
 			$q = 'SELECT * '
@@ -119,31 +123,36 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		}
 		$this->_db->setQuery($q);
 		$rs = $this->_db->loadObject();
+
 		return $rs;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		return true;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -151,9 +160,11 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price '
 				. 'WHERE price_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -161,4 +172,4 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 	}
 }
 
-?>
+

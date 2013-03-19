@@ -19,7 +19,7 @@ class quotationModelquotation extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -40,7 +40,7 @@ class quotationModelquotation extends JModel
 		$this->setState('filter_status', $filter_status);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -50,7 +50,7 @@ class quotationModelquotation extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -60,7 +60,7 @@ class quotationModelquotation extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -71,7 +71,7 @@ class quotationModelquotation extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 
 		$where = "";
@@ -108,7 +108,7 @@ class quotationModelquotation extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -121,4 +121,4 @@ class quotationModelquotation extends JModel
 	}
 }
 
-?>
+

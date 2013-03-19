@@ -18,7 +18,7 @@ class categoryModelcategory extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe;
@@ -36,7 +36,7 @@ class categoryModelcategory extends JModel
 		$this->setState('category_id', $category_id);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -45,7 +45,7 @@ class categoryModelcategory extends JModel
 		return $this->_data;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if ($this->_pagination == null)
 		{
@@ -54,7 +54,7 @@ class categoryModelcategory extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		global $mainframe;
 		$view = JRequest::getVar('view');
@@ -67,6 +67,7 @@ class categoryModelcategory extends JModel
 
 		$orderby = $this->_buildContentOrderBy();
 		$and = "";
+
 		if ($category_main_filter)
 		{
 			$and .= " AND category_name like '%" . $category_main_filter . "%' ";
@@ -111,10 +112,11 @@ class categoryModelcategory extends JModel
 
 		// slice out elements based on limits
 		$items = array_slice($treelist, $this->_pagination->limitstart, $this->_pagination->limit);
+
 		return $items;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -122,13 +124,15 @@ class categoryModelcategory extends JModel
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
-	function getProducts($cid)
+	public function getProducts($cid)
 	{
 		$query = 'SELECT count(category_id) FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id="' . $cid . '" ';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -137,7 +141,7 @@ class categoryModelcategory extends JModel
 	 * @prams: $data, post variable	array
 	 * @return: boolean
 	 */
-	function assignTemplate($data)
+	public function assignTemplate($data)
 	{
 
 		$cid = $data['cid'];
@@ -151,16 +155,18 @@ class categoryModelcategory extends JModel
 				. ' SET `category_template` = "' . intval($category_template) . '" '
 				. ' WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function saveorder($cid = array(), $order)
+	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable('category_detail');
 		$groupings = array();
@@ -180,6 +186,7 @@ class categoryModelcategory extends JModel
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
@@ -193,4 +200,4 @@ class categoryModelcategory extends JModel
 	}
 }
 
-?>
+

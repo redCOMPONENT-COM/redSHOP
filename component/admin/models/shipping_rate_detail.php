@@ -20,7 +20,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 	public $_table_prefix = null;
 	public $_copydata = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -29,13 +29,13 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -47,23 +47,24 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->shipping_rate_id = 0;
 			$detail->shipping_rate_name = null;
 			$detail->shipping_class = null;
@@ -96,12 +97,13 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 			$detail->economic_displaynumber = null;
 			$detail->deliver_type = null;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$data['shipping_rate_country'] = @ implode(',', $data['shipping_rate_country']);
 		$data['shipping_rate_on_product'] = @ implode(',', $data['shipping_rate_on_product']);
@@ -110,25 +112,33 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		$data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
 
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->shipping_rate_on_product) $row->shipping_rate_on_product = '';
+
 		if (!$row->shipping_rate_on_category) $row->shipping_rate_on_category = '';
+
 		if (!$row->shipping_rate_state) $row->shipping_rate_state = '';
+
 		if (!$row->shipping_rate_on_shopper_group) $row->shipping_rate_on_shopper_group = '';
+
 		if (!$row->company_only) $row->company_only = 0;
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -136,16 +146,18 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function GetProductListshippingrate($d)
+	public function GetProductListshippingrate($d)
 	{
 		$and = '';
 		//if($d!='')
@@ -156,36 +168,41 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 			. 'WHERE published=1 '
 			. $and;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
-	function GetProductList()
+	public function GetProductList()
 	{
 		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
-	function GetCategoryList()
+	public function GetCategoryList()
 	{
 		$query = 'SELECT category_name as text,category_id as value FROM ' . $this->_table_prefix . 'category WHERE published = 1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
-	function GetStateList($country_codes)
+	public function GetStateList($country_codes)
 	{
 		$query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.country_id = s.country_id '
 			. 'WHERE find_in_set( c.country_3_code, "' . $country_codes . '" ) '
 			. 'ORDER BY s.state_name ASC';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
-	function copy($cid = array())
+	public function copy($cid = array())
 	{
 		$copydata = array();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -237,14 +254,15 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 //		return $list;
 //	}
 
-	function getVatGroup()
+	public function getVatGroup()
 	{
 		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ORDER BY tax_group_id ASC";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
-	function GetStateDropdown($data)
+	public function GetStateDropdown($data)
 	{
 		$coutry_code = $data['country_codes'];
 		$shipping_rate_id = $data['shipping_rate_id'];
@@ -261,4 +279,4 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 	}
 }
 
-?>
+

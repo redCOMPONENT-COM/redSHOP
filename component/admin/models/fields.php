@@ -19,7 +19,7 @@ class fieldsModelfields extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -40,7 +40,7 @@ class fieldsModelfields extends JModel
 		$this->setState('filtersection', $filtersection);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -50,7 +50,7 @@ class fieldsModelfields extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -60,7 +60,7 @@ class fieldsModelfields extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -70,7 +70,7 @@ class fieldsModelfields extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$filter = $this->getState('filter');
@@ -78,6 +78,7 @@ class fieldsModelfields extends JModel
 		$filtersection = $this->getState('filtersection');
 
 		$where = '';
+
 		if ($filter)
 		{
 			$where .= " AND f.field_title like '%" . $filter . "%' ";
@@ -94,10 +95,11 @@ class fieldsModelfields extends JModel
 			. "WHERE 1=1 "
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -116,7 +118,7 @@ class fieldsModelfields extends JModel
 		return $orderby;
 	}
 
-	function saveorder($cid = array(), $order)
+	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable('fields_detail');
 		$groupings = array();
@@ -132,9 +134,11 @@ class fieldsModelfields extends JModel
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 				// remember to updateOrder this group
