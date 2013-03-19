@@ -29,25 +29,30 @@ $Itemid = JRequest::getVar('Itemid');
 		}
 
 		if (flag == 0) {
-			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT' ); ?>');
+			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT'); ?>');
 			return false;
 		}
-		elseif (form.comment.value == "") {
-			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT' ); ?>');
+		else if (form.comment.value == "") {
+			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT'); ?>');
 			return false;
 		}
-		else {
+		else
+		{
 			return true;
 		}
 
 	}
 </script>
-<?php if ($this->params->get('show_page_heading', 1))
-{ ?>
+<?php
+if ($this->params->get('show_page_heading', 1))
+{
+	?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape($this->productinfo->product_name); ?>
 	</div>
-<?php } ?>
+<?php
+}
+?>
 <form action="<?php echo JRoute::_('index.php?option=' . $option) ?>" method="post" name="adminForm" id="adminForm">
 	<table cellpadding="3" cellspacing="3" border="0" width="100%">
 		<tr>
@@ -94,10 +99,13 @@ $Itemid = JRequest::getVar('Itemid');
 			</td>
 			<td colspan="8">
 				<input type="text" class="inputbox" name="username" id="username"
-				       value="<?php if ($this->userinfo->firstname != "")
-				       {
-					       echo $this->userinfo->firstname . " " . $this->userinfo->lastname;
-				       } ?>" readonly="readonly">
+				       value="
+				       <?php
+						if ($this->userinfo->firstname != "")
+						{
+							echo $this->userinfo->firstname . " " . $this->userinfo->lastname;
+						}
+						?>" readonly="readonly">
 			</td>
 		</tr>
 		<tr>

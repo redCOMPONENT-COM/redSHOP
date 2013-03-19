@@ -16,7 +16,7 @@ class loginViewlogin extends JView
 	public function display($tpl = null)
 	{
 		global $mainframe;
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$params = & $mainframe->getParams('com_redshop');
 
@@ -28,18 +28,16 @@ class loginViewlogin extends JView
 
 		$layout = JRequest::getVar('layout', '');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$check = $model->CheckShopperGroup($user->username, $shoppergroupid);
 
 		if ($layout == 'portal' || PORTAL_SHOP == 1)
 		{
-
 			isset($ShopperGroupDetail[0]->shopper_group_portal) ? $portal = $ShopperGroupDetail[0]->shopper_group_portal : $portal = 0;
 
 			if ($portal == 1 || PORTAL_SHOP == 1)
 			{
-
 				if ($user->id != "")
 				{
 					$this->setLayout('portals');
@@ -54,11 +52,9 @@ class loginViewlogin extends JView
 				$mainframe->enqueuemessage(JText::_('COM_REDSHOP_SHOPPER_GROUP_PORTAL_IS_DISABLE'));
 				$mainframe->Redirect('index.php?option=com_redshop');
 			}
-
 		}
 		else
 		{
-
 			if ($user->id != "")
 			{
 				$this->setLayout('logout');

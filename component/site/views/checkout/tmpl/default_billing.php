@@ -24,7 +24,9 @@ $billingaddresses = $model->billingaddresses();    ?>
 			<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?>:</td>
 			<td><?php echo $billingaddresses->company_name;?></td>
 		</tr>
-	<?php } ?>
+	<?php
+	}
+	?>
 	<tr>
 		<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME');?>:</td>
 		<td><?php echo $billingaddresses->firstname;?></td>

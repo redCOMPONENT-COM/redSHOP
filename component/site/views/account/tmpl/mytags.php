@@ -20,7 +20,7 @@ $tagid = JRequest::getInt('tagid');
 $edit = JRequest::getVar('edit');
 
 $model = $this->getModel('account');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_TAGS');
 
@@ -189,7 +189,7 @@ if ($user->id != 0)
 			<table border="0" cellpadding="2" cellspacing="0">
 				<tr>
 					<td><?php
-						if (count($MyTags) != 0)
+if (count($MyTags) != 0)
 						{
 							foreach ($MyTags as $MyTag)
 							{

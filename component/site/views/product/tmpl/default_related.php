@@ -76,12 +76,10 @@ if (count($relptemplate) > 0)
 		if (strstr($related_template_data, "{relproduct_link}"))
 		{
 			$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>" . $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX) . "</a>";
-
 		}
 		else
 		{
 			$rpname = $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX);
-
 		}
 
 		$rpdesc       = $config->maxchar($related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX);
@@ -97,7 +95,6 @@ if (count($relptemplate) > 0)
 		else
 		{
 			$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
-
 		}
 
 		$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);
@@ -120,7 +117,7 @@ if (count($relptemplate) > 0)
 			$related_template_data = str_replace("{manufacturer_link}", '', $related_template_data);
 		}
 
-		/************************************ Show Price *************************/
+		// Show Price
 		if (!$related_product [$r]->not_for_sale)
 		{
 			$related_template_data = $producthelper->GetProductShowPrice($related_product[$r]->product_id, $related_template_data, '', 0, 1);
@@ -136,7 +133,8 @@ if (count($relptemplate) > 0)
 			$related_template_data = str_replace("{relproduct_price_saving}", '', $related_template_data);
 			$related_template_data = str_replace("{relproduct_price}", '', $related_template_data);
 		}
-		/************************************ end Show Price *************************/
+
+		// End Show Price
 
 		$relmorelinkhref       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $Itemid);
 		$relmorelink           = 'javascript:window.parent.SqueezeBox.close();window.parent.location.href="' . $relmorelinkhref . '"';
@@ -170,4 +168,5 @@ if (count($relptemplate) > 0)
 
 	$reltemplate = $tempdata_div_start . $related_template_data . $tempdata_div_end;
 }
+
 echo eval("?>" . $reltemplate . "<?php ");

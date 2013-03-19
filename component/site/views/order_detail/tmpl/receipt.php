@@ -28,17 +28,23 @@ $Itemid = $redhelper->getCheckoutItemid();
 $option = JRequest::getVar('option');
 $order_id = JRequest::getInt('oid');
 
-//for barcode
+// For barcode
 $model = $this->getModel('order_detail');
-$order = $this->OrdersDetail; // $order_functions->getOrderDetails($order_id);
+
+// $order_functions->getOrderDetails($order_id);
+$order = $this->OrdersDetail;
 $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEIPT_INTROTEXT);
 ?>
-<?php if ($this->params->get('show_page_title', 1))
-{ ?>
+<?php
+if ($this->params->get('show_page_title', 1))
+{
+?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
 	</div>
-<?php } ?>
+<?php
+}
+?>
 	<hr/>
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
 		<tr>
@@ -49,9 +55,8 @@ $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEI
 	</table>
 	<hr/>
 	<div>
-		<?php echo $thankyou_text;
-
-		//echo stripslashes(ORDER_RECEIPT_INTROTEXT);
+		<?php
+		echo $thankyou_text;
 		?>
 	</div>
 	<br/>
@@ -147,12 +152,11 @@ $ReceiptTemplate = $o->text;
 echo eval("?>" . $ReceiptTemplate . "<?php ");
 
 // Handle order total for split payment
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $issplit = $session->get('issplit');
 
 if ($issplit)
 {
-
 	$split_amount       = ($order->order_total) / 2;
 	$order->order_total = $split_amount;
 }
@@ -169,7 +173,6 @@ $analytics_status = $order->analytics_status;
 
 if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 {
-
 	$orderTrans                   = array();
 	$orderTrans['order_id']       = $order->order_id;
 	$orderTrans['shopname']       = SHOP_NAME;
@@ -196,7 +199,6 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 
 	for ($k = 0; $k < count($orderitem); $k++)
 	{
-
 		$orderaddItem = array();
 
 		$orderaddItem['order_id']         = $orderitem[$k]->order_id;

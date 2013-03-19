@@ -41,7 +41,7 @@ class checkoutViewcheckout extends JView
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
-		//End
+		// End
 
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('validate.js', 'media/system/js/', false);
@@ -106,7 +106,6 @@ class checkoutViewcheckout extends JView
 					}
 					else
 					{
-//						$msg =  JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER' );
 						$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
 					}
 				}
@@ -127,8 +126,11 @@ class checkoutViewcheckout extends JView
 			}
 			else
 			{
-				$lists['extra_field_user']        = $field->list_all_field(7); // Field_section 6 : Customer Registration
-				$lists['extra_field_company']     = $field->list_all_field(8); // Field_section 6 : Company Address
+				// Field_section 6 : Customer Registration
+				$lists['extra_field_user']        = $field->list_all_field(7);
+
+				// Field_section 6 : Company Address
+				$lists['extra_field_company']     = $field->list_all_field(8);
 				$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 				$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
 			}

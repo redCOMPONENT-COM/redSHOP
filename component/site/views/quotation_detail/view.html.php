@@ -31,13 +31,6 @@ if ($print)
 <?php
 }
 
-//   	$params = &$mainframe->getParams('com_redshop');
-
-//   	$pathway = &$mainframe->getPathway();
-
-//		$document = &JFactory::getDocument();
-
-//   	$pathway->addItem(JText::_('COM_REDSHOP_ORDER_DETAILS'),'');
 	$user   = JFactory::getUser();
 	$option = JRequest::getVar('option');
 	$Itemid = JRequest::getVar('Itemid');
@@ -92,8 +85,6 @@ if ($print)
 			return;
 		}
 	}
-
-//		$this->assignRef('params',$params);
 
 	parent::display($tpl);
 }

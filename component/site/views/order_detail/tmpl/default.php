@@ -53,7 +53,9 @@ if ($this->params->get('show_page_heading', 1))
 	?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?></div>
-<?php } ?>
+<?php
+}
+?>
 	<div><?php echo ORDER_DETAIL_INTROTEXT;?></div>
 <?php
 $model          = $this->getModel('order_detail');
@@ -104,10 +106,8 @@ $discount_type     = '';
 
 for ($d = 0; $d < count($arr_discount); $d++)
 {
-
 	if ($arr_discount[$d])
 	{
-
 		$arr_discount_type = explode(':', $arr_discount[$d]);
 
 		if ($arr_discount_type[0] == 'c')

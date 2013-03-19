@@ -33,7 +33,7 @@ $lastname = $detail->lastname;
 $address = $detail->address;
 $zipcode = $detail->zipcode;
 $city = $detail->city;
-$country = JText::_($order_functions->getCountryName($detail->country_code));;
+$country = JText::_($order_functions->getCountryName($detail->country_code));
 $state = $order_functions->getStateName($detail->state_code, $detail->country_code);
 $phone = $detail->phone;
 $user_email = $detail->user_email;
@@ -78,16 +78,20 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 		}
 
 
-		<?php if($regtype==1)
-			{
-				?>
+		<?php
+		if ($regtype == 1)
+		{
+		?>
 		if (frm.company_name.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME')?>");
 			return false;
 		}
 
-		<?php } else {?>
-
+		<?php
+		}
+		else
+		{
+		?>
 		if (frm.firstname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
 			return false;
@@ -98,30 +102,33 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 			return false;
 		}
 
-		<?php }?>
-
+		<?php
+		}
+		?>
 
 		return true;
 	}
 
 </script>
 
-
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_ACCOUNT_CREATION');?></legend>
 		<table class="admintable">
-			<?php    if ($regtype == 1)
-			{ ?>
+			<?php
+			if ($regtype == 1)
+			{
+			?>
 				<tr>
 					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?>:</td>
 					<td><input type='text' name="company_name" value='<?php echo @$post['company_name']; ?>'/></td>
 				</tr>
-				<?php //echo $detail->company_name;?>
-			<?php }
+			<?php
+			}
 			else
-			{ ?>
+			{
+			?>
 				<tr>
 					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME');?>:</td>
 					<td><input type='text' name="firstname" value='<?php echo @$post['firstname']; ?>'/></td>
@@ -131,8 +138,9 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 					<td><input type='text' name="lastname" value='<?php echo @$post['lastname']; ?>'/></td>
 				</tr>
 				<td><?php echo $lastname;?></td></tr>
-			<?php }    ?>
-
+			<?php
+			}
+			?>
 			<tr>
 				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_USERNAME');?>:</td>
 				<td><input type='text' name="username" value='<?php echo @$post['username']; ?>'/></td>

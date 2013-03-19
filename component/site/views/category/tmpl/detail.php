@@ -95,7 +95,8 @@ if (strstr($template_desc, "{redproductfinderfilter:"))
 
 	}
 }
-/* replace redproductfilder filter tag end here */
+
+// Replace redproductfilder filter tag end here
 if (!$slide)
 {
 	echo '<div class="category">';
@@ -104,17 +105,20 @@ if (!$slide)
 	{
 		?>
 		<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-			<?php    if ($this->maincat->pageheading != "")
+			<?php
+			if ($this->maincat->pageheading != "")
 			{
 				echo $this->escape($this->maincat->pageheading);
 			}
 			else
 			{
 				echo $this->escape($this->pageheadingtag);
-			}    ?>
+			}
+			?>
 		</div>
 	<?php
 	}
+
 	echo "</div>";
 
 	if ($print)
@@ -333,7 +337,6 @@ if (!$slide)
 
 			if (strstr($data_add, '{category_name}'))
 			{
-
 				$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->category_name . '</a>';
 				$data_add = str_replace("{category_name}", $cat_name, $data_add);
 			}
@@ -629,7 +632,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		else
 		{
 			$pItemid = $objhelper->getItemid($product->product_id, $catidmain);
-
 		}
 
 		$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
@@ -785,7 +787,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		/* product image flying addwishlist time end*/
 		$data_add = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
-		//front-back image tag...
+		// Front-back image tag...
 		if (strstr($data_add, "{front_img_link}") || strstr($data_add, "{back_img_link}"))
 		{
 			if ($this->_data->product_thumb_image)
@@ -841,7 +843,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		// 	product preview image end.
 
-		//front-back preview image tag...
+		// Front-back preview image tag...
 		if (strstr($data_add, "{front_preview_img_link}") || strstr($data_add, "{back_preview_img_link}"))
 		{
 			if ($product->product_preview_image)
@@ -930,7 +932,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 		else
 		{
-
 			$isChilds = false;
 
 			// Get attributes
@@ -945,14 +946,14 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$attributes = array_merge($attributes, $attributes_set);
 		}
 
-		/////////////////////////////////// Product attribute  Start /////////////////////////////////
+		// Product attribute  Start
 		$totalatt = count($attributes);
 
 		// Check product for not for sale
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
-//echo $data_add;die();
+	// Echo $data_add;die();
 		$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
 
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);

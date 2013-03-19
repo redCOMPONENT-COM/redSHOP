@@ -25,12 +25,14 @@ else
 
 if ($this->params->get('show_page_heading', 1))
 {
-	if ($this->params->get('page_title')): ?>
+	if ($this->params->get('page_title'))
+	{
+	?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<?php echo $this->escape($this->params->get('page_title')); ?>
 		</h1>
 	<?php
-	endif;
+	}
 }
 
 if (FAVOURED_REVIEWS != "" || FAVOURED_REVIEWS != 0)
@@ -109,5 +111,5 @@ if (strstr($main_template, "{pagination}"))
 {
 	$main_template = str_replace("{pagination}", "", $main_template);
 }
+
 echo eval("?>" . $main_template . "<?php ");
-?>

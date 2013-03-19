@@ -45,7 +45,8 @@ if ($this->params->get('show_page_heading', 1))
 {
 	?>
 	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-		<?php    if ($this->params->get('page_title') != $pagetitle)
+		<?php
+		if ($this->params->get('page_title') != $pagetitle)
 		{
 			echo $this->escape($this->params->get('page_title'));
 		}

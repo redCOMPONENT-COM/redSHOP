@@ -83,7 +83,7 @@ if ($preloader)
 
 			if (isset($billingaddresses->state_code))
 			{
-				$billingaddresses->state_2_code = $billingaddresses->state_code; // $configobj->getCountryCode2($billingaddresses->state_code);
+				$billingaddresses->state_2_code = $billingaddresses->state_code;
 			}
 		}
 
@@ -98,7 +98,7 @@ if ($preloader)
 
 			if (isset($shippingaddresses->state_code))
 			{
-				$shippingaddresses->state_2_code = $shippingaddresses->state_code; // $configobj->getCountryCode2($shippingaddresses->state_code);
+				$shippingaddresses->state_2_code = $shippingaddresses->state_code;
 			}
 		}
 
@@ -139,7 +139,6 @@ if ($preloader)
 		}
 		else
 		{
-
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher =& JDispatcher::getInstance();
 			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
@@ -153,7 +152,8 @@ if ($preloader)
 			}
 		}
 	}
-	}else
+	}
+	else
 	{
 		$mainframe = JFactory::getApplication();
 		$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);

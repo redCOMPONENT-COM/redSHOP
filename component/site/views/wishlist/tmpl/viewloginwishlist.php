@@ -26,7 +26,7 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $session = JFactory::getSession();
 $auth = $session->get('auth');
 ?>
@@ -48,13 +48,13 @@ $auth = $session->get('auth');
 
 <div id="wishlist" class="wishlist_prompt_text">
 	<?php
-	if($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
+	if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 	{
-
 		$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
 		$mainframe->Redirect($wishreturn);
-	} else {
-
+	}
+	else
+	{
 	$pagetitle = JText::_('COM_REDSHOP_LOGIN_PROMPTWISHLIST');
 	?>
 	<br/>
@@ -88,5 +88,5 @@ $auth = $session->get('auth');
 		<input type="hidden" name="task" value="viewloginwishlist"/>
 	</form>
 </div>
-<?php } ?>
-
+<?php
+	}

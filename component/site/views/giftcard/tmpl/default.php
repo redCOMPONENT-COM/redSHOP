@@ -24,7 +24,7 @@ $url = JURI::base();
 $option = JRequest::getVar('option');
 $itemid = JRequest::getVar('Itemid');
 $gid = JRequest::getVar('gid', 0, '', 'int');
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 $pagetitle = $this->pageheadingtag;
 $detail = $this->detail;
@@ -62,9 +62,11 @@ if ($this->params->get('show_page_heading', 1))
 			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 				<?php echo $this->escape($this->params->get('page_title')); ?>
 			</h1>
-		<?php }
+		<?php
+		}
 		else
-		{ ?>
+		{
+		?>
 			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 				<?php echo $pagetitle; ?>
 			</h1>
@@ -103,7 +105,6 @@ if ($gid != 0)
 	else
 	{
 		$template = str_replace("{giftcard_price_lbl}", '', $template);
-
 	}
 
 	if ($detail->customer_amount != 1)
@@ -113,7 +114,6 @@ if ($gid != 0)
 	else
 	{
 		$template = str_replace("{giftcard_price}", '', $template);
-
 	}
 
 
@@ -125,13 +125,9 @@ if ($gid != 0)
 
 	if ($detail->customer_amount == 1 && $gid != '')
 	{
-
 		$customer_quantity = '<input type="text" name="quantity" id="quantity" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.quantity.value = f_value;">';
 		$customer_amount   = '<input type="text" name="customer_amount" id="customer_amount" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.customer_amount.value = f_value;">';
 	}
-
-//	$customer_amountsection ='<input type="hidden" name="customer_amountsection" id="customer_amountsection" value="'.$detail->customer_amount.'" onkeyup="var f_value = this.value;addtocart_'.$gid.'.customer_amountsection.value = f_value;">';
-
 
 	if ($detail->customer_amount != 1 || $detail->customer_amount == 1)
 	{
@@ -142,7 +138,6 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
 		$template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
-
 	}
 
 	$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
@@ -174,13 +169,11 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_reciver_email}", '', $template);
 		$template = str_replace("{giftcard_reciver_name}", '', $template);
-
 	}
 
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_validity}", $detail->giftcard_validity, $template);
-
 	}
 	else
 	{

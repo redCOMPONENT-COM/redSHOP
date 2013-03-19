@@ -21,7 +21,9 @@ $Itemid = JRequest::getVar('Itemid');
 		<tr>
 			<td height="40">
 				<label for="token"
-				       title="<?php echo JText::_('COM_REDSHOP_ENTER_TOKEN_MESSAGE'); ?>::<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_TOKEN_TIP_TEXT'); ?>"><?php echo JText::_('COM_REDSHOP_TOKEN'); ?>
+					title="<?php echo JText::_('COM_REDSHOP_ENTER_TOKEN_MESSAGE'); ?>::
+						<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_TOKEN_TIP_TEXT'); ?>">
+						<?php echo JText::_('COM_REDSHOP_TOKEN'); ?>
 					:</label>
 			</td>
 			<td>

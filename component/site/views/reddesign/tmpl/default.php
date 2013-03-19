@@ -182,7 +182,9 @@ $default_imageId = $this->image_id;
 				}
 				else {
 					var area_name = rDesign.trim(rDesign("#hdnAreaName_" + html).val());
-					alert("<?php echo JText::_('COM_REDSHOP_DESIGN_AREA')." "; ?>" + area_name + "<?php echo " ".JText::_('COM_REDSHOP_EXCEEDS_THE_DESIGN_AREA');?>" + ".\n" + "<?php echo JText::_('COM_REDSHOP_PLEASE_CORRECT_THIS');?>");
+					alert("<?php echo JText::_('COM_REDSHOP_DESIGN_AREA') . " ";
+					?>" + area_name + "<?php echo " " . JText::_('COM_REDSHOP_EXCEEDS_THE_DESIGN_AREA');
+					?>" + ".\n" + "<?php echo JText::_('COM_REDSHOP_PLEASE_CORRECT_THIS');?>");
 				}
 			}
 		});
@@ -288,7 +290,8 @@ $default_imageId = $this->image_id;
 </h1>
 -->
 	<div id="divDesignarea" style="display:none"></div>
-<?php if ($this->designtype_detail->reddesign_autotemplate)
+<?php
+if ($this->designtype_detail->reddesign_autotemplate)
 {
 	?>
 	<form name="addtocart0" action="" id="addtocartdesign" method="post">
@@ -374,7 +377,6 @@ else
 		$data_add = str_replace("{design_quantity_label}", JText::_('COM_REDSHOP_DESIGN_QUANTITY'), $data_add);
 		$data_add = str_replace("{design_quantity}", '<input name="quantity" id="quantity1" value="1" type="text" size="2" >', $data_add);
 
-		//	echo $data_add;
 		echo eval("?>" . $data_add . "<?php ");
 		?>
 		<input value="<?php echo $Itemid; ?>" name="Itemid" type="hidden">
@@ -390,4 +392,5 @@ else
 		<input name="product_price" value="<?php echo $this->product_detail->product_price; ?>" type="hidden">
 
 	</form>
-<?php }
+<?php
+}
