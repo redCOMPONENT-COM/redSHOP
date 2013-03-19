@@ -26,6 +26,7 @@ $show_discountpricelayout = JRequest::getVar('show_discountpricelayout');
 $show_desc = JRequest::getVar('show_desc');
 $k = 0;
 $configobj = new Redconfiguration;
+
 // get product helper
 require_once JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php';
 $producthelper = new producthelper;?>

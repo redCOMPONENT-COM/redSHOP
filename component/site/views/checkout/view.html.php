@@ -12,6 +12,7 @@ defined('_JEXEC') or die ('restricted access');
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+
 // $language = JFactory::getLanguage();
 class checkoutViewcheckout extends JView
 {

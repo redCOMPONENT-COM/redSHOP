@@ -142,6 +142,7 @@ if (SHIPPING_METHOD_ENABLE)
 		$ordertotal     = $cart['total'];
 		$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 		$order_subtotal = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
+
 //		$order_subtotal =$cart['product_subtotal'];
 
 		$shippingbox_template_desc = $carthelper->replaceShippingBoxTemplate($shippingbox_template_desc, $shipping_box_post_id);

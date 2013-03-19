@@ -34,6 +34,7 @@ $limit = $model->getProductLimit(); //( JRequest::getVar( 'limit', 0, '', 'int' 
 $app = & JFactory::getApplication();
 $router = & $app->getRouter();
 $uri = new JURI ('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
+
 // $router->setVars ( $uri->_vars );
 
 
@@ -101,6 +102,7 @@ $cart_mdata       = '';
 $prod_thumb_image = "";
 
 $manufacturer_products = $model->getManufacturerProducts($template_desc);
+
 //print_r($manufacturer_products);
 
 $cname = '';
@@ -139,13 +141,17 @@ if ($template_middle != "")
 //			if($i>0)
 //			{
 //				$cart_mdata .= "</div>";
+
 //			}
 //			$cart_mdata .= "<div  style='clear: both;' class='manufacturer_category_seperator'>";
+
 //			$cart_mdata .= str_replace("{category_name}","<div id='".ereg_replace("[^A-Za-z0-9_]", "_", $manufacturer_products[$i]->category_name)."' class='manufacturercategoryproducts'>".$manufacturer_products[$i]->category_name."</div>", $template_middle);
+
 //		}
 //		else
 //		{
 //			$cart_mdata .= str_replace("{category_name}","",$template_middle);
+
 //		}
 
 		$link         = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $manufacturer_products[$i]->product_id);
@@ -240,6 +246,7 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{manufacturer_product_link}", $link, $cart_mdata);
 		}
 //		$cart_tr .=$cart_mdata ;
+
 //		$cname = $manufacturer_products[$i]->category_name;
 	}
 }
@@ -253,6 +260,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($manufacturer->manufacturer_id, "manufacturer");
 	$m           = 0;
+
 //	for($m=0; $m<count($media_image); $m++)
 //	{
 	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
@@ -278,6 +286,7 @@ $manlink = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout
 $manproducts = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
 
 $template_desc = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $template_desc);
+
 ///////// Extra field display
 $extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
 $template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->manufacturer_id, "10", $template_desc);

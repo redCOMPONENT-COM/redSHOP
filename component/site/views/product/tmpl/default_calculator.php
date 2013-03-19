@@ -15,6 +15,7 @@ $product_id = JRequest::getInt('pid', 0);
 
 $Itemid = JRequest::getVar('Itemid');
 $url    = JURI::base();
+
 // get Model
 $model = $this->getModel('product');
 

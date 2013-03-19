@@ -22,6 +22,7 @@ $cart = $session->get('cart');
 $detail = $this->detail;
 $user = JFactory::getUser();
 $extra_field = new extra_field;
+
 // $idx =  $cart['idx'];
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");

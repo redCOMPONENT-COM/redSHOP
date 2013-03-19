@@ -82,6 +82,7 @@ class productViewproduct extends JView
 		if ($layout == "downloadproduct")
 		{
 			$this->setLayout('downloadproduct');
+
 //			$data	=& $this->get('data');
 		}
 		else if ($layout == "compare")

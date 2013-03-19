@@ -44,6 +44,7 @@ $cart_data = $this->data [0]->template_desc;
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
+
 // End
 
 if ($cart_data == "")
@@ -288,6 +289,7 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
+
 // End
 
 $cart_data = $redTemplate->parseredSHOPplugin($cart_data);

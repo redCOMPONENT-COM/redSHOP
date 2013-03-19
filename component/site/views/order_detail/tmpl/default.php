@@ -60,6 +60,7 @@ $model          = $this->getModel('order_detail');
 $OrdersDetail   = $this->OrdersDetail;
 $OrderProducts  = $order_functions->getOrderItemDetail($oid);
 $partialpayment = $order_functions->getOrderPartialPayment($oid);
+
 // get order Payment method information
 
 if (USE_AS_CATALOG)

@@ -32,7 +32,9 @@ if ($print)
 }
 
 //   	$params = &$mainframe->getParams('com_redshop');
+
 //   	$pathway = &$mainframe->getPathway();
+
 //		$document = &JFactory::getDocument();
 
 //   	$pathway->addItem(JText::_('COM_REDSHOP_ORDER_DETAILS'),'');

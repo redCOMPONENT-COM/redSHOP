@@ -68,6 +68,7 @@ $app = & JFactory::getApplication();
 $router = & $app->getRouter();
 
 $uri = new JURI ('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $catid . '&Itemid=' . $Itemid . '&limit=' . $endlimit . '&texpricemin=' . $texpricemin . '&texpricemax=' . $texpricemax . '&order_by=' . $this->order_by_select . '&manufacturer_id=' . $this->manufacturer_id . '&category_template=' . $this->category_template_id);
+
 // $router->setVars ( $uri->_vars );
 
 $document = JFactory::getDocument();
@@ -901,6 +902,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		// check product for not for sale
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
+
 //echo $data_add;die();
 		$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
 
