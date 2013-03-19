@@ -60,10 +60,10 @@ class QuotationController extends JController
 			}
 
 			$session = & JFactory::getSession();
-			$session->set('cart', NULL);
-			$session->set('ccdata', NULL);
-			$session->set('issplit', NULL);
-			$session->set('userfiled', NULL);
+			$session->set('cart', null);
+			$session->set('ccdata', null);
+			$session->set('issplit', null);
+			$session->set('userfiled', null);
 			unset ($_SESSION ['ccdata']);
 
 			if ($return)
@@ -103,10 +103,8 @@ class QuotationController extends JController
 
 		$model->usercreate($post);
 
-
 		$msg = JText::_('COM_REDSHOP_QUOTATION_SENT_AND_USERNAME_PASSWORD_HAS_BEEN_MAILED');
 		$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
-
 	}
 
 	/**
