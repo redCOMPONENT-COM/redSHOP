@@ -56,6 +56,7 @@ if ($this->params->get('show_page_heading', 1))
 	</h1>
 <?php
 }
+
 // Page title end
 
 $manufacturertemplate = $redTemplate->getTemplate("manufacturer_products", $manufacturer->template_id);
@@ -145,11 +146,13 @@ if ($template_middle != "")
 //				$cart_mdata .= "</div>";
 
 //			}
+
 //			$cart_mdata .= "<div  style='clear: both;' class='manufacturer_category_seperator'>";
 
 //			$cart_mdata .= str_replace("{category_name}","<div id='".ereg_replace("[^A-Za-z0-9_]", "_", $manufacturer_products[$i]->category_name)."' class='manufacturercategoryproducts'>".$manufacturer_products[$i]->category_name."</div>", $template_middle);
 
 //		}
+
 //		else
 //		{
 //			$cart_mdata .= str_replace("{category_name}","",$template_middle);
@@ -186,6 +189,7 @@ if ($template_middle != "")
 			$attributes = $producthelper->getProductAttribute($product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
+
 		/////////////////////////////////// Product attribute  Start /////////////////////////////////
 		$totalatt = count($attributes);
 
@@ -252,6 +256,7 @@ if ($template_middle != "")
 		{
 			$cart_mdata = str_replace("{manufacturer_product_link}", $link, $cart_mdata);
 		}
+
 //		$cart_tr .=$cart_mdata ;
 
 //		$cname = $manufacturer_products[$i]->category_name;
@@ -285,6 +290,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . $linkimage . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $wimg . "'></a>";
 	}
+
 //	}
 
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);

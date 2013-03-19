@@ -170,6 +170,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$prevbutton = '<a href="' . $prevlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_PREVIOUS_LINK_FIND . '" /></a>';
 		}
+
 		// End
 	}
 
@@ -350,6 +351,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . $linkimage . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $wimg . "'></a>";
 	}
+
 //	}
 
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
@@ -881,6 +883,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	{
 		$pr_number = $preselectedresult['pr_number'];
 	}
+
 //	$productinstock = $preselectedresult['productinstock'];
 
 //	$stock_status = $preselectedresult['stock_status'];
@@ -929,6 +932,7 @@ $template_desc = $producthelper->replaceProductStockdata($this->data->product_id
 			$template_desc = str_replace ( "{stock_notify_flag}", "<div id='notify_stock".$this->data->product_id."'></div>", $template_desc );
 		}
 	}
+
 /// End */
 
 
@@ -1039,6 +1043,7 @@ if (strstr($template_desc, $mpimg_tag))
 
 	$template_desc = str_replace($mpimg_tag, "<span class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</span>", $template_desc);
 }
+
 // More images end
 
 // More documents
@@ -1066,6 +1071,7 @@ if (strstr($template_desc, "{more_documents}"))
 
 	$template_desc = str_replace("{more_documents}", "<span id='additional_docs" . $this->data->product_id . "'>" . $more_doc . "</span>", $template_desc);
 }
+
 // More documents end
 
 
@@ -1156,6 +1162,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 		$template_desc = str_replace("{product_userfield end if}", "", $template_desc);
 	}
 }
+
 // Product User Field End
 
 // Category front-back image tag...
@@ -1222,6 +1229,7 @@ else
 	$template_desc = str_replace("{front_img_link}", "", $template_desc);
 	$template_desc = str_replace("{back_img_link}", "", $template_desc);
 }
+
 // Front-back image tag end
 
 // Product preview image.
@@ -1239,6 +1247,7 @@ if (strstr($template_desc, "{product_preview_img}"))
 		$template_desc = str_replace("{product_preview_img}", "", $template_desc);
 	}
 }
+
 // 	product preview image end.
 
 //front-back preview image tag...
@@ -1265,6 +1274,7 @@ else
 	$template_desc = str_replace("{front_preview_img_link}", "", $template_desc);
 	$template_desc = str_replace("{back_preview_img_link}", "", $template_desc);
 }
+
 // Front-back preview image tag end
 
 // Cart
@@ -1588,6 +1598,7 @@ if (strstr($template_desc, "{product_rating}"))
 
 	$template_desc = str_replace("{product_rating}", $main_template, $template_desc);
 }
+
 ////////////// Send to friend ////////////////
 $rlink = JURI::root() . 'index.php?option=' . $option . '&view=send_friend&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
 $send_friend_link = '<a class="redcolorproductimg" href="' . $rlink . '" >' . JText::_('COM_REDSHOP_SEND_FRIEND') . '</a>';
@@ -1607,6 +1618,7 @@ if (strstr($template_desc, "{ask_question_about_product_without_lightbox}"))
 	$template_desc = str_replace ( "{ask_question_about_product_without_lightbox}", $ask_question_link, $template_desc );*/
 	$template_desc = str_replace("{ask_question_about_product_without_lightbox}", $this->loadTemplate('askquestion'), $template_desc);
 }
+
 // Product subscription type
 if (strstr($template_desc, "subscription"))
 {
@@ -1634,6 +1646,7 @@ if (strstr($template_desc, "subscription"))
 		$template_desc = str_replace("{subscription}", "", $template_desc);
 	}
 }
+
 // Product subscription type ene here
 
 

@@ -156,6 +156,7 @@ if ($issplit)
 	$split_amount       = ($order->order_total) / 2;
 	$order->order_total = $split_amount;
 }
+
 // End
 
 $billingaddresses = $model->billingaddresses();

@@ -52,6 +52,7 @@ class productViewproduct extends JView
 		{
 			$pid = $params->get('productid');
 		}
+
 		// Include Javascript
 
 		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
@@ -77,6 +78,7 @@ class productViewproduct extends JView
 				$mainframe->Redirect('index.php?option=' . $option . '&view=reddesign&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $Itemid);
 			}
 		}
+
 		// Reddesign end
 
 
@@ -453,6 +455,7 @@ class productViewproduct extends JView
 				$visited[] = $pid;
 				$session->set('visited', $visited);
 			}
+
 			// End
 		}
 
@@ -461,6 +464,7 @@ class productViewproduct extends JView
 		{
 			$prodhelperobj->generateBreadcrumb($pid);
 		}
+
 		// Breadcrumb end
 
 		$this->assignRef('data', $data);

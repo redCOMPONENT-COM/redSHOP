@@ -91,6 +91,7 @@ if ($print)
 			return;
 		}
 	}
+
 //		$this->assignRef('params',$params);
 
 	parent::display($tpl);

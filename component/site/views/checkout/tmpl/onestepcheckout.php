@@ -109,6 +109,7 @@ for ($i = 0; $i < count($templatelist); $i++)
 		$onestep_template_desc = str_replace($cart_template, $templatelist[$i]->template_desc, $onestep_template_desc);
 	}
 }
+
 // For shipping template
 $shippingbox_template = "";
 $shippingbox_template_desc = "";
