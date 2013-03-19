@@ -20,7 +20,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 	public $_table_prefix = null;
 	public $_context2 = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -53,7 +53,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -63,7 +63,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -73,7 +73,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -84,7 +84,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		global $mainframe;
 
@@ -101,6 +101,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		$category_id = $this->getState('category_id');
 
 		$container_id = JRequest::getVar('container_list', '0');
+
 		if (trim($keyword) != '')
 		{
 			$and .= " AND p." . $search_field . " LIKE '" . $keyword . "%' ";
@@ -140,10 +141,11 @@ class stockroom_listingModelstockroom_listing extends JModel
 			. "WHERE p.product_id is not NULL "
 			. $and
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 		$stockroom_type = $this->getState('stockroom_type');
@@ -163,19 +165,21 @@ class stockroom_listingModelstockroom_listing extends JModel
 		return $orderby;
 	}
 
-	function getStockroom()
+	public function getStockroom()
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
-	function getQuantity($stockroom_type, $sid, $pid)
+	public function getQuantity($stockroom_type, $sid, $pid)
 	{
 		$product = " AND product_id='" . $pid . "' ";
 		$section = "";
 		$stock = "";
 		$table = "product";
+
 		if ($stockroom_type != 'product')
 		{
 			$product = " AND section_id='" . $pid . "' ";
@@ -194,16 +198,18 @@ class stockroom_listingModelstockroom_listing extends JModel
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 		//print_r($list);
+
 		return $list;
 	}
 
-	function storeStockroomQuantity($stockroom_type, $sid, $pid, $quantity = "", $preorder_stock = 0, $ordered_preorder = 0)
+	public function storeStockroomQuantity($stockroom_type, $sid, $pid, $quantity = "", $preorder_stock = 0, $ordered_preorder = 0)
 	{
 
 
 		$product = " AND product_id='" . $pid . "' ";
 		$section = "";
 		$table = "product";
+
 		if ($stockroom_type != 'product')
 		{
 			$product = " AND section_id='" . $pid . "' ";
@@ -228,6 +234,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 				{
 					$msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
 					JError::raiseWarning('', $msg);
+
 					return false;
 
 
@@ -249,6 +256,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 			{
 				$msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED') . "for Stockroom ";
 				JError::raiseWarning('', $msg);
+
 				return false;
 
 
@@ -306,20 +314,22 @@ class stockroom_listingModelstockroom_listing extends JModel
 		}
 	}
 
-	function getProductIdsfromCategoryid($cid)
+	public function getProductIdsfromCategoryid($cid)
 	{
 
 		$query = "SELECT product_id FROM " . $this->_table_prefix . "product_category_xref "
 			. "WHERE category_id= " . $cid;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadResultArray();
+
 		return $this->_data;
 	}
 
 
-	function getcontainerproducts($product_ids = 0)
+	public function getcontainerproducts($product_ids = 0)
 	{
 		$and = "";
+
 		if ($product_ids != 0)
 		{
 			$and = " and ps.product_id in (" . $product_ids . ")";
@@ -342,15 +352,17 @@ class stockroom_listingModelstockroom_listing extends JModel
 		}
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObjectlist();
+
 		return $this->_data;
 	}
 
-	function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
+	public function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
 	{
 		$query = "";
 		$product = " AND product_id='" . $pid . "' ";
 		$section = "";
 		$table = "product";
+
 		if ($stockroom_type != 'product')
 		{
 			$product = " AND section_id='" . $pid . "' ";
@@ -363,6 +375,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 			. "SET preorder_stock='0' , ordered_preorder= '0' "
 			. "WHERE stockroom_id='" . $sid . "'"
 			. $product . $section;
+
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
@@ -371,4 +384,4 @@ class stockroom_listingModelstockroom_listing extends JModel
 
 	}
 
-}    ?>
+}

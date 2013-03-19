@@ -18,7 +18,7 @@ class product_containerModelproduct_container extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -38,7 +38,7 @@ class product_containerModelproduct_container extends JModel
 
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -66,7 +66,7 @@ class product_containerModelproduct_container extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -77,7 +77,7 @@ class product_containerModelproduct_container extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -88,7 +88,7 @@ class product_containerModelproduct_container extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		//$filter_manufacturer = $this->getState('filter_manufacturer') ;
 		$filter_supplier = $this->getState('filter_supplier');
@@ -165,7 +165,7 @@ class product_containerModelproduct_container extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'product_id');
@@ -176,14 +176,15 @@ class product_containerModelproduct_container extends JModel
 		return $orderby;
 	}
 
-	function listedincats($pid)
+	public function listedincats($pid)
 	{
 		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' . $this->_table_prefix . 'category as c WHERE product_id =' . $pid . ' AND ref.category_id=c.category_id ORDER BY c.category_name';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
-	function product_template($template_id, $product_id, $section)
+	public function product_template($template_id, $product_id, $section)
 	{
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 		$query = 'SELECT template_desc FROM ' . $this->_table_prefix . 'template  WHERE template_id =' . $template_id;
@@ -201,25 +202,27 @@ class product_containerModelproduct_container extends JModel
 		for ($h = 0; $h < count($tmp1); $h++)
 		{
 			$word = explode("}", $tmp1[$h]);
+
 			if ($h != 0)
 				$str .= "'" . $word[0] . "'";
 
 			if ($h != 0 && $h != count($tmp1) - 1)
 				$str .= ",";
 		}
-		$field = new extra_field();
+		$field = new extra_field;
 		$list_field = $field->list_all_field($section, $product_id, $str); /// field_section 6 :Userinformations
 		return $list_field;
 	}
 
-	function getmanufacturername($mid)
+	public function getmanufacturername($mid)
 	{
 		$query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id=' . $mid;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
-	function getmanufacturelist($name = 'manufacturelist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+	public function getmanufacturelist($name = 'manufacturelist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db =& JFactory::getDBO();
 		// get list of Groups for dropdown filter
@@ -235,7 +238,7 @@ class product_containerModelproduct_container extends JModel
 
 	}
 
-	function getsupplierlist($name = 'supplierlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+	public function getsupplierlist($name = 'supplierlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db =& JFactory::getDBO();
 		// get list of Groups for dropdown filter
@@ -251,7 +254,7 @@ class product_containerModelproduct_container extends JModel
 
 	}
 
-	function getcontainerlist($name = 'containerlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+	public function getcontainerlist($name = 'containerlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db =& JFactory::getDBO();
 		// get list of Groups for dropdown filter
@@ -268,11 +271,12 @@ class product_containerModelproduct_container extends JModel
 	}
 
 
-	function getcontainerproducts()
+	public function getcontainerproducts()
 	{
 		$query = $this->_buildQuery();
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObjectlist();
+
 		return $this->_data;
 	}
 

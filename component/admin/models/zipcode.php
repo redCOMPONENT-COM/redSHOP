@@ -19,7 +19,7 @@ class zipcodeModelzipcode extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -36,7 +36,7 @@ class zipcodeModelzipcode extends JModel
 
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -46,7 +46,7 @@ class zipcodeModelzipcode extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -57,7 +57,7 @@ class zipcodeModelzipcode extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -70,7 +70,7 @@ class zipcodeModelzipcode extends JModel
 	}
 
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 
 		//$filter = $this->getState('filter');
@@ -87,7 +87,7 @@ class zipcodeModelzipcode extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -99,13 +99,14 @@ class zipcodeModelzipcode extends JModel
 		return $orderby;
 	}
 
-	function getCountryName($country_id)
+	public function getCountryName($country_id)
 	{
 		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
 }
 
-?>
+

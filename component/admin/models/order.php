@@ -20,7 +20,7 @@ class orderModelorder extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -40,7 +40,7 @@ class orderModelorder extends JModel
 		$this->setState('filter_payment_status', $filter_payment_status);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -50,7 +50,7 @@ class orderModelorder extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -61,7 +61,7 @@ class orderModelorder extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -72,7 +72,7 @@ class orderModelorder extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$where = "";
 		$order_id = array();
@@ -85,6 +85,7 @@ class orderModelorder extends JModel
 		$layout = JRequest::getVar('layout');
 
 		$where[] = "1=1";
+
 		if ($filter_status)
 		{
 			$where[] = "o.order_status ='" . $filter_status . "'";
@@ -103,6 +104,7 @@ class orderModelorder extends JModel
 		}
 		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
 		$orderby = $this->_buildContentOrderBy();
+
 		if ($layout == 'labellisting')
 		{
 			$where = " order_label_create=1 ";
@@ -113,10 +115,11 @@ class orderModelorder extends JModel
 			. 'AND ' . $where . ' '
 			. 'group by o.order_id '
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -128,19 +131,19 @@ class orderModelorder extends JModel
 		return $orderby;
 	}
 
-	function update_status()
+	public function update_status()
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$order_functions->update_status();
 	}
 
-	function update_status_all()
+	public function update_status_all()
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$order_functions->update_status_all();
 	}
 
-	function export_data($cid)
+	public function export_data($cid)
 	{
 		//$query1 = $this->_buildQuery();
 
@@ -167,7 +170,7 @@ class orderModelorder extends JModel
 		return $this->_getList($query);
 	}
 
-	function updateDownloadSetting($did, $limit, $enddate)
+	public function updateDownloadSetting($did, $limit, $enddate)
 	{
 
 		$query = "UPDATE " . $this->_table_prefix . "product_download "
@@ -182,14 +185,14 @@ class orderModelorder extends JModel
 		return true;
 	}
 
-	function gls_export($cid)
+	public function gls_export($cid)
 	{
 		global $mainframe;
 		$oids = implode(',', $cid);
 		$where = "";
-		$redhelper = new redhelper();
-		$order_helper = new order_functions();
-		$shipping = new shipping();
+		$redhelper = new redhelper;
+		$order_helper = new order_functions;
+		$shipping = new shipping;
 		$plugin = & JPluginHelper::getPlugin('rs_labels_GLS');
 		$glsparams = new JParameter($plugin[0]->params);
 		$normal_parcel_weight_start = $glsparams->get('normal_parcel_weight_start', '');
@@ -292,6 +295,7 @@ class orderModelorder extends JModel
 
 				$shopDetails_arr[2] = str_replace(',', '-', $shopDetails_arr[2]);
 				$userDetail = "";
+
 				if ($shopDetails_arr[4] != 'DK')
 				{
 					$shipmenttype = 'U';
@@ -315,14 +319,14 @@ class orderModelorder extends JModel
 
 	}
 
-	function business_gls_export($cid)
+	public function business_gls_export($cid)
 	{
 		global $mainframe;
 		$oids = implode(',', $cid);
 		$where = "";
-		$redhelper = new redhelper();
-		$order_helper = new order_functions();
-		$shipping = new shipping();
+		$redhelper = new redhelper;
+		$order_helper = new order_functions;
+		$shipping = new shipping;
 
 		$exportfilename = 'redshop_gls_order_export.csv';
 		/* Start output to the browser */
@@ -412,4 +416,4 @@ class orderModelorder extends JModel
 	}
 }
 
-?>
+
