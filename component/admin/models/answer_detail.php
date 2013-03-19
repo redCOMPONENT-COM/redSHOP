@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -14,10 +14,10 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 
 class answer_detailModelanswer_detail extends JModel
 {
-	var $_id = null;
-	var $_parent_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_parent_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{

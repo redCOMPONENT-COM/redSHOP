@@ -44,11 +44,11 @@ class checkoutModelcheckout extends JModel
 
 	var $_order_functions = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$session             =& JFactory::getSession();
+		$session             = JFactory::getSession();
 
 		$this->_carthelper      = new rsCarthelper();
 		$this->_userhelper      = new rsUserhelper();
@@ -93,7 +93,7 @@ class checkoutModelcheckout extends JModel
 		$this->_carthelper->carttodb();
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$captcha = $this->_userhelper->checkCaptcha($data);
 		if (!$captcha)
@@ -117,7 +117,7 @@ class checkoutModelcheckout extends JModel
 		return $reduser;
 	}
 
-	function orderplace()
+	public function orderplace()
 	{
 		global $mainframe;
 
@@ -142,8 +142,8 @@ class checkoutModelcheckout extends JModel
 
 		if ($gls_mobile)
 			$shop_id = $shop_id . '###' . $gls_mobile;
-		$user    =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$user    = JFactory::getUser();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		if (!$user->id && $auth['users_info_id'])
 		{
@@ -1324,7 +1324,7 @@ class checkoutModelcheckout extends JModel
 		return $row;
 	}
 
-	function sendGiftCard($order_id)
+	public function sendGiftCard($order_id)
 	{
 		$url               =& JURI::root();
 		$giftcardmail_body = '';
@@ -1434,10 +1434,10 @@ class checkoutModelcheckout extends JModel
 
 	}
 
-	function billingaddresses()
+	public function billingaddresses()
 	{
-		$user    =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$user    = JFactory::getUser();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$list    = array();
 
@@ -1455,7 +1455,7 @@ class checkoutModelcheckout extends JModel
 		return $list;
 	}
 
-	function shipaddress($users_info_id)
+	public function shipaddress($users_info_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE users_info_id = "' . $users_info_id . '" ';
@@ -1465,10 +1465,10 @@ class checkoutModelcheckout extends JModel
 		return $list;
 	}
 
-	function shippingaddresses()
+	public function shippingaddresses()
 	{
-		$user    =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$user    = JFactory::getUser();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$list    = array();
 
@@ -1485,9 +1485,9 @@ class checkoutModelcheckout extends JModel
 		return $list;
 	}
 
-	function getpaymentmethod()
+	public function getpaymentmethod()
 	{
-		$user          =& JFactory::getUser();
+		$user          = JFactory::getUser();
 		$shopper_group = $this->_order_functions->getBillingAddress($user->id);
 		$query         = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND (FIND_IN_SET('" . $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
 		$this->_db->setQuery($query);
@@ -1495,9 +1495,9 @@ class checkoutModelcheckout extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
-	function validatepaymentccinfo()
+	public function validatepaymentccinfo()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
 
@@ -1560,7 +1560,7 @@ class checkoutModelcheckout extends JModel
 		return $validpayment;
 	}
 
-	function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
+	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
 
 
@@ -1732,7 +1732,7 @@ class checkoutModelcheckout extends JModel
 		return true;
 	}
 
-	function validateCC($cc_num, $type)
+	public function validateCC($cc_num, $type)
 	{
 		if ($type == "American")
 		{
@@ -1836,7 +1836,7 @@ class checkoutModelcheckout extends JModel
 		}
 	}
 
-	function resetcart()
+	public function resetcart()
 	{
 		$session = & JFactory::getSession();
 		setcookie("redSHOPcart", "", time() - 3600, "/");
@@ -1844,14 +1844,14 @@ class checkoutModelcheckout extends JModel
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfiled', null);
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
 
 	}
 
-	function getCouponPrice()
+	public function getCouponPrice()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons "
 			. "WHERE coupon_id='" . $cart['coupon_id'] . "' "
@@ -1873,7 +1873,7 @@ class checkoutModelcheckout extends JModel
 		return $coupon_amount;
 	}
 
-	function getCategoryNameByProductId($pid)
+	public function getCategoryNameByProductId($pid)
 	{
 		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
@@ -1884,11 +1884,11 @@ class checkoutModelcheckout extends JModel
 		return $this->_db->loadResult();
 	}
 
-	function voucher($cart, $order_id)
+	public function voucher($cart, $order_id)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		//$cart 	 		= $session->get( 'cart') ;
-		$user        =& JFactory::getUser();
+		$user        = JFactory::getUser();
 		$vouchertype = array();
 
 
@@ -1948,11 +1948,11 @@ class checkoutModelcheckout extends JModel
 		return;
 	}
 
-	function coupon($cart, $order_id = 0)
+	public function coupon($cart, $order_id = 0)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		//$cart 	 	= $session->get( 'cart');
-		$user       =& JFactory::getUser();
+		$user       = JFactory::getUser();
 		$coupontype = array();
 
 		if (isset($cart['coupon']))
@@ -2013,7 +2013,7 @@ class checkoutModelcheckout extends JModel
 		return;
 	}
 
-	function calculateShipping($shipping_rate_id)
+	public function calculateShipping($shipping_rate_id)
 	{
 		$order_shipping_rate = 0;
 		$shippingVatRate     = 0;
@@ -2029,10 +2029,10 @@ class checkoutModelcheckout extends JModel
 		return $shipArr;
 	}
 
-	function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
+	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
 	{
 
-		$session  =& JFactory::getSession();
+		$session  = JFactory::getSession();
 		$cart     = $session->get('cart');
 		$user     = JFactory::getUser();
 		$user_id  = $user->id;
@@ -2272,7 +2272,7 @@ class checkoutModelcheckout extends JModel
 	 * Delete order number track
 	 *
 	 */
-	function deleteOrdernumberTrack()
+	public function deleteOrdernumberTrack()
 	{
 		$query = "TRUNCATE TABLE " . $this->_table_prefix . "ordernumber_track";
 
@@ -2291,7 +2291,7 @@ class checkoutModelcheckout extends JModel
 	 * Count order number track
 	 *
 	 */
-	function getOrdernumberTrack()
+	public function getOrdernumberTrack()
 	{
 		$query = "SELECT trackdatetime FROM " . $this->_table_prefix . "ordernumber_track";
 		$this->_db->setQuery($query);
@@ -2303,7 +2303,7 @@ class checkoutModelcheckout extends JModel
 	 * Insert order number track
 	 *
 	 */
-	function insertOrdernumberTrack()
+	public function insertOrdernumberTrack()
 	{
 
 		$query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
@@ -2323,7 +2323,7 @@ class checkoutModelcheckout extends JModel
 	 * Get Unique order number
 	 *
 	 */
-	function getOrdernumber()
+	public function getOrdernumber()
 	{
 		$order_functions = new order_functions();
 		$trackid_time    = $this->getOrdernumberTrack();

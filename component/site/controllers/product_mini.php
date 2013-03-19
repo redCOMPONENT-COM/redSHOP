@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 jimport('joomla.application.component.controller');
@@ -28,7 +28,7 @@ class product_miniController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
@@ -39,7 +39,7 @@ class product_miniController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function display()
+	public function display()
 	{
 		parent::display();
 	}

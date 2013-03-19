@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
@@ -21,13 +21,13 @@ class quotation_detailModelquotation_detail extends JModel
 	var $_data = null;
 	var $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	function checkAuthorization($quoid, $encr)
+	public function checkAuthorization($quoid, $encr)
 	{
 		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation "
 			. "WHERE quotation_id='" . $quoid . "' "
@@ -38,12 +38,12 @@ class quotation_detailModelquotation_detail extends JModel
 		return $record;
 	}
 
-	function addtocart($data = array())
+	public function addtocart($data = array())
 	{
 		global $mainframe;
 
 		$Itemid  = JRequest::getVar("Itemid");
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
 //		$user = &JFactory::getUser();
 
@@ -198,9 +198,9 @@ class quotation_detailModelquotation_detail extends JModel
 		$session->set('cart', $cart);
 	}
 
-	function modifyQuotation($user_id = 0)
+	public function modifyQuotation($user_id = 0)
 	{
-		$session    =& JFactory::getSession();
+		$session    = JFactory::getSession();
 		$carthelper = new rsCarthelper();
 		$cart       = $session->get('cart');
 

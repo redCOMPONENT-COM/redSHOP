@@ -19,7 +19,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 
 class productViewproduct extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 //   		global $mainframe;
 		// Request variables
@@ -45,7 +45,7 @@ class productViewproduct extends JView
 		$menu_robots           = $params->get('robots');
 
 		$model   = $this->getModel('product');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		if (!$pid)
 		{
@@ -213,7 +213,7 @@ class productViewproduct extends JView
 				}
 			}
 
-			$uri    =& JFactory::getURI();
+			$uri    = JFactory::getURI();
 			$scheme = $uri->getScheme();
 			$host   = $uri->getHost();
 			if ($data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_thumb_image))

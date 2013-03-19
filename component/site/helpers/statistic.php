@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class statistic
 {
@@ -15,7 +15,7 @@ class statistic
 	var $_table_prefix = null;
 	var $_db = null;
 
-	function statistic()
+	public function statistic()
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_db           = & JFactory :: getDBO();
@@ -23,7 +23,7 @@ class statistic
 		statistic::reshop_pageview();
 	}
 
-	function reshop_visitors()
+	public function reshop_visitors()
 	{
 		$sid  = session_id();
 		$user =  & JFactory::getUser();
@@ -48,7 +48,7 @@ class statistic
 		}
 	}
 
-	function reshop_pageview()
+	public function reshop_pageview()
 	{
 		$sid     = session_id();
 		$user    = & JFactory::getUser();

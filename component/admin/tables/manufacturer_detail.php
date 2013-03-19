@@ -7,46 +7,59 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tablemanufacturer_detail extends JTable
 {
-	var $manufacturer_id = null;
-	var $manufacturer_name = null;
-	var $manufacturer_desc = null;
-	var $manufacturer_email = null;
-	var $manufacturer_url = null;
-	var $product_per_page = 0;
-	var $template_id = null;
-	var $metakey = null;
-	var $metadesc = null;
-	var $metalanguage_setting = null;
-	var $metarobot_info = null;
-	var $pagetitle = null;
-	var $pageheading = null;
-	var $sef_url = null;
-	var $published = null;
-	var $ordering = null;
-	var $excluding_category_list = null;
+	public $manufacturer_id = null;
 
-	function Tablemanufacturer_detail(& $db)
+	public $manufacturer_name = null;
+
+	public $manufacturer_desc = null;
+
+	public $manufacturer_email = null;
+
+	public $manufacturer_url = null;
+
+	public $product_per_page = 0;
+
+	public $template_id = null;
+
+	public $metakey = null;
+
+	public $metadesc = null;
+
+	public $metalanguage_setting = null;
+
+	public $metarobot_info = null;
+
+	public $pagetitle = null;
+
+	public $pageheading = null;
+
+	public $sef_url = null;
+
+	public $published = null;
+
+	public $ordering = null;
+
+	public $excluding_category_list = null;
+
+	public function __construct(& $db)
 	{
 		$this->_table_prefix = '#__redshop_';
 		parent::__construct($this->_table_prefix . 'manufacturer', 'manufacturer_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 }
-
-?>

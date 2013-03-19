@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
@@ -24,7 +24,7 @@ class checkoutController extends JController
 	var $_order_functions = null;
 	var $_shippinghelper = null;
 
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		$this->_order_functions = new order_functions();
 		$this->_shippinghelper = new shipping();
@@ -36,7 +36,7 @@ class checkoutController extends JController
 	 *  Method to store user detail
 	 *  when user do checkout.
 	 */
-	function checkoutprocess()
+	public function checkoutprocess()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
@@ -59,12 +59,12 @@ class checkoutController extends JController
 	/**
 	 *  Method for checkout second step
 	 */
-	function checkoutnext()
+	public function checkoutnext()
 	{
 		global $mainframe;
 		$session = & JFactory::getSession();
 		$post = JRequest::get('post');
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$cart = $session->get('cart');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -160,7 +160,7 @@ class checkoutController extends JController
 		}
 	}
 
-	function updateGLSLocation()
+	public function updateGLSLocation()
 	{
 		$get = JRequest::get('get');
 		JPluginHelper::importPlugin('rs_labels_GLS');
@@ -181,7 +181,7 @@ class checkoutController extends JController
 		exit;
 	}
 
-	function chkvalidation($users_info_id)
+	public function chkvalidation($users_info_id)
 	{
 
 		$model = $this->getModel('checkout');
@@ -349,7 +349,7 @@ class checkoutController extends JController
 	/*
 	 *  Checkout final step function
 	 */
-	function checkoutfinal()
+	public function checkoutfinal()
 	{
 		global $mainframe;
 
@@ -358,7 +358,7 @@ class checkoutController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$model = $this->getModel('checkout');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
@@ -498,10 +498,10 @@ class checkoutController extends JController
 		}
 	}
 
-	function setcreditcardInfo()
+	public function setcreditcardInfo()
 	{
 		$model = $this->getModel('checkout');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		$errormsg = "";
@@ -528,7 +528,7 @@ class checkoutController extends JController
 		return $errormsg;
 	}
 
-	function oneStepCheckoutProcess()
+	public function oneStepCheckoutProcess()
 	{
 		$producthelper = new producthelper();
 		$redTemplate = new Redtemplate();
@@ -538,8 +538,8 @@ class checkoutController extends JController
 		$model = $this->getModel('checkout');
 		$post = JRequest::get('post');
 
-		$user =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$user = JFactory::getUser();
+		$session = JFactory::getSession();
 
 		$cart = $session->get('cart');
 		$users_info_id = $post['users_info_id'];
@@ -598,7 +598,7 @@ class checkoutController extends JController
 		$display_cart = '<div id="onestepdisplaycart">' . $onestep_template_desc . '</div>';
 
 		$description = $display_shippingrate . $display_cart;
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$Locale = $lang->getLocale();
 		if (in_array('ru', $Locale))
 			$description = html_entity_decode($description, ENT_QUOTES, 'KOI8-R'); //commented because redshop currency symbole has been changed because of ajax responce
@@ -608,7 +608,7 @@ class checkoutController extends JController
 		die();
 	}
 
-	function displaycreditcard()
+	public function displaycreditcard()
 	{
 		$carthelper = new rsCarthelper();
 		$get = JRequest::get('get');
@@ -624,7 +624,7 @@ class checkoutController extends JController
 		die();
 	}
 
-	function captcha()
+	public function captcha()
 	{
 
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
@@ -637,7 +637,7 @@ class checkoutController extends JController
 		$captcha = new CaptchaSecurityImages($width, $height, $characters, $captchaname);
 	}
 
-	function displaypaymentextrafield()
+	public function displaypaymentextrafield()
 	{
 		ob_clean();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
@@ -663,7 +663,7 @@ class checkoutController extends JController
 		}
 	}
 
-	function displayshippingextrafield()
+	public function displayshippingextrafield()
 	{
 		ob_clean();
 		$shipping_rate_id = JRequest::getCmd('shipping_rate_id', '');

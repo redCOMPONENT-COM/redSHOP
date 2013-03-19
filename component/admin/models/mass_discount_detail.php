@@ -6,17 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 jimport('joomla.application.component.model');
 
 class mass_discount_detailModelmass_discount_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_shoppers = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_shoppers = null;
+	public $_table_prefix = null;
 
 	function __construct()
 	{

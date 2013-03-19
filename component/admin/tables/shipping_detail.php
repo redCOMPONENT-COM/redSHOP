@@ -7,40 +7,44 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableshipping_detail extends JTable
 {
-	var $shipping_id = null;
-	var $shipping_name = null;
-	var $shipping_class = null;
-	var $shipping_method_code = null;
-	var $published = null;
-	var $shipping_details = null;
-	var $params = null;
-	var $plugin = null;
-	var $ordering = null;
+	public $shipping_id = null;
 
+	public $shipping_name = null;
 
-	function Tableshipping_detail(& $db)
+	public $shipping_class = null;
+
+	public $shipping_method_code = null;
+
+	public $published = null;
+
+	public $shipping_details = null;
+
+	public $params = null;
+
+	public $plugin = null;
+
+	public $ordering = null;
+
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__extensions';
 
 		parent::__construct($this->_table_prefix, 'extension_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }

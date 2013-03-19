@@ -37,8 +37,8 @@ class order_detailVieworder_detail extends JView
 		$prodhelperobj = new producthelper();
 		$prodhelperobj->generateBreadcrumb();
 
-		$user     =& JFactory::getUser();
-		$session  =& JFactory::getSession();
+		$user     = JFactory::getUser();
+		$session  = JFactory::getSession();
 		$order_id = $session->get('order_id');
 
 		$oid    = JRequest::getInt('oid', $order_id);

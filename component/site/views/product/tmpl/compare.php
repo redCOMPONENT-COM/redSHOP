@@ -24,7 +24,7 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $print  = JRequest::getVar('print');
 $model  = $this->getModel('product');
-$user   =& JFactory::getUser();
+$user   = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 
@@ -36,7 +36,7 @@ $redTemplate     = new Redtemplate();
 $stockroomhelper = new rsstockroomhelper();
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
-	$session         =& JFactory::getSession();
+	$session         = JFactory::getSession();
 	$compare_product = $session->get('compare_product');
 	$catid           = $compare_product[0]['category_id'];
 	$cid             = JRequest::getInt('cid');

@@ -6,7 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('JPATH_PLATFORM') or die;
+
+defined('_JEXEC') or die;
 
 /**
  * redSHOP Product Attribute Price table
@@ -16,25 +17,36 @@ defined('JPATH_PLATFORM') or die;
  */
 class Tableattributeprices_detail extends JTable
 {
-	var $price_id = 0;
-	var $section_id = null;
-	var $section = null;
-	var $product_price = null;
-	var $product_currency = null;
-	var $cdate = null;
-	var $shopper_group_id = null;
-	var $price_quantity_start = 0;
-	var $price_quantity_end = 0;
-	var $discount_price = 0;
-	var $discount_start_date = 0;
-	var $discount_end_date = 0;
+	public $price_id = 0;
+
+	public $section_id = null;
+
+	public $section = null;
+
+	public $product_price = null;
+
+	public $product_currency = null;
+
+	public $cdate = null;
+
+	public $shopper_group_id = null;
+
+	public $price_quantity_start = 0;
+
+	public $price_quantity_end = 0;
+
+	public $discount_price = 0;
+
+	public $discount_start_date = 0;
+
+	public $discount_end_date = 0;
 
 	/**
 	 * Object constructor to set table and key fields.
 	 *
 	 * @param JDatabase &$db JDatabase connector object.
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 		parent::__construct($this->_table_prefix . 'product_attribute_price', 'price_id', $db);
@@ -47,19 +59,29 @@ class Tableattributeprices_detail extends JTable
 	 */
 	public function check()
 	{
-		$query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "' . $this->shopper_group_id . '" AND section_id = ' . $this->section_id . ' AND price_quantity_start <= ' . $this->price_quantity_start . ' AND price_quantity_end >= ' . $this->price_quantity_start . '';
+		$query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
+			. $this->shopper_group_id . '" AND section_id = ' . $this->section_id
+			. ' AND price_quantity_start <= ' . $this->price_quantity_start
+			. ' AND price_quantity_end >= ' . $this->price_quantity_start . '';
+
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
 
-		$query_end = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "' . $this->shopper_group_id . '" AND section_id = ' . $this->section_id . ' AND price_quantity_start <= ' . $this->price_quantity_end . ' AND price_quantity_end >= ' . $this->price_quantity_end . '';
+		$query_end = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
+			. $this->shopper_group_id . '" AND section_id = ' . $this->section_id
+			. ' AND price_quantity_start <= ' . $this->price_quantity_end
+			. ' AND price_quantity_end >= ' . $this->price_quantity_end . '';
+
 		$this->_db->setQuery($query_end);
 		$xid_end = intval($this->_db->loadResult());
 
 		if (($xid || $xid_end) && ($xid != intval($this->price_id) || $xid_end != intval($this->price_id)))
 		{
 			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
+
 			return false;
 		}
+
 		return true;
 	}
 }

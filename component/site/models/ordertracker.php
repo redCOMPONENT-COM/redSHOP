@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 class ordertrackerModelordertracker extends JModel
@@ -17,7 +17,7 @@ class ordertrackerModelordertracker extends JModel
 	var $_table_prefix = null;
 	var $_template = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 

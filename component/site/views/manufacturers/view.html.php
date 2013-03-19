@@ -12,13 +12,13 @@ jimport('joomla.application.component.view');
 
 class manufacturersViewmanufacturers extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 
 		$producthelper = new producthelper();
 		$redhelper     = new redhelper();
-		$document      =& JFactory::getDocument();
+		$document      = JFactory::getDocument();
 		$option        = JRequest::getVar('option');
 		$print         = JRequest::getVar('print');
 		$layout        = JRequest::getVar('layout', 'default');

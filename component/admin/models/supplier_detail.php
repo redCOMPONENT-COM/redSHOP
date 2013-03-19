@@ -6,18 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 
 class supplier_detailModelsupplier_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_copydata = null;
-	var $_templatedata = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_copydata = null;
+	public $_templatedata = null;
 
 	function __construct()
 	{

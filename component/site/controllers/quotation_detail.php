@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -32,7 +32,7 @@ class quotation_detailController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function updatestatus()
+	public function updatestatus()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
@@ -56,7 +56,7 @@ class quotation_detailController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function checkout()
+	public function checkout()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
@@ -32,7 +32,7 @@ class registrationController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function newregistration()
+	public function newregistration()
 	{
 		global $mainframe;
 
@@ -87,7 +87,7 @@ class registrationController extends JController
 	}
 
 
-	function captcha()
+	public function captcha()
 	{
 
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
@@ -100,7 +100,7 @@ class registrationController extends JController
 		$captcha = new CaptchaSecurityImages($width, $height, $characters, $captchaname);
 	}
 
-	function searchUserdetailByPhone()
+	public function searchUserdetailByPhone()
 	{
 		ob_clean();
 		$get = JRequest::get('get');
@@ -125,7 +125,7 @@ class registrationController extends JController
 		die();
 	}
 
-	function getCompanyOrCustomer()
+	public function getCompanyOrCustomer()
 	{
 		$redTemplate = new Redtemplate;
 		$rsUserhelper = new rsUserhelper;

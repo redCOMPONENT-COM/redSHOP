@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 /**
@@ -24,7 +24,7 @@ class catalogController extends JController
 	/*
 	 * Method to send catalog
 	 */
-	function catalog_send()
+	public function catalog_send()
 	{
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -49,7 +49,7 @@ class catalogController extends JController
 	/*
 	 * Method to send catalog sample
 	 */
-	function catalogsample_send()
+	public function catalogsample_send()
 	{
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');

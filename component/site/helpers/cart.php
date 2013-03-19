@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
@@ -27,12 +27,12 @@ class rsCarthelper
 	var $_shippinghelper = null;
 	var $_globalvoucher = 0;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe, $context;
 		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
 		$this->_db              = Jfactory::getDBO();
-		$this->_session         =& JFactory::getSession();
+		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions();
 		$this->_extra_field     = new extra_field();
 		$this->_extraFieldFront = new extraField();
@@ -42,7 +42,7 @@ class rsCarthelper
 
 		// Load language file
 		$payment_lang_list = $this->_redhelper->getPlugins("redshop_payment");
-		$language          =& JFactory::getLanguage();
+		$language          = JFactory::getLanguage();
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
@@ -63,7 +63,7 @@ class rsCarthelper
 	 * replace Conditional tag from Redshop tax
 	 */
 
-	function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotation_mode = 0)
+	public function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotation_mode = 0)
 	{
 		if (strstr($data, '{if vat}') && strstr($data, '{vat end if}'))
 		{
@@ -132,7 +132,7 @@ class rsCarthelper
 	 * Calculate tax after Discount is apply
 	 */
 
-	function calculateTaxafterDiscount($tax = 0, $discount = 0)
+	public function calculateTaxafterDiscount($tax = 0, $discount = 0)
 	{
 		$tax_after_discount = 0;
 		$cart               = $this->_session->get('cart');
@@ -154,7 +154,7 @@ class rsCarthelper
 	 * replace Conditional tag from Redshop Discount
 	 */
 
-	function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
+	public function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
 	{
 		if (strstr($data, '{if discount}') && strstr($data, '{discount end if}'))
 		{
@@ -197,7 +197,7 @@ class rsCarthelper
 	 * replace Conditional tag from Redshop payment Discount/charges
 	 */
 
-	function replacePayment($data = '', $amount = 0, $cart = 0, $payment_oprand = '-')
+	public function replacePayment($data = '', $amount = 0, $cart = 0, $payment_oprand = '-')
 	{
 		if (strstr($data, '{if payment_discount}') && strstr($data, '{payment_discount end if}'))
 		{
@@ -231,7 +231,7 @@ class rsCarthelper
 	/*
 	 * Calculate payment Discount/charges
 	 */
-	function calculatePayment($total = 0, $paymentinfo, $finalAmount)
+	public function calculatePayment($total = 0, $paymentinfo, $finalAmount)
 	{
 		$payment_discount = 0;
 		$payment          = array();
@@ -273,7 +273,7 @@ class rsCarthelper
 	/*
 	 * replace Billing Address
 	 */
-	function replaceBillingAddress($data, $billingaddresses)
+	public function replaceBillingAddress($data, $billingaddresses)
 	{
 		if (strstr($data, '{billing_address_start}') && strstr($data, '{billing_address_end}'))
 		{
@@ -538,7 +538,7 @@ class rsCarthelper
 	/*
 	 * replace Shipping Address
 	 */
-	function replaceShippingAddress($data, $shippingaddresses)
+	public function replaceShippingAddress($data, $shippingaddresses)
 	{
 		if (strstr($data, '{shipping_address_start}') && strstr($data, '{shipping_address_end}'))
 		{
@@ -692,7 +692,7 @@ class rsCarthelper
 		return $data;
 	}
 
-	function replaceShippingMethod($row = array(), $data = "")
+	public function replaceShippingMethod($row = array(), $data = "")
 	{
 		/*if(strstr($data,"{if shipping}") && strstr($data,"{shipping end if}"))
 		{*/
@@ -765,7 +765,7 @@ class rsCarthelper
 		return $data;
 	}
 
-	function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
+	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
 		$dispatcher =& JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
@@ -1243,7 +1243,7 @@ class rsCarthelper
 		return $cart_tr;
 	}
 
-	function repalceOrderItems($data, $rowitem = array())
+	public function repalceOrderItems($data, $rowitem = array())
 	{
 		$dispatcher =& JDispatcher::getInstance();
 		$mainview   = JRequest::getVar('view');
@@ -1610,7 +1610,7 @@ class rsCarthelper
 		return $returnArr;
 	}
 
-	function replaceLabel($data)
+	public function replaceLabel($data)
 	{
 		$search  = array();
 		$replace = array();
@@ -1900,7 +1900,7 @@ class rsCarthelper
 	}
 
 	///////////////// Add cart ///////////////////////////
-	function calculation($cart, $shipping = 0, $user_id = 0)
+	public function calculation($cart, $shipping = 0, $user_id = 0)
 	{
 		$Idx               = $cart['idx'];
 		$total             = 0;
@@ -1990,7 +1990,7 @@ class rsCarthelper
 		return $redArray;
 	}
 
-	function GetCartModuleCalc($redArray)
+	public function GetCartModuleCalc($redArray)
 	{
 		$cartParamArr       = array();
 		$cartParamArr       = $this->GetCartParameters();
@@ -2059,7 +2059,7 @@ class rsCarthelper
 		return $mod_cart_total;
 	}
 
-	function replaceTemplate($cart, $cart_data, $checkout = 1)
+	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
 
 		$cart_data = $this->replaceLabel($cart_data);
@@ -2242,7 +2242,7 @@ class rsCarthelper
 		return $cart_data;
 	}
 
-	function replaceOrderTemplate($row, $ReceiptTemplate)
+	public function replaceOrderTemplate($row, $ReceiptTemplate)
 	{
 		$url       = JURI::base();
 		$redconfig = new Redconfiguration();
@@ -2609,7 +2609,7 @@ class rsCarthelper
 		return $message;
 	}
 
-	function replaceredDesignmail($order_id, $message, &$reddesign_attachment)
+	public function replaceredDesignmail($order_id, $message, &$reddesign_attachment)
 	{
 		$message           = str_replace("{order_id}", $order_id, $message);
 		$billingaddresses  = $this->_order_functions->getOrderBillingUserInfo($order_id);
@@ -2634,7 +2634,7 @@ class rsCarthelper
 
 	}
 
-	function replaceredDesignOrderItem($data, $rowitem, &$reddesign_attachment)
+	public function replaceredDesignOrderItem($data, $rowitem, &$reddesign_attachment)
 	{
 
 		$cart = '';
@@ -2678,7 +2678,7 @@ class rsCarthelper
 		return $cart;
 	}
 
-	function getReddesignOrderItem($order_item_id)
+	public function getReddesignOrderItem($order_item_id)
 	{
 		$query = 'SELECT * ' .
 			'FROM #__reddesign_order ' .
@@ -2690,7 +2690,7 @@ class rsCarthelper
 		return $list;
 	}
 
-	function makeCart_output($cart)
+	public function makeCart_output($cart)
 	{
 		$outputArr          = array();
 		$totalQuntity       = 0;
@@ -2771,7 +2771,7 @@ class rsCarthelper
 		return $outputArr;
 	}
 
-	function GetCartParameters()
+	public function GetCartParameters()
 	{
 		$sel = 'SELECT params  from #__modules where module = "mod_redshop_cart" and published =1';
 		$this->_db->setQuery($sel);
@@ -2801,7 +2801,7 @@ class rsCarthelper
 		return $cartparamArr;
 	}
 
-	function modifyCart($cartArr, $user_id)
+	public function modifyCart($cartArr, $user_id)
 	{
 		$cartArr['user_id'] = $user_id;
 		$idx                = (int) ($cartArr['idx']);
@@ -2902,7 +2902,7 @@ class rsCarthelper
 		return $cartArr;
 	}
 
-	function replaceShippingBoxTemplate($box_template_desc = "", $shipping_box_post_id = 0)
+	public function replaceShippingBoxTemplate($box_template_desc = "", $shipping_box_post_id = 0)
 	{
 		// get shipping boxes HTML
 		$shippingBoxes = $this->_shippinghelper->getShippingBox();
@@ -2957,7 +2957,7 @@ class rsCarthelper
 		return $box_template_desc;
 	}
 
-	function getGLSLocation($users_info_id, $classname, $shop_id = 0)
+	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
 	{
 		$output = '';
 		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'";
@@ -3017,7 +3017,7 @@ class rsCarthelper
 		return $output;
 	}
 
-	function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
+	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
 	{
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
@@ -3172,7 +3172,7 @@ class rsCarthelper
 		return $returnarr;
 	}
 
-	function replaceCreditCardInformation($payment_method_id = 0)
+	public function replaceCreditCardInformation($payment_method_id = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
 
@@ -3294,7 +3294,7 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
-	function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $ean_number = 0)
+	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $ean_number = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
 
@@ -3474,7 +3474,7 @@ class rsCarthelper
 		return $template_desc;
 	}
 
-	function replaceTermsConditions($template_desc = "", $Itemid = 1)
+	public function replaceTermsConditions($template_desc = "", $Itemid = 1)
 	{
 		if (strstr($template_desc, "{terms_and_conditions"))
 		{
@@ -3551,7 +3551,7 @@ class rsCarthelper
 		return $template_desc;
 	}
 
-	function replaceNewsletterSubscription($template_desc = "", $onchange = 0)
+	public function replaceNewsletterSubscription($template_desc = "", $onchange = 0)
 	{
 		if (strstr($template_desc, "{newsletter_signup_chk}"))
 		{
@@ -3603,7 +3603,7 @@ class rsCarthelper
 		return $template_desc;
 	}
 
-	function getCartProductPrice($product_id, $cart, $voucher_left)
+	public function getCartProductPrice($product_id, $cart, $voucher_left)
 	{
 		$productArr             = array();
 		$affected_product_idArr = array();
@@ -3646,11 +3646,11 @@ class rsCarthelper
 		return $productArr;
 	}
 
-	function coupon($c_data = array())
+	public function coupon($c_data = array())
 	{
 		$coupon_code = JRequest::getVar('discount_code', '');
 		$view        = JRequest::getVar('view', '');
-		$user        =& JFactory::getUser();
+		$user        = JFactory::getUser();
 		$return      = false;
 
 		$cart = (count($c_data) <= 0) ? $this->_session->get('cart') : $c_data;
@@ -3838,7 +3838,7 @@ class rsCarthelper
 		}
 	}
 
-	function voucher($v_data = array())
+	public function voucher($v_data = array())
 	{
 		$voucher_code = JRequest::getVar('discount_code', '');
 		$return       = false;
@@ -3979,7 +3979,7 @@ class rsCarthelper
 		}
 	}
 
-	function rs_multi_array_key_exists($needle, $haystack)
+	public function rs_multi_array_key_exists($needle, $haystack)
 	{
 		foreach ($haystack as $key => $value)
 		{
@@ -3999,7 +3999,7 @@ class rsCarthelper
 		return false;
 	}
 
-	function rs_recursiveArraySearch($haystack, $needle, $index = null)
+	public function rs_recursiveArraySearch($haystack, $needle, $index = null)
 	{
 		$aIt = new RecursiveArrayIterator($haystack);
 		$it  = new RecursiveIteratorIterator($aIt);
@@ -4016,7 +4016,7 @@ class rsCarthelper
 		return false;
 	}
 
-	function calculateDiscount($type, $typeArr)
+	public function calculateDiscount($type, $typeArr)
 	{
 		$value        = $type == 'voucher' ? 'voucher_value' : 'coupon_value';
 		$codediscount = 0;
@@ -4033,7 +4033,7 @@ class rsCarthelper
 		return $codediscount;
 	}
 
-	function getVoucherData($voucher_code, $product_id = 0)
+	public function getVoucherData($voucher_code, $product_id = 0)
 	{
 		$user         = & JFactory::getUser();
 		$voucher      = array();
@@ -4072,7 +4072,7 @@ class rsCarthelper
 		return $voucher;
 	}
 
-	function globalvoucher($voucher_code)
+	public function globalvoucher($voucher_code)
 	{
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
@@ -4098,7 +4098,7 @@ class rsCarthelper
 		return $voucher;
 	}
 
-	function getcouponData($coupon_code)
+	public function getcouponData($coupon_code)
 	{
 		$current_time = time();
 		$cart         = $this->_session->get('cart');
@@ -4128,7 +4128,7 @@ class rsCarthelper
 		return $coupon;
 	}
 
-	function modifyDiscount($cart)
+	public function modifyDiscount($cart)
 	{
 		$calArr                            = $this->calculation($cart);
 		$cart['product_subtotal']          = $calArr[1];
@@ -4251,7 +4251,7 @@ class rsCarthelper
 	}
 
 
-	function getWrapperPriceArr($cartArr = array())
+	public function getWrapperPriceArr($cartArr = array())
 	{
 
 		$wrapper     = $this->_producthelper->getWrapper($cartArr['product_id'], $cartArr['wrapper_id']);
@@ -4272,7 +4272,7 @@ class rsCarthelper
 		return $wrapperArr;
 	}
 
-	function checkQuantityInStock($data = array(), $newquantity = 1, $minQuantity = 0)
+	public function checkQuantityInStock($data = array(), $newquantity = 1, $minQuantity = 0)
 	{
 
 		$main_quantity   = $newquantity;
@@ -4354,7 +4354,7 @@ class rsCarthelper
 		return $newquantity;
 	}
 
-	function checkAttributeStockRoom($data = array(), $productData = array())
+	public function checkAttributeStockRoom($data = array(), $productData = array())
 	{
 		$stockroomhelper  = new rsstockroomhelper();
 		$newquantity      = $data['quantity'];
@@ -4452,7 +4452,7 @@ class rsCarthelper
 		return $newquantity;
 	}
 
-	function cartFinalCalculation($callmodify = true)
+	public function cartFinalCalculation($callmodify = true)
 	{
 		$ajax = JRequest::getVar('ajax_cart_box');
 		$cart = $this->_session->get('cart');
@@ -4478,7 +4478,7 @@ class rsCarthelper
 		return $cartoutputArray;
 	}
 
-	function carttodb($cart = array())
+	public function carttodb($cart = array())
 	{
 
 		if (count($cart) <= 0)
@@ -4552,7 +4552,7 @@ class rsCarthelper
 		}
 	}
 
-	function attributetodb($attribute = array(), $cart_item_id = 0, $product_id = 0, $isAccessary = false)
+	public function attributetodb($attribute = array(), $cart_item_id = 0, $product_id = 0, $isAccessary = false)
 	{
 		if ($cart_item_id == 0)
 			return false;
@@ -4616,7 +4616,7 @@ class rsCarthelper
 	 * @param $userid  - user information id - joomla #__users table key id
 	 * @param $delCart - remove cart from #__redshop_usercart table
 	 */
-	function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
+	public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
 	{
 		/*if($cart_id==0)
 		{
@@ -4625,7 +4625,7 @@ class rsCarthelper
 
 		if ($userid == 0)
 		{
-			$user   =& JFactory::getUser();
+			$user   = JFactory::getUser();
 			$userid = $user->id;
 		}
 		if ($cart_id == 0)
@@ -4661,7 +4661,7 @@ class rsCarthelper
 		return true;
 	}
 
-	function dbtocart($userId = 0)
+	public function dbtocart($userId = 0)
 	{
 		$rsUserhelper = new rsUserhelper();
 		if ($userId == 0)
@@ -4848,7 +4848,7 @@ class rsCarthelper
 		}
 	}
 
-	function generateAttributeFromCart($cart_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
+	public function generateAttributeFromCart($cart_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
 	{
 		$generateAttributeCart = array();
 
@@ -4906,7 +4906,7 @@ class rsCarthelper
 		return $generateAttributeCart;
 	}
 
-	function generateAccessoryFromCart($cart_item_id = 0, $product_id = 0, $quantity = 1)
+	public function generateAccessoryFromCart($cart_item_id = 0, $product_id = 0, $quantity = 1)
 	{
 		$generateAccessoryCart = array();
 
@@ -4927,7 +4927,7 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
-	function getCartItemAccessoryDetail($cart_item_id = 0)
+	public function getCartItemAccessoryDetail($cart_item_id = 0)
 	{
 		$and = "";
 		if ($cart_item_id != 0)
@@ -4943,7 +4943,7 @@ class rsCarthelper
 		return $list;
 	}
 
-	function getCartItemAttributeDetail($cart_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
+	public function getCartItemAttributeDetail($cart_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
 		$and = "";
 		if ($cart_item_id != 0)
@@ -4964,7 +4964,7 @@ class rsCarthelper
 		return $list;
 	}
 
-	function addProductToCart($data = array())
+	public function addProductToCart($data = array())
 	{
 		$dispatcher   =& JDispatcher::getInstance();
 		$rsUserhelper = new rsUserhelper();
@@ -5217,7 +5217,7 @@ class rsCarthelper
 			{
 				if (!$generateAccessoryCart)
 				{
-					$document =& JFactory::getDocument();
+					$document = JFactory::getDocument();
 
 					return $document->getError();
 				}
@@ -5569,9 +5569,9 @@ class rsCarthelper
 		return true;
 	}
 
-	function update($data)
+	public function update($data)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = & JFactory::getUser();
 
@@ -5649,7 +5649,7 @@ class rsCarthelper
 		$session->set('cart', $cart);
 	}
 
-	function userfieldValidation($data, $data_add, $section = 12)
+	public function userfieldValidation($data, $data_add, $section = 12)
 	{
 		$returnArr    = $this->_producthelper->getProductUserfieldFromTemplate($data_add);
 		$userfieldArr = $returnArr[1];
@@ -5673,7 +5673,7 @@ class rsCarthelper
 		return $msg;
 	}
 
-	function generateAccessoryArray($data, $user_id = 0)
+	public function generateAccessoryArray($data, $user_id = 0)
 	{
 		$generateAccessoryCart = array();
 		$accessory_total_price = 0;
@@ -5794,7 +5794,7 @@ class rsCarthelper
 						}
 						$requied_attribute_name = implode(", ", $requied_attributeArr);
 						$msg                    = urldecode($requied_attribute_name) . " " . JText::_('IS_REQUIRED'); // give error as first attribute is required
-						$document               =& JFactory::getDocument();
+						$document               = JFactory::getDocument();
 						$document->setError($msg);
 
 						return false;
@@ -5807,7 +5807,7 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
-	function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
+	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		$and          = "";
 		$astpublished = "";
@@ -5844,7 +5844,7 @@ class rsCarthelper
 		return $list;
 	}
 
-	function getAttributeSetId($pid)
+	public function getAttributeSetId($pid)
 	{
 		$query = "SELECT attribute_set_id FROM " . $this->_table_prefix . "product"
 			. " WHERE product_id=" . $pid;
@@ -5854,7 +5854,7 @@ class rsCarthelper
 		return $this->_db->loadResult();
 	}
 
-	function generateAttributeArray($data, $user_id = 0)
+	public function generateAttributeArray($data, $user_id = 0)
 	{
 		$generateAttributeCart = array();
 		$attribute_total_price = 0;
@@ -5938,7 +5938,7 @@ class rsCarthelper
 		return $generateAttributeCart;
 	}
 
-	function getSelectedCartAttributeArray($attArr = array())
+	public function getSelectedCartAttributeArray($attArr = array())
 	{
 		$selectedproperty    = array();
 		$selectedsubproperty = array();
@@ -5961,7 +5961,7 @@ class rsCarthelper
 		return $ret;
 	}
 
-	function getSelectedCartAccessoryArray($attArr = array())
+	public function getSelectedCartAccessoryArray($attArr = array())
 	{
 		$selectedAccessory   = array();
 		$selectedproperty    = array();
@@ -5991,7 +5991,7 @@ class rsCarthelper
 		return $ret;
 	}
 
-	function generateAttributeFromOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
+	public function generateAttributeFromOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
 	{
 		$generateAttributeCart = array();
 
@@ -6049,7 +6049,7 @@ class rsCarthelper
 		return $generateAttributeCart;
 	}
 
-	function generateAccessoryFromOrder($order_item_id = 0, $product_id = 0, $quantity = 1)
+	public function generateAccessoryFromOrder($order_item_id = 0, $product_id = 0, $quantity = 1)
 	{
 		$generateAccessoryCart = array();
 
@@ -6071,7 +6071,7 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
-	function discountCalculatorData($product_data, $data)
+	public function discountCalculatorData($product_data, $data)
 	{
 		$use_discount_calculator = $product_data->use_discount_calc;
 		$discount_calc_method    = $product_data->discount_calc_method;
@@ -6193,7 +6193,7 @@ class rsCarthelper
 	 *
 	 * @return: ajax responce
 	 */
-	function discountCalculator($get)
+	public function discountCalculator($get)
 	{
 		$product_id = $get['product_id'];
 
@@ -6445,7 +6445,7 @@ class rsCarthelper
 	 *
 	 * @return: array
 	 */
-	function getDiscountCalcData($area = 0, $pid, $areabetween = 0)
+	public function getDiscountCalcData($area = 0, $pid, $areabetween = 0)
 	{
 		$and = "";
 		if ($areabetween)
@@ -6466,7 +6466,7 @@ class rsCarthelper
 		return $list;
 	}
 
-	function getDiscountCalcDataExtra($pdcextraids = "", $product_id = 0)
+	public function getDiscountCalcDataExtra($pdcextraids = "", $product_id = 0)
 	{
 		$and = "";
 		if ($product_id)

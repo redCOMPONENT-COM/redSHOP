@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 class checkoutViewcheckout extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$user =& JFactory::getUser();
 
