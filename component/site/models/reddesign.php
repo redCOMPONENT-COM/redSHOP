@@ -28,7 +28,7 @@ class reddesignModelreddesign extends JModel
 
 	public function __construct()
 	{
-		// redshop product detail
+		// Redshop product detail
 		$this->_pid = (int) JRequest::getVar('pid', 0);
 		$this->_cid = (int) JRequest::getVar('cid', 0);
 

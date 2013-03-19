@@ -22,7 +22,7 @@ class GiftcardModelGiftcard extends JModel
 {
 	var $_id = null;
 	var $_data = null;
-	var $_product = null; /// product data
+	var $_product = null; /// Product data
 	var $_table_prefix = null;
 	var $_template = null;
 	var $_limit = null;
