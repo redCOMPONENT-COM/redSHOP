@@ -17,7 +17,7 @@ class product_ratingViewproduct_rating extends JView
 	function display ($tpl = null)
 	{
 		global $mainframe;
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$pathway       = & $mainframe->getPathway();
 		$document      = & JFactory::getDocument();
 

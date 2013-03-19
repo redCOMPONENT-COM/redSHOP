@@ -11,12 +11,12 @@ defined('_JEXEC') or die ('restricted access');
 /*
  * Include required files
  */
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 
-$producthelper = new producthelper ();
-$carthelper    = new rsCarthelper ();
-$redTemplate   = new Redtemplate ();
+$producthelper = new producthelper;
+$carthelper    = new rsCarthelper;
+$redTemplate   = new Redtemplate;
 
 $cart       = $this->cart;
 $idx        = $cart ['idx'];

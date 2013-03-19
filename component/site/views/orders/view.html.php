@@ -30,7 +30,7 @@ class ordersVieworders extends JView
 		$this->setLayout($layout);
 
 		$params        = & $mainframe->getParams($option);
-		$prodhelperobj = new producthelper();
+		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		// Request variables

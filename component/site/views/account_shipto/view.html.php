@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
 class account_shiptoViewaccount_shipto extends JView
 {
@@ -19,8 +19,8 @@ class account_shiptoViewaccount_shipto extends JView
 	{
 		global $mainframe;
 
-		$order_functions = new order_functions();
-		$extra_field     = new extraField(); //extra_field();
+		$order_functions = new order_functions;
+		$extra_field     = new extraField(); //extra_field;
 
 		$task = JRequest::getVar('task');
 		$user = JFactory::getUser();

@@ -37,7 +37,7 @@ class registrationViewregistration extends JView
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
 
-		$field                        = new extraField();
+		$field                        = new extraField;
 		$lists['extra_field_user']    = $field->list_all_field(7); // field_section 7 : Customer Registration
 		$lists['extra_field_company'] = $field->list_all_field(8); // field_section 8 : Company Address
 

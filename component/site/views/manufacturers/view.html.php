@@ -16,8 +16,8 @@ class manufacturersViewmanufacturers extends JView
 	{
 		global $mainframe;
 
-		$producthelper = new producthelper();
-		$redhelper     = new redhelper();
+		$producthelper = new producthelper;
+		$redhelper     = new redhelper;
 		$document      = JFactory::getDocument();
 		$option        = JRequest::getVar('option');
 		$print         = JRequest::getVar('print');

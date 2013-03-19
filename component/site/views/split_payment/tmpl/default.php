@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-$producthelper = new producthelper();
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_functions = new order_functions();
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+$producthelper = new producthelper;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_functions = new order_functions;
 
 $url = JURI::base();
 
@@ -69,9 +69,9 @@ $is_creditcard = 0;
 			for ($p = 0; $p < count($paymentmethod); $p++)
 			{
 				$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod[$p]->plugin . DS . $paymentmethod[$p]->plugin . '.php';
-				include_once($paymentpath);
+				include_once $paymentpath;
 
-				//$payment_class = new $paymentmethod[$p]->payment_class();
+				//$payment_class = new $paymentmethod[$p]->payment_class;
 				?>
 				<input type="radio" name="payment_method_id"
 				       value="<?php echo $paymentmethod[$p]->payment_method_id; ?>"  <?php if ($this->payment_method_id == $paymentmethod[$p]->payment_method_id || !$this->payment_method_id)

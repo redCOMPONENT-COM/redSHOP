@@ -13,9 +13,9 @@ $product_id = JRequest::getInt('pid', 0);
 
 $Itemid = JRequest::getVar('Itemid');
 
-$producthelper = new producthelper ();
-$config        = new Redconfiguration ();
-$redTemplate   = new Redtemplate();
+$producthelper = new producthelper;
+$config        = new Redconfiguration;
+$redTemplate   = new Redtemplate;
 
 $related_product  = $producthelper->getRelatedProduct($product_id);
 $template         = JRequest::getWord('template', '');
@@ -32,7 +32,7 @@ if (count($relptemplate) > 0)
 	$tempdata_div_middle = $product_end [0];
 	$tempdata_div_end    = $product_end [1];
 
-	$extra_field = new extraField ();
+	$extra_field = new extraField;
 	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
 
 	$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);

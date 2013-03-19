@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-$rsCarthelper = new rsCarthelper();
+$rsCarthelper = new rsCarthelper;
 
 $product_id = JRequest::getInt('pid', 0);
 

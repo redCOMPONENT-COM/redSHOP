@@ -16,15 +16,15 @@ $model = $this->getModel('checkout');
 $uri = & JURI::getInstance();
 $url = $uri->root();
 
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $Itemid = $redhelper->getCheckoutItemid();
 if ($Itemid == 0)
 	$Itemid = JRequest::getVar('Itemid');
 
 $session = & JFactory::getSession();
 
-$order_functions = new order_functions();
-$extra_field = new extra_field ();
+$order_functions = new order_functions;
+$extra_field = new extra_field;
 
 $billingaddresses = $model->billingaddresses();
 

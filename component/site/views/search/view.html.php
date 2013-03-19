@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 
 class searchViewsearch extends JView
 {
@@ -19,7 +19,7 @@ class searchViewsearch extends JView
 	{
 		global $mainframe;
 
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 		$lists       = array();
 
 		$uri = JFactory::getURI();
@@ -127,18 +127,18 @@ class searchViewsearch extends JView
 			global $mainframe, $context;
 
 
-			require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-			require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'pagination.php');
-			require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-			require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
+			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'pagination.php';
+			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+			require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
 
 			$dispatcher       =& JDispatcher::getInstance();
-			$redTemplate      = new Redtemplate();
-			$Redconfiguration = new Redconfiguration();
-			$producthelper    = new producthelper();
-			$extraField       = new extraField();
-			$texts            = new text_library();
-			$stockroomhelper  = new rsstockroomhelper();
+			$redTemplate      = new Redtemplate;
+			$Redconfiguration = new Redconfiguration;
+			$producthelper    = new producthelper;
+			$extraField       = new extraField;
+			$texts            = new text_library;
+			$stockroomhelper  = new rsstockroomhelper;
 
 			$option      = JRequest::getCmd('option');
 			$Itemid      = JRequest::getInt('Itemid');
@@ -260,8 +260,8 @@ class searchViewsearch extends JView
 			{
 				if (file_exists(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php"))
 				{
-					include_once(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php");
-					$redproductfinder_helper = new redproductfinder_helper();
+					include_once JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php";
+					$redproductfinder_helper = new redproductfinder_helper;
 					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
 					$hide_filter_flag        = false;
 					if ($this->_id)

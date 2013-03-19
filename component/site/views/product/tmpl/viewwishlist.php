@@ -12,13 +12,13 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 
-$config        = new Redconfiguration();
-$producthelper = new producthelper();
-$redhelper     = new redhelper();
+$config        = new Redconfiguration;
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
 
 $url        = JURI::base();
 $option     = JRequest::getVar('option');
@@ -81,10 +81,10 @@ function display_products($rows)
 {
 	$url        = JURI::base();
 	$option     = JRequest::getVar('option');
-	$extra_data = new producthelper();
+	$extra_data = new producthelper;
 
-	$producthelper = new producthelper();
-	$redhelper     = new redhelper();
+	$producthelper = new producthelper;
+	$redhelper     = new redhelper;
 
 	for ($i = 0; $i < count($rows); $i++)
 	{

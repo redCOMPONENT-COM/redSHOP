@@ -14,13 +14,13 @@ JHTMLBehavior::modal();
 $url = JURI::base();
 
 $catid = $this->catid;
-$objhelper = new redhelper();
-$Redconfiguration = new Redconfiguration();
-$producthelper = new producthelper();
-$extraField = new extraField();
-$stockroomhelper = new rsstockroomhelper();
-$redTemplate = new Redtemplate();
-$texts = new text_library();
+$objhelper = new redhelper;
+$Redconfiguration = new Redconfiguration;
+$producthelper = new producthelper;
+$extraField = new extraField;
+$stockroomhelper = new rsstockroomhelper;
+$redTemplate = new Redtemplate;
+$texts = new text_library;
 $url = JURI::base();
 $model = $this->getModel('category');
 $option = JRequest::getVar('option');
@@ -74,8 +74,8 @@ if (strstr($template_desc, "{redproductfinderfilter:"))
 {
 	if (file_exists(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php"))
 	{
-		include_once(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php");
-		$redproductfinder_helper = new redproductfinder_helper();
+		include_once JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php";
+		$redproductfinder_helper = new redproductfinder_helper;
 		$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $category_template);
 		$hide_filter_flag        = false;
 		if ($this->catid)

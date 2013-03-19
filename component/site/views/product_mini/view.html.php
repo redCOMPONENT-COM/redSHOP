@@ -19,7 +19,7 @@ class product_miniViewproduct_mini extends JView
 	{
 		global $mainframe, $context;
 
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
@@ -35,7 +35,7 @@ class product_miniViewproduct_mini extends JView
 		$keyword      = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 
-		$product_category = new product_category();
+		$product_category = new product_category;
 		$categories       = $product_category->getCategoryListArray();
 
 		$temps                   = array();

@@ -10,8 +10,8 @@
 defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 //$language = JFactory::getLanguage();
 class checkoutViewcheckout extends JView
 {
@@ -23,8 +23,8 @@ class checkoutViewcheckout extends JView
 		$Itemid    = JRequest::getVar('Itemid');
 		$task      = JRequest::getVar('task');
 		$user      = JFactory::getUser();
-		$redhelper = new redhelper();
-		$field     = new extraField();
+		$redhelper = new redhelper;
+		$field     = new extraField;
 		$session   = JFactory::getSession();
 
 		// Load language file

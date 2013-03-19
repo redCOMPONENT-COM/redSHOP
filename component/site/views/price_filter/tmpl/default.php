@@ -25,10 +25,10 @@ $show_addtocart = JRequest::getVar('show_addtocart');
 $show_discountpricelayout = JRequest::getVar('show_discountpricelayout');
 $show_desc = JRequest::getVar('show_desc');
 $k = 0;
-$configobj = new Redconfiguration();
+$configobj = new Redconfiguration;
 // get product helper
-require_once(JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php');
-$producthelper = new producthelper();?>
+require_once JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php';
+$producthelper = new producthelper;?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php
 	for ($i = 0; $i < count($this->prdlist); $i++)

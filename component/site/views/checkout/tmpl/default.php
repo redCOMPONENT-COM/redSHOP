@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
@@ -21,9 +21,9 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $session = & JFactory::getSession();
 
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
-$order_functions = new order_functions();
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
+$order_functions = new order_functions;
 
 $telesearch = $order_functions->getparameters('rs_telesearch');
 $Itemid = $redhelper->getCheckoutItemid();

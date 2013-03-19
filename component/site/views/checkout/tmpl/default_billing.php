@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-$order_functions = new order_functions();
-$extra_field = new extra_field();
+$order_functions = new order_functions;
+$extra_field = new extra_field;
 $model = $this->getModel('checkout');
 $billingaddresses = $model->billingaddresses();    ?>
 <table class="admintable">

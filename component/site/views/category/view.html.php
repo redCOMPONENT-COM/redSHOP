@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
 
 jimport('joomla.application.component.view');
 
@@ -21,8 +21,8 @@ class categoryViewcategory extends JView
 		//echo SHOW_PRICE;die();
 		global $context;
 		$mainframe     = JFactory::getApplication();
-		$objhelper     = new redhelper();
-		$prodhelperobj = new producthelper();
+		$objhelper     = new redhelper;
+		$prodhelperobj = new producthelper;
 
 		// Request variables
 		$option = JRequest::getVar('option', 'com_redshop');
@@ -389,7 +389,7 @@ class categoryViewcategory extends JView
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js');
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js');
 					// End Code for fixes IE9 issue
-					require_once(JPATH_COMPONENT_SITE . '/assets/js/catprice_filter.php');
+					require_once JPATH_COMPONENT_SITE . '/assets/js/catprice_filter.php';
 				}
 				else
 				{

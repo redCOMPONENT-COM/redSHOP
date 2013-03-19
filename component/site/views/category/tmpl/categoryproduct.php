@@ -12,12 +12,12 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$objhelper       = new redhelper();
-$config          = new Redconfiguration();
-$producthelper   = new producthelper();
-$extraField      = new extraField();
-$redTemplate     = new Redtemplate();
-$stockroomhelper = new rsstockroomhelper();
+$objhelper       = new redhelper;
+$config          = new Redconfiguration;
+$producthelper   = new producthelper;
+$extraField      = new extraField;
+$redTemplate     = new Redtemplate;
+$stockroomhelper = new rsstockroomhelper;
 
 $url    = JURI::base();
 $option = JRequest::getVar('option');

@@ -10,21 +10,21 @@
 defined('_JEXEC') or die ('restricted access');
 
 $url       = JURI::base();
-$redconfig = new Redconfiguration();
+$redconfig = new Redconfiguration;
 
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-$quotationHelper = new quotationHelper();
-$extra_field     = new extra_field();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+$quotationHelper = new quotationHelper;
+$extra_field     = new extra_field;
 
-$extra_field_new = new extraField();
+$extra_field_new = new extraField;
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-$producthelper = new producthelper();
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+$producthelper = new producthelper;
 
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_functions = new order_functions();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_functions = new order_functions;
 
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid', 1);

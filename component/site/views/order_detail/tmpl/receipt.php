@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 
-$carthelper = new rsCarthelper();
-$redconfig = new Redconfiguration();
-$configobj = new Redconfiguration();
-$redTemplate = new Redtemplate();
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
+$carthelper = new rsCarthelper;
+$redconfig = new Redconfiguration;
+$configobj = new Redconfiguration;
+$redTemplate = new Redtemplate;
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
 
 $db = JFactory::getDBO();
 $url = JURI::base();
@@ -129,7 +129,7 @@ $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
  * trigger content plugin
  */
 $dispatcher = & JDispatcher::getInstance();
-$o          = new stdClass();
+$o          = new stdClass;
 $o->text    = $ReceiptTemplate;
 JPluginHelper::importPlugin('content');
 $x               = array();
@@ -153,8 +153,8 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 # google analytics code added
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php');
-$googleanalytics = new googleanalytics();
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
+$googleanalytics = new googleanalytics;
 
 $analytics_status = $order->analytics_status;
 

@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-$helper = new redhelper();
-$redTemplate = new Redtemplate();
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+$helper = new redhelper;
+$redTemplate = new Redtemplate;
 
 $Itemid = $helper->getCheckoutItemid();
 $Itemid = JRequest::getVar('Itemid', $Itemid);

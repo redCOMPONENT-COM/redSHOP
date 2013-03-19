@@ -10,7 +10,7 @@
 defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 $uname = '';
 $uemail = '';
 $address = '';

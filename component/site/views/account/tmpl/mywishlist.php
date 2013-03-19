@@ -12,11 +12,11 @@ $url = JURI::base();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 // get product helper
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-$producthelper = new producthelper();
-$configobj = new Redconfiguration();
-$redTemplate = new Redtemplate();
-$extraField = new extraField ();
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+$producthelper = new producthelper;
+$configobj = new Redconfiguration;
+$redTemplate = new Redtemplate;
+$extraField = new extraField;
 
 $session =& JFactory::getSession();
 $option = JRequest::getVar('option');
@@ -73,6 +73,7 @@ if ($mail == 0)
 		$template_d1[0] = str_replace('{mail_link}', "", $template_d1[0]);
 	}
 	$wishlist_desc = $template_d2[0];
+
 	if (strstr($data, '{product_thumb_image_2}'))
 	{
 		$tag     = '{product_thumb_image_2}';
@@ -128,6 +129,7 @@ if ($mail == 0)
 			if (strstr($wishlist_data, "{child_products}"))
 			{
 				$parentproductid = $row->product_id;
+
 				if ($this->data->product_parent_id != 0)
 				{
 					$parentproductid = $producthelper->getMainParentProduct($row->product_id);
@@ -140,6 +142,7 @@ if ($mail == 0)
 
 					// get child products
 					$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
+
 					if (count($childproducts) > 0)
 					{
 						$childproducts = array_merge(array($productInfo), $childproducts);
@@ -199,6 +202,7 @@ if ($mail == 0)
 				{
 					$isChilds       = false;
 					$attributes_set = array();
+
 					if ($row->attribute_set_id > 0)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);

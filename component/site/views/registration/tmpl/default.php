@@ -14,8 +14,8 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $post = JRequest::get('post');
 
-$userhelper = new rsUserhelper();
-$rsCarthelper = new rsCarthelper();
+$userhelper = new rsUserhelper;
+$rsCarthelper = new rsCarthelper;
 $open_to_stretcher = 0;
 if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 {

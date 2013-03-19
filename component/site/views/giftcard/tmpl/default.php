@@ -12,12 +12,12 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
-$producthelper = new producthelper();
-$objhelper = new redhelper();
-$extraField = new extraField();
-$redTemplate = new Redtemplate();
+$producthelper = new producthelper;
+$objhelper = new redhelper;
+$extraField = new extraField;
+$redTemplate = new Redtemplate;
 
 $model = $this->getModel('giftcard');
 $url = JURI::base();
