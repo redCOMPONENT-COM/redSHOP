@@ -7,17 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
 
 class zipcodeViewzipcode extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'zipcode_id';
@@ -26,7 +21,6 @@ class zipcodeViewzipcode extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_MANAGEMENT'), 'redshop_region_48');
 
-		//$document = & JFactory::getDocument();
 		jimport('joomla.html.pagination');
 		global $mainframe, $context;
 		JToolbarHelper::addNewX();
@@ -34,7 +28,6 @@ class zipcodeViewzipcode extends JView
 		JToolbarHelper::deleteList();
 
 		$uri =& JFactory::getURI();
-
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'zipcode_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -49,8 +42,7 @@ class zipcodeViewzipcode extends JView
 		$this->assignRef('fields', $fields);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
-
 	}
-
 }

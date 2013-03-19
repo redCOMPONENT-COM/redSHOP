@@ -16,12 +16,12 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class shipping_rate_detailViewshipping_rate_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 		$context = 'shipping_rate';
-		$shippinghelper = new shipping();
-		$userhelper = new rsUserhelper();
+		$shippinghelper = new shipping;
+		$userhelper = new rsUserhelper;
 		$uri =& JFactory::getURI();
 		$model = $this->getModel();
 		$db = & JFactory::getDBO();
@@ -52,6 +52,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		JToolBarHelper::title($jtitle . ': <small><small>[ ' . $shipping->name . ' : ' . $text . ' ]</small></small>', 'redshop_shipping_rates48');
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
+
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
@@ -67,6 +68,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$countries = array_merge($countries, $db->loadObjectList());
 
 		$shipping_rate_state = array();
+
 		if ($detail->shipping_rate_country)
 		{
 			$shipping_rate_state = $model->GetStateList($detail->shipping_rate_country);
@@ -76,42 +78,54 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $detail->shipping_rate_state);
 
-		$lists['shipping_rate_state'] = JHTML::_('select.genericlist', $shipping_rate_state, 'shipping_rate_state[]', 'class="inputbox" multiple="multiple"', 'value', 'text', $detail->shipping_rate_state);
+		$lists['shipping_rate_state'] = JHTML::_('select.genericlist', $shipping_rate_state, 'shipping_rate_state[]',
+			'class="inputbox" multiple="multiple"', 'value', 'text', $detail->shipping_rate_state
+		);
 
 		$detail->shipping_rate_country = explode(',', $detail->shipping_rate_country);
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $detail->shipping_rate_country);
-		$lists['shipping_rate_country'] = JHTML::_('select.genericlist', $countries, 'shipping_rate_country[]', 'class="inputbox" multiple="multiple" onchange="getStateList()" ', 'value', 'text', $detail->shipping_rate_country);
+		$lists['shipping_rate_country'] = JHTML::_('select.genericlist', $countries, 'shipping_rate_country[]',
+			'class="inputbox" multiple="multiple" onchange="getStateList()" ', 'value', 'text', $detail->shipping_rate_country
+		);
 
-//		$categoryData = $model->GetCategoryList();
 		$detail->shipping_rate_on_category = explode(',', $detail->shipping_rate_on_category);
-//		$tmp = new stdClass;
-//		$tmp = @array_merge($tmp,$detail->shipping_rate_on_category);
-		$product_category = new product_category();
-		$lists['shipping_rate_on_category'] = $product_category->list_all("shipping_rate_on_category[]", 0, $detail->shipping_rate_on_category, 10, false, true); //JHTML::_('select.genericlist',$categoryData,'shipping_rate_on_category[]','class="inputbox" multiple="multiple" ','value','text',$detail->shipping_rate_on_category);
+
+		$product_category = new product_category;
+		$lists['shipping_rate_on_category'] = $product_category->list_all("shipping_rate_on_category[]", 0,
+			$detail->shipping_rate_on_category, 10, false, true
+		);
 
 		$shoppergroup = $userhelper->getShopperGroupList();
 		$detail->shipping_rate_on_shopper_group = explode(',', $detail->shipping_rate_on_shopper_group);
-		$lists['shipping_rate_on_shopper_group'] = JHTML::_('select.genericlist', $shoppergroup, 'shipping_rate_on_shopper_group[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_shopper_group);
+		$lists['shipping_rate_on_shopper_group'] = JHTML::_('select.genericlist', $shoppergroup, 'shipping_rate_on_shopper_group[]',
+			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_shopper_group
+		);
 
-		$lists['deliver_type'] = JHTML::_('select.booleanlist', 'deliver_type', 'class="inputbox"', $detail->deliver_type, 'COM_REDSHOP_HOME', 'COM_REDSHOP_POSTOFFICE');
+		$lists['deliver_type'] = JHTML::_('select.booleanlist', 'deliver_type', 'class="inputbox"',
+			$detail->deliver_type, 'COM_REDSHOP_HOME', 'COM_REDSHOP_POSTOFFICE'
+		);
+
 		$productData = array();
 		$result_container = array();
+
 		if ($detail->shipping_rate_on_product)
 		{
 			$result_container = $model->GetProductListshippingrate($detail->shipping_rate_on_product);
 		}
-//		if(count($productData) == 0)
-//		{
-//			$productData [0]->text = JText::_('COM_REDSHOP_SELECT');
-//	    	$productData [0]->value = 0;
-//		}
-		$lists['product_all'] = JHTML::_('select.genericlist', $productData, 'product_all[]', 'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_product);
-		$lists['shipping_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
 
-		$field = new extra_field();
+		$lists['product_all'] = JHTML::_('select.genericlist', $productData, 'product_all[]',
+			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_product
+		);
+		$lists['shipping_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
+			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" '
+			, 'value', 'text', 0
+		);
+
+		$field = new extra_field;
+
 		// Extra field
-		$list_field = $field->list_all_field(11, $detail->shipping_rate_id); /// field_section 11 :Shipping
+		$list_field = $field->list_all_field(11, $detail->shipping_rate_id);
 		$lists['extra_field'] = $list_field;
 
 		$shippingVatGroup = $model->getVatGroup();
@@ -128,8 +142,12 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$shippingfor[2]->value = 2;
 		$shippingfor[2]->text = JText::_('COM_REDSHOP_PRIVATE');
 
-		$lists['company_only'] = JHTML::_('select.genericlist', $shippingfor, 'company_only', 'class="inputbox" size="1" ', 'value', 'text', $detail->company_only);
-		$lists['shipping_tax_group_id'] = JHTML::_('select.genericlist', $shippingVatGroup, 'shipping_tax_group_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->shipping_tax_group_id);
+		$lists['company_only'] = JHTML::_('select.genericlist', $shippingfor, 'company_only',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->company_only
+		);
+		$lists['shipping_tax_group_id'] = JHTML::_('select.genericlist', $shippingVatGroup, 'shipping_tax_group_id',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->shipping_tax_group_id
+		);
 
 		$this->assignRef('is_shipper', $is_shipper);
 		$this->assignRef('shipper_location', $shipper_location);

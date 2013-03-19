@@ -6,11 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
 
 class prices_detailVIEWprices_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE_MANAGEMENT_DETAIL'), 'redshop_vatrates48');
@@ -47,15 +50,14 @@ class prices_detailVIEWprices_detail extends JView
 		$db->setQuery($q);
 		$shoppergroup = $db->loadObjectList();
 
-		/*	$arrtmp = array();
-			$arrtmp[0]->value="0";
-			$arrtmp[0]->text=JText::_('COM_REDSHOP_DEFAULT');
-			$shoppergroup=@array_merge($arrtmp,$shoppergroup);*/
-		$lists['shopper_group_name'] = JHTML::_('select.genericlist', $shoppergroup, 'shopper_group_id', 'class="inputbox" size="1"', 'value', 'text', $detail->shopper_group_id);
+		$lists['shopper_group_name'] = JHTML::_('select.genericlist', $shoppergroup, 'shopper_group_id',
+			'class="inputbox" size="1"', 'value', 'text', $detail->shopper_group_id
+		);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

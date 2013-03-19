@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -16,16 +17,15 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class order_detailVIEWorder_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$order_functions = new order_functions();
-		$redhelper = new redhelper();
+		$order_functions = new order_functions;
+		$redhelper = new redhelper;
 
 		$uri =& JFactory::getURI();
-
 
 		// Load language file
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
@@ -34,13 +34,11 @@ class order_detailVIEWorder_detail extends JView
 		$base_dir = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 
-
 		for ($l = 0; $l < count($payment_lang_list); $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
-		//End
 
 		$layout = JRequest::getVar('layout');
 		$document->addScript('components/' . $option . '/assets/js/order.js');
@@ -60,12 +58,14 @@ class order_detailVIEWorder_detail extends JView
 		$billing = $order_functions->getOrderBillingUserInfo($detail->order_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
 
-		$task = JRequest :: getVar('task');
+		$task = JRequest::getVar('task');
+
 		if ($task == 'ccdetail')
 		{
 			$ccdetail = $model->getccdetail($detail->order_id);
 			$this->assignRef('ccdetail', $ccdetail);
 			$this->setLayout('ccdetail');
+
 			parent::display($tpl);
 			exit;
 		}
@@ -76,8 +76,9 @@ class order_detailVIEWorder_detail extends JView
 			{
 				$shipping = $billing;
 			}
+
 			$this->setLayout($layout);
-			$Redconfiguration = new Redconfiguration();
+			$Redconfiguration = new Redconfiguration;
 
 			$countryarray = $Redconfiguration->getCountryList((array) $shipping);
 			$shipping->country_code = $countryarray['country_code'];
@@ -90,16 +91,19 @@ class order_detailVIEWorder_detail extends JView
 			$this->assignRef('showcountry', $showcountry);
 			$this->assignRef('showstate', $showstate);
 		}
-		else if ($layout == "print_order" || $layout == 'productorderinfo' || $layout == 'creditcardpayment')
+
+		elseif ($layout == "print_order" || $layout == 'productorderinfo' || $layout == 'creditcardpayment')
 		{
 			$this->setLayout($layout);
 		}
+
 		else
 		{
 			$this->setLayout('default');
 		}
 
 		$payment_detail = $order_functions->getOrderPaymentDetail($detail->order_id);
+
 		if (count($payment_detail) > 0)
 		{
 			$payment_detail = $payment_detail[0];
@@ -110,7 +114,7 @@ class order_detailVIEWorder_detail extends JView
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_order48');
 
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$backlink = 'index.php?option=com_redshop&view=order';
 		$backlink = $redhelper->sslLink($backlink, 0);
 		$new_link = 'index.php?option=com_redshop&view=order';
@@ -133,5 +137,3 @@ class order_detailVIEWorder_detail extends JView
 		parent::display($tpl);
 	}
 }
-
-?>

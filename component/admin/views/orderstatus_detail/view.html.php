@@ -6,17 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class orderstatus_detailVIEWorderstatus_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-//		global $mainframe;
-//		$option	= JRequest::getVar('option');
-
 		$uri =& JFactory::getURI();
 
 		$this->setLayout('default');
@@ -33,12 +31,10 @@ class orderstatus_detailVIEWorderstatus_detail extends JView
 
 		if ($isNew)
 		{
-//			$mainframe->Redirect( 'index.php?option='.$option.'&view=orderstatus' );
 			JToolBarHelper::cancel();
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 

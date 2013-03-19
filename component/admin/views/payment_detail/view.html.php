@@ -13,32 +13,21 @@ jimport('joomla.application.component.view');
 
 class payment_detailViewpayment_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$db = jFactory::getDBO();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMET'), 'redshop_payment48');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_REDSHOP'), 'index.php?option=com_redshop', true);
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_FIELDS'), 'index.php?option=com_redshop&view=fields');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_PRODUCTS'), 'index.php?option=com_redshop&view=product');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_CATEGORIES'), 'index.php?option=com_redshop&view=category');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_CONTAINER'), 'index.php?option=com_redshop&view=container');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_STOCKROOM'), 'index.php?option=com_redshop&view=stockroom');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_USER'), 'index.php?option=com_redshop&view=user');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_ORDER'), 'index.php?option=com_redshop&view=order');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_PAYMENT'), 'index.php?option=com_redshop&view=payment');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_SHIPPING'), 'index.php?option=com_redshop&view=shipping');
-
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_TEMPLATES'), 'index.php?option=com_redshop&view=template');
 
 		$uri =& JFactory::getURI();
@@ -57,15 +46,12 @@ class payment_detailViewpayment_detail extends JView
 
 		if ($isNew)
 		{
-
 			JToolBarHelper::cancel();
 
 			$this->setLayout('default_install');
-
 		}
 		else
 		{
-
 			JToolBarHelper::save();
 
 			JToolBarHelper::cancel();
@@ -86,21 +72,17 @@ class payment_detailViewpayment_detail extends JView
 
 			if (file_exists($paymentcfg))
 			{
-
 				if (!is_writable($paymentcfg))
 				{
-
 					echo "<font color='red'>" . $paymentcfg . ' is not writable</font>';
 				}
 
 				include_once ($paymentcfg);
-
 			}
 
 			$myparams = new JRegistry($detail->params, $paymentxml);
 
 			$ret = $myparams->render();
-
 		}
 		$cc_list = array();
 		$cc_list['VISA'] = 'Visa';
@@ -121,25 +103,22 @@ class payment_detailViewpayment_detail extends JView
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $detail->shopper_group);
 
-		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'shopper_group[]', 'size="10" multiple', 'value', 'text', @$detail->shopper_group);
+		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'shopper_group[]',
+			'size="10" multiple', 'value', 'text', @$detail->shopper_group
+		);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$lists['is_creditcard'] = JHTML::_('select.booleanlist', 'is_creditcard', 'class="inputbox" onChange="hide_show_cclist(this.value);"', $detail->is_creditcard);
+		$lists['is_creditcard'] = JHTML::_('select.booleanlist', 'is_creditcard',
+			'class="inputbox" onChange="hide_show_cclist(this.value);"', $detail->is_creditcard
+		);
 
 		$this->assignRef('params', $ret);
-
 		$this->assignRef('lists', $lists);
-
 		$this->assignRef('cc_list', $cc_list);
-
 		$this->assignRef('detail', $detail);
-
 		$this->assignRef('request_url', $uri->toString());
 
 		parent::display($tpl);
 	}
-
 }
-
-?>

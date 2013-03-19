@@ -15,9 +15,9 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.
 
 class fields_detailVIEWfields_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$extra_field = new extra_field();
+		$extra_field = new extra_field;
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
@@ -47,10 +47,10 @@ class fields_detailVIEWfields_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
-		$redtemplate = new Redtemplate();
+
+		$redtemplate = new Redtemplate;
 		$optiontype = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 
@@ -63,18 +63,22 @@ class fields_detailVIEWfields_detail extends JView
 
 		$lists['required'] = JHTML::_('select.booleanlist', 'required', 'class="inputbox"', $detail->required);
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'field_type', 'class="inputbox" size="1" onchange="field_select(this.value)" ', 'value', 'text', $detail->field_type);
-
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'field_type',
+			'class="inputbox" size="1" onchange="field_select(this.value)" ',
+			'value', 'text', $detail->field_type
+		);
 
 		$disable = "";
+
 		if ($detail->field_type == 15)
 		{
 			$disable = "disabled='disabled' ";
 		}
 
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'field_section', 'class="inputbox" size="1" ' . $disable . ' onchange="sectionValidation(this.value)"', 'value', 'text', $detail->field_section);
-
-
+		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'field_section',
+			'class="inputbox" size="1" ' . $disable . ' onchange="sectionValidation(this.value)"',
+			'value', 'text', $detail->field_section
+		);
 		$lists['extra_data'] = $filed_data;
 
 		$this->assignRef('lists', $lists);
@@ -83,5 +87,4 @@ class fields_detailVIEWfields_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }

@@ -14,12 +14,7 @@ jimport('joomla.application.component.view');
 
 class textlibraryViewtextlibrary extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'textlibrary_id';
@@ -27,15 +22,12 @@ class textlibraryViewtextlibrary extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEXTLIBRARY_MANAGEMENT'), 'redshop_textlibrary48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-
 
 		$uri =& JFactory::getURI();
 
@@ -50,7 +42,9 @@ class textlibraryViewtextlibrary extends JView
 		$optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_Category'));
 		$optionsection[] = JHTML::_('select.option', 'newsletter', JText::_('COM_REDSHOP_Newsletter'));
 
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'section', 'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $section);
+		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'section',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $section
+		);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
@@ -58,13 +52,12 @@ class textlibraryViewtextlibrary extends JView
 		$total = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 
-
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('textlibrarys', $textlibrarys);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-?>

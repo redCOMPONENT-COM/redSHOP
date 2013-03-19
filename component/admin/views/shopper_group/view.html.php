@@ -9,28 +9,22 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
+
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
+
 class shopper_groupViewshopper_group extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
-		$shoppergroup = new shoppergroup();
+		$shoppergroup = new shoppergroup;
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_SHOPPER_GROUP'));
 		jimport('joomla.html.pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT'), 'redshop_manufact48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
@@ -46,7 +40,7 @@ class shopper_groupViewshopper_group extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$groups = $shoppergroup->getshopperGroupListArray();
-		$total = count($groups); //& $this->get( 'Total');
+		$total = count($groups);
 
 		$media = & $this->get('Data');
 
@@ -56,6 +50,7 @@ class shopper_groupViewshopper_group extends JView
 		$this->assignRef('media', $groups);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

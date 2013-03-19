@@ -6,18 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-//require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'extra_field.php' );
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
 
 class quotation_detailVIEWquotation_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$quotationHelper = new quotationHelper();
+		$quotationHelper = new quotationHelper;
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout', 'default');
 
@@ -39,7 +39,7 @@ class quotation_detailVIEWquotation_detail extends JView
 			$this->setLayout($layout);
 		}
 		$detail =& $this->get('data');
-		$redconfig = new Redconfiguration();
+		$redconfig = new Redconfiguration;
 
 		$isNew = ($detail->quotation_id < 1);
 		$userarr = & $this->get('userdata');
@@ -49,6 +49,7 @@ class quotation_detailVIEWquotation_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_quotation48');
 		JToolBarHelper::save();
 		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
+
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
@@ -59,7 +60,9 @@ class quotation_detailVIEWquotation_detail extends JView
 		}
 
 		$status = $quotationHelper->getQuotationStatusList();
-		$lists['quotation_status'] = JHTML::_('select.genericlist', $status, 'quotation_status', 'class="inputbox" size="1" ', 'value', 'text', $detail->quotation_status);
+		$lists['quotation_status'] = JHTML::_('select.genericlist', $status, 'quotation_status',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->quotation_status
+		);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('quotation', $detail);
@@ -69,5 +72,3 @@ class quotation_detailVIEWquotation_detail extends JView
 		parent::display($tpl);
 	}
 }
-
-?>

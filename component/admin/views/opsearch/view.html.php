@@ -6,26 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
 
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class opsearchViewopsearch extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
 		$model = $this->getModel('opsearch');
 		$document = & JFactory::getDocument();
-		$order_function = new order_functions();
-		//
+		$order_function = new order_functions;
+
 		$option = JRequest::getVar('option');
 		$document = & JFactory::getDocument();
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
@@ -46,14 +41,15 @@ class opsearchViewopsearch extends JView
 		$pagination = & $this->get('Pagination');
 
 		$lists['filter_user'] = $model->getuserlist('filter_user', $filter_user, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
-		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
+		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
+		);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('products', $products);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>

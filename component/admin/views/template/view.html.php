@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class templateViewtemplate extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'template_id';
@@ -33,7 +29,6 @@ class templateViewtemplate extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-
 		$uri =& JFactory::getURI();
 		$context = 'template';
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
@@ -48,17 +43,19 @@ class templateViewtemplate extends JView
 		$total = & $this->get('Total');
 		$pagination = & $this->get('Pagination');
 
-		$redtemplate = new Redtemplate();
+		$redtemplate = new Redtemplate;
 		$optionsection = $redtemplate->getTemplateSections();
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'template_section', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $template_section);
+
+		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'template_section',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $template_section
+		);
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('templates', $templates);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>
