@@ -27,7 +27,7 @@ class productModelproduct extends JModel
 {
 	var $_id = null;
 	var $_data = null;
-	var $_product = null; // product data
+	var $_product = null; // Product data
 	var $_table_prefix = null;
 	var $_template = null;
 	var $_catid = null;
@@ -412,7 +412,7 @@ class productModelproduct extends JModel
 		{
 			if (!$compare_product)
 			{
-				return true; // return true to store product in compare product cart.
+				return true; // Return true to store product in compare product cart.
 			}
 			else
 			{
@@ -422,7 +422,7 @@ class productModelproduct extends JModel
 				{
 					if ($compare_product[$i]["product_id"] == $product_id)
 					{
-						return false; // return false if product is already in compare product cart
+						return false; // Return false if product is already in compare product cart
 					}
 				}
 

@@ -468,9 +468,9 @@ class CheckoutModelCheckout extends JModel
 		}
 
 
-		// for barcode generation
+		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
-		// end
+		// End
 
 
 		$row->order_discount       = $odiscount;
@@ -521,7 +521,7 @@ class CheckoutModelCheckout extends JModel
 			$this->_userhelper->updateUserTermsCondition($users_info_id, 1);
 		}
 
-		// place order id in quotation table if it Quotation
+		// Place order id in quotation table if it Quotation
 		if (array_key_exists("quotation_id", $cart) && $cart['quotation_id'])
 		{
 			$quotationHelper->updateQuotationwithOrder($cart['quotation_id'], $row->order_id);
@@ -757,7 +757,7 @@ class CheckoutModelCheckout extends JModel
 			$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $cart [$i] ['quantity']);
 			$cart_attribute = $retAttArr[0];
 
-			// for discount calc data
+			// For discount calc data
 			$cart_calc_data = "";
 
 			if (isset($cart[$i]['discount_calc_output']))
@@ -1117,7 +1117,7 @@ class CheckoutModelCheckout extends JModel
 
 			// Subtracting the products from the container. means decreasing stock end
 
-			// store user product subscription detail
+			// Store user product subscription detail
 			if ($product->product_type == 'subscription')
 			{
 				$subscribe           = & $this->getTable('product_subscribe_detail');
@@ -1153,7 +1153,7 @@ class CheckoutModelCheckout extends JModel
 				$db->setQuery($query);
 				$db->query();
 			}
-			// reddesign end
+			// Reddesign end
 		}
 
 		$rowpayment = & $this->getTable('order_payment');
@@ -1187,7 +1187,7 @@ class CheckoutModelCheckout extends JModel
 		$rowpayment->order_payment_code     = $ccdata['creditcard_code'];
 		$rowpayment->order_payment_cardname = base64_encode($ccdata['order_payment_name']);
 		$rowpayment->order_payment_number   = base64_encode($ccdata['order_payment_number']);
-		$rowpayment->order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // this is ccv code
+		$rowpayment->order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // This is ccv code
 		$rowpayment->order_payment_amount   = $order_total;
 		$rowpayment->order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
 		$rowpayment->order_payment_name     = $paymentmethod->name;
@@ -1202,7 +1202,7 @@ class CheckoutModelCheckout extends JModel
 			return false;
 		}
 
-		// for authorize status
+		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher =& JDispatcher::getInstance();
 		$data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentmethod->element, array($paymentmethod->element, $order_id));
@@ -1651,9 +1651,9 @@ class CheckoutModelCheckout extends JModel
 		// Now check the modulus 10 check digit - if required
 		if ($cards [$cardType] ['checkdigit'])
 		{
-			$checksum = 0; // running checksum total
-			$mychar   = ""; // next char to process
-			$j        = 1; // takes value of 1 or 2
+			$checksum = 0; // Running checksum total
+			$mychar   = ""; // Next char to process
+			$j        = 1; // Takes value of 1 or 2
 
 			// Process each digit one by one starting at the right
 			for ($i = strlen($cardNo) - 1; $i >= 0; $i--)

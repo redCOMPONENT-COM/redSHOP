@@ -435,7 +435,7 @@ class searchModelsearch extends JModel
 		}
 		elseif ($layout == 'redfilter')
 		{
-			// get products for filtering
+			// Get products for filtering
 			$products = $this->getRedFilterProduct();
 
 			$query = " SELECT * "
@@ -566,19 +566,19 @@ class searchModelsearch extends JModel
 		return $this->_getList($query);
 	}
 
-	// red Product Filter
+	// Red Product Filter
 	public function getRedFilterProduct($remove = 0)
 	{
-		// get seeion filter data
+		// Get seeion filter data
 
 		$session = JSession::getInstance('none', array());
-		// get filter types and tags
+		// Get filter types and tags
 		$getredfilter = $session->get('redfilter');
 
 		$type_id_main = explode('.', JRequest::getVar('tagid'));
 
 
-		// initialise variables
+		// Initialise variables
 		$lstproduct_id = array();
 		$lasttypeid    = 0;
 		$lasttagid     = 0;
@@ -645,7 +645,7 @@ class searchModelsearch extends JModel
 				$lstproduct_id[] = $product[$i]->product_id;
 			}
 			$products = implode(",", $lstproduct_id);
-			// get last types
+			// Get last types
 			/*$k=0;
 			  foreach ($getredfilter as $typeid=>$tagid)
 			  {
@@ -660,7 +660,7 @@ class searchModelsearch extends JModel
 				  $k++;
 			  }
 
-			  // get last product count
+			  // Get last product count
 			  if ($lasttypeid !=0 || $lasttagid != 0){
 
 				$q = "SELECT ra.product_id  FROM `#__redproductfinder_association_tag` as rat "
@@ -675,32 +675,32 @@ class searchModelsearch extends JModel
 					$lstproduct_id[] = $product[$i]->product_id;
 				}
 
-				  // if there are minimum two types in session
+				  // If there are minimum two types in session
 				  if (count($getredfilter) > 1){
 
-					  // count last type product
+					  // Count last type product
 					  $lstprototal = count($lstproduct_id);
 
-					  // get redfilterproduct array from session
+					  // Get redfilterproduct array from session
 					  //$redfilterproduct = $session->get('redfilterproduct');
 
-					  // if redfilterproduct array is not set than initialise
+					  // If redfilterproduct array is not set than initialise
 					  if ($redfilterproduct=="")
 						  $redfilterproduct = array();
 
-						  // session product total
+						  // Session product total
 					  $sprototal = count($redfilterproduct);
 
-					  // initialise final session product array
+					  // Initialise final session product array
 					  $finalproductarray = array();
 
-					  // logic for array intersecting
+					  // Logic for array intersecting
 					  if ($lstprototal > $sprototal)
 						  $finalproductarray = array_intersect($redfilterproduct,$lstproduct_id);
 					  else
 						  $finalproductarray = array_intersect($lstproduct_id,$redfilterproduct);
 
-					  // set finalproductarray in session
+					  // Set finalproductarray in session
 					  if (count($finalproductarray)>0){
 						  $session->set('redfilterproduct',$finalproductarray);
 						  $products = implode(",",$finalproductarray);
@@ -973,7 +973,7 @@ class searchModelsearch extends JModel
 
 	public function getTagsDetail($id, $all = 1)
 	{
-		// for session
+		// For session
 		$session      = JSession::getInstance('none', array());
 		$getredfilter = $session->get('redfilter');
 		$db           = JFactory::getDBO();
@@ -1031,7 +1031,7 @@ class searchModelsearch extends JModel
 		return $db->loadObjectList();
 	}
 
-	// get Category products selected in search Module
+	// Get Category products selected in search Module
 	public function loadCatProductsManufacturer($cid)
 	{
 		$db    = JFactory::getDBO();

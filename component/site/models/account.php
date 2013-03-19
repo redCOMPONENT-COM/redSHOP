@@ -227,7 +227,7 @@ class AccountModelaccount extends JModel
 		$pid         = JRequest::getInt('pid', 0, '', 'int');
 
 		$user = JFactory::getUser();
-		// check is user have access to wishlist
+		// Check is user have access to wishlist
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE user_id='" . $user->id . "' AND wishlist_id='" . $wishlist_id . "' ";
 		echo "<pre>";
@@ -463,7 +463,7 @@ class AccountModelaccount extends JModel
 					$wishlist_data = str_replace($tag, $thum_image, $wishlist_desc);
 					$wishlist_data = str_replace('{product_name}', $pname, $wishlist_data);
 
-					// attribute ajax change
+					// Attribute ajax change
 					if (!$row->not_for_sale)
 					{
 						$wishlist_data = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
