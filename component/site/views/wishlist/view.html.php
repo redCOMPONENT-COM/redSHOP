@@ -46,6 +46,7 @@ class wishlistViewwishlist extends JView
 		$wishlist          = $model->getUserWishlist();
 		$wish_products     = $model->getWishlistProduct();
 		$session_wishlists = $model->getWishlistProductFromSession();
+
 		if ($task == 'viewwishlist')
 		{
 			$this->setlayout('viewwishlist');

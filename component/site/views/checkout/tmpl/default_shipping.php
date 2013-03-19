@@ -20,6 +20,7 @@ $post = JRequest::get('POST');
 $user =& JFactory::getUser();
 
 $shippingbox_template = $redTemplate->getTemplate("shipping_box");
+
 if (count($shippingbox_template) > 0 && $shippingbox_template[0]->template_desc)
 {
 	$box_template_desc = $shippingbox_template[0]->template_desc;
@@ -30,6 +31,7 @@ else
 }
 
 $shipping_template = $redTemplate->getTemplate("redshop_shipping");
+
 if (count($shipping_template) > 0 && $shipping_template[0]->template_desc)
 {
 	$template_desc = $shipping_template[0]->template_desc;
@@ -44,6 +46,7 @@ if ($this->users_info_id > 0)
 	$shippinghelper          = new shipping;
 	$shippingBoxes           = $shippinghelper->getShippingBox();
 	$selshipping_box_post_id = 0;
+
 	if (count($shippingBoxes) > 0)
 	{
 		$selshipping_box_post_id = $shippingBoxes[0]->shipping_box_id;

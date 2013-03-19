@@ -143,6 +143,7 @@ if ($gid != 0)
 	$template = str_replace("{giftcard_reciver_name}", $reciver_name, $template);
 	$template = str_replace("{customer_quantity}", $customer_quantity, $template);
 	$template = str_replace("{customer_amount}", $customer_amount, $template);
+
 	if ($detail->customer_amount == 1)
 	{
 		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
@@ -187,10 +188,12 @@ if ($gid != 0)
 
 	$template_userfield = $returnArr[0];
 	$userfieldArr       = $returnArr[1];
+
 	if (strstr($template, "{if giftcard_userfield}") && strstr($template, "{giftcard_userfield end if}") && $template_userfield != "")
 	{
 		$ufield = "";
 		$cart   = $session->get('cart');
+
 		if (isset($cart['idx']))
 		{
 			$idx = (int) ($cart['idx']);
@@ -213,6 +216,7 @@ if ($gid != 0)
 			$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
 
 			$ufield .= $product_userfileds[1];
+
 			if ($product_userfileds[1] != "")
 			{
 				$count_no_user_field++;
@@ -222,6 +226,7 @@ if ($gid != 0)
 			$template = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template);
 		}
 		$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+
 		if ($ufield != "")
 		{
 			$template = str_replace("{if giftcard_userfield}", $product_userfileds_form, $template);
@@ -255,10 +260,12 @@ else
 			$data_add .= $template_desc;
 			$gid  = $detail[$i]->giftcard_id;
 			$link = JRoute::_('index.php?option=' . $option . '&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
+
 			if (strstr($data_add, "{giftcard_image}"))
 			{
 				$product_img = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, GIFTCARD_LIST_THUMB_WIDTH, GIFTCARD_LIST_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, '0');
 				$linkimage   = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, '0');
+
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
 				{
 					/*$thum_image = "<a class=\"modal\" href='".$linkimage."' title='".$detail[$i]->giftcard_name."' rel=\"{handler: 'image', size: {}}\">";
@@ -307,6 +314,7 @@ else
 <script type="text/javascript">
 	function validateEmail() {
 		var reciver_email = document.getElementById('reciver_email').value;
+
 		if (document.getElementById('reciver_name').value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_NAME')?>");
 			return false;
@@ -316,6 +324,7 @@ else
 			return false;
 		}
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 		if (reg.test(reciver_email) == false) {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
@@ -323,6 +332,7 @@ else
 
 		if (document.getElementById('customer_amount')) {
 			var customer_amount = document.getElementById('customer_amount').value;
+
 			if (customer_amount == '') {
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_AMOUNT')?>");
 				return false;

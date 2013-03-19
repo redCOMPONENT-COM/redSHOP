@@ -22,6 +22,7 @@ $order_id = JRequest::getInt('order_id', 0);
 
 $order_detail = array();
 $OrderProducts = array();
+
 if ($order_id != 0)
 {
 	$order_detail  = $order_functions->getOrderDetails($order_id);

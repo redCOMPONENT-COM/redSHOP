@@ -22,6 +22,7 @@ class account_billtoViewaccount_billto extends JView
 		$params = & $mainframe->getParams('com_redshop');
 
 		$billingaddresses = $GLOBALS['billingaddresses'];
+
 		if (count($billingaddresses) <= 0)
 		{
 			$model            = $this->getModel('account_billto');
@@ -31,6 +32,7 @@ class account_billtoViewaccount_billto extends JView
 		$uri     = JFactory::getURI();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
+
 		if (!is_array($auth))
 		{
 			$auth['users_info_id'] = 0;

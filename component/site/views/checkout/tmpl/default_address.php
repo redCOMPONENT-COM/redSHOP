@@ -125,6 +125,7 @@ $cart = $session->get('cart');
 								echo $shippingaddresses [$i]->address . " ";
 							}
 							echo $shippingaddresses [$i]->text;
+
 							if (!$session->get('isredcrmuser'))
 							{
 								?>

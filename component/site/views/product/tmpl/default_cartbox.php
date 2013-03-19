@@ -19,6 +19,7 @@ $Itemid = $helper->getCartItemid($Itemid);
 
 $cart_template = "";
 $ajax_template = $redTemplate->getTemplate("ajax_cart_box");
+
 if (count($ajax_template) > 0 && $ajax_template[0]->template_desc)
 {
 	$cart_template = $ajax_template[0]->template_desc;

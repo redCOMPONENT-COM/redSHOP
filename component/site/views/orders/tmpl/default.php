@@ -27,6 +27,7 @@ $redTemplate = new Redtemplate;
 
 $template_id = $this->params->get('template_id');
 $orderslist_template = $redTemplate->getTemplate("order_list", $template_id);
+
 if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc != "")
 {
 	$template_desc = $orderslist_template[0]->template_desc;
@@ -61,6 +62,7 @@ $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JT
 $print_tag .= "</a>";
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
+
 if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{product_loop_end}"))
 {
 	$template_sdata  = explode('{product_loop_start}', $template_desc);

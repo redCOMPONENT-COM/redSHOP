@@ -16,6 +16,7 @@ $redTemplate      = new Redtemplate;
 $carthelper       = new rsCarthelper;
 $model            = $this->getModel('checkout');
 $payment_template = $redTemplate->getTemplate("redshop_payment");
+
 if (count($payment_template) > 0 && $payment_template[0]->template_desc)
 {
 	$template_desc = $payment_template[0]->template_desc;
@@ -28,6 +29,7 @@ else
 // get billing info for check is_company
 $billingaddresses = $model->billingaddresses();
 $is_company       = $billingaddresses->is_company;
+
 if ($billingaddresses->ean_number != "")
 {
 	$ean_number = 1;

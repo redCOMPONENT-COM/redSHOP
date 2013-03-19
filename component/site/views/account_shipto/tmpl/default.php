@@ -16,6 +16,7 @@ $add_addlink = "index.php?option=" . $option . "&view=account_shipto&task=addshi
 $backlink = "index.php?option=" . $option . "&view=account&Itemid=" . $Itemid;
 
 $pagetitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
+
 if ($this->params->get('show_page_heading', 1))
 {
 	if ($this->params->get('page_title') != $pagetitle)

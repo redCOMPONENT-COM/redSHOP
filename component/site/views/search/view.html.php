@@ -29,6 +29,7 @@ class searchViewsearch extends JView
 
 		$layout = JRequest::getVar('layout', '');
 		$model  = $this->getModel('search');
+
 		if ($layout == 'default')
 		{
 			$pagetitle = JText::_('COM_REDSHOP_SEARCH');
@@ -37,6 +38,7 @@ class searchViewsearch extends JView
 		$option   = JRequest::getVar('option');
 		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+
 		if (AJAX_CART_BOX == 0)
 		{
 			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
@@ -86,6 +88,7 @@ class searchViewsearch extends JView
 					$session->destroy('redfilter');
 			}
 			$session->set('redfilter', $redfilter);
+
 			if ($cntproduct == 1)
 			{
 				$mypid = JRequest::getVar('pid', 0);
@@ -168,6 +171,7 @@ class searchViewsearch extends JView
 			JHTML::_('behavior.tooltip');
 			JHTMLBehavior::modal();
 			$url = JURI::base();
+
 			if ($this->params->get('page_title') != "")
 			{
 				$pagetitle = $this->params->get('page_title');
@@ -185,6 +189,7 @@ class searchViewsearch extends JView
 			}
 			echo '<div style="clear:both"></div>';
 			$category_tmpl = "";
+
 			if (count($this->templatedata) > 0 && $this->templatedata[0]->template_desc != "")
 			{
 				$template_desc = $this->templatedata[0]->template_desc;
@@ -200,9 +205,11 @@ class searchViewsearch extends JView
 			}
 			$template_org = $template_desc;
 			$template_d1  = explode("{category_loop_start}", $template_org);
+
 			if (count($template_d1) > 1)
 			{
 				$template_d2 = explode("{category_loop_end}", $template_d1[1]);
+
 				if (count($template_d2) > 0)
 				{
 					$category_tmpl = $template_d2[0];
@@ -214,6 +221,7 @@ class searchViewsearch extends JView
 			$print        = JRequest::getVar('print');
 			$p_url        = @ explode('?', $_SERVER['REQUEST_URI']);
 			$print_tag    = '';
+
 			if ($print)
 			{
 				$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
@@ -264,9 +272,11 @@ class searchViewsearch extends JView
 					$redproductfinder_helper = new redproductfinder_helper;
 					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
 					$hide_filter_flag        = false;
+
 					if ($this->_id)
 					{
 						$prodctofcat = $producthelper->getProductCategory($this->_id);
+
 						if (empty($prodctofcat))
 							$hide_filter_flag = true;
 					}
@@ -290,6 +300,7 @@ class searchViewsearch extends JView
 			<input type='hidden' name='category_id' value='$cid'>
 			<input type='hidden' name='manufacture_id' value='$manufacture_id'>
 			<input type='hidden' name='templateid' value='$templateid'></form>";
+
 			if (strstr($template_desc, '{order_by}'))
 			{
 				$order_by = $orderby_form;
@@ -342,6 +353,7 @@ class searchViewsearch extends JView
 					$product_number = $this->search[$i]->product_number;
 					$pro_s_desc     = $this->search[$i]->product_s_desc;
 					$pro_desc       = $this->search[$i]->product_desc;
+
 					if (!in_array($keyword, $tagarray))
 					{
 						$pname      = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pname);
@@ -351,6 +363,7 @@ class searchViewsearch extends JView
 				}
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
 				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
+
 				if (strstr($template_desc, '{product_name}'))
 				{
 					$pname    = "<a href='" . $link . "'>" . $pname . "</a>";
@@ -372,6 +385,7 @@ class searchViewsearch extends JView
 				if (strstr($data_add, "{product_delivery_time}"))
 				{
 					$product_delivery_time = $producthelper->getProductMinDeliveryTime($this->search[$i]->product_id);
+
 					if ($product_delivery_time != "")
 					{
 						$data_add = str_replace("{delivery_time_lbl}", JText::_('DELIVERY_TIME'), $data_add);
@@ -479,6 +493,7 @@ class searchViewsearch extends JView
 					for ($m = 0; $m < count($media_documents); $m++)
 					{
 						$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+
 						if (!$alttext)
 						{
 							$alttext = $media_documents[$m]->media_name;
@@ -500,6 +515,7 @@ class searchViewsearch extends JView
 				$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
 				$template_userfield = $returnArr[0];
 				$userfieldArr       = $returnArr[1];
+
 				if ($template_userfield != "")
 				{
 					$ufield = "";
@@ -507,6 +523,7 @@ class searchViewsearch extends JView
 					{
 						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
 						$ufield .= $product_userfileds[1];
+
 						if ($product_userfileds[1] != "")
 						{
 							$count_no_user_field++;
@@ -515,6 +532,7 @@ class searchViewsearch extends JView
 						$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $data_add);
 					}
 					$product_userfileds_form = "<form method='post' action='' id='user_fields_form_" . $this->search[$i]->product_id . "' name='user_fields_form_" . $this->search[$i]->product_id . "'>";
+
 					if ($ufield != "")
 					{
 						$data_add = str_replace("{if product_userfield}", $product_userfileds_form, $data_add);
@@ -530,6 +548,7 @@ class searchViewsearch extends JView
 				{
 					$ajax_detail_template_desc = "";
 					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);
+
 					if (count($ajax_detail_template) > 0)
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
@@ -545,6 +564,7 @@ class searchViewsearch extends JView
 						{
 							$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
 							$ufield .= $product_userfileds[1];
+
 							if ($product_userfileds[1] != "")
 							{
 								$count_no_user_field++;
@@ -573,16 +593,19 @@ class searchViewsearch extends JView
 				 * manufacturer data
 				 */
 				$manufacturer_id = $this->search[$i]->manufacturer_id;
+
 				if ($manufacturer_id != 0)
 				{
 					$manufacturer_data      = $producthelper->getSection("manufacturer", $manufacturer_id);
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
 					$manufacturer_name      = "";
+
 					if (count($manufacturer_data) > 0)
 					{
 						$manufacturer_name = $manufacturer_data->manufacturer_name;
 					}
 					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
+
 					if (strstr($data_add, "{manufacturer_link}"))
 					{
 						$data_add = str_replace("{manufacturer_name}", "", $data_add);
@@ -618,6 +641,7 @@ class searchViewsearch extends JView
 					$isChilds = false;
 					// get attributes
 					$attributes_set = array();
+
 					if ($this->search[$i]->attribute_set_id > 0)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
@@ -659,6 +683,7 @@ class searchViewsearch extends JView
 			);
 			$router->setVars($vars);
 			unset($vars);
+
 			if (strstr($template_org, "{pagination}"))
 			{
 				$pagination = new redPagination($total_product, $start, $endlimit);

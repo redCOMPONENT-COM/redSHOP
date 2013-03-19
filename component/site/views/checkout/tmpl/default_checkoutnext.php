@@ -16,6 +16,7 @@ defined('_JEXEC') or die ('restricted access');
 		document.getElementById(val).disabled = true;
 		var op = document.getElementById(val);
 		op.setAttribute("style", "opacity:0.3;");
+
 		if (op.style.setAttribute) //For IE
 		{
 			op.style.setAttribute("filter", "alpha(opacity=30);");
@@ -50,6 +51,7 @@ $user_id = $user->id;
 // get redshop helper
 
 $Itemid = $redhelper->getCheckoutItemid();
+
 if ($Itemid == 0)
 {
 	$Itemid = JRequest::getVar('Itemid');
@@ -65,9 +67,11 @@ $model = $this->getModel('checkout');
 $is_creditcard = $this->is_creditcard;
 
 $cart_data = "";
+
 if (USE_AS_CATALOG)
 {
 	$carttempdata = $redTemplate->getTemplate("catalogue_cart");
+
 	if ($carttempdata[0]->template_desc != "")
 	{
 		$cart_data = $carttempdata[0]->template_desc;
@@ -76,6 +80,7 @@ if (USE_AS_CATALOG)
 else
 {
 	$carttempdata = $redTemplate->getTemplate("checkout");
+
 	if ($carttempdata[0]->template_desc != "")
 	{
 		$cart_data = $carttempdata[0]->template_desc;
@@ -161,6 +166,7 @@ $session->set('cart',$cart);*/
 			}	?>
 		if (document.getElementById('termscondition')) {
 			var termscondition = document.getElementById('termscondition').checked;
+
 			if (!termscondition) {
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
 				return false;

@@ -37,6 +37,7 @@ $module         = JModuleHelper::isEnabled('redshop_lettersearch');
 $module_data    = JModuleHelper::getModule('redshop_lettersearch');
 $params         = new JRegistry($module_data->params);
 $list_of_fields = $params->get('list_of_fields', '');
+
 if (!$module)
 {
 	$msg = JText::_('COM_REDSHOP_PUBLISHED_LETTER_SEARCH_MODULE');
@@ -83,6 +84,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	{
 		$product = & $getAllproductArrayListwithfirst[$j];
 		$catid   = $producthelper->getCategoryProduct($product->product_id);
+
 		if (!is_object($product))
 		{
 			break;
@@ -101,6 +103,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$template_userfield = $returnArr[0];
 		$userfieldArr       = $returnArr[1];
+
 		if ($template_userfield != "")
 		{
 			$ufield = "";
@@ -108,6 +111,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 				$ufield .= $product_userfileds[1];
+
 				if ($product_userfileds[1] != "")
 				{
 					$count_no_user_field++;
@@ -116,6 +120,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				$prddata_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $prddata_add);
 			}
 			$product_userfileds_form = "<form method='post' action='' id='user_fields_form_" . $product->product_id . "' name='user_fields_form_" . $product->product_id . "'>";
+
 			if ($ufield != "")
 			{
 				$prddata_add = str_replace("{if product_userfield}", $product_userfileds_form, $prddata_add);
@@ -131,6 +136,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
+
 			if (count($ajax_detail_template) > 0)
 			{
 				$ajax_detail_template_desc = $ajax_detail_template->template_desc;
@@ -146,6 +152,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				{
 					$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 					$ufield .= $product_userfileds[1];
+
 					if ($product_userfileds[1] != "")
 					{
 						$count_no_user_field++;
@@ -196,6 +203,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		//
 		$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
+
 		if (strstr($prddata_add, '{product_name}'))
 		{
 			$pname       = $config->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
@@ -232,6 +240,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id . '&Itemid=' . ktemid);
 			$manufacturer_link      = '<a href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' . $product->manufacturer_name . '</a>';
 			$prddata_add            = str_replace("{manufacturer_link}", $manufacturer_link, $prddata_add);
+
 			if (strstr($prddata_add, "{manufacturer_link}"))
 			{
 				$prddata_add = str_replace("{manufacturer_name}", "", $prddata_add);
@@ -306,6 +315,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		// checking for child products
 		$childproduct = $producthelper->getChildProduct($product->product_id);
+
 		if (count($childproduct) > 0)
 		{
 			$isChilds   = true;
@@ -316,6 +326,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$isChilds = false;
 			// get attributes
 			$attributes_set = array();
+
 			if ($product->attribute_set_id > 0)
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);

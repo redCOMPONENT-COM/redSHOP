@@ -24,6 +24,7 @@ JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false)
 		var your_name = document.getElementById('your_name').value;
 		var friends_email = document.getElementById('friends_email').value;
 		var friends_name = document.getElementById('friends_name').value;
+
 		if (your_name == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME');?>");
 			return false;

@@ -173,6 +173,7 @@ $is_creditcard = 0;
 						<td>
 							<?php
 							$value = @$_SESSION['ccdata']['order_payment_expire_month'];
+
 							if ($value == '')
 							{
 								$value = date('m');
@@ -196,6 +197,7 @@ $is_creditcard = 0;
 							while (list($key, $val) = each($arr))
 							{
 								$selected = "";
+
 								if (is_array($value))
 								{
 									if (in_array($key, $value))

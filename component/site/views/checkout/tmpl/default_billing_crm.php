@@ -18,6 +18,7 @@ $url = $uri->root();
 
 $redhelper = new redhelper;
 $Itemid = $redhelper->getCheckoutItemid();
+
 if ($Itemid == 0)
 	$Itemid = JRequest::getVar('Itemid');
 
@@ -91,6 +92,7 @@ $billingaddresses = $model->billingaddresses();
 	<?php
 	}
 	$state = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
+
 	if ($state != "")
 	{
 		?>

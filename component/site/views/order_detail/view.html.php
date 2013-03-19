@@ -23,6 +23,7 @@ class order_detailVieworder_detail extends JView
 		$order_functions = new order_functions;
 
 		$print = JRequest::getVar('print');
+
 	if ($print)
 	{
 		?>

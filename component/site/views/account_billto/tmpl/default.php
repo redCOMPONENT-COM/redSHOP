@@ -14,11 +14,13 @@ $Itemid = JRequest::getVar('Itemid');
 
 $post = (array) @$this->billingaddresses;
 $post["email1"] = $post["email"] = $post ["user_email"];
+
 if ($user->username)
 {
 	$post["username"] = $user->username;
 }
 $create_account = 1;
+
 if ($post["user_id"] < 0)
 {
 	$create_account = 0;

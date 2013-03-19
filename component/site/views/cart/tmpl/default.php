@@ -81,6 +81,7 @@ for ($i = 0; $i < $idx; $i++)
 	$product_id = $cart[$i]['product_id'];
 	$pr_id .= $product_id;
 	$q_id .= $cart[$i]['quantity'];
+
 	if ($i != $idx - 1)
 	{
 		$pr_id .= ",";
@@ -204,6 +205,7 @@ $discount = $producthelper->getDiscountId(0);
 if (count($discount) > 0)
 {
 	$text = '';
+
 	if ($discount->discount_type == 0)
 	{
 		$discount_amount = $discount->discount_amount;
@@ -216,6 +218,7 @@ if (count($discount) > 0)
 	}
 	$diff  = $discount->amount - $cart ['product_subtotal'];
 	$price = number_format($discount->discount_amount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+
 	if ($diff > 0)
 		$text = sprintf(JText::_('COM_REDSHOP_DISCOUNT_TEXT'), $producthelper->getProductFormattedPrice($diff, true), $producthelper->getProductFormattedPrice($discount_amount, true), $price . $discount_sign);
 

@@ -22,6 +22,7 @@ $layout = JRequest::getVar('layout', 'default');
 $model = $this->getModel('catalog');
 
 $template = $redTemplate->getTemplate("product_sample");
+
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
 	$template_desc = $template[0]->template_desc;
@@ -32,6 +33,7 @@ else
 }
 
 $option = JRequest::getVar('option');
+
 if ($this->params->get('show_page_heading', 1))
 {
 	if ($this->params->get('page_title'))
@@ -59,6 +61,7 @@ if ($this->params->get('show_page_heading', 1))
 			for ($c = 0; $c < count($catalog_colour); $c++)
 			{
 				$saple_data .= "<td style='padding-right:2px;'>";
+
 				if ($catalog_colour[$c]->is_image == 1)
 				{
 					$saple_data .= "<img src='" . $catalog_colour[$c]->code_image . "' border='0'  width='27' height='27'/><br>";
@@ -122,6 +125,7 @@ if ($this->params->get('show_page_heading', 1))
 			return false;
 		}
 		var sampleArr = new Array;
+
 		if (document.getElementsByName('sample_code[]')) {
 			var sName = document.getElementsByName('sample_code[]');
 			var i = 0;

@@ -17,6 +17,7 @@ $forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $It
 $shoppergroupid = JRequest::getInt('protalid', 0);
 
 $returnitemid = $Itemid;
+
 if (PORTAL_LOGIN_ITEMID)
 {
 	$returnitemid = PORTAL_LOGIN_ITEMID;

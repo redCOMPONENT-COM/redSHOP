@@ -48,6 +48,7 @@ $producthelper = new producthelper;?>
 				<td>
 					<?php    $thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
 					echo "<div class='mod_redshop_pricefilter'>";
+
 					if ($image)
 					{
 						echo $thum_image . "<br>";
@@ -82,6 +83,7 @@ $producthelper = new producthelper;?>
 									$disply_text = "";
 									$s_price     = $product_price - $product_price_discount;
 									$tmpprcie    = $product_price_discount;
+
 									if ($show_discountpricelayout)
 									{
 										$pricetext = "<div id='mod_redoldprice' class='mod_redoldprice'>";

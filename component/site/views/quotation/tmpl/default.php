@@ -25,6 +25,7 @@ $extra_field = new extra_field;
 //$idx =  $cart['idx'];
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
+
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
 {
 	$template_desc = $quotation_template[0]->template_desc;
@@ -38,6 +39,7 @@ else
 		var frm = document.adminForm;
 
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 		if (frm.user_email.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;
@@ -71,6 +73,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 
 $template_desc = $carthelper->replaceLabel($template_desc);
+
 if ($user->id)
 {
 	$template_desc = $carthelper->replaceBillingAddress($template_desc, $detail);
@@ -81,6 +84,7 @@ else
 	$billing = '<table width="90%">
 	<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_EMAIL') . ':</td>
 		<td><input type="text" name="user_email" id="user_email" value=""/></td></tr>';
+
 	if (strstr($template_desc, "{quotation_custom_field_list}"))
 	{
 		$billing .= $extra_field->list_all_field(16, $detail->user_info_id, "", "tbl");

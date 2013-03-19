@@ -34,6 +34,7 @@ $print  = JRequest::getInt('print');
 $getshm    = $uri->getScheme();
 $config    = & JFactory::getConfig();
 $force_ssl = $config->getValue('force_ssl');
+
 if ($getshm == 'https' && $force_ssl > 2)
 {
 	$uri->setScheme('http');
@@ -69,6 +70,7 @@ if (USE_AS_CATALOG)
 else
 {
 	$orderslist_template = $redTemplate->getTemplate("order_detail");
+
 	if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc)
 	{
 		$orderslist_template = $orderslist_template[0]->template_desc;
@@ -107,6 +109,7 @@ for ($d = 0; $d < count($arr_discount); $d++)
 
 		if ($arr_discount_type[0] == 'c')
 			$discount_type .= JText::_('COM_REDSHOP_COUPEN_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
+
 		if ($arr_discount_type[0] == 'v')
 			$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
 	}
@@ -134,6 +137,7 @@ $split_amount = $OrdersDetail->order_total - $partialpayment;
 
 $split_amounttext = "";
 $payremaininglink = "";
+
 if ($issplit && ($split_amount > 0))
 {
 	$split_amounttext = "<br /><br />" . JText::_('COM_REDSHOP_RECEIPT_PARTIALLY_PAID_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($split_amount);
@@ -142,6 +146,7 @@ if ($issplit && ($split_amount > 0))
 
 $frm     = '';
 $reorder = '';
+
 if ($OrdersDetail->order_status != 'C' && $OrdersDetail->order_status != 'S' && $OrdersDetail->order_status != 'PR' && $OrdersDetail->order_status != 'APP' && $print != 1 && $OrdersDetail->order_payment_status != 'Paid')
 {
 	$frm = "<form method='post'>
@@ -162,6 +167,7 @@ else
 	$reorder .= "<input type='hidden' name='task' value='reorder'></form>";
 }
 $search [] = "{order_status}";
+
 if (trim($OrdersDetail->order_payment_status) == 'Paid')
 {
 	$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');

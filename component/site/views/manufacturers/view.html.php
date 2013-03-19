@@ -29,6 +29,7 @@ class manufacturersViewmanufacturers extends JView
 		$model  = $this->getModel('manufacturers');
 		$detail =& $this->get('data');
 		$limit  = $params->get('maxproduct');
+
 		if (!$limit)
 		{
 			$limit = $detail[0]->product_per_page;
@@ -36,6 +37,7 @@ class manufacturersViewmanufacturers extends JView
 		$model->setProductLimit($limit);
 		$pageheadingtag = '';
 		$disabled       = "";
+
 		if ($print)
 		{
 			$disabled = "disabled";
@@ -50,6 +52,7 @@ class manufacturersViewmanufacturers extends JView
 		{
 			$manufacturer = $detail[0];
 			$mid          = $manufacturer->manufacturer_id;
+
 			if ($manufacturer->manufacturer_id)
 			{
 				$document->setMetaData('robots', $manufacturer->metarobot_info);

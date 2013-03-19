@@ -39,6 +39,7 @@ $cart = $session->get('cart');
 JHTML::Script('credit_card.js', 'components/com_redshop/assets/js/', false);
 
 $billingaddresses = $model->billingaddresses();
+
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
@@ -46,12 +47,14 @@ if (!count($billingaddresses))
 }
 $paymentmethod = $redhelper->getPlugins('redshop_payment');
 $selpayment_method_id = 0;
+
 if (count($paymentmethod) > 0)
 {
 	$selpayment_method_id = $paymentmethod[0]->element;
 }
 $shippingBoxes = $shippinghelper->getShippingBox();
 $selshipping_box_post_id = 0;
+
 if (count($shippingBoxes) > 0)
 {
 	$selshipping_box_post_id = $shippingBoxes[0]->shipping_box_id;
@@ -60,6 +63,7 @@ $users_info_id = JRequest::getInt('users_info_id', $this->users_info_id);
 $payment_method_id = JRequest::getCmd('payment_method_id', $selpayment_method_id);
 $shipping_box_post_id = JRequest::getInt('shipping_box_id', $selshipping_box_post_id);
 $shipping_rate_id = JRequest::getVar('shipping_rate_id', 0);
+
 if ($users_info_id == 0)
 {
 	$users_info_id = $billingaddresses->users_info_id;
@@ -67,6 +71,7 @@ if ($users_info_id == 0)
 
 $onestep_template_desc = "";
 $onesteptemplate = $redTemplate->getTemplate("onestep_checkout");
+
 if (count($onesteptemplate) > 0 && $onesteptemplate[0]->template_desc)
 {
 	$onestep_template_desc = "<div id='divOnestepCheckout'>" . $onesteptemplate[0]->template_desc . "</div>";
@@ -141,6 +146,7 @@ if (SHIPPING_METHOD_ENABLE)
 		$returnarr              = $carthelper->replaceShippingTemplate($shipping_template_desc, $shipping_rate_id, $shipping_box_post_id, $user->id, $users_info_id, $ordertotal, $order_subtotal);
 		$shipping_template_desc = $returnarr['template_desc'];
 		$shipping_rate_id       = $returnarr['shipping_rate_id'];
+
 		if ($shipping_rate_id)
 		{
 			$shipArr              = $model->calculateShipping($shipping_rate_id);
@@ -165,6 +171,7 @@ else
 
 // get billing info for check is_company
 $is_company = $billingaddresses->is_company;
+
 if ($billingaddresses->ean_number != "")
 {
 	$ean_number = 1;
@@ -233,6 +240,7 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 			}	?>
 		if (document.getElementById('termscondition')) {
 			var termscondition = document.getElementById('termscondition').checked;
+
 			if (!termscondition) {
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
 				return false;
@@ -245,6 +253,7 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 		document.getElementById(val).disabled = true;
 		var op = document.getElementById(val);
 		op.setAttribute("style", "opacity:0.3;");
+
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
 

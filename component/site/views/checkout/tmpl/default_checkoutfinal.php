@@ -22,6 +22,7 @@ $order_id = JRequest::getInt('oid');
 
 $order = $order_functions->getOrderDetails($order_id);
 $orderitem = $order_functions->getOrderItemDetail($order_id);
+
 if ($order->order_total > 0 && !USE_AS_CATALOG)
 {
 $paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
@@ -64,6 +65,7 @@ if ($preloader)
 
 	$is_creditcard = $paymentparams->get('is_creditcard', '');
 	$is_redirected = $paymentparams->get('is_redirected', 0);
+
 	if (!$is_creditcard || $is_redirected == 1)
 	{
 		$adminpath        = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';

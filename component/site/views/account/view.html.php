@@ -31,6 +31,7 @@ class accountViewaccount extends JView
 		$user  = JFactory::getUser();
 
 		$userdata = $model->getuseraccountinfo($user->id);
+
 		if (!count($userdata) && $layout != 'mywishlist')
 		{
 			$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');

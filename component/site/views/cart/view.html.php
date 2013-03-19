@@ -36,9 +36,11 @@ class cartViewcart extends JView
 		}
 		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{
 			$cart_data = $redTemplate->getTemplate("empty_cart");
+
 			if (count($cart_data) > 0 && $cart_data[0]->template_desc != "")
 			{
 				$cart_template = $cart_data[0]->template_desc;

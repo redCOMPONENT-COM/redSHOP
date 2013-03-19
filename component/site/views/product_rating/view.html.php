@@ -40,6 +40,7 @@ class product_ratingViewproduct_rating extends JView
 		$model         = $this->getModel('product_rating');
 		$rate          = JRequest::getVar('rate');
 		$already_rated = $model->checkRatedProduct($product_id, $user->id);
+
 	if ($already_rated == 1)
 	{
 		if ($rate == 1)

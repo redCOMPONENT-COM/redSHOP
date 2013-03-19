@@ -40,6 +40,7 @@ class reddesignViewreddesign extends JView
 		$redhelper = new redhelper;
 
 		$chkprodesign = $redhelper->CheckIfRedProduct($pid);
+
 		if (!$chkprodesign)
 		{
 			//	$mainframe->Redirect ( 'index.php?option=' . $option . '&view=product&pid='.$pid.'&cid='.$cid.'&Itemid='.$Itemid);
