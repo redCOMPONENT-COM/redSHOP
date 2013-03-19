@@ -46,7 +46,7 @@ class CartModelCart extends JModel
 		$this->_producthelper = new producthelper;
 		$this->_carthelper    = new rsCarthelper;
 		$this->_userhelper    = new rsUserhelper;
-		$this->_objshipping   = new shipping ();
+		$this->_objshipping   = new shipping;
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
 		{
@@ -73,7 +73,7 @@ class CartModelCart extends JModel
 		if (!empty($cart))
 		{
 			if (!$cart)
-			{ //  || array_key_exists("quotation_id",$cart)
+			{
 				$cart        = array();
 				$cart['idx'] = 0;
 			}

@@ -231,7 +231,7 @@ class manufacturersModelmanufacturers extends JModel
 	public function getmanufacturercategory($mid, $tblobj)
 	{
 		$and              = "";
-		$order_functions  = new order_functions();
+		$order_functions  = new order_functions;
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')

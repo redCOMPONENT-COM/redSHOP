@@ -58,7 +58,7 @@ class split_paymentModelsplit_payment extends JModel
 		$Itemid          = JRequest::getVar('Itemid');
 		$task            = JRequest::getVar('task');
 		$user            = JFactory::getUser();
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		/*$session =&JFactory::getSession();
    		$issplit=$session->get('issplit') ;
    		 		
@@ -151,7 +151,7 @@ class split_paymentModelsplit_payment extends JModel
 			$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
 			include_once $paymentpath;
 
-			$payment_class = new $paymentmethod->payment_class ();
+			$payment_class = new $paymentmethod->payment_class;
 
 			//function process_payment($order_number, $order_total, &$d)
 			$payment = $payment_class->process_payment($order_number, $tmporder_total, $d);

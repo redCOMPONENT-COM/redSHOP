@@ -61,7 +61,7 @@ class CheckoutModelCheckout extends JModel
 		$this->_userhelper      = new rsUserhelper;
 		$this->_shippinghelper  = new shipping;
 		$this->_producthelper   = new producthelper;
-		$this->_order_functions = new order_functions();
+		$this->_order_functions = new order_functions;
 		$this->_redshopMail     = new redshopMail;
 
 		$user = & JFactory::getUser();
@@ -139,7 +139,7 @@ class CheckoutModelCheckout extends JModel
 		$stockroomhelper = new rsstockroomhelper;
 		$helper          = new redhelper;
 		$shippinghelper  = new shipping;
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 
 		$post = JRequest::get('post');
 
@@ -181,7 +181,7 @@ class CheckoutModelCheckout extends JModel
 		}
 
 		$order_paymentstatus = 'Unpaid';
-		$objshipping         = new shipping ();
+		$objshipping         = new shipping;
 
 		$users_info_id    = JRequest::getInt('users_info_id');
 		$thirdparty_email = JRequest::getVar('thirdparty_email');
@@ -2378,7 +2378,7 @@ class CheckoutModelCheckout extends JModel
 	 */
 	public function getOrdernumber()
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$trackid_time    = $this->getOrdernumberTrack();
 
 		if ($trackid_time != "")
