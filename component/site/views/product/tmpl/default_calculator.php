@@ -71,6 +71,7 @@ switch ($calcMethod)
 
 $pdc_extra_output = "";
 $pdc_extra_datas  = $rsCarthelper->getDiscountCalcDataExtra("", $this->data->product_id);
+
 for ($p = 0; $p < count($pdc_extra_datas); $p++)
 {
 

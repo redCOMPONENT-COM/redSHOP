@@ -72,12 +72,14 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_middle = $template_edata[0];
 
 	$cart_mdata = "";
+
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
 		$prolist    = $order_function->getOrderItemDetail($this->detail[$i]->order_id);
 		$statusname = $order_function->getOrderStatusTitle($this->detail[$i]->order_status);
 
 		$order_item_name = array();
+
 		for ($j = 0; $j < count($prolist); $j++)
 		{
 			$order_item_name[$j] = $prolist[$j]->order_item_name;

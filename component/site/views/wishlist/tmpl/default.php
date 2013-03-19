@@ -103,6 +103,7 @@ $Itemid = JRequest::getVar('Itemid');
 				<tbody>
 				<?php
 				$k = 0;
+
 				for ($i = 0, $n = count($wishlist); $i < $n; $i++)
 				{
 					$row = & $wishlist[$i];

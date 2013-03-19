@@ -123,6 +123,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
 	$cat_detail     = "";
+
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
 		$row = & $this->detail[$i];

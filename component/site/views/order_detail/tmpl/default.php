@@ -99,6 +99,7 @@ $orderslist_template = str_replace("{print}", $print_tag, $orderslist_template);
 $arr_discount_type = array();
 $arr_discount      = explode('@', $OrdersDetail->discount_type);
 $discount_type     = '';
+
 for ($d = 0; $d < count($arr_discount); $d++)
 {
 

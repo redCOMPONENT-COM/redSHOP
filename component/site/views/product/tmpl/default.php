@@ -37,6 +37,7 @@ $redhelper = new redhelper;
 //remove mootools.js and caption.js
 $headerstuff = $document->getHeadData();
 reset($headerstuff['scripts']);
+
 foreach ($headerstuff['scripts'] as $key => $value)
 {
 	if (strpos($key, 'media/system/js/mootools1.js') !== false)
@@ -274,6 +275,7 @@ if ($redhelper->isredProductfinder())
 {
 
 	$associate_tag = $producthelper->getassociatetag($this->data->product_id);
+
 	for ($k = 0; $k < count($associate_tag); $k++)
 	{
 		if ($associate_tag[$k] != '')
@@ -307,6 +309,7 @@ if (strstr($template_desc, "{product_category_list}"))
 {
 	$pcats    = "";
 	$prodCats = $producthelper->getProductCaterories($this->data->product_id);
+
 	foreach ($prodCats as $prodCat)
 	{
 		$pcats .= '<a title="' . $prodCat->name . '" href="' . $prodCat->link . '">';
@@ -527,6 +530,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				$wrapperimage_div .= "<marquee behavior='scroll' direction='left' onmouseover='this.stop()' onmouseout='this.start()' scrolldelay='200' width='200'>";
 			}
 			$wrapperimage_div .= "<table cellpadding='5' cellspacing='5'><tr>";
+
 			for ($i = 0; $i < count($wrapper); $i++)
 			{
 				$wrapper_vat = 0;
@@ -686,6 +690,7 @@ if (strstr($template_desc, "{child_products}"))
 			if (count($childproducts) > 0)
 			{
 				$parentid = 0;
+
 				for ($c = 0; $c < count($childproducts); $c++)
 				{
 					if ($childproducts[$c]->product_parent_id == 0)
@@ -786,6 +791,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 {
 	$selectedpropertyId    = 0;
 	$selectedsubpropertyId = 0;
+
 	for ($a = 0; $a < count($attributes); $a++)
 	{
 		$selectedId = array();
@@ -805,6 +811,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 				$selectedpropertyId = $selectedId[count($selectedId) - 1];
 				$subproperty        = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
 				$selectedId         = array();
+
 				for ($sp = 0; $sp < count($subproperty); $sp++)
 				{
 					if ($subproperty[$sp]->setdefault_selected)
@@ -913,6 +920,7 @@ if (strstr($template_desc, $mpimg_tag))
 	{
 		$media_image = $producthelper->getAdditionMediaImage($this->data->product_id, "product");
 		$more_images = '';
+
 		for ($m = 0; $m < count($media_image); $m++)
 		{
 			$filename1 = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->media_name;
@@ -1001,6 +1009,7 @@ if (strstr($template_desc, "{more_documents}"))
 {
 	$media_documents = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "document");
 	$more_doc        = '';
+
 	for ($m = 0; $m < count($media_documents); $m++)
 	{
 		$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
@@ -1066,6 +1075,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 	}
 	$idx     = 0;
 	$cart_id = '';
+
 	for ($j = 0; $j < $idx; $j++)
 	{
 		if ($cart[$j]['product_id'] == $this->data->product_id)
@@ -1481,6 +1491,7 @@ if (strstr($template_desc, "{product_rating}"))
 		$reviews_data1 = "";
 		$reviews_data2 = "";
 		$reviews_data  = "";
+
 		for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)
 		{
 			$fullname  = $reviews[$j]->username; //$reviews[$j]->firstname." ".$reviews[$j]->lastname;
@@ -1503,6 +1514,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data .= JText::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';
 		}
 		$reviews_data .= '<div style="display:none;" id="showreviews" name="showreviews">';
+
 		for ($k = $mainblock; $k < count($reviews); $k++)
 		{
 			$fullname2  = $reviews [$k]->firstname . " " . $reviews [$k]->lastname;
@@ -1555,6 +1567,7 @@ if (strstr($template_desc, "subscription"))
 		$subscription_data = "<table>";
 		$subscription_data .= "<tr><th>" . JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD') . "</th><th>" . JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE') . "</th>";
 		$subscription_data .= "<th>" . JText::_('COM_REDSHOP_SUBSCRIBE') . "</th></tr>";
+
 		for ($sub = 0; $sub < count($subscription); $sub++)
 		{
 			$subscription_data .= "<tr>";
@@ -1623,6 +1636,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 			}
 			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->question_id, 0, 1, 1);
 			$answerloop     = "";
+
 			for ($a = 0; $a < count($product_answer); $a++)
 			{
 				$aloop = str_replace("{answer}", $product_answer [$a]->question, $amiddle);

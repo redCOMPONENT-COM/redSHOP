@@ -103,6 +103,7 @@ class searchViewsearch extends JView
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 
 		$templatedata = $model->getCategoryTemplet();
+
 		for ($i = 0; $i < 1; $i++)
 		{
 			$templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
@@ -336,6 +337,7 @@ class searchViewsearch extends JView
 
 			$tagarray = $texts->getTextLibraryTagArray();
 			$data     = "";
+
 			for ($i = 0; $i < count($this->search); $i++)
 			{
 				$data_add   = "";
@@ -490,6 +492,7 @@ class searchViewsearch extends JView
 				{
 					$media_documents = $producthelper->getAdditionMediaImage($this->search[$i]->product_id, "product", "document");
 					$more_doc        = '';
+
 					for ($m = 0; $m < count($media_documents); $m++)
 					{
 						$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
@@ -519,6 +522,7 @@ class searchViewsearch extends JView
 				if ($template_userfield != "")
 				{
 					$ufield = "";
+
 					for ($ui = 0; $ui < count($userfieldArr); $ui++)
 					{
 						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
@@ -560,6 +564,7 @@ class searchViewsearch extends JView
 					if ($template_userfield != "")
 					{
 						$ufield = "";
+
 						for ($ui = 0; $ui < count($userfieldArr); $ui++)
 						{
 							$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);

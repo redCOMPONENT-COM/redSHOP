@@ -227,6 +227,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				if ($template_userfield != "")
 				{
 					$ufield = "";
+
 					for ($ui = 0; $ui < count($userfieldArr); $ui++)
 					{
 						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
@@ -268,6 +269,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					if ($template_userfield != "")
 					{
 						$ufield = "";
+
 						for ($ui = 0; $ui < count($userfieldArr); $ui++)
 						{
 							$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);

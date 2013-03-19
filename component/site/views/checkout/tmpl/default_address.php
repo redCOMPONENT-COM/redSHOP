@@ -93,6 +93,7 @@ $cart = $session->get('cart');
 				}
 				$shippingaddresses = $model->shippingaddresses();
 				$add_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
+
 				for ($i = 0; $i < count($shippingaddresses); $i++)
 				{
 					if ($this->users_info_id != "")

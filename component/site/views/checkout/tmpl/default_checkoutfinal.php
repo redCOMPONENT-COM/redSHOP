@@ -99,6 +99,7 @@ if ($preloader)
 			}
 		}
 		$cart_quantity = 0;
+
 		for ($i = 0; $i < count($orderitem); $i++)
 		{
 			$cart_quantity += $orderitem[$i]->product_quantity;

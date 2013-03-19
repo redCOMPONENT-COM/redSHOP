@@ -84,6 +84,7 @@ else
 $payment_template = "";
 $payment_template_desc = "";
 $templatelist = $redTemplate->getTemplate("redshop_payment");
+
 for ($i = 0; $i < count($templatelist); $i++)
 {
 	if (strstr($onestep_template_desc, "{payment_template:" . $templatelist[$i]->template_name . "}"))
@@ -94,6 +95,7 @@ for ($i = 0; $i < count($templatelist); $i++)
 	}
 }
 $templatelist = $redTemplate->getTemplate("checkout");
+
 for ($i = 0; $i < count($templatelist); $i++)
 {
 	if (strstr($onestep_template_desc, "{checkout_template:" . $templatelist[$i]->template_name . "}"))
@@ -110,6 +112,7 @@ $shipping_template = "";
 $shipping_template_desc = "";
 
 $templatelist = $redTemplate->getTemplate("shippingbox");
+
 for ($i = 0; $i < count($templatelist); $i++)
 {
 	if (strstr($onestep_template_desc, "{shippingbox_template:" . $templatelist[$i]->template_name . "}"))
@@ -120,6 +123,7 @@ for ($i = 0; $i < count($templatelist); $i++)
 }
 
 $templatelist = $redTemplate->getTemplate("redshop_shipping");
+
 for ($i = 0; $i < count($templatelist); $i++)
 {
 	if (strstr($onestep_template_desc, "{shipping_template:" . $templatelist[$i]->template_name . "}"))

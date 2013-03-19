@@ -269,6 +269,7 @@ if (!$slide)
 		}
 
 		$cat_detail = "";
+
 		for ($i = 0; $i < count($this->detail); $i++)
 		{
 			$row = & $this->detail[$i];
@@ -492,6 +493,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$media_documents = $producthelper->getAdditionMediaImage($product->product_id, "product", "document");
 			$more_doc        = '';
+
 			for ($m = 0; $m < count($media_documents); $m++)
 			{
 				$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
@@ -521,6 +523,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		if ($template_userfield != "")
 		{
 			$ufield = "";
+
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
 				$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
@@ -562,6 +565,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			if ($template_userfield != "")
 			{
 				$ufield = "";
+
 				for ($ui = 0; $ui < count($userfieldArr); $ui++)
 				{
 					$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
