@@ -74,7 +74,7 @@ if (isset($compare['idx']) && $compare['idx'] == 1)
 {
 	$template = JText::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE');
 }
-else if (isset($compare['idx']) && $compare['idx'] > 1)
+elseif (isset($compare['idx']) && $compare['idx'] > 1)
 {
 	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compare[$compare['idx'] - 1]["category_id"] . "&Itemid=" . $Itemid);
 

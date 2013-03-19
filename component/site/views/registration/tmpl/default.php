@@ -34,7 +34,7 @@ if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 	$allowCompany      = "style='display:none;'";
 	$open_to_stretcher = 0;
 }
-else if (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
 {
 	$allowCustomer     = "style='display:none;'";
 	$showCustomerdesc  = "style='display:none;'";

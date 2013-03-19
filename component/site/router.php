@@ -587,7 +587,7 @@ function RedshopBuildRoute(&$query)
 				}
 
 			}
-			else if ($layout == 'mywishlist')
+			elseif ($layout == 'mywishlist')
 			{
 
 				$segments[] = $layout;
@@ -605,7 +605,7 @@ function RedshopBuildRoute(&$query)
 
 
 			}
-			else if ($layout == 'compare')
+			elseif ($layout == 'compare')
 			{
 
 				$segments[] = $layout;
@@ -731,7 +731,7 @@ function RedshopParseRoute($segments)
 				$vars['task']     = $segments[2];
 				$vars['order_id'] = $segments[1];
 			}
-			else if (isset($segments[2]))
+			elseif (isset($segments[2]))
 			{
 				$vars['layout'] = $segments[2];
 			}
@@ -770,7 +770,7 @@ function RedshopParseRoute($segments)
 					}
 				}
 			}
-			else if ($segments[1] == 'mywishlist')
+			elseif ($segments[1] == 'mywishlist')
 			{
 
 				if (isset($segments[2]))
@@ -789,7 +789,7 @@ function RedshopParseRoute($segments)
 				}
 
 			}
-			else if ($segments[1] == 'compare')
+			elseif ($segments[1] == 'compare')
 			{
 
 				if (isset($segments[2]))

@@ -150,7 +150,7 @@ else
 		$allowCompany      = "style='display:none;'";
 		$open_to_stretcher = 0;
 	}
-	else if (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+	elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
 	{
 		$allowCustomer     = "style='display:none;'";
 		$open_to_stretcher = 1;
@@ -222,7 +222,7 @@ else
 						$billingisshipping = "style='display:none'";
 					}
 				}
-				else if (OPTIONAL_SHIPPING_ADDRESS)
+				elseif (OPTIONAL_SHIPPING_ADDRESS)
 				{
 					$billingisshipping = "style='display:none'";
 				}?>

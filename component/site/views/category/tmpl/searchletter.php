@@ -133,7 +133,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				$prddata_add = str_replace("{product_userfield end if}", "", $prddata_add);
 			}
 		}
-		else if (AJAX_CART_BOX)
+		elseif (AJAX_CART_BOX)
 		{
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);

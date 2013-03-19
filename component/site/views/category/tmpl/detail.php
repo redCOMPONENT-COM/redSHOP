@@ -301,7 +301,7 @@ if (!$slide)
 				$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
 				$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
-			else if (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
+			elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 			{
 				$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
 				$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
@@ -375,7 +375,7 @@ if (!$slide)
 				{
 					$cat_detail .= $data_add;
 				}
-				else if ($portal == 0)
+				elseif ($portal == 0)
 				{
 					$cat_detail .= $data_add;
 				}
@@ -550,7 +550,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 				$data_add = str_replace("{product_userfield end if}", "", $data_add);
 			}
 		}
-		else if (AJAX_CART_BOX)
+		elseif (AJAX_CART_BOX)
 		{
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);

@@ -89,7 +89,7 @@ if ($quotationDetail->quotation_status == '2')
 	<input type='submit' name='submit' value='" . JText::_("COM_REDSHOP_SUBMIT") . "' onclick='return confirm(\"" . JText::_('COM_REDSHOP_CONFIRM_SEND_QUOTATION') . "\")' />
 	</form>";
 }
-else if ($quotationDetail->quotation_status == '3')
+elseif ($quotationDetail->quotation_status == '3')
 {
 	$frm = "<form method='post'>
 	<input type='hidden' name='quotation_id' value='$quoid'>
@@ -101,7 +101,7 @@ else if ($quotationDetail->quotation_status == '3')
 	<input type='submit' name='submit' value='" . JText::_("COM_REDSHOP_CHECKOUT") . "' />
 	</form>";
 }
-else if ($quotationDetail->quotation_status == '5')
+elseif ($quotationDetail->quotation_status == '5')
 {
 	$frm = " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $quotationDetail->order_id . " )";
 }

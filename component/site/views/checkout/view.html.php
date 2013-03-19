@@ -98,7 +98,7 @@ class checkoutViewcheckout extends JView
 					{
 						$users_info_id = $shippingaddresses[0]->users_info_id;
 					}
-					else if ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
+					elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
 					{
 						$users_info_id = $billingaddresses->users_info_id;
 					}

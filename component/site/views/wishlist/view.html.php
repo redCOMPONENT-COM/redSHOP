@@ -56,7 +56,7 @@ class wishlistViewwishlist extends JView
 			$this->assignRef('params', $params);
 			parent::display($tpl);
 		}
-		else if ($task == 'viewloginwishlist')
+		elseif ($task == 'viewloginwishlist')
 		{
 			$this->setlayout('viewloginwishlist');
 			$this->assignRef('wishlists', $wishlist);

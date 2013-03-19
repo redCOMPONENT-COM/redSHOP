@@ -548,7 +548,7 @@ class searchViewsearch extends JView
 						$data_add = str_replace("{product_userfield end if}", "", $data_add);
 					}
 				}
-				else if (AJAX_CART_BOX)
+				elseif (AJAX_CART_BOX)
 				{
 					$ajax_detail_template_desc = "";
 					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);

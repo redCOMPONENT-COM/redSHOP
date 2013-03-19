@@ -31,7 +31,7 @@ $Itemid = JRequest::getVar('Itemid');
 			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT' ); ?>');
 			return false;
 		}
-		else if (form.comment.value == "") {
+		elseif (form.comment.value == "") {
 			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT' ); ?>');
 			return false;
 		}

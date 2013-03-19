@@ -121,7 +121,7 @@ if ($this->params->get('show_page_heading', 1))
 			frm.email_address.focus();
 			return false;
 		}
-		else if (patt1.test(email) == false) {
+		elseif (patt1.test(email) == false) {
 			alert("<?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');?>");
 			frm.email_address.focus();
 			return false;
