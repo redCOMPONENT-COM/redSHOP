@@ -87,7 +87,7 @@ class categoryViewcategory extends JView
 
 		if ($catid)
 		{
-			# restrict category if category not published
+			// restrict category if category not published
 			if ($maincat->published == 0)
 			{
 				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_CATEGORY_IS_NOT_PUBLISHED'), $maincat->category_name, $maincat->category_id));
@@ -349,7 +349,7 @@ class categoryViewcategory extends JView
 		{
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
-		$category_template_id = $mainframe->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template); # Gunjan Template Switcher
+		$category_template_id = $mainframe->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template); // Gunjan Template Switcher
 		$order_by_select      = JRequest::getVar('order_by', '');
 		$manufacturer_id      = JRequest::getInt('manufacturer_id', 0, '', 'int');
 

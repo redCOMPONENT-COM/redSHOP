@@ -103,7 +103,7 @@ $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_
 $ReceiptTemplate = str_replace("{barcode}", $bar_replace, $ReceiptTemplate);
 $ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
 
-# added new tag
+// added new tag
 /**
  * The Tag {txtextra_info} to display some extra information about payment method ( Only For display purpose ).
  *
@@ -121,7 +121,7 @@ $params = new JParameter($plugin->params);
 $txtextra_info = $params->get('txtextra_info');
 
 $ReceiptTemplate = str_replace("{txtextra_info}", $txtextra_info, $ReceiptTemplate);
-# End
+// End
 
 $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
 
@@ -136,11 +136,11 @@ JPluginHelper::importPlugin('content');
 $x               = array();
 $results         = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 $ReceiptTemplate = $o->text;
-# End
+// End
 
 echo eval("?>" . $ReceiptTemplate . "<?php ");
 
-# handle order total for split payment
+// handle order total for split payment
 $session =& JFactory::getSession();
 $issplit = $session->get('issplit');
 
@@ -150,11 +150,11 @@ if ($issplit)
 	$split_amount       = ($order->order_total) / 2;
 	$order->order_total = $split_amount;
 }
-# End
+// End
 
 $billingaddresses = $model->billingaddresses();
 
-# google analytics code added
+// google analytics code added
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
 $googleanalytics = new googleanalytics;
 
@@ -177,14 +177,14 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 	if (isset($billingaddresses->country_code))
 		$orderTrans['country'] = $order_functions->getCountryName($billingaddresses->country_code);
 
-	# collect data for google analytics
-	# initiallize variable
+	// collect data for google analytics
+	// initiallize variable
 	$analyticsData = array();
 
-	# collect data to add transaction = order
+	// collect data to add transaction = order
 	$analyticsData['addtrans'] = $orderTrans;
 
-	# start array to collect data to addItems
+	// start array to collect data to addItems
 	$analyticsData['addItem'] = array();
 
 	for ($k = 0; $k < count($orderitem); $k++)

@@ -96,7 +96,7 @@ else
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
-# End
+// End
 ?>
 <hr/>
 <table width="100%" class="checkout-bar" border="0" cellspacing="2" cellpadding="2">

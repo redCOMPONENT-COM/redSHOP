@@ -32,7 +32,7 @@ $cart = $session->get('cart');
 		<?php
 		if ($billingaddresses)
 		{
-			# Dont allow to edit if redCRM Contact Person is logged in
+			// Dont allow to edit if redCRM Contact Person is logged in
 			if (!$session->get('isredcrmuser'))
 			{
 				?>
@@ -40,7 +40,7 @@ $cart = $session->get('cart');
 				   rel="{handler: 'iframe', size: {x: 720, y: 470}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 			<?php
 			}
-			# Billing or Shipping address
+			// Billing or Shipping address
 			if ($redhelper->isredCRM())
 			{
 				echo $this->loadTemplate('billing_crm');

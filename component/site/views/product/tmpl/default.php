@@ -79,10 +79,10 @@ else
 <div style="clear:both"></div>
 
 <?php
-# display after title data
+// display after title data
 echo $this->data->event->afterDisplayTitle;
 
-# display before product data
+// display before product data
 echo $this->data->event->beforeDisplayProduct;
 
 /*
@@ -127,7 +127,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 {
 	$nextbutton = '';
 	$prevbutton = '';
-	# Next Navigation
+	// Next Navigation
 	$nextproducts = $model->getPrevNextproduct($this->data->product_id, $this->data->category_id, 1);
 
 	if (count($nextproducts) > 0)
@@ -148,7 +148,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		}
 	}
 
-	# start previous logic
+	// start previous logic
 	$previousproducts = $model->getPrevNextproduct($this->data->product_id, $this->data->category_id, -1);
 
 	if (count($previousproducts) > 0)
@@ -167,7 +167,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$prevbutton = '<a href="' . $prevlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_PREVIOUS_LINK_FIND . '" /></a>';
 		}
-		# End
+		// End
 	}
 	$template_desc = str_replace('{navigation_link_right}', $nextbutton, $template_desc);
 	$template_desc = str_replace('{navigation_link_left}', $prevbutton, $template_desc);

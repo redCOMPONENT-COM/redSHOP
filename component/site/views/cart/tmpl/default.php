@@ -44,7 +44,7 @@ $cart_data = $this->data [0]->template_desc;
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
-# End
+// End
 
 if ($cart_data == "")
 {
@@ -119,7 +119,7 @@ else
 	$pluginButton = $dispatcher->trigger('onPaymentCheckoutButton', array($cart));
 	$pluginButton = implode("<br>", $pluginButton);
 
-	# google checkout start Div
+	// google checkout start Div
 	if ($pluginButton)
 		$checkout .= '<div class="googlecheckout-button" style="float:left;">' . $pluginButton . '</div>';
 
@@ -288,7 +288,7 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
-# End
+// End
 
 $cart_data = $redTemplate->parseredSHOPplugin($cart_data);
 echo eval ("?>" . $cart_data . "<?php ");
