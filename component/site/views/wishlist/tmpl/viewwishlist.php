@@ -54,6 +54,7 @@ if (!$user->id)
 	{
 		// Send mail link
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
+
 		//echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="'.$mlink.'" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="'.REDSHOP_ADMIN_IMAGES_ABSPATH.'mailcenter16.png" ></a></div>';
 		display_products($rows);
 		$reglink = JRoute::_("index.php?wishlist=1&option=com_redshop&view=login&Itemid=" . $Itemid);
@@ -66,6 +67,7 @@ if (!$user->id)
 				$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $rows[$p]->product_id);
 
 				$ufield .= $product_userfileds[1];
+
 				//
 				if ($product_userfileds[1] != "")
 				{
@@ -108,6 +110,7 @@ else // If user logged in than display this code.
 	if (count($this->wish_session) > 0)
 	{
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
+
 		//	echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="'.$mlink.'" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="'.REDSHOP_ADMIN_IMAGES_ABSPATH.'mailcenter16.png" ></a></div>';
 		display_products($this->wish_session);
 
@@ -119,6 +122,7 @@ else // If user logged in than display this code.
 				$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $rows[$p]->product_id);
 
 				$ufield .= $product_userfileds[1];
+
 				//
 				if ($product_userfileds[1] != "")
 				{
@@ -131,6 +135,7 @@ else // If user logged in than display this code.
 		}
 		echo "<br />";
 		$mywishlist_link = "index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component";
+
 		//echo "<div style=\"clear:both;\"><a class=\"modal\" href=\"".$mywishlist_link."\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" ><input type='button' value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a></div><br /><br />";
 		if ($count_no_user_field > 0)
 		{
@@ -144,6 +149,7 @@ else // If user logged in than display this code.
 	if (count($wishlists) > 0)
 	{
 		$wish_products = & $this->wish_products;
+
 		// Send mail link
 		echo "<table>";
 
@@ -257,11 +263,17 @@ function display_products($rows)
 
 			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
+
 			// $pname ="<a href='".$link."' >".$row->product_name."</a>";
+
 			// $thum_image = $producthelper->getProductImage($row->product_id,$link,"100","100");
+
 			// $wishlist_data = str_replace('{product_thumb_image}', $thum_image , $wishlist_data);
+
 			// $wishlist_data = str_replace('{product_name}', $pname , $wishlist_data);
+
 			// $temp_template .= $wishlist_data ;
+
 			//echo "<pre>";print_r($row);exit;
 			$Itemid = $redhelper->getItemid($rows[$i]->product_id);
 			$link   = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
@@ -398,9 +410,11 @@ function display_products($rows)
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
 			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
+
 			/////////////////////////////////// Product attribute  Start /////////////////////////////////
 			$totalatt      = count($attributes);
 			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
+
 			/////////////////////////////////// Product attribute  End  	// Checking for child products end/////////////////////////////////
 
 			if (!$row->not_for_sale)
@@ -415,6 +429,7 @@ function display_products($rows)
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 							$product_price     = $product_price_discount;
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price_discount);
+
 							// $mainproduct_price .="<div id='mod_redsavedprice' class='mod_redsavedprice'>".JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED').' '.$producthelper->getProductFormattedPrice($s_price)."</div>";
 
 						}
@@ -496,6 +511,7 @@ function display_products($rows)
 					}
 
 					$ufield .= $product_userfileds[1];
+
 					//
 					if ($product_userfileds[1] != "")
 					{
@@ -535,6 +551,7 @@ function display_products($rows)
 			$totalAccessory = count($accessory);
 
 			$wishlist_data = $producthelper->replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
+
 			/////////////////////////////////// Product accessory End /////////////////////////////////
 
 			$wishlist_data = str_replace('{product_name}', $pname, $wishlist_data);

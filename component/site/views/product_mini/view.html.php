@@ -52,6 +52,7 @@ class product_miniViewproduct_mini extends JView
 		$products           = & $this->get('Data');
 
 		$pagination = & $this->get('Pagination');
+
 		// $pagination = new JPagination( $total, $limitstart, $limit);
 
 

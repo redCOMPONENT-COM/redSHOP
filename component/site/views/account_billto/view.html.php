@@ -46,6 +46,7 @@ class account_billtoViewaccount_billto extends JView
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{

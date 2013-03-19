@@ -443,6 +443,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 	$product_data   = '';
+
 	// For all products
 	if ($endlimit == 0)
 	{
@@ -886,6 +887,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			if (PURCHASE_PARENT_WITH_CHILD == 1)
 			{
 				$isChilds = false;
+
 				// Get attributes
 				$attributes_set = array();
 
@@ -907,6 +909,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 
 			$isChilds = false;
+
 			// Get attributes
 			$attributes_set = array();
 
@@ -921,6 +924,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		/////////////////////////////////// Product attribute  Start /////////////////////////////////
 		$totalatt = count($attributes);
+
 		// Check product for not for sale
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);

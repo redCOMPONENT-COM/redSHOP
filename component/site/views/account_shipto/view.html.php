@@ -25,6 +25,7 @@ class account_shiptoViewaccount_shipto extends JView
 		$task = JRequest::getVar('task');
 		$user = JFactory::getUser();
 		$uri  = JFactory::getURI();
+
 		// Preform security checks
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');

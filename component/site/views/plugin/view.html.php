@@ -17,6 +17,7 @@ class pluginViewplugin extends JView
 	{
 		global $mainframe, $context;
 		ob_clean();
+
 		// Flush();
 		parent::display($tpl);
 	}

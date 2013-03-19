@@ -217,6 +217,7 @@ class manufacturersViewmanufacturers extends JView
 		}
 		// Breadcrumbs
 		$producthelper->generateBreadcrumb($mid);
+
 		// Breadcrumbs end
 
 		if ($layout == "products")

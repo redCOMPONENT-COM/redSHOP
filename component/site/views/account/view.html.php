@@ -40,6 +40,7 @@ class accountViewaccount extends JView
 
 		$layout = JRequest::getVar('layout', 'default');
 		$mail   = JRequest::getVar('mail');
+
 		// Preform security checks
 		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
 		{

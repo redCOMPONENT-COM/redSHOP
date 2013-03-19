@@ -22,6 +22,7 @@ class product_ratingViewproduct_rating extends JView
 		$document      = & JFactory::getDocument();
 
 		$user = & JFactory::getUser();
+
 		// Preform security checks
 		if ($user->id == 0)
 		{

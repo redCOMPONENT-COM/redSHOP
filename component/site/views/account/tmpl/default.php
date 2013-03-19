@@ -315,6 +315,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 	$template_desc = str_replace('{order_title}', JText::_('COM_REDSHOP_ORDER_INFORMATION'), $template_desc);
 
 	$orderslist = $order_functions->getUserOrderDetails($user->id);
+
 	// More Order information
 
 	if (count($orderslist) > 0)
@@ -446,6 +447,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 	$template_desc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $template_desc);
 
 	$quotationlist = $quotationHelper->getQuotationUserList();
+
 	// More Order information
 	if (count($quotationlist) > 0)
 	{

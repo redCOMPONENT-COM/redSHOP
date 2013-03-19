@@ -124,6 +124,7 @@ $default_imageId = $this->image_id;
 		opt += "&id=" + imageId;
 		opt += "&task=loadimage";
 		opt += hdnurl;
+
 		//opt += "&posleft="+rDesign("#hdnposleft").val()+"&postop="+rDesign("#hdnpostop").val();
 
 		alink = site_url + "index.php?tmpl=component&" + opt;
@@ -131,6 +132,7 @@ $default_imageId = $this->image_id;
 		/*if(rDesign("#txtArea_"+id).val()!="")
 		 {*/
 		rDesign("#idimg").attr("src", alink);
+
 		//}
 	}
 	function saveDesign() {
@@ -167,6 +169,7 @@ $default_imageId = $this->image_id;
 					rDesign('#hdnargs').val(hdnargs);
 					rDesign('#image_id').val(imageId);
 					rDesign('#reddesignfile').val(html);
+
 					//
 					rDesign.ajax({
 						url: alink + '&saveimage=1&no_html=1&format=pdf',
@@ -370,6 +373,7 @@ else
 		$data_add = str_replace("{font_align}", '<div id="divDesignFontAlign"></div>', $data_add);
 		$data_add = str_replace("{design_quantity_label}", JText::_('COM_REDSHOP_DESIGN_QUANTITY'), $data_add);
 		$data_add = str_replace("{design_quantity}", '<input name="quantity" id="quantity1" value="1" type="text" size="2" >', $data_add);
+
 		//	echo $data_add;
 		echo eval("?>" . $data_add . "<?php ");
 		?>

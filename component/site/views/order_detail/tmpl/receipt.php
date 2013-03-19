@@ -50,6 +50,7 @@ $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEI
 	<hr/>
 	<div>
 		<?php echo $thankyou_text;
+
 		//echo stripslashes(ORDER_RECEIPT_INTROTEXT);
 		?>
 	</div>

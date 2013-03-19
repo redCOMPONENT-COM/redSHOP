@@ -31,7 +31,9 @@ class reddesignViewreddesign extends JView
 
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
+
 		// $product_id = JRequest :: getVar('productid');
+
 		// Redshop product detail
 		$pid = JRequest::getInt('pid');
 		$cid = JRequest::getInt('cid');

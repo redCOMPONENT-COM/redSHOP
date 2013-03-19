@@ -183,6 +183,7 @@ if (count($ajaxdetal_template) > 0)
 	$attributes         = array_merge($attributes, $attributes_set);
 	$totalatt           = count($attributes);
 	$data_add           = $producthelper->replaceAttributeData($this->data->product_id, 0, $relatedprd_id, $attributes, $data_add, $attribute_template, $isChilds, $selectAtt);
+
 	/////////////////////////////////// Product attribute  End /////////////////////////////////
 
 
@@ -191,6 +192,7 @@ if (count($ajaxdetal_template) > 0)
 	$totalAccessory = count($accessory);
 
 	$data_add = $producthelper->replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);
+
 	/////////////////////////////////// Product accessory End /////////////////////////////////
 
 

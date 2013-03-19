@@ -63,6 +63,7 @@ else // If user logged in than display this code.
 	if (count($wishlists) > 0)
 	{
 		$wish_products = & $this->wish_products;
+
 		// Send mail link
 		for ($j = 0; $j < count($wishlists); $j++)
 		{
