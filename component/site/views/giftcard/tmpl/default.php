@@ -29,7 +29,7 @@ $cart = $session->get('cart');
 $pagetitle = $this->pageheadingtag;
 $detail = $this->detail;
 
-$app = & JFactory::getApplication();
+$app = JFactory::getApplication();
 $router = & $app->getRouter();
 
 if (count($this->template) > 0)
@@ -72,6 +72,7 @@ if ($this->params->get('show_page_heading', 1))
 		}
 	}
 }
+
 if ($gid != 0)
 {
 	$count_no_user_field = 0;
@@ -104,6 +105,7 @@ if ($gid != 0)
 		$template = str_replace("{giftcard_price_lbl}", '', $template);
 
 	}
+
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail->giftcard_price), $template);
@@ -162,6 +164,7 @@ if ($gid != 0)
 		$template = str_replace("{customer_quantity_lbl}", '', $template);
 		$template = str_replace("{customer_amount_lbl}", '', $template);
 	}
+
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
@@ -173,6 +176,7 @@ if ($gid != 0)
 		$template = str_replace("{giftcard_reciver_name}", '', $template);
 
 	}
+
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_validity}", $detail->giftcard_validity, $template);
@@ -332,6 +336,7 @@ else
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_NAME')?>");
 			return false;
 		}
+
 		if (reciver_email == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;

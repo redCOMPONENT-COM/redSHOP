@@ -21,7 +21,7 @@ class registrationViewregistration extends JView
 		$Itemid = JRequest::getVar('Itemid');
 
 		$user    = JFactory::getUser();
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))

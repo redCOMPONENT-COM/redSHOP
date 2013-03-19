@@ -129,6 +129,7 @@ if ($template_middle != "")
 						{
 							$altText = $media_image[$m]->media_name;
 						}
+
 						if (WATERMARK_MANUFACTURER_IMAGE || WATERMARK_MANUFACTURER_THUMB_IMAGE)
 						{
 							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_IMAGE);
@@ -174,6 +175,7 @@ if (strstr($template_desc, '{order_by}'))
 	$orderby_form  = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'] . "</form>";
 	$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
 }
+
 if (strstr($template_desc, '{pagination}'))
 {
 	if ($print)

@@ -27,6 +27,7 @@ $Itemid = JRequest::getVar('Itemid');
 				flag = 1;
 			}
 		}
+
 		if (flag == 0) {
 			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT' ); ?>');
 			return false;

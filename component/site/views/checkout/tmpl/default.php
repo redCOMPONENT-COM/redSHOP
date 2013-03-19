@@ -19,7 +19,7 @@ JHTMLBehavior::modal();
 
 $url = JURI::base();
 $user = JFactory::getUser();
-$session = & JFactory::getSession();
+$session = JFactory::getSession();
 
 $redhelper = new redhelper;
 $userhelper = new rsUserhelper;
@@ -74,6 +74,7 @@ else
 		$show_login            = 0;
 		$open_to_mystretchermy = 1;
 	}
+
 	if (NEW_CUSTOMER_SELECTION)
 	{
 		$open_to_mystretchermy = 1;
@@ -101,12 +102,14 @@ else
 		$login_template_desc = str_replace("{rs_username_lbl}", JText::_('COM_REDSHOP_USERNAME'), $login_template_desc);
 		$login_template_desc = str_replace("{rs_username}", $txtusername, $login_template_desc);
 	}
+
 		if (strstr($login_template_desc, "{rs_password}"))
 		{
 			$txtpassword         = '<input class="inputbox" type="password" id="password" name="password" value="" />';
 			$login_template_desc = str_replace("{rs_password_lbl}", JText::_('COM_REDSHOP_PASSWORD'), $login_template_desc);
 			$login_template_desc = str_replace("{rs_password}", $txtpassword, $login_template_desc);
 		}
+
 		if (strstr($login_template_desc, "{rs_login_button}"))
 		{
 			$loginbutton = '<input type="submit" class="button" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';

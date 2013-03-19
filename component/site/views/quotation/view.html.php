@@ -22,7 +22,7 @@ class quotationViewquotation extends JView
 		global $mainframe;
 
 		$redconfig = new Redconfiguration;
-		$uri       = & JFactory::getURI();
+		$uri       = JFactory::getURI();
 
 		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getVar('Itemid');
@@ -47,6 +47,7 @@ class quotationViewquotation extends JView
 		// $mainframe->Redirect ( 'index.php?option='.$option.'&view=checkout&Itemid='.$Itemid);
 
 //		}
+
 		if (!$return)
 		{
 			if ($cart['idx'] < 1)

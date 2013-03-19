@@ -12,8 +12,16 @@ defined('_JEXEC') or die ('restricted access');
 jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
-class account_billtoViewaccount_billto extends JView
+
+class Account_billtoViewaccount_billto extends JView
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 */
 	public function display($tpl = null)
 	{
 		global $mainframe;
@@ -55,7 +63,9 @@ class account_billtoViewaccount_billto extends JView
 		}
 
 		$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', @$billingaddresses->requesting_tax_exempt);
-		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id); /// Field_section 7 :Customer Address
+
+		// Field_section 7 :Customer Address
+		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id);
 		$lists['extra_field_company']   = $extra_field->list_all_field(8, @$billingaddresses->users_info_id);
 
 		$this->assignRef('lists', $lists);

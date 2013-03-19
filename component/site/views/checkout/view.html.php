@@ -67,6 +67,7 @@ class checkoutViewcheckout extends JView
 			$session->set('auth', $auth);
 			$auth = $session->get('auth');
 		}
+
 		if ($cart['idx'] < 1)
 		{
 			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');

@@ -32,7 +32,7 @@ $cart = $this->cart;
 $idx = $cart ['idx'];
 $option = JRequest::getVar('option');
 $model = $this->getModel('cart');
-$session = & JFactory::getSession();
+$session = JFactory::getSession();
 $user = JFactory::getUser();
 $print = JRequest::getVar('print');
 $Itemid = $redhelper->getCheckoutItemid();
@@ -282,6 +282,7 @@ if (DISCOUNT_TYPE == "0" || DISCOUNT_TYPE == "")
 	$discount_form   = "";
 	$coupon_lableFLG = 0;
 }
+
 if ($coupon_lableFLG)
 {
 	$coupon_lable = "<div id='coupon_label' class='coupon_label'>" . JText::_('COM_REDSHOP_CART_COUPON_CODE_TBL') . "</div>";

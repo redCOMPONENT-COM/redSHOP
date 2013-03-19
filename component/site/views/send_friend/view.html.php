@@ -30,7 +30,7 @@ class send_friendViewsend_friend extends JView
 		$params = & $mainframe->getParams('com_redshop');
 
 		$pathway  =& $mainframe->getPathway();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// Include Javascript
 

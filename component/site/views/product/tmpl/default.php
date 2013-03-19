@@ -20,9 +20,9 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $print = JRequest::getVar('print');
 $model = $this->getModel('product');
-$user = & JFactory::getUser();
+$user = JFactory::getUser();
 $session = JFactory::getSession();
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 $dispatcher =& JDispatcher::getInstance();
 
 $extraField = new extraField;
@@ -110,6 +110,7 @@ if (strstr($template_desc, '{back_link}'))
 	$back_link     = '<a href="' . htmlentities($_SERVER['HTTP_REFERER']) . '">' . JText::_('COM_REDSHOP_BACK') . '</a>';
 	$template_desc = str_replace('{back_link}', $back_link, $template_desc);
 }
+
 if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, '{returntocategory_name}') || strstr($template_desc, '{returntocategory}'))
 {
 	$returncatlink    = '';
@@ -125,6 +126,7 @@ if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, 
 	$template_desc = str_replace('{returntocategory_name}', $this->data->category_name, $template_desc);
 	$template_desc = str_replace('{returntocategory}', $returntocategory, $template_desc);
 }
+
 if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, '{navigation_link_left}'))
 {
 	$nextbutton = '';
@@ -579,6 +581,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 					<a onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");'>
 					<img src='" . $url . "/components/$option/helpers/thumb.php?filename=wrapper/" . $wrapper [$i]->wrapper_image . "&newxsize=" . DEFAULT_WRAPPER_THUMB_WIDTH . "&newysize=" . DEFAULT_WRAPPER_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' " . $title . $alt . " /></a>";
 				}
+
 				if (strstr($wrappertemplate_data, "{wrapper_price}"))
 				{
 					$wrapperimage_div .= "<br/><div onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");' align='center'>";
@@ -610,6 +613,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 			{
 				$wrapperimage_div .= "</marquee>";
 			}
+
 			if (count($wrapper) > 0)
 			{
 				$wrapper              = array_merge($warray, $wrapper);
@@ -835,6 +839,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 					$selectedId[] = $property[$i]->property_id;
 				}
 			}
+
 			if (count($selectedId) > 0)
 			{
 				$selectedpropertyId = $selectedId[count($selectedId) - 1];
@@ -848,6 +853,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 						$selectedId[] = $subproperty[$sp]->subattribute_color_id;
 					}
 				}
+
 				if (count($selectedId) > 0)
 				{
 					$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
@@ -920,6 +926,7 @@ $template_desc = $producthelper->replaceProductStockdata($this->data->product_id
 				$template_desc = str_replace ( "{product_availability_date_lbl}", "<span id='stock_availability_date_lbl".$this->data->product_id."'></span>", $template_desc );
 				$template_desc = str_replace ( "{product_availability_date}", "<span id='stock_availability_date".$this->data->product_id."'></span>", $template_desc );
 			}
+
 			if($is_login && $users_info_id)
 			{
 				$template_desc = str_replace ( "{stock_notify_flag}", '<div id="notify_stock'.$this->data->product_id.'"><span onclick="getStocknotify(\''.$this->data->product_id.'\',\''.$selectedpropertyId.'\', \''.$selectedsubpropertyId.'\');">FLAG</span></div>', $template_desc );
@@ -970,6 +977,7 @@ if (strstr($template_desc, $mpimg_tag))
 				{
 					$alttext = $media_image [$m]->media_name;
 				}
+
 				if ($media_image [$m]->media_name)
 				{
 					$thumb = $media_image [$m]->media_name;
@@ -991,6 +999,7 @@ if (strstr($template_desc, $mpimg_tag))
 						$linkimage     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
 						$hoverimg_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize=" . ADDITIONAL_HOVER_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 					}
+
 					if (PRODUCT_ADDIMG_IS_LIGHTBOX)
 					{
 						$more_images_div_start = "<div class='additional_image'><a href='" . $linkimage . "' title='" . $alttext . "' rel=\"myallimg\">";
@@ -1017,6 +1026,7 @@ if (strstr($template_desc, $mpimg_tag))
 						{
 							$thumb_original = PRODUCT_DEFAULT_IMAGE;
 						}
+
 						if (WATERMARK_PRODUCT_THUMB_IMAGE)
 							$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 						else
@@ -1029,6 +1039,7 @@ if (strstr($template_desc, $mpimg_tag))
 						$more_images .= '<a href="javascript:void(0)" >' . "<img src='" . $pimg . "' title='" . $alttext . "' style='cursor: auto;'>";
 						$more_images_hrefend = "</a>";
 					}
+
 					if (ADDITIONAL_HOVER_IMAGE_ENABLE)
 					{
 						$more_images .= "<img src='" . $hoverimg_path . "' alt='" . $alttext . "' title='" . $alttext . "' class='redImagepreview'>";
@@ -1060,6 +1071,7 @@ if (strstr($template_desc, "{more_documents}"))
 		{
 			$alttext = $media_documents[$m]->media_name;
 		}
+
 		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product" . DS . $media_documents[$m]->media_name))
 		{
 			$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
@@ -1319,6 +1331,7 @@ if ($user->id)
 		$template_desc = str_replace("{form_rating_without_lightbox}", $reviewform, $template_desc);
 
 	}
+
 	if (strstr($template_desc, "{form_rating}"))
 	{
 		$reviewlink    = "";
@@ -1342,6 +1355,7 @@ else
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 
 }
+
 if (strstr($template_desc, "{form_rating_without_link}"))
 {
 	$session = JFactory::getSession();
@@ -1563,6 +1577,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data1 = str_replace("{review_date}", $redshopconfig->convertDateFormat($reviews [$j]->time), $reviews_data1);
 			$reviews_data .= $reviews_data1;
 		}
+
 		if ($mainblock < count($reviews))
 		{
 			$reviews_data .= '<div style="clear:both;" class="show_reviews">';
@@ -1611,6 +1626,7 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:280}}" href="' . $asklink . '" >' . JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT') . '</a>';
 	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);
 }
+
 if (strstr($template_desc, "{ask_question_about_product_without_lightbox}"))
 {
 	/*$asklink = JURI::root().'index.php?option='.$option.'&view=ask_question&ask=1&pid='.$this->data->product_id.'&category_id='.$this->data->category_id.'&Itemid='.$Itemid;

@@ -27,7 +27,7 @@ $Itemid = JRequest::getVar('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
 $user =& JFactory::getUser();
-$session = & JFactory::getSession();
+$session = JFactory::getSession();
 $auth = $session->get('auth');
 ?>
 <div id="newwishlist" class="wishlist_prompt_header">

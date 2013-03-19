@@ -136,6 +136,7 @@ if (strstr($template_desc, "{pagination}"))
 {
 	$template_desc = str_replace("{pagination}", $this->pagination->getPagesLinks(), $template_desc);
 }
+
 if (strstr($template_desc, "{pagination_limit}"))
 {
 	$limitBox = "<form name='adminForm' method='POST' >";

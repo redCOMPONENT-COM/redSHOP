@@ -127,44 +127,54 @@ if ($quotationDetail->user_id != 0)
 	{
 		$billadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $quotationDetail->firstname . '<br>';
 	}
+
 	if ($quotationDetail->lastname != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $quotationDetail->lastname . '<br>';
 	}
+
 	if ($quotationDetail->address != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $quotationDetail->address . '<br>';
 	}
+
 	if ($quotationDetail->zipcode != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $quotationDetail->zipcode . '<br>';
 	}
+
 	if ($quotationDetail->city != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $quotationDetail->city . '<br>';
 	}
+
 	if ($order_functions->getCountryName($quotationDetail->country_code) != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($order_functions->getCountryName($quotationDetail->country_code)) . '<br>';
 	}
+
 	if ($order_functions->getStateName($quotationDetail->state_code, $quotationDetail->country_code) != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $order_functions->getStateName($quotationDetail->state_code, $quotationDetail->country_code) . '<br>';
 	}
+
 	if ($quotationDetail->phone != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $quotationDetail->phone . '<br>';
 	}
+
 	if ($quotationDetail->user_email != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $quotationDetail->user_email . '<br>';
 	}
+
 	if ($quotationDetail->is_company == 1)
 	{
 		if ($quotationDetail->vat_number != "")
 		{
 			$billadd .= JText::_("COM_REDSHOP_VAT_NUMBER") . ' : ' . $quotationDetail->vat_number . '<br>';
 		}
+
 		if (SHOW_TAX_EXEMPT_INFRONT)
 		{
 
@@ -195,6 +205,7 @@ if ($quotationDetail->user_id != 0)
 
 		$billadd .= ' <br>';
 	}
+
 	if ($quotationDetail->is_company == 1)
 	{
 		$billadd .= $extra_field->list_all_field_display(8, $quotationDetail->user_info_id, 1);
@@ -212,11 +223,13 @@ else
 	{
 		$quotationDetail->user_info_id = 0;
 	}
+
 	if ($quotationDetail->quotation_email != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $quotationDetail->quotation_email . '<br>';
 	}
 }
+
 if (strstr($quotation_template, "{quotation_custom_field_list}"))
 {
 	$billadd .= $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 1, $quotationDetail->quotation_email);
@@ -278,6 +291,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 			$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "(" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->wrapper_price) . ")";
 		}
 	}
+
 	if ($quotationProducts [$i]->is_giftcard == 1)
 	{
 		$product_userfields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 13);
@@ -316,6 +330,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 				$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
 			}
 		}
+
 		if ($product_image_path)
 		{
 			$product_image = "<div class='product_image'><img src='" . $product_image_path . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></div>";

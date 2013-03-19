@@ -51,6 +51,7 @@ if ($this->users_info_id > 0)
 	{
 		$selshipping_box_post_id = $shippingBoxes[0]->shipping_box_id;
 	}
+
 	if (isset($post['shipping_box_id']))
 	{
 		$shipping_box_post_id = $post['shipping_box_id'];

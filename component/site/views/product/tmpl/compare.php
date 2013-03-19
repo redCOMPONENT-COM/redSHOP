@@ -59,6 +59,7 @@ else
 {
 	$compare_template = $redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
 }
+
 if (count($compare_template) > 0 && $compare_template[0]->template_desc != "")
 {
 	$template = $compare_template[0]->template_desc;
@@ -157,6 +158,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 			$template = str_replace('{discount_start_date}', $exp_div . $disc_start_date . $div_end . $td_end . $td_start . "{discount_start_date}", $template);
 		}
+
 		if (strstr($template, "{discount_end_date}"))
 		{
 			$disc_end_date = "";
@@ -197,11 +199,13 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 			$template = str_replace('{product_price}', $exp_div . $price . $div_end . $td_end . $td_start . "{product_price}", $template);
 		}
+
 		if (strstr($template, "{product_rating_summary}"))
 		{
 			$final_avgreview_data = $producthelper->getProductRating($compare[$i]["product_id"]);
 			$template             = str_replace('{product_rating_summary}', $exp_div . $final_avgreview_data . $div_end . $td_end . $td_start . "{product_rating_summary}", $template);
 		}
+
 		if (strstr($template, "{products_in_stock}") || strstr($template, "{product_stock_amount_image}"))
 		{
 			$product_stock = $stockroomhelper->getStockAmountwithReserve($compare[$i]["product_id"]);
@@ -220,11 +224,13 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 			$template = str_replace('{product_stock_amount_image}', $exp_div . $stockamountImage . $div_end . $td_end . $td_start . "{product_stock_amount_image}", $template);
 		}
+
 		if (strstr($template, "{product_delivery_time}"))
 		{
 			$product_delivery_time = $producthelper->getProductMinDeliveryTime($compare[$i]["product_id"]);
 			$template              = str_replace('{product_delivery_time}', $exp_div . $product_delivery_time . $div_end . $td_end . $td_start . "{product_delivery_time}", $template);
 		}
+
 		if (strstr($template, "{product_availability_date}"))
 		{
 			$available_date = "";
@@ -236,6 +242,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 			$template = str_replace('{product_availability_date}', $exp_div . $available_date . $div_end . $td_end . $td_start . "{product_availability_date}", $template);
 		}
+
 		if (strstr($template, "{product_category}"))
 		{
 			$category = $producthelper->getSection('category', $compare[$i]["category_id"]);

@@ -124,6 +124,7 @@ $producthelper = new producthelper;?>
 		<?php
 		}
 	}
+
 	if (!$k)
 	{
 		echo "<tr><td>" . JText::_('COM_REDSHOP_NO_PRODUCT_FOUND') . "</td></tr>";

@@ -71,6 +71,7 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
 		}
+
 		if (frm.username.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_USERNAME')?>");
 			return false;
@@ -91,6 +92,7 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
 			return false;
 		}
+
 		if (frm.lastname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
 			return false;

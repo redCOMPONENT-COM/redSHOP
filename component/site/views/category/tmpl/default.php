@@ -43,7 +43,7 @@ if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($templa
 	$endlimit = $model->getProductPerPage();
 }
 
-$mainframe = & JFactory::getApplication();
+$mainframe = JFactory::getApplication();
 $router    = & $mainframe->getRouter();
 $uri       = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
 
@@ -161,6 +161,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
 			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
+
 		if (CAT_IS_LIGHTBOX)
 		{
 			$cat_thumb = "<a class='modal' href='" . $linkimage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
@@ -179,21 +180,25 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->category_name . '</a>';
 			$data_add = str_replace("{category_name}", $cat_name, $data_add);
 		}
+
 		if (strstr($data_add, '{category_readmore}'))
 		{
 			$cat_name = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
 			$data_add = str_replace("{category_readmore}", $cat_name, $data_add);
 		}
+
 		if (strstr($data_add, '{category_description}'))
 		{
 			$cat_desc = $config->maxchar($row->category_description, CATEGORY_DESC_MAX_CHARS, CATEGORY_DESC_END_SUFFIX);
 			$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 		}
+
 		if (strstr($data_add, '{category_short_desc}'))
 		{
 			$cat_s_desc = $config->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
 			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
+
 		if (strstr($data_add, '{category_total_product}'))
 		{
 			$totalprd = $producthelper->getProductCategory($row->category_id);
@@ -220,6 +225,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		{
 			$portal = $sgportal->shopper_group_portal;
 		}
+
 		if (PORTAL_SHOP == 1)
 		{
 			if ($checkcid != "")
@@ -284,17 +290,20 @@ if (strstr($template_desc, "{show_all_products_in_category}"))
 	$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
 	$template_desc = str_replace("{pagination}", "", $template_desc);
 }
+
 if (strstr($template_desc, "{pagination}"))
 {
 	$pagination    = $model->getCategoryPagination();
 	$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
 }
+
 if (strstr($template_desc, "perpagelimit:"))
 {
 	$perpage       = explode('{perpagelimit:', $template_desc);
 	$perpage       = explode('}', $perpage[1]);
 	$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
 }
+
 if (strstr($template_desc, "{product_display_limit}"))
 {
 	$template_desc = str_replace("{product_display_limit}", '', $template_desc);

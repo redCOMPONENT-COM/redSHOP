@@ -59,6 +59,7 @@ if ($print)
 
 		return;
 	}
+
 	if (!$user->id)
 	{
 		if (isset($encr))

@@ -13,8 +13,4 @@ jimport('joomla.application.component.view');
 
 class ask_questionViewask_question extends JView
 {
-	public function display($tpl = null)
-	{
-		parent::display($tpl);
-	}
 }

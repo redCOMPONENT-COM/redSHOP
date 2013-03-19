@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') or die ('restricted access');
 
 $user =& JFactory::getUser();
 $email = JRequest::getVar('email');
@@ -20,6 +20,7 @@ if ($user->id != "")
 	$email = $user->email;
 	$name  = $user->name;
 }
+
 if ($this->params->get('show_page_heading', 1))
 {
 	?>

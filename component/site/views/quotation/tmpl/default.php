@@ -52,6 +52,7 @@ else
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
 		}
+
 		if (validateExtrafield(frm) == false) {
 			return false;
 		}

@@ -38,6 +38,7 @@ if ($window == 1)
 	<?php
 	exit;
 }
+
 if ($this->params->get('show_page_heading', 1))
 {
 	?>
@@ -47,6 +48,7 @@ if ($this->params->get('show_page_heading', 1))
 	<div>&nbsp;</div>
 <?php
 }
+
 if ($mail == 0)
 {
 	$MyWishlist = $model->getMyDetail();
@@ -132,7 +134,7 @@ if ($mail == 0)
 			$wishlist_data = str_replace('{product_s_desc}', $row->product_s_desc, $wishlist_data);
 
 
-			// Checking for child products start	
+			// Checking for child products start
 			if (strstr($wishlist_data, "{child_products}"))
 			{
 				$parentproductid = $row->product_id;
@@ -163,25 +165,24 @@ if ($mail == 0)
 							$parentid = 0;
 
 				for ($c = 0; $c < count($childproducts); $c++)
-							{
-								if ($childproducts[$c]->product_parent_id == 0)
-								{
-									$level = "";
-								}
-								else
-								{
-									if ($parentid != $childproducts[$c]->product_parent_id)
-									{
-										$level = $level; //."_";
-									}
-								}
+				{
+					if ($childproducts[$c]->product_parent_id == 0)
+					{
+						$level = "";
+					}
+					else
+					{
+						if ($parentid != $childproducts[$c]->product_parent_id)
+						{
+							$level = $level;
+						}
+					}
 
-								$parentid = $childproducts[$c]->product_parent_id;
+					$parentid = $childproducts[$c]->product_parent_id;
 
-								$childproducts[$c]->product_name = $level . $childproducts[$c]->product_name;
-							}
+					$childproducts[$c]->product_name = $level . $childproducts[$c]->product_name;
+				}
 
-							//	print_r($childproducts);
 							$cld_name = @array_merge($cld_name, $childproducts);
 						}
 
@@ -196,8 +197,6 @@ if ($mail == 0)
 						$frmChild .= "<input type='hidden' name='view' value='product'>";
 						$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
 						$frmChild .= "</form>";
-
-
 					}
 				}
 
@@ -231,7 +230,6 @@ if ($mail == 0)
 			}
 			else
 			{
-
 				$isChilds       = false;
 				$attributes_set = array();
 
@@ -251,19 +249,20 @@ if ($mail == 0)
 
 			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
-			/////////////////////////////////// Product attribute  Start /////////////////////////////////
+			// Product attribute  Start
 			$totalatt      = count($attributes);
 			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
 
-			/////////////////////////////////// Product attribute  End  	// Checking for child products end/////////////////////////////////
+			// Product attribute  End
+			// Checking for child products end
 
-			/////////////////////////////////// Product accessory Start /////////////////////////////////
+			// Product accessory Start
 			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
 			$totalAccessory = count($accessory);
 
 			$wishlist_data = $producthelper->replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
 
-			/////////////////////////////////// Product accessory End /////////////////////////////////
+			// Product accessory End
 
 			// Product User Field Start
 			$count_no_user_field = 0;
@@ -274,7 +273,6 @@ if ($mail == 0)
 
 			if (strstr($wishlist_data, "{if product_userfield}") && strstr($wishlist_data, "{product_userfield end if}") && $template_userfield != "")
 			{
-
 				$ufield = "";
 				$cart   = $session->get('cart');
 
@@ -322,8 +320,6 @@ if ($mail == 0)
 
 					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $wishlist_data);
 					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $wishlist_data);
-
-
 				}
 
 				$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
@@ -338,7 +334,6 @@ if ($mail == 0)
 					$wishlist_data = str_replace("{if product_userfield}", "", $wishlist_data);
 					$wishlist_data = str_replace("{product_userfield end if}", "", $wishlist_data);
 				}
-
 			}
 
 			// Product User Field End

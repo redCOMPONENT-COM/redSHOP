@@ -44,8 +44,8 @@ $userhelper = new rsUserhelper;
 $redTemplate = new Redtemplate;
 $dispatcher =& JDispatcher::getInstance();
 
-$user = & JFactory::getUser();
-$session = & JFactory::getSession();
+$user = JFactory::getUser();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 $user_id = $user->id;
 

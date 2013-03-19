@@ -1,18 +1,12 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 $redTemplate = new Redtemplate;
@@ -120,12 +114,14 @@ if ($this->params->get('show_page_heading', 1))
 			frm.name_2.focus();
 			return false;
 		}
+
 		if (email == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');?>");
 			frm.email_address.focus();
 			return false;
 		}
-		elseif (patt1.test(email) == false) {
+		else if (patt1.test(email) == false)
+		{
 			alert("<?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');?>");
 			frm.email_address.focus();
 			return false;
@@ -142,6 +138,7 @@ if ($this->params->get('show_page_heading', 1))
 				}
 			}
 		}
+
 		if (sampleArr.length > 0) {
 			return true;
 		}

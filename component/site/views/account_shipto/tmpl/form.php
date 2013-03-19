@@ -38,6 +38,7 @@ $post['state_code_ST'] = $post['state_code'];
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
 			return false;
 		}
+
 		if (frm.lastname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
 			return false;
@@ -48,10 +49,12 @@ $post['state_code_ST'] = $post['state_code'];
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS')?>");
 			return false;
 		}
+
 		if (frm.zipcode.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE')?>");
 			return false;
 		}
+
 		if (frm.city.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_CITY')?>");
 			return false;
