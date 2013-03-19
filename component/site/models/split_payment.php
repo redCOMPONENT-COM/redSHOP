@@ -97,11 +97,13 @@ class split_paymentModelsplit_payment extends JModel
 		$orderdits = $this->getordersdetail($oid);
 
 		$_SESSION['ccdata']['order_payment_name'] = JRequest::getVar('order_payment_name');
+
 		// VISA, AMEX, DISCOVER....
 		$_SESSION['ccdata']['creditcard_code']            = JRequest::getVar('creditcard_code');
 		$_SESSION['ccdata']['order_payment_number']       = JRequest::getVar('order_payment_number');
 		$_SESSION['ccdata']['order_payment_expire_month'] = JRequest::getVar('order_payment_expire_month');
 		$_SESSION['ccdata']['order_payment_expire_year']  = JRequest::getVar('order_payment_expire_year');
+
 		// 3-digit Security Code (CVV)
 		$_SESSION['ccdata']['credit_card_code'] = JRequest::getVar('credit_card_code');
 
@@ -204,6 +206,7 @@ class split_paymentModelsplit_payment extends JModel
 					$this->_db->query();
 
 					$userinfo = $this->getuseraccountinfo($user->id);
+
 					// Add Economic integration
 					$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 				}
@@ -232,6 +235,7 @@ class split_paymentModelsplit_payment extends JModel
 		$validpayment [1] = '';
 
 		// $_SESSION['ccdata'] = $ccdata;
+
 		// The Data should be in the session
 		if (!isset ($_SESSION ['ccdata']))
 		{ //Not? Then Error

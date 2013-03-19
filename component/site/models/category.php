@@ -172,6 +172,7 @@ class CategoryModelCategory extends JModel
 		$menu  =& $mainframe->getMenu();
 		$item  =& $menu->getActive();
 		$limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
+
 		//	$order_by = $this->_buildProductOrderBy();
 		$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
 
