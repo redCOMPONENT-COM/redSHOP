@@ -64,6 +64,7 @@ class passwordModelpassword extends JModel
 		$length     = 35;
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyz';
 		$string     = null;
+
 		for ($p = 0; $p < $length; $p++)
 		{
 			$string .= $characters[mt_rand(0, strlen($characters))];

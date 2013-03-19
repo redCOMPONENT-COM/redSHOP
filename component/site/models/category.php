@@ -247,6 +247,7 @@ class CategoryModelCategory extends JModel
 		if (strstr($order_by, "p.product_price ASC"))
 		{
 			$priceSort = true;
+
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
@@ -259,6 +260,7 @@ class CategoryModelCategory extends JModel
 		{
 			$priceSort = true;
 			$sort      = "DESC";
+
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
@@ -306,6 +308,7 @@ class CategoryModelCategory extends JModel
 		elseif ($isSlider)
 		{
 			$newProduct = array();
+
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
 				$ProductPriceArr                 = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
@@ -636,6 +639,7 @@ class CategoryModelCategory extends JModel
 			}
 
 			$tag = '';
+
 			for ($f = 0; $f < count($rs_filters); $f++)
 			{
 				$tmp_tag = $mainframe->getUserStateFromRequest($context . 'tag' . $rs_filters[$f], 'tag' . $rs_filters[$f], '');
@@ -669,6 +673,7 @@ class CategoryModelCategory extends JModel
 						if (count($tag) > 1)
 						{
 							$i = 1;
+
 							for ($t = 1; $t < count($tag); $t++)
 							{
 								$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";

@@ -205,6 +205,7 @@ class quotationModelquotation extends JModel
 			if (count($data[$i]['cart_accessory']) > 0)
 			{
 				$attArr = $data [$i] ['cart_accessory'];
+
 				for ($a = 0; $a < count($attArr); $a++)
 				{
 					$accessory_vat_price = 0;
@@ -219,6 +220,7 @@ class quotationModelquotation extends JModel
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
+
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
@@ -244,6 +246,7 @@ class quotationModelquotation extends JModel
 
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
+
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
@@ -337,6 +340,7 @@ class quotationModelquotation extends JModel
 			if (count($data[$i]['cart_attribute']) > 0)
 			{
 				$attArr = $data [$i] ['cart_attribute'];
+
 				for ($j = 0; $j < count($attArr); $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
@@ -360,6 +364,7 @@ class quotationModelquotation extends JModel
 					}
 
 					$propArr = $attArr[$j]['attribute_childs'];
+
 					for ($k = 0; $k < count($propArr); $k++)
 					{
 						$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
@@ -390,6 +395,7 @@ class quotationModelquotation extends JModel
 						}
 
 						$subpropArr = $propArr[$k]['property_childs'];
+
 						for ($l = 0; $l < count($subpropArr); $l++)
 						{
 							$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);

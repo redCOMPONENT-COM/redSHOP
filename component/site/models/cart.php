@@ -131,12 +131,14 @@ class CartModelCart extends JModel
 			if ($cart)
 			{
 				$idx = (int) ($cart['idx']);
+
 				for ($j = 0; $j < $idx; $j++)
 				{
 					if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
 					{
 						$this->delete($j);
 					}
+
 					if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
 					{
 						$this->delete($j);
@@ -530,6 +532,7 @@ class CartModelCart extends JModel
 	public function updateAccessoryPriceArray($data = array(), $newquantity = 1)
 	{
 		$attArr = $data['cart_accessory'];
+
 		for ($i = 0; $i < count($attArr); $i++)
 		{
 			$attchildArr = $attArr[$i]['accessory_childs'];
@@ -544,6 +547,7 @@ class CartModelCart extends JModel
 			for ($j = 0; $j < count($attchildArr); $j++)
 			{
 				$propArr = $attchildArr[$j]['attribute_childs'];
+
 				for ($k = 0; $k < count($propArr); $k++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
@@ -558,6 +562,7 @@ class CartModelCart extends JModel
 					}
 
 					$subpropArr = $propArr[$k]['property_childs'];
+
 					for ($l = 0; $l < count($subpropArr); $l++)
 					{
 						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
@@ -591,6 +596,7 @@ class CartModelCart extends JModel
 		for ($i = 0; $i < count($attArr); $i++)
 		{
 			$propArr = $attArr[$i]['attribute_childs'];
+
 			for ($k = 0; $k < count($propArr); $k++)
 			{
 				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
@@ -606,6 +612,7 @@ class CartModelCart extends JModel
 				}
 
 				$subpropArr = $propArr[$k]['property_childs'];
+
 				for ($l = 0; $l < count($subpropArr); $l++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
@@ -678,6 +685,7 @@ class CartModelCart extends JModel
 		if (isset($data['attribute_id_prd_' . $product_id . '_0']))
 		{
 			$attribute_data = $data['attribute_id_prd_' . $product_id . '_0'];
+
 			for ($ia = 0; $ia < count($attribute_data); $ia++)
 			{
 				$accPropertyCart                              = array();
@@ -688,6 +696,7 @@ class CartModelCart extends JModel
 				if ($attribute[0]->text != "" && isset($data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]]))
 				{
 					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
+
 					for ($ip = 0; $ip < count($acc_property_data); $ip++)
 					{
 						if ($acc_property_data[$ip] != 0)
@@ -718,6 +727,7 @@ class CartModelCart extends JModel
 							if (isset($data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
 							{
 								$acc_subproperty_data = $data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
+
 								for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
 								{
 									if ($acc_subproperty_data[$isp] != 0)

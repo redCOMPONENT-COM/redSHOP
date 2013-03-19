@@ -306,6 +306,7 @@ class split_paymentModelsplit_payment extends JModel
 
 		// Establish card type
 		$cardType = -1;
+
 		for ($i = 0; $i < sizeof($cards); $i++)
 		{
 			// See if it is this card (ignoring the case of the string)
@@ -401,6 +402,7 @@ class split_paymentModelsplit_payment extends JModel
 
 		// Now see if any of them match what we have in the card number  
 		$PrefixValid = false;
+
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
 			$exp = '^' . $prefix [$i];
@@ -424,6 +426,7 @@ class split_paymentModelsplit_payment extends JModel
 		// See if the length is valid for this card
 		$LengthValid = false;
 		$lengths     = split(',', $cards [$cardType] ['length']);
+
 		for ($j = 0; $j < sizeof($lengths); $j++)
 		{
 			if (strlen($cardNo) == $lengths [$j])
