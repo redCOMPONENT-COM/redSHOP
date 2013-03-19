@@ -101,6 +101,7 @@ class checkoutViewcheckout extends JView
 
 			$subscription_id = $session->set('subscription_id', $subscription_id);
 		}
+
 //		if(@$is_creditcard == 1 && $ccinfo == '1')
 //		{
 //			$_SESSION['ccdata']['order_payment_name'] = JRequest::getVar('order_payment_name');
@@ -132,6 +133,7 @@ class checkoutViewcheckout extends JView
 //				// $mainframe->Redirect( $link , $msg );
 
 //			 }
+
 //		}
 
 

@@ -40,6 +40,7 @@ class checkoutViewcheckout extends JView
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
+
 		//End
 
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);

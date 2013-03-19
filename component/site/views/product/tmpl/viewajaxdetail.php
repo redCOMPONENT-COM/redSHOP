@@ -169,6 +169,7 @@ if (count($ajaxdetal_template) > 0)
 	{
 		$isChilds = false;
 	}
+
 	// Get attribute Template data
 	/////////////////////////////////// Product attribute  Start /////////////////////////////////
 	$attributes_set = array();

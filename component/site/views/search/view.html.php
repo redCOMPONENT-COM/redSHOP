@@ -45,6 +45,7 @@ class searchViewsearch extends JView
 			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		}
+
 		// Ajax cart javascript
 		if (AJAX_CART_BOX == 1)
 		{
@@ -98,6 +99,7 @@ class searchViewsearch extends JView
 				$mainframe->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 
 			}
+
 			// $this->setLayout('redfilter');
 		}
 
@@ -412,6 +414,7 @@ class searchViewsearch extends JView
 						$data_add = str_replace("{product_delivery_time}", "", $data_add);
 					}
 				}
+
 				// Product Review/Rating
 				// Fetching reviews
 				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]->product_id);
@@ -528,6 +531,7 @@ class searchViewsearch extends JView
 
 					$data_add = str_replace("{more_documents}", "<span id='additional_docs" . $this->search[$i]->product_id . "'>" . $more_doc . "</span>", $data_add);
 				}
+
 				// More documents end
 
 				/************************************************ user fields*******************************************************/
@@ -650,6 +654,7 @@ class searchViewsearch extends JView
 					$data_add = str_replace("{manufacturer_link}", "", $data_add);
 					$data_add = str_replace("{manufacturer_name}", "", $data_add);
 				}
+
 				// End
 
 				// Replace wishlistbutton
@@ -682,6 +687,7 @@ class searchViewsearch extends JView
 					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
+
 				/////////////////////////////////// Product attribute  Start /////////////////////////////////
 				$totalatt = count($attributes);
 

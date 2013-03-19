@@ -46,11 +46,13 @@ JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 				alert(requiedAttribute);
 				return false;
 			}
-			elseif (requiedProperty != 0 && requiedProperty != "") {
+			else if (requiedProperty != 0 && requiedProperty != "")
+			{
 				alert(requiedProperty);
 				return false;
 			}
-			else {
+			else
+			{
 				document.frmchngAttribute.submit();
 			}
 		}
@@ -80,7 +82,8 @@ else
 {
 	$isChilds = false;
 }
-/////////////////////////////////// Product attribute  Start /////////////////////////////////
+
+// Product attribute  Start
 if ($isChilds)
 {
 	$attributes = array();
@@ -108,7 +111,7 @@ else
 $totalatt      = count($attributes);
 $template_desc = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds, $selectAtt, 0);
 
-/////////////////////////////////// Product attribute  End /////////////////////////////////
+// Product attribute  End
 
 $stockaddtocart = "stockaddtocartprd_" . $product_id;
 $pdaddtocart    = "pdaddtocartprd_" . $product_id;

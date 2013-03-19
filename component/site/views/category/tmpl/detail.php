@@ -527,6 +527,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 			$data_add = str_replace("{more_documents}", "<span id='additional_docs" . $product->product_id . "'>" . $more_doc . "</span>", $data_add);
 		}
+
 		// More documents end
 
 		// Product User Field Start
@@ -800,6 +801,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$data_add = str_replace("{front_img_link}", "", $data_add);
 			$data_add = str_replace("{back_img_link}", "", $data_add);
 		}
+
 		// Front-back image tag end
 
 
@@ -844,6 +846,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$data_add = str_replace("{front_preview_img_link}", "", $data_add);
 			$data_add = str_replace("{back_preview_img_link}", "", $data_add);
 		}
+
 		// Front-back preview image tag end
 
 		$data_add = $producthelper->getJcommentEditor($product, $data_add);
@@ -878,6 +881,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
 		}
+
 		// Checking for child products
 		$childproduct = $producthelper->getChildProduct($product->product_id);
 

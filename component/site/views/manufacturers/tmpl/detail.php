@@ -43,6 +43,7 @@ if ($this->params->get('show_page_heading', 1))
 	</h1>
 <?php
 }
+
 // Page title End
 
 $manufacturerdetail_template = $redTemplate->getTemplate("manufacturer_detail");
@@ -143,6 +144,7 @@ if (strstr($template_desc, "{manufacturer_url}"))
 	$manufacturer_url = "<a href='" . $row->manufacturer_url . "'>" . $row->manufacturer_url . "</a>";
 	$template_desc    = str_replace("{manufacturer_url}", $manufacturer_url, $template_desc);
 }
+
 ///////// Extra field display
 $extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
 $template_desc = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $template_desc);

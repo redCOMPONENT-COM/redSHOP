@@ -37,6 +37,7 @@ class quotationViewquotation extends JView
 //			$mainframe->Redirect ( 'index.php?option='.$option.'&view=cart&Itemid='.$Itemid,$msg);
 
 //		}
+
 //   		$user=JFactory::getUser();
 
 //	   	if(!$user->id)

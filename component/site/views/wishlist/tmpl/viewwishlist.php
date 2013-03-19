@@ -544,6 +544,7 @@ function display_products($rows)
 				}
 
 			}
+
 			// Product User Field End
 
 			/////////////////////////////////// Product accessory Start /////////////////////////////////

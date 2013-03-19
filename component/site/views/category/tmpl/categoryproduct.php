@@ -461,6 +461,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					$attributes = $producthelper->getProductAttribute($product->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
+
 				/////////////////////////////////// Product attribute  Start /////////////////////////////////
 				$totalatt = count($attributes);
 

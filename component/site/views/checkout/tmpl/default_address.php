@@ -40,6 +40,7 @@ $cart = $session->get('cart');
 				   rel="{handler: 'iframe', size: {x: 720, y: 470}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 			<?php
 			}
+
 			// Billing or Shipping address
 			if ($redhelper->isredCRM())
 			{

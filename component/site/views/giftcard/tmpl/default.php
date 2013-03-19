@@ -47,6 +47,7 @@ else
 		$template = "<div>{giftcard_loop_start}<h3>{giftcard_name}</h3><div>{giftcard_price}</div><div>{giftcard_value}</div><div>{giftcard_desc}</div><div>{giftcard_validity}</div>{giftcard_loop_end}</div>";
 	}
 }
+
 // $uri = new JURI( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
 
 // $router->setVars ( $uri->_vars );
@@ -126,6 +127,7 @@ if ($gid != 0)
 		$customer_quantity = '<input type="text" name="quantity" id="quantity" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.quantity.value = f_value;">';
 		$customer_amount   = '<input type="text" name="customer_amount" id="customer_amount" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.customer_amount.value = f_value;">';
 	}
+
 //	$customer_amountsection ='<input type="hidden" name="customer_amountsection" id="customer_amountsection" value="'.$detail->customer_amount.'" onkeyup="var f_value = this.value;addtocart_'.$gid.'.customer_amountsection.value = f_value;">';
 
 
@@ -245,6 +247,7 @@ if ($gid != 0)
 			$template = str_replace("{giftcard_userfield end if}", "", $template);
 		}
 	}
+
 	// Product User Field End
 
 	// Cart
