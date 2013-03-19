@@ -118,6 +118,7 @@ class ask_questionModelask_question extends JModel
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
 			}
 		}
+
 		$product = $producthelper->getProductById($product_id);
 
 		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
