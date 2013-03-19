@@ -208,6 +208,5 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 }
 else
 {
-
 	$googleanalytics->placeTrans();
 }

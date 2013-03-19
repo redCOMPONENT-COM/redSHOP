@@ -99,7 +99,6 @@ if ($this->data->use_discount_calc)
 }
 else
 {
-
 	$template_desc = str_replace('{discount_calculator}', '', $template_desc);
 }
 
@@ -757,7 +756,6 @@ if (count($childproduct) > 0)
 }
 else
 {
-
 	$isChilds       = false;
 	$attributes_set = array();
 
@@ -855,7 +853,6 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 }
 else
 {
-
 
 	if (strstr($template_desc, "{product_availability_date}") || strstr($template_desc, "{stock_notify_flag}") || strstr($template_desc, "{stock_status"))
 	{
@@ -1277,7 +1274,6 @@ if ($user->id)
 }
 else
 {
-
 
 	$reviewform = JText::_('COM_REDSHOP_YOU_NEED_TO_LOGIN_TO_POST_A_REVIEW');
 
