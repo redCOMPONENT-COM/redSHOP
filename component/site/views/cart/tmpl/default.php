@@ -113,7 +113,6 @@ if (DEFAULT_QUOTATION_MODE)
 }
 else
 {
-
 	$checkout = '';
 	JPluginHelper::importPlugin('redshop_payment');
 	$dispatcher   =& JDispatcher::getInstance();

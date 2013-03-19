@@ -168,7 +168,6 @@ if (SHIPPING_METHOD_ENABLE)
 }
 else
 {
-
 	$onestep_template_desc = str_replace($shippingbox_template, "", $onestep_template_desc);
 	$onestep_template_desc = str_replace($shipping_template, "", $onestep_template_desc);
 }
