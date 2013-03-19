@@ -33,11 +33,11 @@ class zip_importModelzip_import extends JModel
 	public $_url = null;
 
 
-	function getData()
+	public function getData()
 	{
-		$thumb = new thumbnail();
+		$thumb = new thumbnail;
 		global $mainframe;
-		$obj_img = new thumbnail_images();
+		$obj_img = new thumbnail_images;
 		//$package=$this->getzipfilescount();
 		$this->getzipfilenames();
 
@@ -49,7 +49,7 @@ class zip_importModelzip_import extends JModel
 	}
 
 
-	function getzipfilescount()
+	public function getzipfilescount()
 	{
 		$x = 5;
 		$url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_reviews&domainname=" . $_SERVER['HTTP_HOST'] . "";
@@ -69,10 +69,11 @@ class zip_importModelzip_import extends JModel
 		exit;
 		curl_close($ch);
 		$x = count(explode(",", $content));
+
 		return $x;
 	}
 
-	function getzipfilenames()
+	public function getzipfilenames()
 	{
 		$live_path = JURI::base();
 		$user = JFactory::getUser();
@@ -106,7 +107,7 @@ class zip_importModelzip_import extends JModel
 	// 	related product sync
 
 
-	function install()
+	public function install()
 	{
 		global $mainframe;
 		$fileType = "url";
@@ -118,6 +119,7 @@ class zip_importModelzip_import extends JModel
 
 			default:
 				$this->setState('message', 'No Install Type Found');
+
 				return false;
 				break;
 		}
@@ -182,7 +184,7 @@ class zip_importModelzip_import extends JModel
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function _getPackageFromUrl()
+	public function _getPackageFromUrl()
 	{
 		// Get a database connector
 
@@ -235,7 +237,7 @@ class zip_importModelzip_import extends JModel
 	}
 
 
-	function _getPackageFromFolder()
+	public function _getPackageFromFolder()
 	{
 		$p_dir = JRequest::getString('install_directory');
 		$p_dir = JPath::clean($p_dir);
@@ -244,6 +246,7 @@ class zip_importModelzip_import extends JModel
 		if (!is_dir($p_dir))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
+
 			return false;
 		}
 
@@ -254,6 +257,7 @@ class zip_importModelzip_import extends JModel
 		if (!$type)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
+
 			return false;
 		}
 
@@ -267,5 +271,5 @@ class zip_importModelzip_import extends JModel
 
 
 }
-?>
+
 

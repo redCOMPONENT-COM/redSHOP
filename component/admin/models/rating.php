@@ -18,7 +18,7 @@ class ratingModelrating extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -34,7 +34,7 @@ class ratingModelrating extends JModel
 		$this->setState('comment_filter', $comment_filter);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -45,7 +45,7 @@ class ratingModelrating extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -56,7 +56,7 @@ class ratingModelrating extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -67,7 +67,7 @@ class ratingModelrating extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$comment_filter = $this->getState('comment_filter');
 
@@ -88,7 +88,7 @@ class ratingModelrating extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -101,4 +101,4 @@ class ratingModelrating extends JModel
 	}
 }
 
-?>
+

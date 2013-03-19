@@ -18,7 +18,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 	public $_data = null;
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -27,20 +27,22 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		$post = JRequest::get('post');
+
 		if ($this->_loadData())
 		{
 
 		}
 		else  $this->_initData();
+
 		if (isset($post['display_filename']))
 		{
 			$this->_data->display_filename = $post['display_filename'];
@@ -96,21 +98,22 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_import AS x "
 			. "WHERE x.xmlimport_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
+
 		return (boolean) $this->_data;
 	}
 
-	function getXMLImporturl()
+	public function getXMLImporturl()
 	{
 		return $this->_data->xmlimport_url;
 	}
 
-	function updateFile()
+	public function updateFile()
 	{
 		$post = JRequest::get('post');
 
@@ -140,12 +143,13 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		return $xmlimport_url;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		$user =& JFactory::getUser();
+
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->xmlimport_id = 0;
 			$detail->filename = null;
 			$detail->display_filename = null;
@@ -170,6 +174,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$detail->xmlimport_prdextrafieldtag = null;
 			$detail->published = 0;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
@@ -181,13 +186,14 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 	 * @access public
 	 * @return boolean
 	 */
-	function store($data, $import = 0)
+	public function store($data, $import = 0)
 	{
 //		echo "<pre>";
 //		print_r($data);
 //		die();
-		$xmlhelper = new xmlHelper();
+		$xmlhelper = new xmlHelper;
 		$resarray = array();
+
 		if (array_key_exists("xmlfiletag", $data))
 		{
 			$xmlfiletag = $data['xmlfiletag'];
@@ -202,6 +208,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$data['xmlimport_filetag'] = implode(";", $resarray);
 
 		$resarray = array();
+
 		if (array_key_exists("xmlbillingtag", $data))
 		{
 			$xmlfiletag = $data['xmlbillingtag'];
@@ -216,6 +223,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$data['xmlimport_billingtag'] = implode(";", $resarray);
 
 		$resarray = array();
+
 		if (array_key_exists("xmlshippingtag", $data))
 		{
 			$xmlfiletag = $data['xmlshippingtag'];
@@ -230,6 +238,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$data['xmlimport_shippingtag'] = implode(";", $resarray);
 
 		$resarray = array();
+
 		if (array_key_exists("xmlitemtag", $data))
 		{
 			$xmlfiletag = $data['xmlitemtag'];
@@ -244,6 +253,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$data['xmlimport_orderitemtag'] = implode(";", $resarray);
 
 		$resarray = array();
+
 		if (array_key_exists("xmlstocktag", $data))
 		{
 			$xmlfiletag = $data['xmlstocktag'];
@@ -258,6 +268,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$data['xmlimport_stocktag'] = implode(";", $resarray);
 
 		$resarray = array();
+
 		if (array_key_exists("xmlprdextrafieldtag", $data))
 		{
 			$xmlfiletag = $data['xmlprdextrafieldtag'];
@@ -277,18 +288,23 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		}
 
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		$row->published = $data['xmlpublished'];
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		$filename = $xmlhelper->writeXMLImportFile($row->xmlimport_id, $data['tmpxmlimport_url']);
+
 		if ($import == 1)
 		{
 //			XML IMPORTED FILE WILL IMPORT IN DATABASE
@@ -303,9 +319,10 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 	 * @access public
 	 * @return boolean
 	 */
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
-		$xmlhelper = new xmlHelper();
+		$xmlhelper = new xmlHelper;
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -314,6 +331,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			{
 				$result = $xmlhelper->getXMLImportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $result->filename;
+
 				if (is_file($rootpath))
 				{
 					unlink($rootpath);
@@ -323,25 +341,29 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_import_log '
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_import '
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function auto_syncpublish($cid = array(), $publish = 1)
+	public function auto_syncpublish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -351,9 +373,11 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				. ' SET auto_sync = ' . intval($publish)
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -366,7 +390,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 	 * @access public
 	 * @return boolean
 	 */
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -376,9 +400,11 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -386,4 +412,4 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 	}
 }
 
-?>
+

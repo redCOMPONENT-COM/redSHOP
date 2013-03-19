@@ -19,7 +19,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 	public $_copydata = null;
 	public $_containerdata = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -31,13 +31,13 @@ class stockroom_detailModelstockroom_detail extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -48,24 +48,25 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->stockroom_id = 0;
 			$detail->stockroom_name = null;
 			$detail->stockroom_desc = null;
@@ -76,23 +77,26 @@ class stockroom_detailModelstockroom_detail extends JModel
 			$detail->delivery_time = 'Days';
 			$detail->published = 1;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -118,7 +122,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 
 
@@ -129,34 +133,40 @@ class stockroom_detailModelstockroom_detail extends JModel
 			// delete stock of products
 			$query_product = 'DELETE FROM ' . $this->_table_prefix . 'product_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			// delete stock of products attribute stock
 			$query_product_attr = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product_attr);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			// delete stockroom
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -166,16 +176,18 @@ class stockroom_detailModelstockroom_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function frontpublish($cid = array(), $publish = 1)
+	public function frontpublish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -185,16 +197,18 @@ class stockroom_detailModelstockroom_detail extends JModel
 				. ' SET `show_in_front` = ' . intval($publish)
 				. ' WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function copy($cid = array())
+	public function copy($cid = array())
 	{
 		if (count($cid))
 		{
@@ -220,15 +234,16 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return true;
 	}
 
-	function stock_product_data($stockroom_id)
+	public function stock_product_data($stockroom_id)
 	{
 		$query = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , " . $this->_table_prefix . "stockroom_container_xref as cp  WHERE cp.stockroom_id=$stockroom_id and cp.container_id=p.container_id ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
+
 		return $this->_productdata;
 	}
 
-	function stock_product($container_id)
+	public function stock_product($container_id)
 	{
 		$query = "SELECT DISTINCT p.product_id as pid,p.product_name,p.product_number,p.product_volume,cp.quantity "
 			. "FROM " . $this->_table_prefix . "container as c , " . $this->_table_prefix . "stockroom_container_xref as sc,
@@ -236,10 +251,11 @@ class stockroom_detailModelstockroom_detail extends JModel
 	 		WHERE cp.product_id=p.product_id and cp.container_id=c.container_id and  c.container_id=$container_id and sc.container_id=c.container_id ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
+
 		return $this->_productdata;
 	}
 
-	function stock_container($stockroom_id)
+	public function stock_container($stockroom_id)
 	{
 		if ($stockroom_id != 0)
 		{
@@ -258,16 +274,18 @@ class stockroom_detailModelstockroom_detail extends JModel
 		}
 		$this->_db->setQuery($query);
 		$this->_containerdata = $this->_db->loadObjectList();
+
 		return $this->_containerdata;
 	}
 
-	function getStockRoomList()
+	public function getStockRoomList()
 	{
 		$query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 }
 
-?>
+

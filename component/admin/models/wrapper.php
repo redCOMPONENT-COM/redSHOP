@@ -19,7 +19,7 @@ class wrapperModelwrapper extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe;
@@ -37,13 +37,13 @@ class wrapperModelwrapper extends JModel
 		$this->setProductId((int) $product_id);
 	}
 
-	function setProductId($id)
+	public function setProductId($id)
 	{
 		$this->_productid = $id;
 		$this->_data = null;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -53,7 +53,7 @@ class wrapperModelwrapper extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -63,7 +63,7 @@ class wrapperModelwrapper extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -74,11 +74,12 @@ class wrapperModelwrapper extends JModel
 	}
 
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		//$orderby	= $this->_buildContentOrderBy();
 		$showall = JRequest::getVar('showall', '0');
 		$and = '';
+
 		if ($showall && $this->_productid != 0)
 		{
 			$and = 'WHERE FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1 ';
@@ -94,8 +95,9 @@ class wrapperModelwrapper extends JModel
 		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w '
 //				.'LEFT JOIN '.$this->_table_prefix.'product AS p ON p.product_id = w.product_id '
 			. $and;
+
 		return $query;
 	}
 }
 
-?>
+

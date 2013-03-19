@@ -20,7 +20,7 @@ class stateModelstate extends JModel
 	public $_context = null;
 
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -42,7 +42,7 @@ class stateModelstate extends JModel
 
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -54,7 +54,7 @@ class stateModelstate extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -65,7 +65,7 @@ class stateModelstate extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -75,7 +75,7 @@ class stateModelstate extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$country_id_filter = $this->getState('country_id_filter');
@@ -84,6 +84,7 @@ class stateModelstate extends JModel
 		$limit = $this->getState('limit');
 		$andcondition = '1=1';
 		$country_main_filter = addslashes($country_main_filter);
+
 		if ($country_id_filter > 0 && $country_main_filter == '')
 		{
 			$andcondition = 'c.country_id = ' . $country_id_filter;
@@ -111,25 +112,28 @@ class stateModelstate extends JModel
 		// slice out elements based on limits
 		$list = array_slice($list, $this->_pagination->limitstart, $this->_pagination->limit);
 		$items = $list;
+
 		return $items;
 		//return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
-	function getCountryName($country_id)
+	public function getCountryName($country_id)
 	{
 		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 }
 
-?>
+
