@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $Itemid = JRequest::getVar('Itemid');
 $uid = JRequest::getInt('uid');
@@ -16,13 +16,13 @@ $uid = JRequest::getInt('uid');
 	function validate() {
 		var form = document.adminForm;
 
-		if (((form.password.value != "") || (form.password2.value != "")) && (form.password.value != form.password2.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_PASSWORD_DONOT_MATCH', true ); ?>");
+		if (((form.password.value != "") || (form.password2.value != "")) && (form.password.value != form.password2.value))
+		{
+			alert("<?php echo JText::_('COM_REDSHOP_PASSWORD_DONOT_MATCH', true); ?>");
 			return false;
 		}
 		else {
 			form.submit();
-
 		}
 	}
 </script>
@@ -37,7 +37,9 @@ $uid = JRequest::getInt('uid');
 		<tr>
 			<td height="40">
 				<label for="password"
-				       title="<?php echo JText::_('COM_REDSHOP_ENTER_PASSWORD_MESSAGE'); ?>::<?php echo JText::_('COM_REDSHOP_RESET_GETPASSWORD_TOKEN_TIP_TEXT'); ?>"><?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>
+				       title="<?php echo JText::_('COM_REDSHOP_ENTER_PASSWORD_MESSAGE'); ?>::
+				       <?php echo JText::_('COM_REDSHOP_RESET_GETPASSWORD_TOKEN_TIP_TEXT'); ?>">
+					<?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>
 					:</label>
 			</td>
 			<td>
@@ -47,7 +49,9 @@ $uid = JRequest::getInt('uid');
 		<tr>
 			<td height="40">
 				<label for="password2"
-				       title="<?php echo JText::_('COM_REDSHOP_ENTER_VERIFY_PASSWORD_MESSAGE'); ?>::<?php echo JText::_('COM_REDSHOP_RESET_GETVERIFYPASSWORD_TOKEN_TIP_TEXT'); ?>"><?php echo JText::_('COM_REDSHOP_VERIFY_PASSWORD'); ?>
+				       title="<?php echo JText::_('COM_REDSHOP_ENTER_VERIFY_PASSWORD_MESSAGE'); ?>::
+				       <?php echo JText::_('COM_REDSHOP_RESET_GETVERIFYPASSWORD_TOKEN_TIP_TEXT'); ?>">
+					<?php echo JText::_('COM_REDSHOP_VERIFY_PASSWORD'); ?>
 					:</label>
 			</td>
 			<td>

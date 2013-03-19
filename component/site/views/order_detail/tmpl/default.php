@@ -7,24 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 $uri         =& JURI::getInstance();
 $url         = JURI::base();
-$redconfig   = new Redconfiguration();
-$extra_field = new extra_field ();
+$redconfig   = new Redconfiguration;
+$extra_field = new extra_field;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 
-$producthelper   = new producthelper();
-$redhelper       = new redhelper();
-$order_functions = new order_functions();
-$redTemplate     = new Redtemplate();
-$shippinghelper  = new shipping();
-$carthelper      = new rsCarthelper();
+$producthelper   = new producthelper;
+$redhelper       = new redhelper;
+$order_functions = new order_functions;
+$redTemplate     = new Redtemplate;
+$shippinghelper  = new shipping;
+$carthelper      = new rsCarthelper;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
@@ -32,8 +32,9 @@ $oid    = JRequest::getInt('oid');
 $print  = JRequest::getInt('print');
 
 $getshm    = $uri->getScheme();
-$config    = & JFactory::getConfig();
+$config    = JFactory::getConfig();
 $force_ssl = $config->getValue('force_ssl');
+
 if ($getshm == 'https' && $force_ssl > 2)
 {
 	$uri->setScheme('http');
@@ -52,14 +53,17 @@ if ($this->params->get('show_page_heading', 1))
 	?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?></div>
-<?php } ?>
+<?php
+}
+?>
 	<div><?php echo ORDER_DETAIL_INTROTEXT;?></div>
 <?php
 $model          = $this->getModel('order_detail');
 $OrdersDetail   = $this->OrdersDetail;
 $OrderProducts  = $order_functions->getOrderItemDetail($oid);
 $partialpayment = $order_functions->getOrderPartialPayment($oid);
-// get order Payment method information
+
+// Get order Payment method information
 
 if (USE_AS_CATALOG)
 {
@@ -69,6 +73,7 @@ if (USE_AS_CATALOG)
 else
 {
 	$orderslist_template = $redTemplate->getTemplate("order_detail");
+
 	if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc)
 	{
 		$orderslist_template = $orderslist_template[0]->template_desc;
@@ -88,6 +93,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $oid . "&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -97,16 +103,16 @@ $orderslist_template = str_replace("{print}", $print_tag, $orderslist_template);
 $arr_discount_type = array();
 $arr_discount      = explode('@', $OrdersDetail->discount_type);
 $discount_type     = '';
+
 for ($d = 0; $d < count($arr_discount); $d++)
 {
-
 	if ($arr_discount[$d])
 	{
-
 		$arr_discount_type = explode(':', $arr_discount[$d]);
 
 		if ($arr_discount_type[0] == 'c')
 			$discount_type .= JText::_('COM_REDSHOP_COUPEN_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
+
 		if ($arr_discount_type[0] == 'v')
 			$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
 	}
@@ -134,6 +140,7 @@ $split_amount = $OrdersDetail->order_total - $partialpayment;
 
 $split_amounttext = "";
 $payremaininglink = "";
+
 if ($issplit && ($split_amount > 0))
 {
 	$split_amounttext = "<br /><br />" . JText::_('COM_REDSHOP_RECEIPT_PARTIALLY_PAID_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($split_amount);
@@ -142,6 +149,7 @@ if ($issplit && ($split_amount > 0))
 
 $frm     = '';
 $reorder = '';
+
 if ($OrdersDetail->order_status != 'C' && $OrdersDetail->order_status != 'S' && $OrdersDetail->order_status != 'PR' && $OrdersDetail->order_status != 'APP' && $print != 1 && $OrdersDetail->order_payment_status != 'Paid')
 {
 	$frm = "<form method='post'>
@@ -161,16 +169,18 @@ else
 	$reorder .= "<input type='hidden' name='view' value='order_detail'>";
 	$reorder .= "<input type='hidden' name='task' value='reorder'></form>";
 }
+
 $search [] = "{order_status}";
+
 if (trim($OrdersDetail->order_payment_status) == 'Paid')
 {
 	$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 }
-else if (trim($OrdersDetail->order_payment_status) == 'Unpaid')
+elseif (trim($OrdersDetail->order_payment_status) == 'Unpaid')
 {
 	$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 }
-else if (trim($OrdersDetail->order_payment_status) == 'Partial Paid')
+elseif (trim($OrdersDetail->order_payment_status) == 'Partial Paid')
 {
 	$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
 }
@@ -178,6 +188,7 @@ else
 {
 	$orderPaymentStatus = $OrdersDetail->order_payment_status;
 }
+
 $replace[] = $statustext . " - " . $orderPaymentStatus . $split_amounttext . "    " . $payremaininglink . $frm;
 
 if (strstr($orderslist_template, "{order_status_order_only}"))
@@ -185,6 +196,7 @@ if (strstr($orderslist_template, "{order_status_order_only}"))
 	$search []  = "{order_status_order_only}";
 	$replace [] = $statustext;
 }
+
 if (strstr($orderslist_template, "{order_status_payment_only}"))
 {
 	$search []  = "{order_status_payment_only}";

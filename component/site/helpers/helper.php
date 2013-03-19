@@ -205,7 +205,7 @@ class redhelper
 			{
 				$arr[$i]->text = $ltext;
 			}
-			else if ($arr[$i]->country_jtext != "")
+			elseif ($arr[$i]->country_jtext != "")
 			{
 				$arr[$i]->text = $arr[$i]->country_jtext;
 			}
@@ -662,7 +662,7 @@ class redhelper
 							echo "Error opening $filename!";
 						}
 					}
-					else if (strtolower($ext) == "jpg")
+					elseif (strtolower($ext) == "jpg")
 					{
 						if (!$im2 = imagecreatefromjpeg($filename))
 						{
@@ -670,7 +670,7 @@ class redhelper
 							exit;
 						}
 					}
-					else if (strtolower($ext) == "png")
+					elseif (strtolower($ext) == "png")
 					{
 						if (!$im2 = imagecreatefrompng($filename))
 						{

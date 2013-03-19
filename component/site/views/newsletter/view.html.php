@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -20,7 +20,7 @@ class newsletterViewnewsletter extends JView
 		$params = & $mainframe->getParams('com_redshop');
 
 		$pathway  = & $mainframe->getPathway();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
 

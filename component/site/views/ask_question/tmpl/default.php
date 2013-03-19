@@ -7,30 +7,33 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 $uname = '';
 $uemail = '';
 $address = '';
 $telephone = '';
 $user = JFactory::getUser();
+
 if ($user->id)
 {
 	$uname  = $user->name;
 	$uemail = $user->email;
 }
+
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $pid = JRequest::getInt('pid');
 $ask = JRequest::getInt('ask');
 $category_id = JRequest::getInt('category_id');
-$document = & JFactory::getDocument();
-$userhelper = new rsUserhelper();
+$document = JFactory::getDocument();
+$userhelper = new rsUserhelper;
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 
-$template = $redTemplate->getTemplate('ask_question_template'); //& $this->get('template');
+$template = $redTemplate->getTemplate('ask_question_template');
+
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
 	$template_desc = $template[0]->template_desc;
@@ -47,6 +50,7 @@ else
 	function validateQuestion() {
 
 		var frm = document.frmaskquestion;
+
 		if (frm.your_name.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME');?>");
 			return false;

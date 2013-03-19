@@ -7,31 +7,33 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 
-$config        = new Redconfiguration();
-$producthelper = new producthelper();
-$redhelper     = new redhelper();
+$config        = new Redconfiguration;
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
 
 $url        = JURI::base();
 $option     = JRequest::getVar('option');
 $wishlists  = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
 $user       = JFactory::getUser();
+
 if (!$user->id)
 {
 	$rows = & $this->wish_products;
 	echo "<div class='mod_redshop_wishlist'>";
+
 	if (count($rows) > 0)
 	{
-		// send mail link
+		// Send mail link
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
 		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
 		display_products($rows);
@@ -42,11 +44,13 @@ if (!$user->id)
 	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
 	}
+
 	echo "</div>";
 }
-else // if user logged in than display this code.
+else // If user logged in than display this code.
 {
 	echo "<div class='mod_redshop_wishlist'>";
+
 	if (count($this->wish_session) > 0)
 	{
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
@@ -57,10 +61,12 @@ else // if user logged in than display this code.
 		echo "<a class=\"modal\" href=\"" . $mywishlist_link . "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" ><input type='submit' value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a>";
 		echo "<br /><br />";
 	}
+
 	if (count($wishlists) > 0)
 	{
 		$wish_products = & $this->wish_products;
-		// send mail link
+
+		// Send mail link
 		for ($j = 0; $j < count($wishlists); $j++)
 		{
 			$rows  = $wish_products[$wishlists[$j]->wishlist_id];
@@ -75,16 +81,18 @@ else // if user logged in than display this code.
 	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
 	}
+
 	echo "</div>";
 }
+
 function display_products($rows)
 {
 	$url        = JURI::base();
 	$option     = JRequest::getVar('option');
-	$extra_data = new producthelper();
+	$extra_data = new producthelper;
 
-	$producthelper = new producthelper();
-	$redhelper     = new redhelper();
+	$producthelper = new producthelper;
+	$redhelper     = new redhelper;
 
 	for ($i = 0; $i < count($rows); $i++)
 	{
@@ -102,12 +110,15 @@ function display_products($rows)
 				$thum_image = $producthelper->getProductImage($row->product_id, $link, "100", "100") . "
 			</div>";
 		}
+
 		echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
+
 		if ($row->product_on_sale && $product_price_discount > 0)
 		{
 			if ($product_price > $product_price_discount)
 			{
 				$s_price = $product_price - $product_price_discount;
+
 				if ($this->show_discountpricelayout)
 				{
 					echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
@@ -130,6 +141,7 @@ function display_products($rows)
 		{
 			echo "<div class='mod_redproducts_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
 		}
+
 		echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
 
 		echo $addtocartdata = $producthelper->replaceCartTemplate($row->product_id);

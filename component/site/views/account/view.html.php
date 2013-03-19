@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -17,7 +17,7 @@ class accountViewaccount extends JView
 	{
 		global $mainframe, $context;
 
-		$prodhelperobj = new producthelper();
+		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		$option = JRequest::getVar('option');
@@ -25,27 +25,29 @@ class accountViewaccount extends JView
 		$layout = JRequest::getVar('layout');
 		$params = & $mainframe->getParams($option);
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$model = $this->getModel();
 		$user  = JFactory::getUser();
 
 		$userdata = $model->getuseraccountinfo($user->id);
+
 		if (!count($userdata) && $layout != 'mywishlist')
 		{
 			$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
 			$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid, $msg);
 		}
+
 		$layout = JRequest::getVar('layout', 'default');
 		$mail   = JRequest::getVar('mail');
-		// preform security checks
-		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // give permission to send wishlist while not logged in )
+
+		// Preform security checks
+		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
 		{
 			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 
 			return;
 		}
-
 
 		if ($layout == 'mytags')
 		{
@@ -56,7 +58,6 @@ class accountViewaccount extends JView
 
 			if ($remove == 1)
 			{
-
 				$model->removeTag();
 			}
 
@@ -84,7 +85,6 @@ class accountViewaccount extends JView
 
 			if ($remove == 1)
 			{
-
 				$model->removeWishlistProduct();
 			}
 
@@ -95,13 +95,13 @@ class accountViewaccount extends JView
 			$pagination  = new redPagination($total, $limitstart, $limit);
 			$this->assignRef('pagination', $pagination);
 		}
+
 		if ($layout == 'compare')
 		{
 			$remove = JRequest::getVar('remove', 0);
 
 			if ($remove == 1)
 			{
-
 				$model->removeCompare();
 			}
 
@@ -116,7 +116,7 @@ class accountViewaccount extends JView
 		// RedCRM Template
 
 		// Helper object
-		$helper = new redhelper();
+		$helper = new redhelper;
 
 		if ($layout == "default" && $helper->isredCRM())
 		{

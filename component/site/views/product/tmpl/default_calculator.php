@@ -7,30 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-$rsCarthelper = new rsCarthelper();
+$rsCarthelper = new rsCarthelper;
 
 $product_id = JRequest::getInt('pid', 0);
 
 $Itemid = JRequest::getVar('Itemid');
 $url    = JURI::base();
-// get Model
+
+// Get Model
 $model = $this->getModel('product');
 
 
-// check that we need to use discount calculator
+// Check that we need to use discount calculator
 
-// default calculation method
+// Default calculation method
 $calcMethod = $this->data->discount_calc_method;
 
-// default calculation unit
-//$globalUnit = $this->data->discount_calc_unit;
+// Default calculation unit
+// $globalUnit = $this->data->discount_calc_unit;
 
-// calculation prices as per various area
+// Calculation prices as per various area
 $discount_calc_data = $rsCarthelper->getDiscountCalcData(0, $this->data->product_id);
 
-// calculation UNIT
+// Calculation UNIT
 $calcoption         = array();
 $calcoption[]       = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
 $calcoption[]       = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
@@ -71,9 +72,9 @@ switch ($calcMethod)
 
 $pdc_extra_output = "";
 $pdc_extra_datas  = $rsCarthelper->getDiscountCalcDataExtra("", $this->data->product_id);
+
 for ($p = 0; $p < count($pdc_extra_datas); $p++)
 {
-
 	$pdc_extra_data = $pdc_extra_datas[$p];
 	$option_name    = $pdc_extra_data->option_name;
 	$pdcextra_id    = $pdc_extra_data->pdcextra_id;

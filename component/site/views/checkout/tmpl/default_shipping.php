@@ -7,19 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+defined('_JEXEC') or die;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$redTemplate = new Redtemplate();
-$carthelper = new rsCarthelper();
+$redTemplate = new Redtemplate;
+$carthelper = new rsCarthelper;
 
 $post = JRequest::get('POST');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $shippingbox_template = $redTemplate->getTemplate("shipping_box");
+
 if (count($shippingbox_template) > 0 && $shippingbox_template[0]->template_desc)
 {
 	$box_template_desc = $shippingbox_template[0]->template_desc;
@@ -30,6 +31,7 @@ else
 }
 
 $shipping_template = $redTemplate->getTemplate("redshop_shipping");
+
 if (count($shipping_template) > 0 && $shipping_template[0]->template_desc)
 {
 	$template_desc = $shipping_template[0]->template_desc;
@@ -41,13 +43,15 @@ else
 
 if ($this->users_info_id > 0)
 {
-	$shippinghelper          = new shipping();
+	$shippinghelper          = new shipping;
 	$shippingBoxes           = $shippinghelper->getShippingBox();
 	$selshipping_box_post_id = 0;
+
 	if (count($shippingBoxes) > 0)
 	{
 		$selshipping_box_post_id = $shippingBoxes[0]->shipping_box_id;
 	}
+
 	if (isset($post['shipping_box_id']))
 	{
 		$shipping_box_post_id = $post['shipping_box_id'];
@@ -56,6 +60,7 @@ if ($this->users_info_id > 0)
 	{
 		$shipping_box_post_id = $selshipping_box_post_id;
 	}
+
 	$box_template_desc = $carthelper->replaceShippingBoxTemplate($box_template_desc, $shipping_box_post_id);
 	echo eval("?>" . $box_template_desc . "<?php ");
 
@@ -65,44 +70,6 @@ if ($this->users_info_id > 0)
 	$this->shipping_rate_id = $returnarr['shipping_rate_id'];
 
 	echo eval("?>" . $template_desc . "<?php ");
-	/*$database =  jFactory::getDBO();
-	$sql = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'" ;
-	$database->setQuery($sql);
-   	$isEnabled = $database->loadResult();
-
-	if($isEnabled)
-	{
-	
-		JPluginHelper::importPlugin('rs_labels_GLS');
-		$dispatcher 				=& JDispatcher::getInstance();
-		$sql = "SELECT  * FROM #__".TABLE_PREFIX."_users_info WHERE users_info_id='" . $this->users_info_id . "'" ;
-		$database->setQuery($sql);
-	   	$values = $database->loadObject();
-
-
-		$ShopResponses				= $dispatcher->trigger('GetNearstParcelShops',array( $values));
-		$ShopRespons				= $ShopResponses[0];
-
-		if(count($ShopRespons)>0)
-			$output						= '<fieldset><legend><b>'.JText::_( 'PACKAGE_COLLETCTION_SHOP' ).'</b></legend><table>';
-
-		for($i=0;$i<count($ShopRespons);$i++)
-		{
-			if($i<= (count($ShopRespons)-1)){
-				$checked = 'checked="checked"';
-			}
-			$output .= "<tr><td><input type='radio' $checked id='shop_id_". $ShopRespons[$i]->Number."' name='shop_id' value='". $ShopRespons[$i]->shop_id ."' />"  ;
-			$output .= $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname.", ". $ShopRespons[$i]->ZipCode . ", ". $ShopRespons[$i]->CityName . "</td></tr>";
-			$output .= "<tr><td>".$ShopRespons[$i]->openingTime. "</td></tr>";
-
-		}
-
-		if(count($ShopRespons)>0)
-		{
-			$output						.= '</table></fieldset>';
-			echo   $output;
-		}
-	}*/
 }
 else
 {

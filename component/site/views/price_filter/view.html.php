@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 class price_filterViewprice_filter extends JView
@@ -15,8 +15,7 @@ class price_filterViewprice_filter extends JView
 	public function display($tpl = null)
 	{
 		$prdlist = $this->get('Data');
-//		$prdlist = JRequest::getVar('prdlist');
-//		print_r($prdlist);
+
 		$this->assignRef('prdlist', $prdlist);
 
 		parent::display($tpl);

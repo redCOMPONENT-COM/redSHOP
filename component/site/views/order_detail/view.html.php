@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
 class order_detailVieworder_detail extends JView
 {
@@ -23,6 +23,7 @@ class order_detailVieworder_detail extends JView
 		$order_functions = new order_functions;
 
 		$print = JRequest::getVar('print');
+
 	if ($print)
 	{
 		?>
@@ -34,7 +35,7 @@ class order_detailVieworder_detail extends JView
 
 		$params = & $mainframe->getParams('com_redshop');
 
-		$prodhelperobj = new producthelper();
+		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		$user     = JFactory::getUser();

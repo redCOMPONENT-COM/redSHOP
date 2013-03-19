@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
@@ -25,10 +25,11 @@ $show_addtocart = JRequest::getVar('show_addtocart');
 $show_discountpricelayout = JRequest::getVar('show_discountpricelayout');
 $show_desc = JRequest::getVar('show_desc');
 $k = 0;
-$configobj = new Redconfiguration();
-// get product helper
-require_once(JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php');
-$producthelper = new producthelper();?>
+$configobj = new Redconfiguration;
+
+// Get product helper
+require_once JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php';
+$producthelper = new producthelper;?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php
 	for ($i = 0; $i < count($this->prdlist); $i++)
@@ -48,13 +49,15 @@ $producthelper = new producthelper();?>
 				<td>
 					<?php    $thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
 					echo "<div class='mod_redshop_pricefilter'>";
+
 					if ($image)
 					{
 						echo $thum_image . "<br>";
 					}
+
 					echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
 
-					//$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
+					// $product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 					$productArr = $producthelper->getProductNetPrice($row->product_id);
 					$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
@@ -72,6 +75,7 @@ $producthelper = new producthelper();?>
 							{
 								$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
 							}
+
 							$pricetext   = "";
 							$disply_text = "<div class='mod_redproducts_price'>" . $product_price_dis . "</div>";
 
@@ -82,6 +86,7 @@ $producthelper = new producthelper();?>
 									$disply_text = "";
 									$s_price     = $product_price - $product_price_discount;
 									$tmpprcie    = $product_price_discount;
+
 									if ($show_discountpricelayout)
 									{
 										$pricetext = "<div id='mod_redoldprice' class='mod_redoldprice'>";
@@ -95,6 +100,7 @@ $producthelper = new producthelper();?>
 									}
 								}
 							}
+
 							echo $pricetext . $disply_text;
 						}
 						else
@@ -114,12 +120,14 @@ $producthelper = new producthelper();?>
 						$addtocartform = $producthelper->replaceCartTemplate($row->product_id);
 						echo "<div>" . $addtocartform . "<div>";
 					}
+
 					echo "</div>";    ?>
 				</td>
 			</tr>
 		<?php
 		}
 	}
+
 	if (!$k)
 	{
 		echo "<tr><td>" . JText::_('COM_REDSHOP_NO_PRODUCT_FOUND') . "</td></tr>";

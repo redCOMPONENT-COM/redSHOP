@@ -8,15 +8,17 @@
  */
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+
 class cartViewcart extends JView
 {
 	public function display($tpl = null)
 	{
 		global $mainframe;
+
 		// Request variables
-		$redTemplate = new Redtemplate();
-		$user        = & JFactory::getUser();
+		$redTemplate = new Redtemplate;
+		$user        = JFactory::getUser();
 
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
@@ -34,11 +36,14 @@ class cartViewcart extends JView
 		{
 			$mainframe->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
 		}
+
 		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{
 			$cart_data = $redTemplate->getTemplate("empty_cart");
+
 			if (count($cart_data) > 0 && $cart_data[0]->template_desc != "")
 			{
 				$cart_template = $cart_data[0]->template_desc;
@@ -47,6 +52,7 @@ class cartViewcart extends JView
 			{
 				$cart_template = JText::_("COM_REDSHOP_EMPTY_CART");
 			}
+
 			echo eval ("?>" . $cart_template . "<?php ");
 
 			return false;

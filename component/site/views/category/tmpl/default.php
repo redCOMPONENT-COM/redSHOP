@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$objhelper     = new redhelper();
-$config        = new Redconfiguration();
-$producthelper = new producthelper();
-$extraField    = new extraField();
-$redTemplate   = new Redtemplate();
+$objhelper     = new redhelper;
+$config        = new Redconfiguration;
+$producthelper = new producthelper;
+$extraField    = new extraField;
+$redTemplate   = new Redtemplate;
 
 $url    = JURI::base();
 $option = JRequest::getVar('option');
@@ -26,6 +26,7 @@ $print  = JRequest::getVar('print');
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
+
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
 	$template_desc = $loadCategorytemplate[0]->template_desc;
@@ -36,24 +37,29 @@ else
 }
 
 $endlimit = count($this->detail);
+
 if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
 {
 	$endlimit = $model->getProductPerPage();
 }
 
-$mainframe = & JFactory::getApplication();
+$mainframe = JFactory::getApplication();
 $router    = & $mainframe->getRouter();
-$uri       = new JURI ('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
-//$router->setVars ( $uri->_vars );
+$uri       = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
+
+// $router->setVars ( $uri->_vars );
+
 if ($this->params->get('show_page_heading', 0))
 {
 	if (!$catid)
 		echo '<div class="category_title' . $this->escape($this->params->get('pageclass_sfx')) . '">';
 	else
 		echo '<div class="category' . $this->escape($this->params->get('pageclass_sfx')) . '">';
+
 	if (!$catid)
 	{
 		echo '<h1>';
+
 		if ($this->params->get('page_title') != $this->pageheadingtag)
 		{
 			echo $this->escape($this->params->get('page_title'));
@@ -62,8 +68,10 @@ if ($this->params->get('show_page_heading', 0))
 		{
 			echo $this->pageheadingtag;
 		}
+
 		echo '</h1>';
 	}
+
 	echo '</div>';
 }
 
@@ -76,6 +84,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -118,6 +127,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
 	$cat_detail     = "";
+
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
 		$row = & $this->detail[$i];
@@ -125,6 +135,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$data_add = $middletemplate_desc;
 
 		$cItemid = $objhelper->getCategoryItemid($row->category_id);
+
 		if ($cItemid != "")
 		{
 			$tmpItemid = $cItemid;
@@ -141,16 +152,18 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$alt         = " alt='" . $row->category_name . "' ";
 		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 		$linkimage   = $product_img;
+
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
 			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
 			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
-		else if (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
+		elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 		{
 			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
 			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
+
 		if (CAT_IS_LIGHTBOX)
 		{
 			$cat_thumb = "<a class='modal' href='" . $linkimage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
@@ -159,6 +172,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		{
 			$cat_thumb = "<a href='" . $link . "' " . $title . ">";
 		}
+
 		$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
 		$cat_thumb .= "</a>";
 		$data_add = str_replace($tag, $cat_thumb, $data_add);
@@ -168,21 +182,25 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->category_name . '</a>';
 			$data_add = str_replace("{category_name}", $cat_name, $data_add);
 		}
+
 		if (strstr($data_add, '{category_readmore}'))
 		{
 			$cat_name = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
 			$data_add = str_replace("{category_readmore}", $cat_name, $data_add);
 		}
+
 		if (strstr($data_add, '{category_description}'))
 		{
 			$cat_desc = $config->maxchar($row->category_description, CATEGORY_DESC_MAX_CHARS, CATEGORY_DESC_END_SUFFIX);
 			$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 		}
+
 		if (strstr($data_add, '{category_short_desc}'))
 		{
 			$cat_s_desc = $config->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
 			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
+
 		if (strstr($data_add, '{category_total_product}'))
 		{
 			$totalprd = $producthelper->getProductCategory($row->category_id);
@@ -196,17 +214,19 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		 */
 		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
 
-		// shopper group category ACL
+		// Shopper group category ACL
 		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
-//		$readmorelink = JRoute::_ ( 'index.php?option='.$option.'&view=category&cid='.$row->category_id.'&layout=detail&Itemid='.$tmpItemid );
+
 		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$data_add  = str_replace("{read_more}", $read_more, $data_add);
 		$sgportal  = $objhelper->getShopperGroupPortal();
 		$portal    = 0;
+
 		if (count($sgportal) > 0)
 		{
 			$portal = $sgportal->shopper_group_portal;
 		}
+
 		if (PORTAL_SHOP == 1)
 		{
 			if ($checkcid != "")
@@ -220,7 +240,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			{
 				$cat_detail .= $data_add;
 			}
-			else if ($portal == 0)
+			elseif ($portal == 0)
 			{
 				$cat_detail .= $data_add;
 			}
@@ -234,12 +254,6 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 if (strstr($template_desc, "{filter_by}"))
 {
-//	$filterby_form = "<form name='filterby_form' action='' method='post' >";
-//	$filterby_form .= $this->lists['manufacturer'];
-//	$filterby_form .= "<input type='hidden' name='order_by' id='order_by' value='".$this->order_by_select."' />";
-//	$filterby_form .= "<input type='hidden' name='category_template' id='category_template' value='".$this->category_template_id."' />";
-//	$filterby_form .= "</form>";
-
 	$template_desc = str_replace("{filter_by_lbl}", "", $template_desc);
 	$template_desc = str_replace("{filter_by}", "", $template_desc);
 }
@@ -267,17 +281,20 @@ if (strstr($template_desc, "{show_all_products_in_category}"))
 	$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
 	$template_desc = str_replace("{pagination}", "", $template_desc);
 }
+
 if (strstr($template_desc, "{pagination}"))
 {
 	$pagination    = $model->getCategoryPagination();
 	$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
 }
+
 if (strstr($template_desc, "perpagelimit:"))
 {
 	$perpage       = explode('{perpagelimit:', $template_desc);
 	$perpage       = explode('}', $perpage[1]);
 	$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
 }
+
 if (strstr($template_desc, "{product_display_limit}"))
 {
 	$template_desc = str_replace("{product_display_limit}", '', $template_desc);

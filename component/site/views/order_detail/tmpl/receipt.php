@@ -7,20 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 
-$carthelper = new rsCarthelper();
-$redconfig = new Redconfiguration();
-$configobj = new Redconfiguration();
-$redTemplate = new Redtemplate();
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
+$carthelper = new rsCarthelper;
+$redconfig = new Redconfiguration;
+$configobj = new Redconfiguration;
+$redTemplate = new Redtemplate;
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
 
 $db = JFactory::getDBO();
 $url = JURI::base();
@@ -28,17 +28,23 @@ $Itemid = $redhelper->getCheckoutItemid();
 $option = JRequest::getVar('option');
 $order_id = JRequest::getInt('oid');
 
-//for barcode
+// For barcode
 $model = $this->getModel('order_detail');
-$order = $this->OrdersDetail; //$order_functions->getOrderDetails($order_id);
+
+// $order_functions->getOrderDetails($order_id);
+$order = $this->OrdersDetail;
 $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEIPT_INTROTEXT);
 ?>
-<?php if ($this->params->get('show_page_title', 1))
-{ ?>
+<?php
+if ($this->params->get('show_page_title', 1))
+{
+?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
 	</div>
-<?php } ?>
+<?php
+}
+?>
 	<hr/>
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
 		<tr>
@@ -49,8 +55,8 @@ $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEI
 	</table>
 	<hr/>
 	<div>
-		<?php echo $thankyou_text;
-		//echo stripslashes(ORDER_RECEIPT_INTROTEXT);
+		<?php
+		echo $thankyou_text;
 		?>
 	</div>
 	<br/>
@@ -65,6 +71,7 @@ if (USE_AS_CATALOG)
 else
 {
 	$ReceiptTemplate = $redTemplate->getTemplate("order_receipt");
+
 	if (count($ReceiptTemplate) > 0 && $ReceiptTemplate[0]->template_desc)
 	{
 		$ReceiptTemplate = $ReceiptTemplate[0]->template_desc;
@@ -78,8 +85,10 @@ else
 $orderitem = $order_functions->getOrderItemDetail($order_id);
 
 $print = JRequest::getVar('print');
-//$p_url =@ explode ('?',$_SERVER['REQUEST_URI']);
-//$print_tag = '';
+
+// $p_url =@ explode ('?',$_SERVER['REQUEST_URI']);
+
+// $print_tag = '';
 
 if ($print)
 {
@@ -90,6 +99,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=order_detail&layout=receipt&oid=" . $order_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -102,7 +112,7 @@ $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_
 $ReceiptTemplate = str_replace("{barcode}", $bar_replace, $ReceiptTemplate);
 $ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
 
-# added new tag
+// Added new tag
 /**
  * The Tag {txtextra_info} to display some extra information about payment method ( Only For display purpose ).
  *
@@ -120,7 +130,8 @@ $params = new JParameter($plugin->params);
 $txtextra_info = $params->get('txtextra_info');
 
 $ReceiptTemplate = str_replace("{txtextra_info}", $txtextra_info, $ReceiptTemplate);
-# End
+
+// End
 
 $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
 
@@ -129,38 +140,39 @@ $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
  * trigger content plugin
  */
 $dispatcher = & JDispatcher::getInstance();
-$o          = new stdClass();
+$o          = new stdClass;
 $o->text    = $ReceiptTemplate;
 JPluginHelper::importPlugin('content');
 $x               = array();
 $results         = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 $ReceiptTemplate = $o->text;
-# End
+
+// End
 
 echo eval("?>" . $ReceiptTemplate . "<?php ");
 
-# handle order total for split payment
-$session =& JFactory::getSession();
+// Handle order total for split payment
+$session = JFactory::getSession();
 $issplit = $session->get('issplit');
+
 if ($issplit)
 {
-
 	$split_amount       = ($order->order_total) / 2;
 	$order->order_total = $split_amount;
 }
-# End
+
+// End
 
 $billingaddresses = $model->billingaddresses();
 
-# google analytics code added
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php');
-$googleanalytics = new googleanalytics();
+// Google analytics code added
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
+$googleanalytics = new googleanalytics;
 
 $analytics_status = $order->analytics_status;
 
 if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 {
-
 	$orderTrans                   = array();
 	$orderTrans['order_id']       = $order->order_id;
 	$orderTrans['shopname']       = SHOP_NAME;
@@ -168,24 +180,25 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 	$orderTrans['order_tax']      = $order->order_tax;
 	$orderTrans['order_shipping'] = $order->order_shipping;
 	$orderTrans['city']           = $billingaddresses->city;
+
 	if (isset($billingaddresses->country_code))
 		$orderTrans['state'] = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
+
 	if (isset($billingaddresses->country_code))
 		$orderTrans['country'] = $order_functions->getCountryName($billingaddresses->country_code);
 
-	# collect data for google analytics
-	# initiallize variable
+	// Collect data for google analytics
+	// Initiallize variable
 	$analyticsData = array();
 
-	# collect data to add transaction = order
+	// Collect data to add transaction = order
 	$analyticsData['addtrans'] = $orderTrans;
 
-	# start array to collect data to addItems
+	// Start array to collect data to addItems
 	$analyticsData['addItem'] = array();
 
 	for ($k = 0; $k < count($orderitem); $k++)
 	{
-
 		$orderaddItem = array();
 
 		$orderaddItem['order_id']         = $orderitem[$k]->order_id;
@@ -204,6 +217,5 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 }
 else
 {
-
 	$googleanalytics->placeTrans();
 }
