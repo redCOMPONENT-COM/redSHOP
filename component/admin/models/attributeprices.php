@@ -20,7 +20,7 @@ class attributepricesModelattributeprices extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe;
@@ -39,14 +39,14 @@ class attributepricesModelattributeprices extends JModel
 		$this->setSectionId((int) $section_id);
 	}
 
-	function setSectionId($id)
+	public function setSectionId($id)
 	{
 		// Set employees_detail id and wipe data
 		$this->_sectionid = $id;
 		$this->_data = null;
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -56,7 +56,7 @@ class attributepricesModelattributeprices extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -66,7 +66,7 @@ class attributepricesModelattributeprices extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -76,7 +76,7 @@ class attributepricesModelattributeprices extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		if ($this->_section == "property")
 		{
@@ -93,8 +93,9 @@ class attributepricesModelattributeprices extends JModel
 			. $q
 			. 'WHERE p.section_id="' . $this->_sectionid . '" '
 			. 'AND p.section = "' . $this->_section . '" ';
+
 		return $query;
 	}
 }
 
-?>
+

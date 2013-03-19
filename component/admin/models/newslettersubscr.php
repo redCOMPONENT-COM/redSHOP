@@ -18,7 +18,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 	public $_table_prefix = null;
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -34,7 +34,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		$this->setState('filter', $filter);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -44,7 +44,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -54,7 +54,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -65,10 +65,11 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
 		$where = '';
+
 		if ($filter)
 		{
 			$where = " AND (ns.name like '%" . $filter . "%' OR ns.email like '%" . $filter . "%') ";
@@ -80,10 +81,11 @@ class newslettersubscrModelnewslettersubscr extends JModel
 			. 'WHERE ns.newsletter_id=n.newsletter_id '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -95,21 +97,23 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $orderby;
 	}
 
-	function getnewslettername($nid)
+	public function getnewslettername($nid)
 	{
 		$query = 'SELECT name FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id=' . $nid;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
-	function getnewsletters()
+	public function getnewsletters()
 	{
 		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
-	function importdata($nid, $name, $email)
+	public function importdata($nid, $name, $email)
 	{
 
 		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))
@@ -121,6 +125,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 			else
@@ -131,4 +136,4 @@ class newslettersubscrModelnewslettersubscr extends JModel
 	}
 }
 
-?>
+

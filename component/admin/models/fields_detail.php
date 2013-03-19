@@ -19,7 +19,7 @@ class fields_detailModelfields_detail extends JModel
 	public $_table_prefix = null;
 	public $_fielddata = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -31,13 +31,13 @@ class fields_detailModelfields_detail extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -48,23 +48,24 @@ class fields_detailModelfields_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'fields  WHERE field_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->field_id = 0;
 			$detail->field_title = null;
 			$detail->wysiwyg = null;
@@ -82,12 +83,13 @@ class fields_detailModelfields_detail extends JModel
 			$detail->published = 1;
 			$detail->display_in_product = 0;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 		$field_cid = $data['cid'][0];
@@ -100,28 +102,32 @@ class fields_detailModelfields_detail extends JModel
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		return $row;
 	}
 
-	function field_save($id, $post)
+	public function field_save($id, $post)
 	{
-		$extra_field = new extra_field();
+		$extra_field = new extra_field;
 		$value_id = array();
 		$extra_name = array();
 		$extra_value = array();
+
 		if (array_key_exists("value_id", $post))
 		{
 			//$extra_value = $post["extra_value"];
 			$extra_value = JRequest::getVar('extra_value', '', 'post', 'string', JREQUEST_ALLOWRAW);
 			$value_id = $post["value_id"];
+
 			if ($post["field_type"] == 11 || $post["field_type"] == 13)
 			{
 				$extra_name = & JRequest::getVar('extra_name_file', '', 'files', 'array');
@@ -145,6 +151,7 @@ class fields_detailModelfields_detail extends JModel
 				$fid[] = $f->value_id;
 			}
 			$del_fid = array_diff($fid, $value_id);
+
 			if (count($del_fid) > 0)
 			{
 				$this->field_delete($del_fid, 'value_id');
@@ -153,6 +160,7 @@ class fields_detailModelfields_detail extends JModel
 		for ($j = 0; $j < $total; $j++)
 		{
 			$set = "";
+
 			if ($post["field_type"] == 11 || $post["field_type"] == 13)
 			{
 				if ($extra_value[$j] != "" && $extra_name['name'][$j] != "")
@@ -185,28 +193,32 @@ class fields_detailModelfields_detail extends JModel
 					. "WHERE value_id='" . $value_id[$j] . "' ";
 			}
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
 	}
 
-	function field_delete($id, $field)
+	public function field_delete($id, $field)
 	{
 		$id = implode(',', $id);
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'fields_value WHERE ' . $field . ' IN ( ' . $id . ' )';
 
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -214,15 +226,18 @@ class fields_detailModelfields_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'fields WHERE field_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			// 	remove fields_data
 			$query_field_data = 'DELETE FROM ' . $this->_table_prefix . 'fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query_field_data);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
@@ -234,7 +249,7 @@ class fields_detailModelfields_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -244,9 +259,11 @@ class fields_detailModelfields_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE field_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -255,7 +272,7 @@ class fields_detailModelfields_detail extends JModel
 	}
 
 
-	function saveorder($cid = array(), $order)
+	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable();
 		$groupings = array();
@@ -271,9 +288,11 @@ class fields_detailModelfields_detail extends JModel
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 				// remember to updateOrder this group
@@ -311,10 +330,11 @@ class fields_detailModelfields_detail extends JModel
 		 * @access public
 		 * @return boolean
 		 */
-	function MaxOrdering()
+	public function MaxOrdering()
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -325,19 +345,21 @@ class fields_detailModelfields_detail extends JModel
 	 * @return  boolean True on success
 	 * @since 0.9
 	 */
-	function move($direction)
+	public function move($direction)
 	{
 		$row =& JTable::getInstance('fields_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->move($direction))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -350,15 +372,16 @@ class fields_detailModelfields_detail extends JModel
 	 * @access public
 	 * @return boolean
 	 */
-	function checkFieldname($field_name, $field_id)
+	public function checkFieldname($field_name, $field_id)
 	{
 		$query = "SELECT COUNT(*) AS cnt FROM " . $this->_table_prefix . "fields "
 			. "WHERE field_name='" . $field_name . "' "
 			. "AND field_id!='" . $field_id . "' ";
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadResult();
+
 		return (boolean) $result;
 	}
 }
 
-?>
+

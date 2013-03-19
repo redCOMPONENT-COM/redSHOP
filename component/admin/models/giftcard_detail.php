@@ -18,7 +18,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 	public $_table_prefix = null;
 	public $_copydata = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -30,13 +30,13 @@ class giftcard_detailModelgiftcard_detail extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
@@ -47,24 +47,25 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'giftcard WHERE giftcard_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
 
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->giftcard_id = 0;
 			$detail->giftcard_name = null;
 			$detail->giftcard_validity = null;
@@ -84,19 +85,21 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 		//------------ Start Giftcard Image insertion --------------------
 
 		$giftcardfile =& JRequest::getVar('giftcard_image', '', 'files', 'array');
 		$giftcardimg = "";
+
 		if ($giftcardfile['name'] != "")
 		{
 			$giftcardfile['name'] = str_replace(" ", "_", $giftcardfile['name']);
@@ -115,6 +118,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 
 		$giftcardbgfile =& JRequest::getVar('giftcard_bgimage', '', 'files', 'array');
 		$giftcardbgimg = "";
+
 		if ($giftcardbgfile['name'] != "")
 		{
 			$giftcardbgfile['name'] = str_replace(" ", "_", $giftcardbgfile['name']);
@@ -132,14 +136,15 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic();
+			$economic = new economic;
 
-			$giftdata = new stdClass();
+			$giftdata = new stdClass;
 			$giftdata->product_id = $row->giftcard_id;
 			$giftdata->product_number = "gift_" . $row->giftcard_id . "_" . $row->giftcard_name;
 			$giftdata->product_name = $row->giftcard_name;
@@ -154,7 +159,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -162,9 +167,11 @@ class giftcard_detailModelgiftcard_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'giftcard WHERE giftcard_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -172,7 +179,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -181,9 +188,11 @@ class giftcard_detailModelgiftcard_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE giftcard_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -191,7 +200,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 		return true;
 	}
 
-	function copy($cid = array())
+	public function copy($cid = array())
 	{
 
 		if (count($cid))
@@ -228,4 +237,4 @@ class giftcard_detailModelgiftcard_detail extends JModel
 
 }
 
-?>
+
