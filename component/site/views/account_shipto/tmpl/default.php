@@ -45,6 +45,7 @@ if ($this->params->get('show_page_heading', 1))
 			</tr>
 		<?php
 		}
+
 		for ($i = 0; $i < count($this->shippingaddresses); $i++)
 		{
 			$edit_addlink = "index.php?option=" . $option . "&view=account_shipto&task=addshipping&infoid=" . $this->shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;?>

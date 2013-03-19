@@ -468,6 +468,7 @@ function display_products($rows)
 						$cart_id = $j;
 					}
 				}
+
 				for ($ui = 0; $ui < count($userfieldArr); $ui++)
 				{
 					if (!$idx)

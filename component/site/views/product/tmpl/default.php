@@ -1116,6 +1116,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 			$cart_id = $j;
 		}
 	}
+
 	for ($ui = 0; $ui < count($userfieldArr); $ui++)
 	{
 		if (!$idx)

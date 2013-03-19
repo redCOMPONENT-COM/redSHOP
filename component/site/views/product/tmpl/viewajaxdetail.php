@@ -96,6 +96,7 @@ if (count($ajaxdetal_template) > 0)
 				$cart_id = $j;
 			}
 		}
+
 		for ($ui = 0; $ui < count($userfieldArr); $ui++)
 		{
 			if (!$idx)
