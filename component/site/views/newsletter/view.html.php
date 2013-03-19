@@ -20,7 +20,7 @@ class newsletterViewnewsletter extends JView
 		$params = & $mainframe->getParams('com_redshop');
 
 		$pathway  = & $mainframe->getPathway();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
 

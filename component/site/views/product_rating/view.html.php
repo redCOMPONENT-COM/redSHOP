@@ -19,9 +19,9 @@ class product_ratingViewproduct_rating extends JView
 		global $mainframe;
 		$producthelper = new producthelper;
 		$pathway       = & $mainframe->getPathway();
-		$document      = & JFactory::getDocument();
+		$document      = JFactory::getDocument();
 
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Preform security checks
 		if ($user->id == 0)
@@ -38,7 +38,7 @@ class product_ratingViewproduct_rating extends JView
 		$Itemid        = JRequest::getVar('Itemid');
 		$product_id    = JRequest::getInt('product_id');
 		$category_id   = JRequest::getInt('category_id');
-		$user          = & JFactory::getUser();
+		$user          = JFactory::getUser();
 		$model         = $this->getModel('product_rating');
 		$rate          = JRequest::getVar('rate');
 		$already_rated = $model->checkRatedProduct($product_id, $user->id);

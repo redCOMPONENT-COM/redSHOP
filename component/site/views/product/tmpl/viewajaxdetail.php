@@ -20,8 +20,8 @@ $url = JURI::base();
 
 $model              = $this->getModel('product');
 $option             = JRequest::getVar('option');
-$document           = & JFactory::getDocument();
-$session            = & JFactory::getSession();
+$document           = JFactory::getDocument();
+$session            = JFactory::getSession();
 $layout             = JRequest::getVar('layout');
 $relatedprd_id      = JRequest::getInt('relatedprd_id', 0);
 $ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
@@ -111,6 +111,7 @@ if (count($ajaxdetal_template) > 0)
 			{
 				$count_no_user_field++;
 			}
+
 			if ($nextrafield <= 0)
 			{
 				$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', '', $data_add);

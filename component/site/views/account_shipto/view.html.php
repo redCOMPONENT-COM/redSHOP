@@ -20,7 +20,9 @@ class account_shiptoViewaccount_shipto extends JView
 		global $mainframe;
 
 		$order_functions = new order_functions;
-		$extra_field     = new extraField(); //extra_field;
+
+		// Extra_field;
+		$extra_field     = new extraField;
 
 		$task = JRequest::getVar('task');
 		$user = JFactory::getUser();
@@ -45,6 +47,7 @@ class account_shiptoViewaccount_shipto extends JView
 			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 			exit;
 		}
+
 		if ($task == 'addshipping')
 		{
 			JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);

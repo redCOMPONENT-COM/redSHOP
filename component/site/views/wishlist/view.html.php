@@ -33,7 +33,7 @@ class wishlistViewwishlist extends JView
 
 
 		$params   = & $mainframe->getParams('com_redshop');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
 		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);

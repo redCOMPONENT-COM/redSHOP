@@ -104,6 +104,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			{
 				$altText = $row->manufacturer_name;
 			}
+
 			if (WATERMARK_MANUFACTURER_IMAGE)
 			{
 				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_IMAGE);
@@ -113,6 +114,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			{
 				$maintype = "manufacturer/";
 			}
+
 			if (WATERMARK_MANUFACTURER_THUMB_IMAGE)
 			{
 				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_THUMB_IMAGE);

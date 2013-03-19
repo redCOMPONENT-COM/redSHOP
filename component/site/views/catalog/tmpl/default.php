@@ -75,17 +75,19 @@ if ($this->params->get('show_page_heading', 1))
 			frm.catalog_id.focus();
 			return false;
 		}
+
 		if (frm.name_2.value == '') {
 			alert('<?php echo JText::_('COM_REDSHOP_ENTER_NAME');?>');
 			frm.name_2.focus();
 			return false;
 		}
+
 		if (email == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');?>");
 			frm.email_address.focus();
 			return false;
 		}
-		elseif (patt1.test(email) == false) {
+		else if (patt1.test(email) == false) {
 			alert("<?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');?>");
 			frm.email_address.focus();
 			return false;

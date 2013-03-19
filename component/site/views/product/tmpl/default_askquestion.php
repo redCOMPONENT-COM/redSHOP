@@ -28,7 +28,7 @@ $Itemid = JRequest::getVar('Itemid');
 $pid = JRequest::getInt('pid');
 $ask = JRequest::getInt('ask');
 $category_id = JRequest::getInt('category_id');
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 
 $template = $redTemplate->getTemplate('ask_question_template'); //& $this->get('template');

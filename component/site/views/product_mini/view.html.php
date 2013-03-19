@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') or die ('restricted access');
 
 
 jimport('joomla.application.component.view');
@@ -21,7 +21,7 @@ class product_miniViewproduct_mini extends JView
 
 		$redTemplate = new Redtemplate;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 
 		$uri = JFactory::getURI();

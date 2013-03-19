@@ -25,7 +25,7 @@ class accountViewaccount extends JView
 		$layout = JRequest::getVar('layout');
 		$params = & $mainframe->getParams($option);
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$model = $this->getModel();
 		$user  = JFactory::getUser();
@@ -49,7 +49,6 @@ class accountViewaccount extends JView
 			return;
 		}
 
-
 		if ($layout == 'mytags')
 		{
 			jimport('joomla.html.pagination');
@@ -59,7 +58,6 @@ class accountViewaccount extends JView
 
 			if ($remove == 1)
 			{
-
 				$model->removeTag();
 			}
 
@@ -87,7 +85,6 @@ class accountViewaccount extends JView
 
 			if ($remove == 1)
 			{
-
 				$model->removeWishlistProduct();
 			}
 
@@ -98,13 +95,13 @@ class accountViewaccount extends JView
 			$pagination  = new redPagination($total, $limitstart, $limit);
 			$this->assignRef('pagination', $pagination);
 		}
+
 		if ($layout == 'compare')
 		{
 			$remove = JRequest::getVar('remove', 0);
 
 			if ($remove == 1)
 			{
-
 				$model->removeCompare();
 			}
 

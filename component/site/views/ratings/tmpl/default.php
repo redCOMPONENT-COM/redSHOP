@@ -22,6 +22,7 @@ else
 {
 	$main_template = "<div>{product_loop_start}<p><strong>{product_title}</strong></p><div>{review_loop_start}<div id=\"reviews_wrapper\"><div id=\"reviews_rightside\"><div id=\"reviews_fullname\">{fullname}</div><div id=\"reviews_title\">{title}</div><div id=\"reviews_comment\">{comment}</div></div><div id=\"reviews_leftside\"><div id=\"reviews_stars\">{stars}</div></div></div>{review_loop_end}<div>{product_loop_end}</div></div></div>	";
 }
+
 if ($this->params->get('show_page_heading', 1))
 {
 	if ($this->params->get('page_title')): ?>
@@ -73,6 +74,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 					$review_data = str_replace("{reviewdate}", $redconfig->convertDateFormat($reviews[$j]->time), $review_data);
 					$review_data = str_replace("{stars}", $starimage, $review_data);
 				}
+
 				if ($mainblock < count($reviews))
 				{
 					$review_data .= '<div style="clear:both;" class="show_reviews"><a href="javascript:showallreviews(' . $this->detail[$i]->product_id . ');"> <img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'reviewarrow.gif">&nbsp;' . JText::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';

@@ -30,14 +30,16 @@ if ($this->params->get('show_page_heading', 1))
 	else
 	{
 		?>
-		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $pagetitle; ?></h1>
+		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+			<?php echo $pagetitle; ?></h1>
 	<?php
 	}
 } ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
 	<table cellpadding="3" cellspacing="0" border="0" width="100%">
-		<?php    if (OPTIONAL_SHIPPING_ADDRESS)
+		<?php
+		if (OPTIONAL_SHIPPING_ADDRESS)
 		{
 			?>
 			<tr>
@@ -54,13 +56,17 @@ if ($this->params->get('show_page_heading', 1))
 					<?php    echo "- <a href='" . JRoute::_($edit_addlink) . "'>" . $this->shippingaddresses[$i]->text . "</a>"; ?>
 				</td>
 			</tr>
-		<?php } ?>
+		<?php
+		}
+		?>
 		<tr>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td><a href="<?php echo JRoute::_($add_addlink); ?>"><?php echo JText::_('COM_REDSHOP_ADD_ADDRESS'); ?></a>&nbsp;
-				<a href="<?php echo JRoute::_($backlink); ?>"><?php echo JText::_('COM_REDSHOP_BACK'); ?></a></td>
+			<td><a href="<?php echo JRoute::_($add_addlink); ?>">
+					<?php echo JText::_('COM_REDSHOP_ADD_ADDRESS'); ?></a>&nbsp;
+				<a href="<?php echo JRoute::_($backlink); ?>">
+					<?php echo JText::_('COM_REDSHOP_BACK'); ?></a></td>
 		</tr>
 	</table>
 </fieldset>

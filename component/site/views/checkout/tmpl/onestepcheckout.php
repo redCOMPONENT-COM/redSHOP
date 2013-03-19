@@ -186,6 +186,7 @@ if ($billingaddresses->ean_number != "")
 {
 	$ean_number = 1;
 }
+
 if (strstr($onestep_template_desc, "{edit_billing_address}"))
 {
 	$editbill              = JRoute::_('index.php?option=' . $option . '&view=account_billto&tmpl=component&for=true&return=checkout&Itemid=' . $Itemid);

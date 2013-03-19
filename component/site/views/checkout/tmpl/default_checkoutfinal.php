@@ -80,6 +80,7 @@ if ($preloader)
 			{
 				$billingaddresses->country_2_code = $configobj->getCountryCode2($billingaddresses->country_code);
 			}
+
 			if (isset($billingaddresses->state_code))
 			{
 				$billingaddresses->state_2_code = $billingaddresses->state_code; // $configobj->getCountryCode2($billingaddresses->state_code);
@@ -94,6 +95,7 @@ if ($preloader)
 			{
 				$shippingaddresses->country_2_code = $configobj->getCountryCode2($shippingaddresses->country_code);
 			}
+
 			if (isset($shippingaddresses->state_code))
 			{
 				$shippingaddresses->state_2_code = $shippingaddresses->state_code; // $configobj->getCountryCode2($shippingaddresses->state_code);

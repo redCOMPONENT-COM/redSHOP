@@ -16,7 +16,7 @@ $url = $uri->root();
 
 $redhelper = new redhelper;
 $Itemid = $redhelper->getCheckoutItemid();
-$session = & JFactory::getSession();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 ?>
 
@@ -124,6 +124,7 @@ $cart = $session->get('cart');
 
 							<?php
 							}
+
 							if (ENABLE_ADDRESS_DETAIL_IN_SHIPPING)
 							{
 								echo $shippingaddresses [$i]->address . " ";

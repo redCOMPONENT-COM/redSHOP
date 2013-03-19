@@ -26,9 +26,9 @@ $product_id = JRequest::getInt('pid');
 $option     = JRequest::getVar('option');
 $model      = $this->getModel('cart');
 
-$session  = & JFactory::getSession();
+$session  = JFactory::getSession();
 $user     = JFactory::getUser();
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 ?>

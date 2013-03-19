@@ -18,7 +18,7 @@ class reddesignViewreddesign extends JView
 	public function display($tpl = null)
 	{
 		global $mainframe;
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Script('jquery.js', 'components/com_reddesign/assets/js/', false);
 		JHTML::Script('ui.js', 'components/com_reddesign/assets/js/', false);
 		$document->addCustomTag('<script type="text/javascript">jQuery.noConflict();</script>');

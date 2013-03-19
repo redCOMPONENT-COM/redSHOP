@@ -19,7 +19,7 @@ $Redconfiguration = new Redconfiguration;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
-$user = & JFactory::getUser();
+$user = JFactory::getUser();
 $model = $this->getModel('manufacturers');
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
@@ -31,7 +31,7 @@ $document = JFactory::getDocument();
 $manufacturer = $this->detail[0];
 $limit = $model->getProductLimit(); //( JRequest::getVar( 'limit', 0, '', 'int' ) );
 
-$app = & JFactory::getApplication();
+$app = JFactory::getApplication();
 $router = & $app->getRouter();
 $uri = new JURI('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
 
@@ -320,12 +320,14 @@ if (strstr($template_desc, '{filter_by}'))
 	$filterby_form .= "<input type='hidden' name='order_by' value='" . JRequest::getVar('order_by', '') . "' /></form>";
 	$template_desc = str_replace("{filter_by}", $filterby_form, $template_desc);
 }
+
 if (strstr($template_desc, '{order_by}'))
 {
 	$orderby_form = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'];
 	$orderby_form .= "<input type='hidden' name='filter_by' value='" . JRequest::getVar('filter_by', 0) . "' /></form>";
 	$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
 }
+
 if (strstr($template_desc, '{pagination}'))
 {
 	$productpagination = $model->getProductPagination();

@@ -9,6 +9,7 @@
 
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+
 class cartViewcart extends JView
 {
 	public function display($tpl = null)
@@ -17,7 +18,7 @@ class cartViewcart extends JView
 
 		// Request variables
 		$redTemplate = new Redtemplate;
-		$user        = & JFactory::getUser();
+		$user        = JFactory::getUser();
 
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
@@ -51,6 +52,7 @@ class cartViewcart extends JView
 			{
 				$cart_template = JText::_("COM_REDSHOP_EMPTY_CART");
 			}
+
 			echo eval ("?>" . $cart_template . "<?php ");
 
 			return false;

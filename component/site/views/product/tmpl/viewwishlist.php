@@ -60,6 +60,7 @@ else // If user logged in than display this code.
 		echo "<a class=\"modal\" href=\"" . $mywishlist_link . "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" ><input type='submit' value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a>";
 		echo "<br /><br />";
 	}
+
 	if (count($wishlists) > 0)
 	{
 		$wish_products = & $this->wish_products;

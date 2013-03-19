@@ -32,7 +32,7 @@ $oid    = JRequest::getInt('oid');
 $print  = JRequest::getInt('print');
 
 $getshm    = $uri->getScheme();
-$config    = & JFactory::getConfig();
+$config    = JFactory::getConfig();
 $force_ssl = $config->getValue('force_ssl');
 
 if ($getshm == 'https' && $force_ssl > 2)
@@ -196,6 +196,7 @@ if (strstr($orderslist_template, "{order_status_order_only}"))
 	$search []  = "{order_status_order_only}";
 	$replace [] = $statustext;
 }
+
 if (strstr($orderslist_template, "{order_status_payment_only}"))
 {
 	$search []  = "{order_status_payment_only}";

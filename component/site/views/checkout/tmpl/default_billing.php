@@ -43,6 +43,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->zipcode != "")
 	{
 		?>
@@ -52,6 +53,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->city != "")
 	{
 		?>
@@ -61,6 +63,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if (trim($billingaddresses->country_code) != "")
 	{
 		?>
@@ -82,6 +85,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->phone != "")
 	{
 		?>
@@ -91,6 +95,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->user_email != "")
 	{
 		?>
@@ -100,6 +105,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->is_company == 1)
 	{
 		if ($billingaddresses->ean_number != "")
@@ -114,6 +120,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		<?php
 		}
 	}
+
 	if ($billingaddresses->is_company == 1 && USE_TAX_EXEMPT == 1)
 	{
 		?>
@@ -139,6 +146,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		<?php
 		}
 	}
+
 	if ($billingaddresses->is_company == 1)
 	{
 		echo $extrafields = $extra_field->list_all_field_display(8, $billingaddresses->users_info_id);

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die ('restricted access');
 $url = JURI::base();
 
-// Get product helper	
+// Get product helper
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 $extra_data = new producthelper;
 
@@ -30,7 +30,9 @@ if ($this->params->get('show_page_heading', 1))
 	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<?php echo $pagetitle; ?>
 	</h1>
-<?php } ?>
+<?php
+}
+?>
 <?php
 if ($user->id != 0)
 {
@@ -64,7 +66,8 @@ if ($user->id != 0)
 			<div>&nbsp;</div>
 			<div>
 				<a href="<?php echo 'index.php?option=com_redshop&view=account&layout=mytags&tagid=' . $tagid . '&Itemid=' . $Itemid; ?>"
-				   title="<?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST'); ?>"><?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST');?></a>
+				   title="<?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST'); ?>">
+					<?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST');?></a>
 			</div>
 		<?php
 		}
@@ -115,7 +118,8 @@ if ($user->id != 0)
 								$pname = "<div ><a href='" . $link . "' >" . $pname . "</a></div>";
 								$data_add .= $pname;
 
-								$price_add = '<span id="pr_price">' . $extra_data->getProductFormattedPrice($row->product_price) . '</span>'; //////// For attribute price count
+								// For attribute price count
+								$price_add = '<span id="pr_price">' . $extra_data->getProductFormattedPrice($row->product_price) . '</span>';
 
 								$tax_amount = $extra_data->getProductTax($row->product_id);
 
@@ -157,7 +161,8 @@ if ($user->id != 0)
 					<td>
 						<div>
 							<a href="<?php echo 'index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid; ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST'); ?>"><?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST');?></a>
+							   title="<?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST'); ?>">
+								<?php echo JText::_('COM_REDSHOP_BACK_TO_TAG_LIST');?></a>
 						</div>
 					</td>
 					<td valign="top" align="center">
@@ -191,7 +196,8 @@ if ($user->id != 0)
 								?>
 								<a href="<?php echo 'index.php?option=' . $option . '&view=account&layout=mytags&tagid=' . $MyTag->tags_id . '&Itemid=' . $Itemid; ?>"
 								   style="text-decoration: none;"><span
-										style="font-size: <?php echo $MyTag->tags_counter + 15; ?>px;"><?php echo $MyTag->tags_name; ?></span></a>
+										style="font-size: <?php echo $MyTag->tags_counter + 15; ?>px;">
+										<?php echo $MyTag->tags_name; ?></span></a>
 							<?php
 							}
 						}
@@ -202,7 +208,8 @@ if ($user->id != 0)
 		</fieldset>
 		<div>&nbsp;</div>
 		<div><a href="<?php echo 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid; ?>"
-		        title="<?php echo JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT'); ?>"><?php echo JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT');?></a>
+		        title="<?php echo JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT'); ?>">
+				<?php echo JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT');?></a>
 		</div>
 	<?php
 	}

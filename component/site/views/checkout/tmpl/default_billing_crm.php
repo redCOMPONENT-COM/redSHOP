@@ -22,7 +22,7 @@ $Itemid = $redhelper->getCheckoutItemid();
 if ($Itemid == 0)
 	$Itemid = JRequest::getVar('Itemid');
 
-$session = & JFactory::getSession();
+$session = JFactory::getSession();
 
 $order_functions = new order_functions;
 $extra_field = new extra_field;
@@ -113,6 +113,7 @@ $billingaddresses = $model->billingaddresses();
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->debitor_mobile_phone != 0)
 	{
 		?>
@@ -123,6 +124,7 @@ $billingaddresses = $model->billingaddresses();
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->user_email != "")
 	{
 		?>
@@ -132,6 +134,7 @@ $billingaddresses = $model->billingaddresses();
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->is_company == 1)
 	{
 		?>
@@ -143,6 +146,7 @@ $billingaddresses = $model->billingaddresses();
 	<td><?php echo $billingaddresses->requisition_number;?></td></tr>-->
 	<?php
 	}
+
 	if ($billingaddresses->is_company == 1 && USE_TAX_EXEMPT == 1)
 	{
 		?>
@@ -171,6 +175,7 @@ $billingaddresses = $model->billingaddresses();
 	<?php } ?>
 	<?php
 	}
+
 	if ($billingaddresses->debitor_money_transfer_number > 0)
 	{
 		?>

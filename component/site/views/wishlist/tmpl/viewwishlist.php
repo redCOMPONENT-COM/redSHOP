@@ -43,6 +43,7 @@ if ($this->params->get('show_page_heading', 1))
 	<div>&nbsp;</div>
 <?php
 }
+
 if (!$user->id)
 {
 
@@ -146,6 +147,7 @@ else // If user logged in than display this code.
 			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\"  ><input type='button'  value='" . JText::_('SAVE_WISHLIST') . "'></a></div><br /><br />";
 		}
 	}
+
 	if (count($wishlists) > 0)
 	{
 		$wish_products = & $this->wish_products;
@@ -517,6 +519,7 @@ function display_products($rows)
 					{
 						$count_no_user_field++;
 					}
+
 					if ($product_userfileds_final != '')
 					{
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $wishlist_data);

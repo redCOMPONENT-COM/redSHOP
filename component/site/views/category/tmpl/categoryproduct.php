@@ -31,7 +31,6 @@ $loadCategorytemplate = $redTemplate->getTemplate('categoryproduct');
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
 	$template_desc = $loadCategorytemplate[0]->template_desc;
-
 }
 else
 {
@@ -40,7 +39,7 @@ else
 {product_loop_end}</div></div><p>{category_loop_end}</p><div class='category_pagination'>{pagination}</div></div>";
 }
 
-$app    = & JFactory::getApplication();
+$app    = JFactory::getApplication();
 $router = & $app->getRouter();
 $uri    = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
 
@@ -137,6 +136,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
 			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
+
 		if (CAT_IS_LIGHTBOX)
 		{
 			$cat_thumb = "<a rel=\"myallimg\" href='" . $linkimage . "'  " . $title . ">";
@@ -155,21 +155,25 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->category_name . '</a>';
 			$data_add = str_replace("{category_name}", $cat_name, $data_add);
 		}
+
 		if (strstr($data_add, '{category_readmore}'))
 		{
 			$cat_name = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
 			$data_add = str_replace("{category_readmore}", $cat_name, $data_add);
 		}
+
 		if (strstr($data_add, '{category_description}'))
 		{
 			$cat_desc = $config->maxchar($row->category_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
 			$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 		}
+
 		if (strstr($data_add, '{category_short_desc}'))
 		{
 			$cat_s_desc = $config->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
 			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
+
 		if (strstr($data_add, '{category_total_product}'))
 		{
 			$totalprd = $producthelper->getProductCategory($row->category_id);
@@ -281,6 +285,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_userfield);
 							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_userfield);
 						}
+
 						if ($ufield != "")
 						{
 							$hidden_userfield = "<div style='display:none;'><form method='post' action='' id='user_fields_form_" . $product->product_id . "' name='user_fields_form_" . $product->product_id . "'>" . $template_userfield . "</form></div>";
@@ -327,31 +332,37 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					$pname       = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
 					$prddata_add = str_replace("{product_name}", $pname, $prddata_add);
 				}
+
 				if (strstr($prddata_add, '{read_more}'))
 				{
 					$rmore       = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 					$prddata_add = str_replace("{read_more}", $rmore, $prddata_add);
 				}
+
 				if (strstr($prddata_add, '{read_more_link}'))
 				{
 					$prddata_add = str_replace("{read_more_link}", $link, $prddata_add);
 				}
+
 				if (strstr($prddata_add, '{product_s_desc}'))
 				{
 					$p_s_desc    = $config->maxchar($product->product_s_desc, CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS, CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX);
 					$prddata_add = str_replace("{product_s_desc}", $p_s_desc, $prddata_add);
 				}
+
 				if (strstr($prddata_add, '{product_desc}'))
 				{
 					$p_desc      = $config->maxchar($product->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
 					$prddata_add = str_replace("{product_desc}", $p_desc, $prddata_add);
 				}
+
 				if (strstr($prddata_add, '{product_rating_summary}'))
 				{
 					// Product Review/Rating Fetching reviews
 					$final_avgreview_data = $producthelper->getProductRating($product->product_id);
 					$prddata_add          = str_replace("{product_rating_summary}", $final_avgreview_data, $prddata_add);
 				}
+
 				if (strstr($prddata_add, '{manufacturer_link}'))
 				{
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id . '&Itemid=' . ktemid);
@@ -363,11 +374,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 						$prddata_add = str_replace("{manufacturer_name}", "", $prddata_add);
 					}
 				}
+
 				if (strstr($prddata_add, '{manufacturer_product_link}'))
 				{
 					$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name . "</a>";
 					$prddata_add       = str_replace("{manufacturer_product_link}", $manufacturerPLink, $prddata_add);
 				}
+
 				if (strstr($prddata_add, '{manufacturer_name}'))
 				{
 					$prddata_add = str_replace("{manufacturer_name}", $product->manufacturer_name, $prddata_add);

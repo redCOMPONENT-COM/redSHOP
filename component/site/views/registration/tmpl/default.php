@@ -40,6 +40,7 @@ elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
 	$showCustomerdesc  = "style='display:none;'";
 	$open_to_stretcher = 1;
 }
+
 if (DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 {
 	$showCompanydesc  = '';
@@ -110,6 +111,7 @@ if ($this->params->get('show_page_heading', 1))
 				</tr>
 			<?php
 			}
+
 			if (SHOW_TERMS_AND_CONDITIONS == 1)
 			{
 				?>

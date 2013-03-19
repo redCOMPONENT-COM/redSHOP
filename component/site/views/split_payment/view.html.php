@@ -20,7 +20,7 @@ class split_paymentViewsplit_payment extends JView
 		$params = & $mainframe->getParams('com_redshop');
 
 		$pathway  = & $mainframe->getPathway();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$pathway->addItem(JText::_('COM_REDSHOP_SPLIT_PAYMENT'), '');
 
