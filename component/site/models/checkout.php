@@ -11,21 +11,28 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php');
-require_once(JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'user.php';
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
 
-class checkoutModelcheckout extends JModel
+/**
+ * Class checkoutModelcheckout
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CheckoutModelCheckout extends JModel
 {
 
 	var $_id = null;
@@ -50,15 +57,16 @@ class checkoutModelcheckout extends JModel
 		$this->_table_prefix = '#__redshop_';
 		$session             = JFactory::getSession();
 
-		$this->_carthelper      = new rsCarthelper();
-		$this->_userhelper      = new rsUserhelper();
-		$this->_shippinghelper  = new shipping();
-		$this->_producthelper   = new producthelper();
+		$this->_carthelper      = new rsCarthelper;
+		$this->_userhelper      = new rsUserhelper;
+		$this->_shippinghelper  = new shipping;
+		$this->_producthelper   = new producthelper;
 		$this->_order_functions = new order_functions();
-		$this->_redshopMail     = new redshopMail();
+		$this->_redshopMail     = new redshopMail;
 
 		$user = & JFactory::getUser();
 		$cart = $session->get('cart');
+
 		if (!empty($cart))
 		{
 			if (!$cart)
@@ -80,7 +88,7 @@ class checkoutModelcheckout extends JModel
 		{
 			$cart['free_shipping'] = 1;
 		}
-		else if ($cart['free_shipping'] != 1)
+		elseif ($cart['free_shipping'] != 1)
 		{
 			$cart['free_shipping'] = 0;
 		}
@@ -96,6 +104,7 @@ class checkoutModelcheckout extends JModel
 	public function store($data)
 	{
 		$captcha = $this->_userhelper->checkCaptcha($data);
+
 		if (!$captcha)
 		{
 			return false;
@@ -122,11 +131,11 @@ class checkoutModelcheckout extends JModel
 		global $mainframe;
 
 
-		$redconfig       = new Redconfiguration();
-		$quotationHelper = new quotationHelper();
-		$stockroomhelper = new rsstockroomhelper();
-		$helper          = new redhelper();
-		$shippinghelper  = new shipping();
+		$redconfig       = new Redconfiguration;
+		$quotationHelper = new quotationHelper;
+		$stockroomhelper = new rsstockroomhelper;
+		$helper          = new redhelper;
+		$shippinghelper  = new shipping;
 		$order_functions = new order_functions();
 
 		$post = JRequest::get('post');
@@ -145,6 +154,7 @@ class checkoutModelcheckout extends JModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
+
 		if (!$user->id && $auth['users_info_id'])
 		{
 			$user->id = -$auth['users_info_id'];
@@ -189,6 +199,7 @@ class checkoutModelcheckout extends JModel
 		if (isset($billingaddresses))
 		{
 			$d ["billingaddress"] = $billingaddresses;
+
 			if (isset($billingaddresses->country_code))
 			{
 				$d ["billingaddress"]->country_2_code = $redconfig->getCountryCode2($billingaddresses->country_code);
@@ -210,6 +221,7 @@ class checkoutModelcheckout extends JModel
 		}
 		$ccdata           = $session->get('ccdata');
 		$shipping_rate_id = '';
+
 		if ($cart['free_shipping'] != 1)
 			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
 		$payment_method_id = JRequest::getVar('payment_method_id');
@@ -261,6 +273,7 @@ class checkoutModelcheckout extends JModel
 		$d['order_tax'] = $order_tax;
 
 		$tax_after_discount = 0;
+
 		if (isset($cart ['tax_after_discount']))
 		{
 			$tax_after_discount = $cart ['tax_after_discount'];
@@ -305,6 +318,7 @@ class checkoutModelcheckout extends JModel
 		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_cashtransfer" || $paymentmethod->element == "rs_payment_cashsale" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
 		{
 			$order_status = $order_main_status;
+
 			if ($issplit)
 			{
 				$order_paymentstatus = trim("Partial Paid");
@@ -319,10 +333,12 @@ class checkoutModelcheckout extends JModel
 		$paymentmethod->element = $mainelement;
 
 		$payment_amount = 0;
+
 		if (isset($cart['payment_amount']))
 			$payment_amount = $cart['payment_amount'];
 
 		$payment_oprand = "";
+
 		if (isset($cart['payment_oprand']))
 			$payment_oprand = $cart['payment_oprand'];
 
@@ -447,7 +463,6 @@ class checkoutModelcheckout extends JModel
 		}
 		if (USE_AS_CATALOG)
 		{
-
 			$order_status        = 'P';
 			$order_paymentstatus = 'Unpaid';
 		}
@@ -540,15 +555,13 @@ class checkoutModelcheckout extends JModel
 			$regDel = $objshipping->getRegularDelivery();
 			JRequest::setVar('order_delivery', "Delivered in one instance � DELIVERY TIME: " . current($regDel) . " weeks</td>");
 		}
-		else if ($order_shipping [5] == 'split')
+		elseif ($order_shipping [5] == 'split')
 		{
-
 			$delArray = $objshipping->getProductDeliveryArray($shipping_rate_id);
 			$splitdel = $objshipping->getSplitDelivery();
 
 			if (count($splitdel) > 1)
 			{
-
 				$split1 = $splitdel [0];
 				$split2 = $splitdel [1];
 				$prods1 = '';
@@ -556,7 +569,6 @@ class checkoutModelcheckout extends JModel
 
 				for ($i = 0; $i < count($split1); $i++)
 				{
-
 					$value    = current($split1);
 					$deltime1 = $value;
 					$key      = key($split1);
@@ -567,7 +579,6 @@ class checkoutModelcheckout extends JModel
 
 				for ($i = 0; $i < count($split2); $i++)
 				{
-
 					$value    = current($split2);
 					$deltime2 = $value;
 					$key      = key($split2);
@@ -582,7 +593,6 @@ class checkoutModelcheckout extends JModel
 		}
 		else
 		{
-
 			$delArray = $objshipping->getProductDeliveryArray($shipping_rate_id);
 			$splitdel = $objshipping->getSplitDelivery();
 			$split1   = $splitdel [0];
@@ -618,16 +628,16 @@ class checkoutModelcheckout extends JModel
 			# redCRM product purchase price
 			if ($helper->isredCRM())
 			{
-
-				$crmProductHelper = new crmProductHelper();
+				$crmProductHelper = new crmProductHelper;
 				$crmproduct       = $crmProductHelper->getProductById($product_id);
 
 				$rowitem->product_purchase_price = $crmproduct->product_purchase_price > 0 ? $crmproduct->product_purchase_price : $crmproduct->product_price;
 
 				$crmdata = array();
 
-				$crmDebitorHelper        = new crmDebitorHelper();
+				$crmDebitorHelper        = new crmDebitorHelper;
 				$crmDebitorHelper_values = $crmDebitorHelper->getShippingDestination(0, 0, $shippingaddresses->users_info_id);
+
 				if ($session->get('isredcrmuser'))
 				{
 					$crmDebitorHelper_contact_values = $crmDebitorHelper->getContactPersons(0, 0, 0, $user->id, 0);
@@ -641,6 +651,7 @@ class checkoutModelcheckout extends JModel
 				$crmdata['debitor_id']    = $shippingaddresses->users_info_id;
 				$crmdata['custom_status'] = '';
 				$crmdata['rma_number']    = '';
+
 				if (count($crmDebitorHelper_values) > 0)
 				{
 					$crmdata['shipping_id'] = $crmDebitorHelper_values[0]->shipping_id;
@@ -659,7 +670,7 @@ class checkoutModelcheckout extends JModel
 				}
 
 
-				$crmOrderHelper = new crmOrderHelper();
+				$crmOrderHelper = new crmOrderHelper;
 				$crmOrderHelper->storeCRMOrder($crmdata);
 
 			}
@@ -676,7 +687,7 @@ class checkoutModelcheckout extends JModel
 			{
 				$rowitem->delivery_time = $regDel;
 			}
-			else if ($order_shipping [5] == 'split')
+			elseif ($order_shipping [5] == 'split')
 			{
 				$rowitem->delivery_time = $delArray [$product_id];
 			}
@@ -701,6 +712,7 @@ class checkoutModelcheckout extends JModel
 			/******************** end product stockroom update ***********************/
 
 			$vals = explode('product_attributes/', $cart[$i]['hidden_attribute_cartimage']);
+
 			if ($cart[$i]['attributeImage'])
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
@@ -714,6 +726,7 @@ class checkoutModelcheckout extends JModel
 			}
 			//$rowitem->attribute_image=$vals[1];
 			$wrapper_price = 0;
+
 			if (@$cart[$i]['wrapper_id'])
 			{
 				$wrapper_price = $cart[$i]['wrapper_price'];
@@ -746,6 +759,7 @@ class checkoutModelcheckout extends JModel
 
 			// for discount calc data
 			$cart_calc_data = "";
+
 			if (isset($cart[$i]['discount_calc_output']))
 			{
 				$cart_calc_data = $cart[$i]['discount_calc_output'];
@@ -1218,12 +1232,14 @@ class checkoutModelcheckout extends JModel
 		}
 		# add shipping Info
 		$userrow = & $this->getTable('user_detail');
+
 		if (isset($shippingaddresses->users_info_id))
 		{
 			$userrow->load($shippingaddresses->users_info_id);
 		}
 
 		$orderuserrow = & $this->getTable('order_user_detail');
+
 		if (!$orderuserrow->bind($userrow))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -1232,6 +1248,7 @@ class checkoutModelcheckout extends JModel
 		}
 		$orderuserrow->order_id     = $order_id;
 		$orderuserrow->address_type = 'ST';
+
 		if (!$orderuserrow->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -1240,6 +1257,7 @@ class checkoutModelcheckout extends JModel
 		}
 
 		$checkOrderStatus = 1;
+
 		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5")
 		{
 			$checkOrderStatus = 0;
@@ -1257,7 +1275,7 @@ class checkoutModelcheckout extends JModel
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
-			$economic = new economic();
+			$economic = new economic;
 
 			$economicdata['split_payment']             = $issplit;
 			$economicdata['economic_payment_terms_id'] = $economic_payment_terms_id;
@@ -1265,6 +1283,7 @@ class checkoutModelcheckout extends JModel
 			$economicdata['economic_is_creditcard']    = $is_creditcard;
 			$payment_name                              = $paymentmethod->element;
 			$paymentArr                                = explode("rs_payment_", $paymentmethod->element);
+
 			if (count($paymentArr) > 0)
 			{
 				$payment_name = $paymentArr[1];
@@ -1276,6 +1295,7 @@ class checkoutModelcheckout extends JModel
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+
 				if (is_file($bookinvoicepdf))
 				{
 					$ret = $this->_redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
@@ -1285,6 +1305,7 @@ class checkoutModelcheckout extends JModel
 		// End Economic
 
 		$sendreddesignmail = 0;
+
 		if ($reddesign)
 		{
 			$sendreddesignmail = 1;
@@ -1303,12 +1324,10 @@ class checkoutModelcheckout extends JModel
 		 */
 		if ($helper->isredCRM())
 		{
-
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
-
 				# Supplier order helper object
-				$crmSupplierOrderHelper = new crmSupplierOrderHelper();
+				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 				$getStatus                  = array();
 				$getStatus['orderstatus']   = $row->order_status;
@@ -1342,7 +1361,6 @@ class checkoutModelcheckout extends JModel
 
 		foreach ($orders as $eachorders)
 		{
-
 
 			$giftcardmailsub = $giftcardmail->mail_subject;
 			$giftcardData    = $this->_producthelper->getGiftcardData($eachorders->product_id);
@@ -1386,6 +1404,7 @@ class checkoutModelcheckout extends JModel
 			$couponItems->userid           = 0;
 			$couponItems->coupon_left      = 1;
 			$couponItems->published        = 1;
+
 			if (!$couponItems->store())
 			{
 				$this->setError($this->_db->getErrorMsg());
@@ -1399,6 +1418,7 @@ class checkoutModelcheckout extends JModel
 			echo "<div id='redshopcomponent' class='redshop'>";
 			$is_giftcard = 1;
 			$pdf         = new MYPDF (PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
 			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage) && $giftcardData->giftcard_bgimage)
 				$pdf->img_file = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage;
 			$pdf->SetCreator(PDF_CREATOR);
@@ -1446,7 +1466,7 @@ class checkoutModelcheckout extends JModel
 			$list = $this->_order_functions->getBillingAddress($user->id);
 
 		}
-		else if ($auth['users_info_id'])
+		elseif ($auth['users_info_id'])
 		{
 			$uid  = -$auth['users_info_id'];
 			$list = $this->_order_functions->getBillingAddress($uid);
@@ -1531,7 +1551,6 @@ class checkoutModelcheckout extends JModel
 		}
 		if ($ccdata['order_payment_number'])
 		{
-
 			if (!is_numeric($ccdata['order_payment_number']))
 			{
 				$validpayment [0] = 0;
@@ -1549,6 +1568,7 @@ class checkoutModelcheckout extends JModel
 		}
 		$ccerror     = '';
 		$ccerrortext = '';
+
 		if (!$this->checkCreditCard($ccdata['order_payment_number'], $ccdata['creditcard_code'], $ccerror, $ccerrortext))
 		{
 			$validpayment [0] = 0;
@@ -1562,7 +1582,6 @@ class checkoutModelcheckout extends JModel
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
-
 
 		// Define the cards we support. You may add additional card types.
 
@@ -1593,7 +1612,6 @@ class checkoutModelcheckout extends JModel
 
 		for ($i = 0; $i < sizeof($cards); $i++)
 		{
-
 			// See if it is this card (ignoring the case of the string)
 			if (strtolower($cardname) == strtolower($cards [$i] ['name']))
 			{
@@ -1640,7 +1658,6 @@ class checkoutModelcheckout extends JModel
 			// Process each digit one by one starting at the right
 			for ($i = strlen($cardNo) - 1; $i >= 0; $i--)
 			{
-
 				// Extract the next digit and multiply by 1 or 2 on alternative digits.
 				$calc = $cardNo{$i} * $j;
 
@@ -1783,7 +1800,6 @@ class checkoutModelcheckout extends JModel
 		}
 		elseif ($type == "Discover")
 		{
-
 			$pattern = "/^([6011]{4})([0-9]{12})$/"; //Discover Card
 			if (preg_match($pattern, $cc_num))
 			{
@@ -1797,7 +1813,6 @@ class checkoutModelcheckout extends JModel
 		}
 		elseif ($type == "Master")
 		{
-
 			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/"; //Mastercard
 			if (preg_match($pattern, $cc_num))
 			{
@@ -1811,7 +1826,6 @@ class checkoutModelcheckout extends JModel
 		}
 		elseif ($type == "Visa")
 		{
-
 			$pattern = "/^([4]{1})([0-9]{12,15})$/"; //Visa
 			if (preg_match($pattern, $cc_num))
 			{
@@ -1858,6 +1872,7 @@ class checkoutModelcheckout extends JModel
 			. "AND coupon_code='" . $cart['coupon_code'] . "' LIMIT 0,1";
 		$this->_db->setQuery($query);
 		$row = $this->_db->loadObject();
+
 		if (count($row) > 0)
 		{
 			if ($row->percent_or_total == 1)
@@ -1910,7 +1925,6 @@ class checkoutModelcheckout extends JModel
 
 				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
 				{
-
 					$rowvoucher =& $this->getTable('transaction_voucher_detail');
 					if (!$rowvoucher->bind($cart))
 					{
@@ -1933,7 +1947,6 @@ class checkoutModelcheckout extends JModel
 
 					if (!$rowvoucher->store())
 					{
-
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -2019,9 +2032,11 @@ class checkoutModelcheckout extends JModel
 		$shippingVatRate     = 0;
 		$shipArr             = array();
 		$order_shipping      = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+
 		if (isset($order_shipping[3]))
 		{
 			$shipArr['order_shipping_rate'] = $order_shipping[3];
+
 			if (array_key_exists(6, $order_shipping))
 				$shipArr['shipping_vat'] = $order_shipping [6];
 		}
@@ -2031,7 +2046,6 @@ class checkoutModelcheckout extends JModel
 
 	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
 	{
-
 		$session  = JFactory::getSession();
 		$cart     = $session->get('cart');
 		$user     = JFactory::getUser();
@@ -2117,6 +2131,7 @@ class checkoutModelcheckout extends JModel
 
 
 		$customernotevalue = "";
+
 		if ($customer_note != "")
 		{
 			$customernotevalue = $customer_note;
@@ -2126,6 +2141,7 @@ class checkoutModelcheckout extends JModel
 			$customernotevalue = $cart['customer_note'];
 		}
 		$requisition_number = "";
+
 		if ($req_number != "")
 		{
 			$requisition_number = $req_number;
@@ -2196,6 +2212,7 @@ class checkoutModelcheckout extends JModel
 		}*/
 		$shippinPrice        = '';
 		$shippinPriceWithVat = '';
+
 		if (!empty($shipping_rate_id) && SHIPPING_METHOD_ENABLE)
 		{
 			$shippinPriceWithVat = $this->_producthelper->getProductFormattedPrice($cart ['shipping']);
@@ -2212,6 +2229,7 @@ class checkoutModelcheckout extends JModel
 		$template_desc =str_replace("{order_shipping}",$shippinPrice,$template_desc);
 		$template_desc =str_replace("{total}",$this->_producthelper->getProductFormattedPrice($cart ['total']) ,$template_desc);
 		$chktag = $this->_producthelper->getApplyVatOrNot($template_desc);
+
 		if(!empty($chktag)){
 			$template_desc =str_replace("{subtotal}",$this->_producthelper->getProductFormattedPrice($cart ['subtotal']),$template_desc);
 		}else{
@@ -2251,6 +2269,7 @@ class checkoutModelcheckout extends JModel
 		if (strstr($template_desc, "{coupon_code_lbl}"))
 		{
 			$coupon = '';
+
 			if (isset($cart["coupon_code"]))
 			{
 				$coupon_price = $this->getCouponPrice();
@@ -2277,6 +2296,7 @@ class checkoutModelcheckout extends JModel
 		$query = "TRUNCATE TABLE " . $this->_table_prefix . "ordernumber_track";
 
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -2305,7 +2325,6 @@ class checkoutModelcheckout extends JModel
 	 */
 	public function insertOrdernumberTrack()
 	{
-
 		$query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
 		$this->_db->setQuery($query_in);
 

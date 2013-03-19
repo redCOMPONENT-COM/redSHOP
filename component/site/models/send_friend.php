@@ -10,9 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 
+/**
+ * Class send_friendModelsend_friend
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class send_friendModelsend_friend extends JModel
 {
 	var $_id = null;
@@ -39,8 +46,8 @@ class send_friendModelsend_friend extends JModel
 
 	public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
 	{
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 		$url           = JURI::base();
 		$option        = JRequest::getVar('option');
 
@@ -48,10 +55,12 @@ class send_friendModelsend_friend extends JModel
 		$data_add = "";
 		$subject  = "";
 		$mailbcc  = null;
+
 		if (count($mailinfo) > 0)
 		{
 			$data_add = $mailinfo[0]->mail_body;
 			$subject  = $mailinfo[0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);

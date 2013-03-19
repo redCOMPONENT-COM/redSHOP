@@ -10,7 +10,14 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
-class order_detailModelorder_detail extends JModel
+/**
+ * Class Order_detailModelOrder_detail
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class Order_detailModelOrder_detail extends JModel
 {
 	var $_id = null;
 	var $_data = null;
@@ -36,9 +43,9 @@ class order_detailModelorder_detail extends JModel
 	 */
 	public function UpdateAnalytics_status($oid)
 	{
-
 		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . $oid . "'";
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->Query())
 		{
 			return false;
@@ -60,11 +67,12 @@ class order_detailModelorder_detail extends JModel
 
 		$auth = $session->get('auth');
 		$list = array();
+
 		if ($user->id)
 		{
 			$list = $order_functions->getBillingAddress($user->id);
 		}
-		else if ($auth['users_info_id'])
+		elseif ($auth['users_info_id'])
 		{
 			$uid  = -$auth['users_info_id'];
 			$list = $order_functions->getBillingAddress($uid);
@@ -121,6 +129,7 @@ class order_detailModelorder_detail extends JModel
 			. " WHERE order_id  = '" . $order_id . "'";
 
 		$db->setQuery($payment_update);
+
 		if (!$db->Query())
 		{
 			return false;

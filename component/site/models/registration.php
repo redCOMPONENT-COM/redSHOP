@@ -10,9 +10,17 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
+
+/**
+ * Class registrationModelregistration
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class registrationModelregistration extends JModel
 {
 	var $_id = null;
@@ -28,13 +36,15 @@ class registrationModelregistration extends JModel
 
 	public function store(&$data)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 		$captcha    = $userhelper->checkCaptcha($data);
+
 		if (!$captcha)
 		{
 			return false;
 		}
 		$joomlauser = $userhelper->createJoomlaUser($data, 1);
+
 		if (!$joomlauser)
 		{
 			return false;

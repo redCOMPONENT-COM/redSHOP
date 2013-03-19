@@ -10,19 +10,20 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * catalog Controller
+ * Catalog Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class catalogController extends JController
+class CatalogController extends JController
 {
-
-
-	/*
+	/**
 	 * Method to send catalog
+	 *
+	 * @return void
 	 */
 	public function catalog_send()
 	{
@@ -33,9 +34,10 @@ class catalogController extends JController
 		$post["registerDate"] = time();
 		$post["email"] = $post["email_address"];
 		$post["name"] = $post["name_2"];
+
 		if ($row = $model->catalogStore($post))
 		{
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
 			$redshopMail->sendCatalogRequest($row);
 			$msg = JText::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
 		}
@@ -43,11 +45,14 @@ class catalogController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog&Itemid=' . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 * Method to send catalog sample
+	 *
+	 * @return void
 	 */
 	public function catalogsample_send()
 	{
@@ -61,12 +66,14 @@ class catalogController extends JController
 			$colour_id = implode(",", $post["sample_code"]);
 			$post ['colour_id'] = $colour_id;
 		}
+
 		$post["registerdate"] = time();
 		$post["email"] = $post["email_address"];
 		$post["name"] = $post["name_2"];
+
 		if ($row = $model->catalogSampleStore($post))
 		{
-			$extra_field = new extra_field();
+			$extra_field = new extra_field;
 			$extra_field->extra_field_save($post, 9, $row->request_id);
 			$msg = JText::_('COM_REDSHOP_SAMPLE_SEND_SUCCSEEFULLY');
 		}
@@ -74,8 +81,7 @@ class catalogController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAMPLE_SEND_SUCCSEEFULLY');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog&layout=sample&Itemid=' . $Itemid, $msg);
 	}
 }
-
-?>

@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class reddesignModelreddesign
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class reddesignModelreddesign extends JModel
 {
 
@@ -42,8 +49,8 @@ class reddesignModelreddesign extends JModel
 
 	public function getProductDetail($product_id, $field_name = "")
 	{
-
 		$db = & JFactory :: getDBO();
+
 		if (!$field_name)
 		{
 			$query = 'SELECT * FROM `#__redshop_product` WHERE product_id = ' . $product_id;

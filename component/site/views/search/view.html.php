@@ -15,11 +15,6 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 
 class searchViewsearch extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
 	public function display($tpl = null)
 	{
 		global $mainframe;
