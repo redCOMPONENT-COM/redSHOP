@@ -184,6 +184,7 @@ class quotationModelquotation extends JModel
 
 				$section = 12;
 			}
+
 			$quotation_item[$i]->product_quantity = $data[$i]['quantity'];
 
 			if (!$rowitem->bind($quotation_item[$i]))
@@ -216,6 +217,7 @@ class quotationModelquotation extends JModel
 					{
 						$accessory_vat_price = $producthelper->getProductTax($rowitem->product_id, $accessory_price);
 					}
+
 					$attchildArr = $attArr[$a]['accessory_childs'];
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
@@ -305,6 +307,7 @@ class quotationModelquotation extends JModel
 					{
 						$accdata->load($accessory_id);
 					}
+
 					$accProductinfo                    = $producthelper->getProductById($accdata->child_product_id);
 					$rowaccitem                        = & $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
@@ -419,6 +422,7 @@ class quotationModelquotation extends JModel
 					}
 				}
 			}
+
 			$quotationHelper->manageQuotationUserfield($data[$i], $rowitem->quotation_item_id, $section);
 		}
 
@@ -495,6 +499,7 @@ class quotationModelquotation extends JModel
 		{
 			$name = JRequest::getVar('firstname') . ' ' . JRequest::getVar('lastname');
 		}
+
 		$email = JRequest::getVar('email');
 
 		$password = $order_functions->random_gen_enc_key(12);
@@ -512,6 +517,7 @@ class quotationModelquotation extends JModel
 			//$this->register();
 			return false;
 		}
+
 		$user_id = $user->id;
 		$user->set('id', 0);
 
@@ -566,6 +572,7 @@ class quotationModelquotation extends JModel
 			$row->firstname = $tmp[0];
 			$row->lastname  = $tmp[1];
 		}
+
 		$row->user_email   = $user->email;
 		$row->address_type = 'BT';
 
@@ -575,6 +582,7 @@ class quotationModelquotation extends JModel
 
 			return false;
 		}
+
 		$email = $user->email;
 
 		$quotation_id       = $quotationDetail->quotation_id;
@@ -599,6 +607,7 @@ class quotationModelquotation extends JModel
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 		}
+
 		$producthelper = new producthelper;
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');

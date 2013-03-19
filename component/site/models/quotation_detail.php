@@ -99,6 +99,7 @@ class quotation_detailModelquotation_detail extends JModel
 				$field_name              = $row_data[$i]->field_name;
 				$cart[$idx][$field_name] = $row_data[$i]->data_txt;
 			}
+
 			$cart['idx'] = $idx + 1;
 			$session->set('cart', $cart);
 
@@ -152,10 +153,13 @@ class quotation_detailModelquotation_detail extends JModel
 						$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
 						$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
 					}
+
 					$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
 				}
+
 				$accAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 			}
+
 			$generateAccessoryCart[$i]['accessory_childs'] = $accAttributeCart;
 		}
 
@@ -183,8 +187,10 @@ class quotation_detailModelquotation_detail extends JModel
 					$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
 					$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
 				}
+
 				$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
 			}
+
 			$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 		}
 
@@ -205,6 +211,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$field_name              = $row_data[$i]->field_name;
 			$cart[$idx][$field_name] = $row_data[$i]->data_txt;
 		}
+
 		$session->set('cart', $cart);
 	}
 

@@ -63,6 +63,7 @@ class CartModelCart extends JModel
 		{
 			$this->emptyExpiredCartProducts();
 		}
+
 		$user = & JFactory::getUser();
 
 		$session = JFactory::getSession();
@@ -76,6 +77,7 @@ class CartModelCart extends JModel
 				$cart        = array();
 				$cart['idx'] = 0;
 			}
+
 			$user_id        = $user->id;
 			$usersess       = $session->get('rs_user');
 			$shopperGroupId = $this->_userhelper->getShopperGroup($user_id);
@@ -94,6 +96,7 @@ class CartModelCart extends JModel
 				}
 
 			}
+
 			$session->set('cart', $cart);
 		}
 	}
@@ -140,6 +143,7 @@ class CartModelCart extends JModel
 					}
 				}
 			}
+
 			$stockroomhelper->deleteExpiredCartProduct();
 		}
 	}
@@ -210,6 +214,7 @@ class CartModelCart extends JModel
 			{
 				$cart['notice_message'] = "";
 			}
+
 			$cart[$cartElement]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 			$cart[$cartElement]['cart_attribute'] = $this->updateAttributePriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 
@@ -289,6 +294,7 @@ class CartModelCart extends JModel
 			$session->set('cart', $cart);
 			$cart = $session->get('cart');
 		}
+
 		$idx = (int) ($cart['idx']);
 
 		$prdocut_all = $data['product_all'];
@@ -303,6 +309,7 @@ class CartModelCart extends JModel
 			{
 				$quantity[$i] = $cart[$i]['quantity'];
 			}
+
 			$quantity[$i] = intval(abs($quantity[$i]) > 0 ? $quantity[$i] : 1);
 
 			if ($cart[$i]['product_id'] == $product_id[$i] && $quantity[$i] != $cart[$i]['quantity'])
@@ -344,6 +351,7 @@ class CartModelCart extends JModel
 					$wrapper_vat   = $wrapperArr['wrapper_vat'];
 					$wrapper_price = $wrapperArr['wrapper_price'];
 				}
+
 				$subscription_vat = 0;
 
 				if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
@@ -362,6 +370,7 @@ class CartModelCart extends JModel
 				{
 					//return ;
 				}
+
 				$cart[$i]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
 				$cart[$i]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
 				$cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
@@ -369,6 +378,7 @@ class CartModelCart extends JModel
 				$cart[$i]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
 			}
 		}
+
 		$session->set('cart', $cart);
 	}
 
@@ -397,6 +407,7 @@ class CartModelCart extends JModel
 				$cart['idx'] = 0;
 			}
 		}
+
 		$session->set('cart', $cart);
 
 	}
@@ -561,10 +572,13 @@ class CartModelCart extends JModel
 							$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 						}
 					}
+
 					$propArr[$k]['property_childs'] = $subpropArr;
 				}
+
 				$attchildArr[$j]['attribute_childs'] = $propArr;
 			}
+
 			$attArr[$i]['accessory_childs'] = $attchildArr;
 		}
 
@@ -606,8 +620,10 @@ class CartModelCart extends JModel
 						$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 					}
 				}
+
 				$propArr[$k]['property_childs'] = $subpropArr;
 			}
+
 			$attArr[$i]['attribute_childs'] = $propArr;
 		}
 
@@ -694,6 +710,7 @@ class CartModelCart extends JModel
 								$type      = 'product_attributes';
 								$imagename = $property[0]->property_image;
 							}
+
 							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
@@ -722,6 +739,7 @@ class CartModelCart extends JModel
 											$type      = 'subcolor';
 											$imagename = $subproperty[0]->subattribute_color_image;
 										}
+
 										$accSubpropertyCart[$isp]['subproperty_id']           = $acc_subproperty_data[$isp];
 										$accSubpropertyCart[$isp]['subproperty_name']         = $subproperty[0]->text;
 										$accSubpropertyCart[$isp]['subproperty_oprand']       = $subproperty[0]->oprand;
@@ -730,13 +748,16 @@ class CartModelCart extends JModel
 									}
 								}
 							}
+
 							$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
 						}
 					}
 				}
+
 				$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 			}
 		}
+
 		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
 
 		if (!empty($imagename) && !empty($type))

@@ -198,6 +198,7 @@ class split_paymentModelsplit_payment extends JModel
 
 						return false;
 					}
+
 					$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 					$msg                 = JText::_('COM_REDSHOP_PARTIAL_PAYMENT_DONE');
 
@@ -219,6 +220,7 @@ class split_paymentModelsplit_payment extends JModel
 			}
 
 		}
+
 		$mainframe->Redirect($return, $msg);
 	}
 
