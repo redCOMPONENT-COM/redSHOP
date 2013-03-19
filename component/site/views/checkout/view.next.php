@@ -12,9 +12,9 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
 
 class checkoutViewcheckout extends JView
 {
@@ -22,8 +22,8 @@ class checkoutViewcheckout extends JView
 	public function display($tpl = null)
 	{
 		global $mainframe;
-		$shippinghelper  = new shipping();
-		$order_functions = new order_functions();
+		$shippinghelper  = new shipping;
+		$order_functions = new order_functions;
 
 		$params  = & $mainframe->getParams('com_redshop');
 		$option  = JRequest::getVar('option');

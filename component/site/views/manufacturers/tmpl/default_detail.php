@@ -16,7 +16,7 @@ $url = JURI::base();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $mid = JRequest::getInt('mid');
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 
 $document = JFactory::getDocument();
 

@@ -12,13 +12,13 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 
-$config = new Redconfiguration();
-$producthelper = new producthelper();
-$redhelper = new redhelper();
+$config = new Redconfiguration;
+$producthelper = new producthelper;
+$redhelper = new redhelper;
 
 $url = JURI::base();
 $option = JRequest::getVar('option');
@@ -29,8 +29,8 @@ $user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
-$redTemplate = new Redtemplate();
-$extraField = new extraField();
+$redTemplate = new Redtemplate;
+$extraField = new extraField;
 $template = $redTemplate->getTemplate("wishlist_template");
 $wishlist_data1 = $template[0]->template_desc;
 $returnArr = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
@@ -163,12 +163,12 @@ function display_products($rows)
 {
 	$url           = JURI::base();
 	$option        = JRequest::getVar('option');
-	$extraField    = new extraField();
+	$extraField    = new extraField;
 	$session       = JFactory::getSession();
-	$producthelper = new producthelper();
-	$redhelper     = new redhelper();
-	$config        = new Redconfiguration();
-	$redTemplate   = new Redtemplate();
+	$producthelper = new producthelper;
+	$redhelper     = new redhelper;
+	$config        = new Redconfiguration;
+	$redTemplate   = new Redtemplate;
 	$template      = $redTemplate->getTemplate("wishlist_template");
 
 	if (count($template) <= 0)

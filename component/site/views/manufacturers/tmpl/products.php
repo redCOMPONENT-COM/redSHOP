@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die ('restricted access');
 
-$producthelper = new producthelper();
-$extra_field = new extra_field();
-$redTemplate = new Redtemplate();
-$redhelper = new redhelper();
-$extraField = new extraField();
-$Redconfiguration = new Redconfiguration();
+$producthelper = new producthelper;
+$extra_field = new extra_field;
+$redTemplate = new Redtemplate;
+$redhelper = new redhelper;
+$extraField = new extraField;
+$Redconfiguration = new Redconfiguration;
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

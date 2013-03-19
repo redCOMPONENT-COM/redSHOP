@@ -10,11 +10,11 @@
 defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'configuration.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
 
 
 class productViewproduct extends JView
@@ -24,10 +24,10 @@ class productViewproduct extends JView
 //   		global $mainframe;
 		// Request variables
 		$mainframe     = JFactory::getApplication();
-		$prodhelperobj = new producthelper();
-		$redTemplate   = new Redtemplate();
-		$redhelper     = new redhelper();
-		$texts         = new text_library();
+		$prodhelperobj = new producthelper;
+		$redTemplate   = new Redtemplate;
+		$redhelper     = new redhelper;
+		$texts         = new text_library;
 		$dispatcher    =& JDispatcher::getInstance();
 
 		$option   = JRequest::getVar('option', 'com_redshop');
@@ -392,7 +392,7 @@ class productViewproduct extends JView
 			 * Trigger event onAfterDisplayProduct
 			 * Show content return by plugin directly into product page after display product title
 			 */
-			$data->event                    = new stdClass();
+			$data->event                    = new stdClass;
 			$results                        = $dispatcher->trigger('onAfterDisplayProductTitle', array(& $productTemplate->template_desc, & $params, $data));
 			$data->event->afterDisplayTitle = trim(implode("\n", $results));
 

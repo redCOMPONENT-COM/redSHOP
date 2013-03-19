@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die ('restricted access');
-$userhelper = new rsUserhelper();
+$userhelper = new rsUserhelper;
 $user =& JFactory::getUser();
 $Itemid = JRequest::getVar('Itemid');
 

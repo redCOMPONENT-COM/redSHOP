@@ -14,7 +14,7 @@ $model = $this->getModel('checkout');
 $uri = & JURI::getInstance();
 $url = $uri->root();
 
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $Itemid = $redhelper->getCheckoutItemid();
 $session = & JFactory::getSession();
 $cart = $session->get('cart');

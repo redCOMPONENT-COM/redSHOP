@@ -8,14 +8,14 @@
  */
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 class cartViewcart extends JView
 {
 	public function display($tpl = null)
 	{
 		global $mainframe;
 		// Request variables
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 		$user        = & JFactory::getUser();
 
 		$session = JFactory::getSession();

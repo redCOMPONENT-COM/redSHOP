@@ -10,20 +10,20 @@
 defined('_JEXEC') or die ('restricted access');
 $url = JURI::base();
 
-include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
-$producthelper = new producthelper();
-$quotationHelper = new quotationHelper();
-$order_functions = new order_functions();
-$configobj = new Redconfiguration();
-$redTemplate = new Redtemplate();
-$extra_field = new extra_field();
-$extraField = new extraField();
-$carthelper = new rsCarthelper();
+$producthelper = new producthelper;
+$quotationHelper = new quotationHelper;
+$order_functions = new order_functions;
+$configobj = new Redconfiguration;
+$redTemplate = new Redtemplate;
+$extra_field = new extra_field;
+$extraField = new extraField;
+$carthelper = new rsCarthelper;
 $user =& JFactory::getUser();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');

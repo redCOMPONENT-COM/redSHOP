@@ -11,16 +11,16 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-$producthelper = new producthelper();
-$redTemplate = new Redtemplate();
-$extraField = new extraField();
-$config = new Redconfiguration();
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+$producthelper = new producthelper;
+$redTemplate = new Redtemplate;
+$extraField = new extraField;
+$config = new Redconfiguration;
 $url = JURI::base();
 $print = JRequest::getVar('print');
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 //$document = JFactory::getDocument();
 
 // Page Title Start

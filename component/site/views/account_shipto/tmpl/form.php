@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
-$userhelper = new rsUserhelper();
+$userhelper = new rsUserhelper;
 
 $post = (array) $this->shippingaddresses;
 

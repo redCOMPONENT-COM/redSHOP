@@ -26,7 +26,7 @@ class wishlistViewwishlist extends JView
 		$pid    = JRequest::getInt('product_id');
 		$layout = JRequest::getVar('layout');
 
-		$config = new Redconfiguration();
+		$config = new Redconfiguration;
 
 		$pageheadingtag = '';
 

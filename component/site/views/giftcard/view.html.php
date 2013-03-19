@@ -11,9 +11,9 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-//require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'category.php');
+//require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'category.php';
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
 
 class giftcardViewgiftcard extends JView
 {

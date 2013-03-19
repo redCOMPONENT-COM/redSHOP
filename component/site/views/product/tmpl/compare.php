@@ -11,14 +11,14 @@ defined('_JEXEC') or die ('restricted access');
 $url = JURI::base();
 
 // Text library
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
-$texts = new text_library();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
+$texts = new text_library;
 
 // get product helper
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
 
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
@@ -28,12 +28,12 @@ $user   = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 
-$config  = new Redconfiguration ();
+$config  = new Redconfiguration;
 $compare = $producthelper->getCompare();
 
 
-$redTemplate     = new Redtemplate();
-$stockroomhelper = new rsstockroomhelper();
+$redTemplate     = new Redtemplate;
+$stockroomhelper = new rsstockroomhelper;
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
 	$session         = JFactory::getSession();
@@ -88,7 +88,7 @@ else if (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{compare_product_heading}', $pagetitle, $template);
 	$template = str_replace('{returntocategory_name}', JText::_("COM_REDSHOP_GO_BACK"), $template);
 	$template = str_replace('{returntocategory_link}', $returnlink, $template);
-	$field    = new extraField(); // make extrafield object..
+	$field    = new extraField; // make extrafield object..
 
 	$product_tag = array();
 	if (count($compare_template) > 0)

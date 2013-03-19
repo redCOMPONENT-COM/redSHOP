@@ -13,17 +13,17 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_function = new order_functions();
-$redconfig = new Redconfiguration();
-$producthelper = new producthelper();
-$carthelper = new rsCarthelper();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_function = new order_functions;
+$redconfig = new Redconfiguration;
+$producthelper = new producthelper;
+$carthelper = new rsCarthelper;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $print = JRequest::getVar('print');
 $document = JFactory::getDocument();
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 
 $template_id = $this->params->get('template_id');
 $orderslist_template = $redTemplate->getTemplate("order_list", $template_id);

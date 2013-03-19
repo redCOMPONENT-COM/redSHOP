@@ -11,21 +11,21 @@ defined('_JEXEC') or die ('restricted access');
 /*
  * Include required files
  */
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 $adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-include_once ($adminpath . DS . 'helpers' . DS . 'shipping.php');
+include_once $adminpath . DS . 'helpers' . DS . 'shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $dispatcher =& JDispatcher::getInstance();
-$producthelper = new producthelper ();
-$objshipping = new shipping ();
-$redhelper = new redhelper ();
-$carthelper = new rsCarthelper ();
-$redTemplate = new Redtemplate();
+$producthelper = new producthelper;
+$objshipping = new shipping;
+$redhelper = new redhelper;
+$carthelper = new rsCarthelper;
+$redTemplate = new Redtemplate;
 
 $url = JURI::base();
 $cart = $this->cart;
@@ -125,7 +125,7 @@ else
 	if (SSL_ENABLE_IN_CHECKOUT)
 	{
 		$uri    =& JURI::getInstance();
-		$c_link = new JURI ();
+		$c_link = new JURI;
 		$c_link->setScheme('https');
 		$c_link->setHost($uri->getHost());
 

@@ -17,7 +17,7 @@ class accountViewaccount extends JView
 	{
 		global $mainframe, $context;
 
-		$prodhelperobj = new producthelper();
+		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		$option = JRequest::getVar('option');
@@ -116,7 +116,7 @@ class accountViewaccount extends JView
 		// RedCRM Template
 
 		// Helper object
-		$helper = new redhelper();
+		$helper = new redhelper;
 
 		if ($layout == "default" && $helper->isredCRM())
 		{

@@ -25,14 +25,14 @@ $session = JFactory::getSession();
 $document = & JFactory::getDocument();
 $dispatcher =& JDispatcher::getInstance();
 
-$extraField = new extraField ();
-$texts = new text_library();
-$producthelper = new producthelper ();
-$redshopconfig = new Redconfiguration ();
-$stockroomhelper = new rsstockroomhelper();
-$redTemplate = new Redtemplate();
-$config = new Redconfiguration ();
-$redhelper = new redhelper();
+$extraField = new extraField;
+$texts = new text_library;
+$producthelper = new producthelper;
+$redshopconfig = new Redconfiguration;
+$stockroomhelper = new rsstockroomhelper;
+$redTemplate = new Redtemplate;
+$config = new Redconfiguration;
+$redhelper = new redhelper;
 
 //remove mootools.js and caption.js
 $headerstuff = $document->getHeadData();

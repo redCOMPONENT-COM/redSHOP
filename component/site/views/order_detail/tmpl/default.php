@@ -10,21 +10,21 @@
 defined('_JEXEC') or die ('restricted access');
 $uri         =& JURI::getInstance();
 $url         = JURI::base();
-$redconfig   = new Redconfiguration();
-$extra_field = new extra_field ();
+$redconfig   = new Redconfiguration;
+$extra_field = new extra_field;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 
-$producthelper   = new producthelper();
-$redhelper       = new redhelper();
-$order_functions = new order_functions();
-$redTemplate     = new Redtemplate();
-$shippinghelper  = new shipping();
-$carthelper      = new rsCarthelper();
+$producthelper   = new producthelper;
+$redhelper       = new redhelper;
+$order_functions = new order_functions;
+$redTemplate     = new Redtemplate;
+$shippinghelper  = new shipping;
+$carthelper      = new rsCarthelper;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');

@@ -15,8 +15,8 @@
  */
 defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
-$redTemplate = new Redtemplate();
-$extra_field = new extra_field();
+$redTemplate = new Redtemplate;
+$extra_field = new extra_field;
 $Itemid = JRequest::getVar('Itemid');
 $layout = JRequest::getVar('layout', 'default');
 $model = $this->getModel('catalog');
@@ -121,7 +121,7 @@ if ($this->params->get('show_page_heading', 1))
 			frm.email_address.focus();
 			return false;
 		}
-		var sampleArr = new Array();
+		var sampleArr = new Array;
 		if (document.getElementsByName('sample_code[]')) {
 			var sName = document.getElementsByName('sample_code[]');
 			var i = 0;

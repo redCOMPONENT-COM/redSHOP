@@ -8,13 +8,13 @@
  */
 
 defined('_JEXEC') or die ('restricted access');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$redTemplate = new Redtemplate();
-$carthelper = new rsCarthelper();
+$redTemplate = new Redtemplate;
+$carthelper = new rsCarthelper;
 
 $post = JRequest::get('POST');
 $user =& JFactory::getUser();
@@ -41,7 +41,7 @@ else
 
 if ($this->users_info_id > 0)
 {
-	$shippinghelper          = new shipping();
+	$shippinghelper          = new shipping;
 	$shippingBoxes           = $shippinghelper->getShippingBox();
 	$selshipping_box_post_id = 0;
 	if (count($shippingBoxes) > 0)

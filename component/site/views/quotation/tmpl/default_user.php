@@ -10,14 +10,14 @@
 defined('_JEXEC') or die ('restricted access');
 
 JHTML::_('behavior.tooltip');
-//require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'configuration.php' );
+//require_once  JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'configuration.php' ;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_functions = new order_functions();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_functions = new order_functions;
 
 $url = JURI::base();
 
-$redconfig = new Redconfiguration();
+$redconfig = new Redconfiguration;
 
 $Itemid = JRequest::getVar('Itemid');
 $option = JRequest::getVar('option');
@@ -38,7 +38,7 @@ $phone = $detail->phone;
 $user_email = $detail->user_email;
 
 
-$field = new extra_field();
+$field = new extra_field;
 
 if (DEFAULT_CUSTOMER_REGISTER_TYPE == 1 || !DEFAULT_CUSTOMER_REGISTER_TYPE)
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die ('restricted access');
 jimport('joomla.application.component.view');
 
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
 class order_detailVieworder_detail extends JView
 {
@@ -34,7 +34,7 @@ class order_detailVieworder_detail extends JView
 
 		$params = & $mainframe->getParams('com_redshop');
 
-		$prodhelperobj = new producthelper();
+		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		$user     = JFactory::getUser();

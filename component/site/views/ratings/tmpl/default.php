@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die ('restricted access');
-$redconfig = new Redconfiguration();
-$redTemplate = new Redtemplate();
+$redconfig = new Redconfiguration;
+$redTemplate = new Redtemplate;
 $model = $this->getModel('ratings');
 
 $main_template = $redTemplate->getTemplate("review");

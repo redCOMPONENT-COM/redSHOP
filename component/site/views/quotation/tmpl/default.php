@@ -10,8 +10,8 @@
 defined('_JEXEC') or die ('restricted access');
 
 JHTML::_('behavior.tooltip');
-$redTemplate = new Redtemplate ();
-$carthelper = new rsCarthelper();
+$redTemplate = new Redtemplate;
+$carthelper = new rsCarthelper;
 
 $Itemid = JRequest::getVar('Itemid');
 $option = JRequest::getVar('option');
@@ -21,7 +21,7 @@ $cart = $session->get('cart');
 
 $detail = $this->detail;
 $user = JFactory::getUser();
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 //$idx =  $cart['idx'];
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
@@ -132,7 +132,7 @@ echo eval("?>" . $template_desc . "<?php ");?>
 	 i = 0;
 	 for (x in source) {
 	 if (source[x][0] == key) {
-	 opt = new Option();
+	 opt = new Option;
 	 opt.value = source[x][1];
 	 opt.text = source[x][2];
 

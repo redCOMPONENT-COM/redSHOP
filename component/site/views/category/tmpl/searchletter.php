@@ -8,29 +8,29 @@
  */
 
 defined('_JEXEC') or die ('restricted access');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.application.module.helper');
 JHTMLBehavior::modal();
 $url       = JURI::base();
 $option    = JRequest::getVar('option');
-$config    = new Redconfiguration();
+$config    = new Redconfiguration;
 $Itemid    = JRequest::getVar('Itemid');
 $letter    = JRequest::getVar('letter');
-$objhelper = new redhelper();
+$objhelper = new redhelper;
 $model     = $this->getModel('category');
 $view      = JRequest::getVar('view');
 $user      = & JFactory::getUser();
 $session   = JFactory::getSession();
 $document  = & JFactory::getDocument();
 
-$extraField      = new extraField ();
-$texts           = new text_library();
-$producthelper   = new producthelper ();
-$redshopconfig   = new Redconfiguration ();
-$redTemplate     = new Redtemplate();
-$stockroomhelper = new rsstockroomhelper();
+$extraField      = new extraField;
+$texts           = new text_library;
+$producthelper   = new producthelper;
+$redshopconfig   = new Redconfiguration;
+$redTemplate     = new Redtemplate;
+$stockroomhelper = new rsstockroomhelper;
 
 
 $module         = JModuleHelper::isEnabled('redshop_lettersearch');

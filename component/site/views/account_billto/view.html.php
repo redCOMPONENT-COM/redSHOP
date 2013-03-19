@@ -11,13 +11,13 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 class account_billtoViewaccount_billto extends JView
 {
 	public function display($tpl = null)
 	{
 		global $mainframe;
-		$extra_field = new extraField();
+		$extra_field = new extraField;
 
 		$params = & $mainframe->getParams('com_redshop');
 

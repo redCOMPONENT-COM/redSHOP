@@ -12,8 +12,8 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$redTemplate      = new Redtemplate();
-$carthelper       = new rsCarthelper();
+$redTemplate      = new Redtemplate;
+$carthelper       = new rsCarthelper;
 $model            = $this->getModel('checkout');
 $payment_template = $redTemplate->getTemplate("redshop_payment");
 if (count($payment_template) > 0 && $payment_template[0]->template_desc)
