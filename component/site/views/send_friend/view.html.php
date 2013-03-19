@@ -15,7 +15,6 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php
 
 class send_friendViewsend_friend extends JView
 {
-
 	public function display($tpl = null)
 	{
 		global $mainframe;
@@ -25,7 +24,6 @@ class send_friendViewsend_friend extends JView
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
 		$pid    = JRequest::getInt('pid');
-
 
 		$params = & $mainframe->getParams('com_redshop');
 
@@ -37,7 +35,6 @@ class send_friendViewsend_friend extends JView
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('json.js', 'components/com_redshop/assets/js/', false);
 
-		//JHTML::Stylesheet('scrollable-minimal.css', 'components/com_redshop/assets/css/');
 		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 		$data =& $this->get('data');
 

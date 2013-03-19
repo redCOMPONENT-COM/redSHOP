@@ -142,8 +142,6 @@ $billingaddresses = $model->billingaddresses();
 			<td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_EAN_NUMBER');?>:</label></td>
 			<td><?php echo $billingaddresses->ean_number;?></td>
 		</tr>
-		<!-- <tr><td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER' );?>:</label></td>
-	<td><?php echo $billingaddresses->requisition_number;?></td></tr>-->
 	<?php
 	}
 
@@ -155,24 +153,28 @@ $billingaddresses = $model->billingaddresses();
 					:</label></td>
 			<td><?php echo $billingaddresses->vat_number;?></td>
 		</tr>
-		<?php if (SHOW_TAX_EXEMPT_INFRONT)
-	{ ?>
-		<tr>
-			<td width="100" align="left"><label for="tax_exempt"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT');?>
-					:</label></td>
-			<td><?php
-				if ($billingaddresses->tax_exempt == 1)
-				{
-					echo JText::_('COM_REDSHOP_YES');
-				}
-				else
-				{
-					echo JText::_('COM_REDSHOP_NO');
-				}
-				?>
-			</td>
-		</tr>
-	<?php } ?>
+		<?php
+		if (SHOW_TAX_EXEMPT_INFRONT)
+		{
+		?>
+			<tr>
+				<td width="100" align="left"><label for="tax_exempt"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT');?>
+						:</label></td>
+				<td><?php
+					if ($billingaddresses->tax_exempt == 1)
+					{
+						echo JText::_('COM_REDSHOP_YES');
+					}
+					else
+					{
+						echo JText::_('COM_REDSHOP_NO');
+					}
+					?>
+				</td>
+			</tr>
+		<?php
+		}
+		?>
 	<?php
 	}
 

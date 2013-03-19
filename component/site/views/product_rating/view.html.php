@@ -50,7 +50,6 @@ class product_ratingViewproduct_rating extends JView
 			$msg  = JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
 			$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 			$mainframe->redirect($link, $msg);
-
 		}
 		else
 		{

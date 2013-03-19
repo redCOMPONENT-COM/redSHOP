@@ -81,7 +81,7 @@ if (count($onesteptemplate) > 0 && $onesteptemplate[0]->template_desc)
 }
 else
 {
-	$onestep_template_desc = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS"); //"<div id=\"produkt\">\r\n<div class=\"produkt_spacer\"></div>\r\n<div class=\"produkt_anmeldelser_opsummering\">{product_rating_summary}</div>\r\n<div id=\"opsummering_wrapper\">\r\n<div id=\"opsummering_skubber\"></div>\r\n<div id=\"opsummering_link\">Clik <a href=\"ratings\" target=\"self\">her</a> for go to the review (s)</div>\r\n</div>\r\n<div id=\"produkt_kasse\">\r\n<div class=\"produkt_kasse_venstre\">\r\n<div class=\"produkt_kasse_billed\">{product_thumb_image}</div>\r\n<div class=\"produkt_kasse_billed_flere\">{more_images}</div>\r\n<div id=\"produkt_kasse_venstre_tekst\">Clik on the images to enlarge</div>\r\n</div>\r\n<div class=\"produkt_kasse_hoejre\">\r\n<div class=\"produkt_kasse_hoejre_materialefarve\">\r\n<div class=\"produkt_kasse_hoejre_materialefarve_overskrift\">Select Material & Color</div>\r\n<div id=\"produkt_kasse_hojere_materialefarve_skubber\"></div>\r\n<div class=\"produkt_kasse_hoejre_materialefarve_indhold\">{product_attribute}</div>\r\n</div>\r\n<div class=\"produkt_kasse_hoejre_accessory\">{product_accessory}</div>\r\n<div class=\"produkt_kasse_hoejre_pris\">\r\n<div class=\"produkt_kasse_hoejre_pris_indre\" id=\"produkt_kasse_hoejre_pris_indre\">{product_price}</div>\r\n<div class=\"produkt_kasse_hoejre_pris_indre_inklmoms\">inc VAT</div>\r\n</div>\r\n<div class=\"produkt_kasse_hoejre_laegikurv\">\r\n<div class=\"produkt_kasse_hoejre_laegikurv_indre\">{form_addtocart:add_to_cart2}</div>\r\n</div>\r\n<div class=\"produkt_kasse_hoejre_leveringstid\">\r\n<div class=\"produkt_kasse_hoejre_leveringstid_indre\">Delivery: {product_delivery_time}</div>\r\n</div>\r\n<div class=\"produkt_kasse_hoejre_bookmarksendtofriend\">\r\n<div class=\"produkt_kasse_hoejre_bookmark\">{bookmark}</div>\r\n<div class=\"produkt_kasse_hoejre_sendtofriend\">{send_to_friend}</div>\r\n</div>\r\n</div>\r\n<div class=\"produkt_beskrivelse_spacer\"></div>\r\n<div id=\"produkt_beskrivelse_wrapper\">\r\n<div class=\"produkt_beskrivelse\">\r\n<div id=\"produkt_beskrivelse_maal\">\r\n<div id=\"produkt_maal_wrapper\">\r\n<div id=\"produkt_maal_skubber_venstre\"></div>\r\n<div id=\"produkt_maal_indhold_hojre\">\r\n<div id=\"produkt_maal_overskrift\">\r\n<h3>Target of the product</h3>\r\n</div>\r\n<div id=\"produkt_hojde\">H: {hojde}</div>\r\n<div id=\"produkt_bredde\">x B: {bredde}</div>\r\n<div id=\"produkt_dybde\">x D: {dybde}</div>\r\n<div style=\"width: 275px; height: 10px; clear: left;\"></div>\r\n<div id=\"producent_link\">{manufacturer_link}</div>\r\n<div id=\"produkt_writereview\">{form_rating}</div>\r\n</div>\r\n</div>\r\n</div>\r\n<h2>{product_name}</h2>\r\n<div id=\"beskrivelse_lille\">{product_s_desc}</div>\r\n<div id=\"beskrivelse_stor\">{product_desc}</div>\r\n</div>\r\n</div>\r\n<div id=\"produkt_anmeldelser\">\r\n<div id=\"produkt_anmeldelser_headline\">\r\n<h3>Customer rating</h3>\r\n</div>\r\n{product_rating}</div>\r\n</div>\r\n</div>";
+	$onestep_template_desc = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
 }
 
 $payment_template = "";
@@ -141,14 +141,11 @@ for ($i = 0; $i < count($templatelist); $i++)
 
 if (SHIPPING_METHOD_ENABLE)
 {
-
 	if ($users_info_id > 0)
 	{
 		$ordertotal     = $cart['total'];
 		$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 		$order_subtotal = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
-
-//		$order_subtotal =$cart['product_subtotal'];
 
 		$shippingbox_template_desc = $carthelper->replaceShippingBoxTemplate($shippingbox_template_desc, $shipping_box_post_id);
 		$onestep_template_desc     = str_replace($shippingbox_template, $shippingbox_template_desc, $onestep_template_desc);
@@ -248,8 +245,9 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 <script type="text/javascript">
 	function chkvalidaion() {
 		<?php
-			if( MINIMUM_ORDER_TOTAL > 0 && $cart['total'] < MINIMUM_ORDER_TOTAL)
-			{	?>
+			if (MINIMUM_ORDER_TOTAL > 0 && $cart['total'] < MINIMUM_ORDER_TOTAL)
+			{
+			?>
 		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
 		return false;
 		<?php

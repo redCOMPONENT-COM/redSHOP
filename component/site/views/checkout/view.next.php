@@ -101,44 +101,8 @@ class checkoutViewcheckout extends JView
 
 		if ($is_subscription)
 		{
-
 			$subscription_id = $session->set('subscription_id', $subscription_id);
 		}
-
-//		if(@$is_creditcard == 1 && $ccinfo == '1')
-//		{
-//			$_SESSION['ccdata']['order_payment_name'] = JRequest::getVar('order_payment_name');
-
-//			$_SESSION['ccdata']['creditcard_code'] = JRequest::getVar('creditcard_code');
-
-//			$_SESSION['ccdata']['order_payment_number'] = JRequest::getVar('order_payment_number');
-
-//			$_SESSION['ccdata']['order_payment_expire_month'] = JRequest::getVar('order_payment_expire_month');
-
-//			$_SESSION['ccdata']['order_payment_expire_year'] = JRequest::getVar('order_payment_expire_year');
-
-//			$_SESSION['ccdata']['credit_card_code'] = JRequest::getVar('credit_card_code');
-
-//			$validpayment = $model->validatepaymentccinfo();
-
-//			if(!$validpayment[0])
-//			{
-//				$msg =  $validpayment[1];
-
-//				// $link = 'index.php?option='.$option.'&view=checkout&task=checkoutnext&Itemid='.$Itemid.'&users_info_id='.$users_info_id.'&shipping_rate_id='.$shipping_rate_id.'&payment_method_id='.$payment_method_id;
-
-//				// $mainframe->Redirect( $link , $msg );
-
-//			 }else
-//			 {
-//			   // $link = 'index.php?option='.$option.'&view=checkout&task=checkoutfinal&Itemid='.$Itemid.'&users_info_id='.$users_info_id.'&shipping_rate_id='.$shipping_rate_id.'&payment_method_id='.$payment_method_id.'&ccinfo='.$ccinfo;
-
-//				// $mainframe->Redirect( $link , $msg );
-
-//			 }
-
-//		}
-
 
 		$this->assignRef('cart', $cart);
 		$this->assignRef('users_info_id', $users_info_id);

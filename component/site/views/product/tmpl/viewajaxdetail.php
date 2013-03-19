@@ -172,7 +172,7 @@ if (count($ajaxdetal_template) > 0)
 	}
 
 	// Get attribute Template data
-	/////////////////////////////////// Product attribute  Start /////////////////////////////////
+	// Product attribute  Start
 	$attributes_set = array();
 
 	if ($this->data->attribute_set_id > 0)
@@ -186,16 +186,16 @@ if (count($ajaxdetal_template) > 0)
 	$totalatt           = count($attributes);
 	$data_add           = $producthelper->replaceAttributeData($this->data->product_id, 0, $relatedprd_id, $attributes, $data_add, $attribute_template, $isChilds, $selectAtt);
 
-	/////////////////////////////////// Product attribute  End /////////////////////////////////
+	// Product attribute  End
 
 
-	/////////////////////////////////// Product accessory Start /////////////////////////////////
+	// Product accessory Start /////////////////////////////////
 	$accessory      = $producthelper->getProductAccessory(0, $this->data->product_id);
 	$totalAccessory = count($accessory);
 
 	$data_add = $producthelper->replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);
 
-	/////////////////////////////////// Product accessory End /////////////////////////////////
+	// Product accessory End /////////////////////////////////
 
 
 	// Cart

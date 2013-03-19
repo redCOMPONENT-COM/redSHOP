@@ -19,14 +19,14 @@ $configobj = new Redconfiguration;
 $redTemplate = new Redtemplate;
 $extraField = new extraField;
 
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $wishlist_id = JRequest ::getInt('wishlist_id');
 $mail = JRequest::getVar('mail', 0);
 
 $model = $this->getModel('account');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 $window = JRequest::getVar('window');

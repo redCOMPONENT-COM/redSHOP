@@ -40,10 +40,14 @@ if ($shoppergroupid != 0)
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td colspan="2" align="center">
-				<?php if (is_file($portallogofile))
-				{ ?>
+				<?php
+				if (is_file($portallogofile))
+				{
+				?>
 					<img src="<?php echo $portallogo; ?>">
-				<?php }?>
+				<?php
+				}
+				?>
 			</td>
 		</tr>
 		<tr>

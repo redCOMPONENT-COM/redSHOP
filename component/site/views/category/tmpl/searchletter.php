@@ -45,7 +45,6 @@ if (!$module)
 	JError::raiseWarning('', $msg);
 
 	return false;
-
 }
 
 

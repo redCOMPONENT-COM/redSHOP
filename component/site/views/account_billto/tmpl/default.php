@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('restricted access');
 $userhelper = new rsUserhelper;
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $Itemid = JRequest::getVar('Itemid');
 
 $post = (array) @$this->billingaddresses;

@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-class passwordViewpassword extends JView
+class PasswordViewPassword extends JView
 {
 	public function display($tpl = null)
 	{
@@ -36,6 +36,7 @@ class passwordViewpassword extends JView
 				$this->setLayout('default');
 			}
 		}
+
 		parent::display($tpl);
 	}
 }

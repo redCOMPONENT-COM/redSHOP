@@ -73,12 +73,14 @@ $cart = $session->get('cart');
 					$checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingaddresses->users_info_id) ? 'checked' : '';    ?>
 					<tr>
 						<td>
-							<?php if (!$session->get('isredcrmuser'))
+							<?php
+							if (!$session->get('isredcrmuser'))
 							{
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
 								       type="radio" name="users_info_id"
-								       value="<?php echo $billingaddresses->users_info_id; ?>" <?php echo "checked";?> />
+								       value="<?php echo $billingaddresses->users_info_id; ?>"
+									<?php echo "checked";?> />
 							<?php
 							}
 							else
@@ -86,8 +88,11 @@ $cart = $session->get('cart');
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
 								       type="radio" name="users_info_id"
-								       value="<?php echo $billingaddresses->users_info_id; ?>" <?php echo $checked;?> />
-							<?php }?>
+								       value="<?php echo $billingaddresses->users_info_id; ?>"
+									<?php echo $checked;?> />
+							<?php
+							}
+							?>
 							- <?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS');?></td>
 					</tr>
 				<?php
@@ -107,12 +112,14 @@ $cart = $session->get('cart');
 					$delete_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;    ?>
 					<tr>
 						<td>
-							<?php if (!$session->get('isredcrmuser'))
+							<?php
+							if (!$session->get('isredcrmuser'))
 							{
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
 								       type="radio" name="users_info_id"
-								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>" <?php echo $checked;?> />
+								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
+									<?php echo $checked;?> />
 							<?php
 							}
 							else
@@ -120,7 +127,8 @@ $cart = $session->get('cart');
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
 								       type="radio" name="users_info_id"
-								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>" <?php echo $checked;?>/>
+								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
+									<?php echo $checked;?>/>
 
 							<?php
 							}
@@ -129,6 +137,7 @@ $cart = $session->get('cart');
 							{
 								echo $shippingaddresses [$i]->address . " ";
 							}
+
 							echo $shippingaddresses [$i]->text;
 
 							if (!$session->get('isredcrmuser'))
@@ -139,7 +148,9 @@ $cart = $session->get('cart');
 									)</a>
 								<a href="<?php echo $delete_addlink; ?>"
 								   title="">(<?php echo JText::_('COM_REDSHOP_DELETE_LBL');    ?>)</a>
-							<?php }    ?>
+							<?php
+							}
+							?>
 						</td>
 					</tr>
 				<?php

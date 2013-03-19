@@ -68,8 +68,10 @@ if ($this->params->get('show_page_heading', 0))
 		{
 			echo $this->pageheadingtag;
 		}
+
 		echo '</h1>';
 	}
+
 	echo '</div>';
 }
 
@@ -215,7 +217,6 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		// Shopper group category ACL
 		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
 
-//		$readmorelink = JRoute::_ ( 'index.php?option='.$option.'&view=category&cid='.$row->category_id.'&layout=detail&Itemid='.$tmpItemid );
 		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$data_add  = str_replace("{read_more}", $read_more, $data_add);
 		$sgportal  = $objhelper->getShopperGroupPortal();
@@ -253,16 +254,6 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 if (strstr($template_desc, "{filter_by}"))
 {
-//	$filterby_form = "<form name='filterby_form' action='' method='post' >";
-
-//	$filterby_form .= $this->lists['manufacturer'];
-
-//	$filterby_form .= "<input type='hidden' name='order_by' id='order_by' value='".$this->order_by_select."' />";
-
-//	$filterby_form .= "<input type='hidden' name='category_template' id='category_template' value='".$this->category_template_id."' />";
-
-//	$filterby_form .= "</form>";
-
 	$template_desc = str_replace("{filter_by_lbl}", "", $template_desc);
 	$template_desc = str_replace("{filter_by}", "", $template_desc);
 }

@@ -16,9 +16,6 @@ class price_filterViewprice_filter extends JView
 	{
 		$prdlist = $this->get('Data');
 
-//		$prdlist = JRequest::getVar('prdlist');
-
-//		print_r($prdlist);
 		$this->assignRef('prdlist', $prdlist);
 
 		parent::display($tpl);

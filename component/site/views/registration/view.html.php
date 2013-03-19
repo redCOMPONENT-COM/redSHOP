@@ -39,8 +39,12 @@ class registrationViewregistration extends JView
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
 
 		$field                        = new extraField;
-		$lists['extra_field_user']    = $field->list_all_field(7); // Field_section 7 : Customer Registration
-		$lists['extra_field_company'] = $field->list_all_field(8); // Field_section 8 : Company Address
+
+		// Field_section 7 : Customer Registration
+		$lists['extra_field_user']    = $field->list_all_field(7);
+
+		// Field_section 8 : Company Address
+		$lists['extra_field_company'] = $field->list_all_field(8);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('params', $params);

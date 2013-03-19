@@ -32,7 +32,8 @@ if ($this->params->get('show_page_heading', 1))
 {
 	?>
 	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-		<?php    if ($this->params->get('page_title') != $pagetitle)
+		<?php
+		if ($this->params->get('page_title') != $pagetitle)
 		{
 			echo $this->escape($this->params->get('page_title'));
 		}
@@ -142,12 +143,12 @@ $template_desc = str_replace("{manufacturer_name}", $row->manufacturer_name, $te
 
 // Replace Manufacturer URL
 if (strstr($template_desc, "{manufacturer_url}"))
-{ //echo $template_desc; die();
+{
 	$manufacturer_url = "<a href='" . $row->manufacturer_url . "'>" . $row->manufacturer_url . "</a>";
 	$template_desc    = str_replace("{manufacturer_url}", $manufacturer_url, $template_desc);
 }
 
-///////// Extra field display
+// Extra field display
 $extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
 $template_desc = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $template_desc);
 $template_desc = str_replace("{manufacturer_description}", $row->manufacturer_desc, $template_desc);
@@ -166,4 +167,3 @@ $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 echo "<div style='float:left;'>";
 echo eval("?>" . $template_desc . "<?php ");
 echo "</div>";
-

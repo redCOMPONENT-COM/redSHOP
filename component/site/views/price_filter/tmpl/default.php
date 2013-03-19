@@ -54,6 +54,7 @@ $producthelper = new producthelper;?>
 					{
 						echo $thum_image . "<br>";
 					}
+
 					echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
 
 					// $product_price_discount = $producthelper->getProductNetPrice($row->product_id);
@@ -99,6 +100,7 @@ $producthelper = new producthelper;?>
 									}
 								}
 							}
+
 							echo $pricetext . $disply_text;
 						}
 						else
@@ -118,6 +120,7 @@ $producthelper = new producthelper;?>
 						$addtocartform = $producthelper->replaceCartTemplate($row->product_id);
 						echo "<div>" . $addtocartform . "<div>";
 					}
+
 					echo "</div>";    ?>
 				</td>
 			</tr>

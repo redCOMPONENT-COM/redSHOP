@@ -24,7 +24,7 @@ $redTemplate = new Redtemplate;
 $extra_field = new extra_field;
 $extraField = new extraField;
 $carthelper = new rsCarthelper;
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 
@@ -138,9 +138,7 @@ if ($this->userdata->country_code)
 	{
 		$customer_country_lbl = '';
 		$customer_country     = '';
-
 	}
-
 }
 
 $template_desc = str_replace('{country_lbl}', $customer_country_lbl, $template_desc);
@@ -329,7 +327,6 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 	else
 	{
 		$template_desc = str_replace('{more_orders}', "", $template_desc);
-
 	}
 
 	$template_d1 = explode("{order_loop_start}", $template_desc);
@@ -572,4 +569,4 @@ $template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
 
 
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
-echo eval("?>" . $template_desc . "<?php ");    ?>
+echo eval("?>" . $template_desc . "<?php ");

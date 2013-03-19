@@ -20,7 +20,9 @@ $Itemid = JRequest::getVar('Itemid');?>
 		<tr>
 			<td height="40">
 				<label for="email" class="hasTip"
-				       title="<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TITLE'); ?>::<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TEXT'); ?>"><?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS'); ?>
+				       title="<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TITLE'); ?>
+				       ::<?php echo JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_TIP_TEXT'); ?>">
+					<?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS'); ?>
 					:</label>
 			</td>
 			<td>

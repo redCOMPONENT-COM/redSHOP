@@ -51,11 +51,31 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 	                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
 	<select name="search_field" onchange="javascript:document.adminForm.submit();">
 		<option
-			value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
+			value="p.product_name"
+			<?php
+			if ($this->search_field == 'p.product_name')
+			{
+				echo "selected='selected'";
+			}
+			?>>
+			<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
 		<option
-			value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
+			value="c.category_name"
+			<?php
+			if ($this->search_field == 'c.category_name')
+			{
+					echo "selected='selected'";
+			}
+			?>>
+			<?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
 		<option
-			value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
+			value="p.product_number"
+			<?php
+			if ($this->search_field == 'p.product_number')
+			{
+				echo "selected='selected'";
+			}?>>
+			<?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
 	</select>
 
 	<div id="editcell">
@@ -94,11 +114,13 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
 					<td>
 						<div style="cursor:pointer"
-						     onclick="insertProduct(<?php echo $row->product_id; ?>);"><?php echo $row->product_name; ?></div>
+						     onclick="insertProduct(<?php echo $row->product_id; ?>);">
+							<?php echo $row->product_name; ?></div>
 					</td>
 					<td>
 						<div style="cursor:pointer"
-						     onclick="insertProduct(<?php echo $row->product_id; ?>);"><?php echo $row->product_number;?></div>
+						     onclick="insertProduct(<?php echo $row->product_id; ?>);">
+							<?php echo $row->product_number;?></div>
 					</td>
 
 				</tr>

@@ -43,7 +43,9 @@ if ($this->params->get('show_page_heading', 1))
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_LIST'));?>
 	</div>
-<?php } ?>
+<?php
+}
+?>
 	<div>
 		<?php echo ORDER_LIST_INTROTEXT;?>
 	</div>

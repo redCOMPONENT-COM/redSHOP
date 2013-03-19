@@ -13,7 +13,6 @@ jimport('joomla.application.component.view');
 
 class ratingsViewratings extends JView
 {
-
 	public function display($tpl = null)
 	{
 		global $mainframe;

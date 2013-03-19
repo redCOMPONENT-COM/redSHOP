@@ -17,7 +17,7 @@ $redTemplate = new Redtemplate;
 $carthelper = new rsCarthelper;
 
 $post = JRequest::get('POST');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 
 $shippingbox_template = $redTemplate->getTemplate("shipping_box");
 
@@ -70,45 +70,6 @@ if ($this->users_info_id > 0)
 	$this->shipping_rate_id = $returnarr['shipping_rate_id'];
 
 	echo eval("?>" . $template_desc . "<?php ");
-	/*$database =  jFactory::getDBO();
-	$sql = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'" ;
-	$database->setQuery($sql);
-   	$isEnabled = $database->loadResult();
-
-	if($isEnabled)
-	{
-	
-		JPluginHelper::importPlugin('rs_labels_GLS');
-		$dispatcher 				=& JDispatcher::getInstance();
-		$sql = "SELECT  * FROM #__".TABLE_PREFIX."_users_info WHERE users_info_id='" . $this->users_info_id . "'" ;
-		$database->setQuery($sql);
-	   	$values = $database->loadObject();
-
-
-		$ShopResponses				= $dispatcher->trigger('GetNearstParcelShops',array( $values));
-		$ShopRespons				= $ShopResponses[0];
-
-		if(count($ShopRespons)>0)
-			$output						= '<fieldset><legend><b>'.JText::_( 'PACKAGE_COLLETCTION_SHOP' ).'</b></legend><table>';
-
-		for($i=0;$i<count($ShopRespons);$i++)
-		{
-			if($i<= (count($ShopRespons)-1)){
-				$checked = 'checked="checked"';
-			}
-
-			$output .= "<tr><td><input type='radio' $checked id='shop_id_". $ShopRespons[$i]->Number."' name='shop_id' value='". $ShopRespons[$i]->shop_id ."' />"  ;
-			$output .= $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname.", ". $ShopRespons[$i]->ZipCode . ", ". $ShopRespons[$i]->CityName . "</td></tr>";
-			$output .= "<tr><td>".$ShopRespons[$i]->openingTime. "</td></tr>";
-
-		}
-
-		if(count($ShopRespons)>0)
-		{
-			$output						.= '</table></fieldset>';
-			echo   $output;
-		}
-	}*/
 }
 else
 {

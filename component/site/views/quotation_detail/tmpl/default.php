@@ -177,7 +177,6 @@ if ($quotationDetail->user_id != 0)
 
 		if (SHOW_TAX_EXEMPT_INFRONT)
 		{
-
 			$billadd .= JText::_("TAX_EXEMPT") . ' : ';
 
 			if ($quotationDetail->tax_exempt == 1)

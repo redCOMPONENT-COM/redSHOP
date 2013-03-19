@@ -59,8 +59,10 @@ $returnitemid = $params->get('login', $Itemid);
 		</tr>
 		<tr>
 			<td colspan="5">
-				<a href="<?php echo JRoute::_($newuser_link); ?>"><?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
-					href="<?php echo JRoute::_($forgotpwd_link); ?>"><?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
+				<a href="<?php echo JRoute::_($newuser_link); ?>">
+					<?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
+					href="<?php echo JRoute::_($forgotpwd_link); ?>">
+					<?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
 			</td>
 		</tr>
 	</table>

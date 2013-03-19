@@ -75,7 +75,6 @@ $pdc_extra_datas  = $rsCarthelper->getDiscountCalcDataExtra("", $this->data->pro
 
 for ($p = 0; $p < count($pdc_extra_datas); $p++)
 {
-
 	$pdc_extra_data = $pdc_extra_datas[$p];
 	$option_name    = $pdc_extra_data->option_name;
 	$pdcextra_id    = $pdc_extra_data->pdcextra_id;

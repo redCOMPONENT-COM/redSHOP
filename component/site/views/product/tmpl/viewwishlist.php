@@ -44,6 +44,7 @@ if (!$user->id)
 	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
 	}
+
 	echo "</div>";
 }
 else // If user logged in than display this code.
@@ -80,8 +81,10 @@ else // If user logged in than display this code.
 	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
 	}
+
 	echo "</div>";
 }
+
 function display_products($rows)
 {
 	$url        = JURI::base();
@@ -107,6 +110,7 @@ function display_products($rows)
 				$thum_image = $producthelper->getProductImage($row->product_id, $link, "100", "100") . "
 			</div>";
 		}
+
 		echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
 
 		if ($row->product_on_sale && $product_price_discount > 0)
@@ -137,6 +141,7 @@ function display_products($rows)
 		{
 			echo "<div class='mod_redproducts_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
 		}
+
 		echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
 
 		echo $addtocartdata = $producthelper->replaceCartTemplate($row->product_id);

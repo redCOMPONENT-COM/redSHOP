@@ -94,7 +94,9 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{compare_product_heading}', $pagetitle, $template);
 	$template = str_replace('{returntocategory_name}', JText::_("COM_REDSHOP_GO_BACK"), $template);
 	$template = str_replace('{returntocategory_link}', $returnlink, $template);
-	$field    = new extraField; // Make extrafield object..
+
+	// Make extrafield object..
+	$field    = new extraField;
 
 	$product_tag = array();
 
@@ -257,7 +259,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 
-		///////// Extra field display
+		// Extra field display
 		for ($tag = 0; $tag < count($product_tag); $tag++)
 		{
 			$str = "'" . $product_tag[$tag] . "'";

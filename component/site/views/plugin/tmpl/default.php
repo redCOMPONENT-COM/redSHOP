@@ -11,12 +11,15 @@ defined('_JEXEC') or die ('restricted access');
 
 
 $dispatcher =& JDispatcher::getInstance();
-$task = JRequest::getVar('task'); //event
-$type = JRequest::getVar('type'); //group
+
+// Event
+$task = JRequest::getVar('task');
+
+// Group
+$type = JRequest::getVar('type');
 $post = JRequest::get('request');
 
-//echo $task .' '. $type;
 
 JPluginHelper::importPlugin($type);
-$paymentResponses = $dispatcher->trigger($task, array(&$post)); //,array( $type));
 
+$paymentResponses = $dispatcher->trigger($task, array(&$post));
