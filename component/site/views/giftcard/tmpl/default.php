@@ -47,7 +47,7 @@ else
 		$template = "<div>{giftcard_loop_start}<h3>{giftcard_name}</h3><div>{giftcard_price}</div><div>{giftcard_value}</div><div>{giftcard_desc}</div><div>{giftcard_validity}</div>{giftcard_loop_end}</div>";
 	}
 }
-// $uri = new JURI ( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
+// $uri = new JURI( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
 
 // $router->setVars ( $uri->_vars );
 
