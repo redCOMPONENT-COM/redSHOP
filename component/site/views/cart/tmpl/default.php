@@ -120,7 +120,7 @@ else
 	$pluginButton = $dispatcher->trigger('onPaymentCheckoutButton', array($cart));
 	$pluginButton = implode("<br>", $pluginButton);
 
-	// google checkout start Div
+	// Google checkout start Div
 	if ($pluginButton)
 		$checkout .= '<div class="googlecheckout-button" style="float:left;">' . $pluginButton . '</div>';
 
@@ -224,10 +224,10 @@ if (count($discount) > 0)
 		$text = sprintf(JText::_('COM_REDSHOP_DISCOUNT_TEXT'), $producthelper->getProductFormattedPrice($diff, true), $producthelper->getProductFormattedPrice($discount_amount, true), $price . $discount_sign);
 
 	/*
- 	  *  Discount type =  1 // discount/coupon/voucher
-	  *  Discount type =  2 // discount + coupon/voucher
-	  *  Discount type =  3 // discount + coupon + voucher
-	  *  Discount type =  4 // discount + coupons + voucher
+ 	  *  Discount type =  1 // Discount/coupon/voucher
+	  *  Discount type =  2 // Discount + coupon/voucher
+	  *  Discount type =  3 // Discount + coupon + voucher
+	  *  Discount type =  4 // Discount + coupons + voucher
 	  */
 	if (DISCOUNT_TYPE && DISCOUNT_ENABLE == 1)
 	{

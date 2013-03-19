@@ -91,7 +91,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 		$count_no_user_field = 0;
 
-		// counting accessory
+		// Counting accessory
 		$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
 		$totacc        = count($accessorylist);
 
@@ -307,15 +307,15 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		 ************************************/
 		$prddata_add = $producthelper->getProductOnSaleComment($product, $prddata_add);
 
-		// replace wishlistbutton
+		// Replace wishlistbutton
 		$prddata_add = $producthelper->replaceWishlistButton($product->product_id, $prddata_add);
 
-		// replace compare product button
+		// Replace compare product button
 		$prddata_add = $producthelper->replaceCompareProductsButton($product->product_id, $catid, $prddata_add);
 
 		$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
-		// checking for child products
+		// Checking for child products
 		$childproduct = $producthelper->getChildProduct($product->product_id);
 
 		if (count($childproduct) > 0)
@@ -326,7 +326,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		else
 		{
 			$isChilds = false;
-			// get attributes
+			// Get attributes
 			$attributes_set = array();
 
 			if ($product->attribute_set_id > 0)
@@ -338,14 +338,14 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 		/////////////////////////////////// Product attribute  Start /////////////////////////////////
 		$totalatt = count($attributes);
-		// check product for not for sale
+		// Check product for not for sale
 		$prddata_add = $producthelper->getProductNotForSaleComment($product, $prddata_add, $attributes);
 
 		$prddata_add = $producthelper->replaceProductInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
 
 		$prddata_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
 
-		// get cart tempalte
+		// Get cart tempalte
 		$prddata_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $prddata_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 	}
 

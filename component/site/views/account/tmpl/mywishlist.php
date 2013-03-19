@@ -12,7 +12,7 @@ $url = JURI::base();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-// get product helper
+// Get product helper
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 $producthelper = new producthelper;
 $configobj = new Redconfiguration;
@@ -129,7 +129,7 @@ if ($mail == 0)
 			$wishlist_data = str_replace('{product_s_desc}', $row->product_s_desc, $wishlist_data);
 
 
-			// checking for child products start	
+			// Checking for child products start	
 			if (strstr($wishlist_data, "{child_products}"))
 			{
 				$parentproductid = $row->product_id;
@@ -144,7 +144,7 @@ if ($mail == 0)
 				{
 					$productInfo = $producthelper->getProductById($parentproductid);
 
-					// get child products
+					// Get child products
 					$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
 
 					if (count($childproducts) > 0)
@@ -239,14 +239,14 @@ if ($mail == 0)
 
 			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
 
-			// check product for not for sale
+			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
 			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 			/////////////////////////////////// Product attribute  Start /////////////////////////////////
 			$totalatt      = count($attributes);
 			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
-			/////////////////////////////////// Product attribute  End  	// checking for child products end/////////////////////////////////
+			/////////////////////////////////// Product attribute  End  	// Checking for child products end/////////////////////////////////
 
 			/////////////////////////////////// Product accessory Start /////////////////////////////////
 			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
@@ -337,7 +337,7 @@ if ($mail == 0)
 
 			// Extra field display
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
-			// check product for not for sale
+			// Check product for not for sale
 			// $wishlist_data = $producthelper->getProductNotForSaleComment($row->product_id,$wishlist_data);
 
 			// $wishlist_data = $producthelper->getProductOnSaleComment($row->product_id,$wishlist_data);

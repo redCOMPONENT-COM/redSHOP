@@ -105,7 +105,7 @@ $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_
 $ReceiptTemplate = str_replace("{barcode}", $bar_replace, $ReceiptTemplate);
 $ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
 
-// added new tag
+// Added new tag
 /**
  * The Tag {txtextra_info} to display some extra information about payment method ( Only For display purpose ).
  *
@@ -144,7 +144,7 @@ $ReceiptTemplate = $o->text;
 
 echo eval("?>" . $ReceiptTemplate . "<?php ");
 
-// handle order total for split payment
+// Handle order total for split payment
 $session =& JFactory::getSession();
 $issplit = $session->get('issplit');
 
@@ -158,7 +158,7 @@ if ($issplit)
 
 $billingaddresses = $model->billingaddresses();
 
-// google analytics code added
+// Google analytics code added
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
 $googleanalytics = new googleanalytics;
 
@@ -181,14 +181,14 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 	if (isset($billingaddresses->country_code))
 		$orderTrans['country'] = $order_functions->getCountryName($billingaddresses->country_code);
 
-	// collect data for google analytics
-	// initiallize variable
+	// Collect data for google analytics
+	// Initiallize variable
 	$analyticsData = array();
 
-	// collect data to add transaction = order
+	// Collect data to add transaction = order
 	$analyticsData['addtrans'] = $orderTrans;
 
-	// start array to collect data to addItems
+	// Start array to collect data to addItems
 	$analyticsData['addItem'] = array();
 
 	for ($k = 0; $k < count($orderitem); $k++)

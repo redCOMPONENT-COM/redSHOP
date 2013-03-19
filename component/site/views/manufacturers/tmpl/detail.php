@@ -135,7 +135,7 @@ $manproducts = JRoute::_('index.php?option=' . $option . '&view=manufacturers&la
 
 $template_desc = str_replace("{manufacturer_name}", $row->manufacturer_name, $template_desc);
 
-// replace Manufacturer URL
+// Replace Manufacturer URL
 if (strstr($template_desc, "{manufacturer_url}"))
 { //echo $template_desc; die();
 	$manufacturer_url = "<a href='" . $row->manufacturer_url . "'>" . $row->manufacturer_url . "</a>";

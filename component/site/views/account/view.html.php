@@ -39,8 +39,8 @@ class accountViewaccount extends JView
 		}
 		$layout = JRequest::getVar('layout', 'default');
 		$mail   = JRequest::getVar('mail');
-		// preform security checks
-		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // give permission to send wishlist while not logged in )
+		// Preform security checks
+		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
 		{
 			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 

@@ -125,8 +125,8 @@ class checkoutViewcheckout extends JView
 			}
 			else
 			{
-				$lists['extra_field_user']        = $field->list_all_field(7); // field_section 6 : Customer Registration
-				$lists['extra_field_company']     = $field->list_all_field(8); // field_section 6 : Company Address
+				$lists['extra_field_user']        = $field->list_all_field(7); // Field_section 6 : Customer Registration
+				$lists['extra_field_company']     = $field->list_all_field(8); // Field_section 6 : Company Address
 				$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 				$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
 			}

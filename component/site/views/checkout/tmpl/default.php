@@ -133,7 +133,7 @@ else
 	}
 
 
-	// toggler settings
+	// Toggler settings
 	$open_to_stretcher = 0;
 
 	if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
@@ -141,7 +141,7 @@ else
 		$open_to_stretcher = 1;
 	}
 
-	// allow registration type settings
+	// Allow registration type settings
 	$allowCustomer = "";
 	$allowCompany  = "";
 

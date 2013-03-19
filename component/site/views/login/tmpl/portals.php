@@ -22,15 +22,15 @@ $Itemid = JRequest::getInt('Itemid');
 
 $returnitemid = $params->get('logout', $Itemid);
 
-// get redshop login module
+// Get redshop login module
 $module = JModuleHelper::getModule('redshop_login');
 
-// get redshop login module params
+// Get redshop login module params
 if ($module->params != "")
 {
 	$moduleparams = new JRegistry($module->params);
 
-	// set return Itemid for logout
+	// Set return Itemid for logout
 	$returnitemid = $moduleparams->get('logout', $returnitemid);
 }
 

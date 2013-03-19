@@ -23,7 +23,7 @@ class reddesignViewreddesign extends JView
 		JHTML::Script('ui.js', 'components/com_reddesign/assets/js/', false);
 		$document->addCustomTag('<script type="text/javascript">jQuery.noConflict();</script>');
 
-		// css files
+		// Css files
 		$cssfile = "components" . DS . "com_reddesign" . DS . "assets" . DS . "css" . DS . "style.css";
 
 		$html = "<link href=\"$cssfile\" rel=\"stylesheet\" type=\"text/css\" />";
@@ -32,7 +32,7 @@ class reddesignViewreddesign extends JView
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
 		// $product_id = JRequest :: getVar('productid');
-		// redshop product detail
+		// Redshop product detail
 		$pid = JRequest::getInt('pid');
 		$cid = JRequest::getInt('cid');
 
@@ -60,7 +60,7 @@ class reddesignViewreddesign extends JView
 
 		$list = array();
 
-		// temporary product id treat as design id....
+		// Temporary product id treat as design id....
 		$images      = $model->getDesignTypeImages($product_id);
 		$optionimage = array();
 
@@ -68,7 +68,7 @@ class reddesignViewreddesign extends JView
 			$optionimage[] = JHTML::_('select.option', $images[$i]->image_id, $images[$i]->image_name);
 		$lists["selimage"] = JHTML::_('select.genericlist', $optionimage, 'selimage', 'class="inputbox" size="1" ', 'value', 'text');
 
-		// redshop product detail
+		// Redshop product detail
 		$this->assignRef('pid', $pid);
 		$this->assignRef('cid', $cid);
 

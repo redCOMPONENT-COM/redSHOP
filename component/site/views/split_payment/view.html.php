@@ -27,7 +27,7 @@ class split_paymentViewsplit_payment extends JView
 		$userdata = JRequest::getVar('userdata');
 		$user     = JFactory::getUser();
 
-		// preform security checks
+		// Preform security checks
 		if ($user->id == 0)
 		{
 			echo JText::_('COM_REDSHOP_ALERTNOTAUTH_ACCOUNT');

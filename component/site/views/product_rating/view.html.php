@@ -22,7 +22,7 @@ class product_ratingViewproduct_rating extends JView
 		$document      = & JFactory::getDocument();
 
 		$user = & JFactory::getUser();
-		// preform security checks
+		// Preform security checks
 		if ($user->id == 0)
 		{
 			echo JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW');

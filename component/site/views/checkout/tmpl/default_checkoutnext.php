@@ -49,7 +49,7 @@ $session = & JFactory::getSession();
 $cart = $session->get('cart');
 $user_id = $user->id;
 
-// get redshop helper
+// Get redshop helper
 
 $Itemid = $redhelper->getCheckoutItemid();
 

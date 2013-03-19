@@ -130,7 +130,7 @@ echo eval("?>" . $template_desc . "<?php ");?>
 	/*function changeDynaList( listname, source, key, orig_key, orig_val ) {
 	 var list = eval( 'document.adminForm.' + listname );
 
-	 // empty the list
+	 // Empty the list
 	 for (i in list.options.length) {
 	 list.options[i] = null;
 	 }
