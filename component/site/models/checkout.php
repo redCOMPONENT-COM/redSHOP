@@ -455,7 +455,6 @@ class CheckoutModelCheckout extends JModel
 					$order_status_log = $errorMsg = $paymentResponse->message;
 					$this->setError($errorMsg);
 
-					//$mainframe->Redirect( 'index.php?option=com_redshop&view=checkout&order_id='.$values->order_id.'&Itemid='.$Itemid,$errorMsg);
 					return false;
 				}
 
@@ -1941,7 +1940,6 @@ class CheckoutModelCheckout extends JModel
 	{
 		$session = JFactory::getSession();
 
-		//$cart 	 		= $session->get( 'cart') ;
 		$user        = JFactory::getUser();
 		$vouchertype = array();
 
@@ -2005,7 +2003,6 @@ class CheckoutModelCheckout extends JModel
 	{
 		$session = JFactory::getSession();
 
-		//$cart 	 	= $session->get( 'cart');
 		$user       = JFactory::getUser();
 		$coupontype = array();
 
@@ -2306,9 +2303,6 @@ class CheckoutModelCheckout extends JModel
 		$checkout .= '<input type="hidden" name="Itemid" id="onestepItemid" value="' . $Itemid . '" />';
 		$checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
 		$checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
-
-		//$checkout .='<input type="hidden" name="shop_id" value="'.$shop_id.'" />';
-
 
 		if (!ONESTEP_CHECKOUT_ENABLE)
 		{

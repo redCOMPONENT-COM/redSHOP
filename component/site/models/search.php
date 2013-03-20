@@ -39,7 +39,6 @@ class searchModelsearch extends JModel
 		$menu                =& $mainframe->getMenu();
 		$item                =& $menu->getActive();
 
-		//$perpageproduct  = $mainframe->getUserStateFromRequest( $context.'perpageproduct', 'perpageproduct',   '5');
 		$layout         = $mainframe->getUserStateFromRequest($context . 'layout', 'layout', 'default');
 		$module         = JModuleHelper::getModule('redshop_search');
 		$module_params  = new JRegistry($module->params);
@@ -56,7 +55,6 @@ class searchModelsearch extends JModel
 		if (isset($item->query['productlimit']))
 			$productlimit = $item->query['productlimit'];
 
-		//$limit			= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $limit, 5);
 		$limitstart = JRequest::getVar('limitstart', 0);
 		$this->setState('productperpage', $perpageproduct);
 		$this->setState('limit', $limit);
@@ -182,7 +180,6 @@ class searchModelsearch extends JModel
 		$context      = 'search';
 		$productlimit = $this->getstate('productlimit');
 
-		//$layout			= $mainframe->getUserStateFromRequest( $context.'layout', 'layout',   'default');
 		$layout = JRequest::getCmd('layout', 'default');
 
 		if (empty($this->_total))
@@ -220,9 +217,6 @@ class searchModelsearch extends JModel
 
 		$keyword = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
-		//$defaultSearchType	= $mainframe->getUserStateFromRequest( $context.'defaultSearchType', 'defaultSearchType','');
-
-		//$keyword=$manudata['keyword'];
 		$defaultSearchType = '';
 
 		if (!empty($manudata['search_type']))
@@ -230,13 +224,6 @@ class searchModelsearch extends JModel
 			$defaultSearchType     = $manudata['search_type'];
 			$defaultSearchType_tmp = $manudata['search_type'];
 		}
-//		$arr_keyword=array();
-
-//		if(trim($keyword)!='')
-//		{
-//			$arr_keyword = explode('',$keyword)  ;
-
-//		}
 
 		$product_s_desc_srch = '';
 
@@ -271,10 +258,6 @@ class searchModelsearch extends JModel
 		}
 		elseif ($defaultSearchType == "product_name")
 		{
-			//$defaultSearchField = $defaultSearchType;
-
-			//$defaultSearchType = '(p.product_name LIKE "%'.$keyword.'%")';
-
 			$main_sp_name = explode(" ", $keyword);
 
 			$defaultSearchField = $defaultSearchType;
@@ -291,21 +274,6 @@ class searchModelsearch extends JModel
 			$defaultSearchField = $defaultSearchType;
 			$defaultSearchType  = '(p.product_number LIKE "%' . $keyword . '%")';
 		}
-
-		/*if($defaultSearchField=="product_desc" || $defaultSearchField=="name_desc" || $defaultSearchField=="name_number_desc")
-		{
-			for($k=0;$k<count($arr_keyword);$k++)
-			{
-				$product_s_desc_srch .= " p.product_s_desc LIKE '%".$arr_keyword[$k]."%' OR p.product_desc LIKE '%".$arr_keyword[$k]."%' ";
-
-				if($k!=count($arr_keyword)-1)
-				{
-					$product_s_desc_srch .= ' OR ';
-				}
-			}
-		}*/
-
-		//$defaultSearchType .= " OR (p.product_s_desc LIKE '%".$keyword."%' or p.product_desc LIKE '%".$keyword."%') ";
 
 		if ($product_s_desc_srch != '')
 		{
@@ -680,76 +648,6 @@ class searchModelsearch extends JModel
 			}
 
 			$products = implode(",", $lstproduct_id);
-
-			// Get last types
-			/*$k=0;
-			  foreach ($getredfilter as $typeid=>$tagid)
-			  {
-				  $tagid = explode(".",$tagid);
-				  $lastkey = count($getredfilter)-1;
-
-				  if ($lastkey == $k){
-					  $lasttypeid = $type_id_main[1];
-					  $lasttagid = $type_id_main[0];
-				  }
-
-				  $k++;
-			  }
-
-			  // Get last product count
-			  if ($lasttypeid !=0 || $lasttagid != 0){
-
-				$q = "SELECT ra.product_id  FROM `#__redproductfinder_association_tag` as rat "
-						   ."LEFT JOIN  #__redproductfinder_associations as ra ON rat.`association_id` = ra.id "
-						   ."LEFT JOIN #__redshop_product_category_xref x ON x.product_id = ra.product_id "
-						   ."WHERE rat.`type_id` IN ( ".$lasttypeid." )  AND rat.`tag_id` IN ( ".$lasttagid." ) AND x.category_id='".JRequest::getVar('cid')."'";
-
-				  $product = $this->_getList($q);
-
-				for ($i=0;$i<count($product);$i++)
-				{
-					$lstproduct_id[] = $product[$i]->product_id;
-				}
-
-				  // If there are minimum two types in session
-				  if (count($getredfilter) > 1){
-
-					  // Count last type product
-					  $lstprototal = count($lstproduct_id);
-
-					  // Get redfilterproduct array from session
-					  //$redfilterproduct = $session->get('redfilterproduct');
-
-					  // If redfilterproduct array is not set than initialise
-					  if ($redfilterproduct=="")
-						  $redfilterproduct = array();
-
-						  // Session product total
-					  $sprototal = count($redfilterproduct);
-
-					  // Initialise final session product array
-					  $finalproductarray = array();
-
-					  // Logic for array intersecting
-					  if ($lstprototal > $sprototal)
-						  $finalproductarray = array_intersect($redfilterproduct,$lstproduct_id);
-					  else
-						  $finalproductarray = array_intersect($lstproduct_id,$redfilterproduct);
-
-					  // Set finalproductarray in session
-					  if (count($finalproductarray)>0){
-						  $session->set('redfilterproduct',$finalproductarray);
-						  $products = implode(",",$finalproductarray);
-					  }else{
-
-						  $session->set('redfilterproduct',$lstproduct_id);
-						  $products = implode(",",$lstproduct_id);
-					  }
-				  }else{
-					  $products = implode(",",$lstproduct_id);
-					  $session->set('redfilterproduct',$lstproduct_id);
-				  }
-			  }*/
 		}
 		else
 		{
@@ -852,16 +750,12 @@ class searchModelsearch extends JModel
 
 				$tagname = "";
 
-				//$ptot = getProducttotal($type->id);
-				/* Only show if the type has tags */
+				// Only show if the type has tags
 				if (count($tags) > 0)
 				{
-					/* Create the selection boxes */
-
+					// Create the selection boxes
 					for ($t = 0; $t < count($tags); $t++)
 					{
-						//$ptotal = getProducttotal($type->id,$tags[$t]->tagid,1);
-
 						$type_id = explode('.', $tags[$t]->tag_id);
 
 						$query = "SELECT count(*) as count FROM #__redproductfinder_association_tag as ra
@@ -924,10 +818,7 @@ class searchModelsearch extends JModel
 
 								if ($tags[$t]->tagid == $tag_id)
 								{
-									//$ptotal = getProducttotal($type->id,$tags[$t]->tagid,0);
 									$tagname .= "<span style='float:left;'>&nbsp;&nbsp;" . $tags[$t]->tag_name . "</span><span style='float:right;'><a href='javascript:deleteTag(\"$type->id\",\"$Itemid\");' title='" . JText::_('COM_REDSHOP_DELETE') . "' >" . JText::_('COM_REDSHOP_DELETE') . "</a></span><br/>";
-
-									//$tagname .= "<span style='float:left;'>&nbsp;&nbsp;".$tags[$t]->tag_name."</span><span style='float:right;'><a href='".JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid='.$type->id.'&remove=1&Itemid='.$Itemid)."' title='".JText::_('COM_REDSHOP_DELETE')."' >".JText::_('COM_REDSHOP_DELETE')."</a></span><br/>";
 								}
 							}
 
@@ -988,11 +879,8 @@ class searchModelsearch extends JModel
 
 			foreach ($types as $key => $type)
 			{
-//	$ptotal = getProducttotal($type->id);
-
 				if (@!array_key_exists($type->id, $getredfilter) && @array_key_exists('type' . $key, $lists))
 				{
-
 					?>
 					<div id="<?php echo $type->id; ?>"
 					     class="typename <?php echo $type->type_name_css; ?>"><?php echo $type->type_name; ?>
@@ -1140,7 +1028,6 @@ class searchModelsearch extends JModel
 		$wheres = '';
 		$wheres = implode(" AND ", $where);
 
-		//$wheres .= " OR (p.product_s_desc LIKE '%".$keyword."%' or p.product_desc LIKE '%".$keyword."%') ";
 		$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number FROM " . $this->_table_prefix . "product p "
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'category c ON x.category_id = c.category_id '

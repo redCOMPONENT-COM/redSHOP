@@ -521,7 +521,6 @@ class quotationModelquotation extends JModel
 		{
 			JError::raiseWarning('', JText::_($user->getError()));
 
-			//$this->register();
 			return false;
 		}
 

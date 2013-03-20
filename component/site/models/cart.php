@@ -94,7 +94,6 @@ class CartModelCart extends JModel
 					if ($task != 'coupon' && $task != 'voucher')
 						$cart = $this->_carthelper->modifyDiscount($cart);
 				}
-
 			}
 
 			$session->set('cart', $cart);
@@ -224,7 +223,7 @@ class CartModelCart extends JModel
 			$cart[$cartElement]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 			$cart[$cartElement]['cart_attribute'] = $this->updateAttributePriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 
-			# discount calculator
+			// Discount calculator
 			if (!empty($cart[$cartElement]['discount_calc']))
 			{
 				$calcdata               = $cart[$cartElement]['discount_calc'];
@@ -321,10 +320,9 @@ class CartModelCart extends JModel
 				$cart[$i]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$i], $cart[$i]['quantity']);
 				$cart[$i]['cart_attribute'] = $this->updateAttributePriceArray($cart[$i], $cart[$i]['quantity']);
 
-				// discount calculator
+				// Discount calculator
 				if (!empty($cart[$i]['discount_calc']))
 				{
-
 					$calcdata               = $cart[$i]['discount_calc'];
 					$calcdata['product_id'] = $cart[$i]['product_id'];
 
@@ -496,9 +494,13 @@ class CartModelCart extends JModel
 		$product_template_desc = $template[0]->template_desc;
 
 		if (strstr($product_template_desc, "{attribute_template:"))
+		{
 			return true;
+		}
 		else
+		{
 			return false;
+		}
 	}
 
 	/*
@@ -539,11 +541,6 @@ class CartModelCart extends JModel
 		{
 			$attchildArr = $attArr[$i]['accessory_childs'];
 
-//			$accessory = $this->_producthelper->getProductAccessory($attArr[$i]['accessory_id']);
-
-//			$accessorypricelist = $this->_producthelper->getAccessoryPrice($data['product_id'], $accessory[0]->newaccessory_price,$accessory[0]->accessory_main_price ,1);
-
-//			$attArr[$i]['accessory_price'] = $accessorypricelist[0];
 			$attArr[$i]['accessory_quantity'] = $newquantity;
 
 			for ($j = 0; $j < count($attchildArr); $j++)
@@ -553,6 +550,7 @@ class CartModelCart extends JModel
 				for ($k = 0; $k < count($propArr); $k++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+
 					if (count($pricelist) > 0)
 					{
 						$propArr[$k]['property_price'] = $pricelist->product_price;
@@ -568,6 +566,7 @@ class CartModelCart extends JModel
 					for ($l = 0; $l < count($subpropArr); $l++)
 					{
 						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+
 						if (count($pricelist) > 0)
 						{
 							$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
@@ -618,6 +617,7 @@ class CartModelCart extends JModel
 				for ($l = 0; $l < count($subpropArr); $l++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+
 					if (count($pricelist) > 0)
 					{
 						$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
@@ -655,6 +655,7 @@ class CartModelCart extends JModel
 			{
 				$cart[$v]['quantity'] = $voucher_left;
 			}
+
 			if (in_array($cart[$v]['product_id'], $product_idArr) || $this->_globalvoucher)
 			{
 				$product_price += $cart[$v]['product_price'] * $cart[$v]['quantity'];
@@ -707,6 +708,7 @@ class CartModelCart extends JModel
 							$property_price     = 0;
 							$property           = $this->_producthelper->getAttibuteProperty($acc_property_data[$ip]);
 							$pricelist          = $this->_producthelper->getPropertyPrice($acc_property_data[$ip], $cart[$idx]['quantity'], 'property');
+
 							if (count($pricelist) > 0)
 							{
 								$property_price = $pricelist->product_price;
@@ -715,6 +717,7 @@ class CartModelCart extends JModel
 							{
 								$property_price = $property[0]->property_price;
 							}
+
 							if (count($property) > 0 && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
 							{
 								$type      = 'product_attributes';
@@ -737,6 +740,7 @@ class CartModelCart extends JModel
 										$subproperty_price = 0;
 										$subproperty       = $this->_producthelper->getAttibuteSubProperty($acc_subproperty_data[$isp]);
 										$pricelist         = $this->_producthelper->getPropertyPrice($acc_subproperty_data[$isp], $cart[$idx]['quantity'], 'subproperty');
+
 										if (count($pricelist) > 0)
 										{
 											$subproperty_price = $pricelist->product_price;
@@ -745,6 +749,7 @@ class CartModelCart extends JModel
 										{
 											$subproperty_price = $subproperty[0]->subattribute_color_price;
 										}
+
 										if (count($subproperty) > 0 && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image))
 										{
 											$type      = 'subcolor';

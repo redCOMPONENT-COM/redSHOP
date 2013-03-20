@@ -49,7 +49,6 @@ class manufacturersModelmanufacturers extends JModel
 
 		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
 
-		//$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0 );
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
 		// In case limit has been changed, adjust it

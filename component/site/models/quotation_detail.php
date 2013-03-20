@@ -201,13 +201,8 @@ class quotation_detailModelquotation_detail extends JModel
 			$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 		}
 
-
-		$cart[$idx]['cart_attribute'] = $generateAttributeCart; //$data->product_attribute;
-		$cart[$idx]['cart_accessory'] = $generateAccessoryCart; //$data->product_accessory;
-
-//     	$cart[$idx]['mycart_accessory'] =  $data->mycart_accessory;
-
-//	    $cart[$idx]['category_id'] = $data['category_id'];
+		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
+		$cart[$idx]['cart_accessory'] = $generateAccessoryCart;
 		$cart[$idx]['wrapper_id']             = $data->product_wrapperid;
 		$cart[$idx]['wrapper_price']          = $data->wrapper_price;
 		$cart[$idx]['product_price_excl_vat'] = $data->product_excl_price;
