@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,9 +14,13 @@ jimport('joomla.application.component.model');
 class opsearchModelopsearch extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -47,6 +52,7 @@ class opsearchModelopsearch extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -58,6 +64,7 @@ class opsearchModelopsearch extends JModel
 		{
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -68,6 +75,7 @@ class opsearchModelopsearch extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -84,14 +92,17 @@ class opsearchModelopsearch extends JModel
 		{
 			$where .= 'AND op.user_info_id="' . $filter_user . '" ';
 		}
+
 		if ($filter_product)
 		{
 			$where .= 'AND op.product_id ="' . $filter_product . '" ';
 		}
+
 		if ($filter_status)
 		{
 			$where .= 'AND op.order_status="' . $filter_status . '" ';
 		}
+
 		$query = 'SELECT op.*, CONCAT(ouf.firstname," ",ouf.lastname) AS fullname, ouf.company_name FROM ' . $this->_table_prefix . 'order_item AS op '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info as ouf ON ouf.order_id=op.order_id AND ouf.address_type="BT" '
 			. 'WHERE 1=1 '
@@ -127,5 +138,3 @@ class opsearchModelopsearch extends JModel
 
 	}
 }
-
-

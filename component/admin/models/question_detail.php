@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,7 +16,9 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 class question_detailModelquestion_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -26,7 +29,6 @@ class question_detailModelquestion_detail extends JModel
 		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -40,7 +42,10 @@ class question_detailModelquestion_detail extends JModel
 		if ($this->_loadAnswer())
 		{
 		}
-		else  $this->_initAnswer();
+		else
+		{
+			$this->_initAnswer();
+		}
 
 		return $this->_answers;
 
@@ -76,9 +81,9 @@ class question_detailModelquestion_detail extends JModel
 
 			return (boolean) $this->_answers;
 		}
+
 		return true;
 	}
-
 
 	public function &getData()
 	{
@@ -86,7 +91,10 @@ class question_detailModelquestion_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -108,6 +116,7 @@ class question_detailModelquestion_detail extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -129,7 +138,6 @@ class question_detailModelquestion_detail extends JModel
 
 		return $this->_pagination;
 	}
-
 
 	public function getProduct()
 	{
@@ -161,12 +169,6 @@ class question_detailModelquestion_detail extends JModel
 		return true;
 	}
 
-	/**
-	 * Method to store the information
-	 *
-	 * @access public
-	 * @return boolean
-	 */
 	public function store($data)
 	{
 		$user = JFactory::getUser();
@@ -177,12 +179,14 @@ class question_detailModelquestion_detail extends JModel
 		{
 			$data['ordering'] = $this->MaxOrdering();
 		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -195,7 +199,8 @@ class question_detailModelquestion_detail extends JModel
 
 		if (isset($data['answer']))
 		{
-			$query = "INSERT INTO " . $this->_table_prefix . "customer_question (`parent_id`,`product_id`,`question`,`user_id`,`user_name`,`user_email`,`published`,`question_date`,`ordering`)";
+			$query = "INSERT INTO " . $this->_table_prefix . "customer_question (`parent_id`,`product_id`,`question`,`user_id`,`user_name`,
+			`user_email`,`published`,`question_date`,`ordering`)";
 			$query .= " VALUES ('" . $data['question_id'] . "' , '" . $data['product_id'] . "','" . $data['answer'] . "','" . $user->id . "', ";
 			$query .= "'" . $user->username . "', '" . $user->email . "',1, '" . $time . "', '" . $data['ordering'] . "')";
 			$db->setQuery($query);
@@ -255,6 +260,7 @@ class question_detailModelquestion_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -297,11 +303,12 @@ class question_detailModelquestion_detail extends JModel
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
+
+			// Track categories
 			$groupings[] = $row->question_id;
 
 			if ($row->ordering != $order[$i])
@@ -316,12 +323,15 @@ class question_detailModelquestion_detail extends JModel
 				}
 			}
 		}
-		// execute updateOrder for each parent group
+
+		// Execute updateOrder for each parent group
 		$groupings = array_unique($groupings);
+
 		foreach ($groupings as $group)
 		{
 			$row->reorder((int) $group);
 		}
+
 		return true;
 	}
 
@@ -364,7 +374,4 @@ class question_detailModelquestion_detail extends JModel
 
 		return $rs;
 	}
-
 }
-
-

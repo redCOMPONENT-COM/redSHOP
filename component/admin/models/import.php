@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-
 jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
@@ -20,8 +19,11 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 class importModelimport extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -29,7 +31,6 @@ class importModelimport extends JModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
-
 
 	public function getData()
 	{
@@ -42,8 +43,6 @@ class importModelimport extends JModel
 
 		if (isset($post['task']) && isset($post['import']))
 		{
-			//$files = $files[$post['task'].$post['import']];
-
 			if ($files['name'] == "")
 			{
 				return JText::_('PLEASE_SELECT_FILE');
@@ -62,11 +61,12 @@ class importModelimport extends JModel
 				return JText::_('PLEASE_SELECT_SECTION');
 			}
 		}
-		// upload csv file
+
+		// Upload csv file
 		$src = $files['tmp_name'];
 		$dest = JPATH_ROOT . DS . 'components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $files['name'];
 		$file_upload = JFile::upload($src, $dest);
-		// end
+
 		$session->clear('ImportPost');
 		$session->clear('Importfile');
 		$session->clear('Importfilename');
@@ -78,7 +78,6 @@ class importModelimport extends JModel
 		$mainframe->Redirect('index.php?option=com_redshop&view=import&layout=importlog');
 
 		return;
-
 	}
 
 	public function importdata()
@@ -87,16 +86,13 @@ class importModelimport extends JModel
 		$thumb = new thumbnail;
 		$obj_img = new thumbnail_images;
 		$session =& JFactory::getSession();
+
 		/* Get all posted data */
 		$new_line = JRequest::getVar('new_line');
 		$post = $session->get('ImportPost');
 
-
 		$files = $session->get('Importfile');
 		$file_name = $session->get('Importfilename');
-		//$post = JRequest::get('post');
-		//$files = JRequest::get('files');
-
 
 		/* Load the table model */
 		switch ($post['import'])
@@ -125,7 +121,7 @@ class importModelimport extends JModel
 		$line = 1;
 		$headers = array();
 		$correctlines = 0;
-		$handle = fopen(JPATH_ROOT . DS . 'components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r"); //die();
+		$handle = fopen(JPATH_ROOT . DS . 'components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r");
 
 		$separator = ",";
 
@@ -138,13 +134,11 @@ class importModelimport extends JModel
 		$start_micro_time = ((float) $susec + (float) $ssec);
 		$session->set('start_micro_time', $start_micro_time);
 
-
-		while (($data = fgetcsv($handle, 0, $separator, '"')) !== FALSE)
+		while (($data = fgetcsv($handle, 0, $separator, '"')) !== false)
 		{
 			if ($this->getTimeLeft() > 0)
 			{
-
-				// skip headers
+				// Skip headers
 				if ($line == 1)
 				{
 					foreach ($data as $key => $name)
@@ -158,9 +152,10 @@ class importModelimport extends JModel
 					if ($line > $new_line)
 					{
 						$rawdata = array();
+
 						foreach ($data as $key => $name)
 						{
-							/* Bind the data */
+							// Bind the data
 							if ($headers[$key] == 'category_full_image' && $post['import'] == 'categories')
 							{
 								$image_name = basename($name);
@@ -170,14 +165,16 @@ class importModelimport extends JModel
 								{
 									@fopen($name, "r");
 									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $image_name;
-									# Copy If file is not already exist
+
+									// Copy If file is not already exist
 									if (!file_exists($dest))
 									{
 										copy($name, $dest);
 									}
 								}
 							}
-							else if ($headers[$key] == 'sitepath' && $post['import'] == 'products')
+
+							elseif ($headers[$key] == 'sitepath' && $post['import'] == 'products')
 							{
 								$this->sitepath = $rawdata[$headers[$key]] = $name;
 							}
@@ -186,7 +183,8 @@ class importModelimport extends JModel
 								$rawdata[$headers[$key]] = $name;
 							}
 						}
-						// import categories
+
+						// Import categories
 						if ($post['import'] == 'categories')
 						{
 							$category_id = $rawdata['category_id'];
@@ -195,13 +193,17 @@ class importModelimport extends JModel
 							$this->_db->setQuery($query);
 							$cidCount = $this->_db->loadResult();
 
-							// updating category
+							// Updating category
 							$row = $this->getTable('category_detail');
 
 							if ($cidCount > 0)
-								$row->load($category_id); # update
+							{
+								$row->load($category_id);
+							}
 							else
+							{
 								$row->category_id = $category_id;
+							}
 
 							$row->category_name = $rawdata['category_name'];
 							$row->category_short_description = $rawdata['category_short_description'];
@@ -224,7 +226,7 @@ class importModelimport extends JModel
 
 							if ($cidCount > 0)
 							{
-								# update
+								// Update
 								if (!$row->store())
 								{
 									return JText::_('COM_REDSHOP_ERROR_DURING_IMPORT');
@@ -232,7 +234,7 @@ class importModelimport extends JModel
 							}
 							else
 							{
-								# insert
+								// Insert
 								$ret = $this->_db->insertObject($this->_table_prefix . 'category', $row, 'category_id');
 
 								if (!$ret)
@@ -249,26 +251,29 @@ class importModelimport extends JModel
 
 							if ($count == 0)
 							{
-								# remove existing
+								// Remove existing
 								$query = "DELETE FROM `" . $this->_table_prefix . "category_xref` WHERE `category_child_id` = '" . $row->category_id . "' ";
 								$this->_db->setQuery($query);
 								$this->_db->Query();
-								# End
 
-								$query = "INSERT INTO " . $this->_table_prefix . "category_xref VALUES('" . $rawdata['category_parent_id'] . "','" . $row->category_id . "') ";
+								$query = "INSERT INTO " . $this->_table_prefix . "category_xref VALUES('" . $rawdata['category_parent_id'] . "','"
+									. $row->category_id . "') ";
 								$this->_db->setQuery($query);
 								$this->_db->Query();
 							}
 							$correctlines++;
 						}
-						// import products
+
+						// Import products
 						if ($post['import'] == 'products' && isset($rawdata['product_number']))
 						{
 							$rawdata['product_price'] = '' . str_replace(',', '.', $rawdata['product_price']) . '';
 							$product_id = $this->getProductIdByNumber($rawdata['product_number']);
 
 							if ((int) $product_id > 0)
+							{
 								$rawdata['product_id'] = (int) $product_id;
+							}
 							$rawdata['product_desc'] = htmlentities($rawdata['product_desc']);
 							$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc']);
 
@@ -280,11 +285,12 @@ class importModelimport extends JModel
 								$manufacturer_id = $this->_db->loadResult();
 								$rawdata['manufacturer_id'] = $manufacturer_id;
 							}
-							# updating/inserting product
+
+							// Updating/inserting product
 							$row = $this->getTable('product_detail');
 							$row->load($rawdata['product_id']);
 
-							// do not update with blank imagecategory_id
+							// Do not update with blank imagecategory_id
 							if ($rawdata['product_thumb_image'] == "")
 							{
 								unset($rawdata['product_thumb_image']);
@@ -305,13 +311,12 @@ class importModelimport extends JModel
 
 							$row->bind($rawdata);
 
-							# set boolean for Error
+							// Set boolean for Error
 							$isError = false;
 
 							if ((int) $product_id > 0)
 							{
-
-								# update
+								// Update
 								if (!$row->store())
 								{
 									$isError = true;
@@ -321,7 +326,7 @@ class importModelimport extends JModel
 							}
 							else
 							{
-								# insert
+								// Insert
 								$row->product_id = (int) $rawdata['product_id'];
 								$ret = $this->_db->insertObject($this->_table_prefix . 'product', $row, 'product_id');
 
@@ -335,9 +340,10 @@ class importModelimport extends JModel
 
 							if (!$isError)
 							{
-								# last inserted product id
+								// Last inserted product id
 								$product_id = $row->product_id;
-								# product Full Image
+
+								// Product Full Image
 								$product_full_image = trim($rawdata['product_full_image']);
 
 								if ($product_full_image != "")
@@ -345,14 +351,14 @@ class importModelimport extends JModel
 									$src = $this->sitepath . "components/com_redshop/assets/images/product/" . $product_full_image;
 									@fopen($src, "r");
 									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product_full_image;
-									# Copy If file is not already exist
+
+									// Copy If file is not already exist
 									if (!file_exists($dest))
 									{
 										@copy($name, $dest);
 									}
 								}
-								# End
-								# section Images
+
 								$section_images = $rawdata['images'];
 								$image_name = explode("#", $section_images);
 
@@ -365,7 +371,8 @@ class importModelimport extends JModel
 											$src = $this->sitepath . "components/com_redshop/assets/images/product/" . trim($image_name[$i]);
 											@fopen($src, "r");
 											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . trim($image_name[$i]);
-											# Copy If file is not already exist
+
+											// Copy If file is not already exist
 											if (!file_exists($dest))
 											{
 												@copy($src, $dest);
@@ -373,10 +380,11 @@ class importModelimport extends JModel
 										}
 									}
 								}
-								# End
+
 								$section_images_order = $rawdata['images_order'];
 								$section_images_alternattext = $rawdata['images_alternattext'];
-								# section videos
+
+								// Section videos
 								$section_video = $rawdata['video'];
 								$image_name = explode("#", $section_video);
 
@@ -389,7 +397,8 @@ class importModelimport extends JModel
 											$src = $this->sitepath . "components/com_redshop/assets/video/product/" . trim($image_name[$i]);
 											@fopen($src, "r");
 											$dest = JPATH_COMPONENT_SITE . '/assets/video/product/' . trim($image_name[$i]);
-											# Copy If file is not already exist
+
+											// Copy If file is not already exist
 											if (!file_exists($dest))
 											{
 												@copy($src, $dest);
@@ -397,11 +406,11 @@ class importModelimport extends JModel
 										}
 									}
 								}
-								# End
 
 								$section_video_order = $rawdata['video_order'];
 								$section_video_alternattext = $rawdata['video_alternattext'];
-								# section document
+
+								// Section document
 								$section_document = $rawdata['document'];
 								$image_name = explode("#", $section_document);
 
@@ -414,7 +423,8 @@ class importModelimport extends JModel
 											$src = $this->sitepath . "components/com_redshop/assets/document/product/" . trim($image_name[$i]);
 											@fopen($src, "r");
 											$dest = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . trim($image_name[$i]);
-											# Copy If file is not already exist
+
+											// Copy If file is not already exist
 											if (!file_exists($dest))
 											{
 												@copy($src, $dest);
@@ -422,11 +432,11 @@ class importModelimport extends JModel
 										}
 									}
 								}
-								# End
 
 								$section_document_order = $rawdata['document_order'];
 								$section_document_alternattext = $rawdata['document_alternattext'];
-								# Section Download
+
+								// Section Download
 								if (isset($rawdata['download']))
 								{
 									$section_download = $rawdata['download'];
@@ -441,7 +451,8 @@ class importModelimport extends JModel
 												$src = $this->sitepath . "components/com_redshop/assets/download/product/" . trim($image_name[$i]);
 												@fopen($src, "r");
 												$dest = JPATH_COMPONENT_SITE . '/assets/download/product/' . trim($image_name[$i]);
-												# Copy If file is not already exist
+
+												// Copy If file is not already exist
 												if (!file_exists($dest))
 												{
 													@copy($src, $dest);
@@ -450,12 +461,12 @@ class importModelimport extends JModel
 										}
 									}
 								}
-								# End
 
 								$section_download_order = $rawdata['download_order'];
 								$section_download_alternattext = $rawdata['download_alternattext'];
 								$category_id = $rawdata['category_id'];
-								// insert into media
+
+								// Insert into media
 								$query = "SELECT count(*) FROM `" . $this->_table_prefix . "media` "
 									. "WHERE `media_name` LIKE '" . $product_full_image . "' "
 									. "AND `media_section` LIKE 'product' "
@@ -479,13 +490,10 @@ class importModelimport extends JModel
 									if (!$rows->store())
 									{
 										$this->setError($this->_db->getErrorMsg());
-										//return false;
 									}
 								}
-								// End
 
-								# Product Extra Field Import
-
+								// Product Extra Field Import
 								$newkeys = array();
 								array_walk($rawdata, 'checkkeys', $newkeys);
 
@@ -497,21 +505,22 @@ class importModelimport extends JModel
 									}
 								}
 
-
-								# End
-
 								$correctlines++;
 							}
-							// category product relation insert
 
+							// Category product relation insert
 							$category_id = '';
 							$category_name = '';
 
 							if (isset($rawdata['category_id']))
+							{
 								$category_id = $rawdata['category_id'];
+							}
 
 							if (isset($rawdata['category_name']))
+							{
 								$category_name = $rawdata['category_name'];
+							}
 
 							if ($category_id != "" || $category_name != "")
 							{
@@ -528,11 +537,10 @@ class importModelimport extends JModel
 									$category = true;
 								}
 
-								# remove all current product category
+								// Remove all current product category
 								$query = "DELETE FROM `" . $this->_table_prefix . "product_category_xref` WHERE `product_id` = " . $product_id;
 								$this->_db->setQuery($query);
 								$this->_db->Query();
-								# end
 
 								for ($i = 0; $i < count($categoryArr); $i++)
 								{
@@ -564,12 +572,13 @@ class importModelimport extends JModel
 								}
 							}
 
-							// importing accessory product
+							// Importing accessory product
 							$accessory_products = $rawdata['accessory_products'];
 
 							if ($accessory_products != "")
 							{
 								$accessory_products = explode("###", $rawdata['accessory_products']);
+
 								for ($i = 0; $i < count($accessory_products); $i++)
 								{
 									$accids = explode("~", $accessory_products[$i]);
@@ -628,7 +637,8 @@ class importModelimport extends JModel
 								$this->_db->setQuery($query);
 								$this->_db->Query();
 							}
-							// import image section
+
+							// Import image section
 							$section_images = explode("#", $section_images);
 							$section_images_order = explode("#", $section_images_order);
 							$section_images_alternattext = explode("#", $section_images_alternattext);
@@ -675,7 +685,6 @@ class importModelimport extends JModel
 											if (!$rows->store())
 											{
 												$this->setError($this->_db->getErrorMsg());
-												//return false;
 											}
 										}
 										else
@@ -690,7 +699,8 @@ class importModelimport extends JModel
 									}
 								}
 							}
-							// import video section
+
+							// Import video section
 							$section_video = explode("#", $section_video);
 							$section_video_order = explode("#", $section_video_order);
 							$section_video_alternattext = explode("#", $section_video_alternattext);
@@ -737,14 +747,13 @@ class importModelimport extends JModel
 											if (!$rows->store())
 											{
 												$this->setError($this->_db->getErrorMsg());
-												//return false;
 											}
 										}
 									}
 								}
 							}
 
-							// import document section
+							// Import document section
 							$section_document = explode("#", $section_document);
 							$section_document_order = explode("#", $section_document_order);
 							$section_document_alternattext = explode("#", $section_document_alternattext);
@@ -767,11 +776,13 @@ class importModelimport extends JModel
 										{
 											$media_alternate_text = $section_document_alternattext[$s];
 										}
+
 										$query = "SELECT count(*) FROM `" . $this->_table_prefix . "media` "
 											. "WHERE `media_name` LIKE '" . $section_document[$s] . "' "
 											. "AND `media_section`='product' "
 											. "AND `section_id` = '" . $product_id . "' "
 											. "AND `media_type`='document' ";
+
 										$this->_db->setQuery($query);
 										$count = $this->_db->loadResult();
 
@@ -791,14 +802,13 @@ class importModelimport extends JModel
 											if (!$rows->store())
 											{
 												$this->setError($this->_db->getErrorMsg());
-												//return false;
 											}
 										}
 									}
 								}
 							}
 
-							// import download section
+							// Import download section
 							$section_download = explode("#", $section_download);
 							$section_download_order = explode("#", $section_download_order);
 							$section_download_alternattext = explode("#", $section_download_alternattext);
@@ -845,21 +855,22 @@ class importModelimport extends JModel
 											if (!$rows->store())
 											{
 												$this->setError($this->_db->getErrorMsg());
-												//return false;
 											}
 										}
 									}
 								}
 							}
 						}
-						// import Manufacturers
+
+						// Import Manufacturers
 						if ($post['import'] == 'manufacturer')
 						{
 							$manufacturer_id = $rawdata['manufacturer_id'];
 							$product_id = $rawdata['product_id'];
 							$prd = explode('|', $product_id);
 							$prd_final = implode(',', $prd);
-							// updating manufacturer
+
+							// Updating manufacturer
 							$row = $this->getTable('manufacturer_detail');
 							$row->load($manufacturer_id);
 							$row->manufacturer_name = $rawdata['manufacturer_name'];
@@ -878,13 +889,11 @@ class importModelimport extends JModel
 							$row->ordering = $rawdata['ordering'];
 							$row->manufacturer_url = $rawdata['manufacturer_url'];
 
-
-							//$rows=$this->removeNullVal($rows);
-
 							if (!$row->store())
 							{
 								return JText::_('ERROR_DURING_IMPORT');
 							}
+
 							else
 							{
 								$rows = $this->getTable('manufacturer_detail');
@@ -904,7 +913,6 @@ class importModelimport extends JModel
 								$rows->published = $rawdata['published'];
 								$rows->ordering = $rawdata['ordering'];
 								$rows->manufacturer_url = $rawdata['manufacturer_url'];
-								//$rows=$this->removeNullVal($rows);
 
 								if (!$rows->store())
 								{
@@ -912,10 +920,11 @@ class importModelimport extends JModel
 
 									return false;
 								}
+
 								$rows->set('manufacturer_id', $manufacturer_id);
 								$ret = $this->_db->insertObject($this->_table_prefix . 'manufacturer', $rows, 'manufacturer_id');
-
 							}
+
 							if (count($prd) > 0)
 							{
 								$query = "UPDATE `" . $this->_table_prefix . "product` "
@@ -924,14 +933,16 @@ class importModelimport extends JModel
 								$this->_db->setQuery($query);
 								$this->_db->Query();
 							}
+
 							$correctlines++;
 						}
-						// import attributes
+
+						// Import attributes
 						if ($post['import'] == 'attributes')
 						{
 							$product_id = $this->getProductIdByNumber($rawdata['product_number']);
 
-							// insert product attributes
+							// Insert product attributes
 							$attribute_id = "";
 							$attribute_name = $rawdata['attribute_name'];
 							$attribute_ordering = $rawdata['attribute_ordering'];
@@ -941,47 +952,53 @@ class importModelimport extends JModel
 
 							$attribute_required = $rawdata['attribute_required'];
 
-							$query = "SELECT `attribute_id` FROM `" . $this->_table_prefix . "product_attribute` WHERE `product_id` = " . $product_id . " AND `attribute_name` = '" . $attribute_name . "'";
+							$query = "SELECT `attribute_id` FROM `" . $this->_table_prefix . "product_attribute` WHERE `product_id` = "
+								. $product_id . " AND `attribute_name` = '" . $attribute_name . "'";
 							$this->_db->setQuery($query);
 							$attribute_id = $this->_db->loadResult();
 
-							// get table Instance
+							// Get table Instance
 							$attrow = $this->getTable('product_attribute');
 							$attrow->load($attribute_id);
 							$attrow->attribute_name = $attribute_name;
 
 							if ($attribute_ordering != '')
+							{
 								$attrow->ordering = $attribute_ordering;
+							}
 
 							if ($allow_multiple_selection != '')
+							{
 								$attrow->allow_multiple_selection = $allow_multiple_selection;
+							}
 
 							if ($hide_attribute_price != '')
+							{
 								$attrow->hide_attribute_price = $hide_attribute_price;
+							}
 
 							if ($attribute_required != '')
+							{
 								$attrow->attribute_required = $attribute_required;
+							}
 
 							if ($attribute_display_type != '')
+							{
 								$attrow->display_type = $attribute_display_type;
+							}
+
 							$attrow->product_id = $product_id;
 
 							if ($attrow->store())
 							{
-
-								//$att_insert_id = $this->_db->insertid();
 								$att_insert_id = $attrow->attribute_id;
 
-								/*if ($att_insert_id == 0)
-							$att_insert_id = $attribute_id;*/
-
-								// insert product attributes property
+								// Insert product attributes property
 								$property_id = 0;
 								$property_name = $rawdata['property_name'];
 
 								if ($property_name != "")
 								{
-
 									$property_ordering = $rawdata['property_ordering'];
 									$property_price = $rawdata['property_price'];
 									$property_number = $rawdata['property_virtual_number'];
@@ -996,57 +1013,67 @@ class importModelimport extends JModel
 									$this->_db->setQuery($query);
 									$property_id = $this->_db->loadResult();
 
-									// get Table Instance
+									// Get Table Instance
 									$proprow = $this->getTable('attribute_property');
 									$proprow->load($property_id);
 									$proprow->attribute_id = $att_insert_id;
 									$proprow->property_name = $property_name;
 
 									if ($property_price != "")
+									{
 										$proprow->property_price = $property_price;
+									}
 
 									if ($property_ordering != "")
+									{
 										$proprow->ordering = $property_ordering;
+									}
 
 									if ($property_number != "")
+									{
 										$proprow->property_number = $property_number;
+									}
 
 									if ($setdefault_selected != "")
+									{
 										$proprow->setdefault_selected = $setdefault_selected;
+									}
 
 									if ($setrequire_selected != "")
+									{
 										$proprow->setrequire_selected = $setrequire_selected;
+									}
 
 									if ($setdisplay_type != "")
+									{
 										$proprow->setdisplay_type = $setdisplay_type;
+									}
 
 									if ($oprand == '+' || $oprand == '-' || $oprand == '*' || $oprand == '/' || $oprand == '=')
+									{
 										$proprow->oprand = $oprand;
+									}
 
 									if ($property_image)
+									{
 										$proprow->property_image = $property_image;
+									}
 
 									if ($property_main_image)
+									{
 										$proprow->property_main_image = $property_main_image;
+									}
 
-									// end
 									if ($proprow->store())
 									{
-
-										// get url path
-										//$rootpath = $rawdata['siteurl'];
-										//$prop_insert_id = $this->_db->insertid();
 										$prop_insert_id = $proprow->property_id;
-
-										/*
-								 * Insert and update property stock start
-								 */
 
 										$mainstock = $rawdata['property_stock'];
 
 										if ($mainstock != "")
 										{
 											$mainstock_split = explode("#", $mainstock);
+
 											for ($r = 0; $r < count($mainstock_split); $r++)
 											{
 												if ($mainstock_split[$r] != "")
@@ -1055,26 +1082,36 @@ class importModelimport extends JModel
 
 													if (count($mainquaexplode) == 2)
 													{
-														$query_mainins_stockroom = "SELECT * FROM `" . $this->_table_prefix . "stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
+														$query_mainins_stockroom = "SELECT * FROM `" . $this->_table_prefix
+															. "stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
 														$this->_db->setQuery($query_mainins_stockroom);
 														$stock_id = $this->_db->loadObjectList();
 
 														if (count($stock_id) > 0)
 														{
-															$query_mainins = "SELECT * FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "' and section='property' and section_id='" . $prop_insert_id . "'";
+															$query_mainins = "SELECT * FROM `" . $this->_table_prefix
+																. "product_attribute_stockroom_xref` WHERE `stockroom_id` = '"
+																. $mainquaexplode[0] . "' and section='property' and section_id='"
+																. $prop_insert_id . "'";
 															$this->_db->setQuery($query_mainins);
 															$product_id = $this->_db->loadObjectList();
 
 
 															if (count($product_id) > 0)
 															{
-																$update_row_query = "update `" . $this->_table_prefix . "product_attribute_stockroom_xref` set quantity='" . $mainquaexplode[1] . "' where `stockroom_id` = '" . $mainquaexplode[0] . "' and section='property' and section_id='" . $prop_insert_id . "'";
+																$update_row_query = "update `" . $this->_table_prefix
+																	. "product_attribute_stockroom_xref` set quantity='"
+																	. $mainquaexplode[1] . "' where `stockroom_id` = '" . $mainquaexplode[0]
+																	. "' and section='property' and section_id='" . $prop_insert_id . "'";
 																$this->_db->setQuery($update_row_query);
 																$this->_db->Query();
 															}
 															else
 															{
-																$insert_row_query = "insert into `" . $this->_table_prefix . "product_attribute_stockroom_xref` set quantity='" . $mainquaexplode[1] . "',`stockroom_id` = '" . $mainquaexplode[0] . "',section='property',section_id='" . $prop_insert_id . "'";
+																$insert_row_query = "insert into `" . $this->_table_prefix
+																	. "product_attribute_stockroom_xref` set quantity='" . $mainquaexplode[1]
+																	. "',`stockroom_id` = '" . $mainquaexplode[0]
+																	. "',section='property',section_id='" . $prop_insert_id . "'";
 																$this->_db->setQuery($insert_row_query);
 																$this->_db->Query();
 															}
@@ -1098,44 +1135,36 @@ class importModelimport extends JModel
 											$this->storePropertyStockPosition($property_save);
 											unset($property_save);
 										}
-										# End
-
-										/*
-								 * Insert and update property stock end
-								 */
-
-										/*if ($prop_insert_id == 0)
-									$prop_insert_id = $property_id;*/
 
 										if ($property_image != "")
 										{
-
 											$property_image_path = $rawdata['property_image'];
-
-											//$property_image_path_thumb = $rootpath.'components/com_redshop/assets/images/product_attributes/thumb/'.$property_image;
 
 											@fopen($property_image_path, "r");
 											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $property_image;
 
-											# Copy If file is not already exist
+											// Copy If file is not already exist
 											if (!file_exists($dest))
+											{
 												@copy($property_image_path, $dest);
+											}
 										}
 
 										if ($property_main_image != "")
 										{
-
 											$property_image_path = $rawdata['property_main_image'];
 
 											@fopen($property_image_path, "r");
 											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $property_main_image;
 
-											# Copy If file is not already exist
+											// Copy If file is not already exist
 											if (!file_exists($dest))
+											{
 												@copy($property_image_path, $dest);
+											}
 										}
 
-										// redshop product attribute subproperty
+										// Redshop product attribute subproperty
 										$subattribute_color_id = "";
 										$subattribute_color_name = $rawdata['subattribute_color_name'];
 
@@ -1150,35 +1179,51 @@ class importModelimport extends JModel
 											$oprand = $rawdata['subattribute_color_oprand'];
 											$subattribute_color_image = @basename($rawdata['subattribute_color_image']);
 
-											$query = "SELECT `subattribute_color_id` FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE  `subattribute_id` = " . $prop_insert_id . " AND  `subattribute_color_name` = '" . $subattribute_color_name . "'";
+											$query = "SELECT `subattribute_color_id` FROM `" . $this->_table_prefix
+												. "product_subattribute_color` WHERE  `subattribute_id` = " . $prop_insert_id
+												. " AND  `subattribute_color_name` = '" . $subattribute_color_name . "'";
 											$this->_db->setQuery($query);
 											$subattribute_color_id = $this->_db->loadResult();
 
-											// get Table Instance
+											// Get Table Instance
 											$subproprow = $this->getTable('subattribute_property');
 											$subproprow->load($subattribute_color_id);
 											$subproprow->subattribute_color_name = $subattribute_color_name;
 
 											if ($subattribute_color_price != "")
+											{
 												$subproprow->subattribute_color_price = $subattribute_color_price;
+											}
 
 											if ($subattribute_color_ordering != "")
+											{
 												$subproprow->ordering = $subattribute_color_ordering;
+											}
 
 											if ($subattribute_setdefault_selected != "")
+											{
 												$subproprow->setdefault_selected = $subattribute_setdefault_selected;
+											}
 
 											if ($subattribute_color_title != "")
+											{
 												$subproprow->subattribute_color_title = $subattribute_color_title;
+											}
 
 											if ($subattribute_color_number != "")
+											{
 												$subproprow->subattribute_color_number = $subattribute_color_number;
+											}
 
 											if ($oprand == '+' || $oprand == '-' || $oprand == '*' || $oprand == '/' || $oprand == '=')
+											{
 												$subproprow->oprand = $oprand;
+											}
 
 											if ($subattribute_color_image)
+											{
 												$subproprow->subattribute_color_image = $subattribute_color_image;
+											}
 
 											$subproprow->subattribute_id = $prop_insert_id;
 
@@ -1196,22 +1241,17 @@ class importModelimport extends JModel
 																VALUES (
 																'" . $subattribute_color_id . "', '" . $subattribute_color_name . "', '" . $subattribute_color_price . "', '" . $oprand . "', '" . $subattribute_color_image . "', '" . $prop_insert_id . "', '" . $subattribute_color_ordering . "', '" . $subattribute_setdefault_selected . "', '" . $subattribute_color_title . "'
 																)";
-											//$this->_db->setQuery($query);
 
 											if ($subproprow->store())
 											{
-
 												$prop_insert_id_sub = $subproprow->subattribute_color_id;
-
-												/*
-								 * Insert and update sub property stock start
-								 */
 
 												$mainstock = $rawdata['subattribute_stock'];
 
 												if ($mainstock != "")
 												{
 													$mainstock_split = explode("#", $mainstock);
+
 													for ($r = 0; $r < count($mainstock_split); $r++)
 													{
 														if ($mainstock_split[$r] != "")
@@ -1220,26 +1260,37 @@ class importModelimport extends JModel
 
 															if (count($mainquaexplode) == 2)
 															{
-																$query_mainins_stockroom = "SELECT * FROM `" . $this->_table_prefix . "stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
+																$query_mainins_stockroom = "SELECT * FROM `" . $this->_table_prefix
+																	. "stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
 																$this->_db->setQuery($query_mainins_stockroom);
 																$stock_id = $this->_db->loadObjectList();
 
 																if (count($stock_id) > 0)
 																{
-																	$query_mainins = "SELECT * FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "' and section='subproperty' and section_id='" . $prop_insert_id_sub . "'";
+																	$query_mainins = "SELECT * FROM `" . $this->_table_prefix
+																		. "product_attribute_stockroom_xref` WHERE `stockroom_id` = '"
+																		. $mainquaexplode[0] . "' and section='subproperty' and section_id='"
+																		. $prop_insert_id_sub . "'";
 																	$this->_db->setQuery($query_mainins);
 																	$product_id = $this->_db->loadObjectList();
 
 
 																	if (count($product_id) > 0)
 																	{
-																		$update_row_query = "update `" . $this->_table_prefix . "product_attribute_stockroom_xref` set quantity='" . $mainquaexplode[1] . "' where `stockroom_id` = '" . $mainquaexplode[0] . "' and section='subproperty' and section_id='" . $prop_insert_id_sub . "'";
+																		$update_row_query = "update `" . $this->_table_prefix
+																			. "product_attribute_stockroom_xref` set quantity='"
+																			. $mainquaexplode[1] . "' where `stockroom_id` = '"
+																			. $mainquaexplode[0] . "' and section='subproperty' and section_id='"
+																			. $prop_insert_id_sub . "'";
 																		$this->_db->setQuery($update_row_query);
 																		$this->_db->Query();
 																	}
 																	else
 																	{
-																		$insert_row_query = "insert into `" . $this->_table_prefix . "product_attribute_stockroom_xref` set quantity='" . $mainquaexplode[1] . "',`stockroom_id` = '" . $mainquaexplode[0] . "',section='subproperty',section_id='" . $prop_insert_id_sub . "'";
+																		$insert_row_query = "insert into `" . $this->_table_prefix
+																			. "product_attribute_stockroom_xref` set quantity='"
+																			. $mainquaexplode[1] . "',`stockroom_id` = '" . $mainquaexplode[0]
+																			. "',section='subproperty',section_id='" . $prop_insert_id_sub . "'";
 																		$this->_db->setQuery($insert_row_query);
 																		$this->_db->Query();
 																	}
@@ -1254,7 +1305,6 @@ class importModelimport extends JModel
 												 */
 												if ($isredcrm && isset($rawdata['subattribute_stock_placement']) && trim($rawdata['subattribute_stock_placement']) != "")
 												{
-
 													$subproperty_save = array();
 													$subproperty_save['stockposition'] = $rawdata['subattribute_stock_placement'];
 													$subproperty_save['product_id'] = $attrow->product_id;
@@ -1263,16 +1313,14 @@ class importModelimport extends JModel
 													$this->storePropertyStockPosition($subproperty_save, 'subproperty');
 													unset($subproperty_save);
 												}
-												# End
-												/*
-										 * Insert and update property stock end
-										 */
+
 												if ($subattribute_color_image != "")
 												{
 													$subproperty_image_path = $rawdata['subattribute_color_image'];
 													@fopen($subproperty_image_path, "r");
 													$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subattribute_color_image;
-													# Copy If file is not already exist
+
+													// Copy If file is not already exist
 													if (!file_exists($dest))
 													{
 														@copy($subproperty_image_path, $dest);
@@ -1286,7 +1334,7 @@ class importModelimport extends JModel
 							}
 						}
 
-						// import fields
+						// Import fields
 						if ($post['import'] == 'fields')
 						{
 							$field_id = $rawdata['field_id'];
@@ -1305,36 +1353,33 @@ class importModelimport extends JModel
 							$published = $rawdata['published'];
 							$data_id = $rawdata['data_id'];
 							$data_txt = $rawdata['data_txt'];
-							$itemid = $rawdata['itemid']; //	product id or section id
+							$itemid = $rawdata['itemid'];
 							$section = $rawdata['section'];
 
 							if ($section == 1)
 							{
-								/*
-						 * check using Product Number
-						 * product id is available
-						 */
-								$itemid = $this->getProductIdByNumber($rawdata['data_number']); // get product id and assign to data id
+								$itemid = $this->getProductIdByNumber($rawdata['data_number']);
 							}
 
 							$value_id = $rawdata['value_id'];
 							$field_value = $rawdata['field_value'];
 							$field_name_value = $rawdata['field_name'];
 
-							// get field id
+							// Get field id
 							$query = "SELECT `field_id` FROM `" . $this->_table_prefix . "fields` WHERE `field_id` = '" . $field_id . "'";
 							$this->_db->setQuery($query);
 							$field_id_dv = $this->_db->loadResult();
 
-							//$data_id = "";
 							$field_title = $rawdata['field_title'];
 							$field_name = $rawdata['field_name_field'];
 
-							$query = "SELECT `data_id` FROM `" . $this->_table_prefix . "fields_data` WHERE `fieldid` = " . $field_id . " AND `data_id` = " . $data_id;
+							$query = "SELECT `data_id` FROM `" . $this->_table_prefix . "fields_data` WHERE `fieldid` = "
+								. $field_id . " AND `data_id` = " . $data_id;
 							$this->_db->setQuery($query);
 							$ch_data_id = $this->_db->loadResult();
 
-							$query = "SELECT `value_id` FROM `" . $this->_table_prefix . "fields_value` WHERE `field_id` = " . $field_id . " AND `value_id` = " . $value_id;
+							$query = "SELECT `value_id` FROM `" . $this->_table_prefix . "fields_value` WHERE `field_id` = "
+								. $field_id . " AND `value_id` = " . $value_id;
 							$this->_db->setQuery($query);
 							$ch_value_id = $this->_db->loadResult();
 
@@ -1373,15 +1418,7 @@ class importModelimport extends JModel
 								$this->_db->setQuery($query);
 								$this->_db->Query();
 								$data_insert_id = $this->_db->insertid();
-								//$field_id = $data_insert_id;
 							}
-							/*if ($this->_db->Query()){
-
-
-						if ($data_insert_id == 0)
-						$data_insert_id = $field_id;
-					}*/
-//echo $field_id;
 
 							if ($data_id != '')
 							{
@@ -1425,8 +1462,6 @@ class importModelimport extends JModel
 									$this->_db->Query();
 								}
 							}
-							//if ($this->_db->Query()){
-							//$data_insert_id = $this->_db->insertid();
 
 							if ($data_insert_id == 0)
 							{
@@ -1437,9 +1472,9 @@ class importModelimport extends JModel
 								$new_field_id = $data_insert_id;
 							}
 							$correctlines++;
-							//}
 						}
-						// import fields
+
+						// Import fields
 						if ($post['import'] == 'fields_data')
 						{
 							$field_id = $rawdata['field_id'];
@@ -1482,12 +1517,13 @@ class importModelimport extends JModel
 							}
 						}
 
-						// import Related Products
+						// Import Related Products
 						if ($post['import'] == 'related_product')
 						{
 							$relpid = $this->getProductIdByNumber($rawdata['related_sku']);
 							$pid = $this->getProductIdByNumber($rawdata['product_sku']);
-							$query = "INSERT IGNORE INTO `" . $this->_table_prefix . "product_related` (`related_id`, `product_id`) VALUES ('" . $relpid . "', '" . $pid . "')";
+							$query = "INSERT IGNORE INTO `" . $this->_table_prefix . "product_related` (`related_id`, `product_id`) VALUES ('"
+								. $relpid . "', '" . $pid . "')";
 							$this->_db->setQuery($query);
 
 							if ($this->_db->Query())
@@ -1496,7 +1532,7 @@ class importModelimport extends JModel
 							}
 						}
 
-						// import users
+						// Import users
 						if ($post['import'] == 'users')
 						{
 							global $mainframe;
@@ -1505,7 +1541,7 @@ class importModelimport extends JModel
 							$this->_db->setQuery($q);
 							$shopper_group_data = $this->_db->loadObject();
 
-							// insert shopper group if not available
+							// Insert shopper group if not available
 							if (count($shopper_group_data) <= 0)
 							{
 								$shopper = $this->getTable('shopper_group_detail');
@@ -1514,20 +1550,20 @@ class importModelimport extends JModel
 								$shopper->shopper_group_customer_type = 1;
 								$shopper->shopper_group_portal = 0;
 								$shopper->store();
-								// get last shopper group id
+
+								// Get last shopper group id
 								$shopper_group_id = $shopper->shopper_group_id;
 							}
 							else
 							{
-								// get shopper group id
+								// Get shopper group id
 								$shopper_group_id = $shopper_group_data->shopper_group_id;
 							}
 
-							// get redshop user info table
+							// Get redshop user info table
 							$reduser = $this->getTable('user_detail');
 
-							// check for user available
-							// in $rawdata['id'] >0 than also a joomla user
+							// Check for user available
 							if ($rawdata['id'] > 0)
 							{
 								$q = "SELECT * FROM `#__users` "
@@ -1544,7 +1580,6 @@ class importModelimport extends JModel
 									$user_id = $joomusers->id;
 								}
 
-								//////////////////////// Start data into user table //////////////////////////
 								// Initialize some variables
 								$db = & JFactory::getDBO();
 								$me = & JFactory::getUser();
@@ -1562,6 +1597,7 @@ class importModelimport extends JModel
 								$user->set('password_clear', $rawdata['password']);
 								$user->set('block', $rawdata['block']);
 								$user->set('sendEmail', $rawdata['sendEmail']);
+
 								// Set some initial user values
 								$user->set('usertype', $rawdata['usertype']);
 								$user->set('gid', $rawdata['gid']);
@@ -1613,7 +1649,11 @@ class importModelimport extends JModel
 											$ret = $this->_db->insertObject($this->_table_prefix . 'users_info', $reduser, 'users_info_id');
 										}
 									}
-									if ($ret) $correctlines++;
+
+									if ($ret)
+									{
+										$correctlines++;
+									}
 								}
 							}
 							else
@@ -1621,9 +1661,8 @@ class importModelimport extends JModel
 								$q = "SELECT * FROM `" . $this->_table_prefix . "users_info` "
 									. "WHERE `user_email` = '" . $rawdata['email'] . "' ";
 								$this->_db->setQuery($q);
-								$redusers = $this->_db->loadObject();
 
-								//$reduser->load($users_info_id);
+								$redusers = $this->_db->loadObject();
 								$reduser->set('user_id', $rawdata['id']);
 								$reduser->set('user_email', trim($rawdata['email']));
 								$reduser->set('firstname', $rawdata['firstname']);
@@ -1653,16 +1692,17 @@ class importModelimport extends JModel
 									$reduser->set('users_info_id', $rawdata['users_info_id']);
 									$ret = $this->_db->insertObject($this->_table_prefix . 'users_info', $reduser, 'users_info_id');
 								}
-								if ($ret) $correctlines++;
+
+								if ($ret)
+								{
+									$correctlines++;
+								}
 							}
 						}
-						//Shipping Address Import
+
+						// Shipping Address Import
 						if ($post['import'] == 'shipping_address')
 						{
-							// check for user available
-							// in $rawdata['id'] >0 than also a joomla user
-							//echo '<pre/>';
-
 							if (trim($rawdata['username']) != "")
 							{
 								$q = "SELECT id FROM `#__users` "
@@ -1688,13 +1728,15 @@ class importModelimport extends JModel
 									$reduser->set('users_info_id', 0);
 									$ret = $this->_db->insertObject($this->_table_prefix . 'users_info', $reduser, 'users_info_id');
 
-									if ($ret) $correctlines++;
+									if ($ret)
+									{
+										$correctlines++;
+									}
 								}
 							}
 						}
-						//End Shipping Address Export
 
-						//Shopper group Import
+						// Shopper group Import
 						if ($post['import'] == 'shopper_group_price')
 						{
 							$ret = $this->importShopperGroupPrice($rawdata);
@@ -1704,12 +1746,10 @@ class importModelimport extends JModel
 								$correctlines++;
 							}
 						}
-						//End Shopper group Import
 
-						// import stockroom data
+						// Import stockroom data
 						if ($post['import'] == 'product_stockroom_data')
 						{
-
 							$product_number = $rawdata['Product_SKU'];
 							$product_stock = $rawdata['stock'];
 							$preorder_stock = 0;
@@ -1723,7 +1763,8 @@ class importModelimport extends JModel
 
 								if ($product_id)
 								{
-									echo $q = "SELECT product_id FROM `" . $this->_table_prefix . "product_stockroom_xref` where product_id ='" . $product_id . "' and stockroom_id ='" . $stockroom_id . "'";
+									echo $q = "SELECT product_id FROM `" . $this->_table_prefix . "product_stockroom_xref` where product_id ='"
+										. $product_id . "' and stockroom_id ='" . $stockroom_id . "'";
 									$this->_db->setQuery($q);
 									$stock_exists = $this->_db->loadResult();
 
@@ -1731,7 +1772,8 @@ class importModelimport extends JModel
 									{
 										$query = 'INSERT INTO ' . $this->_table_prefix . 'product_stockroom_xref '
 											. '(product_id,stockroom_id,quantity,preorder_stock,	ordered_preorder) '
-											. 'VALUE("' . $product_id . '","' . $stockroom_id . '","' . $product_stock . '","' . $preorder_stock . '","' . $ordered_preorder . '")';
+											. 'VALUE("' . $product_id . '","' . $stockroom_id . '","' . $product_stock . '","' . $preorder_stock
+											. '","' . $ordered_preorder . '")';
 										$this->_db->setQuery($query);
 
 										if (!$this->_db->query())
@@ -1750,13 +1792,13 @@ class importModelimport extends JModel
 										$this->_db->setQuery($query);
 										$this->_db->Query();
 									}
+
 									$correctlines++;
 								}
 							}
 						}
-						// End Product Stockroom Data
 
-						// import Economic group Products
+						// Import Economic group Products
 						if ($post['import'] == 'economic_group_product')
 						{
 
@@ -1840,7 +1882,8 @@ class importModelimport extends JModel
 				$q = "SELECT price_id FROM `" . $this->_table_prefix . "product_attribute_price` "
 					. "WHERE `section_id` = '" . $section_id . "' "
 					. "AND `section`='" . $rawdata['section'] . "' "
-					. "AND `shopper_group_id`='" . $rawdata['shopper_group_id'] . "' and price_quantity_start='" . $rawdata['price_quantity_start'] . "' and price_quantity_end='" . $rawdata['price_quantity_end'] . "'";
+					. "AND `shopper_group_id`='" . $rawdata['shopper_group_id'] . "' and price_quantity_start='" . $rawdata['price_quantity_start']
+					. "' and price_quantity_end='" . $rawdata['price_quantity_end'] . "'";
 				$this->_db->setQuery($q);
 				$price_id = $this->_db->loadResult();
 
@@ -1858,7 +1901,8 @@ class importModelimport extends JModel
 				}
 				$q = "SELECT price_id FROM `" . $this->_table_prefix . "product_price` "
 					. "WHERE `product_id` = '" . $section_id . "' "
-					. "AND `shopper_group_id`='" . $rawdata['shopper_group_id'] . "' and price_quantity_start='" . $rawdata['price_quantity_start'] . "' and price_quantity_end='" . $rawdata['price_quantity_end'] . "'";
+					. "AND `shopper_group_id`='" . $rawdata['shopper_group_id'] . "' and price_quantity_start='" . $rawdata['price_quantity_start']
+					. "' and price_quantity_end='" . $rawdata['price_quantity_end'] . "'";
 				$this->_db->setQuery($q);
 				$price_id = $this->_db->loadResult();
 
@@ -1931,9 +1975,10 @@ class importModelimport extends JModel
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadObjectList();
 
-		if ($data != NULL)
+		if ($data != null)
 		{
 			$product_array = array();
+
 			foreach ($data as $product_data)
 			{
 				$product_id = '';
@@ -1958,7 +2003,7 @@ class importModelimport extends JModel
 				$red_product_id = $product_data->rdp_product_id;
 				$red_product_full_image = $product_data->rdp_product_full_image;
 
-				if ($product_data->red_product_number == NULL)
+				if ($product_data->red_product_number == null)
 				{
 					$rows = $this->getTable('product_detail');
 					$rows->product_id = 0;
@@ -1982,7 +2027,6 @@ class importModelimport extends JModel
 					if (!$rows->store())
 					{
 						$this->setError($this->_db->getErrorMsg());
-						//return false;
 					}
 					$last_insert = $rows->product_id;
 
@@ -1996,7 +2040,6 @@ class importModelimport extends JModel
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
-							//return false;
 						}
 					}
 					if ($product_full_image)
@@ -2013,7 +2056,6 @@ class importModelimport extends JModel
 						if (!$rows->store())
 						{
 							$this->setError($this->_db->getErrorMsg());
-							//return false;
 						}
 					}
 					// Copy product images to redshop
@@ -2027,12 +2069,12 @@ class importModelimport extends JModel
 							@copy($src, $dest);
 						}
 					}
-					// End of copy images
 
 					// Copy additional Images
 					$moreimage = "SELECT * FROM #__vm_product_files WHERE file_product_id = '" . $product_data->product_id . "'";
 					$this->_db->setQuery($moreimage);
 					$product_more_img = $this->_db->loadObjectList();
+
 					foreach ($product_more_img as $more_img)
 					{
 						$filename = basename($more_img->file_name);
@@ -2056,7 +2098,6 @@ class importModelimport extends JModel
 						if (!$rows->store())
 						{
 							$this->setError($this->_db->getErrorMsg());
-							//return false;
 						}
 					}
 					// End Of additional Images
@@ -2087,7 +2128,6 @@ class importModelimport extends JModel
 					if (!$rows->store())
 					{
 						$this->setError($this->_db->getErrorMsg());
-						//return false;
 					}
 					if ($product_full_image != $red_product_full_image)
 					{
@@ -2100,8 +2140,8 @@ class importModelimport extends JModel
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
-							//return false;
 						}
+
 						// Copy product images to redshop
 						$src = JPATH_ROOT . DS . "components" . DS . "com_virtuemart" . DS . "shop_image" . DS . "product" . DS . $product_full_image;
 						$redimagesrc = REDSHOP_FRONT_IMAGES_RELPATH . "product" . DS . $red_product_full_image;
@@ -2111,29 +2151,33 @@ class importModelimport extends JModel
 						{
 							@unlink($redimagesrc);
 						}
+
 						if (is_file($src))
 						{
 							@copy($src, $dest);
 						}
-						// End of copy images
 					}
-					// array for relate category and product relation
+
 					$product_array[] = array($product_data->product_id => $red_product_id);
 					$updated[] = array($red_product_id);
 				}
+
 				$vmproarr[] = $product_data->product_id;
 				$redproarr[] = $last_insert;
 
 				// Logic to inserting parent_id
 				if ($parent_id != 0)
 				{
-					$query = "SELECT vmp.product_id,rdp.product_id AS rdp_product_id FROM (#__vm_product AS vmp LEFT JOIN " . $this->_table_prefix . "product AS rdp ON vmp.product_sku = rdp.product_number) "
+					$query = "SELECT vmp.product_id,rdp.product_id AS rdp_product_id FROM (#__vm_product AS vmp LEFT JOIN "
+						. $this->_table_prefix . "product AS rdp ON vmp.product_sku = rdp.product_number) "
 						. "LEFT JOIN #__vm_product_price AS vpp ON vpp.product_id = vmp.product_id "
 						. "WHERE vmp.product_id = '" . $parent_id . "' ";
+
 					$this->_db->setQuery($query);
 					$redparent_id = $this->_db->loadObject();
 
-					$update = "UPDATE " . $this->_table_prefix . "product SET product_parent_id = '" . $redparent_id->rdp_product_id . "' WHERE product_id = '" . $last_insert . "' ";
+					$update = "UPDATE " . $this->_table_prefix . "product SET product_parent_id = '" . $redparent_id->rdp_product_id
+						. "' WHERE product_id = '" . $last_insert . "' ";
 
 					$this->_db->setQuery($update);
 
@@ -2143,27 +2187,33 @@ class importModelimport extends JModel
 					}
 				}
 			}
+
 			$related_product = importModelimport::related_product_sync($vmproarr, $redproarr);
+
 			$category_total = importModelimport::Category_sync($product_array);
 			JRequest::setVar('category_total', $category_total);
 
 			if (isset($inserted))
+			{
 				JRequest::setVar('product_inserted', count($inserted));
+			}
 
 			if (isset($updated))
+			{
 				JRequest::setVar('product_updated', count($updated));
+			}
 
 			return count($product_array);
 		}
-
 	}
 
 	public function Category_sync($product_array)
 	{
-		//$category_array = array();
 		$k = 0;
+
 		// Collecting data to insert and check for duplicates
-		$query = "SELECT DISTINCT vmc.*,vmc.cdate as category_pdate ,rdc.category_name as rdc_catname,rdc.category_id as rdc_catid, rdc.category_full_image as rdc_category_full_image  FROM ( #__vm_category as vmc,#__vm_product_category_xref as vmpcx) "
+		$query = "SELECT DISTINCT vmc.*,vmc.cdate as category_pdate ,rdc.category_name as rdc_catname,rdc.category_id as rdc_catid,
+		rdc.category_full_image as rdc_category_full_image  FROM ( #__vm_category as vmc,#__vm_product_category_xref as vmpcx) "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS rdc ON rdc.category_name = vmc.category_name ";
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadObjectList();
@@ -2178,16 +2228,20 @@ class importModelimport extends JModel
 			$category_thumb_image = $cat_data->category_thumb_image;
 
 			if ($cat_data->category_full_image != "")
+			{
 				$category_full_image = $cat_data->category_full_image;
+			}
 			else
+			{
 				$category_full_image = $cat_data->category_thumb_image;
+			}
 
 			$cat_data->category_publish == 'Y' ? $category_publish = 1 : $category_publish = 0;
 			$products_per_row = $cat_data->products_per_row;
 
-			if ($cat_data->rdc_catname == NULL)
+			if ($cat_data->rdc_catname == null)
 			{
-				// inserting category to redshop
+				// Inserting category to redshop
 				$rows = $this->getTable('category_detail');
 				$rows->category_id = 0;
 				$rows->category_name = $category_name;
@@ -2202,10 +2256,11 @@ class importModelimport extends JModel
 				if (!$rows->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
-					//return false;
 				}
+
 				$k++;
-				// get last inserted category id
+
+				// Get last inserted category id
 				$last_insert = $rows->category_id;
 			}
 			else
@@ -2216,9 +2271,13 @@ class importModelimport extends JModel
 				$rowcat->category_thumb_image = $cat_data->category_thumb_image;
 
 				if ($cat_data->category_full_image != "")
+				{
 					$rowcat->category_full_image = $cat_data->category_full_image;
+				}
 				else
+				{
 					$rowcat->category_full_image = $cat_data->category_thumb_image;
+				}
 
 				$rowcat->store();
 			}
@@ -2247,20 +2306,18 @@ class importModelimport extends JModel
 					}
 				}
 			}
-			// End of copy images
 
-			// insert category Xref
-
+			// Insert category Xref
 			$vmcatarr[] = $cat_data->category_id;
 			$redcatarr[] = $last_insert;
 
-			// inserting/updating category product relation
+			// Inserting/updating category product relation
 			if ($product_array != null)
 			{
 				foreach ($product_array as $products)
 				{
 					foreach ($products as $key => $value)
-					{ // category Product Xref
+					{
 						$query = "SELECT * from #__vm_product_category_xref "
 							. "WHERE category_id = '" . $cat_data->category_id . "' "
 							. "AND product_id = '" . $key . "'";
@@ -2272,7 +2329,6 @@ class importModelimport extends JModel
 							. "AND `product_id` = '" . $value . "' ";
 						$this->_db->setQuery($query_delete_rel);
 						$this->_db->query();
-						// match array key for product id
 
 						if (isset($data_relation->product_id) && $data_relation->product_id == $key)
 						{
@@ -2284,17 +2340,12 @@ class importModelimport extends JModel
 							if (!$this->_db->query())
 							{
 								$this->setError($this->_db->getErrorMsg());
-								//return false;
 							}
 						}
-
 					}
 				}
 			}
-
 		}
-		// vmcategory loop for category inter realtion
-
 		for ($v = 0; $v < count($vmcatarr); $v++)
 		{
 			$query = "SELECT category_parent_id from #__vm_category_xref "
@@ -2302,14 +2353,16 @@ class importModelimport extends JModel
 			$this->_db->setQuery($query);
 			$vmparent = $this->_db->loadResult();
 
-			// search key of parent id
 			$vmparentkey = array_search($vmparent, $vmcatarr);
 
-			// redshop parent id
 			if ($vmparent == 0)
+			{
 				$redparentvalue = 0;
+			}
 			else
-				$redparentvalue = $redcatarr[$vmparentkey]; // assign key to redshop parent id
+			{
+				$redparentvalue = $redcatarr[$vmparentkey];
+			} // assign key to redshop parent id
 
 			$redchildvalue = $redcatarr[$v]; // redshop child id
 
@@ -2344,7 +2397,7 @@ class importModelimport extends JModel
 
 		for ($i = 0; $i <= (count($data) - 1); $i++)
 		{
-			if ($data[$i]->rdsp_shopper_group_name == NULL)
+			if ($data[$i]->rdsp_shopper_group_name == null)
 			{
 				$rows = $this->getTable('shopper_group_detail');
 				$rows->shopper_group_id = 0;
@@ -2364,6 +2417,7 @@ class importModelimport extends JModel
 					$query = "SELECT * FROM `#__vm_shopper_vendor_xref` WHERE `shopper_group_id` = " . $data[$i]->shopper_group_id;
 					$this->_db->setQuery($query);
 					$shoppers = $this->_db->loadObjectList();
+
 					for ($s = 0; $s <= count($shoppers); $s++)
 					{
 						$queryshop = "UPDATE `" . $this->_table_prefix . "users_info` "
@@ -2390,6 +2444,7 @@ class importModelimport extends JModel
 		$data = $this->_db->loadObjectList();
 
 		$k = 0;
+
 		for ($i = 0; $i < count($data); $i++)
 		{
 			if ($data[$i]->address_type == "BT")
@@ -2487,10 +2542,11 @@ class importModelimport extends JModel
 		$data = $this->_db->loadObjectList();
 
 		$k = 0;
+
 		for ($i = 0; $i <= (count($data) - 1); $i++)
 		{
 
-			if ($data[$i]->rdo_order_number == NULL)
+			if ($data[$i]->rdo_order_number == null)
 			{
 				$order_number = $order_functions->generateOrderNumber();
 
@@ -2535,6 +2591,7 @@ class importModelimport extends JModel
 					. "WHERE vmoi.order_id='" . $data[$i]->order_id . "' ";
 				$this->_db->setQuery($order_item);
 				$order_item = $this->_db->loadObjectList();
+
 				for ($j = 0; $j <= (count($order_item) - 1); $j++)
 				{
 					$reduser = $this->getTable('order_item_detail');
@@ -2569,7 +2626,7 @@ class importModelimport extends JModel
 
 				for ($l = 0; $l <= (count($order_payment) - 1); $l++)
 				{
-					if ($order_payment[$l]->payment_order_id == NULL)
+					if ($order_payment[$l]->payment_order_id == null)
 					{
 						$reduser = $this->getTable('order_payment');
 						$reduser->set('payment_order_id', 0);
@@ -2599,9 +2656,9 @@ class importModelimport extends JModel
 
 				for ($m = 0; $m <= (count($order_user_info) - 1); $m++)
 				{
-					if ($order_user_info[$m]->rdoui_order_id == NULL)
+					if ($order_user_info[$m]->rdoui_order_id == null)
 					{
-						($order_user_info[$m]->company == NULL) ? $company = 0 : $company = 1;
+						($order_user_info[$m]->company == null) ? $company = 0 : $company = 1;
 
 						$reduser = $this->getTable('order_user_detail');
 						$reduser->set('order_info_id', 0);
@@ -2646,9 +2703,10 @@ class importModelimport extends JModel
 		$data = $this->_db->loadObjectList();
 
 		$k = 0;
+
 		for ($i = 0; $i <= (count($data) - 1); $i++)
 		{
-			if ($data[$i]->rdcode == NULL)
+			if ($data[$i]->rdcode == null)
 			{
 				$reduser = $this->getTable('orderstatus_detail');
 				$reduser->set('published', 1);
@@ -2677,6 +2735,7 @@ class importModelimport extends JModel
 		$data = $this->_db->loadObjectList();
 		$k = 0;
 		$tmp_id = 0;
+
 		for ($i = 0; $i <= (count($data) - 1); $i++)
 		{
 			if ($i > 0)
@@ -2690,7 +2749,7 @@ class importModelimport extends JModel
 			$manufacturer_desc = $data[$i]->mf_desc;
 			$rdp_product_id = $data[$i]->rdp_product_id;
 
-			if ($data[$i]->rdmf_manufacturer_id == NULL || $data[$i]->rdmf_manufacturer_name == NULL)
+			if ($data[$i]->rdmf_manufacturer_id == null || $data[$i]->rdmf_manufacturer_name == null)
 			{
 				if ($tmp_id == 0)
 				{
@@ -2739,6 +2798,7 @@ class importModelimport extends JModel
 			if ($vmrel != "")
 			{
 				$vmrel = explode("|", $vmrel);
+
 				for ($i = 0; $i < count($vmrel); $i++)
 				{
 					$vmrelpro = $vmrel[$i];

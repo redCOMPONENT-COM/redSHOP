@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class order_containerModelorder_container extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -35,7 +39,6 @@ class order_containerModelorder_container extends JModel
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
 		$this->setState('filter_status', $filter_status);
-
 	}
 
 	public function getData()
@@ -75,18 +78,14 @@ class order_containerModelorder_container extends JModel
 	{
 		$where = "";
 
-
 		$filter = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
-
 
 		$where = array();
 
 		if ($filter_status)
 		{
-
 			$where[] = "o.order_status like '%" . $filter_status . "%'";
-
 		}
 
 		if ($filter)
@@ -99,7 +98,9 @@ class order_containerModelorder_container extends JModel
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = ' SELECT * '
-			. ' FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix . 'users_info as uf WHERE o.order_id IN ( SELECT  DISTINCT (`order_id`) FROM ' . $this->_table_prefix . 'order_item WHERE `container_id` < 1 ) AND  o.user_id=uf.user_id and address_type Like "BT" ' . $where . $orderby;
+			. ' FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix . 'users_info as uf WHERE o.order_id IN ( SELECT
+			DISTINCT (`order_id`) FROM ' . $this->_table_prefix . 'order_item WHERE `container_id` < 1 ) AND
+			o.user_id=uf.user_id and address_type Like "BT" ' . $where . $orderby;
 
 		return $query;
 	}
@@ -118,26 +119,20 @@ class order_containerModelorder_container extends JModel
 
 	public function update_status()
 	{
-
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 		$order_function = new order_functions;
 
 		$order_function->update_status();
-
-
 	}
 
 	public function export_data()
 	{
-
 		$query = ' SELECT * '
-			. ' FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix . 'users_info as uf WHERE  o.user_id=uf.user_id and address_type Like "BT" ';
+			. ' FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix . 'users_info as uf WHERE
+			o.user_id=uf.user_id and address_type Like "BT" ';
 
 		$query = $this->_buildQuery();
 
 		return $this->_getList($query);
 	}
-
 }
-
-

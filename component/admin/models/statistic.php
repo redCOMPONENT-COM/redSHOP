@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,18 +14,29 @@ jimport('joomla.application.component.model');
 class statisticModelstatistic extends JModel
 {
 	public $_table_prefix = null;
+
 	public $_startdate = null;
+
 	public $_enddate = null;
+
 	public $_filteroption = null;
 
 	public $_mostpopular = null;
+
 	public $_bestsallers = null;
+
 	public $_newproducts = null;
+
 	public $_neworders = null;
+
 	public $_amountprice = null;
+
 	public $_amountorder = null;
+
 	public $_turnover = 0;
+
 	public $_siteviewer = 0;
+
 	public $_pageviewer = 0;
 
 	public function __construct()
@@ -74,6 +86,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -99,7 +112,7 @@ class statisticModelstatistic extends JModel
 		$result = array();
 		$query = 'SELECT cdate '
 			. 'FROM ' . $this->_table_prefix . 'order_item '
-//				.'WHERE order_status = "C" '
+
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
@@ -107,8 +120,7 @@ class statisticModelstatistic extends JModel
 		$query = 'SELECT count(oi.product_id) AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate '
 			. ', p.product_id, p.product_name, p.product_price '
 			. 'FROM ' . $this->_table_prefix . 'order_item as oi '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=oi.product_id '//				.'WHERE oi.order_status = "C" '
-		;
+			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=oi.product_id ';
 		$query1 = ' GROUP BY oi.product_id '
 			. 'ORDER BY totalproduct desc ';
 		$this->_bestsallers = $this->_getList($query . $query1);
@@ -123,6 +135,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -133,6 +146,7 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_bestsallers = $result;
@@ -168,6 +182,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -178,11 +193,13 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_newproducts = $result;
 			}
 		}
+
 		return $this->_newproducts;
 	}
 
@@ -215,6 +232,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -225,6 +243,7 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_neworders = $result;
@@ -249,13 +268,14 @@ class statisticModelstatistic extends JModel
 		$query = 'SELECT FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, SUM(o.order_total) AS turnover '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
-			//.'AND address_type LIKE "BT" '
 			. 'WHERE uf.address_type="BT" and (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$quesry1 = ' GROUP BY 1  ORDER BY o.cdate '; //o.order_status ';
-		//if(JRequest::getVar ('view')!="")
+		$quesry1 = ' GROUP BY 1  ORDER BY o.cdate ';
 		$this->_turnover = $this->_getList($query . $quesry1);
 
-		if ($this->_filteroption == 3) return $this->_turnover;
+		if ($this->_filteroption == 3)
+		{
+			return $this->_turnover;
+		}
 
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
 		{
@@ -283,6 +303,7 @@ class statisticModelstatistic extends JModel
 				$this->_turnover = array_reverse($result);
 			}
 		}
+
 		return $this->_turnover;
 	}
 
@@ -302,7 +323,7 @@ class statisticModelstatistic extends JModel
 			. ', (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$quesry1 = ' GROUP BY 1 '; //o.order_status ';
+		$quesry1 = ' GROUP BY 1 ';
 		$this->_amountprice = $this->_getList($query . $quesry1);
 
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
@@ -326,11 +347,13 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_amountprice = $result;
 			}
 		}
+
 		return $this->_amountprice;
 	}
 
@@ -365,6 +388,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -375,11 +399,13 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_amountprice = $result;
 			}
 		}
+
 		return $this->_amountprice;
 	}
 
@@ -414,6 +440,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -424,11 +451,13 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_amountprice = $result;
 			}
 		}
+
 		return $this->_amountprice;
 	}
 
@@ -451,8 +480,7 @@ class statisticModelstatistic extends JModel
 			. 'AND address_type LIKE "BT" '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$query1 = ' GROUP BY o.user_id '
-			. 'ORDER BY totalorder desc '//				.'LIMIT 0,5 '
-		;
+			. 'ORDER BY totalorder desc ';
 		$this->_amountorder = $this->_getList($query . $query1);
 
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
@@ -465,6 +493,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -499,8 +528,7 @@ class statisticModelstatistic extends JModel
 			. 'FROM ' . $this->_table_prefix . 'pageviewer '
 			. 'WHERE section_id != 0 ';
 		$query1 = ' GROUP BY `section`,`section_id` '
-			. 'ORDER BY totalpage DESC '//				.'LIMIT 0,5'
-		;
+			. 'ORDER BY totalpage DESC ';
 		$this->_pageviewer = $this->_getList($query . $query1);
 
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
@@ -513,6 +541,7 @@ class statisticModelstatistic extends JModel
 					. $query1;
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
+
 				for ($i = 0; $i < count($rs); $i++)
 				{
 					if ($this->_filteroption == 2)
@@ -523,11 +552,13 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_pageviewer = $result;
 			}
 		}
+
 		return $this->_pageviewer;
 	}
 
@@ -550,14 +581,15 @@ class statisticModelstatistic extends JModel
 		{
 			$query = 'SELECT FROM_UNIXTIME(created_date,"' . $formate . '") AS viewdate '
 				. 'FROM ' . $this->_table_prefix . 'siteviewer ';
+
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
 				$q = $query . " WHERE created_date > " . strtotime($list->preday)
 					. " AND created_date <= " . strtotime($today);
 				$this->_db->setQuery($q);
+
 				$rs = $this->_db->loadObjectList();
-				// COUNT(*) AS viewer
 				$rs[0]->viewer = count($rs);
 
 				if ($rs[0]->viewer > 0)
@@ -570,11 +602,13 @@ class statisticModelstatistic extends JModel
 				}
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->siteviewer = $result;
 			}
 		}
+
 		return $this->siteviewer;
 	}
 
@@ -662,6 +696,7 @@ class statisticModelstatistic extends JModel
 				$return = "%Y";
 				break;
 		}
+
 		return $return;
 	}
 

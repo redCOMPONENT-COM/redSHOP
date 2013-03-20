@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,13 +14,19 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+
 class productModelproduct extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_categorytreelist = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -53,11 +60,13 @@ class productModelproduct extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
-			// product parent - child - format generation
+			// Product parent - child - format generation
 			$products = $this->_data;
-			// establish the hierarchy of the menu
+
+			// Establish the hierarchy of the menu
 			$children = array();
-			// first pass - collect children
+
+			// First pass - collect children
 			foreach ($products as $v)
 			{
 				$pt = $v->parent;
@@ -66,11 +75,11 @@ class productModelproduct extends JModel
 				$children[$pt] = $list;
 			}
 
-			// second pass - get an indent list of the items
+			// Second pass - get an indent list of the items
 			$this->_data = JHTML::_('menu.treerecurse', 0, '', array(), $children, max(0, 9));
 			sort($this->_data);
-			// End
 		}
+
 		return $this->_data;
 	}
 
@@ -105,6 +114,7 @@ class productModelproduct extends JModel
 		{
 			return $items;
 		}
+
 		$orderby = $this->_buildContentOrderBy();
 		$limitstart = $this->getState('limitstart');
 		$limit = $this->getState('limit');
@@ -124,31 +134,31 @@ class productModelproduct extends JModel
 			{
 				$and = 'AND p.published=1 ';
 			}
-			else if ($product_sort == 'p.unpublished')
+			elseif ($product_sort == 'p.unpublished')
 			{
 				$and = 'AND p.published=0 ';
 			}
-			else if ($product_sort == 'p.product_on_sale')
+			elseif ($product_sort == 'p.product_on_sale')
 			{
 				$and = 'AND p.product_on_sale=1 ';
 			}
-			else if ($product_sort == 'p.product_special')
+			elseif ($product_sort == 'p.product_special')
 			{
 				$and = 'AND p.product_special=1 ';
 			}
-			else if ($product_sort == 'p.expired')
+			elseif ($product_sort == 'p.expired')
 			{
 				$and = 'AND p.expired=1 ';
 			}
-			else if ($product_sort == 'p.not_for_sale')
+			elseif ($product_sort == 'p.not_for_sale')
 			{
 				$and = 'AND p.not_for_sale=1 ';
 			}
-			else if ($product_sort == 'p.product_not_on_sale')
+			elseif ($product_sort == 'p.product_not_on_sale')
 			{
 				$and = 'AND p.product_on_sale=0 ';
 			}
-			else if ($product_sort == 'p.sold_out')
+			elseif ($product_sort == 'p.sold_out')
 			{
 				$query_prd = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM " . $this->_table_prefix . "product AS p ";
 				$tot_products = $this->_getList($query_prd);
@@ -158,16 +168,23 @@ class productModelproduct extends JModel
 				$final_product_stock = $this->getFinalProductStock($products_stock);
 
 				if (count($final_product_stock) > 0)
+				{
 					$product_id_array = implode(',', $final_product_stock);
+				}
 				else
+				{
 					$product_id_array = "0";
+				}
+
 				$and = "AND p.product_id IN (" . $product_id_array . ")";
 			}
 		}
+
 		if (trim($keyword) != '')
 		{
 			$arr_keyword = explode(' ', $keyword);
 		}
+
 		if ($search_field != 'pa.property_number')
 		{
 			for ($k = 0; $k < count($arr_keyword); $k++)
@@ -182,7 +199,7 @@ class productModelproduct extends JModel
 				}
 				else
 				{
-					$where .= $search_field . " LIKE '%$arr_keyword[$k]%'  "; //$arr_keyword[$k];
+					$where .= $search_field . " LIKE '%$arr_keyword[$k]%'  ";
 				}
 
 				if ($k != count($arr_keyword) - 1)
@@ -209,23 +226,30 @@ class productModelproduct extends JModel
 		if ($where == '' && $search_field != 'pa.property_number')
 		{
 
-			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
+			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name
+			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
 				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
 				. ",p.product_template,(SELECT COUNT(*) FROM " . $this->_table_prefix
 				. "media AS m where m.section_id = p.product_id) AS media FROM " . $this->_table_prefix
 				. "product AS p "
-				//."LEFT JOIN ".$this->_table_prefix."product_category_xref AS x ON x.product_id = p.product_id "
 				. "WHERE 1=1 " . $and . $orderby;
 		}
 		else
 		{
-
-			$query = "SELECT p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ", x.ordering , x.category_id,(SELECT COUNT(*) FROM " . $this->_table_prefix . "media AS m where m.section_id = p.product_id) AS media " . "FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id ";
+			$query = "SELECT p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS
+			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
+			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
+			x.ordering , x.category_id,(SELECT COUNT(*) FROM " . $this->_table_prefix . "media AS m where m.section_id = p.product_id)
+			AS media " . "FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref
+			AS x ON x.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
-				$query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id " . "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
+				$query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id " .
+					"LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id " .
+					"LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
 			}
+
 			$query .= "WHERE 1=1 ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
@@ -244,6 +268,7 @@ class productModelproduct extends JModel
 		if (count($product_stock) > 0)
 		{
 			$product = array();
+
 			for ($i = 0; $i < count($product_stock); $i++)
 			{
 				$product[] = $product_stock[$i]->product_id;
@@ -287,7 +312,9 @@ class productModelproduct extends JModel
 
 	public function listedincats($pid)
 	{
-		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' . $this->_table_prefix . 'category as c WHERE product_id ="' . $pid . '" AND ref.category_id=c.category_id ORDER BY c.category_name';
+		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, '
+			. $this->_table_prefix . 'category as c WHERE product_id ="' . $pid
+			. '" AND ref.category_id=c.category_id ORDER BY c.category_name';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -313,6 +340,7 @@ class productModelproduct extends JModel
 		$template = $template_desc[0]->template_desc;
 		$str = array();
 		$sec = explode(',', $section);
+
 		for ($t = 0; $t < count($sec); $t++)
 		{
 			$inArr[] = "'" . $sec[$t] . "'";
@@ -321,6 +349,7 @@ class productModelproduct extends JModel
 		$q = "SELECT field_name,field_type,field_section from " . $this->_table_prefix . "fields where field_section in (" . $in . ") ";
 		$this->_db->setQuery($q);
 		$fields = $this->_db->loadObjectlist();
+
 		for ($i = 0; $i < count($fields); $i++)
 		{
 			if (strstr($template, "{" . $fields[$i]->field_name . "}"))
@@ -328,7 +357,9 @@ class productModelproduct extends JModel
 				if ($fields[$i]->field_section == 12)
 				{
 					if ($fields[$i]->field_type == 15)
+					{
 						$str[] = $fields[$i]->field_name;
+					}
 				}
 				else
 				{
@@ -343,6 +374,7 @@ class productModelproduct extends JModel
 		{
 			$dbname = "'" . implode("','", $str) . "'";
 			$field = new extra_field;
+
 			for ($t = 0; $t < count($sec); $t++)
 			{
 
@@ -350,10 +382,16 @@ class productModelproduct extends JModel
 
 			}
 		}
+
 		if (count($list_field) > 0)
+		{
 			return $list_field;
+		}
+
 		else
+		{
 			return "";
+		}
 	}
 
 	public function getmanufacturername($mid)
@@ -374,7 +412,8 @@ class productModelproduct extends JModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'product' . ' SET `product_template` = "' . intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
+			$query = 'UPDATE ' . $this->_table_prefix . 'product' . ' SET `product_template` = "'
+				. intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->query())
@@ -389,7 +428,6 @@ class productModelproduct extends JModel
 
 	public function gbasefeed($data)
 	{
-
 		$producthelper = new producthelper;
 		$stockroomhelper = new rsstockroomhelper;
 		$shippinghelper = new shipping;
@@ -409,11 +447,15 @@ class productModelproduct extends JModel
 
 			if ($unpublished_data == 1)
 			{
-				$query = "SELECT p.*,m.manufacturer_name FROM " . $this->_table_prefix . "product AS p " . " LEFT JOIN " . $this->_table_prefix . "manufacturer AS m" . " ON p.manufacturer_id = m.manufacturer_id" . " WHERE p.product_id IN (" . $cids . ")";
+				$query = "SELECT p.*,m.manufacturer_name FROM " . $this->_table_prefix . "product AS p " . " LEFT JOIN "
+					. $this->_table_prefix . "manufacturer AS m" . " ON p.manufacturer_id = m.manufacturer_id" . " WHERE p.product_id IN ("
+					. $cids . ")";
 			}
 			else
 			{
-				$query = "SELECT p.*,m.manufacturer_name FROM " . $this->_table_prefix . "product AS p " . " LEFT JOIN " . $this->_table_prefix . "manufacturer AS m" . " ON p.manufacturer_id = m.manufacturer_id" . " WHERE p.product_id IN (" . $cids . ") and p.published =1";
+				$query = "SELECT p.*,m.manufacturer_name FROM " . $this->_table_prefix . "product AS p " . " LEFT JOIN "
+					. $this->_table_prefix . "manufacturer AS m" . " ON p.manufacturer_id = m.manufacturer_id" . " WHERE p.product_id IN ("
+					. $cids . ") and p.published =1";
 
 			}
 			$this->_db->setQuery($query);
@@ -424,35 +466,42 @@ class productModelproduct extends JModel
 			$shippingArr = $shippinghelper->getShopperGroupDefaultShipping();
 
 			$default_shipping = 0.00;
-			$shipping_rate = $currency->convert(number_format($shippingArr['shipping_rate'], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR), '', CURRENCY_CODE);
-			$default_shipping = (count($shippingArr) > 0) ? $shipping_rate : number_format($default_shipping, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+			$shipping_rate = $currency->convert(
+				number_format($shippingArr['shipping_rate'], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR),
+				'', CURRENCY_CODE
+			);
+			$default_shipping = (count($shippingArr) > 0) ? $shipping_rate :
+				number_format($default_shipping, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 			$default_shipping_country = DEFAULT_SHIPPING_COUNTRY;
-
-			// End
 
 			$xml_code = '<?xml version="1.0" encoding="UTF-8" ';
 			$xml_code .= '<rss version ="2.0" xmlns:g="http://base.google.com/ns/1.0" xmlns:c="http://base.google.com/cns/1.0">';
 			$xml_code .= "<channel>";
+
 			for ($i = 0; $i < count($rs); $i++)
 			{
-				// for additional images
+				// For additional images
 				$additional_images = $producthelper->getAdditionMediaImage($rs[$i]->product_id, $section = "product", $mediaType = "images");
 
 				$add_image = "";
+
 				for ($ad = 0; $ad < 10; $ad++)
 				{
-					if (trim($additional_images[$ad]->product_full_image) != trim($additional_images[$ad]->media_name) && trim($additional_images[$ad]->media_name) != "")
+					if (trim($additional_images[$ad]->product_full_image) != trim($additional_images[$ad]->media_name)
+						&& trim($additional_images[$ad]->media_name) != "")
 					{
-						$add_image .= "<g:additional_image_link>" . $product_img_url . htmlspecialchars($additional_images[$ad]->media_name, ENT_NOQUOTES, "UTF-8") . "</g:additional_image_link>";
+						$add_image .= "<g:additional_image_link>" . $product_img_url .
+							htmlspecialchars($additional_images[$ad]->media_name,ENT_NOQUOTES, "UTF-8") .
+							"</g:additional_image_link>";
 					}
 				}
 
-				// for getting product Category
+				// For getting product Category
 				$category_name = $producthelper->getCategoryNameByProductId($rs[$i]->product_id);
-				// End
+
 				if (USE_STOCKROOM == 1)
 				{
-					// for cunt attributes
+					// For cunt attributes
 					$attributes_set = array();
 
 					if ($rs[$i]->attribute_set_id > 0)
@@ -463,12 +512,11 @@ class productModelproduct extends JModel
 					$attributes = array_merge($attributes, $attributes_set);
 					$totalatt = count($attributes);
 
-					// get stock details
+					// Get stock details
 					$isStockExists = $stockroomhelper->isStockExists($rs[$i]->product_id);
 
 					if ($totalatt > 0 && !$isStockExists)
 					{
-
 						$isStockExists = $stockroomhelper->isAttributeStockExists($product_id);
 					}
 
@@ -487,21 +535,16 @@ class productModelproduct extends JModel
 						{
 							if (!$isPreorderStockExists)
 							{
-
 								$product_status = JText::_('COM_REDSHOP_OUT_OF_STOCK');
-
 							}
 							else
 							{
-
 								$product_status = JText::_('COM_REDSHOP_PREORDER');
 							}
 						}
 						else
 						{
-
 							$product_status = JText::_('COM_REDSHOP_OUT_OF_STOCK');
-
 						}
 					}
 					else
@@ -513,16 +556,17 @@ class productModelproduct extends JModel
 				{
 					$product_status = JText::_('COM_REDSHOP_AVAILABLE_FOR_ORDER');
 				}
-				// End
 
 				$product_on_sale = 0;
 
-				if ($rs[$i]->product_on_sale == 1 && (($rs[$i]->discount_stratdate == 0 && $rs[$i]->discount_enddate == 0) || ($rs[$i]->discount_stratdate <= time() && $rs[$i]->discount_enddate >= time())))
+				if ($rs[$i]->product_on_sale == 1 && (($rs[$i]->discount_stratdate == 0
+					&& $rs[$i]->discount_enddate == 0)
+					|| ($rs[$i]->discount_stratdate <= time() && $rs[$i]->discount_enddate >= time())))
 				{
 					$product_on_sale = 1;
 				}
-				// For price and vat settings
 
+				// For price and vat settings
 				$product_price = $rs[$i]->product_price;
 				$discount_price = $rs[$i]->discount_price;
 				$sale_price = ($product_on_sale == 1) ? $discount_price : $product_price;
@@ -540,11 +584,9 @@ class productModelproduct extends JModel
 				$discount_price = $currency->convert(number_format($discount_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR), '', CURRENCY_CODE);
 				$sale_price = $currency->convert(number_format($sale_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR), '', CURRENCY_CODE);
 				$price_vat = $currency->convert(number_format($price_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR), '', CURRENCY_CODE);
-				//End
 
 				$product_url = $url . "index.php?option=com_redshop&amp;view=product&amp;pid=" . $rs[$i]->product_id;
-				//$product_url = $url."index.html";
-				//if($rs[$i]->publish_date)
+
 				$xml_code .= "\n<item>";
 				$xml_code .= "\n<g:id>" . htmlspecialchars($rs[$i]->product_id, ENT_NOQUOTES, "UTF-8") . "</g:id>";
 				$xml_code .= "\n<title>" . htmlspecialchars($rs[$i]->product_name, ENT_NOQUOTES, "UTF-8") . "</title>";
@@ -611,10 +653,15 @@ class productModelproduct extends JModel
 			fclose($fp);
 
 			if (!file_exists($file_name))
+			{
 				return false;
+			}
 			else
+			{
 				return true;
+			}
 		}
+
 		return false;
 	}
 
@@ -625,13 +672,16 @@ class productModelproduct extends JModel
 			return $this->_categorytreelist;
 		}
 		$this->_categorytreelist = array();
-		$q = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title " . "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx " . "WHERE c.category_id=cx.category_child_id " . "ORDER BY ordering ";
+		$q = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title " . "FROM "
+			. $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
+			. "WHERE c.category_id=cx.category_child_id " . "ORDER BY ordering ";
 		$this->_db->setQuery($q);
 		$rows = $this->_db->loadObjectList();
 
-		// establish the hierarchy of the menu
+		// Establish the hierarchy of the menu
 		$children = array();
-		// first pass - collect children
+
+		// First pass - collect children
 		foreach ($rows as $v)
 		{
 			$pt = $v->parent_id;
@@ -639,15 +689,15 @@ class productModelproduct extends JModel
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
-		// second pass - get an indent list of the items
-		$list = $this->treerecurse(0, '', array(), $children);
 
-		//		$treelist = JHTML::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0);
+		// Second pass - get an indent list of the items
+		$list = $this->treerecurse(0, '', array(), $children);
 
 		if (count($list) > 0)
 		{
 			$this->_categorytreelist = $list;
 		}
+
 		return $this->_categorytreelist;
 	}
 
@@ -675,6 +725,7 @@ class productModelproduct extends JModel
 				$list = $this->treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1);
 			}
 		}
+
 		return $list;
 	}
 
@@ -688,17 +739,18 @@ class productModelproduct extends JModel
 	public function saveorder($cid = array(), $order)
 	{
 		global $mainframe;
-		// get global category id
 
 		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
-		// init array
+
 		$orderarray = array();
+
 		for ($i = 0; $i < count($cid); $i++)
 		{
-			// set product id as key AND order as value
+			// Set product id as key AND order as value
 			$orderarray[$cid[$i]] = $order[$i];
 		}
-		// sorting array using value ( order )
+
+		// Sorting array using value ( order )
 		asort($orderarray);
 		$i = 1;
 
@@ -708,8 +760,9 @@ class productModelproduct extends JModel
 			{
 				if ($order >= 0)
 				{
-					// update ordering
-					$query = 'UPDATE ' . $this->_table_prefix . 'product_category_xref' . ' SET ordering = ' . (int) $i . ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
+					// Update ordering
+					$query = 'UPDATE ' . $this->_table_prefix . 'product_category_xref' . ' SET ordering = ' . (int) $i
+						. ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
 					$this->_db->setQuery($query);
 					$this->_db->query();
 				}
@@ -719,5 +772,3 @@ class productModelproduct extends JModel
 		return true;
 	}
 }
-
-

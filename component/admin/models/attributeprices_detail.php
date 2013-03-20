@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-jimport('joomla.application.component.model');
 
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.model');
 
 class attributeprices_detailModelattributeprices_detail extends JModel
 {
 	public $_id = null;
+
 	public $_sectionid = null;
+
 	public $_section = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -40,7 +46,10 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -137,18 +146,21 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		return true;
 	}
 
@@ -168,8 +180,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 }
-
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,9 +14,13 @@ jimport('joomla.application.component.model');
 class product_containerModelproduct_container extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -35,7 +40,6 @@ class product_containerModelproduct_container extends JModel
 		$this->setState('filter_container', $filter_container);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
 	public function getData()
@@ -50,17 +54,12 @@ class product_containerModelproduct_container extends JModel
 
 			if (!$preorder)
 			{
-
 				$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
 			}
 			else
 			{
-
 				$this->_data = $this->_getList($query);
-
 			}
-
 		}
 
 		return $this->_data;
@@ -90,7 +89,6 @@ class product_containerModelproduct_container extends JModel
 
 	public function _buildQuery()
 	{
-		//$filter_manufacturer = $this->getState('filter_manufacturer') ;
 		$filter_supplier = $this->getState('filter_supplier');
 
 		$filter_container = $this->getState('filter_container');
@@ -99,21 +97,16 @@ class product_containerModelproduct_container extends JModel
 
 		if ($filter_supplier)
 		{
-
 			$where[] = "p.supplier_id = '" . $filter_supplier . "'";
-
 		}
 
 		$container = JRequest::getVar('container', '', 'request', 0);
 
 		if ($container == 1)
 		{
-
 			if ($filter_container)
 			{
-
 				$where[] = "op.container_id = '" . $filter_container . "'";
-
 			}
 
 			$where[] = " op.container_id > 0 ";
@@ -121,16 +114,16 @@ class product_containerModelproduct_container extends JModel
 		}
 		else
 		{
-
 			$where[] = " op.container_id < 1 ";
-
 		}
 
 		$where = count($where) ? ' AND ' . implode(' AND ', $where) : ' ';
 
 		$orderby = $this->_buildContentOrderBy();
 
-		$query = ' SELECT p.*,s.supplier_name,op.order_id,op.order_item_id,op.product_quantity,op.container_id as ocontainer_id FROM ' . $this->_table_prefix . 'product as p left join ' . $this->_table_prefix . 'supplier as s on s.supplier_id = p.supplier_id , ' . $this->_table_prefix . 'order_item as op WHERE   op.product_id = p.product_id ' . $where . ' ' . $orderby;
+		$query = ' SELECT p.*,s.supplier_name,op.order_id,op.order_item_id,op.product_quantity,op.container_id as ocontainer_id FROM ' .
+			$this->_table_prefix . 'product as p left join ' . $this->_table_prefix . 'supplier as s on s.supplier_id = p.supplier_id , ' .
+			$this->_table_prefix . 'order_item as op WHERE   op.product_id = p.product_id ' . $where . ' ' . $orderby;
 
 		$preorder = JRequest::getVar('preorder', '', 'request', 0);
 		$newproducts = JRequest::getVar('newproducts', '', 'request', 0);
@@ -138,28 +131,24 @@ class product_containerModelproduct_container extends JModel
 
 		if ($preorder == '1')
 		{
-
-
-			$query = ' SELECT  0 as show_qty,p.*,s.supplier_name,op.order_id,op.order_item_id,sum(product_quantity) as product_quantity,op.container_id as ocontainer_id FROM ' . $this->_table_prefix . 'product as p left join ' . $this->_table_prefix . 'supplier as s on s.supplier_id = p.supplier_id , ' . $this->_table_prefix . 'order_item as op WHERE   op.product_id = p.product_id ' . $where . ' group by product_id ' . $orderby;
-
-
+			$query = ' SELECT  0 as show_qty,p.*,s.supplier_name,op.order_id,op.order_item_id,sum(product_quantity) as product_quantity,
+			op.container_id as ocontainer_id FROM ' . $this->_table_prefix . 'product as p left join '
+				. $this->_table_prefix . 'supplier as s on s.supplier_id = p.supplier_id , ' . $this->_table_prefix .
+				'order_item as op WHERE   op.product_id = p.product_id ' . $where . ' group by product_id ' . $orderby;
 		}
+
 		if ($newproducts == '1')
 		{
-
-
 			$query = ' SELECT *,1 as product_quantity,0 as show_qty   FROM ' . $this->_table_prefix . 'product ';
-
-
 		}
+
 		if ($existingproducts == '1')
 		{
-
 			$container_id = JRequest::getVar('container_id', '', 'request', 0);
 
-			$query = "SELECT 1 as show_qty,product_volume,cp.product_id,cp.quantity as product_quantity ,p.product_name,p.product_volume,cp.container_id FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "container_product_xref as cp  WHERE cp.container_id=$container_id and cp.product_id=p.product_id ";
-
-
+			$query = "SELECT 1 as show_qty,product_volume,cp.product_id,cp.quantity as product_quantity ,p.product_name,p.product_volume,
+			cp.container_id FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "container_product_xref as cp  WHERE
+			cp.container_id=$container_id and cp.product_id=p.product_id ";
 		}
 
 		return $query;
@@ -178,7 +167,8 @@ class product_containerModelproduct_container extends JModel
 
 	public function listedincats($pid)
 	{
-		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' . $this->_table_prefix . 'category as c WHERE product_id =' . $pid . ' AND ref.category_id=c.category_id ORDER BY c.category_name';
+		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' .
+			$this->_table_prefix . 'category as c WHERE product_id =' . $pid . ' AND ref.category_id=c.category_id ORDER BY c.category_name';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -190,27 +180,39 @@ class product_containerModelproduct_container extends JModel
 		$query = 'SELECT template_desc FROM ' . $this->_table_prefix . 'template  WHERE template_id =' . $template_id;
 
 		if ($section == 1)
+		{
 			$query .= ' and template_section="product" ';
+		}
+
 		else
+		{
 			$query .= ' and template_section="category" ';
+		}
 
 		$this->_db->setQuery($query);
 		$template_desc = $this->_db->loadObject();
 		$template = $template_desc->template_desc;
 		$tmp1 = explode("{", $template);
 		$str = '';
+
 		for ($h = 0; $h < count($tmp1); $h++)
 		{
 			$word = explode("}", $tmp1[$h]);
 
 			if ($h != 0)
+			{
 				$str .= "'" . $word[0] . "'";
+			}
 
 			if ($h != 0 && $h != count($tmp1) - 1)
+			{
 				$str .= ",";
+			}
 		}
+
 		$field = new extra_field;
 		$list_field = $field->list_all_field($section, $product_id, $str); /// field_section 6 :Userinformations
+
 		return $list_field;
 	}
 
@@ -225,7 +227,7 @@ class product_containerModelproduct_container extends JModel
 	public function getmanufacturelist($name = 'manufacturelist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db =& JFactory::getDBO();
-		// get list of Groups for dropdown filter
+
 		$query = "SELECT manufacturer_id AS value, manufacturer_name AS text"
 			. "\n FROM " . $this->_table_prefix . "manufacturer  where published = '1'";
 
@@ -235,13 +237,13 @@ class product_containerModelproduct_container extends JModel
 		$mylist['manufacturelist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['manufacturelist'];
-
 	}
 
 	public function getsupplierlist($name = 'supplierlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db =& JFactory::getDBO();
-		// get list of Groups for dropdown filter
+
+		// Get list of Groups for dropdown filter
 		$query = "SELECT supplier_id AS value, supplier_name AS text"
 			. "\n FROM " . $this->_table_prefix . "supplier  where published = '1'";
 
@@ -251,13 +253,13 @@ class product_containerModelproduct_container extends JModel
 		$mylist['supplierlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['supplierlist'];
-
 	}
 
 	public function getcontainerlist($name = 'containerlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db =& JFactory::getDBO();
-		// get list of Groups for dropdown filter
+
+		// Get list of Groups for dropdown filter
 		$query = "SELECT container_id AS value, container_name AS text"
 			. "\n FROM " . $this->_table_prefix . "container  where published = '1'";
 
@@ -267,9 +269,7 @@ class product_containerModelproduct_container extends JModel
 		$mylist['containerlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['containerlist'];
-
 	}
-
 
 	public function getcontainerproducts()
 	{
@@ -279,5 +279,4 @@ class product_containerModelproduct_container extends JModel
 
 		return $this->_data;
 	}
-
 }

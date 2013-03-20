@@ -130,5 +130,3 @@ class accessmanagerModelaccessmanager extends JModel
 		return $orderby;
 	}
 }
-
-

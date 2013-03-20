@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class questionModelquestion extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -47,6 +51,7 @@ class questionModelquestion extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -57,6 +62,7 @@ class questionModelquestion extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -115,23 +121,18 @@ class questionModelquestion extends JModel
 		return $orderby;
 	}
 
-	/**
-	 * Method to save order
-	 *
-	 * @access public
-	 * @return boolean
-	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable('question_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
+
+			// Track categories
 			$groupings[] = $row->question_id;
 
 			if ($row->ordering != $order[$i])
@@ -146,14 +147,15 @@ class questionModelquestion extends JModel
 				}
 			}
 		}
-		// execute updateOrder for each parent group
+
+		// Execute updateOrder for each parent group
 		$groupings = array_unique($groupings);
+
 		foreach ($groupings as $group)
 		{
 			$row->reorder((int) $group);
 		}
+
 		return true;
 	}
 }
-
-

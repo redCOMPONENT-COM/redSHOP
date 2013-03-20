@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class supplier_detailModelsupplier_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
+
 	public $_templatedata = null;
 
 	public function __construct()
@@ -28,7 +32,6 @@ class supplier_detailModelsupplier_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -43,7 +46,10 @@ class supplier_detailModelsupplier_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -58,9 +64,9 @@ class supplier_detailModelsupplier_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -76,6 +82,7 @@ class supplier_detailModelsupplier_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -143,7 +150,6 @@ class supplier_detailModelsupplier_detail extends JModel
 
 	public function copy($cid = array())
 	{
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -152,22 +158,18 @@ class supplier_detailModelsupplier_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
+
 		foreach ($this->_copydata as $cdata)
 		{
-
 			$post['supplier_id'] = 0;
 			$post['supplier_name'] = 'Copy Of ' . $cdata->supplier_name;
 			$post['supplier_desc'] = $cdata->supplier_desc;
 			$post['supplier_email'] = $cdata->supplier_email;
 			$post['published'] = $cdata->published;
 
-			supplier_detailModelsupplier_detail::store($post);
+			$this->store($post);
 		}
 
 		return true;
-
 	}
-
 }
-
-

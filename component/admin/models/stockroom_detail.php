@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class stockroom_detailModelstockroom_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
+
 	public $_containerdata = null;
 
 	public function __construct()
@@ -28,7 +32,6 @@ class stockroom_detailModelstockroom_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -43,7 +46,10 @@ class stockroom_detailModelstockroom_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -58,9 +64,9 @@ class stockroom_detailModelstockroom_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -80,6 +86,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -100,8 +107,6 @@ class stockroom_detailModelstockroom_detail extends JModel
 			return false;
 		}
 
-		////////////// Stockroom product add //////////////////////
-
 		$stockroom_id = $row->stockroom_id;
 
 		$sql = "delete from " . $this->_table_prefix . "stockroom_container_xref where stockroom_id='" . $stockroom_id . "' ";
@@ -114,23 +119,22 @@ class stockroom_detailModelstockroom_detail extends JModel
 		{
 			foreach ($stockroom_product as $cp)
 			{
-				$sql = "insert into " . $this->_table_prefix . "stockroom_container_xref (stockroom_id,container_id) value ('" . $stockroom_id . "','" . $cp . "')";
+				$sql = "insert into " . $this->_table_prefix . "stockroom_container_xref (stockroom_id,container_id) value ('"
+					. $stockroom_id . "','" . $cp . "')";
 				$this->_db->setQuery($sql);
 				$this->_db->query();
 			}
 		}
+
 		return $row;
 	}
 
 	public function delete($cid = array())
 	{
-
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			// delete stock of products
 			$query_product = 'DELETE FROM ' . $this->_table_prefix . 'product_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product);
 
@@ -141,7 +145,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 				return false;
 			}
 
-			// delete stock of products attribute stock
+			// Delete stock of products attribute stock
 			$query_product_attr = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product_attr);
 
@@ -152,7 +156,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 				return false;
 			}
 
-			// delete stockroom
+			// Delete stockroom
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -163,6 +167,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -184,6 +189,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -205,6 +211,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -229,14 +236,15 @@ class stockroom_detailModelstockroom_detail extends JModel
 			$post['show_in_front'] = $cdata->show_in_front;
 			$post['creation_date'] = time();
 			$post['published'] = $cdata->published;
-			stockroom_detailModelstockroom_detail::store($post);
+			$this->store($post);
 		}
 		return true;
 	}
 
 	public function stock_product_data($stockroom_id)
 	{
-		$query = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , " . $this->_table_prefix . "stockroom_container_xref as cp  WHERE cp.stockroom_id=$stockroom_id and cp.container_id=p.container_id ";
+		$query = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , "
+			. $this->_table_prefix . "stockroom_container_xref as cp  WHERE cp.stockroom_id=$stockroom_id and cp.container_id=p.container_id ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
 
@@ -272,6 +280,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 				. "WHERE sc.container_id=c.container_id "
 				. "AND s.stockroom_id = sc.stockroom_id";
 		}
+
 		$this->_db->setQuery($query);
 		$this->_containerdata = $this->_db->loadObjectList();
 
@@ -287,5 +296,3 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $list;
 	}
 }
-
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,7 +14,9 @@ jimport('joomla.application.component.model');
 class voucher_detailModelvoucher_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -25,7 +28,6 @@ class voucher_detailModelvoucher_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -40,7 +42,10 @@ class voucher_detailModelvoucher_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -55,9 +60,9 @@ class voucher_detailModelvoucher_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -77,6 +82,7 @@ class voucher_detailModelvoucher_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -98,7 +104,6 @@ class voucher_detailModelvoucher_detail extends JModel
 			return false;
 		}
 
-		////////////// voucher product add //////////////////////
 		$voucher_id = $row->voucher_id;
 
 		$sql = "delete from " . $this->_table_prefix . "product_voucher_xref where voucher_id='" . $voucher_id . "' ";
@@ -116,8 +121,6 @@ class voucher_detailModelvoucher_detail extends JModel
 				$this->_db->query();
 			}
 		}
-		///////////////////////////////////////////////////////////
-
 
 		return $row;
 	}
@@ -166,7 +169,8 @@ class voucher_detailModelvoucher_detail extends JModel
 
 	public function product_data()
 	{
-		$query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv," . $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
+		$query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv,"
+			. $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
 
@@ -175,7 +179,8 @@ class voucher_detailModelvoucher_detail extends JModel
 
 	public function voucher_products_sel($voucher_id)
 	{
-		$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
+		$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
+			. $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
 
@@ -194,5 +199,3 @@ class voucher_detailModelvoucher_detail extends JModel
 		return $this->_db->loadResult();
 	}
 }
-
-

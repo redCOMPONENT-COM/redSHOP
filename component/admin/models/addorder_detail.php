@@ -23,13 +23,17 @@ require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_r
 class addorder_detailModeladdorder_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -49,7 +53,10 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -241,9 +248,9 @@ class addorder_detailModeladdorder_detail extends JModel
 		$adminproducthelper = new adminproducthelper;
 		$stockroomhelper = new rsstockroomhelper;
 
-		// for barcode generation
+		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
-		// end
+
 		$postdata['barcode'] = $barcode_code;
 
 		$row =& $this->getTable('order_detail');
@@ -254,6 +261,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -277,6 +285,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 				return false;
 			}
+
 			if (!$crmorder->store())
 			{
 				$this->setError($this->_db->getErrorMsg());
@@ -284,10 +293,9 @@ class addorder_detailModeladdorder_detail extends JModel
 				return false;
 			}
 
-			# update rma table entry
+			// Update rma table entry
 			if (ENABLE_RMA && isset($postdata['rmanotes']))
 			{
-
 				$rmaInfo =& $this->getTable('rma_orders');
 
 				$rmaInfo->rma_number = $postdata['rma_number'];
@@ -296,7 +304,6 @@ class addorder_detailModeladdorder_detail extends JModel
 				$rmaInfo->rma_note = $postdata['rmanotes'];
 				$rmaInfo->store();
 			}
-			# END
 
 			JTable::addIncludePath(REDSHOP_ADMIN . DS . 'tables');
 		}
@@ -335,10 +342,11 @@ class addorder_detailModeladdorder_detail extends JModel
 			$shippingaddresses = $shippingaddresses[$key];
 		}
 
-		//ORDER DELIVERY TIME IS REMAINING
+		// ORDER DELIVERY TIME IS REMAINING
 
 		$user_id = $row->user_id;
 		$item = $postdata['order_item'];
+
 		for ($i = 0; $i < count($item); $i++)
 		{
 			$product_id = $item[$i]->product_id;
@@ -346,12 +354,12 @@ class addorder_detailModeladdorder_detail extends JModel
 			$product_excl_price = $item[$i]->prdexclprice;
 			$product_price = $item[$i]->productprice;
 
-			///////////// Attribute price added ///////////////////////
+			// Attribute price added
 			$generateAttributeCart = $rsCarthelper->generateAttributeArray((array) $item[$i], $user_id);
 			$retAttArr = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute = $retAttArr[0];
 
-			////////////// Accessory price /////////////
+			// Accessory price
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory = $retAccArr[0];
@@ -384,7 +392,8 @@ class addorder_detailModeladdorder_detail extends JModel
 
 				return false;
 			}
-			//	STOCKROOM update
+
+			// STOCKROOM update
 			$updatestock = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
 			$stockroom_id_list = $updatestock['stockroom_list'];
 			$stockroom_quantity_list = $updatestock['stockroom_quantity_list'];
@@ -407,12 +416,11 @@ class addorder_detailModeladdorder_detail extends JModel
 			$rowitem->mdate = $row->cdate;
 			$rowitem->product_attribute = $product_attribute;
 			$rowitem->product_accessory = $product_accessory;
-//			$rowitem->container_id = $objshipping->getProductContainerId ( $product_id );
 			$rowitem->wrapper_id = $item[$i]->wrapper_data;
 			$rowitem->wrapper_price = $wrapper_price;
 			$rowitem->is_giftcard = 0;
 
-			# redCRM product purchase price
+			// RedCRM product purchase price
 			if ($iscrm)
 			{
 				$crmProductHelper = new crmProductHelper;
@@ -420,15 +428,17 @@ class addorder_detailModeladdorder_detail extends JModel
 
 				$rowitem->product_purchase_price = $crmproduct->product_purchase_price > 0 ? $crmproduct->product_purchase_price : $crmproduct->product_price;
 			}
-			# End
 
 			if ($producthelper->checkProductDownload($product_id))
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
+
 				for ($j = 0; $j < count($medianame); $j++)
 				{
 					$product_serial_number = $producthelper->getProdcutSerialNumber($product_id);
-					$producthelper->insertProductDownload($product_id, $user_id, $rowitem->order_id, $medianame[$j]->media_name, $product_serial_number->serial_number);
+					$producthelper->insertProductDownload($product_id, $user_id, $rowitem->order_id,
+						$medianame[$j]->media_name, $product_serial_number->serial_number
+					);
 				}
 			}
 			if (!$rowitem->store())
@@ -442,6 +452,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			if (count($generateAccessoryCart) > 0)
 			{
 				$attArr = $generateAccessoryCart;
+
 				for ($a = 0; $a < count($attArr); $a++)
 				{
 					$accessory_vat_price = 0;
@@ -456,6 +467,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						$accessory_vat_price = $producthelper->getProductTax($product_id, $accessory_price, $user_id);
 					}
 					$attchildArr = $attArr[$a]['accessory_childs'];
+
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
@@ -481,6 +493,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						}
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
+
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$section_vat = 0;
@@ -587,6 +600,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			if (count($generateAttributeCart) > 0)
 			{
 				$attArr = $generateAttributeCart;
+
 				for ($j = 0; $j < count($attArr); $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
@@ -611,6 +625,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					}
 
 					$propArr = $attArr[$j]['attribute_childs'];
+
 					for ($k = 0; $k < count($propArr); $k++)
 					{
 						$section_vat = 0;
@@ -646,6 +661,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						}
 
 						$subpropArr = $propArr[$k]['property_childs'];
+
 						for ($l = 0; $l < count($subpropArr); $l++)
 						{
 							$section_vat = 0;
@@ -693,18 +709,19 @@ class addorder_detailModeladdorder_detail extends JModel
 			// store userfields
 			$userfields = $item[$i]->extrafieldname;
 			$userfields_id = $item[$i]->extrafieldId;
+
 			for ($ui = 0; $ui < count($userfields); $ui++)
 			{
 				$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 			}
 
-			# redCRM RMA Transaction Entry
+			//redCRM RMA Transaction Entry
 			if ($iscrm)
 			{
 				if (ENABLE_RMA && $rowitem->product_final_price < 0)
 				{
 
-					# RMA transation log
+					//RMA transation log
 					if (isset($item[$i]->reason))
 					{
 
@@ -720,7 +737,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 						if (ENABLE_ITEM_TRACKING_SYSTEM)
 						{
-							# manage supplier order stock
+							//manage supplier order stock
 							$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 							$senddata['main_order_number'] = $postdata['main_order_number'];
@@ -731,6 +748,7 @@ class addorder_detailModeladdorder_detail extends JModel
 							$senddata['deposition'] = $item[$i]->deposition;
 
 							$itemqty = $rowitem->product_quantity;
+
 							for ($r = 0; $r < $itemqty; $r++)
 							{
 								$crmSupplierOrderHelper->manageStockAffectedRMA($senddata);
@@ -765,7 +783,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			return false;
 		}
 
-		# add billing Info
+		//add billing Info
 		$userrow = & $this->getTable('user_detail');
 		$userrow->load($billingaddresses->users_info_id);
 		$orderuserrow = & $this->getTable('order_user_detail');
@@ -786,7 +804,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			return false;
 		}
 
-		# add shipping Info
+		//add shipping Info
 		$userrow = & $this->getTable('user_detail');
 
 		if (isset($shippingaddresses->users_info_id))
@@ -816,13 +834,13 @@ class addorder_detailModeladdorder_detail extends JModel
 			$helper->clickatellSMS($row->order_id);
 		}
 
-		# maintan supplier order stck when item tracking system is enabled
+		//maintan supplier order stck when item tracking system is enabled
 		if ($helper->isredCRM())
 		{
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
 
-				# Supplier order helper object
+				//Supplier order helper object
 				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 				$getStatus = array();
@@ -833,7 +851,7 @@ class addorder_detailModeladdorder_detail extends JModel
 				unset($getStatus);
 			}
 		}
-		# End
+		//End
 
 		$checkOrderStatus = 1;
 

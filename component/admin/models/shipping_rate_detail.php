@@ -13,11 +13,15 @@ jimport('joomla.application.component.model');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
+
 class shipping_rate_detailModelShipping_rate_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
@@ -41,8 +45,10 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
-
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -57,6 +63,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -100,6 +107,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -119,15 +127,31 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 
 			return false;
 		}
-		if (!$row->shipping_rate_on_product) $row->shipping_rate_on_product = '';
 
-		if (!$row->shipping_rate_on_category) $row->shipping_rate_on_category = '';
+		if (!$row->shipping_rate_on_product)
+		{
+			$row->shipping_rate_on_product = '';
+		}
 
-		if (!$row->shipping_rate_state) $row->shipping_rate_state = '';
+		if (!$row->shipping_rate_on_category)
+		{
+			$row->shipping_rate_on_category = '';
+		}
 
-		if (!$row->shipping_rate_on_shopper_group) $row->shipping_rate_on_shopper_group = '';
+		if (!$row->shipping_rate_state)
+		{
+			$row->shipping_rate_state = '';
+		}
 
-		if (!$row->company_only) $row->company_only = 0;
+		if (!$row->shipping_rate_on_shopper_group)
+		{
+			$row->shipping_rate_on_shopper_group = '';
+		}
+
+		if (!$row->company_only)
+		{
+			$row->company_only = 0;
+		}
 
 		if (!$row->store())
 		{
@@ -154,16 +178,16 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
 	public function GetProductListshippingrate($d)
 	{
 		$and = '';
-		//if($d!='')
-		//{
+
 		$and .= 'AND product_id IN (' . $d . ')';
-		//}
+
 		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product '
 			. 'WHERE published=1 '
 			. $and;
@@ -246,17 +270,10 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $result;
 	}
 
-//	function getShippingMethod($shipping_id=0) {
-//		$query = 'SELECT * FROM '.$this->_table_prefix.'shipping_method '
-//	    		.'WHERE shipping_id='.$shipping_id;
-//		$this->_db->setQuery($query);
-//		$list = $this->_db->loadObject();
-//		return $list;
-//	}
-
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ORDER BY tax_group_id ASC";
+		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
+		`published` = 1 ORDER BY tax_group_id ASC";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -275,8 +292,8 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $shipping_rate->shipping_rate_state);
 
-		echo JHTML::_('select.genericlist', $shipping_rate_state, 'shipping_rate_state[]', 'class="inputbox" multiple="multiple"', 'value', 'text', $shipping_rate->shipping_rate_state);
+		echo JHTML::_('select.genericlist', $shipping_rate_state, 'shipping_rate_state[]', 'class="inputbox" multiple="multiple"',
+			'value', 'text', $shipping_rate->shipping_rate_state
+		);
 	}
 }
-
-

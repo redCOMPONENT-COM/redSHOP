@@ -6,18 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class integrationModelintegration extends JModel
 {
-	public function __construct()
-	{
-		parent::__construct();
-
-	}
-
 	/*
 	 *  download googlebase xml file
 	 */
@@ -26,7 +21,9 @@ class integrationModelintegration extends JModel
 		$file_path = JPATH_COMPONENT_SITE . DS . "assets" . DS . "document" . DS . "gbase" . DS . "product.xml";
 
 		if (!file_exists($file_path))
+		{
 			return false;
+		}
 
 		$xml_code = implode("", file($file_path));
 

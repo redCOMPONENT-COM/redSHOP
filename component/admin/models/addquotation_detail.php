@@ -144,6 +144,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		$quotation_id = $row->quotation_id;
 		$user_id = $row->user_id;
 		$item = $data['order_item'];
+
 		for ($i = 0; $i < count($item); $i++)
 		{
 			$product_id = $item[$i]->product_id;
@@ -208,6 +209,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 			// store userfields
 			$userfields = JRequest::getVar('extrafields' . $product_id);
 			$userfields_id = JRequest::getVar('extrafields_id_' . $product_id);
+
 			for ($ui = 0; $ui < count($userfields); $ui++)
 			{
 				$quotationHelper->insertQuotationUserfield($userfields_id[$ui], $rowitem->quotation_item_id, 12, $userfields[$ui]);
@@ -217,6 +219,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 			if (count($generateAccessoryCart) > 0)
 			{
 				$attArr = $generateAccessoryCart;
+
 				for ($a = 0; $a < count($attArr); $a++)
 				{
 					$accessory_vat_price = 0;
@@ -231,6 +234,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 						$accessory_vat_price = $producthelper->getProductTax($rowitem->product_id, $accessory_price, $user_id);
 					}
 					$attchildArr = $attArr[$a]['accessory_childs'];
+
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
@@ -256,6 +260,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 						}
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
+
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$section_vat = 0;
@@ -362,6 +367,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 			if (count($generateAttributeCart) > 0)
 			{
 				$attArr = $generateAttributeCart;
+
 				for ($j = 0; $j < count($attArr); $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
@@ -386,6 +392,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 					}
 
 					$propArr = $attArr[$j]['attribute_childs'];
+
 					for ($k = 0; $k < count($propArr); $k++)
 					{
 						$section_vat = 0;
@@ -422,6 +429,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 						}
 
 						$subpropArr = $propArr[$k]['property_childs'];
+
 						for ($l = 0; $l < count($subpropArr); $l++)
 						{
 							$section_vat = 0;
@@ -528,6 +536,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		{
 			$commonid = $prefix . $product_id . '_' . $accessory_id . '_' . $attribute_id . '_' . $property_id;
 			$subpropertyid = 'subproperty_id_' . $commonid;
+
 			for ($i = 0; $i < count($subproperty); $i++)
 			{
 				$attributes_subproperty_vat = 0;
