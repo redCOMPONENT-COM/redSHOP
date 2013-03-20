@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class stockroomModelstockroom extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -33,7 +37,6 @@ class stockroomModelstockroom extends JModel
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
 	public function getData()
@@ -43,6 +46,7 @@ class stockroomModelstockroom extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -53,6 +57,7 @@ class stockroomModelstockroom extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -74,7 +79,9 @@ class stockroomModelstockroom extends JModel
 		$where = '';
 
 		if ($filter)
+		{
 			$where = " WHERE stockroom_name like '%" . $filter . "%' ";
+		}
 
 		$query = "SELECT distinct(s.stockroom_id),s.* FROM " . $this->_table_prefix . "stockroom s" . $where . $orderby;
 
@@ -93,5 +100,3 @@ class stockroomModelstockroom extends JModel
 		return $orderby;
 	}
 }
-
-

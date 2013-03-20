@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class stockimageModelstockimage extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -44,6 +48,7 @@ class stockimageModelstockimage extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -54,6 +59,7 @@ class stockimageModelstockimage extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -64,6 +70,7 @@ class stockimageModelstockimage extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -113,5 +120,3 @@ class stockimageModelstockimage extends JModel
 		return $option;
 	}
 }
-
-

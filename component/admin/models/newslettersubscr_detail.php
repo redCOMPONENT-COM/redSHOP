@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,7 +14,9 @@ jimport('joomla.application.component.model');
 class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -25,7 +28,6 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -40,7 +42,10 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -49,15 +54,16 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT ns.*,uf.firstname FROM ' . $this->_table_prefix . 'newsletter_subscription as ns left join ' . $this->_table_prefix . 'users_info as uf on  ns.user_id = uf.user_id  WHERE ns.subscription_id = ' . $this->_id;
+			$query = 'SELECT ns.*,uf.firstname FROM ' . $this->_table_prefix . 'newsletter_subscription as ns left join '
+				. $this->_table_prefix . 'users_info as uf on  ns.user_id = uf.user_id  WHERE ns.subscription_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -75,6 +81,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -88,6 +95,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -142,7 +150,8 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 	public function getuserlist()
 	{
-		$query = 'SELECT user_id as value,firstname as text FROM ' . $this->_table_prefix . 'users_info as rdu, #__users as u WHERE  rdu.user_id=u.id AND rdu.address_type LIKE "BT"';
+		$query = 'SELECT user_id as value,firstname as text FROM ' . $this->_table_prefix
+			. 'users_info as rdu, #__users as u WHERE  rdu.user_id=u.id AND rdu.address_type LIKE "BT"';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -158,24 +167,27 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 	public function getuserfullname2($uid)
 	{
-		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf LEFT JOIN #__users as u ON (uf.user_id=u.id) WHERE user_id='" . $uid . "' AND uf.address_type like 'BT'";
+		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix
+			. "users_info as uf LEFT JOIN #__users as u ON (uf.user_id=u.id) WHERE user_id='" . $uid . "' AND uf.address_type like 'BT'";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
 
 		if (count($this->_username) > 0)
 		{
-			$fullname = $this->_username->firstname . " " . $this->_username->lastname . ($this->_username->username != "" ? " (" . $this->_username->username . ")" : "");
+			$fullname = $this->_username->firstname . " " . $this->_username->lastname . ($this->_username->username != "" ?
+				" (" . $this->_username->username . ")" : ""
+			);
 		}
 		else
 		{
 			$fullname = "";
 		}
+
 		return $fullname;
 	}
 
 	public function getnewslettersbsc($subsc = array())
 	{
-
 		$where = "";
 
 		if (count($subsc) > 0)
@@ -184,7 +196,8 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 			$where = " AND ns.subscription_id IN (" . $sbscids . ")";
 		}
 		$query = 'SELECT ns.*,ns.name as subscribername,n.name'
-			. ' FROM ' . $this->_table_prefix . 'newsletter_subscription as ns,' . $this->_table_prefix . 'newsletter as n WHERE ns.newsletter_id=n.newsletter_id '
+			. ' FROM ' . $this->_table_prefix . 'newsletter_subscription as ns,' . $this->_table_prefix
+			. 'newsletter as n WHERE ns.newsletter_id=n.newsletter_id '
 			. $where;
 		$this->_db->setQuery($query);
 
@@ -193,7 +206,10 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 	public function getuserfullname($uid)
 	{
-		$query = "SELECT uf.firstname,uf.lastname,IFNULL(u.email,uf.user_email)  as email FROM " . $this->_table_prefix . "users_info as uf LEFT JOIN #__users as u ON uf.user_id = u.id WHERE uf.user_id='" . $uid . "' and uf.address_type like 'BT'";
+		$query = "SELECT uf.firstname,uf.lastname,IFNULL(u.email,uf.user_email)  as email FROM "
+			. $this->_table_prefix . "users_info as uf LEFT JOIN #__users as u ON uf.user_id = u.id WHERE uf.user_id='"
+			. $uid . "' and uf.address_type like 'BT'";
+
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObject();
@@ -210,5 +226,3 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $list;
 	}
 }
-
-

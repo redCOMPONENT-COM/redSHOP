@@ -14,10 +14,15 @@ jimport('joomla.application.component.model');
 class userModeluser extends JModel
 {
 	public $_data = null;
+
 	public $_id = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -167,5 +172,3 @@ class userModeluser extends JModel
 		return $re;
 	}
 }
-
-

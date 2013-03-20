@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -18,7 +19,9 @@ jimport('joomla.filesystem.file');
 class mail_detailModelmail_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -30,7 +33,6 @@ class mail_detailModelmail_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -45,7 +47,11 @@ class mail_detailModelmail_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -60,6 +66,7 @@ class mail_detailModelmail_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -150,8 +157,8 @@ class mail_detailModelmail_detail extends JModel
 
 	public function mail_section()
 	{
-
-		$query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM ' . $this->_table_prefix . 'order_status  where published=1';
+		$query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM '
+			. $this->_table_prefix . 'order_status  where published=1';
 
 		$this->_db->setQuery($query);
 
@@ -160,7 +167,6 @@ class mail_detailModelmail_detail extends JModel
 
 	public function order_statusHtml($order_status)
 	{
-
 		$select = array();
 
 		$select[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
@@ -168,11 +174,7 @@ class mail_detailModelmail_detail extends JModel
 		$merge = array_merge($select, $order_status);
 
 		return JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text');
-
-
 	}
-
-
 }
 
 

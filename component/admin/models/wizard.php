@@ -15,13 +15,7 @@ require_once 'components' . DS . 'com_redshop' . DS . 'models' . DS . 'configura
 
 class wizardModelwizard extends configurationModelconfiguration
 {
-
 	public $_tax_rates = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	public function getTaxRates()
 	{
@@ -30,5 +24,3 @@ class wizardModelwizard extends configurationModelconfiguration
 		return $this->_getList($query);
 	}
 }
-
-

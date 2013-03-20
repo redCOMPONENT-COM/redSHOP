@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class fieldsModelfields extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -47,6 +51,7 @@ class fieldsModelfields extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -57,6 +62,7 @@ class fieldsModelfields extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -67,6 +73,7 @@ class fieldsModelfields extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -124,11 +131,12 @@ class fieldsModelfields extends JModel
 		$groupings = array();
 		$conditions = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
+
+			// Track categories
 			$groupings[] = $row->field_id;
 
 			if ($row->ordering != $order[$i])
@@ -141,32 +149,35 @@ class fieldsModelfields extends JModel
 
 					return false;
 				}
-				// remember to updateOrder this group
+
+				// Remember to updateOrder this group
 				$condition = 'field_section = ' . (int) $row->field_section;
 				$found = false;
+
 				foreach ($conditions as $cond)
+				{
 					if ($cond[1] == $condition)
 					{
 						$found = true;
 						break;
 					}
+				}
+
 				if (!$found)
+				{
 					$conditions[] = array($row->field_id, $condition);
+				}
 			}
 		}
-		// execute updateOrder for each group
+
+		// Execute updateOrder for each group
 		foreach ($conditions as $cond)
 		{
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
-//		// execute updateOrder for each parent group
-//		$groupings = array_unique( $groupings );
-//		foreach ($groupings as $group){
-//			$row->reorder((int) $group);
-//		}
+
 		return true;
 	}
-
 }
 

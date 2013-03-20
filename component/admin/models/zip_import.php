@@ -17,14 +17,15 @@ jimport('joomla.filesystem.file');
 
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php');
-//require_once( JPATH_COMPONENT.DS.'helpers'.DS.'reader.php' );
-
 
 class zip_importModelzip_import extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
 
 	public $_table = null;
@@ -32,13 +33,12 @@ class zip_importModelzip_import extends JModel
 	/** @var object JTable object */
 	public $_url = null;
 
-
 	public function getData()
 	{
 		$thumb = new thumbnail;
 		global $mainframe;
 		$obj_img = new thumbnail_images;
-		//$package=$this->getzipfilescount();
+
 		$this->getzipfilenames();
 
 		$this->install();
@@ -47,7 +47,6 @@ class zip_importModelzip_import extends JModel
 		$msg = JText::_('COM_REDSHOP_REDSHOP_REMOTLY_UPDATED');
 		$mainframe->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
 	}
-
 
 	public function getzipfilescount()
 	{
@@ -60,7 +59,7 @@ class zip_importModelzip_import extends JModel
 		curl_setopt($ch, CURLOPT_ENCODING, "");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); # required for https urls
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$content = curl_exec($ch);
 		preg_match_all("#<span id='zip'>(.*?)</span>#is", $content, $out);
 		$content = trim($out[0][0]);
@@ -78,17 +77,19 @@ class zip_importModelzip_import extends JModel
 		$live_path = JURI::base();
 		$user = JFactory::getUser();
 		$x = 5;
-		$url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" . $user->username . "&reddomain=" . JURI::base() . "";
+		$url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" .
+			$user->username . "&reddomain=" . JURI::base() . "";
 
 		$ch = curl_init();
 
-		//Set curl to return the data instead of printing it to the browser.
+		// Set curl to return the data instead of printing it to the browser.
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		//Set the URL
-		curl_setopt($ch, CURLOPT_URL, $url);
-		//Execute the fetch
-		$data = curl_exec($ch);
 
+		// Set the URL
+		curl_setopt($ch, CURLOPT_URL, $url);
+
+		// Execute the fetch
+		$data = curl_exec($ch);
 
 		//Close the connection
 		preg_match_all("#<span id='zip'>(.*?)</span>#is", $data, $out);
@@ -98,15 +99,11 @@ class zip_importModelzip_import extends JModel
 		fwrite($fp, $data);
 		fclose($fp);
 
-
 		$filename = JURI::base() . '/tmp/com_jcomments_new.zip';
 		$_SESSION['filename'][0] = $filename;
-
 	}
 
-	// 	related product sync
-
-
+	// Related product sync
 	public function install()
 	{
 		global $mainframe;
@@ -130,8 +127,6 @@ class zip_importModelzip_import extends JModel
 			$this->setState('message', 'Unable to find install package');
 			$msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
 			$mainframe->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
-
-			//return false;
 		}
 
 		// Get an installer instance
@@ -221,7 +216,7 @@ class zip_importModelzip_import extends JModel
 			</script>
 		<?php
 		}
-/////////////////////////////////// Comment add on 28-7-2010 /////////////////////////////////////////
+
 		$config =& JFactory::getConfig();
 		$tmp_dest = $config->getValue('config.tmp_path');
 
@@ -268,8 +263,4 @@ class zip_importModelzip_import extends JModel
 
 		return $package;
 	}
-
-
 }
-
-

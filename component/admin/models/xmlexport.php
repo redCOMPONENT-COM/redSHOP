@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class xmlexportModelxmlexport extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -42,6 +46,7 @@ class xmlexportModelxmlexport extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -52,6 +57,7 @@ class xmlexportModelxmlexport extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -97,5 +103,3 @@ class xmlexportModelxmlexport extends JModel
 		return $orderby;
 	}
 }
-
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,9 +14,13 @@ jimport('joomla.application.component.model');
 class paymentModelpayment extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -31,7 +36,6 @@ class paymentModelpayment extends JModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('template_section', $template_section);
-
 	}
 
 	public function getData()
@@ -41,6 +45,7 @@ class paymentModelpayment extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query);
 		}
+
 		return $this->_data;
 	}
 
@@ -96,5 +101,4 @@ class paymentModelpayment extends JModel
 
 		return $orderby;
 	}
-
 }

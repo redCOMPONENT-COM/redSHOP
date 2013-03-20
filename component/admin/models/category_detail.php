@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -20,7 +21,9 @@ jimport('joomla.filesystem.file');
 class category_detailModelcategory_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -44,7 +47,10 @@ class category_detailModelcategory_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -53,12 +59,15 @@ class category_detailModelcategory_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT c.*,p.category_parent_id FROM ' . $this->_table_prefix . 'category as c left join ' . $this->_table_prefix . 'category_xref as p ON p.category_child_id=c.category_id  WHERE category_id = "' . $this->_id . '" ';
+			$query = 'SELECT c.*,p.category_parent_id FROM ' . $this->_table_prefix . 'category as c left join '
+				. $this->_table_prefix . 'category_xref as p ON p.category_child_id=c.category_id  WHERE category_id = "'
+				. $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -96,7 +105,6 @@ class category_detailModelcategory_detail extends JModel
 
 	public function store($data)
 	{
-
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
@@ -106,15 +114,18 @@ class category_detailModelcategory_detail extends JModel
 			return false;
 		}
 
-		// storing image name in the database
+		// Storing image name in the database
 		$option = JRequest::getVar('option');
 
 		$filename = "";
-		$file =& JRequest::getVar('category_full_image', array(), 'files', 'array'); //Get File name, tmp_name
+
+		// Get File name, tmp_name
+		$file =& JRequest::getVar('category_full_image', array(), 'files', 'array');
 
 		if (count($file) > 0)
 		{
-			$filename = JPath::clean(time() . '_' . $file['name']); //Make the filename unique
+			// Make the filename unique
+			$filename = JPath::clean(time() . '_' . $file['name']);
 			$filename = str_replace(" ", "_", $filename);
 		}
 
@@ -124,7 +135,8 @@ class category_detailModelcategory_detail extends JModel
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $data['old_image']);
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['old_image']);
 
-			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id =" . $row->category_id;
+			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id ="
+				. $row->category_id;
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
@@ -136,10 +148,13 @@ class category_detailModelcategory_detail extends JModel
 			$row->category_full_image = $filename;
 			$row->category_thumb_image = $filename;
 
-			$filetype = JFile::getExt($file['name']); //Get extension of the file
+			// Get extension of the file
+			$filetype = JFile::getExt($file['name']);
 
 			$src = $file['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename; //specific path of the file
+
+			// Specific path of the file
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename;
 
 			JFile::upload($src, $dest);
 		}
@@ -150,12 +165,12 @@ class category_detailModelcategory_detail extends JModel
 
 				$image_split = explode('/', $data['category_image']);
 
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
+				// Make the filename unique
+				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
 				$row->category_full_image = $filename;
 				$row->category_thumb_image = $filename;
 
 				// Image Upload
-
 				$newwidth = THUMB_WIDTH;
 				$newheight = THUMB_HEIGHT;
 
@@ -165,12 +180,12 @@ class category_detailModelcategory_detail extends JModel
 				copy($src, $dest);
 			}
 		}
-// upload back image
-		$backfile =& JRequest::getVar('category_back_full_image', '', 'files', 'array'); //Get File name, tmp_name
+
+		// Get File name, tmp_name
+		$backfile =& JRequest::getVar('category_back_full_image', '', 'files', 'array');
 
 		if (isset($data['image_back_delete']))
 		{
-
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $data['old_back_image']);
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['old_back_image']);
 
@@ -178,19 +193,24 @@ class category_detailModelcategory_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
+
 		if (count($backfile) > 0 && $backfile['name'] != "")
 		{
-			$filename = JPath::clean(time() . '_' . $backfile['name']); //Make the filename unique
+			// Make the filename unique
+			$filename = JPath::clean(time() . '_' . $backfile['name']);
 			$row->category_back_full_image = $filename;
 
-			$filetype = JFile::getExt($backfile['name']); //Get extension of the file
+			// Get extension of the file
+			$filetype = JFile::getExt($backfile['name']);
 
 			$src = $backfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename; //specific path of the file
+			// Specific path of the file
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename;
 
 			JFile::upload($src, $dest);
 		}
-// upload back image end
+
+		// Upload back image end
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -210,7 +230,8 @@ class category_detailModelcategory_detail extends JModel
 			{
 				$parentcat = $data['category_parent_id'];
 			}
-			$query = 'INSERT INTO ' . $this->_table_prefix . 'category_xref(category_parent_id,category_child_id) VALUES ("' . $parentcat . '","' . $newcatid . '");';
+			$query = 'INSERT INTO ' . $this->_table_prefix . 'category_xref(category_parent_id,category_child_id) VALUES ("'
+				. $parentcat . '","' . $newcatid . '");';
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
@@ -227,11 +248,12 @@ class category_detailModelcategory_detail extends JModel
 				$parentcat = $data['category_parent_id'];
 			}
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'category_xref SET category_parent_id= "' . $parentcat . '"  WHERE category_child_id = "' . $newcatid . '" ';
+			$query = 'UPDATE ' . $this->_table_prefix . 'category_xref SET category_parent_id= "' . $parentcat
+				. '"  WHERE category_child_id = "' . $newcatid . '" ';
 			$this->_db->setQuery($query);
 			$this->_db->query();
 
-			//cheking for the image at the updation time
+			// Sheking for the image at the updation time
 			if ($_FILES['category_full_image']['name'] != "")
 			{
 				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $_POST['old_image']);
@@ -239,22 +261,23 @@ class category_detailModelcategory_detail extends JModel
 			}
 
 		}
-		/// Extra Field Data Saved ////////////////////////
+
+		// Extra Field Data Saved
 		$field = new extra_field;
-		$field->extra_field_save($data, 2, $newcatid); /// field_section 2 :- Category
-		/// Extra Field Data Saved ////////////////////////
+		$field->extra_field_save($data, 2, $newcatid);
 
-
-		//------------ Start Accessory Product --------------------
+		// Start Accessory Product
 		if (count($data['product_accessory']) > 0 && is_array($data['product_accessory']))
 		{
 			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 
 			$product_category = new product_category;
 			$product_list = $product_category->getCategoryProductList($newcatid);
+
 			for ($p = 0; $p < count($product_list); $p++)
 			{
 				$product_id = $product_list[$p]->id;
+
 				for ($a = 0; $a < count($data['product_accessory']); $a++)
 				{
 					$acc = $data['product_accessory'][$a];
@@ -284,18 +307,20 @@ class category_detailModelcategory_detail extends JModel
 				}
 			}
 		}
-		//------------ End Accessory Product insert --------------------
+
+		// End Accessory Product insert
 		return $row;
 	}
 
 	public function delete($cid = array())
 	{
 		$noError = true;
+
 		for ($i = 0; $i < count($cid); $i++)
 		{
-
 			$query = 'SELECT count( * ) as ctotal,c.category_name
-						FROM `' . $this->_table_prefix . 'category_xref` as cx LEFT JOIN `' . $this->_table_prefix . 'category` as c ON c.category_id = "' . $cid[$i] . '"
+						FROM `' . $this->_table_prefix . 'category_xref` as cx LEFT JOIN `' . $this->_table_prefix
+				. 'category` as c ON c.category_id = "' . $cid[$i] . '"
 						WHERE `category_parent_id` = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($query);
 			$childs = $this->_db->loadObject();
@@ -319,10 +344,14 @@ class category_detailModelcategory_detail extends JModel
 			$full_image_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $cat_full_image;
 
 			if (file_exists($thumb_path))
+			{
 				@unlink($thumb_path);
+			}
 
 			if (file_exists($full_image_path))
+			{
 				@unlink($full_image_path);
+			}
 
 			$q_product = 'DELETE FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_product);
@@ -337,6 +366,7 @@ class category_detailModelcategory_detail extends JModel
 			$this->_db->query();
 
 		}
+
 		return $noError;
 	}
 
@@ -358,6 +388,7 @@ class category_detailModelcategory_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -379,27 +410,28 @@ class category_detailModelcategory_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->move($direction, ' category_id = ' . (int) $row->category_id . ' AND published >= 0 '))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		return true;
 	}
-
 
 	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable();
 		$groupings = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
 
-			// track categories
+			// Track categories
 			$groupings[] = $row->category_id;
 
 			if ($row->ordering != $order[$i])
@@ -414,11 +446,7 @@ class category_detailModelcategory_detail extends JModel
 				}
 			}
 		}
-		// execute updateOrder for each parent group
-		/*$groupings = array_unique( $groupings );
-		foreach ($groupings as $group){
-			$row->reorder('catid = '.(int) $group);
-		}*/
+
 		return true;
 	}
 
@@ -429,7 +457,9 @@ class category_detailModelcategory_detail extends JModel
 		$q .= "SET ordering=ordering" . $oprand . "1 ";
 
 		if ($cat_id)
+		{
 			$q .= " WHERE ordering != 0 ";
+		}
 
 		$this->_db->setQuery($q);
 		$this->_db->query();
@@ -448,7 +478,8 @@ class category_detailModelcategory_detail extends JModel
 		$currentpos = $cat->ordering;
 		$category_parent_id = $cat->category_parent_id;
 
-		$q = "SELECT ordering," . $this->_table_prefix . "category.category_id FROM " . $this->_table_prefix . "category, " . $this->_table_prefix . "category_xref ";
+		$q = "SELECT ordering," . $this->_table_prefix . "category.category_id FROM " . $this->_table_prefix . "category, "
+			. $this->_table_prefix . "category_xref ";
 		$q .= "WHERE " . $this->_table_prefix . "category_xref.category_parent_id='" . $category_parent_id . "' ";
 		$q .= "AND " . $this->_table_prefix . "category_xref.category_child_id=" . $this->_table_prefix . "category.category_id ";
 		$q .= "AND ordering='" . intval($currentpos - 1) . "'";
@@ -476,7 +507,6 @@ class category_detailModelcategory_detail extends JModel
 
 	public function orderdown()
 	{
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 
@@ -488,7 +518,8 @@ class category_detailModelcategory_detail extends JModel
 		$currentpos = $cat->ordering;
 		$category_parent_id = $cat->category_parent_id;
 
-		$q = "SELECT ordering," . $this->_table_prefix . "category.category_id FROM " . $this->_table_prefix . "category, " . $this->_table_prefix . "category_xref ";
+		$q = "SELECT ordering," . $this->_table_prefix . "category.category_id FROM " . $this->_table_prefix . "category, "
+			. $this->_table_prefix . "category_xref ";
 		$q .= "WHERE " . $this->_table_prefix . "category_xref.category_parent_id='" . $category_parent_id . "' ";
 		$q .= "AND " . $this->_table_prefix . "category_xref.category_child_id=" . $this->_table_prefix . "category.category_id ";
 		$q .= "AND ordering='" . intval($currentpos + 1) . "'";
@@ -516,7 +547,6 @@ class category_detailModelcategory_detail extends JModel
 
 	public function getmaxminOrder($type)
 	{
-
 		$q = "SELECT " . $type . "(ordering) as morder FROM " . $this->_table_prefix . "category";
 
 		$this->_db->setQuery($q);
@@ -527,7 +557,8 @@ class category_detailModelcategory_detail extends JModel
 
 	public function getProductCompareTemplate()
 	{
-		$query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix . "template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
+		$query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix
+			. "template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -541,6 +572,7 @@ class category_detailModelcategory_detail extends JModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'category WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$copydata = $this->_db->loadObjectList();
+
 			for ($i = 0; $i < count($copydata); $i++)
 			{
 				$query = 'SELECT category_parent_id FROM ' . $this->_table_prefix . 'category_xref '
@@ -584,8 +616,7 @@ class category_detailModelcategory_detail extends JModel
 				$row = $this->store($post);
 			}
 		}
+
 		return true;
 	}
 }
-
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -19,12 +20,10 @@ class redshopModelredshop extends JModel
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_filteroption = 3;
-
 	}
 
 	public function demoContentInsert()
 	{
-
 		$db = JFactory::getDBO();
 
 		$query = "INSERT IGNORE INTO `#__redshop_category` (`category_id`, `category_name`, `category_short_description`, `category_description`, `category_template`, `category_more_template`, `products_per_page`, `category_thumb_image`, `category_full_image`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `category_pdate`, `ordering`, `category_back_full_image`, `compare_template_id`, `append_to_global_seo`)
@@ -317,11 +316,10 @@ class redshopModelredshop extends JModel
 	public function getUserinfo($user_id)
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$userquery = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix . "users_info where address_type='BT' and user_id=" . $user_id;
+		$userquery = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix .
+			"users_info where address_type='BT' and user_id=" . $user_id;
 		$this->_db->setQuery($userquery);
 
 		return $this->_db->loadObject();
 	}
 }
-
-
