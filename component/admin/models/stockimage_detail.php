@@ -6,15 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class stockimage_detailModelstockimage_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -36,7 +38,10 @@ class stockimage_detailModelstockimage_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -52,9 +57,9 @@ class stockimage_detailModelstockimage_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -84,7 +89,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 			$ext = explode(".", $file['name']);
 			$filetmpname = substr($file['name'], 0, strlen($file['name']) - strlen($ext[count($ext) - 1]));
 
-			$filename = JPath::clean(time() . '_' . $filetmpname . "jpg"); //Make the filename unique
+			$filename = JPath::clean(time() . '_' . $filetmpname . "jpg");
 			$row->stock_amount_image = $filename;
 
 			$src = $file['tmp_name'];
@@ -108,6 +113,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -141,6 +147,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -167,26 +174,4 @@ class stockimage_detailModelstockimage_detail extends JModel
 
 		return $list;
 	}
-
-	/*function publish($cid = array(), $publish = 1)
-	{
-		if (count( $cid ))
-		{
-			$cids = implode( ',', $cid );
-
-			$query = 'UPDATE '.$this->_table_prefix.'stockroom_amount_image '
-					.'SET published="'.intval( $publish ).'" '
-					.'WHERE stock_amount_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-
-			if (!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-		}
-		return true;
-	}*/
 }
-
-

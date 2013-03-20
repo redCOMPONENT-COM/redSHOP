@@ -10,11 +10,12 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class state_detailModelstate_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -25,7 +26,6 @@ class state_detailModelstate_detail extends JModel
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -40,7 +40,10 @@ class state_detailModelstate_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -223,7 +226,4 @@ class state_detailModelstate_detail extends JModel
 			}
 		}
 	}
-
 }
-
-

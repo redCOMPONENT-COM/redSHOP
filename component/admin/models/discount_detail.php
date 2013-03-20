@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,8 +14,11 @@ jimport('joomla.application.component.model');
 class discount_detailModeldiscount_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_shoppers = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -26,7 +30,6 @@ class discount_detailModeldiscount_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -41,7 +44,10 @@ class discount_detailModeldiscount_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -66,9 +72,9 @@ class discount_detailModeldiscount_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -92,6 +98,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -112,6 +119,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 			return false;
 		}
+
 		// Remove Relation With Shoppers
 		$sdel = "DELETE FROM " . $this->_table_prefix . "discount_shoppers WHERE discount_id = " . $row->discount_id;
 		$this->_db->setQuery($sdel);
@@ -135,9 +143,13 @@ class discount_detailModeldiscount_detail extends JModel
 			$cids = implode(',', $cid);
 
 			if (isset($layout) && $layout == 'product')
+			{
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'discount_product WHERE discount_product_id IN ( ' . $cids . ' )';
+			}
 			else
+			{
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'discount WHERE discount_id IN ( ' . $cids . ' )';
+			}
 
 			$this->_db->setQuery($query);
 
@@ -161,13 +173,17 @@ class discount_detailModeldiscount_detail extends JModel
 			$cids = implode(',', $cid);
 
 			if (isset($layout) && $layout == 'product')
+			{
 				$query = 'UPDATE ' . $this->_table_prefix . 'discount_product'
 					. ' SET published = ' . intval($publish)
 					. ' WHERE discount_product_id IN ( ' . $cids . ' )';
+			}
 			else
+			{
 				$query = 'UPDATE ' . $this->_table_prefix . 'discount'
 					. ' SET published = ' . intval($publish)
 					. ' WHERE discount_id IN ( ' . $cids . ' )';
+			}
 
 			$this->_db->setQuery($query);
 
@@ -204,18 +220,15 @@ class discount_detailModeldiscount_detail extends JModel
 		}
 		else
 		{
-
 			$query = "SELECT s.shopper_group_id as value,s.shopper_group_name as text "
 				. " FROM " . $this->_table_prefix . "discount_shoppers as ds "
 				. " left join " . $this->_table_prefix . "shopper_group as s on s.shopper_group_id = ds.shopper_group_id "
 				. " WHERE ds.discount_id = " . $this->_id;
 		}
 
-
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
-
 	}
 
 	public function saveShoppers($did, $sids)
@@ -225,9 +238,13 @@ class discount_detailModeldiscount_detail extends JModel
 		foreach ($sids as $sid)
 		{
 			if (isset($layout) && $layout == 'product')
+			{
 				$query = "INSERT INTO #__redshop_discount_product_shoppers VALUES('" . $did . "','" . $sid . "')";
+			}
 			else
+			{
 				$query = "INSERT INTO #__redshop_discount_shoppers VALUES('" . $did . "','" . $sid . "')";
+			}
 
 			$this->_db->setQuery($query);
 
@@ -272,4 +289,3 @@ class discount_detailModeldiscount_detail extends JModel
 		return $dprow;
 	}
 }
-

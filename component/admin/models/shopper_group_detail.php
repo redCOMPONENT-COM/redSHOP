@@ -18,7 +18,9 @@ jimport('joomla.filesystem.file');
 class shopper_group_detailModelshopper_group_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -40,7 +42,10 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -56,7 +61,10 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				$shoppergroup_id = $this->_id;
 			}
 
-			if ($shoppergroup_id <= 0) return false;
+			if ($shoppergroup_id <= 0)
+			{
+				return false;
+			}
 
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shopper_group '
 				. 'WHERE shopper_group_id = "' . $shoppergroup_id . '" ';
@@ -66,9 +74,9 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -87,11 +95,9 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 			$detail->parent_id = null;
 			$detail->default_shipping = 0;
 			$detail->default_shipping_rate = null;
-//			$detail->tax_exempt_on_shipping			= 0;
 			$detail->published = 1;
 			$detail->shopper_group_cart_checkout_itemid = 0;
 			$detail->tax_group_id = 0;
-//			$detail->tax_exempt						= 0;
 			$detail->show_price_without_vat = 0;
 			$detail->shopper_group_cart_itemid = 0;
 			$detail->shopper_group_quotation_mode = 0;
@@ -111,7 +117,8 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 		if ($logo['name'] != "" || $data['shopper_group_logo_tmp'] != null)
 		{
-			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $data['shopper_group_logo']; //specific path of the file
+			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $data['shopper_group_logo'];
+
 			if (is_file($logopath))
 			{
 				unlink($logopath);
@@ -119,12 +126,13 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		}
 		if ($logo['name'] != "")
 		{
-			$logoname = JPath::clean(time() . '_' . $logo['name']); //Make the filename unique
+			$logoname = JPath::clean(time() . '_' . $logo['name']);
+
 			// Image Upload
-			$logotype = JFile::getExt($logo['name']); //Get extension of the file
+			$logotype = JFile::getExt($logo['name']);
 
 			$src = $logo['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $logoname; //specific path of the file
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $logoname;
 
 			if ($logotype == 'jpg' || $logotype == 'jpeg' || $logotype == 'gif' || $logotype == 'png')
 			{
@@ -137,7 +145,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 			if ($data['shopper_group_logo_tmp'] != null)
 			{
 				$image_split = preg_split('/', $data['shopper_group_logo_tmp']);
-				$logoname = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]); //Make the filename unique
+				$logoname = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
 				$data['shopper_group_logo'] = $logoname;
 
 				// Image copy
@@ -145,7 +153,6 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $logoname;
 
 				copy($src, $dest);
-				// End Image Upload
 			}
 		}
 
@@ -200,12 +207,11 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				if (!$prdrow->bind($product_data))
 				{
 					$this->setError($this->_db->getErrorMsg());
-//					return false;
 				}
+
 				if (!$prdrow->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
-//					return false;
 				}
 			}
 
@@ -226,12 +232,11 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				if (!$attrow->bind($attribute_data))
 				{
 					$this->setError($this->_db->getErrorMsg());
-//					return false;
 				}
+
 				if (!$attrow->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
-//					return false;
 				}
 			}
 		}
@@ -248,6 +253,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				. 'WHERE shopper_group_id IN (' . $cids . ') ';
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObjectlist();
+
 			for ($i = 0; $i < count($list); $i++)
 			{
 				$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $list[$i]->shopper_group_logo;
@@ -322,10 +328,10 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
+		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer
+		WHERE published=1 ORDER BY `manufacturer_name`';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
 	}
 }
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,15 +14,23 @@ jimport('joomla.application.component.model');
 class searchModelsearch extends JModel
 {
 	public $_id = null;
+
 	public $_container_id = null;
+
 	public $_stockroom_id = null;
+
 	public $_data = null;
+
 	public $_search = null;
-	public $_product = null; /// product data
+
+	public $_product = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
-	//var $_search = null;
+
 	public $_limit = null;
+
 	public $_iscompany = null;
 
 	public function __construct()
@@ -101,7 +110,6 @@ class searchModelsearch extends JModel
 	{
 		$this->_id = $id;
 		$this->_data = null;
-		//$this->_search	= null;
 	}
 
 	public function getData()
@@ -113,7 +121,6 @@ class searchModelsearch extends JModel
 			return $this->_data;
 		}
 		$query = $this->_buildQuery();
-		//return $query;
 		$this->_data = $this->_getList($query);
 
 		return $this->_data;
@@ -121,77 +128,40 @@ class searchModelsearch extends JModel
 
 	public function _buildQuery()
 	{
-
-		//Media secion
-		////////// Product //////////////
-
 		if ($this->_media_section)
 		{
 			if ($this->_media_section == 'product')
 			{
-
-				$query = "SELECT product_id as id,product_name as value FROM " . $this->_table_prefix . "product  WHERE product_name like '%" . $this->_search . "%'";
-
-				////////// Category  //////////////
+				$query = "SELECT product_id as id,product_name as value FROM " . $this->_table_prefix . "product  WHERE product_name like '%" .
+					$this->_search . "%'";
 			}
-			else if ($this->_media_section == 'category')
+			elseif ($this->_media_section == 'category')
 			{
-				$query = "SELECT category_id as id,category_name as value FROM " . $this->_table_prefix . "category  WHERE category_name like '" . $this->_search . "%'";
+				$query = "SELECT category_id as id,category_name as value FROM " . $this->_table_prefix . "category  WHERE category_name like '" .
+					$this->_search . "%'";
 
 			}
 			else
 			{
-				$query = "SELECT catalog_id  as id,catalog_name	 as value FROM " . $this->_table_prefix . "catalog  WHERE catalog_name like '" . $this->_search . "%' AND published = 1";
+				$query = "SELECT catalog_id  as id,catalog_name	 as value FROM " . $this->_table_prefix . "catalog  WHERE catalog_name like '" .
+					$this->_search . "%' AND published = 1";
 			}
-
 		}
-		else if ($this->_alert == 'container')
+
+		elseif ($this->_alert == 'container')
 		{
-
-			//	$search1 = explode("`",$this->_search);
-			//	$chk_order=$search1[1];
-			//	$this->_search=$search1[0];
-
-
-			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "container_product_xref as cp  WHERE cp.container_id=" . $this->_container_id . " and cp.product_id=p.product_id  ";
+			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " .
+				$this->_table_prefix . "container_product_xref as cp  WHERE cp.container_id=" . $this->_container_id . "
+				and cp.product_id=p.product_id  ";
 			$this->_db->setQuery($query);
 			$this->_productdata = $this->_db->loadObjectList();
 
 			if (count($this->_productdata) > 0)
 			{
 				foreach ($this->_productdata as $rc)
+				{
 					$pid[] = $rc->value;
-
-			}
-			if ($this->_productdata)
-			{
-				$pid = @implode(",", $pid);
-				$where = " and p.product_id not in (" . $pid . ") and p.product_name like '%" . $this->_search . "%'";
-			}
-			else
-			{
-				$where = " and p.product_name like '%" . $this->_search . "%'";
-			}
-			//if($chk_order!=1)
-			//{
-			$query = "SELECT distinct concat(p.product_id,'`',p.supplier_id) as id,p.product_name as value,p.product_volume as volume  FROM " . $this->_table_prefix . "product as p left join   " . $this->_table_prefix . "container_product_xref as cp on cp.product_id=p.product_id WHERE 1=1  " . $where;
-			//}
-			//else {
-			//$query = "SELECT distinct concat(p.product_id,'`',p.manufacturer_id) as id,p.product_name as value,p.product_volume as volume FROM ".$this->_table_prefix."product as p , ".$this->_table_prefix."order_item as op WHERE op.product_id = p.product_id AND op.container_id < 1 and 1=1 ".$where;
-			//}
-			//$query = "SELECT distinct p.product_id as id,p.product_name as value,p.product_volume as volume  FROM ".$this->_table_prefix."product as p left join   ".$this->_table_prefix."container_product_xref as cp on cp.product_id=p.product_id WHERE 1=1 ".$where;
-
-		}
-		else if ($this->_alert == 'voucher')
-		{
-			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $this->_voucher_id . " and cp.product_id=p.product_id ";
-			$this->_db->setQuery($query);
-			$this->_productdata = $this->_db->loadObjectList();
-
-			if (count($this->_productdata) > 0)
-			{
-				foreach ($this->_productdata as $rc)
-					$pid[] = $rc->value;
+				}
 
 			}
 			if ($this->_productdata)
@@ -204,27 +174,67 @@ class searchModelsearch extends JModel
 				$where = " and p.product_name like '%" . $this->_search . "%'";
 			}
 
-			$query = "SELECT distinct p.product_id as id,p.product_name as value FROM " . $this->_table_prefix . "product as p left join   " . $this->_table_prefix . "product_voucher_xref as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
+			$query = "SELECT distinct concat(p.product_id,'`',p.supplier_id) as id,p.product_name as value,p.product_volume as volume  FROM " .
+				$this->_table_prefix . "product as p left join   " . $this->_table_prefix . "container_product_xref as cp on
+				cp.product_id=p.product_id WHERE 1=1  " . $where;
 
 		}
-		else if ($this->_alert == 'stoockroom')
-		{ ////////////// Stock room cotainer ////////////////
-			$q = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , " . $this->_table_prefix . "stockroom_container_xref as cp  WHERE cp.stockroom_id=" . $this->_stockroom_id . " and cp.container_id=p.container_id ";
+		elseif ($this->_alert == 'voucher')
+		{
+			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
+				. $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $this->_voucher_id
+				. " and cp.product_id=p.product_id ";
+			$this->_db->setQuery($query);
+			$this->_productdata = $this->_db->loadObjectList();
+
+			if (count($this->_productdata) > 0)
+			{
+				foreach ($this->_productdata as $rc)
+				{
+					$pid[] = $rc->value;
+				}
+
+			}
+			if ($this->_productdata)
+			{
+				$pid = @implode(",", $pid);
+				$where = " and p.product_id not in (" . $pid . ") and p.product_name like '%" . $this->_search . "%'";
+			}
+			else
+			{
+				$where = " and p.product_name like '%" . $this->_search . "%'";
+			}
+
+			$query = "SELECT distinct p.product_id as id,p.product_name as value FROM " . $this->_table_prefix . "product as p left join   "
+				. $this->_table_prefix . "product_voucher_xref as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
+
+		}
+		elseif ($this->_alert == 'stoockroom')
+		{
+			$q = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , "
+				. $this->_table_prefix . "stockroom_container_xref as cp  WHERE cp.stockroom_id=" . $this->_stockroom_id
+				. " and cp.container_id=p.container_id ";
 			$this->_db->setQuery($q);
 			$this->_productdata = $this->_db->loadObjectList();
 
 			if (count($this->_productdata) > 0)
+			{
 				$result_stock = $this->_productdata;
-			else
-				$result_stock = array();
+			}
 
+			else
+			{
+				$result_stock = array();
+			}
 
 			if (count($result_stock) > 0)
 			{
 				foreach ($result_stock as $rc)
+				{
 					$pid[] = $rc->value;
-
+				}
 			}
+
 			if ($result_stock)
 			{
 				$pid = @implode(",", $pid);
@@ -234,12 +244,14 @@ class searchModelsearch extends JModel
 			{
 				$where = '';
 			}
-			$where .= " and p.container_id NOT IN ( SELECT container_id FROM " . $this->_table_prefix . "stockroom_container_xref ) and p.container_name like '" . $this->_search . "%'";
+			$where .= " and p.container_id NOT IN ( SELECT container_id FROM " . $this->_table_prefix . "stockroom_container_xref )
+			and p.container_name like '" . $this->_search . "%'";
 
-			$query = "SELECT p.container_id as id,p.container_name as value FROM " . $this->_table_prefix . "container as p left join   " . $this->_table_prefix . "stockroom_container_xref as cp on cp.container_id=p.container_id WHERE 1=1 " . $where;
+			$query = "SELECT p.container_id as id,p.container_name as value FROM " . $this->_table_prefix . "container as p left join   " .
+				$this->_table_prefix . "stockroom_container_xref as cp on cp.container_id=p.container_id WHERE 1=1 " . $where;
 
 		}
-		else if ($this->_alert == 'termsarticle')
+		elseif ($this->_alert == 'termsarticle')
 		{
 			$query = 'SELECT a.sectionid,a.catid, a.id AS value, a.title AS text '
 				. 'FROM #__content AS a '
@@ -248,6 +260,7 @@ class searchModelsearch extends JModel
 			$this->_db->setQuery($query);
 			$rows = $this->_db->loadObjectList();
 			$article = array();
+
 			for ($j = 0; $j < count($rows); $j++)
 			{
 				if ($rows[$j]->sectionid != 0 && $rows[$j]->catid != 0)
@@ -263,6 +276,7 @@ class searchModelsearch extends JModel
 					$this->_db->setQuery($query);
 					$r = $this->_db->loadObjectList();
 					$i = 0;
+
 					foreach ($r as $value)
 					{
 						$article[$i]->value = $value->text;
@@ -278,38 +292,38 @@ class searchModelsearch extends JModel
 			}
 			return $article;
 		}
-		else if ($this->_user == 1)
+		elseif ($this->_user == 1)
 		{
-
 			$query = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
 			$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
-			$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" . $this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
+			$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
+				$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
 
 		}
-		else if ($this->_plgcustomview == 1)
+		elseif ($this->_plgcustomview == 1)
 		{
-
 			if ($this->_iscompany == 0)
 			{
 				$query = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
 				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
-				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" . $this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
+				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
+					$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
 				$query .= " AND uf.is_company = " . $this->_iscompany . "";
 			}
+
 			if ($this->_iscompany == 1)
 			{
 				$query = "SELECT u.id as id,concat(uf.company_name,' (', u.username,')') as value , u.email as volume ";
 				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
-				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.company_name like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
+				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.company_name like '" .
+					$this->_search . "%') and (uf.address_type like 'BT') ";
 				$query .= " AND uf.is_company = " . $this->_iscompany . "";
 			}
-
-
 		}
-		else if ($this->_addreduser == 1)
+		elseif ($this->_addreduser == 1)
 		{
-
-			$query = "SELECT uf.user_id AS id, CONCAT(uf.firstname,' ', uf.lastname, IF(u.username!='', CONCAT( ' (',u.username,')'), '' )) AS value, uf.user_email AS value_number "
+			$query = "SELECT uf.user_id AS id, CONCAT(uf.firstname,' ', uf.lastname, IF(u.username!='', CONCAT( ' (',u.username,')'), '' ))
+			AS value, uf.user_email AS value_number "
 				. "FROM " . $this->_table_prefix . "users_info AS uf "
 				. "LEFT JOIN #__users AS u ON uf.user_id=u.id "
 				. "WHERE (u.username LIKE '" . $this->_search . "%' "
@@ -318,14 +332,13 @@ class searchModelsearch extends JModel
 				. "AND (uf.address_type LIKE 'BT')";
 
 		}
-		else if ($this->_products == 1)
+		elseif ($this->_products == 1)
 		{
-
-			$query = "SELECT product_id as id,product_name as value, product_number as value_number FROM " . $this->_table_prefix . "product  WHERE product_name like '%" . $this->_search . "%'";
+			$query = "SELECT product_id as id,product_name as value, product_number as value_number FROM " .
+				$this->_table_prefix . "product  WHERE product_name like '%" . $this->_search . "%'";
 		}
-		else if ($this->_related == 1)
+		elseif ($this->_related == 1)
 		{
-
 			$and = "";
 
 			if ($this->_product_id != 0)
@@ -340,56 +353,54 @@ class searchModelsearch extends JModel
 
 				$and = "AND p.product_id NOT IN (" . $relatedid . ") ";
 			}
-			//$query = "SELECT p.product_id as id,p.product_name as value FROM ".$this->_table_prefix."product as p left join   ".$this->_table_prefix."product_related as cp on cp.product_id=p.product_id WHERE 1=1 ".$where." GROUP BY p.product_id";
+
 			$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number "
 				. "FROM " . $this->_table_prefix . "product as p "
 				. "WHERE (p.product_name LIKE '" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%') "
 				. $and
 				. " LIMIT 0,50 ";
 		}
-		else if ($this->_parent == 1)
+		elseif ($this->_parent == 1)
 		{
-
 			$and = "";
 
 			if ($this->_product_id != 0)
 			{
 				$and = "AND p.product_id NOT IN (" . $this->_product_id . ") ";
-//			$where =" and p.product_id not in (".$this->_product_id.") and p.product_id!=".$this->_product_id." and p.product_name like '%".$this->_search."%'";
 			}
 
-//		$query = "SELECT distinct p.product_id as id,p.product_name as value FROM ".$this->_table_prefix."product as p WHERE 1=1 ".$where;
 			$query = "SELECT p.product_id AS id,p.product_name AS value "
 				. "FROM " . $this->_table_prefix . "product as p "
 				. "WHERE p.product_name LIKE '" . $this->_search . "%' "
 				. $and
 				. " LIMIT 0,50 ";
 		}
-		else if ($this->_navigator == 1)
+
+		elseif ($this->_navigator == 1)
 		{
-
 			$where = " and (p.product_name like '%" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
-
-
-			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " . $this->_table_prefix . "product as p WHERE 1=1 and p.published = 1 " . $where;
+			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " .
+				$this->_table_prefix . "product as p WHERE 1=1 and p.published = 1 " . $where;
 		}
 		else
 		{
-			////////////// Container Product ////////////////
-
 			if ($this->_product_id != 0)
 			{
-				$where = " and p.product_id not in (select child_product_id from " . $this->_table_prefix . "product_accessory where product_id=" . $this->_product_id . ") and p.product_id!=" . $this->_product_id . " and (p.product_name like '%" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
+				$where = " and p.product_id not in (select child_product_id from " . $this->_table_prefix . "product_accessory where product_id=" .
+					$this->_product_id . ") and p.product_id!=" . $this->_product_id . " and (p.product_name like '%" .
+					$this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
 			}
 			else
 			{
 				$where = " and (p.product_name like '%" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
 			}
 
-			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " . $this->_table_prefix . "product as p left join   " . $this->_table_prefix . "product_accessory as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
+			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " .
+				$this->_table_prefix . "product as p left join   " . $this->_table_prefix . "product_accessory as cp on cp.product_id=p.product_id
+				WHERE 1=1 " . $where;
 
 		}
+
 		return $query;
 	}
 }
-

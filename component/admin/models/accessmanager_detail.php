@@ -91,7 +91,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 						return false;
 					}
 
-					// added for stock room
+					// Added for stock room
 					if ($row->section_name == 'stockroom')
 					{
 						$row1 =& $this->getTable('accessmanager_detail');
@@ -191,10 +191,8 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							$row_img->view = null;
 							$row_img->add = null;
 
-
 							if ($row_img->check())
 							{
-
 								if (!$row_img->store())
 								{
 									$this->setError($this->_db->getErrorMsg());
@@ -202,9 +200,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 									return false;
 								}
 							}
-
 						}
-
 
 						$row_imgd =& $this->getTable('accessmanager_detail');
 						$row_imgd->gid = $groupValue;
@@ -218,7 +214,6 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 						{
 							if ($row_imgd->check())
 							{
-
 								if (!$row_imgd->store())
 								{
 									$this->setError($this->_db->getErrorMsg());
@@ -226,18 +221,14 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 									return false;
 								}
 							}
-
 						}
 						else
 						{
-
 							$row_imgd->view = null;
 							$row_imgd->add = null;
 
-
 							if ($row_imgd->check())
 							{
-
 								if (!$row_imgd->store())
 								{
 									$this->setError($this->_db->getErrorMsg());
@@ -245,14 +236,8 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 									return false;
 								}
 							}
-
 						}
-
-
 					}
-					// End
-
-
 				}
 			}
 		}
@@ -260,10 +245,6 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 		{
 			foreach ($groups as $groupValue => $groupName)
 			{
-				/*if( $groupValue < 23 ):
-					continue;
-					endif;*/
-
 				$row->gid = $groupValue;
 				$row->section_name = $data['section'];
 				$row->view = $data['groupaccess_' . $groupValue]['view'];
@@ -273,97 +254,112 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 				if ($row->section_name == 'stockroom')
 				{
-
 					$child_section = "stockroom_detail";
 
 					if ($row->view == 1 && $row->add == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $row->view . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
 					else
 					{
 						$child_view = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $child_view . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $child_view . "',`add` = '" . $row->add . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
-
 
 					$child_section1 = "stockroom_listing";
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $row->view . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section1 . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
 					else
 					{
 						$child_view1 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $child_view1 . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $child_view1 . "',`add` = '" . $row->add . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section1 . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
 
 					$child_section2 = "stockimage";
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $row->view . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section2 . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
 					else
 					{
 						$child_view2 = null;
 						$child_add2 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $child_view2 . "',`add` = '" . $child_add2 . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $child_view2 . "',`add` = '" . $child_add2 . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section2 . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
 
 					$child_section3 = "stockimage_detail";
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $row->view . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section3 . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
 					else
 					{
 						$child_view1 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $child_view1 . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+							. $child_view1 . "',`add` = '" . $row->add . "',`edit` = '"
+							. $row->edit . "',`delete` = '" . $row->delete . "'"
 							. " WHERE `section_name` = '" . $child_section3 . "' AND `gid` = '" . $row->gid . "'";
+
 						$this->_db->setQuery($query);
 						$this->_db->Query();
-
 					}
-
 				}
 
-				$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '" . $row->view . "',`add` = '" . $row->add . "',`edit` = '" . $row->edit . "',`delete` = '" . $row->delete . "'"
+				$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
+					. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
+					. $row->edit . "',`delete` = '" . $row->delete . "'"
 					. " WHERE `section_name` = '" . $row->section_name . "' AND `gid` = '" . $row->gid . "'";
+
 				$this->_db->setQuery($query);
 				$this->_db->Query();
 			}
-
 		}
 
 		return $row;
@@ -395,7 +391,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
   ORDER BY a.lft asc";
 
 		$db->setQuery($query);
-		// echo $db->getQuery();
+
 		$groups = $db->loadObjectList();
 
 		// Check for a database error.
@@ -406,9 +402,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 			return null;
 		}
 
-
 		return ($groups);
-
 	}
 
 	public function formatGroup($groups)
@@ -419,8 +413,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 		{
 			$returnable[$val->id] = str_repeat('<span class="gi">|&mdash;</span>', $val->level) . $val->title;
 		}
+
 		return $returnable;
 	}
 }
-
-

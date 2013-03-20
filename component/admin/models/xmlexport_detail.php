@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,7 +16,9 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 class xmlexport_detailModelxmlexport_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -110,7 +113,11 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 
 			return false;
 		}
-		if (!$row->xmlexport_on_category) $row->xmlexport_on_category = '';
+		if (!$row->xmlexport_on_category)
+		{
+			$row->xmlexport_on_category = '';
+		}
+
 		$row->published = $data['xmlpublished'];
 
 		if (!$row->store())
@@ -121,6 +128,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		}
 		$xmlexport_ip_id = $data['xmlexport_ip_id'];
 		$access_ipaddress = $data['access_ipaddress'];
+
 		for ($i = 0; $i < count($xmlexport_ip_id); $i++)
 		{
 			if ($access_ipaddress[$i] != "")
@@ -305,5 +313,3 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		return $list;
 	}
 }
-
-
