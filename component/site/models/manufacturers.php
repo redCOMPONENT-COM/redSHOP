@@ -21,11 +21,15 @@ jimport('joomla.html.pagination');
  */
 class manufacturersModelmanufacturers extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_productlimit = null;
-	var $_table_prefix = null;
-	var $_template = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	public $_productlimit = null;
+
+	public $_table_prefix = null;
+
+	public $_template = null;
 
 	public function __construct()
 	{
@@ -44,10 +48,11 @@ class manufacturersModelmanufacturers extends JModel
 		{
 			$manid = (int) JRequest::getInt('mid', 0);
 		}
+
 		$this->setId($manid);
 
 		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
-		//$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0 );
+
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
 		// In case limit has been changed, adjust it
@@ -94,6 +99,7 @@ class manufacturersModelmanufacturers extends JModel
 		{
 			$and .= " AND mn.manufacturer_id='" . $this->_id . "' ";
 		}
+
 		$query = "SELECT mn.* FROM " . $this->_table_prefix . "manufacturer AS mn "
 			. "WHERE mn.published = 1 "
 			. $and
@@ -144,6 +150,7 @@ class manufacturersModelmanufacturers extends JModel
 		{
 			$filter_order = 'mn.manufacturer_id';
 		}
+
 		$orderby = " ORDER BY " . $filter_order . ' ';
 
 		return $orderby;
@@ -153,8 +160,7 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-			$this->_pagination = new redPagination ($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-//			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new redPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -206,6 +212,7 @@ class manufacturersModelmanufacturers extends JModel
 		{
 			$and .= " AND c.category_id = " . $filter_by;
 		}
+
 		$orderby = $this->_buildProductOrderBy($template_data);
 
 		$query = "SELECT DISTINCT(p.product_id),p.*, c.category_name, c.category_id FROM " . $this->_table_prefix . "product AS p "
@@ -225,13 +232,14 @@ class manufacturersModelmanufacturers extends JModel
 	public function getmanufacturercategory($mid, $tblobj)
 	{
 		$and              = "";
-		$order_functions  = new order_functions();
+		$order_functions  = new order_functions;
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
 			$and = "AND c.category_id NOT IN (" . $tblobj->excluding_category_list . ") ";
 		}
+
 		$query = "SELECT DISTINCT(c.category_id), c.category_name,c.category_short_description,c.category_description "
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id "
@@ -240,8 +248,8 @@ class manufacturersModelmanufacturers extends JModel
 			. "AND p.manufacturer_id='" . $mid . "' "
 			. "AND p.expired=0 "
 			. "AND p.product_parent_id=0 "
-			. $and//			 	."GROUP BY p.product_id "
-		;
+			. $and;
+
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -277,11 +285,12 @@ class manufacturersModelmanufacturers extends JModel
 		{
 			$filter_order = 'pc.ordering';
 		}
-		//
+
 		if (strstr($template_data, '{category_name}'))
 		{
 			$filter_order = "c.ordering,c.category_id, " . $filter_order;
 		}
+
 		$orderby = " ORDER BY " . $filter_order . ' ';
 
 		return $orderby;

@@ -81,6 +81,7 @@ function savewishlist()
 	</script>
 <?php
 }
+
 	/**
 	 * delete wishlist function
 	 *
@@ -117,6 +118,11 @@ function savewishlist()
 		$mainframe->redirect($link, $msg);
 	}
 
+	/**
+	 * My sess del wish list
+	 *
+	 * @return void
+	 */
 	public function mysessdelwishlist()
 	{
 		$post = array();
@@ -135,7 +141,6 @@ function savewishlist()
 
 			$link = JRoute::_("index.php?mydel=1&option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 			$this->setRedirect($link, $msg);
-
 		}
 	}
 }

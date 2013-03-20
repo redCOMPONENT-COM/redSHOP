@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
  */
 class CatalogModelCatalog extends JModel
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -39,6 +39,7 @@ class CatalogModelCatalog extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -59,6 +60,7 @@ class CatalogModelCatalog extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -95,6 +97,7 @@ class CatalogModelCatalog extends JModel
 		{
 			$and = "AND c.sample_id='" . $sample_id . "' ";
 		}
+
 		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_colour AS c "
 			. "WHERE 1=1 "
 			. $and;

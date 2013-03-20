@@ -22,8 +22,9 @@ require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
  */
 class ask_questionModelask_question extends JModel
 {
-	var $_id = null;
-	var $_table_prefix = null;
+	public $_id = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -40,8 +41,9 @@ class ask_questionModelask_question extends JModel
 	/**
 	 * Method to store the records
 	 *
-	 * @access public
-	 * @return boolean
+	 * @param   array  $data  array of data
+	 *
+	 * @return bool
 	 */
 	public function store($data)
 	{
@@ -63,6 +65,7 @@ class ask_questionModelask_question extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -100,7 +103,7 @@ class ask_questionModelask_question extends JModel
 		$mailbcc    = null;
 		$fromname   = $data['your_name'];
 		$from       = $data['your_email'];
-		$subject    = ""; //JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT' );
+		$subject    = "";
 		$message    = $data['your_question'];
 		$product_id = $data['pid'];
 
@@ -118,6 +121,7 @@ class ask_questionModelask_question extends JModel
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
 			}
 		}
+
 		$product = $producthelper->getProductById($product_id);
 
 		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
