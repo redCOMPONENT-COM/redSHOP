@@ -86,6 +86,7 @@ class CheckoutModelCheckout extends JModel
 				$noOFGIFTCARD++;
 			}
 		}
+
 		if ($noOFGIFTCARD == $idx)
 		{
 			$cart['free_shipping'] = 1;
@@ -94,6 +95,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			$cart['free_shipping'] = 0;
 		}
+
 		if ($user->id)
 		{
 			$cart = $this->_carthelper->modifyCart($cart, $user->id);
@@ -112,6 +114,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			return false;
 		}
+
 		if (isset($data['user_id']) && $data['user_id'])
 		{
 			$joomlauser = $this->_userhelper->updateJoomlaUser($data);
@@ -120,6 +123,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			$joomlauser = $this->_userhelper->createJoomlaUser($data);
 		}
+
 		if (!$joomlauser)
 		{
 			return false;
@@ -417,6 +421,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			$redirect_ccdata = $session->set('redirect_ccdata', $ccdata);
 		}
+
 		if ($is_creditcard == 1 && $is_redirected == 0 && $cart['total'] > 0)
 		{
 			JPluginHelper::importPlugin('redshop_payment');
@@ -468,6 +473,7 @@ class CheckoutModelCheckout extends JModel
 			$order_status        = $order_main_status;
 			$order_paymentstatus = 'Paid';
 		}
+
 		if (USE_AS_CATALOG)
 		{
 			$order_status        = 'P';
@@ -669,6 +675,7 @@ class CheckoutModelCheckout extends JModel
 				{
 					$crmdata['shipping_id'] = 0;
 				}
+
 				if (count($crmDebitorHelper_contact_values) > 0 && count($crmDebitorHelper_values) > 0)
 				{
 					$crmdata['person_id'] = $crmDebitorHelper_contact_values[0]->person_id;
@@ -702,6 +709,7 @@ class CheckoutModelCheckout extends JModel
 			{
 				$rowitem->delivery_time = '';
 			}
+
 			if (isset($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'])
 			{
 				$is_giftcard = 1;
@@ -971,6 +979,7 @@ class CheckoutModelCheckout extends JModel
 								$subprooprand[$tp] = $subElementArr[$tp]['subproperty_oprand'];
 								$subproprice[$tp]  = $subElementArr[$tp]['subproperty_price'];
 							}
+
 							if ($setPropEqual && $setSubpropEqual)
 							{
 								$accessory_priceArr = $this->_producthelper->makeTotalPriceByOprand($accessory_price, $subprooprand, $subproprice);
@@ -1192,14 +1201,17 @@ class CheckoutModelCheckout extends JModel
 		{
 			$ccdata['creditcard_code'] = 0;
 		}
+
 		if (!isset($ccdata['order_payment_number']))
 		{
 			$ccdata['order_payment_number'] = 0;
 		}
+
 		if (!isset($ccdata['order_payment_expire_month']))
 		{
 			$ccdata['order_payment_expire_month'] = 0;
 		}
+
 		if (!isset($ccdata['order_payment_expire_year']))
 		{
 			$ccdata['order_payment_expire_year'] = 0;
@@ -1554,6 +1566,7 @@ class CheckoutModelCheckout extends JModel
 
 			return $validpayment;
 		}
+
 		if (isset($ccdata['order_payment_name']))
 		{
 			if (preg_match("/[0-9]+/", $ccdata['order_payment_name']) == true)
@@ -1564,6 +1577,7 @@ class CheckoutModelCheckout extends JModel
 				return $validpayment;
 			}
 		}
+
 		if (!$ccdata['order_payment_number'])
 		{
 			$validpayment [0] = 0;
@@ -1571,6 +1585,7 @@ class CheckoutModelCheckout extends JModel
 
 			return $validpayment;
 		}
+
 		if ($ccdata['order_payment_number'])
 		{
 			if (!is_numeric($ccdata['order_payment_number']))
@@ -1581,6 +1596,7 @@ class CheckoutModelCheckout extends JModel
 				return $validpayment;
 			}
 		}
+
 		if (!$ccdata['order_payment_expire_month'])
 		{
 			$validpayment [0] = 0;
@@ -1953,6 +1969,7 @@ class CheckoutModelCheckout extends JModel
 					{
 						$this->setError($this->_db->getErrorMsg());
 					}
+
 					if ($cart['voucher'][$i]['transaction_voucher_id'])
 					{
 						$transaction_voucher_id = $cart['voucher'][$i]['transaction_voucher_id'];
@@ -2085,6 +2102,7 @@ class CheckoutModelCheckout extends JModel
 //			$cart['user_shopper_group_id'] 		= $shopperGroupId;
 
 //		}
+
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
 			$shipArr              = $this->calculateShipping($shipping_rate_id);
@@ -2151,6 +2169,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			$thirdparty_emailvalue = $cart['thirdparty_email'];
 		}
+
 		if (strstr($template_desc, "{thirdparty_email}"))
 		{
 			$thirdpartyemail = '<input type="text" name="thirdparty_email" id="thirdparty_email" value="' . $thirdparty_emailvalue . '"/>';
@@ -2180,6 +2199,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			$requisition_number = $cart['requisition_number'];
 		}
+
 		if (strstr($template_desc, "{customer_note}"))
 		{
 			$customernote  = '<textarea name="customer_note" id="customer_note">' . $customernotevalue . '</textarea>';
@@ -2212,6 +2232,7 @@ class CheckoutModelCheckout extends JModel
 			$template_desc = str_replace("{requisition_number}", $req_number, $template_desc);
 			$template_desc = str_replace("{requisition_number_lbl}", $req_number_lbl, $template_desc);
 		}
+
 		if (strstr($template_desc, "{shop_more}"))
 		{
 			if (CONTINUE_REDIRECT_LINK != '')
@@ -2226,6 +2247,7 @@ class CheckoutModelCheckout extends JModel
 			$shop_more     = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
 			$template_desc = str_replace("{shop_more}", $shop_more, $template_desc);
 		}
+
 		if (strstr($template_desc, "{checkout_back_button}"))
 		{
 			$checkout_back = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_BACK_BUTTON') . '" onclick="javascript: history.go(-1);">';

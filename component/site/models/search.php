@@ -98,6 +98,7 @@ class searchModelsearch extends JModel
 						$limit   = intval($perpage[0]);
 						$this->setState('limit', $limit);
 					}
+
 					if (strstr($template[0]->template_desc, "{product_display_limit}"))
 					{
 						$endlimit = $this->getProductPerPage();
@@ -166,6 +167,7 @@ class searchModelsearch extends JModel
 				$limit = MAXCATEGORY;
 			}
 		}
+
 		if (strstr($template[0]->template_desc, "{product_display_limit}"))
 		{
 			$endlimit = JRequest::getInt('limit', 0, '', 'int');
@@ -242,6 +244,7 @@ class searchModelsearch extends JModel
 		{
 			$defaultSearchType = 'product_name';
 		}
+
 		if ($defaultSearchType == "name_number")
 		{
 			$defaultSearchField = "name_number";
@@ -318,6 +321,7 @@ class searchModelsearch extends JModel
 		{
 			$order_by = $redconfig->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		}
+
 		if ($order_by == 'pc.ordering ASC' || $order_by == 'c.ordering ASC')
 		{
 			$order_by = 'p.product_id DESC';
@@ -343,6 +347,7 @@ class searchModelsearch extends JModel
 				$cat_group[$j + 1] = $category_id;
 			}
 		}
+
 		if ($cat_group)
 		{
 			$cat_group = join(',', $cat_group);
@@ -479,6 +484,7 @@ class searchModelsearch extends JModel
 			{
 				$query .= " LEFT JOIN  " . $this->_table_prefix . "product_category_xref as pcx on p.product_id = pcx.product_id ";
 			}
+
 			if ($defaultSearchType_tmp == "name_number_desc" || $defaultSearchType_tmp == "virtual_product_num")
 			{
 				$query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id "
@@ -492,6 +498,7 @@ class searchModelsearch extends JModel
 			{
 				$query .= " AND pcx.category_id in (" . $cat_group . ")";
 			}
+
 			if ($manufacture_id != 0)
 			{
 				$query .= " AND p.manufacturer_id =" . $manufacture_id;
@@ -541,6 +548,7 @@ class searchModelsearch extends JModel
 		{
 			$cid = $item->params->get('categorytemplate');
 		}
+
 		if ($layout == 'productonsale' || $layout == 'featuredproduct')
 		{
 			$templateid = $item->params->get('template_id');
@@ -549,11 +557,13 @@ class searchModelsearch extends JModel
 			{
 				$cid = 0;
 			}
+
 			if ($templateid == 0 && $cid == 0)
 			{
 				$templateid = $mainframe->getUserStateFromRequest($context . 'templateid', 'templateid', '');
 			}
 		}
+
 		if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
 		{
 			$module        = JModuleHelper::getModule('redPRODUCTFILTER');
@@ -571,6 +581,7 @@ class searchModelsearch extends JModel
 		{
 			$and .= " AND c.category_id = '" . $cid . "' ";
 		}
+
 		if ($templateid != 0)
 		{
 			$and .= " AND t.template_id = '" . $templateid . "' ";
@@ -654,6 +665,7 @@ class searchModelsearch extends JModel
 				if ($chk_q != "")
 					$dep_cond[] = " ( " . $chk_q . " ) ";
 			}
+
 			if (count($dep_cond) <= 0)
 				$dep_cond[] = "1=1";
 			$q .= implode(" AND ", $dep_cond);
@@ -965,6 +977,7 @@ class searchModelsearch extends JModel
 			<div id="spacer">&nbsp;_________________________</div>
 		<?php
 		}
+
 		if (count($types) > 0)
 		{
 			?>

@@ -85,6 +85,7 @@ class Account_shiptoModelaccount_shipto extends JModel
 
 			return $list;
 		}
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id="' . $this->_id . '" ';
@@ -125,5 +126,4 @@ class Account_shiptoModelaccount_shipto extends JModel
 
 		return $reduser;
 	}
-
 }
