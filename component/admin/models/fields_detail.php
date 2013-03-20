@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,8 +16,11 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.
 class fields_detailModelfields_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_fielddata = null;
 
 	public function __construct()
@@ -28,7 +32,6 @@ class fields_detailModelfields_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -43,7 +46,10 @@ class fields_detailModelfields_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -58,6 +64,7 @@ class fields_detailModelfields_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -86,6 +93,7 @@ class fields_detailModelfields_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -105,6 +113,7 @@ class fields_detailModelfields_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -124,7 +133,6 @@ class fields_detailModelfields_detail extends JModel
 
 		if (array_key_exists("value_id", $post))
 		{
-			//$extra_value = $post["extra_value"];
 			$extra_value = JRequest::getVar('extra_value', '', 'post', 'string', JREQUEST_ALLOWRAW);
 			$value_id = $post["value_id"];
 
@@ -135,7 +143,6 @@ class fields_detailModelfields_detail extends JModel
 			}
 			else
 			{
-				//$extra_name = $post["extra_name"];
 				$extra_name = JRequest::getVar('extra_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 				$total = count($extra_name);
 			}
@@ -146,6 +153,7 @@ class fields_detailModelfields_detail extends JModel
 		if (count($filed_data_id) > 0)
 		{
 			$fid = array();
+
 			foreach ($filed_data_id as $f)
 			{
 				$fid[] = $f->value_id;
@@ -241,9 +249,7 @@ class fields_detailModelfields_detail extends JModel
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
-				//return false;
 			}
-
 		}
 
 		return true;
@@ -271,18 +277,18 @@ class fields_detailModelfields_detail extends JModel
 		return true;
 	}
 
-
 	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable();
 		$groupings = array();
 		$conditions = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
+
+			// Track categories
 			$groupings[] = $row->field_id;
 
 			if ($row->ordering != $order[$i])
@@ -295,41 +301,36 @@ class fields_detailModelfields_detail extends JModel
 
 					return false;
 				}
-				// remember to updateOrder this group
+
+				// Remember to updateOrder this group
 				$condition = 'field_section = ' . (int) $row->field_section;
 				$found = false;
+
 				foreach ($conditions as $cond)
+				{
 					if ($cond[1] == $condition)
 					{
 						$found = true;
 						break;
 					}
+				}
+
 				if (!$found)
+				{
 					$conditions[] = array($row->field_id, $condition);
+				}
 			}
 		}
-		// execute updateOrder for each group
+
+		// Execute updateOrder for each group
 		foreach ($conditions as $cond)
 		{
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
-//		// execute updateOrder for each parent group
-//		$groupings = array_unique( $groupings );
-//		foreach ($groupings as $group){
-//			$row->reorder((int) $group);
-//		}
 		return true;
 	}
 
-	/*
-
-		/**
-		 * Method to get max ordering
-		 *
-		 * @access public
-		 * @return boolean
-		 */
 	public function MaxOrdering()
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
@@ -383,5 +384,3 @@ class fields_detailModelfields_detail extends JModel
 		return (boolean) $result;
 	}
 }
-
-

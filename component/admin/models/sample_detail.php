@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,7 +14,9 @@ jimport('joomla.application.component.model');
 class sample_detailModelsample_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -35,7 +38,10 @@ class sample_detailModelsample_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -50,6 +56,7 @@ class sample_detailModelsample_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -67,6 +74,7 @@ class sample_detailModelsample_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -97,6 +105,7 @@ class sample_detailModelsample_detail extends JModel
 			if ($total_loop > 0)
 			{
 				$h = 0;
+
 				foreach ($data["colour_id"] as $cp)
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "catalog_colour "
@@ -108,6 +117,7 @@ class sample_detailModelsample_detail extends JModel
 				}
 			}
 		}
+
 		return $row;
 	}
 
@@ -126,6 +136,7 @@ class sample_detailModelsample_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -146,6 +157,7 @@ class sample_detailModelsample_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -159,5 +171,3 @@ class sample_detailModelsample_detail extends JModel
 		return $list;
 	}
 }
-
-

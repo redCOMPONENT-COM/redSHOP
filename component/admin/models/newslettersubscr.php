@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,9 +14,13 @@ jimport('joomla.application.component.model');
 class newslettersubscrModelnewslettersubscr extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -41,6 +46,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -51,6 +57,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -115,10 +122,10 @@ class newslettersubscrModelnewslettersubscr extends JModel
 
 	public function importdata($nid, $name, $email)
 	{
-
 		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))
 		{
-			$query = "INSERT INTO " . $this->_table_prefix . "newsletter_subscription (subscription_id,user_id,newsletter_id,name,email) VALUES ('','0','" . $nid . "','" . $name . "','" . $email . "' )";
+			$query = "INSERT INTO " . $this->_table_prefix . "newsletter_subscription (subscription_id,user_id,newsletter_id,name,email)
+			VALUES ('','0','" . $nid . "','" . $name . "','" . $email . "' )";
 
 			$this->_db->setQuery($query);
 
@@ -128,6 +135,7 @@ class newslettersubscrModelnewslettersubscr extends JModel
 
 				return false;
 			}
+
 			else
 			{
 				return true;
@@ -135,5 +143,3 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		}
 	}
 }
-
-

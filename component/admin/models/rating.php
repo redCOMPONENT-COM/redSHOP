@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,9 +14,13 @@ jimport('joomla.application.component.model');
 class ratingModelrating extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -83,7 +88,8 @@ class ratingModelrating extends JModel
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = ' SELECT p.product_name,u.username,r.* '
-			. ' FROM ' . $this->_table_prefix . 'product_rating r LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id = r.product_id  LEFT JOIN #__users u ON u.id = r.userid ' . $where . $orderby;
+			. ' FROM ' . $this->_table_prefix . 'product_rating r LEFT JOIN ' . $this->_table_prefix .
+			'product p ON p.product_id = r.product_id  LEFT JOIN #__users u ON u.id = r.userid ' . $where . $orderby;
 
 		return $query;
 	}
@@ -100,5 +106,3 @@ class ratingModelrating extends JModel
 		return $orderby;
 	}
 }
-
-

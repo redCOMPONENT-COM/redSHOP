@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,9 +14,13 @@ jimport('joomla.application.component.model');
 class textlibraryModeltextlibrary extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -34,7 +39,6 @@ class textlibraryModeltextlibrary extends JModel
 		$this->setState('limitstart', $limitstart);
 		$this->setState('section', $section);
 		$this->setState('filter', $filter);
-
 	}
 
 	public function getData()
@@ -84,7 +88,6 @@ class textlibraryModeltextlibrary extends JModel
 
 		if ($section)
 		{
-
 			$where .= " and section = '$section' ";
 		}
 
@@ -107,6 +110,4 @@ class textlibraryModeltextlibrary extends JModel
 
 		return $orderby;
 	}
-
 }
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,10 +14,15 @@ jimport('joomla.application.component.model');
 class pricesModelprices extends JModel
 {
 	public $_prodid = 0;
+
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -56,6 +62,7 @@ class pricesModelprices extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -66,6 +73,7 @@ class pricesModelprices extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -76,6 +84,7 @@ class pricesModelprices extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -91,5 +100,3 @@ class pricesModelprices extends JModel
 		return $query;
 	}
 }
-
-

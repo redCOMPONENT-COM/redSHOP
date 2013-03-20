@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('_JEXEC') or die;
+
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
@@ -13,8 +16,11 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 class wrapper_detailModelwrapper_detail extends JModel
 {
 	public $_id = null;
+
 	public $_productid = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -38,7 +44,10 @@ class wrapper_detailModelwrapper_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -93,7 +102,8 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 	public function getProductInfo($productid = 0)
 	{
-		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1 and product_id in   (' . $productid . ')';
+		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix .
+			'product WHERE published = 1 and product_id in   (' . $productid . ')';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
 
@@ -132,12 +142,15 @@ class wrapper_detailModelwrapper_detail extends JModel
 	{
 		if ($productid)
 		{
-			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1 and product_id in   (' . $productid . ')';
+			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix
+				. 'product WHERE published = 1 and product_id in   (' . $productid . ')';
 		}
 		else
 		{
-			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1 and product_id =""';
+			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix .
+				'product WHERE published = 1 and product_id =""';
 		}
+
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
 
@@ -149,9 +162,11 @@ class wrapper_detailModelwrapper_detail extends JModel
 		$multiple = $multiple ? "multiple='multiple'" : "";
 		$id = str_replace('[]', '', $name);
 		$html = "<select class='inputbox' size='10' " . $multiple . " name='" . $name . "' id='" . $id . "'>";
+
 		for ($i = 0; $i < count($list); $i++)
 		{
 			$selected = '';
+
 			for ($j = 0; $j < count($sellist); $j++)
 			{
 				if ($sellist[$j] == $list[$i]->$displayid)
@@ -160,8 +175,10 @@ class wrapper_detailModelwrapper_detail extends JModel
 					break;
 				}
 			}
+
 			$html .= "<option $selected value='" . $list[$i]->$displayid . "'>" . $list[$i]->$displayname . "</option>";
 		}
+
 		$html .= "</select>";
 
 		return $html;
@@ -178,24 +195,25 @@ class wrapper_detailModelwrapper_detail extends JModel
 			return false;
 		}
 
-		//------------ Start Product Wrapper insert --------------------
-
 		$wrapperfile =& JRequest::getVar('wrapper_image', '', 'files', 'array');
 		$wrapperimg = "";
 
 		if ($wrapperfile['name'] != "")
 		{
-			$wrapperimg = JPath::clean(time() . '_' . $wrapperfile['name']); //Make the filename unique
+			$wrapperimg = JPath::clean(time() . '_' . $wrapperfile['name']);
 
 			$src = $wrapperfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper' . DS . $wrapperimg; //specific path of the file
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper' . DS . $wrapperimg;
+
 			if ($data['wrapper_name'] == "")
 			{
 				$data['wrapper_name'] = $wrapperimg;
 			}
+
 			$row->wrapper_image = $wrapperimg;
 			JFile::upload($src, $dest);
 		}
+
 		if ($row->wrapper_id)
 		{
 			$productobj = new producthelper;
@@ -206,16 +224,20 @@ class wrapper_detailModelwrapper_detail extends JModel
 				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/thumb' . DS . $wrapper[0]->wrapper_image;
 
 				if (is_file($unlink_path))
+				{
 					unlink($unlink_path);
+				}
 
 				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper' . DS . $wrapper[0]->wrapper_image;
 
 				if (is_file($unlink_path))
+				{
 					unlink($unlink_path);
+				}
 			}
 		}
-		//---------------------- End Product Wrapper -----------------------------------
-		$categoryid = 0; //$data['category_id'];
+
+		$categoryid = 0;
 
 		if (count(JRequest::getvar('categoryid')) > 0)
 		{
@@ -307,5 +329,3 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return true;
 	}
 }
-
-

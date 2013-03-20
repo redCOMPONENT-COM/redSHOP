@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class giftcardModelgiftcard extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -31,7 +35,6 @@ class giftcardModelgiftcard extends JModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
 	public function getData()
@@ -41,6 +44,7 @@ class giftcardModelgiftcard extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -51,6 +55,7 @@ class giftcardModelgiftcard extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -84,7 +89,4 @@ class giftcardModelgiftcard extends JModel
 
 		return $orderby;
 	}
-
-
 }
-

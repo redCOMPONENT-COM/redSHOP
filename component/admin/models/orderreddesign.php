@@ -11,12 +11,17 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
+
 class orderreddesignModelorderreddesign extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -35,7 +40,6 @@ class orderreddesignModelorderreddesign extends JModel
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
 		$this->setState('filter_status', $filter_status);
-
 	}
 
 	public function getData()
@@ -56,6 +60,7 @@ class orderreddesignModelorderreddesign extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -111,7 +116,8 @@ class orderreddesignModelorderreddesign extends JModel
 		$where = count($where) ? ' AND ' . implode(' AND ', $where) : '';
 		$orderby = $this->_buildContentOrderBy();
 
-		$query = ' SELECT * FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix . 'users_info as uf WHERE  o.user_id=uf.user_id and address_type Like "BT" ' . $where . $orderby;
+		$query = ' SELECT * FROM ' . $this->_table_prefix . 'orders as o, ' . $this->_table_prefix
+			. 'users_info as uf WHERE  o.user_id=uf.user_id and address_type Like "BT" ' . $where . $orderby;
 
 		return $query;
 	}
@@ -150,13 +156,11 @@ class orderreddesignModelorderreddesign extends JModel
 		return $this->_getList($query1);
 	}
 
-	// reddesign
 	public function getdesignorder()
 	{
 		$query = "SELECT order_id FROM #__reddesign_order ";
 		$this->_db->setQuery($query);
 		$designorder = $this->_db->loadResultArray();
-		//$designorderstr = join(",",$designorder);
 
 		return $designorder;
 	}
@@ -169,7 +173,4 @@ class orderreddesignModelorderreddesign extends JModel
 
 		return $orderdesign;
 	}
-	// reddesign end
 }
-
-

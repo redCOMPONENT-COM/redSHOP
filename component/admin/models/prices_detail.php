@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('_JEXEC') or die;
+
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
@@ -15,9 +18,13 @@ jimport('joomla.filesystem.file');
 class prices_detailModelprices_detail extends JModel
 {
 	public $_id = null;
+
 	public $_prodid = null;
+
 	public $_prodname = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -52,7 +59,10 @@ class prices_detailModelprices_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -72,9 +82,9 @@ class prices_detailModelprices_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -97,6 +107,7 @@ class prices_detailModelprices_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -110,18 +121,21 @@ class prices_detailModelprices_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		return true;
 	}
 
@@ -141,8 +155,7 @@ class prices_detailModelprices_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 }
-
-

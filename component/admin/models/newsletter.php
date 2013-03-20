@@ -15,9 +15,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
 class newsletterModelnewsletter extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -43,6 +47,7 @@ class newsletterModelnewsletter extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -53,6 +58,7 @@ class newsletterModelnewsletter extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -63,6 +69,7 @@ class newsletterModelnewsletter extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -138,7 +145,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		$post = JRequest::get('post');
 		$where = "";
-		//$filter = $post['filter'];
+
 		$zipstart = (isset($post['zipstart'])) ? $post['zipstart'] : "";
 		$zipend = (isset($post['zipend'])) ? $post['zipend'] : "";
 		$cityfilter = (isset($post['cityfilter'])) ? $post['cityfilter'] : "";
@@ -154,26 +161,28 @@ class newsletterModelnewsletter extends JModel
 			$country_code = implode("','", $country_value);
 
 			if ($country_code != '')
+			{
 				$country = "  AND uf.country_code in('" . $country_code . "') ";
+			}
 		}
 
 		if ($newsletter_id != 0)
-			$n = $newsletter_id;
-
-		/*if($filter!="")
 		{
-			$where=" AND zipcode like '$filter%' ";
-		}*/
+			$n = $newsletter_id;
+		}
+
 		if ($cityfilter != "")
 		{
-			// city field filter
+			// City field filter
 			$query = "SELECT field_id FROM " . $this->_table_prefix . "fields WHERE field_name like 'field_city' ";
 			$this->_db->setQuery($query);
 			$cityfieldid = $this->_db->loadResult();
-			// city field filter end
 
-			$where = " AND f.fieldid in(" . $cityfieldid . ") AND f.section in(7) AND f.data_txt like '" . $cityfilter . "%' AND f.itemid=uf.users_info_id";
+			// City field filter end
+			$where = " AND f.fieldid in(" . $cityfieldid . ") AND f.section in(7) AND f.data_txt like '"
+				. $cityfilter . "%' AND f.itemid=uf.users_info_id";
 		}
+
 		if ($start_date && $end_date)
 		{
 			$between = " AND cast(u.registerDate as date)  between '" . $start_date . "' and '" . $end_date . "' ";
@@ -197,7 +206,6 @@ class newsletterModelnewsletter extends JModel
 			$shoppergroupids = implode("','", $post['shoppergroups']);
 			$shopper_group_ids = "  AND uf.shopper_group_id IN ('" . $shoppergroupids . "') ";
 		}
-		// end
 
 		if ($cityfilter != "")
 		{
@@ -229,10 +237,12 @@ class newsletterModelnewsletter extends JModel
 
 	public function subscribersinfo($subscriberid)
 	{
-		$query = 'SELECT IFNULL(u.email,s.email) AS email,IFNULL(u.username,s.name) AS username FROM ' . $this->_table_prefix . 'newsletter_subscription AS s '
+		$query = 'SELECT IFNULL(u.email,s.email) AS email,IFNULL(u.username,s.name) AS username FROM '
+			. $this->_table_prefix . 'newsletter_subscription AS s '
 			. 'LEFT JOIN #__users as u ON  u.id=s.user_id '
 			. 'WHERE s.subscription_id="' . $subscriberid . '" '
 			. 'AND published=1 ';
+
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -260,6 +270,7 @@ class newsletterModelnewsletter extends JModel
 				$return = 0;
 			}
 		}
+
 		return $return;
 	}
 
@@ -283,6 +294,7 @@ class newsletterModelnewsletter extends JModel
 				$return = 0;
 			}
 		}
+
 		return $return;
 	}
 
@@ -314,9 +326,13 @@ class newsletterModelnewsletter extends JModel
 		$result = $this->_db->loadResult();
 
 		if ($result || ($start == '' && $end == '' && $oprand == 'select'))
+		{
 			return 1;
+		}
 		else
+		{
 			return 0;
+		}
 	}
 
 	public function getContry()
@@ -336,7 +352,6 @@ class newsletterModelnewsletter extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
-	// get Shopper Group information
 	public function getShopperGroup()
 	{
 		$query = "SELECT shopper_group_id as value,shopper_group_name as text FROM `" . $this->_table_prefix . "shopper_group`	";
@@ -345,17 +360,18 @@ class newsletterModelnewsletter extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
-	// get selected shopper group users
 	public function getShoppers($shopperid)
 	{
 		$query = "SELECT * FROM `" . $this->_table_prefix . "users_info` WHERE `shopper_group_id` IN (" . $shopperid . ")";
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadObjectlist();
 		$userid = array();
+
 		for ($d = 0; $d < count($data); $d++)
 		{
 			$userid[] = $data[$d]->user_id;
 		}
+
 		$uids = implode(",", $userid);
 
 		return $uids;
@@ -366,6 +382,7 @@ class newsletterModelnewsletter extends JModel
 		$query = "SELECT * FROM " . $this->_table_prefix . "newsletter_subscription "
 			. "where newsletter_id='" . $newsletter_id . "' "
 			. "AND subscription_id='" . $subscription_id . "' ";
+
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
 
@@ -415,12 +432,11 @@ class newsletterModelnewsletter extends JModel
 		$x = array();
 		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 1));
 		$newsletter_template2 = $o->text;
-		// $newsletter_template1=$newsletter_template1.$newsletter_template;
-
 
 		$content = str_replace("{data}", $newsletter_template2, $newsletter_template);
 
 		$product_id_list = $this->getProductIdList();
+
 		for ($i = 0; $i < count($product_id_list); $i++)
 		{
 			$product_id = $product_id_list[$i]->product_id;
@@ -440,10 +456,13 @@ class newsletterModelnewsletter extends JModel
 
 				if ($product_id_list[$i]->product_full_image)
 				{
-					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
-					$thum_image .= "<img id='main_image' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product_id_list[$i]->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE . "'>";
+					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
+						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
+					$thum_image .= "<img id='main_image' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
+						. $product_id_list[$i]->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE . "'>";
 					$thum_image .= "</a>";
 				}
+
 				$np_temp_desc = str_replace("{product_thumb_image}", $thum_image, $np_temp_desc);
 				$np_temp_desc = str_replace("{product_price}", $producthelper->getProductFormattedPrice($product_id_list[$i]->product_price), $np_temp_desc);
 				$np_temp_desc = str_replace("{product_name}", $product_id_list[$i]->product_name, $np_temp_desc);
@@ -453,16 +472,18 @@ class newsletterModelnewsletter extends JModel
 				$content = str_replace("{Newsletter Products:" . $product_id . "}", $np_temp_desc, $content);
 			}
 		}
-		//Replacing the Text library texts
+
+		// Replacing the Text library texts
 		$texts = new text_library;
 		$content = $texts->replace_texts($content);
 
-		//If the template contains the images, then revising the path of the images,
-		//So the full URL goes with the mail, so images are visible in the mails.
+		// If the template contains the images, then revising the path of the images,
+		// So the full URL goes with the mail, so images are visible in the mails.
 		$data1 = $data = $content;
 
 		preg_match_all("/\< *[img][^\>]*[.]*\>/i", $data, $matches);
 		$imagescurarray = array();
+
 		foreach ($matches[0] as $match)
 		{
 			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
@@ -501,9 +522,10 @@ class newsletterModelnewsletter extends JModel
 					. "VALUES ('', '" . $newsletter_id . "', '" . $cid[$j] . "', '" . $username[$j] . "', '" . $userid[$j] . "',0, '" . $today . "')";
 				$db->setQuery($query);
 				$db->query();
-				$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" style="display:none;" />';
+				$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id='
+					. $db->insertid() . '" style="display:none;" />';
 
-				//replacing the tags with the values
+				// Replacing the tags with the values
 				$content .= str_replace("{username}", $subscriberinfo[0]->username, $data1);
 				$content = str_replace("{email}", $subscribe_email, $content);
 
@@ -514,9 +536,6 @@ class newsletterModelnewsletter extends JModel
 
 				if ($subscribe_email != "")
 				{
-
-//					echo $mailfrom."<br/>".$fromname."<br/>".$subscribe_email."<br/>".$subject."<br/>".$content;
-
 					if (JUtility::sendMail($mailfrom, $fromname, $subscribe_email, $subject, $message, 1))
 					{
 						$retsubscriberid[$j] = 1;
@@ -528,7 +547,7 @@ class newsletterModelnewsletter extends JModel
 				}
 			}
 		}
+
 		return $retsubscriberid;
 	}
-
 }

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -17,11 +18,17 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 class user_detailModeluser_detail extends JModel
 {
 	public $_id = null;
+
 	public $_uid = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_pagination = null;
+
 	public $_copydata = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -54,7 +61,10 @@ class user_detailModeluser_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -74,6 +84,7 @@ class user_detailModeluser_detail extends JModel
 			{
 				$this->_uid = $this->_data->user_id;
 			}
+
 			if (count($this->_data) > 0 && !$this->_data->email)
 			{
 				$this->_data->email = $this->_data->user_email;
@@ -123,7 +134,6 @@ class user_detailModeluser_detail extends JModel
 			$detail->tax_exempt_approved = 0;
 			$detail->approved = 1;
 			$detail->ean_number = null;
-//			$detail->requisition_number			= null;
 
 			$info_id = JRequest::getVar('info_id', 0);
 			$shipping = JRequest::getVar('shipping', 0);
@@ -146,7 +156,6 @@ class user_detailModeluser_detail extends JModel
 				$detail->requesting_tax_exempt = $bill_data->requesting_tax_exempt;
 				$detail->tax_exempt_approved = $bill_data->tax_exempt_approved;
 				$detail->ean_number = $bill_data->ean_number;
-//				$detail->requisition_number			= $bill_data->requisition_number;
 			}
 
 			$this->_data = $detail;
@@ -168,6 +177,7 @@ class user_detailModeluser_detail extends JModel
 
 		global $mainframe;
 		$redshopMail = new redshopMail;
+
 		// Start data into user table
 		// Initialize some variables
 		$db = & JFactory::getDBO();
@@ -178,13 +188,9 @@ class user_detailModeluser_detail extends JModel
 		$user = new JUser($post['id']);
 		$original_gid = $user->get('gid');
 
-		//$post['username']	= JRequest::getVar('username', '', 'post', 'username');
 		$post['name'] = (isset($post['name'])) ? $post['name'] : $post['username'];
-		//$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		//$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-
-		// changed for shipping code moved out of condition
+		// Changed for shipping code moved out of condition
 		if (!$user->bind($post))
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
@@ -204,21 +210,21 @@ class user_detailModeluser_detail extends JModel
 
 			return false;
 		}
-		else if (($this_group == 'super administrator') && $user->get('block') == 1)
+		elseif (($this_group == 'super administrator') && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_A_SUPER_ADMINISTRATOR');
 			$mainframe->enqueueMessage($msg, 'message');
 
 			return false;
 		}
-		else if (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
+		elseif (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_WARNBLOCK');
 			$mainframe->enqueueMessage($msg, 'message');
 
 			return false;
 		}
-		else if (($this_group == 'super administrator') && ($me->get('gid') != 25))
+		elseif (($this_group == 'super administrator') && ($me->get('gid') != 25))
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_EDIT_A_SUPER_ADMINISTRATOR_ACCOUNT');
 			$mainframe->enqueueMessage($msg, 'message');
@@ -231,10 +237,10 @@ class user_detailModeluser_detail extends JModel
 
 		if (!$isNew)
 		{
-			// if group has been changed and where original group was a Super Admin
+			// If group has been changed and where original group was a Super Admin
 			if ($user->get('gid') != $original_gid && $original_gid == 25)
 			{
-				// count number of active super admins
+				// Count number of active super admins
 				$query = 'SELECT COUNT( id )'
 					. ' FROM #__users'
 					. ' WHERE gid = 25'
@@ -244,13 +250,14 @@ class user_detailModeluser_detail extends JModel
 
 				if ($count <= 1)
 				{
-					// disallow change if only one Super Admin exists
+					// Disallow change if only one Super Admin exists
 					$this->setRedirect('index.php?option=' . $option . '&view=user', JText::_('COM_REDSHOP_WARN_ONLY_SUPER'));
 
 					return false;
 				}
 			}
 		}
+
 		/*
 	 	 * Lets save the JUser object
 	 	 */
@@ -261,6 +268,7 @@ class user_detailModeluser_detail extends JModel
 
 			return false;
 		}
+
 		/*
 	 	 * Time for the email magic so get ready to sprinkle the magic dust...
 	 	 */
@@ -283,8 +291,8 @@ class user_detailModeluser_detail extends JModel
 			$user->set('aid', 1);
 
 			// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-			if ($acl->is_group_child_of($grp->name, 'Registered') ||
-				$acl->is_group_child_of($grp->name, 'Public Backend')
+			if ($acl->is_group_child_of($grp->name, 'Registered')
+				|| $acl->is_group_child_of($grp->name, 'Public Backend')
 			)
 			{
 				$user->set('aid', 2);
@@ -298,7 +306,6 @@ class user_detailModeluser_detail extends JModel
 		}
 
 		// End data into user table
-
 		return $user;
 	}
 
@@ -315,19 +322,22 @@ class user_detailModeluser_detail extends JModel
 		$post['billisship'] = 1;
 
 		if ($post['createaccount'])
+		{
 			$joomlauser = $userhelper->createJoomlaUser($post);
+		}
 		else
+		{
 			$joomlauser = $userhelper->updateJoomlaUser($post);
-		//print_r($joomlauser);exit;
+		}
 
 		if (!$joomlauser)
 		{
 			return false;
 		}
+
 		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
 
 		return $reduser;
-
 	}
 
 	public function store($post)
@@ -362,6 +372,7 @@ class user_detailModeluser_detail extends JModel
 			}
 			$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
 		}
+
 		return $reduser;
 	}
 
@@ -380,6 +391,7 @@ class user_detailModeluser_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -401,6 +413,7 @@ class user_detailModeluser_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -460,5 +473,3 @@ class user_detailModeluser_detail extends JModel
 		return $this->_pagination;
 	}
 }
-
-

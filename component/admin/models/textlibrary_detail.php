@@ -6,16 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class textlibrary_detailModeltextlibrary_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
@@ -27,7 +30,6 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -42,7 +44,10 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -57,9 +62,9 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -76,6 +81,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -89,6 +95,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -143,7 +150,6 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 
 	public function copy($cid = array())
 	{
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -152,9 +158,9 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
+
 		foreach ($this->_copydata as $cdata)
 		{
-
 			$post['textlibrary_id'] = 0;
 			$post['text_name'] = 'Copy Of ' . $cdata->text_name;
 			$post['text_desc'] = $cdata->text_desc;
@@ -162,13 +168,9 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			$post['section'] = $cdata->section;
 			$post['published'] = $cdata->published;
 
-			textlibrary_detailModeltextlibrary_detail::store($post);
+			$this->store($post);
 		}
 
 		return true;
-
 	}
-
 }
-
-
