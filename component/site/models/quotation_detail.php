@@ -24,9 +24,9 @@ include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
  */
 class quotation_detailModelquotation_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{

@@ -20,9 +20,9 @@ jimport('joomla.application.component.model');
  */
 class product_ratingModelproduct_rating extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{

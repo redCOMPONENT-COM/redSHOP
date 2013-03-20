@@ -20,16 +20,16 @@ jimport('joomla.application.component.model');
  */
 class CategoryModelCategory extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null;
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_limit = null;
-	var $_slidercount = 0;
-	var $count_no_user_field = 0;
-	var $minmaxArr = array(0, 0);
-	var $_context = null;
+	public $_id = null;
+	public $_data = null;
+	public $_product = null;
+	public $_table_prefix = null;
+	public $_template = null;
+	public $_limit = null;
+	public $_slidercount = 0;
+	public $count_no_user_field = 0;
+	public $minmaxArr = array(0, 0);
+	public $_context = null;
 
 	public function __construct()
 	{

@@ -22,11 +22,11 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
  */
 class send_friendModelsend_friend extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null; // Product data
-	var $_table_prefix = null;
-	var $_template = null;
+	public $_id = null;
+	public $_data = null;
+	public $_product = null; // Product data
+	public $_table_prefix = null;
+	public $_template = null;
 
 	public function __construct()
 	{

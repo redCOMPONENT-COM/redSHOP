@@ -25,12 +25,12 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
  */
 class productModelproduct extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null; // Product data
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_catid = null;
+	public $_id = null;
+	public $_data = null;
+	public $_product = null; // Product data
+	public $_table_prefix = null;
+	public $_template = null;
+	public $_catid = null;
 
 	public function __construct()
 	{

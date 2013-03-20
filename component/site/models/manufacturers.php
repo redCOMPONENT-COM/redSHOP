@@ -21,11 +21,11 @@ jimport('joomla.html.pagination');
  */
 class manufacturersModelmanufacturers extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_productlimit = null;
-	var $_table_prefix = null;
-	var $_template = null;
+	public $_id = null;
+	public $_data = null;
+	public $_productlimit = null;
+	public $_table_prefix = null;
+	public $_template = null;
 
 	public function __construct()
 	{

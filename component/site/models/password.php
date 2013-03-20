@@ -20,7 +20,7 @@ jimport('joomla.application.component.model');
  */
 class passwordModelpassword extends JModel
 {
-	var $_db = null;
+	public $_db = null;
 
 	public function __construct()
 	{
