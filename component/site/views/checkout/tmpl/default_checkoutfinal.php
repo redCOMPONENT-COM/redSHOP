@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 
-$configobj = new Redconfiguration();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
+$configobj = new Redconfiguration;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
 
 $url = JURI::base();
 $Itemid = $redhelper->getCheckoutItemid();
@@ -22,6 +22,7 @@ $order_id = JRequest::getInt('oid');
 
 $order = $order_functions->getOrderDetails($order_id);
 $orderitem = $order_functions->getOrderItemDetail($order_id);
+
 if ($order->order_total > 0 && !USE_AS_CATALOG)
 {
 $paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
@@ -64,12 +65,13 @@ if ($preloader)
 
 	$is_creditcard = $paymentparams->get('is_creditcard', '');
 	$is_redirected = $paymentparams->get('is_redirected', 0);
+
 	if (!$is_creditcard || $is_redirected == 1)
 	{
 		$adminpath        = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
-		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$billingaddresses = $order_functions->getBillingAddress($order->user_id);
 
 		if (isset($billingaddresses))
@@ -78,11 +80,13 @@ if ($preloader)
 			{
 				$billingaddresses->country_2_code = $configobj->getCountryCode2($billingaddresses->country_code);
 			}
+
 			if (isset($billingaddresses->state_code))
 			{
-				$billingaddresses->state_2_code = $billingaddresses->state_code; //$configobj->getCountryCode2($billingaddresses->state_code);
+				$billingaddresses->state_2_code = $billingaddresses->state_code;
 			}
 		}
+
 		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order->order_id);
 
 		if (isset($shippingaddresses))
@@ -91,16 +95,20 @@ if ($preloader)
 			{
 				$shippingaddresses->country_2_code = $configobj->getCountryCode2($shippingaddresses->country_code);
 			}
+
 			if (isset($shippingaddresses->state_code))
 			{
-				$shippingaddresses->state_2_code = $shippingaddresses->state_code; //$configobj->getCountryCode2($shippingaddresses->state_code);
+				$shippingaddresses->state_2_code = $shippingaddresses->state_code;
 			}
 		}
+
 		$cart_quantity = 0;
+
 		for ($i = 0; $i < count($orderitem); $i++)
 		{
 			$cart_quantity += $orderitem[$i]->product_quantity;
 		}
+
 		$values['shippinginfo']   = $shippingaddresses;
 		$values['billinginfo']    = $billingaddresses;
 		$values['carttotal']      = $order->order_total;
@@ -131,7 +139,6 @@ if ($preloader)
 		}
 		else
 		{
-
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher =& JDispatcher::getInstance();
 			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
@@ -145,7 +152,8 @@ if ($preloader)
 			}
 		}
 	}
-	}else
+	}
+	else
 	{
 		$mainframe = JFactory::getApplication();
 		$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);

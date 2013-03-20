@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
@@ -15,7 +15,7 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $option = JRequest::getVar('option');
 $pid = JRequest::getInt('pid');
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 ?>
 <script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>
@@ -24,6 +24,7 @@ JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false)
 		var your_name = document.getElementById('your_name').value;
 		var friends_email = document.getElementById('friends_email').value;
 		var friends_name = document.getElementById('friends_name').value;
+
 		if (your_name == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME');?>");
 			return false;

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -16,6 +16,7 @@ class wishlistViewwishlist extends JView
 	public function display($tpl = null)
 	{
 		global $mainframe;
+
 		// Request variables
 
 		$params = & $mainframe->getParams('com_redshop');
@@ -26,17 +27,18 @@ class wishlistViewwishlist extends JView
 		$pid    = JRequest::getInt('product_id');
 		$layout = JRequest::getVar('layout');
 
-		$config = new Redconfiguration();
+		$config = new Redconfiguration;
 
 		$pageheadingtag = '';
 
 
 		$params   = & $mainframe->getParams('com_redshop');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
 		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
+
 		//JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
@@ -46,6 +48,7 @@ class wishlistViewwishlist extends JView
 		$wishlist          = $model->getUserWishlist();
 		$wish_products     = $model->getWishlistProduct();
 		$session_wishlists = $model->getWishlistProductFromSession();
+
 		if ($task == 'viewwishlist')
 		{
 			$this->setlayout('viewwishlist');
@@ -55,7 +58,7 @@ class wishlistViewwishlist extends JView
 			$this->assignRef('params', $params);
 			parent::display($tpl);
 		}
-		else if ($task == 'viewloginwishlist')
+		elseif ($task == 'viewloginwishlist')
 		{
 			$this->setlayout('viewloginwishlist');
 			$this->assignRef('wishlists', $wishlist);

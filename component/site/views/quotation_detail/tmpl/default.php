@@ -7,24 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 $url       = JURI::base();
-$redconfig = new Redconfiguration();
+$redconfig = new Redconfiguration;
 
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-$quotationHelper = new quotationHelper();
-$extra_field     = new extra_field();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+$quotationHelper = new quotationHelper;
+$extra_field     = new extra_field;
 
-$extra_field_new = new extraField();
+$extra_field_new = new extraField;
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-$producthelper = new producthelper();
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+$producthelper = new producthelper;
 
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_functions = new order_functions();
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_functions = new order_functions;
 
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid', 1);
@@ -38,6 +38,7 @@ $quotationProducts = $quotationHelper->getQuotationProduct($quoid);
 $fieldArray = $extra_field_new->getSectionFieldList(17, 0, 0);
 
 $template = $redTemplate->getTemplate("quotation_detail");
+
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
 	$quotation_template = $template[0]->template_desc;
@@ -50,6 +51,7 @@ else
 $print     = JRequest::getVar('print');
 $p_url     = @ explode('?', $_SERVER['REQUEST_URI']);
 $print_tag = '';
+
 if ($print)
 {
 	$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
@@ -87,7 +89,7 @@ if ($quotationDetail->quotation_status == '2')
 	<input type='submit' name='submit' value='" . JText::_("COM_REDSHOP_SUBMIT") . "' onclick='return confirm(\"" . JText::_('COM_REDSHOP_CONFIRM_SEND_QUOTATION') . "\")' />
 	</form>";
 }
-else if ($quotationDetail->quotation_status == '3')
+elseif ($quotationDetail->quotation_status == '3')
 {
 	$frm = "<form method='post'>
 	<input type='hidden' name='quotation_id' value='$quoid'>
@@ -99,7 +101,7 @@ else if ($quotationDetail->quotation_status == '3')
 	<input type='submit' name='submit' value='" . JText::_("COM_REDSHOP_CHECKOUT") . "' />
 	</form>";
 }
-else if ($quotationDetail->quotation_status == '5')
+elseif ($quotationDetail->quotation_status == '5')
 {
 	$frm = " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $quotationDetail->order_id . " )";
 }
@@ -107,6 +109,7 @@ else
 {
 	$frm = '';
 }
+
 $search [] = "{quotation_status}";
 $replace[] = $statustext . $frm;
 
@@ -117,54 +120,65 @@ $search [] = "{quotation_note}";
 $replace[] = $quotationDetail->quotation_note;
 
 $billadd = "";
+
 if ($quotationDetail->user_id != 0)
 {
 	if ($quotationDetail->firstname != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $quotationDetail->firstname . '<br>';
 	}
+
 	if ($quotationDetail->lastname != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $quotationDetail->lastname . '<br>';
 	}
+
 	if ($quotationDetail->address != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $quotationDetail->address . '<br>';
 	}
+
 	if ($quotationDetail->zipcode != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $quotationDetail->zipcode . '<br>';
 	}
+
 	if ($quotationDetail->city != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $quotationDetail->city . '<br>';
 	}
+
 	if ($order_functions->getCountryName($quotationDetail->country_code) != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($order_functions->getCountryName($quotationDetail->country_code)) . '<br>';
 	}
+
 	if ($order_functions->getStateName($quotationDetail->state_code, $quotationDetail->country_code) != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $order_functions->getStateName($quotationDetail->state_code, $quotationDetail->country_code) . '<br>';
 	}
+
 	if ($quotationDetail->phone != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $quotationDetail->phone . '<br>';
 	}
+
 	if ($quotationDetail->user_email != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $quotationDetail->user_email . '<br>';
 	}
+
 	if ($quotationDetail->is_company == 1)
 	{
 		if ($quotationDetail->vat_number != "")
 		{
 			$billadd .= JText::_("COM_REDSHOP_VAT_NUMBER") . ' : ' . $quotationDetail->vat_number . '<br>';
 		}
+
 		if (SHOW_TAX_EXEMPT_INFRONT)
 		{
-
 			$billadd .= JText::_("TAX_EXEMPT") . ' : ';
+
 			if ($quotationDetail->tax_exempt == 1)
 			{
 				$billadd .= JText::_('COM_REDSHOP_YES');
@@ -173,9 +187,12 @@ if ($quotationDetail->user_id != 0)
 			{
 				$billadd .= JText::_('COM_REDSHOP_NO');
 			}
+
 			$billadd .= ' <br>';
 		}
+
 		$billadd .= JText::_("USER_TAX_EXEMPT_REQUEST_LBL") . ' : ';
+
 		if ($quotationDetail->requesting_tax_exempt == 1)
 		{
 			$billadd .= JText::_('COM_REDSHOP_YES');
@@ -184,8 +201,10 @@ if ($quotationDetail->user_id != 0)
 		{
 			$billadd .= JText::_('COM_REDSHOP_NO');
 		}
+
 		$billadd .= ' <br>';
 	}
+
 	if ($quotationDetail->is_company == 1)
 	{
 		$billadd .= $extra_field->list_all_field_display(8, $quotationDetail->user_info_id, 1);
@@ -194,6 +213,7 @@ if ($quotationDetail->user_id != 0)
 	{
 		$billadd .= $extra_field->list_all_field_display(7, $quotationDetail->user_info_id, 1);
 	}
+
 	$billadd .= ' <br>';
 }
 else
@@ -202,11 +222,13 @@ else
 	{
 		$quotationDetail->user_info_id = 0;
 	}
+
 	if ($quotationDetail->quotation_email != "")
 	{
 		$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $quotationDetail->quotation_email . '<br>';
 	}
 }
+
 if (strstr($quotation_template, "{quotation_custom_field_list}"))
 {
 	$billadd .= $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 1, $quotationDetail->quotation_email);
@@ -234,12 +256,15 @@ $template_start  = $quotation_template;
 $template_end    = "";
 $template_middle = "";
 $template_sdata  = explode('{product_loop_start}', $quotation_template);
+
 if (count($template_sdata) > 0)
 {
 	$template_start = $template_sdata [0];
+
 	if (count($template_sdata) > 1)
 	{
 		$template_edata = explode('{product_loop_end}', $template_sdata[1]);
+
 		if (count($template_edata) > 1)
 		{
 			$template_end    = $template_edata [1];
@@ -255,14 +280,17 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 {
 	$cart_mdata .= $template_middle;
 	$wrapper_name = "";
+
 	if ($quotationProducts[$i]->product_wrapperid)
 	{
 		$wrapper = $producthelper->getWrapper($quotationProducts[$i]->product_id, $quotationProducts[$i]->product_wrapperid);
+
 		if (count($wrapper) > 0)
 		{
 			$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "(" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->wrapper_price) . ")";
 		}
 	}
+
 	if ($quotationProducts [$i]->is_giftcard == 1)
 	{
 		$product_userfields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 13);
@@ -279,6 +307,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		$product_number = $product->product_number;
 
 		$product_image_path = "";
+
 		if ($product->product_full_image)
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
@@ -300,6 +329,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 				$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
 			}
 		}
+
 		if ($product_image_path)
 		{
 			$product_image = "<div class='product_image'><img src='" . $product_image_path . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></div>";
@@ -309,6 +339,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 			$product_image = "<div class='product_image'></div>";
 		}
 	}
+
 	$product_name       = "<div class='product_name'>" . $quotationProducts[$i]->product_name . "</div>";
 	$product_note       = "<div  class='product_note'>" . $wrapper_name . "</div>";
 	$product_price      = "<div class='product_price'>" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->product_price) . "</div>";
@@ -350,8 +381,10 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		$cart_mdata = str_replace("{product_price_excl_vat}", $product_excl_price, $cart_mdata);
 		$cart_mdata = str_replace("{product_total_price_excl_vat}", $producthelper->getProductFormattedPrice($product_total_excl_price), $cart_mdata);
 	}
+
 	$cart_mdata = str_replace("{product_quantity}", $product_quantity, $cart_mdata);
 }
+
 $quotation_template = $template_start . $cart_mdata . $template_end;
 
 if ($quotationDetail->quotation_status == 1)
@@ -368,6 +401,7 @@ else
 	$quotation_tax      = $producthelper->getProductFormattedPrice($quotationDetail->quotation_tax);
 	$quotation_discount = $producthelper->getProductFormattedPrice($quotationDetail->quotation_discount);
 }
+
 $search []  = "{quotation_discount}";
 $replace [] = $quotation_discount;
 

@@ -7,15 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
 
 class send_friendViewsend_friend extends JView
 {
-
 	public function display($tpl = null)
 	{
 		global $mainframe;
@@ -26,17 +25,16 @@ class send_friendViewsend_friend extends JView
 		$Itemid = JRequest::getVar('Itemid');
 		$pid    = JRequest::getInt('pid');
 
-
 		$params = & $mainframe->getParams('com_redshop');
 
 		$pathway  =& $mainframe->getPathway();
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// Include Javascript
 
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('json.js', 'components/com_redshop/assets/js/', false);
-		//JHTML::Stylesheet('scrollable-minimal.css', 'components/com_redshop/assets/css/');
+
 		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 		$data =& $this->get('data');
 

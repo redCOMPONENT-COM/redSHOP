@@ -7,13 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 global $mainframe;
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $loginlink = 'index.php?option=' . $option . '&view=login&Itemid=' . $Itemid;
 $mywishlist = JRequest::getVar('wishlist');
+
 if ($mywishlist != '')
 	$newuser_link = 'index.php?wishlist=' . $mywishlist . '&option=' . $option . '&view=registration&Itemid=' . $Itemid;
 else
@@ -58,8 +59,10 @@ $returnitemid = $params->get('login', $Itemid);
 		</tr>
 		<tr>
 			<td colspan="5">
-				<a href="<?php echo JRoute::_($newuser_link); ?>"><?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
-					href="<?php echo JRoute::_($forgotpwd_link); ?>"><?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
+				<a href="<?php echo JRoute::_($newuser_link); ?>">
+					<?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
+					href="<?php echo JRoute::_($forgotpwd_link); ?>">
+					<?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
 			</td>
 		</tr>
 	</table>

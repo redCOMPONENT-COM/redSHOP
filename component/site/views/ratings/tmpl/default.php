@@ -7,12 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
-$redconfig = new Redconfiguration();
-$redTemplate = new Redtemplate();
+defined('_JEXEC') or die;
+$redconfig = new Redconfiguration;
+$redTemplate = new Redtemplate;
 $model = $this->getModel('ratings');
 
 $main_template = $redTemplate->getTemplate("review");
+
 if (count($main_template) > 0 && $main_template[0]->template_desc)
 {
 	$main_template = $main_template[0]->template_desc;
@@ -21,14 +22,17 @@ else
 {
 	$main_template = "<div>{product_loop_start}<p><strong>{product_title}</strong></p><div>{review_loop_start}<div id=\"reviews_wrapper\"><div id=\"reviews_rightside\"><div id=\"reviews_fullname\">{fullname}</div><div id=\"reviews_title\">{title}</div><div id=\"reviews_comment\">{comment}</div></div><div id=\"reviews_leftside\"><div id=\"reviews_stars\">{stars}</div></div></div>{review_loop_end}<div>{product_loop_end}</div></div></div>	";
 }
+
 if ($this->params->get('show_page_heading', 1))
 {
-	if ($this->params->get('page_title')): ?>
+	if ($this->params->get('page_title'))
+	{
+	?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<?php echo $this->escape($this->params->get('page_title')); ?>
 		</h1>
 	<?php
-	endif;
+	}
 }
 
 if (FAVOURED_REVIEWS != "" || FAVOURED_REVIEWS != 0)
@@ -43,10 +47,12 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 	$product_template = $product_end[0];
 
 	$product_data = "";
+
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
 		$product_data .= $product_template;
 		$product_data = str_replace("{product_title}", $this->detail[$i]->product_name, $product_data);
+
 		if (strstr($product_data, "{review_loop_start}") && strstr($product_data, "{review_loop_end}"))
 		{
 			$review_start    = explode("{review_loop_start}", $product_data);
@@ -55,6 +61,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 
 			$review_data = "";
 			$reviews     = $model->getProductreviews($this->detail[$i]->product_id);
+
 			if (count($reviews) > 0)
 			{
 				for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)
@@ -69,11 +76,14 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 					$review_data = str_replace("{reviewdate}", $redconfig->convertDateFormat($reviews[$j]->time), $review_data);
 					$review_data = str_replace("{stars}", $starimage, $review_data);
 				}
+
 				if ($mainblock < count($reviews))
 				{
 					$review_data .= '<div style="clear:both;" class="show_reviews"><a href="javascript:showallreviews(' . $this->detail[$i]->product_id . ');"> <img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'reviewarrow.gif">&nbsp;' . JText::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';
 				}
+
 				$review_data .= '<div style="display:none;" id="showreviews' . $this->detail[$i]->product_id . '" name="showreviews' . $this->detail[$i]->product_id . '">';
+
 				for ($k = $mainblock; $k < count($reviews); $k++)
 				{
 					$review_data .= $review_template;
@@ -86,11 +96,14 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 					$review_data = str_replace("{reviewdate}", $redconfig->convertDateFormat($reviews[$k]->time), $review_data);
 					$review_data = str_replace("{stars}", $starimage2, $review_data);
 				}
+
 				$review_data .= '</div>';
 			}
+
 			$product_data = $review_start[0] . $review_data . $review_end[1];
 		}
 	}
+
 	$main_template = $product_start[0] . $product_data . $product_end[1];
 }
 
@@ -98,5 +111,5 @@ if (strstr($main_template, "{pagination}"))
 {
 	$main_template = str_replace("{pagination}", "", $main_template);
 }
+
 echo eval("?>" . $main_template . "<?php ");
-?>

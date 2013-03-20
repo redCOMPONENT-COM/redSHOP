@@ -7,20 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
-$extraField = new extraField();
-$extra_field = new extra_field();
-$producthelper = new producthelper();
-$redTemplate = new Redtemplate();
-$redhelper = new redhelper();
+$extraField = new extraField;
+$extra_field = new extra_field;
+$producthelper = new producthelper;
+$redTemplate = new Redtemplate;
+$redhelper = new redhelper;
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $model = $this->getModel('manufacturers');
+
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL');
+
 if ($this->pageheadingtag != '')
 {
 	$pagetitle = $this->pageheadingtag;
@@ -30,7 +32,8 @@ if ($this->params->get('show_page_heading', 1))
 {
 	?>
 	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-		<?php    if ($this->params->get('page_title') != $pagetitle)
+		<?php
+		if ($this->params->get('page_title') != $pagetitle)
 		{
 			echo $this->escape($this->params->get('page_title'));
 		}
@@ -41,9 +44,11 @@ if ($this->params->get('show_page_heading', 1))
 	</h1>
 <?php
 }
+
 // Page title End
 
 $manufacturerdetail_template = $redTemplate->getTemplate("manufacturer_detail");
+
 if (count($manufacturerdetail_template) > 0 && $manufacturerdetail_template[0]->template_desc != "")
 {
 	$template_desc = $manufacturerdetail_template[0]->template_desc;
@@ -65,6 +70,7 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 	$template_edata  = explode('{category_loop_end}', $template_sdata[1]);
 	$template_end    = $template_edata[1];
 	$template_middle = $template_edata[0];
+
 	if ($template_middle != "")
 	{
 		for ($i = 0; $i < count($category); $i++)
@@ -77,6 +83,7 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
 		}
 	}
+
 	$template_desc = $template_start . $cart_mdata . $template_end;
 }
 
@@ -87,15 +94,18 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	$mw_thumb    = MANUFACTURER_THUMB_WIDTH;
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
+
 	for ($m = 0; $m < count($media_image); $m++)
 	{
 		if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 		{
 			$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
+
 			if (!$altText)
 			{
 				$altText = $row->manufacturer_name;
 			}
+
 			if (WATERMARK_MANUFACTURER_IMAGE)
 			{
 				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_IMAGE);
@@ -105,6 +115,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			{
 				$maintype = "manufacturer/";
 			}
+
 			if (WATERMARK_MANUFACTURER_THUMB_IMAGE)
 			{
 				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_THUMB_IMAGE);
@@ -120,6 +131,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $url . "/components/" . $option . "/helpers/thumb.php?filename=" . $thumbtype . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a>";
 		}
 	}
+
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
 }
 
@@ -129,13 +141,14 @@ $manproducts = JRoute::_('index.php?option=' . $option . '&view=manufacturers&la
 
 $template_desc = str_replace("{manufacturer_name}", $row->manufacturer_name, $template_desc);
 
-// replace Manufacturer URL
+// Replace Manufacturer URL
 if (strstr($template_desc, "{manufacturer_url}"))
-{ //echo $template_desc; die();
+{
 	$manufacturer_url = "<a href='" . $row->manufacturer_url . "'>" . $row->manufacturer_url . "</a>";
 	$template_desc    = str_replace("{manufacturer_url}", $manufacturer_url, $template_desc);
 }
-///////// Extra field display
+
+// Extra field display
 $extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
 $template_desc = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $template_desc);
 $template_desc = str_replace("{manufacturer_description}", $row->manufacturer_desc, $template_desc);
@@ -154,4 +167,3 @@ $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 echo "<div style='float:left;'>";
 echo eval("?>" . $template_desc . "<?php ");
 echo "</div>";
-

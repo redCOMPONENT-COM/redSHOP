@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $email = JRequest::getVar('email');
 $name = JRequest::getVar('name');
 $option = JRequest::getVar('option');
@@ -20,6 +20,7 @@ if ($user->id != "")
 	$email = $user->email;
 	$name  = $user->name;
 }
+
 if ($this->params->get('show_page_heading', 1))
 {
 	?>
@@ -62,6 +63,7 @@ if ($this->params->get('show_page_heading', 1))
 		var name = document.subscribeForm2.name.value;
 		var email = document.subscribeForm2.email.value;
 		var patt1 = new RegExp("([a-z0-9_]+)@([a-z0-9_-]+)[.][a-z]");
+
 		if (name == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_ENTER_A_NAME');?>");
 			return false;

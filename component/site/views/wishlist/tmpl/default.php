@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 $url = JURI::base();
 $option = JRequest::getVar('option');
 $wishlist = $this->wishlist;
@@ -31,7 +31,9 @@ $Itemid = JRequest::getVar('Itemid');
 			<?php echo $pagetitle; ?>
 		</h1>
 		<div>&nbsp;</div>
-	<?php } ?>
+	<?php
+	}
+	?>
 	<form name="newwishlistForm" method="post" action="">
 		<table>
 			<tr>
@@ -46,7 +48,8 @@ $Itemid = JRequest::getVar('Itemid');
 				<td colspan="2" align="center">
 					<input type="button" value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
 					       onclick="checkValidation()"/>&nbsp;
-					<?PHP if (JRequest::getVar('loginwishlist') == 1)
+					<?php
+					if (JRequest::getVar('loginwishlist') == 1)
 					{
 						$mywishlist_link = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $Itemid);
 						?>
@@ -70,7 +73,8 @@ $Itemid = JRequest::getVar('Itemid');
 		<input type="hidden" name="task" value="createsave"/>
 	</form>
 </div>
-<?php if ($flage) :
+<?php
+if ($flage) :
 	?>
 	<div id="wishlist">
 		<?php
@@ -83,7 +87,9 @@ $Itemid = JRequest::getVar('Itemid');
 				<?php echo $pagetitle; ?>
 			</h1>
 			<div>&nbsp;</div>
-		<?php } ?>
+		<?php
+		}
+		?>
 		<form name="adminForm" method="post" action="">
 			<table class="adminlist">
 				<thead>
@@ -103,6 +109,7 @@ $Itemid = JRequest::getVar('Itemid');
 				<tbody>
 				<?php
 				$k = 0;
+
 				for ($i = 0, $n = count($wishlist); $i < $n; $i++)
 				{
 					$row = & $wishlist[$i];
