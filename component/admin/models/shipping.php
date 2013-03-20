@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class shippingModelShipping extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -31,8 +35,6 @@ class shippingModelShipping extends JModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
-
 	}
 
 	public function getData()
@@ -42,6 +44,7 @@ class shippingModelShipping extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -52,6 +55,7 @@ class shippingModelShipping extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -62,6 +66,7 @@ class shippingModelShipping extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -74,7 +79,6 @@ class shippingModelShipping extends JModel
 
 		return $query;
 	}
-
 
 	public function _buildContentOrderBy()
 	{
@@ -90,7 +94,7 @@ class shippingModelShipping extends JModel
 	public function saveOrder(&$cid)
 	{
 		global $mainframe;
-		//$scope 		= JRequest::getCmd( 'scope' );
+
 		$db =& JFactory::getDBO();
 		$row =& $this->getTable('shipping_detail');
 
@@ -98,7 +102,7 @@ class shippingModelShipping extends JModel
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
 			$row->load((int) $cid[$i]);
@@ -118,5 +122,3 @@ class shippingModelShipping extends JModel
 		return true;
 	}
 }
-
-

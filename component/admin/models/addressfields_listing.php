@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class addressfields_listingModeladdressfields_listing extends JModel
 {
 	public $_context = null;
+
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -33,7 +37,6 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		$this->setState('section_id', $field_section_drop);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
 	public function getData()
@@ -43,13 +46,12 @@ class addressfields_listingModeladdressfields_listing extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query);
 		}
+
 		return $this->_data;
 	}
 
 	public function getTotal()
 	{
-
-
 		$query = $this->_buildQuerycount();
 
 		if (empty($this->_total))
@@ -57,6 +59,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 			$this->_db->setQuery($query);
 			$this->_total = $this->_db->loadResult();
 		}
+
 		return $this->_total;
 	}
 
@@ -77,7 +80,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		$where = '';
 
 		if ($filter)
+		{
 			$where = " WHERE field_section = '" . $filter . "'";
+		}
 
 		if ($where == '')
 		{
@@ -87,6 +92,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		{
 			$query = " SELECT count(*)  FROM " . $this->_table_prefix . "fields f" . $where;
 		}
+
 		return $query;
 	}
 
@@ -102,8 +108,11 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		{
 			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');
 		}
+
 		if ($filter)
+		{
 			$where = " WHERE field_section = '" . $filter . "'";
+		}
 
 		if ($where == '')
 		{
@@ -113,6 +122,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		{
 			$query = " SELECT distinct(f.field_id),f.*  FROM " . $this->_table_prefix . "fields f" . $where . $orderby . $limit;
 		}
+
 		return $query;
 	}
 
@@ -141,11 +151,12 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		$groupings = array();
 		$conditions = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
+
+			// Track categories
 			$groupings[] = $row->field_id;
 
 			if ($row->ordering != $order[$i])
@@ -159,45 +170,34 @@ class addressfields_listingModeladdressfields_listing extends JModel
 					return false;
 				}
 
-				// remember to updateOrder this group
+				// Remember to updateOrder this group
 				$condition = 'field_section = ' . (int) $row->field_section;
 				$found = false;
+
 				foreach ($conditions as $cond)
+				{
 					if ($cond[1] == $condition)
 					{
 						$found = true;
 						break;
 					}
+				}
 				if (!$found)
+				{
 					$conditions[] = array($row->field_id, $condition);
-
-
+				}
 			}
 		}
-//		// execute updateOrder for each parent group
-		/*		$groupings = array_unique( $groupings );
-				foreach ($groupings as $group){
-					$row->reorder((int) $group);
-				}
-		*/
+
 		foreach ($conditions as $cond)
 		{
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
 
-
 		return true;
 	}
 
-	/*
-
-		/**
-		 * Method to get max ordering
-		 *
-		 * @access public
-		 * @return boolean
-		 */
 	public function MaxOrdering()
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
@@ -233,7 +233,4 @@ class addressfields_listingModeladdressfields_listing extends JModel
 
 		return true;
 	}
-
-
 }
-

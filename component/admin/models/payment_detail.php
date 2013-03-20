@@ -14,11 +14,15 @@ jimport('joomla.application.component.model');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
+
 class payment_detailModelpayment_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
@@ -30,7 +34,6 @@ class payment_detailModelpayment_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -45,7 +48,10 @@ class payment_detailModelpayment_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -60,9 +66,9 @@ class payment_detailModelpayment_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -85,6 +91,7 @@ class payment_detailModelpayment_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -92,15 +99,13 @@ class payment_detailModelpayment_detail extends JModel
 	{
 		$row =& $this->getTable();
 
-		//$data['ordering'] = $this->MaxOrdering();
-
-
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		$row->shopper_group = @implode(",", $data['shopper_group']);
 		$row->shopper_group = $row->shopper_group ? $row->shopper_group : '';
 
@@ -123,17 +128,12 @@ class payment_detailModelpayment_detail extends JModel
 
 		if (file_exists($paymentcfg))
 		{
-
 			if (method_exists($ps, 'write_configuration'))
 			{
-
 				$data['cfgfile'] = $paymentcfg;
 
 				$ps->write_configuration($data);
-
 			}
-
-
 		}
 
 		return true;
@@ -248,30 +248,24 @@ class payment_detailModelpayment_detail extends JModel
 
 		if ($package['type'] != 'payment')
 		{
-
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_INVALID_PACKAGE'));
 
 			return false;
-
 		}
-
 
 		$installer =& JInstaller::getInstance();
 
 
 		if (!$installer->install($package['dir']))
 		{
-
 			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('COM_REDSHOP_Error'));
 			$result = false;
 		}
 		else
 		{
-
 			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('COM_REDSHOP_Success'));
 			$result = true;
 		}
-
 
 		$mainframe->enqueueMessage($msg);
 		$this->setState('name', $installer->get('name'));
@@ -291,9 +285,6 @@ class payment_detailModelpayment_detail extends JModel
 		return $result;
 	}
 
-	/**
-	 * @param string The class name for the installer
-	 */
 	public function _getPackageFromUpload()
 	{
 		// Get the uploaded file information
@@ -348,11 +339,10 @@ class payment_detailModelpayment_detail extends JModel
 	}
 
 
-	// payment ordering
+	// Payment ordering
 	public function saveOrder(&$cid)
 	{
 		global $mainframe;
-		//$scope 		= JRequest::getCmd( 'scope' );
 		$db =& JFactory::getDBO();
 		$row =& $this->getTable();
 
@@ -360,7 +350,7 @@ class payment_detailModelpayment_detail extends JModel
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
 			$row->load((int) $cid[$i]);
@@ -379,7 +369,6 @@ class payment_detailModelpayment_detail extends JModel
 		$row->reorder();
 
 		return true;
-
 	}
 
 	/**
@@ -924,6 +913,7 @@ class JInstaller extends JObject
 
 		// Get the name of the sql file to process
 		$sqlfile = '';
+
 		foreach ($files as $file)
 		{
 			$fCharset = (strtolower($file->attributes('charset')) == 'utf8') ? 'utf8' : '';
@@ -1097,6 +1087,7 @@ class JInstaller extends JObject
 
 		// Process each parameter in the $params array.
 		$ini = null;
+
 		foreach ($params as $param)
 		{
 			if (!$name = $param->attributes('name'))

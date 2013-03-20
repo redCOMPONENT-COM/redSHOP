@@ -14,6 +14,7 @@ jimport('joomla.application.component.model');
 class customprintModelcustomprint extends JModel
 {
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -30,6 +31,7 @@ class customprintModelcustomprint extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query);
 		}
+
 		return $this->_data;
 	}
 
@@ -40,6 +42,4 @@ class customprintModelcustomprint extends JModel
 
 		return $query;
 	}
-
-
 }

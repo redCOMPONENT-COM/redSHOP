@@ -17,8 +17,11 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 class exportModelexport extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -35,7 +38,9 @@ class exportModelexport extends JModel
 		$exportname = JRequest::getVar('export');
 
 		if (!$exportname)
+		{
 			$mainframe->Redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
+		}
 
 		/* Set the export filename */
 		$exportfilename = 'redshop_' . $exportname . '.csv';
@@ -76,6 +81,7 @@ class exportModelexport extends JModel
 
 		/* Load the data */
 		$export = JRequest::getVar('export');
+
 		switch ($export)
 		{
 			case 'products':
@@ -122,6 +128,7 @@ class exportModelexport extends JModel
 		$export_product_extra_field = JRequest::getInt('export_product_extra_field', 0);
 		$product_category = JRequest::getVar('product_category');
 		$product_category_value = "";
+
 		for ($j = 0; $j < count($product_category); $j++)
 		{
 			$product_category_value .= "'" . $product_category[$j] . "'" . ",";
@@ -129,6 +136,7 @@ class exportModelexport extends JModel
 
 		$manufacturer_id = JRequest::getVar('manufacturer_id');
 		$manufacturer_id_value = "";
+
 		for ($i = 0; $i < count($manufacturer_id); $i++)
 		{
 			$manufacturer_id_value .= "'" . $manufacturer_id[$i] . "'" . ",";
@@ -137,7 +145,8 @@ class exportModelexport extends JModel
 
 		if (count($manufacturer_id) > 0 || count($product_category) > 0)
 		{
-			$q = "SELECT p.*,pc.product_id FROM `" . $this->_table_prefix . "product` p left outer join `" . $this->_table_prefix . "product_category_xref` pc on p.product_id = pc.product_id ";
+			$q = "SELECT p.*,pc.product_id FROM `" . $this->_table_prefix . "product` p left outer join `"
+				. $this->_table_prefix . "product_category_xref` pc on p.product_id = pc.product_id ";
 			$q .= " where ";
 		}
 		else
@@ -169,7 +178,7 @@ class exportModelexport extends JModel
 		}
 		$ret = null;
 		$i = 0;
-		//while ($row = mysql_fetch_assoc( $cur )) {
+
 		if (count($cur) > 0)
 		{
 			for ($p = 0; $p < count($cur); $p++)
@@ -178,14 +187,13 @@ class exportModelexport extends JModel
 				$row = (array) $row;
 				$fields = count($row);
 
-				# Get product extra fields data - collect data
+				// Get product extra fields data - collect data
 				if ($export_product_extra_field)
 				{
 					$extrafields = $this->getProductExtrafield();
 					$extrafheader = $extrafields['header'];
 					$efieldsdata = $extrafields['rowdata'];
 				}
-				# End
 
 				if ($i == 0)
 				{
@@ -198,46 +206,57 @@ class exportModelexport extends JModel
 					}
 					echo ',"sitepath","category_id","category_name","accessory_products","product_stock","images","images_order","images_alternattext","video","video_order","video_alternattext","document","document_order","document_alternattext","download","download_order","download_alternattext"';
 
-					# product Extra field as header
+					// Product Extra field as header
 					if ($export_product_extra_field)
 						echo ',"' . implode('","', $extrafheader) . '"';
-					# End
 
 					echo "\r\n";
 				}
 				$i = 0;
+
 				foreach ($row as $id => $value)
 				{
-
 					if ($id == 'product_full_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
+						{
 							$value = "";
+						}
 					}
 					if ($id == 'product_thumb_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
+						{
 							$value = "";
+						}
 					}
 					if ($id == 'product_back_full_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
+						{
 							$value = "";
+						}
 					}
 					if ($id == 'product_back_thumb_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
+						{
 							$value = "";
+						}
 					}
 					if ($id == 'product_preview_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
+						{
 							$value = "";
+						}
 					}
 					if ($id == 'product_preview_back_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
+						{
 							$value = "";
+						}
 					}
 
 					$value = str_replace("\n", "", $value);
@@ -246,16 +265,21 @@ class exportModelexport extends JModel
 
 					echo '"' . str_replace('"', "'", $value) . '"';
 
-					if ($i < ($fields)) echo ',';
+					if ($i < ($fields))
+					{
+						echo ',';
+					}
 					$i++;
 				}
-				// added site path
+
+				// Added site path
 				if ($fields)
 				{
 					$sitepath = JUri::root();
 					echo $sitepath . ",";
 				}
-				// added category ids and name
+
+				// Added category ids and name
 				if ($fields + 1)
 				{
 					$query = "SELECT pcx.category_id,c.category_name FROM " . $this->_table_prefix . "product_category_xref as pcx"
@@ -265,6 +289,7 @@ class exportModelexport extends JModel
 					$category = $this->_db->loadObjectList();
 					$cats = array();
 					$cat_name = array();
+
 					for ($cat = 0; $cat < count($category); $cat++)
 					{
 
@@ -276,7 +301,7 @@ class exportModelexport extends JModel
 					echo $categoryids . "," . $categorynames . ",";
 				}
 
-				// added accessory product ids
+				// Added accessory product ids
 				if ($fields + 2)
 				{
 					$query = "SELECT CONCAT(`product_number`,'~',`accessory_price`) as accsdata  FROM `" . $this->_table_prefix . "product_accessory` as pa "
@@ -286,6 +311,7 @@ class exportModelexport extends JModel
 					$accessory = $this->_db->loadObjectList();
 					$accessories = "";
 					$accs = array();
+
 					for ($acc = 0; $acc < count($accessory); $acc++)
 					{
 						$accs[] = $accessory[$acc]->accsdata;
@@ -296,7 +322,8 @@ class exportModelexport extends JModel
 
 				if ($fields + 3)
 				{
-					$query = 'SELECT quantity FROM `' . $this->_table_prefix . 'product_stockroom_xref` WHERE `product_id` = ' . $row['product_id'] . ' AND 	stockroom_id = ' . DEFAULT_STOCKROOM;
+					$query = 'SELECT quantity FROM `' . $this->_table_prefix . 'product_stockroom_xref` WHERE `product_id` = '
+						. $row['product_id'] . ' AND 	stockroom_id = ' . DEFAULT_STOCKROOM;
 					$this->_db->setQuery($query);
 
 					$stock = $this->_db->loadObject();
@@ -305,11 +332,11 @@ class exportModelexport extends JModel
 					{
 						echo $stock->quantity;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type image name export
+				// Media type image name export
 				if ($fields + 4)
 				{
 					$query = "SELECT media_name
@@ -324,6 +351,7 @@ class exportModelexport extends JModel
 					if ($images)
 					{
 						$image = array();
+
 						for ($i = 0; $i < count($images); $i++)
 						{
 							$image[] = $images[$i]->media_name;
@@ -331,11 +359,11 @@ class exportModelexport extends JModel
 						$image = implode("#", $image);
 						echo $image;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type image order export
+				// Media type image order export
 				if ($fields + 5)
 				{
 					$query = "SELECT ordering
@@ -350,6 +378,7 @@ class exportModelexport extends JModel
 					if ($images)
 					{
 						$image = array();
+
 						for ($i = 0; $i < count($images); $i++)
 						{
 							$image[] = $images[$i]->ordering;
@@ -357,11 +386,11 @@ class exportModelexport extends JModel
 						$image = implode("#", $image);
 						echo $image;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type image media_alternate_text export
+				// Media type image media_alternate_text export
 				if ($fields + 6)
 				{
 					$query = "SELECT media_alternate_text
@@ -376,6 +405,7 @@ class exportModelexport extends JModel
 					if ($images)
 					{
 						$image = array();
+
 						for ($i = 0; $i < count($images); $i++)
 						{
 							$image[] = $images[$i]->media_alternate_text;
@@ -383,11 +413,11 @@ class exportModelexport extends JModel
 						$image = implode("#", $image);
 						echo $image;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type video name export
+				// Media type video name export
 				if ($fields + 7)
 				{
 					$query = "SELECT media_name
@@ -402,6 +432,7 @@ class exportModelexport extends JModel
 					if ($videos)
 					{
 						$video = array();
+
 						for ($i = 0; $i < count($videos); $i++)
 						{
 							$video[] = $videos[$i]->media_name;
@@ -409,11 +440,11 @@ class exportModelexport extends JModel
 						$video = implode("#", $video);
 						echo $video;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type video ordering export
+				// Media type video ordering export
 				if ($fields + 8)
 				{
 					$query = "SELECT ordering
@@ -428,6 +459,7 @@ class exportModelexport extends JModel
 					if ($videos)
 					{
 						$video = array();
+
 						for ($i = 0; $i < count($videos); $i++)
 						{
 							$video[] = $videos[$i]->ordering;
@@ -435,11 +467,11 @@ class exportModelexport extends JModel
 						$video = implode("#", $video);
 						echo $video;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type video media_alternate_text export
+				// Media type video media_alternate_text export
 				if ($fields + 8)
 				{
 					$query = "SELECT media_alternate_text
@@ -454,6 +486,7 @@ class exportModelexport extends JModel
 					if ($videos)
 					{
 						$video = array();
+
 						for ($i = 0; $i < count($videos); $i++)
 						{
 							$video[] = $videos[$i]->media_alternate_text;
@@ -461,11 +494,11 @@ class exportModelexport extends JModel
 						$video = implode("#", $video);
 						echo $video;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type document name export
+				// Media type document name export
 				if ($fields + 9)
 				{
 					$query = "SELECT media_name
@@ -480,6 +513,7 @@ class exportModelexport extends JModel
 					if ($documents)
 					{
 						$document = array();
+
 						for ($i = 0; $i < count($documents); $i++)
 						{
 							$document[] = $documents[$i]->media_name;
@@ -487,11 +521,11 @@ class exportModelexport extends JModel
 						$document = implode("#", $document);
 						echo $document;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type document ordering export
+				// Media type document ordering export
 				if ($fields + 10)
 				{
 					$query = "SELECT ordering
@@ -506,6 +540,7 @@ class exportModelexport extends JModel
 					if ($documents)
 					{
 						$document = array();
+
 						for ($i = 0; $i < count($documents); $i++)
 						{
 							$document[] = $documents[$i]->ordering;
@@ -513,11 +548,11 @@ class exportModelexport extends JModel
 						$document = implode("#", $document);
 						echo $document;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type document media_alternate_text export
+				// Media type document media_alternate_text export
 				if ($fields + 10)
 				{
 					$query = "SELECT media_alternate_text
@@ -532,6 +567,7 @@ class exportModelexport extends JModel
 					if ($documents)
 					{
 						$document = array();
+
 						for ($i = 0; $i < count($documents); $i++)
 						{
 							$document[] = $documents[$i]->media_alternate_text;
@@ -539,11 +575,11 @@ class exportModelexport extends JModel
 						$document = implode("#", $document);
 						echo $document;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type download name export
+				// Media type download name export
 				if ($fields + 11)
 				{
 					$query = "SELECT media_name
@@ -558,6 +594,7 @@ class exportModelexport extends JModel
 					if ($downloads)
 					{
 						$download = array();
+
 						for ($i = 0; $i < count($downloads); $i++)
 						{
 							$download[] = $downloads[$i]->media_name;
@@ -565,11 +602,11 @@ class exportModelexport extends JModel
 						$download = implode("#", $download);
 						echo $download;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type download ordering export
+				// Media type download ordering export
 				if ($fields + 12)
 				{
 					$query = "SELECT ordering
@@ -584,6 +621,7 @@ class exportModelexport extends JModel
 					if ($downloads)
 					{
 						$download = array();
+
 						for ($i = 0; $i < count($downloads); $i++)
 						{
 							$download[] = $downloads[$i]->ordering;
@@ -591,11 +629,11 @@ class exportModelexport extends JModel
 						$download = implode("#", $download);
 						echo $download;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				// media type download media_alternate_text export
+				// Media type download media_alternate_text export
 				if ($fields + 13)
 				{
 					$query = "SELECT media_alternate_text
@@ -610,6 +648,7 @@ class exportModelexport extends JModel
 					if ($downloads)
 					{
 						$download = array();
+
 						for ($i = 0; $i < count($downloads); $i++)
 						{
 							$download[] = $downloads[$i]->media_alternate_text;
@@ -617,11 +656,11 @@ class exportModelexport extends JModel
 						$download = implode("#", $download);
 						echo $download;
 					}
-					echo ',';
 
+					echo ',';
 				}
 
-				# Product extra fields data
+				// Product extra fields data
 				if ($export_product_extra_field)
 				{
 					$fd = 0;
@@ -639,16 +678,20 @@ class exportModelexport extends JModel
 
 							$fd++;
 
-							if ($fd < count($extrafheader)) echo ",";
+							if ($fd < count($extrafheader))
+							{
+								echo ",";
+							}
 						}
 					}
 				}
-				# End
 
 				echo "\r\n";
 			}
-			if (is_resource($cur)) mysql_free_result($cur);
-
+			if (is_resource($cur))
+			{
+				mysql_free_result($cur);
+			}
 		}
 	}
 
@@ -659,7 +702,8 @@ class exportModelexport extends JModel
 	{
 		$db = JFactory::getDBO();
 		$q = "SELECT c.*,cx.category_parent_id
-			FROM " . $this->_table_prefix . "category c LEFT JOIN " . $this->_table_prefix . "category_xref cx ON c.category_id = cx.category_child_id WHERE cx.category_parent_id IS NOT NULL ORDER BY c.category_id";
+			FROM " . $this->_table_prefix . "category c LEFT JOIN " . $this->_table_prefix
+			. "category_xref cx ON c.category_id = cx.category_child_id WHERE cx.category_parent_id IS NOT NULL ORDER BY c.category_id";
 		$db->setQuery($q);
 
 		if (!($cur = $db->LoadObjectList()))
@@ -668,7 +712,7 @@ class exportModelexport extends JModel
 		}
 		$ret = null;
 		$i = 0;
-		//while ($row = mysql_fetch_assoc( $cur )) {
+
 		if (count($cur) > 0)
 		{
 			for ($c = 0; $c < count($cur); $c++)
@@ -683,20 +727,31 @@ class exportModelexport extends JModel
 					{
 						echo '"' . str_replace('"', '""', $id) . '"';
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
+
 						$i++;
 					}
+
 					echo "\r\n";
 				}
+
 				$i = 0;
+
 				foreach ($row as $id => $value)
 				{
 					if ($id == 'category_full_image' && $value != "")
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
+						{
 							$value = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
+						}
 						else
+						{
 							$value = "";
+						}
 					}
 					$value = str_replace("\n", "", $value);
 
@@ -704,12 +759,20 @@ class exportModelexport extends JModel
 
 					echo '"' . str_replace('"', '""', $value) . '"';
 
-					if ($i < ($fields - 1)) echo ',';
+					if ($i < ($fields - 1))
+					{
+						echo ',';
+					}
 					$i++;
 				}
+
 				echo "\r\n";
 			}
-			if (is_resource($cur)) mysql_free_result($cur);
+
+			if (is_resource($cur))
+			{
+				mysql_free_result($cur);
+			}
 		}
 	}
 
@@ -718,7 +781,6 @@ class exportModelexport extends JModel
 	 */
 	private function loadAttributes()
 	{
-
 		$producthelper = new producthelper;
 
 		$db = JFactory::getDBO();
@@ -738,25 +800,34 @@ class exportModelexport extends JModel
 				$isrecrm = true;
 			}
 
-
 			for ($i = 0; $i < count($cur); $i++)
 			{
-
 				if ($i == 0)
 				{
+					echo "product_number,attribute_name,attribute_ordering,allow_multiple_selection,hide_attribute_price,
+					attribute_required,display_type,property_name,property_stock";
 
-					echo "product_number,attribute_name,attribute_ordering,allow_multiple_selection,hide_attribute_price,attribute_required,display_type,property_name,property_stock";
+					if ($isrecrm)
+					{
+						echo ",property_stock_placement";
+					}
 
-					if ($isrecrm) echo ",property_stock_placement";
-					echo ",property_ordering,property_virtual_number,setdefault_selected,setdisplay_type,oprand,property_price,property_image,property_main_image,subattribute_color_name,subattribute_stock";
+					echo ",property_ordering,property_virtual_number,setdefault_selected,setdisplay_type,
+					oprand,property_price,property_image,property_main_image,subattribute_color_name,subattribute_stock";
 
-					if ($isrecrm) echo ",subattribute_stock_placement";
-					echo ",subattribute_color_ordering,subattribute_setdefault_selected,subattribute_color_title,subattribute_virtual_number,subattribute_color_oprand,required_sub_attribute,subattribute_color_price,subattribute_color_image,delete";
+					if ($isrecrm)
+					{
+						echo ",subattribute_stock_placement";
+					}
+
+					echo ",subattribute_color_ordering,subattribute_setdefault_selected,subattribute_color_title,
+					subattribute_virtual_number,subattribute_color_oprand,required_sub_attribute,subattribute_color_price,
+					subattribute_color_image,delete";
 
 					echo "\r\n";
 				}
 
-				// added attribute of products
+				// Added attribute of products
 				$attribute = $producthelper->getProductAttribute($cur[$i]->product_id);
 				$attr = array();
 
@@ -764,18 +835,27 @@ class exportModelexport extends JModel
 				{
 					if ($attribute[$att]->attribute_name != "")
 					{
-						echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . "," . $attribute[$att]->ordering . "," . $attribute[$att]->allow_multiple_selection . "," . $attribute[$att]->hide_attribute_price . "," . $attribute[$att]->attribute_required . "," . $attribute[$att]->display_type;
+						echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ","
+							. $attribute[$att]->ordering . "," . $attribute[$att]->allow_multiple_selection . ","
+							. $attribute[$att]->hide_attribute_price . "," . $attribute[$att]->attribute_required . ","
+							. $attribute[$att]->display_type;
 
-						if ($isrecrm) echo ",,";
+						if ($isrecrm)
+						{
+							echo ",,";
+						}
+
 						echo ",,,,,,,,,,,,,,,,0\n";
 						$att_property = $producthelper->getAttibuteProperty(0, $attribute[$att]->attribute_id);
+
 						for ($prop = 0; $prop < count($att_property); $prop++)
 						{
 							$property_image = "";
 							$property_main_image = "";
 							$main_attribute_stock = "";
 
-							$sel_arrtibute_stock = "select * from `" . $this->_table_prefix . "product_attribute_stockroom_xref` where section_id='" . $att_property[$prop]->property_id . "'";
+							$sel_arrtibute_stock = "select * from `" . $this->_table_prefix
+								. "product_attribute_stockroom_xref` where section_id='" . $att_property[$prop]->property_id . "'";
 							$this->_db->setQuery($sel_arrtibute_stock);
 							$fetch_arrtibute_stock = $this->_db->loadObjectList();
 
@@ -785,29 +865,48 @@ class exportModelexport extends JModel
 							}
 
 							$main_attribute_stock_placement = "";
-							$db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'property' AND section_id = '" . $att_property[$prop]->property_id . "' ");
+							$db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'property'
+							AND section_id = '" . $att_property[$prop]->property_id . "' "
+							);
 							$main_attribute_stock_placement = $db->loadResult();
 
 							if ($att_property[$prop]->property_image != "")
+							{
 								$property_image = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $att_property[$prop]->property_image;
+							}
 
 							if ($att_property[$prop]->property_main_image != "")
+							{
 								$property_main_image = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $att_property[$prop]->property_main_image;
-							echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ",,,,,," . $att_property[$prop]->property_name . "," . $main_attribute_stock;
+							}
+							echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ",,,,,,"
+								. $att_property[$prop]->property_name . "," . $main_attribute_stock;
 
-							if ($isrecrm) echo "," . $main_attribute_stock_placement;
-							echo "," . $att_property[$prop]->ordering . "," . $att_property[$prop]->property_number . "," . $att_property[$prop]->setdefault_selected . "," . $att_property[$prop]->setdisplay_type . "," . $att_property[$prop]->oprand . "," . $att_property[$prop]->property_price . "," . $property_image . "," . $property_main_image;
+							if ($isrecrm)
+							{
+								echo "," . $main_attribute_stock_placement;
+							}
+							echo "," . $att_property[$prop]->ordering . "," . $att_property[$prop]->property_number . "," .
+								$att_property[$prop]->setdefault_selected . "," . $att_property[$prop]->setdisplay_type . ","
+								. $att_property[$prop]->oprand . "," . $att_property[$prop]->property_price . "," . $property_image
+								. "," . $property_main_image;
 
-							if ($isrecrm) echo ",";
+							if ($isrecrm)
+							{
+								echo ",";
+							}
 							echo ",,,,,,,,,0\n";
 
 							$subatt_property = $producthelper->getAttibuteSubProperty(0, $att_property[$prop]->property_id);
+
 							for ($subprop = 0; $subprop < count($subatt_property); $subprop++)
 							{
 								$subattribute_color_image = "";
 								$main_attribute_stock_sub = "";
 
-								$sel_arrtibute_stock_sub = "select * from `" . $this->_table_prefix . "product_attribute_stockroom_xref` where section_id='" . $subatt_property[$subprop]->subattribute_color_id . "'";
+								$sel_arrtibute_stock_sub = "select * from `" . $this->_table_prefix
+									. "product_attribute_stockroom_xref` where section_id='" . $subatt_property[$subprop]->subattribute_color_id
+									. "'";
 								$this->_db->setQuery($sel_arrtibute_stock_sub);
 								$fetch_arrtibute_stock_sub = $this->_db->loadObjectList();
 
@@ -817,27 +916,41 @@ class exportModelexport extends JModel
 								}
 
 								$main_attribute_stock_sub_placement = "";
-								$db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'subproperty' AND section_id = '" . $subatt_property[$subprop]->subattribute_color_id . "' ");
+								$db->setQuery("SELECT stock_placement FROM #__redcrm_attribute_stock_placement WHERE section = 'subproperty'
+								AND section_id = '" . $subatt_property[$subprop]->subattribute_color_id . "' "
+								);
 								$main_attribute_stock_sub_placement = $db->loadResult();
 
 								if ($subatt_property[$subprop]->subattribute_color_image != "")
-									$subattribute_color_image = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subatt_property[$subprop]->subattribute_color_image;
+								{
+									$subattribute_color_image = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/'
+										. $subatt_property[$subprop]->subattribute_color_image;
+								}
 
 								echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ",,,,,," . $att_property[$prop]->property_name;
 
-								if ($isrecrm) echo ",";
+								if ($isrecrm)
+								{
+									echo ",";
+								}
 								echo ",,,,,,,,,," . $subatt_property[$subprop]->subattribute_color_name . "," . $main_attribute_stock_sub;
 
-								if ($isrecrm) echo "," . $main_attribute_stock_sub_placement;
-								echo "," . $subatt_property[$subprop]->ordering . "," . $subatt_property[$subprop]->setdefault_selected . "," . $subatt_property[$subprop]->subattribute_color_title . "," . $subatt_property[$subprop]->subattribute_color_number . "," . $subatt_property[$subprop]->oprand . "," . $att_property[$prop]->setrequire_selected . "," . $subatt_property[$subprop]->subattribute_color_price . "," . $subattribute_color_image . ",0\n";
+								if ($isrecrm)
+								{
+									echo "," . $main_attribute_stock_sub_placement;
+								}
+
+								echo "," . $subatt_property[$subprop]->ordering . "," . $subatt_property[$subprop]->setdefault_selected
+									. "," . $subatt_property[$subprop]->subattribute_color_title . ","
+									. $subatt_property[$subprop]->subattribute_color_number . "," . $subatt_property[$subprop]->oprand
+									. "," . $att_property[$prop]->setrequire_selected . "," . $subatt_property[$subprop]->subattribute_color_price
+									. "," . $subattribute_color_image . ",0\n";
 							}
 						}
 					}
 				}
 			}
-
 		}
-
 	}
 
 	private function loadManufacturer()
@@ -867,12 +980,18 @@ class exportModelexport extends JModel
 					{
 						echo $this->_text_qul . str_replace('"', '""', $id) . $this->_text_qul;
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
+
 						$i++;
 					}
+
 					echo ',' . $this->_text_qul . 'product_id' . $this->_text_qul;
 					echo "\r\n";
 				}
+
 				$i = 0;
 				$query = "SELECT p.product_id "
 					. "FROM `" . $this->_table_prefix . "product` AS p "
@@ -880,13 +999,19 @@ class exportModelexport extends JModel
 				$db->setQuery($query);
 				$pids = $db->LoadResultArray();
 				$pids = implode("|", $pids);
+
 				foreach ($row as $id => $value)
 				{
 					echo $this->_text_qul . str_replace('"', '""', $value) . $this->_text_qul;
 
-					if ($i < ($fields - 1)) echo ',';
+					if ($i < ($fields - 1))
+					{
+						echo ',';
+					}
+
 					$i++;
 				}
+
 				echo ',' . $this->_text_qul . $pids . $this->_text_qul;
 				echo "\r\n";
 			}
@@ -902,7 +1027,8 @@ class exportModelexport extends JModel
 		$relsku = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`related_id`";
 		$mainsku = "SELECT `product_number` FROM `" . $this->_table_prefix . "product` WHERE `product_id` = pr.`product_id`";
 
-		$q = "SELECT (" . $relsku . ") as related_sku,(" . $mainsku . ") as product_sku FROM `" . $this->_table_prefix . "product_related` as pr WHERE (" . $relsku . ") IS NOT NULL AND (" . $mainsku . ") IS NOT NULL ";
+		$q = "SELECT (" . $relsku . ") as related_sku,(" . $mainsku . ") as product_sku FROM `" . $this->_table_prefix
+			. "product_related` as pr WHERE (" . $relsku . ") IS NOT NULL AND (" . $mainsku . ") IS NOT NULL ";
 		$db->setQuery($q);
 
 		if (!($cur = $db->LoadObjectList()))
@@ -911,7 +1037,7 @@ class exportModelexport extends JModel
 		}
 		$ret = null;
 		$i = 0;
-		//while ($row = mysql_fetch_assoc( $cur )) {
+
 		if (count($cur) > 0)
 		{
 			for ($r = 0; $r < count($cur); $r++)
@@ -926,20 +1052,29 @@ class exportModelexport extends JModel
 					{
 						echo '"' . str_replace('"', '""', $id) . '"';
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
 						$i++;
 					}
+
 					echo "\r\n";
 				}
 				$i = 0;
+
 				foreach ($row as $id => $value)
 				{
-
 					echo '"' . str_replace('"', '""', $value) . '"';
 
-					if ($i < ($fields - 1)) echo ',';
+					if ($i < ($fields - 1))
+					{
+						echo ',';
+					}
+
 					$i++;
 				}
+
 				echo "\r\n";
 			}
 			if (is_resource($cur)) mysql_free_result($cur);
@@ -958,16 +1093,17 @@ class exportModelexport extends JModel
 		$this->_db->setQuery($query);
 		$cur = $this->_db->loadObjectList();
 		$ret = null;
+
 		for ($i = 0; $i <= count($cur); $i++)
 		{
-
 			if ($i == 0)
 			{
-
 				echo "field_id,field_title,field_name_field,field_type,field_desc,field_class,field_section,field_maxlength,field_cols,field_rows,field_size,field_show_in_front,required,published,data_id,data_txt,itemid,section,value_id,field_value,field_name,data_number";
 				echo "\r\n";
 			}
-			$query = 'SELECT data_id,`data_txt`,`itemid`,`section` FROM `' . $this->_table_prefix . 'fields_data` WHERE `fieldid` = ' . $cur[$i]->field_id . ' and section!=""';
+
+			$query = 'SELECT data_id,`data_txt`,`itemid`,`section` FROM `' . $this->_table_prefix . 'fields_data` WHERE `fieldid` = '
+				. $cur[$i]->field_id . ' and section!=""';
 			$this->_db->setQuery($query);
 			$data = $this->_db->loadObjectList();
 			$attr = array();
@@ -975,18 +1111,21 @@ class exportModelexport extends JModel
 			$datavalue = $extra_field->getFieldValue($cur[$i]->field_id);
 			$attrvalue = array();
 
-			echo $cur[$i]->field_id . "," . $cur[$i]->field_title . "," . $cur[$i]->field_name . "," . $cur[$i]->field_type . "," . $cur[$i]->field_desc . "," . $cur[$i]->field_class . "," . $cur[$i]->field_section . "," . $cur[$i]->field_maxlength . "," . $cur[$i]->field_cols . "," . $cur[$i]->field_rows . "," . $cur[$i]->field_size . "," . $cur[$i]->field_show_in_front . "," . $cur[$i]->required . "," . $cur[$i]->published . "\n";
+			echo $cur[$i]->field_id . "," . $cur[$i]->field_title . "," . $cur[$i]->field_name . "," . $cur[$i]->field_type . ","
+				. $cur[$i]->field_desc . "," . $cur[$i]->field_class . "," . $cur[$i]->field_section . "," . $cur[$i]->field_maxlength . ","
+				. $cur[$i]->field_cols . "," . $cur[$i]->field_rows . "," . $cur[$i]->field_size . "," . $cur[$i]->field_show_in_front . ","
+				. $cur[$i]->required . "," . $cur[$i]->published . "\n";
+
 			for ($att = 0; $att < count($data); $att++)
 			{
 				$product_details = $producthelper->getProductById($data[$att]->itemid);
-				echo $cur[$i]->field_id . ",,,,,,,,,,,,,," . $data[$att]->data_id . ",\"" . $data[$att]->data_txt . "\"," . $data[$att]->itemid . "," . $data[$att]->section . ",,,," . $product_details->product_number . ",\n";
-
+				echo $cur[$i]->field_id . ",,,,,,,,,,,,,," . $data[$att]->data_id . ",\"" . $data[$att]->data_txt . "\","
+					. $data[$att]->itemid . "," . $data[$att]->section . ",,,," . $product_details->product_number . ",\n";
 			}
 			for ($attrvalue = 0; $attrvalue < count($datavalue); $attrvalue++)
 			{
 				echo $cur[$i]->field_id . ",,,,,,,,,,,,,,,,,," . $datavalue[$attrvalue]->value_id . "," . $datavalue[$attrvalue]->field_value . "," . $datavalue[$attrvalue]->field_name . ",\n";
 			}
-
 		}
 	}
 
@@ -995,9 +1134,11 @@ class exportModelexport extends JModel
 	 */
 	private function loadUsers()
 	{
-
 		$db = JFactory::getDBO();
-		$query = "SELECT ui.`users_info_id` , sg.shopper_group_name, IFNULL( u.id, ui.user_id ) as id , IFNULL( u.email, ui.user_email ) as email , u.username,u.name, u.password, u.usertype, u.block, u.sendEmail, ui.company_name, ui.firstname, ui.lastname, ui.vat_number, ui.tax_exempt, ui.shopper_group_id, ui.country_code, ui.address, ui.city, ui.state_code, ui.zipcode, ui.tax_exempt_approved, ui.approved, ui.is_company, ui.phone
+		$query = "SELECT ui.`users_info_id` , sg.shopper_group_name, IFNULL( u.id, ui.user_id ) as id ,
+		IFNULL( u.email, ui.user_email ) as email , u.username,u.name, u.password, u.usertype, u.block, u.sendEmail, ui.company_name,
+		ui.firstname, ui.lastname, ui.vat_number, ui.tax_exempt, ui.shopper_group_id, ui.country_code, ui.address, ui.city,
+		ui.state_code, ui.zipcode, ui.tax_exempt_approved, ui.approved, ui.is_company, ui.phone
 			FROM (
 			`" . $this->_table_prefix . "users_info` AS ui
 			LEFT JOIN #__users AS u ON u.id = ui.user_id
@@ -1011,9 +1152,10 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		$ret = null;
 		$i = 0;
-		//while ($row = mysql_fetch_assoc( $cur )) {
+
 		if (count($cur) > 0)
 		{
 			for ($u = 0; $u < count($cur); $u++)
@@ -1028,23 +1170,35 @@ class exportModelexport extends JModel
 					{
 						echo '"' . str_replace('"', '""', $id) . '"';
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
+
 						$i++;
 					}
 					echo "\r\n";
 				}
 				$i = 0;
+
 				foreach ($row as $id => $value)
 				{
-
 					echo '"' . str_replace('"', '""', $value) . '"';
 
-					if ($i < ($fields - 1)) echo ',';
+					if ($i < ($fields - 1))
+					{
+						echo ',';
+					}
+
 					$i++;
 				}
 				echo "\r\n";
 			}
-			if (is_resource($cur)) mysql_free_result($cur);
+
+			if (is_resource($cur))
+			{
+				mysql_free_result($cur);
+			}
 		}
 	}
 
@@ -1054,7 +1208,8 @@ class exportModelexport extends JModel
 	private function loadshippingaddress()
 	{
 		$db = JFactory::getDBO();
-		$query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname, ui.lastname, ui.address, ui.city, ui.state_code, ui.zipcode, ui.country_code, ui.phone
+		$query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname,
+		ui.lastname, ui.address, ui.city, ui.state_code, ui.zipcode, ui.country_code, ui.phone
 			FROM (
 			`" . $this->_table_prefix . "users_info` AS ui
 			LEFT JOIN #__users AS u ON u.id = ui.user_id)WHERE ui.`address_type` = 'ST'";
@@ -1066,7 +1221,7 @@ class exportModelexport extends JModel
 		}
 		$ret = null;
 		$i = 0;
-		//while ($row = mysql_fetch_assoc( $cur )) {
+
 		if (count($cur) > 0)
 		{
 			for ($s = 0; $s < count($cur); $s++)
@@ -1081,30 +1236,41 @@ class exportModelexport extends JModel
 					{
 						echo '"' . str_replace('"', '""', $id) . '"';
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
 						$i++;
 					}
 					echo "\r\n";
 				}
 				$i = 0;
+
 				foreach ($row as $id => $value)
 				{
 
 					echo '"' . str_replace('"', '""', $value) . '"';
 
-					if ($i < ($fields - 1)) echo ',';
+					if ($i < ($fields - 1))
+					{
+						echo ',';
+					}
 					$i++;
 				}
 				echo "\r\n";
 			}
-			if (is_resource($cur)) mysql_free_result($cur);
+			if (is_resource($cur))
+			{
+				mysql_free_result($cur);
+			}
 		}
 	}
 
 	public function loadShoppergroupPrice()
 	{
 		$db = JFactory::getDBO();
-		$query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price, price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date "
+		$query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price,
+		price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date "
 			. "FROM `" . $this->_table_prefix . "product_price` AS pp "
 			. "LEFT JOIN `" . $this->_table_prefix . "product` AS p ON p.product_id = pp.product_id "
 			. "LEFT JOIN `" . $this->_table_prefix . "shopper_group` AS s ON s.shopper_group_id = pp.shopper_group_id "
@@ -1115,8 +1281,9 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		$i = 0;
-		//while($row = mysql_fetch_assoc( $cur ))
+
 		if (count($cur) > 0)
 		{
 			for ($e = 0; $e < count($cur); $e++)
@@ -1131,28 +1298,39 @@ class exportModelexport extends JModel
 					{
 						echo '"' . str_replace('"', '""', $id) . '"';
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
 						$i++;
 					}
 					echo "\r\n";
 				}
 				$i = 0;
+
 				foreach ($row as $id => $value)
 				{
 					echo '"' . str_replace('"', '""', $value) . '"';
 
-					if ($i < ($fields - 1)) echo ',';
+					if ($i < ($fields - 1))
+					{
+						echo ',';
+					}
 					$i++;
 				}
 				echo "\r\n";
 			}
-//				mysql_free_result( $cur );
 		}
-		$query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number, ap.section, s.shopper_group_id, s.shopper_group_name, ap.product_price, price_quantity_start, price_quantity_end, ap.discount_price, ap.discount_start_date, ap.discount_end_date "
+		$query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number, ap.section,
+		s.shopper_group_id, s.shopper_group_name, ap.product_price, price_quantity_start, price_quantity_end,
+		ap.discount_price, ap.discount_start_date, ap.discount_end_date "
 			. "FROM `" . $this->_table_prefix . "product_attribute_price` AS ap "
 			. "LEFT JOIN `" . $this->_table_prefix . "shopper_group` AS s ON s.shopper_group_id=ap.shopper_group_id "
-			. "LEFT JOIN `" . $this->_table_prefix . "product_attribute_property` AS p ON p.property_id=ap.section_id AND ap.section='property' AND p.property_number != '' "
-			. "LEFT JOIN `" . $this->_table_prefix . "product_subattribute_color` AS sp ON sp.subattribute_color_id=ap.section_id AND ap.section='subproperty' AND sp.subattribute_color_number != '' ";
+			. "LEFT JOIN `" . $this->_table_prefix . "product_attribute_property` AS p ON p.property_id=ap.section_id AND ap.section='property'
+			AND p.property_number != '' "
+			. "LEFT JOIN `" . $this->_table_prefix . "product_subattribute_color` AS sp ON sp.subattribute_color_id=ap.section_id
+			AND ap.section='subproperty' AND sp.subattribute_color_number != '' ";
+
 		$db->setQuery($query);
 		$cur1 = $db->LoadObjectList();
 
@@ -1174,30 +1352,35 @@ class exportModelexport extends JModel
 					{
 						echo '"' . str_replace('"', '""', $id) . '"';
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
 						$i++;
 					}
 					echo "\r\n";
 				}
 				$i = 0;
+
 				foreach ($row as $id => $value)
 				{
 					echo '"' . str_replace('"', '""', $value) . '"';
 
-					if ($i < ($fields - 1)) echo ',';
+					if ($i < ($fields - 1))
+					{
+						echo ',';
+					}
 					$i++;
 				}
 				echo "\r\n";
 			}
-
-//			mysql_free_result( $cur1 );
-
 		}
 	}
 
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
+		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix
+			. 'manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -1211,7 +1394,6 @@ class exportModelexport extends JModel
 	 */
 	public function getProductExtrafield()
 	{
-
 		$query = "SELECT field_id, field_name FROM " . $this->_table_prefix . "fields "
 			. "WHERE field_section=1 "
 			. "ORDER BY ordering ";
@@ -1219,6 +1401,7 @@ class exportModelexport extends JModel
 		$fields = $this->_db->loadObjectlist();
 
 		$listfields = array();
+
 		for ($i = 0; $i < count($fields); $i++)
 		{
 			$listfields[$fields[$i]->field_id] = $fields[$i]->field_name;
@@ -1248,4 +1431,3 @@ class exportModelexport extends JModel
 		return $fieldExport;
 	}
 }
-

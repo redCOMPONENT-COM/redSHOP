@@ -14,11 +14,15 @@ jimport('joomla.application.component.model');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
+
 class shipping_detailModelshipping_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
@@ -30,7 +34,6 @@ class shipping_detailModelshipping_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -70,6 +73,7 @@ class shipping_detailModelshipping_detail extends JModel
 
 			return false;
 		}
+
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher =& JDispatcher::getInstance();
 		$payment = $dispatcher->trigger('onWriteconfig', array($data));
@@ -101,7 +105,7 @@ class shipping_detailModelshipping_detail extends JModel
 	public function saveOrder(&$cid)
 	{
 		global $mainframe;
-		//$scope 		= JRequest::getCmd( 'scope' );
+
 		$db =& JFactory::getDBO();
 		$row =& $this->getTable();
 
@@ -109,7 +113,7 @@ class shipping_detailModelshipping_detail extends JModel
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
 			$row->load((int) $cid[$i]);
@@ -152,7 +156,6 @@ class shipping_detailModelshipping_detail extends JModel
 	 */
 	public function move($direction)
 	{
-
 		$row =& JTable::getInstance('shipping_detail', 'Table');
 
 		if (!$row->load($this->_id))
@@ -171,7 +174,4 @@ class shipping_detailModelshipping_detail extends JModel
 
 		return true;
 	}
-
 }
-
-

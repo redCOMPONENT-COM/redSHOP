@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,7 +14,9 @@ jimport('joomla.application.component.model');
 class sample_catalogModelsample_catalog extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -40,14 +43,18 @@ class sample_catalogModelsample_catalog extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
 	public function getsample($sample)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour as c left join ' . $this->_table_prefix . 'catalog_sample as s on s.sample_id=c.sample_id WHERE colour_id in (' . $sample . ')';
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour as c left join ' . $this->_table_prefix .
+			'catalog_sample as s on s.sample_id=c.sample_id WHERE colour_id in (' . $sample . ')';
 		$this->_db->setQuery($query);
 		$sample_data = $this->_db->loadObjectlist();
 
@@ -64,9 +71,9 @@ class sample_catalogModelsample_catalog extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -82,7 +89,4 @@ class sample_catalogModelsample_catalog extends JModel
 		}
 		return true;
 	}
-
 }
-
-

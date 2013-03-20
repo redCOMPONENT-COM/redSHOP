@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class zipcodeModelzipcode extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -33,14 +37,13 @@ class zipcodeModelzipcode extends JModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
 	public function getData()
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery(); //$this->_db->setQuery( $query ); echo $this->_db->getQuery();
+			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 		return $this->_data;
@@ -63,17 +66,13 @@ class zipcodeModelzipcode extends JModel
 		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-
 		}
 
 		return $this->_pagination;
 	}
 
-
 	public function _buildQuery()
 	{
-
-		//$filter = $this->getState('filter');
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = 'SELECT z . * , c.country_name, s.state_name '
@@ -106,7 +105,4 @@ class zipcodeModelzipcode extends JModel
 
 		return $this->_db->loadResult();
 	}
-
 }
-
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -21,8 +22,11 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'stockroom.ph
 class quotation_detailModelquotation_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
@@ -46,7 +50,10 @@ class quotation_detailModelquotation_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -54,9 +61,7 @@ class quotation_detailModelquotation_detail extends JModel
 	public function _loadData()
 	{
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
-//			."LEFT JOIN ".$this->_table_prefix."users_info AS u ON u.user_id=q.user_id "
-			. "WHERE q.quotation_id='" . $this->_id . "' "//			."AND u.address_type Like 'BT' "
-		;
+			. "WHERE q.quotation_id='" . $this->_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
 
@@ -153,7 +158,6 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public function store($data)
 	{
-
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
@@ -162,14 +166,13 @@ class quotation_detailModelquotation_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
-
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
-
 
 		$quotation_item = $data['quotation_item'];
 
@@ -186,6 +189,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 					return false;
 				}
+
 				if (!$rowitem->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
@@ -194,6 +198,7 @@ class quotation_detailModelquotation_detail extends JModel
 				}
 			}
 		}
+
 		return $row;
 	}
 
@@ -215,6 +220,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$db = & JFactory::getDBO();
 
 			$items = $quotationHelper->getQuotationProduct($cids);
+
 			for ($i = 0; $i < count($items); $i++)
 			{
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
@@ -272,6 +278,7 @@ class quotation_detailModelquotation_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -281,7 +288,7 @@ class quotation_detailModelquotation_detail extends JModel
 		$quotation =& $this->getTable();
 		$quotation->load($quotation_id);
 
-		// get Order Item Info
+		// Get Order Item Info
 		$quoteitemdata = $this->getTable('quotation_item_detail');
 		$quoteitemdata->load($cids);
 
@@ -353,10 +360,11 @@ class quotation_detailModelquotation_detail extends JModel
 
 			return false;
 		}
+
 		return true;
 	}
 
-	// add new Quotation Item
+	// Add new Quotation Item
 	public function newQuotationItem($data)
 	{
 		$quotationHelper = new quotationHelper;
@@ -365,13 +373,15 @@ class quotation_detailModelquotation_detail extends JModel
 		$stockroomhelper = new rsstockroomhelper;
 		$item = $data['quotation_item'];
 
-		// get Order Info
+		// Get Order Info
 		$quotationdata = $this->getTable('quotation_detail');
 		$quotationdata->load($this->_id);
 
 		$user_id = $quotationdata->user_id;
-		// set Order Item Info
+
+		// Set Order Item Info
 		$qitemdata = $this->getTable('quotation_item_detail');
+
 		for ($i = 0; $i < count($item); $i++)
 		{
 			$product_id = $item[$i]->product_id;
@@ -381,12 +391,10 @@ class quotation_detailModelquotation_detail extends JModel
 
 			$product = $producthelper->getProductById($product_id);
 
-			///////////// Attribute price added ///////////////////////
 			$generateAttributeCart = $rsCarthelper->generateAttributeArray((array) $item[$i], $user_id);
 			$retAttArr = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute = $retAttArr[0];
 
-			////////////// Accessory price /////////////
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory = $retAccArr[0];
@@ -401,6 +409,7 @@ class quotation_detailModelquotation_detail extends JModel
 				{
 					$wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
 				}
+
 				$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 			}
 			$qitemdata = & $this->getTable('quotation_item_detail');
@@ -426,10 +435,12 @@ class quotation_detailModelquotation_detail extends JModel
 
 				return false;
 			}
+
 			/** my accessory save in table start */
 			if (count($generateAccessoryCart) > 0)
 			{
 				$attArr = $generateAccessoryCart;
+
 				for ($a = 0; $a < count($attArr); $a++)
 				{
 					$accessory_vat_price = 0;
@@ -444,6 +455,7 @@ class quotation_detailModelquotation_detail extends JModel
 						$accessory_vat_price = $producthelper->getProductTax($qitemdata->product_id, $accessory_price, $user_id);
 					}
 					$attchildArr = $attArr[$a]['accessory_childs'];
+
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
@@ -469,6 +481,7 @@ class quotation_detailModelquotation_detail extends JModel
 						}
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
+
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$section_vat = 0;
@@ -478,7 +491,8 @@ class quotation_detailModelquotation_detail extends JModel
 								$section_vat = $producthelper->getProducttax($qitemdata->product_id, $propArr[$k]['property_price'], $user_id);
 							}
 							$property_id = $propArr[$k]['property_id'];
-							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand']
+								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
 							$rowattitem = & $this->getTable('quotation_attribute_item');
@@ -512,7 +526,8 @@ class quotation_detailModelquotation_detail extends JModel
 									$section_vat = $producthelper->getProducttax($qitemdata->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
-								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand']
+									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
 								$rowattitem = & $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
@@ -575,6 +590,7 @@ class quotation_detailModelquotation_detail extends JModel
 			if (count($generateAttributeCart) > 0)
 			{
 				$attArr = $generateAttributeCart;
+
 				for ($j = 0; $j < count($attArr); $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
@@ -599,6 +615,7 @@ class quotation_detailModelquotation_detail extends JModel
 					}
 
 					$propArr = $attArr[$j]['attribute_childs'];
+
 					for ($k = 0; $k < count($propArr); $k++)
 					{
 						$section_vat = 0;
@@ -608,8 +625,8 @@ class quotation_detailModelquotation_detail extends JModel
 							$section_vat = $producthelper->getProducttax($qitemdata->product_id, $propArr[$k]['property_price'], $user_id);
 						}
 						$property_id = $propArr[$k]['property_id'];
+
 						/** product property STOCKROOM update start */
-//						$producthelper->updateAttributeStockRoom($property_id,"property",$rowitem->product_quantity);
 						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $qitemdata->product_quantity, "property");
 
 						$rowattitem = & $this->getTable('quotation_attribute_item');
@@ -635,6 +652,7 @@ class quotation_detailModelquotation_detail extends JModel
 						}
 
 						$subpropArr = $propArr[$k]['property_childs'];
+
 						for ($l = 0; $l < count($subpropArr); $l++)
 						{
 							$section_vat = 0;
@@ -644,8 +662,8 @@ class quotation_detailModelquotation_detail extends JModel
 								$section_vat = $producthelper->getProducttax($qitemdata->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
+
 							/** product subproperty STOCKROOM update start */
-//							$producthelper->updateAttributeStockRoom($subproperty_id,"subproperty",$rowitem->product_quantity);
 							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $qitemdata->product_quantity, "subproperty");
 
 							$rowattitem = & $this->getTable('quotation_attribute_item');
@@ -674,15 +692,17 @@ class quotation_detailModelquotation_detail extends JModel
 				}
 			}
 
-			// store userfields
+			// Store userfields
 			$userfields = JRequest::getVar('extrafields' . $qitemdata->product_id);
 			$userfields_id = JRequest::getVar('extrafields_id_' . $qitemdata->product_id);
+
 			for ($ui = 0; $ui < count($userfields); $ui++)
 			{
 				$quotationHelper->insertQuotationUserfield($userfields_id[$ui], $qitemdata->quotation_item_id, 12, $userfields[$ui]);
 			}
 		}
-		// store order item data
+
+		// Store order item data
 		if ($qitemdata->quotation_item_id > 0)
 		{
 			$totalItemVat = $qitemdata->product_price - $qitemdata->product_excl_price;
@@ -695,7 +715,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$quotationdata->quotation_discount = $quotationdata->order_discount + $discount;
 			$quotationdata->quotation_mdate = time();
 
-			// update order detail
+			// Update order detail
 			if (!$quotationdata->store())
 			{
 				return false;
@@ -705,8 +725,7 @@ class quotation_detailModelquotation_detail extends JModel
 		{
 			return false;
 		}
+
 		return true;
 	}
 }
-
-

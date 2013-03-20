@@ -61,6 +61,7 @@ class JInstallerPayment extends JObject
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children()))
 		{
 			$files =& $element->children();
+
 			foreach ($files as $file)
 			{
 				if ($file->attributes($type))

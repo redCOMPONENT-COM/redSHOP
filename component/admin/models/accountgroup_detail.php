@@ -25,7 +25,6 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -40,7 +39,10 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -56,6 +58,7 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -94,12 +97,14 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -120,6 +125,7 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -141,8 +147,7 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 }
-
-

@@ -6,10 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+
 class product_categoryModelproduct_category extends JModel
 {
 	public function __construct()
@@ -33,6 +35,7 @@ class product_categoryModelproduct_category extends JModel
 	{
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');
 		$cat_id = JRequest::getVar('category_id');
+
 		for ($i = 0; $i < count($pid); $i++)
 		{
 			for ($j = 0; $j < count($cat_id); $j++)
@@ -44,10 +47,13 @@ class product_categoryModelproduct_category extends JModel
 					$this->_db->setQuery($query);
 
 					if (!$this->_db->Query())
+					{
 						return false;
+					}
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -56,6 +62,7 @@ class product_categoryModelproduct_category extends JModel
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');
 		$cat_id = JRequest::getVar('category_id', array(), 'post', 'array');
 		$cat_ids = implode(",", $cat_id);
+
 		for ($i = 0; $i < count($pid); $i++)
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "product_category_xref "
@@ -63,8 +70,11 @@ class product_categoryModelproduct_category extends JModel
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->Query())
+			{
 				return false;
+			}
 		}
+
 		return true;
 	}
 
@@ -77,5 +87,3 @@ class product_categoryModelproduct_category extends JModel
 		return $this->_db->loadObjectlist();
 	}
 }
-
-

@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class quotationModelquotation extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -32,7 +36,6 @@ class quotationModelquotation extends JModel
 
 		$filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', 0);
 		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-//		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -47,6 +50,7 @@ class quotationModelquotation extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -57,6 +61,7 @@ class quotationModelquotation extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -73,21 +78,11 @@ class quotationModelquotation extends JModel
 
 	public function _buildQuery()
 	{
-
 		$where = "";
-//	    $order_id = array();
-//
+
 		$filter = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
-//		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-//		$order_id = implode(',',$cid);
-//
-//		$where[] = "1=1";
-//		if ( $filter_status ) {
-//
-//			$where[] = "o.order_status like '%".$filter_status."%'";
-//
-//		}
+
 		if ($filter)
 		{
 			$where .= " AND (uf.firstname LIKE '%" . $filter . "%' OR uf.lastname LIKE '%" . $filter . "%')";
@@ -120,5 +115,3 @@ class quotationModelquotation extends JModel
 		return $orderby;
 	}
 }
-
-
