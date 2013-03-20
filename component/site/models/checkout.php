@@ -64,7 +64,7 @@ class CheckoutModelCheckout extends JModel
 		$this->_order_functions = new order_functions;
 		$this->_redshopMail     = new redshopMail;
 
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$cart = $session->get('cart');
 
 		if (!empty($cart))
@@ -164,7 +164,7 @@ class CheckoutModelCheckout extends JModel
 			$user->id = -$auth['users_info_id'];
 		}
 
-		$db      = & JFactory::getDBO();
+		$db      = JFactory::getDBO();
 		$issplit = $session->get('issplit');
 		$url     =& JURI::root();
 
@@ -269,11 +269,11 @@ class CheckoutModelCheckout extends JModel
 		$order_status      = 'P';
 		$order_status_full = $this->_order_functions->getOrderStatusTitle('P');
 
-		# Start code to track duplicate order number checking by parth
+		// Start code to track duplicate order number checking by parth
 
 		$order_number = $this->getOrdernumber();
 
-		# End code to track duplicate order number checking by parth
+		// End code to track duplicate order number checking by parth
 
 		$order_subtotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
@@ -405,7 +405,7 @@ class CheckoutModelCheckout extends JModel
 		$row->shop_id            = $shop_id;
 		$row->customer_message   = $customer_message;
 		$row->referral_code      = $referral_code;
-		$db                      = & JFactory::getDBO();
+		$db                      = JFactory::getDBO();
 
 		$dispatcher =& JDispatcher::getInstance();
 
@@ -505,13 +505,13 @@ class CheckoutModelCheckout extends JModel
 			# Start code to track duplicate order number checking by parth
 			$this->deleteOrdernumberTrack();
 
-			# End code to track duplicate order number checking by parth
+			// End code to track duplicate order number checking by parth
 			return false;
 		}
 
-		# Start code to track duplicate order number checking by parth
+		// Start code to track duplicate order number checking by parth
 		$this->deleteOrdernumberTrack();
-		# End code to track duplicate order number checking by parth
+		// End code to track duplicate order number checking by parth
 
 		$order_id = $row->order_id;
 
@@ -623,13 +623,12 @@ class CheckoutModelCheckout extends JModel
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			/*********************** GiftCARD start*********************/
+			// GiftCARD start
 			$is_giftcard    = 0;
 			$giftcard_price = 0;
 			$giftcard_name  = 0;
 
-
-			/*********************** GiftCARD end*********************/
+			// GiftCARD end
 
 			$product_id = $cart [$i] ['product_id'];
 			$product    = $this->_producthelper->getProductById($product_id);
@@ -679,11 +678,10 @@ class CheckoutModelCheckout extends JModel
 					$crmdata['person_id'] = 0;
 				}
 
-
 				$crmOrderHelper = new crmOrderHelper;
 				$crmOrderHelper->storeCRMOrder($crmdata);
 			}
-			# End
+			// End
 
 			if (!$rowitem->bind($post))
 			{
@@ -708,7 +706,8 @@ class CheckoutModelCheckout extends JModel
 			{
 				$is_giftcard = 1;
 			}
-			/********************* product stockroom update ********************/
+
+			// Product stockroom update
 
 			if (!$is_giftcard)
 			{
@@ -718,7 +717,8 @@ class CheckoutModelCheckout extends JModel
 				$rowitem->stockroom_id       = $stockroom_id_list;
 				$rowitem->stockroom_quantity = $stockroom_quantity_list;
 			}
-			/******************** end product stockroom update ***********************/
+
+			// End product stockroom update
 
 			$vals = explode('product_attributes/', $cart[$i]['hidden_attribute_cartimage']);
 
@@ -733,7 +733,7 @@ class CheckoutModelCheckout extends JModel
 			{
 				$rowitem->attribute_image = $vals[1];
 			}
-			//$rowitem->attribute_image=$vals[1];
+
 			$wrapper_price = 0;
 
 			if (@$cart[$i]['wrapper_id'])
@@ -803,7 +803,7 @@ class CheckoutModelCheckout extends JModel
 				}
 			}
 
-			# import files for plugin
+			// Import files for plugin
 			JPluginHelper::importPlugin('redshop_product');
 
 			if (!$rowitem->store())
@@ -814,9 +814,10 @@ class CheckoutModelCheckout extends JModel
 			}
 
 
-			# add plugin support
+			// Add plugin support
 			$results = $dispatcher->trigger('afterOrderItemSave', array($cart, $rowitem, $i));
-			# End
+
+			// End
 
 
 			if (isset($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'])
@@ -830,7 +831,7 @@ class CheckoutModelCheckout extends JModel
 
 			$this->_producthelper->insertProdcutUserfield($i, $cart, $rowitem->order_item_id, $section_id);
 
-			/** my accessory save in table start */
+			// my accessory save in table start
 			if (count($cart [$i] ['cart_accessory']) > 0)
 			{
 				$setPropEqual    = true;
@@ -1160,7 +1161,8 @@ class CheckoutModelCheckout extends JModel
 					return false;
 				}
 			}
-			//  reddesign
+
+			// Reddesign
 
 			if (@$cart[$i]['reddesign'] == "1")
 			{
@@ -1172,7 +1174,6 @@ class CheckoutModelCheckout extends JModel
 				$db->setQuery($query);
 				$db->query();
 			}
-			// Reddesign end
 		}
 
 		$rowpayment = & $this->getTable('order_payment');
@@ -1342,9 +1343,7 @@ class CheckoutModelCheckout extends JModel
 		}
 
 
-		/**
-		 * redCRM includes
-		 */
+		// RedCRM includes
 		if ($helper->isredCRM())
 		{
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
@@ -1360,8 +1359,6 @@ class CheckoutModelCheckout extends JModel
 				unset($getStatus);
 			}
 		}
-
-		# End
 
 		return $row;
 	}
@@ -1469,7 +1466,7 @@ class CheckoutModelCheckout extends JModel
 			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
 			$g_pdfName = time();
 			$pdf->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . $g_pdfName . ".pdf", "F");
-			$config              = & JFactory::getConfig();
+			$config              = JFactory::getConfig();
 			$from                = $config->getValue('mailfrom');
 			$fromname            = $config->getValue('fromname');
 			$giftcard_attachment = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . $g_pdfName . ".pdf";
@@ -1878,7 +1875,7 @@ class CheckoutModelCheckout extends JModel
 
 	public function resetcart()
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		setcookie("redSHOPcart", "", time() - 3600, "/");
 		$session->set('cart', null);
 		$session->set('ccdata', null);
@@ -2415,7 +2412,7 @@ class CheckoutModelCheckout extends JModel
 		}
 	}
 
-# End code to track duplicate order number checking by parth*/
+	// End code to track duplicate order number checking by parth
 }
 
 class MYPDF extends TCPDF

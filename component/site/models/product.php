@@ -164,7 +164,7 @@ class productModelproduct extends JModel
 
 	public function checkReview($email)
 	{
-		$db    = & JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email='" . $email . "' AND email != '' AND product_id = '" . $product_id . "' limit 0,1 ";
 		$db->setQuery($query);
 		$chkemail = $db->loadResult();
@@ -365,7 +365,7 @@ class productModelproduct extends JModel
 
 	public function addProductTagsXref($post, $tags)
 	{
-		$user  = & JFactory::getUser();
+		$user  = JFactory::getUser();
 		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
 			. "VALUES('" . $tags->tags_id . "','" . $post['product_id'] . "','" . $user->id . "')";
 		$this->_db->setQuery($query);
@@ -376,7 +376,7 @@ class productModelproduct extends JModel
 
 	public function checkProductTags($tagname, $productid)
 	{
-		$user  = & JFactory::getUser();
+		$user  = JFactory::getUser();
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt "
 			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
 			. "WHERE pt.tags_name LIKE '" . $tagname . "' "
@@ -390,7 +390,7 @@ class productModelproduct extends JModel
 
 	public function checkWishlist($product_id)
 	{
-		$user  = & JFactory::getUser();
+		$user  = JFactory::getUser();
 		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE product_id='" . $product_id . "' "
 			. "AND user_id='" . $user->id . "' ";

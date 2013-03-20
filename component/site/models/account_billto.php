@@ -63,7 +63,7 @@ class Account_billtoModelaccount_billto extends JModel
 					$is_company = 1;
 				}
 
-				$user   = & JFactory::getUser();
+				$user   = JFactory::getUser();
 				$detail = new stdClass;
 
 				$detail->users_info_id         = 0;

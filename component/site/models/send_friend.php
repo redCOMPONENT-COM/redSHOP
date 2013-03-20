@@ -83,7 +83,7 @@ class send_friendModelsend_friend extends JModel
 		$product_url = "<a href=" . $rlink . ">" . $rlink . "</a>";
 		$data_add    = str_replace("{product_url}", $product_url, $data_add);
 
-		$config   = & JFactory::getConfig();
+		$config   = JFactory::getConfig();
 		$from     = $config->getValue('mailfrom');
 		$fromname = $config->getValue('fromname');
 
