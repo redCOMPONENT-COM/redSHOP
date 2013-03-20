@@ -11,16 +11,22 @@ $bar_w     = 30;
 $max_y_arr = array();
 $a         = 1;
 $pt        = "pt" . $a;
+
 while (isset($_GET[$pt]))
 {
 	$max_y_arr[] = $_GET[$pt];
 	$a++;
 	$pt = "pt" . $a;
 }
+
 if (count($max_y_arr) > 0)
+{
 	$max_y = max($max_y_arr) + 100;
+}
 else
+{
 	$max_y = 1500;
+}
 
 $margin_top    = 20;
 $margin_bottom = 20;
@@ -56,21 +62,15 @@ $black = imagecolorallocate($ih, 0, 0, 0);
 $white = imagecolorallocate($ih, 255, 255, 255);
 
 imagefill($ih, 0, 0, $white);
+
 for ($r = 0; $r < count($rects); $r++)
 {
 	$red   = rand(0, 255);
 	$green = rand(0, 255);
 	$blue  = rand(0, 255);
-	/*if(($r % 2) == 0){
-
-		$hist_color = imagecolorallocate($ih, 95, 95, 95);
-	}else{
-		$hist_color = imagecolorallocate($ih, 191, 191, 191);
-	}*/
 
 	if (($r % 2) == 0)
 	{
-
 		$hist_color = imagecolorallocate($ih, 190, 10, 10);
 	}
 	else
@@ -80,14 +80,12 @@ for ($r = 0; $r < count($rects); $r++)
 
 	imagefilledrectangle($ih, $rects[$r][0] + 8, $rects[$r][1], $rects[$r][2], $rects[$r][3], $hist_color);
 
-	//array imagettftext  ( resource $image  , float $size  , float $angle  , int $x  , int $y  , int $color  , string $fontfile  , string $text  )
-
 	imagettftext($ih, 14, 90, $rects[$r][2] - 5, $rects[$r][1], $black, 'fonts/ARIAL.TTF', $data[$r]);
-
 
 	imageline($ih, $rects[$r][2], $margin_top + $max_y, $rects[$r][2], $margin_top + $max_y + 3, $black);
 	$ttfbox  = imagettfbbox(8, 0, 'fonts/ARIAL.TTF', "pt" . ($r + 1));
 	$half_pt = ($bar_w / 2) - ceil(($ttfbox[4] - $ttfbox[6]) / 2);
+
 	if (($r % 2) == 0)
 	{
 		imagettftext($ih, 8, 0, $rects[$r][0] + $half_pt, $rects[$r][3] + 10, $black, 'fonts/ARIAL.TTF', "nl" . ($r + 1));
@@ -96,12 +94,12 @@ for ($r = 0; $r < count($rects); $r++)
 	{
 		imagettftext($ih, 8, 0, $rects[$r][0] + $half_pt, $rects[$r][3] + 10, $black, 'fonts/ARIAL.TTF', "rnl");
 	}
-
 }
 
 imageline($ih, $margin_left, $margin_top, $margin_left, $margin_top + $max_y + 3, $black);
 imageline($ih, $margin_left, $margin_top + $max_y, $last_x2, $margin_top + $max_y, $black);
 $tick = 0;
+
 while ($tick < $max_y)
 {
 	$tick += $y_div;
@@ -111,4 +109,3 @@ while ($tick < $max_y)
 
 imagepng($ih);
 imagedestroy($ih);
-
