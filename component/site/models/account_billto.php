@@ -20,9 +20,9 @@ jimport('joomla.application.component.model');
  */
 class Account_billtoModelaccount_billto extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -40,20 +40,20 @@ class Account_billtoModelaccount_billto extends JModel
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
-				$order_functions = new order_functions();
+				$order_functions = new order_functions;
 				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
 
 				if (!isset($detail->user_id))
 				{
-					$detail->user_id = -$auth['users_info_id'];
+					$detail->user_id = - $auth['users_info_id'];
 				}
 			}
 			else
 			{
-				// toggler settings
+				// Toggler settings
 				$is_company = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
 
-				// allow registration type settings
+				// Allow registration type settings
 				if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 				{
 					$is_company = 0;
@@ -63,7 +63,7 @@ class Account_billtoModelaccount_billto extends JModel
 					$is_company = 1;
 				}
 
-				$user   = & JFactory::getUser();
+				$user   = JFactory::getUser();
 				$detail = new stdClass;
 
 				$detail->users_info_id         = 0;
@@ -111,6 +111,7 @@ class Account_billtoModelaccount_billto extends JModel
 		{
 			return false;
 		}
+
 		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id);
 
 		return $reduser;

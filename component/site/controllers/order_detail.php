@@ -53,8 +53,8 @@ class Order_detailController extends JController
 	{
 	}
 
-	/*
-	 *  process payment function for creditcard payment
+	/**
+	 * Process payment function for creditcard payment.
 	 */
 	public function process_payment()
 	{
@@ -85,12 +85,14 @@ class Order_detailController extends JController
 				$billingaddresses->country_2_code = $redconfig->getCountryCode2($billingaddresses->country_code);
 				$d ["billingaddress"]->country_2_code = $billingaddresses->country_2_code;
 			}
+
 			if (isset($billingaddresses->state_code))
 			{
-				$billingaddresses->state_2_code = $billingaddresses->state_code; //$redconfig->getCountryCode2($billingaddresses->state_code);
+				$billingaddresses->state_2_code = $billingaddresses->state_code;
 				$d ["billingaddress"]->state_2_code = $billingaddresses->state_2_code;
 			}
 		}
+
 		if (isset($shippingaddresses))
 		{
 			if (isset($shippingaddresses->country_code))
@@ -98,14 +100,15 @@ class Order_detailController extends JController
 				$shippingaddresses->country_2_code = $redconfig->getCountryCode2($shippingaddresses->country_code);
 				$d ["shippingaddress"]->country_2_code = $shippingaddresses->country_2_code;
 			}
+
 			if (isset($shippingaddresses->state_code))
 			{
-				$shippingaddresses->state_2_code = $shippingaddresses->state_code; //$redconfig->getCountryCode2($shippingaddresses->state_code);
+				$shippingaddresses->state_2_code = $shippingaddresses->state_code;
 				$d ["shippingaddress"]->state_2_code = $shippingaddresses->state_2_code;
 			}
 		}
 
-		// get  data for credit card
+		// Get  data for credit card
 		$ccdata['order_payment_name'] = $request['order_payment_name'];
 		$ccdata['creditcard_code'] = $request['creditcard_code'];
 		$ccdata['order_payment_number'] = $request['order_payment_number'];
@@ -116,7 +119,6 @@ class Order_detailController extends JController
 		// Create session
 		$session->set('ccdata', $ccdata);
 		$ccdata = $session->get('ccdata');
-
 
 		$values['order_shipping'] = $order->order_shipping;
 		$values['order_number'] = $request['order_id'];
@@ -129,14 +131,12 @@ class Order_detailController extends JController
 		$values['payment_plugin'] = $request['payment_method_id'];
 		$values['order'] = $order;
 
-
-		// call payment plugin
+		// Call payment plugin
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher =& JDispatcher::getInstance();
 
-		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values)); //die();
+		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
-
 
 		$paymentResponse->log = $paymentResponse->message;
 		$paymentResponse->msg = $paymentResponse->message;
@@ -147,11 +147,9 @@ class Order_detailController extends JController
 			$paymentResponse->order_payment_status_code = 'Paid';
 			$paymentResponse->order_id = $request['order_id'];
 
-			// chnage order status
+			// Change order status
 			$this->_order_functions->changeorderstatus($paymentResponse);
-
 		}
-
 
 		// Update order payment table with  credit card details
 		$model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
@@ -160,25 +158,20 @@ class Order_detailController extends JController
 		$link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
 		$mainframe->redirect($link, $paymentResponse->message);
 
-
 	}
 
-
-	/*
+	/**
 	 * Notify payment function
 	 */
 	public function notify_payment()
 	{
-
 		$mainframe = & JFactory::getApplication('site');
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
-
 		$Itemid = JRequest::getVar('Itemid');
-		require_once (JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-		$objOrder = new order_functions();
-
+		require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher =& JDispatcher::getInstance();
@@ -196,7 +189,6 @@ class Order_detailController extends JController
 			$order_id = $results[0]->order_id;
 		}
 
-
 		$objOrder->changeorderstatus($results[0]);
 		$model = $this->getModel('order_detail');
 		$resetcart = $model->resetcart();
@@ -210,6 +202,7 @@ class Order_detailController extends JController
 		{
 			die("TRUE");
 		}
+
 		if ($request['payment_plugin'] != "rs_payment_worldpay")
 		{
 			// New checkout flow
@@ -219,6 +212,9 @@ class Order_detailController extends JController
 
 	}
 
+	/**
+	 * Copy order item to cart.
+	 */
 	public function copyorderitemtocart()
 	{
 		global $mainframe;
@@ -435,7 +431,6 @@ class Order_detailController extends JController
 			{
 				$paymentparams = new JRegistry($paymentmethod[0]->params);
 				$is_creditcard = $paymentparams->get('is_creditcard', 0);
-
 
 				if ($is_creditcard)
 				{

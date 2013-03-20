@@ -20,14 +20,15 @@ jimport('joomla.application.component.model');
  */
 class newsletterModelnewsletter extends JModel
 {
-	var $_table_prefix = null;
-	var $_db = null;
+	public $_table_prefix = null;
+
+	public $_db = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_db           = & JFactory :: getDBO();
+		$this->_db           = JFactory::getDBO();
 		$this->_table_prefix = '#__redshop_';
 		$sub_id              = JRequest::getInt('sid', '', 'request');
 
@@ -48,6 +49,7 @@ class newsletterModelnewsletter extends JModel
 			$and .= "AND `user_id`='" . $user->id . "' ";
 			$email = $user->email;
 		}
+
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "newsletter";
 		$this->_db->setQuery($query);
 		$newsletter = $this->_db->loadResult();
@@ -64,9 +66,13 @@ class newsletterModelnewsletter extends JModel
 			$alreadysub = $this->_db->loadResult();
 
 			if ($alreadysub)
+			{
 				return true;
+			}
 			else
+			{
 				return false;
+			}
 		}
 		else
 		{
