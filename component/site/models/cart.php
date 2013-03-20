@@ -64,7 +64,7 @@ class CartModelCart extends JModel
 			$this->emptyExpiredCartProducts();
 		}
 
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
@@ -188,12 +188,16 @@ class CartModelCart extends JModel
 		return $this->_data;
 	}
 
-	///////////////// Update cart ///////////////////////////
+	/**
+	 * Update cart.
+	 *
+	 * @param   array  $data  data in cart
+	 */
 	public function update($data)
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$user    = & JFactory::getUser();
+		$user    = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
@@ -231,22 +235,18 @@ class CartModelCart extends JModel
 				$calculator_price  = $discount_cal['product_price'];
 				$product_price_tax = $discount_cal['product_price_tax'];
 			}
-			# End
 
-			# Attribute price
+			// Attribute price
 			$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
 			$product_price              = $retAttArr[1];
 			$product_vat_price          = $retAttArr[2];
 			$product_old_price          = $retAttArr[5] + $retAttArr[6];
 			$product_old_price_excl_vat = $retAttArr[5];
-			# End
 
-			# Accessory price
+			// Accessory price
 			$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
 			$accessory_total_price = $retAccArr[1];
 			$accessory_vat_price   = $retAccArr[2];
-
-			# End
 
 			if ($cart[$cartElement]['wrapper_id'])
 			{
@@ -254,6 +254,7 @@ class CartModelCart extends JModel
 				$wrapper_vat   = $wrapperArr['wrapper_vat'];
 				$wrapper_price = $wrapperArr['wrapper_price'];
 			}
+
 			if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
 			{
 				$subscription_vat    = 0;
@@ -265,12 +266,11 @@ class CartModelCart extends JModel
 				$product_vat_price += $subscription_vat;
 				$product_price = $product_price + $subscription_price;
 
-//				$product_price_excl_vat += $subscription_price;
 				$product_old_price_excl_vat += $subscription_price;
 			}
 			else
 			{
-				//return ;
+				// Return ;
 			}
 
 			$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
@@ -287,7 +287,7 @@ class CartModelCart extends JModel
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$user    = & JFactory::getUser();
+		$user    = JFactory::getUser();
 
 		if (!$cart)
 		{
@@ -321,7 +321,7 @@ class CartModelCart extends JModel
 				$cart[$i]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$i], $cart[$i]['quantity']);
 				$cart[$i]['cart_attribute'] = $this->updateAttributePriceArray($cart[$i], $cart[$i]['quantity']);
 
-				# discount calculator
+				// discount calculator
 				if (!empty($cart[$i]['discount_calc']))
 				{
 
@@ -333,16 +333,15 @@ class CartModelCart extends JModel
 					$calculator_price  = $discount_cal['product_price'];
 					$product_price_tax = $discount_cal['product_price_tax'];
 				}
-				# End
 
-				////////////// Attribute price /////////////
+				// Attribute price
 				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$i]['cart_attribute'], $cart[$i]['product_id'], $user->id, $calculator_price, $cart[$i]['quantity']);
 				$product_price              = $retAttArr[1];
 				$product_vat_price          = $retAttArr[2];
 				$product_old_price          = $retAttArr[5] + $retAttArr[6];
 				$product_old_price_excl_vat = $retAttArr[5];
 
-				////////////// Accessory price /////////////
+				// Accessory price
 				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
 				$accessory_total_price = $retAccArr[1];
 				$accessory_vat_price   = $retAccArr[2];
@@ -365,12 +364,11 @@ class CartModelCart extends JModel
 					$product_vat_price += $subscription_vat;
 					$product_price = $product_price + $subscription_price;
 
-//					$product_price_excl_vat += $subscription_price;
 					$product_old_price_excl_vat += $subscription_price;
 				}
 				else
 				{
-					//return ;
+					// Return ;
 				}
 
 				$cart[$i]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
@@ -476,12 +474,16 @@ class CartModelCart extends JModel
 		}
 	}
 
-	/*
-	 * check if attribute tag is present in product template
+	/**
+	 * check if attribute tag is present in product template.
+	 *
+	 * @param   int  $product_id  the product id
+	 *
+	 * @return bool
 	 */
 	public function checkifTagAvailable($product_id)
 	{
-		$db          = & JFactory :: getDBO();
+		$db          = JFactory::getDBO();
 		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
 			. "WHERE product_id='" . $product_id;
@@ -504,7 +506,7 @@ class CartModelCart extends JModel
 	 */
 	public function shippingrate_calc()
 	{
-		$document = & JFactory :: getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
 		$redConfig = new Redconfiguration;
 

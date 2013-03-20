@@ -40,7 +40,7 @@ class AccountModelaccount extends JModel
 	{
 		$order_functions = new order_functions;
 
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$session = JFactory::getSession();
 
@@ -514,13 +514,16 @@ class AccountModelaccount extends JModel
 					$data_add .= $pname;
 
 					$formatted_price = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
-					$price_add       = '<span id="pr_price">' . $formatted_price . '</span>'; //////// For attribute price count
+
+					// For attribute price count
+					$price_add       = '<span id="pr_price">' . $formatted_price . '</span>';
 
 					$i++;
 					$data_add .= '</div>';
 				}
 			}
 		}
+
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
 			return true;
 		else

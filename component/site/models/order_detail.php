@@ -61,7 +61,7 @@ class Order_detailModelOrder_detail extends JModel
 	{
 		global $mainframe;
 		$order_functions = new order_functions;
-		$user            = & JFactory::getUser();
+		$user            = JFactory::getUser();
 		$session         = JFactory::getSession();
 
 
@@ -86,7 +86,7 @@ class Order_detailModelOrder_detail extends JModel
 	 */
 	public function getCategoryNameByProductId($pid)
 	{
-		$db    = & JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
 			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
 			. "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
@@ -97,7 +97,7 @@ class Order_detailModelOrder_detail extends JModel
 
 	public function resetcart()
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set('cart', null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);

@@ -27,7 +27,7 @@ class LoginModelLogin extends JModel
 
 	public function setlogin($username, $password)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$credentials             = array();
 		$credentials['username'] = $username;

@@ -635,7 +635,7 @@ class quotationModelquotation extends JModel
 
 		JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $mailbody, 1, null, $mailbcc);
 
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set('cart', null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
