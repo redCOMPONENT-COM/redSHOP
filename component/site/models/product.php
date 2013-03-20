@@ -42,8 +42,8 @@ class productModelproduct extends JModel
 
 		$GLOBALS['childproductlist'] = array();
 
-		$this->setId(( int ) $pid);
-		$this->_catid = ( int ) JRequest::getVar('cid', 0);
+		$this->setId((int) $pid);
+		$this->_catid = (int) JRequest::getVar('cid', 0);
 	}
 
 	public function setId($id)

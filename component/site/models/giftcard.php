@@ -35,7 +35,7 @@ class GiftcardModelGiftcard extends JModel
 		$this->_table_prefix = '#__redshop_';
 		$Id                  = JRequest::getInt('gid', 0);
 
-		$this->setId(( int ) $Id);
+		$this->setId((int) $Id);
 	}
 
 	public function setId($id)

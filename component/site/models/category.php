@@ -48,7 +48,7 @@ class CategoryModelCategory extends JModel
 		{
 			if (!$Id && $layout != '')
 			{
-				$Id = ( int ) $params->get('cid');
+				$Id = (int) $params->get('cid');
 			}
 		}
 
@@ -56,7 +56,7 @@ class CategoryModelCategory extends JModel
 
 		$this->setState('category_template', $category_template);
 
-		$this->setId(( int ) $Id);
+		$this->setId((int) $Id);
 	}
 
 	public function setId($id)
@@ -491,7 +491,6 @@ class CategoryModelCategory extends JModel
 			$alltemplate = $redTemplate->getTemplate("frontpage_category");
 		}
 
-		//print_r($alltemplate);
 		return $alltemplate;
 	}
 
@@ -500,7 +499,7 @@ class CategoryModelCategory extends JModel
 		global $mainframe, $context;
 
 		$params            = & $mainframe->getParams('com_redshop');
-		$category_template = ( int ) $this->getState('category_template');
+		$category_template = (int) $this->getState('category_template');
 		$redTemplate       = new Redtemplate;
 
 		$selected_template = 0;
