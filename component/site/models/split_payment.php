@@ -23,7 +23,9 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 class split_paymentModelsplit_payment extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -59,28 +61,6 @@ class split_paymentModelsplit_payment extends JModel
 		$task            = JRequest::getVar('task');
 		$user            = JFactory::getUser();
 		$order_functions = new order_functions;
-		/*$session =&JFactory::getSession();
-   		$issplit=$session->get('issplit') ;
-   		 		
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
-		$field = new extraField ( );
-		
-		if (GOOGLE_ANA_TRACKER_KEY != "") {
-			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
-		}
-		
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-		require_once $adminpath . DS . 'helpers' . DS . 'shipping.php';
-		$objshipping = new shipping ( );
-		
-		include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-		$producthelper = new producthelper ( );
-		
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
-		$field = new extraField ( );
-		
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-		$ps = new producthelper ( );*/
 
 		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
 		$user      = JFactory::getUser();
@@ -109,12 +89,6 @@ class split_paymentModelsplit_payment extends JModel
 
 		$d ["order_payment_trans_id"] = '';
 		$tmporder_total               = $remaningtopay;
-		/*if($issplit)
-		{
-			$tmporder_total = $order_total/2;
-		}
-		 */
-		//JRequest::setVar ( 'order_ship', $order_shipping [3] );
 
 		$paymentmethod = $order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentmethod = $paymentmethod[0];
@@ -128,7 +102,9 @@ class split_paymentModelsplit_payment extends JModel
 			$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 			$order_status_full   = 'Awaiting bank transfer';
 
-			$query = "UPDATE " . $this->_table_prefix . "orders set order_payment_status = '" . $order_paymentstatus . "', split_payment=0  where order_id = " . $oid;
+			$query = "UPDATE " . $this->_table_prefix
+				. "orders set order_payment_status = '" . $order_paymentstatus
+				. "', split_payment=0  where order_id = " . $oid;
 			$this->_db->setQuery($query);
 			$this->_db->query();
 			$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
@@ -143,7 +119,11 @@ class split_paymentModelsplit_payment extends JModel
 			if (!$validpayment[0])
 			{
 				$msg  = $validpayment[1];
-				$link = 'index.php?option=' . $option . '&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
+				$link = 'index.php?option=' . $option
+					. '&view=split_payment&Itemid=' . $Itemid
+					. '&ccinfo=' . $ccinfo
+					. '&payment_method_id=' . $payment_method_id
+					. '&oid=' . $oid;
 				$mainframe->Redirect($link, $msg);
 			}
 
@@ -153,7 +133,7 @@ class split_paymentModelsplit_payment extends JModel
 
 			$payment_class = new $paymentmethod->payment_class;
 
-			//function process_payment($order_number, $order_total, &$d)
+			// Function process_payment($order_number, $order_total, &$d)
 			$payment = $payment_class->process_payment($order_number, $tmporder_total, $d);
 
 
@@ -172,7 +152,7 @@ class split_paymentModelsplit_payment extends JModel
 
 				if ($d ["order_payment_log"] == 'SUCCESS')
 				{
-					// If partial payment success, then update the payment and status					
+					// If partial payment success, then update the payment and status
 					$rowpayment = & $this->getTable('order_payment');
 
 					if (!$rowpayment->bind($post))
@@ -188,7 +168,8 @@ class split_paymentModelsplit_payment extends JModel
 					$rowpayment->order_payment_code     = $_SESSION ['ccdata'] ['creditcard_code'];
 					$rowpayment->order_payment_number   = base64_encode($_SESSION ['ccdata'] ['order_payment_number']);
 					$rowpayment->order_payment_amount   = $tmporder_total;
-					$rowpayment->order_payment_expire   = $_SESSION ['ccdata'] ['order_payment_expire_month'] . ' ' . $_SESSION ['ccdata'] ['order_payment_expire_year'];
+					$rowpayment->order_payment_expire   = $_SESSION ['ccdata'] ['order_payment_expire_month'] . ' '
+														. $_SESSION ['ccdata'] ['order_payment_expire_year'];
 					$rowpayment->order_payment_name     = $paymentmethod->payment_method_name;
 					$rowpayment->order_payment_trans_id = $d ["order_payment_trans_id"];
 
@@ -202,7 +183,9 @@ class split_paymentModelsplit_payment extends JModel
 					$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 					$msg                 = JText::_('COM_REDSHOP_PARTIAL_PAYMENT_DONE');
 
-					$query = "UPDATE " . $this->_table_prefix . "orders set order_payment_status = '" . $order_paymentstatus . "', split_payment=0  where order_id = " . $oid;
+					$query = "UPDATE " . $this->_table_prefix
+						. "orders set order_payment_status = '" . $order_paymentstatus
+						. "', split_payment=0  where order_id = " . $oid;
 					$this->_db->setQuery($query);
 					$this->_db->query();
 
@@ -218,18 +201,10 @@ class split_paymentModelsplit_payment extends JModel
 					$return              = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 				}
 			}
-
 		}
 
 		$mainframe->Redirect($return, $msg);
 	}
-
-	/*function getpaymentmethodinfo($id) 
-	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND payment_method_id = '" . $id . "'";
-		$this->_db->setQuery ( $query );
-		return $this->_db->loadObject ();
-	}*/
 
 	public function validatepaymentccinfo()
 	{
@@ -279,22 +254,70 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
-		// Define the cards we support. You may add additional card types.
+		/*
+		 * Define the cards we support. You may add additional card types.
+		 *
+		 * Name:      As in the selection box of the form - must be same as user's
+		 * Length:    List of possible valid lengths of the card number for the card
+		 * Prefixes:  List of possible prefixes for the card
+		 * Checkdigit Boolean to say whether there is a check digit
+		 *
+		 * Don't forget - all but the last array definition needs a comma separator!
+		*/
 
-
-		//  Name:      As in the selection box of the form - must be same as user's
-		//  Length:    List of possible valid lengths of the card number for the card
-		//  prefixes:  List of possible prefixes for the card
-		//  checkdigit Boolean to say whether there is a check digit
-
-
-		// Don't forget - all but the last array definition needs a comma separator!
-
-
-		$cards = array(array('name'   => 'amex', //American Express
-		                     'length' => '15', 'prefixes' => '34,37', 'checkdigit' => true), array('name' => 'Diners Club Carte Blanche', 'length' => '14', 'prefixes' => '300,301,302,303,304,305', 'checkdigit' => true), array('name'   => 'diners', //Diners Club
-		                                                                                                                                                                                                                          'length' => '14,16', 'prefixes' => '36,54,55', 'checkdigit' => true), array('name' => 'Discover', 'length' => '16', 'prefixes' => '6011,622,64,65', 'checkdigit' => true), array('name' => 'Diners Club Enroute', 'length' => '15', 'prefixes' => '2014,2149', 'checkdigit' => true), array('name' => 'JCB', 'length' => '16', 'prefixes' => '35', 'checkdigit' => true), array('name' => 'Maestro', 'length' => '12,13,14,15,16,18,19', 'prefixes' => '5018,5020,5038,6304,6759,6761', 'checkdigit' => true), array('name'   => 'MC', //MasterCard
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               'length' => '16', 'prefixes' => '51,52,53,54,55', 'checkdigit' => true), array('name' => 'Solo', 'length' => '16,18,19', 'prefixes' => '6334,6767', 'checkdigit' => true), array('name' => 'Switch', 'length' => '16,18,19', 'prefixes' => '4903,4905,4911,4936,564182,633110,6333,6759', 'checkdigit' => true), array('name' => 'Visa', 'length' => '13,16', 'prefixes' => '4', 'checkdigit' => true), array('name' => 'Visa Electron', 'length' => '16', 'prefixes' => '417500,4917,4913,4508,4844', 'checkdigit' => true), array('name' => 'LaserCard', 'length' => '16,17,18,19', 'prefixes' => '6304,6706,6771,6709', 'checkdigit' => true));
+		$cards = array(
+					array('name'   => 'amex', // American Express
+							'length' => '15',
+							'prefixes' => '34,37',
+							'checkdigit' => true),
+					array('name' => 'Diners Club Carte Blanche',
+							'length' => '14',
+							'prefixes' => '300,301,302,303,304,305',
+							'checkdigit' => true),
+					array('name'   => 'diners', // Diners Club
+							'length' => '14,16',
+							'prefixes' => '36,54,55',
+							'checkdigit' => true),
+					array('name' => 'Discover',
+							'length' => '16',
+							'prefixes' => '6011,622,64,65',
+							'checkdigit' => true),
+					array('name' => 'Diners Club Enroute',
+							'length' => '15',
+							'prefixes' => '2014,2149',
+							'checkdigit' => true),
+					array('name' => 'JCB',
+							'length' => '16',
+							'prefixes' => '35',
+							'checkdigit' => true),
+					array('name' => 'Maestro',
+							'length' => '12,13,14,15,16,18,19',
+							'prefixes' => '5018,5020,5038,6304,6759,6761',
+							'checkdigit' => true),
+					array('name' => 'MC', // MasterCard
+							'length' => '16',
+							'prefixes' => '51,52,53,54,55',
+							'checkdigit' => true),
+					array('name' => 'Solo',
+							'length' => '16,18,19',
+							'prefixes' => '6334,6767',
+							'checkdigit' => true),
+					array('name' => 'Switch',
+							'length' => '16,18,19',
+							'prefixes' => '4903,4905,4911,4936,564182,633110,6333,6759',
+							'checkdigit' => true),
+					array('name' => 'Visa',
+							'length' => '13,16',
+							'prefixes' => '4',
+							'checkdigit' => true),
+					array('name' => 'Visa Electron',
+							'length' => '16',
+							'prefixes' => '417500,4917,4913,4508,4844',
+							'checkdigit' => true),
+					array('name' => 'LaserCard',
+							'length' => '16,17,18,19',
+							'prefixes' => '6304,6706,6771,6709',
+							'checkdigit' => true));
 
 		$ccErrorNo = 0;
 
@@ -350,9 +373,14 @@ class split_paymentModelsplit_payment extends JModel
 		// Now check the modulus 10 check digit - if required
 		if ($cards [$cardType] ['checkdigit'])
 		{
-			$checksum = 0; // Running checksum total
-			$mychar   = ""; // Next char to process
-			$j        = 1; // Takes value of 1 or 2
+			// Running checksum total
+			$checksum = 0;
+
+			// Next char to process
+			$mychar   = "";
+
+			// Takes value of 1 or 2
+			$j        = 1;
 
 
 			// Process each digit one by one starting at the right
@@ -379,8 +407,7 @@ class split_paymentModelsplit_payment extends JModel
 				else
 				{
 					$j = 1;
-				}
-				;
+				};
 			}
 
 			// All done - if checksum is divisible by 10, it is a valid modulus 10.
@@ -400,7 +427,7 @@ class split_paymentModelsplit_payment extends JModel
 		// Load an array with the valid prefixes for this card
 		$prefix = split(',', $cards [$cardType] ['prefixes']);
 
-		// Now see if any of them match what we have in the card number  
+		// Now see if any of them match what we have in the card number
 		$PrefixValid = false;
 
 		for ($i = 0; $i < sizeof($prefix); $i++)
@@ -436,15 +463,14 @@ class split_paymentModelsplit_payment extends JModel
 			}
 		}
 
-		// See if all is OK by seeing if the length was valid. 
+		// See if all is OK by seeing if the length was valid.
 		if (!$LengthValid)
 		{
 			$errornumber = 4;
 			$errortext   = $ccErrors [$errornumber];
 
 			return false;
-		}
-		;
+		};
 
 		// The credit card is in the required format.
 		return true;
@@ -475,7 +501,9 @@ class split_paymentModelsplit_payment extends JModel
 
 		if ($type == "American")
 		{
-			$pattern = "/^([34|37]{2})([0-9]{13})$/"; //American Express
+			// American Express
+			$pattern = "/^([34|37]{2})([0-9]{13})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -484,11 +512,12 @@ class split_paymentModelsplit_payment extends JModel
 			{
 				$verified = false;
 			}
-
 		}
 		elseif ($type == "Dinners")
 		{
-			$pattern = "/^([30|36|38]{2})([0-9]{12})$/"; //Diner's Club
+			// Diner's Club
+			$pattern = "/^([30|36|38]{2})([0-9]{12})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -497,11 +526,12 @@ class split_paymentModelsplit_payment extends JModel
 			{
 				$verified = false;
 			}
-
 		}
 		elseif ($type == "Discover")
 		{
-			$pattern = "/^([6011]{4})([0-9]{12})$/"; //Discover Card
+			// Discover Card
+			$pattern = "/^([6011]{4})([0-9]{12})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -510,11 +540,12 @@ class split_paymentModelsplit_payment extends JModel
 			{
 				$verified = false;
 			}
-
 		}
 		elseif ($type == "Master")
 		{
-			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/"; //Mastercard
+			// Mastercard
+			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -523,11 +554,12 @@ class split_paymentModelsplit_payment extends JModel
 			{
 				$verified = false;
 			}
-
 		}
 		elseif ($type == "Visa")
 		{
-			$pattern = "/^([4]{1})([0-9]{12,15})$/"; //Visa
+			// Visa
+			$pattern = "/^([4]{1})([0-9]{12,15})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -536,18 +568,17 @@ class split_paymentModelsplit_payment extends JModel
 			{
 				$verified = false;
 			}
-
 		}
 
 		if ($verified == false)
 		{
-			//Do something here in case the validation fails
+			// Do something here in case the validation fails
 			echo "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
 		}
 		else
-		{ //if it will pass...do something
+		{
+			// If it will pass...do something
 			echo "Your <em>" . $denum . "</em> credit card is valid";
 		}
-
 	}
 }

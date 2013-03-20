@@ -24,7 +24,9 @@ include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
 class registrationModelregistration extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()

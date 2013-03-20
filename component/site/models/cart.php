@@ -503,7 +503,7 @@ class CartModelCart extends JModel
 		}
 	}
 
-	/*
+	/**
 	 * 	shipping rate calculator
 	 */
 	public function shippingrate_calc()

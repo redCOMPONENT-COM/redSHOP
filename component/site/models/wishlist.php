@@ -25,10 +25,16 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 class wishlistModelwishlist extends JModel
 {
 	public $_id = null;
+
 	public $_name = null;
-	public $_userid = null; // Product data
+
+	// Product data
+	public $_userid = null;
+
 	public $_table_prefix = null;
+
 	public $_comment = null;
+
 	public $_cdate = null;
 
 	public function __construct()
@@ -78,7 +84,9 @@ class wishlistModelwishlist extends JModel
 			if (isset($_SESSION["no_of_prod"]))
 			{
 				for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
+				{
 					$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+				}
 
 				$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
 
@@ -102,6 +110,7 @@ class wishlistModelwishlist extends JModel
 		if (isset($_SESSION["no_of_prod"]))
 		{
 			for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
+
 				if ($_SESSION['wish_' . $add_i]->product_id != '')
 				{
 					$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
@@ -140,7 +149,7 @@ class wishlistModelwishlist extends JModel
 		else
 		{
 			$db         = JFactory::getDBO();
-			$product_id = JRequest :: getInt('product_id');
+			$product_id = JRequest::getInt('product_id');
 
 			if ($product_id)
 			{
@@ -151,9 +160,13 @@ class wishlistModelwishlist extends JModel
 				$db->setQuery($ins_query);
 
 				if ($db->Query())
+				{
 					return true;
+				}
 				else
+				{
 					return false;
+				}
 			}
 			elseif (!empty($_SESSION["no_of_prod"]))
 			{
@@ -167,6 +180,7 @@ class wishlistModelwishlist extends JModel
 					for ($k = 0; $k < count($row_data); $k++)
 					{
 						$myfield = "productuserfield_" . $k;
+
 						if ($_SESSION['wish_' . $si]->$myfield != '')
 						{
 							$myuserdata = $_SESSION['wish_' . $si]->$myfield;
@@ -188,6 +202,7 @@ class wishlistModelwishlist extends JModel
 					$db->Query();
 					unset($_SESSION['wish_' . $si]);
 				}
+
 				unset($_SESSION["no_of_prod"]);
 			}
 		}
@@ -197,9 +212,9 @@ class wishlistModelwishlist extends JModel
 
 	public function savewishlist()
 	{
-		$cid        = JRequest :: getVar('cid', '', 'request', 'array');
+		$cid        = JRequest::getVar('cid', '', 'request', 'array');
 		$db         = JFactory::getDBO();
-		$product_id = JRequest :: getInt('product_id');
+		$product_id = JRequest::getInt('product_id');
 
 		for ($i = 0; $i < count($cid); $i++)
 		{
@@ -208,7 +223,10 @@ class wishlistModelwishlist extends JModel
 			$db->setQuery($query);
 
 			if (count($db->loadResult()) > 0)
+			{
 				continue;
+			}
+
 			$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
 				. " SET wishlist_id=" . $cid[$i]
 				. ", product_id=" . $product_id
@@ -216,9 +234,13 @@ class wishlistModelwishlist extends JModel
 			$db->setQuery($ins_query);
 
 			if ($db->query())
+			{
 				continue;
+			}
 			else
+			{
 				return false;
+			}
 		}
 
 		return true;
@@ -234,9 +256,13 @@ class wishlistModelwishlist extends JModel
 		$rs = $db->loadResult();
 
 		if ($rs)
+		{
 			return true;
+		}
 		else
+		{
 			return false;
+		}
 	}
 
 	public function delwishlist($userid, $wishlist_id)
@@ -258,12 +284,18 @@ class wishlistModelwishlist extends JModel
 			$db->setQuery($query);
 
 			if ($db->Query())
+			{
 				return true;
+			}
 			else
+			{
 				return false;
+			}
 		}
 		else
+		{
 			return false;
+		}
 	}
 
 	public function mysessdelwishlist($wishlist_id)
@@ -276,10 +308,7 @@ class wishlistModelwishlist extends JModel
 				{
 					unset($_SESSION['wish_' . $k]);
 				}
-
 			}
 		}
-
 	}
-
 }

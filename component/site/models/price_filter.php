@@ -21,7 +21,9 @@ jimport('joomla.application.component.model');
 class price_filterModelprice_filter extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()

@@ -26,10 +26,18 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 class productModelproduct extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
-	public $_product = null; // Product data
+
+	/**
+	 * Product data
+	 */
+	public $_product = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
+
 	public $_catid = null;
 
 	public function __construct()
@@ -118,13 +126,13 @@ class productModelproduct extends JModel
 	}
 
 	/**
-	 * get next or previous product using ordering
+	 * get next or previous product using ordering.
 	 *
-	 * @params: $product_id - current product id
-	 * @params: $category_id - current product category id
-	 * @params: $dirn - direction to indicate next or previous product
+	 * @param   int  $product_id   current product id
+	 * @param   int  $category_id  current product category id
+	 * @param   int  $dirn         to indicate next or previous product
 	 *
-	 * @return: object array
+	 * @return mixed
 	 */
 	public function getPrevNextproduct($product_id, $category_id, $dirn)
 	{
@@ -170,7 +178,9 @@ class productModelproduct extends JModel
 		$chkemail = $db->loadResult();
 
 		if ($chkemail)
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -180,7 +190,6 @@ class productModelproduct extends JModel
 		$user           = JFactory::getUser();
 		$data['userid'] = $user->id;
 
-		//	$data['email'] = $user->email;
 		$data['user_rating'] = $data['user_rating'];
 		$data['username']    = $data['username'];
 		$data['title']       = $data['title'];
@@ -262,8 +271,9 @@ class productModelproduct extends JModel
 		}
 	}
 
-
-	// Product Tags Functions
+	/**
+	 * Product Tags Functions
+	 */
 	public function getProductTags($tagname, $productid)
 	{
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id "
@@ -329,15 +339,6 @@ class productModelproduct extends JModel
 
 	public function addtowishlist2session($data)
 	{
-		/*for($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i ++)
-			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
-				return false;
-		$_SESSION ["no_of_prod"] += 1;
-		$no_prod_i = 'wish_' . $_SESSION ["no_of_prod"];
-
-		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
-		$_SESSION [$no_prod_i]->comment = isset ( $data ['comment'] ) ? $data ['comment'] : "";
-		$_SESSION [$no_prod_i]->cdate = $data ['cdate'];*/
 		ob_clean();
 		$extraField = new extraField;
 		$section    = 12;
@@ -420,7 +421,8 @@ class productModelproduct extends JModel
 		{
 			if (!$compare_product)
 			{
-				return true; // Return true to store product in compare product cart.
+				// Return true to store product in compare product cart.
+				return true;
 			}
 			else
 			{
@@ -430,7 +432,8 @@ class productModelproduct extends JModel
 				{
 					if ($compare_product[$i]["product_id"] == $product_id)
 					{
-						return false; // Return false if product is already in compare product cart
+						// Return false if product is already in compare product cart
+						return false;
 					}
 				}
 
@@ -438,8 +441,7 @@ class productModelproduct extends JModel
 			}
 		}
 
-		/* if function is called for total product in cart than return no of product in cart*/
-
+		// If function is called for total product in cart than return no of product in cart*/
 		return isset($compare_product['idx']) ? (int) ($compare_product['idx']) : 0;
 	}
 

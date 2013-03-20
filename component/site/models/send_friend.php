@@ -23,9 +23,14 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 class send_friendModelsend_friend extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
-	public $_product = null; // Product data
+
+	// Product data
+	public $_product = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
 
 	public function __construct()
@@ -101,6 +106,7 @@ class send_friendModelsend_friend extends JModel
 				echo "<div class='' align='center'>" . JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY') . "</div>";
 			}
 		}
+
 		exit;
 	}
 }

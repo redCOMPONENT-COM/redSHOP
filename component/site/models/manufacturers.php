@@ -22,9 +22,13 @@ jimport('joomla.html.pagination');
 class manufacturersModelmanufacturers extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_productlimit = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
 
 	public function __construct()
@@ -156,9 +160,7 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-			$this->_pagination = new redPagination ($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-
-//			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new redPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -246,8 +248,8 @@ class manufacturersModelmanufacturers extends JModel
 			. "AND p.manufacturer_id='" . $mid . "' "
 			. "AND p.expired=0 "
 			. "AND p.product_parent_id=0 "
-			. $and//			 	."GROUP BY p.product_id "
-		;
+			. $and;
+
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -283,7 +285,7 @@ class manufacturersModelmanufacturers extends JModel
 		{
 			$filter_order = 'pc.ordering';
 		}
-		//
+
 		if (strstr($template_data, '{category_name}'))
 		{
 			$filter_order = "c.ordering,c.category_id, " . $filter_order;

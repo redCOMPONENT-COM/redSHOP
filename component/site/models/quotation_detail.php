@@ -25,7 +25,9 @@ include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 class quotation_detailModelquotation_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -52,8 +54,6 @@ class quotation_detailModelquotation_detail extends JModel
 		$Itemid  = JRequest::getVar("Itemid");
 		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
-
-//		$user = &JFactory::getUser();
 
 		$carthelper      = new rsCarthelper;
 		$producthelper   = new producthelper;
@@ -105,7 +105,6 @@ class quotation_detailModelquotation_detail extends JModel
 
 			return;
 		}
-		//end
 
 		$cart[$idx]['product_id']    = $data->product_id;
 		$cart[$idx]['product_price'] = $data->product_price;
