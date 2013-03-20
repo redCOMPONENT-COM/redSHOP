@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 class statistic
 {
+	public $_table_prefix = null;
 
-	var $_table_prefix = null;
-	var $_db = null;
+	public $_db = null;
 
-	public function statistic()
+	public function __construct()
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_db           = & JFactory :: getDBO();
+		$this->_db           = JFactory::getDBO();
 		statistic::reshop_visitors();
 		statistic::reshop_pageview();
 	}
@@ -26,7 +26,7 @@ class statistic
 	public function reshop_visitors()
 	{
 		$sid  = session_id();
-		$user =  & JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "siteviewer "
 			. "WHERE session_id = '" . $sid . "'";
@@ -51,7 +51,7 @@ class statistic
 	public function reshop_pageview()
 	{
 		$sid     = session_id();
-		$user    = & JFactory::getUser();
+		$user    = JFactory::getUser();
 		$view    = JRequest::getVar('view');
 		$section = "";
 
@@ -99,4 +99,4 @@ class statistic
 	}
 }
 
-$statistic = new statistic();
+$statistic = new statistic;
