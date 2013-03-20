@@ -35,21 +35,21 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php
 class CheckoutModelCheckout extends JModel
 {
 
-	var $_id = null;
+	public $_id = null;
 
-	var $_data = null;
+	public $_data = null;
 
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
-	var $discount_type = null;
+	public $discount_type = null;
 
-	var $_userhelper = null;
+	public $_userhelper = null;
 
-	var $_carthelper = null;
+	public $_carthelper = null;
 
-	var $_shippinghelper = null;
+	public $_shippinghelper = null;
 
-	var $_order_functions = null;
+	public $_order_functions = null;
 
 	public function __construct()
 	{
@@ -2419,7 +2419,7 @@ class MYPDF extends TCPDF
 {
 
 	//Page header
-	var $img_file;
+	public $img_file;
 
 	public function Header()
 	{

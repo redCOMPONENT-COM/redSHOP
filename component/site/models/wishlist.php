@@ -24,21 +24,17 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
  */
 class wishlistModelwishlist extends JModel
 {
-	var $_id = null;
-	var $_name = null;
-	var $_userid = null; // Product data
-	var $_table_prefix = null;
-	var $_comment = null;
-	var $_cdate = null;
+	public $_id = null;
+	public $_name = null;
+	public $_userid = null; // Product data
+	public $_table_prefix = null;
+	public $_comment = null;
+	public $_cdate = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-
-		//$this->setId ( ( int ) JRequest::getVar ( 'pid', 0 ) );
-
-		//$this->_catid = ( int ) JRequest::getVar ( 'cid', 0 );
 	}
 
 	public function getUserWishlist()

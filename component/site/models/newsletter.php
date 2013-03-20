@@ -20,8 +20,8 @@ jimport('joomla.application.component.model');
  */
 class newsletterModelnewsletter extends JModel
 {
-	var $_table_prefix = null;
-	var $_db = null;
+	public $_table_prefix = null;
+	public $_db = null;
 
 	public function __construct()
 	{

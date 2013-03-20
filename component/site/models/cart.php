@@ -25,18 +25,18 @@ include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
  */
 class CartModelCart extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null; /// Product data
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_r_voucher = 0;
-	var $_c_remain = 0;
-	var $_globalvoucher = 0;
-	var $_producthelper = null;
-	var $_carthelper = null;
-	var $_userhelper = null;
-	var $_objshipping = null;
+	public $_id = null;
+	public $_data = null;
+	public $_product = null; /// Product data
+	public $_table_prefix = null;
+	public $_template = null;
+	public $_r_voucher = 0;
+	public $_c_remain = 0;
+	public $_globalvoucher = 0;
+	public $_producthelper = null;
+	public $_carthelper = null;
+	public $_userhelper = null;
+	public $_objshipping = null;
 
 	public function __construct()
 	{

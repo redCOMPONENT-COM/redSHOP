@@ -25,9 +25,9 @@ include_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
  */
 class quotationModelquotation extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{

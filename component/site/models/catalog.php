@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
  */
 class CatalogModelCatalog extends JModel
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
