@@ -304,5 +304,3 @@ class CategoryController extends JController
 		}
 	}
 }
-
-?>

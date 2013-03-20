@@ -28,4 +28,3 @@ jimport('joomla.application.component.controller');
 class EpayrelayController extends JController
 {
 }
-

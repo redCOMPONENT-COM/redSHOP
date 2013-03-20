@@ -21,4 +21,3 @@ jimport('joomla.application.component.controller');
 class PluginController extends JController
 {
 }
-

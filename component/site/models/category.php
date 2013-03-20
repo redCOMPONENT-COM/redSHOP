@@ -20,16 +20,16 @@ jimport('joomla.application.component.model');
  */
 class CategoryModelCategory extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null;
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_limit = null;
-	var $_slidercount = 0;
-	var $count_no_user_field = 0;
-	var $minmaxArr = array(0, 0);
-	var $_context = null;
+	public $_id = null;
+	public $_data = null;
+	public $_product = null;
+	public $_table_prefix = null;
+	public $_template = null;
+	public $_limit = null;
+	public $_slidercount = 0;
+	public $count_no_user_field = 0;
+	public $minmaxArr = array(0, 0);
+	public $_context = null;
 
 	public function __construct()
 	{
@@ -48,7 +48,7 @@ class CategoryModelCategory extends JModel
 		{
 			if (!$Id && $layout != '')
 			{
-				$Id = ( int ) $params->get('cid');
+				$Id = (int) $params->get('cid');
 			}
 		}
 
@@ -56,7 +56,7 @@ class CategoryModelCategory extends JModel
 
 		$this->setState('category_template', $category_template);
 
-		$this->setId(( int ) $Id);
+		$this->setId((int) $Id);
 	}
 
 	public function setId($id)
@@ -85,6 +85,7 @@ class CategoryModelCategory extends JModel
 			$and     = "AND m.manufacturer_id='" . $manufacturer_id . "' ";
 			$groupby = "GROUP BY c.category_id ";
 		}
+
 		$query = "SELECT c.* FROM " . $this->_table_prefix . "category AS c "
 			. "LEFT JOIN " . $this->_table_prefix . "category_xref AS cx ON cx.category_child_id=c.category_id "
 			. $left
@@ -158,7 +159,8 @@ class CategoryModelCategory extends JModel
 				$limit = MAXCATEGORY;
 			}
 		}
-		if (strstr($this->_template[0]->template_desc, "{product_display_limit}"))
+
+			if (strstr($this->_template[0]->template_desc, "{product_display_limit}"))
 		{
 			$endlimit = JRequest::getInt('limit', 0, '', 'int');
 		}
@@ -172,6 +174,7 @@ class CategoryModelCategory extends JModel
 		$menu  =& $mainframe->getMenu();
 		$item  =& $menu->getActive();
 		$limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
+
 		//	$order_by = $this->_buildProductOrderBy();
 		$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
 
@@ -222,7 +225,8 @@ class CategoryModelCategory extends JModel
 		{
 			$and .= " AND p.manufacturer_id='" . $manufacturer_id . "' ";
 		}
-		if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
+
+			if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
 		{
 			$order_by = " ORDER BY p.product_price ASC";
 		}
@@ -245,22 +249,26 @@ class CategoryModelCategory extends JModel
 		if (strstr($order_by, "p.product_price ASC"))
 		{
 			$priceSort = true;
+
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
 			}
+
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
 		}
 		elseif (strstr($order_by, "p.product_price DESC"))
 		{
 			$priceSort = true;
 			$sort      = "DESC";
+
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
 			}
+
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'DESC');
 		}
 
@@ -302,6 +310,7 @@ class CategoryModelCategory extends JModel
 		elseif ($isSlider)
 		{
 			$newProduct = array();
+
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
 				$ProductPriceArr                 = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
@@ -312,6 +321,7 @@ class CategoryModelCategory extends JModel
 					$newProduct[] = $this->_product[$i];
 				}
 			}
+
 			$this->_product = $newProduct;
 			$this->_total   = count($this->_product);
 		}
@@ -369,6 +379,7 @@ class CategoryModelCategory extends JModel
 		{
 			$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
+
 		$orderby = " ORDER BY " . $order_by;
 
 		return $orderby;
@@ -414,7 +425,6 @@ class CategoryModelCategory extends JModel
 				{
 					$this->_data = $this->_getList($query, 0, MAXCATEGORY);
 				}
-				//$this->_data = $this->_getList ( $query);
 			}
 		}
 
@@ -468,21 +478,19 @@ class CategoryModelCategory extends JModel
 			{
 				$selected_template .= "," . $category_template;
 			}
+
 			if ($this->_maincat->category_more_template != "")
 			{
 				$selected_template .= "," . $this->_maincat->category_more_template;
 			}
 
 			$alltemplate = $redTemplate->getTemplate("category", $selected_template);
-
 		}
 		else
 		{
 			$alltemplate = $redTemplate->getTemplate("frontpage_category");
-
 		}
 
-		//print_r($alltemplate);
 		return $alltemplate;
 	}
 
@@ -491,7 +499,7 @@ class CategoryModelCategory extends JModel
 		global $mainframe, $context;
 
 		$params            = & $mainframe->getParams('com_redshop');
-		$category_template = ( int ) $this->getState('category_template');
+		$category_template = (int) $this->getState('category_template');
 		$redTemplate       = new Redtemplate;
 
 		$selected_template = 0;
@@ -514,6 +522,7 @@ class CategoryModelCategory extends JModel
 		{
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
+
 		$category_template_id = JRequest::getInt('category_template', $selected_template, '', 'int');
 		$this->_template      = $redTemplate->getTemplate($template_section, $category_template_id);
 
@@ -529,6 +538,7 @@ class CategoryModelCategory extends JModel
 		{
 			$and = " AND m.manufacturer_id='" . $mid . "' ";
 		}
+
 		$query = "SELECT DISTINCT(m.manufacturer_id ),m.* FROM " . $this->_table_prefix . "manufacturer AS m "
 			. "LEFT JOIN #__redshop_product AS p ON m.manufacturer_id  = p.manufacturer_id ";
 
@@ -537,6 +547,7 @@ class CategoryModelCategory extends JModel
 			$query .= "LEFT JOIN #__redshop_product_category_xref AS pcx ON p.product_id  = pcx.product_id ";
 			$and .= " AND pcx.category_id='" . $cid . "' ";
 		}
+
 		$query .= "WHERE p.manufacturer_id != 0 AND m.published = 1 " . $and . "ORDER BY m.ordering ASC";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
@@ -592,7 +603,7 @@ class CategoryModelCategory extends JModel
 	{
 		$endlimit          = $this->getProductPerPage();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->_pagination = new redPagination ($this->getfletterTotal($letter, $fieldid), $limitstart, $endlimit);
+		$this->_pagination = new redPagination($this->getfletterTotal($letter, $fieldid), $limitstart, $endlimit);
 
 		return $this->_pagination;
 	}
@@ -608,7 +619,6 @@ class CategoryModelCategory extends JModel
 		return $this->_total;
 	}
 
-	// function for redproductfinder
 	public function getredproductfindertags()
 	{
 		global $mainframe, $context;
@@ -627,7 +637,9 @@ class CategoryModelCategory extends JModel
 			{
 				$this->_is_filter_enable = true;
 			}
+
 			$tag = '';
+
 			for ($f = 0; $f < count($rs_filters); $f++)
 			{
 				$tmp_tag = $mainframe->getUserStateFromRequest($context . 'tag' . $rs_filters[$f], 'tag' . $rs_filters[$f], '');
@@ -641,6 +653,7 @@ class CategoryModelCategory extends JModel
 					$tag[] = $tmp_tag;
 				}
 			}
+
 			$finder_where     = "";
 			$finder_query     = "";
 			$finder_condition = "";
@@ -657,9 +670,11 @@ class CategoryModelCategory extends JModel
 					{
 						$finder_query = "SELECT product_id FROM #__redproductfinder_associations AS a,#__redproductfinder_association_tag AS at ";
 						$finder_where = "";
+
 						if (count($tag) > 1)
 						{
 							$i = 1;
+
 							for ($t = 1; $t < count($tag); $t++)
 							{
 								$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
@@ -667,27 +682,34 @@ class CategoryModelCategory extends JModel
 								$i++;
 							}
 						}
+
 						$finder_query .= " WHERE a.id=at.association_id AND at.tag_id = '" . $tag[0] . "'";
+
 						if (is_array($finder_where))
 						{
 							$finder_where = " AND " . implode(" AND ", $finder_where);
 						}
+
 						$finder_query .= $finder_where;
 						$this->_db->setQuery($finder_query);
 						$rs              = $this->_db->loadResultArray();
 						$finder_products = "";
+
 						if (!empty($rs))
 						{
 							$finder_products = implode("','", $rs);
 						}
+
 						$finder_condition        = " AND p.product_id IN('" . $finder_products . "')";
 						$this->_is_filter_enable = true;
 					}
+
 					if (count($tag) == 1 && $tag[0] == 0)
 					{
 						$finder_condition = "";
 					}
 				}
+
 				$finder_condition;
 			}
 		}
