@@ -16,8 +16,9 @@ defined('_JEXEC') or die;
  */
 class googleanalytics
 {
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_data = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -101,8 +102,7 @@ class googleanalytics
 	 */
 	public function trackTrans()
 	{
-
-		# submits transaction to the Analytics servers
+		// Submits transaction to the Analytics servers
 		$packegecode = "
 			_gaq.push(['_trackTrans']); 	//submits transaction to the Analytics servers
 		";
@@ -118,35 +118,32 @@ class googleanalytics
 	 */
 	public function placeTrans($analyticsData = array())
 	{
-
 		$pageCode = '';
 		$pageCode .= $this->pageTrackerView();
 
 		if (isset($analyticsData['addtrans']))
 		{
-
 			$addtrans = $analyticsData['addtrans'];
 
-			# add Transaction/Order to google Analytic
+			// Add Transaction/Order to google Analytic
 			$pageCode .= $this->addTrans($addtrans);
 
 			if (isset($analyticsData['addItem']))
 			{
-
 				$addItem = $analyticsData['addItem'];
 
 				$tItem = count($addItem);
 
 				for ($i = 0; $i < $tItem; $i++)
 				{
-
 					$item = $addItem[$i];
-					# add Order Items to google Analytic
+
+					// Add Order Items to google Analytic
 					$pageCode .= $this->addItem($item);
 				}
 			}
 
-			# track added order to google analytics
+			// Track added order to google analytics
 			$pageCode .= $this->trackTrans();
 		}
 
