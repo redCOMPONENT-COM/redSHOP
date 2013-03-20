@@ -525,9 +525,13 @@ class AccountModelaccount extends JModel
 		}
 
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
+		{
 			return true;
+		}
 		else
+		{
 			return false;
+		}
 	}
 
 	public function getReserveDiscount()

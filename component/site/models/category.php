@@ -425,7 +425,6 @@ class CategoryModelCategory extends JModel
 				{
 					$this->_data = $this->_getList($query, 0, MAXCATEGORY);
 				}
-				//$this->_data = $this->_getList ( $query);
 			}
 		}
 

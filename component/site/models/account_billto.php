@@ -45,7 +45,7 @@ class Account_billtoModelaccount_billto extends JModel
 
 				if (!isset($detail->user_id))
 				{
-					$detail->user_id = -$auth['users_info_id'];
+					$detail->user_id = - $auth['users_info_id'];
 				}
 			}
 			else
