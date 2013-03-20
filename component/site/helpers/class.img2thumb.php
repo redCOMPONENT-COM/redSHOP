@@ -13,22 +13,23 @@
  */
 class Img2Thumb
 {
+	public $bg_red;
 
-	var $bg_red;
-	var $bg_green;
-	var $bg_blue;
-	var $maxSize;
+	public $bg_green;
+
+	public $bg_blue;
+
+	public $maxSize;
+
 	/**
 	 * @var string Filename for the thumbnail
 	 */
-	var $fileout;
+	public $fileout;
 
-
-	function Img2Thumb($filename, $newxsize = 60, $newysize = 60, $fileout = '',
+	public function Img2Thumb($filename, $newxsize = 60, $newysize = 60, $fileout = '',
 	                   $thumbMaxSize = 0, $bgred = 0, $bggreen = 0, $bgblue = 0, $swap)
 	{
-
-		//	New modification - checks color int to be sure within range
+		// New modification - checks color int to be sure within range
 		if ($thumbMaxSize)
 		{
 			$this->maxSize = true;
@@ -37,6 +38,7 @@ class Img2Thumb
 		{
 			$this->maxSize = false;
 		}
+
 		if ($bgred >= 0 || $bgred <= 255)
 		{
 			$this->bg_red = $bgred;
@@ -45,6 +47,7 @@ class Img2Thumb
 		{
 			$this->bg_red = 0;
 		}
+
 		if ($bggreen >= 0 || $bggreen <= 255)
 		{
 			$this->bg_green = $bggreen;
@@ -53,6 +56,7 @@ class Img2Thumb
 		{
 			$this->bg_green = 0;
 		}
+
 		if ($bgblue >= 0 || $bgblue <= 255)
 		{
 			$this->bg_blue = $bgblue;
@@ -66,29 +70,30 @@ class Img2Thumb
 	}
 
 	/**
-	 *
 	 *    private function - do not call
-	 *
 	 */
 	public function NewImgCreate($filename, $newxsize, $newysize, $fileout, $swap)
 	{
-
 		$type = $this->GetImgType($filename);
 
 		$pathinfo = pathinfo($fileout);
+
 		if (empty($pathinfo['extension']))
 		{
 			$fileout .= '.' . $type;
 		}
+
 		$this->fileout = $fileout;
 
 
 		switch ($type)
 		{
 			case "gif":
-				// unfortunately this function does not work on windows
-				// via the precompiled php installation :(
-				// it should work on all other systems however.
+				/*
+				 * Unfortunately this function does not work on windows
+				 * via the precompiled php installation :(
+				 * it should work on all other systems however.
+				*/
 				if (function_exists("imagecreatefromgif"))
 				{
 					$orig_img = imagecreatefromgif($filename);
@@ -100,6 +105,7 @@ class Img2Thumb
 					exit;
 					break;
 				}
+
 			case "jpg":
 			case "jpeg":
 				$orig_img = imagecreatefromjpeg($filename);
@@ -125,17 +131,18 @@ class Img2Thumb
 	}
 
 	/**
-	 *
-	 *    private function - do not call
-	 *    includes function ImageCreateTrueColor and ImageCopyResampled which are available only under GD 2.0.1 or higher !
+	 * Private function - do not call
+	 * Includes function ImageCreateTrueColor and ImageCopyResampled which are available only under GD 2.0.1 or higher !
 	 */
 	public function NewImgResize($orig_img, $newxsize, $newysize, $filename, $swap)
 	{
-		//getimagesize returns array
-		// [0] = width in pixels
-		// [1] = height in pixels
-		// [2] = type
-		// [3] = img tag "width=xx height=xx" values
+		/*
+		 * getimagesize returns array
+		 * [0] = width in pixels
+		 * [1] = height in pixels
+		 * [2] = type
+		 * [3] = img tag "width=xx height=xx" values
+		 */
 
 		$orig_size = getimagesize($filename);
 
@@ -146,14 +153,8 @@ class Img2Thumb
 		{
 			if ($newysize == 50)
 			{
-
 				if ($orig_size[0] < $orig_size[1])
 				{
-					// $newxsize = $newysize * ($orig_size[0]/$orig_size[1]);
-
-					//$adjustX = ($maxX - $newxsize)/2;
-					//$adjustY = 0;
-
 					$newysize = $newxsize / ($orig_size[0] / $orig_size[1]);
 					$adjustX  = 0;
 					$adjustY  = ($maxY - $newysize) / 2;
@@ -164,28 +165,23 @@ class Img2Thumb
 					$adjustX  = 0;
 					$adjustY  = ($maxY - $newysize) / 2;
 				}
-
-
 			}
 			else
 			{
 				if ($orig_size[0] < $orig_size[1] && $newxsize <= $newysize)
 				{
-
 					$newxsize = $newysize * ($orig_size[0] / $orig_size[1]);
 					$adjustX  = ($maxX - $newxsize) / 2;
 					$adjustY  = 0;
 				}
 				elseif ($newxsize != 0 && $newysize != 0)
 				{
-
 					$adjustX = $newxsize;
 					$adjustY = $newysize;
 
 				}
 				else
 				{
-
 					$tmp      = $newxsize;
 					$newxsize = $newysize;
 					$newysize = $tmp;
@@ -197,13 +193,10 @@ class Img2Thumb
 		}
 		else
 		{
-
 			if ($newxsize != 0 && $newysize != 0)
 			{
-
 				$adjustX = $newxsize;
 				$adjustY = $newysize;
-
 			}
 			elseif ($orig_size[0] < $orig_size[1])
 			{
@@ -218,19 +211,24 @@ class Img2Thumb
 				$adjustY  = ($maxY - $newysize) / 2;
 			}
 		}
+
 		/* Original code removed to allow for maxSize thumbnails
 		$im_out = ImageCreateTrueColor($newxsize,$newysize);
 		ImageCopyResampled($im_out, $orig_img, 0, 0, 0, 0,
 			$newxsize, $newysize,$orig_size[0], $orig_size[1]);
 		*/
 
-		//	New modification - creates new image at maxSize
+		// New modification - creates new image at maxSize
 		if ($this->maxSize)
 		{
 			if (function_exists("imagecreatetruecolor"))
+			{
 				$im_out = imagecreatetruecolor($maxX, $maxY);
+			}
 			else
+			{
 				$im_out = imagecreate($maxX, $maxY);
+			}
 
 			// Need to image fill just in case image is transparent, don't always want black background
 			$bgfill = imagecolorallocate($im_out, $this->bg_red, $this->bg_green, $this->bg_blue);
@@ -239,17 +237,19 @@ class Img2Thumb
 			{
 				imageAntiAlias($im_out, true);
 			}
+
 			imagealphablending($im_out, false);
+
 			if (function_exists("imagesavealpha"))
 			{
 				imagesavealpha($im_out, true);
 			}
+
 			if (function_exists("imagecolorallocatealpha"))
 			{
 				$transparent = imagecolorallocatealpha($im_out, 255, 255, 255, 127);
 			}
 
-			//imagefill( $im_out, 0,0, $bgfill );
 			if (function_exists("imagecopyresampled"))
 			{
 				ImageCopyResampled($im_out, $orig_img, $adjustX, $adjustY, 0, 0, $newxsize, $newysize, $orig_size[0], $orig_size[1]);
@@ -258,38 +258,56 @@ class Img2Thumb
 			{
 				ImageCopyResized($im_out, $orig_img, $adjustX, $adjustY, 0, 0, $newxsize, $newysize, $orig_size[0], $orig_size[1]);
 			}
-
 		}
 		else
 		{
-
 			if (function_exists("imagecreatetruecolor"))
+			{
 				$im_out = ImageCreateTrueColor($newxsize, $newysize);
+			}
 			else
+			{
 				$im_out = imagecreate($newxsize, $newysize);
+			}
 
 			if (function_exists("imageAntiAlias"))
+			{
 				imageAntiAlias($im_out, true);
+			}
+
 			imagealphablending($im_out, false);
+
 			if (function_exists("imagesavealpha"))
+			{
 				imagesavealpha($im_out, true);
+			}
+
 			if (function_exists("imagecolorallocatealpha"))
+			{
 				$transparent = imagecolorallocatealpha($im_out, 255, 255, 255, 127);
+			}
 
 			if (function_exists("imagecopyresampled"))
+			{
 				ImageCopyResampled($im_out, $orig_img, 0, 0, 0, 0, $newxsize, $newysize, $orig_size[0], $orig_size[1]);
+			}
 			else
+			{
 				ImageCopyResized($im_out, $orig_img, 0, 0, 0, 0, $newxsize, $newysize, $orig_size[0], $orig_size[1]);
+			}
 		}
-
 
 		return $im_out;
 	}
 
 	/**
+	 *  Private function - do not call
 	 *
-	 *    private function - do not call
+	 * @param $new_img
+	 * @param $fileout
+	 * @param $type
 	 *
+	 * @return bool
 	 */
 	public function NewImgSave($new_img, $fileout, $type)
 	{
@@ -357,7 +375,9 @@ class Img2Thumb
 				break;
 			case "png":
 				if (strtolower(substr($fileout, strlen($fileout) - 4, 4)) != ".png")
+				{
 					$fileout .= ".png";
+				}
 
 				return imagepng($new_img, $fileout, $image_quality_png);
 				break;
@@ -365,9 +385,7 @@ class Img2Thumb
 	}
 
 	/**
-	 *
-	 *    private function - do not call
-	 *
+	 * Private function - do not call
 	 */
 	public function NewImgShow($new_img, $type)
 	{
@@ -398,7 +416,6 @@ class Img2Thumb
 	}
 
 	/**
-	 *
 	 *    private function - do not call
 	 *
 	 *   1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF,
@@ -411,6 +428,7 @@ class Img2Thumb
 	public function GetImgType($filename)
 	{
 		$info = getimagesize($filename);
+
 		switch ($info[2])
 		{
 			case 1:
@@ -429,7 +447,4 @@ class Img2Thumb
 				return false;
 		}
 	}
-
 }
-
-?>
