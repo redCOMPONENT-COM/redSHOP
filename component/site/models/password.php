@@ -85,6 +85,7 @@ class passwordModelpassword extends JModel
 
 			return false;
 		}
+
 		JRequest::setVar('uid', $id);
 
 		return true;

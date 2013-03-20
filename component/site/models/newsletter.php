@@ -21,6 +21,7 @@ jimport('joomla.application.component.model');
 class newsletterModelnewsletter extends JModel
 {
 	public $_table_prefix = null;
+
 	public $_db = null;
 
 	public function __construct()
@@ -65,9 +66,13 @@ class newsletterModelnewsletter extends JModel
 			$alreadysub = $this->_db->loadResult();
 
 			if ($alreadysub)
+			{
 				return true;
+			}
 			else
+			{
 				return false;
+			}
 		}
 		else
 		{

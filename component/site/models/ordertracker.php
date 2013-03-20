@@ -20,8 +20,11 @@ jimport('joomla.application.component.model');
 class ordertrackerModelordertracker extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
 
 	public function __construct()

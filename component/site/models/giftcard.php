@@ -21,10 +21,18 @@ jimport('joomla.application.component.model');
 class GiftcardModelGiftcard extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
-	public $_product = null; /// Product data
+
+	/**
+	 * Product data
+	 */
+	public $_product = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
+
 	public $_limit = null;
 
 	public function __construct()

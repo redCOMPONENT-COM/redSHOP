@@ -21,8 +21,11 @@ jimport('joomla.application.component.model');
 class product_miniModelproduct_mini extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -126,6 +129,7 @@ class product_miniModelproduct_mini extends JModel
 		{
 			$where .= " AND c.category_id = '$category_id'  ";
 		}
+
 		// Change limit condition for all issue
 		$limit = "";
 

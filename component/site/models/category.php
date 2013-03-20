@@ -603,7 +603,7 @@ class CategoryModelCategory extends JModel
 	{
 		$endlimit          = $this->getProductPerPage();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->_pagination = new redPagination ($this->getfletterTotal($letter, $fieldid), $limitstart, $endlimit);
+		$this->_pagination = new redPagination($this->getfletterTotal($letter, $fieldid), $limitstart, $endlimit);
 
 		return $this->_pagination;
 	}
@@ -619,7 +619,6 @@ class CategoryModelCategory extends JModel
 		return $this->_total;
 	}
 
-	// Function for redproductfinder
 	public function getredproductfindertags()
 	{
 		global $mainframe, $context;
@@ -671,6 +670,7 @@ class CategoryModelCategory extends JModel
 					{
 						$finder_query = "SELECT product_id FROM #__redproductfinder_associations AS a,#__redproductfinder_association_tag AS at ";
 						$finder_where = "";
+
 						if (count($tag) > 1)
 						{
 							$i = 1;
@@ -684,6 +684,7 @@ class CategoryModelCategory extends JModel
 						}
 
 						$finder_query .= " WHERE a.id=at.association_id AND at.tag_id = '" . $tag[0] . "'";
+
 						if (is_array($finder_where))
 						{
 							$finder_where = " AND " . implode(" AND ", $finder_where);
@@ -693,6 +694,7 @@ class CategoryModelCategory extends JModel
 						$this->_db->setQuery($finder_query);
 						$rs              = $this->_db->loadResultArray();
 						$finder_products = "";
+
 						if (!empty($rs))
 						{
 							$finder_products = implode("','", $rs);

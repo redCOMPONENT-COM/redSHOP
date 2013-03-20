@@ -20,10 +20,12 @@ jimport('joomla.application.component.model');
  */
 class reddesignModelreddesign extends JModel
 {
-
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -74,5 +76,4 @@ class reddesignModelreddesign extends JModel
 
 		return $this->_db->loadObjectList();
 	}
-
 }

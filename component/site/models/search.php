@@ -24,8 +24,11 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 class searchModelsearch extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -137,7 +140,9 @@ class searchModelsearch extends JModel
 		}
 
 
-		if (isset($template[0]->template_desc) && !strstr($template[0]->template_desc, "{show_all_products_in_category}") && strstr($template[0]->template_desc, "{pagination}") && strstr($template[0]->template_desc, "perpagelimit:"))
+		if (isset($template[0]->template_desc) && !strstr($template[0]->template_desc, "{show_all_products_in_category}")
+			&& strstr($template[0]->template_desc, "{pagination}")
+			&& strstr($template[0]->template_desc, "perpagelimit:"))
 		{
 			$perpage = explode('{perpagelimit:', $template[0]->template_desc);
 			$perpage = explode('}', $perpage[1]);
@@ -240,7 +245,9 @@ class searchModelsearch extends JModel
 		elseif ($defaultSearchType == "name_desc")
 		{
 			$defaultSearchField = "name_desc";
-			$defaultSearchType  = '(p.product_name LIKE "%' . $keyword . '%" OR p.product_desc LIKE "%' . $keyword . '%" OR  p.product_s_desc LIKE "%' . $keyword . '%")';
+			$defaultSearchType  = '(p.product_name LIKE "%' . $keyword
+				. '%" OR p.product_desc LIKE "%' . $keyword
+				. '%" OR  p.product_s_desc LIKE "%' . $keyword . '%")';
 		}
 		elseif ($defaultSearchType == "virtual_product_num")
 		{
@@ -249,7 +256,13 @@ class searchModelsearch extends JModel
 		}
 		elseif ($defaultSearchType == "name_number_desc")
 		{
-			$defaultSearchType = '(p.product_name LIKE "%' . $keyword . '%" OR p.product_number LIKE "%' . $keyword . '%" OR p.product_desc LIKE "%' . $keyword . '%" OR  p.product_s_desc LIKE "%' . $keyword . '%" OR  pa.property_number LIKE "%' . $keyword . '%" OR  ps.subattribute_color_number LIKE "%' . $keyword . '%")';
+			$defaultSearchType = '(p.product_name LIKE "%' . $keyword
+				. '%" OR p.product_number LIKE "%' . $keyword
+				. '%" OR p.product_desc LIKE "%' . $keyword
+				. '%" OR  p.product_s_desc LIKE "%' . $keyword
+				. '%" OR  pa.property_number LIKE "%' . $keyword
+				. '%" OR  ps.subattribute_color_number LIKE "%' . $keyword
+				. '%")';
 		}
 		elseif ($defaultSearchType == "product_desc")
 		{
@@ -414,7 +427,10 @@ class searchModelsearch extends JModel
 			$extracond = "";
 
 			if ($catid)
+			{
 				$extracond = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
+			}
+
 			$query = " SELECT distinct p.* "
 				. " FROM " . $this->_table_prefix . "product p ," . $this->_table_prefix . "product_category_xref pcx "
 				. "WHERE p.published = 1  "
@@ -563,7 +579,9 @@ class searchModelsearch extends JModel
 		return $this->_getList($query);
 	}
 
-	// Red Product Filter
+	/**
+	 * Red Product Filter
+	 */
 	public function getRedFilterProduct($remove = 0)
 	{
 		// Get seeion filter data
@@ -657,7 +675,6 @@ class searchModelsearch extends JModel
 		return $products;
 	}
 
-
 	public function mod_redProductfilter($Itemid)
 	{
 		$query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
@@ -683,7 +700,6 @@ class searchModelsearch extends JModel
 				$str                        = str_replace(' ', '', $str);
 				$types[$key]->type_name_css = html_entity_decode($str);
 
-				//	$tags = getTagsDetail($type->id);
 				$id         = $type->id;
 				$all        = 1;
 				$productids = "";
@@ -778,15 +794,17 @@ class searchModelsearch extends JModel
 						{
 							$tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
 						}
-
 					}
 
 					if ($tagname != "")
+					{
 						$lists['type' . $key] = $tagname;
-
-
+					}
 				}
-				else unset($types[$key]);
+				else
+				{
+					unset($types[$key]);
+				}
 			}
 		}
 
@@ -807,15 +825,12 @@ class searchModelsearch extends JModel
 
 						$tagname = "";
 
-						/* Only show if the type has tags */
+						// Only show if the type has tags
 						if (count($tags) > 0)
 						{
-							/* Create the selection boxes */
-
+							// Create the selection boxes
 							for ($t = 0; $t < count($tags); $t++)
 							{
-								//echo $tags[$t]->tag_id."<br>";
-
 								if ($tags[$t]->tagid == $tag_id)
 								{
 									$tagname .= "<span style='float:left;'>&nbsp;&nbsp;" . $tags[$t]->tag_name . "</span><span style='float:right;'><a href='javascript:deleteTag(\"$type->id\",\"$Itemid\");' title='" . JText::_('COM_REDSHOP_DELETE') . "' >" . JText::_('COM_REDSHOP_DELETE') . "</a></span><br/>";
@@ -823,9 +838,14 @@ class searchModelsearch extends JModel
 							}
 
 							if ($tagname != "")
+							{
 								$filteredlists['type' . $key] = $tagname;
+							}
 						}
-						else unset($types[$key]);
+						else
+						{
+							unset($types[$key]);
+						}
 					}
 				}
 			}
@@ -846,14 +866,17 @@ class searchModelsearch extends JModel
 					{
 						?>
 						<div id="typename_<?php echo $type->id; ?>"
-						     class="typename <?php echo $type->type_name_css; ?>"><?php echo $type->type_name; ?>
-							<?php if (strlen($type->tooltip) > 0)
+						     class="typename <?php echo $type->type_name_css; ?>">
+							<?php echo $type->type_name; ?>
+							<?php
+							if (strlen($type->tooltip) > 0)
 							{
 								echo ' ' . JHTML::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', false);
 							} ?>
 						</div>
 						<div id="typevalue_<?php echo $type->id; ?>"
-						     class="typevalue <?php echo $type->type_name_css; ?>"><?php echo $filteredlists['type' . $key];?></div>
+						     class="typevalue <?php echo $type->type_name_css; ?>">
+							<?php echo $filteredlists['type' . $key];?></div>
 						<div class="hrdivider <?php echo $type->type_name_css; ?>"></div>
 
 					<?php
@@ -863,7 +886,8 @@ class searchModelsearch extends JModel
 			?>
 			<div>
 				<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&remove=1&Itemid=' . $Itemid); ?>"
-				   title="<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?>"><?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?></a>
+				   title="<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?>">
+					<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?></a>
 			</div>
 			<div id="spacer">&nbsp;_________________________</div>
 		<?php
@@ -883,13 +907,16 @@ class searchModelsearch extends JModel
 				{
 					?>
 					<div id="<?php echo $type->id; ?>"
-					     class="typename <?php echo $type->type_name_css; ?>"><?php echo $type->type_name; ?>
-						<?php if (strlen($type->tooltip) > 0)
+					     class="typename <?php echo $type->type_name_css; ?>">
+						<?php echo $type->type_name; ?>
+						<?php
+						if (strlen($type->tooltip) > 0)
 						{
 							echo ' ' . JHTML::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', false);
 						}    ?>
 					</div>
-					<div class="typevalue <?php echo $type->type_name_css; ?>"><?php echo $lists['type' . $key];?></div>
+					<div class="typevalue <?php echo $type->type_name_css; ?>">
+						<?php echo $lists['type' . $key];?></div>
 					<div class="hrdivider <?php echo $type->type_name_css; ?>"></div>
 				<?php
 				}
@@ -964,7 +991,9 @@ class searchModelsearch extends JModel
 		return $db->loadObjectList();
 	}
 
-	// Get Category products selected in search Module
+	/**
+	 * Get Category products selected in search Module
+	 */
 	public function loadCatProductsManufacturer($cid)
 	{
 		$db    = JFactory::getDBO();
@@ -998,37 +1027,58 @@ class searchModelsearch extends JModel
 		$module      = JModuleHelper::getModule('redshop_search');
 		$params      = new JRegistry($module->params);
 		$limit       = $params->get('noofsearchresults');
-		$keyword     = JRequest :: getCmd('input');
-		$search_type = JRequest :: getCmd('search_type');
+		$keyword     = JRequest::getCmd('input');
+		$search_type = JRequest::getCmd('search_type');
 
-		$category_id    = JRequest :: getInt('category_id');
-		$manufacture_id = JRequest :: getInt('manufacture_id');
+		$category_id    = JRequest::getInt('category_id');
+		$manufacture_id = JRequest::getInt('manufacture_id');
 
 		$where = array();
 
 		if ($search_type == 'product_name')
+		{
 			$where[] = "p.product_name LIKE('%" . $keyword . "%')";
+		}
 		elseif ($search_type == 'product_number')
+		{
 			$where[] = "p.product_number LIKE('%" . $keyword . "%')";
+		}
 		elseif ($search_type == 'name_number')
+		{
 			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%')";
+		}
 		elseif ($search_type == 'product_desc')
+		{
 			$where[] = "p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+		}
 		elseif ($search_type == 'name_desc')
+		{
 			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+		}
 		elseif ($search_type == 'name_number_desc')
-			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+		{
+			$where[] = "p.product_name LIKE('%"
+				. $keyword . "%') or p.product_number LIKE('%"
+				. $keyword . "%') or p.product_s_desc LIKE('%"
+				. $keyword . "%') or p.product_desc LIKE('%"
+				. $keyword . "%')";
+		}
 
 		if ($category_id != "0")
+		{
 			$where[] = "c.category_id = '" . $category_id . "'";
+		}
 
 		if ($manufacture_id != "0")
+		{
 			$where[] = "p.manufacturer_id = '" . $manufacture_id . "'";
+		}
 
 		$wheres = '';
 		$wheres = implode(" AND ", $where);
 
-		$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number FROM " . $this->_table_prefix . "product p "
+		$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number FROM "
+			. $this->_table_prefix . "product p "
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'category c ON x.category_id = c.category_id '
 			. " WHERE p.published=1 AND " . $wheres . " GROUP BY p.product_id ";

@@ -17,15 +17,19 @@ jimport('joomla.application.component.model');
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  * @since       1.0
- *
  */
 class ordersModelorders extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
+
 	public $_limitstart = null;
+
 	public $_limit = null;
 
 	public function __construct()
@@ -49,12 +53,9 @@ class ordersModelorders extends JModel
 
 	public function getData()
 	{
-//		if (empty( $this->_data ))
-//		{
 		$query       = $this->_buildQuery();
 		$this->_data = $this->_getList($query, $this->_limitstart, $this->_limit);
 
-//		}
 		return $this->_data;
 	}
 
