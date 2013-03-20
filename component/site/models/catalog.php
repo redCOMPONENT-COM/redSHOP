@@ -39,6 +39,7 @@ class CatalogModelCatalog extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -59,6 +60,7 @@ class CatalogModelCatalog extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());

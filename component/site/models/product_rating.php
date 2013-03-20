@@ -57,6 +57,7 @@ class product_ratingModelproduct_rating extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());

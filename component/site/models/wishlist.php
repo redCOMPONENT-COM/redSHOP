@@ -130,6 +130,7 @@ class wishlistModelwishlist extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());

@@ -67,10 +67,12 @@ class product_miniModelproduct_mini extends JModel
 		{
 			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
 		}
+
 		if ($category_id)
 		{
 			$where .= " AND c.category_id = '$category_id'  ";
 		}
+
 		if ($where != '')
 		{
 			$query = 'SELECT count(distinct(p.product_id)) '
@@ -84,6 +86,7 @@ class product_miniModelproduct_mini extends JModel
 		{
 			$query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'product p ';
 		}
+
 		if (empty($this->_total))
 		{
 			$this->_db->setQuery($query);
@@ -118,6 +121,7 @@ class product_miniModelproduct_mini extends JModel
 		{
 			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
 		}
+
 		if ($category_id)
 		{
 			$where .= " AND c.category_id = '$category_id'  ";
@@ -129,6 +133,7 @@ class product_miniModelproduct_mini extends JModel
 		{
 			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');
 		}
+
 		if ($where == '')
 		{
 			$query = "SELECT distinct(p.product_id),p.* FROM " . $this->_table_prefix . "product AS p "

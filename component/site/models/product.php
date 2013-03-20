@@ -198,6 +198,7 @@ class productModelproduct extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -294,6 +295,7 @@ class productModelproduct extends JModel
 
 			return false;
 		}
+
 		if (!$tags->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -314,6 +316,7 @@ class productModelproduct extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -530,10 +533,12 @@ class productModelproduct extends JModel
 		{
 			$where .= "AND media_id='" . $mid . "' ";
 		}
+
 		if ($id != 0)
 		{
 			$where .= "AND id='" . $id . "' ";
 		}
+
 		if ($media != 0)
 		{
 			$tablename = "media ";
@@ -602,6 +607,7 @@ class productModelproduct extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());

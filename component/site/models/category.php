@@ -159,7 +159,8 @@ class CategoryModelCategory extends JModel
 				$limit = MAXCATEGORY;
 			}
 		}
-		if (strstr($this->_template[0]->template_desc, "{product_display_limit}"))
+
+			if (strstr($this->_template[0]->template_desc, "{product_display_limit}"))
 		{
 			$endlimit = JRequest::getInt('limit', 0, '', 'int');
 		}
@@ -224,7 +225,8 @@ class CategoryModelCategory extends JModel
 		{
 			$and .= " AND p.manufacturer_id='" . $manufacturer_id . "' ";
 		}
-		if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
+
+			if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
 		{
 			$order_by = " ORDER BY p.product_price ASC";
 		}
@@ -477,6 +479,7 @@ class CategoryModelCategory extends JModel
 			{
 				$selected_template .= "," . $category_template;
 			}
+
 			if ($this->_maincat->category_more_template != "")
 			{
 				$selected_template .= "," . $this->_maincat->category_more_template;
@@ -700,6 +703,7 @@ class CategoryModelCategory extends JModel
 						$finder_condition        = " AND p.product_id IN('" . $finder_products . "')";
 						$this->_is_filter_enable = true;
 					}
+
 					if (count($tag) == 1 && $tag[0] == 0)
 					{
 						$finder_condition = "";
