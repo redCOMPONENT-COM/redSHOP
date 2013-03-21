@@ -71,6 +71,7 @@ echo "<pre />";
 $uri =& JURI::getInstance();
 $url = $uri->toString(array('scheme', 'host', 'port'));
 $path = explode("/", $uri->getPath());
+
 if ($path[1] != "plugins") $url .= "/" . $path[1] . "/";
 
 $get = JRequest::get('get');

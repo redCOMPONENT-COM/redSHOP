@@ -84,6 +84,7 @@ $currencyClass = new convertPrice ();
 $formdata['amount'] = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
 // for total amount
 $cal_no = 2;
+
 if (defined('PRICE_DECIMAL'))
 {
 	$cal_no = PRICE_DECIMAL;

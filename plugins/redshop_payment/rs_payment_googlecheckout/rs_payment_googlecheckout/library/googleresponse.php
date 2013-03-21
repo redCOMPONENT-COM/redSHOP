@@ -53,6 +53,7 @@ class GoogleResponse
 		{
 			$_SERVER = $headers;
 		}
+
 		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']))
 		{
 			$compare_mer_id = $_SERVER['PHP_AUTH_USER'];
@@ -79,6 +80,7 @@ class GoogleResponse
 
 			return false;
 		}
+
 		if ($compare_mer_id != $this->merchant_id
 			|| $compare_mer_key != $this->merchant_key
 		)
@@ -145,6 +147,7 @@ class GoogleResponse
 	{
 		$this->log->logError($msg);
 		header('HTTP/1.0 401 Unauthorized');
+
 		if ($die)
 		{
 			die($msg);
@@ -159,6 +162,7 @@ class GoogleResponse
 	{
 		$this->log->logError($msg);
 		header('HTTP/1.0 400 Bad Request');
+
 		if ($die)
 		{
 			die($msg);
@@ -174,6 +178,7 @@ class GoogleResponse
 	{
 		$this->log->logError($msg);
 		header('HTTP/1.0 500 Internal Server Error');
+
 		if ($die)
 		{
 			die($msg);
@@ -191,6 +196,7 @@ class GoogleResponse
 			"<notification-acknowledgment xmlns=\"" .
 			$this->schema_url . "\"/>";
 		$this->log->LogResponse($acknowledgment);
+
 		if ($die)
 		{
 			die($acknowledgment);

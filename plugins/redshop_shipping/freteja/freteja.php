@@ -190,11 +190,13 @@ class plgredshop_shippingfreteja extends JPlugin
 			$Order_Pickup_Postcode = FJ_Order_Pickup_Postcode;
 
 			$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 			if (count($shippinginfo) < 1)
 			{
 				return $shippingrate;
 			}
 			$billing = $producthelper->getUserInformation($shippinginfo->user_id);
+
 			if (count($billing) < 1)
 			{
 				return $shippingrate;
@@ -225,6 +227,7 @@ class plgredshop_shippingfreteja extends JPlugin
 			if (ini_get('allow_url_fopen') == '1')
 			{
 				$conteudo = file_get_contents(str_replace('&amp;', '&', $url_busca));
+
 				if ($conteudo === false)
 				{
 					echo "WS FreteJa: Sistema Indisponível";
@@ -243,6 +246,7 @@ class plgredshop_shippingfreteja extends JPlugin
 					curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0');
 					$conteudo = curl_exec($ch);
 					$curl_erro = curl_errno($ch);
+
 					if (curl_errno($ch) != 0)
 					{
 						echo "WS FreteJa erro CURL:" . curl_error($ch);
@@ -283,6 +287,7 @@ class plgredshop_shippingfreteja extends JPlugin
 					}
 
 					$desc_prazo = '';
+
 					if ($prazo != '')
 					{
 						if ($prazo == 1)

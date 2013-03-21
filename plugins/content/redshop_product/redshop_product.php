@@ -30,12 +30,14 @@ class plgContentredshop_product extends JPlugin
 
 			$session = JFactory::getSession('product_currency');
 			$post = JRequest::get('POST');
+
 			if (isset($post['product_currency']))
 			{
 				$session->set('product_currency', $post['product_currency']);
 			}
 			$currency_symbol = REDCURRENCY_SYMBOL;
 			$currency_convert = 1;
+
 			if ($session->get('product_currency'))
 			{
 				$currency_symbol = $session->get('product_currency');
@@ -112,6 +114,7 @@ class plgContentredshop_product extends JPlugin
 				$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product_image;
 				$title = " title='" . $product->product_name . "' ";
 				$alt = " alt='" . $product->product_name . "' ";
+
 				if (!$product->product_id)
 				{
 					$row->text = str_replace($matches[$i], '', $row->text);
@@ -120,6 +123,7 @@ class plgContentredshop_product extends JPlugin
 				# changes for sh404sef duplicating url
 				$catid = $producthelper->getCategoryProduct($product->product_id);
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+
 				if (count($ItemData) > 0)
 				{
 					$pItemid = $ItemData->id;
@@ -163,10 +167,12 @@ class plgContentredshop_product extends JPlugin
 				$prtemplate = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $prtemplate);
 				$product_name = "<a href='" . $link . "' title=''>" . $product->product_name . "</a>";
 				$prtemplate = str_replace("{product_name}", $product_name, $prtemplate);
+
 				if (strstr($prtemplate, "{product_desc}"))
 				{
 					$prtemplate = str_replace("{product_desc}", $product->product_s_desc, $prtemplate);
 				}
+
 				if (strstr($prtemplate, "{product_price}"))
 				{
 					if ($show_price && SHOW_PRICE)
@@ -176,10 +182,12 @@ class plgContentredshop_product extends JPlugin
 						$productArr = $producthelper->getProductNetPrice($rows [$k]->product_id, 0, 1);
 						$product_price_discount = $productArr['productPrice'];
 						$product_price_discountVat = $productArr['productVat'];
+
 						if ($show_price_with_vat)
 						{
 							$product_price_discount += $product_price_discountVat;
 						}
+
 						if ($product->product_on_sale && $product_price_discount > 0)
 						{
 							if ($product_price > $product_price_discount)
@@ -222,6 +230,7 @@ class plgContentredshop_product extends JPlugin
 				 * Product attribute  Start
 				 */
 				$attributes_set = array();
+
 				if ($product->attribute_set_id > 0)
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
@@ -241,10 +250,12 @@ class plgContentredshop_product extends JPlugin
 				$returnArr = $producthelper->getProductUserfieldFromTemplate($prtemplate);
 				$template_userfield = $returnArr[0];
 				$userfieldArr = $returnArr[1];
+
 				if (strstr($prtemplate, "{if product_userfield}") && strstr($prtemplate, "{product_userfield end if}") && $template_userfield != "")
 				{
 					$ufield = "";
 					$cart = $session->get('cart');
+
 					if (isset($cart['idx']))
 					{
 						$idx = (int) ($cart['idx']);
@@ -267,6 +278,7 @@ class plgContentredshop_product extends JPlugin
 						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $this->data->product_id);
 
 						$ufield .= $product_userfileds[1];
+
 						if ($product_userfileds[1] != "")
 						{
 							$count_no_user_field++;
@@ -275,6 +287,7 @@ class plgContentredshop_product extends JPlugin
 						$prtemplate = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $prtemplate);
 					}
 					$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+
 					if ($ufield != "")
 					{
 						$prtemplate = str_replace("{if product_userfield}", $product_userfileds_form, $prtemplate);
@@ -289,6 +302,7 @@ class plgContentredshop_product extends JPlugin
 				// Product User Field End
 
 				$childproduct = $producthelper->getChildProduct($product->product_id);
+
 				if (count($childproduct) > 0)
 				{
 					$isChilds = true;
@@ -299,6 +313,7 @@ class plgContentredshop_product extends JPlugin
 					$isChilds = false;
 					// get attributes
 					$attributes_set = array();
+
 					if ($product->attribute_set_id > 0)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);

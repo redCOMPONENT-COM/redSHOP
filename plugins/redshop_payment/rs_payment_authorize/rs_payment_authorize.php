@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -65,6 +66,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		// for total amount
 		$cal_no = 2;
+
 		if (defined('PRICE_DECIMAL'))
 		{
 			$cal_no = PRICE_DECIMAL;
@@ -82,6 +84,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 				$proinfo = $db->loadObjectlist();
 				$product_name = substr(str_replace("&", "and", $proinfo[0]->product_name), 0, 30);
 			}
+
 			if (isset($cart[$p]['giftcard_id']) && $cart[$p]['giftcard_id'] != "")
 			{
 				$product_id = $cart[$p]['giftcard_id'];
@@ -261,6 +264,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		$response_vars[0] = str_replace('"', '', $response_vars[0]);
 		$transaction_id = $response_vars[6];
+
 		if ($response_vars[0] == '1' || $response_vars[0] == 1)
 		{
 			$values->responsestatus = 'Success';
@@ -304,6 +308,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		// for total amount
 		$cal_no = 2;
+
 		if (defined('PRICE_DECIMAL'))
 		{
 			$cal_no = PRICE_DECIMAL;
@@ -394,6 +399,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			curl_setopt($CR, CURLOPT_POST, 1);
 		}
 		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+
 		if ($urlParts['scheme'] == 'https')
 		{
 			curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
@@ -426,6 +432,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;

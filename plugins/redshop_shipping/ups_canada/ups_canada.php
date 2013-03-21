@@ -25,6 +25,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 //defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
+
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 JHTML::_('behavior.tooltip');
 
@@ -353,6 +354,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				$config .= "define ('$key', '$value');\n";
 			}
 			$config .= "?>";
+
 			if ($fp = fopen($maincfgfile, "w"))
 			{
 				fputs($fp, $config, strlen($config));
@@ -388,15 +390,18 @@ class plgredshop_shippingups_canada extends JPlugin
 
 		$totaldimention = $shippinghelper->getCartItemDimention();
 		$order_weight = $totaldimention['totalweight'];
+
 		if ($unitRatio != 0)
 		{
 			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 		if (count($shippinginfo) < 1)
 		{
 			return $shippingrate;
 		}
+
 		if (isset($d['shipping_box_id']) && $d['shipping_box_id'])
 		{
 			$whereShippingBoxes = $shippinghelper->getBoxDimensions($d['shipping_box_id']);
@@ -425,6 +430,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		{
 			$order_weight = 1;
 		}
+
 		if ($order_weight > 150)
 		{
 			$order_weight = 150.00;
@@ -432,10 +438,12 @@ class plgredshop_shippingups_canada extends JPlugin
 
 		//The zip that you are shipping to
 		$vendor_country_2_code = DEFAULT_SHIPPING_COUNTRY;
+
 		if (DEFAULT_SHIPPING_COUNTRY)
 		{
 			$vendor_country_2_code = $redconfig->getCountryCode2(DEFAULT_SHIPPING_COUNTRY);
 		}
+
 		if (isset($shippinginfo->country_code))
 		{
 			$shippinginfo->country_2_code = $redconfig->getCountryCode2($shippinginfo->country_code);
@@ -478,6 +486,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		$xmlPost .= "   <Address>";
 		$xmlPost .= "    <PostalCode>" . $dest_zip . "</PostalCode>";
 		$xmlPost .= "    <CountryCode>" . $shippinginfo->country_2_code . "</CountryCode>";
+
 		if (UPS_Canada_RESIDENTIAL == "yes")
 		{
 			$xmlPost .= "    <ResidentialAddressIndicator/>";
@@ -534,6 +543,7 @@ class plgredshop_shippingups_canada extends JPlugin
 
 
 		$xmlDoc = JFactory::getXMLParser('Simple');
+
 		if (!$xmlResult)
 		{
 			$error = true;
@@ -596,6 +606,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			{
 				$service = $currNode->getElementByPath("service");
 				$servicecode = $service->_children[0]->data();
+
 				if (in_array($servicecode, $myservicecodes))
 				{
 					$ratedshipmentwarning = $currNode->getElementByPath("ratedshipmentwarning");
@@ -613,6 +624,7 @@ class plgredshop_shippingups_canada extends JPlugin
 						{
 							$ship_postage[$count]['Currency'] = $childeArr[$i]->data();
 						}
+
 						if ($childeArr[$i]->name() == "monetaryvalue")
 						{
 							$ship_postage[$count]['Rate'] = $childeArr[$i]->data();
@@ -681,6 +693,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			$fsc = $ship_postage[$i]['ServiceName'] . "_FSC";
 			$fsc = str_replace(" ", "_", str_replace(".", "", str_replace("/", "", $fsc)));
 			$fsc = constant($fsc);
+
 			if ($fsc == 0)
 			{
 				$fsc = 1;
@@ -689,6 +702,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			if ($convert)
 			{
 				$tmp = $currency->convert($ratevalue, "USD", CURRENCY_CODE);
+
 				if (!empty($tmp))
 				{
 					$charge = $tmp;
@@ -731,11 +745,13 @@ class plgredshop_shippingups_canada extends JPlugin
 					$GuaranteedDaysToDelivery = "&nbsp;&nbsp;-&nbsp;&nbsp;".$value['GuaranteedDaysToDelivery']." ".JText::_('COM_REDSHOP_UPS_SHIPPING_GUARANTEED_DAYS');
 				}
 			}
+
 			if (Show_Delivery_ETA_Quote == 1) {
 				if( !empty($value['ScheduledDeliveryTime'])) {
 					$ScheduledDeliveryTime = "&nbsp;(ETA:&nbsp;".$value['ScheduledDeliveryTime'].")";
 				}
 			}
+
 			if (Show_Delivery_Warning == 1 && !empty($value['RatedShipmentWarning'])) {
 				$RatedShipmentWarning = "</label><br/>\n&nbsp;&nbsp;&nbsp;*&nbsp;<em>".$value['RatedShipmentWarning']."</em>\n";
 			}*/
@@ -805,6 +821,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			for ($i = 0; $i < $rate_list->getLength(); $i++)
 			{
 				$currNode =& $rate_list->item($i);
+
 				if ( in_array($currNode->childNodes[0]->getText(),$myservicecodes) )
 				{
 					$e = 0;
@@ -865,6 +882,7 @@ class plgredshop_shippingups_canada extends JPlugin
 					unset( $currNode );
 				}
 			}
+
 			if (count($shipment)<=0)
 			{
 				return $shippingrate;
@@ -944,11 +962,13 @@ class plgredshop_shippingups_canada extends JPlugin
 						$GuaranteedDaysToDelivery = "&nbsp;&nbsp;-&nbsp;&nbsp;".$value['GuaranteedDaysToDelivery']." ".JText::_('UPS_SHIPPING_GUARANTEED_DAYS');
 					}
 				}
+
 				if (Show_Delivery_ETA_Quote == 1) {
 					if( !empty($value['ScheduledDeliveryTime'])) {
 						$ScheduledDeliveryTime = "&nbsp;(ETA:&nbsp;".$value['ScheduledDeliveryTime'].")";
 					}
 				}
+
 				if (Show_Delivery_Warning == 1 && !empty($value['RatedShipmentWarning'])) {
 					$RatedShipmentWarning = "</label><br/>\n&nbsp;&nbsp;&nbsp;*&nbsp;<em>".$value['RatedShipmentWarning']."</em>\n";
 				}

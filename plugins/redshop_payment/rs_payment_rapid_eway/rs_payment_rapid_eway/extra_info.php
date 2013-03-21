@@ -25,6 +25,7 @@ $api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin 
 include($api_path);
 // getCountryCode2
 $data['billinginfo']->country_code = $Redconfiguration->getCountryCode2($data['billinginfo']->country_code);
+
 if ($data['billinginfo']->country_code == "GB")
 {
 	$currency_main = "GBP";
@@ -67,6 +68,7 @@ $request->Customer->PostalCode = $data['billinginfo']->zipcode;
 $request->Customer->Country = $data['billinginfo']->country_code;
 $request->Customer->Email = $data['billinginfo']->email;
 $request->Customer->Phone = $data['billinginfo']->phone;
+
 if (count($order_items) > 0)
 {
 	for ($p = 0; $p < count($order_items); $p++)
@@ -104,6 +106,7 @@ if (isset($result->Errors))
 		}
 	}
 }
+
 if ($lblError != "")
 {
 	$link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $data['order_id'];

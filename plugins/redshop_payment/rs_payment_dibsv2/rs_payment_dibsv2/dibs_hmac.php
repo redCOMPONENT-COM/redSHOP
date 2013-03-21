@@ -6,6 +6,7 @@ class dibs_hmac
 	public function createMessage($formKeyValues)
 	{
 		$string = "";
+
 		if (is_array($formKeyValues))
 		{
 			ksort($formKeyValues); // Sort the posted values by alphanumeric
@@ -50,6 +51,7 @@ class dibs_hmac
 				$fp = fopen($logfile, 'a') or exit("Can't open $logfile!");
 				fwrite($fp, "messageToBeSigned: " . $messageToBeSigned . PHP_EOL
 					. " HmacKey: " . $HmacKey . PHP_EOL . " generated MAC: " . $MAC . PHP_EOL);
+
 				if (isset($formKeyValues["MAC"]) && $formKeyValues["MAC"] != "")
 					fwrite($fp, " posted MAC:    " . $formKeyValues["MAC"] . PHP_EOL);
 			}

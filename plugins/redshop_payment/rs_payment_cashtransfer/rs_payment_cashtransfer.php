@@ -47,6 +47,7 @@ class plgRedshop_paymentrs_payment_cashtransfer extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;

@@ -49,6 +49,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -174,6 +175,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	{
 
 		$mainframe =& JFactory::getApplication();
+
 		if ($element != 'rs_payment_paymill')
 		{
 			return;
@@ -190,6 +192,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$Itemid = JRequest::getVar('Itemid');
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'lib/Services/Paymill/Transactions.php';
 		include($paymentpath);
+
 		if ($token = $data['paymillToken'])
 		{
 			// require "Services/Paymill/Transactions.php";

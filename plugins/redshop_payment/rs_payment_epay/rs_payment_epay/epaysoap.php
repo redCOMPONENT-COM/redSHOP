@@ -116,6 +116,7 @@ class EpaySoap
 		{
 			// Check for errors
 			$err = $soapclient->getError();
+
 			if ($err)
 			{
 				// Display the error

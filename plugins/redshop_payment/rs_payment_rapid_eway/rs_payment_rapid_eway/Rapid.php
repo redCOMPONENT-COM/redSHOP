@@ -66,6 +66,7 @@ class RapidAPI
 					$i++;
 				}
 				$request->Items = $tempClass->Items;
+
 				if ($this->APIConfig['Request:Method'] != "RPC")
 				{
 					$request = Parser::Obj2JSON($request);
@@ -249,6 +250,7 @@ class RapidAPI
 		{
 			$lblError = $e->getMessage();
 		}
+
 		if (isset($lblError))
 		{
 			echo "<h2>CreateAccessCode SOAP Error: $lblError</h2><pre>";
@@ -440,11 +442,13 @@ class RapidAPI
 	private function PostToRapidAPI($url, $request, $IsPost = true)
 	{
 		$ch = curl_init($url);
+
 		if ($this->APIConfig['Request:Format'] == "XML")
 			curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: text/xml"));
 		else
 			curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
 		curl_setopt($ch, CURLOPT_USERPWD, $this->api_username . ":" . $this->api_password);
+
 		if ($IsPost)
 			curl_setopt($ch, CURLOPT_POST, true);
 		else
@@ -659,6 +663,7 @@ class Parser
 	public static function JSONRPC2Obj($obj)
 	{
 		$tempClass = json_decode($obj);
+
 		if (isset($tempClass->error))
 		{
 			$tempClass->Errors = $tempClass->error->data;
@@ -703,6 +708,7 @@ class Parser
 				$xml->writeAttribute("xsi:nil", "true");
 				$xml->endElement();
 			}
+
 			if (is_object($value))
 			{
 				$xml->startElement($key);

@@ -121,6 +121,7 @@ if ($rsp->getSuccess() == "1")
 	// SUCCESS: UPDATE THE ORDER STATUS to 'CONFIRMED'
 	$values->order_status_code = $verify_status;
 	$values->order_payment_status_code = 'Paid';
+
 	if ($debug_mode == 1)
 	{
 		$values->log = $ResponseText;
@@ -140,6 +141,7 @@ else
 	// FAILED: UPDATE THE ORDER STATUS to 'PENDING'
 	$values->order_status_code = $invalid_status;
 	$values->order_payment_status_code = 'Unpaid';
+
 	if ($debug_mode == 1)
 	{
 		$values->log = $ResponseText;

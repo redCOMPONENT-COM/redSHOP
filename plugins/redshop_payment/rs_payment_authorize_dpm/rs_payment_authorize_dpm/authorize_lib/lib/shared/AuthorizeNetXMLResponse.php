@@ -25,6 +25,7 @@ class AuthorizeNetXMLResponse
 	public function __construct($response)
 	{
 		$this->response = $response;
+
 		if ($response)
 		{
 			$this->xml = @simplexml_load_string($response);
@@ -119,6 +120,7 @@ class AuthorizeNetXMLResponse
 	{
 		$start = "<$elementName>";
 		$end = "</$elementName>";
+
 		if (strpos($this->response, $start) === false || strpos($this->response, $end) === false)
 		{
 			return false;

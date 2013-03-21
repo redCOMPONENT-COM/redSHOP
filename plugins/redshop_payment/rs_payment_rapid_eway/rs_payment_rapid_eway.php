@@ -47,6 +47,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -95,10 +96,12 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 			}
 		}
 		$values = new stdClass();
+
 		if (isset($lblError) && $response->ResponseCode != 00)
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
+
 			if ($lblError != "")
 			{
 				$values->log = $lblError;
@@ -132,6 +135,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;

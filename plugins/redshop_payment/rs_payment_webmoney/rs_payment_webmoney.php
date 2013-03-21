@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -123,10 +124,12 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			{
 				$invoice = $wm_value;
 			}
+
 			if ($wm_name == LMI_PAYMENT_AMOUNT)
 			{
 				$final_cost = $wm_value;
 			}
+
 			if ($wm_name == LMI_PREREQUEST)
 			{
 				$prerequest_mode = $wm_value;
@@ -182,6 +185,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 					echo "ERR: NO SUCH PRICES";
 					exit;
 				}
+
 				if ($order_total_cost != $final_cost)
 				{
 					$err = 1;
@@ -191,6 +195,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 					exit;
 				}
 			}
+
 			if (!$err)
 			{
 				echo "YES";
@@ -213,6 +218,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			$common_string = $request['LMI_PAYEE_PURSE'] . $request['LMI_PAYMENT_AMOUNT'] . $request['LMI_PAYMENT_NO'] . $request['LMI_MODE'] . $request['LMI_SYS_INVS_NO'] . $request['LMI_SYS_TRANS_NO'] . $request['LMI_SYS_TRANS_DATE'] . $secret_key . $request['LMI_PAYER_PURSE'] . $request['LMI_PAYER_WM'];
 
 			$hash = strtoupper(md5($common_string));
+
 			if ($hash != $wm_post_10)
 			{
 				// FAILED: UPDATE THE ORDER STATUS to 'PENDING'
@@ -257,6 +263,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;

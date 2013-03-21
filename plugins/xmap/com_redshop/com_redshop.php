@@ -89,6 +89,7 @@ class xmap_com_redshop
 
 		if ($priority == '-1')
 			$priority = $parent->priority;
+
 		if ($changefreq == '-1')
 			$changefreq = $parent->changefreq;
 
@@ -97,8 +98,10 @@ class xmap_com_redshop
 
 		$priority = xmap_com_redshop::getParam($params, 'prod_priority', $parent->priority);
 		$changefreq = xmap_com_redshop::getParam($params, 'prod_changefreq', $parent->changefreq);
+
 		if ($priority == '-1')
 			$priority = $parent->priority;
+
 		if ($changefreq == '-1')
 			$changefreq = $parent->changefreq;
 
@@ -123,6 +126,7 @@ class xmap_com_redshop
 		$database = & JFactory::getDBO();
 
 		static $urlBase;
+
 		if (!isset($urlBase))
 		{
 			$urlBase = JURI::base();
@@ -152,6 +156,7 @@ class xmap_com_redshop
 			$node->changefreq = $params['cat_changefreq'];
 			$node->expandible = false;
 			$node->link = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&layout=detail&Itemid=" . $params['Itemid'];
+
 			if ($xmap->printNode($node) !== false)
 			{
 				xmap_com_redshop::getCategoryTree($xmap, $parent, $params, $row->category_id);

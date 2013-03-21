@@ -495,6 +495,7 @@ class mpgResponse
 
 
 		$this->currentTag = $name;
+
 		if ($name == "BankTotals")
 		{
 			$this->isBatchTotals = 0;
@@ -579,12 +580,14 @@ class mpgRequest
 		//}
 
 		$avs = $txnObj->getAvsInfo();
+
 		if ($avs != null)
 		{
 			$txnXMLString .= $avs->toXML();
 		}
 
 		$cvd = $txnObj->getCvdInfo();
+
 		if ($cvd != null)
 		{
 			$txnXMLString .= $cvd->toXML();
@@ -592,6 +595,7 @@ class mpgRequest
 
 
 		$custInfo = $txnObj->getCustInfo();
+
 		if ($custInfo != null)
 		{
 			$txnXMLString .= $custInfo->toXML();

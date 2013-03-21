@@ -12,6 +12,7 @@ function getCardInfo($merchantnumber, $cardno_prefix, $amount, $currency, $acqui
 	//
 	$client = new nusoap_client('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', 'wsdl', '', '', '', '');
 	$err = $client->getError();
+
 	if ($err)
 	{
 		echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
@@ -38,6 +39,7 @@ function getCardInfo($merchantnumber, $cardno_prefix, $amount, $currency, $acqui
 	{
 		// Check for errors
 		$err = $client->getError();
+
 		if ($err)
 		{
 			//

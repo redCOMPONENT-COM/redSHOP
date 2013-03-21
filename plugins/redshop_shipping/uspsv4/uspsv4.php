@@ -25,6 +25,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 //defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
+
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
@@ -421,6 +422,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 				$config .= "define ('$key', '$value');\n";
 			}
 			$config .= "?>";
+
 			if ($fp = fopen($maincfgfile, "w"))
 			{
 				fputs($fp, $config, strlen($config));
@@ -495,6 +497,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		}
 		$girth = 2 * ceil($shipping_width) + 2 * ceil($shipping_height);
 		$size = (ceil($shipping_length) + $girth) / $unitRatioVolume;
+
 		if ($size <= (84 * $unitRatioVolume))
 		{
 			$sizetype = 'REGULAR';
@@ -511,6 +514,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		{
 			$sizetype = 'GI-HUGE-IC';
 		}
+
 		if ($order_weight > 0)
 		{
 			$usps_username = USPS_USERNAME;
@@ -533,6 +537,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 			//USPS Machinable for Parcel Post
 			$usps_machinable = USPS_MACHINABLE;
+
 			if ($usps_machinable == '1') $usps_machinable = 'TRUE';
 			else $usps_machinable = 'FALSE';
 
@@ -625,6 +630,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
 					curl_setopt($CR, CURLOPT_CONNECTTIMEOUT, 20);
 					curl_setopt($CR, CURLOPT_TIMEOUT, 30);
+
 					if (!empty($usps_proxyserver))
 					{
 						curl_setopt($CR, CURLOPT_HTTPPROXYTUNNEL, true);
@@ -656,6 +662,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 				{
 					//5/17/08 - changes to call fsockopen correctly and parse the response
 					$fp = fsockopen(USPS_SERVER, 80, $errno, $errstr, $timeout = 60);
+
 					if (!$fp)
 					{
 						$error = true;
@@ -718,6 +725,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 				//Get shipping options that are selected as available in VM from XML response
 				$i = 0;
 				$count = 0;
+
 				if ($domestic)
 				{
 					$matchedchild = $xmlDoc->document->_children;
@@ -728,6 +736,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 						{
 							$currNode = $totalmatchedchild[$i];
 							$matched_childname = $currNode->name();
+
 							if ($matched_childname == "postage")
 							{
 								$postage_child = $currNode->_children;
@@ -771,6 +780,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					$ratev3response = $xmlDoc->document;
 					$package = $ratev3response->getElementByPath("package");
 					$totalmatchedchild = $package->_children;
+
 					if ($totalmatchedchild != null)
 					{
 						for ($i = 0; $i < count($totalmatchedchild); $i++)
@@ -835,6 +845,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 						$ship_service[$i] = $usps_prefix . " " . $ship_service[$i];
 					}
 					$delivary = "";
+
 					if (USPS_SHOW_DELIVERY_QUOTE == 1 && !empty($ship_commit[$i]))
 					{
 						$delivary = $ship_commit[$i];

@@ -260,6 +260,7 @@ class plgredshop_shippingfedex extends JPlugin
 				$config .= "define ('$key', '$value');\n";
 			}
 			$config .= "?>";
+
 			if ($fp = fopen($maincfgfile, "w"))
 			{
 				fputs($fp, $config, strlen($config));
@@ -297,6 +298,7 @@ class plgredshop_shippingfedex extends JPlugin
 
 
 		$unitRatio = $producthelper->getUnitConversation($fedex_weightunits, strtolower(DEFAULT_WEIGHT_UNIT));
+
 		if ($fedex_weightunits == 'lbs')
 		{
 			$fedex_weightunits = 'LB';
@@ -318,6 +320,7 @@ class plgredshop_shippingfedex extends JPlugin
 		}
 		//echo $unitRatio;exit;
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 		if (count($shippinginfo) < 1)
 		{
 			return $shippingrate;
@@ -347,6 +350,7 @@ class plgredshop_shippingfedex extends JPlugin
 			return $shippingrate;
 		}
 		$billing = $producthelper->getUserInformation($shippinginfo->user_id);
+
 		if (count($billing) < 1)
 		{
 			return $shippingrate;
@@ -356,21 +360,26 @@ class plgredshop_shippingfedex extends JPlugin
 		{
 			$shippinginfo->country_2_code = $redconfig->getCountryCode2($shippinginfo->country_code);
 		}
+
 		if (isset($billing->country_code))
 		{
 			$billing->country_2_code = $redconfig->getCountryCode2($billing->country_code);
 		}
+
 		if (isset($shippinginfo->state_code))
 		{
 			$shippinginfo->state_2_code = $shippinginfo->state_code;
+
 			if (strlen($billing->state_code) > 2)
 			{
 				$shippinginfo->state_2_code = $redconfig->getStateCode2($shippinginfo->state_code);
 			}
 		}
+
 		if (isset($billing->state_code))
 		{
 			$billing->state_2_code = $billing->state_code;
+
 			if (strlen($billing->state_code) > 2)
 			{
 				$billing->state_2_code = $redconfig->getStateCode2($billing->state_code);
@@ -378,6 +387,7 @@ class plgredshop_shippingfedex extends JPlugin
 		}
 
 		$country_code = SHOP_COUNTRY;
+
 		if ($country_code != '')
 		{
 			$billing->country_2_code = $redconfig->getCountryCode2($country_code);
@@ -444,10 +454,12 @@ class plgredshop_shippingfedex extends JPlugin
 		try
 		{
 			$response = $client->getRates($request);
+
 			if ($this->setEndpoint('changeEndpoint'))
 			{
 				$newLocation = $client->__setLocation($this->setEndpoint('endpoint'));
 			}
+
 			if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' && $response->HighestSeverity != 'WARNING')
 			{
 				if (count($response->Notifications) > 1)
@@ -463,6 +475,7 @@ class plgredshop_shippingfedex extends JPlugin
 				}
 				echo $str;
 			}
+
 			if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR')
 			{
 				$error = 0;
@@ -502,6 +515,7 @@ class plgredshop_shippingfedex extends JPlugin
 	function setEndpoint($var)
 	{
 		if ($var == 'changeEndpoint') Return false;
+
 		if ($var == 'endpoint') Return '';
 	}
 }

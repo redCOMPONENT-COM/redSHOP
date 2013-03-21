@@ -25,6 +25,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 //defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
+
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 define('BRING_RESPONSE_ERROR', 'test');
 
@@ -212,6 +213,7 @@ class plgredshop_shippingbring extends JPlugin
 				$config .= "define ('$key', '$value');\n";
 			}
 			$config .= "?>";
+
 			if ($fp = fopen($maincfgfile, "w"))
 			{
 				fputs($fp, $config, strlen($config));
@@ -247,15 +249,18 @@ class plgredshop_shippingbring extends JPlugin
 
 		$totaldimention = $shippinghelper->getCartItemDimention();
 		$order_weight = $totaldimention['totalweight'];
+
 		if ($unitRatio != 0)
 		{
 			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 		if (count($shippinginfo) < 1)
 		{
 			return $shippingrate;
 		}
+
 		if (BRING_USE_SHIPPING_BOX == '1')
 		{
 			$whereShippingBoxes = $shippinghelper->getBoxDimensions($d['shipping_box_id']);
@@ -272,6 +277,7 @@ class plgredshop_shippingbring extends JPlugin
 		$shipping_height = $totaldimention['totalheight'];
 		$shipping_width = $totaldimention['totalwidth'];
 		$shipping_volume = $totaldimention['totalvolume'];
+
 		if (is_array($whereShippingBoxes) && count($whereShippingBoxes) > 0 && $unitRatioVolume > 0)
 		{
 			$shipping_length = ( int ) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
@@ -293,22 +299,27 @@ class plgredshop_shippingbring extends JPlugin
 		$query = '';
 		$query .= 'from=' . BRING_ZIPCODE_FROM;
 		$query .= '&to=' . $dest_zip;
+
 		if (!$shipping_length)
 		{
 			$shipping_length = 1;
 		}
+
 		if (!$shipping_width)
 		{
 			$shipping_width = 1;
 		}
+
 		if (!$shipping_height)
 		{
 			$shipping_height = 1;
 		}
+
 		if (!$shipping_volume)
 		{
 			$shipping_volume = 1;
 		}
+
 		if ($shipping_gram)
 		{
 			$query .= '&weightInGrams=' . $shipping_gram;
@@ -330,6 +341,7 @@ class plgredshop_shippingbring extends JPlugin
 
 			$xmlResult = curl_exec($CR);
 			$error = curl_error($CR);
+
 			if (!empty($error))
 			{
 				$html = BRING_RESPONSE_ERROR;
@@ -346,6 +358,7 @@ class plgredshop_shippingbring extends JPlugin
 		//Get shipping options that are selected as available in VM from XML response
 		$bring_products = array();
 		$document = $xmlDoc->document;
+
 		if (!$document)
 			return $shippingrate;
 		$product = $document->children();
@@ -354,16 +367,19 @@ class plgredshop_shippingbring extends JPlugin
 		for ($i = 0; $i < count($product); $i++)
 		{
 			$bring_products[$i] = new stdClass();
+
 			if (strtolower($product[$i]->name()) == 'head')
 			{
 //				$headchilds = $product[$i]->children();
 				$shippingError = true;
 			}
+
 			if (strtolower($product[$i]->name()) == 'body')
 			{
 //				$bodychilds = $product[$i]->children();
 //				$html .= "<br />".JText::_('COM_REDSHOP_NORWEGIAN_ERROR_MESSAGE')."<br />";
 			}
+
 			if (strtolower($product[$i]->name()) == 'product')
 			{
 				$productchilds = $product[$i]->children();
@@ -377,11 +393,13 @@ class plgredshop_shippingbring extends JPlugin
 							$bring_products[$i]->product->product_id = $product_name;
 						}
 						$productDisplayName = "";
+
 						if (isset($productchilds[$j]->ProductName[0]))
 						{
 							$productDisplayName = $productchilds[$j]->ProductName[0]->data();
 							//$productdescriptiontext = $productchilds[$j]->ProductName[0]->descriptiontext   
 						}
+
 						if ($productDisplayName)
 						{
 							$bring_products[$i]->product->product_name = $productDisplayName; //." ( ".$product_name." )";
@@ -390,15 +408,18 @@ class plgredshop_shippingbring extends JPlugin
 						{
 							$bring_products[$i]->product->product_name = $product_name;
 						}
+
 						if (isset($productchilds[$j]->DescriptionText[0]))
 						{
 							$bring_products[$i]->product->product_desc = $productchilds[$j]->DescriptionText[0]->data();
 						}
+
 						if (isset($productchilds[$j]->HelpText[0]))
 						{
 							$bring_products[$i]->product->product_desc1 = $productchilds[$j]->HelpText[0]->data();
 						}
 					}
+
 					if (strtolower($productchilds[$j]->name()) == 'price')
 					{
 						$price = $productchilds[$j];
@@ -427,6 +448,7 @@ class plgredshop_shippingbring extends JPlugin
 					}
 				}
 			}
+
 			if (strtolower($product[$i]->name()) == 'tracemessages')
 			{
 				$TraceMessageschilds = $product[$i]->children();
@@ -448,6 +470,7 @@ class plgredshop_shippingbring extends JPlugin
 			for ($i = 0; $i < count($bring_products); $i++)
 			{
 				$product_id = $bring_products[$i]->product->product_id;
+
 				if (($i != count($bring_products) - 1) && in_array($product_id, $ArrExlode))
 				{
 					$AmountWithoutVAT = $bring_products[$i]->product->AmountWithoutVAT;

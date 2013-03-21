@@ -36,6 +36,7 @@ class Braintree_Util
 		$data = $attribArray[$attributeName];
 		// set up the class that will be used to convert each array element
 		$classFactory = self::buildClassName($attributeName) . '::factory';
+
 		if (is_array($data)):
 			// create an object from the data in each element
 			$objectArray = array_map($classFactory, $data);
@@ -267,10 +268,12 @@ class Braintree_Util
 		foreach ($keys AS $key => $value)
 		{
 			$fullKey = empty($namespace) ? $key : $namespace;
+
 			if (!is_numeric($key) && $namespace != null)
 			{
 				$fullKey .= '[' . $key . ']';
 			}
+
 			if (is_array($value))
 			{
 				$more = self::_flattenUserKeys($value, $fullKey);

@@ -57,6 +57,7 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;

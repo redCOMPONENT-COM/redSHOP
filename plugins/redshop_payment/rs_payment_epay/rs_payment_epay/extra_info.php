@@ -674,42 +674,52 @@ function calculateePayCurrency($order_id)
 	{
 		if (in_array('DANKORT', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "1,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('VD', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "2,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('VE', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "3,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('MCDK', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "4,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('MC', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "5,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('VEDK', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "6,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('JCB', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "7,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('DDK', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "8,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('MDK', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "9,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('AEDK', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "10,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('DINERS', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "13,";
@@ -719,30 +729,37 @@ function calculateePayCurrency($order_id)
 	{
 		if (in_array('AE', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "14,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('MAESTRO', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "15,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('FORBRUGSFORENINGEN', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "16,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('EWIRE', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "17,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('VISA', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "18,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('IKANO', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "19,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('NORDEA', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "21,";
 	}
+
 	if (is_array($cardtypes))
 	{
 		if (in_array('DB', @$cardtypes) && !in_array('ALL', @$cardtypes)) $cardtype_main .= "22,";

@@ -65,6 +65,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -125,6 +126,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 		// L� dados do $_POST
 		$Pedido->formaPagamentoBandeira = $creditcard_code; //$_POST["codigoBandeira"];
+
 		if ($formaPagamento != "A" && $formaPagamento != "1") ////$_POST["formaPagamento"]
 		{
 			$Pedido->formaPagamentoProduto = $tipoParcelamento; //$_POST["tipoParcelamento"];
@@ -230,6 +232,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		if ($Pedido->status == '4' || $Pedido->status == '6')
 		{
 			//echo "order Success -----";
+
 			if ($debug_mode == "0")
 			{
 				$message = 'Success';

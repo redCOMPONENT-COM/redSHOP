@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -302,6 +303,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;
@@ -408,6 +410,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		$order_amount = round($data['order_amount'] * 100, 2);
 
 		$response = $epay->delete($merchantnumber, $tid);
+
 		if ($response['deleteResult'] == 1)
 		{
 

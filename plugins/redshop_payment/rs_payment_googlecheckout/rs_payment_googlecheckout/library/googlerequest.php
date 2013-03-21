@@ -71,6 +71,7 @@ class GoogleRequest
 	{
 		list($status, $body) = $this->SendReq($this->merchant_checkout,
 			$this->GetAuthenticationHeaders(), $xml_cart);
+
 		if ($status != 200)
 		{
 			return array($status, $body);
@@ -87,6 +88,7 @@ class GoogleRequest
 			$this->log->logRequest("Redirecting to: " .
 				$data[$root]['redirect-url']['VALUE']);
 			header('Location: ' . $data[$root]['redirect-url']['VALUE']);
+
 			if ($die)
 			{
 				die($data[$root]['redirect-url']['VALUE']);
@@ -103,6 +105,7 @@ class GoogleRequest
 		$postargs = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
                   <charge-order xmlns=\"" . $this->schema_url .
 			"\" google-order-number=\"" . $google_order . "\">";
+
 		if ($amount != '')
 		{
 			$postargs .= "<amount currency=\"" . $this->currency . "\">" .
@@ -205,6 +208,7 @@ class GoogleRequest
 		$postargs = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
                   <deliver-order xmlns=\"" . $this->schema_url .
 			"\" google-order-number=\"" . $google_order . "\">";
+
 		if ($carrier != "" && $tracking_no != "")
 		{
 			$postargs .= "<tracking-data>
@@ -286,6 +290,7 @@ class GoogleRequest
 		}
 		// Do the POST and then close the session
 		$response = curl_exec($session);
+
 		if (curl_errno($session))
 		{
 			$this->log->LogError($response);
@@ -343,10 +348,12 @@ class GoogleRequest
 		$head_end = strpos($message, DOUBLE_ENTER);
 		$headers = $this->get_headers_x(substr($message, 0,
 			$head_end + strlen(DOUBLE_ENTER)));
+
 		if (!is_array($headers) || empty($headers))
 		{
 			return null;
 		}
+
 		if (!preg_match('%[HTTP/\d\.\d] (\d\d\d)%', $headers[0], $status_code))
 		{
 			return null;
@@ -383,6 +390,7 @@ class GoogleRequest
 			if ($format == 1)
 			{
 				$key = array_shift(explode(':', $header));
+
 				if ($key == $header)
 				{
 					$headers[] = $header;

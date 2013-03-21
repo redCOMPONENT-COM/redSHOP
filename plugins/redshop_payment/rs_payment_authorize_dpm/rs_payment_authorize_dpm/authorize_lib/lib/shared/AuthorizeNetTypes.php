@@ -312,6 +312,7 @@ class AuthorizeNet_Subscription
 		while ($element_removed)
 		{
 			$element_removed = 0;
+
 			if (preg_match('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', $xml_clean))
 			{
 				$xml_clean = preg_replace('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', '', $xml_clean);

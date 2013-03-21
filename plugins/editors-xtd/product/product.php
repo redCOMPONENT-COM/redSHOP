@@ -67,6 +67,7 @@ class plgButtonproduct extends JPlugin
 
 		$template = $mainframe->getTemplate();
 		$link = 'index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
+
 		if ($mainframe->isAdmin())
 		{
 			$link = '../index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;

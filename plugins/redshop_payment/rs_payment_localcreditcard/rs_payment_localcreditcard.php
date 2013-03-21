@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;

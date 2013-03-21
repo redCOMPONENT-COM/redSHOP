@@ -413,6 +413,7 @@ class Braintree_CreditCard extends Braintree
 			null;
 
 		$subscriptionArray = array();
+
 		if (isset($creditCardAttribs['subscriptions']))
 		{
 			foreach ($creditCardAttribs['subscriptions'] AS $subscription)
@@ -540,6 +541,7 @@ class Braintree_CreditCard extends Braintree
 				'expected address id to be set'
 			);
 		}
+
 		if (!preg_match('/^[0-9A-Za-z_-]+$/', $token))
 		{
 			throw new InvalidArgumentException(

@@ -59,6 +59,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -168,6 +169,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		if ($response['transaction_sts'] == "success")
 		{
 			//echo "order Success -----";
+
 			if ($debug_mode == 1)
 			{
 				$message = $response['message'];
@@ -281,6 +283,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		// call function to post an order ------
 
 		$response = $obj_chase->capture_an_order();
+
 		if ($response['ProcStatus'] == 1)
 		{
 			//echo "transaction Success -----";

@@ -71,6 +71,7 @@ $formdata['total'] = number_format($data['carttotal'], 2, '.', '');
 $poststring = '';
 $task = $request['task'];
 $layout = $request['layout'];
+
 if ($task == "receipt")
 {
 	$query_string = "?";

@@ -47,6 +47,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -66,10 +67,12 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
 		}
+
 		if ($this->_params->get("px_post_txnmethod") == 'PxPost')
 		{
 
@@ -172,6 +175,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 					$level[$xml_elem['level']] = $xml_elem['tag'];
 				}
 			}
+
 			if ($xml_elem['type'] == 'complete')
 			{
 				$start_level = 1;
@@ -202,6 +206,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $data['order_id'];
 		$Itemid = $_REQUEST['Itemid'];
+
 		if ($this->_params->get("px_post_txntype") == 'Auth')
 		{
 

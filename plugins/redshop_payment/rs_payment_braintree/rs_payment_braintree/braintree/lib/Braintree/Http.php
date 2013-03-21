@@ -15,6 +15,7 @@ class Braintree_Http
 	public static function delete($path)
 	{
 		$response = self::_doRequest('DELETE', $path);
+
 		if ($response['status'] === 200)
 		{
 			return true;
@@ -28,6 +29,7 @@ class Braintree_Http
 	public static function get($path)
 	{
 		$response = self::_doRequest('GET', $path);
+
 		if ($response['status'] === 200)
 		{
 			return Braintree_Xml::buildArrayFromXml($response['body']);
@@ -42,6 +44,7 @@ class Braintree_Http
 	{
 		$response = self::_doRequest('POST', $path, self::_buildXml($params));
 		$responseCode = $response['status'];
+
 		if ($responseCode === 200 || $responseCode === 201 || $responseCode === 422)
 		{
 			return Braintree_Xml::buildArrayFromXml($response['body']);
@@ -56,6 +59,7 @@ class Braintree_Http
 	{
 		$response = self::_doRequest('PUT', $path, self::_buildXml($params));
 		$responseCode = $response['status'];
+
 		if ($responseCode === 200 || $responseCode === 201 || $responseCode === 422)
 		{
 			return Braintree_Xml::buildArrayFromXml($response['body']);
@@ -86,6 +90,7 @@ class Braintree_Http
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_USERPWD, Braintree_Configuration::publicKey() . ':' . Braintree_Configuration::privateKey());
 		// curl_setopt($curl, CURLOPT_VERBOSE, true);
+
 		if (Braintree_Configuration::sslOn())
 		{
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
@@ -102,6 +107,7 @@ class Braintree_Http
 		$response = curl_exec($curl);
 		$httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
+
 		if (Braintree_Configuration::sslOn())
 		{
 			if ($httpStatus == 0)

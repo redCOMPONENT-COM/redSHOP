@@ -47,6 +47,7 @@ class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 		elseif (count($_POST))
 		{
 			$response = new AuthorizeNetSIM($api_login_id, $md5_setting);
+
 			if ($response->isAuthorizeNet())
 			{
 				if ($response->approved)
@@ -116,6 +117,7 @@ class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 	{
 		$time = time();
 		$fp = self::getFingerprint($api_login_id, $transaction_key, $amount, $fp_sequence, $time);
+
 		if ($test_mode == 1)
 		{
 			$x_test_request = "TRUE";

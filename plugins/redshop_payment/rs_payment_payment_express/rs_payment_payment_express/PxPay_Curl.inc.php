@@ -40,6 +40,7 @@ class MifMessage
 		xml_parser_set_option($p, XML_OPTION_CASE_FOLDING, 0);
 		$ok = xml_parse_into_struct($p, $xml, $value, $index);
 		xml_parser_free($p);
+
 		if ($ok)
 		{
 			$this->xml_ = $xml;
@@ -66,6 +67,7 @@ class MifMessage
 	function get_element_text($element)
 	{
 		$index = $this->get_element_index($element, 0);
+
 		if ($index == 0)
 		{
 			return "";
@@ -74,6 +76,7 @@ class MifMessage
 		{
 			#When element existent but empty
 			$elementObj = $this->xml_value_[$index];
+
 			if (!array_key_exists("value", $elementObj))
 				return "";
 
@@ -89,12 +92,14 @@ class MifMessage
 	{
 		#$element = strtoupper($element);
 		$pos = strpos($element, "/");
+
 		if ($pos !== false)
 		{
 			# element contains '/': find first part
 			$start_path = substr($element, 0, $pos);
 			$remain_path = substr($element, $pos + 1);
 			$index = $this->get_element_index($start_path, $rootindex);
+
 			if ($index == 0)
 			{
 				# couldn't find first part give up.
@@ -109,6 +114,7 @@ class MifMessage
 			# search from the parent across all its children
 			# i.e. until we get the parent's close tag.
 			$level = $this->xml_value_[$rootindex]["level"];
+
 			if ($this->xml_value_[$rootindex]["type"] == "complete")
 			{
 				return 0; # no children
@@ -271,6 +277,7 @@ class PxPayRequest extends PxPayMessage
 	function validData()
 	{
 		$msg = "";
+
 		if ($this->TxnType != "Purchase")
 			if ($this->TxnType != "Auth")
 				$msg = "Invalid TxnType[$this->TxnType]<br>";
@@ -280,10 +287,13 @@ class PxPayRequest extends PxPayMessage
 
 		if (strlen($this->TxnId) > 16)
 			$msg = "Invalid TxnId [$this->TxnId]<br>";
+
 		if (strlen($this->TxnData1) > 255)
 			$msg = "Invalid TxnData1 [$this->TxnData1]<br>";
+
 		if (strlen($this->TxnData2) > 255)
 			$msg = "Invalid TxnData2 [$this->TxnData2]<br>";
+
 		if (strlen($this->TxnData3) > 255)
 			$msg = "Invalid TxnData3 [$this->TxnData3]<br>";
 
@@ -292,8 +302,10 @@ class PxPayRequest extends PxPayMessage
 
 		if (strlen($this->UrlFail) > 255)
 			$msg = "Invalid UrlFail [$this->UrlFail]<br>";
+
 		if (strlen($this->UrlSuccess) > 255)
 			$msg = "Invalid UrlSuccess [$this->UrlSuccess]<br>";
+
 		if (strlen($this->BillingId) > 32)
 			$msg = "Invalid BillingId [$this->BillingId]<br>";
 

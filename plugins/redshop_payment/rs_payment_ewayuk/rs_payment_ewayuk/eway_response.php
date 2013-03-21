@@ -119,6 +119,7 @@ if ($responsecode == "00" || $responsecode == "08" || $responsecode == "10" || $
 {
 	$values->order_status_code = $verify_status;
 	$values->order_payment_status_code = 'Paid';
+
 	if ($debug_mode == 1)
 	{
 		$values->log = JText::_('COM_REDSHOP_ORDER_PLACED') . "  " . $trxnresponsemessage;
@@ -138,6 +139,7 @@ else
 {
 	$values->order_status_code = $invalid_status;
 	$values->order_payment_status_code = 'Unpaid';
+
 	if ($debug_mode == 1)
 	{
 		$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED') . "  " . $trxnresponsemessage;

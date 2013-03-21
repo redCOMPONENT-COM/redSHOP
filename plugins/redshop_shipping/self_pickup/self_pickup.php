@@ -48,6 +48,7 @@ class plgredshop_shippingself_pickup extends JPlugin
 
 		$shippingrate = array();
 		$rate = 0;
+
 		if (count($shipping_location) > 0)
 		{
 			for ($i = 0; $i < count($shipping_location); $i++)

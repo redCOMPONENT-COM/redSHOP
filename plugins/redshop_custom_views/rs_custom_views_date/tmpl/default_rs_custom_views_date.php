@@ -24,6 +24,7 @@ $gobtn = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
 $cur_date = date('d-m-Y');
 $maindate = JRequest::getVar('maindate', $cur_date);
 $popup = JRequest::getVar('popup');
+
 if ($popup)
 {
 	$db = JFactory::getDBO();
@@ -100,6 +101,7 @@ if ($popup)
 					}
 				}
 			}
+
 			if ($main_cnt == 0)
 			{
 				?>

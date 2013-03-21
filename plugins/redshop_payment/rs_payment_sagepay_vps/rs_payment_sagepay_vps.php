@@ -56,6 +56,7 @@ function onPrePayment($element, $data)
 	{
 		return;
 	}
+
 	if (empty($plugin))
 	{
 		$plugin = $element;
@@ -148,6 +149,7 @@ function onPrePayment($element, $data)
 	$strPost = $strPost . "&DeliveryCity=" . urlencode($data['shippinginfo']->city);
 	$strPost = $strPost . "&DeliveryPostCode=" . urlencode($data['shippinginfo']->zipcode);
 	$strPost = $strPost . "&DeliveryCountry=" . urlencode($data['shippinginfo']->country_2_code);
+
 	if ($sagepay_3dsecure)
 	{
 		$strPost = $strPost . "&Apply3DSecure=1";
@@ -291,6 +293,7 @@ else
 
 		$transresult = $request['responsestatus'];
 		$message = $request['responsemessage'];
+
 		if ($transresult == "success")
 		{
 			$values->order_status_code = $verify_status;

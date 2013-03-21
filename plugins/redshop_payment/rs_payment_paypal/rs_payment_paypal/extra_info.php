@@ -95,6 +95,7 @@ $post_variables = Array(
 	"currency_code"      => $currency_main
 
 );
+
 if (SHIPPING_METHOD_ENABLE)
 {
 	$shipping_variables = Array(
@@ -112,6 +113,7 @@ $payment_price = $this->_params->get("payment_price");
 
 $post_variables['discount_amount_cart'] = round($currencyClass->convert($data['odiscount'], '', $currency_main), 2);
 $post_variables['discount_amount_cart'] += round($currencyClass->convert($data['special_discount'], '', $currency_main), 2);
+
 if ($this->_params->get("payment_oprand") == '-')
 {
 	$discount_payment_price = $payment_price;
@@ -161,6 +163,7 @@ foreach ($post_variables as $name => $value)
 {
 	echo "<input type='hidden' name='$name' value='$value' />";
 }
+
 if (is_array($supp_var) && count($supp_var))
 {
 	foreach ($supp_var as $name => $value)
@@ -168,6 +171,7 @@ if (is_array($supp_var) && count($supp_var))
 		echo '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
 	}
 }
+
 if (SHIPPING_METHOD_ENABLE)
 {
 	if (is_array($shipping_variables) && count($shipping_variables))

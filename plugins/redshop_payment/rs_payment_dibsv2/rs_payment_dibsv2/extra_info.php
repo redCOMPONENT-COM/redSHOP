@@ -21,6 +21,7 @@ $order_items = $order_functions->getOrderItemDetail($data['order_id']);
 $order = $order_functions->getOrderDetails($data['order_id']);
 $hmac_key = $this->_params->get("hmac_key");
 $language = $this->_params->get("dibs_languages");
+
 if ($language == "Auto")
 {
 	$language = "en";
@@ -63,6 +64,7 @@ if ($this->_params->get("instant_capture"))
 {
 	$formdata['capturenow'] = $this->_params->get("instant_capture");
 }
+
 if ($this->_params->get("is_test"))
 {
 	$formdata['test'] = 1;
@@ -93,10 +95,12 @@ if ($order->order_discount > 0)
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_discount . ";Discount;Discount;" . $discount_amount . ";" . ($p + 1) . ";" . $discount_pvat;
 	$p++;
 }
+
 if ($order->order_shipping > 0)
 {
 	$quantity_shipping = 1;
 	$order_shipping_tax = 0;
+
 	if ($order->order_shipping_tax > 0 && $order->order_shipping_tax != null)
 	{
 		$order_shipping_tax = $order->order_shipping_tax;
@@ -113,12 +117,14 @@ if ($order->order_shipping > 0)
 
 }
 $payment_price = $order->payment_discount;
+
 if ($payment_price > 0)
 {
 	$quantity_payment = 1;
 	$payment_price = $currencyClass->convert($payment_price, '', $this->_params->get("dibs_currency"));
 	$payment_price = floor($payment_price * 100) / 100;
 	$payment_price = number_format($payment_price, 2, '.', '') * 100;
+
 	if ($order->payment_oprand == '-')
 	{
 		$discount_payment_price = -$payment_price;

@@ -78,6 +78,7 @@ curl_setopt($ch, CURLOPT_URL, $posturl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HEADER, 1);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
 if (CURL_PROXY_REQUIRED == 'True')
 {
 	$proxy_tunnel_flag = (defined('CURL_PROXY_TUNNEL_FLAG') && strtoupper(CURL_PROXY_TUNNEL_FLAG) == 'FALSE') ? false : true;

@@ -68,9 +68,11 @@ class Services_Paymill_Apiclient_Curl implements Services_Paymill_Apiclient_Inte
 		{
 			$response = $this->_requestApi($action, $params, $method);
 			$httpStatusCode = $response['header']['status'];
+
 			if ($httpStatusCode != 200)
 			{
 				$errorMessage = 'Client returned HTTP status code ' . $httpStatusCode;
+
 				if (isset($response['body']['error']))
 				{
 					$errorMessage = $response['body']['error'];
@@ -133,6 +135,7 @@ class Services_Paymill_Apiclient_Curl implements Services_Paymill_Apiclient_Inte
 		self::$lastRawCurlOptions = $curlOpts;
 		self::$lastRawResponse = $responseBody;
 		$responseInfo = curl_getinfo($curl);
+
 		if ($responseBody === false)
 		{
 			$responseBody = array('error' => curl_error($curl));

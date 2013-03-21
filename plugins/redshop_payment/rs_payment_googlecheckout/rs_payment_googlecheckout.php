@@ -55,6 +55,7 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($this->_plugin))
 		{
 			$this->_plugin = $element;

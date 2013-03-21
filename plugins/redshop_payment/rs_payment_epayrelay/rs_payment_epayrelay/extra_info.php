@@ -596,6 +596,7 @@ $trans_fee = $this->_params->get("transaction_fee");
 			if (self.xmlHttpReq.readyState == 4) {
 
 				var returnvalues = self.xmlHttpReq.responseText.split(",");
+
 				if (returnvalues.length == 3) {
 					var fee = returnvalues[0];
 					var cardtype = returnvalues[1];
@@ -626,6 +627,7 @@ $trans_fee = $this->_params->get("transaction_fee");
 			alert("Please enter Card No.");
 			return false;
 		}
+
 		if (document.forms['ePay'].cvc.value == "") {
 			alert("Please enter CVV code.");
 			return false;

@@ -72,6 +72,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		$ftp_password = $labelparams->get('ftp_password', '');
 		$path_for_sharing_folder = $labelparams->get('path_for_sharing_folder', '');
 		$ref_code = 1;
+
 		if ($order_details->ship_method_id != "")
 		{
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
@@ -91,11 +92,13 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 			{
 				$Gls_zipcode = "";
 			}
+
 			if ($details[4] != "")
 			{
 				$consignor_carrier_code = $this->getCondignorCarrierCode($details[4]);
 			}
 			//$consignor_carrier_code ="";
+
 			if ($consignor_carrier_code == "")
 			{
 
@@ -129,6 +132,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		{
 			$name = $billingInfo->firstname . " " . $billingInfo->lastname;
 		}
+
 		if ($Gls_phone == "")
 		{
 			$Gls_phone = $billingInfo->phone;
@@ -166,6 +170,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 		// for total amount
 		$cal_no = 2;
+
 		if (defined('PRICE_DECIMAL'))
 		{
 			$cal_no = PRICE_DECIMAL;
@@ -182,6 +187,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		$ftpstream = @ftp_connect($ftp_host);
 		$str = $path_for_sharing_folder;
 		$last = $str[strlen($str) - 1];
+
 		if ($last == "/")
 		{
 			$slash = "";
@@ -192,6 +198,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		}
 		//Login to the FTP server
 		$login = @ftp_login($ftpstream, $ftp_username, $ftp_password);
+
 		if ($login)
 		{
 

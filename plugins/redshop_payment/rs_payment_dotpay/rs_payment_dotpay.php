@@ -53,6 +53,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -176,6 +177,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;

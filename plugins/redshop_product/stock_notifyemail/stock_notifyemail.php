@@ -52,6 +52,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 					$productDetail = $productData['product_detail'];
 					$productName = $productData['product_name'];
 					$notify_template = $redshopMail->getMailtemplate(0, "notify_stock_mail");
+
 					if (count($notify_template) > 0)
 					{
 						$message = $notify_template[0]->mail_body;
@@ -65,6 +66,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 					$message = str_replace("{stocknotify_intro_text}", JText::_('COM_REDSHOP_STOCK_NOTIFY_INTRO_TEXT'), $message);
 					$message = str_replace("{product_detail}", $productDetail, $message);
 					$mail_subject = str_replace("{product_name}", $productName, $mail_subject);
+
 					if ($userData[$u]->user_email)
 					{
 
@@ -83,6 +85,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 		$section_id = $stockroom_data['section_id'];
 		$db = JFactory::getDBO();
 		$query = "";
+
 		if ($stockroom_data['section'] == "product")
 		{
 			$query = 'SELECT nu.*, u.user_email FROM ' . $this->_table_prefix . 'notifystock_users nu LEFT join ' . $this->_table_prefix . 'users_info u on nu.user_id = u.user_id WHERE nu.product_id = ' . $section_id . ' and nu.property_id = 0 and nu.subproperty_id = 0 and nu.notification_status=0';
@@ -109,6 +112,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	{
 
 		$producthelper = new producthelper();
+
 		if ($userData->product_id)
 		{
 			$productDetail = "";
@@ -125,11 +129,13 @@ class plgredshop_productstock_notifyemail extends JPlugin
 			}
 			$productData = array();
 			$productDetail = $product_data->product_name;
+
 			if (count($property_data) > 0)
 			{
 				$productDetail .= "<br/>" . $property_data['property_name'];
 
 			}
+
 			if (count($subproperty_data) > 0)
 			{
 				$productDetail .= "<br/>" . $subproperty_data['subproperty_name'];

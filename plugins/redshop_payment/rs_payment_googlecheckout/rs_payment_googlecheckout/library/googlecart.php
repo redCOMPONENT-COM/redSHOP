@@ -273,9 +273,11 @@ class GoogleCart
 			$xml_data->Element('unit-price', $item->unit_price,
 				array('currency' => $this->currency));
 			$xml_data->Element('quantity', $item->quantity);
+
 			if ($item->merchant_private_item_data != '')
 			{
 //          echo get_class($item->merchant_private_item_data);
+
 				if (is_a($item->merchant_private_item_data,
 					'merchantprivate')
 				)
@@ -288,14 +290,17 @@ class GoogleCart
 						$item->merchant_private_item_data);
 				}
 			}
+
 			if ($item->merchant_item_id != '')
 				$xml_data->Element('merchant-item-id', $item->merchant_item_id);
+
 			if ($item->tax_table_selector != '')
 				$xml_data->Element('tax-table-selector', $item->tax_table_selector);
 //        New Digital Delivery Tags
 			if ($item->digital_content)
 			{
 				$xml_data->push('digital-content');
+
 				if (!empty($item->digital_url))
 				{
 					$xml_data->element('description', substr($item->digital_description,
@@ -334,8 +339,10 @@ class GoogleCart
 
 		$xml_data->Push('checkout-flow-support');
 		$xml_data->Push('merchant-checkout-flow-support');
+
 		if ($this->edit_cart_url != '')
 			$xml_data->Element('edit-cart-url', $this->edit_cart_url);
+
 		if ($this->continue_shopping_url != '')
 			$xml_data->Element('continue-shopping-url',
 				$this->continue_shopping_url);
@@ -356,6 +363,7 @@ class GoogleCart
 					array('currency' => $this->currency));
 
 				$shipping_restrictions = $ship->shipping_restrictions;
+
 				if (isset($shipping_restrictions))
 				{
 					$xml_data->Push('shipping-restrictions');
@@ -373,6 +381,7 @@ class GoogleCart
 					if ($shipping_restrictions->allowed_restrictions)
 					{
 						$xml_data->Push('allowed-areas');
+
 						if ($shipping_restrictions->allowed_country_area != "")
 							$xml_data->EmptyElement('us-country-area',
 								array('country-area' =>
@@ -389,6 +398,7 @@ class GoogleCart
 							$xml_data->Element('zip-pattern', $current);
 							$xml_data->Pop('us-zip-area');
 						}
+
 						if ($shipping_restrictions->allowed_world_area === true)
 						{
 							$xml_data->EmptyElement('world-area');
@@ -399,6 +409,7 @@ class GoogleCart
 							$country_code = $shipping_restrictions->allowed_country_codes_arr[$i];
 							$postal_pattern = $shipping_restrictions->allowed_postal_patterns_arr[$i];
 							$xml_data->Element('country-code', $country_code);
+
 							if ($postal_pattern != "")
 							{
 								$xml_data->Element('postal-code-pattern', $postal_pattern);
@@ -415,6 +426,7 @@ class GoogleCart
 							$xml_data->EmptyElement('allowed-areas');
 						}
 						$xml_data->Push('excluded-areas');
+
 						if ($shipping_restrictions->excluded_country_area != "")
 							$xml_data->EmptyElement('us-country-area',
 								array('country-area' =>
@@ -437,6 +449,7 @@ class GoogleCart
 							$country_code = $shipping_restrictions->excluded_country_codes_arr[$i];
 							$postal_pattern = $shipping_restrictions->excluded_postal_patterns_arr[$i];
 							$xml_data->Element('country-code', $country_code);
+
 							if ($postal_pattern != "")
 							{
 								$xml_data->Element('postal-code-pattern', $postal_pattern);
@@ -451,6 +464,7 @@ class GoogleCart
 				if ($ship->type == "merchant-calculated-shipping")
 				{
 					$address_filters = $ship->address_filters;
+
 					if (isset($address_filters))
 					{
 						$xml_data->Push('address-filters');
@@ -468,6 +482,7 @@ class GoogleCart
 						if ($address_filters->allowed_restrictions)
 						{
 							$xml_data->Push('allowed-areas');
+
 							if ($address_filters->allowed_country_area != "")
 								$xml_data->EmptyElement('us-country-area',
 									array('country-area' =>
@@ -484,6 +499,7 @@ class GoogleCart
 								$xml_data->Element('zip-pattern', $current);
 								$xml_data->Pop('us-zip-area');
 							}
+
 							if ($address_filters->allowed_world_area === true)
 							{
 								$xml_data->EmptyElement('world-area');
@@ -494,6 +510,7 @@ class GoogleCart
 								$country_code = $address_filters->allowed_country_codes_arr[$i];
 								$postal_pattern = $address_filters->allowed_postal_patterns_arr[$i];
 								$xml_data->Element('country-code', $country_code);
+
 								if ($postal_pattern != "")
 								{
 									$xml_data->Element('postal-code-pattern', $postal_pattern);
@@ -510,6 +527,7 @@ class GoogleCart
 								$xml_data->EmptyElement('allowed-areas');
 							}
 							$xml_data->Push('excluded-areas');
+
 							if ($address_filters->excluded_country_area != "")
 								$xml_data->EmptyElement('us-country-area',
 									array('country-area' =>
@@ -532,6 +550,7 @@ class GoogleCart
 								$country_code = $address_filters->excluded_country_codes_arr[$i];
 								$postal_pattern = $address_filters->excluded_postal_patterns_arr[$i];
 								$xml_data->Element('country-code', $country_code);
+
 								if ($postal_pattern != "")
 								{
 									$xml_data->Element('postal-code-pattern', $postal_pattern);
@@ -553,6 +572,7 @@ class GoogleCart
 				$xml_data->Pop('pickup');
 			}
 		}
+
 		if (count($this->shipping_arr) > 0)
 			$xml_data->Pop('shipping-methods');
 
@@ -565,11 +585,13 @@ class GoogleCart
 			$xml_data->Push('merchant-calculations');
 			$xml_data->Element('merchant-calculations-url',
 				$this->merchant_calculations_url);
+
 			if ($this->accept_merchant_coupons != "")
 			{
 				$xml_data->Element('accept-merchant-coupons',
 					$this->accept_merchant_coupons);
 			}
+
 			if ($this->accept_gift_certificates != "")
 			{
 				$xml_data->Element('accept-gift-certificates',
@@ -583,6 +605,7 @@ class GoogleCart
 			$xml_data->push('parameterized-urls');
 			$xml_data->push('parameterized-url',
 				array('url' => $this->thirdPartyTackingUrl));
+
 			if (is_array($this->thirdPartyTackingParams)
 				&& count($this->thirdPartyTackingParams) > 0
 			)
@@ -615,6 +638,7 @@ class GoogleCart
 			{
 				$xml_data->Push('tax-tables');
 			}
+
 			if (count($this->default_tax_rules_arr) != 0)
 			{
 				$xml_data->Push('default-tax-table');
@@ -670,6 +694,7 @@ class GoogleCart
 						$country_code = $curr_rule->country_codes_arr[$i];
 						$postal_pattern = $curr_rule->postal_patterns_arr[$i];
 						$xml_data->Element('country-code', $country_code);
+
 						if ($postal_pattern != "")
 						{
 							$xml_data->Element('postal-code-pattern', $postal_pattern);
@@ -750,6 +775,7 @@ class GoogleCart
 							$country_code = $curr_rule->country_codes_arr[$i];
 							$postal_pattern = $curr_rule->postal_patterns_arr[$i];
 							$xml_data->Element('country-code', $country_code);
+
 							if ($postal_pattern != "")
 							{
 								$xml_data->Element('postal-code-pattern', $postal_pattern);
@@ -784,6 +810,7 @@ class GoogleCart
 			$xml_data->Element('rule', $this->rounding_rule);
 			$xml_data->Pop('rounding-policy');
 		}
+
 		if ($this->analytics_data != '')
 		{
 			$xml_data->Element('analytics-data', $this->analytics_data);
@@ -859,6 +886,7 @@ class GoogleCart
 			}
 		}
 		$data = "<div style=\"width: " . $width . "px\">";
+
 		if ($this->variant == "text")
 		{
 			$data .= "<div align=center><form method=\"POST\" action=\"" .
@@ -875,6 +903,7 @@ class GoogleCart
 				$data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
 			}
 			$data .= "</form></div>";
+
 			if ($this->googleAnalytics_id)
 			{
 				$data .= "<!-- Start Google analytics -->
@@ -944,6 +973,7 @@ class GoogleCart
 
 
 		$data = "<div style=\"width: " . $width . "px\">";
+
 		if ($this->variant == "text")
 		{
 			$data .= "<div align=center><form method=\"POST\" action=\"" .
@@ -964,6 +994,7 @@ class GoogleCart
 				$data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
 			}
 			$data .= "</form></div>";
+
 			if ($this->googleAnalytics_id)
 			{
 				$data .= "<!-- Start Google analytics -->
@@ -987,6 +1018,7 @@ class GoogleCart
 				"&variant=" . $this->variant . "&loc=" . $loc . "\" height=\"" . $height . "\"" .
 				" width=\"" . $width . "\" /></div>";
 		}
+
 		if ($showtext)
 		{
 			$data .= "<div align=\"center\"><a href=\"javascript:void(window.ope" .
@@ -1039,6 +1071,7 @@ class GoogleCart
 
 
 		$data = "<div style=\"width: " . $width . "px\">";
+
 		if ($this->variant == "text")
 		{
 			$data .= "<div align=\"center\"><form method=\"POST\" action=\"" .
@@ -1062,6 +1095,7 @@ class GoogleCart
 				$data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
 			}
 			$data .= "</form></div>";
+
 			if ($this->googleAnalytics_id)
 			{
 				$data .= "<!-- Start Google analytics -->
@@ -1085,6 +1119,7 @@ class GoogleCart
 				"&variant=" . $this->variant . "&loc=" . $loc . "\" height=\"" . $height . "\"" .
 				" width=\"" . $width . "\" /></div>";
 		}
+
 		if ($showtext)
 		{
 			$data .= "<div align=\"center\"><a href=\"javascript:void(window.ope" .
@@ -1111,9 +1146,11 @@ class GoogleCart
 			{
 				continue;
 			}
+
 			if (is_array($tag))
 			{
 				//     echo print_r($tag, true) . $tag_name . "<- tag name\n";
+
 				if (!$this->is_associative_array($data))
 				{
 					$new_path = $path . '-' . ($tag_name + 1);
@@ -1134,6 +1171,7 @@ class GoogleCart
 			else
 			{
 				$new_path = $path;
+
 				if ($tag_name != 'VALUE')
 				{
 					$new_path = $path . "." . $tag_name;
@@ -1205,6 +1243,7 @@ class GoogleCart
 		$key = $this->merchant_key;
 		$blocksize = 64;
 		$hashfunc = 'sha1';
+
 		if (strlen($key) > $blocksize)
 		{
 			$key = pack('H*', $hashfunc($key));
@@ -1247,6 +1286,7 @@ class GoogleCart
 	function _SetBooleanValue($string, $value, $default)
 	{
 		$value = strtolower($value);
+
 		if ($value == "true" || $value == "false")
 			eval('$this->' . $string . '="' . $value . '";');
 		else

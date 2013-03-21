@@ -75,6 +75,7 @@ class AuthorizeNetSOAP extends SoapClient
 		foreach ($methods as $index => $method)
 		{
 			$sig = explode(" ", $method, 2);
+
 			if (!isset($functions[$sig[1]]))
 			{
 				$string .= "    /**\n     * @return {$sig[0]}\n    */\n    public function {$sig[1]} {}\n\n";

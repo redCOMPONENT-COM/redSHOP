@@ -50,6 +50,7 @@ class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;

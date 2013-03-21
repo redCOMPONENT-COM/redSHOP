@@ -119,6 +119,7 @@ class xmlParser
 		foreach ($vals as $r)
 		{
 			$t = $r['tag'];
+
 			if ($r['type'] == 'open')
 			{
 				if (isset($ary[$t]) && !empty($ary[$t]))
@@ -138,6 +139,7 @@ class xmlParser
 					$cv =& $ary[$t];
 				}
 				$cv = array();
+
 				if (isset($r['attributes']))
 				{
 					foreach ($r['attributes'] as $k => $v)
@@ -168,6 +170,7 @@ class xmlParser
 				{
 					$cv =& $ary[$t];
 				}
+
 				if (isset($r['attributes']))
 				{
 					foreach ($r['attributes'] as $k => $v)

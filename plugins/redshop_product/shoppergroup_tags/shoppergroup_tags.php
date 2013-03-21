@@ -56,10 +56,12 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 				$main_substr_pos_next = strpos($main_substr, "}", $main_substr_pos);
 				$main_substr_blog = substr($main_substr, ($main_substr_pos + 2), ($main_substr_pos_next - ($main_substr_pos + 2)));
 				$main_substr_blog_exp = explode(",", $main_substr_blog);
+
 				if (count($main_substr_blog_exp) > 0)
 				{
 					$main_string1 = "{if shoppergroup::" . $main_substr_blog . "}";
 					$main_string_sp1 = explode($main_string1, $main_substr);
+
 					if (in_array($shoppergroup_name, $main_substr_blog_exp))
 					{
 						$string_main1 = "{if shoppergroup::" . $main_substr_blog . "}";

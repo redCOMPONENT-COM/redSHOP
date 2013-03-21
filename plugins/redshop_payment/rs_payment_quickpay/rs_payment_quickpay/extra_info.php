@@ -93,6 +93,7 @@ if (in_array('edankort', @$cart_type) || in_array('ALL', @$cart_type))
 
 if (in_array('MASTERCARDDEBETCARD', @$cart_type) || in_array('ALL', @$cart_type))
 	@$oricart_type[] = 'mastercard-debet-dk';
+
 if (count($oricart_type) > 0)
 {
 	$cart_type = implode(',', $oricart_type);

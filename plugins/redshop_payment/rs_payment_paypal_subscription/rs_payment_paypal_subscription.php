@@ -50,6 +50,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -94,6 +95,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		if ($txn_type == 'subscr_payment')
 		{
 			$order_id = $request["item_number"];
+
 			if ($this->checkFirstRecurringPayment($db, $order_id, $subscr_id))
 			{
 
@@ -223,6 +225,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 						{
 
 							$OrderItemAccessoryDetail = $order_functions->getOrderItemAccessoryDetail($rowitem->order_item_id);
+
 							if (count($OrderItemAccessoryDetail) > 0)
 							{
 								for ($ac = 0; $ac < count($OrderItemAccessoryDetail); $ac++)
@@ -243,6 +246,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 							}
 
 							$OrderItemAttrDetail = $order_functions->getOrderItemAttributeDetail($rowitem->order_item_id);
+
 							if (count($OrderItemAttrDetail) > 0)
 							{
 								for ($at = 0; $at < count($OrderItemAttrDetail); $at++)
@@ -324,6 +328,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 						$payment_name = $paymentmethod->element;
 						$paymentArr = explode("rs_payment_", $paymentmethod->element);
+
 						if (count($paymentArr) > 0)
 						{
 							$payment_name = $paymentArr[1];
@@ -335,6 +340,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 						if (ECONOMIC_INVOICE_DRAFT == 0)
 						{
 							$bookinvoicepdf = $economic->bookInvoiceInEconomic($new_oid, $checkOrderStatus);
+
 							if (is_file($bookinvoicepdf))
 							{
 								$ret = $redshopMail->sendEconomicBookInvoiceMail($new_oid, $bookinvoicepdf);
@@ -396,6 +402,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;
@@ -424,6 +431,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $order_id . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;

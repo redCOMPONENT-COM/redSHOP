@@ -75,6 +75,7 @@ abstract class Braintree
 	public static function returnObjectOrThrowException($className, $resultObj)
 	{
 		$resultObjName = Braintree_Util::cleanClassName($className);
+
 		if ($resultObj->success)
 		{
 			return $resultObj->$resultObjName;

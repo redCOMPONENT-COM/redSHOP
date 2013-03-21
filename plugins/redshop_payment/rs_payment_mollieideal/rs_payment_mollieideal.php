@@ -54,6 +54,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;

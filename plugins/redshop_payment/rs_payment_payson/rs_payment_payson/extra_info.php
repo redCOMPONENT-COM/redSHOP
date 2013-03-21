@@ -48,6 +48,7 @@ if ($cost_dotsep < 10)
 	exit ();
 
 }
+
 if ($testMode == '1')
 {
 	$url = "https://www.payson.se/testagent/default.aspx";

@@ -106,11 +106,13 @@ class plgredshop_shippingshipwire extends JPlugin
 
 		$shippingrate = array();
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 		if (count($shippinginfo) < 1)
 		{
 			return $shippingrate;
 		}
 		$billing = $producthelper->getUserInformation($shippinginfo->user_id);
+
 		if (count($billing) < 1)
 		{
 			return $shippingrate;
@@ -191,6 +193,7 @@ class plgredshop_shippingshipwire extends JPlugin
 					for ($z = 0; $z < count($keys); $z++)
 					{
 						$content[$parent][$i][$keys[$z]] = $XMLvals[$i]['attributes'][$keys[$z]];
+
 						if (isset($content[$parent][$i]['VALUE'])) $content[$parent][$i]['VALUE'] = $XMLvals[$i]['value'];
 					}
 				}
@@ -219,6 +222,7 @@ class plgredshop_shippingshipwire extends JPlugin
 			{
 				$currency = $content['COST'][$i]['CURRENCY'];
 				$originalcost = $content['COST'][$i]['ORIGINALCOST'];
+
 				if ($currency_main == $currency)
 				{
 					$originalcost = $currencyClass->convert($originalcost, '', $currency_main);

@@ -94,6 +94,7 @@ class Chase
 		foreach ($xmlResponse as $val)
 		{
 			$tagval = $val['tag'];
+
 			if (($val['tag'] != 'Response') && ($val['tag'] != 'NewOrderResp'))
 			{
 				if (isset($val['value']))

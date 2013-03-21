@@ -421,6 +421,7 @@ class AuthorizeNetAIM_Response extends AuthorizeNetResponse
 
 			// Split Array
 			$this->response = $response;
+
 			if ($encap_char)
 			{
 				$this->_response_array = explode($encap_char . $delimiter . $encap_char, substr($response, 1, -1));

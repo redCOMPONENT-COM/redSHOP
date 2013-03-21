@@ -79,6 +79,7 @@ class Braintree_Xml_Generator
 			$elementName = Braintree_Util::camelCaseToDelimiter($index, '-');
 			// handle child elements
 			$writer->startElement($elementName);
+
 			if (is_array($element))
 			{
 				if (array_key_exists(0, $element) || empty($element))
@@ -100,6 +101,7 @@ class Braintree_Xml_Generator
 			{
 				// generate attributes as needed
 				$attribute = self::_generateXmlAttribute($element);
+
 				if (is_array($attribute))
 				{
 					$writer->writeAttribute($attribute[0], $attribute[1]);
@@ -126,14 +128,17 @@ class Braintree_Xml_Generator
 		{
 			return array('type', 'datetime', self::_dateTimeToXmlTimestamp($value));
 		}
+
 		if (is_int($value))
 		{
 			return array('type', 'integer', $value);
 		}
+
 		if (is_bool($value))
 		{
 			return array('type', 'boolean', ($value ? 'true' : 'false'));
 		}
+
 		if ($value === null)
 		{
 			return array('nil', 'true', $value);

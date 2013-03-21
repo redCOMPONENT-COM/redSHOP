@@ -53,6 +53,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -157,6 +158,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$query = "SELECT COUNT(*), `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;
@@ -202,6 +204,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not connect to gateway');
 		}
+
 		if (($response = @stream_get_contents($fp)) === false)
 		{
 			throw new Exception('Could not read data from gateway');
@@ -262,6 +265,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not connect to gateway');
 		}
+
 		if (($response = @stream_get_contents($fp)) === false)
 		{
 			throw new Exception('Could not read data from gateway');
@@ -322,6 +326,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not connect to gateway');
 		}
+
 		if (($response = @stream_get_contents($fp)) === false)
 		{
 			throw new Exception('Could not read data from gateway');
@@ -329,6 +334,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$response = new SimpleXMLElement($response);
 		$status_count = count($response->history) - 1;
 		$quickpay_status = $response->history[$status_count]->msgtype;
+
 		if ($quickpay_status == "authorize")
 		{
 			$data_refund = $this->onCancel_Paymentrs_payment_quickpay($element, $data);
@@ -377,6 +383,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not connect to gateway');
 		}
+
 		if (($response = @stream_get_contents($fp)) === false)
 		{
 			throw new Exception('Could not read data from gateway');

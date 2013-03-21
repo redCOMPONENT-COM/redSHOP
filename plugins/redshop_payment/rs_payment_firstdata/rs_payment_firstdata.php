@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -66,6 +67,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 
 		// for total amount 
 		$cal_no = 2;
+
 		if (defined('PRICE_DECIMAL'))
 		{
 			$cal_no = PRICE_DECIMAL;
@@ -224,6 +226,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 	{
 		$varPos = strpos($result, '<fdggwsapi:TransactionResult>');
 		$varPos2 = strpos($result, '</fdggwsapi:TransactionResult>');
+
 		if ($varPos !== false)
 		{
 			$varPos = $varPos + 29;
@@ -256,6 +259,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -269,6 +273,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 
 		// for total amount 
 		$cal_no = 2;
+
 		if (defined('PRICE_DECIMAL'))
 		{
 			$cal_no = PRICE_DECIMAL;
