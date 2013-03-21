@@ -740,11 +740,16 @@ class extraField
 
 								if ($str_image_link)
 								{
-									$displayvalue .= "<a href='" . $str_image_link . "' class='imgtooltip' ><img src='" . $link . "' /><span><div class='spnheader'>" . $row_data[$i]->field_title . "</div><div class='spnalttext'>" . $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
+									$displayvalue .= "<a href='" . $str_image_link
+										. "' class='imgtooltip' ><img src='" . $link . "' /><span><div class='spnheader'>"
+										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
+										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}
 								else
 								{
-									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' /><span><div class='spnheader'>" . $row_data[$i]->field_title . "</div><div class='spnalttext'>" . $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
+									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' /><span><div class='spnheader'>"
+										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
+										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}
 							}
 						}
