@@ -76,6 +76,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 			'ccexp'    => ($ccdata['order_payment_expire_month']) . ($ccdata['order_payment_expire_year'])
 		);
 		$poststring = '';
+
 		foreach ($formdata AS $key => $val)
 		{
 			$poststring .= urlencode($key) . "=" . urlencode($val) . "&";

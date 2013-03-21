@@ -78,6 +78,7 @@ class xmlParser
 	function xmlParser($input, $xmlParams = array(XML_OPTION_CASE_FOLDING => 0))
 	{
 		$xmlp = xml_parser_create();
+
 		foreach ($xmlParams as $opt => $optVal)
 		{
 			switch ($opt)
@@ -116,6 +117,7 @@ class xmlParser
 
 		$mnary = array();
 		$ary =& $mnary;
+
 		foreach ($vals as $r)
 		{
 			$t = $r['tag'];

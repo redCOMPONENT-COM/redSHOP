@@ -52,6 +52,7 @@ class RapidAPI
 			{
 				$i = 0;
 				$tempClass = new stdClass;
+
 				foreach ($request->Options->Option as $Option)
 				{
 					$tempClass->Options[$i] = $Option;
@@ -61,6 +62,7 @@ class RapidAPI
 				$request->Options = $tempClass->Options;
 				$i = 0;
 				$tempClass = new stdClass;
+
 				foreach ($request->Items->LineItem as $LineItem)
 				{
 					$tempClass->Items[$i] = $LineItem;
@@ -180,6 +182,7 @@ class RapidAPI
 					{
 						$i = 0;
 						$tempClass = new stdClass;
+
 						foreach ($result->Options as $Option)
 						{
 							$tempClass->Option[$i]->Value = $Option->Value;
@@ -201,6 +204,7 @@ class RapidAPI
 				{
 					$i = 0;
 					$tempClass = new stdClass;
+
 					foreach ($result->Options as $Option)
 					{
 						$tempClass->Option[$i]->Value = $Option->Value;

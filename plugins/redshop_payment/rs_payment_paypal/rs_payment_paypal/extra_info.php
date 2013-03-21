@@ -161,6 +161,7 @@ for ($i = 0; $i < count($items); $i++)
 
 echo "<form action='$paypalurl' method='post' name='paypalfrm' id='paypalfrm'>";
 echo "<h3>" . JText::_('COM_REDSHOP_PAYPAL_WAIT_MESSAGE') . "</h3>";
+
 foreach ($post_variables as $name => $value)
 {
 	echo "<input type='hidden' name='$name' value='$value' />";

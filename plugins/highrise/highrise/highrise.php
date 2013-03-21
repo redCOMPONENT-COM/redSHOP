@@ -145,6 +145,7 @@ class plghighrisehighrise extends JPlugin
 		$people = simplexml_load_string($xml);
 		echo($people);
 		$id = '-1';
+
 		foreach ($people->person as $person)
 		{
 			if ($person != null)

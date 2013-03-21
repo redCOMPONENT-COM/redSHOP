@@ -265,6 +265,7 @@ class GoogleCart
 
 		//Add XML data for each of the items
 		$xml_data->Push('items');
+
 		foreach ($this->item_arr as $item)
 		{
 			$xml_data->Push('item');
@@ -390,12 +391,14 @@ class GoogleCart
 							$xml_data->EmptyElement('us-country-area',
 								array('country-area' =>
 								      $shipping_restrictions->allowed_country_area));
+
 						foreach ($shipping_restrictions->allowed_state_areas_arr as $current)
 						{
 							$xml_data->Push('us-state-area');
 							$xml_data->Element('state', $current);
 							$xml_data->Pop('us-state-area');
 						}
+
 						foreach ($shipping_restrictions->allowed_zip_patterns_arr as $current)
 						{
 							$xml_data->Push('us-zip-area');
@@ -439,12 +442,14 @@ class GoogleCart
 							$xml_data->EmptyElement('us-country-area',
 								array('country-area' =>
 								      $shipping_restrictions->excluded_country_area));
+
 						foreach ($shipping_restrictions->excluded_state_areas_arr as $current)
 						{
 							$xml_data->Push('us-state-area');
 							$xml_data->Element('state', $current);
 							$xml_data->Pop('us-state-area');
 						}
+
 						foreach ($shipping_restrictions->excluded_zip_patterns_arr as $current)
 						{
 							$xml_data->Push('us-zip-area');
@@ -499,12 +504,14 @@ class GoogleCart
 								$xml_data->EmptyElement('us-country-area',
 									array('country-area' =>
 									      $address_filters->allowed_country_area));
+
 							foreach ($address_filters->allowed_state_areas_arr as $current)
 							{
 								$xml_data->Push('us-state-area');
 								$xml_data->Element('state', $current);
 								$xml_data->Pop('us-state-area');
 							}
+
 							foreach ($address_filters->allowed_zip_patterns_arr as $current)
 							{
 								$xml_data->Push('us-zip-area');
@@ -548,12 +555,14 @@ class GoogleCart
 								$xml_data->EmptyElement('us-country-area',
 									array('country-area' =>
 									      $address_filters->excluded_country_area));
+
 							foreach ($address_filters->excluded_state_areas_arr as $current)
 							{
 								$xml_data->Push('us-state-area');
 								$xml_data->Element('state', $current);
 								$xml_data->Pop('us-state-area');
 							}
+
 							foreach ($address_filters->excluded_zip_patterns_arr as $current)
 							{
 								$xml_data->Push('us-zip-area');
@@ -633,6 +642,7 @@ class GoogleCart
 			)
 			{
 				$xml_data->push('parameters');
+
 				foreach ($this->thirdPartyTackingParams as $tracking_param_name =>
 				         $tracking_param_type)
 				{
@@ -667,6 +677,7 @@ class GoogleCart
 			{
 				$xml_data->Push('default-tax-table');
 				$xml_data->Push('tax-rules');
+
 				foreach ($this->default_tax_rules_arr as $curr_rule)
 				{
 
@@ -748,6 +759,7 @@ class GoogleCart
 			if (count($this->alternate_tax_tables_arr) != 0)
 			{
 				$xml_data->Push('alternate-tax-tables');
+
 				foreach ($this->alternate_tax_tables_arr as $curr_table)
 				{
 					$xml_data->Push('alternate-tax-table',
@@ -1177,6 +1189,7 @@ class GoogleCart
 	{
 //      global $multiple_tags,$ignore_tags;
 		//    $arr = gc_get_arr_result($data);
+
 		foreach ($data as $tag_name => $tag)
 		{
 			if (isset($this->ignore_tags[$tag_name]))

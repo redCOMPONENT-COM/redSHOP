@@ -177,6 +177,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 
 		$post_string = '';
+
 		foreach ($params as $key => $value)
 		{
 			$post_string .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
@@ -322,6 +323,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		                'ORIGID'  => $tid
 		);
 		$post_string = '';
+
 		foreach ($params as $key => $value)
 		{
 			$post_string .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
@@ -402,6 +404,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		                'ORIGID'  => $tid
 		);
 		$post_string = '';
+
 		foreach ($params as $key => $value)
 		{
 			$post_string .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';

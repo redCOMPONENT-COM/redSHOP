@@ -61,6 +61,7 @@ class Braintree_Result_CreditCardVerification
 	private function _initializeFromArray($attributes)
 	{
 		$this->_attributes = $attributes;
+
 		foreach ($attributes AS $name => $value)
 		{
 			$varName = "_$name";

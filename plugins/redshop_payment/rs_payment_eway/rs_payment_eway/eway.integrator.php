@@ -315,6 +315,7 @@ class EwayPayment
 		$xml_parser = xml_parser_create();
 		xml_parse_into_struct($xml_parser, $xmlResponse, $xmlData, $index);
 		$responseFields = array();
+
 		foreach ($xmlData as $data)
 			if ($data["level"] == 2)
 				$responseFields[$data["tag"]] = $data["value"];

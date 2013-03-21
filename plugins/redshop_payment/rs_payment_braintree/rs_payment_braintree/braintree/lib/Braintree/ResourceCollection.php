@@ -133,6 +133,7 @@ class Braintree_ResourceCollection implements Iterator
 		$className = $this->_pager['className'];
 		$classMethod = $this->_pager['classMethod'];
 		$methodArgs = array();
+
 		foreach ($this->_pager['methodArgs'] as $arg)
 		{
 			array_push($methodArgs, $arg);

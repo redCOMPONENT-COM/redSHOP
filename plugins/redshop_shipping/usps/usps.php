@@ -604,6 +604,7 @@ class plgredshop_shippingusps extends JPlugin
 			);
 
 			$config = "<?php ";
+
 			foreach ($my_config_array as $key => $value)
 			{
 				$config .= "define ('$key', '$value');\n";
@@ -727,6 +728,7 @@ class plgredshop_shippingusps extends JPlugin
 			$usps_intl[7] = USPS_INTL7; //$itemparams->get("usps_priority_mail_international_flat_rate_box");
 			$usps_intl[8] = USPS_INTL8; //$itemparams->get("usps_first_class_mail_international");
 			// $usps_intl[9] = USPS_INTL9;
+
 			foreach ($usps_intl as $key => $value)
 			{
 				if ($value == '1') $usps_intl[$key] = 'TRUE';

@@ -79,6 +79,7 @@ class Braintree_Error_ErrorCollection
 	{
 		$pieces = preg_split("/[\[\]]+/", $field, 0, PREG_SPLIT_NO_EMPTY);
 		$errors = $this;
+
 		foreach (array_slice($pieces, 0, -1) as $key)
 		{
 			$errors = $errors->forKey(Braintree_Util::delimiterToCamelCase($key));

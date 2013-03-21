@@ -27,6 +27,7 @@ class dibs_hmac
 	public function hextostr($hex)
 	{
 		$string = "";
+
 		foreach (explode("\n", trim(chunk_split($hex, 2))) as $h)
 		{
 			$string .= chr(hexdec($h));

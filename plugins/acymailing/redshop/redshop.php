@@ -73,6 +73,7 @@ class plgAcymailingRedshop extends JPlugin
 		$match = '#{product:?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
 		$found = false;
+
 		foreach ($variables as $var)
 		{
 			if (empty($email->$var)) continue;
@@ -97,6 +98,7 @@ class plgAcymailingRedshop extends JPlugin
 				}
 			}
 		}
+
 		foreach (array_keys($results) as $var)
 		{
 			$email->$var = str_replace(array_keys($tags), $tags, $email->$var);

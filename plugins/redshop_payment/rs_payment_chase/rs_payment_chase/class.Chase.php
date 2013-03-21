@@ -91,6 +91,7 @@ class Chase
 	public function parseXmlResponse($xmlResponse)
 	{
 		$newResArr = array();
+
 		foreach ($xmlResponse as $val)
 		{
 			$tagval = $val['tag'];

@@ -208,6 +208,7 @@ class plgredshop_shippingbring extends JPlugin
 			);
 
 			$config = "<?php ";
+
 			foreach ($my_config_array as $key => $value)
 			{
 				$config .= "define ('$key', '$value');\n";

@@ -378,6 +378,7 @@ class GoogleRequest
 	function get_headers_x($heads, $format = 0)
 	{
 		$fp = explode(ENTER, $heads);
+
 		foreach ($fp as $header)
 		{
 			if ($header == "")

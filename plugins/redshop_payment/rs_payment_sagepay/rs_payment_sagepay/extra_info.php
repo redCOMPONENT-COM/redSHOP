@@ -154,6 +154,7 @@ else
 
 $strPost = "";
 $i = 0;
+
 foreach ($crypt_variables as $name => $value)
 {
 
@@ -177,6 +178,7 @@ $post_variables = Array(
 	"Crypt"       => $strCrypt
 );
 echo '<form action="' . $strRedirecturl . '" method="post" name="frmsagepay">';
+
 foreach ($post_variables as $name => $value)
 {
 	echo '<input type="hidden" name="' . $name . '" value="' . $value . '" />';

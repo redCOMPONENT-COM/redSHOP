@@ -75,6 +75,7 @@ $layout = $request['layout'];
 if ($task == "receipt")
 {
 	$query_string = "?";
+
 	foreach ($formdata as $name => $value)
 	{
 		$query_string .= $name . "=" . urlencode($value) . "&";

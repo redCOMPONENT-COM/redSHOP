@@ -126,6 +126,7 @@ else
 
 echo "<form action='$paypalurl' method='post' id='paypalfrm' name='paypalfrm'>";
 echo "<h3>" . JTEXT::_('PAYPAL_WAIT_MESSAGE') . "</h3>";
+
 foreach ($post_variables as $name => $value)
 {
 	echo "<input type='hidden' name='$name' value='$value' />";

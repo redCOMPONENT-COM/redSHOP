@@ -75,6 +75,7 @@ class plgredshop_shippingshipwire extends JPlugin
 
 			$config = '';
 			$config = "<?php ";
+
 			foreach ($my_config_array as $key => $value)
 			{
 				$config .= "define ('$key', '$value');\n";
@@ -271,6 +272,7 @@ class plgredshop_shippingshipwire extends JPlugin
 	function getElementValue($XMLvals, $elName)
 	{
 		$elValue = null;
+
 		foreach ($XMLvals as $arrkey => $arrvalue)
 		{
 			foreach ($arrvalue as $key => $value)

@@ -153,6 +153,7 @@ if (version_compare(PHP_VERSION, '5.2.1', '<'))
 }
 
 $requiredExtensions = array('xmlwriter', 'SimpleXML', 'openssl', 'dom', 'hash', 'curl');
+
 foreach ($requiredExtensions AS $ext)
 {
 	if (!extension_loaded($ext))

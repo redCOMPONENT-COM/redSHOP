@@ -170,6 +170,7 @@ class Braintree_Util
 	{
 		// build a new array with joined keys and values
 		$tmpArray = null;
+
 		foreach ($array AS $key => $value)
 		{
 			$tmpArray[] = $key . $separator . $value;
@@ -187,6 +188,7 @@ class Braintree_Util
 			if (is_array($value))
 			{
 				$pAttrib = "";
+
 				foreach ($value AS $obj)
 				{
 					$pAttrib .= sprintf('%s', $obj);
@@ -242,6 +244,7 @@ class Braintree_Util
 	private static function _flattenArray($keys, $namespace = null)
 	{
 		$flattenedArray = array();
+
 		foreach ($keys AS $key)
 		{
 			if (is_array($key))
@@ -266,6 +269,7 @@ class Braintree_Util
 	private static function _flattenUserKeys($keys, $namespace = null)
 	{
 		$flattenedArray = array();
+
 		foreach ($keys AS $key => $value)
 		{
 			$fullKey = empty($namespace) ? $key : $namespace;
@@ -305,6 +309,7 @@ class Braintree_Util
 			if (stristr($key, '[_anyKey_]'))
 			{
 				$wildcardKey = str_replace('[_anyKey_]', '', $key);
+
 				foreach ($invalidKeys AS $index => $invalidKey)
 				{
 					if (stristr($invalidKey, $wildcardKey))

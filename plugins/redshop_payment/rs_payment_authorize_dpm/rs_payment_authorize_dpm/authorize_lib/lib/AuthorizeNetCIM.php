@@ -395,6 +395,7 @@ class AuthorizeNetCIM extends AuthorizeNetRequest
 	private function _addObject($destination, $object)
 	{
 		$array = (array) $object;
+
 		foreach ($array as $key => $value)
 		{
 			if ($value && !is_object($value))
@@ -430,6 +431,7 @@ class AuthorizeNetCIM extends AuthorizeNetRequest
 	private static function _notEmpty($object)
 	{
 		$array = (array) $object;
+
 		foreach ($array as $key => $value)
 		{
 			if ($value && !is_object($value))
@@ -473,6 +475,7 @@ class AuthorizeNetCIM_Response extends AuthorizeNetXMLResponse
 	{
 		$responses = (array) $this->xml->validationDirectResponseList;
 		$return = array();
+
 		foreach ((array) $responses["string"] as $response)
 		{
 			$return[] = new AuthorizeNetAIM_Response($response, ",", "", array());

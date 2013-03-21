@@ -202,6 +202,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 		//build the post string
 		$poststring = '';
+
 		foreach ($formdata AS $key => $val)
 		{
 			$poststring .= urlencode($key) . "=" . $val . "&";
@@ -374,6 +375,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		//build the post string
 		$poststring = '';
+
 		foreach ($formdata AS $key => $val)
 		{
 			$poststring .= urlencode($key) . "=" . urlencode($val) . "&";
