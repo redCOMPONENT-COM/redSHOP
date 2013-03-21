@@ -11,7 +11,7 @@
  *                 See COPYRIGHT.php for copyright notices and details.
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 //JPlugin::loadLanguage( 'plg_telesearch_rs_telesearch');

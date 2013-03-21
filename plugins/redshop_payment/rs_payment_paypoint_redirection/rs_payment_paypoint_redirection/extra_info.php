@@ -39,7 +39,7 @@ $currencyClass = new convertPrice;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'USD');
 
-// get params from payment plugin
+// Get params from payment plugin
 $merchant_id = $this->_params->get("paypoint_merchant_id");
 $vpn_password = $this->_params->get("paypoint_vpn_password");
 $test_status = $this->_params->get("paypoint_test_status");

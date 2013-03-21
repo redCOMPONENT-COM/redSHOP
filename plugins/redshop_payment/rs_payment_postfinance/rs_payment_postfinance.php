@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_postfinance(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_postfinance');
@@ -85,7 +85,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		$tid = $request['PAYID'];
 
 
-		// get params from plugin
+		// Get params from plugin
 		$sha_out_pass_phrase = $this->_params->get("sha_out_pass_phrase");
 		$algo_used = $this->_params->get("algo_used");
 		$hash_string = $this->_params->get("hash_string");

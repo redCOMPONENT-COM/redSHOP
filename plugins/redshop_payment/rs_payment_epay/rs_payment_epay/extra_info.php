@@ -542,7 +542,7 @@ function get_iso_code($code)
 			return "716";
 			break;
 	}
-	return "XXX"; // return invalid code if the currency is not found
+	return "XXX"; // Return invalid code if the currency is not found
 }
 
 function calculateePayCurrency($order_id)

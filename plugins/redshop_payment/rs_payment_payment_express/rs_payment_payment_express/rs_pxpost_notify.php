@@ -58,10 +58,10 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 $objOrder = new order_functions;
 
-// load system plugin group
+// Load system plugin group
 JPluginHelper::importPlugin('system');
 
-// print_r($_REQUEST);die();
+// Print_r($_REQUEST);die();
 /*** END of Joomla config ***/
 // Now check we have a Crypt field passed to this page
 $request = JRequest::get('REQUEST');

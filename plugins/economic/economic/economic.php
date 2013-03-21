@@ -58,7 +58,7 @@ class plgEconomicEconomic extends JPlugin
 		$plugin =& JPluginHelper::getPlugin('economic', 'economic');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->ecoparams = $pluginParams;
-		// check whether plugin has been unpublished
+		// Check whether plugin has been unpublished
 		if (count($pluginParams) > 0)
 		{
 			$url = 'https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';

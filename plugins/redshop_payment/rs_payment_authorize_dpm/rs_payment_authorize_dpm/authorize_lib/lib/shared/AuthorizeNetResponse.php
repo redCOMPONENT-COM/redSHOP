@@ -64,7 +64,7 @@ class AuthorizeNetResponse
 	public $purchase_order_number;
 	public $md5_hash;
 	public $card_code_response;
-	public $cavv_response; // cardholder_authentication_verification_response
+	public $cavv_response; // Cardholder_authentication_verification_response
 	public $account_number;
 	public $card_type;
 	public $split_tender_id;

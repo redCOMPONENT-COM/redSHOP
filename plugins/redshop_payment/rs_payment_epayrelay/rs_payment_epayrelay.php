@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_epayrelay(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epayrelay');
@@ -90,7 +90,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		$paymentinfo = $amazon_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// get the class
+		// Get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
 		include($paymentpath);
 
@@ -128,7 +128,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 			}
 			//
 			// Switch on the order accept code
-			// accept = 1 (standard redirect) accept = 2 (callback)
+			// Accept = 1 (standard redirect) accept = 2 (callback)
 
 			if ($transaction['gettransactionResult'] == 'true')
 			{
@@ -193,7 +193,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		$paymentinfo = $amazon_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// get the class
+		// Get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
 		include($paymentpath);
 

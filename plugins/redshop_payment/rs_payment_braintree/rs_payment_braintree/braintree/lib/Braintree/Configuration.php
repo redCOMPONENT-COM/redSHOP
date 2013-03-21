@@ -109,16 +109,16 @@ class Braintree_Configuration extends Braintree
 
 	private static function set($key, $value)
 	{
-		// this method will raise an exception on invalid data
+		// This method will raise an exception on invalid data
 		self::validate($key, $value);
-		// set the value in the cache
+		// Set the value in the cache
 		self::$_cache[$key] = $value;
 
 	}
 
 	private static function get($key)
 	{
-		// throw an exception if the value hasn't been set
+		// Throw an exception if the value hasn't been set
 		if (isset(self::$_cache[$key]) &&
 			(empty(self::$_cache[$key]))
 		)
@@ -133,7 +133,7 @@ class Braintree_Configuration extends Braintree
 			return self::$_cache[$key];
 		}
 
-		// return null by default to prevent __set from overloading
+		// Return null by default to prevent __set from overloading
 		return null;
 	}
 

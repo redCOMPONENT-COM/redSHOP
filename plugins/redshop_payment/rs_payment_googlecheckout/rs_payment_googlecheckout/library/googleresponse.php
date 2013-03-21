@@ -60,7 +60,7 @@ class GoogleResponse
 			$compare_mer_key = $_SERVER['PHP_AUTH_PW'];
 		}
 		//  IIS Note::  For HTTP Authentication to work with IIS,
-		// the PHP directive cgi.rfc2616_headers must be set to 0 (the default value).
+		// The PHP directive cgi.rfc2616_headers must be set to 0 (the default value).
 		else if (isset($_SERVER['HTTP_AUTHORIZATION']))
 		{
 			list($compare_mer_id, $compare_mer_key) = explode(':',

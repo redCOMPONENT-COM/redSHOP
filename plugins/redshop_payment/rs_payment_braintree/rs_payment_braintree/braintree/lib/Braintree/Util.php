@@ -32,13 +32,13 @@ class Braintree_Util
 			return array();
 		endif;
 
-		// get what should be an array from the passed array
+		// Get what should be an array from the passed array
 		$data = $attribArray[$attributeName];
-		// set up the class that will be used to convert each array element
+		// Set up the class that will be used to convert each array element
 		$classFactory = self::buildClassName($attributeName) . '::factory';
 
 		if (is_array($data)):
-			// create an object from the data in each element
+			// Create an object from the data in each element
 			$objectArray = array_map($classFactory, $data);
 		else:
 			return array($data);
@@ -95,7 +95,7 @@ class Braintree_Util
 	public static function cleanClassName($name)
 	{
 		$name = str_replace('Braintree_', '', $name);
-		// lcfirst only exists >= 5.3
+		// Lcfirst only exists >= 5.3
 		if (false === function_exists('lcfirst')):
 			function lcfirst($str)
 			{
@@ -168,7 +168,7 @@ class Braintree_Util
 	 */
 	public static function implodeAssociativeArray($array, $separator = '=', $glue = ', ')
 	{
-		// build a new array with joined keys and values
+		// Build a new array with joined keys and values
 		$tmpArray = null;
 
 		foreach ($array AS $key => $value)
@@ -177,7 +177,7 @@ class Braintree_Util
 
 		}
 
-		// implode and return the new array
+		// Implode and return the new array
 		return (is_array($tmpArray)) ? implode($glue, $tmpArray) : false;
 	}
 

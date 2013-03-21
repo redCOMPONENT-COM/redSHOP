@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -638,14 +638,14 @@ class plgredshop_shippingusps extends JPlugin
 		$rate = 0;
 
 
-		// conversation of weight ( ration )
+		// Conversation of weight ( ration )
 		$unitRatio = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
 		$totaldimention = $shippinghelper->getCartItemDimention();
 		$order_weight = $totaldimention['totalweight'];
 
 		if ($unitRatio != 0)
 		{
-			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
+			$order_weight = $order_weight * $unitRatio; // Converting weight in pounds
 		}
 
 		if ($order_weight > 0)
@@ -898,7 +898,7 @@ class plgredshop_shippingusps extends JPlugin
 					$ship_commit[9] = "2 - 9 Days";
 					$ship_commit[10] = "2 Days or More";
 
-					// retrieve the service and postage items
+					// Retrieve the service and postage items
 					$i = 0;
 
 					if ($order_weight > 15)

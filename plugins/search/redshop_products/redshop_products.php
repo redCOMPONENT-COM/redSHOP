@@ -15,7 +15,7 @@
  */
 
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -37,7 +37,7 @@ class plgSearchredshop_products extends JPlugin
 
 		$searchText = $text;
 
-		// load plugin params info
+		// Load plugin params info
 		//$plugin =& JPluginHelper::getPlugin('search', 'redshop_products');
 		$pluginParams = $this->params;
 

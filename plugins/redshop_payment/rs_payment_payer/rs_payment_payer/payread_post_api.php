@@ -691,12 +691,12 @@ class payread_post_api
 	 */
 	function validate_callback_url($theUrl)
 	{
-		// strip the &md5sum from url
+		// Strip the &md5sum from url
 		$pos = strpos($theUrl, "&md5sum");
 
 		if ($pos === false)
 		{
-			// this case handles opencart and other manipulating $_SERVER vars
+			// This case handles opencart and other manipulating $_SERVER vars
 			$theUrl = htmlspecialchars_decode($theUrl);
 			$strippedUrl = substr($theUrl, 0, strpos($theUrl, "&md5sum"));
 		}
@@ -704,19 +704,19 @@ class payread_post_api
 		{
 			$strippedUrl = substr($theUrl, 0, $pos);
 		}
-		// add the Key1 and Key2 from the stripped url and calculate checksum
+		// Add the Key1 and Key2 from the stripped url and calculate checksum
 		$keyA = $this->myKeys["A"];
 		$keyB = $this->myKeys["B"];
 
 		$md5 = strtolower(md5($keyA . $strippedUrl . $keyB));
 
-		// do we find the calculated checksum in in the original URL somewhere ?
+		// Do we find the calculated checksum in in the original URL somewhere ?
 		if (strpos(strtolower($theUrl), $md5) >= 7)
 		{
-			return true; // yes - this is authentic
+			return true; // Yes - this is authentic
 		}
 
-		return false; // no - this is not a properly signed URL
+		return false; // No - this is not a properly signed URL
 	}
 
 	/**

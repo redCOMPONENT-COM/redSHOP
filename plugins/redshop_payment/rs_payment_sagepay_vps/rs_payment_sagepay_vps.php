@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_sagepay_vps(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_sagepay_vps');
@@ -61,7 +61,7 @@ function onPrePayment($element, $data)
 	{
 		$plugin = $element;
 	}
-	// get params from plugin
+	// Get params from plugin
 	$paymentparams = new JRegistry($paymentinfo->params);
 	$sagepay_vps_vendorname = $this->_params->get('sagepay_vendorname', '');
 	$payment_method = $this->_params->get('payment_method', '');
@@ -95,7 +95,7 @@ function onPrePayment($element, $data)
 	$order_number = substr($data['order_number'], 0, 16);
 	$tax_exempt = false;
 
-	// get Credit card Information
+	// Get Credit card Information
 	$strCardType = $redirect_ccdata['creditcard_code'];
 	$strCardHolder = substr($redirect_ccdata['order_payment_name'], 0, 100);
 	$strCardNumber = substr($redirect_ccdata['order_payment_number'], 0, 20);

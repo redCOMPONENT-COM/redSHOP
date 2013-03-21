@@ -51,9 +51,9 @@
                 <field name="pagefooter" type="text" default="" label="Page Footer :"
                        description="This value will be displayed below the Transaction Details."/>
                 <field name="companylogo" type="text" default="" label="Company Logo :"
-                       description="The url of the image can be hosted on the merchants website and  pass the secure https:// path of the image to be displayed at the top of the website. This is the top image block on the webpage and is restricted to 960px X 65px. A default secure image is used if none is supplied."/>
+                       description="The url of the image can be hosted on the merchants website and  pass the secure https:// Path of the image to be displayed at the top of the website. This is the top image block on the webpage and is restricted to 960px X 65px. A default secure image is used if none is supplied."/>
                 <field name="pagebanner" type="text" default="" label="Page Banner :"
-                       description="The url of the image can be hosted on the merchants website and pass the secure https:// path of the image to be displayed at the top of the website. This is the second image block on the webpage and is restricted to 960px X 65px. A default secure image is used if none  is supplied."/>
+                       description="The url of the image can be hosted on the merchants website and pass the secure https:// Path of the image to be displayed at the top of the website. This is the second image block on the webpage and is restricted to 960px X 65px. A default secure image is used if none  is supplied."/>
                 <field name="ewaynz_language" type="list" default="EN"
                        label="eWAY (NZ) Language:" description="Select language for eWAY NZ">
                     <option value="EN">English</option>

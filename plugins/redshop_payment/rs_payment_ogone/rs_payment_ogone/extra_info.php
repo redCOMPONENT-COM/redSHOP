@@ -35,7 +35,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// buyer details
+// Buyer details
 
 $buyeremail = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
@@ -105,7 +105,7 @@ foreach ($post_variables as $name => $value)
 echo "</form>";
 
 
-// end by me
+// End by me
 
 ?>
 <script type='text/javascript'>document.ogoneform.submit();</script>

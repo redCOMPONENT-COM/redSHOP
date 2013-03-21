@@ -21,7 +21,7 @@ $shippinghelper = new shipping;
 
 $currencyClass = new convertPrice;
 
-$currency_code = "USD"; // currency accepted by google
+$currency_code = "USD"; // Currency accepted by google
 
 $order = $data['order'];
 

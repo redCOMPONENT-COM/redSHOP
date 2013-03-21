@@ -404,10 +404,10 @@ class Braintree_CreditCard extends Braintree
 	 */
 	protected function _initialize($creditCardAttribs)
 	{
-		// set the attributes
+		// Set the attributes
 		$this->_attributes = $creditCardAttribs;
 
-		// map each address into its own object
+		// Map each address into its own object
 		$billingAddress = isset($creditCardAttribs['billingAddress']) ?
 			Braintree_Address::factory($creditCardAttribs['billingAddress']) :
 			null;
@@ -586,7 +586,7 @@ class Braintree_CreditCard extends Braintree
 	{
 		if (isset($response['creditCard']))
 		{
-			// return a populated instance of Braintree_Address
+			// Return a populated instance of Braintree_Address
 			return new Braintree_Result_Successful(
 				self::factory($response['creditCard'])
 			);

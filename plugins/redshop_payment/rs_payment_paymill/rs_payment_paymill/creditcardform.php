@@ -38,7 +38,7 @@ else
 	$this->getCredicardForm("rs_payment_paymill", $data);
 
 }
-// end by me
+// End by me
 
 ?>
 

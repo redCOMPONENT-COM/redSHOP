@@ -13,7 +13,7 @@ $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
 
-// get order item information
+// Get order item information
 $q_oi = "SELECT * FROM #__redshop_order_item ";
 $q_oi .= "WHERE #__redshop_order_item.order_id='" . $orderid . "'";
 $db->setQuery($q_oi);
@@ -27,13 +27,13 @@ for ($i = 0; $i < count($items); $i++)
 }
 
 $table_desc = join(', ', $item);
-// currency converter
+// Currency converter
 $currency = new convertPrice;
 $amount = $order_details[0]->order_total * 100;
 
 $post_variables = array();
 
-// get plugin params
+// Get plugin params
 $live_mode = $this->_params->get("is_live");
 
 if ($live_mode == "1")
@@ -68,11 +68,11 @@ $cust_phone = $data['billinginfo']->phone;
 $cust_email = $data['billinginfo']->user_email;
 $cust_country = $data['billinginfo']->country_code;
 
-// fill array with class variables
+// Fill array with class variables
 $post_variables = array("ewayCustomerID" => $customer_id, "ewayTotalAmount" => $amount, "ewayCustomerFirstName" => $data['billinginfo']->firstname, "ewayCustomerLastName" => $data['billinginfo']->lastname, "ewayCustomerEmail" => $cust_email, "ewayCustomerAddress" => $cust_address1, "ewayCustomerPostcode" => $cust_zip, "ewayCustomerInvoiceDescription" => $table_desc, "ewayCustomerInvoiceRef" => $data['order_id'], "ewayURL" => $approveurl, "ewaySiteTitle" => "WebActive", "eWAYoption1" => $data['order_id']);
 
 
-// hidden form variables
+// Hidden form variables
 $html_hidden_params = "";
 
 foreach ($post_variables as $key => $val)

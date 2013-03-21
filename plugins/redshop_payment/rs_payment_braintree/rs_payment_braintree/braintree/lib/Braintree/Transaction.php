@@ -30,14 +30,14 @@
  *    'amount'      => '100.00',
  *    'orderId'    => '123',
  *    'creditCard' => array(
- *         // if token is omitted, the gateway will generate a token
+ *         // If token is omitted, the gateway will generate a token
  *         'token' => 'credit_card_123',
  *         'number' => '5105105105105100',
  *         'expirationDate' => '05/2011',
  *         'cvv' => '123',
  *    ),
  *    'customer' => array(
- *     // if id is omitted, the gateway will generate an id
+ *     // If id is omitted, the gateway will generate an id
  *     'id'    => 'customer_123',
  *     'firstName' => 'Dan',
  *     'lastName' => 'Smith',
@@ -575,7 +575,7 @@ final class Braintree_Transaction extends Braintree
 	 */
 	public function  __toString()
 	{
-		// array of attributes to print
+		// Array of attributes to print
 		$display = array(
 			'id', 'type', 'amount', 'status',
 			'createdAt', 'creditCardDetails', 'customerDetails'
@@ -697,7 +697,7 @@ final class Braintree_Transaction extends Braintree
 	{
 		if (isset($response['transaction']))
 		{
-			// return a populated instance of Braintree_Transaction
+			// Return a populated instance of Braintree_Transaction
 			return new Braintree_Result_Successful(
 				self::factory($response['transaction'])
 			);

@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_firstdata(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_firstdata');
@@ -65,7 +65,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		$ccdata = $session->get('ccdata');
 		$cart = $session->get('cart');
 
-		// for total amount 
+		// For total amount 
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -88,11 +88,11 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		$key_file_path = $this->_params->get("key_file_path");
 		$auth_type = $this->_params->get("auth_type");
 
-		// storing the SOAP message in a variable – note that the plain XML code
-		// is passed here as string for reasons of simplicity, however, it is
-		// certainly a good practice to build the XML e.g. with DOM – furthermore,
-		// when using special characters, you should make sure that the XML string
-		// gets UTF-8 encoded (which is not done here):
+		// Storing the SOAP message in a variable – note that the plain XML code
+		// Is passed here as string for reasons of simplicity, however, it is
+		// Certainly a good practice to build the XML e.g. with DOM – furthermore,
+		// When using special characters, you should make sure that the XML string
+		// Gets UTF-8 encoded (which is not done here):
 
 
 		$body = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/>
@@ -148,7 +148,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 				</SOAP-ENV:Body>
 				</SOAP-ENV:Envelope>';
 
-		// initializing cURL with the IPG API URL (OLD URL):
+		// Initializing cURL with the IPG API URL (OLD URL):
 		if ($is_test == 1)
 		{
 			$ch = curl_init("https://ws.merchanttest.firstdataglobalgateway.com/fdggwsapi/services/order.wsdl");
@@ -158,29 +158,29 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$ch = curl_init("https://ws.firstdataglobalgateway.com/fdggwsapi/services/order.wsdl");
 		}
 
-		// setting the request type to POST:
+		// Setting the request type to POST:
 		curl_setopt($ch, CURLOPT_POST, 1);
 
-		// setting the content type:
+		// Setting the content type:
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
 
-		// setting the authorization method to BASIC:
+		// Setting the authorization method to BASIC:
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
-		// supplying your credentials:
+		// Supplying your credentials:
 		curl_setopt($ch, CURLOPT_USERPWD, "" . $auth_uname . "._.1:" . $auth_password . "");
 
-		// filling the request body with your SOAP message:
+		// Filling the request body with your SOAP message:
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 
-		// telling cURL to verify the server certificate:
+		// Telling cURL to verify the server certificate:
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
-		// setting the path where cURL can find the certificate to verify the Info directly from the API Manual Below:
+		// Setting the path where cURL can find the certificate to verify the Info directly from the API Manual Below:
 		curl_setopt($ch, CURLOPT_SSLCERT, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.pem');
 		curl_setopt($ch, CURLOPT_SSLKEY, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.key');
 		curl_setopt($ch, CURLOPT_SSLKEYPASSWD, '' . $key_password . '');
-		// telling cURL to return the HTTP response body as operation result value when calling curl_exec:
+		// Telling cURL to return the HTTP response body as operation result value when calling curl_exec:
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$result = curl_exec($ch); //if the curl executed successfully then it will return the <saop> XML response with getTransactionResult
 		curl_close($ch);
@@ -272,7 +272,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		$order_number = $data['order_number'];
 		$tid = $data['order_transactionid'];
 
-		// for total amount 
+		// For total amount 
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -283,7 +283,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		$order_amount = round($data['order_amount'], $cal_no);
 
 
-		// get Plugin parameters
+		// Get Plugin parameters
 		$is_test = $this->_params->get("is_test");
 		$store_id = $this->_params->get("store_id");
 		$auth_uname = $this->_params->get("auth_uname");
@@ -318,7 +318,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 				</SOAP-ENV:Envelope>';
 
 
-		// initializing cURL with the IPG API URL (OLD URL):
+		// Initializing cURL with the IPG API URL (OLD URL):
 		if ($is_test == 1)
 		{
 			$ch = curl_init("https://ws.merchanttest.firstdataglobalgateway.com/fdggwsapi/services/order.wsdl");
@@ -328,29 +328,29 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$ch = curl_init("https://ws.firstdataglobalgateway.com/fdggwsapi/services/order.wsdl");
 		}
 
-		// setting the request type to POST:
+		// Setting the request type to POST:
 		curl_setopt($ch, CURLOPT_POST, 1);
 
-		// setting the content type:
+		// Setting the content type:
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
 
-		// setting the authorization method to BASIC:
+		// Setting the authorization method to BASIC:
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
-		// supplying your credentials:
+		// Supplying your credentials:
 		curl_setopt($ch, CURLOPT_USERPWD, "" . $auth_uname . "._.1:" . $auth_password . "");
 
-		// filling the request body with your SOAP message:
+		// Filling the request body with your SOAP message:
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body1);
 
-		// telling cURL to verify the server certificate:
+		// Telling cURL to verify the server certificate:
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
-		// setting the path where cURL can find the certificate to verify the Info directly from the API Manual Below:
+		// Setting the path where cURL can find the certificate to verify the Info directly from the API Manual Below:
 		curl_setopt($ch, CURLOPT_SSLCERT, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.pem');
 		curl_setopt($ch, CURLOPT_SSLKEY, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.key');
 		curl_setopt($ch, CURLOPT_SSLKEYPASSWD, '' . $key_password . '');
-		// telling cURL to return the HTTP response body as operation result value when calling curl_exec:
+		// Telling cURL to return the HTTP response body as operation result value when calling curl_exec:
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$result = curl_exec($ch); //if the curl executed successfully then it will return the <saop> XML response with getTransactionResult
 

@@ -26,7 +26,7 @@ if ($language == "Auto")
 {
 	$language = "en";
 }
-// for total amount
+// For total amount
 $amount = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
 $amount = floor($amount * 100) / 100;
 $amount = number_format($amount, 2, '.', '') * 100;
@@ -72,7 +72,7 @@ if ($this->_params->get("is_test"))
 
 for ($p = 0; $p < count($order_items); $p++)
 {
-	// price conversion
+	// Price conversion
 	$product_item_price = $currencyClass->convert($order_items[$p]->product_item_price, '', $this->_params->get("dibs_currency"));
 	$product_item_price_excl_vat = $currencyClass->convert($order_items[$p]->product_item_price_excl_vat, '', $this->_params->get("dibs_currency"));
 	$pvat = $product_item_price - $product_item_price_excl_vat;

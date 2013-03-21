@@ -31,7 +31,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_rapid_eway(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_rapid_eway');
@@ -67,7 +67,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 
 		$user = JFActory::getUser();
 		$user_id = $user->id;
-		// get Plugin params
+		// Get Plugin params
 		$verify_status = $this->_params->get('verify_status', '');
 		$invalid_status = $this->_params->get('invalid_status', '');
 		$auth_type = $this->_params->get('auth_type', '');

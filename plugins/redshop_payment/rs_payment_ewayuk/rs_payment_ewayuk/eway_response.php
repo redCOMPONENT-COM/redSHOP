@@ -50,16 +50,16 @@ define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
-// create the mainframe object
+// Create the mainframe object
 $mainframe = & JFactory::getApplication('site');
 
 // Initialize the framework
 $mainframe->initialise();
 
-// load system plugin group
+// Load system plugin group
 JPluginHelper::importPlugin('system');
 
-// trigger the onBeforeStart events
+// Trigger the onBeforeStart events
 //$mainframe->triggerEvent ( 'onBeforeStart' );
 //$lang = & JFactory::getLanguage ();
 //$mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower ( $lang->getBackwardLang () );
@@ -68,7 +68,7 @@ JPluginHelper::importPlugin('system');
 
 /*** END of Joomla config ***/
 
-// redshop language file
+// Redshop language file
 JPlugin::loadLanguage('com_redshop');
 
 $request = JRequest::get('request');

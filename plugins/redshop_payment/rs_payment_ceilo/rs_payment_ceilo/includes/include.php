@@ -83,7 +83,7 @@ function httprequest($paEndereco, $paPost)
 {
 	$pageURL = 'http';
 
-	if ($_SERVER["SERVER_PORT"] == 443) // protocolo https
+	if ($_SERVER["SERVER_PORT"] == 443) // Protocolo https
 	{
 		$pageURL .= 's';
 	}

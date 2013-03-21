@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_ewayuk(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ewayuk');

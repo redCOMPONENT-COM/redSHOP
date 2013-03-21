@@ -2,7 +2,7 @@
 require_once 'braintree/lib/Braintree.php';
 
 
-// get plugin params
+// Get plugin params
 $environment = $this->_params->get("environment");
 $merchnat_id = $this->_params->get("merchant_id");
 $public_key = $this->_params->get("public_key");

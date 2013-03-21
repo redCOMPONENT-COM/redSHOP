@@ -37,7 +37,7 @@ class Pedido
 
 	function __construct()
 	{
-		// cria um logger
+		// Cria um logger
 		//$this->logger = new Logger;
 	}
 

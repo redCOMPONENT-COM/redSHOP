@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -316,10 +316,10 @@ class plgredshop_shippingfedex extends JPlugin
 		$carttotalWeight = $totaldimention['totalweight'];
 
 
-		// check for not zero
+		// Check for not zero
 		if ($unitRatio != 0)
 		{
-			$carttotalWeight = $carttotalWeight * $unitRatio; // converting weight in kg
+			$carttotalWeight = $carttotalWeight * $unitRatio; // Converting weight in kg
 		}
 		//echo $unitRatio;exit;
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -437,7 +437,7 @@ class plgredshop_shippingfedex extends JPlugin
 		$request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Available Services Request v10 using PHP ***');
 		$request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
 		$request['ReturnTransitAndCommit'] = true;
-		$request['RequestedShipment']['DropoffType'] = $fedex_dropofftype; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+		$request['RequestedShipment']['DropoffType'] = $fedex_dropofftype; // Valid values REGULAR_PICKUP, REQUEST_COURIER, ...
 		$request['RequestedShipment']['ShipTimestamp'] = date('c');
 
 		// Service Type and Packaging Type are not passed in the request

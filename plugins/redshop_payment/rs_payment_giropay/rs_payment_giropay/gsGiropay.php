@@ -42,14 +42,14 @@ class gsGiropay
 	 */
 	function generateHash($data, $key)
 	{
-		// hash_hmac Funktion ist erst seit PHP Version 5.1.2 verf�gbar
+		// Hash_hmac Funktion ist erst seit PHP Version 5.1.2 verf�gbar
 		if (function_exists('hash_hmac'))
 		{
 			return hash_hmac('md5', $data, $key);
 		}
 
 		// Implementierung f�r PHP4
-		$b = 64; // byte length for md5
+		$b = 64; // Byte length for md5
 		if (strlen($key) > $b)
 			$key = pack("H*", md5($key));
 		$key = str_pad($key, $b, chr(0x00));

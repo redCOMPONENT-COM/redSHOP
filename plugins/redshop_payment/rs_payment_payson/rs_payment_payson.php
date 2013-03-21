@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payson(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payson');
@@ -86,7 +86,7 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 		$cancel_status = $paymentparams->get('cancel_status', '');
 
 
-		// validate md5
+		// Validate md5
 
 		$strTestMD5String = htmlspecialchars($okurl . $paysonref) . $md5key;
 		$strMD5Hash = md5($strTestMD5String);

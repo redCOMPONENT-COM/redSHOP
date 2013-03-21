@@ -38,7 +38,7 @@ else
 	$this->getCredicardForm("rs_payment_braintree", $data);
 
 }
-// end by me
+// End by me
 
 ?>
 <script type="text/javascript" src="<?php echo JURI::base() ?>components/com_redshop/assets/js/credit_card.js"></script>

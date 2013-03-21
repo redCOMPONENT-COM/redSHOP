@@ -32,7 +32,7 @@ class plgredshop_custom_viewsrs_custom_views_person extends JPlugin
 	 */
 	function plgredshop_custom_viewsrs_custom_views_person(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 

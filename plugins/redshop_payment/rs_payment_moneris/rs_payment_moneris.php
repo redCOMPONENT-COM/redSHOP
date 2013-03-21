@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_moneris(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_moneris');
@@ -66,7 +66,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		}
 
 
-		// get params from plugin
+		// Get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_moneris');
 		$paymentinfo = $chase_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -103,7 +103,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$user_email = $data['billinginfo']->user_email;
 
 
-		// get Credit card Information
+		// Get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);

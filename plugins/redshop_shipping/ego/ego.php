@@ -4,7 +4,7 @@
  * Based on RedComponents Aus Post code - thanks guys :)
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
  */
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -104,7 +104,7 @@ class plgredshop_shippingego extends JPlugin
 
 		if ($unitRatio != 0)
 		{
-			$carttotalWeight = $carttotalWeight * $unitRatio; // converting weight in pounds
+			$carttotalWeight = $carttotalWeight * $unitRatio; // Converting weight in pounds
 		}
 
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -159,7 +159,7 @@ class plgredshop_shippingego extends JPlugin
 
 			$myfile = 'http://www.e-go.com.au/calculatorAPI?' . $query;
 
-			// wrapped in a big if (false) block
+			// Wrapped in a big if (false) block
 
 			$ego_quote = file($myfile);
 

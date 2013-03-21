@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-// including redshop product helper file and configuration file
+// Including redshop product helper file and configuration file
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
@@ -121,16 +121,16 @@ class plgAcymailingRedshop extends JPlugin
 		$prtemplate_id = trim($this->params->get('product_template', 1));
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
 
-		// get Product Data
+		// Get Product Data
 		$db =& JFactory::getDBO();
 		$query = "SELECT * FROM #__redshop_product WHERE product_id=" . $product_id;
 		$db->setQuery($query);
 		$rs = $db->loadObject();
 
-		// product helper Object
+		// Product helper Object
 		$producthelper = new producthelper;
 
-		// get Product Formatted price as per redshop configuration
+		// Get Product Formatted price as per redshop configuration
 		//$price = $producthelper->getProductNetPrice($product_id);
 		$productArr = $producthelper->getProductNetPrice($product_id);
 		$price = $productArr['productPrice'] + $productArr['productVat'];
@@ -138,7 +138,7 @@ class plgAcymailingRedshop extends JPlugin
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id);
 
-		// get product Image
+		// Get product Image
 		$productImage = $producthelper->getProductImage($product_id, $link, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, PRODUCT_DETAIL_IS_LIGHTBOX);
 
 		$text = "<div>" . $productImage . "</div><div>" . $rs->product_name . "</div><div>" . $price . "</div>";

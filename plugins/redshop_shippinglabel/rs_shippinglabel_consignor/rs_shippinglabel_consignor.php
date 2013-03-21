@@ -34,7 +34,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	 */
 	function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_shippinglabel', 'redshop_shippinglabel_consignor');
@@ -140,7 +140,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 		$country_2_code = $config->getCountryCode2($billingInfo->country_code);
 
-		// for product conetent
+		// For product conetent
 		$totalWeight = 0;
 		$content_products = array();
 
@@ -160,16 +160,16 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		$content_products = array_unique($content_products);
 		$content_products = implode(",", $content_products);
 
-		// total quantity
+		// Total quantity
 		$total_qty = $qty;
 
-		// produts
+		// Produts
 		$product_id = implode("-", $product_id);
 
 
 		$myFile = $order_details->order_number . ".txt";
 
-		// for total amount
+		// For total amount
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))

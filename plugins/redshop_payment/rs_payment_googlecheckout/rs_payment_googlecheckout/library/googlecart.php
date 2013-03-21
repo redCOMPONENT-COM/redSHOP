@@ -60,7 +60,7 @@ class GoogleCart
 // For HTML API Conversion
 
 	// This tags are those that can be used more than once as a sub tag
-	// so a "-#" must be added always
+	// So a "-#" must be added always
 	var $multiple_tags = array(
 		'flat-rate-shipping'           => array(),
 		'merchant-calculated-shipping' => array(),
@@ -1290,7 +1290,7 @@ class GoogleCart
 	}
 
 	//Method which returns the encrypted google cart to make
-	// sure that the carts are not tampered with
+	// Sure that the carts are not tampered with
 	function CalcHmacSha1($data)
 	{
 		$key = $this->merchant_key;

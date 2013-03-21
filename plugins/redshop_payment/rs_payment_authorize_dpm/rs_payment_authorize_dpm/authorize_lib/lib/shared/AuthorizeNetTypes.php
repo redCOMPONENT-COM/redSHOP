@@ -129,7 +129,7 @@ class AuthorizeNetTransaction
 		$this->duty->name = "";
 		$this->duty->description = "";
 
-		// line items
+		// Line items
 
 		$this->order = (object) array();
 		$this->order->invoiceNumber = "";
