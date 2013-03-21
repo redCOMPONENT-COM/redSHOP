@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payment_express(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payment_express');
@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		if ($this->_params->get("px_post_txnmethod") == 'PxPost')
 		{
 
-			// pxpost
+			// Pxpost
 			$cmdDoTxnTransaction = "";
 			// Get user billing information
 			$session =& JFactory::getSession();

@@ -34,7 +34,7 @@ $testMode = $this->_params->get("testMode");
 $extracost = 0;
 $guaranteeoffered = 1;
 
-// convert price into SEK
+// Convert price into SEK
 $currency = new convertPrice;
 $cost_dotsep = $currency->convert($data['carttotal'], '', 'SEK');
 $cost = number_format($cost_dotsep, 2);

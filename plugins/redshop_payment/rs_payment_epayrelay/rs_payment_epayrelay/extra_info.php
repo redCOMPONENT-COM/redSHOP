@@ -551,7 +551,7 @@ function get_iso_code($code)
 			return "716";
 			break;
 	}
-	return "XXX"; // return invalid code if the currency is not found
+	return "XXX"; // Return invalid code if the currency is not found
 }
 
 function calculateePayCurrency($order_id)
@@ -570,7 +570,7 @@ $trans_fee = $this->_params->get("transaction_fee");
 
 		//document.getElementById("div_transfee").innerHTML = 'Please wait...';
 
-		// if (cardno.length < 6) {
+		// If (cardno.length < 6) {
 		//	document.forms['ePay'].submit.disabled = true;
 		//   return false;
 		//  }

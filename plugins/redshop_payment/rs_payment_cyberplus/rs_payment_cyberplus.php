@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_cyberplus(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_cyberplus');
@@ -75,7 +75,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 		$order_id = $request['orderid'];
 		$vads_trans_id = $request['vads_trans_id'];
 
-		// get params from plugin parameters
+		// Get params from plugin parameters
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
 		$site_id = $this->_params->get("site_id");

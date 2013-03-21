@@ -4,7 +4,7 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
 /**
@@ -157,7 +157,7 @@ function onBeforeRender()
 				}
 
 
-				// change extension to lowercase
+				// Change extension to lowercase
 				newhref = newhref.toLowerCase();
 
 				if (newhref == "jpg" || newhref == "jpeg" || newhref == "png" || newhref == "gif" || newhref == "bmp") {
@@ -173,7 +173,7 @@ function onBeforeRender()
 			request = getHTTPObject();
 			request.onreadystatechange = function () {
 
-				// if request object received response
+				// If request object received response
 
 				if (request.readyState == 4) {
 					var arrResponse = "";
@@ -219,7 +219,7 @@ function onBeforeRender()
 						document.getElementById('stock_status_div' + product_id).innerHTML = arrResponse[11];
 					}
 
-					// preload slimbox
+					// Preload slimbox
 					//preloadSlimbox();
 
 					jQuery('.jqzoom').jqzoom({

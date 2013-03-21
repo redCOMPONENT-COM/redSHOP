@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_epay(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epay');
@@ -121,7 +121,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 			}
 			//
 			// Switch on the order accept code
-			// accept = 1 (standard redirect) accept = 2 (callback)
+			// Accept = 1 (standard redirect) accept = 2 (callback)
 			//
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
@@ -140,31 +140,31 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 
-					// add history callback info
+					// Add history callback info
 					if ($accept == "2")
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
 					}
 
-					// payment fee
+					// Payment fee
 					if ($request["transfee"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
 					}
 
-					// payment date
+					// Payment date
 					if ($request["date"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
 					}
 
-					// payment fraud control
+					// Payment fraud control
 					if (@$request["fraud"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
 					}
 
-					// card id
+					// Card id
 					if ($request["cardid"])
 					{
 						$cardname = "Unknown";
@@ -246,7 +246,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 
 					}
 
-					// creation information
+					// Creation information
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
 				}
@@ -320,7 +320,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		$paymentinfo = $epay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// get the class
+		// Get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
 		include($paymentpath);
 
@@ -363,7 +363,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		$paymentinfo = $epay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// get the class
+		// Get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
 		include($paymentpath);
 

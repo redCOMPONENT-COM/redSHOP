@@ -15,7 +15,7 @@
  */
 
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die("Direct Access Is Not Allowed");
 
 /**

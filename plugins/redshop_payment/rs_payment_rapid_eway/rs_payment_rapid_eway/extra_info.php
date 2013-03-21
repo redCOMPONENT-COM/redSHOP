@@ -23,7 +23,7 @@ $session =& JFactory::getSession();
 $ccdata = $session->get('redirect_ccdata');
 $api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'Rapid.php';
 include($api_path);
-// getCountryCode2
+// GetCountryCode2
 $data['billinginfo']->country_code = $Redconfiguration->getCountryCode2($data['billinginfo']->country_code);
 
 if ($data['billinginfo']->country_code == "GB")

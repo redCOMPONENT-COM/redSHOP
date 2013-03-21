@@ -87,11 +87,11 @@ class plgContentredshop_product extends JPlugin
 			$extraField = new extraField;
 			$objhelper = new redhelper;
 			$lang =& JFactory::getLanguage();
-			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR); // or JPATH_ADMINISTRATOR if the template language file is only
+			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR); // Or JPATH_ADMINISTRATOR if the template language file is only
 
 			$plugin =& JPluginHelper::getPlugin('content', 'redshop_product');
 			$red_params = new JRegistry($plugin->params);
-			$show_price = trim($red_params->get('show_price', 0)); // get show price yes/no option
+			$show_price = trim($red_params->get('show_price', 0)); // Get show price yes/no option
 			$show_price_with_vat = trim($red_params->get('show_price_with_vat', 1));
 			$show_discountpricelayout = trim($red_params->get('show_discountpricelayout', 1));
 			$redTemplate = new Redtemplate;
@@ -325,7 +325,7 @@ class plgContentredshop_product extends JPlugin
 				else
 				{
 					$isChilds = false;
-					// get attributes
+					// Get attributes
 					$attributes_set = array();
 
 					if ($product->attribute_set_id > 0)

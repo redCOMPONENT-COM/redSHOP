@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_banktransfer extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_banktransfer(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		JPluginHelper::getPlugin('redshop_payment', 'onPrePayment');

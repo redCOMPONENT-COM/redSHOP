@@ -32,7 +32,7 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
 	public function  __construct($data)
 	{
 		foreach ($data AS $key => $errorData)
-			// map errors to new collections recursively
+			// Map errors to new collections recursively
 			if ($key == 'errors')
 			{
 				foreach ($errorData AS $error)

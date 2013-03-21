@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_rapid_ewaynz(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_rapid_ewaynz');
@@ -95,7 +95,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 		$order_id = $request['orderid'];
 
 
-		// for transaction status
+		// For transaction status
 
 
 		$request = array(

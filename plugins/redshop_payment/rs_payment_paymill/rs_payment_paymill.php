@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paymill(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paymill');
@@ -196,7 +196,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 		if ($token = $data['paymillToken'])
 		{
-			// require "Services/Paymill/Transactions.php";
+			// Require "Services/Paymill/Transactions.php";
 			$transactionsObject = new Services_Paymill_Transactions($paymill_private_key, "https://api.paymill.com/v2/");
 			$params = array(
 				'amount'      => $order_amount, // E.g. "15" for 0.15 EUR!

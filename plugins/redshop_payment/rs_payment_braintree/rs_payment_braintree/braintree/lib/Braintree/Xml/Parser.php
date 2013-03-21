@@ -36,7 +36,7 @@ class Braintree_Xml_Parser
 		self::$_xmlRoot = $iterator->getName();
 		self::$_responseType = $type;
 
-		// return the mapped array with the root element as the header
+		// Return the mapped array with the root element as the header
 		return array($xmlRoot => self::_iteratorToArray($iterator));
 
 	}
@@ -55,8 +55,8 @@ class Braintree_Xml_Parser
 		$xmlArray = array();
 		$value = null;
 
-		// rewind the iterator and check if the position is valid
-		// if not, return the string it contains
+		// Rewind the iterator and check if the position is valid
+		// If not, return the string it contains
 		$iterator->rewind();
 
 		if (!$iterator->valid())
@@ -70,10 +70,10 @@ class Braintree_Xml_Parser
 			$tmpArray = null;
 			$value = null;
 
-			// get the attribute type string for use in conditions below
+			// Get the attribute type string for use in conditions below
 			$attributeType = $iterator->attributes()->type;
 
-			// extract the parent element via xpath query
+			// Extract the parent element via xpath query
 			$parentElement = $iterator->xpath($iterator->key() . '/..');
 
 			if ($parentElement[0] instanceof SimpleXMLIterator)
@@ -96,14 +96,14 @@ class Braintree_Xml_Parser
 				$key = Braintree_Util::delimiterToCamelCase($iterator->key());
 			}
 
-			// process children recursively
+			// Process children recursively
 			if ($iterator->hasChildren())
 			{
-				// return the child elements
+				// Return the child elements
 				$value = self::_iteratorToArray($iterator->current());
 
-				// if the element is an array type,
-				// use numeric keys to allow multiple values
+				// If the element is an array type,
+				// Use numeric keys to allow multiple values
 				if ($attributeType != 'array')
 				{
 					$tmpArray[$key] = $value;
@@ -111,14 +111,14 @@ class Braintree_Xml_Parser
 			}
 			else
 			{
-				// cast values according to attributes
+				// Cast values according to attributes
 				$tmpArray[$key] = self::_typecastXmlValue($iterator->current());
 			}
 
-			// set the output string
+			// Set the output string
 			$output = isset($value) ? $value : $tmpArray[$key];
 
-			// determine if there are multiple tags of this name at the same level
+			// Determine if there are multiple tags of this name at the same level
 			if (isset($parentElement) &&
 				($parentElement->attributes()->type == 'collection') &&
 				$iterator->hasChildren()
@@ -128,8 +128,8 @@ class Braintree_Xml_Parser
 				continue;
 			}
 
-			// if the element was an array type, output to a numbered key
-			// otherwise, use the element name
+			// If the element was an array type, output to a numbered key
+			// Otherwise, use the element name
 			if ($attributeType == 'array')
 			{
 				$xmlArray[] = $output;
@@ -152,15 +152,15 @@ class Braintree_Xml_Parser
 	 */
 	private static function _typecastXmlValue($valueObj)
 	{
-		// get the element attributes
+		// Get the element attributes
 		$attribs = $valueObj->attributes();
-		// the element is null, so jump out here
+		// The element is null, so jump out here
 		if (isset($attribs->nil) && $attribs->nil)
 		{
 			return null;
 		}
-		// switch on the type attribute
-		// switch works even if $attribs->type isn't set
+		// Switch on the type attribute
+		// Switch works even if $attribs->type isn't set
 		switch ($attribs->type)
 		{
 			case 'datetime':
@@ -174,14 +174,14 @@ class Braintree_Xml_Parser
 				break;
 			case 'boolean':
 				$value = (string) $valueObj;
-				// look for a number inside the string
+				// Look for a number inside the string
 				if (is_numeric($value))
 				{
 					return (bool) $value;
 				}
 				else
 				{
-					// look for the string "true", return false in all other cases
+					// Look for the string "true", return false in all other cases
 					return ($value != "true") ? false : true;
 				}
 				break;
@@ -203,8 +203,8 @@ class Braintree_Xml_Parser
 	private static function _timestampToUTC($timestamp)
 	{
 		$tz = new DateTimeZone('UTC');
-		// strangely DateTime requires an explicit set below
-		// to show the proper time zone
+		// Strangely DateTime requires an explicit set below
+		// To show the proper time zone
 		$dateTime = new DateTime($timestamp, $tz);
 		$dateTime->setTimezone($tz);
 

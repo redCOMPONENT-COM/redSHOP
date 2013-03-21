@@ -240,7 +240,7 @@ class Braintree_Subscription extends Braintree
 		}
 		else if (isset($response['transaction']))
 		{
-			// return a populated instance of Braintree_Transaction, for subscription retryCharge
+			// Return a populated instance of Braintree_Transaction, for subscription retryCharge
 			return new Braintree_Result_Successful(
 				Braintree_Transaction::factory($response['transaction'])
 			);

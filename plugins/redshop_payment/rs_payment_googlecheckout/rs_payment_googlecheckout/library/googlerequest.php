@@ -345,7 +345,7 @@ class GoogleRequest
 
 // Private functions
 // Function to get HTTP headers,
-// will also work with HTTP 200 status added by some proxy servers
+// Will also work with HTTP 200 status added by some proxy servers
 	function parse_headers($message)
 	{
 		$head_end = strpos($message, DOUBLE_ENTER);

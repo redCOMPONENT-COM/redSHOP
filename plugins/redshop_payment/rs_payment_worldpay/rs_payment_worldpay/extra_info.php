@@ -35,7 +35,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// buyer details
+// Buyer details
 
 $buyeremail = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
@@ -67,7 +67,7 @@ $currencyClass = new convertPrice;
 $order->order_subtotal = number_format($order_details[0]->order_total, 2, '.', '');
 $amount = $order->order_subtotal;
 
-// md5 secret key
+// Md5 secret key
 
 $sign_key = $md5_key . ":" . $instId . ":" . $order->order_subtotal . ":" . CURRENCY_CODE . ":" . $cartId;
 $md5_sign_key = md5($sign_key);
@@ -107,7 +107,7 @@ foreach ($post_variables as $name => $value)
 echo "</form>";
 
 
-// end by me
+// End by me
 
 ?>
 <script type='text/javascript'>document.worldpayfrm.submit();</script>

@@ -31,7 +31,7 @@ class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_cashsale(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 
 		JPluginHelper::getPlugin('redshop_payment', 'onPrePayment');

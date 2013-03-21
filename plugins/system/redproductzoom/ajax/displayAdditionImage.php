@@ -49,7 +49,7 @@ $mainframe =& JFactory::getApplication('site');
  *
  * NOTE :
  */
-// set the language
+// Set the language
 $mainframe->initialise();
 
 define('JPATH_COMPONENT_SITE', JPATH_SITE . DS . 'components' . DS . 'com_redshop');

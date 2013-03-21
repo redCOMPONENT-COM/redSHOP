@@ -35,7 +35,7 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_table_prefix = '#__redshop_';
 		//    JPluginHelper::getPlugin( 'redshop', 'onPrePayment' );
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_googlecheckout');

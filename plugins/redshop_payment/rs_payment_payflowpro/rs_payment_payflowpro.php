@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payflowpro(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payflowpro');
@@ -107,7 +107,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$currencyClass = new convertPrice;
-		// as per the email error no need to remove shipping - tmp fix
+		// As per the email error no need to remove shipping - tmp fix
 		//$order_total = $data['order_total'] - $data['order_shipping'] - $data['order_tax'];
 		//$order_total = $data['order_total'] - $data['order_tax'];
 		$order_total = $data['order_total'];

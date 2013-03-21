@@ -25,7 +25,7 @@ define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
-// create the mainframe object
+// Create the mainframe object
 $mainframe = & JFactory::getApplication('site');
 
 // Initialize the framework

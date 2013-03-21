@@ -367,7 +367,7 @@ class AuthorizeNetCIM extends AuthorizeNetRequest
 			$this->_extraOptions = false;
 		}
 		// Blank out our validation mode, so that we don't include it in calls that
-		// don't use it.
+		// Don't use it.
 		$this->_validationMode = "none";
 	}
 

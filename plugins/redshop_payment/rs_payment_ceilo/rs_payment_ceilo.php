@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_ceilo(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ceilo');
@@ -72,15 +72,15 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		}
 
 
-		// get params from plugin
+		// Get params from plugin
 		$ceilo_parameters = $this->getparameters('rs_payment_ceilo');
 		$paymentinfo = $ceilo_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 
-		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', ''); // store number
-		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', ''); // key
-		$capturarAutomaticamente = $paymentparams->get('capturarAutomaticamente', ''); // auto capture
+		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', ''); // Store number
+		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', ''); // Key
+		$capturarAutomaticamente = $paymentparams->get('capturarAutomaticamente', ''); // Auto capture
 		$indicadorAutorizacao = $paymentparams->get('indicadorAutorizacao', '');
 		$tentarAutenticar = $paymentparams->get('tentarAutenticar', '');
 		$debug_mode = $paymentparams->get('debug_mode', 0);
@@ -105,7 +105,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$user_email = $data['billinginfo']->user_email;
 
 
-		// get Credit card Information
+		// Get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = strtolower($ccdata['creditcard_code']);
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
@@ -287,14 +287,14 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions;
 
-		// get params from plugin
+		// Get params from plugin
 		$ceilo_parameters = $this->getparameters('rs_payment_ceilo');
 		$paymentinfo = $ceilo_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 
-		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', ''); // store number
-		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', ''); // key
+		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', ''); // Store number
+		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', ''); // Key
 
 
 		// Add request-specific fields to the request string.
@@ -324,7 +324,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$Pedido->status = $objResposta->status;
 
 
-		// call function to post an order ------
+		// Call function to post an order ------
 
 
 		if ($Pedido->status == 6)

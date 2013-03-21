@@ -30,7 +30,7 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 	 */
 	function plgRedshop_veis_registrationrs_veis_registration(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_veis_registration', 'rs_veis_registration');

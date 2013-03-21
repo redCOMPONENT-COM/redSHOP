@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_quickpay(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_quickpay');
@@ -113,7 +113,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 					$d['order_id'] = $order_detail->order_id;
 				}
 				// Switch on the order accept code
-				// accept = 000 (callback)
+				// Accept = 000 (callback)
 				//
 				// Only update the order information once
 				//

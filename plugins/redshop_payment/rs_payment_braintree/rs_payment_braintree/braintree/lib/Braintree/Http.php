@@ -89,7 +89,7 @@ class Braintree_Http
 		));
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_USERPWD, Braintree_Configuration::publicKey() . ':' . Braintree_Configuration::privateKey());
-		// curl_setopt($curl, CURLOPT_VERBOSE, true);
+		// Curl_setopt($curl, CURLOPT_VERBOSE, true);
 
 		if (Braintree_Configuration::sslOn())
 		{

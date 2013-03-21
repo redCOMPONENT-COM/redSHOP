@@ -23,7 +23,7 @@ class Braintree_Xml_Generator
 	 */
 	public static function arrayToXml($aData)
 	{
-		// set up the XMLWriter
+		// Set up the XMLWriter
 		$writer = new XMLWriter;
 		$writer->openMemory();
 
@@ -31,19 +31,19 @@ class Braintree_Xml_Generator
 		$writer->setIndentString(' ');
 		$writer->startDocument('1.0', 'UTF-8');
 
-		// get the root element name
+		// Get the root element name
 		$aKeys = array_keys($aData);
 		$rootElementName = $aKeys[0];
-		// open the root element
+		// Open the root element
 		$writer->startElement(Braintree_Util::camelCaseToDelimiter($rootElementName));
-		// create the body
+		// Create the body
 		self::_createElementsFromArray($writer, $aData[$rootElementName], $rootElementName);
 
-		// close the root element and document
+		// Close the root element and document
 		$writer->endElement();
 		$writer->endDocument();
 
-		// send the output as string
+		// Send the output as string
 		return $writer->outputMemory();
 	}
 
@@ -76,9 +76,9 @@ class Braintree_Xml_Generator
 
 		foreach ($aData AS $index => $element)
 		{
-			// convert the style back to gateway format
+			// Convert the style back to gateway format
 			$elementName = Braintree_Util::camelCaseToDelimiter($index, '-');
-			// handle child elements
+			// Handle child elements
 			$writer->startElement($elementName);
 
 			if (is_array($element))
@@ -101,7 +101,7 @@ class Braintree_Xml_Generator
 			}
 			else
 			{
-				// generate attributes as needed
+				// Generate attributes as needed
 				$attribute = self::_generateXmlAttribute($element);
 
 				if (is_array($attribute))
@@ -179,7 +179,7 @@ class Braintree_Xml_Generator
 		}
 		catch (Exception $e)
 		{
-			// not a datetime
+			// Not a datetime
 			return false;
 		}
 	}

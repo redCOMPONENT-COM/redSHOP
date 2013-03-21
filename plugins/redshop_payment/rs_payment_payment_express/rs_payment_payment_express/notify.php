@@ -37,7 +37,7 @@ $mainframe =& JFactory::getApplication('site');
  *
  * NOTE :
  */
-// set the language
+// Set the language
 $mainframe->initialise();
 $request = JRequest::get('request');
 

@@ -46,14 +46,14 @@ else
 	$gatewayurl = $url_drift;
 }
 
-// site base url
+// Site base url
 //$baseurl = 'http://' . $_SERVER ['SERVER_NAME'] . $_SERVER ['PHP_SELF'];
 $baseurl = JURI::root();
 
 $rev = "E";
 $orderid = $data['order_id'];
 $Itemid = $_REQUEST['Itemid'];
-// convert price to SEK(752)
+// Convert price to SEK(752)
 $currency = new convertPrice;
 $amount = $currency->convert($data['carttotal'], '', 'SEK');
 
@@ -123,7 +123,7 @@ $md5str .= $httpdebug;
 $md5code = md5($md5str);
 $this->md5code = $md5code;
 
-// fill array with class variables
+// Fill array with class variables
 
 //--
 $post_variables = array("merchantid"      => $merchant_id,

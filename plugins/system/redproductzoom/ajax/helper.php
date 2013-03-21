@@ -219,7 +219,7 @@ class zoomproducthelper extends producthelper
 		$title = " title='" . $product->product_name . "' ";
 		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
 
-		// get template for stockroom status
+		// Get template for stockroom status
 		if ($accessory_id != 0)
 		{
 			$template_desc = $redTemplate->getTemplate("accessory_product");
@@ -664,12 +664,12 @@ class zoomproducthelper extends producthelper
 			}
 		}
 
-		// stockroom status code->Ushma
+		// Stockroom status code->Ushma
 
 		if (strstr($template_desc, "{stock_status"))
 		{
 
-			// for product stock
+			// For product stock
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
 			if ($property_id > 0)
@@ -709,7 +709,7 @@ class zoomproducthelper extends producthelper
 
 			if ($property_id == 0 && !$isStockExists)
 			{
-				// for cunt attributes
+				// For cunt attributes
 				$attributes_set = array();
 
 				if ($product->attribute_set_id > 0)
@@ -721,7 +721,7 @@ class zoomproducthelper extends producthelper
 				$attributes = array_merge($attributes, $attributes_set);
 				$totalatt = count($attributes);
 
-				// for product stock
+				// For product stock
 				$isStockExists = $stockroomhelper->isStockExists($product_id);
 
 				if ($totalatt > 0 && !$isStockExists)
@@ -764,7 +764,7 @@ class zoomproducthelper extends producthelper
 					}
 				}
 
-				// for preproduct stock
+				// For preproduct stock
 				$isPreorderStockExists = $stockroomhelper->isPreorderStockExists($product_id);
 
 				if ($totalatt > 0 && !$isPreorderStockExists)
@@ -841,7 +841,7 @@ class zoomproducthelper extends producthelper
 			{
 				if (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes") || ($product_preorder == "" && ALLOW_PRE_ORDER))
 				{
-					// for preproduct stock
+					// For preproduct stock
 
 					$isPreorderStockExists = $stockroomhelper->isPreorderStockExists($product_id);
 

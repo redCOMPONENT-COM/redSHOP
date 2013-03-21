@@ -35,7 +35,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_braintree(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_braintree');
@@ -260,7 +260,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		}
 
-		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$billingaddresses = $order_functions->getBillingAddress($order->user_id);
 
 
@@ -375,7 +375,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		}
 
 
-		// for total amount
+		// For total amount
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -524,7 +524,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$paymentinfo = $braintree_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// get the class
+		// Get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . '_environment.php';
 		include($paymentpath);
 

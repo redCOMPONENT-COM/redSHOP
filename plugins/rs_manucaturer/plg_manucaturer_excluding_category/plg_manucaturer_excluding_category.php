@@ -1,5 +1,5 @@
 <?php
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
@@ -19,7 +19,7 @@ class plgrs_manufacaturerplg_manucaturer_excluding_category extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 //	    $this->_plugin = JPluginHelper::getPlugin( 'rs_manufacaturer', 'onPrepareProduct' );
 //	    $this->_params = new JRegistry( $this->_plugin->params );
 	}

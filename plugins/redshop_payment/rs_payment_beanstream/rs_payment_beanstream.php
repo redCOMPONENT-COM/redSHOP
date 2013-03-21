@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_beanstream(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_beanstream');
@@ -64,7 +64,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$ccdata = $session->get('ccdata');
 		$cart = $session->get('cart');
 		$config = new Redconfiguration;
-		// for total amount 
+		// For total amount 
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$CountryCode = $config->getCountryCode2($data['billinginfo']->country_code);
-		// get params from plugin
+		// Get params from plugin
 
 		$merchant_id = $this->_params->get("merchant_id");
 		$api_username = $this->_params->get("api_username");
@@ -116,7 +116,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			$poststring .= urlencode($key) . "=" . $val . "&";
 		}
 
-		// strip off trailing ampersand
+		// Strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 
 
@@ -127,7 +127,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 		// Instruct curl to suppress the output from Beanstream, and to directly
-		// return the transfer instead. (Output will be stored in $txResult.)
+		// Return the transfer instead. (Output will be stored in $txResult.)
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		// This is the location of the Beanstream payment gateway
 		curl_setopt($ch, CURLOPT_URL, "https://www.beanstream.com/scripts/process_transaction.asp");

@@ -37,7 +37,7 @@ $currencyClass = new convertPrice;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'ZAR');
 
-// hidden variables for payment form
+// Hidden variables for payment form
 
 $TRANSACTION_DATE = date("y-m-d h:i:s");
 $PAYGATE_ID = $this->_params->get("merchant_email");
@@ -55,7 +55,7 @@ $checksum_source .= $encryption_key;
 $CHECKSUM = md5($checksum_source);
 
 
-// end
+// End
 
 
 $post_variables = Array(

@@ -15,7 +15,7 @@ class dibs_hmac
 				if ($key != "MAC" && $key != "option" && $key != "tmpl" && $key != "controller" && $key != "view" && $key != "task" && $key != "payment_plugin" && $key != "orderid" && $key != "Itemid")
 				{ // Don't include the MAC in the calculation of the MAC.
 					if (strlen($string) > 0) $string .= "&";
-					$string .= "$key=$value"; // create string representation
+					$string .= "$key=$value"; // Create string representation
 				}
 			}
 

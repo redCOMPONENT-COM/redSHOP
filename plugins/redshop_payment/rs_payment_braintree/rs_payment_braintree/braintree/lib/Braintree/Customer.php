@@ -453,10 +453,10 @@ class Braintree_Customer extends Braintree
 	 */
 	protected function _initialize($customerAttribs)
 	{
-		// set the attributes
+		// Set the attributes
 		$this->_attributes = $customerAttribs;
 
-		// map each address into its own object
+		// Map each address into its own object
 		$addressArray = array();
 
 		if (isset($customerAttribs['addresses']))
@@ -470,7 +470,7 @@ class Braintree_Customer extends Braintree
 
 		$this->_set('addresses', $addressArray);
 
-		// map each creditcard into its own object
+		// Map each creditcard into its own object
 		$ccArray = array();
 
 		if (isset($customerAttribs['creditCards']))
@@ -610,7 +610,7 @@ class Braintree_Customer extends Braintree
 	{
 		if (isset($response['customer']))
 		{
-			// return a populated instance of Braintree_Customer
+			// Return a populated instance of Braintree_Customer
 			return new Braintree_Result_Successful(
 				self::factory($response['customer'])
 			);

@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_2checkout(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_2checkout');
@@ -84,13 +84,13 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 		$Itemid = $request["Itemid"];
 		JPlugin::loadLanguage('com_redshop');
 
-		// get value from xml file
+		// Get value from xml file
 		$string_to_hash = $secret_words; //$params->get("TWOCO_SECRETWORD");
 
-		// this should be YOUR vendor number
+		// This should be YOUR vendor number
 		$string_to_hash .= $request['sid']; //$params->get("TWOCO_LOGIN");
 
-		// append the order number, in this script it will always be 1
+		// Append the order number, in this script it will always be 1
 		if ($is_test)
 		{
 			$string_to_hash .= 1;
@@ -100,10 +100,10 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 			$string_to_hash .= $request['order_number'];
 		}
 
-		// append the sale total
+		// Append the sale total
 		$string_to_hash .= $request["total"];
 
-		// get a md5 hash of the string, uppercase it to match the returned key
+		// Get a md5 hash of the string, uppercase it to match the returned key
 		$hash_to_check = strtoupper(md5($string_to_hash));
 
 

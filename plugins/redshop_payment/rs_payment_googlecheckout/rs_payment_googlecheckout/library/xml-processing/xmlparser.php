@@ -159,7 +159,7 @@ class xmlParser
 			else if ($r['type'] == 'complete')
 			{
 				if (isset($ary[$t]) && !empty($ary[$t]))
-				{ // same as open
+				{ // Same as open
 					if (isset($ary[$t][0]))
 					{
 						$ary[$t][] = array();

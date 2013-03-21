@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paypal_subscription(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypal_subscription');
@@ -272,7 +272,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 					}
 
-					// for order Payment
+					// For order Payment
 
 					$paymentmethod = $order_functions->getPaymentMethodInfo('rs_payment_paypal_subscription');
 					$paymentmethod = $paymentmethod[0];
@@ -293,7 +293,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$rowpayment->authorize_status = "";
 
 					$rowpayment->store();
-					// end Payment
+					// End Payment
 
 					# add billing Info
 					$userrow = & JTable::getInstance('user_detail', 'Table');

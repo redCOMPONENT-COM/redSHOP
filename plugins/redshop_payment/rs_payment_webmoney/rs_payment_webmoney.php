@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_webmoney(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_webmoney');
@@ -108,7 +108,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			$pure_feedback[$ipnkey] = $ipnval;
 		}
 
-		// prerequest
+		// Prerequest
 
 		$wm_post_0 = trim($request['LMI_PREREQUEST']);
 		$wm_post_4 = trim($request['LMI_MODE']);

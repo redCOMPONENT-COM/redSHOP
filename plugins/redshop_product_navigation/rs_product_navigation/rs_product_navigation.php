@@ -30,7 +30,7 @@ class plgRedshop_product_navigationrs_product_navigation extends JPlugin
 	 */
 	function plgRedshop_product_navigationrs_product_navigation(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 	}

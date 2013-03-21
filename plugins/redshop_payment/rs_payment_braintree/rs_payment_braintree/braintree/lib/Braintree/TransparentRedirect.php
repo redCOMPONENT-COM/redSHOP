@@ -275,9 +275,9 @@ class Braintree_TransparentRedirect
 
 	public static function parseAndValidateQueryString($queryString)
 	{
-		// parse the params into an array
+		// Parse the params into an array
 		parse_str($queryString, $params);
-		// remove the hash
+		// Remove the hash
 		$queryStringWithoutHash = null;
 
 		if (preg_match('/^(.*)&hash=[a-f0-9]+$/', $queryString, $match))
@@ -297,7 +297,7 @@ class Braintree_TransparentRedirect
 			Braintree_Util::throwStatusCodeException($params['http_status'], $message);
 		}
 
-		// recreate the hash and compare it
+		// Recreate the hash and compare it
 		if (self::_hash($queryStringWithoutHash) == $params['hash'])
 		{
 
