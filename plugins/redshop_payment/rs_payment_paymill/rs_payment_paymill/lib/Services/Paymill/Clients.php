@@ -7,8 +7,8 @@ require_once ('Base.php');
  */
 class Services_Paymill_Clients extends Services_Paymill_Base
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected $_serviceResource = 'clients/';
+	/**
+	 * {@inheritDoc}
+	 */
+	protected $_serviceResource = 'clients/';
 }

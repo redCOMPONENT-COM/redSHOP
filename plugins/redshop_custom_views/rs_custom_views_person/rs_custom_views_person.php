@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -21,29 +21,33 @@ jimport('joomla.plugin.plugin');
 class plgredshop_custom_viewsrs_custom_views_person extends JPlugin
 {
 	var $_table_prefix = null;
-   /**
-    * Constructor
-    *
-    * For php4 compatability we must not use the __constructor as a constructor for
-    * plugins because func_get_args ( void ) returns a copy of all passed arguments
-    * NOT references.  This causes problems with cross-referencing necessary for the
-    * observer design pattern.
-    */
-    function plgredshop_custom_viewsrs_custom_views_person(&$subject)
-    {
-            // load plugin parameters
-            parent::__construct( $subject );
-            $this->_table_prefix = '#__redshop_';
 
-    }
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for
+	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
+	 * NOT references.  This causes problems with cross-referencing necessary for the
+	 * observer design pattern.
+	 */
+	function plgredshop_custom_viewsrs_custom_views_person(&$subject)
+	{
+		// load plugin parameters
+		parent::__construct($subject);
+		$this->_table_prefix = '#__redshop_';
 
-    function getMenuLink()
-    {
+	}
 
-		$values =  array();
+	function getMenuLink()
+	{
+
+		$values = array();
 		$values['name'] = "rs_custom_views_person";
 		$values['title'] = "COM_REDSHOP_CUSTOM_VIEWS_PERSON";
-		return $values;
-    }
 
-} ?>
+		return $values;
+	}
+
+}
+
+?>

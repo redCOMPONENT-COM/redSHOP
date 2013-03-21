@@ -19,62 +19,73 @@ set_include_path(get_include_path() . PATH_SEPARATOR . realpath(dirname(__FILE__
  */
 abstract class Braintree
 {
-    /**
-     * @ignore
-     * don't permit an explicit call of the constructor!
-     * (like $t = new Braintree_Transaction())
-     */
-    protected function __construct()
-    {
-    }
-    /**
-     * @ignore
-     *  don't permit cloning the instances (like $x = clone $v)
-     */
-    protected function __clone()
-    {
-    }
+	/**
+	 * @ignore
+	 * don't permit an explicit call of the constructor!
+	 * (like $t = new Braintree_Transaction())
+	 */
+	protected function __construct()
+	{
+	}
 
-    /**
-     * returns private/nonexistent instance properties
-     * @ignore
-     * @access public
-     * @param string $name property name
-     * @return mixed contents of instance properties
-     */
-    public function __get($name)
-    {
-        if (array_key_exists($name, $this->_attributes)) {
-            return $this->_attributes[$name];
-        }
-        else {
-            trigger_error('Undefined property on ' . get_class($this) . ': ' . $name, E_USER_NOTICE);
-            return null;
-        }
-    }
+	/**
+	 * @ignore
+	 *  don't permit cloning the instances (like $x = clone $v)
+	 */
+	protected function __clone()
+	{
+	}
 
-    public function _set($key, $value)
-    {
-        $this->_attributes[$key] = $value;
-    }
+	/**
+	 * returns private/nonexistent instance properties
+	 * @ignore
+	 * @access public
+	 *
+	 * @param string $name property name
+	 *
+	 * @return mixed contents of instance properties
+	 */
+	public function __get($name)
+	{
+		if (array_key_exists($name, $this->_attributes))
+		{
+			return $this->_attributes[$name];
+		}
+		else
+		{
+			trigger_error('Undefined property on ' . get_class($this) . ': ' . $name, E_USER_NOTICE);
 
-    /**
-     *
-     * @param string $className
-     * @param object $resultObj
-     * @return object returns the passed object if successful
-     * @throws Braintree_Exception_ValidationsFailed
-     */
-    public static function returnObjectOrThrowException($className, $resultObj)
-    {
-        $resultObjName = Braintree_Util::cleanClassName($className);
-        if ($resultObj->success) {
-            return $resultObj->$resultObjName;
-        } else {
-            throw new Braintree_Exception_ValidationsFailed();
-        }
-    }
+			return null;
+		}
+	}
+
+	public function _set($key, $value)
+	{
+		$this->_attributes[$key] = $value;
+	}
+
+	/**
+	 *
+	 * @param string $className
+	 * @param object $resultObj
+	 *
+	 * @return object returns the passed object if successful
+	 * @throws Braintree_Exception_ValidationsFailed
+	 */
+	public static function returnObjectOrThrowException($className, $resultObj)
+	{
+		$resultObjName = Braintree_Util::cleanClassName($className);
+		if ($resultObj->success)
+		{
+			return $resultObj->$resultObjName;
+		}
+		else
+		{
+			throw new Braintree_Exception_ValidationsFailed();
+		}
+	}
 }
+
 require_once('Braintree/Modification.php');
 require_once('Braintree/Instance.php');
 
@@ -135,15 +146,18 @@ require_once('Braintree/Transaction/SubscriptionDetails.php');
 require_once('Braintree/Xml/Generator.php');
 require_once('Braintree/Xml/Parser.php');
 
-if (version_compare(PHP_VERSION, '5.2.1', '<')) {
-    throw new Braintree_Exception('PHP version >= 5.2.1 required');
+if (version_compare(PHP_VERSION, '5.2.1', '<'))
+{
+	throw new Braintree_Exception('PHP version >= 5.2.1 required');
 }
 
 $requiredExtensions = array('xmlwriter', 'SimpleXML', 'openssl', 'dom', 'hash', 'curl');
-foreach ($requiredExtensions AS $ext) {
-    if (!extension_loaded($ext)) {
-        throw new Braintree_Exception('The Braintree library requires the ' . $ext . ' extension.');
-    }
+foreach ($requiredExtensions AS $ext)
+{
+	if (!extension_loaded($ext))
+	{
+		throw new Braintree_Exception('The Braintree library requires the ' . $ext . ' extension.');
+	}
 }
 
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -14,28 +14,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-$my_path = dirname ( __FILE__ );
+$my_path = dirname(__FILE__);
 
-if (file_exists ( $my_path . "/../../../configuration.php" )) {
-	$absolute_path = dirname ( $my_path . "/../../../configuration.php" );
+if (file_exists($my_path . "/../../../configuration.php"))
+{
+	$absolute_path = dirname($my_path . "/../../../configuration.php");
 	require_once ($my_path . "/../../../configuration.php");
-} elseif (file_exists ( $my_path . "/../../configuration.php" )) {
-	$absolute_path = dirname ( $my_path . "/../../configuration.php" );
+}
+elseif (file_exists($my_path . "/../../configuration.php"))
+{
+	$absolute_path = dirname($my_path . "/../../configuration.php");
 	require_once ($my_path . "/../../configuration.php");
-} elseif (file_exists ( $my_path . "/configuration.php" )) {
-	$absolute_path = dirname ( $my_path . "/configuration.php" );
+}
+elseif (file_exists($my_path . "/configuration.php"))
+{
+	$absolute_path = dirname($my_path . "/configuration.php");
 	require_once ($my_path . "/configuration.php");
-} else {
-	die ( "Joomla Configuration File not found!" );
+}
+else
+{
+	die ("Joomla Configuration File not found!");
 }
 
-$absolute_path = realpath ( $absolute_path );
+$absolute_path = realpath($absolute_path);
 
-define ( '_JEXEC', 1 );
-define ( 'JPATH_BASE', $absolute_path );
-define ( 'DS', DIRECTORY_SEPARATOR );
-define ( 'JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' );
-define ( 'JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop' );
+define ('_JEXEC', 1);
+define ('JPATH_BASE', $absolute_path);
+define ('DS', DIRECTORY_SEPARATOR);
+define ('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop');
+define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 
 // Load the framework
 
@@ -43,28 +50,28 @@ require_once ($absolute_path . DS . 'includes' . DS . 'defines.php');
 require_once ($absolute_path . DS . 'includes' . DS . 'framework.php');
 
 // create the mainframe object
-$mainframe = & JFactory::getApplication ( 'site' );
+$mainframe = & JFactory::getApplication('site');
 
 // Initialize the framework
-$mainframe->initialise ();
+$mainframe->initialise();
 
 // load system plugin group
-JPluginHelper::importPlugin ( 'system' );
+JPluginHelper::importPlugin('system');
 
 // trigger the onBeforeStart events
-$mainframe->triggerEvent ( 'onBeforeStart' );
-$lang = & JFactory::getLanguage ();
-$mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower ( $lang->getBackwardLang () );
+$mainframe->triggerEvent('onBeforeStart');
+$lang = & JFactory::getLanguage();
+$mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 // Adjust the live site path
 
 
 /*** END of Joomla config ***/
 
 // redshop language file
-JPlugin::loadLanguage ( 'com_redshop' );
+JPlugin::loadLanguage('com_redshop');
 
-require_once ( JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.cfg.php');
+require_once (JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
 $objOrder = new order_functions();
 
 $tid = $_REQUEST ["transact"];
@@ -75,7 +82,8 @@ $google_order_id = $_REQUEST ['google-order-number'];
 $orders_payment_status_id = "";
 $log = "";
 
-switch ($_REQUEST ['_type']) {
+switch ($_REQUEST ['_type'])
+{
 
 	case 'new-order-notification' :
 
@@ -88,7 +96,8 @@ switch ($_REQUEST ['_type']) {
 		$google_orders_status = $_REQUEST ['new-financial-order-state'];
 		$google_fulfillment_status = $_REQUEST ['new-fulfillment-order-state'];
 
-		switch ($google_orders_status) {
+		switch ($google_orders_status)
+		{
 			case 'CHARGEABLE' :
 				$orders_status_id = 'S';
 				$log = JText::_('COM_REDSHOP_GC_ORDER_CHARGED');
@@ -128,30 +137,32 @@ switch ($_REQUEST ['_type']) {
 
 $db =& JFactory::getDBO();
 
-if (! isset ( $order_id )) {
+if (!isset ($order_id))
+{
 	$query = "SELECT order_id FROM #__redshop_order_payment WHERE order_payment_trans_id = '" . $google_order_id . "'";
-	$db->SetQuery ( $query );
-	$order_id = $db->loadResult ();
+	$db->SetQuery($query);
+	$order_id = $db->loadResult();
 
 }
 
 // make status change array
 $values = array();
-$values['transaction_id']				=	$google_order_id;
-$values['order_id']						=	$order_id;
-$values['order_status_code']			=	$orders_status_id;
-$values['order_payment_status_code']	=	$orders_payment_status_id;
-$values['log']							=	$log;
-$values['msg']							=	JText::_('COM_REDSHOP_ORDER_PLACED');
+$values['transaction_id'] = $google_order_id;
+$values['order_id'] = $order_id;
+$values['order_status_code'] = $orders_status_id;
+$values['order_payment_status_code'] = $orders_payment_status_id;
+$values['log'] = $log;
+$values['msg'] = JText::_('COM_REDSHOP_ORDER_PLACED');
 
 $maildata = "";
 
 $maildata .= "REQUEST";
 $maildata .= "\n";
 
-foreach ($_REQUEST as $key=>$val){
+foreach ($_REQUEST as $key => $val)
+{
 
-	$maildata .= $key." => ".$val;
+	$maildata .= $key . " => " . $val;
 	$maildata .= "\n";
 	$maildata .= "\n";
 }
@@ -160,9 +171,10 @@ $maildata .= "\n";
 $maildata .= "MY VALUE";
 $maildata .= "\n";
 
-foreach ($values as $key=>$val){
+foreach ($values as $key => $val)
+{
 
-	$maildata .= $key." => ".$val;
+	$maildata .= $key . " => " . $val;
 	$maildata .= "\n";
 	$maildata .= "\n";
 }
