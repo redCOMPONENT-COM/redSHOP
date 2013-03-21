@@ -441,9 +441,9 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
-		$redconfig = new Redconfiguration();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
+		$redconfig = new Redconfiguration;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$db = JFactory::getDBO();
 		//require_once  JPATH_SITE. '/includes/domit/xml_domit_lite_include.php' ;

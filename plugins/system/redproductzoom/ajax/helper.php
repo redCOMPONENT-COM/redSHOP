@@ -9,7 +9,7 @@ class zoomproducthelper extends producthelper
 		$imagename = trim($imagename);
 		$linkimagename = trim($linkimagename);
 		$product_id = $product->product_id;
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 
 		$middlepath = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
@@ -85,7 +85,7 @@ class zoomproducthelper extends producthelper
 	function getAdditionalImageforZoom($pid)
 	{
 
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$url = JUri::root();
 		$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
 		$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
@@ -196,8 +196,8 @@ class zoomproducthelper extends producthelper
 
 	function displayAdditionalImage($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $property_id = 0, $subproperty_id = 0, $main_imgwidth = 0, $main_imgheight = 0, $redview = "", $redlayout = "")
 	{
-		$redTemplate = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$redTemplate = new Redtemplate;
+		$stockroomhelper = new rsstockroomhelper;
 
 		$uri =& JURI::getInstance();
 		$url = $uri->toString(array('scheme', 'host', 'port'));
@@ -207,7 +207,7 @@ class zoomproducthelper extends producthelper
 		else    $url .= "/";
 
 		$option = JRequest::getVar('option', 'com_redshop');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 
 		if ($accessory_id != 0)
 		{
@@ -933,7 +933,7 @@ class zoomproducthelper extends producthelper
 
 		$option = JRequest::getVar('option', 'com_redshop');
 		$product = $this->getProductById($product_id);
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$aHrefImageResponse = '';
 		$imagename = '';
 		$aTitleImageResponse = '';

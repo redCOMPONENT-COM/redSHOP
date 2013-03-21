@@ -112,7 +112,7 @@ class Braintree_Http
 		{
 			if ($httpStatus == 0)
 			{
-				throw new Braintree_Exception_SSLCertificate();
+				throw new Braintree_Exception_SSLCertificate;
 			}
 		}
 

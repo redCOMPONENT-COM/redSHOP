@@ -49,8 +49,8 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	function onPrePayment_rs_payment_chase($element, $data)
 	{
 
-		$config = new Redconfiguration();
-		$currencyClass = new convertPrice ();
+		$config = new Redconfiguration;
+		$currencyClass = new convertPrice;
 
 		// Get user billing information
 		$user = JFActory::getUser();
@@ -233,7 +233,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	{
 		$db = JFactory::getDBO();
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 
 		// get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_chase');

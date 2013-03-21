@@ -15,15 +15,15 @@
  */
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-$objOrder = new order_functions();
+$objOrder = new order_functions;
 
-$objconfiguration = new Redconfiguration();
+$objconfiguration = new Redconfiguration;
 
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 
 $Itemid = $_REQUEST['Itemid'];
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
@@ -33,7 +33,7 @@ $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 $paygateurl = "https://www.paygate.co.za/paywebv2/process.trans";
 
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'ZAR');
 

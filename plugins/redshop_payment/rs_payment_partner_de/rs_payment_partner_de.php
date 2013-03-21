@@ -77,7 +77,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		$state_code_bill = substr($data['billinginfo']->state_code, 0, 40);
 		$zipcode_bill = substr($data['billinginfo']->zipcode, 0, 20);
 		$country_code_bill = substr($data['billinginfo']->country_code, 0, 60);
-		$Redconfiguration = new Redconfiguration();
+		$Redconfiguration = new Redconfiguration;
 		$country_2code_bill = $Redconfiguration->getCountryCode2($country_code_bill);
 		$phone_bill = substr($data['billinginfo']->phone, 0, 25);
 

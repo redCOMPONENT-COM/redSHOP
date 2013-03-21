@@ -56,7 +56,7 @@ require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_r
 require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
-$objOrder = new order_functions();
+$objOrder = new order_functions;
 
 // load system plugin group
 JPluginHelper::importPlugin('system');

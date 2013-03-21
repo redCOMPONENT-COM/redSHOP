@@ -136,9 +136,9 @@ class plgredshop_shippingfreteja extends JPlugin
 	function onListRates(&$d)
 	{
 		include_once (JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php');
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
-		$redconfig = new Redconfiguration();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
+		$redconfig = new Redconfiguration;
 		$rate = 0;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
@@ -269,7 +269,7 @@ class plgredshop_shippingfreteja extends JPlugin
 			if ($conteudo != "")
 			{
 
-				$xml_FJ = new DomDocument();
+				$xml_FJ = new DomDocument;
 				$dom = $xml_FJ->loadXML(trim($conteudo));
 
 				$i = 0;

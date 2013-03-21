@@ -67,7 +67,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 
 		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
 		include($api_path);
-		$dibs_hmac = new dibs_hmac();
+		$dibs_hmac = new dibs_hmac;
 
 		JPlugin::loadLanguage('com_redshop');
 		$db = jFactory::getDBO();
@@ -80,7 +80,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$Itemid = $request['Itemid'];
 		// Put your HMAC key below.
 		$HmacKey = $this->_params->get('hmac_key');
-		$values = new stdClass();
+		$values = new stdClass;
 		// Calculate the MAC for the form key-values posted from DIBS.
 		if (sizeof($request) > 0)
 		{
@@ -147,7 +147,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 
 		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
 		include($api_path);
-		$dibs_hmac = new dibs_hmac();
+		$dibs_hmac = new dibs_hmac;
 
 		$formdata = array(
 			'merchant' => $this->_params->get("seller_id"),

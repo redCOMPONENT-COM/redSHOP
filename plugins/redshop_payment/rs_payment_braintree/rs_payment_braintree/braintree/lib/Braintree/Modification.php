@@ -8,7 +8,7 @@ class Braintree_Modification extends Braintree
 
 	public static function factory($attributes)
 	{
-		$instance = new self();
+		$instance = new self;
 		$instance->_initialize($attributes);
 
 		return $instance;

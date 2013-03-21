@@ -16,8 +16,8 @@
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 global $mainframe;
-$Redconfiguration = new Redconfiguration();
-$order_functions = new order_functions();
+$Redconfiguration = new Redconfiguration;
+$order_functions = new order_functions;
 $order_items = $order_functions->getOrderItemDetail($data['order_id']);
 $session =& JFactory::getSession();
 $ccdata = $session->get('redirect_ccdata');
@@ -48,15 +48,15 @@ $eWAYusername = $this->_params->get("username");
 $eWAYpassword = $this->_params->get("password");
 $test_mode = $this->_params->get("test_mode");
 
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 $order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
 //Create RapidAPI Service
-$service = new RapidAPI();
+$service = new RapidAPI;
 $service->setTestMode($test_mode);
 $service->getAuthorizeData($eWAYusername, $eWAYpassword);
 //Create AccessCode Request Object
-$request = new CreateAccessCodeRequest();
+$request = new CreateAccessCodeRequest;
 $request->Customer->Title = "Mr.";
 $request->Customer->FirstName = $data['billinginfo']->firstname;
 $request->Customer->LastName = $data['billinginfo']->lastname;
@@ -74,7 +74,7 @@ if (count($order_items) > 0)
 	for ($p = 0; $p < count($order_items); $p++)
 	{
 		//Populate values for LineItems
-		$item = new LineItem();
+		$item = new LineItem;
 		$item->SKU = $order_items[$p + 1]->order_item_sku;
 		$item->Description = $order_items[$p + 1]->order_item_name;
 		$request->Items->LineItem[$p + 1] = $item;

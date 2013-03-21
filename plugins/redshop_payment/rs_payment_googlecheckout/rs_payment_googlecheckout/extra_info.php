@@ -16,10 +16,10 @@
 
 
 include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
-$shippinghelper = new shipping();
+$shippinghelper = new shipping;
 
 
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 
 $currency_code = "USD"; // currency accepted by google
 

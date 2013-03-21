@@ -278,7 +278,7 @@ class Braintree_Customer extends Braintree
 		self::_validateId($customerId);
 		Braintree_Http::delete('/customers/' . $customerId);
 
-		return new Braintree_Result_Successful();
+		return new Braintree_Result_Successful;
 	}
 
 	/**
@@ -636,7 +636,7 @@ class Braintree_Customer extends Braintree
 	 */
 	public static function factory($attributes)
 	{
-		$instance = new self();
+		$instance = new self;
 		$instance->_initialize($attributes);
 
 		return $instance;

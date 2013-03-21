@@ -15,8 +15,8 @@
  */
 require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 $Itemid = $_REQUEST['Itemid'];
-$order_functions = new order_functions();
-$currencyClass = new convertPrice ();
+$order_functions = new order_functions;
+$currencyClass = new convertPrice;
 $order_items = $order_functions->getOrderItemDetail($data['order_id']);
 $order = $order_functions->getOrderDetails($data['order_id']);
 $hmac_key = $this->_params->get("hmac_key");
@@ -146,7 +146,7 @@ if ($payment_price > 0)
 
 $api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'dibs_hmac.php';
 include($api_path);
-$dibs_hmac = new dibs_hmac();
+$dibs_hmac = new dibs_hmac;
 $mac_key = $dibs_hmac->calculateMac($formdata, $hmac_key);
 // Action Url
 $dibsurl = "https://sat1.dibspayment.com/dibspaymentwindow/entrypoint";

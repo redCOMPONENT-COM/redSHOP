@@ -83,7 +83,7 @@ if ($this->_params->get("is_test") == "1")
 $version = "2";
 //$dibsurl = "https://payment.architrade.com/paymentweb/start.action";
 $dibsurl = "https://payment.architrade.com/payment/start.pml";
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 $formdata['amount'] = $currencyClass->convert($order_details[0]->order_total, '', $this->_params->get("dibs_currency"));
 $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 

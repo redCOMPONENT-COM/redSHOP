@@ -233,10 +233,10 @@ class plgredshop_shippingbring extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
-		$currency = new convertPrice();
-		$redconfig = new Redconfiguration();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
+		$currency = new convertPrice;
+		$redconfig = new Redconfiguration;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$shippingcfg = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . '.cfg.php';
@@ -372,7 +372,7 @@ class plgredshop_shippingbring extends JPlugin
 
 		for ($i = 0; $i < count($product); $i++)
 		{
-			$bring_products[$i] = new stdClass();
+			$bring_products[$i] = new stdClass;
 
 			if (strtolower($product[$i]->name()) == 'head')
 			{

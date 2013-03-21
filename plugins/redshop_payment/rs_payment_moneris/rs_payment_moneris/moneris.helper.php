@@ -61,7 +61,7 @@ class mpgHttpsPost
 
 		//do post
 
-		$g = new mpgGlobals();
+		$g = new mpgGlobals;
 		$gArray = $g->getGlobals();
 		$api_ver = $gArray['API_VERSION'];
 		$client_time_out = $gArray['CLIENT_TIMEOUT'];

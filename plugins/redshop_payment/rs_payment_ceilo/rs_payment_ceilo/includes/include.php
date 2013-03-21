@@ -10,7 +10,7 @@ define('VERSAO', "1.1.0");
 
 if (!isset($_SESSION["pedidos"]))
 {
-	$_SESSION["pedidos"] = new ArrayObject();
+	$_SESSION["pedidos"] = new ArrayObject;
 }
 
 

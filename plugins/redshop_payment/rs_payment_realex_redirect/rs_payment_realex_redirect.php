@@ -128,7 +128,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 		$order_id = $request['orderid'];
 		$status = $request['status'];
 
-		$values = new stdClass();
+		$values = new stdClass;
 
 		if ($request['status'] == 'PS' && $request['operation'] == 'pay')
 		{

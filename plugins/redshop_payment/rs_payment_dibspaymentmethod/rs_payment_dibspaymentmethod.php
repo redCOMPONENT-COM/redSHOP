@@ -92,7 +92,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$order_id = $request['orderid'];
 		$status = $request['status'];
 
-		$values = new stdClass();
+		$values = new stdClass;
 
 		if (isset($request['transact']))
 		{
@@ -158,7 +158,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 			return;
 		}
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 		$order_id = $data['order_id'];
 		JPlugin::loadLanguage('com_redshop');
@@ -168,7 +168,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$key1 = $this->_params->get("dibs_md5key1");
 		$merchantid = $this->_params->get("seller_id");
 
-		$currencyClass = new convertPrice ();
+		$currencyClass = new convertPrice;
 		$formdata['amount'] = $currencyClass->convert($data['order_amount'], '', $this->_params->get("dibs_currency"));
 		$formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 

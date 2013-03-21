@@ -92,7 +92,7 @@ class Braintree_Address extends Braintree
 			'/customers/' . $customerId . '/addresses/' . $addressId
 		);
 
-		return new Braintree_Result_Successful();
+		return new Braintree_Result_Successful;
 	}
 
 	/**
@@ -385,7 +385,7 @@ class Braintree_Address extends Braintree
 	 */
 	public static function factory($attributes)
 	{
-		$instance = new self();
+		$instance = new self;
 		$instance->_initialize($attributes);
 
 		return $instance;

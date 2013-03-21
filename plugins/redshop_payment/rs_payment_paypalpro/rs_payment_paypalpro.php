@@ -58,7 +58,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		}
 
 		$mainframe =& JFactory::getApplication();
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$url = $uri->root();
 		$user = JFactory::getUser();
@@ -248,7 +248,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$invalid_status = $paymentparams->get('invalid_status', '');
 		$auth_type = $paymentparams->get('auth_type', '');
 
-		$values = new stdClass();
+		$values = new stdClass;
 
 		//
 		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
@@ -465,7 +465,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	{
 		$db = JFactory::getDBO();
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 
 		$paypalpro_parameters = $this->getparameters('rs_payment_paypalpro');
 		$paymentinfo = $paypalpro_parameters[0];

@@ -21,7 +21,7 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $sessionid = session_id();
 
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 $amount = $currencyClass->convert($data['carttotal'], '', "EUR");
 
 

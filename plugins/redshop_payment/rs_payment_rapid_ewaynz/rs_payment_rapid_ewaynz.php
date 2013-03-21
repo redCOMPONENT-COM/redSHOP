@@ -123,7 +123,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 		$response = $result->GetAccessCodeResultResult;
 
 
-		$values = new stdClass();
+		$values = new stdClass;
 
 		if ($response->ResponseCode == 00)
 		{

@@ -250,7 +250,7 @@ class GoogleCart
 	{
 		require_once 'xml-processing/xmlbuilder.php';
 
-		$xml_data = new XmlBuilder();
+		$xml_data = new XmlBuilder;
 
 		$xml_data->Push('checkout-shopping-cart', array('xmlns' => $this->schema_url));
 		$xml_data->Push('shopping-cart');

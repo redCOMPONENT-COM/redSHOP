@@ -24,7 +24,7 @@ class Braintree_Xml_Generator
 	public static function arrayToXml($aData)
 	{
 		// set up the XMLWriter
-		$writer = new XMLWriter();
+		$writer = new XMLWriter;
 		$writer->openMemory();
 
 		$writer->setIndent(true);

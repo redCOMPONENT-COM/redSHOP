@@ -279,9 +279,9 @@ class plgredshop_shippingfedex extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
-		$redconfig = new Redconfiguration();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
+		$redconfig = new Redconfiguration;
 		include_once (JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php');
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$itemparams = new JParameter($shipping->params);

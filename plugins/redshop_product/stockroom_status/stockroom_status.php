@@ -39,9 +39,9 @@ class plgredshop_productstockroom_status extends JPlugin
 
 		$db = JFactory::getDBO();
 		//$order_id= $order->order_id;
-		$order_functions = new order_functions();
-		$stockroomhelper = new rsstockroomhelper();
-		$producthelper = new producthelper ();
+		$order_functions = new order_functions;
+		$stockroomhelper = new rsstockroomhelper;
+		$producthelper = new producthelper;
 		$orderproducts = $order_functions->getOrderItemDetail($order_id);
 
 		$stockroom_id = "";

@@ -38,7 +38,7 @@ class Pedido
 	function __construct()
 	{
 		// cria um logger
-		//$this->logger = new Logger();
+		//$this->logger = new Logger;
 	}
 
 	// Geradores de XML

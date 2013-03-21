@@ -32,7 +32,7 @@ class Braintree_Subscription extends Braintree
 	 */
 	public static function factory($attributes)
 	{
-		$instance = new self();
+		$instance = new self;
 		$instance->_initialize($attributes);
 
 		return $instance;

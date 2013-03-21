@@ -63,7 +63,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$session =& JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 		$cart = $session->get('cart');
-		$config = new Redconfiguration();
+		$config = new Redconfiguration;
 		// for total amount 
 		$cal_no = 2;
 

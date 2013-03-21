@@ -73,7 +73,7 @@ class plgSystemredgoogleanalytics extends JPlugin
 				{
 
 					require_once $googleFile;
-					$google_ana = new googleanalytics();
+					$google_ana = new googleanalytics;
 					$code = $google_ana->placeTrans();
 				}
 			}

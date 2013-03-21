@@ -14,11 +14,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 //	require_once  JPATH_COMPONENT.DS.'helpers'.DS.'helper.php' ;
-//	$redhelper = new redhelper();
+//	$redhelper = new redhelper;
 $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $request = JRequest::get('request');
-$orderHelper = new order_functions();
+$orderHelper = new order_functions;
 $rs = $orderHelper->getOrderItemDetail($data['order_id']);
 $Itemid = $request["Itemid"];
 

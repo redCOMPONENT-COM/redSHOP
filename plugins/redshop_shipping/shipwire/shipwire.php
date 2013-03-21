@@ -100,8 +100,8 @@ class plgredshop_shippingshipwire extends JPlugin
 	function onListRates(&$d)
 	{
 		include_once (JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php');
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
 
 		$rate = 0;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
@@ -223,7 +223,7 @@ class plgredshop_shippingshipwire extends JPlugin
 				$currency_main = "USD";
 			}
 
-			$currencyClass = new convertPrice ();
+			$currencyClass = new convertPrice;
 
 			for ($i = 0; $i < count($content['COST']); $i++)
 			{

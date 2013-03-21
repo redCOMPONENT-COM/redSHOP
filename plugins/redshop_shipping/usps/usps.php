@@ -628,8 +628,8 @@ class plgredshop_shippingusps extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$shippingcfg = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
@@ -971,7 +971,7 @@ class plgredshop_shippingusps extends JPlugin
 					/******START INTERNATIONAL RATE******/
 					//the xml that will be posted to usps
 
-					$order_functions = new order_functions();
+					$order_functions = new order_functions;
 					$dest_country_name = $order_functions->getCountryName($dest_country);
 
 					$xmlPost = 'API=IntlRate&XML=<IntlRateRequest USERID="' . $usps_username . '" PASSWORD="' . $usps_password . '">';

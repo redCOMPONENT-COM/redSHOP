@@ -518,9 +518,9 @@ class CreateAccessCodeRequest
 
 	function __construct()
 	{
-		$this->Customer = new Customer();
-		$this->ShippingAddress = new ShippingAddress();
-		$this->Payment = new Payment();
+		$this->Customer = new Customer;
+		$this->ShippingAddress = new ShippingAddress;
+		$this->Payment = new Payment;
 		$this->CustomerIP = $_SERVER["SERVER_NAME"];
 	}
 
@@ -640,7 +640,7 @@ class Parser
 
 	public static function Obj2XML($obj)
 	{
-		$xml = new XmlWriter();
+		$xml = new XmlWriter;
 		$xml->openMemory();
 		$xml->setIndent(true);
 		$xml->startElement(get_class($obj));

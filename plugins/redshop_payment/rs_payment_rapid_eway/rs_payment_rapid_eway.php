@@ -78,11 +78,11 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 		$AccessCode = $request["AccessCode"];
 		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'Rapid.php';
 		include($api_path);
-		$service = new RapidAPI();
+		$service = new RapidAPI;
 		//Call RapidAPI to get the result
 		$service->setTestMode($test_mode);
 		$service->getAuthorizeData($eWAYusername, $eWAYpassword);
-		$req = new GetAccessCodeResultRequest();
+		$req = new GetAccessCodeResultRequest;
 		$req->AccessCode = $AccessCode;
 		$result = $service->GetAccessCodeResult($req);
 		$order_id = $request['orderid'];
@@ -99,7 +99,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 			}
 		}
 
-		$values = new stdClass();
+		$values = new stdClass;
 
 		if (isset($lblError) && $response->ResponseCode != 00)
 		{

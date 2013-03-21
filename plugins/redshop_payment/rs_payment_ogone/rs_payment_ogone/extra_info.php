@@ -17,15 +17,15 @@
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-$objOrder = new order_functions();
+$objOrder = new order_functions;
 
-$objconfiguration = new Redconfiguration();
+$objconfiguration = new Redconfiguration;
 
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 
 
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
@@ -44,7 +44,7 @@ $CN = $buyerfirstname;
 $ownerZIP = $data['billinginfo']->zipcode;
 $owneraddress = $data['billinginfo']->address;
 $ownercty = $data['billinginfo']->city;
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 $sha_out_pass_phrase = $this->_params->get("sha_in_pass_phrase");
 $opreation_mode = $this->_params->get("opreation_mode");
 $currency = $this->_params->get("currency");

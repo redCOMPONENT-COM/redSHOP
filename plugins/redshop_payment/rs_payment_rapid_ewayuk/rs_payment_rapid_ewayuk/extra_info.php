@@ -28,7 +28,7 @@ $eWAYcustomer_id = $this->_params->get("customer_id");
 $eWAYusername = $this->_params->get("username");
 $eWAYpassword = $this->_params->get("password");
 
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 $currency_main = "GBP";
 $order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
