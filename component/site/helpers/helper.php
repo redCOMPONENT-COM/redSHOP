@@ -8,14 +8,16 @@
  */
 
 defined('_JEXEC') or die;
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
 
 class redhelper
 {
-	var $_table_prefix = null;
-	var $_db = null;
-	var $_isredCRM = null;
+	public $_table_prefix = null;
+
+	public $_db = null;
+
+	public $_isredCRM = null;
 
 	public function __construct()
 	{
@@ -24,35 +26,34 @@ class redhelper
 		$this->_db           = JFactory::getDBO();
 	}
 
-	/*
- 	* add item to cart from db ...
- 	*/
+	/**
+ 	 * add item to cart from db ...
+ 	 */
 	public function dbtocart()
 	{
-		require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
-		$session =& JFactory::getSession();
+		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php';
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = JFactory::getUser();
+
 		if ($user->id && !isset($cart['idx']))
 		{
-			$rscarthelper = new rsCarthelper();
+			$rscarthelper = new rsCarthelper;
 			$rscarthelper->dbtocart();
 		}
 	}
 
-	/*
-		* Delete shipping rate when shipping method is not available
-		*/
+	/**
+	 * Delete shipping rate when shipping method is not available
+	 */
 	public function removeShippingRate()
 	{
-
 		$query = "SELECT DISTINCT(shipping_class)  FROM " . $this->_table_prefix . "shipping_rate ";
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadResultArray();
 
 		if (count($data) > 0)
 		{
-
 			$query_plg = "SELECT element FROM #__extensions WHERE folder='redshop_shipping'";
 			$this->_db->setQuery($query_plg);
 			$plg_ship_elm = $this->_db->loadResultArray();
@@ -99,6 +100,7 @@ class redhelper
 			. "AND order_payment_trans_id = '" . $this->_db->getEscaped($tid) . "' ";
 		$this->_db->SetQuery($query);
 		$order_payment = $this->_db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;
@@ -109,8 +111,9 @@ class redhelper
 
 	public function getItemid($product_id = '', $cat_id = 0)
 	{
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$catDetailmenu = false;
+
 		if ($cat_id)
 		{
 			$sql = "SELECT id FROM #__menu "
@@ -120,6 +123,7 @@ class redhelper
 				. "AND ( link LIKE '%cid=" . $cat_id . "' OR link LIKE '%cid=" . $cat_id . "&%' ) "
 				. "ORDER BY 'ordering'";
 			$this->_db->setQuery($sql);
+
 			if ($Itemid = $this->_db->loadResult())
 			{
 				$catDetailmenu = true;
@@ -128,9 +132,11 @@ class redhelper
 
 			}
 		}
+
 		$sql = "SELECT category_id 	FROM " . $this->_table_prefix . "product_category_xref cx WHERE product_id = '$product_id'";
 		$this->_db->setQuery($sql);
 		$cats = $this->_db->loadObjectList();
+
 		for ($i = 0; $i < count($cats); $i++)
 		{
 			$cat = $cats[$i];
@@ -141,12 +147,15 @@ class redhelper
 				. "AND ( link LIKE '%cid=" . $cat->category_id . "' OR link LIKE '%cid=" . $cat->category_id . "&%' ) "
 				. "ORDER BY 'ordering'";
 			$this->_db->setQuery($sql);
+
 			if ($Itemid = $this->_db->loadResult())
 			{
 				return $Itemid;
 			}
 		}
+
 		$option = JRequest::getVar('option');
+
 		if ($option != 'com_redshop')
 		{
 			if (!$catDetailmenu)
@@ -158,8 +167,13 @@ class redhelper
 					. "ORDER BY 'ordering'";
 
 				$this->_db->setQuery($sql);
-				if ($Itemid = $this->_db->loadResult()) return $Itemid;
+
+				if ($Itemid = $this->_db->loadResult())
+				{
+					return $Itemid;
+				}
 			}
+
 			$Itemidlist = $producthelper->getMenuInformation();
 
 			if (count($Itemidlist) == 1)
@@ -169,7 +183,8 @@ class redhelper
 				return $Itemid;
 			}
 		}
-		$Itemid = intval(JRequest::getVar('Itemid')); //,$Itemid) );
+
+		$Itemid = intval(JRequest::getVar('Itemid'));
 
 		return $Itemid;
 	}
@@ -201,6 +216,7 @@ class redhelper
 		{
 			$txt   = $arr[$i]->text;
 			$ltext = JText::_($txt);
+
 			if ($ltext != $txt)
 			{
 				$arr[$i]->text = $ltext;
@@ -218,11 +234,11 @@ class redhelper
 			$txt            = $arr[$i]->text;
 			$val            = $arr[$i]->value;
 			$tmpArray[$val] = $txt;
-
 		}
+
 		asort($tmpArray);
-		//	$arr = new stdclass;
 		$x = 0;
+
 		foreach ($tmpArray AS $val => $txt)
 		{
 			$arr[$x]->text  = $txt;
@@ -239,10 +255,11 @@ class redhelper
 	 */
 	public function getShopperGroupPortal()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
-		# if user is not logged in than take shoppergroup id from configuration
+		// If user is not logged in than take shoppergroup id from configuration
 		$where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
+
 		if ($user->id)
 		{
 			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . $user->id . " AND address_type = 'BT'";
@@ -257,21 +274,22 @@ class redhelper
 		return $this->_db->loadObject();
 	}
 
-
 	/**
 	 * shopper Group category ACL
 	 */
 	public function getShopperGroupCategory($cid = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
-		# if user is not logged in than take shoppergroup id from configuration
+		// If user is not logged in than take shoppergroup id from configuration
 		$where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
+
 		if ($user->id)
 		{
 			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . $user->id . " AND address_type = 'BT'";
 			$where = "AND `shopper_group_id`IN ($userq)";
 		}
+
 		$query = "SELECT *, count(`shopper_group_id`) as total FROM `" . $this->_table_prefix . "shopper_group` "
 			. "WHERE 1=1 "
 			. $where
@@ -285,7 +303,7 @@ class redhelper
 
 	public function getShopperGroupProductCategory($pid = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$query = "SELECT p.product_id,cx.category_id FROM `" . $this->_table_prefix . "product` AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS cx ON p.product_id=cx.product_id "
@@ -293,10 +311,12 @@ class redhelper
 		$this->_db->setQuery($query);
 		$prodctcat = $this->_db->loadObjectList();
 		$catflag   = false;
+
 		for ($i = 0; $i < count($prodctcat); $i++)
 		{
 			$cid            = $prodctcat[$i]->category_id;
 			$shoppercatdata = $this->getShopperGroupCategory($cid);
+
 			if (count($shoppercatdata) <= 0 && $catflag == false)
 			{
 				$catflag = true;
@@ -306,7 +326,7 @@ class redhelper
 		return $catflag;
 	}
 
-	// 	order by list
+	// 	Order by list
 	public function getOrderByList()
 	{
 		$order_data           = array();
@@ -390,9 +410,7 @@ class redhelper
 		return $order_data;
 	}
 
-
 	//  function to get preorder option list
-
 	public function getPreOrderByList()
 	{
 		$preorder_data           = array();
@@ -406,9 +424,7 @@ class redhelper
 		return $preorder_data;
 	}
 
-
 	//  function to get child product option list
-
 	public function getChildProductOption()
 	{
 		$childproduct_data           = array();
@@ -417,13 +433,10 @@ class redhelper
 		$childproduct_data[1]->value = "product_number";
 		$childproduct_data[1]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NUMBER');
 
-
 		return $childproduct_data;
 	}
 
-
 	//  function to get state abbrivation option list
-
 	public function getStateAbbrivationByList()
 	{
 		$state_data           = array();
@@ -432,20 +445,21 @@ class redhelper
 		$state_data[1]->value = "3";
 		$state_data[1]->text  = JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
 
-
 		return $state_data;
 	}
 
-	// get checkout Itemid
+	// Get checkout Itemid
 	public function getCheckoutItemid()
 	{
-		$userhelper         = new rsUserhelper();
+		$userhelper         = new rsUserhelper;
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
+
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_checkout_itemid != 0)
 		{
 			$Itemid = $shopper_group_data->shopper_group_cart_checkout_itemid;
 		}
+
 		if ($Itemid == 0)
 		{
 			$Itemid = JRequest::getInt('Itemid');
@@ -454,12 +468,13 @@ class redhelper
 		return $Itemid;
 	}
 
-	// get cart Itemid
+	// Get cart Itemid
 	public function getCartItemid($Itemid)
 	{
-		$userhelper         = new rsUserhelper();
+		$userhelper         = new rsUserhelper;
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
+
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_itemid != 0)
 		{
 			$Itemid = $shopper_group_data->shopper_group_cart_itemid;
@@ -469,13 +484,8 @@ class redhelper
 	}
 
 	/**
-	 *   reddesign
-	 */
-
-	/**
 	 * Check That reddesign is installed or not
 	 */
-
 	public function CheckIfRedDesign()
 	{
 		$query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
@@ -501,18 +511,19 @@ class redhelper
 	/**
 	 * Check That reddesigh is assigned to product or not & only redirect if user belongs to that shopper.
 	 */
-
 	public function CheckIfRedProduct($product_id)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 
 		$query = "SELECT * FROM `#__reddesign_redshop` WHERE `product_id` = '" . $product_id . "' AND reddesign_enable = '1' ";
 		$this->_db->setQuery($query);
 		$redproinfo = $this->_db->loadObjectList();
+
 		if (count($redproinfo) > 0)
 		{
 			$progrouplist = explode(",", $redproinfo[0]->shoppergroups);
 			$usershopper  = $userhelper->getShopperGroup();
+
 			if (in_array($usershopper, $progrouplist))
 			{
 				return $redproinfo;
@@ -557,19 +568,16 @@ class redhelper
 		return $this->_db->loadObjectlist();
 	}
 
-	/**
-	 *   reddesign end
-	 */
+	// Reddesign end
 
 	/*
 	 * Water mark image
 	 * $mtype = media type product,category.manufacture etc
 	 * $filename = image name
 	*/
-
 	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
 	{
-		require_once(JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'images.php');
+		require_once JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'images.php';
 
 		$url    = JURI::root();
 		$option = 'com_redshop';
@@ -582,7 +590,6 @@ class redhelper
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
-				// $filename = $url."components/com_redshop/helpers/thumb.php?filename=".$mtype."/".$Imagename."&newxsize=".$thumb_width."&newysize=".$thumb_height."&swap=".USE_IMAGE_SIZE_SWAPPING;
 				$file_path          = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'images' . DS . $mtype . DS . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
@@ -596,39 +603,51 @@ class redhelper
 			return $filename;
 		}
 
-		if ($Imagename && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename) && (WATERMARK_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
+		if ($Imagename
+			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
+			&& (WATERMARK_IMAGE
+			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
 		{
 			if ($thumb_width != '' && $thumb_height != '')
 			{
-				// $watermark = $url."components/com_redshop/helpers/thumb.php?filename=product/".WATERMARK_IMAGE."&newxsize=".$thumb_width."&newysize=".$thumb_height."&swap=".USE_IMAGE_SIZE_SWAPPING;
-				$file_path          = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'images' . DS . 'product' . DS . WATERMARK_IMAGE;
-				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
+				$file_path    = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'images' . DS . 'product' . DS . WATERMARK_IMAGE;
+				$filename     = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . DS . 'thumb' . DS . $filename_path_info['basename'];
 
-				// $filename = $url."components/com_redshop/helpers/thumb.php?filename=".$mtype."/".$Imagename."&newxsize=".$thumb_width."&newysize=".$thumb_height."&swap=".USE_IMAGE_SIZE_SWAPPING;
 				$file_path          = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'images' . DS . $mtype . DS . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . DS . $mtype . DS . $filename_path_info['basename'];
 
 				if ($add_img == 2)
+				{
 					$gnImagename = 'hover' . $Imagename;
-				else if ($add_img == 1)
+				}
+				elseif ($add_img == 1)
+				{
 					$gnImagename = 'add' . $Imagename;
+				}
 				else
+				{
 					$gnImagename = $Imagename;
+				}
 			}
 			else
 			{
 				$watermark   = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE;
 				$filename    = REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename;
 				$gnImagename = 'main' . $Imagename;
+
 				if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename))
+				{
 					return $DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
+				}
 			}
+
 			$DestinationFile = REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename;
 			$filetype        = JFile::getExt(WATERMARK_IMAGE);
+
 			switch ($filetype)
 			{
 				case "gif":
@@ -641,7 +660,7 @@ class redhelper
 
 					@imagecopymerge($dest, $src, ($width - $markwidth) >> 1, ($height - $markheight) >> 1, 0, 0, $markwidth, $markheight, 50);
 
-					# Save the image to a file
+					// Save the image to a file
 					@imagejpeg($dest, $DestinationFile);
 
 					$DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
@@ -682,15 +701,35 @@ class redhelper
 					{
 						die;
 					}
+
 					imagecopy($im2, $im, (imagesx($im2) / 2) - (imagesx($im) / 2), (imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im));
 					$waterless = imagesx($im2) - imagesx($im);
 					$rest      = ceil($waterless / imagesx($im) / 2);
 
 					for ($n = 1; $n <= $rest; $n++)
 					{
-						imagecopy($im2, $im, ((imagesx($im2) / 2) - (imagesx($im) / 2)) - (imagesx($im) * $n), (imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im));
-						imagecopy($im2, $im, ((imagesx($im2) / 2) - (imagesx($im) / 2)) + (imagesx($im) * $n), (imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im));
+						imagecopy(
+							$im2,
+							$im,
+							((imagesx($im2) / 2) - (imagesx($im) / 2)) - (imagesx($im) * $n),
+							(imagesy($im2) / 2) - (imagesy($im) / 2),
+							0,
+							0,
+							imagesx($im),
+							imagesy($im)
+						);
+
+						imagecopy(
+							$im2,
+							$im,
+							((imagesx($im2) / 2) - (imagesx($im) / 2)) + (imagesx($im) * $n),
+							(imagesy($im2) / 2) - (imagesy($im) / 2),
+							0,
+							0,
+							imagesx($im), imagesy($im)
+						);
 					}
+
 					imagejpeg($im2, $DestinationFile);
 					$DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
 
@@ -701,7 +740,11 @@ class redhelper
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
-				$filename = $url . "components/com_redshop/helpers/thumb.php?filename=" . $mtype . "/" . $Imagename . "&newxsize=" . $thumb_width . "&newysize=" . $thumb_height . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$filename = $url
+					. "components/com_redshop/helpers/thumb.php?filename="
+					. $mtype . "/" . $Imagename . "&newxsize="
+					. $thumb_width . "&newysize=" . $thumb_height
+					. "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			}
 			else
 			{
@@ -715,9 +758,11 @@ class redhelper
 	public function clickatellSMS($order_id)
 	{
 		if (CLICKATELL_ENABLE <= 0)
+		{
 			return;
+		}
 
-		$shippinghelper = new shipping();
+		$shippinghelper = new shipping;
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "order_users_info AS oui "
 			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oui.order_id "
@@ -734,11 +779,12 @@ class redhelper
 		$paymentData       = $this->_db->loadobject();
 		$paymentName       = $paymentData->payment_method_name;
 		$payment_method_id = $paymentData->payment_method_id;
-		$redTemplate       = new Redtemplate();
+		$redTemplate       = new Redtemplate;
 		$TemplateDetail    = $redTemplate->getTemplate("clicktell_sms_message");
 
 		$order_shipping_class = 0;
 		$order_shipping       = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
+
 		if (isset($order_shipping[0]))
 		{
 			$order_shipping_class = $order_shipping[0];
@@ -755,14 +801,17 @@ class redhelper
 		$this->_db->setQuery($query . $p_where . $orderby);
 		$payment_methods = $this->_db->loadobject();
 		$message         = $this->replaceMessage($payment_methods->template_desc, $orderData, $paymentName);
+
 		if ($message)
 		{
 			$this->sendmessage(urlencode($message), $to);
 		}
+
 		$this->_db->setQuery($query . $s_where . $orderby);
 		$shipping_methods = $this->_db->loadobject();
 
 		$message = $this->replaceMessage($shipping_methods->template_desc, $orderData, $paymentName);
+
 		if ($message)
 		{
 			$this->sendmessage(urlencode($message), $to);
@@ -771,6 +820,7 @@ class redhelper
 		if (CLICKATELL_ORDER_STATUS == $orderData->order_status)
 		{
 			$message = $this->replaceMessage($TemplateDetail[0]->template_desc, $orderData, $paymentName);
+
 			if ($message)
 			{
 				$this->sendmessage(urlencode($message), $to);
@@ -780,20 +830,32 @@ class redhelper
 
 	public function sendmessage($text, $to)
 	{
-		$user     = CLICKATELL_USERNAME; //	clickatell_username
-		$password = CLICKATELL_PASSWORD; //  clickatell_password
-		$api_id   = CLICKATELL_API_ID; //  clickatell_api_id
+		// Clickatell_username
+		$user     = CLICKATELL_USERNAME;
+
+		// Clickatell_password
+		$password = CLICKATELL_PASSWORD;
+
+		// Clickatell_api_id
+		$api_id   = CLICKATELL_API_ID;
 		$baseurl  = "http://api.clickatell.com";
 
-		$url  = "$baseurl/http/auth?user=$user&password=$password&api_id=$api_id"; // auth call
-		$ret  = file($url); // do auth call
-		$sess = explode(":", $ret[0]); // split our response. return string is on first line of the data returned
+		// Auth call
+		$url  = "$baseurl/http/auth?user=$user&password=$password&api_id=$api_id";
+
+		// Do auth call
+		$ret  = file($url);
+
+		// Split our response. return string is on first line of the data returned
+		$sess = explode(":", $ret[0]);
 
 		if ($sess[0] == "OK")
 		{
-			$sess_id = trim($sess[1]); // remove any whitespace
+			// Remove any whitespace
+			$sess_id = trim($sess[1]);
 			$url     = "$baseurl/http/sendmsg?session_id=$sess_id&to=$to&text=$text";
-			// do sendmsg call
+
+			// Do sendmsg call
 			$ret  = file($url);
 			$send = explode(":", $ret[0]);
 
@@ -815,19 +877,23 @@ class redhelper
 
 	public function replaceMessage($message, $orderData, $paymentName)
 	{
-		$shippinghelper  = new shipping();
+		$shippinghelper  = new shipping;
 		$shipping_method = '';
 		$details         = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
+
 		if (count($details) > 1)
 		{
 			$ext = "";
+
 			if (array_key_exists(2, $details))
 			{
 				$ext = " (" . $details[2] . ")";
 			}
+
 			$shipping_method = $details[1] . $ext;
 		}
-		$producthelper = new producthelper();
+
+		$producthelper = new producthelper;
 
 		$userData = $producthelper->getUserInformation($orderData->user_id);
 
@@ -842,38 +908,19 @@ class redhelper
 		return $message;
 	}
 
-	/**
-	 * logic for get super admin and Administrator
-	 *
-	 * @access public
-	 * @return array
-	 * @since 0.1
-	 */
-	/*function getSuperAdminList($id=0)
-	{
-		$and = "";
-		if($id!=0)
-		{
-			$and = "AND u.id IN (".$id.") ";
-		}
-		$query = "SELECT u.*, CONCAT(u.username,' (',u.name,')') AS title "
-				."FROM #__users AS u "
-				."WHERE u.gid IN ('24','25') "
-				."AND u.block='0' "
-				.$and
-				;
-		$this->_db->setQuery($query);
-		$users = $this->_db->loadObjectlist();
-		return $users;
-	}
-*/
 	public function getsslLink($link, $applySSL)
 	{
 		$uri =& JURI::getInstance($link);
+
 		if ($applySSL)
+		{
 			$uri->setScheme('https');
+		}
 		else
+		{
 			$uri->setScheme('http');
+		}
+
 		$link = $uri->toString();
 
 		return $link;
@@ -898,14 +945,17 @@ class redhelper
 	public function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)
 	{
 		$and = '';
+
 		if ($accountgroup_id != 0)
 		{
 			$and .= 'AND ea.accountgroup_id="' . $accountgroup_id . '" ';
 		}
+
 		if ($front != 0)
 		{
 			$and .= 'AND ea.published="1" ';
 		}
+
 		$query = 'SELECT ea.*, ea.accountgroup_id AS value, ea.accountgroup_name AS text FROM ' . $this->_table_prefix . 'economic_accountgroup AS ea '
 			. 'WHERE 1=1 '
 			. $and;
@@ -917,8 +967,9 @@ class redhelper
 
 	public function isredProductfinder()
 	{
-		$user =& JFactory::getUser();
-		// get redshop from joomla component table
+		$user = JFactory::getUser();
+
+		// Get redshop from joomla component table
 		$query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
 		$this->_db->setQuery($query);
 		$redproductfinder      = $this->_db->loadobject();
@@ -941,12 +992,14 @@ class redhelper
 	 * Set as boolean - check login user is redCRM contact person as well
 	 *
 	 * @return   boolean
+	 * 
 	 * @since    1.0
 	 */
 	public function isredCRM()
 	{
-		$session =& JFactory::getSession();
-		// get redshop from joomla component table
+		$session = JFactory::getSession();
+
+		// Get redshop from joomla component table
 		$isredCRM = $session->get('isredCRM');
 
 		if (is_null($isredCRM) && !empty($isredCRM))
@@ -956,27 +1009,28 @@ class redhelper
 			$this->_isredCRM = $this->_db->loadResult();
 		}
 
-
 		$redcrm_path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm';
+
 		if (!is_dir($redcrm_path) && !$this->_isredCRM)
 		{
 			$this->_isredCRM = false;
 		}
 		else
 		{
-			$user =& JFactory::getUser();
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'configuration.php');
-			$crmConfig = new crmConfig();
+			$user = JFactory::getUser();
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'configuration.php';
+			$crmConfig = new crmConfig;
 			$crmConfig->config();
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'helper.php');
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'debitor.php');
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'product.php');
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'supplier_order.php');
-			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'order.php');
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'helper.php';
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'debitor.php';
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'product.php';
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'supplier_order.php';
+			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'order.php';
 
-			$crmHelper = new crmHelper();
+			$crmHelper = new crmHelper;
 
-			$session =& JFactory::getSession();
+			$session = JFactory::getSession();
+
 			if ($crmHelper->isredCRMUser($user->id))
 			{
 				$session->set('isredcrmuser', true);
@@ -990,6 +1044,7 @@ class redhelper
 
 			$this->_isredCRM = true;
 		}
+
 		$session->set('isredCRM', $this->_isredCRM);
 
 		return $this->_isredCRM;
