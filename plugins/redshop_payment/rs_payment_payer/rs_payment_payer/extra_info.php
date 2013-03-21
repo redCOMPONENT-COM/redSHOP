@@ -90,6 +90,7 @@ if ($order->order_shipping > 0)
 		$order_shipping_tax = $order->order_shipping_tax;
 		$order_shipping_tax = $currencyClass->convert($order_shipping_tax, '', $currency_main);
 	}
+
 	$order_shipping = $currencyClass->convert($order->order_shipping, '', $currency_main);
 
 	$thePayreadApi->add_freeform_purchase($i + 1,

@@ -390,6 +390,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 								$cardname = 'Danske Bank';
 								break;
 						}
+
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
 
 					}
@@ -494,6 +495,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;

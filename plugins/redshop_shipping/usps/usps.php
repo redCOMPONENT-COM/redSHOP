@@ -608,6 +608,7 @@ class plgredshop_shippingusps extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
@@ -654,12 +655,14 @@ class plgredshop_shippingusps extends JPlugin
 			{
 				return $shippingrate;
 			}
+
 			$billing = $producthelper->getUserInformation($shippinginfo->user_id);
 
 			if (count($billing) < 1)
 			{
 				return $shippingrate;
 			}
+
 			$itemparams = new JRegistry($shipping->params);
 
 			//USPS Username
@@ -915,6 +918,7 @@ class plgredshop_shippingusps extends JPlugin
 					{
 						$count = 10;
 					}
+
 					$i = 0;
 					$matchedchild = $xmlDoc->document->_children;
 					$data = array();
@@ -953,6 +957,7 @@ class plgredshop_shippingusps extends JPlugin
 								{
 									$ship_postage[$count] = $ship_postage[$count] + USPS_HANDLINGFEE;
 								}
+
 								$count++;
 							}
 						}
@@ -1101,6 +1106,7 @@ class plgredshop_shippingusps extends JPlugin
 								{
 									$ship_postage[$count] = $ship_postage[$count] + USPS_INTLHANDLINGFEE;
 								}
+
 								$count++;
 
 							}
@@ -1137,6 +1143,7 @@ class plgredshop_shippingusps extends JPlugin
 								$rate++;
 							}
 						}
+
 						$i++;
 					}
 				}
@@ -1151,6 +1158,7 @@ class plgredshop_shippingusps extends JPlugin
 						{
 							$delivery = $ship_commit[$i];
 						}
+
 						$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $shipping->name . "|" . number_format($ship_postage[$i], 2, '.', '') . "|" . $shipping->name . "|single|0");
 
 						$shippingrate[$rate]->text = $ship_service[$i]; //.$delivery;

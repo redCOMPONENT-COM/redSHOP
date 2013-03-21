@@ -339,6 +339,7 @@ class Chase
 				default    :
 					break; //$this->error[] = 'AVSRespCode Code - '.$parsedResArr['AVSRespCode'];
 			}
+
 			$response_arr['TxRefNum'] = 0;
 			$response_arr['transaction_sts'] = "fail";
 			$response_arr['message'] = $parsedResArr['StatusMsg'];

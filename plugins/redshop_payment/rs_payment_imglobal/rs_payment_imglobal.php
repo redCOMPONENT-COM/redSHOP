@@ -98,6 +98,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		{
 			curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
 		}
+
 		$result = curl_exec($CR);
 		$error = curl_error($CR);
 		curl_close($CR);
@@ -118,6 +119,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 				$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$values->responsestatus = 'Fail';
 			}
+
 			$values->transaction_id = $output['transactionid'];
 			$values->order_id = $data['order_id'];
 		}
@@ -127,6 +129,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 			$values->responsestatus = 'Fail';
 			$values->transaction_id = 0;
 		}
+
 		$values->message = $message;
 
 		return $values;

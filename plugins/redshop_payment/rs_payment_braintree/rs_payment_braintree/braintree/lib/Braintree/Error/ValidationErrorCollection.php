@@ -144,6 +144,7 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
 		{
 			$outputErrs[] = "({$errorObj->error['code']} {$errorObj->error['message']})";
 		}
+
 		$eOutput .= join(', ', $outputErrs) . ']]';
 
 		return $eOutput;

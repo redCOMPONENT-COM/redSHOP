@@ -71,6 +71,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			return;
 		}
+
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 
@@ -209,6 +210,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not read data from gateway');
 		}
+
 		$response = new SimpleXMLElement($response);
 		$qpstat = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
@@ -223,6 +225,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			$message = $qpstatmsg ? $qpstatmsg : JText::_('COM_REDSHOP_ORDER_NOT_CAPTURED');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;
@@ -270,6 +273,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not read data from gateway');
 		}
+
 		$response = new SimpleXMLElement($response);
 		$qpstat = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
@@ -284,6 +288,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			$message = $qpstatmsg ? $qpstatmsg : JText::_('QUICKPAY_ORDER_NOT_REFUND');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;
@@ -331,6 +336,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not read data from gateway');
 		}
+
 		$response = new SimpleXMLElement($response);
 		$status_count = count($response->history) - 1;
 		$quickpay_status = $response->history[$status_count]->msgtype;
@@ -388,6 +394,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			throw new Exception('Could not read data from gateway');
 		}
+
 		$response = new SimpleXMLElement($response);
 		$qpstat = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
@@ -402,6 +409,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			$message = $qpstatmsg ? $qpstatmsg : JText::_('ORDER_NOT_CANCEL');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;

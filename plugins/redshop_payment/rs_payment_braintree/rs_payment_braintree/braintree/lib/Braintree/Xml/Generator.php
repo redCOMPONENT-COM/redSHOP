@@ -107,8 +107,10 @@ class Braintree_Xml_Generator
 					$writer->writeAttribute($attribute[0], $attribute[1]);
 					$element = $attribute[2];
 				}
+
 				$writer->text($element);
 			}
+
 			$writer->endElement();
 		}
 	}
@@ -168,6 +170,7 @@ class Braintree_Xml_Generator
 			{
 				return false;
 			}
+
 			$dateTime = new DateTime($string);
 
 			return self::_dateTimeToXmlTimestamp($dateTime);

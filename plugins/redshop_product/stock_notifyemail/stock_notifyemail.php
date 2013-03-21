@@ -63,6 +63,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 						return;
 
 					}
+
 					$message = str_replace("{stocknotify_intro_text}", JText::_('COM_REDSHOP_STOCK_NOTIFY_INTRO_TEXT'), $message);
 					$message = str_replace("{product_detail}", $productDetail, $message);
 					$mail_subject = str_replace("{product_name}", $productName, $mail_subject);
@@ -72,6 +73,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 
 						JUtility::sendMail(SHOP_NAME, SHOP_NAME, $userData[$u]->user_email, $mail_subject, $message, 1);
 					}
+
 					$this->deleteNotifiedUsers($userData[$u]);
 				}
 			}
@@ -127,6 +129,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 			{
 				$property_data = $producthelper->getAttibuteProperty($userData->property_id);
 			}
+
 			$productData = array();
 			$productDetail = $product_data->product_name;
 
@@ -141,6 +144,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 				$productDetail .= "<br/>" . $subproperty_data['subproperty_name'];
 
 			}
+
 			$productData['product_name'] = $product_data->product_name;
 			$productData['product_detail'] = $productDetail;
 

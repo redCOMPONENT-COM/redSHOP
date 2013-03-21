@@ -57,6 +57,7 @@ class RapidAPI
 					$tempClass->Options[$i] = $Option;
 					$i++;
 				}
+
 				$request->Options = $tempClass->Options;
 				$i = 0;
 				$tempClass = new stdClass;
@@ -65,6 +66,7 @@ class RapidAPI
 					$tempClass->Items[$i] = $LineItem;
 					$i++;
 				}
+
 				$request->Items = $tempClass->Items;
 
 				if ($this->APIConfig['Request:Method'] != "RPC")
@@ -81,6 +83,7 @@ class RapidAPI
 		{
 			$request = Parser::Obj2ARRAY($request);
 		}
+
 		$method = 'CreateAccessCode' . $this->APIConfig['Request:Method'];
 		$response = $this->$method($request);
 		//Convert Response Back TO An Object
@@ -182,6 +185,7 @@ class RapidAPI
 							$tempClass->Option[$i]->Value = $Option->Value;
 							$i++;
 						}
+
 						$result->Options = $tempClass;
 					}
 				}
@@ -202,6 +206,7 @@ class RapidAPI
 						$tempClass->Option[$i]->Value = $Option->Value;
 						$i++;
 					}
+
 					$result->Options = $tempClass;
 				}
 			}
@@ -237,6 +242,7 @@ class RapidAPI
 			{
 				$soapurl = $this->APIConfig["PaymentService.Soap"];
 			}
+
 			$client = new SoapClient($soapurl, array(
 				'trace'      => true,
 				'exceptions' => true,
@@ -321,6 +327,7 @@ class RapidAPI
 		{
 			$resturl = $this->APIConfig["PaymentService.REST"];
 		}
+
 		$response = $this->PostToRapidAPI($resturl . "s", $request);
 
 		return $response;
@@ -343,6 +350,7 @@ class RapidAPI
 		{
 			$resturl = $this->APIConfig["PaymentService.REST"];
 		}
+
 		$response = $this->PostToRapidAPI($resturl . "/" . $_GET['AccessCode'], $request, false);
 
 		return $response;
@@ -365,6 +373,7 @@ class RapidAPI
 		{
 			$posturl = $this->APIConfig["PaymentService.POST.CreateAccessCode"];
 		}
+
 		$response = $this->PostToRapidAPI($posturl, $request);
 
 		return $response;
@@ -387,6 +396,7 @@ class RapidAPI
 		{
 			$posturl = $this->APIConfig["PaymentService.POST.CreateAccessCode"];
 		}
+
 		$response = $this->PostToRapidAPI($posturl, $request);
 
 		return $response;
@@ -409,6 +419,7 @@ class RapidAPI
 		{
 			$rpcurl = $this->APIConfig["PaymentService.RPC"];
 		}
+
 		$response = $this->PostToRapidAPI($rpcurl, $request);
 
 		return $response;
@@ -431,6 +442,7 @@ class RapidAPI
 		{
 			$rpcurl = $this->APIConfig["PaymentService.RPC"];
 		}
+
 		$response = $this->PostToRapidAPI($rpcurl, $request);
 
 		return $response;
@@ -607,6 +619,7 @@ class Parser
 			//Tweak the request object in order to generate a valid JSON-RPC format for RapidAPI.
 			$obj->Payment->TotalAmount = (int) $obj->Payment->TotalAmount;
 		}
+
 		$tempClass = new stdClass;
 		$tempClass->id = 1;
 		$tempClass->method = $APIAction;

@@ -69,6 +69,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		{
 			return;
 		}
+
 		$order_functions = new order_functions();
 		$producthelper = new producthelper();
 		$stockroomhelper = new rsstockroomhelper();
@@ -334,6 +335,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 						{
 							$payment_name = $paymentArr[1];
 						}
+
 						$economicdata['economic_payment_method'] = $payment_name;
 
 						$invoiceHandle = $economic->createInvoiceInEconomic($new_oid, $economicdata);

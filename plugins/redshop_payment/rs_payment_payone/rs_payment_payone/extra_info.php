@@ -170,6 +170,7 @@ else
 	$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 	$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 }
+
 $values->transaction_id = $output['txid'];
 $values->order_id = $order_id;
 $objOrder->changeorderstatus($values);

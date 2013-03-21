@@ -431,6 +431,7 @@ final class Braintree_Transaction extends Braintree
 		{
 			$criteria[$term->name] = $term->toparam();
 		}
+
 		$criteria["ids"] = Braintree_TransactionSearch::ids()->in($ids)->toparam();
 		$response = braintree_http::post('/transactions/advanced_search', array('search' => $criteria));
 
@@ -536,6 +537,7 @@ final class Braintree_Transaction extends Braintree
 		{
 			$statusHistory[] = new Braintree_Transaction_StatusDetails($history);
 		}
+
 		$this->_set('statusHistory', $statusHistory);
 
 
@@ -548,6 +550,7 @@ final class Braintree_Transaction extends Braintree
 				$addOnArray[] = Braintree_AddOn::factory($addOn);
 			}
 		}
+
 		$this->_set('addOns', $addOnArray);
 
 		$discountArray = array();
@@ -559,6 +562,7 @@ final class Braintree_Transaction extends Braintree
 				$discountArray[] = Braintree_Discount::factory($discount);
 			}
 		}
+
 		$this->_set('discounts', $discountArray);
 	}
 

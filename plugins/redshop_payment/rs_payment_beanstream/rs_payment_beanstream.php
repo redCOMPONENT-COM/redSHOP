@@ -71,6 +71,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		{
 			$cal_no = PRICE_DECIMAL;
 		}
+
 		$order_total = round($data['order_total'], $cal_no);
 		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
@@ -150,6 +151,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			$message = $arrResult['messageText'];
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->transaction_id = $arrResult['trnId'];
 		$values->message = $message;
 

@@ -49,6 +49,7 @@ class XmlBuilder
 					$this->xml .= ' ' . $key . '="' . htmlentities($value) . '"';
 			}
 		}
+
 		$this->xml .= ">\n";
 		$this->stack[] = $element;
 	}
@@ -64,6 +65,7 @@ class XmlBuilder
 		{
 			$this->xml .= ' ' . $key . '="' . htmlentities($value) . '"';
 		}
+
 		$this->xml .= '>' . htmlentities($content) . '</' . $element . '>' . "\n";
 	}
 
@@ -75,6 +77,7 @@ class XmlBuilder
 		{
 			$this->xml .= ' ' . $key . '="' . htmlentities($value) . '"';
 		}
+
 		$this->xml .= " />\n";
 	}
 

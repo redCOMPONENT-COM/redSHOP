@@ -58,6 +58,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 		{
 			$plugin = $element;
 		}
+
 		$session =& Jfactory::getSession();
 		$ccdata = $session->get('ccdata');
 		/*$mainframe =& JFactory::getApplication();

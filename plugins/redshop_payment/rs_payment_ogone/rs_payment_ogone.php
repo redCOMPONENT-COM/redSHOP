@@ -113,6 +113,7 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 				$secret_words .= $key . "=" . $value . $sha_out_pass_phrase;
 			}
 		}
+
 		$hash_to_check = strtoupper(sha1($secret_words));
 
 

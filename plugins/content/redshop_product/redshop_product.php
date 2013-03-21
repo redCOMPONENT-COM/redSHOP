@@ -35,7 +35,8 @@ class plgContentredshop_product extends JPlugin
 			{
 				$session->set('product_currency', $post['product_currency']);
 			}
-			$currency_symbol = REDCURRENCY_SYMBOL;
+
+					$currency_symbol = REDCURRENCY_SYMBOL;
 			$currency_convert = 1;
 
 			if ($session->get('product_currency'))
@@ -44,7 +45,8 @@ class plgContentredshop_product extends JPlugin
 				$convertPrice = new convertPrice();
 				$currency_convert = $convertPrice->convert(1);
 			}
-			$document = & JFactory::getDocument();
+
+					$document = & JFactory::getDocument();
 			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
@@ -101,7 +103,8 @@ class plgContentredshop_product extends JPlugin
 			{
 				$prtemplate_default = '<div class="mod_redshop_products"><table border="0"><tbody><tr><td><div class="mod_redshop_products_image">{product_thumb_image}</div></td></tr><tr><td><div class="mod_redshop_products_title">{product_name}</div></td></tr><tr><td><div class="mod_redshop_products_price">{product_price}</div></td></tr><tr><td><div class="mod_redshop_products_readmore">{read_more}</div></td></tr><tr><td><div>{attribute_template:attributes}</div></td></tr><tr><td><div class="mod_redshop_product_addtocart">{form_addtocart:add_to_cart1}</div></td></tr></tbody></table></div>';
 			}
-			$matches = $matches[0];
+
+					$matches = $matches[0];
 
 			for ($i = 0; $i < count($matches); $i++)
 			{
@@ -133,7 +136,8 @@ class plgContentredshop_product extends JPlugin
 				{
 					$pItemid = $objhelper->getItemid($product->product_id, $catid);
 				}
-				$defaultLink = 'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid;
+
+					$defaultLink = 'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid;
 				$link = ($page == 1) ? $url . $defaultLink : JRoute::_($defaultLink);
 
 				# End changes for sh404sef duplicating url
@@ -163,7 +167,8 @@ class plgContentredshop_product extends JPlugin
 					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
 					$pw_thumb = PRODUCT_MAIN_IMAGE;
 				}
-				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
+
+					$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 				$thum_image = $producthelper->getProductImage($product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 				$prtemplate = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $prtemplate);
 				$product_name = "<a href='" . $link . "' title=''>" . $product->product_name . "</a>";
@@ -218,6 +223,7 @@ class plgContentredshop_product extends JPlugin
 							$pr_price = $producthelper->getProductFormattedPrice($product_price);
 						}
 					}
+
 					$prtemplate = str_replace("{product_price}", $pr_price, $prtemplate);
 				}
 
@@ -236,6 +242,7 @@ class plgContentredshop_product extends JPlugin
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 				}
+
 				$attributes = $producthelper->getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 				$totalatt = count($attributes);
@@ -261,6 +268,7 @@ class plgContentredshop_product extends JPlugin
 					{
 						$idx = (int) ($cart['idx']);
 					}
+
 					$idx = 0;
 					$cart_id = '';
 
@@ -278,6 +286,7 @@ class plgContentredshop_product extends JPlugin
 						{
 							$cart_id = "";
 						}
+
 						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $this->data->product_id);
 
 						$ufield .= $product_userfileds[1];
@@ -286,9 +295,11 @@ class plgContentredshop_product extends JPlugin
 						{
 							$count_no_user_field++;
 						}
+
 						$prtemplate = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $prtemplate);
 						$prtemplate = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $prtemplate);
 					}
+
 					$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 					if ($ufield != "")
@@ -321,6 +332,7 @@ class plgContentredshop_product extends JPlugin
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 					}
+
 					$attributes = $producthelper->getProductAttribute($product->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
@@ -336,6 +348,7 @@ class plgContentredshop_product extends JPlugin
 				$attribute_template = $producthelper->getAttributeTemplate($prtemplate);
 				$prtemplate = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prtemplate, $attribute_template, $isChilds);
 //				}
+
 				$row->text = str_replace($matches[$i], $prtemplate, $row->text);
 			}
 		}

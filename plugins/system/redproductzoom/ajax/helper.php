@@ -177,6 +177,7 @@ class zoomproducthelper extends producthelper
 				else
 					$img_path_org = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			}
+
 			$prodmainimg = "";
 			$prod_img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			$prod_img_path_link = $url . "components/com_redshop/assets/images/product/" . $thumb_original;
@@ -213,6 +214,7 @@ class zoomproducthelper extends producthelper
 			$accessory = $this->getProductAccessory($accessory_id);
 			$product_id = $accessory[0]->child_product_id;
 		}
+
 		$product = $this->getProductById($product_id);
 		$title = " title='" . $product->product_name . "' ";
 		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
@@ -317,6 +319,7 @@ class zoomproducthelper extends producthelper
 			$pw_thumb = $main_imgwidth;
 			$ph_thumb = $main_imgheight;
 		}
+
 		$ImageAttributes = $this->getdisplaymainImage($product_id, $property_id, $subproperty_id, $pw_thumb, $ph_thumb, $redview);
 		$aHrefImageResponse = $ImageAttributes['aHrefImageResponse'];
 		$mainImageResponse = $ImageAttributes['mainImageResponse'];
@@ -417,6 +420,7 @@ class zoomproducthelper extends producthelper
 				else
 					$img_path_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			}
+
 			$prodmainimg = "";
 			$prod_img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			$prod_img_path_link = $url . "components/com_redshop/assets/images/product/" . $thumb_original;
@@ -712,6 +716,7 @@ class zoomproducthelper extends producthelper
 				{
 					$attributes_set = $this->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 				}
+
 				$attributes = $this->getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 				$totalatt = count($attributes);
@@ -800,6 +805,7 @@ class zoomproducthelper extends producthelper
 					}
 				}
 			}
+
 			$product_preorder = $product->preorder;
 			$stocktag = strstr($template_desc, "{stock_status");
 			$newstocktag = explode("}", $stocktag);
@@ -815,12 +821,14 @@ class zoomproducthelper extends producthelper
 			{
 				$avail_class = "available_stock_cls";
 			}
+
 			$out_stock_class = $sts_array[2];
 
 			if ($out_stock_class == "")
 			{
 				$out_stock_class = "out_stock_cls";
 			}
+
 			$pre_order_class = $sts_array[3];
 
 			if ($pre_order_class == "")

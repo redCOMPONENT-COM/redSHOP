@@ -119,6 +119,7 @@ class MifMessage
 			{
 				return 0; # no children
 			}
+
 			$index = $rootindex + 1;
 			while ($index < count($this->xml_value_) &&
 				!($this->xml_value_[$index]["level"] == $level &&
@@ -131,6 +132,7 @@ class MifMessage
 				{
 					return $index;
 				}
+
 				$index++;
 			}
 

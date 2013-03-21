@@ -40,6 +40,7 @@ class plghighrisehighrise extends JPlugin
 		{
 			$request['sLastName'] = $data['lastname'];
 		}
+
 		$request['sFirstName'] = $data['firstname'];
 		$request['sCompany'] = $data['company_name'];
 		$request['sEmail'] = $data['email'];

@@ -248,6 +248,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			{
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
 			}
+
 			$result = curl_exec($curl);
 			curl_close($curl);
 		}

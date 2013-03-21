@@ -152,6 +152,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$amount = $currencyClass->convert($tot_amount, '', 'USD');
 
 		}
+
 		$avs_street_number = substr($data['billinginfo']->address, 0, 60);
 		;
 		$avs_zipcode = substr($data['billinginfo']->zipcode, 0, 20);
@@ -247,6 +248,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$values->responsestatus = 'Fail';
 			$values->transaction_id = $mpgTxnNumber;
 		}
+
 		$values->message = $message;
 
 		return $values;

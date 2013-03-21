@@ -280,6 +280,7 @@ class AuthorizeNetAIM extends AuthorizeNetRequest
 			$line_item .= $delimiter . $value;
 			$delimiter = "<|>";
 		}
+
 		$this->_additional_line_items[] = $line_item;
 	}
 
@@ -392,6 +393,7 @@ class AuthorizeNetAIM extends AuthorizeNetRequest
 		{
 			$this->_post_string .= "$key=" . urlencode($value) . "&";
 		}
+
 		$this->_post_string = rtrim($this->_post_string, "& ");
 	}
 }

@@ -387,6 +387,7 @@ class plgredshop_shippingups extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
@@ -429,6 +430,7 @@ class plgredshop_shippingups extends JPlugin
 		{
 			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
+
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
 
 		if (count($shippinginfo) < 1)
@@ -482,6 +484,7 @@ class plgredshop_shippingups extends JPlugin
 		{
 			$shippinginfo->country_2_code = $redconfig->getCountryCode2($shippinginfo->country_code);
 		}
+
 		$dest_zip = substr($shippinginfo->zipcode, 0, 5); // Make sure the ZIP is 5 chars long
 
 		//LBS  = Pounds
@@ -525,6 +528,7 @@ class plgredshop_shippingups extends JPlugin
 		{
 			$xmlPost .= "    <ResidentialAddressIndicator/>";
 		}
+
 		$xmlPost .= "   </Address>";
 		$xmlPost .= "  </ShipTo>";
 		$xmlPost .= "  <ShipFrom>";
@@ -630,6 +634,7 @@ class plgredshop_shippingups extends JPlugin
 				$myservicecodes[] = constant($servicecode);
 			}
 		}
+
 		$count = 0;
 
 		for ($t = 0; $t < count($matchedchild); $t++)
@@ -709,6 +714,7 @@ class plgredshop_shippingups extends JPlugin
 							$ship_postage[$count]["ServiceName"] = "UPS Saver";
 							break;
 					}
+
 					$count++;
 				}
 			}
@@ -758,6 +764,7 @@ class plgredshop_shippingups extends JPlugin
 					{
 						$charge_fee = ($charge * $fsc) / 100;
 					}
+
 					$charge += (UPS_HANDLING_FEE + $charge_fee);
 					$ratevalue = $producthelper->getProductFormattedPrice($charge, false);
 				}
@@ -774,6 +781,7 @@ class plgredshop_shippingups extends JPlugin
 					{
 						$charge_fee = ($charge * $fsc) / 100;
 					}
+
 					$charge += (UPS_HANDLING_FEE + $charge_fee);
 					$ratevalue = $ratevalue . " USD";
 				}
@@ -790,9 +798,11 @@ class plgredshop_shippingups extends JPlugin
 				{
 					$charge_fee = ($charge * $fsc) / 100;
 				}
+
 				$charge += (UPS_HANDLING_FEE + $charge_fee);
 				$ratevalue = $producthelper->getProductFormattedPrice($charge, false);
 			}
+
 			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ServiceName . "|" . number_format($charge, 2, '.', '') . "|" . $ServiceName . "|single|0");
 			$shippingrate[$rate]->text = $ServiceName . ' (' . $ratevalue . ') '; //." ".JText::_('COM_REDSHOP_DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
 			$shippingrate[$rate]->value = $shipping_rate_id;

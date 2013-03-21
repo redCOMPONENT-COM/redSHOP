@@ -158,6 +158,7 @@ function onPrePayment($element, $data)
 	{
 		$strPost = $strPost . "&Apply3DSecure=0";
 	}
+
 	$strPost = $strPost . "&AccountType=E";
 
 	if ($payment_method == "SIMULATOR")
@@ -307,6 +308,7 @@ else
 			$values->order_payment_status_code = 'Unpaid';
 
 		}
+
 		$values->order_id = $order_id;
 		$values->transaction_id = $request['transaction_id'];
 		$values->msg = $message;

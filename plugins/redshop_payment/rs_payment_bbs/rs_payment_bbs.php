@@ -69,6 +69,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		{
 			return;
 		}
+
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];
@@ -93,6 +94,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		{
 			$bbsurl = "https://epayment.bbs.no/Netaxept/Process.aspx?";
 		}
+
 		$bbsurl .= "merchantId=" . urlencode($access_id) . "&token=" . urlencode($token_id) . "&transactionId=" . $request["transactionId"] . "&operation=" . $auth_type;
 		$data = $bbsurl;
 		$ch = curl_init($data);
@@ -171,6 +173,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		{
 			return;
 		}
+
 		$order_id = $data['order_id'];
 		require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
 		$objOrder = new order_functions();
@@ -222,6 +225,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 			$values->responsestatus = 'Fail';
 			$message = $BBS_msg ? $BBS_msg : JText::_('COM_REDSHOP_TRANSACTION_DECLINE');
 		}
+
 		$values->message = $message;
 
 		return $values;

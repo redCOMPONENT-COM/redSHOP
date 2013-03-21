@@ -69,6 +69,7 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		{
 			return;
 		}
+
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$Itemid = $request["Itemid"];

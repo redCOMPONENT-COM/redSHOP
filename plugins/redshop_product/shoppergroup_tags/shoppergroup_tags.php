@@ -74,6 +74,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 					}
 				}
 			}
+
 			$template = str_replace("{shoppergroup end if}", "", $template);
 		}
 

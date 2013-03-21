@@ -162,6 +162,7 @@ class xmap_com_redshop
 				xmap_com_redshop::getCategoryTree($xmap, $parent, $params, $row->category_id);
 			}
 		}
+
 		$xmap->changeLevel(-1);
 
 		if ($params['include_products'])
@@ -198,6 +199,7 @@ class xmap_com_redshop
 					xmap_com_redshop::getProductTree($xmap, $parent, $params, $row->product_id, $row->category_id);
 				}
 			}
+
 			$xmap->changeLevel(-1);
 		}
 	}
@@ -240,6 +242,7 @@ class xmap_com_redshop
 				xmap_com_redshop::getProductTree($xmap, $parent, $params, $row->product_id, $category);
 			}
 		}
+
 		$xmap->changeLevel(-1);
 	}
 

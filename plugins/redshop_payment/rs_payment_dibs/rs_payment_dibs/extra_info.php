@@ -89,6 +89,7 @@ if (defined('PRICE_DECIMAL'))
 {
 	$cal_no = PRICE_DECIMAL;
 }
+
 $formdata['amount'] = round($formdata['amount'], $cal_no);
 $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 

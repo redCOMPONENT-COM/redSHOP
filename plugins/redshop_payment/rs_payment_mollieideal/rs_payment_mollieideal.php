@@ -59,6 +59,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		{
 			$plugin = $element;
 		}
+
 		$mainframe =& JFactory::getApplication();
 		echo $this->show_mollie_ideal($data['order_id']);
 		/* 		$paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
@@ -127,6 +128,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			//$values->msg=$response->message;
 
 		}
+
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 

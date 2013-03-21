@@ -138,6 +138,7 @@ $poststring = '';
 		foreach( $formdata as $name => $value ) {
 		$query_string .= $name ."=" . urlencode($value) ."&";
 		  }
+
 $mainframe->redirect( $dibsurl . $query_string );*/
 
 ?>

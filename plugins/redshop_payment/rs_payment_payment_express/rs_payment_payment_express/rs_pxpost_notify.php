@@ -132,6 +132,7 @@ if ($rsp->getSuccess() == "1")
 		$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 		$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 	}
+
 	$values->order_id = $order_id;
 	$values->transaction_id = $DpsTxnRef;
 
@@ -152,6 +153,7 @@ else
 		$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 	}
+
 	$values->order_id = $order_id;
 	$values->transaction_id = $DpsTxnRef;
 }

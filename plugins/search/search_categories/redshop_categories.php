@@ -42,6 +42,7 @@ class plgSearchredshop_categories extends JPlugin
 		{
 			return array();
 		}
+
 		$section = JText::_('COM_REDSHOP_Categories');
 
 		$wheres = array();
@@ -72,6 +73,7 @@ class plgSearchredshop_categories extends JPlugin
 
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}

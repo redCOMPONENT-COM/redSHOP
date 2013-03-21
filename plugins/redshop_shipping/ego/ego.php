@@ -64,6 +64,7 @@ class plgredshop_shippingego extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))

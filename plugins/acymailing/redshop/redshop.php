@@ -57,6 +57,7 @@ class plgAcymailingRedshop extends JPlugin
 			$text .= '<tr style="cursor:pointer" class="row' . $k . '" onclick="setTag(\'{product:' . $row->product_id . '}\');insertTag();" ><td>' . $row->product_name . '</td><td>' . $row->category_name . '</td></tr>';
 			$k = 1 - $k;
 		}
+
 		$text .= '</table>';
 		echo $text;
 	}

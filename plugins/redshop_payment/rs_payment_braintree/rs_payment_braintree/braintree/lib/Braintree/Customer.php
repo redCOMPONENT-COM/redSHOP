@@ -53,6 +53,7 @@ class Braintree_Customer extends Braintree
 		{
 			$criteria[$term->name] = $term->toparam();
 		}
+
 		$criteria["ids"] = Braintree_CustomerSearch::ids()->in($ids)->toparam();
 		$response = braintree_http::post('/customers/advanced_search', array('search' => array('ids' => $ids)));
 
@@ -464,6 +465,7 @@ class Braintree_Customer extends Braintree
 				$addressArray[] = Braintree_Address::factory($address);
 			}
 		}
+
 		$this->_set('addresses', $addressArray);
 
 		// map each creditcard into its own object
@@ -476,6 +478,7 @@ class Braintree_Customer extends Braintree
 				$ccArray[] = Braintree_CreditCard::factory($creditCard);
 			}
 		}
+
 		$this->_set('creditCards', $ccArray);
 
 	}

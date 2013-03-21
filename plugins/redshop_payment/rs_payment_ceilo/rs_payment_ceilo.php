@@ -162,6 +162,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		{
 			$Pedido->dadosPortadorInd = "1";
 		}
+
 		$Pedido->dadosPortadorCodSeg = $credit_card_code;
 		$Pedido->dadosPedidoNumero = $data['order_number'];
 
@@ -237,6 +238,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 			{
 				$message = 'Success';
 			}
+
 			$values['responsestatus'] = 'Success';
 
 		}

@@ -600,6 +600,7 @@ else
 {
 	$params['vads_ctx_mode'] = "PRODUCTION";
 }
+
 $params['vads_page_action'] = "PAYMENT";
 $params['vads_action_mode'] = "INTERACTIVE";
 // card entry performed by the platform
@@ -631,6 +632,7 @@ foreach ($params as $nom => $valeur)
 {
 	$contenu_signature .= $valeur . "+";
 }
+
 $contenu_signature .= $key;
 // Certificate is added at the end
 $params['signature'] = sha1($contenu_signature);

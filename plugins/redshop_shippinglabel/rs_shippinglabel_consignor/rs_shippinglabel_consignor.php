@@ -176,6 +176,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		{
 			$cal_no = PRICE_DECIMAL;
 		}
+
 		$order_total_label = round($order_total, $cal_no);
 		$fh = fopen(REDSHOP_FRONT_DOCUMENT_RELPATH . "consignor_label/" . $myFile, 'w') or die("can't open file");
 		$label_file = REDSHOP_FRONT_DOCUMENT_RELPATH . "consignor_label/" . $myFile;

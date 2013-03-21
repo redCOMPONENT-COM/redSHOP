@@ -124,6 +124,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			{
 				$credict_card = $accepted_credict_card;
 			}
+
 			$cardinfo .= '<fieldset class="adminform"><legend>' . JText::_('COM_REDSHOP_CARD_INFORMATION') . '</legend>';
 			$cardinfo .= '<table class="admintable">';
 			$cardinfo .= '<tr><td colspan="2" align="right" nowrap="nowrap">';
@@ -134,6 +135,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			{
 				$cardinfo .= '<td align="center"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $cc_list[$credict_card[$ic]]->img . '" alt="" border="0" /></td>';
 			}
+
 			$cardinfo .= '</tr>';
 			$cardinfo .= '<tr>';
 
@@ -150,8 +152,10 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 				{
 					$checked = ($ccdata['creditcard_code'] == $value) ? "checked" : "";
 				}
+
 				$cardinfo .= '<td align="center"><input type="radio" name="creditcard_code" value="' . $value . '" ' . $checked . ' /></td>';
 			}
+
 			$cardinfo .= '</tr></table></td></tr>';
 			$cardinfo .= '<tr valign="top">';
 			$cardinfo .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_name">' . JText::_('COM_REDSHOP_NAME_ON_CARD') . '</label></td>';
@@ -177,6 +181,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 				$selected = (!empty($ccdata['order_payment_expire_year']) && $ccdata['order_payment_expire_year'] == $y) ? "selected" : "";
 				$cardinfo .= '<option value="' . $y . '" ' . $selected . '>' . $y . '</option>';
 			}
+
 			$cardinfo .= '</select></td></tr>';
 			$cardinfo .= '<tr valign="top"><td align="right" nowrap="nowrap" width="10%"><label for="credit_card_code">' . JText::_('COM_REDSHOP_CARD_SECURITY_CODE') . '</label></td>';
 
@@ -271,6 +276,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 				$billingaddresses->state_2_code = $billingaddresses->state_code; //$configobj->getStateCode2($billingaddresses->state_code);
 			}
 		}
+
 		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order_id);
 
 
@@ -286,12 +292,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 				$shippingaddresses->state_2_code = $shippingaddresses->state_code; //$configobj->getStateCode2($shippingaddresses->state_code);
 			}
 		}
+
 		$cart_quantity = 0;
 
 		for ($i = 0; $i < count($orderitem); $i++)
 		{
 			$cart_quantity += $orderitem[$i]->product_quantity;
 		}
+
 		$values['shippinginfo'] = $shippingaddresses;
 		$values['billinginfo'] = $billingaddresses;
 		$values['carttotal'] = $order->order_total;
@@ -323,6 +331,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		{
 			$plugin = $element;
 		}
+
 		$transaction_type = $this->_params->get("transaction_type");
 
 		// BIlling details
@@ -373,6 +382,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		{
 			$cal_no = PRICE_DECIMAL;
 		}
+
 		$order_total = number_format($data['order']->order_total, $cal_no);
 
 
@@ -432,6 +442,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		{
 			$plugin = $element;
 		}
+
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$Itemid = $request["Itemid"];
@@ -542,6 +553,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$message = JText::_('COM_REDSHOP_ORDER_NOT_CAPTURED');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;

@@ -412,6 +412,7 @@ class payread_post_api
 		{
 			$theArray["ItemNumber"] = $theItemNumber;
 		}
+
 		$theArray["Price"] = $thePrice;
 		$theArray["Vat"] = $theVat;
 		$theArray["Quantity"] = $theQuantity;
@@ -444,6 +445,7 @@ class payread_post_api
 		{
 			$theArray["ItemNumber"] = $theItemNumber;
 		}
+
 		$theArray["Price"] = $theInitialPrice;
 		$theArray["Vat"] = $theVat;
 		$theArray["Quantity"] = $theQuantity;
@@ -452,6 +454,7 @@ class payread_post_api
 		{
 			$theArray["Unit"] = $theUnit;
 		}
+
 		$theArray["Account"] = $theAccount;
 
 		$theArray["RecurringPrice"] = $theRecurringPrice;
@@ -936,6 +939,7 @@ class payread_post_api
 		{
 			$this->myXmlData .= "<payment_method>" . $thePaymentMethod . "</payment_method>\n";
 		}
+
 		$this->myXmlData .= "</accepted_payment_methods>\n";
 
 		// Debug mode

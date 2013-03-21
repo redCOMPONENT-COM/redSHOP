@@ -52,6 +52,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 		{
 			$plugin = $element;
 		}
+
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include($paymentpath);
@@ -63,6 +64,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 		{
 			return;
 		}
+
 		$user = JFActory::getUser();
 		$user_id = $user->id;
 		// get Plugin params
@@ -95,6 +97,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 				$lblError .= $service->APIConfig[$error] . "<br>";
 			}
 		}
+
 		$values = new stdClass();
 
 		if (isset($lblError) && $response->ResponseCode != 00)
@@ -122,6 +125,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 		}
+
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 

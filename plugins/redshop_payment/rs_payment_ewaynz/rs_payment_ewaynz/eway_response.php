@@ -131,6 +131,7 @@ if ($responsecode == "00" || $responsecode == "08" || $responsecode == "10" || $
 		$values->log = JText::_('COM_REDSHOP_ORDER_PLACED') . " , " . $trxnresponsemessage;
 		$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED') . " , " . $trxnresponsemessage;
 	}
+
 	$values->order_id = $order_id;
 	$values->transaction_id = $auth_code;
 
@@ -151,6 +152,7 @@ else
 		$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 	}
+
 	$values->order_id = $order_id;
 	$values->transaction_id = '';
 }

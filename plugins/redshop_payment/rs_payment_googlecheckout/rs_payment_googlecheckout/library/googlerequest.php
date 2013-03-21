@@ -111,6 +111,7 @@ class GoogleRequest
 			$postargs .= "<amount currency=\"" . $this->currency . "\">" .
 				$amount . "</amount>";
 		}
+
 		$postargs .= "</charge-order>";
 
 		return $this->SendReq($this->request_url,
@@ -216,6 +217,7 @@ class GoogleRequest
             <tracking-number>" . htmlentities($tracking_no) . "</tracking-number>
                   </tracking-data>";
 		}
+
 		$postargs .= "<send-email>" . $send_mail . "</send-email>
                   </deliver-order>";
 
@@ -301,6 +303,7 @@ class GoogleRequest
 		{
 			curl_close($session);
 		}
+
 		$heads = $this->parse_headers($response);
 		$body = $this->get_body_x($response);
 

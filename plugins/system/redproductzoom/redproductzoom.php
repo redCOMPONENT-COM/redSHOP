@@ -260,6 +260,7 @@ function onBeforeRender()
 				{
 					$attributes_set = $zoomproducthelper->getProductAttribute(0, $product_data->attribute_set_id, 0, 1);
 				}
+
 				$attributes = $zoomproducthelper->getProductAttribute($pid);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
@@ -279,6 +280,7 @@ function onBeforeRender()
 			{
 				$attributes_set = $zoomproducthelper->getProductAttribute(0, $product_data->attribute_set_id, 0, 1);
 			}
+
 			$attributes = $zoomproducthelper->getProductAttribute($pid);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
@@ -324,6 +326,7 @@ function onBeforeRender()
 					}
 				}
 			}
+
 			$preselectedresult = $zoomproducthelper->displayAdditionalImage($pid, 0, 0, $selectedpropertyId, $selectedsubpropertyId, $pw_thumb, $ph_thumb, $redview = 'product');
 
 			return $preselectedresult;

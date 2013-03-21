@@ -200,6 +200,7 @@ class Braintree_Util
 			{
 				$pAttrib = $value;
 			}
+
 			$printableAttribs[$key] = sprintf('%s', $pAttrib);
 		}
 

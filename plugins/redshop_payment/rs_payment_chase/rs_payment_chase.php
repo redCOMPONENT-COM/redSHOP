@@ -178,6 +178,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 			{
 				$message = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
+
 			$values->responsestatus = 'Success';
 			$values->transaction_id = $response['TxRefNum'];
 

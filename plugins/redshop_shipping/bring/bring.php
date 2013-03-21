@@ -212,6 +212,7 @@ class plgredshop_shippingbring extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
@@ -254,6 +255,7 @@ class plgredshop_shippingbring extends JPlugin
 		{
 			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
+
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
 
 		if (count($shippinginfo) < 1)
@@ -273,6 +275,7 @@ class plgredshop_shippingbring extends JPlugin
 			$whereShippingBoxes['box_width'] = $productData[1]['width'];
 			$whereShippingBoxes['box_height'] = $productData[0]['height'];
 		}
+
 		$shipping_length = $totaldimention['totallength'];
 		$shipping_height = $totaldimention['totalheight'];
 		$shipping_width = $totaldimention['totalwidth'];
@@ -289,6 +292,7 @@ class plgredshop_shippingbring extends JPlugin
 		{
 			$shippinginfo->country_2_code = $redconfig->getCountryCode2($shippinginfo->country_code);
 		}
+
 		$dest_zip = substr($shippinginfo->zipcode, 0, 5);
 
 		//Determine weight in pounds and ounces
@@ -324,6 +328,7 @@ class plgredshop_shippingbring extends JPlugin
 		{
 			$query .= '&weightInGrams=' . $shipping_gram;
 		}
+
 		$query .= '&length=' . $shipping_length;
 		$query .= '&width=' . $shipping_width;
 		$query .= '&height=' . $shipping_height;
@@ -393,6 +398,7 @@ class plgredshop_shippingbring extends JPlugin
 							$product_name = $productchilds[$j]->data();
 							$bring_products[$i]->product->product_id = $product_name;
 						}
+
 						$productDisplayName = "";
 
 						if (isset($productchilds[$j]->ProductName[0]))
@@ -490,6 +496,7 @@ class plgredshop_shippingbring extends JPlugin
 					{
 						$Displaycost = $currency->convert($Amountwithvat, '', $currencyidentificationcode);
 					}
+
 					$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $product_name . "|" . number_format($cost + $vat, 2, '.', '') . "|" . $product_name . "|single|0");
 
 					$shippingrate[$rate]->text = $product_name; //." ".JText::_('COM_REDSHOP_DELIVERY')." ".$delivery;

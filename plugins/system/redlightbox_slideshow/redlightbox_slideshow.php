@@ -20,6 +20,7 @@ class plgSystemRedlightbox_slideshow extends JPlugin
 		{
 			return;
 		}
+
 		$view = JRequest::getCmd('view');
 
 		if ($view != 'product')

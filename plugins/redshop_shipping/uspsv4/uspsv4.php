@@ -421,6 +421,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
@@ -465,6 +466,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		{
 			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
+
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
 
 		if (count($shippinginfo) < 1)
@@ -495,6 +497,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		{
 			return $shippingrate;
 		}
+
 		$girth = 2 * ceil($shipping_width) + 2 * ceil($shipping_height);
 		$size = (ceil($shipping_length) + $girth) / $unitRatioVolume;
 
@@ -549,6 +552,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 			{
 				$shippinginfo->country_2_code = $redconfig->getCountryCode2($shippinginfo->country_code);
 			}
+
 			$sql = "SELECT * FROM #__redshop_country WHERE country_3_code = '$shippinginfo->country_code'";
 			$db->setQuery($sql);
 			$country = $db->loadObject();
@@ -768,6 +772,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 											{
 												$ship_postage[$count] = $ship_postage[$count] + USPS_HANDLINGFEE;
 											}
+
 											$count++;
 										}
 									}
@@ -820,6 +825,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 											{
 												$ship_postage[$count] = $ship_postage[$count] + USPS_INTLHANDLINGFEE;
 											}
+
 											$count++;
 										}
 									}
@@ -847,12 +853,14 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					{
 						$ship_service[$i] = $usps_prefix . " " . $ship_service[$i];
 					}
+
 					$delivary = "";
 
 					if (USPS_SHOW_DELIVERY_QUOTE == 1 && !empty($ship_commit[$i]))
 					{
 						$delivary = $ship_commit[$i];
 					}
+
 					$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ship_service[$i] . "|" . number_format($charge[$i], 2, '.', '') . "|" . $ship_service[$i] . "|single|0");
 
 					$shippingrate[$rate]->text = $ship_service[$i]; //$delivary
