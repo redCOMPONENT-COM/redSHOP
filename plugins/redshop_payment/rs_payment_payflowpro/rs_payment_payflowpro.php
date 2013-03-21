@@ -207,7 +207,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 	function sendTransactionToGateway($url, $parameters, $headers = null)
 	{
-
 		$header = array();
 		$server = parse_url($url);
 
@@ -260,7 +259,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 	 */
 	function onNotifyPaymentrs_payment_payflowpro($element, $request)
 	{
-
 		if ($element != 'rs_payment_payflowpro')
 		{
 			break;
@@ -271,7 +269,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 	function onCapture_Paymentrs_payment_payflowpro($element, $data)
 	{
-
 		// Get Payment Params
 		$partner = $this->_params->get("partner");
 		$merchant_id = $this->_params->get("merchant_id");
@@ -350,7 +347,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 	function onStatus_Paymentrs_payment_payflowpro($element, $data)
 	{
-
 		// Get Payment Params
 		$partner = $this->_params->get("partner");
 		$merchant_id = $this->_params->get("merchant_id");

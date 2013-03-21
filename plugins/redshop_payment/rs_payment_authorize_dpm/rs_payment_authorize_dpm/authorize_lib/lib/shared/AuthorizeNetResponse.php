@@ -14,7 +14,6 @@
  */
 class AuthorizeNetResponse
 {
-
 	const APPROVED = 1;
 	const DECLINED = 2;
 	const ERROR = 3;

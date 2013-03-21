@@ -1347,7 +1347,6 @@ class soap_fault extends nusoap_fault
  */
 class nusoap_xmlschema extends nusoap_base
 {
-
 	// files
 	var $schema = '';
 	var $xml = '';
@@ -1464,7 +1463,6 @@ class nusoap_xmlschema extends nusoap_base
 		// parse xml string
 		if ($xml != "")
 		{
-
 			// Create an XML parser.
 			$this->parser = xml_parser_create();
 			// Set the options for parsing the XML data.
@@ -1538,7 +1536,6 @@ class nusoap_xmlschema extends nusoap_base
 	 */
 	function schemaStartElement($parser, $name, $attrs)
 	{
-
 		// position in the total number of elements, starting from 0
 		$pos = $this->position++;
 		$depth = $this->depth++;
@@ -2001,7 +1998,6 @@ class nusoap_xmlschema extends nusoap_base
 	 */
 	function serializeSchema()
 	{
-
 		$schemaPrefix = $this->getPrefixFromNamespace($this->XMLSchemaVersion);
 		$xml = '';
 		// imports
@@ -2683,7 +2679,6 @@ class soapval extends nusoap_base
  */
 class soap_transport_http extends nusoap_base
 {
-
 	var $url = '';
 	var $uri = '';
 	var $digest_uri = '';
@@ -3197,7 +3192,6 @@ class soap_transport_http extends nusoap_base
 	 */
 	function send($data, $timeout = 0, $response_timeout = 30, $cookies = null)
 	{
-
 		$this->debug('entered send() with data of length: ' . strlen($data));
 
 		$this->tryagain = true;
@@ -3673,7 +3667,6 @@ class soap_transport_http extends nusoap_base
 			$data = '';
 			while (!isset($lb))
 			{
-
 				// We might EOF during header read.
 				if (feof($this->fp))
 				{
@@ -7362,7 +7355,6 @@ class wsdl extends nusoap_base
 
 		if (isset($opData[$direction]['parts']) && sizeof($opData[$direction]['parts']) > 0)
 		{
-
 			$use = $opData[$direction]['use'];
 			$this->debug("use=$use");
 			$this->debug('got ' . count($opData[$direction]['parts']) . ' part(s)');
@@ -8352,7 +8344,6 @@ class wsdl extends nusoap_base
  */
 class nusoap_parser extends nusoap_base
 {
-
 	var $xml = '';
 	var $xml_encoding = '';
 	var $method = '';
@@ -9215,7 +9206,6 @@ class soap_parser extends nusoap_parser
  */
 class nusoap_client extends nusoap_base
 {
-
 	var $username = ''; // Username for HTTP authentication
 	var $password = ''; // Password for HTTP authentication
 	var $authtype = ''; // Type of HTTP authentication

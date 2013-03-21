@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_rapid_ewayuk')
 		{
 			return;
@@ -65,7 +64,6 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 
 	function onNotifyPaymentrs_payment_rapid_ewayuk($element, $request)
 	{
-
 		if ($element != 'rs_payment_rapid_ewayuk')
 		{
 			return;
@@ -119,7 +117,6 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 
 		if ($response->ResponseCode == 00)
 		{
-
 			$tid = $response->TransactionID;
 
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
@@ -166,7 +163,6 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

@@ -36,7 +36,6 @@ class plgredshop_productattribute extends JPlugin
 	 */
 function onPrepareProduct(&$template, &$params, $product)
 {
-
 	$document =& JFactory::getDocument();
 	$document->addScriptDeclaration("
 
@@ -82,7 +81,6 @@ function onPrepareProduct(&$template, &$params, $product)
 	}
 	else
 	{
-
 		$isChilds = false;
 		// get attributes
 		$attributes_set = array();

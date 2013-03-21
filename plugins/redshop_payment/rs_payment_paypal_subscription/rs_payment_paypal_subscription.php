@@ -63,7 +63,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 	function onNotifyPaymentrs_payment_paypal_subscription($element, $request)
 	{
-
 		if ($element != 'rs_payment_paypal_subscription')
 		{
 			return;
@@ -97,10 +96,8 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 			if ($this->checkFirstRecurringPayment($db, $order_id, $subscr_id))
 			{
-
 				if ($status == 'Completed')
 				{
-
 					$this->updateFirstRecurringPayment($db, $order_id, $subscr_id);
 					$values->order_status_code = $verify_status;
 					$values->order_payment_status_code = 'Paid';
@@ -162,14 +159,12 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 				if ($row->store())
 				{
-
 					$new_oid = $row->order_id;
 
 					$rowitem = JTable::getInstance('order_item_detail', 'Table');
 
 					for ($ri = 0; $ri < count($main_orderitemdetail); $ri++)
 					{
-
 						$rowitem->delivery_time = $main_orderitemdetail[$ri]->delivery_time;
 						$rowitem->attribute_image = $main_orderitemdetail[$ri]->attribute_image;
 						$rowitem->product_id = $main_orderitemdetail[$ri]->product_id;
@@ -220,7 +215,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 						if ($rowitem->store())
 						{
-
 							$OrderItemAccessoryDetail = $order_functions->getOrderItemAccessoryDetail($rowitem->order_item_id);
 
 							if (count($OrderItemAccessoryDetail) > 0)
@@ -354,7 +348,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 				if ($status == 'Completed')
 				{
-
 					$this->updateFirstRecurringPayment($db, $new_oid, $subscr_id);
 					$values->order_status_code = $verify_status;
 					$values->order_payment_status_code = 'Paid';
@@ -420,7 +413,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $order_id . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

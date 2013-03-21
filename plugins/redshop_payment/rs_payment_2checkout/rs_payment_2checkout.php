@@ -138,7 +138,6 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

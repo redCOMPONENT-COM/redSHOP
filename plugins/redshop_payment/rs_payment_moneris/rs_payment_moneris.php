@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 */
 	function onPrePayment_rs_payment_moneris($element, $data)
 	{
-
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
 

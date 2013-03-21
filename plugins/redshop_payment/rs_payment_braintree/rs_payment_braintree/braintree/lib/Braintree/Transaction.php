@@ -659,14 +659,12 @@ final class Braintree_Transaction extends Braintree
 	{
 		if (empty($id))
 		{
-
 			$message = 'expected transaction id to be set';
 
 		}
 
 		if (!preg_match('/^[0-9a-z]+$/', $id))
 		{
-
 			$message = $id . ' is an invalid transaction id.';
 
 		}

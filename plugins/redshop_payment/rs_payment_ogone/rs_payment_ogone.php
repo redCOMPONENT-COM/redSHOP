@@ -64,7 +64,6 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 	function onNotifyPaymentrs_payment_ogone($element, $request)
 	{
-
 		if ($element != 'rs_payment_ogone')
 		{
 			return;
@@ -103,10 +102,8 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		foreach ($request as $key => $value)
 		{
-
 			if ($key == "ACCEPTANCE" || $key == "AMOUNT" || $key == "CARDNO" || $key == "CN" || $key == "BRAND" || $key == "IP" || $key == "ED" || $key == "NCERROR" || $key == "PM" || $key == "PAYID" || $key == "STATUS" || $key == "TRXDATE" || $key == "CURRENCY" || $key == "ORDERID")
 			{
-
 				$secret_words .= $key . "=" . $value . $sha_out_pass_phrase;
 			}
 		}
@@ -117,7 +114,6 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 		{
 			if ($response_hash === $hash_to_check)
 			{
-
 				// UPDATE THE ORDER STATUS to 'VALID'
 
 				$values->order_status_code = $verify_status;

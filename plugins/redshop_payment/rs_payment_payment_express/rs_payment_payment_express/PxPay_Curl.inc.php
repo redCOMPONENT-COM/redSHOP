@@ -178,7 +178,6 @@ class PxPay_Curl
 	#******************************************************************************
 	function getResponse($result)
 	{
-
 		$inputXml = "<ProcessResponse><PxPayUserId>" . $this->PxPay_Userid . "</PxPayUserId><PxPayKey>" . $this->PxPay_Key .
 			"</PxPayKey><Response>" . $result . "</Response></ProcessResponse>";
 
@@ -194,7 +193,6 @@ class PxPay_Curl
 	#******************************************************************************
 	function submitXml($inputXml)
 	{
-
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->PxPay_Url);
 
@@ -339,7 +337,6 @@ class PxPayMessage
 
 	function PxPayMessage()
 	{
-
 	}
 
 	function setBillingId($BillingId)

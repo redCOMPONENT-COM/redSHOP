@@ -55,7 +55,6 @@ $buttonstyle = $this->_params->get("button_style", "white");
 
 if ($buttonsize == "medium")
 {
-
 	$width = "168";
 
 	$height = "44";
@@ -63,7 +62,6 @@ if ($buttonsize == "medium")
 
 elseif ($buttonsize == "small")
 {
-
 	$width = "160";
 
 	$height = "43";
@@ -71,7 +69,6 @@ elseif ($buttonsize == "small")
 
 elseif ($buttonsize == "large")
 {
-
 	$width = "180";
 
 	$height = "46";
@@ -106,7 +103,6 @@ $cart = new GoogleCart ($merchant_id, $merchant_key, $server_type, $currency);
 
 for ($p = 0; $p < count($rs); $p++)
 {
-
 	$item_price = $currencyClass->convert($rs [$p]->product_item_price, '', $currency_code);
 
 	$item = new GoogleItem ($rs [$p]->order_item_name, // Item name
@@ -144,7 +140,6 @@ $shipping_method_name = explode("|", $shippinghelper->decryptShipping($order->sh
 
 if (isset ($shipping_method_name [1]) && $shipping_method_name [1] != "")
 {
-
 	$shipping_price = $currencyClass->convert($order->order_shipping, '', $currency_code);
 
 	$ship_1 = new GoogleFlatRateShipping ($shipping_method_name [1], $shipping_price);

@@ -24,7 +24,6 @@ define("L_ALL", L_ERR | L_RQST | L_RESP);
 
 class GoogleLog
 {
-
 	var $errorLogFile;
 	var $messageLogFile;
 	// L_ALL (err+requests+responses), L_ERR, L_RQST, L_RESP, L_OFF

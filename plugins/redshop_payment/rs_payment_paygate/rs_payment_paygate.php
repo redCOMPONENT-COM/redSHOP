@@ -62,7 +62,6 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 
 	function onNotifyPaymentrs_payment_paygate($element, $request)
 	{
-
 		if ($element != 'rs_payment_paygate')
 		{
 			return;
@@ -127,7 +126,6 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

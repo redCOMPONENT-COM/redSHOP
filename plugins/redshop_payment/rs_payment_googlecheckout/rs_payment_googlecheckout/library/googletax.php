@@ -19,7 +19,6 @@
  */
 class GoogleTaxRule
 {
-
 	var $tax_rate;
 
 	var $world_area = false;
@@ -81,7 +80,6 @@ class GoogleTaxRule
  */
 class GoogleDefaultTaxRule extends GoogleTaxRule
 {
-
 	var $shipping_taxed = false;
 
 	function GoogleDefaultTaxRule($tax_rate, $shipping_taxed = "false")
@@ -101,7 +99,6 @@ class GoogleDefaultTaxRule extends GoogleTaxRule
  */
 class GoogleAlternateTaxRule extends GoogleTaxRule
 {
-
 	function GoogleAlternateTaxRule($tax_rate)
 	{
 		$this->tax_rate = $tax_rate;
@@ -119,7 +116,6 @@ class GoogleAlternateTaxRule extends GoogleTaxRule
  */
 class GoogleAlternateTaxTable
 {
-
 	var $name;
 	var $tax_rules_arr;
 	var $standalone;

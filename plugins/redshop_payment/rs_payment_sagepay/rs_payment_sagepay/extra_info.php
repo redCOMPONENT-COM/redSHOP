@@ -65,7 +65,6 @@ if ($country_code_st != "US")
 
 if ($data['shippinginfo']->address != "" && $data['shippinginfo']->address != "0")
 {
-
 	if ($country_code_st == "")
 	{
 		$country_code_st = $country_code;
@@ -113,7 +112,6 @@ if ($data['shippinginfo']->address != "" && $data['shippinginfo']->address != "0
 }
 else
 {
-
 	$crypt_variables = Array(
 		"VendorTxCode"       => $strVendorTxCode,
 		"VendorEMail"        => $VendorEMail,
@@ -156,7 +154,6 @@ $i = 0;
 
 foreach ($crypt_variables as $name => $value)
 {
-
 	$strPost .= $name . "=" . $value;
 
 	if ($i < count($crypt_variables) - 1)

@@ -16,7 +16,6 @@
  */
 class AuthorizeNetCP extends AuthorizeNetAIM
 {
-
 	const LIVE_URL = 'https://cardpresent.authorize.net/gateway/transact.dll';
 
 	public $verify_x_fields = false;
@@ -117,11 +116,9 @@ class AuthorizeNetCP_Response extends AuthorizeNetResponse
 	{
 		if ($response)
 		{
-
 			// If it's an XML response
 			if (substr($response, 0, 5) == "<?xml")
 			{
-
 				$this->xml = @simplexml_load_string($response);
 				// Set all fields
 				$this->version = array_pop(array_slice(explode('"', $response), 1, 1));

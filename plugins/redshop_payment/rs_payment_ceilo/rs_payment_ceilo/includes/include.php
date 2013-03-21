@@ -25,7 +25,6 @@ define("CIELO_CHAVE", "e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843d
 // Envia requisi��o
 function httprequest($paEndereco, $paPost)
 {
-
 	$sessao_curl = curl_init();
 	curl_setopt($sessao_curl, CURLOPT_URL, $paEndereco);
 

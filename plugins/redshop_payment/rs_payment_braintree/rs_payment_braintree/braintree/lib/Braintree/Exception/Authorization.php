@@ -18,5 +18,4 @@
  */
 class Braintree_Exception_Authorization extends Braintree_Exception
 {
-
 }

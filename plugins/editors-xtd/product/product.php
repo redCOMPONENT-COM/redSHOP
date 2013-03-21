@@ -54,7 +54,6 @@ class plgButtonproduct extends JPlugin
 
 		$js = "
 		function jSelectProduct(id, title, object) {
-
 			var tag = '{redshop:'+id+'}';
 			window.parent.jInsertEditorText(tag, object);
 			window.parent.SqueezeBox.close();

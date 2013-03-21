@@ -32,7 +32,6 @@ $add_submit_html = true;
 
 if ($this->_params->get("is_test") == 1)
 {
-
 	$merchant_id = "1111";
 	$md5key = $md5key_demo;
 	$gatewayurl = $url_demo;
@@ -40,7 +39,6 @@ if ($this->_params->get("is_test") == 1)
 }
 else
 {
-
 	$merchant_id = $this->_params->get("merchant_id");
 	$md5key = $md5key_drift;
 	$gatewayurl = $url_drift;
@@ -72,7 +70,6 @@ $company = $data['billinginfo']->company_name;
 
 if ($company != "")
 {
-
 	$cust_name .= " " . $company;
 }
 

@@ -2,7 +2,6 @@
 
 class Realex
 {
-
 	function createRequest($array)
 	{
 		global $xml;

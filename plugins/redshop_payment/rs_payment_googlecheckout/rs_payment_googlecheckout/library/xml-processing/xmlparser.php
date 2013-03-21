@@ -66,7 +66,6 @@
 // XML to Array
 class xmlParser
 {
-
 	var $params = array(); //Stores the object representation of XML data
 	var $root = null;
 	var $global_index = -1;
@@ -114,7 +113,6 @@ class xmlParser
 	 */
 	function xml2ary($vals)
 	{
-
 		$mnary = array();
 		$ary =& $mnary;
 
@@ -159,7 +157,7 @@ class xmlParser
 			else if ($r['type'] == 'complete')
 			{
 				if (isset($ary[$t]) && !empty($ary[$t]))
-				{ // Same as open
+				{ // same as open
 					if (isset($ary[$t][0]))
 					{
 						$ary[$t][] = array();

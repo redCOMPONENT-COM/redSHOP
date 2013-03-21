@@ -194,7 +194,6 @@ if ($popup)
 			{
 				for ($r = 0; $r < count($params); $r++)
 				{
-
 					$sel_shopper_group_name = "select shopper_group_name from #__redshop_shopper_group where shopper_group_id='" . $params[$r]->shopper_group_id . "'";
 					$db->setQuery($sel_shopper_group_name);
 					$params_shopper_group_name = $db->loadObjectList();

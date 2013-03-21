@@ -942,7 +942,6 @@ class plgredshop_shippingusps extends JPlugin
 
 							if ($matched_childname == "postage")
 							{
-
 								$postage_child = $currNode->_children;
 								$mailservice = $currNode->getElementByPath("mailservice");
 								$ship_service[$count] = $mailservice->data(); //html_entity_decode($mailservice->data());

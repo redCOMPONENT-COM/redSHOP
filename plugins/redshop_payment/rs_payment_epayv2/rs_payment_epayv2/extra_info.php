@@ -653,7 +653,6 @@ if ($cardtype_main == "")
 }
 
 /*if($this->_params->get("epay_window_state") != 2){
-
 	unset($formdata['ownreceipt']);
 }*/
 

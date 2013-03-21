@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_dotpay')
 		{
 			return;
@@ -65,7 +64,6 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 
 	function onNotifyPaymentrs_payment_dotpay($element, $request)
 	{
-
 		if ($element != 'rs_payment_dotpay')
 		{
 			return;
@@ -125,7 +123,6 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		}
 		else
 		{
-
 			if ($t_status == 1)
 			{
 				$values->order_status_code = $invalid_status;
@@ -168,7 +165,6 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

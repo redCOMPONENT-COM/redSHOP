@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_ewaynz')
 		{
 			return;
@@ -65,7 +64,6 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 
 	function onNotifyPaymentrs_payment_ewaynz($element, $request)
 	{
-
 		if ($element != 'rs_payment_ewaynz')
 		{
 			return;
@@ -85,7 +83,6 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
@@ -107,7 +104,6 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 
 	function fetch_data($string, $start_tag, $end_tag)
 	{
-
 		$position = stripos($string, $start_tag);
 
 		$str = substr($string, $position);

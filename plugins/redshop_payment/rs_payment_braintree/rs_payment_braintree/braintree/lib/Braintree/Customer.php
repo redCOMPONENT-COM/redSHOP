@@ -160,7 +160,6 @@ class Braintree_Customer extends Braintree
 	 */
 	public static function createSignature()
 	{
-
 		$creditCardSignature = Braintree_CreditCard::createSignature();
 		unset($creditCardSignature['customerId']);
 		$signature = array(
@@ -459,7 +458,6 @@ class Braintree_Customer extends Braintree
 
 		if (isset($customerAttribs['addresses']))
 		{
-
 			foreach ($customerAttribs['addresses'] AS $address)
 			{
 				$addressArray[] = Braintree_Address::factory($address);

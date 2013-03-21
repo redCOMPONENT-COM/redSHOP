@@ -170,7 +170,6 @@ class EwayPayment
 
 		switch ($method)
 		{
-
 			case 'REAL-TIME';
 
 				if ($liveGateway)
@@ -262,7 +261,6 @@ class EwayPayment
 		}
 		else
 		{
-
 			if ($debug_mode == 1)
 			{
 				$message = isset($xml->ewayTrxnError) ? $xml->ewayTrxnError : $xml->Result->ewayTrxnError;
@@ -287,7 +285,6 @@ class EwayPayment
 	//Send XML Transaction Data and receive XML response
 	function sendTransactionToEway($xmlRequest)
 	{
-
 		$ch = curl_init($this->myGatewayURL);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
@@ -305,7 +302,6 @@ class EwayPayment
 	//Parse XML response from eway and place them into an array
 	function parseResponse($xmlResponse)
 	{
-
 		$xml_parser = xml_parser_create();
 		xml_parse_into_struct($xml_parser, $xmlResponse, $xmlData, $index);
 		$responseFields = array();
@@ -348,7 +344,6 @@ class EwayPayment
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

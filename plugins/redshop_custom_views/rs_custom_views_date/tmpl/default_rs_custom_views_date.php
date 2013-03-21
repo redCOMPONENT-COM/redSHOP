@@ -83,7 +83,6 @@ if ($popup)
 				{
 					if ($params[$r]->data_txt == JRequest::getVar('maindate'))
 					{
-
 						?>
 						<tr>
 							<td valign="top" align='left' style="padding-left: 80px;">

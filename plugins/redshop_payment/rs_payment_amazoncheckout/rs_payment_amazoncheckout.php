@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_amazoncheckout')
 		{
 			return;
@@ -65,7 +64,6 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 
 	function onNotifyPaymentrs_payment_amazoncheckout($element, $request)
 	{
-
 		if ($element != 'rs_payment_amazoncheckout')
 		{
 			return;
@@ -90,7 +88,6 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 
 		if ($request['status'] == 'PS' && $request['operation'] == 'pay')
 		{
-
 			$tid = $request['transactionId'];
 
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
@@ -136,7 +133,6 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = true;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_sagepay')
 		{
 			return;
@@ -136,7 +135,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		// UPDATE THE ORDER STATUS to 'CONFIRMED'
 		if (($strStatus == "OK") || ($strStatus == "AUTHENTICATED") || ($strStatus == "REGISTERED"))
 		{
-
 			if ($debug_mode == 1)
 			{
 				$payment_message = $strStatusDetail;
@@ -154,7 +152,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		}
 		else
 		{
-
 			if ($debug_mode == 1)
 			{
 				$payment_message = $strStatusDetail;
@@ -182,7 +179,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 
 	function requestPost($url, $data)
 	{
-
 		ob_clean();
 		ob_get_clean();
 		// Set a one-minute timeout for this script
@@ -249,7 +245,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 
 	function getToken($thisString)
 	{
-
 		// List the possible tokens
 		$Tokens = array(
 			"Status",

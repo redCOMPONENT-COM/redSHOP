@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	 */
 	function onPrePayment_rs_payment_ceilo($element, $data)
 	{
-
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
 		$mainframe =& JFactory::getApplication();
@@ -165,13 +164,11 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 		if ($tentarAutenticar == "sim") // TRANSA��O
 		{
-
 			$objResposta = $Pedido->RequisicaoTransacao(true);
 
 		}
 		else // AUTORIZA��O DIRETA
 		{
-
 			$objResposta = $Pedido->RequisicaoTid();
 
 			$Pedido->tid = $objResposta->tid;
@@ -206,7 +203,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		}
 		else
 		{
-
 			$message = $objResposta->autorizacao->mensagem;
 		}
 
@@ -231,7 +227,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		{
 			if ($debug_mode == "0")
 			{
-
 				$message = 'Fail';
 
 			}
@@ -263,7 +258,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 	function onCapture_Paymentrs_payment_ceilo($element, $data)
 	{
-
 		$db = JFactory::getDBO();
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions;

@@ -19,7 +19,6 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmap_com_redshop
 {
-
 	function prepareMenuItem(&$node, &$params)
 	{
 		$link_query = parse_url($node->link);
@@ -206,13 +205,11 @@ class xmap_com_redshop
 
 	function getProductTree(&$xmap, &$parent, &$params, $prod = 0, $category = 0, $manid = 0)
 	{
-
 		$database = & JFactory::getDBO();
 		$mainframe = JFactory::getApplication();
 
 		if ($manid > 0)
 		{
-
 			$sql = "SELECT prod.* FROM #__redshop_product AS prod WHERE manufacturer_id = '" . $manid . "' AND published = 1";
 		}
 		else
@@ -249,7 +246,6 @@ class xmap_com_redshop
 
 	function &getManufacturerTree(&$xmap, &$parent, &$params, $manid = 0)
 	{
-
 		$db = & JFactory::getDBO();
 
 		$whereBy = ($manid > 0) ? " AND manufacturer_id = " . $manid : "";
@@ -263,12 +259,10 @@ class xmap_com_redshop
 
 		if (count($manufacturers) > 0)
 		{
-
 			$xmap->changeLevel(1);
 
 			foreach ($manufacturers as $manufacturer)
 			{
-
 				$manid = $manufacturer->manufacturer_id;
 				$manName = $manufacturer->manufacturer_name;
 

@@ -48,7 +48,6 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_googlecheckout')
 		{
 			return;

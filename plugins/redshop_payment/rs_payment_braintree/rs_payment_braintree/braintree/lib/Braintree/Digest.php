@@ -16,19 +16,16 @@ class Braintree_Digest
 	{
 		if (function_exists('hash_hmac'))
 		{
-
 			return self::_builtInHmacSha1($string, Braintree_Configuration::privateKey());
 		}
 		else
 		{
-
 			return self::_hmacSha1($string, Braintree_Configuration::privateKey());
 		}
 	}
 
 	public static function _builtInHmacSha1($message, $key)
 	{
-
 		return hash_hmac('sha1', $message, sha1(Braintree_Configuration::privateKey(), true));
 	}
 

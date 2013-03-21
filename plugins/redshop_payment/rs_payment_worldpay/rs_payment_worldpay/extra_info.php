@@ -96,7 +96,6 @@ if ($this->_params->get("is_test") == '1')
 
 foreach ($post_variables as $name => $value)
 {
-
 	echo "<input type='hidden' name='$name' value='$value' />";
 }
 

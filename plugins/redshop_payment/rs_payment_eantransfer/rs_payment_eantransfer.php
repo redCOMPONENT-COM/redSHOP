@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_eantransfer extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_eantransfer')
 		{
 			return;

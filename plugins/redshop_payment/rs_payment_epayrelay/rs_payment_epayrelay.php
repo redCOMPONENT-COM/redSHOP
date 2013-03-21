@@ -66,7 +66,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 	 */
 	function onNotifyPaymentrs_payment_epayrelay($element, $request)
 	{
-
 		if ($element != 'rs_payment_epayrelay')
 		{
 			break;
@@ -110,7 +109,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		//
 		if ((@$order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
 		{
-
 			$db = JFactory::getDBO();
 			$qv = "SELECT order_id, order_number FROM " . $this->_table_prefix . "orders WHERE order_id='" . $order_id . "'";
 			$db->SetQuery($qv);
@@ -126,10 +124,8 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 
 			if ($transaction['gettransactionResult'] == 'true')
 			{
-
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
-
 					if ($debug_mode == 1)
 					{
 						$payment_messsge = $transaction['transactionInformation']['history']['TransactionHistoryInfo']['eventMsg'];
@@ -150,7 +146,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 			}
 			else
 			{
-
 				if ($debug_mode == 1)
 				{
 					$payment_messsge = $epay->getEpayError($merchantnumber, $transaction['epayresponse']);
@@ -179,7 +174,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 
 	function onCapture_Paymentrs_payment_epayrelay($element, $data)
 	{
-
 		$amazon_parameters = $this->getparameters('rs_payment_epayrelay');
 		$paymentinfo = $amazon_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -229,7 +223,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

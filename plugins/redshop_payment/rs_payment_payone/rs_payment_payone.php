@@ -66,7 +66,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 	 */
 	function onNotifyPaymentrs_payment_epay($element, $request)
 	{
-
 		if ($element != 'rs_payment_epay')
 		{
 			break;
@@ -99,7 +98,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		//
 		if ((@$order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
 		{
-
 			//
 			// Find the corresponding order in the database
 			//
@@ -119,13 +117,11 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 			//
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
-
 				//
 				// Only update the order information once
 				//
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
-
 					// UPDATE THE ORDER STATUS to 'VALID'
 					$transaction_id = $tid;
 					$values->order_status_code = $verify_status;
@@ -288,7 +284,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

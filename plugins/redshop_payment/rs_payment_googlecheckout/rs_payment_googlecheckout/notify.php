@@ -83,7 +83,6 @@ $log = "";
 
 switch ($_REQUEST ['_type'])
 {
-
 	case 'new-order-notification' :
 
 		$orders_status_id = 'P';
@@ -160,7 +159,6 @@ $maildata .= "\n";
 
 foreach ($_REQUEST as $key => $val)
 {
-
 	$maildata .= $key . " => " . $val;
 	$maildata .= "\n";
 	$maildata .= "\n";
@@ -172,7 +170,6 @@ $maildata .= "\n";
 
 foreach ($values as $key => $val)
 {
-
 	$maildata .= $key . " => " . $val;
 	$maildata .= "\n";
 	$maildata .= "\n";

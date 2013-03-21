@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 /**
@@ -181,7 +181,6 @@ class plgredshop_shippingshipwire extends JPlugin
 
 		if ($status[0] == 'OK')
 		{
-
 			$service = $this->getElementValue($XMLvals, 'service');
 			$min = $this->getElementValue($XMLvals, 'MINIMUM');
 			$max = $this->getElementValue($XMLvals, 'MAXIMUM');

@@ -311,7 +311,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	function onAfterCreditcardInfo($element, $data)
 	{
-
 		$order_functions = new order_functions;
 
 		if ($element != 'rs_payment_braintree')
@@ -381,7 +380,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		if ($this->_params->get("store_in_vault"))
 		{
-
 			if ($new_user)
 			{
 				$braintree_data = Braintree_TransparentRedirect::transactionData(
@@ -400,7 +398,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		}
 		else
 		{
-
 			$braintree_data = Braintree_TransparentRedirect::transactionData(
 				array('redirectUrl' => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_braintree&orderid=" . $data['order_id'] . "&Itemid=" . $Itemid,
 				      'transaction' => array('amount' => $order_total, 'type' => $transaction_type, 'billing' => array('firstName' => $billing_fname, 'lastName' => $billing_lname, 'locality' => $billing_locality, 'region' => $billing_region, 'countryCodeAlpha2' => $billing_country_code_alpha2, 'postalCode' => $biling_postal_code), 'shipping' => array('firstName' => $shipping_fname, 'lastName' => $shipping_lname, 'locality' => $shipping_locality, 'region' => $shipping_region, 'countryCodeAlpha2' => $shipping_country_code_alpha2, 'postalCode' => $shipping_postal_code), 'creditCard' => array('token' => $user_order_ref))));
@@ -417,7 +414,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	function onNotifyPaymentrs_payment_braintree($element, $request)
 	{
-
 		if ($element != 'rs_payment_braintree')
 		{
 			return;

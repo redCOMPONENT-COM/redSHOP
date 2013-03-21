@@ -14,7 +14,6 @@
  */
 class Braintree_Xml_Parser
 {
-
 	private static $_xmlRoot;
 	private static $_responseType;
 
@@ -66,7 +65,6 @@ class Braintree_Xml_Parser
 
 		for ($iterator->rewind(); $iterator->valid(); $iterator->next())
 		{
-
 			$tmpArray = null;
 			$value = null;
 

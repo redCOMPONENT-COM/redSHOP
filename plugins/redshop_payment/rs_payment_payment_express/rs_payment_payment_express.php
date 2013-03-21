@@ -75,7 +75,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 		if ($this->_params->get("px_post_txnmethod") == 'PxPost')
 		{
-
 			// pxpost
 			$cmdDoTxnTransaction = "";
 			// Get user billing information
@@ -121,7 +120,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 			if (!$params)
 			{
-
 				return false;
 			}
 
@@ -130,7 +128,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			// Approved - Success!
 			if ($authorized == '1')
 			{
-
 				$values->responsestatus = 'Success';
 			}
 			else
@@ -163,7 +160,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 		foreach ($vals as $xml_elem)
 		{
-
 			if ($xml_elem['type'] == 'open')
 			{
 				if (array_key_exists('attributes', $xml_elem))
@@ -210,7 +206,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 		if ($this->_params->get("px_post_txntype") == 'Auth')
 		{
-
 			$orderDetail = $objOrder->getOrderPaymentDetail($data['order_id']);
 			$cmdDoTxnTransaction = "";
 			$db = JFactory::getDBO();
@@ -250,7 +245,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 			if (!$params)
 			{
-
 				return false;
 			}
 

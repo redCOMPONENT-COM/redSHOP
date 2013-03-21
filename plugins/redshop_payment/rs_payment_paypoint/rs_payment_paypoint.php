@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 	 */
 	function onPrePayment_rs_payment_paypoint($element, $data)
 	{
-
 		$config = new Redconfiguration;
 		// Get user billing information
 		$user = JFActory::getUser();
@@ -170,7 +169,6 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 
 		if ($newk['valid'] == 'true')
 		{
-
 			if ($newk['code'] == "A")
 			{
 				$tid = $newk['trans_id'];

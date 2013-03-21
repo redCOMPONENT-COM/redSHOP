@@ -775,7 +775,6 @@ class plgredshop_shippingups_canada extends JPlugin
 			}
 			else
 			{
-
 				$xmlDoc->parseXML( $xmlResult, false, true );
 
 				if( strstr( $xmlResult, "Failure" ) )

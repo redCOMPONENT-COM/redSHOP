@@ -59,7 +59,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 		if ($request['stap'] == 2)
 		{
-
 			$this->authorizeData($element, $data);
 		}
 
@@ -70,7 +69,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 	function authorizeData($element, $data)
 	{
-
 		if ($element != 'rs_payment_authorize_dpm')
 		{
 			return;
@@ -116,7 +114,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 	function onNotifyPaymentrs_payment_authorize_dpm($element, $request)
 	{
-
 		if ($element != 'rs_payment_authorize_dpm')
 		{
 			return;

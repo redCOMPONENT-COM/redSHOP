@@ -205,13 +205,11 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 
 	function getErrorMessage($result)
 	{
-
 		$varPos = strpos($result, '<fdggwsapi:ErrorMessage>');
 		$varPos2 = strpos($result, '</fdggwsapi:ErrorMessage>');
 
 		if ($varPos !== false)
 		{
-
 			$varLen = $varPos2 - $varPos;
 
 			return substr($result, $varPos, $varLen);
@@ -249,7 +247,6 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 
 	function onCapture_Paymentrs_payment_firstdata($element, $data)
 	{
-
 		if ($element != 'rs_payment_firstdata')
 		{
 			return;

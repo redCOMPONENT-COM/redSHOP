@@ -64,7 +64,6 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 
 	function onNotifyPaymentrs_payment_cyberplus($element, $request)
 	{
-
 		if ($element != 'rs_payment_cyberplus')
 		{
 			return;

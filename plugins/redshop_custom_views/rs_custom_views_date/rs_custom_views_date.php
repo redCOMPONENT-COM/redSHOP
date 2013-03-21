@@ -32,7 +32,7 @@ class plgredshop_custom_viewsrs_custom_views_date extends JPlugin
 	 */
 	function plgredshop_custom_viewsrs_custom_views_date(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 
@@ -40,7 +40,6 @@ class plgredshop_custom_viewsrs_custom_views_date extends JPlugin
 
 	function getMenuLink()
 	{
-
 		$values = array();
 		$values['name'] = "rs_custom_views_date";
 		$values['title'] = "COM_REDSHOP_CUSTOM_VIEWS_DATE";

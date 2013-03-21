@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 /**
@@ -157,7 +157,7 @@ class plgredshop_shippingfreteja extends JPlugin
 			$whereShippingBoxes['box_height'] = $productData[0]['height'];
 		}
 
-		// Conversation of weight ( ration )
+		// conversation of weight ( ration )
 		$volRatio = $producthelper->getUnitConversation('mm', DEFAULT_VOLUME_UNIT);
 		$unitRatio = $producthelper->getUnitConversation('gram', DEFAULT_WEIGHT_UNIT);
 
@@ -176,10 +176,10 @@ class plgredshop_shippingfreteja extends JPlugin
 			return $shippingrate;
 		}
 
-		// Check for not zero
+		// check for not zero
 		if ($unitRatio != 0)
 		{
-			$carttotalWeight = $carttotalWeight * $unitRatio; // Converting weight in kg
+			$carttotalWeight = $carttotalWeight * $unitRatio; // converting weight in kg
 		}
 
 		if ($carttotalWeight > 0)
@@ -268,7 +268,6 @@ class plgredshop_shippingfreteja extends JPlugin
 
 			if ($conteudo != "")
 			{
-
 				$xml_FJ = new DomDocument;
 				$dom = $xml_FJ->loadXML(trim($conteudo));
 

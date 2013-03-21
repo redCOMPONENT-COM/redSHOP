@@ -67,7 +67,6 @@ class Chase
 	 */
 	public function __construct()
 	{
-
 	}
 
 	/**
@@ -148,7 +147,6 @@ class Chase
 	 */
 	public function post_an_order()
 	{
-
 		$xml = $this->generate_order_xml();
 		$header = "POST /AUTHORIZE HTTP/1.0\r\n";
 		$header .= "MIME-Version: 1.0\r\n";
@@ -267,7 +265,6 @@ class Chase
 
 			if ($parsedResArr['CVV2RespCode'] != 'M')
 			{
-
 				switch ($parsedResArr['CVV2RespCode'])
 				{
 					case 'N' :
@@ -338,7 +335,6 @@ class Chase
 
 	public function capture_an_order()
 	{
-
 		$xml =
 			'<?xml version="1.0" encoding="UTF-8"?>
 			<Request>

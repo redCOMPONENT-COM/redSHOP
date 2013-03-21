@@ -70,7 +70,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 	 */
 	function onNotifyPaymentrs_payment_giropay($element, $request)
 	{
-
 		if ($element != 'rs_payment_giropay')
 		{
 			break;
@@ -104,7 +103,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 
 		if ($gpHash != $hash)
 		{
-
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = $message;
@@ -114,7 +112,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		// neuen Bestellstatus ermitteln
 		if ($gsGiropay->codeIsOK($gpCode))
 		{
-
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
 			$values->log = $message;
@@ -123,7 +120,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		}
 		else
 		{
-
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = $message;

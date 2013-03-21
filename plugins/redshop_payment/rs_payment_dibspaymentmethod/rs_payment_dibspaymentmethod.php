@@ -49,7 +49,6 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_dibspaymentmethod')
 		{
 			return;
@@ -94,12 +93,10 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 		if (isset($request['transact']))
 		{
-
 			$tid = $request['transact'];
 
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 			{
-
 				$values->order_status_code = $verify_status;
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -132,7 +129,6 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
@@ -149,7 +145,6 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 	function onCapture_Paymentrs_payment_dibspaymentmethod($element, $data)
 	{
-
 		if ($element != 'rs_payment_dibspaymentmethod')
 		{
 			return;

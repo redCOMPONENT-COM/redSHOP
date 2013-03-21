@@ -180,7 +180,6 @@ if ($popup)
 		{
 			for ($r = 0; $r < count($params_shopper_group_name); $r++)
 			{
-
 				$sel = "select o.*,p.*,u.*,fd.*,GROUP_CONCAT( CONCAT_WS(' x ',product_quantity,product_name),product_attribute SEPARATOR ' - ' ) as nq from #__redshop_order_item o left outer join #__redshop_product p on o.product_id=p.product_id left outer join #__redshop_users_info u on u.users_info_id=o.user_info_id left outer join  #__redshop_fields_data fd on o.order_item_id=fd.itemid where data_txt = '" . $time . "' and fd.section =12 and u.shopper_group_id = '" . $params_shopper_group_name[$r]->shopper_group_id . "'  group by  o.user_info_id order by u.firstname desc";
 				$db->setQuery($sel);
 				$params = $db->loadObjectList();
@@ -280,7 +279,6 @@ if ($popup)
 }
 else
 {
-
 	?>
 
 	<form

@@ -170,7 +170,6 @@ function getparameters($payment)
 
 function fetch_data($string, $start_tag, $end_tag)
 {
-
 	$position = stripos($string, $start_tag);
 
 	$str = substr($string, $position);

@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  */
 class plgSystemredproductzoom extends JPlugin
 {
-
 function onBeforeRender()
 {
 	$app = JFactory::getApplication();
@@ -83,7 +82,6 @@ function onBeforeRender()
 	?>
 	<script type="text/javascript">
 		$(document).ready(function () {
-
 			$('.product_image').html("<?php echo addslashes($mainimage);?>").addClass('clearfix');
 			$('.product_more_images').html("<?php echo addslashes($additionalImage);?>").addClass('clearfix');
 
@@ -98,7 +96,6 @@ function onBeforeRender()
 		});
 
 		function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selectedproperty_id, selectedsubproperty_id) {
-
 			if (product_id == undefined) {
 				return false;
 			}
@@ -168,7 +165,6 @@ function onBeforeRender()
 
 			request = getHTTPObject();
 			request.onreadystatechange = function () {
-
 				// if request object received response
 
 				if (request.readyState == 4) {
@@ -268,7 +264,6 @@ function onBeforeRender()
 		}
 		else
 		{
-
 			$isChilds = false;
 			$attributes_set = array();
 

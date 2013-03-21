@@ -40,7 +40,6 @@
  */
 class AuthorizeNetAIM extends AuthorizeNetRequest
 {
-
 	const LIVE_URL = 'https://secure.authorize.net/gateway/transact.dll';
 	const SANDBOX_URL = 'https://test.authorize.net/gateway/transact.dll';
 
@@ -423,7 +422,6 @@ class AuthorizeNetAIM_Response extends AuthorizeNetResponse
 	{
 		if ($response)
 		{
-
 			// Split Array
 			$this->response = $response;
 
