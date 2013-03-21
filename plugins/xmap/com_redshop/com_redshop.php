@@ -16,7 +16,7 @@
 
 
 defined('_VALID_MOS') or defined('_JEXEC') or die('Direct Access to this location is not allowed.');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
 class xmap_com_redshop
 {

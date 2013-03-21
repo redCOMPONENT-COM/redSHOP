@@ -55,20 +55,20 @@ http://www.nusphere.com
 /* load classes
 
 // necessary classes
-require_once('class.soapclient.php');
-require_once('class.soap_val.php');
-require_once('class.soap_parser.php');
-require_once('class.soap_fault.php');
+require_once 'class.soapclient.php';
+require_once 'class.soap_val.php';
+require_once 'class.soap_parser.php';
+require_once 'class.soap_fault.php';
 
 // transport classes
-require_once('class.soap_transport_http.php');
+require_once 'class.soap_transport_http.php';
 
 // optional add-on classes
-require_once('class.xmlschema.php');
-require_once('class.wsdl.php');
+require_once 'class.xmlschema.php';
+require_once 'class.wsdl.php';
 
 // server class
-require_once('class.soap_server.php');*/
+require_once 'class.soap_server.php';*/
 
 // class variable emulation
 // cf. http://www.webkreator.com/php/techniques/php-static-class-variables.html

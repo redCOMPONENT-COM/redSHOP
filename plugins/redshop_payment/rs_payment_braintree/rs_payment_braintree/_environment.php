@@ -1,5 +1,5 @@
 <?php
-require_once('braintree/lib/Braintree.php');
+require_once 'braintree/lib/Braintree.php';
 
 
 // get plugin params

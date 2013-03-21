@@ -232,7 +232,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	function onCapture_Paymentrs_payment_chase($element, $data)
 	{
 		$db = JFactory::getDBO();
-		require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions();
 
 		// get params from plugin

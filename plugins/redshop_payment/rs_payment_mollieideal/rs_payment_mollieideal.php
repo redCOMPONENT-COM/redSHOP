@@ -18,7 +18,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
 
 class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
@@ -153,7 +153,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		if (!is_numeric($order_id))
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_MOLLIEIDEAL_ORDER_ERROR') . '"');
 
-		require_once(JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS . 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php');
+		require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS . 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
 
 		$db = jFactory::getDBO();
 

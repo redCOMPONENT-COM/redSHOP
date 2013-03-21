@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 //$mainframe =& JFactory::getApplication();
 //$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgredshop_paymentrs_payment_bbs extends JPlugin
 {
 	var $_table_prefix = null;
@@ -107,8 +107,8 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		$BBS_msg = isset($xml->Result->ResponseText) ? $xml->Result->ResponseText : $BBS_msg;
 
-		require_once (JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-//	 	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.cfg.php');
+		require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+//	 	require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.cfg.php';
 		$objOrder = new order_functions();
 
 		if (strtoupper($AUTH_Responsecode) == 'OK')
@@ -175,7 +175,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		}
 
 		$order_id = $data['order_id'];
-		require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions();
 		$db = JFactory::getDBO();
 

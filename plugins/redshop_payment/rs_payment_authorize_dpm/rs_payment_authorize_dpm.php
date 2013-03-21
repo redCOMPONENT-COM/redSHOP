@@ -18,9 +18,9 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
-require_once (JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php');
+require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
+require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
+require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
 class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 {
 	var $_table_prefix = null;

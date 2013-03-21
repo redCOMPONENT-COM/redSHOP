@@ -11,8 +11,8 @@ defined('_JEXEC') or die('Restricted access');
 
 
 // including redshop product helper file and configuration file
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
 
 class plgAcymailingRedshop extends JPlugin
@@ -115,7 +115,7 @@ class plgAcymailingRedshop extends JPlugin
 	 */
 	function getProduct($product_id)
 	{
-		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
+		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
 		$redTemplate = new Redtemplate();
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));

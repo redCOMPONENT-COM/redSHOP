@@ -21,7 +21,7 @@ if (file_exists($my_path . "/../../../configuration.php"))
 {
 
 	$absolute_path = dirname($my_path . "/../../../configuration.php");
-	require_once($my_path . "/../../../configuration.php");
+	require_once $my_path . "/../../../configuration.php";
 }
 else
 {
@@ -37,8 +37,8 @@ define('JPATH_BASE', $absolute_path);
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
+require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
+require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
 
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
@@ -52,9 +52,9 @@ $mainframe =& JFactory::getApplication('site');
 // Initialize the framework
 $mainframe->initialise();
 
-require_once (JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
+require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
 $objOrder = new order_functions();
 

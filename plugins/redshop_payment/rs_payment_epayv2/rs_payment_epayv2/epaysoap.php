@@ -93,7 +93,7 @@ class EpaySoap
 
 	private function _soapcall($call, $params)
 	{
-		require_once(dirname(__FILE__) . '/lib/nusoap.php');
+		require_once dirname(__FILE__) . '/lib/nusoap.php';
 
 		$soapclient = new nusoap_client('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', 'wsdl');
 

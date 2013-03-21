@@ -20,17 +20,17 @@ $my_path = dirname(__FILE__);
 if (file_exists($my_path . "/../../../../configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/../../../../configuration.php");
-	require_once ($my_path . "/../../../../configuration.php");
+	require_once $my_path . "/../../../../configuration.php";
 }
 elseif (file_exists($my_path . "/../../configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/../../configuration.php");
-	require_once ($my_path . "/../../configuration.php");
+	require_once $my_path . "/../../configuration.php";
 }
 elseif (file_exists($my_path . "/configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/configuration.php");
-	require_once ($my_path . "/configuration.php");
+	require_once $my_path . "/configuration.php";
 }
 else
 {
@@ -47,8 +47,8 @@ define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 
 // Load the framework
 
-require_once ($absolute_path . DS . 'includes' . DS . 'defines.php');
-require_once ($absolute_path . DS . 'includes' . DS . 'framework.php');
+require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
+require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
 $mainframe = & JFactory::getApplication('site');
@@ -73,7 +73,7 @@ JPlugin::loadLanguage('com_redshop');
 
 $request = JRequest::get('request');
 
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 $objOrder = new order_functions();
 
 $mainframe = JFactory::getApplication();

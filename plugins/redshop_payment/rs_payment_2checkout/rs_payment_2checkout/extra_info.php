@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-//	require_once( JPATH_COMPONENT.DS.'helpers'.DS.'helper.php' );
+//	require_once  JPATH_COMPONENT.DS.'helpers'.DS.'helper.php' ;
 //	$redhelper = new redhelper();
 $db = JFactory::getDBO();
 $user = JFActory::getUser();
