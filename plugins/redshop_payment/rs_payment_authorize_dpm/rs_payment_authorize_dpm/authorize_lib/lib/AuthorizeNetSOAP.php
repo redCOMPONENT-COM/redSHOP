@@ -104,5 +104,4 @@ class AuthorizeNetSOAP extends SoapClient
 		return file_put_contents($path, $string);
 	}
 
-
 }

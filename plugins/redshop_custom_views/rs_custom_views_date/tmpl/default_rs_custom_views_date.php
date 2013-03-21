@@ -18,7 +18,6 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
-
 $heading = JText::_('COM_REDSHOP_PRODUCT_ORDERED_DATE');
 $gobtn = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
 $cur_date = date('d-m-Y');
@@ -33,7 +32,6 @@ if ($popup)
 	$sel = "select o.*,fd.*,p.* from #__redshop_fields_data fd left outer join  #__redshop_order_item o on o.order_item_id=fd.itemid  left outer join  #__redshop_product p on o.product_id=p.product_id where fd.section=12 order by o.cdate desc";
 	$db->setQuery($sel);
 	$params = $db->loadObjectList();
-
 
 
 	?>

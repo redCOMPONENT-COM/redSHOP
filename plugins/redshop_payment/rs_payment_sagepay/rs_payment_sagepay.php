@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_sagepay(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_sagepay');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -152,7 +151,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			$values->transaction_id = $strVPSTxId;
 			$values->order_id = $request['orderid'];
 
-
 		}
 		else
 		{
@@ -244,10 +242,8 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			$output[trim(substr($response[$i], 0, $splitAt))] = trim(substr($response[$i], ($splitAt + 1)));
 		} // END for ($i=0; $i<count($response); $i++)
 
-
 		// Return the output
 		return $output;
-
 
 	} // END function requestPost()
 
@@ -273,7 +269,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			"CardType",
 			"Last4Digits",
 			"PayerStatus", "CardType");
-
 
 		// Initialise arrays
 		$output = array();

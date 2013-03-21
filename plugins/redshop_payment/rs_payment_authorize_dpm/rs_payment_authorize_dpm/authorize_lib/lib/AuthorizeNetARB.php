@@ -7,7 +7,6 @@
  * @link       http://www.authorize.net/support/ARB_guide.pdf ARB Guide
  */
 
-
 /**
  * A class to send a request to the ARB XML API.
  *
@@ -133,7 +132,6 @@ XML;
 	}
 
 }
-
 
 /**
  * A class to parse a response from the ARB XML API.

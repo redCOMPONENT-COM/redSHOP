@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 $objOrder = new order_functions;
@@ -23,7 +22,6 @@ $objconfiguration = new Redconfiguration;
 
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
-
 
 $redhelper = new redhelper;
 $db = JFactory::getDBO();
@@ -35,7 +33,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// Buyer details
+// buyer details
 
 $buyeremail = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
@@ -53,7 +51,6 @@ $md5_key = $this->_params->get("md5_key");
 $order_desc = $this->_params->get("order_desc");
 
 
-
 if ($this->_params->get("is_test") == '1')
 {
 	$worldpayurl = "https://select-test.wp3.rbsworldpay.com/wcc/purchase";
@@ -67,7 +64,7 @@ $currencyClass = new convertPrice;
 $order->order_subtotal = number_format($order_details[0]->order_total, 2, '.', '');
 $amount = $order->order_subtotal;
 
-// Md5 secret key
+// md5 secret key
 
 $sign_key = $md5_key . ":" . $instId . ":" . $order->order_subtotal . ":" . CURRENCY_CODE . ":" . $cartId;
 $md5_sign_key = md5($sign_key);
@@ -90,7 +87,6 @@ $post_variables = Array(
 
 
 
-
 echo "<form action='$worldpayurl' method='post' name='worldpayfrm' id='worldpayfrm'>";
 
 if ($this->_params->get("is_test") == '1')
@@ -106,8 +102,7 @@ foreach ($post_variables as $name => $value)
 
 echo "</form>";
 
-
-// End by me
+// end by me
 
 ?>
 <script type='text/javascript'>document.worldpayfrm.submit();</script>

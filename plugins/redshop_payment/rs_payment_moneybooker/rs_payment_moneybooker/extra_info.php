@@ -20,7 +20,6 @@ $user = JFactory::getUser();
 $db = JFactory::getDBO();
 $option = JRequest::getVar('option');
 
-
 $user = JFactory::getUser();
 ?>
 <form action="https://www.moneybookers.com/app/payment.pl" method="post" id="frmmoneybooker" name="frmmoneybooker">
@@ -48,7 +47,6 @@ $user = JFactory::getUser();
 	<input type="hidden" name="state" value="<?php echo $data['billinginfo']->state_2_code ?>"/>
 	<input type="submit" value="Pay!">
 </form>
-
 
 <script>
 	document.frmmoneybooker.submit();

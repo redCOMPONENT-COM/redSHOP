@@ -137,7 +137,7 @@ class ideal
 
 	function fetchBanks()
 	{
-		// Gets/refreshes banks from mollie
+		// gets/refreshes banks from mollie
 		$result = $this->sendToHost('www.mollie.nl', '/xml/ideal/', 'a=banklist' . ($this->testmode ? '&partnerid=' . $this->partnerid : ''));
 
 		if (!$result)
@@ -148,7 +148,7 @@ class ideal
 		$data = new SimpleXMLElement($xml);
 		$data = $data->bank;
 
-		// Build banks-array
+		// build banks-array
 		$this->banks = array();
 
 		foreach ($data as $bank)
@@ -161,7 +161,7 @@ class ideal
 
 	function createPayment()
 	{
-		// Prepares a payment with mollie
+		// prepares a payment with mollie
 		if ($this->partnerid == '' or
 			$this->amount == '' or
 			$this->reporturl == '' or
@@ -170,7 +170,6 @@ class ideal
 			$this->bankid == ''
 		)
 			return false;
-
 
 		$result = $this->sendToHost('www.mollie.nl', '/xml/ideal/',
 			'a=fetch' .
@@ -195,19 +194,17 @@ class ideal
 		$this->bankurl = html_entity_decode((string) $data->URL);
 		$this->statusmessage = (string) $data->message;
 
-
 		return true;
 	}
 
 	function checkPayment($pid, $tid, $testmode = 0)
 	{
-		// Check a payment with mollie
+		// check a payment with mollie
 		$result = $this->sendToHost('www.mollie.nl', '/xml/ideal/',
 			'a=check' .
 				'&partnerid=' . urlencode($pid) .
 				'&transaction_id=' . urlencode($tid) .
 				($testmode ? '&testmode=true' : ''));
-
 
 		if (!$result)
 			return false;
@@ -231,7 +228,7 @@ class ideal
 			$data .= '&testmode=true';
 		}
 
-		// Posts data to server
+		// posts data to server
 		$fp = @fsockopen($host, 80);
 		$buf = '';
 

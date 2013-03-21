@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -420,7 +420,7 @@ class plgredshop_shippingups extends JPlugin
 		$shippingrate = array();
 		$rate = 0;
 
-		// Conversation of weight ( ration )
+		// conversation of weight ( ration )
 		$unitRatio = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
 		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
 
@@ -429,7 +429,7 @@ class plgredshop_shippingups extends JPlugin
 
 		if ($unitRatio != 0)
 		{
-			$order_weight = $order_weight * $unitRatio; // Converting weight in pounds
+			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
 
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -490,7 +490,7 @@ class plgredshop_shippingups extends JPlugin
 
 		//LBS  = Pounds
 		//KGS  = Kilograms
-		$weight_measure = (DEFAULT_WEIGHT_UNIT == "gram") ? "KGS" : "LBS"; // If change than change conversation base unit also
+		$weight_measure = (DEFAULT_WEIGHT_UNIT == "gram") ? "KGS" : "LBS"; // if change than change conversation base unit also
 		$measurecode = ($weight_measure == "KGS") ? "CM" : "IN";
 
 		// The XML that will be posted to UPS
@@ -567,7 +567,7 @@ class plgredshop_shippingups extends JPlugin
 		$xmlPost .= " </Shipment>";
 		$xmlPost .= "</RatingServiceSelectionRequest>";
 
-		// Echo htmlentities( $xmlPost );
+		// echo htmlentities( $xmlPost );
 		$upsURL = "https://www.ups.com:443/ups.app/xml/Rate";
 		$error = false;
 
@@ -599,7 +599,6 @@ class plgredshop_shippingups extends JPlugin
 			}
 		}
 
-
 		if ($itemparams->get("ups_debug"))
 		{
 			echo "XML Post: <br>";
@@ -610,7 +609,7 @@ class plgredshop_shippingups extends JPlugin
 			echo "<br>";
 			echo "Cart Contents: " . $order_weight . "<br><br>\n";
 		}
-		// Retrieve the list of all "RatedShipment" Elements
+		// retrieve the list of all "RatedShipment" Elements
 
 		$matchedchild = $xmlDoc->document->_children;
 		$allservicecodes = array(
@@ -840,7 +839,6 @@ class plgredshop_shippingups extends JPlugin
 	<?php
 
 	}
-
 
 }
 

@@ -3,17 +3,16 @@
 // This file should be name xmlrpc.php for the purpose of the given example.
 
 // -*-c++-*-
-// By Edd Dumbill (C) 1999-2001
+// by Edd Dumbill (C) 1999-2001
 // <edd@usefulinc.com>
 // $Id: php_xmlrpc.txt,v 1.1 2005/02/15 16:32:41 dan Exp $
-
 
 // Copyright (c) 1999,2000,2001 Edd Dumbill.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
-// Modification, are permitted provided that the following conditions
-// Are met:
+// modification, are permitted provided that the following conditions
+// are met:
 //
 //    * Redistributions of source code must retain the above copyright
 //      notice, this list of conditions and the following disclaimer.
@@ -63,7 +62,6 @@ $xmlrpcBase64 = "base64";
 $xmlrpcArray = "array";
 $xmlrpcStruct = "struct";
 
-
 $xmlrpcTypes = array($xmlrpcI4       => 1,
                      $xmlrpcInt      => 1,
                      $xmlrpcBoolean  => 1,
@@ -102,16 +100,16 @@ $xmlrpc_defencoding = "UTF-8";
 $xmlrpcName = "XML-RPC for PHP";
 $xmlrpcVersion = "1.02";
 
-// Let user errors start at 800
+// let user errors start at 800
 $xmlrpcerruser = 800;
-// Let XML parse errors start at 100
+// let XML parse errors start at 100
 $xmlrpcerrxml = 100;
 
-// Formulate backslashes for escaping regexp
+// formulate backslashes for escaping regexp
 $xmlrpc_backslash = chr(92) . chr(92);
 
-// Used to store state during parsing
-// Quick explanation of components:
+// used to store state during parsing
+// quick explanation of components:
 //   st - used to build up a string for evaluation
 //   ac - used to accumulate values
 //   qt - used to decide if quotes are needed for evaluation
@@ -174,9 +172,9 @@ function xmlrpc_se($parser, $name, $attrs)
 		case "ARRAY":
 			$_xh[$parser]['st'] .= "array(";
 			$_xh[$parser]['cm']++;
-			// This last line turns quoting off
-			// This means if we get an empty array we'll
-			// Simply get a bit of whitespace in the eval
+			// this last line turns quoting off
+			// this means if we get an empty array we'll
+			// simply get a bit of whitespace in the eval
 			$_xh[$parser]['qt'] = 0;
 			break;
 		case "NAME":
@@ -195,9 +193,9 @@ function xmlrpc_se($parser, $name, $attrs)
 			$_xh[$parser]['ac'] = "";
 			$_xh[$parser]['qt'] = 0;
 			$_xh[$parser]['lv'] = 1;
-			// Look for a value: if this is still 1 by the
-			// Time we reach the first data segment then the type is string
-			// By implication and we need to add in a quote
+			// look for a value: if this is still 1 by the
+			// time we reach the first data segment then the type is string
+			// by implication and we need to add in a quote
 			break;
 
 		case "I4":
@@ -207,7 +205,7 @@ function xmlrpc_se($parser, $name, $attrs)
 		case "DOUBLE":
 		case "DATETIME.ISO8601":
 		case "BASE64":
-			$_xh[$parser]['ac'] = ""; // Reset the accumulator
+			$_xh[$parser]['ac'] = ""; // reset the accumulator
 
 			if ($name == "DATETIME.ISO8601" || $name == "STRING")
 			{
@@ -223,8 +221,8 @@ function xmlrpc_se($parser, $name, $attrs)
 			else
 			{
 				// No quoting is required here -- but
-				// At the end of the element we must check
-				// For data format errors.
+				// at the end of the element we must check
+				// for data format errors.
 				$_xh[$parser]['qt'] = 0;
 			}
 			break;
@@ -259,8 +257,8 @@ function xmlrpc_ee($parser, $name)
 			$_xh[$parser]['st'] .= $_xh[$parser]['ac'] . "' => ";
 			break;
 		case "BOOLEAN":
-			// Special case here: we translate boolean 1 or 0 into PHP
-			// Constants true or false
+			// special case here: we translate boolean 1 or 0 into PHP
+			// constants true or false
 			if ($_xh[$parser]['ac'] == '1')
 				$_xh[$parser]['ac'] = "true";
 			else
@@ -275,7 +273,7 @@ function xmlrpc_ee($parser, $name)
 		case "BASE64":
 			if ($_xh[$parser]['qt'] == 1)
 			{
-				// We use double quotes rather than single so backslashification works OK
+				// we use double quotes rather than single so backslashification works OK
 				$_xh[$parser]['st'] .= "\"" . $_xh[$parser]['ac'] . "\"";
 			}
 			else if ($_xh[$parser]['qt'] == 2)
@@ -288,28 +286,28 @@ function xmlrpc_ee($parser, $name)
 			}
 			else
 			{
-				// We have an I4, INT or a DOUBLE
-				// We must check that only 0123456789-.<space> are characters here
+				// we have an I4, INT or a DOUBLE
+				// we must check that only 0123456789-.<space> are characters here
 				if (!preg_match("^\-?[0123456789 \t\.]+$", $_xh[$parser]['ac']))
 				{
 					// TODO: find a better way of throwing an error
-					// Than this!
+					// than this!
 					error_log("XML-RPC: non numeric value received in INT or DOUBLE");
 					$_xh[$parser]['st'] .= "ERROR_NON_NUMERIC_FOUND";
 				}
 				else
 				{
-					// It's ok, add it on
+					// it's ok, add it on
 					$_xh[$parser]['st'] .= $_xh[$parser]['ac'];
 				}
 			}
 
 			$_xh[$parser]['ac'] = "";
 			$_xh[$parser]['qt'] = 0;
-			$_xh[$parser]['lv'] = 3; // Indicate we've found a value
+			$_xh[$parser]['lv'] = 3; // indicate we've found a value
 			break;
 		case "VALUE":
-			// Deal with a string value
+			// deal with a string value
 			if (strlen($_xh[$parser]['ac']) > 0 &&
 				$_xh[$parser]['vt'] == $xmlrpcString
 			)
@@ -317,7 +315,7 @@ function xmlrpc_ee($parser, $name)
 				$_xh[$parser]['st'] .= "\"" . $_xh[$parser]['ac'] . "\"";
 			}
 			// This if() detects if no scalar was inside <VALUE></VALUE>
-			// And pads an empty "".
+			// and pads an empty "".
 			if ($_xh[$parser]['st'][strlen($_xh[$parser]['st']) - 1] == '(')
 			{
 				$_xh[$parser]['st'] .= '""';
@@ -343,8 +341,8 @@ function xmlrpc_ee($parser, $name)
 				$_xh[$parser]['ac']);
 			break;
 		case "BOOLEAN":
-			// Special case here: we translate boolean 1 or 0 into PHP
-			// Constants true or false
+			// special case here: we translate boolean 1 or 0 into PHP
+			// constants true or false
 			if ($_xh[$parser]['ac'] == '1')
 				$_xh[$parser]['ac'] = "true";
 			else
@@ -354,7 +352,7 @@ function xmlrpc_ee($parser, $name)
 		default:
 			break;
 	}
-	// If it's a valid type name, set the type
+	// if it's a valid type name, set the type
 	if (isset($xmlrpcTypes[strtolower($name)]))
 	{
 		$_xh[$parser]['vt'] = strtolower($name);
@@ -367,22 +365,22 @@ function xmlrpc_cd($parser, $data)
 	global $_xh, $xmlrpc_backslash;
 
 	//if (ereg("^[\n\r \t]+$", $data)) return;
-	// Print "adding [${data}]\n";
+	// print "adding [${data}]\n";
 
 	if ($_xh[$parser]['lv'] != 3)
 	{
 		// "lookforvalue==3" means that we've found an entire value
-		// And should discard any further character data
+		// and should discard any further character data
 		if ($_xh[$parser]['lv'] == 1)
 		{
-			// If we've found text and we're just in a <value> then
-			// Turn quoting on, as this will be a string
+			// if we've found text and we're just in a <value> then
+			// turn quoting on, as this will be a string
 			$_xh[$parser]['qt'] = 1;
-			// And say we've found a value
+			// and say we've found a value
 			$_xh[$parser]['lv'] = 2;
 		}
-		// Replace characters that eval would
-		// Do special things with
+		// replace characters that eval would
+		// do special things with
 		$_xh[$parser]['ac'] .= str_replace('$', '\$',
 			str_replace('"', '\"', str_replace(chr(92),
 				$xmlrpc_backslash, $data)));
@@ -453,11 +451,9 @@ class xmlrpc_client
 
 	function send($msg, $timeout = 0, $method = 'http')
 	{
-		// Where msg is an xmlrpcmsg
-
+		// where msg is an xmlrpcmsg
 
 		$msg->debug = $this->debug;
-
 
 		if ($method == 'https')
 		{
@@ -495,8 +491,8 @@ class xmlrpc_client
 		// Only create the payload if it was not created previously
 		if (empty($msg->payload)) $msg->createPayload();
 
-		// Thanks to Grant Rauscher <grant7@firstworld.net>
-		// For this
+		// thanks to Grant Rauscher <grant7@firstworld.net>
+		// for this
 		$credentials = "";
 
 		if ($username != "")
@@ -521,22 +517,19 @@ class xmlrpc_client
 
 		$resp = $msg->parseResponseFile($fp);
 
-
 		fclose($fp);
 
 		return $resp;
 	}
 
-	// Contributed by Justin Miller <justin@voxel.net>
-	// Requires curl to be built into PHP
+	// contributed by Justin Miller <justin@voxel.net>
+	// requires curl to be built into PHP
 	function sendPayloadHTTPS($msg, $server, $port, $timeout = 0,
 	                          $username = "", $password = "", $cert = "",
 	                          $certpass = "")
 	{
 
-
 		global $xmlrpcerr, $xmlrpcstr;
-
 
 		if ($port == 0) $port = 443;
 
@@ -552,47 +545,43 @@ class xmlrpc_client
 			return $r;
 		}
 
-
 		$curl = curl_init("https://" . $server . ':' . $port .
 			$this->path);
 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		// Results into variable
+		// results into variable
 		if ($this->debug)
 		{
 			curl_setopt($curl, CURLOPT_VERBOSE, 1);
 		}
 		curl_setopt($curl, CURLOPT_USERAGENT, 'PHP XMLRPC 1.0');
-		// Required for XMLRPC
+		// required for XMLRPC
 		curl_setopt($curl, CURLOPT_POST, 1);
-		// Post the data
+		// post the data
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $msg->payload);
 
-
-		// The data
+		// the data
 		curl_setopt($curl, CURLOPT_HEADER, 1);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-		// Return the header too
+		// return the header too
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/xml', 'Expect:'));
-		// Required for XMLRPC
+		// required for XMLRPC
 		if ($timeout) curl_setopt($curl, CURLOPT_TIMEOUT, $timeout == 1 ? 1 :
 			$timeout - 1);
-		// Timeout is borked
-
+		// timeout is borked
 
 		//  if ($username && $password) curl_setopt($curl, CURLOPT_USERPWD,
 		//				    "$username:$password");
-		// Set auth stuff
+		// set auth stuff
 		//  if ($cert) curl_setopt($curl, CURLOPT_SSLCERT, $cert);
-		// Set cert file
+		// set cert file
 		//  if ($certpass) curl_setopt($curl, CURLOPT_SSLCERTPASSWD,
 		//  		       $certpass);
-		//  // Set cert password
+		//  // set cert password
 
 		$result = curl_exec($curl);
 		//return $result;
-
 
 		if (!$result)
 		{
@@ -607,13 +596,12 @@ class xmlrpc_client
 			$resp = $msg->parseResponse($result);
 		}
 
-
 		curl_close($curl);
 
 		return $resp;
 	}
 
-} // End class xmlrpc_client
+} // end class xmlrpc_client
 
 class xmlrpcresp
 {
@@ -786,7 +774,6 @@ class xmlrpcmsg
 		global $_xh, $xmlrpcerr, $xmlrpcstr;
 		global $xmlrpc_defencoding;
 
-
 		$parser = xml_parser_create($xmlrpc_defencoding);
 
 		$_xh[$parser] = array();
@@ -818,8 +805,8 @@ class xmlrpcmsg
 
 			return $r;
 		}
-		// See if we got an HTTP 200 OK, else bomb
-		// But only do this if we're using the HTTP protocol.
+		// see if we got an HTTP 200 OK, else bomb
+		// but only do this if we're using the HTTP protocol.
 		if (preg_match("^HTTP", $data) &&
 			!preg_match("^HTTP/[0-9\.]+ 200 ", $data)
 		)
@@ -833,8 +820,8 @@ class xmlrpcmsg
 			return $r;
 		}
 
-		// If using HTTP, then gotta get rid of HTTP headers here
-		// And we store them in the 'ha' bit of our data array
+		// if using HTTP, then gotta get rid of HTTP headers here
+		// and we store them in the 'ha' bit of our data array
 		if (preg_match("^HTTP", $data))
 		{
 			$ar = explode("\r\n", $data);
@@ -865,7 +852,7 @@ class xmlrpcmsg
 
 		if (!xml_parse($parser, $data, sizeof($data)))
 		{
-			// Thanks to Peter Kocks <peter.kocks@baygate.com>
+			// thanks to Peter Kocks <peter.kocks@baygate.com>
 			if ((xml_get_current_line_number($parser)) == 1)
 				$errstr = "XML error at line 1, check URL";
 			else
@@ -890,9 +877,9 @@ class xmlrpcmsg
 
 		if (strlen($_xh[$parser]['st']) == 0)
 		{
-			// Then something odd has happened
-			// And it's time to generate a client side error
-			// Indicating something odd went on
+			// then something odd has happened
+			// and it's time to generate a client side error
+			// indicating something odd went on
 			$r = new xmlrpcresp(0, $xmlrpcerr["invalid_return"],
 				$xmlrpcstr["invalid_return"]);
 		}
@@ -984,14 +971,14 @@ class xmlrpcval
 
 		if ($this->mytype == 2)
 		{
-			// We're adding to an array here
+			// we're adding to an array here
 			$ar = $this->me["array"];
 			$ar[] = new xmlrpcval($val, $type);
 			$this->me["array"] = $ar;
 		}
 		else
 		{
-			// A scalar, so set the value and remember we're scalar
+			// a scalar, so set the value and remember we're scalar
 			$this->me[$type] = $val;
 			$this->mytype = $typeof;
 		}
@@ -1076,7 +1063,7 @@ class xmlrpcval
 		switch ($xmlrpcTypes[$typ])
 		{
 			case 3:
-				// Struct
+				// struct
 				$rs .= "<struct>\n";
 				reset($val);
 				while (list($key2, $val2) = each($val))
@@ -1089,7 +1076,7 @@ class xmlrpcval
 				$rs .= "</struct>";
 				break;
 			case 2:
-				// Array
+				// array
 				$rs .= "<array>\n<data>\n";
 
 				for ($i = 0; $i < sizeof($val); $i++)
@@ -1164,10 +1151,10 @@ class xmlrpcval
 		global $xmlrpcBoolean, $xmlrpcBase64;
 		reset($this->me);
 		list($a, $b) = each($this->me);
-		// Contributed by I Sofer, 2001-03-24
-		// Add support for nested arrays to scalarval
-		// I've created a new method here, so as to
-		// Preserve back compatibility
+		// contributed by I Sofer, 2001-03-24
+		// add support for nested arrays to scalarval
+		// i've created a new method here, so as to
+		// preserve back compatibility
 
 		if (is_array($b))
 		{
@@ -1177,7 +1164,7 @@ class xmlrpcval
 			}
 		}
 
-		// Add support for structures directly encoding php objects
+		// add support for structures directly encoding php objects
 		if (is_object($b))
 		{
 			$t = get_object_vars($b);
@@ -1193,7 +1180,7 @@ class xmlrpcval
 			}
 		}
 
-		// End contrib
+		// end contrib
 		return $b;
 	}
 
@@ -1234,19 +1221,19 @@ class xmlrpcval
 	}
 }
 
-// Date helpers
+// date helpers
 function iso8601_encode($timet, $utc = 0)
 {
-	// Return an ISO8601 encoded string
-	// Really, timezones ought to be supported
-	// But the XML-RPC spec says:
+	// return an ISO8601 encoded string
+	// really, timezones ought to be supported
+	// but the XML-RPC spec says:
 	//
 	// "Don't assume a timezone. It should be specified by the server in its
-	// Documentation what assumptions it makes about timezones."
+	// documentation what assumptions it makes about timezones."
 	//
-	// These routines always assume localtime unless
+	// these routines always assume localtime unless
 	// $utc is set to 1, in which case UTC is assumed
-	// And an adjustment for locale is made when encoding
+	// and an adjustment for locale is made when encoding
 	if (!$utc)
 	{
 		$t = strftime("%Y%m%dT%H:%M:%S", $timet);
@@ -1254,8 +1241,8 @@ function iso8601_encode($timet, $utc = 0)
 	else
 	{
 		if (function_exists("gmstrftime"))
-			// Gmstrftime doesn't exist in some versions
-			// Of PHP
+			// gmstrftime doesn't exist in some versions
+			// of PHP
 			$t = gmstrftime("%Y%m%dT%H:%M:%S", $timet);
 		else
 		{
@@ -1268,7 +1255,7 @@ function iso8601_encode($timet, $utc = 0)
 
 function iso8601_decode($idate, $utc = 0)
 {
-	// Return a timet in the localtime, or UTC
+	// return a timet in the localtime, or UTC
 	$t = 0;
 
 	if (preg_match("([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})",
@@ -1287,6 +1274,5 @@ function iso8601_decode($idate, $utc = 0)
 
 	return $t;
 }
-
 
 ?>

@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_moneris(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_moneris');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -65,8 +64,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$plugin = $element;
 		}
 
-
-		// Get params from plugin
+		// get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_moneris');
 		$paymentinfo = $chase_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -89,28 +87,23 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$moneris_api_host = "www3.moneris.com";
 		}
 
-
 		$session =& JFactory::getSession();
 		$ccdata = $session->get('ccdata');
-
 
 		// Additional Customer Data
 		$user_id = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
-
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-
-		// Get Credit card Information
+		// get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
 		$credit_card_code = substr($ccdata['credit_card_code'], 0, 4);
 		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
 		$order_payment_expire_year .= substr($ccdata['order_payment_expire_month'], 0, 2);
-
 
 		$crypt = 7;
 
@@ -124,7 +117,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_moneris' . DS . 'rs_payment_moneris' . DS . 'moneris.helper.php';
 		include($paymentpath);
-
 
 		if ($moneris_test_status == 1)
 		{
@@ -158,7 +150,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$avs_zipcode = substr($data['billinginfo']->zipcode, 0, 20);
 		$order_number = $data['order_number'] . time();
 
-
 		$txnArray = array('type'       => 'purchase',
 		                  'order_id'   => $order_number,
 		                  'cust_id'    => $user_id,
@@ -167,10 +158,8 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		                  'expdate'    => $order_payment_expire_year,
 		                  'crypt_type' => $crypt);
 
-
 		$cvdTemplate = array('cvd_indicator' => $cvd_indicator,
 		                     'cvd_value'     => $credit_card_code);
-
 
 		$avsTemplate = array('avs_street_number' => $avs_street_number,
 		                     'avs_street_name'   => '',
@@ -180,7 +169,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$mpgCvdInfo = new mpgCvdInfo ($cvdTemplate);
 
 		$mpgTxn = new mpgTransaction($txnArray);
-
 
 		if ($moneris_check_avs == 1)
 		{
@@ -199,7 +187,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$mpgHttpPost = new mpgHttpsPost($storeid, $apitoken, $mpgRequest, $moneris_api_host);
 		$mpgResponse = $mpgHttpPost->getMpgResponse();
 
-
 		if ($moneris_test_status == 1 && false)
 		{
 			echo "<pre>";
@@ -214,7 +201,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			var_dump($mpgResponse);
 			echo "</pre>";
 
-
 		}
 
 		$mpgRCode = $mpgResponse->getResponseCode();
@@ -222,7 +208,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$mpgTxnNumber = $mpgResponse->getTxnNumber();
 		$mpgAvsCode = $mpgResponse->getAvsResultCode();
 		$mpgCvdCode = $mpgResponse->getCvdResultCode();
-
 
 		if (stristr($mpgRCode, "null") == false && $mpgRCode !== null)
 		{
@@ -264,6 +249,5 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 		return $params;
 	}
-
 
 }

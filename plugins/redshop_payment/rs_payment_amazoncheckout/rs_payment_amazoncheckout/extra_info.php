@@ -70,7 +70,6 @@ else
 	       border="0">
 </form>
 
-
 <!--  MarketPlace Payment -->
 <?php if ($amazon_payment_method == 'MARKETPLACE')
 { ?>

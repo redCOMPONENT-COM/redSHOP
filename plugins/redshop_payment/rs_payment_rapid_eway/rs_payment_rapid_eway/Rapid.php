@@ -313,7 +313,6 @@ class RapidAPI
 			return $result->GetAccessCodeResultResult;
 	}
 
-
 	/**
 	 * Description: Create Access Code Via REST POST
 	 *

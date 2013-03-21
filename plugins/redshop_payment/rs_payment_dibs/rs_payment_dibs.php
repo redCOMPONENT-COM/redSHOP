@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_dibs(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dibs');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -71,7 +70,6 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		{
 			return;
 		}
-
 
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
@@ -125,7 +123,6 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		return $params;
 	}
 
-
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 
@@ -163,7 +160,6 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 
 		$md5key = md5($key2 . md5($key1 . 'merchant=' . $merchantid . '&orderid=' . $data['order_id'] . '&transact=' . $data["order_transactionid"] . '&amount=' . $data['order_amount']));
 		$dibsurl .= "merchant=" . urlencode($this->_params->get("seller_id")) . "&amount=" . urlencode($data['order_amount']) . "&transact=" . $data["order_transactionid"] . "&orderid=" . $data['order_id'] . "&force=yes&textreply=yes&md5key=" . $md5key;
-
 
 		$data = $dibsurl;
 		$ch = curl_init($data);

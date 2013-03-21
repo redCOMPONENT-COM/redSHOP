@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 $objOrder = new order_functions;
@@ -23,7 +22,6 @@ $objconfiguration = new Redconfiguration;
 
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
-
 
 $redhelper = new redhelper;
 $db = JFactory::getDBO();
@@ -35,7 +33,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// Buyer details
+// buyer details
 
 $buyeremail = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
@@ -56,9 +54,7 @@ $str = "ACCEPTURL=" . JURI::base() . "index.php?option=com_redshop&view=order_de
 $shasign = sha1($str);
 
 
-
 // End
-
 
 if ($this->_params->get("is_test") == '1')
 {
@@ -68,7 +64,6 @@ else
 {
 	$actionurl = "https://secure.ogone.com/ncol/prod/orderstandard.asp";
 }
-
 
 $post_variables = Array(
 	"PSPID"        => $this->_params->get("ogone_pspid"),
@@ -88,10 +83,7 @@ $post_variables = Array(
 	"operation"    => $opreation_mode,
 	"USERID"       => $this->_params->get("ogone_userid"),
 
-
 );
-
-
 
 
 
@@ -104,8 +96,7 @@ foreach ($post_variables as $name => $value)
 
 echo "</form>";
 
-
-// End by me
+// end by me
 
 ?>
 <script type='text/javascript'>document.ogoneform.submit();</script>

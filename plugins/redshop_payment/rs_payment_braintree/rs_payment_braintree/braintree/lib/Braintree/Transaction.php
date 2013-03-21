@@ -30,14 +30,14 @@
  *    'amount'      => '100.00',
  *    'orderId'    => '123',
  *    'creditCard' => array(
- *         // If token is omitted, the gateway will generate a token
+ *         // if token is omitted, the gateway will generate a token
  *         'token' => 'credit_card_123',
  *         'number' => '5105105105105100',
  *         'expirationDate' => '05/2011',
  *         'cvv' => '123',
  *    ),
  *    'customer' => array(
- *     // If id is omitted, the gateway will generate an id
+ *     // if id is omitted, the gateway will generate an id
  *     'id'    => 'customer_123',
  *     'firstName' => 'Dan',
  *     'lastName' => 'Smith',
@@ -342,7 +342,6 @@ final class Braintree_Transaction extends Braintree
 		return self::returnObjectOrThrowException(__CLASS__, $result);
 	}
 
-
 	/**
 	 * @access public
 	 *
@@ -488,7 +487,6 @@ final class Braintree_Transaction extends Braintree
 		return self::returnObjectOrThrowException(__CLASS__, $result);
 	}
 
-
 	/**
 	 * sets instance properties from an array of values
 	 *
@@ -543,7 +541,6 @@ final class Braintree_Transaction extends Braintree
 
 		$this->_set('statusHistory', $statusHistory);
 
-
 		$addOnArray = array();
 
 		if (isset($transactionAttribs['addOns']))
@@ -575,7 +572,7 @@ final class Braintree_Transaction extends Braintree
 	 */
 	public function  __toString()
 	{
-		// Array of attributes to print
+		// array of attributes to print
 		$display = array(
 			'id', 'type', 'amount', 'status',
 			'createdAt', 'creditCardDetails', 'customerDetails'
@@ -675,7 +672,6 @@ final class Braintree_Transaction extends Braintree
 		}
 	}
 
-
 	/* private class methods */
 
 	/**
@@ -697,7 +693,7 @@ final class Braintree_Transaction extends Braintree
 	{
 		if (isset($response['transaction']))
 		{
-			// Return a populated instance of Braintree_Transaction
+			// return a populated instance of Braintree_Transaction
 			return new Braintree_Result_Successful(
 				self::factory($response['transaction'])
 			);

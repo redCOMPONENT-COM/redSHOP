@@ -15,7 +15,6 @@
  */
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php';
 
-
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
@@ -23,7 +22,6 @@ $sessionid = session_id();
 
 $currencyClass = new convertPrice;
 $amount = $currencyClass->convert($data['carttotal'], '', "EUR");
-
 
 $parameter['sourceId'] = $this->_params->get("source_id");
 $parameter['merchantId'] = $this->_params->get("merchant_id");
@@ -38,9 +36,7 @@ $parameter['urlNotify'] = JURI::base() . "index2.php?option=com_redshop&view=ord
 $secret_password = $this->_params->get("secret_password");
 $hash = $gsGiropay->generateHash(implode('', $parameter), $secret_password);
 
-
 ?>
-
 
 <form action="https://payment.girosolution.de/payment/start" method="post" name="giropayfrm" id="giropayfrm">
 	<input type="hidden" name="sourceId" value="<?php echo $parameter['sourceId']; ?>">

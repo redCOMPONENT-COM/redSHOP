@@ -74,7 +74,6 @@ for ($p = 0; $p < count($rs); $p++)
 	$formdata['ordline' . ($p + 1) . '-4'] = $rs[$p]->product_item_price;
 }
 
-
 /* extra info */
 
 if ($this->_params->get("is_test") == "1")
@@ -86,7 +85,6 @@ $dibsurl = "https://payment.architrade.com/payment/start.pml";
 $currencyClass = new convertPrice;
 $formdata['amount'] = $currencyClass->convert($order_details[0]->order_total, '', $this->_params->get("dibs_currency"));
 $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
-
 
 if ($formdata['flexlang'] == "Auto")
 {
@@ -100,7 +98,6 @@ if ($formdata['flexlang'] == "Auto")
 	                       'Spain'         => 'es',
 	                       'Italy'         => 'it',
 	                       'Faroe Islands' => 'fo');
-
 
 	if ($lang != "" && isset($lang))
 	{
@@ -155,7 +152,6 @@ $mainframe->redirect( $dibsurl . $query_string );*/
 	?>
 	<input type="hidden" name="accepturl" value="<?php echo $accepturl; ?>"/>
 	<input type="hidden" name="cancelurl" value="<?php echo $cancelurl; ?>"/>
-
 
 </form>
 

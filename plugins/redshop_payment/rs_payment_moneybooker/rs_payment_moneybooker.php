@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_moneybooker(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_moneybooker');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -112,7 +111,6 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

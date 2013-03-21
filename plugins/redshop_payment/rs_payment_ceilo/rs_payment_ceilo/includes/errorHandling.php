@@ -18,7 +18,6 @@ function VerificaErro($vmPost, $vmResposta)
 
 		$objResposta = simplexml_load_string($vmResposta, null, LIBXML_NOERROR);
 
-
 		if ($objResposta == null)
 		{
 			throw new Exception("HTTP READ TIMEOUT - o Limite de Tempo da transa��o foi estourado", "099");
@@ -67,7 +66,6 @@ function VerificaErro($vmPost, $vmResposta)
 		trigger_error($error_msg, E_USER_ERROR);
 	}
 }
-
 
 // Grava erros no arquivo de log
 function Handler($eNum, $eMsg, $file, $line, $eVars)

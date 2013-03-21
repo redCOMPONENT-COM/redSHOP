@@ -542,7 +542,7 @@ function get_iso_code($code)
 			return "716";
 			break;
 	}
-	return "XXX"; // Return invalid code if the currency is not found
+	return "XXX"; // return invalid code if the currency is not found
 }
 
 function calculateePayCurrency($order_id)
@@ -645,7 +645,6 @@ function calculateePayCurrency($order_id)
 		<input type="hidden" name="accepturl"
 		       value="<?php echo JURI::base(); ?>index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epay&accept=1&sessionid=<?php echo $sessionid ?>&Itemid=<?php echo $_REQUEST['Itemid'] ?>&orderid=<?php echo $data['order_id'] ?>">
 	<?php } ?>
-
 
 	<input type="hidden" name="group" value="<?php echo $this->_params->get("payment_group"); ?>">
 	<input type="hidden" name="instantcapture" value="<?php echo $this->_params->get("auth_type"); ?>">

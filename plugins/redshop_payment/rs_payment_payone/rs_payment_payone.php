@@ -33,12 +33,11 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payone(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payone');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -61,7 +60,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include($paymentpath);
 	}
-
 
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
@@ -117,7 +115,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 			}
 			//
 			// Switch on the order accept code
-			// Accept = 1 (standard redirect) accept = 2 (callback)
+			// accept = 1 (standard redirect) accept = 2 (callback)
 			//
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
@@ -128,7 +126,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
 
-
 					// UPDATE THE ORDER STATUS to 'VALID'
 					$transaction_id = $tid;
 					$values->order_status_code = $verify_status;
@@ -136,31 +133,31 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 
-					// Add history callback info
+					// add history callback info
 					if ($accept == "2")
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
 					}
 
-					// Payment fee
+					// payment fee
 					if ($request["transfee"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
 					}
 
-					// Payment date
+					// payment date
 					if ($request["date"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
 					}
 
-					// Payment fraud control
+					// payment fraud control
 					if (@$request["fraud"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
 					}
 
-					// Card id
+					// card id
 					if ($request["cardid"])
 					{
 						$cardname = "Unknown";
@@ -242,7 +239,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 					}
 
-					// Creation information
+					// creation information
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
 				}
@@ -273,7 +270,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 		}
 
-
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 
@@ -289,7 +285,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

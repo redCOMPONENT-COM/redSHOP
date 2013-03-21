@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -76,7 +76,6 @@ class plgredshop_shippingfedex extends JPlugin
 					<td><?php echo JHTML::tooltip(JText::_('FEDEX_PASSWORD_LBL'), JText::_('FEDEX_PASSWORD_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 
-
 				<tr class="row0">
 					<td colspan="3"></td>
 				</tr>
@@ -111,7 +110,6 @@ class plgredshop_shippingfedex extends JPlugin
 				<tr class="row0">
 					<td colspan="3"></td>
 				</tr>
-
 
 				<tr class="row1">
 					<td><strong><?php echo JText::_('FEDEX_DISCOUNT_LBL') ?></strong></td>
@@ -298,7 +296,6 @@ class plgredshop_shippingfedex extends JPlugin
 		$shippingrate = array();
 		$rate = 0;
 
-
 		$unitRatio = $producthelper->getUnitConversation($fedex_weightunits, strtolower(DEFAULT_WEIGHT_UNIT));
 
 		if ($fedex_weightunits == 'lbs')
@@ -315,11 +312,10 @@ class plgredshop_shippingfedex extends JPlugin
 		$carttotalQnt = $totaldimention['totalquantity'];
 		$carttotalWeight = $totaldimention['totalweight'];
 
-
-		// Check for not zero
+		// check for not zero
 		if ($unitRatio != 0)
 		{
-			$carttotalWeight = $carttotalWeight * $unitRatio; // Converting weight in kg
+			$carttotalWeight = $carttotalWeight * $unitRatio; // converting weight in kg
 		}
 		//echo $unitRatio;exit;
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -437,7 +433,7 @@ class plgredshop_shippingfedex extends JPlugin
 		$request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Available Services Request v10 using PHP ***');
 		$request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
 		$request['ReturnTransitAndCommit'] = true;
-		$request['RequestedShipment']['DropoffType'] = $fedex_dropofftype; // Valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+		$request['RequestedShipment']['DropoffType'] = $fedex_dropofftype; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
 		$request['RequestedShipment']['ShipTimestamp'] = date('c');
 
 		// Service Type and Packaging Type are not passed in the request

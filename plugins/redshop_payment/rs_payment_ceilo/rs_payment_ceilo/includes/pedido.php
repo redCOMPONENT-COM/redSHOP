@@ -37,7 +37,7 @@ class Pedido
 
 	function __construct()
 	{
-		// Cria um logger
+		// cria um logger
 		//$this->logger = new Logger;
 	}
 
@@ -194,18 +194,15 @@ class Pedido
 	public function Enviar($vmPost, $transacao)
 	{
 
-
 		//$this->logger->logWrite("ENVIO: " . $vmPost, $transacao);
 
 		// ENVIA REQUISI��O SITE CIELO
 
 		$vmResposta = httprequest(ENDERECO, "mensagem=" . $vmPost);
 
-
 		//$this->logger->logWrite("RESPOSTA: " . $vmResposta, $transacao);
 
 		VerificaErro($vmPost, $vmResposta);
-
 
 		return simplexml_load_string($vmResposta);
 	}
@@ -230,9 +227,7 @@ class Pedido
 
 		$msg .= '</requisicao-transacao>';
 
-
 		$objResposta = $this->Enviar($msg, "Transacao");
-
 
 		return $objResposta;
 	}
@@ -240,13 +235,11 @@ class Pedido
 	public function RequisicaoTid()
 	{
 
-
 		$msg = $this->XMLHeader() . "\n" .
 			'<requisicao-tid id="' . md5(date("YmdHisu")) . '" versao ="' . VERSAO . '">' . "\n   "
 			. $this->XMLDadosEc() . "\n   "
 			. $this->XMLFormaPagamento() . "\n" .
 			'</requisicao-tid>';
-
 
 		$objResposta = $this->Enviar($msg, "Requisicao Tid");
 
@@ -328,7 +321,6 @@ class Pedido
 
 		return $objResposta;
 	}
-
 
 	// Transforma em/l� string
 	public function ToString()

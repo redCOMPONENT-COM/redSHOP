@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_chase(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_chase');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -65,8 +64,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 			$plugin = $element;
 		}
 
-
-		// Get params from plugin
+		// get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_chase');
 		$paymentinfo = $chase_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -79,21 +77,17 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$chase_transaction_type = $paymentparams->get('chase_transaction_type', '');
 		$debug_mode = $paymentparams->get('debug_mode', 0);
 
-
 		$session =& JFactory::getSession();
 		$ccdata = $session->get('ccdata');
-
 
 		// Additional Customer Data
 		$user_id = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
-
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-
-		// Get Credit card Information
+		// get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
@@ -109,7 +103,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_chase' . DS . 'rs_payment_chase' . DS . 'class.Chase.php';
 		include($paymentpath);
 
-		// Create object for chase ------------------------------------
+		// create object for chase ------------------------------------
 		$obj_chase = new Chase($currency);
 
 		if ($chase_test_status == 1)
@@ -148,12 +142,10 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$obj_chase->AVSstate = $data['billinginfo']->state_code;
 		$obj_chase->AVSphoneNum = $data['billinginfo']->phone;
 
-
 		// Assign Other information
 		$obj_chase->Email = $uname;
 		$obj_chase->Phone = $phone;
 		$obj_chase->Comments = 'Email - ' . $uname . ' | Phone - ' . $phone;
-
 
 		//Assign Amount
 		$tot_amount = $order_total = $data['order_total'];
@@ -161,11 +153,9 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$amount = number_format($amount, 2, '.', '') * 100;
 		$obj_chase->Amount = $amount; //die();
 
-
 		$response = $obj_chase->post_an_order();
 
-
-		// Call function to post an order ------
+		// call function to post an order ------
 		if ($response['transaction_sts'] == "success")
 		{
 			//echo "order Success -----";
@@ -235,7 +225,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions;
 
-		// Get params from plugin
+		// get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_chase');
 		$paymentinfo = $chase_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -247,13 +237,12 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$chase_test_status = $paymentparams->get('chase_test_status', '');
 		$chase_transaction_type = $paymentparams->get('chase_transaction_type', '');
 
-
 		// Add request-specific fields to the request string.
 
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_chase' . DS . 'class.Chase.php';
 		include($paymentpath);
 
-		// Create object for chase ------------------------------------
+		// create object for chase ------------------------------------
 		$obj_chase = new Chase($currency);
 
 		if ($chase_test_status == 1)
@@ -281,7 +270,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$obj_chase->Amount = $amount;
 		$obj_chase->TxRefNum = $data['order_transactionid'];
 
-		// Call function to post an order ------
+		// call function to post an order ------
 
 		$response = $obj_chase->capture_an_order();
 
@@ -305,6 +294,5 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		return $values;
 
 	}
-
 
 }

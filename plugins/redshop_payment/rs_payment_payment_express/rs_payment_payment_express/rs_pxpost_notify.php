@@ -58,10 +58,10 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 $objOrder = new order_functions;
 
-// Load system plugin group
+// load system plugin group
 JPluginHelper::importPlugin('system');
 
-// Print_r($_REQUEST);die();
+// print_r($_REQUEST);die();
 /*** END of Joomla config ***/
 // Now check we have a Crypt field passed to this page
 $request = JRequest::get('REQUEST');
@@ -80,7 +80,6 @@ $px_post_label_key = $paymentparams->get('px_post_label_key', '');
 $invalid_status = $paymentparams->get('invalid_status', '');
 $auth_type = $paymentparams->get('auth_type', '');
 $debug_mode = $paymentparams->get('debug_mode', 0);
-
 
 #getResponse method in PxPay object returns PxPayResponse object
 $PxPay_Url = "https://sec2.paymentexpress.com/pxpay/pxaccess.aspx";
@@ -112,7 +111,6 @@ $EmailAddress = $rsp->getEmailAddress();
 $MerchantReference = $rsp->getMerchantReference();
 $ResponseText = $rsp->getResponseText();
 $TxnMac = $rsp->getTxnMac(); # An indic
-
 
 $order_id = $BillingId;
 // UPDATE THE ORDER STATUS to 'CONFIRMED'
@@ -163,10 +161,8 @@ $uri =& JURI::getInstance();
 $url = JURI::base();
 $explode = explode("plugins", $url);
 
-
 $redirect_url = $explode[0] . "index.php?option=com_redshop&view=order_detail&Itemid=$Itemid&oid=" . $order_id;
 $mainframe->redirect($redirect_url, $values->msg);
-
 
 function getparameters($payment)
 {

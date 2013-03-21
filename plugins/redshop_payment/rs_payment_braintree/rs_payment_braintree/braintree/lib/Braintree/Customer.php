@@ -154,7 +154,6 @@ class Braintree_Customer extends Braintree
 			'/customers/all/create_via_transparent_redirect_request';
 	}
 
-
 	/**
 	 * creates a full array signature of a valid create request
 	 * @return array gateway create request format
@@ -199,7 +198,6 @@ class Braintree_Customer extends Braintree
 
 		return $signature;
 	}
-
 
 	/**
 	 * find a customer by id
@@ -453,10 +451,10 @@ class Braintree_Customer extends Braintree
 	 */
 	protected function _initialize($customerAttribs)
 	{
-		// Set the attributes
+		// set the attributes
 		$this->_attributes = $customerAttribs;
 
-		// Map each address into its own object
+		// map each address into its own object
 		$addressArray = array();
 
 		if (isset($customerAttribs['addresses']))
@@ -470,7 +468,7 @@ class Braintree_Customer extends Braintree
 
 		$this->_set('addresses', $addressArray);
 
-		// Map each creditcard into its own object
+		// map each creditcard into its own object
 		$ccArray = array();
 
 		if (isset($customerAttribs['creditCards']))
@@ -571,7 +569,6 @@ class Braintree_Customer extends Braintree
 		}
 	}
 
-
 	/* private class methods */
 
 	/**
@@ -610,7 +607,7 @@ class Braintree_Customer extends Braintree
 	{
 		if (isset($response['customer']))
 		{
-			// Return a populated instance of Braintree_Customer
+			// return a populated instance of Braintree_Customer
 			return new Braintree_Result_Successful(
 				self::factory($response['customer'])
 			);

@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_sagepay_vps(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_sagepay_vps');
@@ -61,7 +61,7 @@ function onPrePayment($element, $data)
 	{
 		$plugin = $element;
 	}
-	// Get params from plugin
+	// get params from plugin
 	$paymentparams = new JRegistry($paymentinfo->params);
 	$sagepay_vps_vendorname = $this->_params->get('sagepay_vendorname', '');
 	$payment_method = $this->_params->get('payment_method', '');
@@ -95,7 +95,7 @@ function onPrePayment($element, $data)
 	$order_number = substr($data['order_number'], 0, 16);
 	$tax_exempt = false;
 
-	// Get Credit card Information
+	// get Credit card Information
 	$strCardType = $redirect_ccdata['creditcard_code'];
 	$strCardHolder = substr($redirect_ccdata['order_payment_name'], 0, 100);
 	$strCardNumber = substr($redirect_ccdata['order_payment_number'], 0, 20);
@@ -206,7 +206,6 @@ function onPrePayment($element, $data)
 if ($strStatus == "3DAUTH")
 {
 
-
 	/* This is a 3D-Secure transaction, so we need to redirect the customer to their bank
 	** for authentication.  First get the pertinent information from the response */
 	$strMD = $output["MD"];
@@ -277,7 +276,6 @@ else
 
 }
 
-
 }
 
 	function onNotifyPaymentrs_payment_sagepay_vps($element, $request)
@@ -300,7 +298,6 @@ else
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
 
-
 		}
 		else
 		{
@@ -320,12 +317,10 @@ else
 
 
 
-
 	function onCapture_Paymentrs_payment_sagepay_vps($element, $data)
 	{
 
 		return true;
 	}
-
 
 }

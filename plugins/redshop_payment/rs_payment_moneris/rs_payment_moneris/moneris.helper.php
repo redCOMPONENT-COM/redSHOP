@@ -2,7 +2,6 @@
 
 #################### mpgGlobals ###########################################
 
-
 class mpgGlobals
 {
 
@@ -29,7 +28,6 @@ class mpgGlobals
 		}
 	}
 
-
 	function getGlobals()
 	{
 
@@ -37,7 +35,6 @@ class mpgGlobals
 	}
 
 }//end class mpgGlobals
-
 
 ###################### mpgHttpsPost #########################################
 
@@ -87,7 +84,6 @@ class mpgHttpsPost
 		$response = curl_exec($ch);
 		curl_close($ch);
 
-
 		if (!$response)
 		{
 
@@ -105,7 +101,6 @@ class mpgHttpsPost
 		$this->mpgResponse = new mpgResponse($response);
 
 	}
-
 
 	function getMpgResponse()
 	{
@@ -132,9 +127,7 @@ class mpgHttpsPost
 
 }//end class mpgHttpsPost
 
-
 ############# mpgResponse #####################################################
-
 
 class mpgResponse
 {
@@ -172,11 +165,9 @@ class mpgResponse
 		xml_parse($this->p, $xmlString);
 		xml_parser_free($this->p);
 
-
 	}
 
 	//end of constructor
-
 
 	function getMpgResponseData()
 	{
@@ -184,7 +175,6 @@ class mpgResponse
 		return ($this->responseData);
 
 	}
-
 
 	function getAvsResultCode()
 	{
@@ -196,10 +186,9 @@ class mpgResponse
 		return ($this->responseData['CvdResultCode']);
 	}
 
-
 //function getRecurSuccess(){
 //
-// Return ($this->responseData['RecurSuccess']);
+// return ($this->responseData['RecurSuccess']);
 //}
 
 	function getCardType()
@@ -264,14 +253,12 @@ class mpgResponse
 
 	}
 
-
 	function getMessage()
 	{
 
 		return ($this->responseData['Message']);
 
 	}
-
 
 	function getAuthCode()
 	{
@@ -314,7 +301,6 @@ class mpgResponse
 		return ($this->responseData['TimedOut']);
 
 	}
-
 
 	function getTerminalStatus($ecr_no)
 	{
@@ -372,13 +358,11 @@ class mpgResponse
 		return (array_keys($this->cards));
 	}
 
-
 	function getCreditCards($ecr)
 	{
 
 		return ($this->cardHash[$ecr]);
 	}
-
 
 	function characterHandler($parser, $data)
 	{
@@ -448,7 +432,6 @@ class mpgResponse
 					break;
 				}
 
-
 			}
 
 		}
@@ -460,7 +443,6 @@ class mpgResponse
 	}
 
 	//end characterHandler
-
 
 	function startHandler($parser, $name, $attrs)
 	{
@@ -489,10 +471,8 @@ class mpgResponse
 
 	}
 
-
 	function endHandler($parser, $name)
 	{
-
 
 		$this->currentTag = $name;
 
@@ -504,9 +484,7 @@ class mpgResponse
 		$this->currentTag = "/dev/null";
 	}
 
-
 }//end class mpgResponse
-
 
 ################## mpgRequest ###########################################################
 
@@ -568,7 +546,7 @@ class mpgRequest
 		for ($i = 0; $i < $txnTypeArrayLen; $i++)
 		{
 			$txnXMLString .= "<$txnTypeArray[$i]>" //begin tag
-				. $txn[$txnTypeArray[$i]] // Data
+				. $txn[$txnTypeArray[$i]] // data
 				. "</$txnTypeArray[$i]>"; //end tag
 		}
 
@@ -594,7 +572,6 @@ class mpgRequest
 			$txnXMLString .= $cvd->toXML();
 		}
 
-
 		$custInfo = $txnObj->getCustInfo();
 
 		if ($custInfo != null)
@@ -614,13 +591,12 @@ class mpgRequest
 
 }//end class
 
-
 ##################### mpgCustInfo #######################################################
 
 //class mpgCustInfo{
 //
 //
-// Var $level3template = array(cust_info=>
+// var $level3template = array(cust_info=>
 //
 //           array('email','instructions',
 //                 billing => array ('first_name', 'last_name', 'company_name', 'address',
@@ -635,11 +611,11 @@ class mpgRequest
 //                )
 //           );
 //
-// Var $level3data;
-// Var $email;
-// Var $instructions;
+// var $level3data;
+// var $email;
+// var $instructions;
 //
-// Function mpgCustInfo($custinfo=0,$billing=0,$shipping=0,$items=0)
+// function mpgCustInfo($custinfo=0,$billing=0,$shipping=0,$items=0)
 // {
 //  if($custinfo)
 //   {
@@ -650,35 +626,35 @@ class mpgRequest
 //
 //
 //
-// Function setCustInfo($custinfo)
+// function setCustInfo($custinfo)
 // {
 //  $this->level3data['cust_info']=array($custinfo);
 // }
 //
 //
-// Function setEmail($email){
+// function setEmail($email){
 //
 //   $this->email=$email;
 //   $this->setCustInfo(array(email=>$email,instructions=>$this->instructions));
 // }
 //
-// Function setInstructions($instructions){
+// function setInstructions($instructions){
 //
 //   $this->instructions=$instructions;
 //   $this->setCustinfo(array(email=>$this->email,instructions=>$instructions));
 // }
 //
-// Function setShipping($shipping)
+// function setShipping($shipping)
 // {
 //  $this->level3data['shipping']=array($shipping);
 // }
 //
-// Function setBilling($billing)
+// function setBilling($billing)
 // {
 //  $this->level3data['billing']=array($billing);
 // }
 //
-// Function setItems($items)
+// function setItems($items)
 // {
 //   if(! $this->level3data['item'])
 //    {
@@ -691,13 +667,13 @@ class mpgRequest
 //    }
 // }
 //
-// Function toXML()
+// function toXML()
 // {
 //  $xmlString=$this->toXML_low($this->level3template,"cust_info");
 //  return $xmlString;
 // }
 //
-// Function toXML_low($template,$txnType)
+// function toXML_low($template,$txnType)
 // {
 //
 //  for($x=0;$x<count($this->level3data[$txnType]);$x++)
@@ -752,10 +728,10 @@ class mpgRequest
 
 //class mpgRecur{
 //
-// Var $params;
-// Var $recurTemplate = array('recur_unit','start_now','start_date','num_recurs','period','recur_amount');
+// var $params;
+// var $recurTemplate = array('recur_unit','start_now','start_date','num_recurs','period','recur_amount');
 //
-// Function mpgRecur($params)
+// function mpgRecur($params)
 // {
 //    $this->params = $params;
 //
@@ -765,7 +741,7 @@ class mpgRequest
 //    }
 // }
 //
-// Function toXML()
+// function toXML()
 // {
 //   $xmlString = "";
 //
@@ -909,6 +885,5 @@ class mpgCvdInfo
 	}
 
 }//end class
-
 
 ?>

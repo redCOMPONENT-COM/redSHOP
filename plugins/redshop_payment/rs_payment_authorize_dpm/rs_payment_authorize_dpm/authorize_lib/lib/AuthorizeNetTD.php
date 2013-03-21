@@ -7,7 +7,6 @@
  * @link       http://www.authorize.net/support/ReportingGuide_XML.pdf Transaction Details XML Guide
  */
 
-
 /**
  * A class to send a request to the Transaction Details XML API.
  *
@@ -213,6 +212,5 @@ class AuthorizeNetTD extends AuthorizeNetRequest
  */
 class AuthorizeNetTD_Response extends AuthorizeNetXMLResponse
 {
-
 
 }

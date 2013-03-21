@@ -32,7 +32,6 @@
  * @link       http://www.authorize.net/support/AIM_guide.pdf AIM Guide
  */
 
-
 /**
  * Builds and sends an AuthorizeNet AIM Request.
  *
@@ -448,7 +447,6 @@ class AuthorizeNetAIM_Response extends AuthorizeNetResponse
 
 				return;
 			}
-
 
 			// Set all fields
 			$this->response_code = $this->_response_array[0];

@@ -32,7 +32,7 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paypoint_redirection(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypoint_redirection');
@@ -44,7 +44,6 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 
 		if ($element != 'rs_payment_paypoint_redirection')
 		{
@@ -69,21 +68,17 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 			return;
 		}
 
-
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];
 
-
 		$quickpay_parameters = $this->getparameters('rs_payment_paypoint_redirection');
-
 
 		$paymentinfo = $quickpay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		$verify_status = $paymentparams->get('verify_status', '');
 		$invalid_status = $paymentparams->get('invalid_status', '');
-
 
 		$trans_id = $request['trans_id'];
 		$amount = $request['amount'];
@@ -126,6 +121,5 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 
 		return $params;
 	}
-
 
 }

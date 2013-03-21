@@ -1,5 +1,5 @@
 <?php
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
@@ -19,7 +19,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// Load plugin parameters
+		// load plugin parameters
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stock_notifyemail');
 		$this->_params = new JRegistry($this->_plugin->params);
@@ -41,7 +41,6 @@ class plgredshop_productstock_notifyemail extends JPlugin
 		if ($stockroom_data['regular_stock'] || $stockroom_data['preorder_stock'])
 		{
 			$userData = $this->getNotifyUsers($stockroom_data);
-
 
 			if (count($userData) > 0)
 			{

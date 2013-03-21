@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $mainframe = JFactory::getApplication();
@@ -72,7 +71,6 @@ $spacereplace = str_replace(" ", "%20", $ewayurl);
 $posturl = "https://nz.ewaygateway.com/Request/?$spacereplace";
 
 
-
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $posturl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -87,7 +85,6 @@ if (CURL_PROXY_REQUIRED == 'True')
 	curl_setopt($ch, CURLOPT_PROXY, CURL_PROXY_SERVER_DETAILS);
 }
 
-
 $response = curl_exec($ch);
 
 $responsemode = $this->fetch_data($response, '<result>', '</result>');
@@ -101,7 +98,6 @@ else
 {
 	$mainframe->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id']);
 }
-
 
 
 ?>

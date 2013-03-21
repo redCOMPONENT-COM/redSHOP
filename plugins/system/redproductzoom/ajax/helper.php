@@ -2,7 +2,6 @@
 class zoomproducthelper extends producthelper
 {
 
-
 	function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
 	{
 		$url = JURI::root();
@@ -219,7 +218,7 @@ class zoomproducthelper extends producthelper
 		$title = " title='" . $product->product_name . "' ";
 		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
 
-		// Get template for stockroom status
+		// get template for stockroom status
 		if ($accessory_id != 0)
 		{
 			$template_desc = $redTemplate->getTemplate("accessory_product");
@@ -430,7 +429,6 @@ class zoomproducthelper extends producthelper
 
 			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $thumb_original))
 				$prodadditionImg .= $prodmainimg;
-
 
 		}
 		//Product Additional Image End
@@ -664,12 +662,12 @@ class zoomproducthelper extends producthelper
 			}
 		}
 
-		// Stockroom status code->Ushma
+		// stockroom status code->Ushma
 
 		if (strstr($template_desc, "{stock_status"))
 		{
 
-			// For product stock
+			// for product stock
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
 			if ($property_id > 0)
@@ -706,10 +704,9 @@ class zoomproducthelper extends producthelper
 
 			}
 
-
 			if ($property_id == 0 && !$isStockExists)
 			{
-				// For cunt attributes
+				// for cunt attributes
 				$attributes_set = array();
 
 				if ($product->attribute_set_id > 0)
@@ -721,7 +718,7 @@ class zoomproducthelper extends producthelper
 				$attributes = array_merge($attributes, $attributes_set);
 				$totalatt = count($attributes);
 
-				// For product stock
+				// for product stock
 				$isStockExists = $stockroomhelper->isStockExists($product_id);
 
 				if ($totalatt > 0 && !$isStockExists)
@@ -751,7 +748,6 @@ class zoomproducthelper extends producthelper
 						else
 						{
 
-
 							$isPropertystock = $stockroomhelper->isStockExists($property[$att_j]->property_id, "property");
 							//echo $isPropertystock;die();
 
@@ -764,7 +760,7 @@ class zoomproducthelper extends producthelper
 					}
 				}
 
-				// For preproduct stock
+				// for preproduct stock
 				$isPreorderStockExists = $stockroomhelper->isPreorderStockExists($product_id);
 
 				if ($totalatt > 0 && !$isPreorderStockExists)
@@ -836,12 +832,11 @@ class zoomproducthelper extends producthelper
 				$pre_order_class = "pre_order_cls";
 			}
 
-
 			if (!$isStockExists)
 			{
 				if (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes") || ($product_preorder == "" && ALLOW_PRE_ORDER))
 				{
-					// For preproduct stock
+					// for preproduct stock
 
 					$isPreorderStockExists = $stockroomhelper->isPreorderStockExists($product_id);
 
@@ -929,7 +924,6 @@ class zoomproducthelper extends producthelper
 
 		if ($path[1] != "plugins") $url .= "/" . $path[1] . "/";
 		else    $url .= "/";
-
 
 		$option = JRequest::getVar('option', 'com_redshop');
 		$product = $this->getProductById($product_id);
@@ -1035,7 +1029,6 @@ class zoomproducthelper extends producthelper
 		$Arrreturn['type'] = $type;
 		$Arrreturn['attrbimg'] = $attrbimg;
 		$Arrreturn['pr_number'] = $pr_number;
-
 
 		return $Arrreturn;
 	}

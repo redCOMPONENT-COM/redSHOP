@@ -151,7 +151,6 @@ if ($popup)
 				</td>
 			</tr>
 
-
 		</table>
 		<table align='center' cellspacing='3' cellpadding='3' width='80%'>
 			<tr>

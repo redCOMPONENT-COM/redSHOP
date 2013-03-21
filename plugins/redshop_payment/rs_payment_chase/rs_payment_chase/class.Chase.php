@@ -12,15 +12,12 @@ class Chase
 	private $_MerchantID;
 	private $_TerminalID;
 
-
 	// Currency Information
 	private $_CurrencyCode;
 	private $_CurrencyExponent;
 
-
 	// Chase settings url etc
 	private $_chase_gateway_url;
-
 
 	// Card Details
 	public $CardBrand;
@@ -29,7 +26,6 @@ class Chase
 	public $CardSecValInd;
 	public $CardSecVal;
 	public $CCtype;
-
 
 	// AVS Information
 	public $AVSname;
@@ -40,12 +36,10 @@ class Chase
 	public $AVSstate; //
 	public $AVSphoneNum; // 800456451212
 
-
 	// OREDER Information
 	public $OrderID;
 	public $Amount;
 	public $OrbitalConnectionUsername;
-
 
 	// OTHER Information
 	public $Comments;
@@ -56,12 +50,10 @@ class Chase
 	public $email_msg_to_send = '';
 	public $receipt_msg_to_show = '';
 
-
 	// Varibales to track
 	public $chase_QuickResponse = '';
 	public $chase_ProcStatus = '';
 	public $chase_StatusMsg = '';
-
 
 	//Responses from varius request like NewOrder, Reversal(VOID), REFUND
 	public $arr_NewOrder_response; // New Order
@@ -76,9 +68,7 @@ class Chase
 	public function __construct()
 	{
 
-
 	}
-
 
 	/**
 	 * parse response of gateway
@@ -159,7 +149,6 @@ class Chase
 	public function post_an_order()
 	{
 
-
 		$xml = $this->generate_order_xml();
 		$header = "POST /AUTHORIZE HTTP/1.0\r\n";
 		$header .= "MIME-Version: 1.0\r\n";
@@ -170,7 +159,6 @@ class Chase
 		$header .= "Document-type: Request\r\n";
 		$header .= "Interface-Version: Test 1.4\r\n";
 		$header .= "Connection: close \r\n\r\n";
-
 
 		$header .= $xml;
 
@@ -187,7 +175,6 @@ class Chase
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 		$response = curl_exec($ch);
-
 
 		if (curl_errno($ch))
 		{
@@ -206,7 +193,6 @@ class Chase
 
 		/*****************/
 		$parsedResArr = $this->parseXmlResponse($vals);
-
 
 		$this->arr_NewOrder_response = $parsedResArr;
 		$response_arr = array();
@@ -233,7 +219,6 @@ class Chase
 			$this->chase_QuickResponse = $parsedResArr['QuickResponse'];
 			$this->chase_ProcStatus = $parsedResArr['ProcStatus'];
 			$this->chase_StatusMsg = $parsedResArr['StatusMsg'];
-
 
 			//echo "unsuccessful";
 			switch ($parsedResArr['RespCode'])
@@ -349,7 +334,6 @@ class Chase
 		}
 	}
 
-
 // Function to capture
 
 	public function capture_an_order()
@@ -433,6 +417,5 @@ class Chase
 			//return false;
 		}
 	}
-
 
 }

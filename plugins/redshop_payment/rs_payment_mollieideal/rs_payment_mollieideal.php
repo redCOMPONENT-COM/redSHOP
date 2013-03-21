@@ -20,7 +20,6 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
-
 class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 {
 	var $_table_prefix = null;
@@ -35,12 +34,11 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_mollieideal(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_mollieideal');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -67,7 +65,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		*/
 	}
 
-
 	function onNotifyPaymentrs_payment_mollieideal($element, $request)
 	{
 
@@ -79,7 +76,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$request = JRequest::get('request');
-
 
 		$url = $uri->root();
 		$Itemid = JRequest::getInt('Itemid');
@@ -100,7 +96,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		$mideal = new ideal;
 		$response = $mideal->checkPayment($paymentparams->get("mollieideal_partner_id"), $tid, $paymentparams->get("mollieideal_is_test"));
-
 
 		$user = JFactory::getUser();
 		$order_id = $request['orderid'];
@@ -185,7 +180,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			$request['stap'] = 3;
 		}
 
-
 		switch ($request['stap'])
 		{
 			case 1:
@@ -210,7 +204,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 	{
 		return $this->_show_div('<b style="color:red">' . $content . '</b>');
 	}
-
 
 	function show_bank_form($order_id)
 	{
@@ -239,7 +232,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		return $this->_show_div($form);
 	}
 
-
 	function go_to_bank($order_id)
 	{
 		$request = JRequest::get('request');
@@ -262,7 +254,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$mideal->setReturnUrl(JURI::base() . "index.php?option=com_redshop&view=order_detail&Itemid=$Itemid&oid=" . $order_id);
 		//$mideal->setReturnUrl(($_SERVER['SERVER_PORT'] == 443 ? 'https://': 'http://').$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'&mideal=3');
 		$mideal->setReportUrl(JURI::base() . "index2.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_mollieideal&orderid=" . $order_id);
-
 
 		$mideal->setTestMode($this->_params->get("mollieideal_is_test"));
 		$created = $mideal->createPayment();
@@ -288,7 +279,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		return $this->_show_div($form);
 	}
-
 
 	function onCapture_Paymentrs_payment_mollieideal($element, $data)
 	{

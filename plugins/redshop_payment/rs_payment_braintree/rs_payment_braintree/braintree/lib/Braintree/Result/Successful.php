@@ -53,18 +53,17 @@ class Braintree_Result_Successful extends Braintree_Instance
 	{
 		if (!empty($objToReturn))
 		{
-			// Get a lowercase direct name for the property
+			// get a lowercase direct name for the property
 			$property = Braintree_Util::cleanClassName(
 				get_class($objToReturn)
 			);
-			// Save the name for indirect access
+			// save the name for indirect access
 			$this->_returnObjectName = $property;
 
-			// Create the property!
+			// create the property!
 			$this->$property = $objToReturn;
 		}
 	}
-
 
 	/**
 	 *

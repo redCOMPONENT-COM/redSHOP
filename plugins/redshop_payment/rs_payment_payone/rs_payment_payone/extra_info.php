@@ -26,7 +26,6 @@ $Itemid = $_REQUEST['Itemid'];
 $formdata = array(
 	'x_version'          => '3.1',
 
-
 	// Customer Name and Billing Address
 	//'customerid'
 	'first_name'         => substr($data['billingaddress']->firstname, 0, 50),
@@ -60,7 +59,6 @@ $formdata = array(
 	'ip'                 => $_SERVER["REMOTE_ADDR"],
 	//	'x_customer_tax_id' => $dbbt->f("tax_id"),
 
-
 	// Invoice Information
 	'invoiceid'          => substr($order_number, 0, 20),
 	'x_description'      => JText::_('COM_REDSHOP_AUTHORIZENET_ORDER_PRINT_PO_LBL'),
@@ -76,7 +74,6 @@ $formdata = array(
 	'amount'             => $order_total,
 	'currency'           => 'GB',
 	//'currency' => $currency,
-
 
 );
 
@@ -174,7 +171,6 @@ else
 $values->transaction_id = $output['txid'];
 $values->order_id = $order_id;
 $objOrder->changeorderstatus($values);
-
 
 
 ?>

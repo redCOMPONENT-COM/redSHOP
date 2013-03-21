@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Braintree Transparent Redirect module
  *
@@ -63,7 +62,6 @@ class Braintree_TransparentRedirect
 	private static $_createCreditCardSignature;
 	private static $_updateCreditCardSignature;
 
-
 	/**
 	 * @ignore
 	 * don't permit an explicit call of the constructor!
@@ -111,7 +109,6 @@ class Braintree_TransparentRedirect
 			$queryString
 		);
 
-
 		$confirmationKlasses = array(
 			Braintree_TransparentRedirect::CREATE_TRANSACTION    => 'Braintree_Transaction',
 			Braintree_TransparentRedirect::CREATE_CUSTOMER       => 'Braintree_Customer',
@@ -119,7 +116,6 @@ class Braintree_TransparentRedirect
 			Braintree_TransparentRedirect::CREATE_PAYMENT_METHOD => 'Braintree_CreditCard',
 			Braintree_TransparentRedirect::UPDATE_PAYMENT_METHOD => 'Braintree_CreditCard'
 		);
-
 
 		return call_user_func(array($confirmationKlasses[$params["kind"]], '_doCreate'),
 			'/transparent_redirect_requests/' . $params['id'] . '/confirm',
@@ -179,12 +175,10 @@ class Braintree_TransparentRedirect
 	public static function transactionData($params)
 	{
 
-
 		Braintree_Util::verifyKeys(
 			self::$_transactionSignature,
 			$params
 		);
-
 
 		$params["kind"] = Braintree_TransparentRedirect::CREATE_TRANSACTION;
 
@@ -275,16 +269,15 @@ class Braintree_TransparentRedirect
 
 	public static function parseAndValidateQueryString($queryString)
 	{
-		// Parse the params into an array
+		// parse the params into an array
 		parse_str($queryString, $params);
-		// Remove the hash
+		// remove the hash
 		$queryStringWithoutHash = null;
 
 		if (preg_match('/^(.*)&hash=[a-f0-9]+$/', $queryString, $match))
 		{
 			$queryStringWithoutHash = $match[1];
 		}
-
 
 		if ($params['http_status'] != '200')
 		{
@@ -297,7 +290,7 @@ class Braintree_TransparentRedirect
 			Braintree_Util::throwStatusCodeException($params['http_status'], $message);
 		}
 
-		// Recreate the hash and compare it
+		// recreate the hash and compare it
 		if (self::_hash($queryStringWithoutHash) == $params['hash'])
 		{
 
@@ -308,7 +301,6 @@ class Braintree_TransparentRedirect
 			return $params;
 		}
 	}
-
 
 	/**
 	 *

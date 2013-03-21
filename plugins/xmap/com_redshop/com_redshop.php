@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 defined('_VALID_MOS') or defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
@@ -195,7 +194,6 @@ class xmap_com_redshop
 				$node->expandible = false;
 				$node->link = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->category_id;
 
-
 				if ($xmap->printNode($node) !== false)
 				{
 					xmap_com_redshop::getProductTree($xmap, $parent, $params, $row->product_id, $row->category_id);
@@ -294,7 +292,6 @@ class xmap_com_redshop
 			$xmap->changeLevel(-1);
 		}
 	}
-
 
 	function getParam($arr, $name, $def)
 	{

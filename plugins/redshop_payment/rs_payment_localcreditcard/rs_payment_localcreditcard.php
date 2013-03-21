@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_localcreditcard(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_localcreditcard');
@@ -61,11 +61,9 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 
 	}
 
-
 	function onCapture_Paymentrs_payment_localcreditcard($element, $data)
 	{
 		return;
 	}
-
 
 }

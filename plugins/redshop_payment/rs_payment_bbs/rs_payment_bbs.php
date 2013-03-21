@@ -34,14 +34,13 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 	 */
 	function plgredshop_paymentrs_payment_bbs(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_bbs');
 		$this->_params = new JRegistry($this->_plugin->params);
 
 	}
-
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
@@ -148,7 +147,6 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

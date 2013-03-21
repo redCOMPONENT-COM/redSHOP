@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paypal(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypal');
@@ -45,7 +45,6 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 
 		if ($element != 'rs_payment_paypal')
 		{
@@ -83,11 +82,9 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		$invalid_status = $paymentparams->get('invalid_status', '');
 		$cancel_status = $paymentparams->get('cancel_status', '');
 
-
 		$user = JFactory::getUser();
 
 		$order_id = $request["orderid"];
-
 
 		$status = $request['payment_status'];
 		$tid = $request['txn_id'];
@@ -127,7 +124,6 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

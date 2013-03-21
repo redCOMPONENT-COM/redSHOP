@@ -11,11 +11,10 @@
  *                 See COPYRIGHT.php for copyright notices and details.
  */
 
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
-
 
 /**
  * Editor Pagebreak buton
@@ -74,7 +73,6 @@ class plgButtonproduct extends JPlugin
 		}
 
 		$link = 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . $name;
-
 
 		JHTML::_('behavior.modal');
 

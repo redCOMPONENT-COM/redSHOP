@@ -34,13 +34,12 @@ $testMode = $this->_params->get("testMode");
 $extracost = 0;
 $guaranteeoffered = 1;
 
-// Convert price into SEK
+// convert price into SEK
 $currency = new convertPrice;
 $cost_dotsep = $currency->convert($data['carttotal'], '', 'SEK');
 $cost = number_format($cost_dotsep, 2);
 $cost = str_replace(',', '', $cost);
 $cost = str_replace('.', ',', $cost);
-
 
 if ($cost_dotsep < 10)
 {
@@ -61,10 +60,8 @@ else
 $selleremail = $pays_selleremail;
 $okurl = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_payson&orderid=" . $data['order_id'];
 
-
 $MD5string = $selleremail . ":" . $cost . ":" . $extracost . ":" . $okurl . ":" . $guaranteeoffered . $pays_md5;
 $md5code = md5($MD5string);
-
 
 
 $post_variables = Array("SellerEmail"      => $selleremail,
@@ -108,5 +105,4 @@ echo $url?>"
 </script>
 </body>
 </html>
-
 

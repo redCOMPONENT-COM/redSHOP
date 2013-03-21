@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_postfinance(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_postfinance');
@@ -73,7 +73,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
-
 		$order_id = $request['orderID'];
 		$response_hash = $request['SHASIGN'];
 		$currency = $request['currency'];
@@ -84,14 +83,12 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		$NCERROR = $request['NCERROR'];
 		$tid = $request['PAYID'];
 
-
-		// Get params from plugin
+		// get params from plugin
 		$sha_out_pass_phrase = $this->_params->get("sha_out_pass_phrase");
 		$algo_used = $this->_params->get("algo_used");
 		$hash_string = $this->_params->get("hash_string");
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
-
 
 		$secret_words = $order_id . $request['currency'] . $request['amount'] . $request['PM'] . $request['ACCEPTANCE'] . $request['STATUS'] . $request['CARDNO'] . $request['PAYID'] . $request['NCERROR'] . $request['BRAND'] . $sha_out_pass_phrase; //$params->get("TWOCO_SECRETWORD");
 		$hash_to_check = strtoupper(sha1($secret_words));
@@ -100,7 +97,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		{
 			if ($response_hash === $hash_to_check)
 			{
-
 
 				// UPDATE THE ORDER STATUS to 'VALID'
 				$transaction_id = $tid;
@@ -137,6 +133,5 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 
 		return $values;
 	}
-
 
 }

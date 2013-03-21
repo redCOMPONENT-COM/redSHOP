@@ -6,7 +6,6 @@
  * @subpackage AuthorizeNetCIM
  */
 
-
 /**
  * A class that contains all fields for a CIM Customer Profile.
  *
@@ -129,7 +128,7 @@ class AuthorizeNetTransaction
 		$this->duty->name = "";
 		$this->duty->description = "";
 
-		// Line items
+		// line items
 
 		$this->order = (object) array();
 		$this->order->invoiceNumber = "";

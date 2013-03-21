@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -180,7 +180,6 @@ class plgredshop_shippingups_canada extends JPlugin
 						</div>
 					</td>
 				</tr>
-
 
 				<tr class="row0">
 					<td>UPS Express</td>
@@ -386,7 +385,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		$shippingrate = array();
 		$rate = 0;
 
-		// Conversation of weight ( ration )
+		// conversation of weight ( ration )
 		$unitRatio = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
 		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
 
@@ -395,7 +394,7 @@ class plgredshop_shippingups_canada extends JPlugin
 
 		if ($unitRatio != 0)
 		{
-			$order_weight = $order_weight * $unitRatio; // Converting weight in pounds
+			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
 
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -456,7 +455,7 @@ class plgredshop_shippingups_canada extends JPlugin
 
 		//LBS  = Pounds
 		//KGS  = Kilograms
-		$weight_measure = (DEFAULT_WEIGHT_UNIT == "gram") ? "KGS" : "LBS"; // If change than change conversation base unit also
+		$weight_measure = (DEFAULT_WEIGHT_UNIT == "gram") ? "KGS" : "LBS"; // if change than change conversation base unit also
 		$measurecode = ($weight_measure == "KGS") ? "CM" : "IN";
 
 		// The XML that will be posted to UPS
@@ -533,7 +532,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		$xmlPost .= " </Shipment>";
 		$xmlPost .= "</RatingServiceSelectionRequest>";
 
-		// Echo htmlentities( $xmlPost );
+		// echo htmlentities( $xmlPost );
 		$upsURL = "https://www.ups.com:443/ups.app/xml/Rate";
 		$error = false;
 //echo $xmlPost;exit;
@@ -545,7 +544,6 @@ class plgredshop_shippingups_canada extends JPlugin
 		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
 		$xmlResult = curl_exec($CR);
-
 
 		$xmlDoc = JFactory::getXMLParser('Simple');
 
@@ -566,7 +564,6 @@ class plgredshop_shippingups_canada extends JPlugin
 			}
 		}
 
-
 		if ($itemparams->get("ups_debug"))
 		{
 			echo "XML Post: <br>";
@@ -577,7 +574,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			echo "<br>";
 			echo "Cart Contents: " . $order_weight . "<br><br>\n";
 		}
-		// Retrieve the list of all "RatedShipment" Elements
+		// retrieve the list of all "RatedShipment" Elements
 
 		$matchedchild = $xmlDoc->document->_children;
 		$allservicecodes = array(
@@ -805,7 +802,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				echo "<br>";
 				echo "Cart Contents: ".$order_weight. "<br><br>\n";
 			}
-			// Retrieve the list of all "RatedShipment" Elements
+			// retrieve the list of all "RatedShipment" Elements
 			$rate_list =& $xmlDoc->getElementsByTagName( "RatedShipment" );
 			$allservicecodes = array(
 						"UPS_Canada_Express",
@@ -878,7 +875,7 @@ class plgredshop_shippingups_canada extends JPlugin
 					// Eighth Element: RatedPackage
 					$shipment[$i]["RatedPackage"] = $currNode->childNodes[$e++];
 
-					// Map ServiceCode to ServiceName
+					// map ServiceCode to ServiceName
 					switch( $shipment[$i]["ServiceCode"] )
 					{
 						case "01": $shipment[$i]["ServiceName"] = "UPS Canada Express"; break;
@@ -931,13 +928,13 @@ class plgredshop_shippingups_canada extends JPlugin
 					$tmp = $value['TransportationCharges'];
 
 					$tmp = $currency->convert( $value['TransportationCharges'], "USD", CURRENCY_CODE );
-					// Tmp is empty when the Vendor Currency could not be converted!!!!
+					// tmp is empty when the Vendor Currency could not be converted!!!!
 					if( !empty( $tmp ))
 					{
 						$charge = $tmp;
-						// Add Fuel SurCharge
+						// add Fuel SurCharge
 						$charge_fee = ($charge * $fsc) / 100;
-						// Add Handling Fee
+						// add Handling Fee
 						$charge += UPS_HANDLING_FEE + $charge_fee;
 						$value['TransportationCharges'] =  $producthelper->getProductFormattedPrice($charge,false);
 					}
@@ -945,9 +942,9 @@ class plgredshop_shippingups_canada extends JPlugin
 					else
 					{
 						$charge = $value['TransportationCharges'] + intval( UPS_HANDLING_FEE );
-						// Add Fuel SurCharge
+						// add Fuel SurCharge
 						$charge_fee = ($charge * $fsc) / 100;
-						// Add Handling Fee
+						// add Handling Fee
 						$charge += UPS_HANDLING_FEE + $charge_fee;
 
 						$value['TransportationCharges'] = $value['TransportationCharges']. " USD";
@@ -956,9 +953,9 @@ class plgredshop_shippingups_canada extends JPlugin
 				else
 				{
 					$charge = $charge_unrated = $value['TransportationCharges'];
-					// Add Fuel SurCharge
+					// add Fuel SurCharge
 					$charge_fee = ($charge * $fsc) / 100;
-					// Add Handling Fee
+					// add Handling Fee
 					$charge += UPS_HANDLING_FEE + $charge_fee;
 					$value['TransportationCharges'] = $producthelper->getProductFormattedPrice($charge,false);//$CURRENCY_DISPLAY->getFullValue($charge);
 				}
@@ -998,7 +995,6 @@ class plgredshop_shippingups_canada extends JPlugin
 	<?php
 
 	}
-
 
 }
 

@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
@@ -23,7 +22,6 @@ $mainframe = JFactory::getApplication();
 $session =& JFactory::getSession();
 $ccdata = $session->get('redirect_ccdata');
 
-
 $eWAYcustomer_id = $this->_params->get("customer_id");
 $eWAYusername = $this->_params->get("username");
 $eWAYpassword = $this->_params->get("password");
@@ -31,7 +29,6 @@ $eWAYpassword = $this->_params->get("password");
 $currencyClass = new convertPrice;
 $currency_main = "GBP";
 $order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
-
 
 $request = array(
 	'Authentication' => array(
@@ -63,7 +60,6 @@ $request = array(
 );
 
 
-
 try
 {
 	$client = new SoapClient("https://uk.ewaypayments.com/hotpotato/soap.asmx?WSDL", array(
@@ -76,7 +72,6 @@ catch (Exception $e)
 {
 	$lblError = $e->getMessage();
 }
-
 
 ?>
 <form method="POST" action="https://uk.ewaypayments.com/hotpotato/payment" id="ewayfrm" name="ewayfrm">
@@ -92,8 +87,6 @@ catch (Exception $e)
 <script type='text/javascript'>document.ewayfrm.submit();</script>
 
 	
-
-
 
 
 

@@ -19,10 +19,8 @@ $objOrder = new order_functions;
 
 $objconfiguration = new Redconfiguration;
 
-
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
-
 
 $redhelper = new redhelper;
 $db = JFactory::getDBO();
@@ -39,7 +37,7 @@ $currencyClass = new convertPrice;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'USD');
 
-// Get params from payment plugin
+// get params from payment plugin
 $merchant_id = $this->_params->get("paypoint_merchant_id");
 $vpn_password = $this->_params->get("paypoint_vpn_password");
 $test_status = $this->_params->get("paypoint_test_status");
@@ -57,15 +55,12 @@ else
 	$test_status = "true";
 }
 
-
 $order_amount = $order_details[0]->order_total;
 $txn_id = rand(1111111, 9999999);
 $call_back_url = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypoint_redirection&orderid=" . $data['order_id'];
 
 
-
 // End
-
 
 $post_variables = Array(
 	"option"   => "test_status=" . $test_status,
@@ -76,9 +71,7 @@ $post_variables = Array(
 	"order"    => $data['order_id'],
 	// "template" => "http://www.secpay.com/users/uclick01/c_card.htm"
 
-
 );
-
 
 
 echo "<form action='$paypointurl' method='post'  id='paypointform'>";

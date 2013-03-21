@@ -72,7 +72,6 @@ for ($p = 0; $p < count($rs); $p++)
 	$formdata['ordline' . ($p + 1) . '-4'] = $rs[$p]->product_item_price;
 }
 
-
 /* extra info */
 
 if ($this->_params->get("is_test") == "1")
@@ -82,7 +81,7 @@ $version = "2";
 $dibsurl = "https://payment.architrade.com/paymentweb/start.action";
 $currencyClass = new convertPrice;
 $formdata['amount'] = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
-// For total amount
+// for total amount
 $cal_no = 2;
 
 if (defined('PRICE_DECIMAL'))
@@ -92,7 +91,6 @@ if (defined('PRICE_DECIMAL'))
 
 $formdata['amount'] = round($formdata['amount'], $cal_no);
 $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
-
 
 if ($formdata['flexlang'] == "Auto")
 {

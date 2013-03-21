@@ -14,15 +14,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 $objOrder = new order_functions;
 
 $objconfiguration = new Redconfiguration;
 
-// Get currency
-
+// get currency
 
 function get_iso_code($code)
 {
@@ -545,14 +543,12 @@ function get_iso_code($code)
 			return "716";
 			break;
 	}
-	return "XXX"; // Return invalid code if the currency is not found
+	return "XXX"; // return invalid code if the currency is not found
 }
-
 
 
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
-
 
 $redhelper = new redhelper;
 $db = JFactory::getDBO();
@@ -564,7 +560,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// Buyer details
+// buyer details
 
 $buyeremail = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
@@ -586,10 +582,10 @@ $order_subtotal = number_format($order_details[0]->order_total, 2, '.', '');
 
 $key = $certificate_number;
 // Initialization of parameters
-$params = array(); // Entry form of the parameters table
+$params = array(); // entry form of the parameters table
 $params['vads_site_id'] = $site_id;
 $params['vads_amount'] = 100 * $order_subtotal;
-// In cents
+// in cents
 $params['vads_currency'] = get_iso_code(CURRENCY_CODE);
 // ISO 4217 standard
 if ($is_test == 1)
@@ -603,7 +599,7 @@ else
 
 $params['vads_page_action'] = "PAYMENT";
 $params['vads_action_mode'] = "INTERACTIVE";
-// Card entry performed by the platform
+// card entry performed by the platform
 $params['vads_payment_config'] = "SINGLE";
 $params['vads_version'] = "V2";
 $params['vads_cust_id'] = $user->id;
@@ -615,7 +611,6 @@ $params['vads_cust_address'] = $owneraddress;
 $params['vads_cust_country'] = $country;
 $params['vads_cust_email'] = $buyeremail;
 
-
 // Example of trans_id generation based on transaction date
 $ts = time();
 $params['vads_trans_date'] = gmdate("YmdHis", $ts);
@@ -626,7 +621,7 @@ $params['vads_url_return'] = JURI::base() . "index.php?option=com_redshop&view=o
 $params['vads_url_refused'] = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_cyberplus&Itemid=" . $_REQUEST['Itemid'] . "&orderid=" . $data['order_id'];
 $params['vads_url_cancel'] = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_cyberplus&Itemid=" . $_REQUEST['Itemid'] . "&orderid=" . $data['order_id'];
 // Signature generation
-ksort($params); // Sorting of parameters in alphabetical order
+ksort($params); // sorting of parameters in alphabetical order
 $contenu_signature = "";
 
 foreach ($params as $nom => $valeur)

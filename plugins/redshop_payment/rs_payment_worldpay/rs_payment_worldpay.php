@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_worldpay(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_worldpay');
@@ -78,10 +78,9 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 		$rawAuthMessage = $request['rawAuthMessage'];
 		$transId = $request['transId'];
 
-		// Get params from plugin parameters
+		// get params from plugin parameters
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
-
 
 		if ($transStatus == "Y")
 		{
@@ -94,7 +93,6 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->transaction_id = $transId;
 			$values->order_id = $order_id;
-
 
 		}
 		else
@@ -111,6 +109,5 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 
 		return $values;
 	}
-
 
 }

@@ -4,7 +4,7 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -59,7 +59,6 @@ function onBeforeRender()
 	$preselection_result = $this->checkforpreselection($pid);
 	$product_data = $this->getProductData($pid);
 
-
 	# get Product Main Image functionality
 	if (count($preselection_result) > 0)
 		$mainimage = $zoomproducthelper->replaceProductImage($product_data, "", "", "", $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX, 0, $preselection_result);
@@ -80,7 +79,6 @@ function onBeforeRender()
 
 	ob_clean();
 	ob_start();
-
 
 	?>
 	<script type="text/javascript">
@@ -156,8 +154,7 @@ function onBeforeRender()
 					newhref = newhref[0];
 				}
 
-
-				// Change extension to lowercase
+				// change extension to lowercase
 				newhref = newhref.toLowerCase();
 
 				if (newhref == "jpg" || newhref == "jpeg" || newhref == "png" || newhref == "gif" || newhref == "bmp") {
@@ -169,11 +166,10 @@ function onBeforeRender()
 			var url = site_url + "plugins/system/redproductzoom/ajax/displayAdditionImage.php?redview=" + REDSHOP_VIEW + "&redlayout=" + REDSHOP_LAYOUT + "&tmpl=component";
 			url = url + suburl;
 
-
 			request = getHTTPObject();
 			request.onreadystatechange = function () {
 
-				// If request object received response
+				// if request object received response
 
 				if (request.readyState == 4) {
 					var arrResponse = "";
@@ -219,7 +215,7 @@ function onBeforeRender()
 						document.getElementById('stock_status_div' + product_id).innerHTML = arrResponse[11];
 					}
 
-					// Preload slimbox
+					// preload slimbox
 					//preloadSlimbox();
 
 					jQuery('.jqzoom').jqzoom({

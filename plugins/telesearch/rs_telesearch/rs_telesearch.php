@@ -11,7 +11,7 @@
  *                 See COPYRIGHT.php for copyright notices and details.
  */
 
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 //JPlugin::loadLanguage( 'plg_telesearch_rs_telesearch');
@@ -45,7 +45,6 @@ class plgtelesearchrs_telesearch extends JPlugin
 		$plugin = JPluginHelper::getPlugin('telesearch', 'rs_telesearch');
 		$pluginParams = new JRegistry($plugin->params);
 		$serverurl = $pluginParams->get('telesearch_serverurl', 'http://opslag.redhost.dk/');
-
 
 		$myfile = $serverurl . '/lookup.php?' . $query;
 

@@ -11,7 +11,6 @@ else
 	die ("Joomla Configuration File not found!");
 }
 
-
 $absolute_path = realpath($absolute_path);
 
 define ('_JEXEC', 1);
@@ -25,18 +24,16 @@ define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
-// Create the mainframe object
+// create the mainframe object
 $mainframe = & JFactory::getApplication('site');
 
 // Initialize the framework
 $mainframe->initialise();
 
-
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
-
 
 
 $db = JFactory::getDBO();
@@ -46,7 +43,6 @@ $url = JURI::base();
 $option = JRequest::getVar('option');
 
 $post = JRequest::get('post');
-
 
 JPluginHelper::importPlugin('redshop_payment');
 $dispatcher =& JDispatcher::getInstance();

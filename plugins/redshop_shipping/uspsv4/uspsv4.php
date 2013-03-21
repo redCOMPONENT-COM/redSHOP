@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -457,7 +457,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		$shippingcfg = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
 		include_once ($shippingcfg);
 
-		// Conversation of weight ( ration )
+		// conversation of weight ( ration )
 		$unitRatio = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
 		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
 		$totaldimention = $shippinghelper->getCartItemDimention();
@@ -465,7 +465,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 		if ($unitRatio != 0)
 		{
-			$order_weight = $order_weight * $unitRatio; // Converting weight in pounds
+			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
 
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -597,7 +597,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					$xmlPost .= "<Machinable>" . $usps_machinable . "</Machinable>";
 					$xmlPost .= "</Package>";
 
-
 					$xmlPost .= "</RateV4Request>";
 				}
 				else
@@ -687,7 +686,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 						$header = '';
 						//get the response
 						$lineNum = 0;
-						do // Loop until the end of the header
+						do // loop until the end of the header
 						{
 							$header .= fgets($fp, 128);
 						} while (strpos($header, "\r\n\r\n") === false);
@@ -749,7 +748,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 								$postage_child = $currNode->_children;
 								$mailservice = $currNode->getElementByPath("mailservice");
 
-
 								for ($tmp = 0; $tmp <= 16; $tmp++)
 								{
 									$strTitle = preg_replace('|<sup>(.*?)</sup>|', '', htmlspecialchars_decode($mailservice->data(), ENT_QUOTES));
@@ -763,7 +761,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 											$ship_service[$count] = $mailservice->data(); //html_entity_decode();
 											$rateData = $currNode->getElementByPath("rate");
 											$ship_postage[$count] = $rateData->data();
-
 
 											if (preg_match('/%$/', USPS_HANDLINGFEE))
 											{
@@ -889,7 +886,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 		<?php    return true;
 	} //end function show_configuration
-
 
 }
 define('_USPS_USERNAME', 'USPS shipping username');

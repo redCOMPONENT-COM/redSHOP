@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_dotpay(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dotpay');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -115,7 +114,6 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 
 		$obl_md5 = md5("" . $dotpay_key . ":" . $id . ":" . $control . ":" . $t_id . ":" . $amount . ":" . $email . ":" . $service . ":" . $code . ":" . $username . ":" . $password . ":" . $t_status . "");
 
-
 		if ($md5 != $obl_md5)
 		{
 			$values->transaction_id = '';
@@ -168,7 +166,6 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		return $params;
 	}
 
-
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 
@@ -190,6 +187,5 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 	{
 		return;
 	}
-
 
 }

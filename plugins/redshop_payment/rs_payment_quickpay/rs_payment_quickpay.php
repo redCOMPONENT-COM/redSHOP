@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_quickpay(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_quickpay');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -113,7 +112,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 					$d['order_id'] = $order_detail->order_id;
 				}
 				// Switch on the order accept code
-				// Accept = 000 (callback)
+				// accept = 000 (callback)
 				//
 				// Only update the order information once
 				//
@@ -136,7 +135,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$values->transaction_id = $transaction;
 		$values->order_id = $order_id;
 
-
 		return $values;
 	}
 
@@ -149,7 +147,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
@@ -188,7 +185,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$transaction = $data['order_transactionid'];
 		$md5word = $this->_params->get("quickpay_paymentkey");
 		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $finalize . $transaction . $md5word);
-
 
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'finalize' => $finalize, 'transaction' => $transaction, 'md5check' => $md5check);
 
@@ -231,7 +227,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		return $values;
 	}
 
-
 	function onRefund_Paymentrs_payment_quickpay($element, $data)
 	{
 
@@ -251,7 +246,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$transaction = $data['order_transactionid'];
 		$md5word = $this->_params->get("quickpay_paymentkey");
 		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
 
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
 
@@ -294,7 +288,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		return $values;
 	}
 
-
 	function onStatus_Paymentrs_payment_quickpay($element, $data)
 	{
 
@@ -314,7 +307,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$transaction = $data['order_transactionid'];
 		$md5word = $this->_params->get("quickpay_paymentkey");
 		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
 
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
 
@@ -373,7 +365,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$md5word = $this->_params->get("quickpay_paymentkey");
 		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
 
-
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
 
 		$context = stream_context_create(
@@ -414,6 +405,5 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 		return $values;
 	}
-
 
 }

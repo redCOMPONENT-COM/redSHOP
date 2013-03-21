@@ -34,22 +34,19 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_rapid_ewayuk(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_rapid_ewayuk');
 		$this->_params = new JRegistry($this->_plugin->params);
 
-
 	}
-
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	function onPrePayment($element, $data)
 	{
-
 
 		if ($element != 'rs_payment_rapid_ewayuk')
 		{
@@ -74,10 +71,8 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 			return;
 		}
 
-
 		$db = jFactory::getDBO();
 		$AccessCode = $request["AccessCode"];
-
 
 		JPlugin::loadLanguage('com_redshop');
 		$netcash_parameters = $this->getparameters('rs_payment_rapid_ewayuk');
@@ -94,9 +89,7 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 
 		$order_id = $request['orderid'];
 
-
-		// For transaction status
-
+		// for transaction status
 
 		$request = array(
 			'Authentication' => array(
@@ -121,7 +114,6 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 		}
 		// End
 		$response = $result->GetAccessCodeResultResult;
-
 
 		$values = new stdClass;
 
@@ -172,7 +164,6 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 		return $params;
 	}
 
-
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 
@@ -194,6 +185,5 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 	{
 		return;
 	}
-
 
 }

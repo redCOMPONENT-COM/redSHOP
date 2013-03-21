@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paypalpro(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypalpro');
@@ -68,7 +68,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 		// Set request-specific fields.
 		$paymentType = urlencode($this->_params->get("sales_auth_only"));
-		$debug_mode = $this->_params->get('debug_mode', 0); // Or 'Sale'
+		$debug_mode = $this->_params->get('debug_mode', 0); // or 'Sale'
 		$firstName = urlencode($data['billinginfo']->firstname);
 		$lastName = urlencode($data['billinginfo']->lastname);
 		$creditCardType = urlencode($ccdata['creditcard_code']);
@@ -86,7 +86,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$zip = urlencode($data['billinginfo']->zipcode);
 		$country = urlencode($data['billinginfo']->country_code); // US or other valid country code
 		$amount = urlencode(number_format($data['order_total'], 2));
-		$currencyID = urlencode(CURRENCY_CODE); // Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+		$currencyID = urlencode(CURRENCY_CODE); // or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
 
 		if ($creditCardType == "MC")
 		{
@@ -139,7 +139,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 //		$objOrder->changeorderstatus($values);
 
 	}
-
 
 	function PPHttpPost($methodName_, $nvpStr_)
 	{
@@ -271,7 +270,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			}
 			//
 			// Switch on the order accept code
-			// Accept = 1 (standard redirect) accept = 2 (callback)
+			// accept = 1 (standard redirect) accept = 2 (callback)
 			//
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
@@ -282,7 +281,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
 
-
 					// UPDATE THE ORDER STATUS to 'VALID'
 					$transaction_id = $tid;
 					$values->order_status_code = $verify_status;
@@ -290,31 +288,31 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 
-					// Add history callback info
+					// add history callback info
 					if ($accept == "2")
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
 					}
 
-					// Payment fee
+					// payment fee
 					if ($request["transfee"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
 					}
 
-					// Payment date
+					// payment date
 					if ($request["date"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
 					}
 
-					// Payment fraud control
+					// payment fraud control
 					if (@$request["fraud"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
 					}
 
-					// Card id
+					// card id
 					if ($request["cardid"])
 					{
 						$cardname = "Unknown";
@@ -396,7 +394,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 					}
 
-					// Creation information
+					// creation information
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
 				}
@@ -426,7 +424,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 		}
-
 
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
@@ -471,12 +468,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$paymentinfo = $paypalpro_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-
 		// Set request-specific fields.
 		$authorizationID = urlencode($paymentparams->get('api_username'));
 		$amount = urlencode($data['order_amount']);
-		$currency = urlencode(CURRENCY_CODE); // Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
-		$completeCodeType = urlencode('Complete'); // Or 'NotComplete'
+		$currency = urlencode(CURRENCY_CODE); // or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+		$completeCodeType = urlencode('Complete'); // or 'NotComplete'
 		$invoiceID = urlencode($data['order_transaction_id']);
 		$note = urlencode(JText::_('COM_REDSHOP_CAPTURED_PAYMENT'));
 

@@ -25,7 +25,6 @@ $order = $order_functions->getOrderDetails($orderId);
 $orderItemDetails = $order_functions->getOrderItemDetail($orderId);
 // End
 
-
 if ($this->_params->get("currency") != "")
 {
 	$currency_main = $this->_params->get("currency");
@@ -128,7 +127,6 @@ else
 {
 	$thePayreadApi->set_test_mode(true);
 }
-
 
 ?>
 

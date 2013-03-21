@@ -46,14 +46,14 @@ else
 	$gatewayurl = $url_drift;
 }
 
-// Site base url
+// site base url
 //$baseurl = 'http://' . $_SERVER ['SERVER_NAME'] . $_SERVER ['PHP_SELF'];
 $baseurl = JURI::root();
 
 $rev = "E";
 $orderid = $data['order_id'];
 $Itemid = $_REQUEST['Itemid'];
-// Convert price to SEK(752)
+// convert price to SEK(752)
 $currency = new convertPrice;
 $amount = $currency->convert($data['carttotal'], '', 'SEK');
 
@@ -93,7 +93,6 @@ $transp1 = "";
 $transp2 = "";
 
 
-
 $md5str = $md5key;
 $md5str .= $merchant_id;
 $md5str .= $rev;
@@ -123,7 +122,7 @@ $md5str .= $httpdebug;
 $md5code = md5($md5str);
 $this->md5code = $md5code;
 
-// Fill array with class variables
+// fill array with class variables
 
 //--
 $post_variables = array("merchantid"      => $merchant_id,
@@ -161,7 +160,6 @@ $post_variables = array("merchantid"      => $merchant_id,
 
 
 
-
 // -----------------------
 
 $add_submit_html = false; //the submit button
@@ -172,7 +170,6 @@ foreach ($post_variables AS $key => $val)
 {
 	$html_hidden_params .= "<input type='hidden' name='$key' value='$val' />";
 }
-
 
 $form_head = "<form id = \"certitradeform\" name=\"certitradeform\" action=\" ";
 $form_head .= $gatewayurl;

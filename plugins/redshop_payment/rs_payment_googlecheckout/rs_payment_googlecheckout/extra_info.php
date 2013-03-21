@@ -14,14 +14,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
 $shippinghelper = new shipping;
 
-
 $currencyClass = new convertPrice;
 
-$currency_code = "USD"; // Currency accepted by google
+$currency_code = "USD"; // currency accepted by google
 
 $order = $data['order'];
 
@@ -35,9 +33,7 @@ $rs = $db->loadObjectlist();
 
 $url = JURI::root();
 
-
 // Include all the required files
-
 
 require_once 'library' . DS . 'googlecart.php';
 
@@ -56,7 +52,6 @@ $merchantkey = $this->_params->get("merchant_key", "");
 $buttonsize = $this->_params->get("button_size", "medium");
 
 $buttonstyle = $this->_params->get("button_style", "white");
-
 
 if ($buttonsize == "medium")
 {
@@ -95,9 +90,7 @@ $editurl = $url . "index.php?option=com_redshop&view=cart";
 
 $merchant_id = $this->_params->get("merchant_id", ""); // Your Merchant ID
 
-
 $merchant_key = $this->_params->get("merchant_key", ""); // Your Merchant Key
-
 
 $server_type = $this->_params->get("is_test", "sandbox");
 
@@ -118,15 +111,11 @@ for ($p = 0; $p < count($rs); $p++)
 
 	$item = new GoogleItem ($rs [$p]->order_item_name, // Item name
 
-
 		$order->order_id, // Item      description
-
 
 		$rs [$p]->product_quantity, // Quantity
 
-
 		$item_price); // Unit price
-
 
 	$cart->AddItem($item);
 
@@ -136,12 +125,9 @@ $discount_price = (0 - $currencyClass->convert($order->order_discount, '', $curr
 
 $disoucnt_item = new GoogleItem (JText::_('COM_REDSHOP_DISCOUNT'), // Item name
 
-
 	"", // Item      description
 
-
 	1, // Quantity
-
 
 	$discount_price); // Unit price
 
@@ -153,7 +139,6 @@ $cart->SetMerchantPrivateData(
 	new MerchantPrivateData (array("shopping-cart.merchant-private-data" => $order->order_id)));
 
 // Add shipping options
-
 
 $shipping_method_name = explode("|", $shippinghelper->decryptShipping($order->ship_method_id));
 
@@ -170,16 +155,13 @@ if (isset ($shipping_method_name [1]) && $shipping_method_name [1] != "")
 
 // Specify "Return to xyz" link
 
-
 $cart->SetContinueShoppingUrl($conurl);
 
 // Request buyer's phone number
 
-
 $cart->SetRequestBuyerPhone(false);
 
 // Display Google Checkout button
-
 
 echo $cart->CheckoutButtonCode(strtoupper($buttonsize));
 
