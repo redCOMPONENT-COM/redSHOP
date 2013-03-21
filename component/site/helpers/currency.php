@@ -13,18 +13,20 @@ jimport('joomla.utilities.simplexml');
 
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 
-/*
+/**
  * price converter
  */
 class convertPrice
 {
-	var $archive = true;
-	var $last_updated = '';
+	public $archive = true;
 
-	var $document_address = 'http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml';
+	public $last_updated = '';
 
-	var $info_address = 'http://www.ecb.int/stats/eurofxref/';
-	var $supplier = 'European Central Bank';
+	public $document_address = 'http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml';
+
+	public $info_address = 'http://www.ecb.int/stats/eurofxref/';
+
+	public $supplier = 'European Central Bank';
 
 	/**
 	 * Initializes the global currency converter array
@@ -39,12 +41,17 @@ class convertPrice
 		{
 			setlocale(LC_TIME, "en-GB");
 
-			$now = time() + 3600; // Time in ECB (Germany) is GMT + 1 hour (3600 seconds)
+			// Time in ECB (Germany) is GMT + 1 hour (3600 seconds)
+			$now = time() + 3600;
+
 			if (date("I"))
 			{
-				$now += 3600; // Adjust for daylight saving time
+				// Adjust for daylight saving time
+				$now += 3600;
 			}
-			$weekday_now_local = gmdate('w', $now); // week day, important: week starts with sunday (= 0) !!
+
+			// Week day, important: week starts with sunday (= 0) !!
+			$weekday_now_local = gmdate('w', $now);
 			$date_now_local    = gmdate('Ymd', $now);
 			$time_now_local    = gmdate('Hi', $now);
 			$time_ecb_update   = '1415';
@@ -57,19 +64,19 @@ class convertPrice
 
 			if (file_exists($archivefile_name) && filesize($archivefile_name) > 0)
 			{
-				// timestamp for the Filename
+				// Timestamp for the Filename
 				$file_datestamp = date('Ymd', filemtime($archivefile_name));
 
-				// check if today is a weekday - no updates on weekends
+				/*
+				 * Check if today is a weekday - no updates on weekends
+				 * Compare filedate and actual date
+				 * If localtime is greater then ecb-update-time go on to update and write files
+				 */
 				if (date('w') > 0 && date('w') < 6
-					// compare filedate and actual date
 					&& $file_datestamp != $date_now_local
-					// if localtime is greater then ecb-update-time go on to update and write files
-					&& $time_now_local > $time_ecb_update
-				)
+					&& $time_now_local > $time_ecb_update)
 				{
 					$curr_filename = $ecb_filename;
-
 				}
 				else
 				{
@@ -77,11 +84,9 @@ class convertPrice
 					$this->last_updated = $file_datestamp;
 					$this->archive      = false;
 				}
-
 			}
 			else
 			{
-
 				$curr_filename = $ecb_filename;
 			}
 
@@ -92,9 +97,9 @@ class convertPrice
 
 			if ($curr_filename == $ecb_filename)
 			{
-
 				// Fetch the file from the internet
 				$contents = @file_get_contents($curr_filename);
+
 				if (!$contents)
 				{
 					$mainframe->enqueuemessage("ERROR_RESOLVING_HOST");
@@ -103,7 +108,6 @@ class convertPrice
 				{
 					$this->last_updated = date('Ymd');
 				}
-
 			}
 			else
 			{
@@ -112,12 +116,12 @@ class convertPrice
 
 			if ($contents)
 			{
-
-				// if archivefile does not exist
+				// If archivefile does not exist
 				$contents = str_replace("<Cube currency='USD'", " <Cube currency='EUR' rate='1'/> <Cube currency='USD'", $contents);
+
 				if ($this->archive)
 				{
-					// now write new file
+					// Now write new file
 					file_put_contents($archivefile_name, $contents);
 				}
 
@@ -125,7 +129,7 @@ class convertPrice
 				$xml = JFactory::getXMLParser('Simple');
 				@$xml->loadFile($archivefile_name);
 
-				// access a given node's CDATA
+				// Access a given node's CDATA
 				$currency_list = $xml->document->Cube[0]->_children;
 
 				// Loop through the Currency List
@@ -151,12 +155,11 @@ class convertPrice
 
 	public function convert($amountA, $currA = '', $currB = '')
 	{
-
-		$config = new Redconfiguration();
+		$config = new Redconfiguration;
 
 		$session = JFactory::getSession('product_currency');
 
-		// global $vendor_currency is DEFAULT!
+		// Global $vendor_currency is DEFAULT!
 		if (!$currA)
 		{
 			$currA = CURRENCY_CODE;
@@ -187,5 +190,4 @@ class convertPrice
 
 		return $val;
 	}
-
 }
