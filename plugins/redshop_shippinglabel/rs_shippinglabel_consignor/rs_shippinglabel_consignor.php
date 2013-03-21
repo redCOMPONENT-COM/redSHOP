@@ -143,6 +143,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		// for product conetent
 		$totalWeight = 0;
 		$content_products = array();
+
 		for ($c = 0; $c < count($orderproducts); $c++)
 		{
 			$product_id[] = $orderproducts [$c]->product_id;

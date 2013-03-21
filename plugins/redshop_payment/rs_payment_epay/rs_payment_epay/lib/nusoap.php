@@ -1504,6 +1504,7 @@ class nusoap_xmlschema extends nusoap_base
 	function CreateTypeName($ename)
 	{
 		$scope = '';
+
 		for ($i = 0; $i < count($this->complexTypeStack); $i++)
 		{
 			$scope .= $this->complexTypeStack[$i] . '_';
@@ -2385,6 +2386,7 @@ class nusoap_xmlschema extends nusoap_base
 			elseif ($typeDef['phpType'] == 'array')
 			{
 				$buffer .= '<table>';
+
 				for ($i = 0; $i < 3; $i++)
 				{
 					$buffer .= "
@@ -6555,6 +6557,7 @@ class wsdl extends nusoap_base
 		if (isset($this->schemas[$ns]))
 		{
 			$this->debug("in getTypeDef: have schema for namespace $ns");
+
 			for ($i = 0; $i < count($this->schemas[$ns]); $i++)
 			{
 				$xs = & $this->schemas[$ns][$i];
@@ -10171,6 +10174,7 @@ class nusoap_client extends nusoap_base
 			$newName = $newCookie['name'];
 
 			$found = false;
+
 			for ($i = 0; $i < count($this->cookies); $i++)
 			{
 				$cookie = $this->cookies[$i];

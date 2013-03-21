@@ -161,6 +161,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		$pattern = substr($pattern, 1);
 		$arr = explode(" ", $pattern);
 		$newk = array();
+
 		for ($i = 0; $i < count($arr); $i++)
 		{
 			$key = $arr[$i];

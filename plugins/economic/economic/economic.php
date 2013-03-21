@@ -728,6 +728,7 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 		$productGroupHandles = $this->client->ProductGroup_GetAll()->ProductGroup_GetAllResult->ProductGroupHandle;
+
 		for ($i = 0; $i < count($productGroupHandles); $i++)
 		{
 			if (!$productGroupHandles[$i]->Number)
@@ -760,6 +761,7 @@ class plgEconomicEconomic extends JPlugin
 			{
 				return $debtors->Number;
 			}
+
 			for ($i = 0; $i < count($debtors); $i++)
 			{
 				$dbt [] = $debtors [$i]->Number;

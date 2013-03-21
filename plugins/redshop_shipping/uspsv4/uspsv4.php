@@ -729,9 +729,11 @@ class plgredshop_shippinguspsv4 extends JPlugin
 				if ($domestic)
 				{
 					$matchedchild = $xmlDoc->document->_children;
+
 					for ($t = 0; $t < count($matchedchild); $t++)
 					{
 						$totalmatchedchild = $matchedchild[$t]->_children;
+
 						for ($i = 0; $i < count($totalmatchedchild); $i++)
 						{
 							$currNode = $totalmatchedchild[$i];
@@ -792,6 +794,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 							{
 								$service_child = $currNode->_children;
 								$SvcDescription = $currNode->getElementByPath("svcdescription");
+
 								for ($tmp = 0; $tmp <= 11; $tmp++)
 								{
 									$strTitle = preg_replace('|<sup>(.*?)</sup>|', '', htmlspecialchars_decode($SvcDescription->data(), ENT_QUOTES));

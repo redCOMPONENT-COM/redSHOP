@@ -186,6 +186,7 @@ class plgredshop_shippingego extends JPlugin
 
 				return $shippingrate;
 			}
+
 			for ($i = 0; $i < count($charge); $i++)
 			{
 				$rs = $charge[$i];

@@ -61,6 +61,7 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 
 		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
 		$countRate = count($ratelist) >= 1 ? 1 : 0;
+
 		for ($i = 0; $i < $countRate; $i++)
 		{
 			$rs = $ratelist[$i];

@@ -383,6 +383,7 @@ class plgredshop_shippingbring extends JPlugin
 			if (strtolower($product[$i]->name()) == 'product')
 			{
 				$productchilds = $product[$i]->children();
+
 				for ($j = 0; $j < count($productchilds); $j++)
 				{
 					if (strtolower($productchilds[$j]->name()) == "productid" || strtolower($productchilds[$j]->name()) == "guiinformation")
@@ -453,6 +454,7 @@ class plgredshop_shippingbring extends JPlugin
 			{
 				$TraceMessageschilds = $product[$i]->children();
 				$bring_products[$i]->TraceMessages->Message = array();
+
 				for ($j = 0; $j < count($TraceMessageschilds); $j++)
 				{
 					$Message = $TraceMessageschilds[$j]->data();
@@ -467,6 +469,7 @@ class plgredshop_shippingbring extends JPlugin
 		if (!$shippingError)
 		{
 			$ArrExlode = explode(',', BRING_SERVICE);
+
 			for ($i = 0; $i < count($bring_products); $i++)
 			{
 				$product_id = $bring_products[$i]->product->product_id;

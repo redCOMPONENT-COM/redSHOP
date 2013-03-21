@@ -918,6 +918,7 @@ class plgredshop_shippingusps extends JPlugin
 					$i = 0;
 					$matchedchild = $xmlDoc->document->_children;
 					$data = array();
+
 					for ($us = 0; $us < count($usps_ship); $us++)
 					{
 						if ($usps_ship[$us]['value'] == 1)
@@ -929,6 +930,7 @@ class plgredshop_shippingusps extends JPlugin
 					for ($t = 0; $t < count($matchedchild); $t++)
 					{
 						$totalmatchedchild = $matchedchild[$t]->_children;
+
 						for ($i = 0; $i < count($totalmatchedchild); $i++)
 						{
 							$currNode = $totalmatchedchild[$i];
@@ -1069,6 +1071,7 @@ class plgredshop_shippingusps extends JPlugin
 					if ($totalmatchedchild != null)
 					{
 						$count = 0;
+
 						for ($i = 0; $i < count($totalmatchedchild); $i++)
 						{
 							$currNode = $totalmatchedchild[$i];

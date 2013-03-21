@@ -126,6 +126,7 @@ function onPrepareProduct(&$template, &$params, $product)
 					$subproperty = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
 					$checkforpreselection++;
 					$selectedId = array();
+
 					for ($sp = 0; $sp < count($subproperty); $sp++)
 					{
 						if ($subproperty[$sp]->setdefault_selected)
@@ -145,6 +146,7 @@ function onPrepareProduct(&$template, &$params, $product)
 	}
 	$total_attributes = count($attributes);
 	$total = 0;
+
 	for ($i = 0; $i < count($attributes); $i++)
 	{
 		$property_subattribute = $this->getattribute_property($attributes[$i]->attribute_id);

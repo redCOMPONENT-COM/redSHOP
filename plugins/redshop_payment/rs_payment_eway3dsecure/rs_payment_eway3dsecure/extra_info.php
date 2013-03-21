@@ -20,6 +20,7 @@ $db->setQuery($q_oi);
 $items = $db->loadObjectList();
 
 $item = array();
+
 for ($i = 0; $i < count($items); $i++)
 {
 	$item[] = strip_tags($items[$i]->order_item_name) . '  ' . round($items[$i]->product_item_price, 2);

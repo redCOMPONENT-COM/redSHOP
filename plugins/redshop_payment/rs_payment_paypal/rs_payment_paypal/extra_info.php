@@ -140,6 +140,7 @@ $db->setQuery($q_oi);
 $totalq = $db->loadResult();
 
 $shipping = $order_details[0]->order_shipping / $totalq;
+
 for ($i = 0; $i < count($items); $i++)
 {
 	$item = $items[$i];

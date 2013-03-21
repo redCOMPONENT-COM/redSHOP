@@ -129,12 +129,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$cardinfo .= '<tr><td colspan="2" align="right" nowrap="nowrap">';
 			$cardinfo .= '<table width="100%" border="0" cellspacing="2" cellpadding="2">';
 			$cardinfo .= '<tr>';
+
 			for ($ic = 0; $ic < count($credict_card); $ic++)
 			{
 				$cardinfo .= '<td align="center"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $cc_list[$credict_card[$ic]]->img . '" alt="" border="0" /></td>';
 			}
 			$cardinfo .= '</tr>';
 			$cardinfo .= '<tr>';
+
 			for ($ic = 0; $ic < count($credict_card); $ic++)
 			{
 				$value = $credict_card[$ic];
@@ -169,6 +171,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 			$thisyear = date('Y');
 			$cardinfo .= '/<select class="inputbox" name="order_payment_expire_year" size="1">';
+
 			for ($y = $thisyear; $y < ($thisyear + 10); $y++)
 			{
 				$selected = (!empty($ccdata['order_payment_expire_year']) && $ccdata['order_payment_expire_year'] == $y) ? "selected" : "";
@@ -284,6 +287,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			}
 		}
 		$cart_quantity = 0;
+
 		for ($i = 0; $i < count($orderitem); $i++)
 		{
 			$cart_quantity += $orderitem[$i]->product_quantity;

@@ -50,6 +50,7 @@ class plgAcymailingRedshop extends JPlugin
 		$text = '<table class="adminlist" cellpadding="1">';
 		$text .= '<tr style="cursor:pointer" ><th>' . JText::_('COM_REDSHOP_PRODUCT_NAME') . '</th><th>' . JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
 		$k = 0;
+
 		for ($i = 0; $i < count($rs); $i++)
 		{
 			$row = & $rs[$i];

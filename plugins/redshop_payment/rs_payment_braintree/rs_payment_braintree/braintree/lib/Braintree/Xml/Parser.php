@@ -63,6 +63,7 @@ class Braintree_Xml_Parser
 		{
 			return self::_typecastXmlValue($iterator);
 		}
+
 		for ($iterator->rewind(); $iterator->valid(); $iterator->next())
 		{
 
