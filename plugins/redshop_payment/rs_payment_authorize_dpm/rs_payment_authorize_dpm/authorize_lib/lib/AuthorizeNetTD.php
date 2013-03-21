@@ -105,6 +105,7 @@ class AuthorizeNetTD extends AuthorizeNetRequest
 		$lastSettlementDate = substr(date('c', mktime(0, 0, 0, (int) $month, (int) $day, (int) $year)), 0, -6);
 		$response = $this->getSettledBatchList(true, $firstSettlementDate, $lastSettlementDate);
 		$batches = $response->xpath("batchList/batch");
+
 		foreach ($batches as $batch)
 		{
 			$batch_id = (string) $batch->batchId;

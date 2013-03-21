@@ -383,6 +383,7 @@ class plgredshop_shippingups extends JPlugin
 				// END CUSTOM CODE
 			);
 			$config = "<?php ";
+
 			foreach ($my_config_array as $key => $value)
 			{
 				$config .= "define ('$key', '$value');\n";
@@ -627,6 +628,7 @@ class plgredshop_shippingups extends JPlugin
 			"UPS_Saver",
 			"na");
 		$myservicecodes = array();
+
 		foreach ($allservicecodes as $servicecode)
 		{
 			if (constant($servicecode) != '' || constant($servicecode) != 0)

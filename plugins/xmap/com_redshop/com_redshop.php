@@ -143,6 +143,7 @@ class xmap_com_redshop
 		$database->setQuery($query);
 		$rows = $database->loadObjectList();
 		$xmap->changeLevel(1);
+
 		foreach ($rows as $row)
 		{
 			$node = new stdclass;
@@ -180,6 +181,7 @@ class xmap_com_redshop
 			$database->setQuery($query);
 			$rows = $database->loadObjectList();
 			$xmap->changeLevel(1);
+
 			foreach ($rows as $row)
 			{
 				$node = new stdclass;
@@ -224,6 +226,7 @@ class xmap_com_redshop
 		$childproducts = $database->loadObjectList();
 
 		$xmap->changeLevel(1);
+
 		foreach ($childproducts as $row)
 		{
 			$node = new stdclass;

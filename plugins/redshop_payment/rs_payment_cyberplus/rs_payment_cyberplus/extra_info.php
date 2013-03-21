@@ -628,6 +628,7 @@ $params['vads_url_cancel'] = JURI::base() . "index.php?option=com_redshop&view=o
 // Signature generation
 ksort($params); // sorting of parameters in alphabetical order
 $contenu_signature = "";
+
 foreach ($params as $nom => $valeur)
 {
 	$contenu_signature .= $valeur . "+";

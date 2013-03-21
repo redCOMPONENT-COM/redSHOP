@@ -96,6 +96,7 @@ $post_variables = Array(
 
 
 echo "<form action='$actionurl' method='post' name='ogoneform' id='ogoneform'>";
+
 foreach ($post_variables as $name => $value)
 {
 	echo "<input type='hidden' name='$name' value='$value' />";

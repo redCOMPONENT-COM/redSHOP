@@ -60,6 +60,7 @@ class plgredshop_shippingego extends JPlugin
 
 			$config = '';
 			$config = "<?php ";
+
 			foreach ($my_config_array as $key => $value)
 			{
 				$config .= "define ('$key', '$value');\n";
@@ -161,6 +162,7 @@ class plgredshop_shippingego extends JPlugin
 			// wrapped in a big if (false) block
 
 			$ego_quote = file($myfile);
+
 			foreach ($ego_quote as $num => $quote)
 			{
 				$quote = trim($quote);

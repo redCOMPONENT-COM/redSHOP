@@ -42,6 +42,7 @@ class plgSystemRedlightbox_slideshow extends JPlugin
 			$headerstuff = $document->getHeadData();
 			$scripts = $headerstuff['scripts'];
 			$jqueryfound = false;
+
 			foreach ($scripts as $path => $val)
 			{
 				if (strpos($path, 'attribute.js') !== false)

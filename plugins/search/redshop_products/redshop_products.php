@@ -69,6 +69,7 @@ class plgSearchredshop_products extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->Quote('%' . $db->getEscaped($word, true) . '%', false);
@@ -122,6 +123,7 @@ class plgSearchredshop_products extends JPlugin
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 		$redhelper = new redhelper();
+
 		foreach ($rows as $key => $row)
 		{
 			$Itemid = $redhelper->getItemid($row->product_id);
@@ -129,6 +131,7 @@ class plgSearchredshop_products extends JPlugin
 		}
 
 		$return = array();
+
 		foreach ($rows AS $key => $weblink)
 		{
 			if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title', 'number', 'customtxt')))

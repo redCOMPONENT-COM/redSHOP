@@ -110,6 +110,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 
 		//build the post string
 		$poststring = '';
+
 		foreach ($formdata AS $key => $val)
 		{
 			$poststring .= urlencode($key) . "=" . $val . "&";
@@ -164,6 +165,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 	function explode_assoc($glue1, $glue2, $array)
 	{
 		$array2 = explode($glue2, $array);
+
 		foreach ($array2 as $val)
 		{
 			$pos = strpos($val, $glue1);

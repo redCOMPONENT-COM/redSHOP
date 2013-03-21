@@ -74,6 +74,7 @@ $post_variables = array("ewayCustomerID" => $customer_id, "ewayTotalAmount" => $
 
 // hidden form variables
 $html_hidden_params = "";
+
 foreach ($post_variables as $key => $val)
 {
 	$html_hidden_params .= "<input type='hidden' name='$key' value='$val' />";

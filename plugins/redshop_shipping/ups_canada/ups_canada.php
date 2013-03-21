@@ -349,6 +349,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				// END CUSTOM CODE
 			);
 			$config = "<?php ";
+
 			foreach ($my_config_array as $key => $value)
 			{
 				$config .= "define ('$key', '$value');\n";
@@ -592,6 +593,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			"UPS_Canada_Saver1",
 			"UPS_Canada_na");
 		$myservicecodes = array();
+
 		foreach ($allservicecodes as $servicecode)
 		{
 			if (constant($servicecode) != '' || constant($servicecode) != 0)
@@ -818,6 +820,7 @@ class plgredshop_shippingups_canada extends JPlugin
 						"UPS_Canada_Saver1",
 						"UPS_Canada_na");
 			$myservicecodes = array();
+
 			foreach ($allservicecodes as $servicecode)
 			{
 				if (constant($servicecode) != '' || constant($servicecode) != 0)

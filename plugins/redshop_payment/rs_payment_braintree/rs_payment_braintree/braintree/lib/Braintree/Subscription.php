@@ -56,6 +56,7 @@ class Braintree_Subscription extends Braintree
 	public static function search($query)
 	{
 		$criteria = array();
+
 		foreach ($query as $term)
 		{
 			$criteria[$term->name] = $term->toparam();
@@ -74,6 +75,7 @@ class Braintree_Subscription extends Braintree
 	public static function fetch($query, $ids)
 	{
 		$criteria = array();
+
 		foreach ($query as $term)
 		{
 			$criteria[$term->name] = $term->toparam();

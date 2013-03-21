@@ -241,6 +241,7 @@ class AuthorizeNetAIM extends AuthorizeNetRequest
 	public function setFields($fields)
 	{
 		$array = (array) $fields;
+
 		foreach ($array as $key => $value)
 		{
 			$this->setField($key, $value);
@@ -255,6 +256,7 @@ class AuthorizeNetAIM extends AuthorizeNetRequest
 	public function setCustomFields($fields)
 	{
 		$array = (array) $fields;
+
 		foreach ($array as $key => $value)
 		{
 			$this->setCustomField($key, $value);
@@ -275,6 +277,7 @@ class AuthorizeNetAIM extends AuthorizeNetRequest
 	{
 		$line_item = "";
 		$delimiter = "";
+
 		foreach (func_get_args() as $key => $value)
 		{
 			$line_item .= $delimiter . $value;
@@ -379,6 +382,7 @@ class AuthorizeNetAIM extends AuthorizeNetRequest
 		$this->_x_post_fields['login'] = $this->_api_login;
 		$this->_x_post_fields['tran_key'] = $this->_transaction_key;
 		$this->_post_string = "";
+
 		foreach ($this->_x_post_fields as $key => $value)
 		{
 			$this->_post_string .= "x_$key=" . urlencode($value) . "&";
@@ -503,6 +507,7 @@ class AuthorizeNetAIM_Response extends AuthorizeNetResponse
 			{
 				$custom_fields_response = array_slice($this->_response_array, -$count, $count);
 				$i = 0;
+
 				foreach ($custom_fields as $key => $value)
 				{
 					$this->$key = $custom_fields_response[$i];

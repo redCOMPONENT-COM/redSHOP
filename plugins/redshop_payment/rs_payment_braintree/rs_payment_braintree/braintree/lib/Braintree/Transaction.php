@@ -409,6 +409,7 @@ final class Braintree_Transaction extends Braintree
 	public static function search($query)
 	{
 		$criteria = array();
+
 		foreach ($query as $term)
 		{
 			$criteria[$term->name] = $term->toparam();
@@ -427,6 +428,7 @@ final class Braintree_Transaction extends Braintree
 	public static function fetch($query, $ids)
 	{
 		$criteria = array();
+
 		foreach ($query as $term)
 		{
 			$criteria[$term->name] = $term->toparam();
@@ -533,6 +535,7 @@ final class Braintree_Transaction extends Braintree
 		);
 
 		$statusHistory = array();
+
 		foreach ($transactionAttribs['statusHistory'] AS $history)
 		{
 			$statusHistory[] = new Braintree_Transaction_StatusDetails($history);
@@ -579,6 +582,7 @@ final class Braintree_Transaction extends Braintree
 		);
 
 		$displayAttributes = array();
+
 		foreach ($display AS $attrib)
 		{
 			$displayAttributes[$attrib] = $this->$attrib;

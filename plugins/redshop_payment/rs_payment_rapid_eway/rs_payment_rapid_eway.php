@@ -92,6 +92,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 			//Get Error Messages from Error Code. Error Code Mappings are in the Config.ini file
 			$ErrorArray = explode(",", $result->Errors);
 			$lblError = "";
+
 			foreach ($ErrorArray as $error)
 			{
 				$lblError .= $service->APIConfig[$error] . "<br>";

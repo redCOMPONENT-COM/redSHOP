@@ -255,6 +255,7 @@ class plgredshop_shippingfedex extends JPlugin
 			);
 
 			$config = "<?php ";
+
 			foreach ($my_config_array as $key => $value)
 			{
 				$config .= "define ('$key', '$value');\n";
@@ -483,6 +484,7 @@ class plgredshop_shippingfedex extends JPlugin
 			{
 				$error = 0;
 				$i = 0;
+
 				foreach ($response->RateReplyDetails as $rateReply)
 				{
 					if (in_array($rateReply->ServiceType, $fedex_servicetype))

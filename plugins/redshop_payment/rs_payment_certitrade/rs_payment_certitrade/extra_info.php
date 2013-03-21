@@ -167,6 +167,7 @@ $post_variables = array("merchantid"      => $merchant_id,
 $add_submit_html = false; //the submit button
 $add_form_tag = false; //the start tag
 $html_hidden_params = "";
+
 foreach ($post_variables AS $key => $val)
 {
 	$html_hidden_params .= "<input type='hidden' name='$key' value='$val' />";

@@ -72,6 +72,7 @@ class GoogleMerchantCalculations
 					$xml_data->Element('message', $curr_coupon->coupon_message);
 					$xml_data->Pop('coupon-result');
 				}
+
 				foreach ($result->giftcert_arr as $curr_gift)
 				{
 					$xml_data->Push('gift-result');

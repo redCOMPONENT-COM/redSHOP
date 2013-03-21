@@ -162,6 +162,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 		$params = array();
 		$level = array();
+
 		foreach ($vals as $xml_elem)
 		{
 

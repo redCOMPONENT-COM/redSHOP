@@ -61,6 +61,7 @@ class XmlBuilder
 	{
 		$this->_indent();
 		$this->xml .= '<' . $element;
+
 		foreach ($attributes as $key => $value)
 		{
 			$this->xml .= ' ' . $key . '="' . htmlentities($value) . '"';
@@ -73,6 +74,7 @@ class XmlBuilder
 	{
 		$this->_indent();
 		$this->xml .= '<' . $element;
+
 		foreach ($attributes as $key => $value)
 		{
 			$this->xml .= ' ' . $key . '="' . htmlentities($value) . '"';

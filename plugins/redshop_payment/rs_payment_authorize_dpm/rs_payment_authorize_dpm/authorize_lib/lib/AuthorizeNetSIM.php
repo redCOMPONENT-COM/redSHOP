@@ -48,6 +48,7 @@ class AuthorizeNetSIM extends AuthorizeNetResponse
 			'card_code_response' => 'x_cvv2_resp_code',
 			'cavv_response'      => 'x_cavv_response',
 		);
+
 		foreach ($map as $key => $value)
 		{
 			$this->$key = (isset($_POST[$value]) ? $_POST[$value] : "");
@@ -185,6 +186,7 @@ class AuthorizeNetSIM_Form
 	{
 		$array = (array) $this;
 		$string = "";
+
 		foreach ($array as $key => $value)
 		{
 			if ($value)

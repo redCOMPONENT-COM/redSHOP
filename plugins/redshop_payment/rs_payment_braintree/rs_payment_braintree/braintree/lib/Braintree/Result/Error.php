@@ -54,6 +54,7 @@ class Braintree_Result_Error extends Braintree
 	{
 		$pieces = preg_split("/[\[\]]+/", $field, 0, PREG_SPLIT_NO_EMPTY);
 		$params = $this->params;
+
 		foreach (array_slice($pieces, 0, -1) as $key)
 		{
 			$params = $params[Braintree_Util::delimiterToCamelCase($key)];

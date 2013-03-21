@@ -50,6 +50,7 @@ class AuthorizeNetSOAP extends SoapClient
 	{
 		$string = "";
 		$types = $this->__getTypes();
+
 		foreach ($types as $type)
 		{
 			if (preg_match("/struct /", $type))
@@ -72,6 +73,7 @@ class AuthorizeNetSOAP extends SoapClient
 		$string = "";
 		$functions = array();
 		$methods = $this->__getFunctions();
+
 		foreach ($methods as $index => $method)
 		{
 			$sig = explode(" ", $method, 2);

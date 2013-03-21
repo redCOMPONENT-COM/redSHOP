@@ -1181,10 +1181,12 @@ class xmlrpcval
 		if (is_object($b))
 		{
 			$t = get_object_vars($b);
+
 			foreach ($t as $id => $cont)
 			{
 				$t[$id] = $cont->scalarval();
 			}
+
 			foreach ($t as $id => $cont)
 			{
 				eval('$b->' . $id . ' = $cont;');

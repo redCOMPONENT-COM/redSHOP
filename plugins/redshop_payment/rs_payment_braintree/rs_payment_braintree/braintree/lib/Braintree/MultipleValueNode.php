@@ -16,6 +16,7 @@ class Braintree_MultipleValueNode
 		if (count($this->allowedValues) > 0 && count($bad_values) > 0)
 		{
 			$message = 'Invalid argument(s) for ' . $this->name . ':';
+
 			foreach ($bad_values AS $bad_value)
 			{
 				$message .= ' ' . $bad_value;

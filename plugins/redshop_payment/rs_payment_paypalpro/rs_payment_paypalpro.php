@@ -198,6 +198,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$httpResponseAr = explode("&", $httpResponse);
 
 		$httpParsedResponseAr = array();
+
 		foreach ($httpResponseAr as $i => $value)
 		{
 			$tmpAr = explode("=", $value);

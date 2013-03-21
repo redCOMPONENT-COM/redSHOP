@@ -94,6 +94,7 @@ if (isset($result->Errors))
 	//Get Error Messages from Error Code. Error Code Mappings are in the Config.ini file
 	$ErrorArray = explode(",", $result->Errors);
 	$lblError = "";
+
 	foreach ($ErrorArray as $error)
 	{
 		if (isset($service->APIConfig[$error]))
