@@ -10,11 +10,20 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
-class order_detailModelorder_detail extends JModel
+/**
+ * Class Order_detailModelOrder_detail
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class Order_detailModelOrder_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -31,14 +40,14 @@ class order_detailModelorder_detail extends JModel
 		return $order_detail;
 	}
 
-	/*
-	 * update analytics status
+	/**
+	 * Update analytics status
 	 */
 	public function UpdateAnalytics_status($oid)
 	{
-
 		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . $oid . "'";
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->Query())
 		{
 			return false;
@@ -47,26 +56,27 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
-	/*
+	/**
 	 * getBilling Addresses
 	 */
 	public function billingaddresses()
 	{
 		global $mainframe;
-		$order_functions = new order_functions();
-		$user            = & JFactory::getUser();
+		$order_functions = new order_functions;
+		$user            = JFactory::getUser();
 		$session         = JFactory::getSession();
 
 
 		$auth = $session->get('auth');
 		$list = array();
+
 		if ($user->id)
 		{
 			$list = $order_functions->getBillingAddress($user->id);
 		}
-		else if ($auth['users_info_id'])
+		elseif ($auth['users_info_id'])
 		{
-			$uid  = -$auth['users_info_id'];
+			$uid  = - $auth['users_info_id'];
 			$list = $order_functions->getBillingAddress($uid);
 		}
 
@@ -78,7 +88,7 @@ class order_detailModelorder_detail extends JModel
 	 */
 	public function getCategoryNameByProductId($pid)
 	{
-		$db    = & JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
 			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
 			. "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
@@ -89,7 +99,7 @@ class order_detailModelorder_detail extends JModel
 
 	public function resetcart()
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set('cart', null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
@@ -107,7 +117,9 @@ class order_detailModelorder_detail extends JModel
 		$order_payment_code     = $ccdata['creditcard_code'];
 		$order_payment_cardname = base64_encode($ccdata['order_payment_name']);
 		$order_payment_number   = base64_encode($ccdata['order_payment_number']);
-		$order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // this is ccv code
+
+		// This is ccv code
+		$order_payment_ccv      = base64_encode($ccdata['credit_card_code']);
 		$order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
 		$order_payment_trans_id = $payment_transaction_id;
 
@@ -121,6 +133,7 @@ class order_detailModelorder_detail extends JModel
 			. " WHERE order_id  = '" . $order_id . "'";
 
 		$db->setQuery($payment_update);
+
 		if (!$db->Query())
 		{
 			return false;

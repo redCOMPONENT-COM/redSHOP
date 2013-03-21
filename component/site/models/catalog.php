@@ -10,11 +10,18 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 
-class catalogModelcatalog extends JModel
+/**
+ * Class catalogModelcatalog
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CatalogModelCatalog extends JModel
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -25,12 +32,14 @@ class catalogModelcatalog extends JModel
 	public function catalogStore($data)
 	{
 		$row =& $this->getTable('catalog_request');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -44,12 +53,14 @@ class catalogModelcatalog extends JModel
 	public function catalogSampleStore($data)
 	{
 		$row =& $this->getTable('sample_request');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -81,10 +92,12 @@ class catalogModelcatalog extends JModel
 	public function getCatalogSampleColorList($sample_id = 0)
 	{
 		$and = "";
+
 		if ($sample_id != 0)
 		{
 			$and = "AND c.sample_id='" . $sample_id . "' ";
 		}
+
 		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_colour AS c "
 			. "WHERE 1=1 "
 			. $and;

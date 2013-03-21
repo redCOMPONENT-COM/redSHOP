@@ -11,11 +11,20 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class price_filterModelprice_filter
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class price_filterModelprice_filter extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -27,6 +36,7 @@ class price_filterModelprice_filter extends JModel
 	{
 		$category = JRequest::getVar('category');
 		$catfld   = '';
+
 		if ($category != 0)
 		{
 			$catfld .= " AND cx.category_id IN ($category) ";

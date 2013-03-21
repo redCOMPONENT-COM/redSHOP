@@ -14,12 +14,16 @@ jimport('joomla.application.component.model');
 class shippingModelShipping extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe;
@@ -31,64 +35,66 @@ class shippingModelShipping extends JModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
-
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$query = 'SELECT s.* FROM #__extensions AS s '
 			. 'WHERE s.folder="redshop_shipping" '
 			. $orderby;
+
 		return $query;
 	}
 
-
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
 		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
-	function saveOrder(&$cid)
+	public function saveOrder(&$cid)
 	{
 		global $mainframe;
-		//$scope 		= JRequest::getCmd( 'scope' );
+
 		$db =& JFactory::getDBO();
 		$row =& $this->getTable('shipping_detail');
 
@@ -96,13 +102,15 @@ class shippingModelShipping extends JModel
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
 			$row->load((int) $cid[$i]);
+
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					JError::raiseError(500, $db->getErrorMsg());
@@ -110,8 +118,7 @@ class shippingModelShipping extends JModel
 			}
 		}
 		$row->reorder();
+
 		return true;
 	}
 }
-
-?>

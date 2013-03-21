@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class newslettersubscrViewnewslettersubscr extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'subscription_id';
@@ -42,7 +38,6 @@ class newslettersubscrViewnewslettersubscr extends JView
 
 		if ($task == 'import_data')
 		{
-
 			JToolBarHelper::custom('importdata', 'save.png', 'save_f2.png', 'COM_REDSHOP_IMPORT', false);
 
 			JToolBarHelper::custom('back', 'back.png', 'back_f2.png', 'COM_REDSHOP_BACK', false);
@@ -72,8 +67,7 @@ class newslettersubscrViewnewslettersubscr extends JView
 		$this->assignRef('newslettersubscrs', $newslettersubscrs);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }
-
-?>

@@ -10,16 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-/**
- * Product Controller
- *
- * @static
- * @package        redSHOP
- * @since          1.0
- */
-class quotationController extends JController
-{
 
+/**
+ * Quotation Controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class QuotationController extends JController
+{
 	/**
 	 * add quotation function
 	 *
@@ -45,9 +45,11 @@ class quotationController extends JController
 		$cart = $session->get('cart');
 		$cart['quotation_note'] = $post['quotation_note'];
 		$row = $model->store($cart, $post);
+
 		if ($row)
 		{
 			$sent = $model->sendQuotationMail($row->quotation_id);
+
 			if ($sent)
 			{
 				$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
@@ -58,11 +60,12 @@ class quotationController extends JController
 			}
 
 			$session = & JFactory::getSession();
-			$session->set('cart', NULL);
-			$session->set('ccdata', NULL);
-			$session->set('issplit', NULL);
-			$session->set('userfiled', NULL);
+			$session->set('cart', null);
+			$session->set('ccdata', null);
+			$session->set('issplit', null);
+			$session->set('userfiled', null);
 			unset ($_SESSION ['ccdata']);
+
 			if ($return)
 			{
 				$link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid . '&quotemsg=' . $msg;    ?>
@@ -100,10 +103,8 @@ class quotationController extends JController
 
 		$model->usercreate($post);
 
-
 		$msg = JText::_('COM_REDSHOP_QUOTATION_SENT_AND_USERNAME_PASSWORD_HAS_BEEN_MAILED');
 		$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
-
 	}
 
 	/**

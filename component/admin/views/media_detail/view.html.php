@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class media_detailVIEWmedia_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
@@ -23,9 +22,7 @@ class media_detailVIEWmedia_detail extends JView
 		$document = & JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/media.js');
-
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
 		$uri =& JFactory::getURI();
@@ -36,9 +33,6 @@ class media_detailVIEWmedia_detail extends JView
 
 		$detail =& $this->get('data');
 		$model = $this->getModel('media_detail');
-
-//		$filed_data	= $model->media_data();
-
 
 		$isNew = ($detail->media_id < 1);
 
@@ -54,7 +48,6 @@ class media_detailVIEWmedia_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -66,8 +59,11 @@ class media_detailVIEWmedia_detail extends JView
 		$optiontype[] = JHTML::_('select.option', 'images', JText::_('COM_REDSHOP_Image'));
 		$optiontype[] = JHTML::_('select.option', 'video', JText::_('COM_REDSHOP_Video'));
 		$optiontype[] = JHTML::_('select.option', 'document', JText::_('COM_REDSHOP_Document'));
+
 		if ($media_section == 'product' && $showbuttons == 1)
+		{
 			$optiontype[] = JHTML::_('select.option', 'download', JText::_('COM_REDSHOP_Download'));
+		}
 
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -80,7 +76,6 @@ class media_detailVIEWmedia_detail extends JView
 		$optionbulk[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionbulk[] = JHTML::_('select.option', 'yes', JText::_('COM_REDSHOP_YES_ZIP_UPLOAD'));
 		$optionbulk[] = JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_NO_ZIP_UPLOAD'));
-
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
@@ -100,15 +95,23 @@ class media_detailVIEWmedia_detail extends JView
 
 		if ($detail->media_id == 0)
 		{
-			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section', 'class="inputbox" size="1" style="width:100px;" onchange="select_type(this)" title="' . $option . '"', 'value', 'text', $detail->media_section, '0');
+			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
+				'class="inputbox" size="1" style="width:100px;" onchange="select_type(this)" title="' . $option . '"',
+				'value', 'text', $detail->media_section, '0'
+			);
 		}
 		else
 		{
-			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section', 'class="inputbox" size="1" style="width:100px;" disabled="disabled" onchange="select_type(this)" title="' . $option . '"', 'value', 'text', $detail->media_section, '0');
+			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
+				'class="inputbox" size="1" style="width:100px;" disabled="disabled" onchange="select_type(this)" title="' . $option . '"',
+				'value', 'text', $detail->media_section, '0'
+			);
 		}
-		$lists['bulk'] = JHTML::_('select.genericlist', $optionbulk, 'bulk', 'class="inputbox" size="1" onchange="media_bulk(this)" title="' . $option . '" ', 'value', 'text', 'no');
 
-//		$lists['extra_data']=$filed_data;
+		$lists['bulk'] = JHTML::_('select.genericlist', $optionbulk, 'bulk',
+			'class="inputbox" size="1" onchange="media_bulk(this)" title="' . $option . '" ',
+			'value', 'text', 'no'
+		);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
@@ -116,7 +119,4 @@ class media_detailVIEWmedia_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }
-
-?>

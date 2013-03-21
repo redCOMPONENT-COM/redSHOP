@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.view');
 
 class textlibrary_detailVIEWtextlibrary_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));
@@ -40,7 +39,6 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 		// Section can be added from here
@@ -60,5 +58,4 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }

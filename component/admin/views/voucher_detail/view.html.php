@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class voucher_detailVIEWvoucher_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 
@@ -50,32 +51,38 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
-		$voucher_type = array(JHTML::_('select.option', 'Total', JText::_('COM_REDSHOP_TOTAL')), JHTML::_('select.option', 'Percentage', JText::_('COM_REDSHOP_PERCENTAGE')));
-		$lists['voucher_type'] = JHTML::_('select.genericlist', $voucher_type, 'voucher_type', 'class="inputbox" size="1"', 'value', 'text', $detail->voucher_type);
+		$voucher_type = array(JHTML::_('select.option', 'Total', JText::_('COM_REDSHOP_TOTAL')),
+			JHTML::_('select.option', 'Percentage', JText::_('COM_REDSHOP_PERCENTAGE'))
+		);
+		$lists['voucher_type'] = JHTML::_('select.genericlist', $voucher_type, 'voucher_type',
+			'class="inputbox" size="1"', 'value', 'text', $detail->voucher_type
+		);
 
 		$lists['free_shipping'] = JHTML::_('select.booleanlist', 'free_shipping', 'class="inputbox" ', $detail->free_shipping);
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$model = $this->getModel('voucher_detail');
 
-		//$container_product_data = $model->Container_Product_Data($detail->container_id);
-
 		$products_list = $model->voucher_products_sel($detail->voucher_id);
 
 		if (count($products_list) > 0)
+		{
 			$result_container = $products_list;
+		}
 		else
+		{
 			$result_container = array();
+		}
 
-
-		$lists['voucher_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]', 'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
+		$lists['voucher_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
+			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ',
+			'value', 'text', 0
+		);
 
 		$result = array();
 
-		$lists['product_all'] = JHTML::_('select.genericlist', $result, 'product_all[]', 'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0);
-
-//		$products_list = $model->voucher_products_sel($detail->voucher_id);
-//
-//		$lists['products_list'] 	= JHTML::_('select.genericlist',$products_list,  'products_list[]', 'class="inputbox" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', $sel_products_list);
+		$lists['product_all'] = JHTML::_('select.genericlist', $result, 'product_all[]',
+			'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0
+		);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);

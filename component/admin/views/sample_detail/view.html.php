@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class sample_detailVIEWsample_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 
@@ -23,14 +24,11 @@ class sample_detailVIEWsample_detail extends JView
 		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
 		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
-
 		$document->addScript('components/' . $option . '/assets/js/jquery.js');
 		$document->addScript('components/' . $option . '/assets/js/colorpicker.js');
-
 		$document->addScript('components/' . $option . '/assets/js/eye.js');
 		$document->addScript('components/' . $option . '/assets/js/utils.js');
 		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
-
 
 		$uri =& JFactory::getURI();
 
@@ -46,17 +44,19 @@ class sample_detailVIEWsample_detail extends JView
 
 		$model = $this->getModel('sample_detail');
 
-
 		if ($layout == 'default')
 		{
-
 			$isNew = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
 			if (count($color_data) > 0)
+			{
 				$color_data = $color_data;
+			}
 			else
+			{
 				$color_data = array();
+			}
 
 			$lists['color_data'] = $color_data;
 		}
@@ -77,10 +77,8 @@ class sample_detailVIEWsample_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
-
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
@@ -90,5 +88,4 @@ class sample_detailVIEWsample_detail extends JView
 
 		parent::display($tpl);
 	}
-
 }

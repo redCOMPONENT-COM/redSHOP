@@ -7,18 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class giftcardViewgiftcard extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -26,8 +21,6 @@ class giftcardViewgiftcard extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_GIFTCARD'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
-
-
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
@@ -51,6 +44,7 @@ class giftcardViewgiftcard extends JView
 		$this->assignRef('giftcard', $giftcard);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

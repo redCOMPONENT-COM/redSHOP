@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,12 +14,16 @@ jimport('joomla.application.component.model');
 class discountModeldiscount extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -41,27 +46,29 @@ class discountModeldiscount extends JModel
 		$this->setState('spgrpdis_filter', $spgrpdis_filter);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -72,13 +79,12 @@ class discountModeldiscount extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$where = '';
 		$layout = JRequest::getVar('layout');
 		$spgrpdis_filter = $this->getState('spgrpdis_filter');
-
 
 		if (isset($layout) && $layout == 'product')
 		{
@@ -90,7 +96,8 @@ class discountModeldiscount extends JModel
 			{
 				$where = " where ds.shopper_group_id = '" . $spgrpdis_filter . "' ";
 
-				$query = ' SELECT d.* FROM ' . $this->_table_prefix . 'discount d left outer join ' . $this->_table_prefix . 'discount_shoppers ds on d.discount_id=ds.discount_id '
+				$query = ' SELECT d.* FROM ' . $this->_table_prefix . 'discount d left outer join '
+					. $this->_table_prefix . 'discount_shoppers ds on d.discount_id=ds.discount_id '
 					. $where
 					. $orderby;
 			}
@@ -102,16 +109,20 @@ class discountModeldiscount extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
 		$layout = JRequest::getVar('layout');
 
 		if (isset($layout) && $layout == 'product')
+		{
 			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'discount_product_id');
+		}
 		else
+		{
 			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'discount_id');
+		}
 
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 

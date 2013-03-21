@@ -14,12 +14,16 @@ jimport('joomla.application.component.model');
 class templateModeltemplate extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -38,43 +42,47 @@ class templateModeltemplate extends JModel
 		$this->setState('template_section', $template_section);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$filter = $this->getState('filter');
 		$template_section = $this->getState('template_section');
 
 		$where = '';
+
 		if ($filter)
 		{
 			$where .= "AND t.template_name LIKE '" . $filter . "%' ";
@@ -87,10 +95,11 @@ class templateModeltemplate extends JModel
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -103,5 +112,3 @@ class templateModeltemplate extends JModel
 		return $orderby;
 	}
 }
-
-?>

@@ -11,11 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class account_shiptoModelaccount_shipto extends JModel
+/**
+ * Class account_shiptoModelaccount_shipto
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class Account_shiptoModelaccount_shipto extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+	public $_data = null;
+	public $_table_prefix = null;
 
 
 	public function __construct()
@@ -48,7 +55,7 @@ class account_shiptoModelaccount_shipto extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail                = new stdClass();
+			$detail                = new stdClass;
 			$detail->users_info_id = 0;
 			$detail->user_id       = 0;
 			$detail->firstname     = null;
@@ -70,7 +77,6 @@ class account_shiptoModelaccount_shipto extends JModel
 
 	public function _loadData($users_info_id = 0)
 	{
-
 		if ($users_info_id)
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id="' . $users_info_id . '" ';
@@ -79,6 +85,7 @@ class account_shiptoModelaccount_shipto extends JModel
 
 			return $list;
 		}
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id="' . $this->_id . '" ';
@@ -98,6 +105,7 @@ class account_shiptoModelaccount_shipto extends JModel
 			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
@@ -111,12 +119,11 @@ class account_shiptoModelaccount_shipto extends JModel
 
 	public function store($post)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 
 		$post['user_email'] = $post['email1'] = $post['email'];
 		$reduser            = $userhelper->storeRedshopUserShipping($post);
 
 		return $reduser;
 	}
-
 }

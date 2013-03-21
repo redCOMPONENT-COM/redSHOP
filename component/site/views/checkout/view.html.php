@@ -7,12 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-//$language = JFactory::getLanguage();
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+
+// $language = JFactory::getLanguage();
 class checkoutViewcheckout extends JView
 {
 	public function display($tpl = null)
@@ -23,8 +24,8 @@ class checkoutViewcheckout extends JView
 		$Itemid    = JRequest::getVar('Itemid');
 		$task      = JRequest::getVar('task');
 		$user      = JFactory::getUser();
-		$redhelper = new redhelper();
-		$field     = new extraField();
+		$redhelper = new redhelper;
+		$field     = new extraField;
 		$session   = JFactory::getSession();
 
 		// Load language file
@@ -39,7 +40,8 @@ class checkoutViewcheckout extends JView
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
-		//End
+
+		// End
 
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('validate.js', 'media/system/js/', false);
@@ -65,6 +67,7 @@ class checkoutViewcheckout extends JView
 			$session->set('auth', $auth);
 			$auth = $session->get('auth');
 		}
+
 		if ($cart['idx'] < 1)
 		{
 			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');
@@ -97,13 +100,12 @@ class checkoutViewcheckout extends JView
 					{
 						$users_info_id = $shippingaddresses[0]->users_info_id;
 					}
-					else if ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
+					elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
 					{
 						$users_info_id = $billingaddresses->users_info_id;
 					}
 					else
 					{
-//						$msg =  JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER' );
 						$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
 					}
 				}
@@ -124,8 +126,11 @@ class checkoutViewcheckout extends JView
 			}
 			else
 			{
-				$lists['extra_field_user']        = $field->list_all_field(7); // field_section 6 : Customer Registration
-				$lists['extra_field_company']     = $field->list_all_field(8); // field_section 6 : Company Address
+				// Field_section 6 : Customer Registration
+				$lists['extra_field_user']        = $field->list_all_field(7);
+
+				// Field_section 6 : Company Address
+				$lists['extra_field_company']     = $field->list_all_field(8);
 				$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 				$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
 			}

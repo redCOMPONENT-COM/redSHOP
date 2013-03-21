@@ -14,13 +14,20 @@ jimport('joomla.application.component.model');
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 
-class accountModelaccount extends JModel
+/**
+ * Class accountModelaccount
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class AccountModelaccount extends JModel
 {
-	var $_id = null;
+	public $_id = null;
 
-	var $_data = null;
+	public $_data = null;
 
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -31,9 +38,9 @@ class accountModelaccount extends JModel
 
 	public function getuseraccountinfo($uid)
 	{
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$session = JFactory::getSession();
 
@@ -47,7 +54,7 @@ class accountModelaccount extends JModel
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$uid  = -$auth['users_info_id'];
+			$uid  = - $auth['users_info_id'];
 			$list = $order_functions->getBillingAddress($uid);
 		}
 
@@ -121,7 +128,6 @@ class accountModelaccount extends JModel
 						. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pw.product_id "
 						. "WHERE w.user_id='" . $user->id . "' "
 						. "AND w.wishlist_id='" . $wishlist_id . "' and pw.wishlist_id='" . $wishlist_id . "'";
-
 				}
 				else
 				{
@@ -138,12 +144,10 @@ class accountModelaccount extends JModel
 							}
 
 						$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
-
 					}
 
 					$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
 						. "WHERE p.product_id IN ('" . substr_replace($prod_id, "", -1) . "') ";
-
 				}
 				break;
 			default:
@@ -220,19 +224,22 @@ class accountModelaccount extends JModel
 		$pid         = JRequest::getInt('pid', 0, '', 'int');
 
 		$user = JFactory::getUser();
-		// check is user have access to wishlist
+
+		// Check is user have access to wishlist
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE user_id='" . $user->id . "' AND wishlist_id='" . $wishlist_id . "' ";
 		echo "<pre>";
 		print_r($query);
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadResult();
+
 		if (count($list) > 0)
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
 				. "WHERE product_id = '" . $pid . "' AND wishlist_id='" . $wishlist_id . "' ";
 
 			$this->_db->setQuery($query);
+
 			if ($this->_db->Query())
 			{
 				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
@@ -246,6 +253,7 @@ class accountModelaccount extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
+
 		$mainframe->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
 	}
 
@@ -265,6 +273,7 @@ class accountModelaccount extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
+
 		$mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
@@ -274,14 +283,17 @@ class accountModelaccount extends JModel
 		$xref = "DELETE FROM " . $this->_table_prefix . "product_tags_xref "
 			. "WHERE tags_id = '" . $tagid . "' AND users_id='" . $user->id . "' ";
 		$this->_db->setQuery($xref);
+
 		if ($this->_db->Query())
 		{
 			$check = "SELECT count(tags_id) FROM " . $this->_table_prefix . "product_tags_xref  WHERE tags_id ='" . $tagid . "' ";
 			$this->_db->setQuery($check);
+
 			if ($this->_db->loadResult() == 0)
 			{
 				$query = "DELETE FROM " . $this->_table_prefix . "product_tags WHERE tags_id = '" . $tagid . "' ";
 				$this->_db->setQuery($query);
+
 				if (!$this->_db->Query())
 				{
 					return false;
@@ -310,6 +322,7 @@ class accountModelaccount extends JModel
 	{
 		$query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = '" . $post['tags_name'] . "' WHERE tags_id = '" . $post['tags_id'] . "' ";
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->Query())
 		{
 			return false;
@@ -341,6 +354,7 @@ class accountModelaccount extends JModel
 		$query = "DELETE FROM " . $this->_table_prefix . "product_compare "
 			. "WHERE product_id = '" . $product_id . "' AND user_id='" . $user->id . "' ";
 		$this->_db->setQuery($query);
+
 		if ($this->_db->Query())
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
@@ -349,13 +363,14 @@ class accountModelaccount extends JModel
 		{
 			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
+
 		$mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
 	}
 
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
-		$redshopMail = new redshopMail();
+		$redshopMail = new redshopMail;
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$emailto     = $post['emailto'];
@@ -364,7 +379,7 @@ class accountModelaccount extends JModel
 		$subject     = $post['subject'];
 		$Itemid      = $post['Itemid'];
 
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 
 		// Get data from database if not than fetch from session
 		if ($user->id && $wishlist_id)
@@ -379,19 +394,23 @@ class accountModelaccount extends JModel
 		{
 			// Add this code to send wishlist while user is not loged in ...
 			$prod_id = "";
+
 			for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
 			{
 				$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
 			}
+
 			$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
 			$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
 				. "WHERE p.product_id IN (" . $prod_id . ")";
 		}
+
 		$MyWishlist    = $this->_getList($query);
 		$i             = 0;
 		$data          = "";
 		$mailbcc       = null;
 		$wishlist_body = $redshopMail->getMailtemplate(0, "mywishlist_mail");
+
 		if (count($wishlist_body) > 0)
 		{
 			$wishlist_body = $wishlist_body[0];
@@ -448,7 +467,7 @@ class accountModelaccount extends JModel
 					$wishlist_data = str_replace($tag, $thum_image, $wishlist_desc);
 					$wishlist_data = str_replace('{product_name}', $pname, $wishlist_data);
 
-					// attribute ajax change
+					// Attribute ajax change
 					if (!$row->not_for_sale)
 					{
 						$wishlist_data = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
@@ -461,9 +480,11 @@ class accountModelaccount extends JModel
 						$wishlist_data = str_replace("{product_old_price}", "", $wishlist_data);
 						$wishlist_data = str_replace("{product_price_saving}", "", $wishlist_data);
 					}
+
 					$temp_template .= $wishlist_data;
 				}
 			}
+
 			$data = $template_d1[0] . $temp_template . $template_d2[1];
 
 			$name     = @ explode('@', $emailto);
@@ -477,6 +498,7 @@ class accountModelaccount extends JModel
 			if (count($MyWishlist))
 			{
 				$link = JURI::root() . "index.php?tmpl=component&option=com_redshop&view=account&layout=mywishlist&mail=1";
+
 				foreach ($MyWishlist as $row)
 				{
 					$data_add .= '<div class="redProductWishlist">';
@@ -492,18 +514,24 @@ class accountModelaccount extends JModel
 					$data_add .= $pname;
 
 					$formatted_price = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
-					$price_add       = '<span id="pr_price">' . $formatted_price . '</span>'; //////// For attribute price count
+
+					// For attribute price count
+					$price_add       = '<span id="pr_price">' . $formatted_price . '</span>';
 
 					$i++;
 					$data_add .= '</div>';
 				}
 			}
 		}
-		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
-			return true;
-		else
-			return false;
 
+		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public function getReserveDiscount()
@@ -518,10 +546,12 @@ class accountModelaccount extends JModel
 		{
 			$remain_discount = $Data[0]->coupon_value;
 		}
+
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_voucher_transaction "
 			. "WHERE user_id='" . $user->id . "' AND amount > 0 limit 0,1 ";
 		$this->_db->setQuery($query);
 		$Data = $this->_getList($query);
+
 		if ($Data)
 		{
 			$remain_discount += $Data[0]->amount;

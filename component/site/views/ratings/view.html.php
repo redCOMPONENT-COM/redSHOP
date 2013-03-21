@@ -7,13 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class ratingsViewratings extends JView
 {
-
 	public function display($tpl = null)
 	{
 		global $mainframe;

@@ -7,24 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$redTemplate = new Redtemplate ();
-$carthelper = new rsCarthelper();
+$redTemplate = new Redtemplate;
+$carthelper = new rsCarthelper;
 
 $Itemid = JRequest::getVar('Itemid');
 $option = JRequest::getVar('option');
 $return = JRequest::getVar('return');
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $cart = $session->get('cart');
 
 $detail = $this->detail;
 $user = JFactory::getUser();
-$extra_field = new extra_field();
-//$idx =  $cart['idx'];
+$extra_field = new extra_field;
+
+// $idx =  $cart['idx'];
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
+
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
 {
 	$template_desc = $quotation_template[0]->template_desc;
@@ -38,6 +40,7 @@ else
 		var frm = document.adminForm;
 
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 		if (frm.user_email.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;
@@ -49,6 +52,7 @@ else
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
 		}
+
 		if (validateExtrafield(frm) == false) {
 			return false;
 		}
@@ -71,6 +75,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 
 $template_desc = $carthelper->replaceLabel($template_desc);
+
 if ($user->id)
 {
 	$template_desc = $carthelper->replaceBillingAddress($template_desc, $detail);
@@ -81,6 +86,7 @@ else
 	$billing = '<table width="90%">
 	<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_EMAIL') . ':</td>
 		<td><input type="text" name="user_email" id="user_email" value=""/></td></tr>';
+
 	if (strstr($template_desc, "{quotation_custom_field_list}"))
 	{
 		$billing .= $extra_field->list_all_field(16, $detail->user_info_id, "", "tbl");
@@ -90,6 +96,7 @@ else
 	{
 		$template_desc = $extra_field->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
 	}
+
 	$billing .= '</table>';
 
 	$template_desc = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $template_desc);
@@ -112,9 +119,9 @@ $template_desc = str_replace("{customer_note_lbl}", JText::_('COM_REDSHOP_CUSTOM
 $template_desc = str_replace("{customer_note}", '<textarea name="quotation_note" id="quotation_note"></textarea>', $template_desc);
 
 
-//$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+// $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 
-//$template_desc	=	$texts->replace_texts($template_desc);
+// $template_desc	=	$texts->replace_texts($template_desc);
 
 $template_desc = '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">' . $template_desc . '</form>';
 
@@ -125,14 +132,14 @@ echo eval("?>" . $template_desc . "<?php ");?>
 	/*function changeDynaList( listname, source, key, orig_key, orig_val ) {
 	 var list = eval( 'document.adminForm.' + listname );
 
-	 // empty the list
+	 // Empty the list
 	 for (i in list.options.length) {
 	 list.options[i] = null;
 	 }
 	 i = 0;
 	 for (x in source) {
 	 if (source[x][0] == key) {
-	 opt = new Option();
+	 opt = new Option;
 	 opt.value = source[x][1];
 	 opt.text = source[x][2];
 

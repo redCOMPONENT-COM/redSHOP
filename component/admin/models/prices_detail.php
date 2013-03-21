@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('_JEXEC') or die;
+
 jimport('joomla.application.component.model');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
 jimport('joomla.client.helper');
@@ -15,12 +18,16 @@ jimport('joomla.filesystem.file');
 class prices_detailModelprices_detail extends JModel
 {
 	public $_id = null;
+
 	public $_prodid = null;
+
 	public $_prodname = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -32,13 +39,13 @@ class prices_detailModelprices_detail extends JModel
 		$this->setProductName();
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function setProductName()
+	public function setProductName()
 	{
 		$query = ' SELECT prd.product_name '
 			. ' FROM ' . $this->_table_prefix . 'product as prd '
@@ -47,17 +54,20 @@ class prices_detailModelprices_detail extends JModel
 		$this->_prodname = $this->_db->loadObject()->product_name;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -69,17 +79,18 @@ class prices_detailModelprices_detail extends JModel
 				. ' WHERE p.price_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->price_id = 0;
 			$detail->product_id = $this->_prodid;
 			$detail->product_name = $this->_prodname;
@@ -93,33 +104,42 @@ class prices_detailModelprices_detail extends JModel
 			$detail->discount_start_date = 0;
 			$detail->discount_end_date = 0;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -127,14 +147,15 @@ class prices_detailModelprices_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE price_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }
-
-?>

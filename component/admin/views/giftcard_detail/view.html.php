@@ -6,11 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
+
 class giftcard_detailVIEWgiftcard_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
 
@@ -26,15 +29,12 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 
 		$detail =& $this->get('data');
 
-
 		$isNew = ($detail->giftcard_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARDS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_giftcard_48');
-
 		JToolBarHelper::apply();
-
 		JToolBarHelper::save();
 
 		if ($isNew)
@@ -43,7 +43,6 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -52,12 +51,15 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$redhelper = new redhelper();
+			$redhelper = new redhelper;
 			$accountgroup = $redhelper->getEconomicAccountGroup();
 			$op = array();
 			$op[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 			$accountgroup = array_merge($op, $accountgroup);
-			$lists["accountgroup_id"] = JHTML::_('select.genericlist', $accountgroup, 'accountgroup_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->accountgroup_id);
+			$lists["accountgroup_id"] = JHTML::_('select.genericlist', $accountgroup, 'accountgroup_id',
+				'class="inputbox" size="1" ', 'value', 'text',
+				$detail->accountgroup_id
+			);
 		}
 
 		$this->assignRef('lists', $lists);

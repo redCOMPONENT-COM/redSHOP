@@ -6,21 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class zip_importViewzip_import extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
 		$layout = JRequest::getVar('layout');
+
 		if ($layout == 'confirmupdate')
 		{
 			$this->setLayout('confirmupdate');

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,12 +14,16 @@ jimport('joomla.application.component.model');
 class opsearchModelopsearch extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -40,37 +45,41 @@ class opsearchModelopsearch extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		$query = $this->_buildQuery();
+
 		if (empty($this->_total))
 		{
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$filter_user = $this->getState('filter_user', '');
@@ -78,27 +87,32 @@ class opsearchModelopsearch extends JModel
 		$filter_status = $this->getState('filter_status', '');
 
 		$where = '';
+
 		if ($filter_user)
 		{
 			$where .= 'AND op.user_info_id="' . $filter_user . '" ';
 		}
+
 		if ($filter_product)
 		{
 			$where .= 'AND op.product_id ="' . $filter_product . '" ';
 		}
+
 		if ($filter_status)
 		{
 			$where .= 'AND op.order_status="' . $filter_status . '" ';
 		}
+
 		$query = 'SELECT op.*, CONCAT(ouf.firstname," ",ouf.lastname) AS fullname, ouf.company_name FROM ' . $this->_table_prefix . 'order_item AS op '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info as ouf ON ouf.order_id=op.order_id AND ouf.address_type="BT" '
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -110,7 +124,7 @@ class opsearchModelopsearch extends JModel
 		return $orderby;
 	}
 
-	function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+	public function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$query = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM " . $this->_table_prefix . "users_info AS uf "
 			. "WHERE uf.address_type='BT' "
@@ -124,5 +138,3 @@ class opsearchModelopsearch extends JModel
 
 	}
 }
-
-?>

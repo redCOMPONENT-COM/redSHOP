@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
 class account_shiptoViewaccount_shipto extends JView
 {
@@ -19,16 +19,20 @@ class account_shiptoViewaccount_shipto extends JView
 	{
 		global $mainframe;
 
-		$order_functions = new order_functions();
-		$extra_field     = new extraField(); //extra_field();
+		$order_functions = new order_functions;
+
+		// Extra_field;
+		$extra_field     = new extraField;
 
 		$task = JRequest::getVar('task');
 		$user = JFactory::getUser();
 		$uri  = JFactory::getURI();
-		// preform security checks
+
+		// Preform security checks
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$params  = & $mainframe->getParams('com_redshop');
+
 		if ($user->id)
 		{
 			$billingaddresses = $order_functions->getBillingAddress($user->id);
@@ -43,6 +47,7 @@ class account_shiptoViewaccount_shipto extends JView
 			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 			exit;
 		}
+
 		if ($task == 'addshipping')
 		{
 			JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
@@ -52,12 +57,14 @@ class account_shiptoViewaccount_shipto extends JView
 			JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
 
 			$shippingaddresses = & $this->get('Data');
+
 			if ($shippingaddresses->users_info_id > 0 && $shippingaddresses->user_id != $billingaddresses->user_id)
 			{
 				echo JText::_('COM_REDSHOP_ALERTNOTAUTH');
 
 				return;
 			}
+
 			$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shippingaddresses->users_info_id);
 			$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shippingaddresses->users_info_id);
 

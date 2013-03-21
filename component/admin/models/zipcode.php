@@ -6,20 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class zipcodeModelzipcode extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -33,20 +37,19 @@ class zipcodeModelzipcode extends JModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery(); //$this->_db->setQuery( $query ); echo $this->_db->getQuery();
+			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -57,23 +60,19 @@ class zipcodeModelzipcode extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-
 		}
 
 		return $this->_pagination;
 	}
 
-
-	function _buildQuery()
+	public function _buildQuery()
 	{
-
-		//$filter = $this->getState('filter');
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = 'SELECT z . * , c.country_name, s.state_name '
@@ -87,7 +86,7 @@ class zipcodeModelzipcode extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -99,13 +98,11 @@ class zipcodeModelzipcode extends JModel
 		return $orderby;
 	}
 
-	function getCountryName($country_id)
+	public function getCountryName($country_id)
 	{
 		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
-
 }
-
-?>

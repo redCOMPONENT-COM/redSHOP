@@ -10,36 +10,43 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
 
-class cartModelcart extends JModel
+/**
+ * Class cartModelcart.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CartModelCart extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null; /// product data
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_r_voucher = 0;
-	var $_c_remain = 0;
-	var $_globalvoucher = 0;
-	var $_producthelper = null;
-	var $_carthelper = null;
-	var $_userhelper = null;
-	var $_objshipping = null;
+	public $_id = null;
+	public $_data = null;
+	public $_product = null; /// Product data
+	public $_table_prefix = null;
+	public $_template = null;
+	public $_r_voucher = 0;
+	public $_c_remain = 0;
+	public $_globalvoucher = 0;
+	public $_producthelper = null;
+	public $_carthelper = null;
+	public $_userhelper = null;
+	public $_objshipping = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_producthelper = new producthelper();
-		$this->_carthelper    = new rsCarthelper();
-		$this->_userhelper    = new rsUserhelper();
-		$this->_objshipping   = new shipping ();
+		$this->_producthelper = new producthelper;
+		$this->_carthelper    = new rsCarthelper;
+		$this->_userhelper    = new rsUserhelper;
+		$this->_objshipping   = new shipping;
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
 		{
@@ -56,26 +63,30 @@ class cartModelcart extends JModel
 		{
 			$this->emptyExpiredCartProducts();
 		}
-		$user = & JFactory::getUser();
+
+		$user = JFactory::getUser();
 
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$task    = JRequest::getVar('task');
+
 		if (!empty($cart))
 		{
-
 			if (!$cart)
-			{ //  || array_key_exists("quotation_id",$cart)
+			{
 				$cart        = array();
 				$cart['idx'] = 0;
 			}
+
 			$user_id        = $user->id;
 			$usersess       = $session->get('rs_user');
 			$shopperGroupId = $this->_userhelper->getShopperGroup($user_id);
+
 			if (array_key_exists('user_shopper_group_id', $cart))
 			{
 				$userArr = $this->_producthelper->getVatUserinfo($user_id);
-				// removed due to discount issue $usersess['vatCountry']
+
+				// Removed due to discount issue $usersess['vatCountry']
 				if ($cart['user_shopper_group_id'] != $shopperGroupId || ($usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code))
 				{
 					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);
@@ -83,8 +94,8 @@ class cartModelcart extends JModel
 					if ($task != 'coupon' && $task != 'voucher')
 						$cart = $this->_carthelper->modifyDiscount($cart);
 				}
-
 			}
+
 			$session->set('cart', $cart);
 		}
 	}
@@ -93,7 +104,7 @@ class cartModelcart extends JModel
 	{
 		if (IS_PRODUCT_RESERVE)
 		{
-			$stockroomhelper = new rsstockroomhelper();
+			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
 			$db              = JFactory::getDbo();
 			$cart            = $session->get('cart');
@@ -115,21 +126,25 @@ class cartModelcart extends JModel
 			$includedrs = $db->loadResultArray();
 
 			$cart = $session->get('cart');
+
 			if ($cart)
 			{
 				$idx = (int) ($cart['idx']);
+
 				for ($j = 0; $j < $idx; $j++)
 				{
 					if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
 					{
 						$this->delete($j);
 					}
+
 					if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
 					{
 						$this->delete($j);
 					}
 				}
 			}
+
 			$stockroomhelper->deleteExpiredCartProduct();
 		}
 	}
@@ -140,7 +155,7 @@ class cartModelcart extends JModel
 	public function empty_cart()
 	{
 		$session         = JFactory::getSession();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 
 		$cart = $session->get('cart');
 		unset($cart);
@@ -154,7 +169,8 @@ class cartModelcart extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$redTemplate = new Redtemplate();
+			$redTemplate = new Redtemplate;
+
 			if (DEFAULT_QUOTATION_MODE)
 			{
 				$this->_data = $redTemplate->getTemplate("quotation_cart");
@@ -171,12 +187,16 @@ class cartModelcart extends JModel
 		return $this->_data;
 	}
 
-	///////////////// Update cart ///////////////////////////
+	/**
+	 * Update cart.
+	 *
+	 * @param   array  $data  data in cart
+	 */
 	public function update($data)
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$user    = & JFactory::getUser();
+		$user    = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
@@ -190,6 +210,7 @@ class cartModelcart extends JModel
 		if ($newQuantity != $oldQuantity)
 		{
 			$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+
 			if ($newQuantity > $cart[$cartElement]['quantity'])
 			{
 				$cart['notice_message'] = $cart[$cartElement]['quantity'] . " " . JTEXT::_('COM_REDSHOP_AVAILABLE_STOCK_MESSAGE');
@@ -198,13 +219,13 @@ class cartModelcart extends JModel
 			{
 				$cart['notice_message'] = "";
 			}
+
 			$cart[$cartElement]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 			$cart[$cartElement]['cart_attribute'] = $this->updateAttributePriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
 
-			# discount calculator
+			// Discount calculator
 			if (!empty($cart[$cartElement]['discount_calc']))
 			{
-
 				$calcdata               = $cart[$cartElement]['discount_calc'];
 				$calcdata['product_id'] = $cart[$cartElement]['product_id'];
 
@@ -213,22 +234,18 @@ class cartModelcart extends JModel
 				$calculator_price  = $discount_cal['product_price'];
 				$product_price_tax = $discount_cal['product_price_tax'];
 			}
-			# End
 
-			# Attribute price
+			// Attribute price
 			$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
 			$product_price              = $retAttArr[1];
 			$product_vat_price          = $retAttArr[2];
 			$product_old_price          = $retAttArr[5] + $retAttArr[6];
 			$product_old_price_excl_vat = $retAttArr[5];
-			# End
 
-			# Accessory price
+			// Accessory price
 			$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
 			$accessory_total_price = $retAccArr[1];
 			$accessory_vat_price   = $retAccArr[2];
-
-			# End
 
 			if ($cart[$cartElement]['wrapper_id'])
 			{
@@ -236,21 +253,23 @@ class cartModelcart extends JModel
 				$wrapper_vat   = $wrapperArr['wrapper_vat'];
 				$wrapper_price = $wrapperArr['wrapper_price'];
 			}
+
 			if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
 			{
 				$subscription_vat    = 0;
 				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$cartElement]['subscription_id']);
 				$subscription_price  = $subscription_detail->subscription_price;
+
 				if ($subscription_price)
 					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
 				$product_vat_price += $subscription_vat;
 				$product_price = $product_price + $subscription_price;
-//				$product_price_excl_vat += $subscription_price;
+
 				$product_old_price_excl_vat += $subscription_price;
 			}
 			else
 			{
-				//return ;
+				// Return ;
 			}
 
 			$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
@@ -267,7 +286,7 @@ class cartModelcart extends JModel
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$user    = & JFactory::getUser();
+		$user    = JFactory::getUser();
 
 		if (!$cart)
 		{
@@ -276,6 +295,7 @@ class cartModelcart extends JModel
 			$session->set('cart', $cart);
 			$cart = $session->get('cart');
 		}
+
 		$idx = (int) ($cart['idx']);
 
 		$prdocut_all = $data['product_all'];
@@ -290,7 +310,9 @@ class cartModelcart extends JModel
 			{
 				$quantity[$i] = $cart[$i]['quantity'];
 			}
+
 			$quantity[$i] = intval(abs($quantity[$i]) > 0 ? $quantity[$i] : 1);
+
 			if ($cart[$i]['product_id'] == $product_id[$i] && $quantity[$i] != $cart[$i]['quantity'])
 			{
 				$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
@@ -298,11 +320,9 @@ class cartModelcart extends JModel
 				$cart[$i]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$i], $cart[$i]['quantity']);
 				$cart[$i]['cart_attribute'] = $this->updateAttributePriceArray($cart[$i], $cart[$i]['quantity']);
 
-				# discount calculator
+				// Discount calculator
 				if (!empty($cart[$i]['discount_calc']))
 				{
-
-
 					$calcdata               = $cart[$i]['discount_calc'];
 					$calcdata['product_id'] = $cart[$i]['product_id'];
 
@@ -311,15 +331,15 @@ class cartModelcart extends JModel
 					$calculator_price  = $discount_cal['product_price'];
 					$product_price_tax = $discount_cal['product_price_tax'];
 				}
-				# End
 
-				////////////// Attribute price /////////////
+				// Attribute price
 				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$i]['cart_attribute'], $cart[$i]['product_id'], $user->id, $calculator_price, $cart[$i]['quantity']);
 				$product_price              = $retAttArr[1];
 				$product_vat_price          = $retAttArr[2];
 				$product_old_price          = $retAttArr[5] + $retAttArr[6];
 				$product_old_price_excl_vat = $retAttArr[5];
-				////////////// Accessory price /////////////
+
+				// Accessory price
 				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
 				$accessory_total_price = $retAccArr[1];
 				$accessory_vat_price   = $retAccArr[2];
@@ -330,7 +350,9 @@ class cartModelcart extends JModel
 					$wrapper_vat   = $wrapperArr['wrapper_vat'];
 					$wrapper_price = $wrapperArr['wrapper_price'];
 				}
+
 				$subscription_vat = 0;
+
 				if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
 				{
 					$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
@@ -339,13 +361,14 @@ class cartModelcart extends JModel
 						$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
 					$product_vat_price += $subscription_vat;
 					$product_price = $product_price + $subscription_price;
-//					$product_price_excl_vat += $subscription_price;
+
 					$product_old_price_excl_vat += $subscription_price;
 				}
 				else
 				{
-					//return ;
+					// Return ;
 				}
+
 				$cart[$i]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
 				$cart[$i]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
 				$cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
@@ -353,15 +376,17 @@ class cartModelcart extends JModel
 				$cart[$i]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
 			}
 		}
+
 		$session->set('cart', $cart);
 	}
 
 	public function delete($cartElement)
 	{
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$session         = JFactory::getSession();
 
 		$cart = $session->get('cart');
+
 		if (array_key_exists($cartElement, $cart))
 		{
 			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id']);
@@ -369,6 +394,7 @@ class cartModelcart extends JModel
 			$cart = array_merge(array(), $cart);
 
 			$Index = $cart['idx'] - 1;
+
 			if ($Index > 0)
 			{
 				$cart['idx'] = $Index;
@@ -379,8 +405,8 @@ class cartModelcart extends JModel
 				$cart['idx'] = 0;
 			}
 		}
-		$session->set('cart', $cart);
 
+		$session->set('cart', $cart);
 	}
 
 	public function coupon($c_data = array())
@@ -410,6 +436,7 @@ class cartModelcart extends JModel
 			$product = $this->_db->loadObject();
 
 			$product_id = $product->product_id;
+
 			if ($product_id == "")
 				continue;
 
@@ -435,6 +462,7 @@ class cartModelcart extends JModel
 			}
 
 			$data["product_id"] = $product_id;
+
 			if (isset($post["mod_quantity"]) && $post["mod_quantity"] != "")
 				$data["quantity"] = $post["mod_quantity"];
 			else
@@ -444,13 +472,17 @@ class cartModelcart extends JModel
 		}
 	}
 
-	/*
-	 * check if attribute tag is present in product template
+	/**
+	 * check if attribute tag is present in product template.
+	 *
+	 * @param   int  $product_id  the product id
+	 *
+	 * @return bool
 	 */
 	public function checkifTagAvailable($product_id)
 	{
-		$db          = & JFactory :: getDBO();
-		$redTemplate = new redTemplate();
+		$db          = JFactory::getDBO();
+		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
 			. "WHERE product_id='" . $product_id;
 
@@ -460,20 +492,25 @@ class cartModelcart extends JModel
 
 		$template              = $redTemplate->getTemplate("product", $row_data);
 		$product_template_desc = $template[0]->template_desc;
+
 		if (strstr($product_template_desc, "{attribute_template:"))
+		{
 			return true;
+		}
 		else
+		{
 			return false;
+		}
 	}
 
-	/*
+	/**
 	 * 	shipping rate calculator
 	 */
 	public function shippingrate_calc()
 	{
-		$document = & JFactory :: getDocument();
+		$document = JFactory::getDocument();
 		JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
-		$redConfig = new Redconfiguration();
+		$redConfig = new Redconfiguration;
 
 		$countryarray         = $redConfig->getCountryList();
 		$post['country_code'] = $countryarray['country_code'];
@@ -499,21 +536,21 @@ class cartModelcart extends JModel
 	public function updateAccessoryPriceArray($data = array(), $newquantity = 1)
 	{
 		$attArr = $data['cart_accessory'];
+
 		for ($i = 0; $i < count($attArr); $i++)
 		{
 			$attchildArr = $attArr[$i]['accessory_childs'];
 
-//			$accessory = $this->_producthelper->getProductAccessory($attArr[$i]['accessory_id']);
-//			$accessorypricelist = $this->_producthelper->getAccessoryPrice($data['product_id'], $accessory[0]->newaccessory_price,$accessory[0]->accessory_main_price ,1);
-//			$attArr[$i]['accessory_price'] = $accessorypricelist[0];
 			$attArr[$i]['accessory_quantity'] = $newquantity;
 
 			for ($j = 0; $j < count($attchildArr); $j++)
 			{
 				$propArr = $attchildArr[$j]['attribute_childs'];
+
 				for ($k = 0; $k < count($propArr); $k++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+
 					if (count($pricelist) > 0)
 					{
 						$propArr[$k]['property_price'] = $pricelist->product_price;
@@ -525,9 +562,11 @@ class cartModelcart extends JModel
 					}
 
 					$subpropArr = $propArr[$k]['property_childs'];
+
 					for ($l = 0; $l < count($subpropArr); $l++)
 					{
 						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+
 						if (count($pricelist) > 0)
 						{
 							$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
@@ -538,10 +577,13 @@ class cartModelcart extends JModel
 							$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 						}
 					}
+
 					$propArr[$k]['property_childs'] = $subpropArr;
 				}
+
 				$attchildArr[$j]['attribute_childs'] = $propArr;
 			}
+
 			$attArr[$i]['accessory_childs'] = $attchildArr;
 		}
 
@@ -555,9 +597,11 @@ class cartModelcart extends JModel
 		for ($i = 0; $i < count($attArr); $i++)
 		{
 			$propArr = $attArr[$i]['attribute_childs'];
+
 			for ($k = 0; $k < count($propArr); $k++)
 			{
 				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+
 				if (count($pricelist) > 0)
 				{
 					$propArr[$k]['property_price'] = $pricelist->product_price;
@@ -569,9 +613,11 @@ class cartModelcart extends JModel
 				}
 
 				$subpropArr = $propArr[$k]['property_childs'];
+
 				for ($l = 0; $l < count($subpropArr); $l++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+
 					if (count($pricelist) > 0)
 					{
 						$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
@@ -582,8 +628,10 @@ class cartModelcart extends JModel
 						$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 					}
 				}
+
 				$propArr[$k]['property_childs'] = $subpropArr;
 			}
+
 			$attArr[$i]['attribute_childs'] = $propArr;
 		}
 
@@ -607,6 +655,7 @@ class cartModelcart extends JModel
 			{
 				$cart[$v]['quantity'] = $voucher_left;
 			}
+
 			if (in_array($cart[$v]['product_id'], $product_idArr) || $this->_globalvoucher)
 			{
 				$product_price += $cart[$v]['product_price'] * $cart[$v]['quantity'];
@@ -639,15 +688,18 @@ class cartModelcart extends JModel
 		if (isset($data['attribute_id_prd_' . $product_id . '_0']))
 		{
 			$attribute_data = $data['attribute_id_prd_' . $product_id . '_0'];
+
 			for ($ia = 0; $ia < count($attribute_data); $ia++)
 			{
 				$accPropertyCart                              = array();
 				$attribute                                    = $this->_producthelper->getProductAttribute(0, 0, $attribute_data[$ia]);
 				$generateAttributeCart[$ia]['attribute_id']   = $attribute_data[$ia];
 				$generateAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
+
 				if ($attribute[0]->text != "" && isset($data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]]))
 				{
 					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
+
 					for ($ip = 0; $ip < count($acc_property_data); $ip++)
 					{
 						if ($acc_property_data[$ip] != 0)
@@ -656,6 +708,7 @@ class cartModelcart extends JModel
 							$property_price     = 0;
 							$property           = $this->_producthelper->getAttibuteProperty($acc_property_data[$ip]);
 							$pricelist          = $this->_producthelper->getPropertyPrice($acc_property_data[$ip], $cart[$idx]['quantity'], 'property');
+
 							if (count($pricelist) > 0)
 							{
 								$property_price = $pricelist->product_price;
@@ -664,11 +717,13 @@ class cartModelcart extends JModel
 							{
 								$property_price = $property[0]->property_price;
 							}
+
 							if (count($property) > 0 && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
 							{
 								$type      = 'product_attributes';
 								$imagename = $property[0]->property_image;
 							}
+
 							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
@@ -677,6 +732,7 @@ class cartModelcart extends JModel
 							if (isset($data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
 							{
 								$acc_subproperty_data = $data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
+
 								for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
 								{
 									if ($acc_subproperty_data[$isp] != 0)
@@ -684,6 +740,7 @@ class cartModelcart extends JModel
 										$subproperty_price = 0;
 										$subproperty       = $this->_producthelper->getAttibuteSubProperty($acc_subproperty_data[$isp]);
 										$pricelist         = $this->_producthelper->getPropertyPrice($acc_subproperty_data[$isp], $cart[$idx]['quantity'], 'subproperty');
+
 										if (count($pricelist) > 0)
 										{
 											$subproperty_price = $pricelist->product_price;
@@ -692,11 +749,13 @@ class cartModelcart extends JModel
 										{
 											$subproperty_price = $subproperty[0]->subattribute_color_price;
 										}
+
 										if (count($subproperty) > 0 && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image))
 										{
 											$type      = 'subcolor';
 											$imagename = $subproperty[0]->subattribute_color_image;
 										}
+
 										$accSubpropertyCart[$isp]['subproperty_id']           = $acc_subproperty_data[$isp];
 										$accSubpropertyCart[$isp]['subproperty_name']         = $subproperty[0]->text;
 										$accSubpropertyCart[$isp]['subproperty_oprand']       = $subproperty[0]->oprand;
@@ -705,14 +764,18 @@ class cartModelcart extends JModel
 									}
 								}
 							}
+
 							$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
 						}
 					}
 				}
+
 				$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 			}
 		}
+
 		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
+
 		if (!empty($imagename) && !empty($type))
 		{
 			$cart[$idx]['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . $type . "/" . $imagename;

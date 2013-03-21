@@ -10,13 +10,21 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
 
+/**
+ * Class ask_questionModelask_question
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class ask_questionModelask_question extends JModel
 {
-	var $_id = null;
-	var $_table_prefix = null;
+	public $_id = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -33,8 +41,9 @@ class ask_questionModelask_question extends JModel
 	/**
 	 * Method to store the records
 	 *
-	 * @access public
-	 * @return boolean
+	 * @param   array  $data  array of data
+	 *
+	 * @return bool
 	 */
 	public function store($data)
 	{
@@ -56,6 +65,7 @@ class ask_questionModelask_question extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -84,8 +94,8 @@ class ask_questionModelask_question extends JModel
 	public function sendMailForAskQuestion($data)
 	{
 		$this->store($data);
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 
 		$url        = JURI::base();
 		$option     = JRequest::getVar('option');
@@ -93,22 +103,25 @@ class ask_questionModelask_question extends JModel
 		$mailbcc    = null;
 		$fromname   = $data['your_name'];
 		$from       = $data['your_email'];
-		$subject    = ""; //JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT' );
+		$subject    = "";
 		$message    = $data['your_question'];
 		$product_id = $data['pid'];
 
 		$mailbody = $redshopMail->getMailtemplate(0, "ask_question_mail");
 
 		$data_add = $message;
+
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
 			$subject  = $mailbody[0]->mail_subject;
+
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
 			}
 		}
+
 		$product = $producthelper->getProductById($product_id);
 
 		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
@@ -125,9 +138,11 @@ class ask_questionModelask_question extends JModel
 		$data_add    = str_replace("{user_telephone}", $data['telephone'], $data_add);
 		$data_add    = str_replace("{user_telephone_lbl}", JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
 		$data_add    = str_replace("{user_address_lbl}", JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
+
 		if (ADMINISTRATOR_EMAIL != "")
 		{
 			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;

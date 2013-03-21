@@ -14,12 +14,16 @@ jimport('joomla.application.component.model');
 class stockroomModelstockroom extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -33,30 +37,31 @@ class stockroomModelstockroom extends JModel
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -67,19 +72,23 @@ class stockroomModelstockroom extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
 		$orderby = $this->_buildContentOrderBy();
 		$where = '';
+
 		if ($filter)
+		{
 			$where = " WHERE stockroom_name like '%" . $filter . "%' ";
+		}
 
 		$query = "SELECT distinct(s.stockroom_id),s.* FROM " . $this->_table_prefix . "stockroom s" . $where . $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -91,5 +100,3 @@ class stockroomModelstockroom extends JModel
 		return $orderby;
 	}
 }
-
-?>

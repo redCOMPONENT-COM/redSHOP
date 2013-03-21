@@ -11,11 +11,20 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class ratingsModelratings
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class ratingsModelratings extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{

@@ -10,14 +10,15 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * split payment Controller
+ * split payment Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class split_paymentController extends JController
+class Split_paymentController extends JController
 {
 	public function __construct($default = array())
 	{

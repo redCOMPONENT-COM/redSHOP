@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $redTemplate = new Redtemplate;
 $Itemid = JRequest::getVar('Itemid');
@@ -26,6 +26,7 @@ else
 }
 
 $option = JRequest::getVar('option');
+
 if ($this->params->get('show_page_heading', 1))
 {
 	if ($this->params->get('page_title'))
@@ -74,11 +75,13 @@ if ($this->params->get('show_page_heading', 1))
 			frm.catalog_id.focus();
 			return false;
 		}
+
 		if (frm.name_2.value == '') {
 			alert('<?php echo JText::_('COM_REDSHOP_ENTER_NAME');?>');
 			frm.name_2.focus();
 			return false;
 		}
+
 		if (email == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');?>");
 			frm.email_address.focus();

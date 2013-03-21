@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,12 +14,16 @@ jimport('joomla.application.component.model');
 class ratingModelrating extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -34,7 +39,7 @@ class ratingModelrating extends JModel
 		$this->setState('comment_filter', $comment_filter);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -45,7 +50,7 @@ class ratingModelrating extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -56,7 +61,7 @@ class ratingModelrating extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -67,7 +72,7 @@ class ratingModelrating extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$comment_filter = $this->getState('comment_filter');
 
@@ -83,12 +88,13 @@ class ratingModelrating extends JModel
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = ' SELECT p.product_name,u.username,r.* '
-			. ' FROM ' . $this->_table_prefix . 'product_rating r LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id = r.product_id  LEFT JOIN #__users u ON u.id = r.userid ' . $where . $orderby;
+			. ' FROM ' . $this->_table_prefix . 'product_rating r LEFT JOIN ' . $this->_table_prefix .
+			'product p ON p.product_id = r.product_id  LEFT JOIN #__users u ON u.id = r.userid ' . $where . $orderby;
 
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -100,5 +106,3 @@ class ratingModelrating extends JModel
 		return $orderby;
 	}
 }
-
-?>

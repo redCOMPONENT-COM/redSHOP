@@ -11,7 +11,14 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class loginModellogin extends JModel
+/**
+ * Class LoginModelLogin
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class LoginModelLogin extends JModel
 {
 	public function __construct()
 	{
@@ -20,7 +27,7 @@ class loginModellogin extends JModel
 
 	public function setlogin($username, $password)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$credentials             = array();
 		$credentials['username'] = $username;
@@ -41,6 +48,7 @@ class loginModellogin extends JModel
 	public function ShopperGroupDetail($sid = 0)
 	{
 		$user =& JFactory::getUser();
+
 		if ($sid == 0)
 			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__" . TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;
 		else

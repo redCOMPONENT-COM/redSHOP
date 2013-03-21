@@ -176,7 +176,7 @@ class Img2Thumb
 					$adjustX  = ($maxX - $newxsize) / 2;
 					$adjustY  = 0;
 				}
-				else if ($newxsize != 0 && $newysize != 0)
+				elseif ($newxsize != 0 && $newysize != 0)
 				{
 
 					$adjustX = $newxsize;
@@ -205,7 +205,7 @@ class Img2Thumb
 				$adjustY = $newysize;
 
 			}
-			else if ($orig_size[0] < $orig_size[1])
+			elseif ($orig_size[0] < $orig_size[1])
 			{
 				$newxsize = $newysize * ($orig_size[0] / $orig_size[1]);
 				$adjustX  = ($maxX - $newxsize) / 2;

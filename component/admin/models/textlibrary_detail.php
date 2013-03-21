@@ -6,19 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class textlibrary_detailModeltextlibrary_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -27,44 +30,47 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->textlibrary_id = 0;
 			$detail->text_name = null;
 			$detail->text_desc = null;
@@ -72,30 +78,35 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			$detail->section = null;
 			$detail->published = 1;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -103,9 +114,11 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -113,7 +126,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -123,9 +136,11 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE textlibrary_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -133,9 +148,8 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		return true;
 	}
 
-	function copy($cid = array())
+	public function copy($cid = array())
 	{
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -144,9 +158,9 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
+
 		foreach ($this->_copydata as $cdata)
 		{
-
 			$post['textlibrary_id'] = 0;
 			$post['text_name'] = 'Copy Of ' . $cdata->text_name;
 			$post['text_desc'] = $cdata->text_desc;
@@ -154,13 +168,9 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			$post['section'] = $cdata->section;
 			$post['published'] = $cdata->published;
 
-			textlibrary_detailModeltextlibrary_detail::store($post);
+			$this->store($post);
 		}
 
 		return true;
-
 	}
-
 }
-
-?>

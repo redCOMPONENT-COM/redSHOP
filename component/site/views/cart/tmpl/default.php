@@ -7,32 +7,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 $adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-include_once ($adminpath . DS . 'helpers' . DS . 'shipping.php');
+include_once $adminpath . DS . 'helpers' . DS . 'shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $dispatcher =& JDispatcher::getInstance();
-$producthelper = new producthelper ();
-$objshipping = new shipping ();
-$redhelper = new redhelper ();
-$carthelper = new rsCarthelper ();
-$redTemplate = new Redtemplate();
+$producthelper = new producthelper;
+$objshipping = new shipping;
+$redhelper = new redhelper;
+$carthelper = new rsCarthelper;
+$redTemplate = new Redtemplate;
 
 $url = JURI::base();
 $cart = $this->cart;
 $idx = $cart ['idx'];
 $option = JRequest::getVar('option');
 $model = $this->getModel('cart');
-$session = & JFactory::getSession();
+$session = JFactory::getSession();
 $user = JFactory::getUser();
 $print = JRequest::getVar('print');
 $Itemid = $redhelper->getCheckoutItemid();
@@ -44,7 +44,8 @@ $cart_data = $this->data [0]->template_desc;
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
-# End
+
+// End
 
 if ($cart_data == "")
 {
@@ -67,6 +68,7 @@ else
 	$print_url = $url . "index.php?option=com_redshop&view=cart&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
+
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
@@ -76,17 +78,20 @@ $cart_data = str_replace("{print}", $print_tag, $cart_data);
 
 $q_id = '';
 $pr_id = '';
+
 for ($i = 0; $i < $idx; $i++)
 {
 	$product_id = $cart[$i]['product_id'];
 	$pr_id .= $product_id;
 	$q_id .= $cart[$i]['quantity'];
+
 	if ($i != $idx - 1)
 	{
 		$pr_id .= ",";
 		$q_id .= ",";
 	}
 }
+
 $cart_data = $carthelper->replaceTemplate($cart, $cart_data, 0);
 $session->set('cart', $cart);
 
@@ -111,21 +116,20 @@ if (DEFAULT_QUOTATION_MODE)
 }
 else
 {
-
 	$checkout = '';
 	JPluginHelper::importPlugin('redshop_payment');
 	$dispatcher   =& JDispatcher::getInstance();
 	$pluginButton = $dispatcher->trigger('onPaymentCheckoutButton', array($cart));
 	$pluginButton = implode("<br>", $pluginButton);
 
-	# google checkout start Div
+	// Google checkout start Div
 	if ($pluginButton)
 		$checkout .= '<div class="googlecheckout-button" style="float:left;">' . $pluginButton . '</div>';
 
 	if (SSL_ENABLE_IN_CHECKOUT)
 	{
 		$uri    =& JURI::getInstance();
-		$c_link = new JURI ();
+		$c_link = new JURI;
 		$c_link->setScheme('https');
 		$c_link->setHost($uri->getHost());
 
@@ -148,6 +152,7 @@ else
 	{
 		$checkout .= ' onclick="javascript:document.location=\'' . $link . '\'">';
 	}
+
 	$checkout .= '</div>';
 }
 
@@ -170,9 +175,11 @@ if (strstr($cart_data, "{shop_more}"))
 	{
 		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $Itemid);
 	}
+
 	$shop_more = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
 	$cart_data = str_replace("{shop_more}", $shop_more, $cart_data);
 }
+
 $product_all = $pr_id;
 
 $update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="POST" >
@@ -204,6 +211,7 @@ $discount = $producthelper->getDiscountId(0);
 if (count($discount) > 0)
 {
 	$text = '';
+
 	if ($discount->discount_type == 0)
 	{
 		$discount_amount = $discount->discount_amount;
@@ -214,16 +222,18 @@ if (count($discount) > 0)
 		$discount_amount = ($discount->amount * $discount->discount_amount) / (100);
 		$discount_sign   = " %";
 	}
+
 	$diff  = $discount->amount - $cart ['product_subtotal'];
 	$price = number_format($discount->discount_amount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+
 	if ($diff > 0)
 		$text = sprintf(JText::_('COM_REDSHOP_DISCOUNT_TEXT'), $producthelper->getProductFormattedPrice($diff, true), $producthelper->getProductFormattedPrice($discount_amount, true), $price . $discount_sign);
 
 	/*
- 	  *  Discount type =  1 // discount/coupon/voucher
-	  *  Discount type =  2 // discount + coupon/voucher
-	  *  Discount type =  3 // discount + coupon + voucher
-	  *  Discount type =  4 // discount + coupons + voucher
+ 	  *  Discount type =  1 // Discount/coupon/voucher
+	  *  Discount type =  2 // Discount + coupon/voucher
+	  *  Discount type =  3 // Discount + coupon + voucher
+	  *  Discount type =  4 // Discount + coupons + voucher
 	  */
 	if (DISCOUNT_TYPE && DISCOUNT_ENABLE == 1)
 	{
@@ -238,6 +248,7 @@ else
 {
 	$cart_data = str_replace("{discount_rule}", '', $cart_data);
 }
+
 $discount_form = '<div class="update_cart"><form name="discount_form" method="POST" >';
 $coupon_lableFLG = 0;
 $coupon_lable = '';
@@ -250,18 +261,19 @@ if (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 1)
 	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
-else if (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 0)
+elseif (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 0)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
-else if (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
+elseif (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
 {
 	$discount_form .= '<input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
+
 $discount_form .= '<input type="hidden" name="task" value=""><input type="hidden" name="Itemid" value="' . $Itemid . '">';
 $discount_form .= '</form></div>';
 
@@ -270,10 +282,12 @@ if (DISCOUNT_TYPE == "0" || DISCOUNT_TYPE == "")
 	$discount_form   = "";
 	$coupon_lableFLG = 0;
 }
+
 if ($coupon_lableFLG)
 {
 	$coupon_lable = "<div id='coupon_label' class='coupon_label'>" . JText::_('COM_REDSHOP_CART_COUPON_CODE_TBL') . "</div>";
 }
+
 $cart_data = str_replace("{discount_form_lbl}", "", $cart_data);
 $cart_data = str_replace("{discount_form}", $discount_form, $cart_data);
 $cart_data = str_replace("{coupon_code_lbl}", $coupon_lable, $cart_data);
@@ -285,7 +299,8 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
  */
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
-# End
+
+// End
 
 $cart_data = $redTemplate->parseredSHOPplugin($cart_data);
 echo eval ("?>" . $cart_data . "<?php ");
@@ -293,6 +308,7 @@ echo eval ("?>" . $cart_data . "<?php ");
 <script type="text/javascript" language="javascript">
 	function all_update(u) {
 		q = "";
+
 		for (var i = 0; i < u; i++) {
 			qi = "quantitybox" + i;
 			r = parseInt(document.getElementById(qi).value);

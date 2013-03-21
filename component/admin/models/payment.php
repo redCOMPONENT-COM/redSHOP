@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,12 +14,16 @@ jimport('joomla.application.component.model');
 class paymentModelpayment extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe;
@@ -31,22 +36,23 @@ class paymentModelpayment extends JModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('template_section', $template_section);
-
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query);
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		$query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'payment_method p ';
+
 		if (empty($this->_total))
 		{
 			$this->_db->setQuery($query);
@@ -56,7 +62,7 @@ class paymentModelpayment extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -67,10 +73,11 @@ class paymentModelpayment extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$where = '';
 		$limit = "";
+
 		if ($this->getState('limit') > 0)
 		{
 			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');
@@ -82,7 +89,7 @@ class paymentModelpayment extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -94,5 +101,4 @@ class paymentModelpayment extends JModel
 
 		return $orderby;
 	}
-
 }

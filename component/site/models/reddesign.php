@@ -11,17 +11,26 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class reddesignModelreddesign
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class reddesignModelreddesign extends JModel
 {
+	public $_data = null;
 
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
+	public $_total = null;
+
+	public $_pagination = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
-		// redshop product detail
+		// Redshop product detail
 		$this->_pid = (int) JRequest::getVar('pid', 0);
 		$this->_cid = (int) JRequest::getVar('cid', 0);
 
@@ -31,7 +40,7 @@ class reddesignModelreddesign extends JModel
 
 	public function getDesignTypeImages($designtype_id)
 	{
-		$db = & JFactory :: getDBO();
+		$db = JFactory::getDBO();
 
 		$table = $this->_table_prefix . "image";
 		$query = "SELECT * FROM " . $table . " WHERE designtype_id = " . $designtype_id . " order by ordering";
@@ -42,8 +51,8 @@ class reddesignModelreddesign extends JModel
 
 	public function getProductDetail($product_id, $field_name = "")
 	{
+		$db = JFactory::getDBO();
 
-		$db = & JFactory :: getDBO();
 		if (!$field_name)
 		{
 			$query = 'SELECT * FROM `#__redshop_product` WHERE product_id = ' . $product_id;
@@ -52,6 +61,7 @@ class reddesignModelreddesign extends JModel
 		{
 			$query = 'SELECT $field_name FROM `#__redshop_product` WHERE product_id = ' . $product_id;
 		}
+
 		$db->setQuery($query);
 
 		return $db->loadObject();
@@ -59,12 +69,11 @@ class reddesignModelreddesign extends JModel
 
 	public function getProductDesign($product_id)
 	{
-		$db = & JFactory :: getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM `#__reddesign_redshop` WHERE `product_id` = '" . $product_id . "'";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
 	}
-
 }

@@ -6,18 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class stockimageViewstockimage extends JView
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
@@ -29,8 +25,6 @@ class stockimageViewstockimage extends JView
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
-//		JToolBarHelper::publishList ();
-//		JToolBarHelper::unpublishList ();		
 
 		$uri = & JFactory::getURI();
 
@@ -48,6 +42,7 @@ class stockimageViewstockimage extends JView
 		$this->assignRef('data', $data);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('request_url', $uri->toString());
+
 		parent::display($tpl);
 	}
 }

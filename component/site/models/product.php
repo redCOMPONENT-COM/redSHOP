@@ -11,19 +11,34 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.model');
 
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
 
+/**
+ * Class productModelproduct
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class productModelproduct extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null; // product data
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_catid = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	/**
+	 * Product data
+	 */
+	public $_product = null;
+
+	public $_table_prefix = null;
+
+	public $_template = null;
+
+	public $_catid = null;
 
 	public function __construct()
 	{
@@ -35,8 +50,8 @@ class productModelproduct extends JModel
 
 		$GLOBALS['childproductlist'] = array();
 
-		$this->setId(( int ) $pid);
-		$this->_catid = ( int ) JRequest::getVar('cid', 0);
+		$this->setId((int) $pid);
+		$this->_catid = (int) JRequest::getVar('cid', 0);
 	}
 
 	public function setId($id)
@@ -51,7 +66,7 @@ class productModelproduct extends JModel
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper               = new rsUserhelper();
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -66,6 +81,7 @@ class productModelproduct extends JModel
 		{
 			$and .= "AND pcx.category_id='" . $this->_catid . "' ";
 		}
+
 		$query = "SELECT p.*, c.category_id, c.category_name ,c.category_back_full_image,c.category_full_image , m.manufacturer_name,pcx.ordering "
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id = p.product_id "
@@ -81,13 +97,15 @@ class productModelproduct extends JModel
 
 	public function getData()
 	{
-		$redTemplate = new Redtemplate ();
+		$redTemplate = new Redtemplate;
+
 		if (empty ($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 		}
+
 		$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
 		$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
 
@@ -96,7 +114,8 @@ class productModelproduct extends JModel
 
 	public function getProductTemplate()
 	{
-		$redTemplate = new Redtemplate ();
+		$redTemplate = new Redtemplate;
+
 		if (empty ($this->_template))
 		{
 			$this->_template = $redTemplate->getTemplate("product", $this->_data->product_template);
@@ -107,13 +126,13 @@ class productModelproduct extends JModel
 	}
 
 	/**
-	 * get next or previous product using ordering
+	 * get next or previous product using ordering.
 	 *
-	 * @params: $product_id - current product id
-	 * @params: $category_id - current product category id
-	 * @params: $dirn - direction to indicate next or previous product
+	 * @param   int  $product_id   current product id
+	 * @param   int  $category_id  current product category id
+	 * @param   int  $dirn         to indicate next or previous product
 	 *
-	 * @return: object array
+	 * @return mixed
 	 */
 	public function getPrevNextproduct($product_id, $category_id, $dirn)
 	{
@@ -131,7 +150,7 @@ class productModelproduct extends JModel
 			$sql .= $where;
 			$sql .= ' ORDER BY ordering DESC';
 		}
-		else if ($dirn > 0)
+		elseif ($dirn > 0)
 		{
 			$sql .= ' WHERE ordering > (' . $query . ')';
 			$sql .= $where;
@@ -143,6 +162,7 @@ class productModelproduct extends JModel
 			$sql .= $where;
 			$sql .= ' ORDER BY ordering';
 		}
+
 		$this->_db->setQuery($sql, 0, 1);
 		$row = null;
 		$row = $this->_db->loadObject();
@@ -152,13 +172,15 @@ class productModelproduct extends JModel
 
 	public function checkReview($email)
 	{
-		$db    = & JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email='" . $email . "' AND email != '' AND product_id = '" . $product_id . "' limit 0,1 ";
 		$db->setQuery($query);
 		$chkemail = $db->loadResult();
 
 		if ($chkemail)
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -167,7 +189,7 @@ class productModelproduct extends JModel
 	{
 		$user           = JFactory::getUser();
 		$data['userid'] = $user->id;
-		//	$data['email'] = $user->email;
+
 		$data['user_rating'] = $data['user_rating'];
 		$data['username']    = $data['username'];
 		$data['title']       = $data['title'];
@@ -178,22 +200,23 @@ class productModelproduct extends JModel
 
 
 		$row = & $this->getTable('rating_detail');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
-
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
 
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -211,15 +234,18 @@ class productModelproduct extends JModel
 		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
 
 		$data_add = $message;
+
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
 			$subject  = $mailbody[0]->mail_subject;
+
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
 			}
 		}
+
 		$product = $producthelper->getProductById($product_id);
 
 		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
@@ -233,6 +259,7 @@ class productModelproduct extends JModel
 		if (ADMINISTRATOR_EMAIL != "")
 		{
 			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;
@@ -244,8 +271,9 @@ class productModelproduct extends JModel
 		}
 	}
 
-
-	// Product Tags Functions
+	/**
+	 * Product Tags Functions
+	 */
 	public function getProductTags($tagname, $productid)
 	{
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id "
@@ -270,12 +298,14 @@ class productModelproduct extends JModel
 	public function addProductTags($data)
 	{
 		$tags = & $this->getTable('product_tags');
+
 		if (!$tags->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$tags->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -289,12 +319,14 @@ class productModelproduct extends JModel
 	public function addtowishlist($data)
 	{
 		$row = & $this->getTable('wishlist');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -307,17 +339,8 @@ class productModelproduct extends JModel
 
 	public function addtowishlist2session($data)
 	{
-		/*for($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i ++)
-			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
-				return false;
-		$_SESSION ["no_of_prod"] += 1;
-		$no_prod_i = 'wish_' . $_SESSION ["no_of_prod"];
-
-		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
-		$_SESSION [$no_prod_i]->comment = isset ( $data ['comment'] ) ? $data ['comment'] : "";
-		$_SESSION [$no_prod_i]->cdate = $data ['cdate'];*/
 		ob_clean();
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
 
@@ -325,7 +348,6 @@ class productModelproduct extends JModel
 			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
 				if ($data['task'] != "")
 				{
-
 					unset($_SESSION["no_of_prod"]);
 				}
 
@@ -335,12 +357,11 @@ class productModelproduct extends JModel
 		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
 		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
 		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
+
 		for ($k = 0; $k < count($row_data); $k++)
 		{
-
 			$myfield                        = "productuserfield_" . $k;
 			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
-
 		}
 
 		return true;
@@ -348,7 +369,7 @@ class productModelproduct extends JModel
 
 	public function addProductTagsXref($post, $tags)
 	{
-		$user  = & JFactory::getUser();
+		$user  = JFactory::getUser();
 		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
 			. "VALUES('" . $tags->tags_id . "','" . $post['product_id'] . "','" . $user->id . "')";
 		$this->_db->setQuery($query);
@@ -359,7 +380,7 @@ class productModelproduct extends JModel
 
 	public function checkProductTags($tagname, $productid)
 	{
-		$user  = & JFactory::getUser();
+		$user  = JFactory::getUser();
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt "
 			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
 			. "WHERE pt.tags_name LIKE '" . $tagname . "' "
@@ -373,7 +394,7 @@ class productModelproduct extends JModel
 
 	public function checkWishlist($product_id)
 	{
-		$user  = & JFactory::getUser();
+		$user  = JFactory::getUser();
 		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE product_id='" . $product_id . "' "
 			. "AND user_id='" . $user->id . "' ";
@@ -389,6 +410,7 @@ class productModelproduct extends JModel
 		$compare_product = $session->get('compare_product');
 		$cid             = JRequest::getInt('cid');
 		$catid           = $compare_product[0]['category_id'];
+
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
 		{
 			unset($compare_product);
@@ -399,7 +421,8 @@ class productModelproduct extends JModel
 		{
 			if (!$compare_product)
 			{
-				return true; // return true to store product in compare product cart.
+				// Return true to store product in compare product cart.
+				return true;
 			}
 			else
 			{
@@ -409,7 +432,8 @@ class productModelproduct extends JModel
 				{
 					if ($compare_product[$i]["product_id"] == $product_id)
 					{
-						return false; // return false if product is already in compare product cart
+						// Return false if product is already in compare product cart
+						return false;
 					}
 				}
 
@@ -417,8 +441,7 @@ class productModelproduct extends JModel
 			}
 		}
 
-		/* if function is called for total product in cart than return no of product in cart*/
-
+		// If function is called for total product in cart than return no of product in cart*/
 		return isset($compare_product['idx']) ? (int) ($compare_product['idx']) : 0;
 	}
 
@@ -426,6 +449,7 @@ class productModelproduct extends JModel
 	{
 		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
+
 		if (!$compare_product)
 		{
 			$compare_product        = array();
@@ -434,12 +458,15 @@ class productModelproduct extends JModel
 			$session->set('compare_product', $compare_product);
 			$compare_product = $session->get('compare_product');
 		}
+
 		$idx = (int) ($compare_product['idx']);
+
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $compare_product[0]["category_id"] != $data["cid"])
 		{
 			unset($compare_product);
 			$idx = 0;
 		}
+
 		$compare_product[$idx]["product_id"]  = $data["pid"];
 		$compare_product[$idx]["category_id"] = $data["cid"];
 
@@ -458,9 +485,11 @@ class productModelproduct extends JModel
 		{
 			return;
 		}
+
 		$tmp_array = array();
 		$idx       = (int) ($compare_product['idx']);
 		$tmp_i     = 0;
+
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if ($compare_product[$i]["product_id"] != $product_id)
@@ -472,11 +501,14 @@ class productModelproduct extends JModel
 				$tmp_i++;
 			}
 		}
+
 		$idx -= $tmp_i;
+
 		if ($idx < 0)
 		{
 			$idx = 0;
 		}
+
 		$compare_product        = $tmp_array;
 		$compare_product['idx'] = $idx;
 		$session->set('compare_product', $compare_product);
@@ -498,14 +530,17 @@ class productModelproduct extends JModel
 	public function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)
 	{
 		$where = "";
+
 		if ($mid != 0)
 		{
 			$where .= "AND media_id='" . $mid . "' ";
 		}
+
 		if ($id != 0)
 		{
 			$where .= "AND id='" . $id . "' ";
 		}
+
 		if ($media != 0)
 		{
 			$tablename = "media ";
@@ -514,6 +549,7 @@ class productModelproduct extends JModel
 		{
 			$tablename = "media_download ";
 		}
+
 		$query = "SELECT * FROM " . $this->_table_prefix . $tablename
 			. "WHERE 1=1 "
 			. $where;
@@ -529,6 +565,7 @@ class productModelproduct extends JModel
 			. "WHERE download_id='" . $did . "' ";
 		$this->_db->setQuery($query);
 		$ret = $this->_db->Query();
+
 		if ($ret)
 		{
 			return true;
@@ -539,7 +576,7 @@ class productModelproduct extends JModel
 
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = new producthelper ();
+		$producthelper = new producthelper;
 		$info          = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0; $i < count($info); $i++)
@@ -565,12 +602,14 @@ class productModelproduct extends JModel
 		$data['subproperty_id'] = $subproperty_id;
 		$data['user_id']        = $user_id;
 		$row                    =& $this->getTable('notifystock_user');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());

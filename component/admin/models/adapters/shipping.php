@@ -10,13 +10,13 @@
 class JInstallerShipping extends JObject
 {
 
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
 
 
-	function install()
+	public function install()
 	{
 		// Get a database connector object
 		$db =& $this->parent->getDBO();
@@ -33,6 +33,7 @@ class JInstallerShipping extends JObject
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
+
 		if (is_a($description, 'JSimpleXMLElement'))
 		{
 			$this->parent->set('message', $description->data());
@@ -50,9 +51,11 @@ class JInstallerShipping extends JObject
 
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
+
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children()))
 		{
 			$files =& $element->children();
+
 			foreach ($files as $file)
 			{
 				if ($file->attributes($type))
@@ -64,6 +67,7 @@ class JInstallerShipping extends JObject
 		}
 
 		$shipping_class = $this->manifest->getElementByPath('shipping_class');
+
 		if (is_a($shipping_class, 'JSimpleXMLElement'))
 		{
 			$this->set('shipping_class', $shipping_class->data());
@@ -75,6 +79,7 @@ class JInstallerShipping extends JObject
 		}
 
 		$shipping_method_code = $this->manifest->getElementByPath('shipping_method_code');
+
 		if (is_a($shipping_method_code, 'JSimpleXMLElement'))
 		{
 			$this->set('shipping_method_code', $shipping_method_code->data());
@@ -93,6 +98,7 @@ class JInstallerShipping extends JObject
 		else
 		{
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_NO_PLUGIN_FILE_OR_CLASS_NAME_SPECIFIED'));
+
 			return false;
 		}
 
@@ -104,11 +110,13 @@ class JInstallerShipping extends JObject
 
 		// If the plugin directory does not exist, lets create it
 		$created = false;
+
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_FAILED_TO_CREATE_DIRECTORY') . ': "' . $this->parent->getPath('extension_root') . '"');
+
 				return false;
 			}
 		}
@@ -128,6 +136,7 @@ class JInstallerShipping extends JObject
 		{
 			// Install failed, roll back changes
 			$this->parent->abort();
+
 			return false;
 		}
 
@@ -143,10 +152,12 @@ class JInstallerShipping extends JObject
 			' WHERE plugin = "' . $pname . '" OR shipping_class = ' . $db->Quote($shipping_class);
 
 		$db->setQuery($query);
+
 		if (!$db->Query())
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . $db->stderr(true));
+
 			return false;
 		}
 		$shipping_id = $db->loadResult();
@@ -159,13 +170,14 @@ class JInstallerShipping extends JObject
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_Plugin') . ' "' . $pname . '" ' . JText::_('COM_REDSHOP_ALREADY_EXISTS'));
+
 				return false;
 			}
 
 		}
 		else
 		{
-			//$row =& JTable::getTable('shipping_detail'); 
+			//$row =& JTable::getTable('shipping_detail');
 			$row =& JTable::getInstance('shipping_detail', 'Table');
 			$row->shipping_name = $this->get('name');
 			$row->shipping_class = $this->get('shipping_class');
@@ -173,10 +185,12 @@ class JInstallerShipping extends JObject
 			$row->published = 1;
 			$row->params = $this->parent->getParams();
 			$row->plugin = $pname;
+
 			if (!$row->store())
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . $db->stderr(true));
+
 				return false;
 			}
 
@@ -188,12 +202,13 @@ class JInstallerShipping extends JObject
 		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Install') . ': ' . JText::_('COM_REDSHOP_COULD_NOT_COPY_SETUP_FILE'));
+
 			return false;
 		}
 		return true;
 	}
 
-	function uninstall($id, $clientId)
+	public function uninstall($id, $clientId)
 	{
 		// Initialize variables
 		$row = null;
@@ -201,9 +216,11 @@ class JInstallerShipping extends JObject
 		$db =& $this->parent->getDBO();
 
 		$row =& JTable::getInstance('shipping_detail', 'Table');
+
 		if (!$row->load((int) $clientId))
 		{
 			JError::raiseWarning(100, JText::_('COM_REDSHOP_ERRORUNKOWNEXTENSION'));
+
 			return false;
 		}
 
@@ -211,6 +228,7 @@ class JInstallerShipping extends JObject
 		$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shippings');
 
 		$manifestFile = JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shippings' . DS . $row->plugin . '.xml';
+
 		if (file_exists($manifestFile))
 		{
 			$xml =& JFactory::getXMLParser('Simple');
@@ -219,14 +237,17 @@ class JInstallerShipping extends JObject
 			if (!$xml->loadFile($manifestFile))
 			{
 				JError::raiseWarning(100, JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Uninstall') . ': ' . JText::_('COM_REDSHOP_COULD_NOT_LOAD_MANIFEST_FILE'));
+
 				return false;
 			}
 
 
 			$root =& $xml->document;
+
 			if ($root->name() != 'install' && $root->name() != 'mosinstall')
 			{
 				JError::raiseWarning(100, JText::_('COM_REDSHOP_Plugin') . ' ' . JText::_('COM_REDSHOP_Uninstall') . ': ' . JText::_('COM_REDSHOP_INVALID_MANIFEST_FILE'));
+
 				return false;
 			}
 
@@ -253,10 +274,11 @@ class JInstallerShipping extends JObject
 		JFolder::delete($this->parent->getPath('extension_root') . DS . $row->plugin);
 		//}
 		unset ($row);
+
 		return $retval;
 	}
 
-	function _rollback_plugin($arg)
+	public function _rollback_plugin($arg)
 	{
 		// Get database connector object
 		$db =& $this->parent->getDBO();
@@ -266,6 +288,7 @@ class JInstallerShipping extends JObject
 			' FROM `#__' . TABLE_PREFIX . '_shipping_method`' .
 			' WHERE shipping_id=' . (int) $arg['shipping_id'];
 		$db->setQuery($query);
+
 		return ($db->query() !== false);
 	}
 }

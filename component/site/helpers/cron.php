@@ -433,7 +433,7 @@ class cron
 					}
 				}
 			}
-			else if ($mail_detail->mail2_status == 0 && (DAYS_MAIL2 != 0 || DAYS_MAIL2 != '') && $total != 0)
+			elseif ($mail_detail->mail2_status == 0 && (DAYS_MAIL2 != 0 || DAYS_MAIL2 != '') && $total != 0)
 			{
 				$send_date    = date("Y-m-d", $mail_detail->cdate + (DAYS_MAIL2 * (59 * 59 * 23)));
 				$secmail_data = $redshopMail->getMailtemplate(0, "second_mail_after_order_purchased");
@@ -464,7 +464,7 @@ class cron
 				}
 
 			}
-			else if ($mail_detail->mail3_status == 0 && (DAYS_MAIL3 != 0 || DAYS_MAIL3 != '') && $total != 0)
+			elseif ($mail_detail->mail3_status == 0 && (DAYS_MAIL3 != 0 || DAYS_MAIL3 != '') && $total != 0)
 			{ // coupon reminder
 				$thrdmail_data = $redshopMail->getMailtemplate(0, "third_mail_after_order_purchased");
 				if (count($thrdmail_data) > 0)

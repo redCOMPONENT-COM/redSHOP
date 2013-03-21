@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 class stockimage_detailVIEWstockimage_detail extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
@@ -30,8 +30,9 @@ class stockimage_detailVIEWstockimage_detail extends JView
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');
 
-		//create the toolbar
+		// Create the toolbar
 		JToolBarHelper::save();
+
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
@@ -49,8 +50,13 @@ class stockimage_detailVIEWstockimage_detail extends JView
 		$op[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$stockroom_name = array_merge($op, $stockroom_name);
 
-		$lists['stock_option'] = JHTML::_('select.genericlist', $stock_option, 'stock_option', 'class="inputbox" size="1" ', 'value', 'text', $detail->stock_option);
-		$lists['stockroom_id'] = JHTML::_('select.genericlist', $stockroom_name, 'stockroom_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->stockroom_id);
+		$lists['stock_option'] = JHTML::_('select.genericlist', $stock_option, 'stock_option',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->stock_option
+		);
+
+		$lists['stockroom_id'] = JHTML::_('select.genericlist', $stockroom_name, 'stockroom_id',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->stockroom_id
+		);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,10 +14,12 @@ jimport('joomla.application.component.model');
 class newsletter_detailModelnewsletter_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
@@ -24,38 +27,44 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
+
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->newsletter_id = 0;
 			$detail->name = null;
 			$detail->subject = null;
@@ -63,28 +72,35 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			$detail->template_id = 0;
 			$detail->published = 1;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -92,16 +108,19 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -111,18 +130,22 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
-	function copy($cid = array())
+	public function copy($cid = array())
 	{
 		$copydata = array();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -142,7 +165,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			$post['template_id'] = $copydata[$i]->template_id;
 			$post['published'] = $copydata[$i]->published;
 
-			$row = newsletter_detailModelnewsletter_detail::store($post);
+			$row = $this->store($post);
 
 			// Copy subscriber of newsletters
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter_subscription '
@@ -164,30 +187,34 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				$rowsubscr->store();
 			}
 		}
+
 		return true;
 	}
 
-	function gettemplates()
+	public function gettemplates()
 	{
 		$query = 'SELECT template_id AS value,template_name AS text FROM ' . $this->_table_prefix . 'template '
 			. 'WHERE template_section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
-	function getnewslettertexts()
+	public function getnewslettertexts()
 	{
 		$query = 'SELECT text_name,text_desc FROM ' . $this->_table_prefix . 'textlibrary '
 			. 'WHERE section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectlist();
 	}
 
-	function getNewsletterList($newsletter_id = 0)
+	public function getNewsletterList($newsletter_id = 0)
 	{
 		$and = "";
+
 		if ($newsletter_id != 0)
 		{
 			$and .= "AND n.newsletter_id='" . $newsletter_id . "' ";
@@ -195,24 +222,28 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		$query = 'SELECT n.*,CONCAT(n.name," (",n.subject,")") AS text FROM ' . $this->_table_prefix . 'newsletter AS n '
 			. 'WHERE 1=1 '
 			. $and;
+
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
+
 		return $list;
 	}
 
-	function getNewsletterTracker($newsletter_id = 0)
+	public function getNewsletterTracker($newsletter_id = 0)
 	{
 		$data = $this->getNewsletterList($newsletter_id);
 
 		$return = array();
 		$qs = array();
 		$j = 0;
+
 		for ($d = 0; $d < count($data); $d++)
 		{
 			$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
 				. "WHERE newsletter_id='" . $data[$d]->newsletter_id . "' ";
 			$this->_db->setQuery($query);
 			$totalresult = $this->_db->loadResult();
+
 			if (!$totalresult)
 			{
 				$totalresult = 0;
@@ -231,6 +262,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				$qs[$d]->ydata = $totalresult;
 			}
 		}
+
 		if ($newsletter_id != 0)
 		{
 			$return = array($qs, $data[0]->name);
@@ -239,22 +271,24 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		{
 			$return = array($qs, JText::_('COM_REDSHOP_NO_OF_SENT_NEWSLETTER'));
 		}
+
 		return $return;
 	}
 
-	function getReadNewsletter($newsletter_id)
+	public function getReadNewsletter($newsletter_id)
 	{
 		$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
 			. "WHERE `newsletter_id`='" . $newsletter_id . "' "
 			. "AND `read`='1' ";
+
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
+
 		if (!$result)
 		{
 			$result->total = 0;
 		}
+
 		return $result->total;
 	}
 }
-
-?>

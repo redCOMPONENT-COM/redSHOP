@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -21,8 +21,9 @@ class registrationViewregistration extends JView
 		$Itemid = JRequest::getVar('Itemid');
 
 		$user    = JFactory::getUser();
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
+
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
 			$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
@@ -37,9 +38,13 @@ class registrationViewregistration extends JView
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
 
-		$field                        = new extraField();
-		$lists['extra_field_user']    = $field->list_all_field(7); // field_section 7 : Customer Registration
-		$lists['extra_field_company'] = $field->list_all_field(8); // field_section 8 : Company Address
+		$field                        = new extraField;
+
+		// Field_section 7 : Customer Registration
+		$lists['extra_field_user']    = $field->list_all_field(7);
+
+		// Field_section 8 : Company Address
+		$lists['extra_field_company'] = $field->list_all_field(8);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('params', $params);

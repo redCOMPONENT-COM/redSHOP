@@ -11,11 +11,20 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class product_ratingModelproduct_rating
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class product_ratingModelproduct_rating extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -50,6 +59,7 @@ class product_ratingModelproduct_rating extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -63,8 +73,8 @@ class product_ratingModelproduct_rating extends JModel
 	public function sendMailForReview($data)
 	{
 		$this->store($data);
-		$producthelper = new producthelper();
-		$redshopMail   = new redshopMail();
+		$producthelper = new producthelper;
+		$redshopMail   = new redshopMail;
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -82,15 +92,18 @@ class product_ratingModelproduct_rating extends JModel
 		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
 
 		$data_add = $message;
+
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
 			$subject  = $mailbody[0]->mail_subject;
+
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
 			}
 		}
+
 		$product = $producthelper->getProductById($product_id);
 
 		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
@@ -104,6 +117,7 @@ class product_ratingModelproduct_rating extends JModel
 		if (ADMINISTRATOR_EMAIL != "")
 		{
 			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;
@@ -117,7 +131,7 @@ class product_ratingModelproduct_rating extends JModel
 
 	public function getuserfullname($uid)
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT firstname,lastname from " . $this->_table_prefix . "users_info WHERE user_id=" . $uid . " AND address_type like 'BT'";
 		$db->setQuery($query);
@@ -128,7 +142,7 @@ class product_ratingModelproduct_rating extends JModel
 
 	public function checkRatedProduct($pid, $uid)
 	{
-		$db    = & JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = "SELECT count(*) as rec from " . $this->_table_prefix . "product_rating WHERE product_id=" . $pid . " AND userid=" . $uid;
 		$db->setQuery($query);
 		$already_rated = $db->loadResult();

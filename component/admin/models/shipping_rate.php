@@ -14,12 +14,16 @@ jimport('joomla.application.component.model');
 class shipping_rateModelShipping_rate extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		global $mainframe;
@@ -29,15 +33,14 @@ class shipping_rateModelShipping_rate extends JModel
 		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-//		$array = JRequest::getVar('cid',  0, '', 'array');
-		$id = $mainframe->getUserStateFromRequest($this->_context . 'extension_id', 'extension_id', 0); //(int)$array[0]);
+		$id = $mainframe->getUserStateFromRequest($this->_context . 'extension_id', 'extension_id', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('id', $id);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
@@ -48,7 +51,7 @@ class shipping_rateModelShipping_rate extends JModel
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
@@ -58,17 +61,18 @@ class shipping_rateModelShipping_rate extends JModel
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 		$id = $this->getState('id');
@@ -77,17 +81,17 @@ class shipping_rateModelShipping_rate extends JModel
 			. 'LEFT JOIN #__extensions AS p ON CONVERT(p.element USING utf8)= CONVERT(r.shipping_class USING utf8) '
 			. 'WHERE p.extension_id="' . $id . '" '
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'shipping_rate_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 }
-
-?>

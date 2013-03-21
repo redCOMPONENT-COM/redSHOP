@@ -11,14 +11,21 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class passwordModelpassword
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class passwordModelpassword extends JModel
 {
-	var $_db = null;
+	public $_db = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_db = & JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 	public function resetpassword($data)
@@ -26,6 +33,7 @@ class passwordModelpassword extends JModel
 		$query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";
 		$this->_db->setQuery($query);
 		$id = $this->_db->loadResult();
+
 		if ($id)
 		{
 			// Generate a new token
@@ -35,6 +43,7 @@ class passwordModelpassword extends JModel
 				. 'WHERE id="' . (int) $id . '" '
 				. 'AND block=0 ';
 			$this->_db->setQuery($query);
+
 			// Save the token
 			if (!$this->_db->query())
 			{
@@ -55,6 +64,7 @@ class passwordModelpassword extends JModel
 		$length     = 35;
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyz';
 		$string     = null;
+
 		for ($p = 0; $p < $length; $p++)
 		{
 			$string .= $characters[mt_rand(0, strlen($characters))];
@@ -75,6 +85,7 @@ class passwordModelpassword extends JModel
 
 			return false;
 		}
+
 		JRequest::setVar('uid', $id);
 
 		return true;
@@ -86,6 +97,7 @@ class passwordModelpassword extends JModel
 			. 'WHERE id="' . (int) $data['uid'] . '" '
 			. 'AND block=0 ';
 		$this->_db->setQuery($query);
+
 		// Saving new password
 		if (!$this->_db->query())
 		{

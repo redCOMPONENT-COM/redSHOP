@@ -14,12 +14,16 @@ jimport('joomla.application.component.model');
 class xmlexportModelxmlexport extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -35,27 +39,29 @@ class xmlexportModelxmlexport extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -66,24 +72,26 @@ class xmlexportModelxmlexport extends JModel
 		return $this->_pagination;
 	}
 
-	function getProduct()
+	public function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export ";
 		$list = $this->_data = $this->_getList($query);
+
 		return $list;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
 			. "WHERE 1=1 "
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe;
 
@@ -91,8 +99,7 @@ class xmlexportModelxmlexport extends JModel
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
+
 		return $orderby;
 	}
 }
-
-?>

@@ -10,17 +10,16 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * wishlist Controller
+ * wishlist Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class wishlistController extends JController
+class WishlistController extends JController
 {
-
-
 	/**
 	 * createsave wishlist function
 	 *
@@ -82,6 +81,7 @@ function savewishlist()
 	</script>
 <?php
 }
+
 	/**
 	 * delete wishlist function
 	 *
@@ -110,14 +110,19 @@ function savewishlist()
 				$msg = JText::_('COM_REDSHOP_ERROR_IN_DELETING_WISHLIST');
 		}
 		else
+		{
 			$msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
-
-		$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
-		;
+			$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+		}
 
 		$mainframe->redirect($link, $msg);
 	}
 
+	/**
+	 * My sess del wish list
+	 *
+	 * @return void
+	 */
 	public function mysessdelwishlist()
 	{
 		$post = array();
@@ -136,7 +141,6 @@ function savewishlist()
 
 			$link = JRoute::_("index.php?mydel=1&option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 			$this->setRedirect($link, $msg);
-
 		}
 	}
 }

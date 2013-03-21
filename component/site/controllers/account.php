@@ -10,20 +10,20 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
+
 /**
- * Account Controller
+ * Account Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class accountController extends JController
+class AccountController extends JController
 {
-
-
 	/**
 	 * Method to edit created Tag
 	 *
+	 * @return void
 	 */
 	public function editTag()
 	{
@@ -50,10 +50,10 @@ class accountController extends JController
 	/**
 	 * Method to send created wishlist
 	 *
+	 * @return void
 	 */
 	public function sendWishlist()
 	{
-
 		$post = JRequest::get('post');
 
 		$emailto = $post['emailto'];
@@ -68,19 +68,19 @@ class accountController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
 		}
-		else if ($sender == "")
+		elseif ($sender == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_NAME');
 		}
-		else if ($email == "")
+		elseif ($email == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_EMAIL');
 		}
-		else if ($subject == "")
+		elseif ($subject == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
 		}
-		else if ($model->sendWishlist($post))
+		elseif ($model->sendWishlist($post))
 		{
 			$msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
 		}
@@ -92,23 +92,27 @@ class accountController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component&wishlist_id=' . $wishlis_id . '&Itemid' . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to subscribe newsletter
+	 *
+	 * @return void
 	 */
 	public function newsletterSubscribe()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 		$userhelper->newsletterSubscribe(0, array(), 1);
 
 		$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
 		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to unsubscribe newsletter
+	 *
+	 * @return void
 	 */
 	public function newsletterUnsubscribe()
 	{
@@ -116,12 +120,10 @@ class accountController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 		$userhelper->newsletterUnsubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
 		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
 	}
 }
-
-?>

@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-$order_functions = new order_functions();
-$extra_field = new extra_field();
+$order_functions = new order_functions;
+$extra_field = new extra_field;
 $model = $this->getModel('checkout');
 $billingaddresses = $model->billingaddresses();    ?>
 <table class="admintable">
@@ -24,7 +24,9 @@ $billingaddresses = $model->billingaddresses();    ?>
 			<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?>:</td>
 			<td><?php echo $billingaddresses->company_name;?></td>
 		</tr>
-	<?php } ?>
+	<?php
+	}
+	?>
 	<tr>
 		<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME');?>:</td>
 		<td><?php echo $billingaddresses->firstname;?></td>
@@ -43,6 +45,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->zipcode != "")
 	{
 		?>
@@ -52,6 +55,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->city != "")
 	{
 		?>
@@ -61,6 +65,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if (trim($billingaddresses->country_code) != "")
 	{
 		?>
@@ -70,7 +75,9 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	$state = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
+
 	if ($state != "")
 	{
 		?>
@@ -80,6 +87,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->phone != "")
 	{
 		?>
@@ -89,6 +97,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->user_email != "")
 	{
 		?>
@@ -98,6 +107,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</tr>
 	<?php
 	}
+
 	if ($billingaddresses->is_company == 1)
 	{
 		if ($billingaddresses->ean_number != "")
@@ -112,6 +122,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		<?php
 		}
 	}
+
 	if ($billingaddresses->is_company == 1 && USE_TAX_EXEMPT == 1)
 	{
 		?>
@@ -137,6 +148,7 @@ $billingaddresses = $model->billingaddresses();    ?>
 		<?php
 		}
 	}
+
 	if ($billingaddresses->is_company == 1)
 	{
 		echo $extrafields = $extra_field->list_all_field_display(8, $billingaddresses->users_info_id);

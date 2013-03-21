@@ -11,12 +11,22 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * Class product_miniModelproduct_mini
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class product_miniModelproduct_mini extends JModel
 {
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
+	public $_data = null;
+
+	public $_total = null;
+
+	public $_pagination = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -55,14 +65,17 @@ class product_miniModelproduct_mini extends JModel
 		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
 
 		$where = '';
+
 		if (trim($keyword) != '')
 		{
 			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
 		}
+
 		if ($category_id)
 		{
 			$where .= " AND c.category_id = '$category_id'  ";
 		}
+
 		if ($where != '')
 		{
 			$query = 'SELECT count(distinct(p.product_id)) '
@@ -76,6 +89,7 @@ class product_miniModelproduct_mini extends JModel
 		{
 			$query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'product p ';
 		}
+
 		if (empty($this->_total))
 		{
 			$this->_db->setQuery($query);
@@ -89,7 +103,6 @@ class product_miniModelproduct_mini extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-
 			$this->_pagination = new RedPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -106,20 +119,25 @@ class product_miniModelproduct_mini extends JModel
 		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
 
 		$where = '';
+
 		if (trim($keyword) != '')
 		{
 			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
 		}
+
 		if ($category_id)
 		{
 			$where .= " AND c.category_id = '$category_id'  ";
 		}
-		// change limit condition for all issue
+
+		// Change limit condition for all issue
 		$limit = "";
+
 		if ($this->getState('limit') > 0)
 		{
 			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');
 		}
+
 		if ($where == '')
 		{
 			$query = "SELECT distinct(p.product_id),p.* FROM " . $this->_table_prefix . "product AS p "

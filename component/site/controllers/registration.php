@@ -15,17 +15,16 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 //including extra fields helper file
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php');
 //including extra fields helper file end
+
 /**
- * registration Controller
+ * registration Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class registrationController extends JController
+class RegistrationController extends JController
 {
-
-
 	/**
 	 * newregistration function
 	 *
@@ -41,8 +40,8 @@ class registrationController extends JController
 		$option = JRequest::getCmd('option');
 		$Itemid = JRequest::getInt('Itemid', 0);
 
-		$prodhelperobj = new producthelper();
-		$redshopMail = new redshopMail();
+		$prodhelperobj = new producthelper;
+		$redshopMail = new redshopMail;
 
 		$model = $this->getModel('registration');
 		$success = $model->store($post);
@@ -86,10 +85,8 @@ class registrationController extends JController
 		}
 	}
 
-
 	public function captcha()
 	{
-
 		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php');
 
 		$width = JRequest::getInt('width', 120); //isset($_GET['width']) ? $_GET['width'] : '120';

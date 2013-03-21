@@ -7,17 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-//require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'configuration.php' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-$order_functions = new order_functions();
+//require_once  JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'configuration.php' ;
+
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+$order_functions = new order_functions;
 
 $url = JURI::base();
 
-$redconfig = new Redconfiguration();
+$redconfig = new Redconfiguration;
 
 $Itemid = JRequest::getVar('Itemid');
 $option = JRequest::getVar('option');
@@ -32,13 +33,13 @@ $lastname = $detail->lastname;
 $address = $detail->address;
 $zipcode = $detail->zipcode;
 $city = $detail->city;
-$country = JText::_($order_functions->getCountryName($detail->country_code));;
+$country = JText::_($order_functions->getCountryName($detail->country_code));
 $state = $order_functions->getStateName($detail->state_code, $detail->country_code);
 $phone = $detail->phone;
 $user_email = $detail->user_email;
 
 
-$field = new extra_field();
+$field = new extra_field;
 
 if (DEFAULT_CUSTOMER_REGISTER_TYPE == 1 || !DEFAULT_CUSTOMER_REGISTER_TYPE)
 {
@@ -58,6 +59,7 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 		var frm = document.adminForm;
 
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 		if (frm.email.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;
@@ -69,55 +71,64 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
 		}
+
 		if (frm.username.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_USERNAME')?>");
 			return false;
 		}
 
 
-		<?php if($regtype==1)
-			{
-				?>
+		<?php
+		if ($regtype == 1)
+		{
+		?>
 		if (frm.company_name.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME')?>");
 			return false;
 		}
 
-		<?php } else {?>
-
+		<?php
+		}
+		else
+		{
+		?>
 		if (frm.firstname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
 			return false;
 		}
+
 		if (frm.lastname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
 			return false;
 		}
 
-		<?php }?>
-
+		<?php
+		}
+		?>
 
 		return true;
 	}
 
 </script>
 
-
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_ACCOUNT_CREATION');?></legend>
 		<table class="admintable">
-			<?php    if ($regtype == 1)
-			{ ?>
+			<?php
+			if ($regtype == 1)
+			{
+			?>
 				<tr>
 					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?>:</td>
 					<td><input type='text' name="company_name" value='<?php echo @$post['company_name']; ?>'/></td>
 				</tr>
-				<?php //echo $detail->company_name;?>
-			<?php }
+			<?php
+			}
 			else
-			{ ?>
+			{
+			?>
 				<tr>
 					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME');?>:</td>
 					<td><input type='text' name="firstname" value='<?php echo @$post['firstname']; ?>'/></td>
@@ -127,8 +138,9 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 					<td><input type='text' name="lastname" value='<?php echo @$post['lastname']; ?>'/></td>
 				</tr>
 				<td><?php echo $lastname;?></td></tr>
-			<?php }    ?>
-
+			<?php
+			}
+			?>
 			<tr>
 				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_USERNAME');?>:</td>
 				<td><input type='text' name="username" value='<?php echo @$post['username']; ?>'/></td>
