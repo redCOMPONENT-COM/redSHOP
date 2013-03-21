@@ -6,38 +6,37 @@
 class mpgGlobals
 {
 
-	var $Globals=array(
-                  'MONERIS_PROTOCOL' => 'https',
-                  'MONERIS_HOST' => 'www3.moneris.com',
-                  'MONERIS_PORT' =>'443',
-                  'MONERIS_FILE' => '/gateway2/servlet/MpgRequest',
-                  'API_VERSION'  =>'MpgApi Version 2.02(php)',
-                  'CLIENT_TIMEOUT' => '60'
-                 );
+	var $Globals = array(
+		'MONERIS_PROTOCOL' => 'https',
+		'MONERIS_HOST'     => 'www3.moneris.com',
+		'MONERIS_PORT'     => '443',
+		'MONERIS_FILE'     => '/gateway2/servlet/MpgRequest',
+		'API_VERSION'      => 'MpgApi Version 2.02(php)',
+		'CLIENT_TIMEOUT'   => '60'
+	);
 
- function mpgGlobals()
- {
-
-	if(MN_TEST_REQUEST == 1)
+	function mpgGlobals()
 	{
-		//$this->Globals['MONERIS_HOST'] = "esqa.moneris.com/mpg";
-		$this->Globals['MONERIS_HOST'] = "esqa.moneris.com";
+
+		if (MN_TEST_REQUEST == 1)
+		{
+			//$this->Globals['MONERIS_HOST'] = "esqa.moneris.com/mpg";
+			$this->Globals['MONERIS_HOST'] = "esqa.moneris.com";
+		}
+		else
+		{
+			$this->Globals['MONERIS_HOST'] = "www3.moneris.com";
+		}
 	}
-	else
+
+
+	function getGlobals()
 	{
-		$this->Globals['MONERIS_HOST'] = "www3.moneris.com";
+
+		return ($this->Globals);
 	}
- }
-
-
- function getGlobals()
- {
-
-  return($this->Globals);
- }
 
 }//end class mpgGlobals
-
 
 
 ###################### mpgHttpsPost #########################################
@@ -45,154 +44,157 @@ class mpgGlobals
 class mpgHttpsPost
 {
 
- var $api_token;
- var $store_id;
- var $mpgRequest;
- var $mpgResponse;
+	var $api_token;
+	var $store_id;
+	var $mpgRequest;
+	var $mpgResponse;
 
- function mpgHttpsPost($storeid,$apitoken,$mpgRequestOBJ,$moneris_api_host)
- {
+	function mpgHttpsPost($storeid, $apitoken, $mpgRequestOBJ, $moneris_api_host)
+	{
 
-  $this->store_id=$storeid;
-  $this->api_token= $apitoken;
-  $this->mpgRequest=$mpgRequestOBJ;
+		$this->store_id = $storeid;
+		$this->api_token = $apitoken;
+		$this->mpgRequest = $mpgRequestOBJ;
 
-  $dataToSend=$this->toXML();
-  //print ($dataToSend);
+		$dataToSend = $this->toXML();
+		//print ($dataToSend);
 
-  //do post
+		//do post
 
-  $g=new mpgGlobals();
-  $gArray=$g->getGlobals();
-  $api_ver=$gArray['API_VERSION'];
-  $client_time_out=$gArray['CLIENT_TIMEOUT'];
-  $protocol=$gArray['MONERIS_PROTOCOL'];
-  $host=$moneris_api_host;
-  $port=$gArray['MONERIS_PORT'];
-  $file=$gArray['MONERIS_FILE'];
+		$g = new mpgGlobals();
+		$gArray = $g->getGlobals();
+		$api_ver = $gArray['API_VERSION'];
+		$client_time_out = $gArray['CLIENT_TIMEOUT'];
+		$protocol = $gArray['MONERIS_PROTOCOL'];
+		$host = $moneris_api_host;
+		$port = $gArray['MONERIS_PORT'];
+		$file = $gArray['MONERIS_FILE'];
 
-  $url=$protocol."://".
-       $host.":".
-       $port.
-       $file;
+		$url = $protocol . "://" .
+			$host . ":" .
+			$port .
+			$file;
 
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL,$url);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-  curl_setopt ($ch, CURLOPT_HEADER, 0);
-  curl_setopt($ch, CURLOPT_POST, 1);
-  curl_setopt($ch, CURLOPT_POSTFIELDS,$dataToSend);
-  curl_setopt($ch,CURLOPT_TIMEOUT,$client_time_out);
-  curl_setopt($ch,CURLOPT_USERAGENT,$api_ver);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-  $response=curl_exec ($ch);
-  curl_close ($ch);
-
-
-
-  if(!$response)
-   {
-
-     $response="<?xml version=\"1.0\"?><response><receipt>".
-          "<ReceiptId>Global Error Receipt</ReceiptId>".
-          "<ReferenceNum>null</ReferenceNum><ResponseCode>null</ResponseCode>".
-          "<ISO>null</ISO> <AuthCode>null</AuthCode><TransTime>null</TransTime>".
-          "<TransDate>null</TransDate><TransType>null</TransType><Complete>false</Complete>".
-          "<Message>null</Message><TransAmount>null</TransAmount>".
-          "<CardType>null</CardType>".
-          "<TransID>null</TransID><TimedOut>null</TimedOut>".
-          "</receipt></response>";
-   }
-
-  $this->mpgResponse=new mpgResponse($response);
-
- }
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $dataToSend);
+		curl_setopt($ch, CURLOPT_TIMEOUT, $client_time_out);
+		curl_setopt($ch, CURLOPT_USERAGENT, $api_ver);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$response = curl_exec($ch);
+		curl_close($ch);
 
 
+		if (!$response)
+		{
 
- function getMpgResponse()
- {
-  return $this->mpgResponse;
+			$response = "<?xml version=\"1.0\"?><response><receipt>" .
+				"<ReceiptId>Global Error Receipt</ReceiptId>" .
+				"<ReferenceNum>null</ReferenceNum><ResponseCode>null</ResponseCode>" .
+				"<ISO>null</ISO> <AuthCode>null</AuthCode><TransTime>null</TransTime>" .
+				"<TransDate>null</TransDate><TransType>null</TransType><Complete>false</Complete>" .
+				"<Message>null</Message><TransAmount>null</TransAmount>" .
+				"<CardType>null</CardType>" .
+				"<TransID>null</TransID><TimedOut>null</TimedOut>" .
+				"</receipt></response>";
+		}
 
- }
+		$this->mpgResponse = new mpgResponse($response);
 
- function toXML( )
- {
+	}
 
-  $req=$this->mpgRequest ;
-  $reqXMLString=$req->toXML();
-  $xmlString="";
-  $xmlString .="<?xml version=\"1.0\"?>".
-               "<request>".
-               "<store_id>$this->store_id</store_id>".
-               "<api_token>$this->api_token</api_token>".
-                $reqXMLString.
-                "</request>";
 
-  return ($xmlString);
+	function getMpgResponse()
+	{
+		return $this->mpgResponse;
 
- }
+	}
+
+	function toXML()
+	{
+
+		$req = $this->mpgRequest;
+		$reqXMLString = $req->toXML();
+		$xmlString = "";
+		$xmlString .= "<?xml version=\"1.0\"?>" .
+			"<request>" .
+			"<store_id>$this->store_id</store_id>" .
+			"<api_token>$this->api_token</api_token>" .
+			$reqXMLString .
+			"</request>";
+
+		return ($xmlString);
+
+	}
 
 }//end class mpgHttpsPost
-
 
 
 ############# mpgResponse #####################################################
 
 
-class mpgResponse{
+class mpgResponse
+{
 
- var $responseData;
+	var $responseData;
 
- var $p; //parser
+	var $p; //parser
 
- var $currentTag;
- var $purchaseHash = array();
- var $refundHash;
- var $correctionHash = array();
- var $isBatchTotals;
- var $term_id;
- var $receiptHash = array();
- var $ecrHash = array();
- var $CardType;
- var $currentTxnType;
- var $ecrs = array();
- var $cards = array();
- var $cardHash= array();
+	var $currentTag;
+	var $purchaseHash = array();
+	var $refundHash;
+	var $correctionHash = array();
+	var $isBatchTotals;
+	var $term_id;
+	var $receiptHash = array();
+	var $ecrHash = array();
+	var $CardType;
+	var $currentTxnType;
+	var $ecrs = array();
+	var $cards = array();
+	var $cardHash = array();
 
- var $ACSUrl;
+	var $ACSUrl;
 
- function mpgResponse($xmlString)
- {
+	function mpgResponse($xmlString)
+	{
 
-  $this->p = xml_parser_create();
-  xml_parser_set_option($this->p,XML_OPTION_CASE_FOLDING,0);
-  xml_parser_set_option($this->p,XML_OPTION_TARGET_ENCODING,"UTF-8");
-  xml_set_object($this->p,$this);
-  //xml_set_object($this->p,&$this);
-  xml_set_element_handler($this->p,"startHandler","endHandler");
-  xml_set_character_data_handler($this->p,"characterHandler");
-  xml_parse($this->p,$xmlString);
-  xml_parser_free($this->p);
-
-
- }//end of constructor
+		$this->p = xml_parser_create();
+		xml_parser_set_option($this->p, XML_OPTION_CASE_FOLDING, 0);
+		xml_parser_set_option($this->p, XML_OPTION_TARGET_ENCODING, "UTF-8");
+		xml_set_object($this->p, $this);
+		//xml_set_object($this->p,&$this);
+		xml_set_element_handler($this->p, "startHandler", "endHandler");
+		xml_set_character_data_handler($this->p, "characterHandler");
+		xml_parse($this->p, $xmlString);
+		xml_parser_free($this->p);
 
 
- function getMpgResponseData(){
+	}
 
-   return($this->responseData);
-
- }
+	//end of constructor
 
 
-function getAvsResultCode()	{
-	return ($this->responseData['AvsResultCode']);
-}
+	function getMpgResponseData()
+	{
 
-function getCvdResultCode()	{
-	return ($this->responseData['CvdResultCode']);
-}
+		return ($this->responseData);
+
+	}
+
+
+	function getAvsResultCode()
+	{
+		return ($this->responseData['AvsResultCode']);
+	}
+
+	function getCvdResultCode()
+	{
+		return ($this->responseData['CvdResultCode']);
+	}
 
 
 //function getRecurSuccess(){
@@ -200,276 +202,306 @@ function getCvdResultCode()	{
 // return ($this->responseData['RecurSuccess']);
 //}
 
-function getCardType(){
+	function getCardType()
+	{
 
- return ($this->responseData['CardType']);
+		return ($this->responseData['CardType']);
 
-}
+	}
 
-function getTransAmount(){
+	function getTransAmount()
+	{
 
- return ($this->responseData['TransAmount']);
+		return ($this->responseData['TransAmount']);
 
-}
+	}
 
-function getTxnNumber(){
- return ($this->responseData['TransID']);
+	function getTxnNumber()
+	{
+		return ($this->responseData['TransID']);
 
-}
+	}
 
-function getReceiptId(){
+	function getReceiptId()
+	{
 
- return ($this->responseData['ReceiptId']);
+		return ($this->responseData['ReceiptId']);
 
-}
+	}
 
-function getTransType(){
+	function getTransType()
+	{
 
- return ($this->responseData['TransType']);
+		return ($this->responseData['TransType']);
 
-}
+	}
 
-function getReferenceNum(){
+	function getReferenceNum()
+	{
 
- return ($this->responseData['ReferenceNum']);
+		return ($this->responseData['ReferenceNum']);
 
-}
+	}
 
-function getResponseCode(){
+	function getResponseCode()
+	{
 
- return ($this->responseData['ResponseCode']);
+		return ($this->responseData['ResponseCode']);
 
-}
+	}
 
-function getISO(){
+	function getISO()
+	{
 
- return ($this->responseData['ISO']);
+		return ($this->responseData['ISO']);
 
-}
+	}
 
-function getBankTotals(){
+	function getBankTotals()
+	{
 
- return ($this->responseData['BankTotals']);
+		return ($this->responseData['BankTotals']);
 
-}
+	}
 
 
-function getMessage(){
+	function getMessage()
+	{
 
- return ($this->responseData['Message']);
+		return ($this->responseData['Message']);
 
-}
+	}
 
 
-function getAuthCode(){
+	function getAuthCode()
+	{
 
- return ($this->responseData['AuthCode']);
+		return ($this->responseData['AuthCode']);
 
-}
+	}
 
-function getComplete(){
+	function getComplete()
+	{
 
- return ($this->responseData['Complete']);
+		return ($this->responseData['Complete']);
 
-}
+	}
 
-function getTransDate(){
+	function getTransDate()
+	{
 
- return ($this->responseData['TransDate']);
+		return ($this->responseData['TransDate']);
 
-}
+	}
 
-function getTransTime(){
+	function getTransTime()
+	{
 
- return ($this->responseData['TransTime']);
+		return ($this->responseData['TransTime']);
 
-}
+	}
 
-function getTicket(){
+	function getTicket()
+	{
 
- return ($this->responseData['Ticket']);
+		return ($this->responseData['Ticket']);
 
-}
+	}
 
-function getTimedOut(){
+	function getTimedOut()
+	{
 
- return ($this->responseData['TimedOut']);
+		return ($this->responseData['TimedOut']);
 
-}
+	}
 
 
+	function getTerminalStatus($ecr_no)
+	{
 
-function getTerminalStatus($ecr_no){
+		return ($this->ecrHash[$ecr_no]);
 
- return ($this->ecrHash[$ecr_no]);
+	}
 
-}
+	function getPurchaseAmount($ecr_no, $card_type)
+	{
 
-function getPurchaseAmount($ecr_no,$card_type){
+		return ($this->purchaseHash[$ecr_no][$card_type]['Amount'] == "" ? 0 : $this->purchaseHash[$ecr_no][$card_type]['Amount']);
+	}
 
- return ($this->purchaseHash[$ecr_no][$card_type]['Amount']=="" ? 0:$this->purchaseHash[$ecr_no][$card_type]['Amount']);
-}
+	function getPurchaseCount($ecr_no, $card_type)
+	{
 
-function getPurchaseCount($ecr_no,$card_type){
+		return ($this->purchaseHash[$ecr_no][$card_type]['Count'] == "" ? 0 : $this->purchaseHash[$ecr_no][$card_type]['Count']);
+	}
 
- return ($this->purchaseHash[$ecr_no][$card_type]['Count']=="" ? 0:$this->purchaseHash[$ecr_no][$card_type]['Count']);
-}
+	function getRefundAmount($ecr_no, $card_type)
+	{
 
-function getRefundAmount($ecr_no,$card_type){
+		return ($this->refundHash[$ecr_no][$card_type]['Amount'] == "" ? 0 : $this->refundHash[$ecr_no][$card_type]['Amount']);
+	}
 
- return ($this->refundHash[$ecr_no][$card_type]['Amount']=="" ? 0:$this->refundHash[$ecr_no][$card_type]['Amount']);
-}
+	function getRefundCount($ecr_no, $card_type)
+	{
 
-function getRefundCount($ecr_no,$card_type){
+		return ($this->refundHash[$ecr_no][$card_type]['Count'] == "" ? 0 : $this->refundHash[$ecr_no][$card_type]['Count']);
+	}
 
- return ($this->refundHash[$ecr_no][$card_type]['Count']=="" ? 0:$this->refundHash[$ecr_no][$card_type]['Count']);
-}
+	function getCorrectionAmount($ecr_no, $card_type)
+	{
 
-function getCorrectionAmount($ecr_no,$card_type){
+		return ($this->correctionHash[$ecr_no][$card_type]['Amount'] == "" ? 0 : $this->correctionHash[$ecr_no][$card_type]['Amount']);
+	}
 
- return ($this->correctionHash[$ecr_no][$card_type]['Amount']=="" ? 0:$this->correctionHash[$ecr_no][$card_type]['Amount']);
-}
+	function getCorrectionCount($ecr_no, $card_type)
+	{
 
-function getCorrectionCount($ecr_no,$card_type){
+		return ($this->correctionHash[$ecr_no][$card_type]['Count'] == "" ? 0 : $this->correctionHash[$ecr_no][$card_type]['Count']);
+	}
 
- return ($this->correctionHash[$ecr_no][$card_type]['Count']=="" ? 0:$this->correctionHash[$ecr_no][$card_type]['Count']);
-}
+	function getTerminalIDs()
+	{
 
-function getTerminalIDs(){
+		return ($this->ecrs);
 
- return ($this->ecrs);
+	}
 
-}
+	function getCreditCardsAll()
+	{
 
-function getCreditCardsAll(){
+		return (array_keys($this->cards));
+	}
 
- return (array_keys($this->cards));
-}
 
+	function getCreditCards($ecr)
+	{
 
-function getCreditCards($ecr){
+		return ($this->cardHash[$ecr]);
+	}
 
- return ($this->cardHash[$ecr]);
-}
 
+	function characterHandler($parser, $data)
+	{
 
+		if ($this->isBatchTotals)
+		{
+			switch ($this->currentTag)
+			{
+				case "term_id"    :
+				{
+					$this->term_id = $data;
+					array_push($this->ecrs, $this->term_id);
+					$this->cardHash[$data] = array();
+					break;
+				}
 
-function characterHandler($parser,$data){
+				case "closed"     :
+				{
+					$ecrHash = $this->ecrHash;
+					$ecrHash[$this->term_id] = $data;
+					$this->ecrHash = $ecrHash;
+					break;
+				}
 
- if($this->isBatchTotals)
- {
-   switch($this->currentTag)
-    {
-     case "term_id"    : {
-                          $this->term_id=$data;
-                          array_push($this->ecrs,$this->term_id);
-                          $this->cardHash[$data]=array();
-                          break;
-                         }
+				case "CardType"   :
+				{
+					$this->CardType = $data;
+					$this->cards[$data] = $data;
+					array_push($this->cardHash[$this->term_id], $data);
+					break;
+				}
 
-     case "closed"     : {
-                          $ecrHash=$this->ecrHash;
-                          $ecrHash[$this->term_id]=$data;
-                          $this->ecrHash = $ecrHash;
-                          break;
-                         }
+				case "Amount"     :
+				{
+					if ($this->currentTxnType == "Purchase")
+					{
+						$this->purchaseHash[$this->term_id][$this->CardType]['Amount'] = $data;
+					}
+					else if ($this->currentTxnType == "Refund")
+					{
+						$this->refundHash[$this->term_id][$this->CardType]['Amount'] = $data;
+					}
 
-     case "CardType"   : {
-                          $this->CardType=$data;
-                          $this->cards[$data]=$data;
-                          array_push($this->cardHash[$this->term_id],$data) ;
-                          break;
-                         }
+					else if ($this->currentTxnType == "Correction")
+					{
+						$this->correctionHash[$this->term_id][$this->CardType]['Amount'] = $data;
+					}
+					break;
+				}
 
-     case "Amount"     : {
-                          if($this->currentTxnType == "Purchase")
-                            {
-                             $this->purchaseHash[$this->term_id][$this->CardType]['Amount']=$data;
-                            }
-                           else if( $this->currentTxnType == "Refund")
-                            {
-                              $this->refundHash[$this->term_id][$this->CardType]['Amount']=$data;
-                            }
+				case "Count"     :
+				{
+					if ($this->currentTxnType == "Purchase")
+					{
+						$this->purchaseHash[$this->term_id][$this->CardType]['Count'] = $data;
+					}
+					else if ($this->currentTxnType == "Refund")
+					{
+						$this->refundHash[$this->term_id][$this->CardType]['Count'] = $data;
 
-                           else if( $this->currentTxnType == "Correction")
-                            {
-                              $this->correctionHash[$this->term_id][$this->CardType]['Amount']=$data;
-                            }
-                           break;
-                         }
+					}
 
-    case "Count"     : {
-                          if($this->currentTxnType == "Purchase")
-                            {
-                             $this->purchaseHash[$this->term_id][$this->CardType]['Count']=$data;
-                            }
-                           else if( $this->currentTxnType == "Refund")
-                            {
-                              $this->refundHash[$this->term_id][$this->CardType]['Count']=$data;
+					else if ($this->currentTxnType == "Correction")
+					{
+						$this->correctionHash[$this->term_id][$this->CardType]['Count'] = $data;
+					}
+					break;
+				}
 
-                            }
 
-                           else if( $this->currentTxnType == "Correction")
-                            {
-                              $this->correctionHash[$this->term_id][$this->CardType]['Count']=$data;
-                            }
-                          break;
-                         }
+			}
 
+		}
+		else
+		{
+			$this->responseData[$this->currentTag] .= $data;
+		}
 
+	}
 
-    }
+	//end characterHandler
 
- }
- else
- {
-    $this->responseData[$this->currentTag] .=$data;
- }
 
-}//end characterHandler
+	function startHandler($parser, $name, $attrs)
+	{
 
+		$this->currentTag = $name;
 
+		if ($this->currentTag == "BankTotals")
+		{
+			$this->isBatchTotals = 1;
+		}
+		else if ($this->currentTag == "Purchase")
+		{
+			$this->purchaseHash[$this->term_id][$this->CardType] = array();
+			$this->currentTxnType = "Purchase";
+		}
+		else if ($this->currentTag == "Refund")
+		{
+			$this->refundHash[$this->term_id][$this->CardType] = array();
+			$this->currentTxnType = "Refund";
+		}
+		else if ($this->currentTag == "Correction")
+		{
+			$this->correctionHash[$this->term_id][$this->CardType] = array();
+			$this->currentTxnType = "Correction";
+		}
 
-function startHandler($parser,$name,$attrs){
+	}
 
-  $this->currentTag=$name;
 
-  if($this->currentTag == "BankTotals")
-   {
-    $this->isBatchTotals=1;
-   }
-  else if($this->currentTag == "Purchase")
-   {
-    $this->purchaseHash[$this->term_id][$this->CardType]=array();
-    $this->currentTxnType="Purchase";
-   }
-  else if($this->currentTag == "Refund")
-   {
-    $this->refundHash[$this->term_id][$this->CardType]=array();
-    $this->currentTxnType="Refund";
-   }
-  else if($this->currentTag == "Correction")
-   {
-    $this->correctionHash[$this->term_id][$this->CardType]=array();
-    $this->currentTxnType="Correction";
-   }
+	function endHandler($parser, $name)
+	{
 
-}
 
+		$this->currentTag = $name;
+		if ($name == "BankTotals")
+		{
+			$this->isBatchTotals = 0;
+		}
 
-function endHandler($parser,$name){
-
-
- $this->currentTag=$name;
- if($name == "BankTotals")
-   {
-    $this->isBatchTotals=0;
-   }
-
- $this->currentTag="/dev/null";
-}
-
-
+		$this->currentTag = "/dev/null";
+	}
 
 
 }//end class mpgResponse
@@ -477,98 +509,103 @@ function endHandler($parser,$name){
 
 ################## mpgRequest ###########################################################
 
-class mpgRequest{
+class mpgRequest
+{
 
- var $txnTypes =array('purchase'=> array('order_id','cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
-                      'refund' => array('order_id', 'amount', 'txn_number', 'crypt_type'),
-					  'idebit_purchase'=>array('order_id','amount','idebit_track2'),
-					  'idebit_refund'=>array('order_id','amount','txn_number'),
-					  'purchase_reversal'=>array('order_id','amount'),
-					  'refund_reversal'=>array('order_id','amount'),
-                      'ind_refund' => array('order_id','cust_id', 'amount','pan','expdate', 'crypt_type'),
-                      'preauth' =>array('order_id','cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
-                      'completion' => array('order_id', 'comp_amount','txn_number', 'crypt_type'),
-                      'purchasecorrection' => array('order_id', 'txn_number', 'crypt_type'),
-                      'opentotals' => array('ecr_number'),
-                      'batchclose' => array('ecr_number'),
-                      'batchcloseall' => array() ,
+	var $txnTypes = array('purchase'           => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
+	                      'refund'             => array('order_id', 'amount', 'txn_number', 'crypt_type'),
+	                      'idebit_purchase'    => array('order_id', 'amount', 'idebit_track2'),
+	                      'idebit_refund'      => array('order_id', 'amount', 'txn_number'),
+	                      'purchase_reversal'  => array('order_id', 'amount'),
+	                      'refund_reversal'    => array('order_id', 'amount'),
+	                      'ind_refund'         => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
+	                      'preauth'            => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
+	                      'completion'         => array('order_id', 'comp_amount', 'txn_number', 'crypt_type'),
+	                      'purchasecorrection' => array('order_id', 'txn_number', 'crypt_type'),
+	                      'opentotals'         => array('ecr_number'),
+	                      'batchclose'         => array('ecr_number'),
+	                      'batchcloseall'      => array(),
 
-                      'cavv_purchase'=> array('order_id','cust_id', 'amount', 'pan',
-                                        'expdate', 'cavv'),
-                      'cavv_preauth'=>array('order_id','cust_id', 'amount', 'pan',
-                                        'expdate', 'cavv')
+	                      'cavv_purchase'      => array('order_id', 'cust_id', 'amount', 'pan',
+		                      'expdate', 'cavv'),
+	                      'cavv_preauth'       => array('order_id', 'cust_id', 'amount', 'pan',
+		                      'expdate', 'cavv')
 
-                    );
-var $txnArray;
+	);
+	var $txnArray;
 
-function mpgRequest($txn){
-
- 	if(is_array($txn))
- 	{
- 	   $txn=$txn[0];
- 	}
-
- 	$this->txnArray=$txn;
-
-}
-
-function toXML(){
-
- 	$tmpTxnArray=$this->txnArray;
-
- 	$txnArrayLen=count($tmpTxnArray); //total number of transactions
-
-    $txnObj=$tmpTxnArray;
-
-    $txn=$txnObj->getTransaction();	//call to a non-member function
-
-    $txnType=array_shift($txn);
-    $tmpTxnTypes=$this->txnTypes;
-    $txnTypeArray=$tmpTxnTypes[$txnType];
-    $txnTypeArrayLen=count($txnTypeArray); //length of a specific txn type
-
-    $txnXMLString="";
-    for($i=0;$i < $txnTypeArrayLen ;$i++)
+	function mpgRequest($txn)
 	{
-		 $txnXMLString  .="<$txnTypeArray[$i]>"   //begin tag
-		                  .$txn[$txnTypeArray[$i]] // data
-		                  . "</$txnTypeArray[$i]>"; //end tag
+
+		if (is_array($txn))
+		{
+			$txn = $txn[0];
+		}
+
+		$this->txnArray = $txn;
+
 	}
 
-	$txnXMLString = "<$txnType>$txnXMLString";
-
-	//$recur  = $txnObj->getRecur();
-	//if($recur != null)
-	//{
-	//     $txnXMLString .= $recur->toXML();
-	//}
-
-	$avs  = $txnObj->getAvsInfo();
-	if($avs != null)
+	function toXML()
 	{
-		 $txnXMLString .= $avs->toXML();
+
+		$tmpTxnArray = $this->txnArray;
+
+		$txnArrayLen = count($tmpTxnArray); //total number of transactions
+
+		$txnObj = $tmpTxnArray;
+
+		$txn = $txnObj->getTransaction(); //call to a non-member function
+
+		$txnType = array_shift($txn);
+		$tmpTxnTypes = $this->txnTypes;
+		$txnTypeArray = $tmpTxnTypes[$txnType];
+		$txnTypeArrayLen = count($txnTypeArray); //length of a specific txn type
+
+		$txnXMLString = "";
+		for ($i = 0; $i < $txnTypeArrayLen; $i++)
+		{
+			$txnXMLString .= "<$txnTypeArray[$i]>" //begin tag
+				. $txn[$txnTypeArray[$i]] // data
+				. "</$txnTypeArray[$i]>"; //end tag
+		}
+
+		$txnXMLString = "<$txnType>$txnXMLString";
+
+		//$recur  = $txnObj->getRecur();
+		//if($recur != null)
+		//{
+		//     $txnXMLString .= $recur->toXML();
+		//}
+
+		$avs = $txnObj->getAvsInfo();
+		if ($avs != null)
+		{
+			$txnXMLString .= $avs->toXML();
+		}
+
+		$cvd = $txnObj->getCvdInfo();
+		if ($cvd != null)
+		{
+			$txnXMLString .= $cvd->toXML();
+		}
+
+
+		$custInfo = $txnObj->getCustInfo();
+		if ($custInfo != null)
+		{
+			$txnXMLString .= $custInfo->toXML();
+		}
+
+		$txnXMLString .= "</$txnType>";
+		$xmlString = $txnXMLString;
+
+		//$xmlString .=$txnXMLString;
+
+		return $xmlString;
+
 	}
-
-   	$cvd  = $txnObj->getCvdInfo();
-    if($cvd != null)
-   	{
-   		 $txnXMLString .= $cvd->toXML();
-   	}
-
-
-	$custInfo = $txnObj->getCustInfo();
-	if($custInfo != null)
-	{
-         $txnXMLString .= $custInfo->toXML();
-	}
-
-    $txnXMLString .="</$txnType>";
-    $xmlString =$txnXMLString;
-    //$xmlString .=$txnXMLString;
-
-	return $xmlString;
-
- }//end toXML
+	//end toXML
 
 }//end class
 
@@ -738,49 +775,54 @@ function toXML(){
 //}//end class
 
 ##################### mpgTransaction #######################################################
-class mpgTransaction{
-
- var $txn;
- var $custInfo = null;
- var $avsInfo = null;
- var $cvdInfo = null;
- var $recur = null;
-
- function mpgTransaction($txn){
-
-  $this->txn=$txn;
-
- }
-
-function getCustInfo()
-{
-	return $this->custInfo;
-}
-function setCustInfo($custInfo)
-{
-	$this->custInfo = $custInfo;
- 	array_push($this->txn,$custInfo);
-}
-
-function getCvdInfo()
-{
-	return $this->cvd;
-}
-function setCvdInfo($cvd)
-{
-	$this->cvd = $cvd;
-}
-
-function getAvsInfo()
+class mpgTransaction
 {
 
-	return $this->avs;
-}
-function setAvsInfo($avs)
-{
-	$this->avs = $avs;
+	var $txn;
+	var $custInfo = null;
+	var $avsInfo = null;
+	var $cvdInfo = null;
+	var $recur = null;
 
-}
+	function mpgTransaction($txn)
+	{
+
+		$this->txn = $txn;
+
+	}
+
+	function getCustInfo()
+	{
+		return $this->custInfo;
+	}
+
+	function setCustInfo($custInfo)
+	{
+		$this->custInfo = $custInfo;
+		array_push($this->txn, $custInfo);
+	}
+
+	function getCvdInfo()
+	{
+		return $this->cvd;
+	}
+
+	function setCvdInfo($cvd)
+	{
+		$this->cvd = $cvd;
+	}
+
+	function getAvsInfo()
+	{
+
+		return $this->avs;
+	}
+
+	function setAvsInfo($avs)
+	{
+		$this->avs = $avs;
+
+	}
 
 //function getRecur()
 //{
@@ -791,10 +833,11 @@ function setAvsInfo($avs)
 //	$this->recur = $recur;
 //}
 
-function getTransaction(){
+	function getTransaction()
+	{
 
- return $this->txn;
-}
+		return $this->txn;
+	}
 
 }//end class
 
@@ -803,14 +846,15 @@ class mpgAvsInfo
 {
 
 	var $params;
-	var $avsTemplate = array('avs_street_number','avs_street_name','avs_zipcode');
+	var $avsTemplate = array('avs_street_number', 'avs_street_name', 'avs_zipcode');
+
 	//var $avsTemplate = array('avs_zipcode');
 
 	function mpgAvsInfo($params)
 	{
 		$this->params = $params;
 
-		if( (! isset($this->params['period'])) )
+		if ((!isset($this->params['period'])))
 		{
 			$this->params['period'] = 1;
 		}
@@ -820,9 +864,9 @@ class mpgAvsInfo
 	{
 		$xmlString = "";
 
-		foreach($this->avsTemplate as $tag)
+		foreach ($this->avsTemplate as $tag)
 		{
-			$xmlString .= "<$tag>". $this->params[$tag] ."</$tag>";
+			$xmlString .= "<$tag>" . $this->params[$tag] . "</$tag>";
 		}
 
 		return "<avs_info>$xmlString</avs_info>";
@@ -835,25 +879,25 @@ class mpgCvdInfo
 {
 
 	var $params;
-	var $cvdTemplate = array('cvd_indicator','cvd_value');
+	var $cvdTemplate = array('cvd_indicator', 'cvd_value');
 
 	function mpgCvdInfo($params)
 	{
 		$this->params = $params;
 
-	//	if( (! $this->params['period']) )
+		//	if( (! $this->params['period']) )
 		//{
-			$this->params['period'] = 1;
-	//	 }
+		$this->params['period'] = 1;
+		//	 }
 	}
 
 	function toXML()
 	{
 		$xmlString = "";
 
-		foreach($this->cvdTemplate as $tag)
+		foreach ($this->cvdTemplate as $tag)
 		{
-			$xmlString .= "<$tag>". $this->params[$tag] ."</$tag>";
+			$xmlString .= "<$tag>" . $this->params[$tag] . "</$tag>";
 		}
 
 		return "<cvd_info>$xmlString</cvd_info>";
