@@ -357,7 +357,7 @@
                 $('.zoomPad', el).append($(this.node).hide());
                 if (settings.zoomType == 'reverse') {
                     this.image = new Image();
-                    this.image.src = smallimage.node.src; // fires off async
+                    this.image.src = smallimage.node.src; // Fires off async
                     $(this.node).empty().append(this.image);
                 }
             };
@@ -634,7 +634,7 @@
                 this.node.style.left = '-5000px';
                 this.node.style.top = '0px';
                 document.body.appendChild(this.node);
-                this.node.src = url; // fires off async
+                this.node.src = url; // Fires off async
             };
             this.fetchdata = function () {
                 var image = $(this.node);

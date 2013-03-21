@@ -13,27 +13,27 @@
  */
 final class Braintree_Version
 {
-    /**
-     * class constants
-     */
-    const MAJOR = 2;
-    const MINOR = 10;
-    const TINY = 0;
+	/**
+	 * class constants
+	 */
+	const MAJOR = 2;
+	const MINOR = 10;
+	const TINY = 0;
 
-    /**
-     * @ignore
-     * @access protected
-     */
-    protected function  __construct()
-    {
-    }
+	/**
+	 * @ignore
+	 * @access protected
+	 */
+	protected function  __construct()
+	{
+	}
 
-    /**
-     *
-     * @return string the current library version
-     */
-    public static function get()
-    {
-        return self::MAJOR.'.'.self::MINOR.'.'.self::TINY;
-    }
+	/**
+	 *
+	 * @return string the current library version
+	 */
+	public static function get()
+	{
+		return self::MAJOR . '.' . self::MINOR . '.' . self::TINY;
+	}
 }
