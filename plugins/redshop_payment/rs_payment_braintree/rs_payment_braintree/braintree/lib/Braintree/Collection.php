@@ -108,7 +108,6 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
 		return count($this->_collection);
 	}
 
-
 	/**
 	 * Return an iterator
 	 * Implements IteratorAggregate

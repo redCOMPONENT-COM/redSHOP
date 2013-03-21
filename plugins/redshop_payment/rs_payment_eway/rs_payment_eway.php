@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_eway(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_eway');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -65,7 +64,7 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 
 		$session =& JFactory::getSession();
 		$ccdata = $session->get('ccdata');
-		// Collecting user Information ( Billing Information )
+		// collecting user Information ( Billing Information )
 
 		$firstname_bill = substr($data['billinginfo']->firstname, 0, 50);
 		$lastname_bill = substr($data['billinginfo']->lastname, 0, 50);
@@ -77,7 +76,7 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 		$country_code_bill = substr($data['billinginfo']->country_code, 0, 60);
 		$phone_bill = substr($data['billinginfo']->phone, 0, 25);
 		$country_2code_bill = $config->getCountryCode2($country_code_bill);
-		// Collecting user Information ( Shipping Information )
+		// collecting user Information ( Shipping Information )
 		$firstname_shipp = substr($data['shippinginfo']->firstname, 0, 50);
 		$lastname_shipp = substr($data['shippinginfo']->lastname, 0, 50);
 		//$company_shipp			= 	substr($d['shippingaddress']->company, 0, 50);
@@ -91,11 +90,10 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 		$user_id = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
-
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-		// Get Credit card Information
+		// get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = strtoupper($ccdata['creditcard_code']);
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
@@ -108,7 +106,6 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_eway' . DS . 'rs_payment_eway' . DS . 'eway.integrator.php';
 		include($paymentpath);
 		$eway = new EwayPayment($this->_params->get("eway_customer_id"), $this->_params->get("eway_method_type"), $this->_params->get("eway_live_gateway"));
-
 
 		$order_total = round($data['order_total'], 2) * 100;
 		//Substitute 'FirstName', 'Lastname' etc for $_POST["FieldName"] where FieldName is the name of your INPUT field on your webpage
@@ -136,6 +133,5 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 	{
 		return;
 	}
-
 
 }

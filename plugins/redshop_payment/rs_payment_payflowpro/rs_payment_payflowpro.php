@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payflowpro(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payflowpro');
@@ -107,7 +107,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$currencyClass = new convertPrice;
-		// As per the email error no need to remove shipping - tmp fix
+		// as per the email error no need to remove shipping - tmp fix
 		//$order_total = $data['order_total'] - $data['order_shipping'] - $data['order_tax'];
 		//$order_total = $data['order_total'] - $data['order_tax'];
 		$order_total = $data['order_total'];
@@ -175,7 +175,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 		$params = array_merge($params, $ship_params);
 
-
 		$post_string = '';
 
 		foreach ($params as $key => $value)
@@ -232,7 +231,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$header = array_merge($header, $headers);
 		}
 
-
 		if (function_exists('curl_init'))
 		{
 			$curl = curl_init($server['scheme'] . '://' . $server['host'] . $server['path'] . (isset($server['query']) ? '?' . $server['query'] : ''));
@@ -257,7 +255,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		return $result;
 	}
 
-
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
@@ -271,7 +268,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 		return;
 	}
-
 
 	function onCapture_Paymentrs_payment_payflowpro($element, $data)
 	{
@@ -346,7 +342,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$message = $response_array['RESPMSG'];
 		}
 
-
 		$values->message = $message;
 
 		return $values;
@@ -363,7 +358,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$merchant_user = $this->_params->get("merchant_user");
 		$paymentType = $this->_params->get("sales_auth_only");
 		$is_test = $this->_params->get("is_test");
-
 
 		$order_id = $data['order_id'];
 		$tid = $data['order_transactionid'];
@@ -426,7 +420,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$values->responsestatus = 'Fail';
 			$message = $response_array['RESPMSG'];
 		}
-
 
 		$values->message = $message;
 

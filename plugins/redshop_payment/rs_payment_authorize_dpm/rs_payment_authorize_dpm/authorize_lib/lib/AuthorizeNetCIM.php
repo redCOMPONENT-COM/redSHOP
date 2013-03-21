@@ -7,7 +7,6 @@
  * @link       http://www.authorize.net/support/CIM_XML_guide.pdf CIM XML Guide
  */
 
-
 /**
  * A class to send a request to the CIM XML API.
  *
@@ -19,7 +18,6 @@ class AuthorizeNetCIM extends AuthorizeNetRequest
 
 	const LIVE_URL = "https://api.authorize.net/xml/v1/request.api";
 	const SANDBOX_URL = "https://apitest.authorize.net/xml/v1/request.api";
-
 
 	private $_xml;
 	private $_refId = false;
@@ -367,7 +365,7 @@ class AuthorizeNetCIM extends AuthorizeNetRequest
 			$this->_extraOptions = false;
 		}
 		// Blank out our validation mode, so that we don't include it in calls that
-		// Don't use it.
+		// don't use it.
 		$this->_validationMode = "none";
 	}
 

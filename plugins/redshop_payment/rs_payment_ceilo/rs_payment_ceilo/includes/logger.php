@@ -18,7 +18,6 @@ class Logger
 		if (!$this->fp)
 			$this->logOpen();
 
-
 		$path = $_SERVER["REQUEST_URI"];
 		$data = date("Y-m-d H:i:s:u (T)");
 

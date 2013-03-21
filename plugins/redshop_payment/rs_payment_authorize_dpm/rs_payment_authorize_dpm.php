@@ -35,14 +35,13 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_authorize_dpm(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_authorize_dpm');
 		$this->_params = new JRegistry($this->_plugin->params);
 
 	}
-
 
 	function onPrePayment($element, $data)
 	{
@@ -105,19 +104,15 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 				$redirect_url .= '&response_code=' . $response->response_code . '&response_reason_text=' . $response->response_reason_text;
 			}
 
-
 		}
 		else
 		{
 			$redirect_url .= '&response_code=' . $response->response_code . '&response_reason_text=' . $response->response_reason_text;
 		}
 
-
 		echo AuthorizeNetDPM::getRelayResponseSnippet($redirect_url);
 
-
 	}
-
 
 	function onNotifyPaymentrs_payment_authorize_dpm($element, $request)
 	{
@@ -131,7 +126,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		{
 			$plugin = $element;
 		}
-
 
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
@@ -149,12 +143,10 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		$authorize_dpm_parameters = $this->getparameters('rs_payment_authorize_dpm');
 		$paymentinfo = $authorize_dpm_parameters[0];
 
-
 		$paymentparams = new JRegistry($paymentinfo->params);
 		$verify_status = $paymentparams->get('verify_status', '');
 		$invalid_status = $paymentparams->get('invalid_status', '');
 		$cancel_status = $paymentparams->get('cancel_status', '');
-
 
 		if (isset($tid) && $response_code == 1)
 		{
@@ -188,7 +180,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 		return $params;
 	}
-
 
 }
 

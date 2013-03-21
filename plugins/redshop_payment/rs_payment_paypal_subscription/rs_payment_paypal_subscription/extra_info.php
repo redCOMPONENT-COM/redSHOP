@@ -47,7 +47,6 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-
 if ($this->_params->get("sandbox") == '1')
 {
 	$paypalurl = "https://www.sandbox.paypal.com/cgi-bin/webscr";
@@ -61,7 +60,6 @@ $currencyClass = new convertPrice;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', $currency_main);
 $order->order_subtotal = number_format($order->order_subtotal, 2);
-
 
 $subscription_id = $session->get('subscription_id');
 
@@ -90,7 +88,6 @@ $post_variables = Array(
 	"srt"                => $subscription_id
 
 );
-
 
 
 if (SHIPPING_METHOD_ENABLE)
@@ -122,7 +119,6 @@ else
 	$discount_payment_price = $payment_price;
 	$post_variables['handling_cart'] = round($currencyClass->convert($order_details[0]->payment_discount, '', $currency_main), 2);
 }
-
 
 echo "<form action='$paypalurl' method='post' id='paypalfrm' name='paypalfrm'>";
 echo "<h3>" . JTEXT::_('PAYPAL_WAIT_MESSAGE') . "</h3>";

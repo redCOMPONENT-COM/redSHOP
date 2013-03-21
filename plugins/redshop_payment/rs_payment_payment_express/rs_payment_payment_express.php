@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payment_express(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payment_express');
@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		if ($this->_params->get("px_post_txnmethod") == 'PxPost')
 		{
 
-			// Pxpost
+			// pxpost
 			$cmdDoTxnTransaction = "";
 			// Get user billing information
 			$session =& JFactory::getSession();
@@ -115,7 +115,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			curl_setopt($ch, CURLOPT_SSLVERSION, 3);
 			$result = curl_exec($ch);
 
-
 			curl_close($ch);
 
 			$params = $this->parse_xml($result);
@@ -150,7 +149,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 			include($paymentpath);
 		}
-
 
 	}
 
@@ -233,7 +231,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$cmdDoTxnTransaction .= "<DpsTxnRef>$order_payment_trans_id</DpsTxnRef>";
 			$cmdDoTxnTransaction .= "<TxnType>Complete</TxnType>";
 			$cmdDoTxnTransaction .= "</Txn>";
-
 
 			$URL = "sec2.paymentexpress.com/pxpost.aspx";
 			//echo "\n\n\n\nSENT:\n$cmdDoTxnTransaction\n\n\n\n\n$";

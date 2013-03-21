@@ -1,5 +1,5 @@
 <?php
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
@@ -19,7 +19,7 @@ class plgredshop_productstockroom_status extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// Load plugin parameters
+		// load plugin parameters
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stockroom_status');
 		$this->_params = new JRegistry($this->_plugin->params);
@@ -70,7 +70,6 @@ class plgredshop_productstockroom_status extends JPlugin
 
 			$stock_flag = 0;
 
-
 			for ($s = 0; $s < count($stockroom_id); $s++)
 			{
 				$stock_details = $stockroomhelper->getStockroomDetail($stockroom_id[$s]);
@@ -93,13 +92,11 @@ class plgredshop_productstockroom_status extends JPlugin
 				}
 			}
 
-
 		}
 
 		$message .= "</table></td></tr>";
 		$message .= "<tr><td colspan='4'>Regards,</td></tr><tr><td colspan='4'>Stockkeeper</td></tr>";
 		$message .= "</table>";
-
 
 		if (ADMINISTRATOR_EMAIL != "" && $stock_flag == 1)
 		{
@@ -108,7 +105,6 @@ class plgredshop_productstockroom_status extends JPlugin
 		}
 
 	}
-
 
 }
 

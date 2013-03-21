@@ -34,14 +34,13 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paymill(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paymill');
 		$this->_params = new JRegistry($this->_plugin->params);
 
 	}
-
 
 	function onPrePayment($element, $data)
 	{
@@ -60,7 +59,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 		include($paymentpath);
 	}
-
 
 	function getCredicardForm($element, $data)
 	{
@@ -165,7 +163,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$cart_data .= '<input type="hidden" name="order_id" value="' . $data['order_id'] . '" />';
 		$cart_data .= '</form>';
 
-
 		echo eval("?>" . $cart_data . "<?php ");
 	}
 
@@ -196,7 +193,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 		if ($token = $data['paymillToken'])
 		{
-			// Require "Services/Paymill/Transactions.php";
+			// require "Services/Paymill/Transactions.php";
 			$transactionsObject = new Services_Paymill_Transactions($paymill_private_key, "https://api.paymill.com/v2/");
 			$params = array(
 				'amount'      => $order_amount, // E.g. "15" for 0.15 EUR!
@@ -204,7 +201,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 				'token'       => $token,
 				'description' => 'Test Transaction'
 			);
-
 
 			$transaction = $transactionsObject->create($params);
 
@@ -216,7 +212,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$mainframe->Redirect($redirect_url);
 
 	}
-
 
 	function onNotifyPaymentrs_payment_paymill($element, $request)
 	{
@@ -231,7 +226,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$plugin = $element;
 		}
 
-
 		$request = JRequest::get('request');
 		$Itemid = $request["Itemid"];
 		$order_id = $request['orderid'];
@@ -240,12 +234,10 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$paymillresult = $session->get('paymillresult');
 		$tid = $paymillresult['id'];
 
-
 		$paymentparams = new JRegistry($paymentinfo->params);
 		$verify_status = $this->_params->get('verify_status');
 		$invalid_status = $this->_params->get('invalid_status');
 		$cancel_status = $this->_params->get('cancel_status');
-
 
 		if (isset($paymillresult['error']) && $paymillresult['error'])
 		{
@@ -276,12 +268,10 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 	}
 
-
 	function onCapture_Paymentrs_payment_paymill($element, $data)
 	{
 		return;
 
 	}
-
 
 }

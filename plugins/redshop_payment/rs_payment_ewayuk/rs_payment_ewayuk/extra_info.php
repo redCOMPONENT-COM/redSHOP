@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
@@ -87,11 +86,9 @@ if (CURL_PROXY_REQUIRED == 'True')
 	curl_setopt($ch, CURLOPT_PROXY, CURL_PROXY_SERVER_DETAILS);
 }
 
-
 $response = curl_exec($ch);
 $responsemode = $this->fetch_data($response, '<result>', '</result>');
 $responseurl = $this->fetch_data($response, '<uri>', '</uri>');
-
 
 if ($responsemode == "True")
 {
@@ -101,7 +98,6 @@ else
 {
 	$mainframe->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id']);
 }
-
 
 
 ?>

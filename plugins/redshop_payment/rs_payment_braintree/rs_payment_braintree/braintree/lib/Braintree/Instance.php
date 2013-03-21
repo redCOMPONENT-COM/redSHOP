@@ -29,7 +29,6 @@ abstract class Braintree_Instance
 		}
 	}
 
-
 	/**
 	 * returns private/nonexistent instance properties
 	 * @access public

@@ -49,25 +49,24 @@ define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
-// Create the mainframe object
+// create the mainframe object
 $mainframe = & JFactory::getApplication('site');
 
 // Initialize the framework
 $mainframe->initialise();
 
-// Load system plugin group
+// load system plugin group
 JPluginHelper::importPlugin('system');
 
-// Trigger the onBeforeStart events
+// trigger the onBeforeStart events
 $mainframe->triggerEvent('onBeforeStart');
 $lang = & JFactory::getLanguage();
 $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 // Adjust the live site path
 
-
 /*** END of Joomla config ***/
 
-// Redshop language file
+// redshop language file
 JPlugin::loadLanguage('com_redshop');
 
 require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
@@ -132,8 +131,8 @@ switch ($_REQUEST ['_type'])
 		break;
 }
 
-// Google giving redSHOP order id for the first time
-// We need it back from transaction id
+// google giving redSHOP order id for the first time
+// we need it back from transaction id
 
 $db =& JFactory::getDBO();
 
@@ -145,7 +144,7 @@ if (!isset ($order_id))
 
 }
 
-// Make status change array
+// make status change array
 $values = array();
 $values['transaction_id'] = $google_order_id;
 $values['order_id'] = $order_id;
@@ -181,7 +180,7 @@ foreach ($values as $key => $val)
 
 //mail("gunjan@redweb.dk","googlecheckout",$maildata);
 
-// Change order status
+// change order status
 $objOrder->changeorderstatus($values);
 
 ?>

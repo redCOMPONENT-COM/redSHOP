@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 $order_number = $data['order_id'];
 $total_sum_to_pay = $data['carttotal'];
 

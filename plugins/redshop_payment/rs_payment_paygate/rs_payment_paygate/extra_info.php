@@ -37,7 +37,7 @@ $currencyClass = new convertPrice;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'ZAR');
 
-// Hidden variables for payment form
+// hidden variables for payment form
 
 $TRANSACTION_DATE = date("y-m-d h:i:s");
 $PAYGATE_ID = $this->_params->get("merchant_email");
@@ -54,9 +54,7 @@ $checksum_source .= $encryption_key;
 
 $CHECKSUM = md5($checksum_source);
 
-
-// End
-
+// end
 
 $post_variables = Array(
 	"PAYGATE_ID"       => $PAYGATE_ID,
@@ -69,7 +67,6 @@ $post_variables = Array(
 	"CURRENCY"         => "ZAR"
 
 );
-
 
 
 echo "<form action='$paygateurl' method='post'  id='paygateform'>";

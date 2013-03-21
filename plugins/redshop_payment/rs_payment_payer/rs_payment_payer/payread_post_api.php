@@ -132,7 +132,6 @@ class payread_post_api
 		$PayRead_Key1 = '';
 		$PayRead_Key2 = '';
 
-
 		// Set defaults
 		$this->myPostApiVersion = "payer_php_0_2_v25";
 		$this->myClientVersion = null;
@@ -464,7 +463,6 @@ class payread_post_api
 		$theArray["StopDate"] = $theStopDate;
 		$theArray["CancelDays"] = $theCancelDays;
 
-
 		$this->mySubscriptionPurchases[] = $theArray;
 	}
 
@@ -486,7 +484,6 @@ class payread_post_api
 	{
 		$this->add_freeform_purchase_ex(99999, $theDescription, $theItemNumber, $thePrice, $theVat, $theQuantity, $theUnit = null, $theAccount = null, $theDistAgentId = null);
 	}
-
 
 	/**
 	 * This method is optional
@@ -691,12 +688,12 @@ class payread_post_api
 	 */
 	function validate_callback_url($theUrl)
 	{
-		// Strip the &md5sum from url
+		// strip the &md5sum from url
 		$pos = strpos($theUrl, "&md5sum");
 
 		if ($pos === false)
 		{
-			// This case handles opencart and other manipulating $_SERVER vars
+			// this case handles opencart and other manipulating $_SERVER vars
 			$theUrl = htmlspecialchars_decode($theUrl);
 			$strippedUrl = substr($theUrl, 0, strpos($theUrl, "&md5sum"));
 		}
@@ -704,19 +701,19 @@ class payread_post_api
 		{
 			$strippedUrl = substr($theUrl, 0, $pos);
 		}
-		// Add the Key1 and Key2 from the stripped url and calculate checksum
+		// add the Key1 and Key2 from the stripped url and calculate checksum
 		$keyA = $this->myKeys["A"];
 		$keyB = $this->myKeys["B"];
 
 		$md5 = strtolower(md5($keyA . $strippedUrl . $keyB));
 
-		// Do we find the calculated checksum in in the original URL somewhere ?
+		// do we find the calculated checksum in in the original URL somewhere ?
 		if (strpos(strtolower($theUrl), $md5) >= 7)
 		{
-			return true; // Yes - this is authentic
+			return true; // yes - this is authentic
 		}
 
-		return false; // No - this is not a properly signed URL
+		return false; // no - this is not a properly signed URL
 	}
 
 	/**
@@ -915,7 +912,6 @@ class payread_post_api
 
 		$this->myXmlData .= "</purchase_list>\n" .
 			"</purchase>\n";
-
 
 		//Processing control
 		$this->myXmlData .=

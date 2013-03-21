@@ -7,13 +7,11 @@ $db = JFactory::getDBO();
 
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
-
 $sql = "SELECT op.*,o.order_total,o.user_id FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-
-// Get order item information
+// get order item information
 $q_oi = "SELECT * FROM #__redshop_order_item ";
 $q_oi .= "WHERE #__redshop_order_item.order_id='" . $orderid . "'";
 $db->setQuery($q_oi);
@@ -27,13 +25,13 @@ for ($i = 0; $i < count($items); $i++)
 }
 
 $table_desc = join(', ', $item);
-// Currency converter
+// currency converter
 $currency = new convertPrice;
 $amount = $order_details[0]->order_total * 100;
 
 $post_variables = array();
 
-// Get plugin params
+// get plugin params
 $live_mode = $this->_params->get("is_live");
 
 if ($live_mode == "1")
@@ -49,7 +47,6 @@ else
 	$customer_id = "87654321";
 	$gatewayurl = $this->_params->get("eway_3dsecure_sandboxurl");
 }
-
 
 //$retururl = $baseurl . "index.php?option=com_redshop&view=order_detail&oid=" . $order->order_id;
 $cancelurl = JURI::base() . "index.php";
@@ -68,11 +65,10 @@ $cust_phone = $data['billinginfo']->phone;
 $cust_email = $data['billinginfo']->user_email;
 $cust_country = $data['billinginfo']->country_code;
 
-// Fill array with class variables
+// fill array with class variables
 $post_variables = array("ewayCustomerID" => $customer_id, "ewayTotalAmount" => $amount, "ewayCustomerFirstName" => $data['billinginfo']->firstname, "ewayCustomerLastName" => $data['billinginfo']->lastname, "ewayCustomerEmail" => $cust_email, "ewayCustomerAddress" => $cust_address1, "ewayCustomerPostcode" => $cust_zip, "ewayCustomerInvoiceDescription" => $table_desc, "ewayCustomerInvoiceRef" => $data['order_id'], "ewayURL" => $approveurl, "ewaySiteTitle" => "WebActive", "eWAYoption1" => $data['order_id']);
 
-
-// Hidden form variables
+// hidden form variables
 $html_hidden_params = "";
 
 foreach ($post_variables as $key => $val)

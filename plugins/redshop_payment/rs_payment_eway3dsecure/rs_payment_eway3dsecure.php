@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
  * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
@@ -34,7 +33,7 @@ class plgRedshop_paymentrs_payment_eway3dsecure extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_eway3dsecure(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_eway3dsecure');
@@ -60,7 +59,6 @@ class plgRedshop_paymentrs_payment_eway3dsecure extends JPlugin
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include($paymentpath);
 	}
-
 
 	function onNotifyPaymentrs_payment_eway3dsecure($element, $request)
 	{
@@ -123,7 +121,6 @@ class plgRedshop_paymentrs_payment_eway3dsecure extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

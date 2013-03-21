@@ -33,12 +33,11 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_giropay(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_giropay');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -66,7 +65,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		include($paymentpath);
 	}
 
-
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
@@ -78,16 +76,13 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			break;
 		}
 
-
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 		$transactionId = $request['order_id'];
 		$gpCode = $request['gpCode'];
 		$gpHash = $request['gpHash'];
 
-
 		JPlugin::loadLanguage('com_redshop');
-
 
 		$merchantId = $this->_params->get('merchant_id', '');
 		$projectId = $this->_params->get('project_id', '');
@@ -107,10 +102,8 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 
 		$message = $gsGiropay->getCodeDescription($gpCode);
 
-
 		if ($gpHash != $hash)
 		{
-
 
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
@@ -118,8 +111,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			$values->msg = $message;
 		}
 
-
-		// Neuen Bestellstatus ermitteln
+		// neuen Bestellstatus ermitteln
 		if ($gsGiropay->codeIsOK($gpCode))
 		{
 
@@ -127,7 +119,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = $message;
 			$values->msg = $message;
-
 
 		}
 		else
@@ -140,12 +131,10 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 
 		}
 
-
 		$values->transaction_id = $transactionId;
 		$values->order_id = $request['order_id'];
 
 		return $values;
 	}
-
 
 }

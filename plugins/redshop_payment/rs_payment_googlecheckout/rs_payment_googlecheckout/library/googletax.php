@@ -114,7 +114,6 @@ class GoogleAlternateTaxRule extends GoogleTaxRule
 
 }
 
-
 /*
  * GoogleAlternateTaxTable
  */
@@ -140,6 +139,5 @@ class GoogleAlternateTaxTable
 		$this->tax_rules_arr[] = $rules;
 	}
 }
-
 
 ?>

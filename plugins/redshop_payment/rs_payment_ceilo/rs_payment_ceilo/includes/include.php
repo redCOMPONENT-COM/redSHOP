@@ -13,7 +13,6 @@ if (!isset($_SESSION["pedidos"]))
 	$_SESSION["pedidos"] = new ArrayObject;
 }
 
-
 // CONSTANTES
 define("ENDERECO_BASE", "https://qasecommerce.cielo.com.br");
 define("ENDERECO", ENDERECO_BASE . "/servicos/ecommwsec.do");
@@ -23,11 +22,9 @@ define("LOJA_CHAVE", "25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e62
 define("CIELO", "1001734898");
 define("CIELO_CHAVE", "e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832");*/
 
-
 // Envia requisi��o
 function httprequest($paEndereco, $paPost)
 {
-
 
 	$sessao_curl = curl_init();
 	curl_setopt($sessao_curl, CURLOPT_URL, $paEndereco);
@@ -65,7 +62,6 @@ function httprequest($paEndereco, $paPost)
 
 	$resultado = curl_exec($sessao_curl);
 
-
 	curl_close($sessao_curl);
 
 	if ($resultado)
@@ -83,7 +79,7 @@ function httprequest($paEndereco, $paPost)
 {
 	$pageURL = 'http';
 
-	if ($_SERVER["SERVER_PORT"] == 443) // Protocolo https
+	if ($_SERVER["SERVER_PORT"] == 443) // protocolo https
 	{
 		$pageURL .= 's';
 	}

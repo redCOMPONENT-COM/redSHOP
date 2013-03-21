@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
@@ -230,7 +230,6 @@ class plgredshop_shippingbring extends JPlugin
 		}
 	}
 
-
 	function onListRates(&$d)
 	{
 		$shippinghelper = new shipping;
@@ -245,7 +244,7 @@ class plgredshop_shippingbring extends JPlugin
 		$shippingrate = array();
 		$rate = 0;
 
-		// Conversation of weight ( ration )
+		// conversation of weight ( ration )
 		$unitRatio = $producthelper->getUnitConversation('gram', DEFAULT_WEIGHT_UNIT);
 		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
 
@@ -254,7 +253,7 @@ class plgredshop_shippingbring extends JPlugin
 
 		if ($unitRatio != 0)
 		{
-			$order_weight = $order_weight * $unitRatio; // Converting weight in pounds
+			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
 
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -299,8 +298,7 @@ class plgredshop_shippingbring extends JPlugin
 		//Determine weight in pounds and ounces
 		$shipping_gram = floor($order_weight); //send integer rounded down		//end cw733 fix
 
-
-		// WeightInGrams=1500&from=7600&to=1407&length=30&width=40&height=40&volume=33&date=2009-2-3
+		// weightInGrams=1500&from=7600&to=1407&length=30&width=40&height=40&volume=33&date=2009-2-3
 		$query = '';
 		$query .= 'from=' . BRING_ZIPCODE_FROM;
 		$query .= '&to=' . $dest_zip;
@@ -488,7 +486,7 @@ class plgredshop_shippingbring extends JPlugin
 					$product_name = $bring_products[$i]->product->product_name;
 					$currencyidentificationcode = $bring_products[$i]->product->currencyidentificationcode;
 					$delivery = $bring_products[$i]->product->delivery;
-					// Convert NOK currency to site currency
+					// convert NOK currency to site currency
 					$Displaycost = $currency->convert($AmountWithoutVAT, '', $currencyidentificationcode);
 					$cost = $currency->convert($AmountWithoutVAT, '', $currencyidentificationcode);
 					$vat = $currency->convert($AmountVAT, '', $currencyidentificationcode);

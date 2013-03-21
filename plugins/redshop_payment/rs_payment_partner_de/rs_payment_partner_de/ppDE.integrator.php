@@ -10,7 +10,7 @@
 
 class _ctpexmlpost
 {
-	var $server = "test.ctpe.net"; // Test server address
+	var $server = "test.ctpe.net"; // test server address
 	var $path = "/payment/ctpe";
 	var $sender = "d225a9fefd94329900fd950e6866004c";
 	var $channel = "d225a9fefd94329900fd950e68660053";
@@ -118,7 +118,7 @@ class _ctpexmlpost
 
 		$strXML = "<?xml version=\"1.0\" ?>";
 
-		// Set account and user information.
+		// set account and user information.
 		$strXML .= "<Request version=\"$this->request_version\">";
 		$strXML .= "<Header>";
 		$strXML .= "<Security sender=\"$this->sender\" token=\"token\" />";
@@ -129,7 +129,7 @@ class _ctpexmlpost
 		$strXML .= "<TransactionID>$this->identification_transactionid</TransactionID>";
 		$strXML .= "</Identification>";
 
-		// Set account information
+		// set account information
 
 		$strXML .= "<Account>";
 		$strXML .= "<Holder>$this->account_holder</Holder>";
@@ -143,7 +143,7 @@ class _ctpexmlpost
 		$strXML .= "<Month>$this->account_month</Month>";
 		$strXML .= "</Account>";
 
-		// Set payment information
+		// set payment information
 
 		$strXML .= "<Payment code=\"$this->payment_code\">";
 		$strXML .= "<Presentation>";
@@ -153,7 +153,7 @@ class _ctpexmlpost
 		$strXML .= "</Presentation>";
 		$strXML .= "</Payment>";
 
-		// Set customer information
+		// set customer information
 
 		$strXML .= "<Customer>";
 		$strXML .= "<Contact>";
@@ -177,7 +177,6 @@ class _ctpexmlpost
 		$strXML .= "<Company>$this->name_company</Company>";
 		$strXML .= "</Name>";
 		$strXML .= "</Customer>";
-
 
 		$strXML .= "</Transaction>";
 		$strXML .= "</Request>";
@@ -217,7 +216,6 @@ class _ctpexmlpost
 
 			return $errorCode;
 		}
-
 
 		/*
 		   uncomment the following line for debug output (whole XML)

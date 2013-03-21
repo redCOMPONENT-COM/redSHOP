@@ -33,12 +33,11 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_webmoney(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_webmoney');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -61,7 +60,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include($paymentpath);
 	}
-
 
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
@@ -108,7 +106,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			$pure_feedback[$ipnkey] = $ipnval;
 		}
 
-		// Prerequest
+		// prerequest
 
 		$wm_post_0 = trim($request['LMI_PREREQUEST']);
 		$wm_post_4 = trim($request['LMI_MODE']);
@@ -137,7 +135,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 				$prerequest_mode = $wm_value;
 			}
 		}
-
 
 		$account_number_stored = LMI_PAYEE_PURSE;
 		$secret_key = WEBMONEY_SECRET_CODE;
@@ -169,14 +166,12 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			$user_ip = $order->ip_address;
 			$order_id = $order->order_id;
 
-
 			if (!$order_id or $order_id == "")
 			{
 				$err = 1;
 				echo "ERR: No such product";
 				exit;
 			}
-
 
 			if ($order->order_total)
 			{
@@ -255,7 +250,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

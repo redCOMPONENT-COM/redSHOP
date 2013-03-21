@@ -49,11 +49,10 @@ $mainframe =& JFactory::getApplication('site');
  *
  * NOTE :
  */
-// Set the language
+// set the language
 $mainframe->initialise();
 
 define('JPATH_COMPONENT_SITE', JPATH_SITE . DS . 'components' . DS . 'com_redshop');
-
 
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
@@ -76,7 +75,6 @@ if ($path[1] != "plugins") $url .= "/" . $path[1] . "/";
 
 $get = JRequest::get('get');
 $option = JRequest::getVar('option');
-
 
 $property_id = urldecode($get['property_id']);
 $subproperty_id = urldecode($get['subproperty_id']);

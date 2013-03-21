@@ -14,8 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
@@ -30,7 +29,7 @@ class plgSearchredshop_categories extends JPlugin
 
 		$searchText = $text;
 
-		// Load plugin params info
+		// load plugin params info
 		//$plugin =& JPluginHelper::getPlugin('search', 'redshop_categories');
 		$pluginParams = $this->params;
 
@@ -98,7 +97,6 @@ class plgSearchredshop_categories extends JPlugin
 
 			. ' WHERE (' . $where . ')'
 			. ' AND a.published = 1'
-
 
 			. ' ORDER BY ' . $order;
 

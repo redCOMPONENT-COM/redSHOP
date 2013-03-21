@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_authorize(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_authorize');
@@ -64,7 +64,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$ccdata = $session->get('ccdata');
 		$cart = $session->get('cart');
 
-		// For total amount
+		// for total amount
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -112,8 +112,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		$item_str = implode("&x_line_item=", $item_details);
 
-
-		// For Email Receipt
+		// for Email Receipt
 		if ($this->_params->get("emailreceipt_to_customer") == 1)
 		{
 			$x_merchant_email = $data['billinginfo']->user_email;
@@ -172,10 +171,9 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			'x_invoice_num'        => substr($data['order_number'], 0, 20),
 			'x_description'        => JText::_('COM_REDSHOP_AUTHORIZENET_ORDER_PRINT_PO_LBL'),
 
-			// Item information
+			// item information
 
 			'x_line_item'          => $item_str,
-
 
 			// Transaction Data
 			'x_amount'             => $order_total,
@@ -208,9 +206,8 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$poststring .= urlencode($key) . "=" . $val . "&";
 		}
 
-		// Strip off trailing ampersand
+		// strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
-
 
 		if ($this->_params->get("is_test") == 'TRUE')
 		{
@@ -301,7 +298,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$db->setQuery($sql);
 		$order_details = $db->loadObject();
 
-		// For Email Receipt
+		// for Email Receipt
 		if ($this->_params->get("emailreceipt_to_customer") == 1)
 		{
 			$x_merchant_email = $data['billinginfo']->user_email;
@@ -311,7 +308,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$x_merchant_email = "";
 		}
 
-		// For total amount
+		// for total amount
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -380,7 +377,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		{
 			$poststring .= urlencode($key) . "=" . urlencode($val) . "&";
 		}
-		// Strip off trailing ampersand
+		// strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 
 		if ($this->_params->get("is_test") == 'TRUE')
@@ -448,7 +445,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$db = JFactory::getDBO();
-		// Update authorize_status
+		// update authorize_status
 		if ($this->_params->get("auth_type") == "AUTH_ONLY")
 		{
 			$authorize_status = "Authorized";

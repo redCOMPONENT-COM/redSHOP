@@ -31,7 +31,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_dibsv2(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dibsv2');
@@ -143,7 +143,6 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$dibsurl = "https://payment.architrade.com/cgi-bin/capture.cgi?";
 		$orderid = $data['order_id'];
 		$hmac_key = $this->_params->get("hmac_key");
-
 
 		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
 		include($api_path);

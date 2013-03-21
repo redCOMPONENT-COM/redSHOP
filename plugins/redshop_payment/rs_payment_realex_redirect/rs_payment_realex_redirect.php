@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_realex_redirect(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_realex_redirect');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -113,7 +112,6 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 			return;
 		}
 
-
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 		JPlugin::loadLanguage('com_redshop');
@@ -167,7 +165,6 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

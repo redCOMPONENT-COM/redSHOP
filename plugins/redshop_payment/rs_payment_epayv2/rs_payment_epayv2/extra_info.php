@@ -16,7 +16,6 @@
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 $producthelper = new producthelper;
 
-
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
@@ -543,7 +542,7 @@ function get_iso_code($code)
 			return "716";
 			break;
 	}
-	return "XXX"; // Return invalid code if the currency is not found
+	return "XXX"; // return invalid code if the currency is not found
 }
 
 function calculateePayCurrency($order_id)
@@ -555,7 +554,6 @@ function calculateePayCurrency($order_id)
 
 ?>
 <script type="text/javascript" src="http://www.epay.dk/js/standardwindow.js"></script>
-
 
 <?php
 // Selected CardTypes //
@@ -608,12 +606,10 @@ if (is_array($cardtypes))
 	if (in_array('FORBRUGSFORENINGEN', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "11,";
 }
 
-
 if (is_array($cardtypes))
 {
 	if (in_array('NORDEA', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "12,";
 }
-
 
 if (is_array($cardtypes))
 {
@@ -629,7 +625,6 @@ if (is_array($cardtypes))
 {
 	if (in_array('MOBILPENGE', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "15,";
 }
-
 
 // End Selected CardTypes //
 
@@ -662,7 +657,6 @@ if ($cardtype_main == "")
 	unset($formdata['ownreceipt']);
 }*/
 
-
 $form_callback_urls = array(
 
 	'cancelurl'   => JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0',
@@ -674,10 +668,8 @@ $form_urls = array(
 	'cancelurl' => JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0',
 	'accepturl' => JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1',
 
-
 );
 $hash = "";
-
 
 echo "<form action='https://ssl.ditonlinebetalingssystem.dk/integration/ewindow/Default.aspx' method='post' name='epayfrm' id='epayfrm'>";
 

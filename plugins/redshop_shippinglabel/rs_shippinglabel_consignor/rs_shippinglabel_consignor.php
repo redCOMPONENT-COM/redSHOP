@@ -34,12 +34,11 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	 */
 	function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_shippinglabel', 'redshop_shippinglabel_consignor');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -65,7 +64,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		$consignor_parameters = $this->getparameters('rs_shippinglabel_consignor');
 		$labelinfo = $consignor_parameters[0];
 		$labelparams = new JRegistry($labelinfo->params);
-
 
 		$ftp_host = $labelparams->get('ftp_host', '');
 		$ftp_username = $labelparams->get('ftp_username', '');
@@ -102,7 +100,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 			if ($consignor_carrier_code == "")
 			{
 
-
 				$shippingmethod_id = $labelparams->get('shippingmethod', '');
 				$shipping_number = $labelparams->get('consignornumber', '');
 
@@ -115,7 +112,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 				}
 			}
 		}
-
 
 		if ($order_details->track_no != '')
 			return;
@@ -140,7 +136,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 		$country_2_code = $config->getCountryCode2($billingInfo->country_code);
 
-		// For product conetent
+		// for product conetent
 		$totalWeight = 0;
 		$content_products = array();
 
@@ -160,16 +156,15 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		$content_products = array_unique($content_products);
 		$content_products = implode(",", $content_products);
 
-		// Total quantity
+		// total quantity
 		$total_qty = $qty;
 
-		// Produts
+		// produts
 		$product_id = implode("-", $product_id);
-
 
 		$myFile = $order_details->order_number . ".txt";
 
-		// For total amount
+		// for total amount
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -204,7 +199,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		if ($login)
 		{
 
-
 			$upload = ftp_put($ftpstream, $path_for_sharing_folder . $slash . $myFile, $label_file, FTP_ASCII);
 
 		}
@@ -234,6 +228,5 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 		return $consignor_carrier_code;
 	}
-
 
 }

@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 $objOrder = new order_functions;
@@ -25,14 +24,12 @@ $user = JFactory::getUser();
 $session =& JFactory::getSession();
 $redirect_ccdata = $session->get('redirect_ccdata');
 
-
 $mainframe =& JFactory::getApplication();
 $Itemid = JRequest::getVar('Itemid');
 $request = JRequest::get('request');
 $login_id = $this->_params->get("access_id");
 $trans_id = $this->_params->get("transaction_id");
 $is_test = $this->_params->get("is_test");
-
 
 $relay_response_url = JURI::root() . 'index.php?option=com_redshop&tmpl=component&view=checkout&format=final&stap=2&oid=' . $data["order_id"] . '&Itemid=' . $Itemid;
 
@@ -43,7 +40,6 @@ $fp_sequence = $data['order']->order_number;
 
 $time = time();
 $fp = AuthorizeNetDPM::getFingerprint($api_login_id, $transaction_key, $amount, $fp_sequence, $time);
-
 
 $sim = new AuthorizeNetSIM_Form(
 	array(
@@ -56,7 +52,6 @@ $sim = new AuthorizeNetSIM_Form(
 		'x_login'          => $api_login_id,
 	)
 );
-
 
 $hidden_fields = $sim->getHiddenFieldString();
 $post_url = ($is_test ? "https://test.authorize.net/gateway/transact.dll" : "https://secure.authorize.net/gateway/transact.dll");
@@ -163,7 +158,7 @@ $form = '
         </form>';
 echo $form;
 
-// End by me
+// end by me
 
 ?>
 

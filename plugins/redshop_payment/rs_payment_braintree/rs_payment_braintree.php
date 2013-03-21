@@ -35,14 +35,13 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_braintree(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_braintree');
 		$this->_params = new JRegistry($this->_plugin->params);
 
 	}
-
 
 	function onPrePayment($element, $data)
 	{
@@ -61,7 +60,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		include($paymentpath);
 	}
-
 
 	function getCredicardForm($element, $data)
 	{
@@ -213,7 +211,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		$cart_data .= '</form>';
 
-
 		echo eval("?>" . $cart_data . "<?php ");
 	}
 
@@ -257,12 +254,10 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$ccdata['credit_card_code'] = JRequest::getVar('credit_card_code');
 			$session->set('ccdata', $ccdata);
 
-
 		}
 
-		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$billingaddresses = $order_functions->getBillingAddress($order->user_id);
-
 
 		if (isset($billingaddresses))
 		{
@@ -278,7 +273,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		}
 
 		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order_id);
-
 
 		if (isset($shippingaddresses))
 		{
@@ -312,10 +306,8 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$values['special_discount'] = $order->special_discount_amount;
 		$values['order'] = $order;
 
-
 		$results = $this->onAfterCreditcardInfo($values['payment_plugin'], $values);
 	}
-
 
 	function onAfterCreditcardInfo($element, $data)
 	{
@@ -374,8 +366,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$user_order_ref = $data['order_id'];
 		}
 
-
-		// For total amount
+		// for total amount
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -385,13 +376,11 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		$order_total = number_format($data['order']->order_total, $cal_no);
 
-
 		$apipath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . '_environment.php';
 		include($apipath);
 
 		if ($this->_params->get("store_in_vault"))
 		{
-
 
 			if ($new_user)
 			{
@@ -399,14 +388,12 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 					array('redirectUrl' => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_braintree&orderid=" . $data['order_id'] . "&Itemid=" . $Itemid,
 					      'transaction' => array('options' => array('storeInVault' => true), 'billing' => array('firstName' => $billing_fname, 'lastName' => $billing_lname, 'locality' => $billing_locality, 'region' => $billing_region, 'countryCodeAlpha2' => $billing_country_code_alpha2, 'postalCode' => $biling_postal_code), 'shipping' => array('firstName' => $shipping_fname, 'lastName' => $shipping_lname, 'locality' => $shipping_locality, 'region' => $shipping_region, 'countryCodeAlpha2' => $shipping_country_code_alpha2, 'postalCode' => $shipping_postal_code), 'amount' => $order_total, 'type' => $transaction_type, 'customer' => array('id' => $user_id), 'creditCard' => array('token' => $user_vault_ref))));
 
-
 			}
 			else
 			{
 				$braintree_data = Braintree_TransparentRedirect::transactionData(
 					array('redirectUrl' => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_braintree&orderid=" . $data['order_id'] . "&Itemid=" . $Itemid,
 					      'transaction' => array('options' => array('storeInVault' => true), 'shipping' => array('firstName' => $shipping_fname, 'lastName' => $shipping_lname, 'locality' => $shipping_locality, 'region' => $shipping_region, 'countryCodeAlpha2' => $shipping_country_code_alpha2, 'postalCode' => $shipping_postal_code), 'amount' => $order_total, 'type' => $transaction_type, 'customerId' => $user_id, 'paymentMethodToken' => $user_vault_ref)));
-
 
 			}
 
@@ -426,9 +413,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include($paymentpath);
 
-
 	}
-
 
 	function onNotifyPaymentrs_payment_braintree($element, $request)
 	{
@@ -458,11 +443,9 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$query_string = "http_status=" . $request['http_status'] . "&id=" . $request['id'] . "&kind=" . $request['kind'] . "&tmpl=" . $request['tmpl'] . "&option=" . $request['option'] . "&view=" . $request['view'] . "&controller=" . $request['controller'] . "&task=" . $request['task'] . "&payment_plugin=" . $request['payment_plugin'] . "&orderid=" . $request['orderid'] . "&Itemid=" . $Itemid . "&hash=" . $request['hash'];
 		$result = Braintree_TransparentRedirect::confirm($query_string);
 
-
 		$transaction = $result->transaction;
 
-
-		// Result Response 
+		// Result Response
 
 		$transaction_status = htmlentities($transaction->status);
 		$tid = htmlentities($transaction->id);
@@ -477,12 +460,10 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$braintree_parameters = $this->getparameters('rs_payment_braintree');
 		$paymentinfo = $braintree_parameters[0];
 
-
 		$paymentparams = new JRegistry($paymentinfo->params);
 		$verify_status = $paymentparams->get('verify_status', '');
 		$invalid_status = $paymentparams->get('invalid_status', '');
 		$cancel_status = $paymentparams->get('cancel_status', '');
-
 
 		if (isset($result) && $result->success)
 		{
@@ -517,17 +498,15 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		return $params;
 	}
 
-
 	function onCapture_Paymentrs_payment_braintree($element, $data)
 	{
 		$braintree_parameters = $this->getparameters('rs_payment_braintree');
 		$paymentinfo = $braintree_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// Get the class
+		// get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . '_environment.php';
 		include($paymentpath);
-
 
 		$order_id = $data['order_id'];
 		$tid = $data['order_transactionid'];
@@ -570,7 +549,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$db->setQuery($query);
 		$BraintreeVault_ref = $db->loadObject();
 
-
 		return $BraintreeVault_ref->braintree_vault_number;
 
 	}
@@ -582,7 +560,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		return $BraintreeVault_ref;
 	}
 
-
 	function updateUsertovault_token($user_id, $user_vault_ref)
 	{
 		$db = JFactory::getDBO();
@@ -590,7 +567,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$query = "UPDATE `" . $this->_table_prefix . "users_info` SET `braintree_vault_number` = " . $user_vault_ref . "  WHERE `user_id` =" . $user_id . " AND address_type = 'BT'";
 		$db->SetQuery($query);
 		$db->query();
-
 
 	}
 

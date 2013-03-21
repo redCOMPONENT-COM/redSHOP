@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_cyberplus(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_cyberplus');
@@ -75,7 +75,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 		$order_id = $request['orderid'];
 		$vads_trans_id = $request['vads_trans_id'];
 
-		// Get params from plugin parameters
+		// get params from plugin parameters
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
 		$site_id = $this->_params->get("site_id");
@@ -84,7 +84,6 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 		$contenu_signature = "";
 		//	$params = $_POST;
 		ksort($request);
-
 
 		foreach ($request as $nom => $valeur)
 		{
@@ -101,7 +100,6 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 		$contenu_signature .= $key;
 		// The certifica
 		$signature_calculee = sha1($contenu_signature);
-
 
 		if (isset($request['signature']) && $signature_calculee == $request['signature'])
 		{
@@ -140,6 +138,5 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 
 		return $values;
 	}
-
 
 }

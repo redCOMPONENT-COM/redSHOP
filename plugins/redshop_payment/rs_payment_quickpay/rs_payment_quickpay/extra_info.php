@@ -35,10 +35,8 @@ if (count($cart_type) > 0 && count($cart_type) < 2)
 	$cart_type[0] = $this->_params->get("cardtypes");
 }
 
-
 if (in_array('DANKORT', @$cart_type) || in_array('ALL', @$cart_type))
 	@$oricart_type[] = 'dankort';
-
 
 if (in_array('VD', @$cart_type) || in_array('ALL', @$cart_type))
 	@$oricart_type[] = 'visa-dk';
@@ -99,7 +97,6 @@ if (count($oricart_type) > 0)
 	$cart_type = implode(',', $oricart_type);
 }
 
-
 //  $cart_type="dankort,visa-dk,visa-electron,mastercard-dk,mastercard,visa-electron-dk,jcb,diners-dk,3d-maestro-dk,american-express-dk,diners,american-express,3d-maestro,fbg1886,visa,nordea-dk,danske-dk,edankort";
 $protocol = '6';
 $msgtype = 'authorize';
@@ -117,7 +114,6 @@ $ok_page = JURI::base() . "index.php?option=com_redshop&view=order_detail&Itemid
 $error_page = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
 $result_page = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
 
-
 $cardtypelock = $cart_type;
 $description = 'test';
 $autocapture = $this->_params->get("autocapture");
@@ -125,7 +121,6 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 $md5check = md5($protocol . $msgtype . $merchant_id . $quickpay_language . $qp_order_id . $order_amount . $currency_code . $ok_page . $error_page . $result_page . $autocapture . $cardtypelock . $description . $testmode . $md5word);
 
 ?>
-
 
 <form action="https://secure.quickpay.dk/form/" method="post" name="frmQuickpay" id="frmQuickpay">
 	<input type="hidden" name="protocol" value="6"/>

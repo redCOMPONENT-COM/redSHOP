@@ -14,11 +14,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-
 
 
 $request = JRequest::get('request');
@@ -38,7 +36,7 @@ else
 	$this->getCredicardForm("rs_payment_braintree", $data);
 
 }
-// End by me
+// end by me
 
 ?>
 <script type="text/javascript" src="<?php echo JURI::base() ?>components/com_redshop/assets/js/credit_card.js"></script>

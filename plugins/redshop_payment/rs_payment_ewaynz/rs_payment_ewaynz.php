@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_ewaynz(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ewaynz');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -84,7 +83,6 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 		return $params;
 	}
 
-
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 
@@ -107,7 +105,6 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 		return;
 	}
 
-
 	function fetch_data($string, $start_tag, $end_tag)
 	{
 
@@ -125,6 +122,5 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 
 		return $fetch_data;
 	}
-
 
 }

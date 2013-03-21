@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 $objOrder = new order_functions;
 $request = JRequest::get('request');
 $Itemid = $request["Itemid"];
@@ -67,7 +66,6 @@ $session =& JFactory::getSession();
 $session->set('cart', "");
 
 $mainframe->redirect($url);
-
 
 
 ?>

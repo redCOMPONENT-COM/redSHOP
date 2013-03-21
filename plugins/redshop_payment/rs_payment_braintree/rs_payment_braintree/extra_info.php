@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 $objOrder = new order_functions;
@@ -22,7 +21,6 @@ $objOrder = new order_functions;
 $objconfiguration = new Redconfiguration;
 
 $user = JFactory::getUser();
-
 
 
 $redhelper = new redhelper;
@@ -35,7 +33,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// Buyer details
+// buyer details
 
 $buyeremail = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
@@ -43,7 +41,6 @@ $buyerlastname = $data['billinginfo']->lastname;
 
 $cartId = $data['order_id'];
 // End
-
 
 // Get ccdtata session
 $session =& JFactory::getSession();
@@ -87,7 +84,6 @@ else
 }
 
 
-
 echo "<form action='$braintreeurl' method='post' name='braintreefrm' id='braintreefrm'>";
 
 foreach ($post_variables as $name => $value)
@@ -98,8 +94,7 @@ foreach ($post_variables as $name => $value)
 
 echo "</form>";
 
-
-// End by me
+// end by me
 
 ?>
 <script type='text/javascript'>

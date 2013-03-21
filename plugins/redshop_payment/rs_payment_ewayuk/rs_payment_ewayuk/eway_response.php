@@ -50,25 +50,24 @@ define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
-// Create the mainframe object
+// create the mainframe object
 $mainframe = & JFactory::getApplication('site');
 
 // Initialize the framework
 $mainframe->initialise();
 
-// Load system plugin group
+// load system plugin group
 JPluginHelper::importPlugin('system');
 
-// Trigger the onBeforeStart events
+// trigger the onBeforeStart events
 //$mainframe->triggerEvent ( 'onBeforeStart' );
 //$lang = & JFactory::getLanguage ();
 //$mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower ( $lang->getBackwardLang () );
 // Adjust the live site path
 
-
 /*** END of Joomla config ***/
 
-// Redshop language file
+// redshop language file
 JPlugin::loadLanguage('com_redshop');
 
 $request = JRequest::get('request');
@@ -86,7 +85,6 @@ $invalid_status = $paymentparams->get('invalid_status', '');
 $UserName = $paymentparams->get('username', '');
 $CustomerID = $paymentparams->get('customer_id', '');
 $debug_mode = $paymentparams->get('debug_mode', 0);
-
 
 $querystring = "CustomerID=" . $CustomerID . "&UserName=" . $UserName . "&AccessPaymentCode=" . $_REQUEST['AccessPaymentCode'];
 //echo $posturl="https://www.ewaygateway.com/Gateway/UK/Results.aspx?".$querystring;
@@ -134,7 +132,6 @@ if ($responsecode == "00" || $responsecode == "08" || $responsecode == "10" || $
 	$values->order_id = $order_id;
 	$values->transaction_id = $auth_code;
 
-
 }
 else
 {
@@ -170,7 +167,6 @@ function getparameters($payment)
 	return $params;
 }
 
-
 function fetch_data($string, $start_tag, $end_tag)
 {
 
@@ -188,7 +184,6 @@ function fetch_data($string, $start_tag, $end_tag)
 
 	return $fetch_data;
 }
-
 
 
 ?>

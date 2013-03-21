@@ -32,12 +32,11 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payer(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payer');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -61,7 +60,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		include($paymentpath);
 	}
 
-
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
@@ -75,7 +73,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 			break;
 		}
 
-
 		$order_id = $request['orderid'];
 		$verify_status = $this->_params->get('verify_status', '');
 		$invalid_status = $this->_params->get('invalid_status', '');
@@ -86,7 +83,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 
 		$postAPI->setAgent($this->_params->get("agent_id"));
 		$postAPI->setKeys($this->_params->get("payer_key1"), $this->_params->get("payer_key2"));
-
 
 		if ($postAPI->is_valid_ip())
 		{ //Checks if the IP address comes from Payer else return false!

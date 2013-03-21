@@ -1,9 +1,7 @@
 <?php
 
-
 class Realex
 {
-
 
 	function createRequest($array)
 	{
@@ -24,18 +22,18 @@ class Realex
 		$timestamp = strftime("%Y%m%d%H%M%S");
 		mt_srand((double) microtime() * 1000000);
 
-		// Creating the hash.
+		// creating the hash.
 		$tmp = "$timestamp.$merchantid.$orderid.$amount.$currency.$cardnumber";
 		$md5hash = md5($tmp);
 		$tmp = "$md5hash.$secret";
 		$md5hash = md5($tmp);
 
-		// Start the xml parser...
+		// start the xml parser...
 		$xml_parser = xml_parser_create();
 		xml_set_element_handler($xml_parser, "startElement", "endElement");
 		xml_set_character_data_handler($xml_parser, "cDataHandler");
 
-		// Generate the request xml.
+		// generate the request xml.
 		$xml = "<request type='3ds-verifyenrolled' timestamp='$timestamp'>
 					<merchantid>$merchantid</merchantid>
 					<account>$account</account>
@@ -56,22 +54,21 @@ class Realex
 					</tssinfo>
 				</request>";
 
-
-		// Send it to payandshop.com
+		// send it to payandshop.com
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, "https://epage.payandshop.com/epage-3dsecure.cgi");
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_USERAGENT, "payandshop.com php version 0.9");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // This line makes it work under https
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // this line makes it work under https
 		$response = curl_exec($ch);
 		echo '<pre/>';
 		print_r($response);
 		exit;
 		curl_close($ch);
 
-		// Parse the response xml
+		// parse the response xml
 		$response = eregi_replace("[\n\r]", "", $response);
 		$response = eregi_replace("[[:space:]]+", " ", $response);
 
@@ -84,7 +81,6 @@ class Realex
 		}
 
 		xml_parser_free($xml_parser);
-
 
 	}
 
@@ -105,24 +101,23 @@ class Realex
 			}
 
 			$attributeName = $currentElement . "_" . $attr;
-			// Print out the attributes..
+			// print out the attributes..
 			//print "$attributeName\n";
 
 			global $$attributeName;
 			$$attributeName = $value;
 		}
 
-		// Uncomment this line to see the names of all the variables you can
-		// See in the response.
-		// Print $currentElement;
+		// uncomment this line to see the names of all the variables you can
+		// see in the response.
+		// print $currentElement;
 
 	}
 
-
-	// CDataHandler() - called when the parser encounters any text that's
-	// Not an element. Simply places the text found in the variable that
-	// Was last created. So using the XML example above the text "Owen"
-	// Would be placed in the variable $RESPONSE_SOMETHING
+	// cDataHandler() - called when the parser encounters any text that's
+	// not an element. Simply places the text found in the variable that
+	// was last created. So using the XML example above the text "Owen"
+	// would be placed in the variable $RESPONSE_SOMETHING
 
 	function cDataHandler($parser, $cdata)
 	{
@@ -142,7 +137,6 @@ class Realex
 		}
 
 	}
-
 
 	function endElement($parser, $name)
 	{

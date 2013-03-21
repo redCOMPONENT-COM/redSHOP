@@ -33,12 +33,11 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_epayrelay(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epayrelay');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -62,7 +61,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		include($paymentpath);
 	}
 
-
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
@@ -84,13 +82,12 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		@$order_ekey = $request["eKey"];
 		$order_currency = $request["cur"];
 
-
 		JPlugin::loadLanguage('com_redshop');
 		$amazon_parameters = $this->getparameters('rs_payment_epayrelay');
 		$paymentinfo = $amazon_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// Get the class
+		// get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
 		include($paymentpath);
 
@@ -106,16 +103,13 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		$epay_paymentkey = $paymentparams->get('epay_paymentkey', '');
 		$epay_md5 = $paymentparams->get('epay_md5', '');
 
-
 		$transaction = $epay->gettransaction($merchantnumber, $tid);
-
 
 		//
 		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
 		//
 		if ((@$order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
 		{
-
 
 			$db = JFactory::getDBO();
 			$qv = "SELECT order_id, order_number FROM " . $this->_table_prefix . "orders WHERE order_id='" . $order_id . "'";
@@ -128,7 +122,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 			}
 			//
 			// Switch on the order accept code
-			// Accept = 1 (standard redirect) accept = 2 (callback)
+			// accept = 1 (standard redirect) accept = 2 (callback)
 
 			if ($transaction['gettransactionResult'] == 'true')
 			{
@@ -172,7 +166,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 				$values->msg = $payment_messsge;
 				$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_ERROR');
 
-
 			}
 
 		}
@@ -184,16 +177,14 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		return $values;
 	}
 
-
 	function onCapture_Paymentrs_payment_epayrelay($element, $data)
 	{
-
 
 		$amazon_parameters = $this->getparameters('rs_payment_epayrelay');
 		$paymentinfo = $amazon_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// Get the class
+		// get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
 		include($paymentpath);
 
@@ -201,15 +192,12 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
-
 		$order_id = $data['order_id'];
 		$tid = $data['order_transactionid'];
 
 		$order_amount = round($data['order_amount'] * 100, 2);
 
-
 		$response = $epay->capture($merchantnumber, $tid, $order_amount);
-
 
 		if ($response['captureResult'] == 'true')
 		{
@@ -239,7 +227,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		return $params;
 	}
 
-
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 
@@ -256,6 +243,5 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 
 		return $res;
 	}
-
 
 }

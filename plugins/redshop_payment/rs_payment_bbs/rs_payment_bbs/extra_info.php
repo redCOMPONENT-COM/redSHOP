@@ -42,7 +42,6 @@ else
 	$bbsurl = "https://epayment.bbs.no/Netaxept/Register.aspx?";
 }
 
-
 $currency = new convertPrice;
 $data['carttotal'] *= 100;
 $amount = $currency->convert($data['carttotal'], '', 'NOK');
@@ -50,7 +49,6 @@ $amount = $currency->convert($data['carttotal'], '', 'NOK');
 
 $bbsurl .= "merchantId=" . urlencode($formdata['merchant']) . "&token=" . urlencode($formdata['token']) . "&orderNumber=" . $formdata['orderid'] . "&amount=" . urlencode(intval($amount)) . "&currencyCode=NOK&redirectUrl=" . urlencode($formdata['accepturl']) . "";
 $data = $bbsurl;
-
 
 // Create a curl handle to a non-existing location
 $ch = curl_init($data);

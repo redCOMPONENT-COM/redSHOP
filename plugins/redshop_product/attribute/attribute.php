@@ -1,5 +1,5 @@
 <?php
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
@@ -20,7 +20,7 @@ class plgredshop_productattribute extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// Load plugin parameters
+		// load plugin parameters
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
@@ -36,7 +36,6 @@ class plgredshop_productattribute extends JPlugin
 	 */
 function onPrepareProduct(&$template, &$params, $product)
 {
-
 
 	$document =& JFactory::getDocument();
 	$document->addScriptDeclaration("
@@ -54,10 +53,9 @@ function onPrepareProduct(&$template, &$params, $product)
 			return true;
 		}   ");
 
-
 	$producthelper = new producthelper;
 	$total_attributes = 0;
-	// Checking for child products
+	// checking for child products
 	$childproduct = $producthelper->getChildProduct($product->product_id);
 
 	if (count($childproduct) > 0)
@@ -65,7 +63,7 @@ function onPrepareProduct(&$template, &$params, $product)
 		if (PURCHASE_PARENT_WITH_CHILD == 1)
 		{
 			$isChilds = false;
-			// Get attributes
+			// get attributes
 			$attributes_set = array();
 
 			if ($product->attribute_set_id > 0)
@@ -86,7 +84,7 @@ function onPrepareProduct(&$template, &$params, $product)
 	{
 
 		$isChilds = false;
-		// Get attributes
+		// get attributes
 		$attributes_set = array();
 
 		if ($product->attribute_set_id > 0)

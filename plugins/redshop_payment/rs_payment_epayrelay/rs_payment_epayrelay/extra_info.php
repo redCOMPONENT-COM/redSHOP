@@ -25,7 +25,6 @@ $db = JFactory::getDBO();
 
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
-
 $sql = "SELECT op.*,o.order_total,o.user_id FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
@@ -551,7 +550,7 @@ function get_iso_code($code)
 			return "716";
 			break;
 	}
-	return "XXX"; // Return invalid code if the currency is not found
+	return "XXX"; // return invalid code if the currency is not found
 }
 
 function calculateePayCurrency($order_id)
@@ -567,10 +566,9 @@ $trans_fee = $this->_params->get("transaction_fee");
 <script type="text/javascript">
 	function getFee(cardno, acq) {
 
-
 		//document.getElementById("div_transfee").innerHTML = 'Please wait...';
 
-		// If (cardno.length < 6) {
+		// if (cardno.length < 6) {
 		//	document.forms['ePay'].submit.disabled = true;
 		//   return false;
 		//  }
@@ -587,7 +585,6 @@ $trans_fee = $this->_params->get("transaction_fee");
 		else if (window.ActiveXObject) {
 			self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
 		}
-
 
 		self.xmlHttpReq.open('POST', "<?php echo $url;?>/plugins/redshop_payment/rs_payment_epayrelay/webservice_fee.php?merchantnumber=" + document.forms['ePay'].merchantnumber.value + "&cardno_prefix=" + cardno + "&acquirer=" + acq + "&amount=" + document.forms['ePay'].amount.value + "&currency=" + document.forms['ePay'].currency.value + "", true);
 		self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -714,7 +711,6 @@ $trans_fee = $this->_params->get("transaction_fee");
 
 		</tr>
 
-
 		<input type="hidden" name="declineurl"
 		       value="<?php echo $url ?>index.php?tmpl=component&option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_epayrelay&Itemid=<?php echo $_REQUEST['Itemid'] ?>&orderid=<?php echo $data['order_id'] ?>"/>
 
@@ -745,5 +741,4 @@ $trans_fee = $this->_params->get("transaction_fee");
 </form>
 
 <script type="text/javascript" src="https://relay.ditonlinebetalingssystem.dk/relay/v2/replace_relay_urls.js"></script>
-
 

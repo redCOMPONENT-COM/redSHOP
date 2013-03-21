@@ -146,7 +146,6 @@ else
 	);
 }
 
-
 //  if($data['billinginfo']->country_2_code!='US')
 //      unset($crypt_variables['BillingState']);
 //  if($data['shippinginfo']->country_2_code!='US')
@@ -184,7 +183,6 @@ foreach ($post_variables as $name => $value)
 	echo '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
 }
 echo '</form>';
-
 
 function base64Encode($plain)
 {

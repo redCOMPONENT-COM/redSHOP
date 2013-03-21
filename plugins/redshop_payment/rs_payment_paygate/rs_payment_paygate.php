@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paygate(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paygate');
@@ -75,13 +75,11 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 
 		$quickpay_parameters = $this->getparameters('rs_payment_paygate');
 
-
 		$paymentinfo = $quickpay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		$verify_status = $paymentparams->get('verify_status', '');
 		$invalid_status = $paymentparams->get('invalid_status', '');
-
 
 		$order_id = $request['REFERENCE'];
 		$user = JFactory::getUser();
@@ -126,7 +124,6 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

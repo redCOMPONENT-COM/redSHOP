@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_ogone(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ogone');
@@ -88,11 +88,9 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 		$TRXDATE = $request['TRXDATE'];
 		$response_hash = $request['SHASIGN'];
 
-
 		$tid = $request['PAYID'];
 
-
-		// Get params from plugin
+		// get params from plugin
 		$sha_out_pass_phrase = $this->_params->get("sha_out_pass_phrase");
 		$algo_used = $this->_params->get("algo_used");
 		$hash_string = $this->_params->get("hash_string");
@@ -102,7 +100,6 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		$request = array_change_key_case($request, CASE_UPPER);
 		ksort($request, SORT_STRING);
-
 
 		foreach ($request as $key => $value)
 		{
@@ -116,12 +113,10 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		$hash_to_check = strtoupper(sha1($secret_words));
 
-
 		if (($STATUS == 5 || $STATUS == 9) && $NCERROR == 0)
 		{
 			if ($response_hash === $hash_to_check)
 			{
-
 
 				// UPDATE THE ORDER STATUS to 'VALID'
 
@@ -158,6 +153,5 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		return $values;
 	}
-
 
 }

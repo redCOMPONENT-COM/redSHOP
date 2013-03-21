@@ -47,7 +47,6 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-
 if ($this->_params->get("sandbox") == '1')
 {
 	$paypalurl = "https://www.sandbox.paypal.com/cgi-bin/webscr";
@@ -128,7 +127,6 @@ else
 }
 
 
-
 $db = JFactory::getDBO();
 $q_oi = "SELECT * FROM " . $this->_table_prefix . "order_item ";
 $q_oi .= "WHERE " . $this->_table_prefix . "order_item.order_id='" . $data['order_id'] . "'";
@@ -157,7 +155,6 @@ for ($i = 0; $i < count($items); $i++)
 	$supp_var['shipping_' . ($i + 1)] = round($currencyClass->convert($shipping2, '', $currency_main), 2);
 
 }
-
 
 echo "<form action='$paypalurl' method='post' name='paypalfrm' id='paypalfrm'>";
 echo "<h3>" . JText::_('COM_REDSHOP_PAYPAL_WAIT_MESSAGE') . "</h3>";

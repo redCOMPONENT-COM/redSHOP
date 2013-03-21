@@ -26,7 +26,7 @@ if ($language == "Auto")
 {
 	$language = "en";
 }
-// For total amount
+// for total amount
 $amount = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
 $amount = floor($amount * 100) / 100;
 $amount = number_format($amount, 2, '.', '') * 100;
@@ -72,7 +72,7 @@ if ($this->_params->get("is_test"))
 
 for ($p = 0; $p < count($order_items); $p++)
 {
-	// Price conversion
+	// price conversion
 	$product_item_price = $currencyClass->convert($order_items[$p]->product_item_price, '', $this->_params->get("dibs_currency"));
 	$product_item_price_excl_vat = $currencyClass->convert($order_items[$p]->product_item_price_excl_vat, '', $this->_params->get("dibs_currency"));
 	$pvat = $product_item_price - $product_item_price_excl_vat;
@@ -142,7 +142,6 @@ if ($payment_price > 0)
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_payment . ";Payment Handling;Payment Handling;" . $discount_payment_price . ";" . ($p + 1) . ";" . $payment_vat;
 
 }
-
 
 $api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'dibs_hmac.php';
 include($api_path);

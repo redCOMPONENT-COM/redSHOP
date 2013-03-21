@@ -50,7 +50,6 @@ $formdata = array(
 	'c_tangible_1'       => "Y"
 );
 
-
 for ($p = 0; $p < count($rs); $p++)
 {
 	$formdata['c_prod_' . ($p + 1)] = "1," . $rs[$p]->product_quantity;
@@ -61,7 +60,6 @@ for ($p = 0; $p < count($rs); $p++)
 
 if ($this->_params->get("is_test") == "1")
 	$formdata['demo'] = "Y";
-
 
 $version = "2";
 $checkouturl = "https://www.2checkout.com/checkout/purchase";

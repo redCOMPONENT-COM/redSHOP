@@ -8,7 +8,6 @@
  * @link       http://www.authorize.net/support/CP_guide.pdf Card Present Guide
  */
 
-
 /**
  * Builds and sends an AuthorizeNet CP Request.
  *
@@ -96,7 +95,6 @@ class AuthorizeNetCP extends AuthorizeNetAIM
 
 }
 
-
 /**
  * Parses an AuthorizeNet Card Present Response.
  *
@@ -151,7 +149,6 @@ class AuthorizeNetCP_Response extends AuthorizeNetResponse
 				$this->test_mode = (string) $this->xml->TestMode;
 				$this->ref_trans_id = (string) $this->xml->RefTransID;
 
-
 			}
 			else
 			{ // If it's an NVP response
@@ -180,7 +177,6 @@ class AuthorizeNetCP_Response extends AuthorizeNetResponse
 					return;
 				}
 
-
 				// Set all fields
 				$this->version = $this->_response_array[0];
 				$this->response_code = $this->_response_array[1];
@@ -199,14 +195,12 @@ class AuthorizeNetCP_Response extends AuthorizeNetResponse
 				$this->approved_amount = $this->_response_array[24];
 				$this->card_balance = $this->_response_array[25];
 
-
 			}
 
 			$this->approved = ($this->response_code == self::APPROVED);
 			$this->declined = ($this->response_code == self::DECLINED);
 			$this->error = ($this->response_code == self::ERROR);
 			$this->held = ($this->response_code == self::HELD);
-
 
 			if ($this->error)
 			{

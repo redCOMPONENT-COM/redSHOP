@@ -60,7 +60,7 @@ class GoogleCart
 // For HTML API Conversion
 
 	// This tags are those that can be used more than once as a sub tag
-	// So a "-#" must be added always
+	// so a "-#" must be added always
 	var $multiple_tags = array(
 		'flat-rate-shipping'           => array(),
 		'merchant-calculated-shipping' => array(),
@@ -93,7 +93,6 @@ class GoogleCart
 		'merchant-private-data'      => true,
 		'merchant-private-item-data' => true,
 	);
-
 
 	//The Constructor method which requires a merchant id, merchant key
 	//and the operation type(sandbox or checkout)
@@ -1016,7 +1015,6 @@ class GoogleCart
 			}
 		}
 
-
 		$data = "<div style=\"width: " . $width . "px\">";
 
 		if ($this->variant == "text")
@@ -1116,7 +1114,6 @@ class GoogleCart
 			}
 		}
 
-
 		$data = "<div style=\"width: " . $width . "px\">";
 
 		if ($this->variant == "text")
@@ -1179,7 +1176,6 @@ class GoogleCart
 		}
 
 		$data .= "</div>";
-
 
 		return $data;
 
@@ -1290,7 +1286,7 @@ class GoogleCart
 	}
 
 	//Method which returns the encrypted google cart to make
-	// Sure that the carts are not tampered with
+	// sure that the carts are not tampered with
 	function CalcHmacSha1($data)
 	{
 		$key = $this->merchant_key;

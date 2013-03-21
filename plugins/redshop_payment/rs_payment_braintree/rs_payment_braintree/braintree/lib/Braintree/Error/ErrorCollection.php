@@ -9,7 +9,6 @@
  * @copyright  2010 Braintree Payment Solutions
  */
 
-
 /**
  * Handles validation errors
  *
@@ -31,7 +30,6 @@ class Braintree_Error_ErrorCollection
 		$this->_errors =
 			new Braintree_Error_ValidationErrorCollection($errorData);
 	}
-
 
 	/**
 	 * Returns all of the validation errors at all levels of nesting in a single, flat array.

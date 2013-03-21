@@ -18,7 +18,6 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
-
 $heading = JText::_('COM_REDSHOP_PRODUCT_ORDERED_COMPANY');
 $gobtn = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
 $option = JRequest::getVar('option');
@@ -34,7 +33,6 @@ if ($popup)
 	$db = JFactory::getDBO();
 	//$heading=JText::_('COM_REDSHOP_PRODUCT_ORDERED_COMPANY');
 	$print = JText::_('COM_REDSHOP_PRINT');
-
 
 	?>
 	<style type="text/css">
@@ -146,7 +144,6 @@ if ($popup)
 				</td>
 			</tr>
 
-
 		</table>
 		<table align='center' cellspacing='3' cellpadding='3' width='80%'>
 			<tr>
@@ -165,7 +162,6 @@ if ($popup)
 						<input type="submit" value="<?php echo $print ?>" name="printall"
 						       onclick="return printbutton('printall');"/>
 					<?php } ?>
-
 
 				</td>
 			</tr>
@@ -284,7 +280,6 @@ if ($popup)
 }
 else
 {
-
 
 	?>
 

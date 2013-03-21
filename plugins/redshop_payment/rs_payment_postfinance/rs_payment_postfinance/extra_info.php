@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 $objOrder = new order_functions;
@@ -23,7 +22,6 @@ $objconfiguration = new Redconfiguration;
 
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
-
 
 $redhelper = new redhelper;
 $db = JFactory::getDBO();
@@ -35,7 +33,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// Buyer details
+// buyer details
 
 $buyeremail = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
@@ -48,10 +46,7 @@ $ownercty = $data['billinginfo']->city;
 
 
 
-
-
 // End
-
 
 if ($this->_params->get("is_test") == '1')
 {
@@ -65,7 +60,6 @@ else
 $currencyClass = new convertPrice;
 
 $order->order_subtotal = round($currencyClass->convert($order_details[0]->order_total, '', 'USD'), 2) * 100;
-
 
 $post_variables = Array(
 	"orderID"      => $data['order_id'],
@@ -83,9 +77,7 @@ $post_variables = Array(
 	"exceptionurl" => "http://www.google.com",
 	"cancelurl"    => JURI::base() . "index.php",
 
-
 );
-
 
 
 echo "<form action='$postfinanceurl' method='post' name='postfinanacefrm' id='postfinanacefrm'>";
@@ -98,8 +90,7 @@ foreach ($post_variables as $name => $value)
 
 echo "</form>";
 
-
-// End by me
+// end by me
 
 ?>
 <script type='text/javascript'>document.postfinanacefrm.submit();</script>

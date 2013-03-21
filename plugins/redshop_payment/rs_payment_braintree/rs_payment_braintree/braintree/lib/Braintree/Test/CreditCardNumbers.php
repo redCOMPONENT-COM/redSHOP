@@ -63,7 +63,6 @@ class Braintree_Test_CreditCardNumbers
 		'Visa'       => '4000111111111115',
 	);
 
-
 	public static function getAll()
 	{
 		return array_merge(

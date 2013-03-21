@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_payson(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payson');
@@ -72,7 +72,6 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 		$paymentinfo = $payson_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-
 		$request = JRequest::get('request');
 		$Itemid = $request["Itemid"];
 		$order_id = $request["RefNr"];
@@ -85,12 +84,10 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 		$invalid_status = $paymentparams->get('invalid_status', '');
 		$cancel_status = $paymentparams->get('cancel_status', '');
 
-
-		// Validate md5
+		// validate md5
 
 		$strTestMD5String = htmlspecialchars($okurl . $paysonref) . $md5key;
 		$strMD5Hash = md5($strTestMD5String);
-
 
 		//$compare_hash1 = md5($okurl.$paysonref.$md5key);
 		$compare_hash1 = $strMD5Hash;
@@ -110,7 +107,6 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 		else
 		{
 
-
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -129,7 +125,6 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($order_id, $tid)
 	{

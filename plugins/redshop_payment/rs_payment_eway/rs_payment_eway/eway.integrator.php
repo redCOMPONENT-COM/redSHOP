@@ -153,7 +153,6 @@ class EwayPayment
 		return $this->myCVN;
 	}
 
-
 	//Class Constructor
 	function EwayPayment($customerID = '', $method = '', $liveGateway = '')
 	{
@@ -198,7 +197,6 @@ class EwayPayment
 
 	}
 
-
 	//Payment Function
 	function doPayment($order_id)
 	{
@@ -230,7 +228,6 @@ class EwayPayment
 			"<ewayOption3>" . htmlentities($this->myOption3) . "</ewayOption3>" .
 			"</ewaygateway>";
 
-
 		/* Use CURL to execute XML POST and write output into a string */
 
 		$ch = curl_init($this->myGatewayURL);
@@ -239,7 +236,6 @@ class EwayPayment
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 240);
 		$xmlResponse = curl_exec($ch);
-
 
 		$xml = new SimpleXMLElement($xmlResponse);
 		$AUTH_Responsecode = isset($xml->ewayTrxnStatus) ? $xml->ewayTrxnStatus : $xml->Result->ewayTrxnStatus;
@@ -300,13 +296,11 @@ class EwayPayment
 		foreach ($this->myCurlPreferences as $key => $value)
 			curl_setopt($ch, $key, $value);
 
-
 		$xmlResponse = curl_exec($ch);
 
 		if (curl_errno($ch) == CURLE_OK)
 			return $xmlResponse;
 	}
-
 
 	//Parse XML response from eway and place them into an array
 	function parseResponse($xmlResponse)
@@ -323,7 +317,6 @@ class EwayPayment
 		return $responseFields;
 	}
 
-
 	//Set Transaction Data
 	//Possible fields: "TotalAmount", "CustomerFirstName", "CustomerLastName", "CustomerEmail", "CustomerAddress", "CustomerPostcode", "CustomerInvoiceDescription", "CustomerInvoiceRef",
 	//"CardHoldersName", "CardNumber", "CardExpiryMonth", "CardExpiryYear", "TrxnNumber", "Option1", "Option2", "Option3", "CVN", "CustomerIPAddress", "CustomerBillingCountry"
@@ -334,14 +327,12 @@ class EwayPayment
 		$this->myTransactionData["eway" . $field] = htmlentities(trim($value));
 	}
 
-
 	//receive special preferences for Curl
 	function setCurlPreferences($field, $value)
 	{
 		$this->myCurlPreferences[$field] = $value;
 
 	}
-
 
 	//obtain visitor IP even if is under a proxy
 	function getVisitorIP()
@@ -354,7 +345,6 @@ class EwayPayment
 
 		return $ip;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
@@ -373,7 +363,6 @@ class EwayPayment
 		return $res;
 	}
 
-
 	function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
@@ -383,7 +372,6 @@ class EwayPayment
 
 		return $params;
 	}
-
 
 }
 

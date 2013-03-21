@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paypoint(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypoint');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -66,16 +65,14 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		$session =& JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
-
 		// Additional Customer Data
 		$user_id = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
-
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-		// Get Credit card Information
+		// get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
@@ -86,7 +83,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		$tax_exempt = false;
 		$debug_mode = $this->_params->get('debug_mode', 0);
 
-		// Get params from payment plugin
+		// get params from payment plugin
 		$merchant_id = $this->_params->get("paypoint_merchant_id");
 		$vpn_password = $this->_params->get("paypoint_vpn_password");
 		$test_status = $this->_params->get("paypoint_test_status");
@@ -112,10 +109,9 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 
 		$txn_id = rand(1111111, 9999999);
 
-
 		$f->addParam(new xmlrpcval($merchant_id, "string")); // Test MerchantId
 		$f->addParam(new xmlrpcval($vpn_password, "string")); // VPN password
-		$f->addParam(new xmlrpcval($txn_id, "string")); // Merchants transaction id
+		$f->addParam(new xmlrpcval($txn_id, "string")); // merchants transaction id
 		$f->addParam(new xmlrpcval($remote_add, "string")); // The ip of the original caller
 		$f->addParam(new xmlrpcval($order_payment_name, "string")); // Card Holders Name
 		$f->addParam(new xmlrpcval($order_payment_number, "string")); // Card number
@@ -172,7 +168,6 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 
 		}
 
-
 		if ($newk['valid'] == 'true')
 		{
 
@@ -215,6 +210,5 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		return $values;
 
 	}
-
 
 }

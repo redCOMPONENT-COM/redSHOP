@@ -7,7 +7,6 @@
  * @copyright  2010 Braintree Payment Solutions
  */
 
-
 set_include_path(get_include_path() . PATH_SEPARATOR . realpath(dirname(__FILE__)));
 
 /**
@@ -161,5 +160,4 @@ foreach ($requiredExtensions AS $ext)
 		throw new Braintree_Exception('The Braintree library requires the ' . $ext . ' extension.');
 	}
 }
-
 

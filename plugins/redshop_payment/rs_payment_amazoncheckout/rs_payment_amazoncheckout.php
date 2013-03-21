@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_amazoncheckout(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_amazoncheckout');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -71,7 +70,6 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 		{
 			return;
 		}
-
 
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
@@ -135,7 +133,6 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

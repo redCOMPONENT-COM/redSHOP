@@ -32,7 +32,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_partner_de(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_partner_de');
@@ -57,7 +57,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 
 		$session =& JFactory::getSession();
 		$ccdata = $session->get('ccdata');
-		// Get merchant Information
+		// get merchant Information
 		$merchant_server = $this->_params->get("merchant_server");
 		$merchant_path = $this->_params->get("merchant_path");
 		$merchant_name = $this->_params->get("merchant_name");
@@ -68,7 +68,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		$transaction_mode = $this->_params->get("transaction_mode");
 		$transaction_response = $this->_params->get("transaction_response");
 
-		// Collecting user Information ( Billing Information )
+		// collecting user Information ( Billing Information )
 		$firstname_bill = substr($data['billinginfo']->firstname, 0, 50);
 		$lastname_bill = substr($data['billinginfo']->lastname, 0, 50);
 		//$company_bill 			= 	substr($data['billinginfo']->company, 0, 50);
@@ -81,7 +81,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		$country_2code_bill = $Redconfiguration->getCountryCode2($country_code_bill);
 		$phone_bill = substr($data['billinginfo']->phone, 0, 25);
 
-		// Collecting user Information ( Shipping Information )
+		// collecting user Information ( Shipping Information )
 		$firstname_shipp = substr($data['shippinginfo']->firstname, 0, 50);
 		$lastname_shipp = substr($data['shippinginfo']->lastname, 0, 50);
 		//$company_shipp			= 	substr($data['shippinginfo']->company, 0, 50);
@@ -95,11 +95,10 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		$user_id = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
-
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-		// Get Credit card Information
+		// get Credit card Information
 		$order_payment_name = $ccdata['order_payment_name'];
 		$creditcard_code = strtoupper($ccdata['creditcard_code']);
 		$order_payment_number = $ccdata['order_payment_number'];
@@ -108,38 +107,38 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		$order_payment_expire_year = $ccdata['order_payment_expire_year'];
 		$tax_exempt = false;
 		$order_total = $data['order_total'];
-		// Include Integrator file
+		// include Integrator file
 		include (JPATH_SITE . DS . "plugins" . DS . "redshop_payment" . DS . "rs_payment_partner_de" . DS . "ppDE.integrator.php");
 
-		// New ctpepost
-		// For the correct parameters for authentication refer to the DemoMerchantInfo Link in your Implementation Packages Documentation.
+		// new ctpepost
+		// for the correct parameters for authentication refer to the DemoMerchantInfo Link in your Implementation Packages Documentation.
 		$payment = new _ctpexmlpost($merchant_server, $merchant_path, $merchant_sender, $merchant_channel, $merchant_user_login, $merchant_user_pwd, $transaction_mode, $transaction_response);
 
-		// Set the Account Information
-		// Credit card (uncomment if you use CC)	4200000000000000
+		// set the Account Information
+		// credit card (uncomment if you use CC)	4200000000000000
 		$payment->setAccountInformation($order_payment_name, $creditcard_code, $order_payment_number, '', '', '', $credit_card_code, $order_payment_expire_year, $order_payment_expire_month);
-		// Bank account (uncomment if you use DD)
+		// bank account (uncomment if you use DD)
 
-		// Set payment information (CC.DB for credit card, DD.DB for direct debit)
+		// set payment information (CC.DB for credit card, DD.DB for direct debit)
 		$payment->setPaymentCode('CC.DB');
 
 		$payment->setPaymentInformation($order_total, 'oder#19311/shop.de', $order_number, CURRENCY_CODE);
 
-		// Set customer contact information
+		// set customer contact information
 		$payment->setCustomerContact($user_email, '', $remote_add, '');
 
-		// Set customer address
-		$payment->setCustomerAddress($address_bill, $zipcode_bill, $city_bill, '', $country_2code_bill); // Country code 2 digit
+		// set customer address
+		$payment->setCustomerAddress($address_bill, $zipcode_bill, $city_bill, '', $country_2code_bill); // country code 2 digit
 
-		// Set customer name
+		// set customer name
 		$payment->setCustomerName('', '', $firstname_bill, $lastname_bill, '');
 
-		// Commit payment
+		// commit payment
 		$output = $payment->commitXMLPayment();
 
-		// False is returned if the connection to the ctpe server could not be established
-		// Output is "ACK" if successfull
-		// Elsewhere the error-statement is returned
+		// false is returned if the connection to the ctpe server could not be established
+		// output is "ACK" if successfull
+		// elsewhere the error-statement is returned
 
 		if (is_array($output))
 		{
@@ -147,18 +146,18 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 
 			$Return_Data = $output['Return_Data'];
 
-			if ($output['ACK'] == "ACK") // Everything is OK ... redirect to success page
+			if ($output['ACK'] == "ACK") // everything is OK ... redirect to success page
 			{
 				$values->responsestatus = 'Success';
 				$message = $Return_Data;
 			}
-			else // There is an error (check $output for error code ... e.g. print $output to logfile
+			else // there is an error (check $output for error code ... e.g. print $output to logfile
 			{
 				$values->responsestatus = 'Fail';
 				$message = $Return_Data;
 			}
 		}
-		else // There is a connection-problem
+		else // there is a connection-problem
 		{
 			$values->responsestatus = 'Fail';
 			$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');

@@ -48,7 +48,6 @@ class EpaySoap
 
 		$result = $result['epayresponsestring'];
 
-
 		return $result;
 	}
 

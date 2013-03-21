@@ -14,7 +14,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 #******************************************************************************
 #* Name          : PxPay_Curl.inc.php
 #* Description   : Classes used interact with the PxPay interface using PHP with the cURL extension installed
@@ -229,7 +228,6 @@ class PxPayRequest extends PxPayMessage
 	var $PxPayKey;
 	var $Opt;
 
-
 	#Constructor
 	function PxPayRequest()
 	{
@@ -271,7 +269,6 @@ class PxPayRequest extends PxPayMessage
 	{
 		$this->Opt = $Opt;
 	}
-
 
 	#******************************************************************
 	#Data validation
@@ -448,7 +445,6 @@ class PxPayMessage
 		return $xml;
 	}
 
-
 }
 
 #******************************************************************************
@@ -470,7 +466,6 @@ class PxPayResponse extends PxPayMessage
 	var $CurrencySettlement;
 	var $TxnMac;
 	var $ResponseText;
-
 
 	function PxPayResponse($xml)
 	{
@@ -502,7 +497,6 @@ class PxPayResponse extends PxPayMessage
 		$this->ResponseText = $msg->get_element_text("ResponseText");
 
 	}
-
 
 	function getSuccess()
 	{

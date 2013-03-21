@@ -34,12 +34,11 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_netcash(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_netcash');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 
 	}
 
@@ -71,7 +70,6 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 		{
 			return;
 		}
-
 
 		$db = jFactory::getDBO();
 		$TransactionAccepted = $request["TransactionAccepted"];
@@ -134,7 +132,6 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 
 		return $params;
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{

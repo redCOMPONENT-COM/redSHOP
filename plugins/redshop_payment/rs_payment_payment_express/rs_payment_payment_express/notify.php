@@ -37,7 +37,7 @@ $mainframe =& JFactory::getApplication('site');
  *
  * NOTE :
  */
-// Set the language
+// set the language
 $mainframe->initialise();
 $request = JRequest::get('request');
 
@@ -60,7 +60,6 @@ if (isset($txid) && $tx_status == 'Completed')
 }
 
 
-
 function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 {
 
@@ -77,7 +76,6 @@ function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 
 	return $res;
 }
-
 
 
 ?>

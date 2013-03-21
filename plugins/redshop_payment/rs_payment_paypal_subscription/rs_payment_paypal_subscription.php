@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paypal_subscription(&$subject)
 	{
-		// Load plugin parameters
+		// load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypal_subscription');
@@ -64,7 +64,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 	function onNotifyPaymentrs_payment_paypal_subscription($element, $request)
 	{
 
-
 		if ($element != 'rs_payment_paypal_subscription')
 		{
 			return;
@@ -91,7 +90,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		$subscr_id = $request["subscr_id"];
 		$tid = $request['txn_id'];
 		$status = $request['payment_status'];
-
 
 		if ($txn_type == 'subscr_payment')
 		{
@@ -132,7 +130,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 				JTable::addIncludePath(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
 				$row = JTable::getInstance('order_detail', 'Table');
 
-
 				$row->user_id = $main_order_detail->user_id;
 				$row->order_number = $order_functions->generateOrderNumber();
 				$row->user_info_id = $main_order_detail->user_info_id;
@@ -165,7 +162,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 				if ($row->store())
 				{
-
 
 					$new_oid = $row->order_id;
 
@@ -201,7 +197,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 						$rowitem->wrapper_price = $main_orderitemdetail[$ri]->wrapper_price;
 						$rowitem->giftcard_user_email = $main_orderitemdetail[$ri]->giftcard_user_email;
 						$rowitem->giftcard_user_name = $main_orderitemdetail[$ri]->giftcard_user_name;
-
 
 						if (!$main_orderitemdetail[$ri]->is_giftcard)
 						{
@@ -272,7 +267,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 					}
 
-					// For order Payment
+					// for order Payment
 
 					$paymentmethod = $order_functions->getPaymentMethodInfo('rs_payment_paypal_subscription');
 					$paymentmethod = $paymentmethod[0];
@@ -293,7 +288,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$rowpayment->authorize_status = "";
 
 					$rowpayment->store();
-					// End Payment
+					// end Payment
 
 					# add billing Info
 					$userrow = & JTable::getInstance('user_detail', 'Table');
@@ -384,7 +379,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 		}
 
-
 	}
 
 	function getparameters($payment)
@@ -422,9 +416,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		$db->SetQuery($query);
 		$db->query();
 
-
 	}
-
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
