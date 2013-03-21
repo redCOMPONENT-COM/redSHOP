@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 //$mainframe =& JFactory::getApplication();
 //$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
 class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 {
@@ -157,7 +157,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		{
 			return;
 		}
-		require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions();
 		$db = JFactory::getDBO();
 		$order_id = $data['order_id'];

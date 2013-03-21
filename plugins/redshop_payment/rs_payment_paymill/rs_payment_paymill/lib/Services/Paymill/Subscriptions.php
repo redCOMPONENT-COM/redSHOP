@@ -1,6 +1,6 @@
 <?php
 
-require_once ('Base.php');
+require_once 'Base.php';
 
 /**
  * Paymill API wrapper for subscriptions resource

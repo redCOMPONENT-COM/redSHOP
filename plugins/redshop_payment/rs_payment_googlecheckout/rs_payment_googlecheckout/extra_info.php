@@ -39,13 +39,13 @@ $url = JURI::root();
 // Include all the required files
 
 
-require_once ('library' . DS . 'googlecart.php');
+require_once 'library' . DS . 'googlecart.php';
 
-require_once ('library' . DS . 'googleitem.php');
+require_once 'library' . DS . 'googleitem.php';
 
-require_once ('library' . DS . 'googleshipping.php');
+require_once 'library' . DS . 'googleshipping.php';
 
-require_once ('library' . DS . 'googletax.php');
+require_once 'library' . DS . 'googletax.php';
 
 $servertype = $this->_params->get("is_test", "sandbox");
 

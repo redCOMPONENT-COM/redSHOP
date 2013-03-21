@@ -32,7 +32,7 @@ class GoogleResponse
 		$this->merchant_key = $key;
 		$this->schema_url = "http://checkout.google.com/schema/2";
 		ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '.');
-		require_once('googlelog.php');
+		require_once 'googlelog.php';
 		$this->log = new GoogleLog('', '', L_OFF);
 	}
 
@@ -214,7 +214,7 @@ class GoogleResponse
 			$this->log->LogRequest($request);
 			$this->response = $request;
 			ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '.');
-			require_once('xml-processing/xmlparser.php');
+			require_once 'xml-processing/xmlparser.php';
 
 			$this->xml_parser = new XmlParser($request);
 			$this->root = $this->xml_parser->GetRoot();

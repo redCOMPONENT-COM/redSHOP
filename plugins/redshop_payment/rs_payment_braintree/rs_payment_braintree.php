@@ -19,8 +19,8 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 //$mainframe =& JFactory::getApplication();
 //$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 class plgRedshop_paymentrs_payment_braintree extends JPlugin
 {
 	var $_table_prefix = null;

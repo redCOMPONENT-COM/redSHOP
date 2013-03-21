@@ -19,17 +19,17 @@ $my_path = dirname(__FILE__);
 if (file_exists($my_path . "/../../../configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/../../../configuration.php");
-	require_once ($my_path . "/../../../configuration.php");
+	require_once $my_path . "/../../../configuration.php";
 }
 elseif (file_exists($my_path . "/../../configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/../../configuration.php");
-	require_once ($my_path . "/../../configuration.php");
+	require_once $my_path . "/../../configuration.php";
 }
 elseif (file_exists($my_path . "/configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/configuration.php");
-	require_once ($my_path . "/configuration.php");
+	require_once $my_path . "/configuration.php";
 }
 else
 {
@@ -46,8 +46,8 @@ define ('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
 
 // Load the framework
 
-require_once ($absolute_path . DS . 'includes' . DS . 'defines.php');
-require_once ($absolute_path . DS . 'includes' . DS . 'framework.php');
+require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
+require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
 $mainframe = & JFactory::getApplication('site');
@@ -70,8 +70,8 @@ $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLan
 // redshop language file
 JPlugin::loadLanguage('com_redshop');
 
-require_once (JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
+require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 $objOrder = new order_functions();
 
 $tid = $_REQUEST ["transact"];

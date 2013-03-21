@@ -32,7 +32,7 @@ class GoogleMerchantCalculations
 
 	function GetXML()
 	{
-		require_once('xml-processing/xmlbuilder.php');
+		require_once 'xml-processing/xmlbuilder.php';
 
 		$xml_data = new XmlBuilder();
 		$xml_data->Push('merchant-calculation-results',

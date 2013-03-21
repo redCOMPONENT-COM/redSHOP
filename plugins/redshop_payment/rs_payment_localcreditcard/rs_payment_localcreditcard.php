@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 /*$mainframe =& JFactory::getApplication();
 $mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 {
 	var $_table_prefix = null;

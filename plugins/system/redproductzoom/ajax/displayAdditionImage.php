@@ -16,7 +16,7 @@ if (file_exists($my_path . "/../../../../configuration.php"))
 {
 
 	$absolute_path = dirname($my_path . "/../../../../configuration.php");
-	require_once($my_path . "/../../../../configuration.php");
+	require_once $my_path . "/../../../../configuration.php";
 }
 else
 {
@@ -32,8 +32,8 @@ define('JPATH_BASE', $absolute_path);
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
+require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
+require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
 
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
@@ -55,14 +55,14 @@ $mainframe->initialise();
 define('JPATH_COMPONENT_SITE', JPATH_SITE . DS . 'components' . DS . 'com_redshop');
 
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 $Redconfiguration = new Redconfiguration();
 $Redconfiguration->defineDynamicVars();
 
-require_once(JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'redproductzoom.php');
-require_once(JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'ajax' . DS . 'helper.php');
+require_once JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'redproductzoom.php';
+require_once JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'ajax' . DS . 'helper.php';
 $zoomproducthelper = new zoomproducthelper();
 
 #error_reporting(E_ALL | E_STRICT);

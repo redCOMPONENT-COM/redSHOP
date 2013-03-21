@@ -18,7 +18,7 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDBO();
 
-require_once (JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 $request =& JRequest::get('REQUEST');
 $task = $request['task'];
 $Itemid = $_REQUEST['Itemid'];

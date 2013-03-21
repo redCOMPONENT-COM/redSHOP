@@ -57,7 +57,7 @@ class GoogleRequest
 		$this->merchant_checkout = $this->base_url . "/merchantCheckout";
 
 		ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '.');
-		require_once('googlelog.php');
+		require_once 'googlelog.php';
 		$this->log = new GoogleLog('', '', L_OFF);
 
 	}
@@ -79,7 +79,7 @@ class GoogleRequest
 		else
 		{
 			ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '.');
-			require_once('xml-processing/xmlparser.php');
+			require_once 'xml-processing/xmlparser.php';
 
 			$xml_parser = new XmlParser($body);
 			$root = $xml_parser->GetRoot();

@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
 //JPlugin::loadLanguage( 'plg_search_redshop_categories' );
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 class plgSearchredshop_categories extends JPlugin
 {
 	function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)

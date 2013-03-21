@@ -150,7 +150,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		{
 			return;
 		}
-		require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions();
 		$db = JFactory::getDBO();
 		JPlugin::loadLanguage('com_redshop');

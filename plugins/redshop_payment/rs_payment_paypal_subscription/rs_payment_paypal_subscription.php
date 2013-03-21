@@ -17,7 +17,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 /*$mainframe =& JFactory::getApplication();
 $mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_paypal' );*/
 class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin

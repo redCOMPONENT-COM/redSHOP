@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 
 class plgredshop_productattribute extends JPlugin
 {

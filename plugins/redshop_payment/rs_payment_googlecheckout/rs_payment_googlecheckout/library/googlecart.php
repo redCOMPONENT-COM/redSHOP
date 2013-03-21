@@ -248,7 +248,7 @@ class GoogleCart
 
 	function GetXML()
 	{
-		require_once('xml-processing/xmlbuilder.php');
+		require_once 'xml-processing/xmlbuilder.php';
 
 		$xml_data = new XmlBuilder();
 
@@ -882,7 +882,7 @@ class GoogleCart
 	function CheckoutServer2Server()
 	{
 		ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '.');
-		require_once('library/googlerequest.php');
+		require_once 'library/googlerequest.php';
 		$GRequest = new GoogleRequest($this->merchant_id,
 			$this->merchant_key,
 			$this->server_url == "https://checkout.google.com/" ?
@@ -1126,7 +1126,7 @@ class GoogleCart
 				" onsubmit=\"setUrchinInputCode();\"" : "") . ">";
 
 			$request = $this->GetXML();
-			require_once('xml-processing/xmlparser.php');
+			require_once 'xml-processing/xmlparser.php';
 			$xml_parser = new XmlParser($request);
 			$root = $xml_parser->GetRoot();
 			$XMLdata = $xml_parser->GetData();

@@ -64,7 +64,7 @@ class plgSystemredgoogleanalytics extends JPlugin
 
 		if (!strstr($requesturlBase, "administrator") && file_exists($configFile))
 		{
-			require_once ($configFile);
+			require_once $configFile;
 
 			if (file_exists($googleFile))
 			{
@@ -72,7 +72,7 @@ class plgSystemredgoogleanalytics extends JPlugin
 				if (GOOGLE_ANA_TRACKER_KEY != "" && $format != 'final' && $layout != 'receipt')
 				{
 
-					require_once ($googleFile);
+					require_once $googleFile;
 					$google_ana = new googleanalytics();
 					$code = $google_ana->placeTrans();
 				}

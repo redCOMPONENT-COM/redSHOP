@@ -17,8 +17,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php';
 class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 {
 	var $_table_prefix = null;

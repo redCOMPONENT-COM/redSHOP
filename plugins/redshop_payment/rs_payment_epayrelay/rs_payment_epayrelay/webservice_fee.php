@@ -1,7 +1,7 @@
 <?php
 function getCardInfo($merchantnumber, $cardno_prefix, $amount, $currency, $acquirer)
 {
-	require_once('lib/nusoap.php');
+	require_once 'lib/nusoap.php';
 	global $epayresponse;
 	global $fee;
 	global $cardtype;

@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 //$mainframe =& JFactory::getApplication();
 //$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
-require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 {
 	var $_table_prefix = null;
@@ -464,7 +464,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	function onCapture_Paymentrs_payment_paypalpro($element, $data)
 	{
 		$db = JFactory::getDBO();
-		require_once (JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions();
 
 		$paypalpro_parameters = $this->getparameters('rs_payment_paypalpro');
