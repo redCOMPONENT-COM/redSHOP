@@ -54,6 +54,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		{
 			$plugin = $element;
 		}
+
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
 
@@ -252,6 +253,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			{
 				$error_message = $key . ":" . $value;
 			}
+
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_NOT_PLACED');

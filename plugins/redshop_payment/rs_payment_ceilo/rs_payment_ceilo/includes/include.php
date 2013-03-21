@@ -87,6 +87,7 @@ function httprequest($paEndereco, $paPost)
 	{
 		$pageURL .= 's';
 	}
+
 	$pageURL .= "://";
 
 	if ($_SERVER["SERVER_PORT"] != "80")

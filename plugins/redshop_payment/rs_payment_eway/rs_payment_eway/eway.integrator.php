@@ -256,6 +256,7 @@ class EwayPayment
 			{
 				$message = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
+
 			$transaction_id = isset($xml->ewayTrxnNumber) ? $xml->ewayTrxnNumber : '';
 			$node = $xml->children();
 			//$message 					= $xml->ewayTrxnError;

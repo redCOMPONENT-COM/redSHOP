@@ -201,6 +201,7 @@ class AuthorizeNetCP_Response extends AuthorizeNetResponse
 
 
 			}
+
 			$this->approved = ($this->response_code == self::APPROVED);
 			$this->declined = ($this->response_code == self::DECLINED);
 			$this->error = ($this->response_code == self::ERROR);

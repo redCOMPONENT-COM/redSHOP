@@ -78,6 +78,7 @@ class Braintree_Subscription extends Braintree
 		{
 			$criteria[$term->name] = $term->toparam();
 		}
+
 		$criteria["ids"] = Braintree_SubscriptionSearch::ids()->in($ids)->toparam();
 		$response = Braintree_Http::post('/subscriptions/advanced_search', array('search' => $criteria));
 
@@ -194,6 +195,7 @@ class Braintree_Subscription extends Braintree
 				$addOnArray[] = Braintree_AddOn::factory($addOn);
 			}
 		}
+
 		$this->_attributes['addOns'] = $addOnArray;
 
 		$discountArray = array();
@@ -205,6 +207,7 @@ class Braintree_Subscription extends Braintree
 				$discountArray[] = Braintree_Discount::factory($discount);
 			}
 		}
+
 		$this->_attributes['discounts'] = $discountArray;
 
 		$this->_set('descriptor', new Braintree_Descriptor($attributes['descriptor']));
@@ -218,6 +221,7 @@ class Braintree_Subscription extends Braintree
 				$transactionArray[] = Braintree_Transaction::factory($transaction);
 			}
 		}
+
 		$this->_attributes['transactions'] = $transactionArray;
 	}
 

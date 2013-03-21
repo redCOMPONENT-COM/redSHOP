@@ -80,6 +80,7 @@ class GoogleLog
 				}
 			}
 		}
+
 		$this->logLevel = $logLevel;
 		;
 	}

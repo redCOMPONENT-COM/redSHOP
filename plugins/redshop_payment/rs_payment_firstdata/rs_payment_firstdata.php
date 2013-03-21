@@ -72,6 +72,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		{
 			$cal_no = PRICE_DECIMAL;
 		}
+
 		$order_total = round($data['order_total'], $cal_no);
 		$order_shipping = round($data['order_shipping'], $cal_no);
 		$order_tax = round($data['order_tax'], $cal_no);
@@ -278,6 +279,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		{
 			$cal_no = PRICE_DECIMAL;
 		}
+
 		$order_amount = round($data['order_amount'], $cal_no);
 
 

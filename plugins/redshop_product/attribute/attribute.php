@@ -72,6 +72,7 @@ function onPrepareProduct(&$template, &$params, $product)
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
+
 			$attributes = $producthelper->getProductAttribute($product->product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
@@ -92,6 +93,7 @@ function onPrepareProduct(&$template, &$params, $product)
 		{
 			$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 		}
+
 		$attributes = $producthelper->getProductAttribute($product->product_id);
 		$attributes = array_merge($attributes, $attributes_set);
 	}
@@ -144,6 +146,7 @@ function onPrepareProduct(&$template, &$params, $product)
 			}
 		}
 	}
+
 	$total_attributes = count($attributes);
 	$total = 0;
 

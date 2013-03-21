@@ -144,6 +144,7 @@ function xmlrpc_entity_decode($string)
 			else
 				$op .= "&" . $top[$i];
 		}
+
 		$i++;
 	}
 
@@ -249,6 +250,7 @@ function xmlrpc_ee($parser, $name)
 			{
 				$_xh[$parser]['st'] = substr($_xh[$parser]['st'], 0, -1);
 			}
+
 			$_xh[$parser]['st'] .= ")";
 			$_xh[$parser]['vt'] = strtolower($name);
 			$_xh[$parser]['cm']--;
@@ -301,6 +303,7 @@ function xmlrpc_ee($parser, $name)
 					$_xh[$parser]['st'] .= $_xh[$parser]['ac'];
 				}
 			}
+
 			$_xh[$parser]['ac'] = "";
 			$_xh[$parser]['qt'] = 0;
 			$_xh[$parser]['lv'] = 3; // indicate we've found a value
@@ -319,6 +322,7 @@ function xmlrpc_ee($parser, $name)
 			{
 				$_xh[$parser]['st'] .= '""';
 			}
+
 			$_xh[$parser]['st'] .= ", '" . $_xh[$parser]['vt'] . "')";
 
 			if ($_xh[$parser]['cm']) $_xh[$parser]['st'] .= ",";
@@ -396,6 +400,7 @@ function xmlrpc_dh($parser, $data)
 			$_xh[$parser]['qt'] = 1;
 			$_xh[$parser]['lv'] = 2;
 		}
+
 		$_xh[$parser]['ac'] .= str_replace('$', '\$',
 			str_replace('"', '\"', str_replace(chr(92),
 				$xmlrpc_backslash, $data)));
@@ -513,6 +518,7 @@ class xmlrpc_client
 
 			return 0;
 		}
+
 		$resp = $msg->parseResponseFile($fp);
 
 
@@ -675,6 +681,7 @@ class xmlrpcresp
 			$rs .= "<params>\n<param>\n" . $this->xv->serialize() .
 				"</param>\n</params>";
 		}
+
 		$rs .= "\n</methodResponse>";
 
 		return $rs;
@@ -722,8 +729,10 @@ class xmlrpcmsg
 			$this->payload .= "<param>\n" . $p->serialize() .
 				"</param>\n";
 		}
+
 		$this->payload .= "</params>\n";
 		// }
+
 		$this->payload .= $this->xml_footer();
 		$this->payload = str_replace("\n", "\r\n", $this->payload);
 	}
@@ -850,6 +859,7 @@ class xmlrpcmsg
 					$newdata .= $ar[$i] . "\r\n";
 				}
 			}
+
 			$data = $newdata;
 		}
 
@@ -902,6 +912,7 @@ class xmlrpcmsg
 				$r = new xmlrpcresp($v);
 			}
 		}
+
 		$r->hdrs = preg_split("\r?\n", $_xh[$parser]['ha']);
 
 		return $r;
@@ -946,6 +957,7 @@ class xmlrpcval
 
 			return 0;
 		}
+
 		$typeof = $xmlrpcTypes[$type];
 
 		if ($typeof != 1)
@@ -1016,6 +1028,7 @@ class xmlrpcval
 
 			return 0;
 		}
+
 		$this->mytype = $xmlrpcTypes["struct"];
 		$this->me["struct"] = $vals;
 
@@ -1072,6 +1085,7 @@ class xmlrpcval
 					$rs .= $this->serializeval($val2);
 					$rs .= "</member>\n";
 				}
+
 				$rs .= "</struct>";
 				break;
 			case 2:
@@ -1082,6 +1096,7 @@ class xmlrpcval
 				{
 					$rs .= $this->serializeval($val[$i]);
 				}
+
 				$rs .= "</data>\n</array>";
 				break;
 			case 1:

@@ -58,6 +58,7 @@ class Braintree_Result_Error extends Braintree
 		{
 			$params = $params[Braintree_Util::delimiterToCamelCase($key)];
 		}
+
 		$finalKey = Braintree_Util::delimiterToCamelCase(end($pieces));
 		$fieldValue = isset($params[$finalKey]) ? $params[$finalKey] : null;
 

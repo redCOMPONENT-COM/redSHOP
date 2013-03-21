@@ -73,6 +73,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		{
 			break;
 		}
+
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 		$accept = $request["accept"];
@@ -236,6 +237,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 								$cardname = 'Danske Bank';
 								break;
 						}
+
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
 
 					}

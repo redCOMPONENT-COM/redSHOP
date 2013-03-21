@@ -69,6 +69,7 @@ class plgRedshop_paymentrs_payment_eway3dsecure extends JPlugin
 		{
 			return;
 		}
+
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$result = $request["ewayTrxnStatus"];
@@ -106,6 +107,7 @@ class plgRedshop_paymentrs_payment_eway3dsecure extends JPlugin
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		}
+
 		$values->transaction_id = $trxnReference;
 		$values->order_id = $order_id;
 

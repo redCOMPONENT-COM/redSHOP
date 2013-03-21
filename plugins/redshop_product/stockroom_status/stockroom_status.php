@@ -95,6 +95,7 @@ class plgredshop_productstockroom_status extends JPlugin
 
 
 		}
+
 		$message .= "</table></td></tr>";
 		$message .= "<tr><td colspan='4'>Regards,</td></tr><tr><td colspan='4'>Stockkeeper</td></tr>";
 		$message .= "</table>";

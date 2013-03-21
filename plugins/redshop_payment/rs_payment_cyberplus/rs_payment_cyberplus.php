@@ -97,6 +97,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 				}
 			}
 		}
+
 		$contenu_signature .= $key;
 		// The certifica
 		$signature_calculee = sha1($contenu_signature);

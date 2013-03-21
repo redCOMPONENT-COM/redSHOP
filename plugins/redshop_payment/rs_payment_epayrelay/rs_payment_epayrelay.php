@@ -165,6 +165,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 				{
 					$payment_messsge = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				}
+
 				$values->order_status_code = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log = $payment_messsge;
@@ -220,6 +221,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 			$message = JText::_('ORDER_NOT_CAPTURED');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;

@@ -115,6 +115,7 @@ class plgredshop_shippingfreteja extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
@@ -195,6 +196,7 @@ class plgredshop_shippingfreteja extends JPlugin
 			{
 				return $shippingrate;
 			}
+
 			$billing = $producthelper->getUserInformation($shippinginfo->user_id);
 
 			if (count($billing) < 1)

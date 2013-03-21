@@ -241,6 +241,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 								$cardname = 'Danske Bank';
 								break;
 						}
+
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
 
 					}
@@ -347,6 +348,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			$message = JText::_('COM_REDSHOP_ORDER_NOT_CAPTURED');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;
@@ -422,6 +424,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			$message = JText::_('COM_REDSHOP_ORDER_NOT_REFUND');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;
@@ -460,6 +463,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			$message = JText::_('COM_REDSHOP_ORDER_NOT_REFUND');
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->message = $message;
 
 		return $values;

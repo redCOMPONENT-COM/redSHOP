@@ -55,6 +55,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		{
 			$plugin = $element;
 		}
+
 		$request = JRequest::get('request');
 
 		if ($request['stap'] == 2)

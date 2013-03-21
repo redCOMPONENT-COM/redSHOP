@@ -73,6 +73,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		{
 			break;
 		}
+
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
 
@@ -103,6 +104,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 				unset ($ipnkey);
 				unset ($ipnval);
 			}
+
 			$pure_feedback[$ipnkey] = $ipnval;
 		}
 

@@ -132,12 +132,14 @@ class xmlParser
 					{
 						$ary[$t] = array($ary[$t], array());
 					}
+
 					$cv =& $ary[$t][count($ary[$t]) - 1];
 				}
 				else
 				{
 					$cv =& $ary[$t];
 				}
+
 				$cv = array();
 
 				if (isset($r['attributes']))
@@ -164,6 +166,7 @@ class xmlParser
 					{
 						$ary[$t] = array($ary[$t], array());
 					}
+
 					$cv =& $ary[$t][count($ary[$t]) - 1];
 				}
 				else
@@ -178,6 +181,7 @@ class xmlParser
 						$cv[$k] = $v;
 					}
 				}
+
 				$cv['VALUE'] = (isset($r['value']) ? $r['value'] : '');
 
 			}

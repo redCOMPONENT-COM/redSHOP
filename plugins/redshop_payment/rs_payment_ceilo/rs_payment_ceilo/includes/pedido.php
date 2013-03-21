@@ -143,6 +143,7 @@ class Pedido
 				. $this->dadosPedidoDescricao .
 				'</descricao>' . "\n      ";
 		}
+
 		$msg .= '<idioma>'
 			. $this->dadosPedidoIdioma .
 			'</idioma>' . "\n   " .
@@ -220,6 +221,7 @@ class Pedido
 		{
 			$msg .= $this->XMLDadosPortador() . "\n   ";
 		}
+
 		$msg .= $this->XMLDadosPedido() . "\n   "
 			. $this->XMLFormaPagamento() . "\n   "
 			. $this->XMLUrlRetorno() . "\n   "
@@ -293,6 +295,7 @@ class Pedido
 		{
 			$msg .= '   <anexo>' . $anexo . '</anexo>' . "\n";
 		}
+
 		$msg .= '</requisicao-captura>';
 
 		$objResposta = $this->Enviar($msg, "Captura");

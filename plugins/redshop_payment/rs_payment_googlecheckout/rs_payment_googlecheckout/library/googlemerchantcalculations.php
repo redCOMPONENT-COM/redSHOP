@@ -82,10 +82,13 @@ class GoogleMerchantCalculations
 					$xml_data->Element('message', $curr_gift->gift_message);
 					$xml_data->Pop('gift-result');
 				}
+
 				$xml_data->Pop('merchant-code-results');
 			}
+
 			$xml_data->Pop('result');
 		}
+
 		$xml_data->Pop('results');
 		$xml_data->Pop('merchant-calculation-results');
 

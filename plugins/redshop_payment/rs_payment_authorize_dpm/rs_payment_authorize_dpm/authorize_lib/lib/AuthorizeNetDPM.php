@@ -126,6 +126,7 @@ class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 		{
 			$x_test_request = "FALSE";
 		}
+
 		$sim = new AuthorizeNetSIM_Form(
 			array(
 				'x_amount'         => $amount,

@@ -317,10 +317,13 @@ class GoogleCart
 					$xml_data->element('email-delivery',
 						$this->_GetBooleanValue($item->email_delivery, "true"));
 				}
+
 				$xml_data->pop('digital-content');
 			}
+
 			$xml_data->Pop('item');
 		}
+
 		$xml_data->Pop('items');
 
 		if ($this->merchant_private_data != '')
@@ -335,6 +338,7 @@ class GoogleCart
 					$this->merchant_private_data);
 			}
 		}
+
 		$xml_data->Pop('shopping-cart');
 
 		$xml_data->Push('checkout-flow-support');
@@ -415,8 +419,10 @@ class GoogleCart
 							{
 								$xml_data->Element('postal-code-pattern', $postal_pattern);
 							}
+
 							$xml_data->Pop('postal-area');
 						}
+
 						$xml_data->Pop('allowed-areas');
 					}
 
@@ -426,6 +432,7 @@ class GoogleCart
 						{
 							$xml_data->EmptyElement('allowed-areas');
 						}
+
 						$xml_data->Push('excluded-areas');
 
 						if ($shipping_restrictions->excluded_country_area != "")
@@ -456,10 +463,13 @@ class GoogleCart
 							{
 								$xml_data->Element('postal-code-pattern', $postal_pattern);
 							}
+
 							$xml_data->Pop('postal-area');
 						}
+
 						$xml_data->Pop('excluded-areas');
 					}
+
 					$xml_data->Pop('shipping-restrictions');
 				}
 
@@ -518,8 +528,10 @@ class GoogleCart
 								{
 									$xml_data->Element('postal-code-pattern', $postal_pattern);
 								}
+
 								$xml_data->Pop('postal-area');
 							}
+
 							$xml_data->Pop('allowed-areas');
 						}
 
@@ -529,6 +541,7 @@ class GoogleCart
 							{
 								$xml_data->EmptyElement('allowed-areas');
 							}
+
 							$xml_data->Push('excluded-areas');
 
 							if ($address_filters->excluded_country_area != "")
@@ -559,13 +572,17 @@ class GoogleCart
 								{
 									$xml_data->Element('postal-code-pattern', $postal_pattern);
 								}
+
 								$xml_data->Pop('postal-area');
 							}
+
 							$xml_data->Pop('excluded-areas');
 						}
+
 						$xml_data->Pop('address-filters');
 					}
 				}
+
 				$xml_data->Pop($ship->type);
 			}
 			else if ($ship->type == "pickup")
@@ -601,6 +618,7 @@ class GoogleCart
 				$xml_data->Element('accept-gift-certificates',
 					$this->accept_gift_certificates);
 			}
+
 			$xml_data->Pop('merchant-calculations');
 		}
 		//Set Third party Tracking
@@ -622,8 +640,10 @@ class GoogleCart
 						array('name' => $tracking_param_name,
 						      'type' => $tracking_param_type));
 				}
+
 				$xml_data->pop('parameters');
 			}
+
 			$xml_data->pop('parameterized-url');
 			$xml_data->pop('parameterized-urls');
 		}
@@ -703,6 +723,7 @@ class GoogleCart
 						{
 							$xml_data->Element('postal-code-pattern', $postal_pattern);
 						}
+
 						$xml_data->Pop('postal-area');
 						$xml_data->Pop('tax-area');
 						$xml_data->Pop('default-tax-rule');
@@ -719,6 +740,7 @@ class GoogleCart
 						$xml_data->Pop('default-tax-rule');
 					}
 				}
+
 				$xml_data->Pop('tax-rules');
 				$xml_data->Pop('default-tax-table');
 			}
@@ -784,6 +806,7 @@ class GoogleCart
 							{
 								$xml_data->Element('postal-code-pattern', $postal_pattern);
 							}
+
 							$xml_data->Pop('postal-area');
 							$xml_data->Pop('tax-area');
 							$xml_data->Pop('alternate-tax-rule');
@@ -799,11 +822,14 @@ class GoogleCart
 							$xml_data->Pop('alternate-tax-rule');
 						}
 					}
+
 					$xml_data->Pop('alternate-tax-rules');
 					$xml_data->Pop('alternate-tax-table');
 				}
+
 				$xml_data->Pop('alternate-tax-tables');
 			}
+
 			$xml_data->Pop('tax-tables');
 		}
 
@@ -889,6 +915,7 @@ class GoogleCart
 					break;
 			}
 		}
+
 		$data = "<div style=\"width: " . $width . "px\">";
 
 		if ($this->variant == "text")
@@ -906,6 +933,7 @@ class GoogleCart
 			{
 				$data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
 			}
+
 			$data .= "</form></div>";
 
 			if ($this->googleAnalytics_id)
@@ -932,6 +960,7 @@ class GoogleCart
 				" width=\"" . $width . "\" /></div>";
 
 		}
+
 		$data .= "</div>";
 
 		return $data;
@@ -997,6 +1026,7 @@ class GoogleCart
 			{
 				$data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
 			}
+
 			$data .= "</form></div>";
 
 			if ($this->googleAnalytics_id)
@@ -1032,6 +1062,7 @@ class GoogleCart
 				"oogle Checkout?'\" onmouseout=\"return window.status = ''\"><font " .
 				"size=\"-2\">What is Google Checkout?</font></a></div>";
 		}
+
 		$data .= "</div>";
 
 		return $data;
@@ -1098,6 +1129,7 @@ class GoogleCart
 			{
 				$data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
 			}
+
 			$data .= "</form></div>";
 
 			if ($this->googleAnalytics_id)
@@ -1133,6 +1165,7 @@ class GoogleCart
 				"oogle Checkout?'\" onmouseout=\"return window.status = ''\"><font " .
 				"size=\"-2\">What is Google Checkout?</font></a></div>";
 		}
+
 		$data .= "</div>";
 
 
@@ -1168,8 +1201,10 @@ class GoogleCart
 					{
 						$tag_name .= '-1';
 					}
+
 					$new_path = $path . (empty($path) ? '' : '.') . $tag_name;
 				}
+
 				$this->xml2html($tag, $new_path, $rta);
 			}
 			else
@@ -1180,6 +1215,7 @@ class GoogleCart
 				{
 					$new_path = $path . "." . $tag_name;
 				}
+
 				$rta .= '<input type="hidden" name="' .
 					$new_path . '" value="' . $tag . '"/>' . "\n";
 			}
@@ -1252,6 +1288,7 @@ class GoogleCart
 		{
 			$key = pack('H*', $hashfunc($key));
 		}
+
 		$key = str_pad($key, $blocksize, chr(0x00));
 		$ipad = str_repeat(chr(0x36), $blocksize);
 		$opad = str_repeat(chr(0x5c), $blocksize);

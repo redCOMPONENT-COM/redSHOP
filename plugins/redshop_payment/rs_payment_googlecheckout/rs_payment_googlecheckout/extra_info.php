@@ -131,6 +131,7 @@ for ($p = 0; $p < count($rs); $p++)
 	$cart->AddItem($item);
 
 }
+
 $discount_price = (0 - $currencyClass->convert($order->order_discount, '', $currency_code));
 
 $disoucnt_item = new GoogleItem (JText::_('COM_REDSHOP_DISCOUNT'), // Item name

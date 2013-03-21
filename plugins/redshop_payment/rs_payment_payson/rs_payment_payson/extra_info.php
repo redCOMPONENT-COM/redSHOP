@@ -57,6 +57,7 @@ else
 {
 	$url = "https://www.payson.se/merchant/default.aspx";
 }
+
 $selleremail = $pays_selleremail;
 $okurl = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_payson&orderid=" . $data['order_id'];
 

@@ -221,12 +221,14 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$checkDebtorgrpId = $this->ecoparams->get('economic_debtor_group_id', 2);
 
 		if ($this->debtorGroupHandles)
 		{
 			return $this->debtorGroupHandles;
 		}
+
 		$debtorGroupHandles = $this->client->debtorGroup_GetAll()->DebtorGroup_GetAllResult->DebtorGroupHandle;
 		$dgrp = array();
 
@@ -260,6 +262,7 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$debtorGroupHandle->Number = $dgrp[0];
 			}
+
 			$this->debtorGroupHandles = $debtorGroupHandle;
 		}
 
@@ -454,6 +457,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->LayoutHandle;
 		}
+
 		$LayoutHandleId = 0;
 		$arr = array();
 		$resultall = $this->client->TemplateCollection_GetAll()->TemplateCollection_GetAllResult;
@@ -497,6 +501,7 @@ class plgEconomicEconomic extends JPlugin
 				$LayoutHandleId = $arr[0];
 			}
 		}
+
 		$LayoutHandle = new stdclass();
 		$LayoutHandle->Id = $LayoutHandleId;
 
@@ -727,6 +732,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$productGroupHandles = $this->client->ProductGroup_GetAll()->ProductGroup_GetAllResult->ProductGroupHandle;
 
 		for ($i = 0; $i < count($productGroupHandles); $i++)
@@ -813,6 +819,7 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$inv[] = 0;
 			}
+
 			$max = max($inv);
 
 			return $max;
@@ -862,6 +869,7 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$cinv[] = 0;
 			}
+
 			$cmax = max($cinv);
 
 			if ($cmax)
@@ -942,6 +950,7 @@ class plgEconomicEconomic extends JPlugin
 					$UnitHandleId = $arr[0];
 				}
 			}
+
 			$UnitHandle->Number = $UnitHandleId;
 			$this->UnitHandle = $UnitHandle;
 
@@ -993,6 +1002,7 @@ class plgEconomicEconomic extends JPlugin
 					$productGroupHandle->Number = 1;
 				}
 			}
+
 			$UnitHandle = $this->getUnitGroup();
 
 			$Handle = new stdclass ();
@@ -1138,9 +1148,11 @@ class plgEconomicEconomic extends JPlugin
 					$contactHandle = new stdclass();
 					$contactHandle->Id = $contacts->Id;
 				}
+
 				$d['updateDebtorContact'] = $contactHandle->Id;
 				$this->DebtorContact_GetData($d);
 			}
+
 			$contactHandle = $this->storeDebtorContact($d);
 
 			return $contactHandle;
@@ -1266,6 +1278,7 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$Id = $d ['user_info_id'];
 			}
+
 			$Handle = new stdclass();
 			$Handle->Id = $Id;
 
@@ -1326,6 +1339,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$CurrencyHandle = new stdclass();
 		$CurrencyHandle->Code = $d ['currency_code'];
 
@@ -1371,6 +1385,7 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$reference .= chr(13) . '' . JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL') . ': ' . $d['customer_note'];
 			}
+
 			$this->client->CurrentInvoice_SetTextLine1(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $reference));
 
 //			$this->client->CurrentInvoice_SetOurReference2(array('currentInvoiceHandle' => $invoiceHandle, 'value' => ''));
@@ -1402,6 +1417,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$invoiceHandle = new stdclass();
 		$invoiceHandle->Id = $d ['invoiceHandle'];
 
@@ -1565,6 +1581,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$order_item_id = $d ['order_item_id'];
 		$invoiceHandle = new stdclass();
 		$invoiceHandle->Id = $d['invoiceHandle'];
@@ -1641,6 +1658,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$invoiceHandle = new stdclass();
 		$invoiceHandle->Id = $d['invoiceHandle'];
 		try
@@ -1713,6 +1731,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$invoiceHandle = new stdclass();
 		$invoiceHandle->Id = $d['invoiceHandle'];
 		try
@@ -1781,6 +1800,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$invoiceHandle = new stdclass();
 		$invoiceHandle->Id = $d['invoiceHandle'];
 		try
@@ -1824,6 +1844,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		$invoiceHandle = new stdclass();
 		$invoiceHandle->Id = $d['invoiceHandle'];
 		try

@@ -79,6 +79,7 @@ if ($task == "receipt")
 	{
 		$query_string .= $name . "=" . urlencode($value) . "&";
 	}
+
 	$mainframe->redirect($checkouturl . $query_string);
 }
 else

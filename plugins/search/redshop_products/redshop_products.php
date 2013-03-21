@@ -49,6 +49,7 @@ class plgSearchredshop_products extends JPlugin
 		{
 			return array();
 		}
+
 		$section = JText::_('COM_REDSHOP_Products');
 
 		$wheres = array();
@@ -77,6 +78,7 @@ class plgSearchredshop_products extends JPlugin
 					$wheres2[] = 'c.data_txt LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}

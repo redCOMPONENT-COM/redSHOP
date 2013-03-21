@@ -184,6 +184,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 			$values->responsestatus = 'Fail';
 			$message = JText::_('COM_REDSHOP_TRANSACTION_DECLINE');
 		}
+
 		$values->message = $message;
 
 		return $values;

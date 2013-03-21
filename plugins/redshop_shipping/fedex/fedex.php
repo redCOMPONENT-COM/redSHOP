@@ -259,6 +259,7 @@ class plgredshop_shippingfedex extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
@@ -307,6 +308,7 @@ class plgredshop_shippingfedex extends JPlugin
 		{
 			$fedex_weightunits = 'KG';
 		}
+
 		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
 		$totaldimention = $shippinghelper->getCartItemDimention();
 		$carttotalQnt = $totaldimention['totalquantity'];
@@ -349,6 +351,7 @@ class plgredshop_shippingfedex extends JPlugin
 		{
 			return $shippingrate;
 		}
+
 		$billing = $producthelper->getUserInformation($shippinginfo->user_id);
 
 		if (count($billing) < 1)

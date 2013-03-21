@@ -67,6 +67,7 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 		{
 			return;
 		}
+
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];

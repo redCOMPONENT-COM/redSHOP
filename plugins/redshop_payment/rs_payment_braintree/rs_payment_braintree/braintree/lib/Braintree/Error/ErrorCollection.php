@@ -88,6 +88,7 @@ class Braintree_Error_ErrorCollection
 				return array();
 			}
 		}
+
 		$finalKey = Braintree_Util::delimiterToCamelCase(end($pieces));
 
 		return $errors->onAttribute($finalKey);

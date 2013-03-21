@@ -64,6 +64,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		{
 			return;
 		}
+
 		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
 		include($api_path);
 		$dibs_hmac = new dibs_hmac();
@@ -106,6 +107,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			}
 		}
+
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 
@@ -134,6 +136,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		{
 			return;
 		}
+
 		$db = JFactory::getDBO();
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $data['order_id'];
@@ -173,6 +176,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 			$values->responsestatus = 'Fail';
 			$message = JText::_('COM_REDSHOP_TRANSACTION_DECLINE');
 		}
+
 		$values->message = $message;
 
 		return $values;

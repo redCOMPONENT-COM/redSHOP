@@ -138,6 +138,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			{
 				$values->responsestatus = 'Fail';
 			}
+
 			$values->transaction_id = $params['TXN'][$response]['DPSTXNREF'];
 			$values->message = $params['TXN'][$response]['CARDHOLDERHELPTEXT'];
 
@@ -186,6 +187,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 					$php_stmt .= '[$level[' . $start_level . ']]';
 					$start_level++;
 				}
+
 				$php_stmt .= '[$xml_elem[\'tag\']] = $xml_elem[\'value\'];';
 				@eval($php_stmt);
 			}
@@ -267,6 +269,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			{
 				$values->responsestatus = 'Fail';
 			}
+
 			$values->message = $message;
 
 			return $values;

@@ -110,6 +110,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			{
 				$config .= "define ('$key', '$value');\n";
 			}
+
 			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
@@ -184,6 +185,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			{
 				return $shippingrate;
 			}
+
 			$billing = $producthelper->getUserInformation($shippinginfo->user_id);
 
 			if (count($billing) < 1)
@@ -227,6 +229,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			{
 				$query .= 'Service_Type=' . strtoupper($australiapost_servicetype); // "Express", "Air", "Sea", or "Economy"
 			}
+
 			$query .= '&Country=' . $shippinginfo->country_2_code;
 			$query .= '&Weight=' . $carttotalWeight;
 			$query .= '&Length=' . $carttotalLength;
@@ -291,12 +294,14 @@ class plgredshop_shippingaustraliapost extends JPlugin
 					{
 						$charge[] = $result[1];
 					}
+
 					$daysarr = explode("days=", $myfile[1]);
 
 					if (count($daysarr) > 1)
 					{
 						$days[] = $daysarr[1];
 					}
+
 					$error = explode("err_msg=", $myfile[2]);
 
 					if (count($error) > 1)

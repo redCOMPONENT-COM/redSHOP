@@ -151,6 +151,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		{
 			die(" failed");
 		}
+
 		$v = $r->value();
 		/*
 		   Display response or fault information
@@ -207,6 +208,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 			$values->responsestatus = 'Fail';
 
 		}
+
 		$values->transaction_id = $tid;
 		$values->message = $payment_messsge;
 

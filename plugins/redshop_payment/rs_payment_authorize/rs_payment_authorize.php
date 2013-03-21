@@ -71,6 +71,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		{
 			$cal_no = PRICE_DECIMAL;
 		}
+
 		$order_total = round($data['order_total'], $cal_no);
 
 		$item_details = "";
@@ -103,6 +104,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			{
 				$taxable = "Y";
 			}
+
 			$product_price = round($cart[$p]['product_price'], $cal_no);
 
 			$item_details[] = $product_id . "<|>" . $product_name . "<|><|>" . $cart[$p]['quantity'] . "<|>" . $product_price . "<|>" . $taxable;
@@ -277,6 +279,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$message = "ERROR RESPONCE CODE : " . $response_vars[0] . "<br>" . $response_vars[3];
 			$values->responsestatus = 'Fail';
 		}
+
 		$values->transaction_id = $transaction_id;
 		$values->message = $message;
 
@@ -314,6 +317,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		{
 			$cal_no = PRICE_DECIMAL;
 		}
+
 		$order_total = round($order_details->order_total, $cal_no);
 		//Authnet vars to send
 		$formdata = array(
@@ -422,6 +426,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$values->responsestatus = 'Fail';
 			$message = "ERROR RESPONCE CODE : " . $response_vars[0] . "<br>" . $response_vars[3];
 		}
+
 		$values->message = $message;
 
 		return $values;
@@ -450,6 +455,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		{
 			$authorize_status = "Captured";
 		}
+
 		$query = "UPDATE " . $this->_table_prefix . "order_payment SET  authorize_status = '" . $authorize_status . "' where order_id = '" . $order_id . "'";
 		$db->SetQuery($query);
 		$db->Query();

@@ -25,6 +25,7 @@ for ($i = 0; $i < count($items); $i++)
 {
 	$item[] = strip_tags($items[$i]->order_item_name) . '  ' . round($items[$i]->product_item_price, 2);
 }
+
 $table_desc = join(', ', $item);
 // currency converter
 $currency = new convertPrice ();

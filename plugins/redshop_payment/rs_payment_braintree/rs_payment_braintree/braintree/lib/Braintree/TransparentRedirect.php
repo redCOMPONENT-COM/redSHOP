@@ -232,6 +232,7 @@ class Braintree_TransparentRedirect
 				'expected params to contain paymentMethodToken.'
 			);
 		}
+
 		$params["kind"] = Braintree_TransparentRedirect::UPDATE_PAYMENT_METHOD;
 
 		return self::_data($params);
@@ -266,6 +267,7 @@ class Braintree_TransparentRedirect
 				'expected params to contain customerId of customer to update'
 			);
 		}
+
 		$params["kind"] = Braintree_TransparentRedirect::UPDATE_CUSTOMER;
 
 		return self::_data($params);
@@ -320,6 +322,7 @@ class Braintree_TransparentRedirect
 				'expected params to contain redirectUrl'
 			);
 		}
+
 		$params = self::_underscoreKeys($params);
 		$now = new DateTime('now', new DateTimeZone('UTC'));
 		$trDataParams = array_merge($params,

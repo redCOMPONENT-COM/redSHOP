@@ -108,6 +108,7 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 
 		}
+
 		$values->order_id = $order_id;
 
 		return $values;

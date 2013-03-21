@@ -105,6 +105,7 @@ if ($order->order_shipping > 0)
 	{
 		$order_shipping_tax = $order->order_shipping_tax;
 	}
+
 	$shipping_price = $currencyClass->convert($order->order_shipping, '', $this->_params->get("dibs_currency"));
 	$shipping_vat = $currencyClass->convert($order_shipping_tax, '', $this->_params->get("dibs_currency"));
 	$shipping_price = floor($shipping_price * 100) / 100;
@@ -116,6 +117,7 @@ if ($order->order_shipping > 0)
 	$p++;
 
 }
+
 $payment_price = $order->payment_discount;
 
 if ($payment_price > 0)
@@ -135,6 +137,7 @@ if ($payment_price > 0)
 		$discount_payment_price = $payment_price;
 
 	}
+
 	$payment_vat = 0;
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_payment . ";Payment Handling;Payment Handling;" . $discount_payment_price . ";" . ($p + 1) . ";" . $payment_vat;
 

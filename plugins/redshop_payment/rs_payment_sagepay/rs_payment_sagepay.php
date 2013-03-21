@@ -71,6 +71,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		{
 			return;
 		}
+
 		$strCrypt = $request["crypt"];
 
 		if (strlen($strCrypt) == 0)
