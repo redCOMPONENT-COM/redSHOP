@@ -47,6 +47,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -83,9 +84,11 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		if (sizeof($request) > 0)
 		{
 			$MAC = $dibs_hmac->calculateMac($request, $HmacKey);
+
 			if ($request['MAC'] == $MAC && $request['status'] == "ACCEPTED")
 			{
 				$tid = $request['transaction'];
+
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
 					$transaction_id = $tid;
@@ -116,6 +119,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;
@@ -158,6 +162,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$data = curl_exec($ch);
 		$data = explode('&', $data);
 		$capture_status = explode('=', $data[0]);
+
 		if ($capture_status[1] == 'ACCEPTED')
 		{
 			$values->responsestatus = 'Success';

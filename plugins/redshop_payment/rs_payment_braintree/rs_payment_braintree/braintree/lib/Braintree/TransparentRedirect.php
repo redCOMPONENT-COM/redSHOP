@@ -191,6 +191,7 @@ class Braintree_TransparentRedirect
 		$transactionType = isset($params['transaction']['type']) ?
 			$params['transaction']['type'] :
 			null;
+
 		if ($transactionType != Braintree_Transaction::SALE && $transactionType != Braintree_Transaction::CREDIT)
 		{
 			throw new InvalidArgumentException(
@@ -224,6 +225,7 @@ class Braintree_TransparentRedirect
 			self::$_updateCreditCardSignature,
 			$params
 		);
+
 		if (!isset($params['paymentMethodToken']))
 		{
 			throw new InvalidArgumentException(
@@ -257,6 +259,7 @@ class Braintree_TransparentRedirect
 			self::$_updateCustomerSignature,
 			$params
 		);
+
 		if (!isset($params['customerId']))
 		{
 			throw new InvalidArgumentException(
@@ -274,6 +277,7 @@ class Braintree_TransparentRedirect
 		parse_str($queryString, $params);
 		// remove the hash
 		$queryStringWithoutHash = null;
+
 		if (preg_match('/^(.*)&hash=[a-f0-9]+$/', $queryString, $match))
 		{
 			$queryStringWithoutHash = $match[1];
@@ -283,6 +287,7 @@ class Braintree_TransparentRedirect
 		if ($params['http_status'] != '200')
 		{
 			$message = null;
+
 			if (array_key_exists('bt_message', $params))
 			{
 				$message = $params['bt_message'];
@@ -337,6 +342,7 @@ class Braintree_TransparentRedirect
 		{
 			$newKey = Braintree_Util::camelCaseToDelimiter($key, '_');
 			unset($array[$key]);
+
 			if (is_array($value))
 			{
 				$array[$newKey] = self::_underscoreKeys($value);

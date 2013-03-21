@@ -49,6 +49,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;

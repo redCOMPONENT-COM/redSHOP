@@ -540,6 +540,7 @@ final class Braintree_Transaction extends Braintree
 
 
 		$addOnArray = array();
+
 		if (isset($transactionAttribs['addOns']))
 		{
 			foreach ($transactionAttribs['addOns'] AS $addOn)
@@ -550,6 +551,7 @@ final class Braintree_Transaction extends Braintree
 		$this->_set('addOns', $addOnArray);
 
 		$discountArray = array();
+
 		if (isset($transactionAttribs['discounts']))
 		{
 			foreach ($transactionAttribs['discounts'] AS $discount)
@@ -598,6 +600,7 @@ final class Braintree_Transaction extends Braintree
 	public function vaultCreditCard()
 	{
 		$token = $this->creditCardDetails->token;
+
 		if (empty($token))
 		{
 			return null;
@@ -611,6 +614,7 @@ final class Braintree_Transaction extends Braintree
 	public function vaultCustomer()
 	{
 		$customerId = $this->customerDetails->id;
+
 		if (empty($customerId))
 		{
 			return null;
@@ -654,6 +658,7 @@ final class Braintree_Transaction extends Braintree
 			$message = 'expected transaction id to be set';
 
 		}
+
 		if (!preg_match('/^[0-9a-z]+$/', $id))
 		{
 

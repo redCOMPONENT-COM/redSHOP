@@ -13,6 +13,7 @@ class zoomproducthelper extends producthelper
 
 		$middlepath = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
+
 		if ($Product_detail_is_light != 2)
 		{
 			if ($product->product_thumb_image && is_file($middlepath . $product->product_thumb_image))
@@ -22,6 +23,7 @@ class zoomproducthelper extends producthelper
 		}
 
 		$altText = $this->getAltText('product', $product_id, $product_image);
+
 		if ($altText)
 		{
 			$product->product_name = $altText;
@@ -31,6 +33,7 @@ class zoomproducthelper extends producthelper
 		$alt = " alt='" . $product->product_name . "' ";
 
 		$cat_product_hover = false;
+
 		if ($enableHover && PRODUCT_HOVER_IMAGE_ENABLE)
 		{
 			$cat_product_hover = true;
@@ -42,11 +45,14 @@ class zoomproducthelper extends producthelper
 
 		$product_hover_img = REDSHOP_FRONT_IMAGES_ABSPATH . $noimage;
 		$linkimage = REDSHOP_FRONT_IMAGES_ABSPATH . $noimage;
+
 		if ($imagename != "")
 		{
 			$product_img = $redhelper->watermark('product', $imagename, $width, $height, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+
 			if ($cat_product_hover)
 				$product_hover_img = $redhelper->watermark('product', $imagename, PRODUCT_HOVER_IMAGE_WIDTH, PRODUCT_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_THUMB_IMAGE, '2');
+
 			if ($linkimagename != "")
 			{
 				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
@@ -92,16 +98,20 @@ class zoomproducthelper extends producthelper
 		for ($m = 0; $m < count($media_image); $m++)
 		{
 			$filename1 = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->media_name;
+
 			if ($media_image[$m]->media_name != $media_image[$m]->product_full_image && is_file($filename1))
 			{
 				$alttext = $this->getAltText('product', $media_image[$m]->section_id, '', $media_image[$m]->media_id);
+
 				if (!$alttext)
 				{
 					$alttext = $media_image [$m]->media_name;
 				}
+
 				if ($media_image [$m]->media_name)
 				{
 					$thumb = $media_image [$m]->media_name;
+
 					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
 					{
 						$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
@@ -123,6 +133,7 @@ class zoomproducthelper extends producthelper
 					$hovermore_images = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
 
 					$filename_org = JPATH_COMPONENT_SITE . "/assets/images/product/" . $media_image[$m]->product_full_image;
+
 					if (is_file($filename_org))
 					{
 						$thumb_original = $media_image[$m]->product_full_image;
@@ -131,6 +142,7 @@ class zoomproducthelper extends producthelper
 					{
 						$thumb_original = PRODUCT_DEFAULT_IMAGE;
 					}
+
 					if (WATERMARK_PRODUCT_THUMB_IMAGE)
 						$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 					else
@@ -151,6 +163,7 @@ class zoomproducthelper extends producthelper
 			{
 				//$filename_org=JPATH_COMPONENT_SITE . "/assets/images/product/".$product->product_full_image;
 				$filename_org = JPATH_COMPONENT_SITE . "/assets/images/product/" . $this->data->product_full_image;
+
 				if (is_file($filename_org))
 				{
 					$thumb_original = $this->data->product_full_image;
@@ -169,6 +182,7 @@ class zoomproducthelper extends producthelper
 			$prod_img_path_link = $url . "components/com_redshop/assets/images/product/" . $thumb_original;
 			$prodmainimg .= '<a href="javascript:void(0);" rel="{gallery: \'gal1\' , smallimage: \'' . $prod_img_path . '\' ,largeimage: \'' . $prod_img_path_link . '\' }" >';
 			$prodmainimg .= "<img src='" . $img_path_org . "' alt='" . $alttext . "' title='" . $alttext . "' style='cursor: pointer;'></a>";
+
 			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $thumb_original))
 				$more_images .= $prodmainimg;
 		}
@@ -193,6 +207,7 @@ class zoomproducthelper extends producthelper
 
 		$option = JRequest::getVar('option', 'com_redshop');
 		$redhelper = new redhelper();
+
 		if ($accessory_id != 0)
 		{
 			$accessory = $this->getProductAccessory($accessory_id);
@@ -219,6 +234,7 @@ class zoomproducthelper extends producthelper
 		}
 		// End
 		$producttemplate = $producttemplate[0]->template_desc;
+
 		if ($redlayout == 'categoryproduct' || $redlayout == 'detail')
 		{
 			if (strstr($producttemplate, "{product_thumb_image_3}"))
@@ -295,6 +311,7 @@ class zoomproducthelper extends producthelper
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
 		}
+
 		if ($main_imgwidth != 0 || $main_imgheight != 0)
 		{
 			$pw_thumb = $main_imgwidth;
@@ -321,10 +338,12 @@ class zoomproducthelper extends producthelper
 		{
 			$thumb = $media_image [$m]->media_name;
 			$alttext = $this->getAltText('product', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
+
 			if (!$alttext)
 			{
 				$alttext = $media_image [$m]->media_name;
 			}
+
 			if ($media_image [$m]->media_name != $media_image [$m]->product_full_image)
 			{
 				if ($media_image [$m]->media_name && is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $media_image[$m]->media_name))
@@ -339,12 +358,14 @@ class zoomproducthelper extends producthelper
 						$pimg = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 						$linkimage = $url . "components/com_redshop/assets/images/product/" . $thumb;
 					}
+
 					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
 						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
 					else
 						$img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 					$filename_thumb = JPATH_COMPONENT_SITE . "/assets/images/product/" . $product->product_thumb_image;
 					$filename_org = JPATH_COMPONENT_SITE . "/assets/images/product/" . $media_image [$m]->product_full_image;
+
 					if (is_file($filename_thumb))
 					{
 						$thumb_original = $product->product_thumb_image;
@@ -357,6 +378,7 @@ class zoomproducthelper extends producthelper
 					{
 						$thumb_original = PRODUCT_DEFAULT_IMAGE;
 					}
+
 					if (WATERMARK_PRODUCT_THUMB_IMAGE)
 						$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 					else
@@ -368,6 +390,7 @@ class zoomproducthelper extends producthelper
 				}
 			}
 		}
+
 		if ($val_prodadd > 0)
 		{
 			if ($val_prodadd == 1)
@@ -375,6 +398,7 @@ class zoomproducthelper extends producthelper
 				$filename_thumb = JPATH_COMPONENT_SITE . "/assets/images/product/" . $product->product_thumb_image;
 				$filename_org = JPATH_COMPONENT_SITE . "/assets/images/product/" . $product->product_full_image;
 				$prodadditionImg = "";
+
 				if (is_file($filename_thumb))
 				{
 					$thumb_original = $product->product_thumb_image;
@@ -387,6 +411,7 @@ class zoomproducthelper extends producthelper
 				{
 					$thumb_original = PRODUCT_DEFAULT_IMAGE;
 				}
+
 				if (WATERMARK_PRODUCT_THUMB_IMAGE)
 					$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 				else
@@ -398,6 +423,7 @@ class zoomproducthelper extends producthelper
 
 			$prodmainimg = '<a href="javascript:void(0);" rel="{gallery: \'gal1\' , smallimage: \'' . $prod_img_path . '\' ,largeimage: \'' . $prod_img_path_link . '\' }" >';
 			$prodmainimg .= "<img src='" . $img_path_org . "' alt='" . $alttext . "' title='" . $alttext . "' style='cursor: pointer;'></a>";
+
 			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $thumb_original))
 				$prodadditionImg .= $prodmainimg;
 
@@ -415,6 +441,7 @@ class zoomproducthelper extends producthelper
 			$media_image = $this->getAdditionMediaImage($property_id, "property");
 			$prop_add_img = count($media_image);
 			$property_filename_org = JPATH_COMPONENT_SITE . "/assets/images/property/" . $imagename;
+
 			if (is_file($property_filename_org))
 			{
 				$property_thumb_original = $imagename;
@@ -429,10 +456,12 @@ class zoomproducthelper extends producthelper
 				$prop_mainimg_path = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $property_thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 				$prod_img_path_link = $url . "components/com_redshop/assets/images/product/" . $property_thumb_original;
 			}
+
 			if (count($media_image) == 0)
 			{
 				$propadditionImg = $tmp_prodimg;
 				$prop_mainimg = "";
+
 				if ($val_prodadd > 0)
 				{
 					$prop_mainimg .= '<a href="javascript:void(0);" rel="{gallery: \'gal1\' , smallimage: \'' . $property_img_path_org . '\' ,largeimage: \'' . $prod_img_path_link . '\' }" >';
@@ -446,10 +475,12 @@ class zoomproducthelper extends producthelper
 				{
 					$thumb = $media_image [$m]->media_name;
 					$alttext = $this->getAltText('property', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
+
 					if (!$alttext)
 					{
 						$alttext = $thumb;
 					}
+
 					if ($thumb != $media_image [$m]->property_image)
 					{
 						if ($thumb && is_file(JPATH_COMPONENT_SITE . "/assets/images/property/" . $thumb))
@@ -481,6 +512,7 @@ class zoomproducthelper extends producthelper
 			//Display Sub-Property Number
 			$media_image = $this->getAdditionMediaImage($subproperty_id, "subproperty");
 			$subproperty_filename_org = JPATH_COMPONENT_SITE . "/assets/images/subcolor/" . $imagename;
+
 			if (is_file($subproperty_filename_org))
 			{
 				$subproperty_thumb_original = $media_image [0]->subattribute_color_image;
@@ -494,9 +526,11 @@ class zoomproducthelper extends producthelper
 				$subprop_mainimg_path = $prop_mainimg_path;
 				$subprod_img_path_link = $prod_img_path_link;
 			}
+
 			if (count($media_image) == 0)
 			{
 				$subpropadditionImg = $tmppropadditionImg;
+
 				if ($val_prodadd > 0 || $prop_add_img > 0)
 				{
 					$subprop_mainimg .= '<a href="javascript:void(0);" rel="{gallery: \'gal1\' , smallimage: \'' . $subproperty_img_path_org . '\' ,largeimage: \'' . $subprod_img_path_link . '\' }" >';
@@ -511,10 +545,12 @@ class zoomproducthelper extends producthelper
 				{
 					$thumb = $media_image [$m]->media_name;
 					$alttext = $this->getAltText('subproperty', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
+
 					if (!$alttext)
 					{
 						$alttext = $thumb;
 					}
+
 					if ($thumb != $media_image [$m]->subattribute_color_image)
 					{
 						if ($thumb && is_file(JPATH_COMPONENT_SITE . "/assets/images/property/" . $thumb))
@@ -539,6 +575,7 @@ class zoomproducthelper extends producthelper
 		}
 		//Sub-Property Additional Image End
 		$response = "";
+
 		if ($subpropadditionImg != "")
 		{
 			if (trim($subpropadditionImg) != "")
@@ -557,20 +594,25 @@ class zoomproducthelper extends producthelper
 
 		$ProductAttributeDelivery = "";
 		$attributeFlag = false;
+
 		if ($accessory_id == 0)
 		{
 			if ($subproperty_id)
 			{
 				$ProductAttributeDelivery = $this->getProductMinDeliveryTime($product_id, $subproperty_id, "subproperty", 0);
+
 				if ($ProductAttributeDelivery)
 					$attributeFlag = true;
 			}
+
 			if ($property_id && $attributeFlag == false)
 			{
 				$ProductAttributeDelivery = $this->getProductMinDeliveryTime($product_id, $property_id, "property", 0);
+
 				if ($ProductAttributeDelivery)
 					$attributeFlag = true;
 			}
+
 			if ($product_id && $attributeFlag == false)
 			{
 				$ProductAttributeDelivery = $this->getProductMinDeliveryTime($product_id);
@@ -582,6 +624,7 @@ class zoomproducthelper extends producthelper
 		$productinstock = 0;
 		$stockamountSrc = "";
 		$stockImgFlag = false;
+
 		if (USE_STOCKROOM == 1 && $accessory_id == 0)
 		{
 			if ($subproperty_id)
@@ -593,6 +636,7 @@ class zoomproducthelper extends producthelper
 				$stockImgFlag = true;
 //				}
 			}
+
 			if ($property_id && $stockImgFlag == false)
 			{
 				$productinstock = $stockroomhelper->getStockAmountwithReserve($property_id, "property");
@@ -602,11 +646,13 @@ class zoomproducthelper extends producthelper
 				$stockImgFlag = true;
 //				}
 			}
+
 			if ($product_id && $stockImgFlag == false)
 			{
 				$productinstock = $stockroomhelper->getStockAmountwithReserve($product_id);
 				$stockamountList = $stockroomhelper->getStockAmountImage($product_id, "product", $productinstock);
 			}
+
 			if (count($stockamountList) > 0)
 			{
 				$stockamountTooltip = $stockamountList[0]->stock_amount_image_tooltip;
@@ -621,6 +667,7 @@ class zoomproducthelper extends producthelper
 
 			// for product stock
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
+
 			if ($property_id > 0)
 			{
 				$isPropertystock = false;
@@ -629,6 +676,7 @@ class zoomproducthelper extends producthelper
 				//if(!$isStockExists)
 				//{
 				$isSubpropertyStock = false;
+
 				if ($subproperty_id > 0)
 				{
 					$isSubpropertyStock = $stockroomhelper->isStockExists($subproperty_id, 'subproperty');
@@ -642,6 +690,7 @@ class zoomproducthelper extends producthelper
 					for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 					{
 						$isSubpropertyStock = $stockroomhelper->isStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');
+
 						if ($isSubpropertyStock)
 						{
 							$isStockExists = $isSubpropertyStock;
@@ -658,6 +707,7 @@ class zoomproducthelper extends producthelper
 			{
 				// for cunt attributes
 				$attributes_set = array();
+
 				if ($product->attribute_set_id > 0)
 				{
 					$attributes_set = $this->getProductAttribute(0, $product->attribute_set_id, 0, 1);
@@ -680,6 +730,7 @@ class zoomproducthelper extends producthelper
 						for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 						{
 							$isSubpropertyStock = $stockroomhelper->isStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');
+
 							if ($isSubpropertyStock)
 							{
 								$isStockExists = $isSubpropertyStock;
@@ -697,6 +748,7 @@ class zoomproducthelper extends producthelper
 
 							$isPropertystock = $stockroomhelper->isStockExists($property[$att_j]->property_id, "property");
 							//echo $isPropertystock;die();
+
 							if ($isPropertystock)
 							{
 								$isStockExists = $isPropertystock;
@@ -708,6 +760,7 @@ class zoomproducthelper extends producthelper
 
 				// for preproduct stock
 				$isPreorderStockExists = $stockroomhelper->isPreorderStockExists($product_id);
+
 				if ($totalatt > 0 && !$isPreorderStockExists)
 				{
 
@@ -719,12 +772,14 @@ class zoomproducthelper extends producthelper
 						for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 						{
 							$isSubpropertyStock = $stockroomhelper->isPreorderStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');
+
 							if ($isSubpropertyStock)
 							{
 								$isPreorderStockExists = $isSubpropertyStock;
 								break;
 							}
 						}
+
 						if ($isSubpropertyStock)
 						{
 							break;
@@ -732,6 +787,7 @@ class zoomproducthelper extends producthelper
 						else
 						{
 							$isPropertystock = $stockroomhelper->isPreorderStockExists($property[$att_j]->property_id, "property");
+
 							if ($isPropertystock)
 							{
 								$isPreorderStockExists = $isPropertystock;
@@ -751,16 +807,19 @@ class zoomproducthelper extends producthelper
 			$sts_array = explode(":", $stock_tag);
 
 			$avail_class = $sts_array[1];
+
 			if ($avail_class == "")
 			{
 				$avail_class = "available_stock_cls";
 			}
 			$out_stock_class = $sts_array[2];
+
 			if ($out_stock_class == "")
 			{
 				$out_stock_class = "out_stock_cls";
 			}
 			$pre_order_class = $sts_array[3];
+
 			if ($pre_order_class == "")
 			{
 				$pre_order_class = "pre_order_cls";
@@ -774,6 +833,7 @@ class zoomproducthelper extends producthelper
 					// for preproduct stock
 
 					$isPreorderStockExists = $stockroomhelper->isPreorderStockExists($product_id);
+
 					if ($property_id > 0)
 					{
 						$isPropertystock = false;
@@ -783,6 +843,7 @@ class zoomproducthelper extends producthelper
 						//if(!$isPreorderStockExists)
 						//{
 						$isSubpropertyStock = false;
+
 						if ($subproperty_id > 0)
 						{
 							$isSubpropertyStock = $stockroomhelper->isPreorderStockExists($subproperty_id, 'subproperty');
@@ -796,6 +857,7 @@ class zoomproducthelper extends producthelper
 							for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 							{
 								$isSubpropertyStock = $stockroomhelper->isPreorderStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');
+
 								if ($isSubpropertyStock)
 								{
 									$isPreorderStockExists = $isSubpropertyStock;
@@ -853,6 +915,7 @@ class zoomproducthelper extends producthelper
 		$uri =& JURI::getInstance();
 		$url = $uri->toString(array('scheme', 'host', 'port'));
 		$path = explode("/", $uri->getPath());
+
 		if ($path[1] != "plugins") $url .= "/" . $path[1] . "/";
 		else    $url .= "/";
 
@@ -900,6 +963,7 @@ class zoomproducthelper extends producthelper
 		{
 			$property = $this->getAttibuteProperty($property_id);
 			$pr_number = $property[0]->property_number;
+
 			if (count($property) > 0 && is_file(JPATH_COMPONENT_SITE . "/assets/images/property/" . $property[0]->property_main_image))
 			{
 				$type = 'property';
@@ -939,6 +1003,7 @@ class zoomproducthelper extends producthelper
 			{
 				$productmainimg = $url . "components/com_redshop/helpers/thumb.php?filename=$type/" . $imagename . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			}
+
 			if ((WATERMARK_PRODUCT_IMAGE) && $type == 'product')
 			{
 				$aHrefImageResponse = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');

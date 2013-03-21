@@ -50,6 +50,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -150,10 +151,12 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		                'ACCT'      => $creditCardNumber,
 		                'EXPDATE'   => $strExpiryDate,
 		                'CVV2'      => $strCV2);
+
 		if ($tax_amount > 0)
 		{
 			$params['TAXAMT'] = $tax_amount;
 		}
+
 		if ($shipping_amount > 0)
 		{
 			$params['FREIGHTAMT'] = $shipping_amount;
@@ -240,6 +243,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
 			curl_setopt($curl, CURLOPT_POST, 1);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $parameters);
+
 			if (!empty($header))
 			{
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
@@ -377,6 +381,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$currencyClass = new convertPrice ();
 		$order_amount = $currencyClass->convert($data['order_amount'], '', $currencyID);
 		$order_amount = urlencode(number_format($order_amount, 2));
+
 		if ($is_test)
 		{
 			$api_url = "https://pilot-payflowpro.paypal.com";

@@ -25,6 +25,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 //defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
+
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
@@ -608,6 +609,7 @@ class plgredshop_shippingusps extends JPlugin
 				$config .= "define ('$key', '$value');\n";
 			}
 			$config .= "?>";
+
 			if ($fp = fopen($maincfgfile, "w"))
 			{
 				fputs($fp, $config, strlen($config));
@@ -638,18 +640,22 @@ class plgredshop_shippingusps extends JPlugin
 		$unitRatio = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
 		$totaldimention = $shippinghelper->getCartItemDimention();
 		$order_weight = $totaldimention['totalweight'];
+
 		if ($unitRatio != 0)
 		{
 			$order_weight = $order_weight * $unitRatio; // converting weight in pounds
 		}
+
 		if ($order_weight > 0)
 		{
 			$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 			if (count($shippinginfo) < 1)
 			{
 				return $shippingrate;
 			}
 			$billing = $producthelper->getUserInformation($shippinginfo->user_id);
+
 			if (count($billing) < 1)
 			{
 				return $shippingrate;
@@ -679,6 +685,7 @@ class plgredshop_shippingusps extends JPlugin
 			$order_weight = ($order_weight * $usps_padding) + $order_weight;
 			//USPS Machinable for Parcel Post
 			$usps_machinable = USPS_MACHINABLE; //$itemparams->get("usps_machinable");
+
 			if ($usps_machinable == '1') $usps_machinable = 'TRUE';
 			else $usps_machinable = 'FALSE';
 			$order_weight = 12;
@@ -745,6 +752,7 @@ class plgredshop_shippingusps extends JPlugin
 			{
 				$shipping_pounds_intl = ceil($order_weight);
 			}
+
 			if ($order_weight < 0.88)
 			{
 				$shipping_pounds = 0;
@@ -796,6 +804,7 @@ class plgredshop_shippingusps extends JPlugin
 						$xmlResult = curl_exec($CR);
 
 						$error = curl_error($CR);
+
 						if (!empty($error))
 						{
 							$html = "<br/><span class=\"message\">" . JText::_('COM_REDSHOP_PHPSHOP_INTERNAL_ERROR') . " USPS.com</span>";
@@ -820,6 +829,7 @@ class plgredshop_shippingusps extends JPlugin
 					else
 					{
 						$fp = fsockopen("http://" . $usps_server, $errno, $errstr, $timeout = 60);
+
 						if (!$fp)
 						{
 							$error = true;
@@ -839,6 +849,7 @@ class plgredshop_shippingusps extends JPlugin
 							{
 								$xmlResult .= fgets($fp, 4096);
 							}
+
 							if (stristr($xmlResult, "Success"))
 							{
 								/* XML Parsing */
@@ -853,6 +864,7 @@ class plgredshop_shippingusps extends JPlugin
 							}
 						}
 					}
+
 					if ($itemparams->get("usps_debug"))
 					{
 						echo "XML Post: <br>";
@@ -863,6 +875,7 @@ class plgredshop_shippingusps extends JPlugin
 						echo "<br>";
 						echo "Cart Contents: " . $order_weight . "<br><br>\n";
 					}
+
 					if ($error)
 					{
 						return $shippingrate; //"We are unable to ship USPS as the there was an error,<br> please select another shipping method.";
@@ -882,6 +895,7 @@ class plgredshop_shippingusps extends JPlugin
 
 					// retrieve the service and postage items
 					$i = 0;
+
 					if ($order_weight > 15)
 					{
 						$count = 8;
@@ -919,6 +933,7 @@ class plgredshop_shippingusps extends JPlugin
 						{
 							$currNode = $totalmatchedchild[$i];
 							$matched_childname = $currNode->name();
+
 							if ($matched_childname == "postage")
 							{
 
@@ -927,6 +942,7 @@ class plgredshop_shippingusps extends JPlugin
 								$ship_service[$count] = $mailservice->data(); //html_entity_decode($mailservice->data());
 								$rateData = $currNode->getElementByPath("rate");
 								$ship_postage[$count] = $rateData->data();
+
 								if (preg_match('/%$/', USPS_HANDLINGFEE))
 								{
 									$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_HANDLINGFEE, 0, -1) / 100);
@@ -969,6 +985,7 @@ class plgredshop_shippingusps extends JPlugin
 						$xmlResult = curl_exec($CR);
 
 						$error = curl_error($CR);
+
 						if (!empty($error))
 						{
 							$html = "<br/><span class=\"message\">" . JText::_('COM_REDSHOP_PHPSHOP_INTERNAL_ERROR') . " USPS.com</span>";
@@ -992,6 +1009,7 @@ class plgredshop_shippingusps extends JPlugin
 					else
 					{
 						$fp = fsockopen("http://" . $usps_server, $errno, $errstr, $timeout = 60);
+
 						if (!$fp)
 						{
 							$error = true;
@@ -1012,6 +1030,7 @@ class plgredshop_shippingusps extends JPlugin
 							{
 								$xmlResult .= fgets($fp, 4096);
 							}
+
 							if (stristr($xmlResult, "Success"))
 							{
 								/* XML Parsing */
@@ -1037,6 +1056,7 @@ class plgredshop_shippingusps extends JPlugin
 						echo "<br>";
 						echo "Cart Contents: " . $order_weight . "<br><br>\n";
 					}
+
 					if ($error)
 					{
 						echo "We are unable to ship USPS as there was an error,<br> please select another shipping method.";
@@ -1045,6 +1065,7 @@ class plgredshop_shippingusps extends JPlugin
 					$ratev3response = $xmlDoc->document;
 					$package = $ratev3response->getElementByPath("package");
 					$totalmatchedchild = $package->_children;
+
 					if ($totalmatchedchild != null)
 					{
 						$count = 0;
@@ -1084,6 +1105,7 @@ class plgredshop_shippingusps extends JPlugin
 					}
 				}
 //				print_r($ship_service);
+
 				if (($dest_country == "USA") && in_array($dest_state, $states))
 				{
 					$i = 0;
@@ -1093,9 +1115,11 @@ class plgredshop_shippingusps extends JPlugin
 						{
 							$ship_service[$i] = strip_tags(html_entity_decode($ship_service[$i]));
 							$ship_service[$i] = str_replace('&reg;', '', $ship_service[$i]);
+
 							if ($data[$j]['name'] == $ship_service[$i])
 							{
 								$delivery = "";
+
 								if (USPS_SHOW_DELIVERY_QUOTE == 1 && !empty($ship_commit[$i]))
 								{
 									$delivery = $ship_commit[$i];
@@ -1119,6 +1143,7 @@ class plgredshop_shippingusps extends JPlugin
 					while ($i < $count)
 					{
 						$delivery = "";
+
 						if (USPS_SHOW_DELIVERY_QUOTE == 1 && !empty($ship_commit[$i]))
 						{
 							$delivery = $ship_commit[$i];

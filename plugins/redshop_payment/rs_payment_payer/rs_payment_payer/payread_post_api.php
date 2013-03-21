@@ -165,6 +165,7 @@ class payread_post_api
 	function setKeys($key1, $key2)
 	{
 		if ($key1 != "*") $this->myKeys["A"] = $key1;
+
 		if ($key2 != "*") $this->myKeys["B"] = $key2;
 	}
 
@@ -406,6 +407,7 @@ class payread_post_api
 		$theArray = array();
 		$theArray["LineNo"] = $theLineNumber;
 		$theArray["Description"] = $theDescription;
+
 		if ($theItemNumber != null)
 		{
 			$theArray["ItemNumber"] = $theItemNumber;
@@ -413,14 +415,17 @@ class payread_post_api
 		$theArray["Price"] = $thePrice;
 		$theArray["Vat"] = $theVat;
 		$theArray["Quantity"] = $theQuantity;
+
 		if ($theUnit != null)
 		{
 			$theArray["Unit"] = $theUnit;
 		}
+
 		if ($theAccount != null)
 		{
 			$theArray["Account"] = $theAccount;
 		}
+
 		if ($theDistAgentId != null)
 		{
 			$theArray["AgentId"] = $theDistAgentId;
@@ -434,6 +439,7 @@ class payread_post_api
 		$theArray = array();
 		$theArray["LineNo"] = $theLineNumber;
 		$theArray["Description"] = $theDescription;
+
 		if ($theItemNumber != null)
 		{
 			$theArray["ItemNumber"] = $theItemNumber;
@@ -441,6 +447,7 @@ class payread_post_api
 		$theArray["Price"] = $theInitialPrice;
 		$theArray["Vat"] = $theVat;
 		$theArray["Quantity"] = $theQuantity;
+
 		if ($theUnit != null)
 		{
 			$theArray["Unit"] = $theUnit;
@@ -683,6 +690,7 @@ class payread_post_api
 	{
 		// strip the &md5sum from url
 		$pos = strpos($theUrl, "&md5sum");
+
 		if ($pos === false)
 		{
 			// this case handles opencart and other manipulating $_SERVER vars
@@ -909,6 +917,7 @@ class payread_post_api
 		//Processing control
 		$this->myXmlData .=
 			"<processing_control>\n";
+
 		if (!empty($this->mySuccessRedirectUrl))
 			$this->myXmlData .= "<success_redirect_url>" . $this->do_encode($this->mySuccessRedirectUrl) . "</success_redirect_url>\n";
 		$this->myXmlData .=

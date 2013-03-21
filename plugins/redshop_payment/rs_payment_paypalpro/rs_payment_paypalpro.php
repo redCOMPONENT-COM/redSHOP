@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -102,9 +103,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$httpParsedResponseAr = $this->PPHttpPost('DoDirectPayment', $nvpStr);
 
 		$transaction_id = $request['transaction_id'];
+
 		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
 			$values->responsestatus = 'Success';
+
 			if ($debug_mode == 1)
 			{
 				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
@@ -118,6 +121,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		else
 		{
 			$values->responsestatus = 'Fail';
+
 			if ($debug_mode == 1)
 			{
 				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
@@ -197,6 +201,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		foreach ($httpResponseAr as $i => $value)
 		{
 			$tmpAr = explode("=", $value);
+
 			if (sizeof($tmpAr) > 1)
 			{
 				$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
@@ -445,6 +450,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;

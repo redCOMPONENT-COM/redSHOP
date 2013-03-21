@@ -33,6 +33,7 @@ $post_variables = array();
 
 // get plugin params
 $live_mode = $this->_params->get("is_live");
+
 if ($live_mode == "1")
 {
 

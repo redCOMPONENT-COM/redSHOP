@@ -179,11 +179,13 @@ class plgredshop_shippingaustraliapost extends JPlugin
 		if ($carttotalWeight > 0)
 		{
 			$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 			if (count($shippinginfo) < 1)
 			{
 				return $shippingrate;
 			}
 			$billing = $producthelper->getUserInformation($shippinginfo->user_id);
+
 			if (count($billing) < 1)
 			{
 				return $shippingrate;
@@ -193,6 +195,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			{
 				$shippinginfo->country_2_code = $redconfig->getCountryCode2($shippinginfo->country_code);
 			}
+
 			if (isset($billing->country_code))
 			{
 				$billing->country_2_code = $redconfig->getCountryCode2($billing->country_code);
@@ -201,16 +204,19 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			$itemparams = new JRegistry($shipping->params);
 			$australiapost_servicetype = 'Air';
 			$australiapost_auservicetype = 'Standard';
+
 			if ($itemparams->get("australiapost_servicetype"))
 			{
 				$australiapost_servicetype = $itemparams->get("australiapost_servicetype");
 			}
+
 			if ($itemparams->get("australiapost_auservicetype"))
 			{
 				$australiapost_auservicetype = $itemparams->get("australiapost_auservicetype");
 			}
 
 			$query = "";
+
 			if ($shippinginfo->country_2_code == "AU")
 			{
 				$query .= 'Pickup_Postcode=' . AUSTRALIAPOST_PICKUPZIPCODE; //$billing->zipcode;
@@ -235,12 +241,14 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			$error = "";
 			$charge = array();
 			$days = array();
+
 			if (function_exists("curl_init"))
 			{
 				$CR = curl_init();
 				curl_setopt($CR, CURLOPT_URL, $myfile);
 				curl_setopt($CR, CURLOPT_TIMEOUT, 30);
 				curl_setopt($CR, CURLOPT_FAILONERROR, true);
+
 				if ($query)
 				{
 					curl_setopt($CR, CURLOPT_POSTFIELDS, $query);
@@ -256,9 +264,11 @@ class plgredshop_shippingaustraliapost extends JPlugin
 //					echo JText::_('COM_REDSHOP_NOT_GET_SHIPPING_RATES');
 					return $shippingrate;
 				}
+
 				if ($result)
 				{
 					$res = explode("charge=", $result);
+
 					if (count($res) > 0)
 					{
 						$res1 = explode("days=", $res[1]);
@@ -272,25 +282,30 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			else
 			{
 				$myfile = file('http://drc.edeliver.com.au/ratecalc.asp?' . $query);
+
 				if (count($myfile) > 0)
 				{
 					$result = explode("charge=", $myfile[0]);
+
 					if (count($result) > 1)
 					{
 						$charge[] = $result[1];
 					}
 					$daysarr = explode("days=", $myfile[1]);
+
 					if (count($daysarr) > 1)
 					{
 						$days[] = $daysarr[1];
 					}
 					$error = explode("err_msg=", $myfile[2]);
+
 					if (count($error) > 1)
 					{
 						$error = trim(strtolower($error[1]));
 					}
 				}
 			}
+
 			if ($error != "ok")
 			{
 //				echo JText::_('COM_REDSHOP_NOT_GET_SHIPPING_RATES');

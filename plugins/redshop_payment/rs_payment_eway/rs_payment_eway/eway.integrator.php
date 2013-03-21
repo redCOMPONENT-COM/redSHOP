@@ -180,12 +180,14 @@ class EwayPayment
 					$this->myGatewayURL = $paymentparams->get('eway_testing_url');
 				break;
 			case 'REAL-TIME-CVN';
+
 				if ($liveGateway)
 					$this->myGatewayURL = $paymentparams->get('eway_cvn_live_url');
 				else
 					$this->myGatewayURL = $paymentparams->get('eway_cvn_testing_url');
 				break;
 			case 'GEO-IP-ANTI-FRAUD';
+
 				if ($liveGateway)
 					$this->myGatewayURL = $paymentparams->get('eway_antifraud_live_url');
 				else
@@ -344,6 +346,7 @@ class EwayPayment
 	{
 		$ip = $_SERVER["REMOTE_ADDR"];
 		$proxy = $_SERVER["HTTP_X_FORWARDED_FOR"];
+
 		if (preg_match("^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$", $proxy))
 			$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
@@ -359,6 +362,7 @@ class EwayPayment
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
+
 		if ($order_payment == 0)
 		{
 			$res = true;

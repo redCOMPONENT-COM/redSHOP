@@ -53,6 +53,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -71,6 +72,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			return;
 		}
 		$strCrypt = $request["crypt"];
+
 		if (strlen($strCrypt) == 0)
 		{
 			ob_end_flush();

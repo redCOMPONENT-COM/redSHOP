@@ -59,6 +59,7 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 		$rate = 0;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$shippingArr = $shippinghelper->getShopperGroupDefaultShipping();
+
 		if (!empty($shippingArr))
 		{
 			$shopper_shipping = $shippingArr['shipping_rate'];

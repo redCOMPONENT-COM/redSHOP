@@ -83,6 +83,7 @@ class XmlBuilder
 	{
 		$element = array_pop($this->stack);
 		$this->_indent();
+
 		if ($element !== $pop_element)
 			die('XML Error: Tag Mismatch when trying to close "' . $pop_element . '"');
 		else

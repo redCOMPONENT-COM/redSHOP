@@ -57,6 +57,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -89,6 +90,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		$merchant_id = $this->_params->get("paypoint_merchant_id");
 		$vpn_password = $this->_params->get("paypoint_vpn_password");
 		$test_status = $this->_params->get("paypoint_test_status");
+
 		if ($test_status == 2)
 		{
 			$test_status = "live";
@@ -175,6 +177,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 			if ($newk['code'] == "A")
 			{
 				$tid = $newk['trans_id'];
+
 				if ($debug_mode == 1)
 					$payment_messsge = $newk['message'];
 				else

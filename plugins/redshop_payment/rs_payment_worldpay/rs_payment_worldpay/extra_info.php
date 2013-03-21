@@ -92,6 +92,7 @@ $post_variables = Array(
 
 
 echo "<form action='$worldpayurl' method='post' name='worldpayfrm' id='worldpayfrm'>";
+
 if ($this->_params->get("is_test") == '1')
 {
 	echo "<input type='hidden' name='testMode' value='100' />";

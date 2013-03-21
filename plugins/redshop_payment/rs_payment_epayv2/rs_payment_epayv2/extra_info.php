@@ -562,10 +562,12 @@ function calculateePayCurrency($order_id)
 $cardtypes = $this->_params->get("cardtypes");
 
 $cardtype_main = "";
+
 if (is_array($cardtypes))
 {
 	if (in_array('VD', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "1,";
 }
+
 if (is_array($cardtypes))
 {
 	if (in_array('ED', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "2,";
@@ -590,6 +592,7 @@ if (is_array($cardtypes))
 {
 	if (in_array('MAESTRO', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "7,";
 }
+
 if (is_array($cardtypes))
 {
 	if (in_array('DINERS', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "8,";
@@ -599,6 +602,7 @@ if (is_array($cardtypes))
 {
 	if (in_array('AE', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "9,";
 }
+
 if (is_array($cardtypes))
 {
 	if (in_array('FORBRUGSFORENINGEN', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "11,";
@@ -615,10 +619,12 @@ if (is_array($cardtypes))
 {
 	if (in_array('DANSKE', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "13,";
 }
+
 if (is_array($cardtypes))
 {
 	if (in_array('PAYPAL', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "14,";
 }
+
 if (is_array($cardtypes))
 {
 	if (in_array('MOBILPENGE', @$cardtypes) || !in_array('ALL', @$cardtypes)) $cardtype_main .= "15,";
@@ -680,6 +686,7 @@ foreach ($formdata as $name => $value)
 	$hash .= $value;
 	echo "<input type='hidden' name='$name' value='$value' />";
 }
+
 if ($this->_params->get("activate_callback") == "1")
 {
 	foreach ($form_callback_urls as $name => $value)

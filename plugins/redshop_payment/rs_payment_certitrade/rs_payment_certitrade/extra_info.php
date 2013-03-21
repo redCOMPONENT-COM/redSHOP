@@ -69,6 +69,7 @@ $cust_id = $data['billinginfo']->users_info_id;
 
 $cust_name = $data['billinginfo']->firstname . " " . $data['billinginfo']->lastname;
 $company = $data['billinginfo']->company_name;
+
 if ($company != "")
 {
 

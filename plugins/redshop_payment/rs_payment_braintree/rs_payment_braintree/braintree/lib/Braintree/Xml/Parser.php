@@ -58,6 +58,7 @@ class Braintree_Xml_Parser
 		// rewind the iterator and check if the position is valid
 		// if not, return the string it contains
 		$iterator->rewind();
+
 		if (!$iterator->valid())
 		{
 			return self::_typecastXmlValue($iterator);
@@ -73,6 +74,7 @@ class Braintree_Xml_Parser
 
 			// extract the parent element via xpath query
 			$parentElement = $iterator->xpath($iterator->key() . '/..');
+
 			if ($parentElement[0] instanceof SimpleXMLIterator)
 			{
 				$parentElement = $parentElement[0];

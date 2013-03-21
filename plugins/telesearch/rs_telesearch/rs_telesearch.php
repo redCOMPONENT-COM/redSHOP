@@ -48,12 +48,14 @@ class plgtelesearchrs_telesearch extends JPlugin
 
 
 		$myfile = $serverurl . '/lookup.php?' . $query;
+
 		if (function_exists("curl_init"))
 		{
 			$CR = curl_init();
 			curl_setopt($CR, CURLOPT_URL, $myfile);
 			curl_setopt($CR, CURLOPT_TIMEOUT, 30);
 			curl_setopt($CR, CURLOPT_FAILONERROR, true);
+
 			if ($query)
 			{
 				curl_setopt($CR, CURLOPT_POSTFIELDS, $query);
@@ -63,38 +65,47 @@ class plgtelesearchrs_telesearch extends JPlugin
 			$return = curl_exec($CR);
 			$error = curl_error($CR);
 			curl_close($CR);
+
 			if ($return)
 			{
 				$returnarr = explode("`_`", $return);
 				$result = array();
+
 				if (isset($returnarr[0]))
 				{
 					$result['company_name'] = $returnarr[0];
 				}
+
 				if (isset($returnarr[1]))
 				{
 					$result['address'] = $returnarr[1];
 				}
+
 				if (isset($returnarr[2]))
 				{
 					$result['zipcode'] = $returnarr[2];
 				}
+
 				if (isset($returnarr[3]))
 				{
 					$result['city'] = $returnarr[3];
 				}
+
 				if (isset($returnarr[4]))
 				{
 					$result['url'] = $returnarr[4];
 				}
+
 				if (isset($returnarr[5]))
 				{
 					$result['phone'] = $returnarr[5];
 				}
+
 				if (isset($returnarr[6]))
 				{
 					$result['firstname'] = $returnarr[6];
 				}
+
 				if (isset($returnarr[7]))
 				{
 					$result['lastname'] = $returnarr[7];

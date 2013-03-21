@@ -155,6 +155,7 @@ if (!$response)
 {
 	return false;
 }
+
 if ($output['status'] == 'APPROVED')
 {
 	$values->order_status_code = $verify_status;

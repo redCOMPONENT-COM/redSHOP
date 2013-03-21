@@ -121,6 +121,7 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 				echo "<td >";
 				echo JText::_('COM_REDSHOP_VEIS_VALIDATION') . ": ";
 				echo "</td><td >";
+
 				if ($main_msg != "")
 				{
 					echo $main_msg . "<br>";

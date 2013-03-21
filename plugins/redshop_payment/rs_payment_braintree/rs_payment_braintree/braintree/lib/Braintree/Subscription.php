@@ -102,6 +102,7 @@ class Braintree_Subscription extends Braintree
 	{
 		$transaction_params = array('type'           => Braintree_Transaction::SALE,
 		                            'subscriptionId' => $subscriptionId);
+
 		if (isset($amount))
 		{
 			$transaction_params['amount'] = $amount;
@@ -185,6 +186,7 @@ class Braintree_Subscription extends Braintree
 		$this->_attributes = $attributes;
 
 		$addOnArray = array();
+
 		if (isset($attributes['addOns']))
 		{
 			foreach ($attributes['addOns'] AS $addOn)
@@ -195,6 +197,7 @@ class Braintree_Subscription extends Braintree
 		$this->_attributes['addOns'] = $addOnArray;
 
 		$discountArray = array();
+
 		if (isset($attributes['discounts']))
 		{
 			foreach ($attributes['discounts'] AS $discount)
@@ -207,6 +210,7 @@ class Braintree_Subscription extends Braintree
 		$this->_set('descriptor', new Braintree_Descriptor($attributes['descriptor']));
 
 		$transactionArray = array();
+
 		if (isset($attributes['transactions']))
 		{
 			foreach ($attributes['transactions'] AS $transaction)

@@ -47,6 +47,7 @@ class ideal
 		$currency = new convertPrice ();
 		$amount = $currency->convert($amount, '', 'EUR');
 		$amount *= 100;
+
 		if (is_numeric($amount))
 		{
 			$this->amount = $amount;
@@ -233,6 +234,7 @@ class ideal
 		// posts data to server
 		$fp = @fsockopen($host, 80);
 		$buf = '';
+
 		if ($fp)
 		{
 			@fputs($fp, "POST $path HTTP/1.0\n");

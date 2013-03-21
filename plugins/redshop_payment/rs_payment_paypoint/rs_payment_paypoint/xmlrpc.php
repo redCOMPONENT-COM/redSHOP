@@ -156,6 +156,7 @@ function xmlrpc_lookup_entity($ent)
 
 	if (isset($xmlEntities[strtolower($ent)]))
 		return $xmlEntities[strtolower($ent)];
+
 	if (preg_match("^#([0-9]+)$", $ent, $regs))
 		return chr($regs[1]);
 
@@ -210,6 +211,7 @@ function xmlrpc_se($parser, $name, $attrs)
 			if ($name == "DATETIME.ISO8601" || $name == "STRING")
 			{
 				$_xh[$parser]['qt'] = 1;
+
 				if ($name == "DATETIME.ISO8601")
 					$_xh[$parser]['vt'] = $xmlrpcDateTime;
 			}
@@ -318,6 +320,7 @@ function xmlrpc_ee($parser, $name)
 				$_xh[$parser]['st'] .= '""';
 			}
 			$_xh[$parser]['st'] .= ", '" . $_xh[$parser]['vt'] . "')";
+
 			if ($_xh[$parser]['cm']) $_xh[$parser]['st'] .= ",";
 			break;
 		case "MEMBER":
@@ -385,6 +388,7 @@ function xmlrpc_cd($parser, $data)
 function xmlrpc_dh($parser, $data)
 {
 	global $_xh;
+
 	if (substr($data, 0, 1) == "&" && substr($data, -1, 1) == ";")
 	{
 		if ($_xh[$parser]['lv'] == 1)
@@ -471,12 +475,14 @@ class xmlrpc_client
 	                           $username = "", $password = "")
 	{
 		if ($port == 0) $port = 80;
+
 		if ($timeout > 0)
 			$fp = fsockopen($server, $port,
 				$this->errno, $this->errstr, $timeout);
 		else
 			$fp = fsockopen($server, $port,
 				$this->errno, $this->errstr);
+
 		if (!$fp)
 		{
 			return 0;
@@ -487,6 +493,7 @@ class xmlrpc_client
 		// thanks to Grant Rauscher <grant7@firstworld.net>
 		// for this
 		$credentials = "";
+
 		if ($username != "")
 		{
 			$credentials = "Authorization: Basic " .
@@ -645,6 +652,7 @@ class xmlrpcresp
 	function serialize()
 	{
 		$rs = "<methodResponse>\n";
+
 		if ($this->fn)
 		{
 			$rs .= "<fault>
@@ -683,6 +691,7 @@ class xmlrpcmsg
 	function xmlrpcmsg($meth, $pars = 0)
 	{
 		$this->methodname = $meth;
+
 		if (is_array($pars) && sizeof($pars) > 0)
 		{
 			for ($i = 0; $i < sizeof($pars); $i++)
@@ -789,6 +798,7 @@ class xmlrpcmsg
 		if ($this->debug)
 			print "<PRE>---GOT---\n" . htmlspecialchars($data) .
 				"\n---END---\n</PRE>";
+
 		if ($data == "")
 		{
 			error_log("No response received from server.");
@@ -858,12 +868,14 @@ class xmlrpcmsg
 			return $r;
 		}
 		xml_parser_free($parser);
+
 		if ($this->debug)
 		{
 			print "<PRE>---EVALING---[" .
 				strlen($_xh[$parser]['st']) . " chars]---\n" .
 				htmlspecialchars($_xh[$parser]['st']) . ";\n---END---</PRE>";
 		}
+
 		if (strlen($_xh[$parser]['st']) == 0)
 		{
 			// then something odd has happened
@@ -875,6 +887,7 @@ class xmlrpcmsg
 		else
 		{
 			eval('$v=' . $_xh[$parser]['st'] . '; $allOK=1;');
+
 			if ($_xh[$parser]['isf'])
 			{
 				$f = $v->structmem("faultCode");
@@ -904,10 +917,12 @@ class xmlrpcval
 		global $xmlrpcTypes;
 		$this->me = array();
 		$this->mytype = 0;
+
 		if ($val != -1 || $type != "")
 		{
 			if ($type == "") $type = "string";
 			$xmlrpcTypes[$type] = 1;
+
 			if ($xmlrpcTypes[$type] == 1)
 			{
 				$this->addScalar($val, $type);
@@ -930,6 +945,7 @@ class xmlrpcval
 			return 0;
 		}
 		$typeof = $xmlrpcTypes[$type];
+
 		if ($typeof != 1)
 		{
 			echo "<B>xmlrpcval</B>: not a scalar type (${typeof})<BR>";
@@ -972,6 +988,7 @@ class xmlrpcval
 	function addArray($vals)
 	{
 		global $xmlrpcTypes;
+
 		if ($this->mytype != 0)
 		{
 			echo "<B>xmlrpcval</B>: already initialized as a [" .
@@ -989,6 +1006,7 @@ class xmlrpcval
 	function addStruct($vals)
 	{
 		global $xmlrpcTypes;
+
 		if ($this->mytype != 0)
 		{
 			echo "<B>xmlrpcval</B>: already initialized as a [" .
@@ -1008,6 +1026,7 @@ class xmlrpcval
 		while (list($key, $val) = each($ar))
 		{
 			echo "$key => $val<br>";
+
 			if ($key == 'array')
 				while (list($key2, $val2) = each($val))
 				{
@@ -1172,6 +1191,7 @@ class xmlrpcval
 		global $xmlrpcI4, $xmlrpcInt;
 		reset($this->me);
 		list($a, $b) = each($this->me);
+
 		if ($a == $xmlrpcI4)
 			$a = $xmlrpcInt;
 
@@ -1230,6 +1250,7 @@ function iso8601_decode($idate, $utc = 0)
 {
 	// return a timet in the localtime, or UTC
 	$t = 0;
+
 	if (preg_match("([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})",
 		$idate, $regs)
 	)

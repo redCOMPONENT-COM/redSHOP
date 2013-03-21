@@ -20,6 +20,7 @@ class plgAcymailingRedshop extends JPlugin
 	function plgAcymailingRedshop(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
+
 		if (!isset($this->params))
 		{
 			$plugin =& JPluginHelper::getPlugin('acymailing', 'redshop');
@@ -74,8 +75,10 @@ class plgAcymailingRedshop extends JPlugin
 		{
 			if (empty($email->$var)) continue;
 			$found = preg_match_all($match, $email->$var, $results[$var]) || $found;
+
 			if (empty($results[$var][0])) unset($results[$var]);
 		}
+
 		if (!$found) return;
 
 		$tags = array();
@@ -85,6 +88,7 @@ class plgAcymailingRedshop extends JPlugin
 			foreach ($allresults[0] as $i => $oneTag)
 			{
 				if (isset($tags[$oneTag])) continue;
+
 				if (is_numeric($allresults[1][$i]))
 				{
 					$tags[$oneTag] = $this->getProduct($allresults[1][$i]);

@@ -59,6 +59,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -77,6 +78,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$moneris_check_creditcard_code = $paymentparams->get('moneris_check_creditcard_code', '');
 		$moneris_check_avs = $paymentparams->get('moneris_check_avs', '');
 		$moneris_test_status = $paymentparams->get('moneris_test_status', '');
+
 		if ($moneris_test_status == 1)
 		{
 			//$this->Globals['MONERIS_HOST'] = "esqa.moneris.com/mpg";

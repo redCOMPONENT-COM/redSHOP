@@ -79,10 +79,12 @@ for ($i = 0; $i < count($orderItemDetails); $i++)
 		$orderItemDetails[$i]->product_quantity);
 
 }
+
 if ($order->order_shipping > 0)
 {
 	$i++;
 	$order_shipping_tax = 0;
+
 	if ($order->order_shipping_tax > 0 && $order->order_shipping_tax != null)
 	{
 		$order_shipping_tax = $order->order_shipping_tax;
@@ -97,6 +99,7 @@ if ($order->order_shipping > 0)
 		1);
 
 }
+
 if ($order->order_discount > 0)
 {
 	$i++;
@@ -115,6 +118,7 @@ $thePayreadApi->set_language($this->_params->get("language"));
 
 //Determines the currency, ie. SEK, EUR, GBR, USD, NOK, CAD (Canadian Dollar) or DKK.
 $thePayreadApi->set_currency($currency_main);
+
 if ($this->_params->get("is_test") == 0)
 {
 	$thePayreadApi->set_test_mode(false);

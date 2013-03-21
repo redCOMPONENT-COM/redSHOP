@@ -36,6 +36,7 @@ class GoogleLog
 	function GoogleLog($errorLogFile, $messageLogFile, $logLevel = L_ERR_RQST, $die = true)
 	{
 		$this->logLevel = $logLevel;
+
 		if ($logLevel == L_OFF)
 		{
 			$this->logLevel = L_OFF;
@@ -48,6 +49,7 @@ class GoogleLog
 				$log = "Cannot open " . $errorLogFile . " file.\n" .
 					"Logs are not writable, set them to 777";
 				error_log($log, 0);
+
 				if ($die)
 				{
 					die($log);
@@ -58,6 +60,7 @@ class GoogleLog
 					$this->logLevel = L_OFF;
 				}
 			}
+
 			if (!$this->messageLogFile = @fopen($messageLogFile, "a"))
 			{
 				fclose($this->errorLogFile);
@@ -65,6 +68,7 @@ class GoogleLog
 				$log = "Cannot open " . $messageLogFile . " file.\n" .
 					"Logs are not writable, set them to 777";
 				error_log($log, 0);
+
 				if ($die)
 				{
 					die($log);

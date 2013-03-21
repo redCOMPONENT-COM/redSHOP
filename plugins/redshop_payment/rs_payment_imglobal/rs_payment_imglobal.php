@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -85,12 +86,14 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		curl_setopt($CR, CURLOPT_URL, $url);
 		curl_setopt($CR, CURLOPT_TIMEOUT, 30);
 		curl_setopt($CR, CURLOPT_FAILONERROR, true);
+
 		if ($poststring)
 		{
 			curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
 			curl_setopt($CR, CURLOPT_POST, 1);
 		}
 		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+
 		if ($urlParts['scheme'] == 'https')
 		{
 			curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
@@ -102,6 +105,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		parse_str($result, $output);
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
+
 		if (!empty($output['response']))
 		{
 			if ($output['response'] == '1')

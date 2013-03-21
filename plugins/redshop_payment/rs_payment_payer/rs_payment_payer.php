@@ -50,6 +50,7 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -68,6 +69,7 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 	{
 
 		ob_clean();
+
 		if ($element != 'rs_payment_payer')
 		{
 			break;

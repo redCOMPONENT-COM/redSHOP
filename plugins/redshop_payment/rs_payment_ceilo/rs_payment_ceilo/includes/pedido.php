@@ -136,6 +136,7 @@ class Pedido
 			'<data-hora>'
 			. $this->dadosPedidoData .
 			'</data-hora>' . "\n      ";
+
 		if ($this->dadosPedidoDescricao != null && $this->dadosPedidoDescricao != "")
 		{
 			$msg .= '<descricao>'
@@ -214,6 +215,7 @@ class Pedido
 		$msg = $this->XMLHeader() . "\n" .
 			'<requisicao-transacao id="' . md5(date("YmdHisu")) . '" versao="' . VERSAO . '">' . "\n   "
 			. $this->XMLDadosEc() . "\n   ";
+
 		if ($incluirPortador == true)
 		{
 			$msg .= $this->XMLDadosPortador() . "\n   ";
@@ -286,6 +288,7 @@ class Pedido
 			. '<tid>' . $this->tid . '</tid>' . "\n   "
 			. $this->XMLDadosEc() . "\n   "
 			. '<valor>' . $PercentualCaptura . '</valor>' . "\n";
+
 		if ($anexo != null && $anexo != "")
 		{
 			$msg .= '   <anexo>' . $anexo . '</anexo>' . "\n";

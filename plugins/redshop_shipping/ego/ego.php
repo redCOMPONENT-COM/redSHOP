@@ -124,6 +124,7 @@ class plgredshop_shippingego extends JPlugin
 			$whereShippingBoxes['box_width'] = $productData[1]['width'];
 			$whereShippingBoxes['box_height'] = $productData[0]['height'];
 		}
+
 		if (is_array($whereShippingBoxes) && count($whereShippingBoxes) > 0 && $unitRatioVolume > 0)
 		{
 			$carttotalLength = ( int ) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
@@ -138,6 +139,7 @@ class plgredshop_shippingego extends JPlugin
 		if ($carttotalWeight > 0)
 		{
 			$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
+
 			if (count($shippinginfo) < 1)
 			{
 				return $shippingrate;
@@ -162,6 +164,7 @@ class plgredshop_shippingego extends JPlugin
 			{
 				$quote = trim($quote);
 				$quote_field = explode("=", $quote);
+
 				if ($quote_field[0] == "error")
 				{
 					$error = $quote_field[1];

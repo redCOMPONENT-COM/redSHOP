@@ -21,6 +21,7 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDBO();
 $Itemid = $_REQUEST['Itemid'];
+
 if ($this->_params->get("payment_method") == "TEST")
 {
 	$strRedirecturl = "https://test.sagepay.com/gateway/service/vspform-register.vsp";
@@ -157,6 +158,7 @@ foreach ($crypt_variables as $name => $value)
 {
 
 	$strPost .= $name . "=" . $value;
+
 	if ($i < count($crypt_variables) - 1)
 	{
 		$strPost .= "&";

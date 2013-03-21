@@ -455,6 +455,7 @@ class Braintree_Customer extends Braintree
 
 		// map each address into its own object
 		$addressArray = array();
+
 		if (isset($customerAttribs['addresses']))
 		{
 
@@ -467,6 +468,7 @@ class Braintree_Customer extends Braintree
 
 		// map each creditcard into its own object
 		$ccArray = array();
+
 		if (isset($customerAttribs['creditCards']))
 		{
 			foreach ($customerAttribs['creditCards'] AS $creditCard)
@@ -555,6 +557,7 @@ class Braintree_Customer extends Braintree
 				'expected customer id to be set'
 			);
 		}
+
 		if (!preg_match('/^[0-9A-Za-z_-]+$/', $id))
 		{
 			throw new InvalidArgumentException(

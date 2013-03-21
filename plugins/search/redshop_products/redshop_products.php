@@ -44,6 +44,7 @@ class plgSearchredshop_products extends JPlugin
 		$limit = $pluginParams->def('search_limit', 50);
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -98,6 +99,7 @@ class plgSearchredshop_products extends JPlugin
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$whereaclProduct = "";
+
 		if ($shopper_group_manufactures != "")
 		{
 			$whereaclProduct = " AND a.manufacturer_id IN (" . $shopper_group_manufactures . ") ";

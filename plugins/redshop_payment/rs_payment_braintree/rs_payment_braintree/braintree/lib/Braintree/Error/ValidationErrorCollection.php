@@ -122,6 +122,7 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
 		{
 			$output[] = $this->_inspect($this->_errors);
 		}
+
 		if (!empty($this->_nested))
 		{
 			foreach ($this->_nested AS $key => $values)

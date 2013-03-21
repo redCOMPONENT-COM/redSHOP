@@ -110,6 +110,7 @@ class plghighrisehighrise extends JPlugin
 			$xml = curl_exec($curl);
 			$error = curl_error($CR);
 			curl_close($curl);
+
 			if (!empty($error))
 			{
 				$this->errorMsg = "Highrise can not create user";

@@ -37,6 +37,7 @@ class plgSearchredshop_categories extends JPlugin
 		$limit = $pluginParams->def('search_limit', 50);
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();

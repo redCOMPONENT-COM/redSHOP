@@ -144,6 +144,7 @@ class Braintree_Configuration extends Braintree
 		{
 			$value = $value[0];
 		}
+
 		if (!empty($value))
 		{
 			self::set($name, $value);

@@ -270,6 +270,7 @@ class Braintree_Address extends Braintree
 				'expected address id to be set'
 			);
 		}
+
 		if (!preg_match('/^[0-9A-Za-z_-]+$/', $id))
 		{
 			throw new InvalidArgumentException(
@@ -294,6 +295,7 @@ class Braintree_Address extends Braintree
 				'expected customer id to be set'
 			);
 		}
+
 		if (!preg_match('/^[0-9A-Za-z_-]+$/', $id))
 		{
 			throw new InvalidArgumentException(

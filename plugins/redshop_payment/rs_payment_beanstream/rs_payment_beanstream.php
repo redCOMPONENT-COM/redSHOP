@@ -51,6 +51,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		{
 			return;
 		}
+
 		if (empty($plugin))
 		{
 			$plugin = $element;
@@ -65,6 +66,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$config = new Redconfiguration();
 		// for total amount 
 		$cal_no = 2;
+
 		if (defined('PRICE_DECIMAL'))
 		{
 			$cal_no = PRICE_DECIMAL;

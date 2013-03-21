@@ -59,6 +59,7 @@ function onPrepareProduct(&$template, &$params, $product)
 	$total_attributes = 0;
 	// checking for child products
 	$childproduct = $producthelper->getChildProduct($product->product_id);
+
 	if (count($childproduct) > 0)
 	{
 		if (PURCHASE_PARENT_WITH_CHILD == 1)
@@ -66,6 +67,7 @@ function onPrepareProduct(&$template, &$params, $product)
 			$isChilds = false;
 			// get attributes
 			$attributes_set = array();
+
 			if ($product->attribute_set_id > 0)
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
@@ -85,6 +87,7 @@ function onPrepareProduct(&$template, &$params, $product)
 		$isChilds = false;
 		// get attributes
 		$attributes_set = array();
+
 		if ($product->attribute_set_id > 0)
 		{
 			$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
@@ -96,6 +99,7 @@ function onPrepareProduct(&$template, &$params, $product)
 	$checkforpreselection = 0;
 	//Check for preselection
 	$attribute_template = $producthelper->getAttributeTemplate($template);
+
 	if (count($attributes) > 0 && count($attribute_template) > 0)
 	{
 		$selectedpropertyId = 0;
@@ -105,6 +109,7 @@ function onPrepareProduct(&$template, &$params, $product)
 		{
 			$selectedId = array();
 			$property = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+
 			if ($attributes[$a]->text != "" && count($property) > 0)
 			{
 				for ($i = 0; $i < count($property); $i++)
@@ -114,6 +119,7 @@ function onPrepareProduct(&$template, &$params, $product)
 						$selectedId[] = $property[$i]->property_id;
 					}
 				}
+
 				if (count($selectedId) > 0)
 				{
 					$selectedpropertyId = $selectedId[count($selectedId) - 1];
@@ -128,6 +134,7 @@ function onPrepareProduct(&$template, &$params, $product)
 							$selectedId[] = $subproperty[$sp]->subattribute_color_id;
 						}
 					}
+
 					if (count($selectedId) > 0)
 					{
 						$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
@@ -145,10 +152,12 @@ function onPrepareProduct(&$template, &$params, $product)
 		$total += $proper_val;
 
 	}
+
 	if ($total_attributes > 0 && strstr($template, "{start_if_attribute}") && strstr($template, "{end_if_attribute}"))
 	{
 		$template = str_replace("{start_if_attribute}", "<div id='atrib_subprop_price" . $product->product_id . "'>", $template);
 		$template = str_replace("{end_if_attribute}", "</div>", $template);
+
 		if ($total > 0 && strstr($template, "{start_if_price_attribute}") && strstr($template, "{end_if_price_attribute}"))
 		{
 			$template = str_replace("{start_if_price_attribute}", "", $template);
@@ -167,6 +176,7 @@ function onPrepareProduct(&$template, &$params, $product)
 	<script>
 		window.onload = function () {
 			var attribpreselect = <?php echo $checkforpreselection ?>;
+
 			if (attribpreselect > 0) {
 				document.getElementById('atrib_subprop_price').style.display = 'none';
 			}

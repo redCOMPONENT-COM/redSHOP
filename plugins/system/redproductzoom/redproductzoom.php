@@ -39,6 +39,7 @@ function onBeforeRender()
 	if (JRequest::getCmd("view", "") != 'product') return;
 
 	$pid = JRequest::getInt("pid", 0);
+
 	if ($pid <= 0) return;
 
 	$document =& JFactory::getDocument();
@@ -67,6 +68,7 @@ function onBeforeRender()
 	# End
 
 	$moreimage_response = $preselection_result['response'];
+
 	if ($moreimage_response != "")
 		$additionalImage = $moreimage_response;
 	else
@@ -110,6 +112,7 @@ function onBeforeRender()
 			suburl = suburl + "&subproperty_id=" + selectedsubproperty_id;
 
 			var txtresponse = "";
+
 			if (accessory_id != 0) {
 				prefix = "acc_";
 				product_id = accessory_id;
@@ -119,13 +122,16 @@ function onBeforeRender()
 				prefix = "prd_";
 			}
 			collectAttributes(product_id, 0, relatedprd_id);
+
 			if (document.getElementById(prefix + "main_imgwidth")) {
 				suburl = suburl + "&main_imgwidth=" + parseInt(document.getElementById(prefix + "main_imgwidth").value);
 			}
+
 			if (document.getElementById(prefix + "main_imgheight")) {
 				suburl = suburl + "&main_imgheight=" + parseInt(document.getElementById(prefix + "main_imgheight").value);
 			}
 			var changehref = 0;
+
 			if (document.getElementById('a_main_image' + product_id) || document.getElementById('main_image' + product_id)) {
 				if (document.getElementById('a_main_image' + product_id)) {
 					var tmphref = document.getElementById('a_main_image' + product_id).href;
@@ -191,19 +197,24 @@ function onBeforeRender()
 						document.getElementById('hidden_attribute_cartimage' + product_id).value = arrResponse[12];
 					}
 //						alert(arrResponse[6]);
+
 					if (document.getElementById('stockImage' + product_id) && arrResponse[5] != "") {
 						document.getElementById('stockImage' + product_id).src = arrResponse[5];
 					}
+
 					if (document.getElementById('stockImageTooltip' + product_id) && arrResponse[6] != "") {
 						document.getElementById('stockImageTooltip' + product_id).innerHTML = arrResponse[6];
 					}
+
 					if (document.getElementById('displayProductInStock' + product_id) && arrResponse[10] != "") {
 						document.getElementById('displayProductInStock' + product_id).innerHTML = arrResponse[10];
 					}
+
 					if (document.getElementById('ProductAttributeMinDelivery' + product_id) && arrResponse[7] != "") {
 						document.getElementById('ProductAttributeMinDelivery' + product_id).innerHTML = arrResponse[7];
 					}
 					//alert(arrResponse[11]);
+
 					if (document.getElementById('stock_status_div' + product_id) && arrResponse[11] != "") {
 						document.getElementById('stock_status_div' + product_id).innerHTML = arrResponse[11];
 					}
@@ -237,12 +248,14 @@ function onBeforeRender()
 		$product_data = $this->getProductData($pid);
 		$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
 		$pw_thumb = PRODUCT_MAIN_IMAGE;
+
 		if (count($childproduct) > 0)
 		{
 			if (PURCHASE_PARENT_WITH_CHILD == 1)
 			{
 				$isChilds = false;
 				$attributes_set = array();
+
 				if ($product_data->attribute_set_id > 0)
 				{
 					$attributes_set = $zoomproducthelper->getProductAttribute(0, $product_data->attribute_set_id, 0, 1);
@@ -261,6 +274,7 @@ function onBeforeRender()
 
 			$isChilds = false;
 			$attributes_set = array();
+
 			if ($product_data->attribute_set_id > 0)
 			{
 				$attributes_set = $zoomproducthelper->getProductAttribute(0, $product_data->attribute_set_id, 0, 1);
@@ -268,6 +282,7 @@ function onBeforeRender()
 			$attributes = $zoomproducthelper->getProductAttribute($pid);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
+
 		if (count($attributes) > 0)
 		{
 			$selectedpropertyId = 0;
@@ -276,6 +291,7 @@ function onBeforeRender()
 			{
 				$selectedId = array();
 				$property = $zoomproducthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+
 				if ($attributes[$a]->text != "" && count($property) > 0)
 				{
 					for ($i = 0; $i < count($property); $i++)
@@ -285,6 +301,7 @@ function onBeforeRender()
 							$selectedId[] = $property[$i]->property_id;
 						}
 					}
+
 					if (count($selectedId) > 0)
 					{
 						$selectedpropertyId = $selectedId[count($selectedId) - 1];
@@ -297,6 +314,7 @@ function onBeforeRender()
 								$selectedId[] = $subproperty[$sp]->subattribute_color_id;
 							}
 						}
+
 						if (count($selectedId) > 0)
 						{
 							$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
