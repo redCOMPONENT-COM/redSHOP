@@ -9,27 +9,33 @@
 
 defined('_JEXEC') or die;
 
-$doc    = & JFactory::getDocument();
+$doc    = JFactory::getDocument();
 $tmpl   = JRequest::getCmd('tmpl');
 $view   = JRequest::getCmd('view');
 $layout = JRequest::getCmd('layout');
 $for    = JRequest::getWord("for", false);
+
 if ($tmpl == 'component' && !$for)
+{
 	$doc->addStyleDeclaration('html { overflow:scroll; }');
+}
+
 // 	Getting the configuration
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
-$Redconfiguration = new Redconfiguration();
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php';
 $session = JFactory::getSession('product_currency');
 
 $post   = JRequest::get('POST');
 $Itemid = JRequest::getVar('Itemid');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 $redhelper   = new redhelper ();
 $cart_Itemid = $redhelper->getCartItemid($Itemid);
+
 if ($cart_Itemid == "" || $cart_Itemid == 0)
 {
 	$cItemid   = $redhelper->getItemid();
@@ -39,17 +45,12 @@ else
 {
 	$tmpItemid = $cart_Itemid;
 }
+
 if (isset($post['product_currency']))
 	$session->set('product_currency', $post['product_currency']);
 
 $currency_symbol  = REDCURRENCY_SYMBOL;
 $currency_convert = 1;
-/*if($session->get('product_currency')){
-
-	$currency_symbol = $session->get('product_currency');
-	$convertPrice = new convertPrice();
-	$currency_convert = $convertPrice->convert(1);
-}*/
 
 $script = "
 		window.site_url = '" . JURI::root() . "';

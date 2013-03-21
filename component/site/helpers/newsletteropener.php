@@ -12,7 +12,6 @@ $my_path = dirname(__FILE__);
 
 if (file_exists($my_path . "/../../../configuration.php"))
 {
-
 	$absolute_path = dirname($my_path . "/../../../configuration.php");
 	require_once $my_path . "/../../../configuration.php";
 }
@@ -30,8 +29,8 @@ define('JPATH_BASE', $absolute_path);
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
+require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
+require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
 
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
@@ -40,7 +39,7 @@ define('IMG_WIDTH', 50);
 
 define('BASE_PATH', "../assets/images/");
 
-include(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php");
+include JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
 
 $tracker_id = @basename(urldecode($_REQUEST['tracker_id']));
 $db         = JFactory::getDBO();
