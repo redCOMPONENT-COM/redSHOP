@@ -564,6 +564,7 @@ class mpgRequest
 		$txnTypeArrayLen = count($txnTypeArray); //length of a specific txn type
 
 		$txnXMLString = "";
+
 		for ($i = 0; $i < $txnTypeArrayLen; $i++)
 		{
 			$txnXMLString .= "<$txnTypeArray[$i]>" //begin tag

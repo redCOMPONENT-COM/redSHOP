@@ -287,6 +287,7 @@ function onBeforeRender()
 		{
 			$selectedpropertyId = 0;
 			$selectedsubpropertyId = 0;
+
 			for ($a = 0; $a < count($attributes); $a++)
 			{
 				$selectedId = array();
@@ -307,6 +308,7 @@ function onBeforeRender()
 						$selectedpropertyId = $selectedId[count($selectedId) - 1];
 						$subproperty = $zoomproducthelper->getAttibuteSubProperty(0, $selectedpropertyId);
 						$selectedId = array();
+
 						for ($sp = 0; $sp < count($subproperty); $sp++)
 						{
 							if ($subproperty[$sp]->setdefault_selected)

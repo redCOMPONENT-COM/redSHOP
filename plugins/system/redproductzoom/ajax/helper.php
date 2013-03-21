@@ -722,6 +722,7 @@ class zoomproducthelper extends producthelper
 				if ($totalatt > 0 && !$isStockExists)
 				{
 					$property = $this->getAttibuteProperty(0, 0, $product_id);
+
 					for ($att_j = 0; $att_j < count($property); $att_j++)
 					{
 						$isSubpropertyStock = false;
@@ -765,10 +766,12 @@ class zoomproducthelper extends producthelper
 				{
 
 					$property = $this->getAttibuteProperty(0, 0, $product_id);
+
 					for ($att_j = 0; $att_j < count($property); $att_j++)
 					{
 						$isSubpropertyStock = false;
 						$sub_property = $this->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+
 						for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
 						{
 							$isSubpropertyStock = $stockroomhelper->isPreorderStockExists($sub_property[$sub_j]->subattribute_color_id, 'subproperty');

@@ -74,6 +74,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$order_total = round($data['order_total'], $cal_no);
 
 		$item_details = "";
+
 		for ($p = 0; $p < $cart['idx']; $p++)
 		{
 			if (isset($cart[$p]['product_id']) && $cart[$p]['product_id'] != "")

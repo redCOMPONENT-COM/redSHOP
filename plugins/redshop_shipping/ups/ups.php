@@ -631,6 +631,7 @@ class plgredshop_shippingups extends JPlugin
 			}
 		}
 		$count = 0;
+
 		for ($t = 0; $t < count($matchedchild); $t++)
 		{
 			$totalmatchedchild = $matchedchild[$t]->_children;
@@ -653,6 +654,7 @@ class plgredshop_shippingups extends JPlugin
 
 					$transportationcharges = $currNode->getElementByPath("transportationcharges");
 					$childeArr = $transportationcharges->_children;
+
 					for ($i = 0; $i < count($childeArr); $i++)
 					{
 						if ($childeArr[$i]->name() == "currencycode")
@@ -727,6 +729,7 @@ class plgredshop_shippingups extends JPlugin
 		{
 			$convert = false;
 		}
+
 		for ($i = 0; $i < count($ship_postage); $i++)
 		{
 			$ratevalue = $ship_postage[$i]['Rate'];

@@ -122,6 +122,7 @@ class plgredshop_shippingshipwire extends JPlugin
 		$cart = $session->get('cart');
 		$idx = $cart['idx'];
 		$Item = '';
+
 		for ($c = 0; $c < $idx; $c++)
 		{
 			$productData = $producthelper->getProductById($cart[$c]['product_id']);
@@ -183,6 +184,7 @@ class plgredshop_shippingshipwire extends JPlugin
 			$max = $this->getElementValue($XMLvals, 'MAXIMUM');
 
 			$values = $XMLvals;
+
 			for ($i = 0; $i < count($XMLvals); $i++)
 			{
 				if (isset($XMLvals[$i]['attributes']))
@@ -190,6 +192,7 @@ class plgredshop_shippingshipwire extends JPlugin
 					$parent = $XMLvals[$i]['tag'];
 
 					$keys = array_keys($XMLvals[$i]['attributes']);
+
 					for ($z = 0; $z < count($keys); $z++)
 					{
 						$content[$parent][$i][$keys[$z]] = $XMLvals[$i]['attributes'][$keys[$z]];
@@ -218,6 +221,7 @@ class plgredshop_shippingshipwire extends JPlugin
 			}
 
 			$currencyClass = new convertPrice ();
+
 			for ($i = 0; $i < count($content['COST']); $i++)
 			{
 				$currency = $content['COST'][$i]['CURRENCY'];

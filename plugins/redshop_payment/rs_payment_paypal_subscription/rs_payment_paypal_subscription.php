@@ -214,6 +214,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 						if ($producthelper->checkProductDownload($main_orderitemdetail[$ri]->product_id))
 						{
 							$medianame = $producthelper->getProductMediaName($main_orderitemdetail[$ri]->product_id);
+
 							for ($j = 0; $j < count($medianame); $j++)
 							{
 								$product_serial_number = $producthelper->getProdcutSerialNumber($main_orderitemdetail[$ri]->product_id);

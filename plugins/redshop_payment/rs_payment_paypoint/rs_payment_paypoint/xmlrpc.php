@@ -715,6 +715,7 @@ class xmlrpcmsg
 		$this->payload .= "<methodName>" . $this->methodname . "</methodName>\n";
 		//	if (sizeof($this->params)) {
 		$this->payload .= "<params>\n";
+
 		for ($i = 0; $i < sizeof($this->params); $i++)
 		{
 			$p = $this->params[$i];
@@ -830,6 +831,7 @@ class xmlrpcmsg
 			$ar = explode("\r\n", $data);
 			$newdata = "";
 			$hdrfnd = 0;
+
 			for ($i = 0; $i < sizeof($ar); $i++)
 			{
 				if (!$hdrfnd)
@@ -1075,6 +1077,7 @@ class xmlrpcval
 			case 2:
 				// array
 				$rs .= "<array>\n<data>\n";
+
 				for ($i = 0; $i < sizeof($val); $i++)
 				{
 					$rs .= $this->serializeval($val[$i]);

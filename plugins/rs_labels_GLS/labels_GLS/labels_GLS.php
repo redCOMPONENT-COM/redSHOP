@@ -78,6 +78,7 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 		$j = 0;
 		$shippinghelper = new shipping();
 		$returnArr = array();
+
 		for ($i = 0; $i < count($PakkeshopData); $i++)
 		{
 			$shopNUmber = $PakkeshopData[$i]->Number;
@@ -112,6 +113,7 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 	{
 
 		$opningTime = Array();
+
 		for ($i = 0; $i < count($Weekday); $i++)
 		{
 			if ($Weekday[$i]->day == 'Monday')

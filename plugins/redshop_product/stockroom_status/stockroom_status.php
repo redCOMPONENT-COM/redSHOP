@@ -59,6 +59,7 @@ class plgredshop_productstockroom_status extends JPlugin
 						<td>Stockroom Name</td>
 						<td>Current Stock</td>
 					</tr>";
+
 		for ($p = 0; $p < count($orderproducts); $p++)
 		{
 			$product_id = $orderproducts[$p]->product_id;

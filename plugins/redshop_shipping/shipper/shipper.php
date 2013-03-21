@@ -48,6 +48,7 @@ class plgredshop_shippingshipper extends JPlugin
 		$rate = 0;
 
 		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
+
 		for ($i = 0; $i < count($ratelist); $i++)
 		{
 			$rs = $ratelist[$i];

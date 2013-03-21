@@ -102,6 +102,7 @@ class plgContentredshop_product extends JPlugin
 				$prtemplate_default = '<div class="mod_redshop_products"><table border="0"><tbody><tr><td><div class="mod_redshop_products_image">{product_thumb_image}</div></td></tr><tr><td><div class="mod_redshop_products_title">{product_name}</div></td></tr><tr><td><div class="mod_redshop_products_price">{product_price}</div></td></tr><tr><td><div class="mod_redshop_products_readmore">{read_more}</div></td></tr><tr><td><div>{attribute_template:attributes}</div></td></tr><tr><td><div class="mod_redshop_product_addtocart">{form_addtocart:add_to_cart1}</div></td></tr></tbody></table></div>';
 			}
 			$matches = $matches[0];
+
 			for ($i = 0; $i < count($matches); $i++)
 			{
 				$prtemplate = '';
@@ -262,6 +263,7 @@ class plgContentredshop_product extends JPlugin
 					}
 					$idx = 0;
 					$cart_id = '';
+
 					for ($j = 0; $j < $idx; $j++)
 					{
 						if ($cart[$j]['product_id'] == $this->data->product_id)
@@ -269,6 +271,7 @@ class plgContentredshop_product extends JPlugin
 							$cart_id = $j;
 						}
 					}
+
 					for ($ui = 0; $ui < count($userfieldArr); $ui++)
 					{
 						if (!$idx)

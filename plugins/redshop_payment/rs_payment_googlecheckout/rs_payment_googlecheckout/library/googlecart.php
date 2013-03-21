@@ -403,6 +403,7 @@ class GoogleCart
 						{
 							$xml_data->EmptyElement('world-area');
 						}
+
 						for ($i = 0; $i < count($shipping_restrictions->allowed_country_codes_arr); $i++)
 						{
 							$xml_data->Push('postal-area');
@@ -443,6 +444,7 @@ class GoogleCart
 							$xml_data->Element('zip-pattern', $current);
 							$xml_data->Pop('us-zip-area');
 						}
+
 						for ($i = 0; $i < count($shipping_restrictions->excluded_country_codes_arr); $i++)
 						{
 							$xml_data->Push('postal-area');
@@ -504,6 +506,7 @@ class GoogleCart
 							{
 								$xml_data->EmptyElement('world-area');
 							}
+
 							for ($i = 0; $i < count($address_filters->allowed_country_codes_arr); $i++)
 							{
 								$xml_data->Push('postal-area');
@@ -544,6 +547,7 @@ class GoogleCart
 								$xml_data->Element('zip-pattern', $current);
 								$xml_data->Pop('us-zip-area');
 							}
+
 							for ($i = 0; $i < count($address_filters->excluded_country_codes_arr); $i++)
 							{
 								$xml_data->Push('postal-area');
