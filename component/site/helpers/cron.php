@@ -202,7 +202,7 @@ class Cron
 						}
 					}
 
-					$config    = & JFactory::getConfig();
+					$config    = JFactory::getConfig();
 					$from      = $config->getValue('mailfrom');
 					$fromname  = $config->getValue('fromname');
 					$recipient = $catalog_detail->email;
@@ -252,7 +252,7 @@ class Cron
 						}
 					}
 
-					$config    = & JFactory::getConfig();
+					$config    = JFactory::getConfig();
 					$from      = $config->getValue('mailfrom');
 					$fromname  = $config->getValue('fromname');
 					$recipient = $catalog_detail->email;
@@ -319,7 +319,7 @@ class Cron
 							}
 						}
 
-						$config    = & JFactory::getConfig();
+						$config    = JFactory::getConfig();
 						$from      = $config->getValue('mailfrom');
 						$fromname  = $config->getValue('fromname');
 						$recipient = $catalog_detail->email;
@@ -368,7 +368,7 @@ class Cron
 			$subject         = "";
 			$order_id        = $mail_detail->order_id;
 			$mailbcc         = null;
-			$config          = & JFactory::getConfig();
+			$config          = JFactory::getConfig();
 			$from            = $config->getValue('mailfrom');
 			$fromname        = $config->getValue('fromname');
 			$start_date      = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
@@ -565,7 +565,7 @@ class Cron
 						}
 					}
 
-					$config    = & JFactory::getConfig();
+					$config    = JFactory::getConfig();
 					$from      = $config->getValue('mailfrom');
 					$fromname  = $config->getValue('fromname');
 					$recipient = $color_detail->email;
@@ -606,7 +606,7 @@ class Cron
 						}
 					}
 
-					$config    = & JFactory::getConfig();
+					$config    = JFactory::getConfig();
 					$from      = $config->getValue('mailfrom');
 					$fromname  = $config->getValue('fromname');
 					$recipient = $color_detail->email;
@@ -655,7 +655,7 @@ class Cron
 						}
 					}
 
-					$config    = & JFactory::getConfig();
+					$config    = JFactory::getConfig();
 					$from      = $config->getValue('mailfrom');
 					$fromname  = $config->getValue('fromname');
 					$recipient = $color_detail->email;
@@ -720,7 +720,7 @@ class Cron
 							}
 						}
 
-						$config    = & JFactory::getConfig();
+						$config    = JFactory::getConfig();
 						$from      = $config->getValue('mailfrom');
 						$fromname  = $config->getValue('fromname');
 						$recipient = $color_detail->email;
