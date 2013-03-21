@@ -51,8 +51,8 @@ while (isset($_GET[$pt]))
 	$i++;
 	$last_x2 = $x2;
 	$pt      = "pt" . $i;
-
 }
+
 $img_w = $last_x2 + $margin_right;
 $img_h = $margin_top + $max_y + $margin_bottom;
 
