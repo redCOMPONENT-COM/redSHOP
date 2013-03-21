@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,9 +14,13 @@ jimport('joomla.application.component.model');
 class containerModelcontainer extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -71,7 +76,8 @@ class containerModelcontainer extends JModel
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = ' SELECT c.*,s.stockroom_name '
-			. ' FROM ' . $this->_table_prefix . 'container as c left join ' . $this->_table_prefix . 'stockroom_container_xref as sc on sc.container_id=c.container_id
+			. ' FROM ' . $this->_table_prefix . 'container as c left join ' . $this->_table_prefix
+			. 'stockroom_container_xref as sc on sc.container_id=c.container_id
 			left join ' . $this->_table_prefix . 'stockroom as s on sc.stockroom_id=s.stockroom_id  ' . $orderby;
 
 		return $query;
@@ -89,5 +95,3 @@ class containerModelcontainer extends JModel
 		return $orderby;
 	}
 }
-
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,7 +16,9 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 class xmlimport_detailModelxmlimport_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -41,7 +44,10 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		if (isset($post['display_filename']))
 		{
@@ -125,21 +131,23 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$xmlimport_url = $post['xmlimport_url'];
 			$this->_data->xmlimport_url = $post['xmlimport_url'];
 		}
-		else if (array_key_exists("name", $file) && $file['name'] != "" && $file['type'] == "text/xml")
+		elseif (array_key_exists("name", $file) && $file['name'] != "" && $file['type'] == "text/xml")
 		{
 			$src = $file['tmp_name'];
 			$destpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import";
 
-			$filename = JPath::clean($file['name']); //Make the filename unique
-			$dest = $destpath . DS . $filename; //specific path of the file
+			$filename = JPath::clean($file['name']);
+			$dest = $destpath . DS . $filename;
 
 			JFile::upload($src, $dest);
 			$xmlimport_url = $dest;
 		}
-		else if ($this->_data->filename != "" && is_file(JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $this->_data->filename))
+
+		elseif ($this->_data->filename != "" && is_file(JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $this->_data->filename))
 		{
 			$xmlimport_url = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $this->_data->filename;
 		}
+
 		return $xmlimport_url;
 	}
 
@@ -177,6 +185,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -188,9 +197,6 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 	 */
 	public function store($data, $import = 0)
 	{
-//		echo "<pre>";
-//		print_r($data);
-//		die();
 		$xmlhelper = new xmlHelper;
 		$resarray = array();
 
@@ -198,6 +204,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$xmlfiletag = $data['xmlfiletag'];
 			$updatefiletag = (isset($data['updatefiletag'])) ? $data['updatefiletag'] : array();
+
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
 				$xmltag = trim($data[$xmlfiletag[$i]]);
@@ -213,6 +220,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$xmlfiletag = $data['xmlbillingtag'];
 			$updatefiletag = (isset($data['updatebillingtag'])) ? $data['updatebillingtag'] : array();
+
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
 				$xmltag = trim($data["bill_" . $xmlfiletag[$i]]);
@@ -228,6 +236,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$xmlfiletag = $data['xmlshippingtag'];
 			$updatefiletag = (isset($data['updateshippingtag'])) ? $data['updateshippingtag'] : array();
+
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
 				$xmltag = trim($data["shipp_" . $xmlfiletag[$i]]);
@@ -243,6 +252,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$xmlfiletag = $data['xmlitemtag'];
 			$updatefiletag = (isset($data['updateitemtag'])) ? $data['updateitemtag'] : array();
+
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
 				$xmltag = trim($data["item_" . $xmlfiletag[$i]]);
@@ -258,6 +268,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$xmlfiletag = $data['xmlstocktag'];
 			$updatefiletag = (isset($data['updatestocktag'])) ? $data['updatestocktag'] : array();
+
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
 				$xmltag = trim($data["stock_" . $xmlfiletag[$i]]);
@@ -273,6 +284,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$xmlfiletag = $data['xmlprdextrafieldtag'];
 			$updatefiletag = (isset($data['updateprdexttag'])) ? $data['updateprdexttag'] : array();
+
 			for ($i = 0; $i < count($xmlfiletag); $i++)
 			{
 				$xmltag = trim($data["prdext_" . $xmlfiletag[$i]]);
@@ -307,9 +319,9 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 		if ($import == 1)
 		{
-//			XML IMPORTED FILE WILL IMPORT IN DATABASE
 			$xmlhelper->importXMLFile($row->xmlimport_id);
 		}
+
 		return $row;
 	}
 
@@ -360,6 +372,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -411,5 +424,3 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		return true;
 	}
 }
-
-

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,7 +14,9 @@ jimport('joomla.application.component.model');
 class coupon_detailModelcoupon_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -25,7 +28,6 @@ class coupon_detailModelcoupon_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -40,7 +42,10 @@ class coupon_detailModelcoupon_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -55,9 +60,9 @@ class coupon_detailModelcoupon_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -80,6 +85,7 @@ class coupon_detailModelcoupon_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -155,7 +161,8 @@ class coupon_detailModelcoupon_detail extends JModel
 
 	public function getuserslist()
 	{
-		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix . 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
+		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix
+			. 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -176,20 +183,22 @@ class coupon_detailModelcoupon_detail extends JModel
 
 	public function getuserfullname2($uid)
 	{
-		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id=" . $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
+		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id="
+			. $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
 		$fullname = '';
 
 		if ($this->_username)
+		{
 			$fullname = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
+		}
 
 		return $fullname;
 	}
 
 	public function checkduplicate($discount_code)
 	{
-
 		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"
 			. " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code"
 			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
@@ -199,5 +208,3 @@ class coupon_detailModelcoupon_detail extends JModel
 		return $this->_db->loadResult();
 	}
 }
-
-

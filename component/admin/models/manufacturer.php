@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class manufacturerModelmanufacturer extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -33,7 +37,6 @@ class manufacturerModelmanufacturer extends JModel
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
 	public function getData()
@@ -43,6 +46,7 @@ class manufacturerModelmanufacturer extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -53,6 +57,7 @@ class manufacturerModelmanufacturer extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -112,7 +117,7 @@ class manufacturerModelmanufacturer extends JModel
 	public function saveOrder(&$cid)
 	{
 		global $mainframe;
-		//$scope 		= JRequest::getCmd( 'scope' );
+
 		$db =& JFactory::getDBO();
 		$row =& $this->getTable('manufacturer_detail');
 
@@ -120,7 +125,7 @@ class manufacturerModelmanufacturer extends JModel
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
 			$row->load((int) $cid[$i]);
@@ -139,10 +144,6 @@ class manufacturerModelmanufacturer extends JModel
 		$row->reorder();
 
 		return true;
-		//$msg 	= JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
-		//$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
 	}
-
-
 }
 

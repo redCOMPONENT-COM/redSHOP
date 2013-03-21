@@ -15,8 +15,11 @@ jimport('joomla.filesystem.file');
 class template_detailModeltemplate_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
@@ -28,7 +31,6 @@ class template_detailModeltemplate_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -43,7 +45,10 @@ class template_detailModeltemplate_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -58,7 +63,7 @@ class template_detailModeltemplate_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
-			// read template from file and replace it with database template description
+			// Read template from file and replace it with database template description
 			if (isset($this->_data->template_section))
 			{
 				$this->_data->template_name = strtolower($this->_data->template_name);
@@ -75,6 +80,7 @@ class template_detailModeltemplate_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -95,6 +101,7 @@ class template_detailModeltemplate_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -122,10 +129,6 @@ class template_detailModeltemplate_detail extends JModel
 		$tempate_file = $red_template->getTemplatefilepath($data['template_section'], $data['template_name'], true);
 
 		JFile::write($tempate_file, $data["template_desc"]);
-		/*$fp = fopen($tempate_file,"w");
-		fwrite($fp,$data["template_desc"]);
-		fclose($fp);*/
-
 
 		if (!$row->bind($data))
 		{
@@ -155,6 +158,7 @@ class template_detailModeltemplate_detail extends JModel
 
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -214,7 +218,6 @@ class template_detailModeltemplate_detail extends JModel
 
 	public function copy($cid = array())
 	{
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -223,9 +226,9 @@ class template_detailModeltemplate_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
+
 		foreach ($this->_copydata as $cdata)
 		{
-
 			$post['template_id'] = 0;
 			$post['template_name'] = 'Copy Of ' . $cdata->template_name;
 			$post['template_section'] = $cdata->template_section;
@@ -235,10 +238,10 @@ class template_detailModeltemplate_detail extends JModel
 			$post['published'] = $cdata->published;
 			$post['shipping_methods'] = $cdata->shipping_methods;
 
-			template_detailModeltemplate_detail::store($post);
+			$this->store($post);
 		}
-		return true;
 
+		return true;
 	}
 
 	public function availabletexts($section)
@@ -291,6 +294,7 @@ class template_detailModeltemplate_detail extends JModel
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -314,6 +318,7 @@ class template_detailModeltemplate_detail extends JModel
 				return false;
 			}
 		}
+
 		return false;
 	}
 
@@ -342,5 +347,3 @@ class template_detailModeltemplate_detail extends JModel
 		}
 	}
 }
-
-

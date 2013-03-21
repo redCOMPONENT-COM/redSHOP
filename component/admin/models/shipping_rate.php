@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class shipping_rateModelShipping_rate extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -29,8 +33,7 @@ class shipping_rateModelShipping_rate extends JModel
 		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-//		$array = JRequest::getVar('cid',  0, '', 'array');
-		$id = $mainframe->getUserStateFromRequest($this->_context . 'extension_id', 'extension_id', 0); //(int)$array[0]);
+		$id = $mainframe->getUserStateFromRequest($this->_context . 'extension_id', 'extension_id', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -65,6 +68,7 @@ class shipping_rateModelShipping_rate extends JModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
@@ -91,5 +95,3 @@ class shipping_rateModelShipping_rate extends JModel
 		return $orderby;
 	}
 }
-
-

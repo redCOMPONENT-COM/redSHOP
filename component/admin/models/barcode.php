@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die();
 
 jimport('joomla.application.component.model');
@@ -18,10 +19,12 @@ jimport('joomla.application.component.model');
  */
 class barcodeModelbarcode extends JModel
 {
-
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_loglist = null;
 
 	public function __construct()
@@ -30,11 +33,8 @@ class barcodeModelbarcode extends JModel
 
 		$mainframe = JFactory::getApplication();
 		$this->_table_prefix = '#__redshop_';
-
-
 	}
 
-	///public $_hellos=null;
 	public function save($data)
 	{
 		$row = & $this->getTable('barcode');
@@ -45,6 +45,7 @@ class barcodeModelbarcode extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -65,9 +66,7 @@ class barcodeModelbarcode extends JModel
 		}
 
 		return $order;
-
 	}
-
 
 	public function getLog($order_id)
 	{
@@ -95,16 +94,11 @@ class barcodeModelbarcode extends JModel
 		return $this->_db->loadObject();
 	}
 
-	// for update order status
 	public function updateorderstatus($barcode, $order_id)
 	{
-		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='" . $barcode . "' and order_id ='" . $order_id . "'";
+		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
+			. $barcode . "' and order_id ='" . $order_id . "'";
 		$this->_db->setQuery($update_query);
 		$this->_db->query();
-
-
 	}
-
 }
-
-

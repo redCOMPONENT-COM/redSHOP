@@ -18,8 +18,11 @@ jimport('joomla.filesystem.file');
 class tax_detailModeltax_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_tax_group_id = null;
 
 	public function __construct()
@@ -49,7 +52,10 @@ class tax_detailModeltax_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -68,9 +74,9 @@ class tax_detailModeltax_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -133,8 +139,4 @@ class tax_detailModeltax_detail extends JModel
 
 		return true;
 	}
-
-
 }
-
-

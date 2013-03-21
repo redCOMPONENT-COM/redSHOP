@@ -20,12 +20,20 @@ jimport('joomla.application.component.model');
  */
 class GiftcardModelGiftcard extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null; /// product data
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_limit = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	/**
+	 * Product data
+	 */
+	public $_product = null;
+
+	public $_table_prefix = null;
+
+	public $_template = null;
+
+	public $_limit = null;
 
 	public function __construct()
 	{
@@ -35,7 +43,7 @@ class GiftcardModelGiftcard extends JModel
 		$this->_table_prefix = '#__redshop_';
 		$Id                  = JRequest::getInt('gid', 0);
 
-		$this->setId(( int ) $Id);
+		$this->setId((int) $Id);
 	}
 
 	public function setId($id)

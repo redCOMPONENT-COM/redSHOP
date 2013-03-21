@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -13,7 +14,9 @@ jimport('joomla.application.component.model');
 class newsletter_detailModelnewsletter_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -35,7 +38,10 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -50,6 +56,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -68,6 +75,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -81,12 +89,14 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -106,6 +116,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -127,6 +138,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -153,7 +165,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			$post['template_id'] = $copydata[$i]->template_id;
 			$post['published'] = $copydata[$i]->published;
 
-			$row = newsletter_detailModelnewsletter_detail::store($post);
+			$row = $this->store($post);
 
 			// Copy subscriber of newsletters
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter_subscription '
@@ -175,6 +187,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				$rowsubscr->store();
 			}
 		}
+
 		return true;
 	}
 
@@ -209,6 +222,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		$query = 'SELECT n.*,CONCAT(n.name," (",n.subject,")") AS text FROM ' . $this->_table_prefix . 'newsletter AS n '
 			. 'WHERE 1=1 '
 			. $and;
+
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -222,6 +236,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		$return = array();
 		$qs = array();
 		$j = 0;
+
 		for ($d = 0; $d < count($data); $d++)
 		{
 			$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
@@ -247,6 +262,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				$qs[$d]->ydata = $totalresult;
 			}
 		}
+
 		if ($newsletter_id != 0)
 		{
 			$return = array($qs, $data[0]->name);
@@ -255,6 +271,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		{
 			$return = array($qs, JText::_('COM_REDSHOP_NO_OF_SENT_NEWSLETTER'));
 		}
+
 		return $return;
 	}
 
@@ -263,6 +280,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
 			. "WHERE `newsletter_id`='" . $newsletter_id . "' "
 			. "AND `read`='1' ";
+
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
 
@@ -270,8 +288,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		{
 			$result->total = 0;
 		}
+
 		return $result->total;
 	}
 }
-
-

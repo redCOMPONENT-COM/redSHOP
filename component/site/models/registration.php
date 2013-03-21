@@ -23,9 +23,11 @@ include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
  */
 class registrationModelregistration extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -43,12 +45,14 @@ class registrationModelregistration extends JModel
 		{
 			return false;
 		}
+
 		$joomlauser = $userhelper->createJoomlaUser($data, 1);
 
 		if (!$joomlauser)
 		{
 			return false;
 		}
+
 		$data['billisship'] = 1;
 		$reduser            = $userhelper->storeRedshopUser($data, $joomlauser->id);
 

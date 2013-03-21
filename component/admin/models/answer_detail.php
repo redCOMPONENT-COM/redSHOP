@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,8 +16,11 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 class answer_detailModelanswer_detail extends JModel
 {
 	public $_id = null;
+
 	public $_parent_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -41,7 +45,10 @@ class answer_detailModelanswer_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -112,6 +119,7 @@ class answer_detailModelanswer_detail extends JModel
 
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -153,6 +161,7 @@ class answer_detailModelanswer_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -180,6 +189,7 @@ class answer_detailModelanswer_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -195,11 +205,13 @@ class answer_detailModelanswer_detail extends JModel
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 		$conditions = array();
-		// update ordering values
+
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
+
+			// Track categories
 			$groupings[] = $row->question_id;
 
 			if ($row->ordering != $order[$i])
@@ -212,29 +224,32 @@ class answer_detailModelanswer_detail extends JModel
 
 					return false;
 				}
-				// remember to updateOrder this group
+
+				// Remember to updateOrder this group
 				$condition = 'parent_id = ' . (int) $row->parent_id;
 				$found = false;
+
 				foreach ($conditions as $cond)
+				{
 					if ($cond[1] == $condition)
 					{
 						$found = true;
 						break;
 					}
+				}
 				if (!$found)
+				{
 					$conditions[] = array($row->question_id, $condition);
+				}
 			}
 		}
-		// execute updateOrder for each parent group
-//		$groupings = array_unique( $groupings );
-//		foreach ($groupings as $group){
-//			$row->reorder((int) $group);
-//		}
+
 		foreach ($conditions as $cond)
 		{
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
+
 		return true;
 	}
 
@@ -278,5 +293,3 @@ class answer_detailModelanswer_detail extends JModel
 		return $rs;
 	}
 }
-
-

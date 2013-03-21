@@ -22,11 +22,16 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
  */
 class send_friendModelsend_friend extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_product = null; // product data
-	var $_table_prefix = null;
-	var $_template = null;
+	public $_id = null;
+
+	public $_data = null;
+
+	// Product data
+	public $_product = null;
+
+	public $_table_prefix = null;
+
+	public $_template = null;
 
 	public function __construct()
 	{
@@ -35,7 +40,6 @@ class send_friendModelsend_friend extends JModel
 		$this->_table_prefix = '#__redshop_';
 
 		$this->setId((int) JRequest::getVar('pid', 0));
-
 	}
 
 	public function setId($id)
@@ -84,7 +88,7 @@ class send_friendModelsend_friend extends JModel
 		$product_url = "<a href=" . $rlink . ">" . $rlink . "</a>";
 		$data_add    = str_replace("{product_url}", $product_url, $data_add);
 
-		$config   = & JFactory::getConfig();
+		$config   = JFactory::getConfig();
 		$from     = $config->getValue('mailfrom');
 		$fromname = $config->getValue('fromname');
 
@@ -102,6 +106,7 @@ class send_friendModelsend_friend extends JModel
 				echo "<div class='' align='center'>" . JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY') . "</div>";
 			}
 		}
+
 		exit;
 	}
 }

@@ -14,9 +14,13 @@ jimport('joomla.application.component.model');
 class shipping_boxModelshipping_box extends JModel
 {
 	public $_data = null;
+
 	public $_total = null;
+
 	public $_pagination = null;
+
 	public $_table_prefix = null;
+
 	public $_context = null;
 
 	public function __construct()
@@ -33,7 +37,6 @@ class shipping_boxModelshipping_box extends JModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
 	public function getData()
@@ -43,6 +46,7 @@ class shipping_boxModelshipping_box extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
@@ -53,6 +57,7 @@ class shipping_boxModelshipping_box extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -87,5 +92,3 @@ class shipping_boxModelshipping_box extends JModel
 		return $orderby;
 	}
 }
-
-

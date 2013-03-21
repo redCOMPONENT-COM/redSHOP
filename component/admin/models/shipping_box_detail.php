@@ -6,16 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class shipping_box_detailModelshipping_box_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
+
 	public $_copydata = null;
 
 	public function __construct()
@@ -27,7 +30,6 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
 	public function setId($id)
@@ -42,7 +44,10 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -59,6 +64,7 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -78,12 +84,12 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
 	public function store($data)
 	{
-
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
@@ -99,6 +105,7 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -145,5 +152,3 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		return true;
 	}
 }
-
-

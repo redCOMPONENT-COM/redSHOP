@@ -96,7 +96,6 @@ class CheckoutController extends JController
 		$helper = new redhelper;
 		$chk = $this->chkvalidation($users_info_id);
 
-
 		if (!empty($chk))
 		{
 			if ($chk == 1)
@@ -157,9 +156,7 @@ class CheckoutController extends JController
 		{
 			$errormsg = $this->setcreditcardInfo();
 
-
 		}
-
 
 		if ($errormsg != "")
 		{
@@ -476,7 +473,6 @@ class CheckoutController extends JController
 				// Add plugin support
 				$results = $dispatcher->trigger('beforeOrderPlace', array($cart));
 
-
 				$orderresult = $model->orderplace();
 				$order_id = $orderresult->order_id;
 			}
@@ -559,7 +555,6 @@ class CheckoutController extends JController
 			$ccdata['order_payment_expire_year'] = JRequest::getVar('order_payment_expire_year');
 			$ccdata['credit_card_code'] = JRequest::getVar('credit_card_code');
 			$session->set('ccdata', $ccdata);
-
 
 			$validpayment = $model->validatepaymentccinfo();
 
