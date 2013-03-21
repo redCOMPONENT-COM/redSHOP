@@ -45,7 +45,6 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 	 */
 function onPrePayment($element, $data)
 {
-
 	$config = new Redconfiguration;
 	$currencyClass = new convertPrice;
 
@@ -205,7 +204,6 @@ function onPrePayment($element, $data)
 
 if ($strStatus == "3DAUTH")
 {
-
 	/* This is a 3D-Secure transaction, so we need to redirect the customer to their bank
 	** for authentication.  First get the pertinent information from the response */
 	$strMD = $output["MD"];
@@ -233,7 +231,6 @@ else
 	// Update the database and redirect the user appropriately
 	if ($strStatus == "OK" || $strStatus == "AUTHENTICATED" || $strStatus == "REGISTERED")
 	{
-
 		if ($strStatus == "OK")
 			$strDBStatus = "AUTHORISED - The transaction was successfully authorised with the bank.";
 		elseif ($strStatus == "AUTHENTICATED")
@@ -246,7 +243,6 @@ else
 	}
 	else
 	{
-
 		if ($strStatus == "MALFORMED")
 			$strDBStatus = "MALFORMED - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail, 0, 255));
 		elseif ($strStatus == "INVALID")
@@ -319,7 +315,6 @@ else
 
 	function onCapture_Paymentrs_payment_sagepay_vps($element, $data)
 	{
-
 		return true;
 	}
 

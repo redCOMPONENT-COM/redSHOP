@@ -62,7 +62,6 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 
 	function onNotifyPaymentrs_payment_payson($element, $request)
 	{
-
 		if ($element != 'rs_payment_payson')
 		{
 			return;
@@ -106,7 +105,6 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 		}
 		else
 		{
-
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -128,7 +126,6 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 
 	function orderPaymentNotYetUpdated($order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_mollieideal')
 		{
 			return;
@@ -67,7 +66,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 	function onNotifyPaymentrs_payment_mollieideal($element, $request)
 	{
-
 		if ($element != 'rs_payment_mollieideal')
 		{
 			return;
@@ -107,7 +105,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		if ($response->payed == "false")
 		{
-
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
@@ -207,7 +204,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 	function show_bank_form($order_id)
 	{
-
 		// Question bank list:
 		$mideal = new ideal;
 		$mideal->setPartnerID($this->_params->get("mollieideal_partner_id"));

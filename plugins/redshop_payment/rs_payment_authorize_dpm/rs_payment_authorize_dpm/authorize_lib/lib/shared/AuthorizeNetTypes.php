@@ -52,7 +52,6 @@ class AuthorizeNetAddress
  */
 class AuthorizeNetPaymentProfile
 {
-
 	public $customerType;
 	public $billTo;
 	public $payment;
@@ -192,7 +191,6 @@ class AuthorizeNetBankAccount
  */
 class AuthorizeNet_Subscription
 {
-
 	public $name;
 	public $intervalLength;
 	public $intervalUnit;

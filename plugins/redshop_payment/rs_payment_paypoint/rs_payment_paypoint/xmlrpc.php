@@ -528,7 +528,6 @@ class xmlrpc_client
 	                          $username = "", $password = "", $cert = "",
 	                          $certpass = "")
 	{
-
 		global $xmlrpcerr, $xmlrpcstr;
 
 		if ($port == 0) $port = 443;
@@ -538,7 +537,6 @@ class xmlrpc_client
 
 		if (!function_exists("curl_init"))
 		{
-
 			$r = new xmlrpcresp(0, $xmlrpcerr["no_ssl"],
 				$xmlrpcstr["no_ssl"]);
 
@@ -585,7 +583,6 @@ class xmlrpc_client
 
 		if (!$result)
 		{
-
 			$resp = new xmlrpcresp(0,
 				$xmlrpcerr["curl_fail"],
 				$xmlrpcstr["curl_fail"] . ": " .

@@ -679,7 +679,6 @@ class GoogleCart
 
 				foreach ($this->default_tax_rules_arr as $curr_rule)
 				{
-
 					if ($curr_rule->country_area != "")
 					{
 						$xml_data->Push('default-tax-rule');
@@ -894,7 +893,6 @@ class GoogleCart
 	function CheckoutServer2ServerButton($url, $size = "large", $variant = true,
 	                                     $loc = "en_US", $showtext = true, $style = "trans")
 	{
-
 		switch (strtolower($size))
 		{
 			case "medium":
@@ -982,7 +980,6 @@ class GoogleCart
 	function CheckoutButtonCode($size = "large", $variant = true, $loc = "en_US",
 	                            $showtext = true, $style = "trans")
 	{
-
 		switch (strtolower($size))
 		{
 			case "medium":
@@ -1081,7 +1078,6 @@ class GoogleCart
 	function CheckoutHTMLButtonCode($size = "large", $variant = true, $loc = "en_US",
 	                                $showtext = true, $style = "trans")
 	{
-
 		switch (strtolower($size))
 		{
 			case "medium":

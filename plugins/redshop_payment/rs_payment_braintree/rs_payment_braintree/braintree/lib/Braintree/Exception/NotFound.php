@@ -16,5 +16,4 @@
  */
 class Braintree_Exception_NotFound extends Braintree_Exception
 {
-
 }

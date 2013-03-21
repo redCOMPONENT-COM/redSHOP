@@ -49,7 +49,6 @@ class Pedido
 
 	private function XMLDadosEc()
 	{
-
 		$msg = '<dados-ec>' . "\n      " .
 			'<numero>'
 			. $this->dadosEcNumero .
@@ -193,7 +192,6 @@ class Pedido
 	// Envia Requisi��o
 	public function Enviar($vmPost, $transacao)
 	{
-
 		//$this->logger->logWrite("ENVIO: " . $vmPost, $transacao);
 
 		// ENVIA REQUISI��O SITE CIELO
@@ -234,7 +232,6 @@ class Pedido
 
 	public function RequisicaoTid()
 	{
-
 		$msg = $this->XMLHeader() . "\n" .
 			'<requisicao-tid id="' . md5(date("YmdHisu")) . '" versao ="' . VERSAO . '">' . "\n   "
 			. $this->XMLDadosEc() . "\n   "

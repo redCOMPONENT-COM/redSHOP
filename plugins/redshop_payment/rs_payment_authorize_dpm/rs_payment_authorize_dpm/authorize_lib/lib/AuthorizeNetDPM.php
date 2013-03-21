@@ -26,7 +26,6 @@
  */
 class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 {
-
 	const LIVE_URL = 'https://secure.authorize.net/gateway/transact.dll';
 	const SANDBOX_URL = 'https://test.authorize.net/gateway/transact.dll';
 
@@ -36,7 +35,6 @@ class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 	 */
 	public static function directPostDemo($url, $api_login_id, $transaction_key, $amount = "0.00", $md5_setting = "")
 	{
-
 		// Step 1: Show checkout form to customer.
 		if (!count($_POST) && !count($_GET))
 		{

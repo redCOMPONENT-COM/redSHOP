@@ -33,7 +33,6 @@
  */
 class Braintree_Address extends Braintree
 {
-
 	/* public class methods */
 	/**
 	 *
@@ -250,7 +249,7 @@ class Braintree_Address extends Braintree
 	 */
 	protected function _initialize($addressAttribs)
 	{
-		// Set the attributes
+		// set the attributes
 		$this->_attributes = $addressAttribs;
 	}
 
@@ -359,7 +358,7 @@ class Braintree_Address extends Braintree
 	{
 		if (isset($response['address']))
 		{
-			// Return a populated instance of Braintree_Address
+			// return a populated instance of Braintree_Address
 			return new Braintree_Result_Successful(
 				self::factory($response['address'])
 			);

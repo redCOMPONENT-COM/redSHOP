@@ -67,7 +67,6 @@ class plgAcymailingRedshop extends JPlugin
 
 	function acymailing_replaceusertags(&$email)
 	{
-
 		$match = '#{product:?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
 		$found = false;

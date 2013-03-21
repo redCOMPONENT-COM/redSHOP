@@ -1,5 +1,5 @@
 <?php
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
@@ -19,7 +19,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// Load plugin parameters
+		// load plugin parameters
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
@@ -110,7 +110,6 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 */
 	function onAfterDisplayProductTitle(&$template, &$params, $product)
 	{
-
 		$string = "";
 
 		return $string;
@@ -129,7 +128,6 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 */
 	function onBeforeDisplayProduct(&$template, &$params, $product)
 	{
-
 		$string = "";
 
 		return $string;
@@ -148,7 +146,6 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 */
 	function onAfterDisplayProduct(&$template, &$params, $product)
 	{
-
 		$string = "";
 
 		return $string;

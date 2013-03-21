@@ -14,7 +14,6 @@
  */
 class AuthorizeNetSIM extends AuthorizeNetResponse
 {
-
 	// For ARB transactions
 	public $subscription_id;
 	public $subscription_paynum;

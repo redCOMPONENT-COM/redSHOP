@@ -17,5 +17,4 @@
  */
 class Braintree_Exception_Unexpected extends Braintree_Exception
 {
-
 }

@@ -19,7 +19,6 @@
  */
 class GoogleFlatRateShipping
 {
-
 	var $price;
 	var $name;
 	var $type = "flat-rate-shipping";
@@ -41,7 +40,6 @@ class GoogleFlatRateShipping
  */
 class GoogleMerchantCalculatedShipping
 {
-
 	var $price;
 	var $name;
 	var $type = "merchant-calculated-shipping";
@@ -69,7 +67,6 @@ class GoogleMerchantCalculatedShipping
  */
 class GoogleShippingFilters
 {
-
 	var $allow_us_po_box = true;
 
 	var $allowed_restrictions = false;
@@ -214,7 +211,6 @@ class GoogleShippingFilters
  */
 class GooglePickUp
 {
-
 	var $price;
 	var $name;
 	var $type = "pickup";

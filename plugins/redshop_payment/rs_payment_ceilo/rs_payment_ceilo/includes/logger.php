@@ -14,7 +14,6 @@ class Logger
 
 	public function logWrite($strMessage, $transacao)
 	{
-
 		if (!$this->fp)
 			$this->logOpen();
 

@@ -18,7 +18,6 @@ final class Braintree_Xml
 	 */
 	protected function  __construct()
 	{
-
 	}
 
 	/**

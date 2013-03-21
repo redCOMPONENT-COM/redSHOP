@@ -99,7 +99,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 			if ($consignor_carrier_code == "")
 			{
-
 				$shippingmethod_id = $labelparams->get('shippingmethod', '');
 				$shipping_number = $labelparams->get('consignornumber', '');
 
@@ -198,7 +197,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 		if ($login)
 		{
-
 			$upload = ftp_put($ftpstream, $path_for_sharing_folder . $slash . $myFile, $label_file, FTP_ASCII);
 
 		}

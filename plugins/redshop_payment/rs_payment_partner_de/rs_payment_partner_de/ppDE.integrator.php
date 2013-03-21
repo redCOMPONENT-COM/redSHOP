@@ -40,7 +40,6 @@ class _ctpexmlpost
 	*/
 	function sendToCTPE($host, $path, $data)
 	{
-
 		$cpt = curl_init();
 
 		$xmlpost = "load=" . urlencode($data);
@@ -115,7 +114,6 @@ class _ctpexmlpost
 
 	function commitXMLPayment()
 	{
-
 		$strXML = "<?xml version=\"1.0\" ?>";
 
 		// set account and user information.

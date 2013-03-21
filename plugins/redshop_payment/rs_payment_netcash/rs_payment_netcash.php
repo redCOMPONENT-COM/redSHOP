@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_netcash')
 		{
 			return;
@@ -65,7 +64,6 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 
 	function onNotifyPaymentrs_payment_netcash($element, $request)
 	{
-
 		if ($element != 'rs_payment_netcash')
 		{
 			return;
@@ -97,7 +95,6 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 
 		if ($TransactionAccepted == 'true')
 		{
-
 			$tid = $request['RETC'];
 
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
@@ -135,7 +132,6 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

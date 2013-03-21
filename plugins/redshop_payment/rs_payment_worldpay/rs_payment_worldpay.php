@@ -64,7 +64,6 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 
 	function onNotifyPaymentrs_payment_worldpay($element, $request)
 	{
-
 		if ($element != 'rs_payment_worldpay')
 		{
 			return;
@@ -84,7 +83,6 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 
 		if ($transStatus == "Y")
 		{
-
 			// UPDATE THE ORDER STATUS to 'VALID'
 
 			$values->order_status_code = $verify_status;
@@ -97,7 +95,6 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 		}
 		else
 		{
-
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');

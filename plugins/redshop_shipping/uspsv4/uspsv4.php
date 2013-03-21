@@ -757,7 +757,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 									{
 										if ($strTitle == constant("USPS_SHIP" . $tmp . "_TEXT"))
 										{
-
 											$ship_service[$count] = $mailservice->data(); //html_entity_decode();
 											$rateData = $currNode->getElementByPath("rate");
 											$ship_postage[$count] = $rateData->data();

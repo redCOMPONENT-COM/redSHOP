@@ -62,7 +62,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 	function getCredicardForm($element, $data)
 	{
-
 		$user = JFactory::getUser();
 		$user_id = $user->id;
 		$Itemid = JRequest::getInt('Itemid');
@@ -171,7 +170,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	 */
 	function getOrderAndCcdata($element, $data)
 	{
-
 		$mainframe =& JFactory::getApplication();
 
 		if ($element != 'rs_payment_paymill')
@@ -215,7 +213,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 	function onNotifyPaymentrs_payment_paymill($element, $request)
 	{
-
 		if ($element != 'rs_payment_paymill')
 		{
 			return;

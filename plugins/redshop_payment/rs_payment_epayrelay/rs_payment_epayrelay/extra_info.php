@@ -565,7 +565,6 @@ $trans_fee = $this->_params->get("transaction_fee");
 ?>
 <script type="text/javascript">
 	function getFee(cardno, acq) {
-
 		//document.getElementById("div_transfee").innerHTML = 'Please wait...';
 
 		// if (cardno.length < 6) {
@@ -591,7 +590,6 @@ $trans_fee = $this->_params->get("transaction_fee");
 
 		self.xmlHttpReq.onreadystatechange = function () {
 			if (self.xmlHttpReq.readyState == 4) {
-
 				var returnvalues = self.xmlHttpReq.responseText.split(",");
 
 				if (returnvalues.length == 3) {
@@ -606,7 +604,6 @@ $trans_fee = $this->_params->get("transaction_fee");
 					//document.forms['ePay'].submit.disabled = false;
 
 				} else {
-
 					var epayresponse = returnvalues[0];
 					//	document.getElementById("div_transfee").innerHTML = 'Error (' + epayresponse + ')';
 					//document.forms['ePay'].submit.disabled = true;

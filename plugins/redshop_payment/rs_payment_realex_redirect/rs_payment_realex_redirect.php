@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 	 */
 	function onPrePayment_rs_payment_realex_redirect($element, $data)
 	{
-
 		if ($element != 'rs_payment_realex_redirect')
 		{
 			return;
@@ -106,7 +105,6 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 
 	function onNotifyPaymentrs_payment_realex_redirect($element, $request)
 	{
-
 		if ($element != 'rs_payment_realex_redirect')
 		{
 			return;
@@ -130,7 +128,6 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 
 		if ($request['status'] == 'PS' && $request['operation'] == 'pay')
 		{
-
 			$tid = $request['transactionId'];
 
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))

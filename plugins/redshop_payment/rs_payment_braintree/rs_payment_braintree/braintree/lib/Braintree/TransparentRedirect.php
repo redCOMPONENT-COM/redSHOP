@@ -69,7 +69,6 @@ class Braintree_TransparentRedirect
 	 */
 	protected function __construct()
 	{
-
 	}
 
 	/**
@@ -78,7 +77,6 @@ class Braintree_TransparentRedirect
 	 */
 	public static function init()
 	{
-
 		self::$_createCustomerSignature = array(
 			self::$_transparentRedirectKeys,
 			array('customer' => Braintree_Customer::createSignature()),
@@ -174,7 +172,6 @@ class Braintree_TransparentRedirect
 	 */
 	public static function transactionData($params)
 	{
-
 		Braintree_Util::verifyKeys(
 			self::$_transactionSignature,
 			$params
@@ -293,7 +290,6 @@ class Braintree_TransparentRedirect
 		// recreate the hash and compare it
 		if (self::_hash($queryStringWithoutHash) == $params['hash'])
 		{
-
 			return $params;
 		}
 		else

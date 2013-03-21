@@ -11,7 +11,7 @@
  *                 See COPYRIGHT.php for copyright notices and details.
  */
 
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.event.plugin');
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
@@ -111,7 +111,6 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 
 	function WeekdaysTime($Weekday)
 	{
-
 		$opningTime = Array();
 
 		for ($i = 0; $i < count($Weekday); $i++)

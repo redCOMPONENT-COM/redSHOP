@@ -44,7 +44,6 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_paypoint_redirection')
 		{
 			return;
@@ -62,7 +61,6 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 
 	function onNotifyPaymentrs_payment_paypoint_redirection($element, $request)
 	{
-
 		if ($element != 'rs_payment_paypoint_redirection')
 		{
 			return;

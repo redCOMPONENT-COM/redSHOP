@@ -112,7 +112,6 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		if (strtoupper($AUTH_Responsecode) == 'OK')
 		{
-
 			$tid = isset($xml->Result->transactionid) ? $xml->Result->transactionid : $request["transactionId"];
 
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
@@ -150,7 +149,6 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

@@ -4,7 +4,6 @@
 
 class mpgGlobals
 {
-
 	var $Globals = array(
 		'MONERIS_PROTOCOL' => 'https',
 		'MONERIS_HOST'     => 'www3.moneris.com',
@@ -16,7 +15,6 @@ class mpgGlobals
 
 	function mpgGlobals()
 	{
-
 		if (MN_TEST_REQUEST == 1)
 		{
 			//$this->Globals['MONERIS_HOST'] = "esqa.moneris.com/mpg";
@@ -30,7 +28,6 @@ class mpgGlobals
 
 	function getGlobals()
 	{
-
 		return ($this->Globals);
 	}
 
@@ -40,7 +37,6 @@ class mpgGlobals
 
 class mpgHttpsPost
 {
-
 	var $api_token;
 	var $store_id;
 	var $mpgRequest;
@@ -48,7 +44,6 @@ class mpgHttpsPost
 
 	function mpgHttpsPost($storeid, $apitoken, $mpgRequestOBJ, $moneris_api_host)
 	{
-
 		$this->store_id = $storeid;
 		$this->api_token = $apitoken;
 		$this->mpgRequest = $mpgRequestOBJ;
@@ -86,7 +81,6 @@ class mpgHttpsPost
 
 		if (!$response)
 		{
-
 			$response = "<?xml version=\"1.0\"?><response><receipt>" .
 				"<ReceiptId>Global Error Receipt</ReceiptId>" .
 				"<ReferenceNum>null</ReferenceNum><ResponseCode>null</ResponseCode>" .
@@ -110,7 +104,6 @@ class mpgHttpsPost
 
 	function toXML()
 	{
-
 		$req = $this->mpgRequest;
 		$reqXMLString = $req->toXML();
 		$xmlString = "";
@@ -131,7 +124,6 @@ class mpgHttpsPost
 
 class mpgResponse
 {
-
 	var $responseData;
 
 	var $p; //parser
@@ -154,7 +146,6 @@ class mpgResponse
 
 	function mpgResponse($xmlString)
 	{
-
 		$this->p = xml_parser_create();
 		xml_parser_set_option($this->p, XML_OPTION_CASE_FOLDING, 0);
 		xml_parser_set_option($this->p, XML_OPTION_TARGET_ENCODING, "UTF-8");
@@ -171,7 +162,6 @@ class mpgResponse
 
 	function getMpgResponseData()
 	{
-
 		return ($this->responseData);
 
 	}
@@ -193,14 +183,12 @@ class mpgResponse
 
 	function getCardType()
 	{
-
 		return ($this->responseData['CardType']);
 
 	}
 
 	function getTransAmount()
 	{
-
 		return ($this->responseData['TransAmount']);
 
 	}
@@ -213,160 +201,136 @@ class mpgResponse
 
 	function getReceiptId()
 	{
-
 		return ($this->responseData['ReceiptId']);
 
 	}
 
 	function getTransType()
 	{
-
 		return ($this->responseData['TransType']);
 
 	}
 
 	function getReferenceNum()
 	{
-
 		return ($this->responseData['ReferenceNum']);
 
 	}
 
 	function getResponseCode()
 	{
-
 		return ($this->responseData['ResponseCode']);
 
 	}
 
 	function getISO()
 	{
-
 		return ($this->responseData['ISO']);
 
 	}
 
 	function getBankTotals()
 	{
-
 		return ($this->responseData['BankTotals']);
 
 	}
 
 	function getMessage()
 	{
-
 		return ($this->responseData['Message']);
 
 	}
 
 	function getAuthCode()
 	{
-
 		return ($this->responseData['AuthCode']);
 
 	}
 
 	function getComplete()
 	{
-
 		return ($this->responseData['Complete']);
 
 	}
 
 	function getTransDate()
 	{
-
 		return ($this->responseData['TransDate']);
 
 	}
 
 	function getTransTime()
 	{
-
 		return ($this->responseData['TransTime']);
 
 	}
 
 	function getTicket()
 	{
-
 		return ($this->responseData['Ticket']);
 
 	}
 
 	function getTimedOut()
 	{
-
 		return ($this->responseData['TimedOut']);
 
 	}
 
 	function getTerminalStatus($ecr_no)
 	{
-
 		return ($this->ecrHash[$ecr_no]);
 
 	}
 
 	function getPurchaseAmount($ecr_no, $card_type)
 	{
-
 		return ($this->purchaseHash[$ecr_no][$card_type]['Amount'] == "" ? 0 : $this->purchaseHash[$ecr_no][$card_type]['Amount']);
 	}
 
 	function getPurchaseCount($ecr_no, $card_type)
 	{
-
 		return ($this->purchaseHash[$ecr_no][$card_type]['Count'] == "" ? 0 : $this->purchaseHash[$ecr_no][$card_type]['Count']);
 	}
 
 	function getRefundAmount($ecr_no, $card_type)
 	{
-
 		return ($this->refundHash[$ecr_no][$card_type]['Amount'] == "" ? 0 : $this->refundHash[$ecr_no][$card_type]['Amount']);
 	}
 
 	function getRefundCount($ecr_no, $card_type)
 	{
-
 		return ($this->refundHash[$ecr_no][$card_type]['Count'] == "" ? 0 : $this->refundHash[$ecr_no][$card_type]['Count']);
 	}
 
 	function getCorrectionAmount($ecr_no, $card_type)
 	{
-
 		return ($this->correctionHash[$ecr_no][$card_type]['Amount'] == "" ? 0 : $this->correctionHash[$ecr_no][$card_type]['Amount']);
 	}
 
 	function getCorrectionCount($ecr_no, $card_type)
 	{
-
 		return ($this->correctionHash[$ecr_no][$card_type]['Count'] == "" ? 0 : $this->correctionHash[$ecr_no][$card_type]['Count']);
 	}
 
 	function getTerminalIDs()
 	{
-
 		return ($this->ecrs);
 
 	}
 
 	function getCreditCardsAll()
 	{
-
 		return (array_keys($this->cards));
 	}
 
 	function getCreditCards($ecr)
 	{
-
 		return ($this->cardHash[$ecr]);
 	}
 
 	function characterHandler($parser, $data)
 	{
-
 		if ($this->isBatchTotals)
 		{
 			switch ($this->currentTag)
@@ -446,7 +410,6 @@ class mpgResponse
 
 	function startHandler($parser, $name, $attrs)
 	{
-
 		$this->currentTag = $name;
 
 		if ($this->currentTag == "BankTotals")
@@ -473,7 +436,6 @@ class mpgResponse
 
 	function endHandler($parser, $name)
 	{
-
 		$this->currentTag = $name;
 
 		if ($name == "BankTotals")
@@ -490,7 +452,6 @@ class mpgResponse
 
 class mpgRequest
 {
-
 	var $txnTypes = array('purchase'           => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
 	                      'refund'             => array('order_id', 'amount', 'txn_number', 'crypt_type'),
 	                      'idebit_purchase'    => array('order_id', 'amount', 'idebit_track2'),
@@ -515,7 +476,6 @@ class mpgRequest
 
 	function mpgRequest($txn)
 	{
-
 		if (is_array($txn))
 		{
 			$txn = $txn[0];
@@ -527,7 +487,6 @@ class mpgRequest
 
 	function toXML()
 	{
-
 		$tmpTxnArray = $this->txnArray;
 
 		$txnArrayLen = count($tmpTxnArray); //total number of transactions
@@ -758,7 +717,6 @@ class mpgRequest
 ##################### mpgTransaction #######################################################
 class mpgTransaction
 {
-
 	var $txn;
 	var $custInfo = null;
 	var $avsInfo = null;
@@ -767,7 +725,6 @@ class mpgTransaction
 
 	function mpgTransaction($txn)
 	{
-
 		$this->txn = $txn;
 
 	}
@@ -795,7 +752,6 @@ class mpgTransaction
 
 	function getAvsInfo()
 	{
-
 		return $this->avs;
 	}
 
@@ -816,7 +772,6 @@ class mpgTransaction
 
 	function getTransaction()
 	{
-
 		return $this->txn;
 	}
 
@@ -825,7 +780,6 @@ class mpgTransaction
 ##################### mpgAvsInfo #######################################################
 class mpgAvsInfo
 {
-
 	var $params;
 	var $avsTemplate = array('avs_street_number', 'avs_street_name', 'avs_zipcode');
 
@@ -858,7 +812,6 @@ class mpgAvsInfo
 ##################### mpgCvdInfo #######################################################
 class mpgCvdInfo
 {
-
 	var $params;
 	var $cvdTemplate = array('cvd_indicator', 'cvd_value');
 

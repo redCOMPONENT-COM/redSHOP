@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_quickpay')
 		{
 			return;
@@ -65,7 +64,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function onNotifyPaymentrs_payment_quickpay($element, $request)
 	{
-
 		if ($element != 'rs_payment_quickpay')
 		{
 			return;
@@ -150,7 +148,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*), `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
@@ -167,7 +164,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function onCapture_Paymentrs_payment_quickpay($element, $data)
 	{
-
 		if ($element != 'rs_payment_quickpay')
 		{
 			return;
@@ -229,7 +225,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function onRefund_Paymentrs_payment_quickpay($element, $data)
 	{
-
 		if ($element != 'rs_payment_quickpay')
 		{
 			return;
@@ -290,7 +285,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function onStatus_Paymentrs_payment_quickpay($element, $data)
 	{
-
 		if ($element != 'rs_payment_quickpay')
 		{
 			return;
@@ -347,7 +341,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function onCancel_Paymentrs_payment_quickpay($element, $data)
 	{
-
 		if ($element != 'rs_payment_quickpay')
 		{
 			return;

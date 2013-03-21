@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 	 */
 	function onPrePayment_rs_payment_eway($element, $data)
 	{
-
 		$config = new Redconfiguration;
 		// Get user billing information
 		$user = JFActory::getUser();

@@ -32,7 +32,6 @@ if (isset($request['ccinfo']) && $request['ccinfo'] == 1)
 }
 else
 {
-
 	$this->getCredicardForm("rs_payment_braintree", $data);
 
 }

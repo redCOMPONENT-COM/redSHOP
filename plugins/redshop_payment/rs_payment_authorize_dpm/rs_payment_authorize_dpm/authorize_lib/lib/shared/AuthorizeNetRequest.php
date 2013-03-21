@@ -7,7 +7,6 @@
  */
 abstract class AuthorizeNetRequest
 {
-
 	protected $_api_login;
 	protected $_transaction_key;
 	protected $_post_string;
@@ -109,13 +108,12 @@ abstract class AuthorizeNetRequest
 
 		if ($this->_log_file)
 		{
-
 			if ($curl_error = curl_error($curl_request))
 			{
 				file_put_contents($this->_log_file, "----CURL ERROR----\n$curl_error\n\n", FILE_APPEND);
 			}
 			// Do not log requests that could contain CC info.
-			// File_put_contents($this->_log_file, "----Request----\n{$this->_post_string}\n", FILE_APPEND);
+			// file_put_contents($this->_log_file, "----Request----\n{$this->_post_string}\n", FILE_APPEND);
 
 			file_put_contents($this->_log_file, "----Response----\n$response\n\n", FILE_APPEND);
 		}

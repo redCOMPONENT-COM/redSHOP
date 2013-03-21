@@ -6,7 +6,6 @@ $logFile = "../logs/log.log";
 // Par�metros: XML de envio, XML de Resposta
 function VerificaErro($vmPost, $vmResposta)
 {
-
 	$error_msg = null;
 
 	try

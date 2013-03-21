@@ -66,7 +66,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 	 */
 	function onNotifyPaymentrs_payment_webmoney($element, $request)
 	{
-
 		if ($element != 'rs_payment_webmoney')
 		{
 			break;
@@ -141,7 +140,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 
 		if ($prerequest_mode == "1")
 		{
-
 			$account_number_stored = LMI_PAYEE_PURSE;
 			$account = trim($_POST['LMI_PAYEE_PURSE']);
 
@@ -175,7 +173,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 
 			if ($order->order_total)
 			{
-
 				if (!$order_total_cost or $order_total_cost == "")
 				{
 					$err = 1;
@@ -253,7 +250,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

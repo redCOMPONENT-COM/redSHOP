@@ -44,7 +44,6 @@ class plgredshop_productstock_notifyemail extends JPlugin
 
 			if (count($userData) > 0)
 			{
-
 				for ($u = 0; $u < count($userData); $u++)
 				{
 					$productData = $this->getProductData($userData[$u]);
@@ -69,7 +68,6 @@ class plgredshop_productstock_notifyemail extends JPlugin
 
 					if ($userData[$u]->user_email)
 					{
-
 						JUtility::sendMail(SHOP_NAME, SHOP_NAME, $userData[$u]->user_email, $mail_subject, $message, 1);
 					}
 
@@ -111,7 +109,6 @@ class plgredshop_productstock_notifyemail extends JPlugin
 
 	function getProductData($userData)
 	{
-
 		$producthelper = new producthelper;
 
 		if ($userData->product_id)

@@ -108,7 +108,6 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 		//
 		if ($order_ekey === $hash_to_check)
 		{
-
 			//
 			// Find the corresponding order in the database
 			//
@@ -157,7 +156,6 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

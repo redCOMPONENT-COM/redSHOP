@@ -14,7 +14,6 @@
  */
 class AuthorizeNetXMLResponse
 {
-
 	public $xml; // Holds a SimpleXML Element with response.
 
 	/**

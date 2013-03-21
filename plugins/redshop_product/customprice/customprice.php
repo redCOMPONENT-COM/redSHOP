@@ -1,5 +1,5 @@
 <?php
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 class plgredshop_productcustomprice extends JPlugin
@@ -37,7 +37,6 @@ class plgredshop_productcustomprice extends JPlugin
 	 */
 	function onBeforeSetCartSession(& $cart, $data)
 	{
-
 		if (!isset($data['product_custom_price']))
 		{
 			return;
@@ -50,7 +49,7 @@ class plgredshop_productcustomprice extends JPlugin
 		$cart[$idx]['product_old_price_excl_vat'] = $data['product_custom_price'];
 		$cart[$idx]['product_price_excl_vat'] = $data['product_custom_price'];
 
-		// Set product custom price
+		// set product custom price
 		$cart['product_custom_price'][$cart[$idx]['product_id']] = $data['product_custom_price'];
 
 		return;
@@ -67,7 +66,6 @@ class plgredshop_productcustomprice extends JPlugin
 	 */
 	function onSameCartProduct(& $cart, $data, $i)
 	{
-
 		if (!isset($data['product_custom_price']))
 		{
 			return;
@@ -78,7 +76,7 @@ class plgredshop_productcustomprice extends JPlugin
 		$cart[$i]['product_old_price_excl_vat'] = $data['product_custom_price'];
 		$cart[$i]['product_price_excl_vat'] = $data['product_custom_price'];
 
-		// Set product custom price
+		// set product custom price
 		$cart['product_custom_price'][$cart[$i]['product_id']] = $data['product_custom_price'];
 
 	}
@@ -94,7 +92,6 @@ class plgredshop_productcustomprice extends JPlugin
 	 */
 	function setProductCustomPrice($product_id)
 	{
-
 		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 

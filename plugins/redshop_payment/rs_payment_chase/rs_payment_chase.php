@@ -47,7 +47,6 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	 */
 	function onPrePayment_rs_payment_chase($element, $data)
 	{
-
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
 
@@ -112,7 +111,6 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		}
 		else
 		{
-
 			$obj_chase->chase_gateway_url = "https://orbital.paymentech.net/authorize";
 		}
 
@@ -251,7 +249,6 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		}
 		else
 		{
-
 			$obj_chase->chase_gateway_url = "https://orbital.paymentech.net/authorize";
 		}
 

@@ -65,7 +65,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 	 */
 	function onNotifyPaymentrs_payment_payer($element, $request)
 	{
-
 		ob_clean();
 
 		if ($element != 'rs_payment_payer')

@@ -1,7 +1,6 @@
 <?php
 class zoomproducthelper extends producthelper
 {
-
 	function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
 	{
 		$url = JURI::root();
@@ -83,7 +82,6 @@ class zoomproducthelper extends producthelper
 
 	function getAdditionalImageforZoom($pid)
 	{
-
 		$redhelper = new redhelper;
 		$url = JUri::root();
 		$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
@@ -557,7 +555,6 @@ class zoomproducthelper extends producthelper
 					{
 						if ($thumb && is_file(JPATH_COMPONENT_SITE . "/assets/images/property/" . $thumb))
 						{
-
 							$imgs_path = $url . "components/com_redshop/helpers/thumb.php?filename=property/" . $thumb . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 							$imgs_thumb_path = $url . "components/com_redshop/helpers/thumb.php?filename=property/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 							$subimgs_path = $url . "components/com_redshop/assets/images/property/" . $thumb;
@@ -666,7 +663,6 @@ class zoomproducthelper extends producthelper
 
 		if (strstr($template_desc, "{stock_status"))
 		{
-
 			// for product stock
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
@@ -686,7 +682,6 @@ class zoomproducthelper extends producthelper
 				}
 				else
 				{
-
 					$sub_property = $this->getAttibuteSubProperty(0, $property_id);
 
 					for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
@@ -747,7 +742,6 @@ class zoomproducthelper extends producthelper
 						}
 						else
 						{
-
 							$isPropertystock = $stockroomhelper->isStockExists($property[$att_j]->property_id, "property");
 							//echo $isPropertystock;die();
 
@@ -765,7 +759,6 @@ class zoomproducthelper extends producthelper
 
 				if ($totalatt > 0 && !$isPreorderStockExists)
 				{
-
 					$property = $this->getAttibuteProperty(0, 0, $product_id);
 
 					for ($att_j = 0; $att_j < count($property); $att_j++)
@@ -857,7 +850,6 @@ class zoomproducthelper extends producthelper
 						}
 						else
 						{
-
 							$sub_property = $this->getAttibuteSubProperty(0, $property_id);
 
 							for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
@@ -886,7 +878,6 @@ class zoomproducthelper extends producthelper
 				}
 				else
 				{
-
 					$stock_status = "<span id='stock_status_div" . $product_id . "'><div id='" . $out_stock_class . "' class='" . $out_stock_class . "'>" . JText::_('COM_REDSHOP_OUT_OF_STOCK') . "</div></span>";
 				}
 			}
@@ -940,7 +931,6 @@ class zoomproducthelper extends producthelper
 
 		if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $product->product_thumb_image))
 		{
-
 			$type = 'product';
 			$imagename = $product->product_thumb_image;
 			$aTitleImageResponse = $product->product_name;

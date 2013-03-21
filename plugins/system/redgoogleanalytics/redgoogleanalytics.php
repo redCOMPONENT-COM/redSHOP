@@ -24,7 +24,6 @@ defined('_JEXEC') or die("Direct Access Is Not Allowed");
  */
 class plgSystemredgoogleanalytics extends JPlugin
 {
-
 	/**
 	 * Constructor
 	 *
@@ -50,7 +49,6 @@ class plgSystemredgoogleanalytics extends JPlugin
 	 */
 	function onAfterRoute()
 	{
-
 		$configFile = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
 		$googleFile = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'google_analytics.php';
@@ -67,10 +65,8 @@ class plgSystemredgoogleanalytics extends JPlugin
 
 			if (file_exists($googleFile))
 			{
-
 				if (GOOGLE_ANA_TRACKER_KEY != "" && $format != 'final' && $layout != 'receipt')
 				{
-
 					require_once $googleFile;
 					$google_ana = new googleanalytics;
 					$code = $google_ana->placeTrans();

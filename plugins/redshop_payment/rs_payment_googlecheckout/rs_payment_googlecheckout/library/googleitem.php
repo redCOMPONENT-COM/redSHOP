@@ -24,7 +24,6 @@
   */
 class GoogleItem
 {
-
 	var $item_name;
 	var $item_description;
 	var $unit_price;

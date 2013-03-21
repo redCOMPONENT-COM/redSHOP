@@ -20,7 +20,6 @@ jimport('joomla.plugin.plugin');
 
 class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 {
-
 	/**
 	 * Constructor
 	 *
@@ -45,7 +44,6 @@ class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 	 */
 	function onPrePayment($element, $data)
 	{
-
 		if ($element != 'rs_payment_cashsale')
 		{
 			return;

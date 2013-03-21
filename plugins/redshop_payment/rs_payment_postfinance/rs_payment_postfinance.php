@@ -64,7 +64,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 
 	function onNotifyPaymentrs_payment_postfinance($element, $request)
 	{
-
 		if ($element != 'rs_payment_postfinance')
 		{
 			return;
@@ -97,7 +96,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		{
 			if ($response_hash === $hash_to_check)
 			{
-
 				// UPDATE THE ORDER STATUS to 'VALID'
 				$transaction_id = $tid;
 				$values->order_status_code = $verify_status;
@@ -121,7 +119,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		}
 		else
 		{
-
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');

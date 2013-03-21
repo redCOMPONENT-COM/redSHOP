@@ -84,7 +84,6 @@ Bug 384 - Drupal 7.9 Ubercart 3.0
  */
 class payread_post_api
 {
-
 	/**#@+  beginning of docblock template area
 	 * @access private
 	 * @var string

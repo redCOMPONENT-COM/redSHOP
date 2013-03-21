@@ -11,7 +11,7 @@
  *                 See COPYRIGHT.php for copyright notices and details.
  */
 
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.event.plugin');
 //JPlugin::loadLanguage( 'plg_highrise');
@@ -30,7 +30,6 @@ class plghighrisehighrise extends JPlugin
 
 	function oncreateHighriseUser($data)
 	{
-
 		$plugin =& JPluginHelper::getPlugin('highrise', 'highrise');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->highrise_url = $pluginParams->get('highrise_url', '');
@@ -67,7 +66,6 @@ class plghighrisehighrise extends JPlugin
 
 		if ($id < 0)
 		{
-
 			$curl = curl_init($this->highrise_url . '/people.xml');
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_USERPWD, $this->api_token . ':x');

@@ -88,7 +88,6 @@ echo "<form action='$braintreeurl' method='post' name='braintreefrm' id='braintr
 
 foreach ($post_variables as $name => $value)
 {
-
 	echo "<input type='hidden' name='$name' value='$value' />";
 }
 

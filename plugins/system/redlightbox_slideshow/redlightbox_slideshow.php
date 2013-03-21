@@ -1,18 +1,16 @@
 <?php
 
-// No direct access
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
 
 class plgSystemRedlightbox_slideshow extends JPlugin
 {
-
 	var $plg_name = "redlightbox_slideshow";
 
 	function onBeforeRender()
 	{
-
 		$app = JFactory::getApplication();
 
 		// No redlighbox for admin
