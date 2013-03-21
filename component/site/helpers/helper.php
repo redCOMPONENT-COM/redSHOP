@@ -32,7 +32,7 @@ class redhelper
 	public function dbtocart()
 	{
 		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php';
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = JFactory::getUser();
 
@@ -255,7 +255,7 @@ class redhelper
 	 */
 	public function getShopperGroupPortal()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// If user is not logged in than take shoppergroup id from configuration
 		$where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
@@ -279,7 +279,7 @@ class redhelper
 	 */
 	public function getShopperGroupCategory($cid = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// If user is not logged in than take shoppergroup id from configuration
 		$where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
@@ -303,7 +303,7 @@ class redhelper
 
 	public function getShopperGroupProductCategory($pid = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$query = "SELECT p.product_id,cx.category_id FROM `" . $this->_table_prefix . "product` AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS cx ON p.product_id=cx.product_id "
@@ -941,7 +941,7 @@ class redhelper
 
 	public function isredProductfinder()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get redshop from joomla component table
 		$query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
@@ -970,7 +970,7 @@ class redhelper
 	 */
 	public function isredCRM()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		// get redshop from joomla component table
 		$isredCRM = $session->get('isredCRM');
 
@@ -988,7 +988,7 @@ class redhelper
 		}
 		else
 		{
-			$user =& JFactory::getUser();
+			$user = JFactory::getUser();
 			require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'configuration.php');
 			$crmConfig = new crmConfig();
 			$crmConfig->config();
@@ -1000,7 +1000,7 @@ class redhelper
 
 			$crmHelper = new crmHelper();
 
-			$session =& JFactory::getSession();
+			$session = JFactory::getSession();
 
 			if ($crmHelper->isredCRMUser($user->id))
 			{

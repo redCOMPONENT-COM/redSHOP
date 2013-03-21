@@ -2410,7 +2410,7 @@ class rsCarthelper
 		$url       = JURI::base();
 		$redconfig = new Redconfiguration();
 		$order_id  = $row->order_id;
-		$session   = & JFactory::getSession();
+		$session   = JFactory::getSession();
 		$orderitem = $this->_order_functions->getOrderItemDetail($order_id);
 
 		if (strstr($ReceiptTemplate, "{product_loop_start}") && strstr($ReceiptTemplate, "{product_loop_end}"))
@@ -3708,7 +3708,7 @@ class rsCarthelper
 		if (strstr($template_desc, "{terms_and_conditions"))
 		{
 			$user    = JFactory::getUser();
-			$session = & JFactory::getSession();
+			$session = JFactory::getSession();
 			$auth    = $session->get('auth');
 			$list    = array();
 
@@ -3800,7 +3800,7 @@ class rsCarthelper
 
 			if (DEFAULT_NEWSLETTER != 0)
 			{
-				$user  = & JFactory::getUser();
+				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription "
 					. "WHERE user_id='" . $user->id . "' AND email='" . $user->email . "'";
 				$this->_db->setQuery($query);
@@ -4281,7 +4281,7 @@ class rsCarthelper
 
 	public function getVoucherData($voucher_code, $product_id = 0)
 	{
-		$user         = & JFactory::getUser();
+		$user         = JFactory::getUser();
 		$voucher      = array();
 		$current_time = time();
 
@@ -4351,7 +4351,7 @@ class rsCarthelper
 	{
 		$current_time = time();
 		$cart         = $this->_session->get('cart');
-		$user         = & JFactory::getUser();
+		$user         = JFactory::getUser();
 		$coupon       = array();
 
 		if ($user->id)
@@ -5277,7 +5277,7 @@ class rsCarthelper
 		$dispatcher   =& JDispatcher::getInstance();
 		$rsUserhelper = new rsUserhelper();
 		$redTemplate  = new Redtemplate ();
-		$user         = & JFactory::getUser();
+		$user         = JFactory::getUser();
 		$cart         = $this->_session->get('cart');
 
 		if (!$cart || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
@@ -5903,7 +5903,7 @@ class rsCarthelper
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$user    = & JFactory::getUser();
+		$user    = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
 

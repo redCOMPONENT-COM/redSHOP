@@ -230,9 +230,9 @@ class rsUserhelper
 
 		global $mainframe;
 
-		$db  = & JFactory::getDBO();
-		$me  = & JFactory::getUser();
-		$acl = & JFactory::getACL();
+		$db  = JFactory::getDBO();
+		$me  = JFactory::getUser();
+		$acl = JFactory::getACL();
 
 		$data['name'] = $name = $data['firstname'];
 
@@ -650,7 +650,7 @@ class rsUserhelper
 		{
 			$row->user_id = (0 - $row->users_info_id);
 			$row->store();
-			$u = & JFactory::getUser();
+			$u = JFactory::getUser();
 
 			$u->set('username', $row->user_email);
 			$u->set('email', $row->user_email);
