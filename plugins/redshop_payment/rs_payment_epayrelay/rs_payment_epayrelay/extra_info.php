@@ -14,7 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 $uri =& JURI::getInstance();
 $url = $uri->root();
@@ -581,7 +581,7 @@ $trans_fee = $this->_params->get("transaction_fee");
 		var self = this;
 		// Mozilla/Safari
 		if (window.XMLHttpRequest) {
-			self.xmlHttpReq = new XMLHttpRequest();
+			self.xmlHttpReq = new XMLHttpRequest;
 		}
 		// IE
 		else if (window.ActiveXObject) {

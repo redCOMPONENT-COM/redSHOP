@@ -42,7 +42,7 @@ class plgContentredshop_product extends JPlugin
 			if ($session->get('product_currency'))
 			{
 				$currency_symbol = $session->get('product_currency');
-				$convertPrice = new convertPrice();
+				$convertPrice = new convertPrice;
 				$currency_convert = $convertPrice->convert(1);
 			}
 
@@ -83,9 +83,9 @@ class plgContentredshop_product extends JPlugin
 						var ZERO_PRICE_REPLACE_URL = '" . ZERO_PRICE_REPLACE_URL . "';
 				");
 			$module_id = "plg_";
-			$producthelper = new producthelper();
-			$extraField = new extraField();
-			$objhelper = new redhelper();
+			$producthelper = new producthelper;
+			$extraField = new extraField;
+			$objhelper = new redhelper;
 			$lang =& JFactory::getLanguage();
 			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR); // or JPATH_ADMINISTRATOR if the template language file is only
 
@@ -94,7 +94,7 @@ class plgContentredshop_product extends JPlugin
 			$show_price = trim($red_params->get('show_price', 0)); // get show price yes/no option
 			$show_price_with_vat = trim($red_params->get('show_price_with_vat', 1));
 			$show_discountpricelayout = trim($red_params->get('show_discountpricelayout', 1));
-			$redTemplate = new Redtemplate();
+			$redTemplate = new Redtemplate;
 			$prtemplate_id = trim($red_params->get('product_template', 1));
 			$prtemplate1 = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
 			$prtemplate_default = $prtemplate1[0]->template_desc;

@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return;
 		}
 		global $mainframe;
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$request = JRequest::get('request');
 
@@ -98,7 +98,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS . 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
 		include($paymentpath);
 
-		$mideal = new ideal();
+		$mideal = new ideal;
 		$response = $mideal->checkPayment($paymentparams->get("mollieideal_partner_id"), $tid, $paymentparams->get("mollieideal_is_test"));
 
 
@@ -216,7 +216,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 	{
 
 		// Question bank list:
-		$mideal = new ideal();
+		$mideal = new ideal;
 		$mideal->setPartnerID($this->_params->get("mollieideal_partner_id"));
 		$mideal->setTestMode($this->_params->get("mollieideal_is_test"));
 		$mbanks = $mideal->fetchBanks();
@@ -254,7 +254,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$odata = $db->loadObject();
 
 		// Ask transaction:
-		$mideal = new ideal();
+		$mideal = new ideal;
 		$mideal->setPartnerID($this->_params->get("mollieideal_partner_id"));
 		$mideal->setBankID($request['bankid']);
 		$mideal->setAmount($odata->order_total);

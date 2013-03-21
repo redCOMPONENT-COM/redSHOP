@@ -97,7 +97,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$invalid_status = $paymentparams->get('invalid_status', '');
 		$auth_type = $paymentparams->get('auth_type', '');
 
-		$values = new stdClass();
+		$values = new stdClass;
 		$epay_paymentkey = $paymentparams->get('epay_paymentkey', '');
 		$epay_md5 = $paymentparams->get('epay_md5', '');
 
@@ -325,7 +325,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		include($paymentpath);
 
 		//Access the webservice
-		$epay = new EpaySoap();
+		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
 
@@ -368,7 +368,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		include($paymentpath);
 
 		//Access the webservice
-		$epay = new EpaySoap();
+		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
 
@@ -402,7 +402,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 
 		//Access the webservice
-		$epay = new EpaySoap();
+		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
 
@@ -441,7 +441,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 
 		//Access the webservice
-		$epay = new EpaySoap();
+		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
 

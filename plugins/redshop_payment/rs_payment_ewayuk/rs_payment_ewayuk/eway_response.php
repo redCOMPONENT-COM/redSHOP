@@ -74,7 +74,7 @@ JPlugin::loadLanguage('com_redshop');
 $request = JRequest::get('request');
 
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-$objOrder = new order_functions();
+$objOrder = new order_functions;
 
 $mainframe = JFactory::getApplication();
 $ewayuk_parameters = getparameters('rs_payment_ewayuk');

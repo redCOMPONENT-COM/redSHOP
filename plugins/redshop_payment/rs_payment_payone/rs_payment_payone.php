@@ -94,7 +94,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		$invalid_status = $paymentparams->get('invalid_status', '');
 		$auth_type = $paymentparams->get('auth_type', '');
 
-		$values = new stdClass();
+		$values = new stdClass;
 
 		//
 		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled

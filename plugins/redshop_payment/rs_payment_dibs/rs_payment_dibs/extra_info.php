@@ -22,7 +22,7 @@ require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_r
 $request =& JRequest::get('REQUEST');
 $task = $request['task'];
 $Itemid = $_REQUEST['Itemid'];
-$orderHelper = new order_functions();
+$orderHelper = new order_functions;
 //
 $rs = $orderHelper->getOrderItemDetail($data['order_id']);
 
@@ -80,7 +80,7 @@ if ($this->_params->get("is_test") == "1")
 
 $version = "2";
 $dibsurl = "https://payment.architrade.com/paymentweb/start.action";
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 $formdata['amount'] = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
 // for total amount
 $cal_no = 2;

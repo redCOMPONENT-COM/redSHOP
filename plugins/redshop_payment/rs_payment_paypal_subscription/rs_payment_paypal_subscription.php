@@ -70,10 +70,10 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 			return;
 		}
 
-		$order_functions = new order_functions();
-		$producthelper = new producthelper();
-		$stockroomhelper = new rsstockroomhelper();
-		$redshopMail = new redshopMail();
+		$order_functions = new order_functions;
+		$producthelper = new producthelper;
+		$stockroomhelper = new rsstockroomhelper;
+		$redshopMail = new redshopMail;
 		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$Itemid = $request["Itemid"];
@@ -319,7 +319,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 					{
 						$issplit = null;
-						$economic = new economic();
+						$economic = new economic;
 						$economic_payment_terms_id = $params->get('economic_payment_terms_id');
 						$economic_design_layout = $params->get('economic_design_layout');
 						$is_creditcard = $params->get('is_creditcard', '');

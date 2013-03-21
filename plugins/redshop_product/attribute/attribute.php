@@ -55,7 +55,7 @@ function onPrepareProduct(&$template, &$params, $product)
 		}   ");
 
 
-	$producthelper = new producthelper();
+	$producthelper = new producthelper;
 	$total_attributes = 0;
 	// checking for child products
 	$childproduct = $producthelper->getChildProduct($product->product_id);

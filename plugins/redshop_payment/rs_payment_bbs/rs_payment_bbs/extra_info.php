@@ -14,7 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
@@ -43,7 +43,7 @@ else
 }
 
 
-$currency = new convertPrice ();
+$currency = new convertPrice;
 $data['carttotal'] *= 100;
 $amount = $currency->convert($data['carttotal'], '', 'NOK');
 //$amount = $currency->convert(number_format($order->order_total,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR),'','NOK');

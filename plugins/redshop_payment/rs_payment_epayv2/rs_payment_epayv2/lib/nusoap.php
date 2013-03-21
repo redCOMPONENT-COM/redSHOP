@@ -5086,7 +5086,7 @@ class nusoap_server extends nusoap_base
 					$this->debug('in invoke_method, calling instance method using eval()');
 					// generate unique instance name
 					$instname = "\$inst_" . time();
-					$funcCall = $instname . " = new " . $class . "(); ";
+					$funcCall = $instname . " = new " . $class . "; ";
 					$funcCall .= "\$this->methodreturn = " . $instname . "->" . $method . "(";
 				}
 			}
@@ -5127,7 +5127,7 @@ class nusoap_server extends nusoap_base
 			else
 			{
 				$this->debug('in invoke_method, calling instance method using call_user_func_array()');
-				$instance = new $class ();
+				$instance = new $class;
 				$call_arg = array(&$instance, $method);
 			}
 

@@ -15,7 +15,7 @@
  */
 
 $txtextra_info = $this->_params->get("txtextra_info");
-$o = new stdClass();
+$o = new stdClass;
 $o->text = $txtextra_info;
 JPluginHelper::importPlugin('content');
 

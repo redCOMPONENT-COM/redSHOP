@@ -49,10 +49,10 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	function onPrePayment_rs_payment_ceilo($element, $data)
 	{
 
-		$config = new Redconfiguration();
-		$currencyClass = new convertPrice ();
+		$config = new Redconfiguration;
+		$currencyClass = new convertPrice;
 		$mainframe =& JFactory::getApplication();
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$url = $uri->root();
 		$user = JFactory::getUser();
@@ -122,7 +122,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		include($paymentpath);
 
 
-		$Pedido = new Pedido();
+		$Pedido = new Pedido;
 
 		// L� dados do $_POST
 		$Pedido->formaPagamentoBandeira = $creditcard_code; //$_POST["codigoBandeira"];
@@ -206,7 +206,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 		$ultimoPedido -= 1;
 
-		//$Pedido = new Pedido();
+		//$Pedido = new Pedido;
 		$Pedido->FromString($_SESSION["pedidos"]->offsetGet($ultimoPedido));
 
 
@@ -285,7 +285,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 		$db = JFactory::getDBO();
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 
 		// get params from plugin
 		$ceilo_parameters = $this->getparameters('rs_payment_ceilo');
@@ -303,7 +303,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 
 		$objResposta = null;
-		$Pedido = new Pedido();
+		$Pedido = new Pedido;
 		//$Pedido->FromString($_SESSION["pedidos"]->offsetGet($key));
 		$amount = number_format($data['order_amount'], 2, '.', '') * 100;
 

@@ -185,7 +185,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$paymill_public_key = $this->_params->get('paymill_public_key', '0');
 		$paymill_private_key = $this->_params->get('paymill_private_key', '0');
 
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$orderDetails = $order_functions->getOrderDetails($data['order_id']);
 		$order_amount = number_format($orderDetails->order_total, 2, '.', '') * 100;
 

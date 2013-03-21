@@ -72,7 +72,7 @@ JPlugin::loadLanguage('com_redshop');
 
 require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-$objOrder = new order_functions();
+$objOrder = new order_functions;
 
 $tid = $_REQUEST ["transact"];
 $order_id = JFilterOutput::cleanText($_REQUEST ['shopping-cart_merchant-private-data']);

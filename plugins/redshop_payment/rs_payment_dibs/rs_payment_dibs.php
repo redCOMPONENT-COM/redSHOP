@@ -85,7 +85,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		$order_id = $request['orderid'];
 		$status = $request['status'];
 		$Itemid = $request['Itemid'];
-		$values = new stdClass();
+		$values = new stdClass;
 
 		if ($request['status'] == 'ok' && isset($request['transact']))
 		{
@@ -151,7 +151,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 			return;
 		}
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $data['order_id'];

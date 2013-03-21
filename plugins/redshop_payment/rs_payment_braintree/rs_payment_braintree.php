@@ -65,9 +65,9 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	function getCredicardForm($element, $data)
 	{
-		$objOrder = new order_functions();
-		$objconfiguration = new Redconfiguration();
-		$carthelper = new rsCarthelper();
+		$objOrder = new order_functions;
+		$objconfiguration = new Redconfiguration;
+		$carthelper = new rsCarthelper;
 		$user = JFactory::getUser();
 		$user_id = $user->id;
 		$Itemid = JRequest::getInt('Itemid');
@@ -223,8 +223,8 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	function getOrderAndCcdata($element, $data)
 	{
 		$session = & JFactory::getSession();
-		$order_functions = new order_functions();
-		$configobj = new Redconfiguration();
+		$order_functions = new order_functions;
+		$configobj = new Redconfiguration;
 
 		if ($element != 'rs_payment_braintree')
 		{
@@ -320,7 +320,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	function onAfterCreditcardInfo($element, $data)
 	{
 
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 
 		if ($element != 'rs_payment_braintree')
 		{

@@ -61,7 +61,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		$class_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'gsGiropay.php';
 		include($class_path);
 
-		$gsGiropay = new gsGiropay();
+		$gsGiropay = new gsGiropay;
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $plugin . DS . 'extra_info.php';
 		include($paymentpath);
 	}
@@ -97,12 +97,12 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		$auth_type = $this->_params->get('auth_type', '');
 		$secret_password = $this->_params->get("secret_password");
 		$debug_mode = $this->_params->get("debug_mode");
-		$values = new stdClass();
+		$values = new stdClass;
 
 		$class_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'gsGiropay.php';
 		include($class_path);
 
-		$gsGiropay = new gsGiropay();
+		$gsGiropay = new gsGiropay;
 		$hash = $gsGiropay->generateHash($merchantId . $projectId . $transactionId . $gpCode, $secret_password);
 
 		$message = $gsGiropay->getCodeDescription($gpCode);

@@ -79,10 +79,10 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		$order_id = $request['orderid'];
 		$verify_status = $this->_params->get('verify_status', '');
 		$invalid_status = $this->_params->get('invalid_status', '');
-		$values = new stdClass();
+		$values = new stdClass;
 
 		include(JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'payread_post_api.php'); //Loads Payers API.
-		$postAPI = new payread_post_api(); //Creates an object from Payers API.
+		$postAPI = new payread_post_api; //Creates an object from Payers API.
 
 		$postAPI->setAgent($this->_params->get("agent_id"));
 		$postAPI->setKeys($this->_params->get("payer_key1"), $this->_params->get("payer_key2"));

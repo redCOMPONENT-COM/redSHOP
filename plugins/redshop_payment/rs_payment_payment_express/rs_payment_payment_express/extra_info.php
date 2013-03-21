@@ -15,7 +15,7 @@
  */
 
 
-$objOrder = new order_functions();
+$objOrder = new order_functions;
 $request = JRequest::get('request');
 $Itemid = $request["Itemid"];
 $task = $request['task'];
@@ -24,7 +24,7 @@ $pxpay_success_url = JURI::base() . "plugins/redshop_payment/rs_payment_payment_
 $pxpay_fail_url = JURI::base() . "plugins/redshop_payment/rs_payment_payment_express/rs_pxpost_notify.php";
 $pxpay = new PxPay_Curl($PxPay_Url, $this->_params->get("px_pay_username"), $this->_params->get("px_post_label_key"));
 
-$request = new PxPayRequest();
+$request = new PxPayRequest;
 
 $http_host = getenv("HTTP_HOST");
 $request_uri = getenv("SCRIPT_NAME");

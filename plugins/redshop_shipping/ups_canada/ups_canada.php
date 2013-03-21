@@ -373,10 +373,10 @@ class plgredshop_shippingups_canada extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
-		$redconfig = new Redconfiguration();
-		$currency = new convertPrice();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
+		$redconfig = new Redconfiguration;
+		$currency = new convertPrice;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$itemparams = new JParameter($shipping->params);
@@ -771,7 +771,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		}
 
 		/* require_once  JPATH_SITE."/includes/domit/xml_domit_lite_include.php" ;
-			$xmlDoc =& new DOMIT_Lite_Document();
+			$xmlDoc =& new DOMIT_Lite_Document;
 			 if( !$xmlResult)
 			 {
 				$error = true;

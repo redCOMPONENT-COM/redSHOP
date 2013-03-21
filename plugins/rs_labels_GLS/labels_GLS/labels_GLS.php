@@ -76,7 +76,7 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 	function ShopArray($PakkeshopData)
 	{
 		$j = 0;
-		$shippinghelper = new shipping();
+		$shippinghelper = new shipping;
 		$returnArr = array();
 
 		for ($i = 0; $i < count($PakkeshopData); $i++)

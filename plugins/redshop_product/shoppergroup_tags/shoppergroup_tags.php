@@ -38,7 +38,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 		$app = & JFactory::getApplication();
 		$user = JFactory::getUser();
 		$user_id = $user->id;
-		$rsUserhelper = new rsUserhelper();
+		$rsUserhelper = new rsUserhelper;
 
 		$shopperGroupId = $rsUserhelper->getShopperGroup($user_id);
 		$shopperGroupdata = $rsUserhelper->getShopperGroupList($shopperGroupId);

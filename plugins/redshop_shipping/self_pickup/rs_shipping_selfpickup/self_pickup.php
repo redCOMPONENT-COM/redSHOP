@@ -42,7 +42,7 @@ class plgredshop_shippingself_pickup extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping();
+		$shippinghelper = new shipping;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$shipping_location = $shippinghelper->getShippingRates($shipping->element);
 

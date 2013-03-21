@@ -85,9 +85,9 @@ class plgredshop_shippingego extends JPlugin
 	function onListRates(&$d)
 	{
 		include_once (JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php');
-		$shippinghelper = new shipping();
-		$producthelper = new producthelper();
-		$redconfig = new Redconfiguration();
+		$shippinghelper = new shipping;
+		$producthelper = new producthelper;
+		$redconfig = new Redconfiguration;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 

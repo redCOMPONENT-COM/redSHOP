@@ -17,15 +17,15 @@
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-$objOrder = new order_functions();
+$objOrder = new order_functions;
 
-$objconfiguration = new Redconfiguration();
+$objconfiguration = new Redconfiguration;
 
 $user = JFactory::getUser();
 
 
 
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');

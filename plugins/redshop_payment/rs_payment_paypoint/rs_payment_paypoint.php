@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 	function onPrePayment_rs_payment_paypoint($element, $data)
 	{
 
-		$config = new Redconfiguration();
+		$config = new Redconfiguration;
 		// Get user billing information
 		$user = JFActory::getUser();
 

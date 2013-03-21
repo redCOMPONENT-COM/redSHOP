@@ -116,7 +116,7 @@ class plgAcymailingRedshop extends JPlugin
 	function getProduct($product_id)
 	{
 		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
-		$redTemplate = new Redtemplate();
+		$redTemplate = new producthelper;
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
@@ -128,7 +128,7 @@ class plgAcymailingRedshop extends JPlugin
 		$rs = $db->loadObject();
 
 		// product helper Object
-		$producthelper = new producthelper ();
+		$producthelper = new producthelper;
 
 		// get Product Formatted price as per redshop configuration
 		//$price = $producthelper->getProductNetPrice($product_id);

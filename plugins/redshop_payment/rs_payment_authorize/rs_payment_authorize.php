@@ -289,7 +289,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 	function onCapture_Paymentrs_payment_authorize($element, $data)
 	{
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$order_id = $data['order_id'];
 		$tid = $data['order_transactionid'];
 		$db =& JFactory::getDBO();

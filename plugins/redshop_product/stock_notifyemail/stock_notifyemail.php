@@ -36,7 +36,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	 */
 	function afterUpdateStock($stockroom_data)
 	{
-		$redshopMail = new redshopMail();
+		$redshopMail = new redshopMail;
 
 		if ($stockroom_data['regular_stock'] || $stockroom_data['preorder_stock'])
 		{
@@ -113,7 +113,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	function getProductData($userData)
 	{
 
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 
 		if ($userData->product_id)
 		{

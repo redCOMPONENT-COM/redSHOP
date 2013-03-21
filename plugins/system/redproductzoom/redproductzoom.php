@@ -28,7 +28,7 @@ function onBeforeRender()
 
 	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
-	$Redconfiguration = new Redconfiguration();
+	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 
 	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
@@ -48,7 +48,7 @@ function onBeforeRender()
 	$document->addScript('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'js' . DS . 'jquery.jqzoom-core.js');
 	$document->addStyleSheet('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'css' . DS . 'jquery.jqzoom.css');
 
-	$zoomproducthelper = new zoomproducthelper();
+	$zoomproducthelper = new zoomproducthelper;
 
 	$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
 	$pw_thumb = PRODUCT_MAIN_IMAGE;
@@ -243,7 +243,7 @@ function onBeforeRender()
 	//Preselection Start
 	function checkforpreselection($pid)
 	{
-		$zoomproducthelper = new zoomproducthelper();
+		$zoomproducthelper = new zoomproducthelper;
 		$childproduct = $zoomproducthelper->getChildProduct($pid);
 		$product_data = $this->getProductData($pid);
 		$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;

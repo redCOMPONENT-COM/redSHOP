@@ -30,7 +30,7 @@ $eWAYcompanylogo = $this->_params->get("companylogo");
 $eWAYpagebanner = $this->_params->get("pagebanner");
 $eWay_companyname = $this->_params->get("merchant_companyname");
 
-$currencyClass = new convertPrice ();
+$currencyClass = new convertPrice;
 $item_price = $currencyClass->convert($data['carttotal'], '', 'GBP');
 $item_price = round($item_price);
 $item_price = number_format($item_price, 2);

@@ -41,7 +41,7 @@ class plgredshop_shippingshipper extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping();
+		$shippinghelper = new shipping;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$shippingrate = array();

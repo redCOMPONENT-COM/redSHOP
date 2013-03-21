@@ -14,9 +14,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$currencyClass = new convertPrice ();
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$currencyClass = new convertPrice;
 $user = JFactory::getUser();
 
 // Order Details

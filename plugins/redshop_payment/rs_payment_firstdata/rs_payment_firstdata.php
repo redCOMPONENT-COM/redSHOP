@@ -267,7 +267,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		}
 
 		$mainframe =& JFactory::getApplication();
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$order_id = $data['order_id'];
 		$order_number = $data['order_number'];
 		$tid = $data['order_transactionid'];

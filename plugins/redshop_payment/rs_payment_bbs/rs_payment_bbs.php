@@ -109,7 +109,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 //	 	require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.cfg.php';
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 
 		if (strtoupper($AUTH_Responsecode) == 'OK')
 		{
@@ -176,7 +176,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		$order_id = $data['order_id'];
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 
 		if ($this->_params->get("is_test") == "TRUE")

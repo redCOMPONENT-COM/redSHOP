@@ -204,7 +204,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			return;
 		}
 
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $data['order_id'];

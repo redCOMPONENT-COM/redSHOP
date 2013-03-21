@@ -25,7 +25,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
-$Redconfiguration = new Redconfiguration();
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 class plgSearchredshop_products extends JPlugin
@@ -98,7 +98,7 @@ class plgSearchredshop_products extends JPlugin
 
 		// Shopper group - choose from manufactures Start
 
-		$rsUserhelper = new rsUserhelper();
+		$rsUserhelper = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$whereaclProduct = "";
@@ -122,7 +122,7 @@ class plgSearchredshop_products extends JPlugin
 			. ' ORDER BY ' . $order;
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 
 		foreach ($rows as $key => $row)
 		{

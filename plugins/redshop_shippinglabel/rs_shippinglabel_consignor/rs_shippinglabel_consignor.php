@@ -57,9 +57,9 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	// Generate Consignor Label
 	function generateConsignorParcel($order_id)
 	{
-		$order_functions = new order_functions();
-		$shippinghelper = new shipping();
-		$config = new Redconfiguration();
+		$order_functions = new order_functions;
+		$shippinghelper = new shipping;
+		$config = new Redconfiguration;
 		$db = JFactory::getDBO();
 		$order_details = $order_functions->getOrderDetails($order_id);
 		$consignor_parameters = $this->getparameters('rs_shippinglabel_consignor');

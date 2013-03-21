@@ -78,7 +78,7 @@ class plgButtonproduct extends JPlugin
 
 		JHTML::_('behavior.modal');
 
-		$button = new JObject();
+		$button = new JObject;
 		$button->set('modal', true);
 		$button->set('link', $link);
 		$button->set('text', JText::_('COM_REDSHOP_PRODUCT'));

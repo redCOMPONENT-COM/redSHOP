@@ -104,7 +104,7 @@ class plgSearchredshop_categories extends JPlugin
 
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 
 		foreach ($rows as $key => $row)
 		{

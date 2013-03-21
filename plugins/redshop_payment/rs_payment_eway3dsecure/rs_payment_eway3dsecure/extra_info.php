@@ -28,7 +28,7 @@ for ($i = 0; $i < count($items); $i++)
 
 $table_desc = join(', ', $item);
 // currency converter
-$currency = new convertPrice ();
+$currency = new convertPrice;
 $amount = $order_details[0]->order_total * 100;
 
 $post_variables = array();

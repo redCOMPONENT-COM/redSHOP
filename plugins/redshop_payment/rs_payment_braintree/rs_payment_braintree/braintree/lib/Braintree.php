@@ -82,7 +82,7 @@ abstract class Braintree
 		}
 		else
 		{
-			throw new Braintree_Exception_ValidationsFailed();
+			throw new Braintree_Exception_ValidationsFailed;
 		}
 	}
 }

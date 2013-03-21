@@ -390,7 +390,7 @@ class Braintree_CreditCard extends Braintree
 		self::_validateId($token);
 		Braintree_Http::delete('/payment_methods/' . $token);
 
-		return new Braintree_Result_Successful();
+		return new Braintree_Result_Successful;
 	}
 
 	/**
@@ -619,7 +619,7 @@ class Braintree_CreditCard extends Braintree
 			'last4'           => '',
 		);
 
-		$instance = new self();
+		$instance = new self;
 		$instance->_initialize(array_merge($defaultAttributes, $attributes));
 
 		return $instance;

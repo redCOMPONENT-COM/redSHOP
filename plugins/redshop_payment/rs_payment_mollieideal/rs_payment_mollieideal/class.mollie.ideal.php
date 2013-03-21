@@ -44,7 +44,7 @@ class ideal
 
 	function setAmount($amount)
 	{
-		$currency = new convertPrice ();
+		$currency = new convertPrice;
 		$amount = $currency->convert($amount, '', 'EUR');
 		$amount *= 100;
 

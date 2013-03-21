@@ -177,7 +177,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		}
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 
 		$protocol = '3';
@@ -241,7 +241,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		}
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 
 		$protocol = '3';
@@ -304,7 +304,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		}
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 
 		$protocol = '3';
@@ -362,7 +362,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		}
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
-		$objOrder = new order_functions();
+		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
 
 		$protocol = '3';

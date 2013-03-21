@@ -88,7 +88,7 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 		$Itemid = $request['Itemid'];
 		$status = $request['status'];
 
-		$values = new stdClass();
+		$values = new stdClass;
 
 		if ($request['status'] == 'PS' && $request['operation'] == 'pay')
 		{
