@@ -1,10 +1,10 @@
 <?php
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-require_once(JPATH_SITE.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'product.php');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 
 class plgredshop_productattribute extends JPlugin
 {
@@ -16,30 +16,28 @@ class plgredshop_productattribute extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	 function plgredshop_productattribute( &$subject )
-	 {
-	    parent::__construct( $subject );
+	function plgredshop_productattribute(&$subject)
+	{
+		parent::__construct($subject);
 
-	    // load plugin parameters
-	    $this->_plugin = JPluginHelper::getPlugin( 'redshop_product', 'onPrepareProduct' );
-	    $this->_params = new JRegistry( $this->_plugin->params );
-	 }
+		// load plugin parameters
+		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
+		$this->_params = new JRegistry($this->_plugin->params);
+	}
 
 	/**
 	 * attribute prepare redSHOP Product method
 	 *
 	 * Method is called by the product view
 	 *
-	 * @param 	object		The Product Template Data
-	 * @param 	object		The product params
-	 * @param 	object		The product object
+	 * @param    object        The Product Template Data
+	 * @param    object        The product params
+	 * @param    object        The product object
 	 */
-	 function onPrepareProduct(&$template, &$params ,$product)
-	 {
-
-
-		$document =& JFactory::getDocument();
-		$document->addScriptDeclaration("
+function onPrepareProduct(&$template, &$params, $product)
+{
+	$document =& JFactory::getDocument();
+	$document->addScriptDeclaration("
 
 		/**
 		 * This function can be override via redSHOP Plugin
@@ -54,143 +52,154 @@ class plgredshop_productattribute extends JPlugin
 			return true;
 		}   ");
 
+	$producthelper = new producthelper;
+	$total_attributes = 0;
+	// checking for child products
+	$childproduct = $producthelper->getChildProduct($product->product_id);
 
-
-	   $producthelper = new producthelper();
-	   $total_attributes=0;
-	  // checking for child products
-		$childproduct = $producthelper->getChildProduct($product->product_id);
-		if (count($childproduct) > 0)
+	if (count($childproduct) > 0)
+	{
+		if (PURCHASE_PARENT_WITH_CHILD == 1)
 		{
-				if(PURCHASE_PARENT_WITH_CHILD == 1)
-				{
-						$isChilds = false;
-						// get attributes
-						$attributes_set = array();
-						if($product->attribute_set_id > 0)
-						{
-							$attributes_set = $producthelper->getProductAttribute(0,$product->attribute_set_id,0,1);
-						}
-						$attributes = $producthelper->getProductAttribute($product->product_id);
-						$attributes = array_merge($attributes,$attributes_set);
-				}
-				else
-				{
-				    $isChilds = true;
-					$attributes = array();
-				}
-		}
-		else
-		{
-
 			$isChilds = false;
 			// get attributes
 			$attributes_set = array();
-			if($product->attribute_set_id > 0)
+
+			if ($product->attribute_set_id > 0)
 			{
-				$attributes_set = $producthelper->getProductAttribute(0,$product->attribute_set_id,0,1);
+				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
+
 			$attributes = $producthelper->getProductAttribute($product->product_id);
-			$attributes = array_merge($attributes,$attributes_set);
-		}
-
-		$checkforpreselection =0;
-		//Check for preselection
-		$attribute_template = $producthelper->getAttributeTemplate($template);
-		if(count($attributes)>0 && count($attribute_template)>0)
-		{
-				$selectedpropertyId = 0;
-				$selectedsubpropertyId = 0;
-
-				for($a=0;$a<count($attributes);$a++)
-				{
-					$selectedId = array();
-					$property = $producthelper->getAttibuteProperty(0,$attributes[$a]->attribute_id);
-					if($attributes[$a]->text!="" && count($property)>0)
-					{
-						for($i=0;$i<count($property);$i++)
-						{
-							if($property[$i]->setdefault_selected)
-							{
-								$selectedId[] = $property[$i]->property_id;
-							}
-						}
-						if(count($selectedId)>0)
-						{
-							$selectedpropertyId = $selectedId[count($selectedId)-1];
-							$subproperty = $producthelper->getAttibuteSubProperty(0,$selectedpropertyId);
-							$checkforpreselection++;
-							$selectedId = array();
-							for($sp=0;$sp<count($subproperty);$sp++)
-							{
-								if($subproperty[$sp]->setdefault_selected)
-								{
-									$checkforpreselection++;
-									$selectedId[] = $subproperty[$sp]->subattribute_color_id;
-								}
-							}
-							if(count($selectedId)>0)
-							{
-								$selectedsubpropertyId = $selectedId[count($selectedId)-1];
-							}
-						}
-					}
-				}
-		}
-		$total_attributes=count($attributes);
-	    $total=0;
-		for($i=0;$i<count($attributes);$i++)
-		{
-			$property_subattribute=$this->getattribute_property($attributes[$i]->attribute_id);
-			$proper_val=count($property_subattribute);
-			$total+=$proper_val;
-
-		}
-		if($total_attributes>0 && strstr($template,"{start_if_attribute}") && strstr($template,"{end_if_attribute}"))
-		{
-				$template = str_replace("{start_if_attribute}","<div id='atrib_subprop_price".$product->product_id."'>",$template);
-				$template = str_replace("{end_if_attribute}","</div>",$template);
-				if($total>0 && strstr($template,"{start_if_price_attribute}") && strstr($template,"{end_if_price_attribute}"))
-				{
-					$template = str_replace("{start_if_price_attribute}","",$template);
-					$template = str_replace("{end_if_price_attribute}","",$template);
-				}
-				else
-				{
-					$template = preg_replace('!{start_if_price_attribute}.*?{end_if_price_attribute}!s', '', $template);
-				}
+			$attributes = array_merge($attributes, $attributes_set);
 		}
 		else
 		{
-				$template = preg_replace('!{start_if_attribute}.*?{end_if_attribute}!s', '', $template);
+			$isChilds = true;
+			$attributes = array();
 		}
-		?>
-		<script>
-		window.onload = function()
+	}
+	else
+	{
+		$isChilds = false;
+		// get attributes
+		$attributes_set = array();
+
+		if ($product->attribute_set_id > 0)
 		{
-			var attribpreselect = <?php echo $checkforpreselection ?>;
-				if(attribpreselect>0)
+			$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+		}
+
+		$attributes = $producthelper->getProductAttribute($product->product_id);
+		$attributes = array_merge($attributes, $attributes_set);
+	}
+
+	$checkforpreselection = 0;
+	//Check for preselection
+	$attribute_template = $producthelper->getAttributeTemplate($template);
+
+	if (count($attributes) > 0 && count($attribute_template) > 0)
+	{
+		$selectedpropertyId = 0;
+		$selectedsubpropertyId = 0;
+
+		for ($a = 0; $a < count($attributes); $a++)
+		{
+			$selectedId = array();
+			$property = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+
+			if ($attributes[$a]->text != "" && count($property) > 0)
+			{
+				for ($i = 0; $i < count($property); $i++)
 				{
-					document.getElementById('atrib_subprop_price').style.display='none';
+					if ($property[$i]->setdefault_selected)
+					{
+						$selectedId[] = $property[$i]->property_id;
+					}
 				}
 
+				if (count($selectedId) > 0)
+				{
+					$selectedpropertyId = $selectedId[count($selectedId) - 1];
+					$subproperty = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
+					$checkforpreselection++;
+					$selectedId = array();
+
+					for ($sp = 0; $sp < count($subproperty); $sp++)
+					{
+						if ($subproperty[$sp]->setdefault_selected)
+						{
+							$checkforpreselection++;
+							$selectedId[] = $subproperty[$sp]->subattribute_color_id;
+						}
+					}
+
+					if (count($selectedId) > 0)
+					{
+						$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
+					}
+				}
+			}
 		}
-		</script>
-		<?php
-	    return ;
-	 }
+	}
+
+	$total_attributes = count($attributes);
+	$total = 0;
+
+	for ($i = 0; $i < count($attributes); $i++)
+	{
+		$property_subattribute = $this->getattribute_property($attributes[$i]->attribute_id);
+		$proper_val = count($property_subattribute);
+		$total += $proper_val;
+
+	}
+
+	if ($total_attributes > 0 && strstr($template, "{start_if_attribute}") && strstr($template, "{end_if_attribute}"))
+	{
+		$template = str_replace("{start_if_attribute}", "<div id='atrib_subprop_price" . $product->product_id . "'>", $template);
+		$template = str_replace("{end_if_attribute}", "</div>", $template);
+
+		if ($total > 0 && strstr($template, "{start_if_price_attribute}") && strstr($template, "{end_if_price_attribute}"))
+		{
+			$template = str_replace("{start_if_price_attribute}", "", $template);
+			$template = str_replace("{end_if_price_attribute}", "", $template);
+		}
+		else
+		{
+			$template = preg_replace('!{start_if_price_attribute}.*?{end_if_price_attribute}!s', '', $template);
+		}
+	}
+	else
+	{
+		$template = preg_replace('!{start_if_attribute}.*?{end_if_attribute}!s', '', $template);
+	}
+	?>
+	<script>
+		window.onload = function () {
+			var attribpreselect = <?php echo $checkforpreselection ?>;
+
+			if (attribpreselect > 0) {
+				document.getElementById('atrib_subprop_price').style.display = 'none';
+			}
+
+		}
+	</script>
+	<?php
+	return;
+}
 
 	function getattribute_property($attrib_id)
 	{
-		 $db =& JFactory::getDBO();
-		  $query = "SELECT p.property_id,p.property_price,s.subattribute_id,s.subattribute_color_price "
-				. " FROM #__redshop_product_attribute_property AS p"
-				." LEFT JOIN #__redshop_product_subattribute_color AS s ON s.subattribute_id=p.property_id "
-				. " WHERE p.attribute_id ='".$attrib_id."'"
-				. " AND (p.property_price!=0 OR s.subattribute_color_price!=0)";
-				$db->setQuery($query);
-				$result = $db->loadObjectList();
-				return $result;
+		$db =& JFactory::getDBO();
+		$query = "SELECT p.property_id,p.property_price,s.subattribute_id,s.subattribute_color_price "
+			. " FROM #__redshop_product_attribute_property AS p"
+			. " LEFT JOIN #__redshop_product_subattribute_color AS s ON s.subattribute_id=p.property_id "
+			. " WHERE p.attribute_id ='" . $attrib_id . "'"
+			. " AND (p.property_price!=0 OR s.subattribute_color_price!=0)";
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+
+		return $result;
 	}
 }
 ?>

@@ -1,10 +1,10 @@
 <?php
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-require_once ( JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgredshop_productstockroom_status extends JPlugin
 {
 	/**
@@ -15,38 +15,37 @@ class plgredshop_productstockroom_status extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	 function plgredshop_productstockroom_status( &$subject )
-	 {
-	    parent::__construct( $subject );
+	function plgredshop_productstockroom_status(&$subject)
+	{
+		parent::__construct($subject);
 
-	    // load plugin parameters
-	     $this->_table_prefix = '#__redshop_';
-	    $this->_plugin = JPluginHelper::getPlugin( 'redshop_product', 'stockroom_status' );
-	    $this->_params = new JRegistry( $this->_plugin->params );
-	 }
+		// load plugin parameters
+		$this->_table_prefix = '#__redshop_';
+		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stockroom_status');
+		$this->_params = new JRegistry($this->_plugin->params);
+	}
 
 	/**
 	 * Example prepare redSHOP Product method
 	 *
 	 * Method is called by the product view
 	 *
-	 * @param 	object		The Product Template Data
-	 * @param 	object		The product params
-	 * @param 	object		The product object
+	 * @param    object        The Product Template Data
+	 * @param    object        The product params
+	 * @param    object        The product object
 	 */
-	 function getStockroomStatus($order_id)
-	 {
-	 	
-        $db = JFactory::getDBO();
-	 	//$order_id= $order->order_id;
-	 	$order_functions = new order_functions();
-	 	$stockroomhelper = new rsstockroomhelper();
-	 	$producthelper 	= new producthelper ();
-	 	$orderproducts = $order_functions->getOrderItemDetail ( $order_id );
+	function getStockroomStatus($order_id)
+	{
+		$db = JFactory::getDBO();
+		//$order_id= $order->order_id;
+		$order_functions = new order_functions;
+		$stockroomhelper = new rsstockroomhelper;
+		$producthelper = new producthelper;
+		$orderproducts = $order_functions->getOrderItemDetail($order_id);
 
-	   	$stockroom_id ="";
+		$stockroom_id = "";
 
-		$message="<table ><tr><td colspan='4'>Hello Administrator,</td>
+		$message = "<table ><tr><td colspan='4'>Hello Administrator,</td>
 					</tr>
 					<tr>
 						<td colspan='4'>The following product/s have reached minimum stock level. </td>
@@ -59,60 +58,53 @@ class plgredshop_productstockroom_status extends JPlugin
 						<td>Stockroom Name</td>
 						<td>Current Stock</td>
 					</tr>";
-	   	for($p=0;$p<count($orderproducts);$p++)
-	   	{	
-	   		$product_id = $orderproducts[$p]->product_id;
-	   		$product_detail= $producthelper ->getProductById($product_id);
-	   		$stockroom_id = $orderproducts[$p]->stockroom_id;
 
-	   		$stockroom_id = explode(",", $stockroom_id);
+		for ($p = 0; $p < count($orderproducts); $p++)
+		{
+			$product_id = $orderproducts[$p]->product_id;
+			$product_detail = $producthelper->getProductById($product_id);
+			$stockroom_id = $orderproducts[$p]->stockroom_id;
 
-			$stock_flag= 0;
-					
+			$stockroom_id = explode(",", $stockroom_id);
 
-	   		for($s=0;$s<count($stockroom_id);$s++)
-	   		{
-	   			$stock_details = $stockroomhelper->getStockroomDetail($stockroom_id[$s]);
+			$stock_flag = 0;
 
-	   			$min_stock_amount = $stock_details[0]->min_stock_amount;
-	   			$stock_status = $stockroomhelper->getStockAmountwithReserve($product_id, $section="product", $stockroom_id[$s]);
-	   			
-	   			if($stock_status <=  $min_stock_amount)
-	   			{
-					$stock_flag=1;
-		   				
-					$message.="
+			for ($s = 0; $s < count($stockroom_id); $s++)
+			{
+				$stock_details = $stockroomhelper->getStockroomDetail($stockroom_id[$s]);
+
+				$min_stock_amount = $stock_details[0]->min_stock_amount;
+				$stock_status = $stockroomhelper->getStockAmountwithReserve($product_id, $section = "product", $stockroom_id[$s]);
+
+				if ($stock_status <= $min_stock_amount)
+				{
+					$stock_flag = 1;
+
+					$message .= "
 						<tr>
-							<td>".$product_detail->product_number."</td>
-							<td>".$product_detail->product_name."</td>
-							<td>".$stock_details[0]->stockroom_name."</td>
-							<td>".$stock_status."</td>
+							<td>" . $product_detail->product_number . "</td>
+							<td>" . $product_detail->product_name . "</td>
+							<td>" . $stock_details[0]->stockroom_name . "</td>
+							<td>" . $stock_status . "</td>
 						</tr>";
-	   				
-	   			}
-	   		}
 
-			
-	   		
-	   		
+				}
+			}
+
 		}
-			$message .="</table></td></tr>";
-			$message .="<tr><td colspan='4'>Regards,</td></tr><tr><td colspan='4'>Stockkeeper</td></tr>";
-			$message .="</table>";
-			
 
-					
-		   			if (ADMINISTRATOR_EMAIL != "" && $stock_flag==1)
-					{
-						JUtility::sendMail (SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
-						
-					}
-		
-	 }
-	 
-	 
-	
+		$message .= "</table></td></tr>";
+		$message .= "<tr><td colspan='4'>Regards,</td></tr><tr><td colspan='4'>Stockkeeper</td></tr>";
+		$message .= "</table>";
 
-	
+		if (ADMINISTRATOR_EMAIL != "" && $stock_flag == 1)
+		{
+			JUtility::sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
+
+		}
+
+	}
+
 }
+
 ?>

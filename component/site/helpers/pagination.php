@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 class redPagination extends JPagination
 {
-
 	public function getPagesLinks()
 	{
 		global $mainframe;
@@ -26,21 +25,21 @@ class redPagination extends JPagination
 		$itemOverride = false;
 		$listOverride = false;
 
-		# pagination = 0 - joomla template pagination
-		# pagination = 1 - redSHOP pagination
+		// Pagination = 0 - joomla template pagination
+		// Pagination = 1 - redSHOP pagination
 		if (PAGINATION == 0)
 		{
 			$templatefile_path = JPATH_THEMES . DS . $mainframe->getTemplate() . DS . 'html' . DS . 'pagination.php';
 
 			if (file_exists($templatefile_path))
 			{
-
-				require_once ($templatefile_path);
+				require_once $templatefile_path;
 
 				if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 				{
 					$itemOverride = true;
 				}
+
 				if (function_exists('pagination_list_render'))
 				{
 					$listOverride = true;
@@ -70,6 +69,7 @@ class redPagination extends JPagination
 			$list['start']['active'] = false;
 			$list['start']['data']   = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
 		}
+
 		if ($data->previous->base !== null)
 		{
 			$list['previous']['active'] = true;
@@ -81,7 +81,9 @@ class redPagination extends JPagination
 			$list['previous']['data']   = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
-		$list['pages'] = array(); //make sure it exists
+		// Make sure it exists
+		$list['pages'] = array();
+
 		foreach ($data->pages as $i => $page)
 		{
 			if ($page->base !== null)
@@ -106,6 +108,7 @@ class redPagination extends JPagination
 			$list['next']['active'] = false;
 			$list['next']['data']   = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
 		}
+
 		if ($data->end->base !== null)
 		{
 			$list['end']['active'] = true;
@@ -132,11 +135,12 @@ class redPagination extends JPagination
 		// Initialize variables
 		return;
 		$html = null;
+
 		if ($this->get('pages.total') > 1)
 		{
 			$html .= JText::_('COM_REDSHOP_Page') . " " . $this->get('pages.current') . " " . JText::_('COM_REDSHOP_of') . " " . $this->get('pages.total');
 		}
-		//return $html;
+
 	}
 
 	public function _list_footer($list)
@@ -158,20 +162,10 @@ class redPagination extends JPagination
 	{
 		// Initialize variables
 		$html = "<span class=\"pagination-links\" >";
-		//$html .= '<span>&laquo;</span>'.$list['start']['data'];
-
 
 		foreach ($list['pages'] as $page)
 		{
-			/*if($page['data']['active']) {
-				$html .= '<strong>';
-			}*/
-
 			$html .= $page['data'];
-
-			/*if($page['data']['active']) {
-				$html .= '</strong>';
-			}*/
 		}
 
 		if (PAGINATION == 0)
@@ -196,16 +190,27 @@ class redPagination extends JPagination
 
 	public function _item_active(&$item)
 	{
-
-		if (PAGINATION == 0) return $this->_item_active_joomla($item);
-		else return $this->_item_active_redshop($item);
+		if (PAGINATION == 0)
+		{
+			return $this->_item_active_joomla($item);
+		}
+		else
+		{
+			return $this->_item_active_redshop($item);
+		}
 
 	}
 
 	public function _item_inactive(&$item)
 	{
-		if (PAGINATION == 0) return $this->_item_inactive_joomla($item);
-		else return $this->_item_inactive_redshop($item);
+		if (PAGINATION == 0)
+		{
+			return $this->_item_inactive_joomla($item);
+		}
+		else
+		{
+			return $this->_item_inactive_redshop($item);
+		}
 	}
 
 	/**
@@ -240,15 +245,21 @@ class redPagination extends JPagination
 	protected function _item_active_joomla(&$item)
 	{
 		$app = JFactory::getApplication();
+
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0)
 			{
-				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix . "limitstart.value=" . $item->base . "; Joomla.submitform();return false;\">" . $item->text . "</a>";
+				return "<a title=\"" . $item->text
+					. "\" onclick=\"document.adminForm." . $this->prefix
+					. "limitstart.value=" . $item->base
+					. "; Joomla.submitform();return false;\">" . $item->text . "</a>";
 			}
 			else
 			{
-				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix . "limitstart.value=0; Joomla.submitform();return false;\">" . $item->text . "</a>";
+				return "<a title=\"" . $item->text
+					. "\" onclick=\"document.adminForm." . $this->prefix
+					. "limitstart.value=0; Joomla.submitform();return false;\">" . $item->text . "</a>";
 			}
 		}
 		else
@@ -274,7 +285,6 @@ class redPagination extends JPagination
 		else
 		{
 			return "<span >" . $item->text . "</span>";
-
 		}
 	}
 
