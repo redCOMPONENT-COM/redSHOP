@@ -670,14 +670,16 @@ class extraField
 					case 10 :
 						// Document
 
-						if (preg_match('/\n/', $data_value->data_txt)) // Support Legacy data.
+						// Support Legacy string.
+						if (preg_match('/\n/', $data_value->data_txt))
 						{
 							$document_explode = explode("\n", $data_value->data_txt);
 							$document_value = array($document_explode[0] => $document_explode[1]);
 
 						}
-						else // New Enhancement to support multiple file upload - JSON for better string handler
+						else
 						{
+							// New Enhancement to support multiple file upload - JSON for better string handler
 							$document_value = json_decode($data_value->data_txt);
 						}
 
