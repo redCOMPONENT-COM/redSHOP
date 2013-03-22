@@ -19,5 +19,4 @@
  */
 class Braintree_Exception_ForgedQueryString extends Braintree_Exception
 {
-
 }

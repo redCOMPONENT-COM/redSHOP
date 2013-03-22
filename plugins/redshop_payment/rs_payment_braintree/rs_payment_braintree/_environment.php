@@ -1,6 +1,5 @@
 <?php
-require_once('braintree/lib/Braintree.php');
-
+require_once 'braintree/lib/Braintree.php';
 
 // get plugin params
 $environment = $this->_params->get("environment");
@@ -12,6 +11,5 @@ Braintree_Configuration::environment($environment);
 Braintree_Configuration::merchantId($merchnat_id);
 Braintree_Configuration::publicKey($public_key);
 Braintree_Configuration::privateKey($private_key);
-
 
 ?>

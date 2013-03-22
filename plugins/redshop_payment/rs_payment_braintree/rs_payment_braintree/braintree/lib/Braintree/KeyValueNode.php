@@ -2,21 +2,22 @@
 
 class Braintree_KeyValueNode
 {
-    function __construct($name)
-    {
-        $this->name = $name;
-        $this->searchTerm = True;
+	function __construct($name)
+	{
+		$this->name = $name;
+		$this->searchTerm = true;
 
-    }
+	}
 
-    function is($value)
-    {
-        $this->searchTerm = $value;
-        return $this;
-    }
+	function is($value)
+	{
+		$this->searchTerm = $value;
 
-    function toParam()
-    {
-        return $this->searchTerm;
-    }
+		return $this;
+	}
+
+	function toParam()
+	{
+		return $this->searchTerm;
+	}
 }

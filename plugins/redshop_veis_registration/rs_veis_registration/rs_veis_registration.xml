@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_veis_registration" method="upgrade">
-	<name>EU VEIS Integration</name>
-	<version>1.1</version>
-	<creationDate>04-04-2012</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>This plugin needs to do a check on the EU VEIS DB.</description>	
-	<files>
-		<filename plugin="rs_veis_registration">rs_veis_registration.php</filename>
-		<folder plugin="rs_veis_registration">js</folder>
-	</files>
-   <config>
- 	 <fields name="params" >
-	   <fieldset name="basic">
-	   			<field name="member_state" type="list" default="0" label="Requester Member State"
-				description="Requester Member State">
-					<option value="">--</option>
-								
-									<option value="AT">AT-Austria</option>
-								
-									<option value="BE">BE-Belgium</option>
-								
-									<option value="BG">BG-Bulgaria</option>
-								
-									<option value="CY">CY-Cyprus</option>
-								
-									<option value="CZ">CZ-Czech Republic</option>
-								
-									<option value="DE">DE-Germany</option>
-								
-									<option value="DK">DK-Denmark</option>
-								
-									<option value="EE">EE-Estonia</option>
-								
-									<option value="EL">EL-Greece</option>
-								
-									<option value="ES">ES-Spain</option>
-								
-									<option value="FI">FI-Finland</option>
-								
-									<option value="FR">FR-France </option>
-								
-									<option value="GB">GB-United Kingdom</option>
-								
-									<option value="HU">HU-Hungary</option>
-								
-									<option value="IE">IE-Ireland</option>
-								
-									<option value="IT">IT-Italy</option>
-								
-									<option value="LT">LT-Lithuania</option>
-								
-									<option value="LU">LU-Luxembourg</option>
-								
-									<option value="LV">LV-Latvia</option>
-								
-									<option value="MT">MT-Malta</option>
-								
-									<option value="NL">NL-The Netherlands</option>
-								
-									<option value="PL">PL-Poland</option>
-								
-									<option value="PT">PT-Portugal</option>
-								
-									<option value="RO">RO-Romania</option>
-								
-									<option value="SE">SE-Sweden</option>
-								
-									<option value="SI">SI-Slovenia</option>
-								
-									<option value="SK">SK-Slovakia</option>
-				</field>
-	 			<field name="vat_number" type="text" size="10" default="" label="VAT number" description="VAT number"/>
-	 			
-		</fieldset>	
-	</fields>
-     </config >
+    <name>EU VEIS Integration</name>
+    <version>1.1</version>
+    <creationDate>04-04-2012</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>This plugin needs to do a check on the EU VEIS DB.</description>
+    <files>
+        <filename plugin="rs_veis_registration">rs_veis_registration.php</filename>
+        <folder plugin="rs_veis_registration">js</folder>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="member_state" type="list" default="0" label="Requester Member State"
+                       description="Requester Member State">
+                    <option value="">--</option>
+
+                    <option value="AT">AT-Austria</option>
+
+                    <option value="BE">BE-Belgium</option>
+
+                    <option value="BG">BG-Bulgaria</option>
+
+                    <option value="CY">CY-Cyprus</option>
+
+                    <option value="CZ">CZ-Czech Republic</option>
+
+                    <option value="DE">DE-Germany</option>
+
+                    <option value="DK">DK-Denmark</option>
+
+                    <option value="EE">EE-Estonia</option>
+
+                    <option value="EL">EL-Greece</option>
+
+                    <option value="ES">ES-Spain</option>
+
+                    <option value="FI">FI-Finland</option>
+
+                    <option value="FR">FR-France</option>
+
+                    <option value="GB">GB-United Kingdom</option>
+
+                    <option value="HU">HU-Hungary</option>
+
+                    <option value="IE">IE-Ireland</option>
+
+                    <option value="IT">IT-Italy</option>
+
+                    <option value="LT">LT-Lithuania</option>
+
+                    <option value="LU">LU-Luxembourg</option>
+
+                    <option value="LV">LV-Latvia</option>
+
+                    <option value="MT">MT-Malta</option>
+
+                    <option value="NL">NL-The Netherlands</option>
+
+                    <option value="PL">PL-Poland</option>
+
+                    <option value="PT">PT-Portugal</option>
+
+                    <option value="RO">RO-Romania</option>
+
+                    <option value="SE">SE-Sweden</option>
+
+                    <option value="SI">SI-Slovenia</option>
+
+                    <option value="SK">SK-Slovakia</option>
+                </field>
+                <field name="vat_number" type="text" size="10" default="" label="VAT number" description="VAT number"/>
+
+            </fieldset>
+        </fields>
+    </config>
 </extension>

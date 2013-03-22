@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -14,54 +14,49 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+$objOrder = new order_functions;
 
-	require_once( JPATH_COMPONENT.DS.'helpers'.DS.'helper.php' );
-	require_once ( JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php');
-	$objOrder = new order_functions();
+$objconfiguration = new Redconfiguration;
 
-  	$objconfiguration = new Redconfiguration();
+$user = JFactory::getUser();
+$session =& JFactory::getSession();
+$redirect_ccdata = $session->get('redirect_ccdata');
 
-   	$user	=	JFactory::getUser();
-  	$session =& JFactory::getSession();
-	$redirect_ccdata = $session->get('redirect_ccdata');
+$mainframe =& JFactory::getApplication();
+$Itemid = JRequest::getVar('Itemid');
+$request = JRequest::get('request');
+$login_id = $this->_params->get("access_id");
+$trans_id = $this->_params->get("transaction_id");
+$is_test = $this->_params->get("is_test");
 
+$relay_response_url = JURI::root() . 'index.php?option=com_redshop&tmpl=component&view=checkout&format=final&stap=2&oid=' . $data["order_id"] . '&Itemid=' . $Itemid;
 
-	$mainframe =& JFactory::getApplication();
-	$Itemid = JRequest::getVar('Itemid');
-	$request=JRequest::get('request');
-	$login_id = $this->_params->get("access_id");
-	$trans_id = $this->_params->get("transaction_id");
-	$is_test = $this->_params->get("is_test");
+$api_login_id = $login_id;
+$transaction_key = $trans_id;
+$amount = $data['order']->order_total;
+$fp_sequence = $data['order']->order_number;
 
+$time = time();
+$fp = AuthorizeNetDPM::getFingerprint($api_login_id, $transaction_key, $amount, $fp_sequence, $time);
 
-	$relay_response_url = JURI::root().'index.php?option=com_redshop&tmpl=component&view=checkout&format=final&stap=2&oid='.$data["order_id"].'&Itemid='.$Itemid;
+$sim = new AuthorizeNetSIM_Form(
+	array(
+		'x_amount'         => $amount,
+		'x_fp_sequence'    => $fp_sequence,
+		'x_fp_hash'        => $fp,
+		'x_fp_timestamp'   => $time,
+		'x_relay_response' => "TRUE",
+		'x_relay_url'      => $relay_response_url,
+		'x_login'          => $api_login_id,
+	)
+);
 
-	$api_login_id = $login_id;
-	$transaction_key = $trans_id;
-	$amount = $data['order']->order_total;
-	$fp_sequence = $data['order']->order_number;
+$hidden_fields = $sim->getHiddenFieldString();
+$post_url = ($is_test ? "https://test.authorize.net/gateway/transact.dll" : "https://secure.authorize.net/gateway/transact.dll");
 
- 	$time = time();
-        $fp = AuthorizeNetDPM::getFingerprint($api_login_id, $transaction_key, $amount, $fp_sequence, $time);
-
-
-        $sim = new AuthorizeNetSIM_Form(
-            array(
-            'x_amount'        => $amount,
-            'x_fp_sequence'   => $fp_sequence,
-            'x_fp_hash'       => $fp,
-            'x_fp_timestamp'  => $time,
-            'x_relay_response'=> "TRUE",
-            'x_relay_url'     => $relay_response_url,
-            'x_login'         => $api_login_id,
-            )
-        );
-
-
-        $hidden_fields = $sim->getHiddenFieldString();
-        $post_url = ($is_test ? "https://test.authorize.net/gateway/transact.dll" : "https://secure.authorize.net/gateway/transact.dll");
-
-        $form = '
+$form = '
         <style>
         fieldset {
             overflow: auto;
@@ -110,60 +105,60 @@
             -moz-box-shadow: inset 3px -3px 3px rgba(0,0,0,.5), inset 0 3px 3px rgba(255,255,255,.5), inset -3px 0 3px rgba(255,255,255,.75);
             box-shadow: inset 3px -3px 3px rgba(0,0,0,.5), inset 0 3px 3px rgba(255,255,255,.5), inset -3px 0 3px rgba(255,255,255,.75); }
         </style>
-        <form method="post" action="'.$post_url.'" id="authodpmfrm" name="authodpmfrm">
-                '.$hidden_fields.'
+        <form method="post" action="' . $post_url . '" id="authodpmfrm" name="authodpmfrm">
+                ' . $hidden_fields . '
             <fieldset>
                 <div>
 
-                    <input type="hidden" class="hidden"  name="x_card_num" value="'.$redirect_ccdata['order_payment_number'].'"></input>
+                    <input type="hidden" class="hidden"  name="x_card_num" value="' . $redirect_ccdata['order_payment_number'] . '"></input>
                 </div>
                 <div>
 
-                    <input type="hidden" class="hidden"  name="x_exp_date" value="'.$redirect_ccdata['order_payment_expire_month'].'/'.$redirect_ccdata['order_payment_expire_year'].'"></input>
+                    <input type="hidden" class="hidden"  name="x_exp_date" value="' . $redirect_ccdata['order_payment_expire_month'] . '/' . $redirect_ccdata['order_payment_expire_year'] . '"></input>
                 </div>
                 <div>
 
-                    <input type="hidden" class="hidden"  name="x_card_code" value="'.$redirect_ccdata['credit_card_code'].'"></input>
+                    <input type="hidden" class="hidden"  name="x_card_code" value="' . $redirect_ccdata['credit_card_code'] . '"></input>
                 </div>
             </fieldset>
             <fieldset>
                 <div>
 
-                    <input type="hidden" class="text" size="15" name="x_first_name" value="'.$data['billinginfo']->firstname.'"></input>
+                    <input type="hidden" class="text" size="15" name="x_first_name" value="' . $data['billinginfo']->firstname . '"></input>
                 </div>
                 <div>
 
-                    <input type="hidden" class="text" size="14" name="x_last_name" value="'.$data['billinginfo']->lastname.'"></input>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div>
-
-                    <input type="hidden" class="text" size="26" name="x_address" value="'.$data['billinginfo']->address.'"></input>
-                </div>
-                <div>
-
-                    <input type="hidden" class="text" size="15" name="x_city" value="'.$data['billinginfo']->city.'"></input>
+                    <input type="hidden" class="text" size="14" name="x_last_name" value="' . $data['billinginfo']->lastname . '"></input>
                 </div>
             </fieldset>
             <fieldset>
                 <div>
 
-                    <input type="hidden" class="text" size="4" name="x_state" value="'.$data['billinginfo']->state_code.'"></input>
+                    <input type="hidden" class="text" size="26" name="x_address" value="' . $data['billinginfo']->address . '"></input>
                 </div>
                 <div>
 
-                    <input type="hidden" class="text" size="9" name="x_zip" value="'.$data['billinginfo']->zipcode.'"></input>
+                    <input type="hidden" class="text" size="15" name="x_city" value="' . $data['billinginfo']->city . '"></input>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div>
+
+                    <input type="hidden" class="text" size="4" name="x_state" value="' . $data['billinginfo']->state_code . '"></input>
                 </div>
                 <div>
 
-                    <input type="hidden" class="text" size="22" name="x_country" value="'.$data['billinginfo']->country_2_code.'"></input>
+                    <input type="hidden" class="text" size="9" name="x_zip" value="' . $data['billinginfo']->zipcode . '"></input>
+                </div>
+                <div>
+
+                    <input type="hidden" class="text" size="22" name="x_country" value="' . $data['billinginfo']->country_2_code . '"></input>
                 </div>
             </fieldset>
         </form>';
-	echo $form;
+echo $form;
 
-     // end by me
+// end by me
 
 ?>
 
@@ -203,8 +198,7 @@
             </fieldset>
             <input type="submit" value="BUY" class="submit buy">-->
 <script type='text/javascript'>
-window.onload= function()
-{
-document.authodpmfrm.submit();
-}
+	window.onload = function () {
+		document.authodpmfrm.submit();
+	}
 </script>
