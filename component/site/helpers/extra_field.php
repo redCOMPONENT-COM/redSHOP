@@ -48,7 +48,7 @@ class extraField
 	public function __construct()
 	{
 		global $mainframe, $context;
-		$this->_db           = JFactory::getDbo();
+		$this->_db = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
@@ -88,7 +88,7 @@ class extraField
 			}
 			else
 			{
-				$class      = '';
+				$class = '';
 				$span_class = '';
 			}
 
@@ -114,7 +114,7 @@ class extraField
 				case 3:
 					// 3 :- Check Box
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-					$chk_data  = @explode(",", $data_value->data_txt);
+					$chk_data = @explode(",", $data_value->data_txt);
 
 					if ($row_data[$i]->required == 1)
 					{
@@ -141,7 +141,7 @@ class extraField
 				case 4:
 					// 4 :- Radio Button
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-					$chk_data  = @explode(",", $data_value->data_txt);
+					$chk_data = @explode(",", $data_value->data_txt);
 
 					if ($row_data[$i]->required == 1)
 					{
@@ -169,7 +169,7 @@ class extraField
 				case 5:
 					// 5 :-Select Box (Single select)
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-					$chk_data  = @explode(",", $data_value->data_txt);
+					$chk_data = @explode(",", $data_value->data_txt);
 
 					if ($row_data[$i]->required == 1)
 					{
@@ -200,7 +200,7 @@ class extraField
 				case 6:
 					// 6 :- Select Box (Multiple select)
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-					$chk_data  = @explode(",", $data_value->data_txt);
+					$chk_data = @explode(",", $data_value->data_txt);
 
 					if ($row_data[$i]->required == 1)
 					{
@@ -265,8 +265,8 @@ class extraField
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
 		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$url     = JURI::base();
+		$cart = $session->get('cart');
+		$url = JURI::base();
 
 		$preprefix = "";
 
@@ -287,13 +287,13 @@ class extraField
 			. "AND field_show_in_front=1 "
 			. "ORDER BY ordering ";
 		$this->_db->setQuery($q);
-		$row_data       = $this->_db->loadObjectlist();
-		$ex_field       = '';
+		$row_data = $this->_db->loadObjectlist();
+		$ex_field = '';
 		$ex_field_title = '';
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
-			$type     = $row_data[$i]->field_type;
+			$type = $row_data[$i]->field_type;
 			$asterisk = $row_data[$i]->required > 0 ? '* ' : '';
 
 			if ($field_type != 'hidden')
@@ -365,7 +365,7 @@ class extraField
 					case 3:
 						// 3 :- Check Box
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
+						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
@@ -383,7 +383,7 @@ class extraField
 					case 4:
 						// 4 :- Radio Button
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
+						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
@@ -401,7 +401,7 @@ class extraField
 					case 5:
 						// 5 :-Select Box (Single select)
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
+						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
 						$ex_field .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
@@ -426,7 +426,7 @@ class extraField
 					case 6:
 						// 6 :- Select Box (Multiple select)
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
+						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
 
 						for ($c = 0; $c < count($field_chk); $c++)
@@ -482,7 +482,7 @@ class extraField
 					case 11:
 						// 11 :- Image select
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
+						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<table><tr>';
 
 						for ($c = 0; $c < count($field_chk); $c++)
@@ -504,7 +504,7 @@ class extraField
 					case 12:
 						// 12 :- Date Picker
 						$ajax = '';
-						$req  = $row_data[$i]->required;
+						$req = $row_data[$i]->required;
 
 						if (AJAX_CART_BOX && $isatt == 0)
 						{
@@ -525,13 +525,13 @@ class extraField
 						if (count($field_chk) > 0)
 						{
 							$mainsplit_date_total = preg_split(" ", $field_chk->data_txt);
-							$mainsplit_date       = preg_split(":", $mainsplit_date_total[0]);
+							$mainsplit_date = preg_split(":", $mainsplit_date_total[0]);
 							$mainsplit_date_extra = preg_split(":", $mainsplit_date_total[1]);
 
-							$dateStart  = mktime(0, 0, 0, date('m', $mainsplit_date[0]), date('d', $mainsplit_date[0]), date('Y', $mainsplit_date[0]));
-							$dateEnd    = mktime(23, 59, 59, date('m', $mainsplit_date[1]), date('d', $mainsplit_date[1]), date('Y', $mainsplit_date[1]));
+							$dateStart = mktime(0, 0, 0, date('m', $mainsplit_date[0]), date('d', $mainsplit_date[0]), date('Y', $mainsplit_date[0]));
+							$dateEnd = mktime(23, 59, 59, date('m', $mainsplit_date[1]), date('d', $mainsplit_date[1]), date('Y', $mainsplit_date[1]));
 							$todayStart = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-							$todayEnd   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+							$todayEnd = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
 
 							if ($dateStart <= $todayStart && $dateEnd >= $todayEnd)
 							{
@@ -560,7 +560,7 @@ class extraField
 			}
 		}
 
-		$ex    = array();
+		$ex = array();
 		$ex[0] = $ex_field_title;
 		$ex[1] = $ex_field;
 
@@ -570,8 +570,8 @@ class extraField
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
 		$redTemplate = new Redtemplate;
-		$url         = JURI::base();
-		$q           = "SELECT * from " . $this->_table_prefix . "fields where field_section='" . $field_section . "' ";
+		$url = JURI::base();
+		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section='" . $field_section . "' ";
 
 		if ($field_name != "")
 		{
@@ -583,8 +583,8 @@ class extraField
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
-			$type                = $row_data[$i]->field_type;
-			$published           = $row_data[$i]->published;
+			$type = $row_data[$i]->field_type;
+			$published = $row_data[$i]->published;
 			$field_show_in_front = $row_data[$i]->field_show_in_front;
 
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
@@ -592,12 +592,12 @@ class extraField
 			if ($categorypage == 1)
 			{
 				$search_lbl = "{producttag:" . $row_data[$i]->field_name . "_lbl}";
-				$search     = "{producttag:" . $row_data[$i]->field_name . "}";
+				$search = "{producttag:" . $row_data[$i]->field_name . "}";
 			}
 			else
 			{
 				$search_lbl = "{" . $row_data[$i]->field_name . "_lbl}";
-				$search     = "{" . $row_data[$i]->field_name . "}";
+				$search = "{" . $row_data[$i]->field_name . "}";
 			}
 
 			if (count($data_value) != 0 && $published && $field_show_in_front)
@@ -627,8 +627,8 @@ class extraField
 					case 6:
 						// 6 :- Select Box (Multiple select)
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-						$chk_data  = @explode(",", $data_value->data_txt);
-						$tmparr    = array();
+						$chk_data = @explode(",", $data_value->data_txt);
+						$tmparr = array();
 
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
@@ -650,7 +650,7 @@ class extraField
 							$q = "SELECT country_name FROM " . $this->_table_prefix . "country "
 								. "WHERE country_id=" . $data_value->data_txt;
 							$this->_db->setQuery($q);
-							$field_chk    = $this->_db->loadObject();
+							$field_chk = $this->_db->loadObject();
 							$displayvalue = $field_chk->country_name;
 						}
 						break;
@@ -658,8 +658,8 @@ class extraField
 						// Media
 						$ftype = explode(".", $data_value->data_txt);
 
-						$link         = REDSHOP_FRONT_IMAGES_ABSPATH . "media/" . $data_value->data_txt;
-						$link_phy     = REDSHOP_FRONT_IMAGES_RELPATH . "media/" . $data_value->data_txt;
+						$link = REDSHOP_FRONT_IMAGES_ABSPATH . "media/" . $data_value->data_txt;
+						$link_phy = REDSHOP_FRONT_IMAGES_RELPATH . "media/" . $data_value->data_txt;
 						$displayvalue = "";
 
 						if (is_file($link_phy))
@@ -669,32 +669,33 @@ class extraField
 						break;
 					case 10 :
 						// Document
-						$document_value = explode("\n", $data_value->data_txt);
-						$document_title = "";
-						$filename       = "";
+
+						if (preg_match('/\n/', $data_value->data_txt)) // Support Legacy data.
+						{
+							$document_explode = explode("\n", $data_value->data_txt);
+							$document_value = array($document_explode[0] => $document_explode[1]);
+
+						}
+						else // New Enhancement to support multiple file upload - JSON for better string handler
+						{
+							$document_value = json_decode($data_value->data_txt);
+						}
 
 						if (count($document_value) > 0)
 						{
-							$document_title = $document_value[0];
+							$displayvalue = "";
 
-							if (count($document_value) > 1)
+							foreach ($document_value as $document_title => $filename)
 							{
-								$filename = $document_value[1];
+								$link = REDSHOP_FRONT_DOCUMENT_ABSPATH . "extrafields/" . $filename;
+								$link_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . "extrafields/" . $filename;
+
+								if (is_file($link_phy))
+								{
+									$displayvalue .= "<a href='" . $link . "' target='_blank' >" . $document_title . "</a>";
+								}
 							}
 
-							if ($document_title == "")
-							{
-								$document_title = $filename;
-							}
-						}
-
-						$link         = REDSHOP_FRONT_DOCUMENT_ABSPATH . "extrafields/" . $filename;
-						$link_phy     = REDSHOP_FRONT_DOCUMENT_RELPATH . "extrafields/" . $filename;
-						$displayvalue = "";
-
-						if (is_file($link_phy))
-						{
-							$displayvalue = "<a href='" . $link . "' target='_blank' >" . $document_title . "</a>";
 						}
 						break;
 					case 11 :
@@ -703,8 +704,8 @@ class extraField
 						$document_value = $this->getFieldValue($row_data[$i]->field_id);
 
 						$tmp_image_hover = array();
-						$tmp_image_link  = array();
-						$chk_data        = @explode(",", $data_value->data_txt);
+						$tmp_image_link = array();
+						$chk_data = @explode(",", $data_value->data_txt);
 
 						if ($data_value->alt_text)
 						{
@@ -716,13 +717,13 @@ class extraField
 							$tmp_image_link = @explode(',,,,,', $data_value->image_link);
 						}
 
-						$chk_data    = @explode(",", $data_value->data_txt);
-						$image_link  = array();
+						$chk_data = @explode(",", $data_value->data_txt);
+						$image_link = array();
 						$image_hover = array();
 
 						for ($ch = 0; $ch < count($chk_data); $ch++)
 						{
-							$image_link[$chk_data[$ch]]  = isset($tmp_image_link[$ch]) ? $tmp_image_link[$ch] : '';
+							$image_link[$chk_data[$ch]] = isset($tmp_image_link[$ch]) ? $tmp_image_link[$ch] : '';
 							$image_hover[$chk_data[$ch]] = isset($tmp_image_hover[$ch]) ? $tmp_image_hover[$ch] : '';
 						}
 
@@ -759,8 +760,8 @@ class extraField
 						break;
 				}
 
-				$displaytitle  = $data_value->data_txt != "" ? $data_value->field_title : "";
-				$displayvalue  = $redTemplate->parseredSHOPplugin($displayvalue);
+				$displaytitle = $data_value->data_txt != "" ? $data_value->field_title : "";
+				$displayvalue = $redTemplate->parseredSHOPplugin($displayvalue);
 				$template_data = str_replace($search_lbl, JText::_($displaytitle), $template_data);
 				$template_data = str_replace($search, $displayvalue, $template_data);
 			}
