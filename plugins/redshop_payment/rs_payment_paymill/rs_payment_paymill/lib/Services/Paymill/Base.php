@@ -6,131 +6,133 @@ require_once 'Apiclient/Curl.php';
  */
 abstract class Services_Paymill_Base
 {
-    /**
-     * Resource relative url path name ending with '/', set or override in subclass
-     *
-     * @var string
-     */
-    protected $_serviceResource = null;
+	/**
+	 * Resource relative url path name ending with '/', set or override in subclass
+	 *
+	 * @var string
+	 */
+	protected $_serviceResource = null;
 
-    /**
-     * Paymill HTTP client class
-     * 
-     * @var Services_Paymill_Apiclient_Interface
-     */
-    protected $_httpClient;
+	/**
+	 * Paymill HTTP client class
+	 *
+	 * @var Services_Paymill_Apiclient_Interface
+	 */
+	protected $_httpClient;
 
-    /**
-     * Base constructor
-     * sets _httpClient property
-     *
-     * @param string $apiKey merchant api key
-     * @param string $apiEndpoint endpoint URL for the api
-     */
-    public function __construct($apiKey, $apiEndpoint)
-    {
-        $this->_httpClient = new Services_Paymill_Apiclient_Curl($apiKey, $apiEndpoint);
-    }
+	/**
+	 * Base constructor
+	 * sets _httpClient property
+	 *
+	 * @param string $apiKey      merchant api key
+	 * @param string $apiEndpoint endpoint URL for the api
+	 */
+	public function __construct($apiKey, $apiEndpoint)
+	{
+		$this->_httpClient = new Services_Paymill_Apiclient_Curl($apiKey, $apiEndpoint);
+	}
 
-    /**
-     * General REST GET verb
-     * 
-     * @param array  $filters    e.g. count,offest
-     * @param string $identifier resource id
-     *
-     * @return array of resource items
-     */
-    public function get($filters = array(), $identifier = '')
-    {
-        $response = $this->_httpClient->request(
-            $this->_serviceResource . $identifier,
-            $filters,
-            Services_Paymill_Apiclient_Interface::HTTP_GET
-        );
+	/**
+	 * General REST GET verb
+	 *
+	 * @param array  $filters    e.g. count,offest
+	 * @param string $identifier resource id
+	 *
+	 * @return array of resource items
+	 */
+	public function get($filters = array(), $identifier = '')
+	{
+		$response = $this->_httpClient->request(
+			$this->_serviceResource . $identifier,
+			$filters,
+			Services_Paymill_Apiclient_Interface::HTTP_GET
+		);
 
-        return $response['data'];
-    }
+		return $response['data'];
+	}
 
-    /**
-     * General REST GET verb
-     * returns one item or null
-     * 
-     * @param string $identifier resource id
-     *
-     * @return array resource item | null
-     */
-    public function getOne($identifier = null)
-    {
-        if (!$identifier) {
-            return null;
-        }
-        
-        $filters = array("count" => 1, 'offset' => 0);
-        
-        return $this->get($filters, $identifier);
-    }
+	/**
+	 * General REST GET verb
+	 * returns one item or null
+	 *
+	 * @param string $identifier resource id
+	 *
+	 * @return array resource item | null
+	 */
+	public function getOne($identifier = null)
+	{
+		if (!$identifier)
+		{
+			return null;
+		}
 
-    /**
-     * General REST DELETE verb
-     * Delete or inactivate/cancel resource item
-     * 
-     * @param string $clientId
-     *
-     * @return array item deleted
-     */
-    public function delete($clientId = null)
-    {
-        $response =  $this->_httpClient->request(
-            $this->_serviceResource . $clientId,
-            array(),
-            Services_Paymill_Apiclient_Interface::HTTP_DELETE
-        );
+		$filters = array("count" => 1, 'offset' => 0);
 
-        return $response['data'];
-    }
+		return $this->get($filters, $identifier);
+	}
 
-    /**
-     * General REST POST verb
-     * create resource item
-     *
-     * @param array $itemData
-     *
-     * @return array created item
-     */
-    public function create($itemData = array())
-    {
-        $response = $this->_httpClient->request(
-            $this->_serviceResource,
-            $itemData,
-            Services_Paymill_Apiclient_Interface::HTTP_POST
-        );
+	/**
+	 * General REST DELETE verb
+	 * Delete or inactivate/cancel resource item
+	 *
+	 * @param string $clientId
+	 *
+	 * @return array item deleted
+	 */
+	public function delete($clientId = null)
+	{
+		$response = $this->_httpClient->request(
+			$this->_serviceResource . $clientId,
+			array(),
+			Services_Paymill_Apiclient_Interface::HTTP_DELETE
+		);
 
-        return $response['data'];
-    }
+		return $response['data'];
+	}
 
-    /**
-     * General REST PUT verb
-     * Update resource item
-     *
-     * @param array $itemData
-     *
-     * @return array item updated or null
-     */
-    public function update(array $itemData = array())
-    {
-        if (!isset($itemData['id']) ) {
-            return null;
-        }
+	/**
+	 * General REST POST verb
+	 * create resource item
+	 *
+	 * @param array $itemData
+	 *
+	 * @return array created item
+	 */
+	public function create($itemData = array())
+	{
+		$response = $this->_httpClient->request(
+			$this->_serviceResource,
+			$itemData,
+			Services_Paymill_Apiclient_Interface::HTTP_POST
+		);
 
-        $itemId = $itemData['id'];
-        unset ($itemData['id']);
+		return $response['data'];
+	}
 
-        $response = $this->_httpClient->request(
-            $this->_serviceResource . $itemId,
-            $itemData,
-            Services_Paymill_Apiclient_Interface::HTTP_PUT
-        );
+	/**
+	 * General REST PUT verb
+	 * Update resource item
+	 *
+	 * @param array $itemData
+	 *
+	 * @return array item updated or null
+	 */
+	public function update(array $itemData = array())
+	{
+		if (!isset($itemData['id']))
+		{
+			return null;
+		}
 
-        return $response['data'];
-    }
+		$itemId = $itemData['id'];
+		unset ($itemData['id']);
+
+		$response = $this->_httpClient->request(
+			$this->_serviceResource . $itemId,
+			$itemData,
+			Services_Paymill_Apiclient_Interface::HTTP_PUT
+		);
+
+		return $response['data'];
+	}
 }

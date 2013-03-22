@@ -8,5 +8,4 @@
  */
 class Braintree_Exception_UpgradeRequired extends Braintree_Exception
 {
-
 }

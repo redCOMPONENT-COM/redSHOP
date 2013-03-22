@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ *            Developed by email@recomponent.com - redCOMPONENT.com
  *
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -20,41 +20,41 @@ jimport('joomla.plugin.plugin');
 
 class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 {
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for
+	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
+	 * NOT references.  This causes problems with cross-referencing necessary for the
+	 * observer design pattern.
+	 */
+	function plgRedshop_paymentrs_payment_cashsale(&$subject)
+	{
+		// load plugin parameters
+		parent::__construct($subject);
 
-   /**
-    * Constructor
-    *
-    * For php4 compatability we must not use the __constructor as a constructor for
-    * plugins because func_get_args ( void ) returns a copy of all passed arguments
-    * NOT references.  This causes problems with cross-referencing necessary for the
-    * observer design pattern.
-    */
-   	function plgRedshop_paymentrs_payment_cashsale(&$subject)
-    {
-            // load plugin parameters
-            parent::__construct( $subject );
+		JPluginHelper::getPlugin('redshop_payment', 'onPrePayment');
+		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_cashsale');
+		$this->_params = new JRegistry($this->_plugin->params);
 
-            JPluginHelper::getPlugin( 'redshop_payment', 'onPrePayment' );
-	 		$this->_plugin = JPluginHelper::getPlugin( 'redshop_payment', 'rs_payment_cashsale' );
-            $this->_params = new JRegistry( $this->_plugin->params );
+	}
 
-    }
+	/**
+	 * Plugin method with the same name as the event will be called automatically.
+	 */
+	function onPrePayment($element, $data)
+	{
+		if ($element != 'rs_payment_cashsale')
+		{
+			return;
+		}
 
-    /**
-    * Plugin method with the same name as the event will be called automatically.
-    */
- 	function onPrePayment($element, $data)
-    {
+		if (empty($plugin))
+		{
+			$plugin = $element;
+		}
 
-    	if($element!='rs_payment_cashsale'){
-    		return;
-    	}
-    	if (empty($plugin))
-        {
-         	$plugin = $element;
-        }
 		return true;
-    }
-
+	}
 
 }

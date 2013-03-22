@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_product_navigation" method="upgrade">
-	<name>Product Navigation</name>
-	<version>1.1</version>
-	<creationDate>27-07-2012</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>This plugin will use to navigate products.</description>	
-	<files>
-		<filename plugin="rs_product_navigation">rs_product_navigation.php</filename>
-	</files>
-   <config>
- 	 </config >
+    <name>Product Navigation</name>
+    <version>1.1</version>
+    <creationDate>27-07-2012</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>This plugin will use to navigate products.</description>
+    <files>
+        <filename plugin="rs_product_navigation">rs_product_navigation.php</filename>
+    </files>
+    <config>
+    </config>
 </extension>

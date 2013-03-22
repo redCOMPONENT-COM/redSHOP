@@ -16,5 +16,4 @@
  */
 class Braintree_Exception_SSLCertificate extends Braintree_Exception
 {
-
 }

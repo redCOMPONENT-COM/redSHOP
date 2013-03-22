@@ -27,60 +27,67 @@
  */
 class Braintree_Result_CreditCardVerification
 {
-    // Status
-    const FAILED                   = 'failed';
-    const GATEWAY_REJECTED         = 'gateway_rejected';
-    const PROCESSOR_DECLINED       = 'processor_declined';
-    const VERIFIED                 = 'verified';
+	// Status
+	const FAILED = 'failed';
+	const GATEWAY_REJECTED = 'gateway_rejected';
+	const PROCESSOR_DECLINED = 'processor_declined';
+	const VERIFIED = 'verified';
 
-    private $_attributes;
-    private $_avsErrorResponseCode;
-    private $_avsPostalCodeResponseCode;
-    private $_avsStreetAddressResponseCode;
-    private $_cvvResponseCode;
-    private $_gatewayRejectionReason;
-    private $_status;
+	private $_attributes;
+	private $_avsErrorResponseCode;
+	private $_avsPostalCodeResponseCode;
+	private $_avsStreetAddressResponseCode;
+	private $_cvvResponseCode;
+	private $_gatewayRejectionReason;
+	private $_status;
 
-    /**
-     * @ignore
-     */
-    public function  __construct($attributes)
-    {
-        $this->_initializeFromArray($attributes);
-    }
-    /**
-     * initializes instance properties from the keys/values of an array
-     * @ignore
-     * @access protected
-     * @param <type> $aAttribs array of properties to set - single level
-     * @return none
-     */
-    private function _initializeFromArray($attributes)
-    {
-        $this->_attributes = $attributes;
-        foreach($attributes AS $name => $value) {
-            $varName = "_$name";
-            $this->$varName = $value;
-            // $this->$varName = Braintree_Util::delimiterToCamelCase($value, '_');
-        }
-    }
-    /**
-     *
-     * @ignore
-     */
-    public function  __get($name)
-    {
-        $varName = "_$name";
-        return isset($this->$varName) ? $this->$varName : null;
-    }
+	/**
+	 * @ignore
+	 */
+	public function  __construct($attributes)
+	{
+		$this->_initializeFromArray($attributes);
+	}
 
-    /**
-     * returns a string representation of the customer
-     * @return string
-     */
-    public function  __toString()
-    {
-        return __CLASS__ . '[' .
-                Braintree_Util::attributesToString($this->_attributes) .']';
-    }
+	/**
+	 * initializes instance properties from the keys/values of an array
+	 * @ignore
+	 * @access protected
+	 *
+	 * @param <type> $aAttribs array of properties to set - single level
+	 *
+	 * @return none
+	 */
+	private function _initializeFromArray($attributes)
+	{
+		$this->_attributes = $attributes;
+
+		foreach ($attributes AS $name => $value)
+		{
+			$varName = "_$name";
+			$this->$varName = $value;
+			// $this->$varName = Braintree_Util::delimiterToCamelCase($value, '_');
+		}
+	}
+
+	/**
+	 *
+	 * @ignore
+	 */
+	public function  __get($name)
+	{
+		$varName = "_$name";
+
+		return isset($this->$varName) ? $this->$varName : null;
+	}
+
+	/**
+	 * returns a string representation of the customer
+	 * @return string
+	 */
+	public function  __toString()
+	{
+		return __CLASS__ . '[' .
+			Braintree_Util::attributesToString($this->_attributes) . ']';
+	}
 }
