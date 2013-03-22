@@ -675,11 +675,10 @@ class extraField
 						{
 							$document_explode = explode("\n", $data_value->data_txt);
 							$document_value = array($document_explode[0] => $document_explode[1]);
-
 						}
 						else
 						{
-							// New Enhancement to support multiple file upload - JSON for better string handler
+							// Support for multiple file upload using JSON for better string handling
 							$document_value = json_decode($data_value->data_txt);
 						}
 
@@ -689,12 +688,12 @@ class extraField
 
 							foreach ($document_value as $document_title => $filename)
 							{
-								$link = REDSHOP_FRONT_DOCUMENT_ABSPATH . "extrafields/" . $filename;
-								$link_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . "extrafields/" . $filename;
+								$link = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $filename;
+								$link_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $filename;
 
 								if (is_file($link_phy))
 								{
-									$displayvalue .= "<a href='" . $link . "' target='_blank' >" . $document_title . "</a>";
+									$displayvalue .= "<a href=\"$link\" target='_blank' >$document_title</a>";
 								}
 							}
 
