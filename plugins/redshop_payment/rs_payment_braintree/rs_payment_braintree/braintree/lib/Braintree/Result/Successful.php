@@ -33,46 +33,48 @@
  */
 class Braintree_Result_Successful extends Braintree_Instance
 {
-    /**
-     *
-     * @var boolean always true
-     */
-    public $success = true;
-    /**
-     *
-     * @var string stores the internal name of the object providing access to
-     */
-    private $_returnObjectName;
+	/**
+	 *
+	 * @var boolean always true
+	 */
+	public $success = true;
+	/**
+	 *
+	 * @var string stores the internal name of the object providing access to
+	 */
+	private $_returnObjectName;
 
-    /**
-     * @ignore
-     * @param string $classToReturn name of class to instantiate
-     */
-    public function __construct($objToReturn = null)
-    {
-        if(!empty($objToReturn)) {
-            // get a lowercase direct name for the property
-            $property = Braintree_Util::cleanClassName(
-                    get_class($objToReturn)
-                    );
-            // save the name for indirect access
-            $this->_returnObjectName = $property;
+	/**
+	 * @ignore
+	 *
+	 * @param string $classToReturn name of class to instantiate
+	 */
+	public function __construct($objToReturn = null)
+	{
+		if (!empty($objToReturn))
+		{
+			// get a lowercase direct name for the property
+			$property = Braintree_Util::cleanClassName(
+				get_class($objToReturn)
+			);
+			// save the name for indirect access
+			$this->_returnObjectName = $property;
 
-            // create the property!
-            $this->$property = $objToReturn;
-        }
-    }
+			// create the property!
+			$this->$property = $objToReturn;
+		}
+	}
 
+	/**
+	 *
+	 * @ignore
+	 * @return string string representation of the object's structure
+	 */
+	public function __toString()
+	{
+		$returnObject = $this->_returnObjectName;
 
-   /**
-    *
-    * @ignore
-    * @return string string representation of the object's structure
-    */
-   public function __toString()
-   {
-       $returnObject = $this->_returnObjectName;
-       return __CLASS__ . '['.$this->$returnObject->__toString().']';
-   }
-    
+		return __CLASS__ . '[' . $this->$returnObject->__toString() . ']';
+	}
+
 }

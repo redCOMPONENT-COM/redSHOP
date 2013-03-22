@@ -1,10 +1,7 @@
 <?php
 
-
 class Realex
 {
-
-
 	function createRequest($array)
 	{
 		global $xml;
@@ -12,7 +9,7 @@ class Realex
 		/* defaults (there is no default for 'url' or 'content') */
 
 		/* for each argument set in the array, overwrite default */
-		while(list($k,$v) = each($array))
+		while (list($k, $v) = each($array))
 		{
 			$$k = $v;
 		}
@@ -22,7 +19,7 @@ class Realex
 		$currentElement = 0;
 		$currentTSSCheck = "";
 		$timestamp = strftime("%Y%m%d%H%M%S");
-		mt_srand((double)microtime()*1000000);
+		mt_srand((double) microtime() * 1000000);
 
 		// creating the hash.
 		$tmp = "$timestamp.$merchantid.$orderid.$amount.$currency.$cardnumber";
@@ -56,39 +53,39 @@ class Realex
 					</tssinfo>
 				</request>";
 
+		// send it to payandshop.com
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "https://epage.payandshop.com/epage-3dsecure.cgi");
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_USERAGENT, "payandshop.com php version 0.9");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // this line makes it work under https
+		$response = curl_exec($ch);
+		echo '<pre/>';
+		print_r($response);
+		exit;
+		curl_close($ch);
 
-			// send it to payandshop.com
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, "https://epage.payandshop.com/epage-3dsecure.cgi");
-			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_USERAGENT, "payandshop.com php version 0.9");
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); // this line makes it work under https
-			$response = curl_exec ($ch);
-			echo '<pre/>';print_r($response);exit;
-			curl_close ($ch);
+		// parse the response xml
+		$response = eregi_replace("[\n\r]", "", $response);
+		$response = eregi_replace("[[:space:]]+", " ", $response);
 
-			// parse the response xml
-			$response = eregi_replace ( "[\n\r]", "", $response );
-			$response = eregi_replace ( "[[:space:]]+", " ", $response );
+		if (!xml_parse($xml_parser, $response))
+		{
+			die(sprintf("XML error: %s at line %d",
+				xml_error_string(xml_get_error_code($xml_parser)),
+				xml_get_current_line_number($xml_parser)));
 
-			if (!xml_parse($xml_parser, $response))
-			 {
-			    die(sprintf("XML error: %s at line %d",
-			           xml_error_string(xml_get_error_code($xml_parser)),
-			           xml_get_current_line_number($xml_parser)));
+		}
 
-			}
+		xml_parser_free($xml_parser);
 
-			xml_parser_free($xml_parser);
-
-
-  }
+	}
 
 	function startElement($parser, $name, $attrs)
 	{
-	    global $parentElements;
+		global $parentElements;
 		global $currentElement;
 		global $currentTSSCheck;
 
@@ -102,7 +99,7 @@ class Realex
 				$currentTSSCheck = $value;
 			}
 
-			$attributeName = $currentElement."_".$attr;
+			$attributeName = $currentElement . "_" . $attr;
 			// print out the attributes..
 			//print "$attributeName\n";
 
@@ -116,7 +113,6 @@ class Realex
 
 	}
 
-
 	// cDataHandler() - called when the parser encounters any text that's
 	// not an element. Simply places the text found in the variable that
 	// was last created. So using the XML example above the text "Owen"
@@ -128,8 +124,8 @@ class Realex
 		global $currentTSSCheck;
 		global $TSSChecks;
 
-		if ( trim ( $cdata ) )
-		 {
+		if (trim($cdata))
+		{
 			if ($currentTSSCheck != 0)
 			{
 				$TSSChecks["$currentTSSCheck"] = $cdata;
@@ -141,10 +137,9 @@ class Realex
 
 	}
 
-
 	function endElement($parser, $name)
 	{
-	    global $parentElements;
+		global $parentElements;
 		global $currentTSSCheck;
 
 		$currentTSSCheck = 0;

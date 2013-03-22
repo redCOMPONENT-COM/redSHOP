@@ -1,4 +1,4 @@
-// open modal box
+// Open modal box
 window.addEvent('domready', function() {
 
 	var imgoptions = {handler:'image'};
@@ -95,7 +95,7 @@ var qty = 1;
     
     request = getHTTPObject();
 	request.onreadystatechange=function() {
-		// if request object received response
+		// If request object received response
 		
 		if(request.readyState == 4)
 		{
@@ -279,7 +279,7 @@ function changePropertyDropdown(product_id,accessory_id,relatedprd_id,attribute_
 //	alert(url);
 	request = getHTTPObject();
 	request.onreadystatechange=function() {
-		// if request object received response
+		// If request object received response
 		if(document.getElementById('property_responce'+commonid))
 		{
 			document.getElementById('property_responce'+commonid).style.display = 'none';
@@ -340,7 +340,7 @@ function changePropertyDropdown(product_id,accessory_id,relatedprd_id,attribute_
 			displayAdditionalImage(product_id,accessory_id,relatedprd_id,property_id,0);
 			calculateTotalPrice(product_id,relatedprd_id);
 			
-			// trigger js function via redSHOP Product plugin
+			// Trigger js function via redSHOP Product plugin
 			onchangePropertyDropdown(allarg);
 		}
 	};
@@ -494,7 +494,7 @@ function collectAttributes(product_id,accessory_id,relatedprd_id)
 		}
 	}
 	
-	// removing " USE_STOCKROOM==1 && " from below condition - Gunjan
+	// Removing " USE_STOCKROOM==1 && " from below condition - Gunjan
 	//if(isStock && ALLOW_PRE_ORDER!=1)
 	
 	//alert(preorder_stock);
@@ -554,7 +554,7 @@ function collectAttributes(product_id,accessory_id,relatedprd_id)
 				allpropArr[i] = propArr.join(",,");
 			}
 			//alert(" propArr.length = " + propArr.length);
-			// required check
+			// Required check
 			if(propId.getAttribute('required')==1 && propArr.length==0)
 			{
 				acc_error +=  document.getElementById('att_lebl').innerHTML + " " + unescape(propId.getAttribute('attribute_name')) +"\n";
@@ -591,7 +591,7 @@ function collectAttributes(product_id,accessory_id,relatedprd_id)
 				var preOrderstockElementId = 'property_id_'+commonid+'_preorderstock'+property_id;
 				
 				
-				// removing " USE_STOCKROOM==1 && " from below condition - Gunjan
+				// Removing " USE_STOCKROOM==1 && " from below condition - Gunjan
 				if(document.getElementById(stockElementId) && document.getElementById(preOrderstockElementId) && isStock && accessory_id==0)
 				{
 					//alert(document.getElementById(stockElementId).value);
@@ -887,7 +887,7 @@ function calculateSingleProductPrice(price,oprandElementId,priceElementId,elemen
 	return retArr;
 }
 
-// calculate attribute price
+// Calculate attribute price
 function calculateTotalPrice(product_id,relatedprd_id)
 {
 	
@@ -901,7 +901,7 @@ function calculateTotalPrice(product_id,relatedprd_id)
 	var old_price = 0;
 	var accfinalprice_withoutvat =0;
 	var product_old_price = 0;
-	// accessory price add
+	// Accessory price add
 	var accfinalprice = collectAccessory(product_id,relatedprd_id);
 	
 	
@@ -945,8 +945,8 @@ function calculateTotalPrice(product_id,relatedprd_id)
 	{
 		old_price = parseFloat(document.getElementById('tmp_product_old_price').value);
 	}
-	// end
-    // setting wrapper price
+	// End
+    // Setting wrapper price
     setWrapperComboBox();
     var wprice = 0;
     if(document.getElementById("wrapper_price"))
@@ -958,13 +958,13 @@ function calculateTotalPrice(product_id,relatedprd_id)
     {
     	wrapper_price_withoutvat = document.getElementById("wrapper_price_withoutvat").value;
     }
-    // end wrapper
+    // End wrapper
     
 //    alert("main price = " + mainprice + " : aacc = " + accfinalprice + " : wrapp = " + wprice);
    
 	//var final_price_f = parseFloat(mainprice) + parseFloat(attribute_price) + parseFloat(accfinalprice) + parseFloat(wprice);
     final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
- // product dropdown qunty change multiple by original product price start
+ // Product dropdown qunty change multiple by original product price start
   
     if(document.getElementById('quantity'+prefix) && document.getElementById('quantity'+prefix).type=="select-one")
 	{
@@ -1079,7 +1079,7 @@ function collectAccessory(product_id,relatedprd_id)
 	{
 		prefix = "ajax_";
 	}
-	// elements
+	// Elements
 	if(document.getElementsByName("accessory_id_"+prefix+product_id+"[]"))
 	{
 		dcatt=document.getElementsByName("accessory_id_"+prefix+product_id+"[]");
@@ -1201,13 +1201,13 @@ function collectAccessory(product_id,relatedprd_id)
 	return acc_subatt_price_final;
 }
 
-// formatting number
+// Formatting number
 function number_format (number, decimals, dec_point, thousands_sep) 
 {
     
     var n = number, prec = decimals;
     
-    // converting price
+    // Converting price
     n *= CURRENCY_CONVERT;
     
  
@@ -1239,7 +1239,7 @@ function number_format (number, decimals, dec_point, thousands_sep)
         s += dec+new Array(prec).join(0)+'0';    }
    
     
-    // setting final price with currency Symbol
+    // Setting final price with currency Symbol
     var display_price = "";
     
     
@@ -1514,7 +1514,7 @@ function displayAdditionalImage(product_id,accessory_id,relatedprd_id,selectedpr
 
 		
 		
-		// change extension to lowercase
+		// Change extension to lowercase
 		newhref	= newhref.toLowerCase();
 		
 		if(newhref=="jpg" || newhref=="jpeg" || newhref=="png" || newhref=="gif" || newhref=="bmp")
@@ -1530,7 +1530,7 @@ function displayAdditionalImage(product_id,accessory_id,relatedprd_id,selectedpr
 	request = getHTTPObject();
 	request.onreadystatechange=function() {
 		
-		// if request object received response
+		// If request object received response
 		
 		if(request.readyState == 4 )
 		{
@@ -1638,7 +1638,7 @@ function displayAdditionalImage(product_id,accessory_id,relatedprd_id,selectedpr
 			var imgoptions = {handler:'image'};
 			redBOX.initialize({});
 			redBOX.assign($$("a[rel='myallimg']"), imgoptions);
-			// preload slimbox
+			// Preload slimbox
 			preloadSlimbox();
 			
 			
@@ -1649,7 +1649,7 @@ function displayAdditionalImage(product_id,accessory_id,relatedprd_id,selectedpr
 	request.send(null);
 }
 
-// ajax slimbox load function
+// Ajax slimbox load function
 function preloadSlimbox(){
 	
 	$(document).ready(function() {
@@ -1770,7 +1770,7 @@ function discountCalculation(proid)
 		globalcalUnit = document.getElementById('calc_unit').value;	
 	}
 
-	// new extra enhancement of discount calculator added
+	// New extra enhancement of discount calculator added
 	var pdcoptionid = new Array();
 	if(document.getElementsByName('pdc_option_name[]')){
 		
@@ -1816,7 +1816,7 @@ function discountCalculation(proid)
 				
 				areaPrice = areaPrice.split("\n");
 							
-				// get quantity
+				// Get quantity
 				
 				var eld = document.getElementsByName('quantity');
 				for(var g=0;g<eld.length;g++){
@@ -1831,7 +1831,7 @@ function discountCalculation(proid)
 						}
 					}
 				}
-				// end
+				// End
 				
 				
 				total_area = areaPrice[0];
@@ -1842,7 +1842,7 @@ function discountCalculation(proid)
 				price_excl_vat = areaPrice[7];
 				
 				
-				// format numbers	
+				// Format numbers	
 				var formatted_price_per_area = number_format(price_per_area,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
 				
 				var formatted_price_per_piece = number_format(price_per_piece,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
@@ -1895,7 +1895,7 @@ function discountCalculation(proid)
 							document.getElementById('product_price_incl_vat'+proid).innerHTML = formatted_product_price_excl_vat;
 						 }
 						
-						// set product main price as price total for dynamic price change
+						// Set product main price as price total for dynamic price change
 						document.getElementById('main_price'+proid).value	=	product_price_excl_vat;
 					}
 				}
@@ -2071,7 +2071,7 @@ function displayAddtocartForm(frmCartName,product_id,relatedprd_id,giftcard_id,f
 	var cal_fieldNamefrmId = "";
 	for ( cal_i=0;cal_i<cal_el.length;cal_i++ ) 
 	{
-		// do stuff here with myEls[i]
+		// Do stuff here with myEls[i]
 		var calImgId = cal_el[cal_i].id;
 		arr =  calImgId.split("_img");
 		n = arr.length;
@@ -2258,7 +2258,7 @@ function setAddtocartForm(frmCartName,product_id)
 		}
 	}
 	
-	// new extra enhancement of discount calculator added
+	// New extra enhancement of discount calculator added
 	var pdcoptionid = new Array();
 	if(document.getElementsByName('pdc_option_name[]')){
 		
@@ -2347,7 +2347,7 @@ function checkAddtocartValidation(frmCartName,product_id,relatedprd_id,giftcard_
 		 */
 		var ntotal = parseInt(totAttribute) + parseInt(totAccessory) + parseInt(totUserfield);
 //		alert(parseInt(totAttribute) + " = "+ parseInt(totAccessory) + " = " + parseInt(totUserfield));
-		// submit form from product detail page
+		// Submit form from product detail page
 		/* 
 		 * ntotal = count total attribute + extra fields 
 		 * if attribute is not available then cart will submit directly
@@ -2383,13 +2383,13 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 		layout = document.getElementById('isAjaxBoxOpen').value;
 	}
 	var attdata=0,setatt=1,qty=1,setacc=0;
-	// get form
+	// Get form
 	var formname = document.getElementById(frmCartName);
 	
-	// get multiple extra fields attributes
+	// Get multiple extra fields attributes
 	var extrafields = document.getElementsByName('extrafields'+product_id+'[]');
 	
-	// intialized Userfield Name( comma seprated ) 
+	// Intialized Userfield Name( comma seprated ) 
 	var extrafieldNames = "";
 	var previousfieldName = "";
 	var fieldNamefrmId = "";
@@ -2403,13 +2403,13 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 	for(var ex=0;ex<extrafields.length;ex++){
 		
 		if(!extrafields[ex].value && extrafields[ex].type=='text'){
-			extrafieldNames += extrafields[ex].id ; 	// make Id as Name
+			extrafieldNames += extrafields[ex].id ; 	// Make Id as Name
 			if((extrafields.length-1) != ex){
 				extrafieldNames += ',';
 			}	
 		}
 		else if(!extrafields[ex].value && extrafields[ex].type=='select-one'){
-			extrafieldNames += extrafields[ex].id ; 	// make Id as Name
+			extrafieldNames += extrafields[ex].id ; 	// Make Id as Name
 			if((extrafields.length-1) != ex){
 				extrafieldNames += ',';
 			}	
@@ -2417,7 +2417,7 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 		else if(!extrafields[ex].value && extrafields[ex].type=='hidden'){
 			imgfieldNamefrmId = reverseString(extrafields[ex].id);
 			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_")+1));
-			extrafieldNames += imgfieldNamefrmId ; 	// make Id as Name
+			extrafieldNames += imgfieldNamefrmId ; 	// Make Id as Name
 			if((extrafields.length-1) != ex){
 				extrafieldNames += ',';
 			}
@@ -2493,7 +2493,7 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 
 	var cal_fieldNamefrmId = "";
 	for ( cal_i=0;cal_i<cal_el.length;cal_i++ ) {
-		// do stuff here with myEls[i]
+		// Do stuff here with myEls[i]
 		 var calImgId = cal_el[cal_i].id;
 		 
 		 arr =  calImgId.split("_img");
@@ -2590,13 +2590,13 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 				redBOX.initialize({});
 				document.attbox = redBOX.open(null,options);
 				
-				// preload slimbox
+				// Preload slimbox
 				//preloadSlimbox();
 		
 				var el = document.RedgetElementsByClassName('calendar');
 					
 				for ( i=0;i<el.length;i++ ) {
-					// do stuff here with myEls[i]
+					// Do stuff here with myEls[i]
 					 var calImgId = el[i].id;
 					 arr =  calImgId.split("_img");
 					 n = arr.length;
@@ -2606,11 +2606,11 @@ function displayAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,
 					 if((calImgId.search('ajax')!=-1) && (extrafieldNames.search(realname[0]) !=-1) )
 					 {
 						 window.addEvent('domready', function() {Calendar.setup({
-							 inputField     :    calName,     // id of the input field
-							 ifFormat       :    "%d-%m-%Y",      // format of the input field
+							 inputField     :    calName,     // Id of the input field
+							 ifFormat       :    "%d-%m-%Y",      // Format of the input field
 							
-							 button         :    el[i].id,  // trigger for the calendar (button ID)
-							align          :    "Tl",           // alignment (defaults to "Bl")
+							 button         :    el[i].id,  // Trigger for the calendar (button ID)
+							align          :    "Tl",           // Alignment (defaults to "Bl")
 							singleClick    :    true
 						});});
 					 }
@@ -2642,13 +2642,13 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	var qty = 1;
 	var id = '';
 	var set=false;
-	// calculator variables
+	// Calculator variables
 	var calHeight=0,calWidth=0;
 		
-	// get multiple extra fields attributes
+	// Get multiple extra fields attributes
 	var extrafields = document.getElementsByName('extrafields'+product_id+'[]');
 	
-	// intialize defaults
+	// Intialize defaults
 	var extrafieldName = "";
 	var extrafieldVal = "";
 	var extrafieldpost = "";
@@ -2771,8 +2771,8 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 			imgfieldNamefrmId = reverseString(extrafields[ex].id);
 			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_")+1));
 			
-			extrafieldName = imgfieldNamefrmId ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = imgfieldNamefrmId ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;
 			extrafieldVal = "";
 		}
@@ -2789,8 +2789,8 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 			}
 			
 
-			extrafieldName = extrafields[ex].id ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = extrafields[ex].id ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;			
 		}
 	}
@@ -2799,7 +2799,7 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	var cal_fieldNamefrmId = "";
 	for ( cal_i=0;cal_i<cal_el.length;cal_i++ ) 
 	{
-		// do stuff here with myEls[i]
+		// Do stuff here with myEls[i]
 		var calImgId = cal_el[cal_i].id;
 		 
 		arr =  calImgId.split("_img");
@@ -2881,7 +2881,7 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	{
 		params = params + "&calcUnit=" + frm.calcUnit.value;
 	}	
-	// pdc extra data
+	// Pdc extra data
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;	
 	
 	params = params + subscription_data + extrafieldpost;	
@@ -2889,7 +2889,7 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 	
 	/* Remove because of late resopnce of first call causing bug in Ajax cart*/
 	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
-	 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+	 var ffversion=new Number(RegExp.$1) // Capture x.x portion and store as a number
 	 if (ffversion<5){
 		 request.open("POST", url, true);
 	 }else{
@@ -2926,7 +2926,7 @@ function submitAjaxCartdetail(frmCartName,product_id,relatedprd_id,giftcard_id,t
 				}
 			}
 				
-			// cart module						
+			// Cart module						
 					
 			if(document.getElementById('mod_cart_total') && responce[1])			
 			{
@@ -3083,7 +3083,7 @@ function checkAddtocartwishlistValidation(frmCartName,product_id,relatedprd_id,g
 		 */
 //		var ntotal = parseInt(totAttribute) + parseInt(totAccessory) + parseInt(totUserfield);
 //		alert(parseInt(totAttribute) + " = "+ parseInt(totAccessory) + " = " + parseInt(totUserfield));
-		// submit form from product detail page
+		// Submit form from product detail page
 		/* 
 		 * ntotal = count total attribute + extra fields 
 		 * if attribute is not available then cart will submit directly
@@ -3182,14 +3182,14 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 	var qty = 1;
 	var id = '';
 	var set=false;
-	// calculator variables
+	// Calculator variables
 	var calHeight=0,calWidth=0;
 	
 	
-	// get multiple extra fields attributes
+	// Get multiple extra fields attributes
 	var extrafields = document.getElementsByName('extrafields'+product_id+'[]');
 	
-	// intialize defaults
+	// Intialize defaults
 	var extrafieldName = "";
 	var extrafieldVal = "";
 	var extrafieldpost = "";
@@ -3312,14 +3312,14 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 			imgfieldNamefrmId = reverseString(extrafields[ex].id);
 			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_")+1));
 			
-			extrafieldName = imgfieldNamefrmId ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = imgfieldNamefrmId ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;
 			extrafieldVal = "";
 		}else if(extrafields[ex].type=='text'){
 			
-			extrafieldName = extrafields[ex].id ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = extrafields[ex].id ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;
 			
 		}
@@ -3336,8 +3336,8 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 			}
 			
 
-			extrafieldName = extrafields[ex].id ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = extrafields[ex].id ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;			
 		}
 	}
@@ -3346,7 +3346,7 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 	var cal_fieldNamefrmId = "";
 	for ( cal_i=0;cal_i<cal_el.length;cal_i++ ) 
 	{
-		// do stuff here with myEls[i]
+		// Do stuff here with myEls[i]
 		var calImgId = cal_el[cal_i].id;
 		 
 		arr =  calImgId.split("_img");
@@ -3431,7 +3431,7 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 	{
 		params = params + "&calcUnit=" + frm.calcUnit.value;
 	}	
-	// pdc extra data
+	// Pdc extra data
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;	
 	
 	params = params + subscription_data + extrafieldpost;	
@@ -3514,7 +3514,7 @@ function submitAjaxwishlistCartdetail(frmCartName,product_id,relatedprd_id,giftc
 			//	}
 			//}	
 			
-			// cart module						
+			// Cart module						
 				
 			if(document.getElementById('mod_cart_total') && responce[1])			
 			{
@@ -3652,14 +3652,14 @@ function addmywishlist(frmCartName,product_id,myitemid){
 			imgfieldNamefrmId = reverseString(extrafields[ex].id);
 			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_")+1));
 			
-			extrafieldName = imgfieldNamefrmId ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = imgfieldNamefrmId ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;
 			extrafieldVal = "";
 		}else if(extrafields[ex].type=='text'){
 			
-			extrafieldName = extrafields[ex].id ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = extrafields[ex].id ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;
 			
 		}
@@ -3676,8 +3676,8 @@ function addmywishlist(frmCartName,product_id,myitemid){
 			}
 			
 
-			extrafieldName = extrafields[ex].id ; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
+			extrafieldName = extrafields[ex].id ; 	// Make Id as Name
+			extrafieldVal = extrafields[ex].value;	// Get extra field value
 			extrafieldpost += "&"+extrafieldName + "="+extrafieldVal;			
 		}
 		
@@ -3688,7 +3688,7 @@ function addmywishlist(frmCartName,product_id,myitemid){
 	var cal_fieldNamefrmId = "";
 	for ( cal_i=0;cal_i<cal_el.length;cal_i++ ) 
 	{
-		// do stuff here with myEls[i]
+		// Do stuff here with myEls[i]
 		var calImgId = cal_el[cal_i].id;
 		 
 		arr =  calImgId.split("_img");

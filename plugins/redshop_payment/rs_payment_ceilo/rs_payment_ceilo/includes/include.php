@@ -8,27 +8,23 @@ define('VERSAO', "1.1.0");
 
 //session_start();
 
-if(!isset($_SESSION["pedidos"]))
+if (!isset($_SESSION["pedidos"]))
 {
-	$_SESSION["pedidos"] = new ArrayObject();
+	$_SESSION["pedidos"] = new ArrayObject;
 }
-
-
 
 // CONSTANTES
 define("ENDERECO_BASE", "https://qasecommerce.cielo.com.br");
-define("ENDERECO", ENDERECO_BASE."/servicos/ecommwsec.do");
+define("ENDERECO", ENDERECO_BASE . "/servicos/ecommwsec.do");
 
 /*define("LOJA", "1006993069");
 define("LOJA_CHAVE", "25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3");
 define("CIELO", "1001734898");
 define("CIELO_CHAVE", "e84827130b9837473681c2787007da5914d6359947015a5cdb2b8843db0fa832");*/
 
-
 // Envia requisi��o
-function httprequest($paEndereco, $paPost){
-
-
+function httprequest($paEndereco, $paPost)
+{
 	$sessao_curl = curl_init();
 	curl_setopt($sessao_curl, CURLOPT_URL, $paEndereco);
 
@@ -44,7 +40,7 @@ function httprequest($paEndereco, $paPost){
 	//  CURLOPT_SSL_CAINFO
 	//  informa a localiza��o do certificado para verifica��o com o peer
 	curl_setopt($sessao_curl, CURLOPT_CAINFO, getcwd() .
-			"/plugins/redshop_payment/rs_payment_ceilo/ssl/VeriSignClass3PublicPrimaryCertificationAuthority-G5.crt");
+		"/plugins/redshop_payment/rs_payment_ceilo/ssl/VeriSignClass3PublicPrimaryCertificationAuthority-G5.crt");
 	curl_setopt($sessao_curl, CURLOPT_SSLVERSION, 3);
 //echo getcwd()."/plugins/redshop_payment/rs_payment_ceilo/ssl/VeriSignClass3PublicPrimaryCertificationAuthority-G5.crt";//die();
 	//  CURLOPT_CONNECTTIMEOUT
@@ -61,11 +57,9 @@ function httprequest($paEndereco, $paPost){
 	curl_setopt($sessao_curl, CURLOPT_RETURNTRANSFER, true);
 
 	curl_setopt($sessao_curl, CURLOPT_POST, true);
-	curl_setopt($sessao_curl, CURLOPT_POSTFIELDS, $paPost );
+	curl_setopt($sessao_curl, CURLOPT_POSTFIELDS, $paPost);
 
 	$resultado = curl_exec($sessao_curl);
-
-
 
 	curl_close($sessao_curl);
 
@@ -88,7 +82,9 @@ function httprequest($paEndereco, $paPost){
 	{
 		$pageURL .= 's';
 	}
+
 	$pageURL .= "://";
+
 	if ($_SERVER["SERVER_PORT"] != "80")
 	{
 		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
