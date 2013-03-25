@@ -21,7 +21,9 @@ JLoader::import('joomla.application.component.controller');
 class LoginController extends JController
 {
 	/**
-	 *  setlogin function
+	 *  Setlogin function
+	 *
+	 * @return  void
 	 */
 	public function setlogin()
 	{
@@ -34,7 +36,7 @@ class LoginController extends JController
 		$mywishlist = JRequest::getVar('mywishlist');
 		$item = $menu->getItem($returnitemid);
 
-		include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+		include_once JPATH_COMPONENT . '/helpers/helper.php';
 		$redhelper = new redhelper;
 
 		$model = & $this->getModel('login');

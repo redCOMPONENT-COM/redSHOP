@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php');
 
 /**
  *  cron class
@@ -360,7 +360,7 @@ class Cron
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
-		JTable::addIncludePath(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
+		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
 		foreach ($data as $mail_detail)
 		{

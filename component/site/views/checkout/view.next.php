@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class checkoutViewcheckout extends JView
 {
@@ -88,7 +88,7 @@ class checkoutViewcheckout extends JView
 
 		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentinfo     = $paymentinfo[0];
-		$paymentpath     = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentinfo->element . DS . $paymentinfo->element . '.xml';
+		$paymentpath     = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentinfo->element . DS . $paymentinfo->element . '.xml';
 		$paymentparams   = new JRegistry($paymentinfo->params);
 		$is_creditcard   = $paymentparams->get('is_creditcard', '');
 		$is_subscription = $paymentparams->get('is_subscription', 0);

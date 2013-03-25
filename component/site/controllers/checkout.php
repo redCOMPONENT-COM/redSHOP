@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
 
 /**
  * Checkout Controller.
@@ -691,7 +691,7 @@ class CheckoutController extends JController
 	 */
 	public function captcha()
 	{
-		require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'captcha.php';
+		require_once JPATH_COMPONENT_SITE . '/helpers/captcha.php';
 
 		// Isset($_GET['width']) ? $_GET['width'] : '120';
 		$width = JRequest::getInt('width', 120);

@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 JLoader::import('joomla.application.component.controller');
 
 /**

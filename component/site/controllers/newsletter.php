@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+include_once JPATH_COMPONENT . '/helpers/user.php';
 
 /**
  * Newsletter Controller.
@@ -24,6 +24,8 @@ class NewsletterController extends JController
 {
 	/**
 	 *  Method to subscribe newsletter
+	 *
+	 * @return  void
 	 */
 	public function subscribe()
 	{
@@ -76,6 +78,8 @@ class NewsletterController extends JController
 
 	/**
 	 *  Method to unsubscribe newsletter
+	 *
+	 * @return void
 	 */
 	public function unsubscribe()
 	{

@@ -29,7 +29,7 @@ class redPagination extends JPagination
 		// Pagination = 1 - redSHOP pagination
 		if (PAGINATION == 0)
 		{
-			$templatefile_path = JPATH_THEMES . DS . $app->getTemplate() . DS . 'html' . DS . 'pagination.php';
+			$templatefile_path = JPATH_THEMES . DS . $app->getTemplate() . '/html/pagination.php';
 
 			if (file_exists($templatefile_path))
 			{

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 
 JLoader::import('joomla.application.component.view');
 
@@ -38,7 +38,7 @@ class reddesignViewreddesign extends JView
 		$pid = JRequest::getInt('pid');
 		$cid = JRequest::getInt('cid');
 
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+		require_once JPATH_COMPONENT . '/helpers/helper.php';
 		$redhelper = new redhelper;
 
 		$chkprodesign = $redhelper->CheckIfRedProduct($pid);

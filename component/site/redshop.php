@@ -16,23 +16,23 @@ $option = JRequest::getCmd('option');
 $view   = JRequest::getVar('view');
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'helpers' . DS . 'redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'helpers' . DS . 'configuration.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'helpers' . DS . 'template.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'helpers' . DS . 'stockroom.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'helpers' . DS . 'economic.php';
+require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/template.php';
+require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/stockroom.php';
+require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/economic.php';
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 JLoader::import('joomla.html.pagination');
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cron.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'statistic.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'pagination.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'currency.php';
+require_once JPATH_COMPONENT . '/helpers/cron.php';
+require_once JPATH_COMPONENT . '/helpers/statistic.php';
+require_once JPATH_COMPONENT . '/helpers/pagination.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/currency.php';
 
 // Helper object
 $helper = new redhelper;
@@ -57,7 +57,7 @@ $Itemid = JRequest::getInt('Itemid', $Itemid);
 $Itemid = $helper->getCartItemid($Itemid);
 
 // Include redshop js file.
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.js.php';
+require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
 
 $controller = JRequest::getCmd('view', 'category');
 
@@ -94,7 +94,7 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
+			require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
 
 			$google_ana = new googleanalytics;
 
@@ -173,13 +173,13 @@ else
 
 
 // Set the controller page
-if (!file_exists(JPATH_COMPONENT . DS . 'controllers' . DS . $controller . '.php'))
+if (!file_exists(JPATH_COMPONENT . '/controllers' . DS . $controller . '.php'))
 {
 	$controller = 'category';
 	JRequest::setVar('view', 'category');
 }
 
-require_once JPATH_COMPONENT . DS . 'controllers' . DS . $controller . '.php';
+require_once JPATH_COMPONENT . '/controllers' . DS . $controller . '.php';
 
 // Set the controller page
 

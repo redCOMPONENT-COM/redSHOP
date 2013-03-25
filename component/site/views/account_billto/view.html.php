@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 class Account_billtoViewaccount_billto extends JView
 {

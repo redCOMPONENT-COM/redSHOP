@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 
 /**
  * Quotation Detail Controller.

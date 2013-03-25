@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper = new producthelper;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 $order_functions = new order_functions;
 
 $url = JURI::base();
@@ -67,11 +67,11 @@ $is_creditcard = 0;
 			<?php
 			$paymentmethod = $order_functions->getPaymentMethodInfo();
 
-			$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+			$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
 			for ($p = 0; $p < count($paymentmethod); $p++)
 			{
-				$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod[$p]->plugin . DS . $paymentmethod[$p]->plugin . '.php';
+				$paymentpath = $adminpath . '/helpers/payments' . DS . $paymentmethod[$p]->plugin . DS . $paymentmethod[$p]->plugin . '.php';
 				include_once $paymentpath;
 
 				// $payment_class = new $paymentmethod[$p]->payment_class;
@@ -347,4 +347,3 @@ $is_creditcard = 0;
 		</form>
 	</div>
 </fieldset>
- 

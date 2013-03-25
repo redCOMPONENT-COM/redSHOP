@@ -13,11 +13,11 @@ $url         = JURI::base();
 $redconfig   = new Redconfiguration;
 $extra_field = new extra_field;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_COMPONENT . '/helpers/cart.php';
 
 $producthelper   = new producthelper;
 $redhelper       = new redhelper;

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
 /**
  * Class split_paymentModelsplit_payment
@@ -62,7 +62,7 @@ class split_paymentModelsplit_payment extends JModel
 		$user            = JFactory::getUser();
 		$order_functions = new order_functions;
 
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$user      = JFactory::getUser();
 		/*$users_info_id = JRequest::getVar ( 'users_info_id' );
 		$shipping_rate_id = JRequest::getVar ( 'shipping_rate_id' );*/
@@ -128,7 +128,7 @@ class split_paymentModelsplit_payment extends JModel
 			}
 
 
-			$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
+			$paymentpath = $adminpath . '/helpers/payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
 			include_once $paymentpath;
 
 			$payment_class = new $paymentmethod->payment_class;

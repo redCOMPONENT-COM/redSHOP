@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
 
 class product_miniViewproduct_mini extends JView
 {

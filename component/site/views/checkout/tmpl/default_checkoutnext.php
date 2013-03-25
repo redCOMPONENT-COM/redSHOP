@@ -29,12 +29,12 @@ $user = JFactory::getUser();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+include_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
+include_once JPATH_COMPONENT . '/helpers/user.php';
+include_once JPATH_COMPONENT . '/helpers/helper.php';
 
 $carthelper = new rsCarthelper;
 $producthelper = new producthelper;
