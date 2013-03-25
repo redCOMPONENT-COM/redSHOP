@@ -413,11 +413,16 @@ class redhelper
 	//  function to get preorder option list
 	public function getPreOrderByList()
 	{
-		$preorder_data           = array();
+		$preorder_data = array();
+		$preorder_data[0] = new stdClass;
 		$preorder_data[0]->value = "global";
 		$preorder_data[0]->text  = JText::_('COM_REDSHOP_GLOBAL');
+
+		$preorder_data[1] = new stdClass;
 		$preorder_data[1]->value = "yes";
 		$preorder_data[1]->text  = JText::_('COM_REDSHOP_YES');
+
+		$preorder_data[2] = new stdClass;
 		$preorder_data[2]->value = "no";
 		$preorder_data[2]->text  = JText::_('COM_REDSHOP_NO');
 
@@ -427,9 +432,12 @@ class redhelper
 	//  function to get child product option list
 	public function getChildProductOption()
 	{
-		$childproduct_data           = array();
+		$childproduct_data = array();
+		$childproduct_data[0] = new stdClass;
 		$childproduct_data[0]->value = "product_name";
 		$childproduct_data[0]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NAME');
+
+		$childproduct_data[1] = new stdClass;
 		$childproduct_data[1]->value = "product_number";
 		$childproduct_data[1]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NUMBER');
 
@@ -992,7 +1000,7 @@ class redhelper
 	 * Set as boolean - check login user is redCRM contact person as well
 	 *
 	 * @return   boolean
-	 * 
+	 *
 	 * @since    1.0
 	 */
 	public function isredCRM()
