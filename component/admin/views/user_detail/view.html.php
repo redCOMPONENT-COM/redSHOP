@@ -36,7 +36,7 @@ class user_detailVIEWuser_detail extends JView
 		$this->setLayout('default');
 
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->users_info_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -61,7 +61,7 @@ class user_detailVIEWuser_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 		$model = $this->getModel('user_detail');
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		$user_groups = $userhelper->getUserGroupList($detail->users_info_id);
 		$detail->user_groups = $user_groups;

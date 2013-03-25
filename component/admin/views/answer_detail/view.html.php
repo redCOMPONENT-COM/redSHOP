@@ -27,7 +27,7 @@ class answer_detailVIEWanswer_detail extends JView
 		$lists = array();
 		$model = $this->getModel();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 		$qdetail= $producthelper->getQuestionAnswer($detail->parent_id);
 
 		if(count($qdetail)>0)

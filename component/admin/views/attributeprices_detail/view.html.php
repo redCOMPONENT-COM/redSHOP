@@ -18,7 +18,7 @@ class attributeprices_detailVIEWattributeprices_detail extends JView
 		$uri = JFactory::getURI();
 
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$model = $this->getModel('attributeprices_detail');
 		$property = $model->getPropertyName();

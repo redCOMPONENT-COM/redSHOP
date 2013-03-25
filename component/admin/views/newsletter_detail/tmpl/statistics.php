@@ -15,6 +15,7 @@ $model = $this->getModel('newsletter_detail');
 $newsletter_list = $model->getNewsletterList();
 
 $sel = array();
+$sel[0] = new stdClass;
 $sel[0]->newsletter_id = 0;
 $sel[0]->text = JText::_('COM_REDSHOP_SELECT');
 $newsletter_list = array_merge($sel, $newsletter_list);

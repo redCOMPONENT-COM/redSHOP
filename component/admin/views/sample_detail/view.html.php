@@ -36,7 +36,7 @@ class sample_detailVIEWsample_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$layout = JRequest::getVar('layout', 'default');
 

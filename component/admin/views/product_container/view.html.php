@@ -59,9 +59,9 @@ class product_containerViewproduct_container extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$products = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$products = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$lists['filter_supplier'] = $model->getsupplierlist('filter_supplier', $filter_supplier,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'

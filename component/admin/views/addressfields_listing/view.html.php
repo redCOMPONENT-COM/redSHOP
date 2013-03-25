@@ -29,9 +29,9 @@ class addressfields_listingViewaddressfields_listing extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$fields = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$section_id = $mainframe->getUserStateFromRequest($context . 'section_id', 'section_id', 0);
 
