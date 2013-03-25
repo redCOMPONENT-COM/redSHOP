@@ -21,7 +21,7 @@ class quotationViewquotation extends JView
 		$context = 'quotation_id';
 		$quotationHelper = new quotationHelper;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_quotation'));
 		$model = $this->getModel('quotation');
 
@@ -30,7 +30,7 @@ class quotationViewquotation extends JView
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');

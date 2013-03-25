@@ -19,7 +19,7 @@ class shipping
 		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->producthelper = new producthelper();
-		$this->_db = & JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 	function getDeliveryTimeOfProduct($product_id)
@@ -43,7 +43,7 @@ class shipping
 
 	function getRegularDelivery()
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		if (!$cart)
 		{
@@ -105,7 +105,7 @@ class shipping
 	function getSplitDelivery()
 	{
 
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 
 		$cart = $session->get('cart');
 
@@ -267,9 +267,9 @@ class shipping
 	function getDefaultShipping($d)
 	{
 		$userhelper = new rsUserhelper();
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$user_id = $user->id;
 
 		$totaldimention = $this->getCartItemDimention();
@@ -472,9 +472,9 @@ class shipping
 	function getDefaultShipping_xmlexport($d)
 	{
 		$userhelper = new rsUserhelper();
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$user_id = $user->id;
 
 		$data = $this->producthelper->getProductById($d['product_id']);
@@ -667,7 +667,7 @@ class shipping
 		$zip = JRequest :: getVar('zip_code');
 		$ordertotal = 0;
 		$rate = 0;
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 
 		$cart = $session->get('cart');
 
@@ -949,7 +949,7 @@ class shipping
 		$totaldimention = $this->getCartItemDimention();
 		$weighttotal = $totaldimention['totalweight'];
 		$volume = $totaldimention['totalvolume'];
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 
 		$cart = $session->get('cart');
 		$idx = ( int ) ($cart ['idx']);
@@ -1158,8 +1158,8 @@ class shipping
 
 	function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
 	{
-		$user =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$user = JFactory::getUser();
+		$session = JFactory::getSession();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1314,7 +1314,7 @@ class shipping
 	 */
 	function getProductVolumeShipping()
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$idx = ( int ) ($cart ['idx']);
 
@@ -1400,7 +1400,7 @@ class shipping
 
 	function getCartItemDimention()
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$idx = ( int ) ($cart ['idx']);
 
@@ -1658,7 +1658,7 @@ class shipping
 
 	function isProductDetailMatch(&$d)
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$idx = (int) ($cart['idx']);
 
@@ -1713,7 +1713,7 @@ class shipping
 	function getfreeshippingRate($shipping_rate_id = 0)
 	{
 		$userhelper = new rsUserhelper();
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart', $cart);
 		$idx = ( int ) ($cart ['idx']);
 		$order_subtotal = $cart['product_subtotal'];

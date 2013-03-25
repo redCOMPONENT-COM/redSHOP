@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-$now =& JFactory::getDate();
+$now = JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

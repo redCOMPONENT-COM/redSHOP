@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 JHTMLBehavior::modal();

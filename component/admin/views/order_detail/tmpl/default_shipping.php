@@ -9,7 +9,7 @@
 defined('_JEXEC') or die ('restricted access');
 
 $adminproducthelper = new adminproducthelper();
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 
 $shipp_users_info_id = $session->get('shipp_users_info_id');
 $shipping_box_post_id = 0;

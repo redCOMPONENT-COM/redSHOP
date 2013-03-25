@@ -15,8 +15,8 @@ $producthelper = new producthelper();
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('question_detail');
-$editor =& JFactory::getEditor();
-$uri = & JURI::getInstance();
+$editor = JFactory::getEditor();
+$uri = JURI::getInstance();
 $url = $uri->root();    ?>
 
 <script language="javascript" type="text/javascript">

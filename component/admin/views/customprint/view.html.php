@@ -17,7 +17,7 @@ class customprintViewcustomprint extends JView
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CUSTOM_VIEWS'));
 		$layout = JRequest::getVar('layout');
 

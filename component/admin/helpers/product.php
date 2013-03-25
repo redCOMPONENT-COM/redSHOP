@@ -26,7 +26,7 @@ class adminproducthelper
 
 	function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
 	{
-		$uri = & JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$redconfig = new Redconfiguration();
 		$producthelper = new producthelper();
@@ -76,7 +76,7 @@ class adminproducthelper
 
 	function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
 	{
-		$uri = & JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$producthelper = new producthelper();
 		$attributelist = "";
@@ -272,7 +272,7 @@ class adminproducthelper
 			$shippingmethod = $order_functions->getShippingMethodInfo();
 
 			JPluginHelper::importPlugin('redshop_shipping');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
 			$ratearr = array();

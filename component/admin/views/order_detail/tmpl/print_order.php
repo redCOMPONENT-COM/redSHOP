@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 $carthelper = new rsCarthelper();
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $redTemplate = new Redtemplate();
 $OrdersDetail = $this->detail;

@@ -29,7 +29,7 @@ class order_functions
 		global $mainframe, $context;
 		$this->_table_prefix = '#__redshop_';
 		$this->_table_prefix_crm = '#__redcrm_';
-		$this->_db =& JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 	function resetOrderId()
@@ -111,7 +111,7 @@ class order_functions
 			$values['billinginfo'] = $this->getOrderBillingUserInfo($order_id);
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$data = $dispatcher->trigger('onCapture_Payment' . $result[0]->element, array($result[0]->element, $values));
 			$results = $data[0];
 
@@ -119,7 +119,7 @@ class order_functions
 			{
 				$message = $results->message;
 
-				$orderstatuslog =& JTable::getInstance('order_status_log', 'Table');
+				$orderstatuslog = JTable::getInstance('order_status_log', 'Table');
 				$orderstatuslog->order_id = $order_id;
 				$orderstatuslog->order_status = $order_status_code;
 				$orderstatuslog->date_changed = time();
@@ -140,7 +140,7 @@ class order_functions
 			$values["order_userid"] = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			// get status and refund if capture/cancel if authorize (for quickpay only)
 			$data = $dispatcher->trigger('onStatus_Payment' . $result[0]->element, array($result[0]->element, $values));
 			$results = $data[0];
@@ -148,7 +148,7 @@ class order_functions
 			if (!empty($data))
 			{
 				$message = $results->message;
-				$orderstatuslog =& JTable::getInstance('order_status_log', 'Table');
+				$orderstatuslog = JTable::getInstance('order_status_log', 'Table');
 				$orderstatuslog->order_id = $order_id;
 				$orderstatuslog->order_status = $newstatus;
 				$orderstatuslog->date_changed = time();
@@ -347,8 +347,8 @@ class order_functions
 	{
 		$helper = new redhelper();
 
-		$mainframe =& JFactory::getApplication('site');
-		$user =& JFactory::getUser();
+		$mainframe = JFactory::getApplication('site');
+		$user = JFactory::getUser();
 
 		$order_id = $data->order_id;
 
@@ -412,7 +412,7 @@ class order_functions
 			{
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $data->order_status_code, $data->order_payment_status_code));
 
 			}
@@ -696,7 +696,7 @@ class order_functions
 		{
 			$this->updateOrderPaymentStatus($order_id, $paymentstatus);
 		}
-		$order_log =& JTable::getInstance('order_status_log', 'Table');
+		$order_log = JTable::getInstance('order_status_log', 'Table');
 		if (!$isproduct)
 		{
 			$data['order_id'] = $order_id;
@@ -725,7 +725,7 @@ class order_functions
 
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
 			}
@@ -734,7 +734,7 @@ class order_functions
 			{
 
 				JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models');
-				$checkoutModelcheckout =& JModel::getInstance('checkout', 'checkoutModel');
+				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -914,7 +914,7 @@ class order_functions
 			$isproduct = JRequest::getVar('isproduct');
 
 			// Add status log...
-			$order_log =& JTable::getInstance('order_status_log', 'Table');
+			$order_log = JTable::getInstance('order_status_log', 'Table');
 			$data['order_id'] = $oid[0];
 			$data['customer_note'] = $c_note;
 
@@ -942,7 +942,7 @@ class order_functions
 			{
 
 				JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models');
-				$checkoutModelcheckout =& JModel::getInstance('checkout', 'checkoutModel');
+				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail
@@ -965,7 +965,7 @@ class order_functions
 
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger('onChangeStatusToShipped', array($oid[0], $newstatus, $paymentstatus));
 
 			}
@@ -1148,7 +1148,7 @@ class order_functions
 
 	function getUserOrderDetails($user_id = 0, $order_id = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1246,10 +1246,10 @@ class order_functions
 		$helper = new redhelper();
 		$option = JRequest::getVar('option');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		# get Joomla Session
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		# get redCRM Contact person session array
 		$isredcrmuser = $session->get('isredcrmuser', false);
@@ -1331,10 +1331,10 @@ class order_functions
 	{
 		$helper = new redhelper();
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		# get Joomla Session
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		# get redCRM Contact person session array
 		$isredcrmuser = $session->get('isredcrmuser', false);
@@ -1432,7 +1432,7 @@ class order_functions
 	function getUserFullname($user_id)
 	{
 		$fullname = "";
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
@@ -1757,7 +1757,7 @@ class order_functions
 
 		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$objorder = new order_functions();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$userbillinginfo = $this->getOrderBillingUserInfo($row->order_id);
 
@@ -1798,7 +1798,7 @@ class order_functions
 			}
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$results = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 		}
@@ -2112,7 +2112,7 @@ class order_functions
 		$redconfig = new Redconfiguration();
 		$producthelper = new producthelper();
 		$extra_field = new extra_field();
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$redTemplate = new Redtemplate();
 		$carthelper = new rsCarthelper();
 		$redshopMail = new redshopMail();
@@ -2165,7 +2165,7 @@ class order_functions
 		$message = str_replace($search, $replace, $message);
 
 		$message = $redshopMail->imginmail($message);
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$billingaddresses = $this->getOrderBillingUserInfo($order_id);
 		$email = $billingaddresses->user_email;
 		$userfullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
@@ -2207,7 +2207,7 @@ class order_functions
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
 		// Add status log...
-		$order_log =& JTable::getInstance('order_status_log', 'Table');
+		$order_log = JTable::getInstance('order_status_log', 'Table');
 		$order_log->order_id = $customer_note;
 		$order_log->customer_note = $customer_note;
 		$order_log->order_status = $newstatus;
@@ -2230,7 +2230,7 @@ class order_functions
 
 		// For Consignor Label generation
 		JPluginHelper::importPlugin('redshop_shippinglabel');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
 		// For Webpack Postdk Label Generation

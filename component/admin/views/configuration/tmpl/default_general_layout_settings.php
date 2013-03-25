@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die ('Restricted access');
 
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 ?>
 <table class="admintable" width="100%">

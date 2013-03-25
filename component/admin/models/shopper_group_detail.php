@@ -202,7 +202,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				$product_data['shopper_group_id'] = $row->shopper_group_id;
 				$product_data['cdate'] = date("Y-m-d");
 
-				$prdrow = & JTable::getInstance('prices_detail', 'Table');
+				$prdrow = JTable::getInstance('prices_detail', 'Table');
 
 				if (!$prdrow->bind($product_data))
 				{
@@ -227,7 +227,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				$attribute_data['shopper_group_id'] = $row->shopper_group_id;
 				$attribute_data['cdate'] = time();
 
-				$attrow = & JTable::getInstance('attributeprices_detail', 'Table');
+				$attrow = JTable::getInstance('attributeprices_detail', 'Table');
 
 				if (!$attrow->bind($attribute_data))
 				{

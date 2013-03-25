@@ -25,13 +25,13 @@ class user_detailVIEWuser_detail extends JView
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		$myuser =& JFactory::getUser();
-		$acl =& JFactory::getACL();
-		$uri =& JFactory::getURI();
+		$myuser = JFactory::getUser();
+		$acl = JFactory::getACL();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

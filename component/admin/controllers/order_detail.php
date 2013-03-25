@@ -434,7 +434,7 @@ class order_detailController extends JController
 	{
 
 		global $mainframe;
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
 		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
 		$redconfig = new Redconfiguration();
@@ -453,7 +453,7 @@ class order_detailController extends JController
 
 		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$objorder = new order_functions();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		//$userbillinginfo=$order_functions->getBillingAddress();
 		$userbillinginfo = $order_functions->getOrderBillingUserInfo($request['order_id']);
@@ -526,7 +526,7 @@ class order_detailController extends JController
 		$values['order'] = $order;
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
@@ -557,7 +557,7 @@ class order_detailController extends JController
 	 */
 	function notify_payment()
 	{
-		$mainframe = & JFactory::getApplication('site');
+		$mainframe = JFactory::getApplication('site');
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
@@ -566,7 +566,7 @@ class order_detailController extends JController
 		$objOrder = new order_functions();
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
 		//$mainframe->registerEvent( 'onNotifyPayment', 'onNotifyPayment'.$request['payment_plugin'] );

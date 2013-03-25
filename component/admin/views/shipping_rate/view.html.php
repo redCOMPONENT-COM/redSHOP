@@ -17,7 +17,7 @@ class shipping_rateViewshipping_rate extends JView
 	{
 		global $mainframe, $context;
 		$context = 'shipping_rate';
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$shippinghelper = new shipping;
 
 		$lists['order'] = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');

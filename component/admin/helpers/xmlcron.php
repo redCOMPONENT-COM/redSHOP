@@ -28,7 +28,7 @@ require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
 require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
 
 // create the mainframe object
-$mainframe = & JFactory::getApplication('site');
+$mainframe = JFactory::getApplication('site');
 
 // Initialize the framework
 $mainframe->initialise();
@@ -51,7 +51,7 @@ class xmlcron
 		$currenttime = time();
 		$xmlHelper = new xmlHelper();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x "
 			. "WHERE x.published=1 "
 			. "AND x.auto_sync=1 "
@@ -62,7 +62,7 @@ class xmlcron
 
 		for ($i = 0; $i < count($exportlist); $i++)
 		{
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_export_log AS xl "
 				. "WHERE xl.xmlexport_id='" . $exportlist[$i]->xmlexport_id . "' "
 				. "ORDER BY xl.xmlexport_date DESC ";
@@ -85,7 +85,7 @@ class xmlcron
 		$currenttime = time();
 		$xmlHelper = new xmlHelper();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_import AS x "
 			. "WHERE x.published=1 "
 			. "AND x.auto_sync=1 "
@@ -96,7 +96,7 @@ class xmlcron
 
 		for ($i = 0; $i < count($importlist); $i++)
 		{
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_import_log AS xl "
 				. "WHERE xl.xmlimport_id='" . $importlist[$i]->xmlimport_id . "' "
 				. "ORDER BY xl.xmlimport_date DESC ";

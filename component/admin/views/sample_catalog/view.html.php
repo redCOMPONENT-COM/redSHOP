@@ -17,7 +17,7 @@ class sample_catalogVIEWsample_catalog extends JView
 	{
 		$option = JRequest::getVar('option');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

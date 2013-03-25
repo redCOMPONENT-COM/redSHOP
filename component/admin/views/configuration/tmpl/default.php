@@ -14,7 +14,7 @@ JHTMLBehavior::modal();
 $option = JRequest::getVar('option');
 jimport('joomla.html.pane');
 
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 ?>
 <script language="javascript" type="text/javascript">
@@ -93,12 +93,12 @@ $url = $uri->root();
 	$dashboard = JRequest::getVar('dashboard');
 	if ($dashboard == 1)
 	{
-		$myTabs = & JPane::getInstance('tabs', array('startOffset' => 9));
+		$myTabs = JPane::getInstance('tabs', array('startOffset' => 9));
 
 	}
 	else
 	{
-		$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+		$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 	}
 	$output = '';
 

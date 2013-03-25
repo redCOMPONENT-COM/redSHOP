@@ -18,18 +18,18 @@ class opsearchViewopsearch extends JView
 		global $mainframe, $context;
 
 		$model = $this->getModel('opsearch');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$order_function = new order_functions;
 
 		$option = JRequest::getVar('option');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'));
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'), 'redshop_order48');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$lists['order'] = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_item_name');
 		$lists['order_Dir'] = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

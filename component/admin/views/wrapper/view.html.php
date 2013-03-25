@@ -19,7 +19,7 @@ class wrapperViewwrapper extends JView
 		global $mainframe, $context;
 
 		$product_id = JRequest::getVar('product_id');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
 		$total = & $this->get('Total');
@@ -31,7 +31,7 @@ class wrapperViewwrapper extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		$pagination = & $this->get('Pagination');
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('data', $data);

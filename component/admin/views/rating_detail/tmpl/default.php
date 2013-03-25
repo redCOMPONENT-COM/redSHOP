@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
 $url = JUri::base();
