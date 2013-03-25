@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -62,7 +69,7 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

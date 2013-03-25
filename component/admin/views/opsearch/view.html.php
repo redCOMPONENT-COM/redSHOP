@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class opsearchViewopsearch extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -48,7 +55,7 @@ class opsearchViewopsearch extends JView
 		$this->assignRef('lists', $lists);
 		$this->assignRef('products', $products);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

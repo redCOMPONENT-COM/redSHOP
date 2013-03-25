@@ -16,6 +16,13 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
 class addquotation_detailVIEWaddquotation_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -37,7 +44,7 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$lists = array();
 		$billing = array();
 		$model = $this->getModel();
-		$detail = $this->get('data');
+		$detail = $this->get('Data');
 		$Redconfiguration = new Redconfiguration;
 
 		$user_id = JRequest::getVar('user_id', 0);
@@ -55,6 +62,8 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 
 		$session->set('offlineuser_id', $user_id);
 
+		$userop = array();
+		$userop[0] = new stdClass;
 		$userop[0]->user_id = 0;
 		$userop[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$userlists = $model->getUserData(0, "BT");
@@ -86,7 +95,7 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$this->assignRef('detail', $detail);
 		$this->assignRef('billing', $billing);
 		$this->assignRef('userlist', $userlists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
