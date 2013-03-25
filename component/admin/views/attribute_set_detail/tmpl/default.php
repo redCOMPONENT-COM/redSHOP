@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 
 JHTMLBehavior::modal();
 
-$now = & JFactory::getDate();
+$now = JFactory::getDate();
 $model = $this->getModel('attribute_set_detail');
 ?>
 <script language="javascript" type="text/javascript">
@@ -52,7 +52,7 @@ $model = $this->getModel('attribute_set_detail');
 </script>
 <?php
 
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 ?>
 <form action="<?php
@@ -516,7 +516,7 @@ if ($this->lists['attributes'] != '')
 												{
 												$is_img = false;
 												?> <span id="property_image_<?php echo $property->property_id; ?>">
-																								 
+
 																								<a class="modal"
 																								   title="<?php echo $property->property_image; ?>"
 																								   rel="{handler: 'image', size: {}}"

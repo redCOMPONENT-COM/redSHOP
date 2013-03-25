@@ -16,7 +16,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 	public function display($tpl = null)
 	{
 		$Redconfiguration = new Redconfiguration;
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$detail =& $this->get('data');
 		$isNew = ($detail->zipcode_id < 1);

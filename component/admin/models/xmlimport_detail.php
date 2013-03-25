@@ -124,7 +124,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$post = JRequest::get('post');
 
 		$xmlimport_url = $this->_data->xmlimport_url;
-		$file =& JRequest::getVar('filename_url', '', 'files', 'array');
+		$file = JRequest::getVar('filename_url', '', 'files', 'array');
 
 		if (array_key_exists("xmlimport_url", $post) && $post["xmlimport_url"] != "")
 		{
@@ -153,7 +153,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 	public function _initData()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if (empty($this->_data))
 		{

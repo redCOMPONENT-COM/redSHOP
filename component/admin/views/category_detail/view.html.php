@@ -24,12 +24,12 @@ class category_detailVIEWcategory_detail extends JView
 
 		$option = JRequest::getVar('option');
 		$this->setLayout('default');
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$model = $this->getModel('category_detail');
 		$categories = $model->getcategories();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT_DETAIL'), 'redshop_categories48');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$document->addScript('components/' . $option . '/assets/js/fields.js');
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');

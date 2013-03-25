@@ -17,10 +17,10 @@ class question_detailVIEWquestion_detail extends JView
 	{
 		$option = JRequest::getVar('option');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUESTION'));
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$model = $this->getModel();
 

@@ -17,14 +17,14 @@ class userViewuser extends JView
 		global $mainframe, $context;
 		$context = 'user_info_id';
 		$userhelper = new rsUserhelper;
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 		$sync = JRequest::getVar('sync');
 
 		$spgrp_filter = JRequest::getVar('spgrp_filter', '', 'request', 'string');
 		$approved_filter = JRequest::getVar('approved_filter', '', 'request', 'string');
 		$tax_exempt_request_filter = JRequest::getVar('tax_exempt_request_filter', '', 'request', 'string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_USER'));
 
 		$model = $this->getModel('user');

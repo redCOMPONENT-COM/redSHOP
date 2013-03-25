@@ -89,7 +89,7 @@ class JFormFieldcurrency extends JFormField
 	*/
 	function getCurrency($currency = "")
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$where = "";
 		if ($currency)

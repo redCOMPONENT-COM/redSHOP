@@ -234,7 +234,7 @@ class JInstallerPayment extends JObject
 		else
 		{
 			//$row =& JTable::getTable('payment_detail');
-			$row =& JTable::getInstance('payment_detail', 'Table');
+			$row = JTable::getInstance('payment_detail', 'Table');
 			$row->payment_method_name = $this->get('name');
 			$row->payment_class = $this->get('payment_class');
 			$row->payment_method_code = $this->get('payment_method_code');
@@ -276,7 +276,7 @@ class JInstallerPayment extends JObject
 		$retval = true;
 		$db =& $this->parent->getDBO();
 
-		$row =& JTable::getInstance('payment_detail', 'Table');
+		$row = JTable::getInstance('payment_detail', 'Table');
 
 		if (!$row->load((int) $clientId))
 		{
@@ -292,7 +292,7 @@ class JInstallerPayment extends JObject
 
 		if (file_exists($manifestFile))
 		{
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile))

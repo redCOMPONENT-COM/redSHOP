@@ -22,10 +22,10 @@ class fields_detailVIEWfields_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/fields.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$this->setLayout('default');
 		$lists = array();
 

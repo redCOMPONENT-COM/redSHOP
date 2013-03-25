@@ -138,7 +138,7 @@ class fields_detailModelfields_detail extends JModel
 
 			if ($post["field_type"] == 11 || $post["field_type"] == 13)
 			{
-				$extra_name = & JRequest::getVar('extra_name_file', '', 'files', 'array');
+				$extra_name = JRequest::getVar('extra_name_file', '', 'files', 'array');
 				$total = count($extra_name['name']);
 			}
 			else
@@ -348,7 +348,7 @@ class fields_detailModelfields_detail extends JModel
 	 */
 	public function move($direction)
 	{
-		$row =& JTable::getInstance('fields_detail', 'Table');
+		$row = JTable::getInstance('fields_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{

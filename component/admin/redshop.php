@@ -42,7 +42,7 @@
    $json_var = JRequest::getVar('json');
 
 	$view = JRequest::getVar('view');
-	$user =& JFactory::getUser();
+	$user = JFactory::getUser();
 	$usertype= array_keys($user->groups);
 	$user->usertype=$usertype[0];
 	$user->gid=$user->groups[$user->usertype];
@@ -101,7 +101,7 @@
    $showbuttons = JRequest::getVar('showbuttons','0' );
    $showall = JRequest::getVar('showall','0' );
 
-   
+
    $document = JFactory::getDocument();
    $document->addStyleDeclaration('fieldset.adminform textarea {margin: 0px 0px 10px 0px !important;width: 100% !important;}');
 

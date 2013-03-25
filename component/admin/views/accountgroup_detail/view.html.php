@@ -15,7 +15,7 @@ class accountgroup_detailVIEWaccountgroup_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
