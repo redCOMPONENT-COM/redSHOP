@@ -11,19 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-//JPlugin::loadLanguage( 'plg_search_redshop_categories' );
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+
 class plgSearchredshop_categories extends JPlugin
 {
-	function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
 
 		$searchText = $text;
 
-		// load plugin params info
-		//$plugin =& JPluginHelper::getPlugin('search', 'redshop_categories');
+		// Load plugin params info
 		$pluginParams = $this->params;
 
 		$limit = $pluginParams->def('search_limit', 50);
@@ -38,6 +37,7 @@ class plgSearchredshop_categories extends JPlugin
 		$section = JText::_('COM_REDSHOP_Categories');
 
 		$wheres = array();
+
 		switch ($phrase)
 		{
 			case 'exact':
@@ -115,4 +115,4 @@ class plgSearchredshop_categories extends JPlugin
 
 		return $return;
 	}
-}	
+}

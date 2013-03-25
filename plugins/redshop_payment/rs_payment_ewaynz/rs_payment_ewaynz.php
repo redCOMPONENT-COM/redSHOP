@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,9 +23,9 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_ewaynz(&$subject)
+	public function plgRedshop_paymentrs_payment_ewaynz(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ewaynz');
@@ -37,7 +36,7 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_ewaynz')
 		{
@@ -51,10 +50,10 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_ewaynz($element, $request)
+	public function onNotifyPaymentrs_payment_ewaynz($element, $request)
 	{
 		if ($element != 'rs_payment_ewaynz')
 		{
@@ -63,7 +62,7 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -73,7 +72,7 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -89,12 +88,12 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_ewaynz($element, $data)
+	public function onCapture_Paymentrs_payment_ewaynz($element, $data)
 	{
 		return;
 	}
 
-	function fetch_data($string, $start_tag, $end_tag)
+	public function fetch_data($string, $start_tag, $end_tag)
 	{
 		$position = stripos($string, $start_tag);
 
@@ -110,5 +109,4 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 
 		return $fetch_data;
 	}
-
 }

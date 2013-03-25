@@ -13,7 +13,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmap_com_redshop
 {
-	function prepareMenuItem(&$node, &$params)
+	public function prepareMenuItem(&$node, &$params)
 	{
 		$link_query = parse_url($node->link);
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
@@ -34,7 +34,7 @@ class xmap_com_redshop
 			$node->uid = 'com_redshopc' . $catid;
 			$node->expandible = true;
 		}
-		else if ($prodid && $manid)
+		elseif ($prodid && $manid)
 		{
 			$node->uid = 'com_redshopm' . $manid . 'p' . $prodid;
 			$node->expandible = false;
@@ -47,7 +47,7 @@ class xmap_com_redshop
 	}
 
 	/** Get the content tree for this kind of content */
-	function getTree(&$xmap, &$parent, &$params)
+	public function getTree(&$xmap, &$parent, &$params)
 	{
 		$link_query = parse_url($parent->link);
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
@@ -80,10 +80,14 @@ class xmap_com_redshop
 		$changefreq = xmap_com_redshop::getParam($params, 'cat_changefreq', $parent->changefreq);
 
 		if ($priority == '-1')
+		{
 			$priority = $parent->priority;
+		}
 
 		if ($changefreq == '-1')
+		{
 			$changefreq = $parent->changefreq;
+		}
 
 		$params['cat_priority'] = $priority;
 		$params['cat_changefreq'] = $changefreq;
@@ -92,10 +96,14 @@ class xmap_com_redshop
 		$changefreq = xmap_com_redshop::getParam($params, 'prod_changefreq', $parent->changefreq);
 
 		if ($priority == '-1')
+		{
 			$priority = $parent->priority;
+		}
 
 		if ($changefreq == '-1')
+		{
 			$changefreq = $parent->changefreq;
+		}
 
 		$params['prod_priority'] = $priority;
 		$params['prod_changefreq'] = $changefreq;
@@ -113,7 +121,7 @@ class xmap_com_redshop
 		return true;
 	}
 
-	function getCategoryTree(&$xmap, &$parent, &$params, $catid = 0)
+	public function getCategoryTree(&$xmap, &$parent, &$params, $catid = 0)
 	{
 		$database = & JFactory::getDBO();
 
@@ -124,8 +132,7 @@ class xmap_com_redshop
 			$urlBase = JURI::base();
 		}
 
-		$query =
-			"SELECT a.category_id, a.category_name, a.category_pdate "
+		$query = "SELECT a.category_id, a.category_name, a.category_pdate "
 				. "\n FROM #__redshop_category AS a, #__redshop_category_xref AS b "
 				. "\n WHERE a.published ='1' "
 				. "\n AND b.category_parent_id = $catid "
@@ -160,8 +167,7 @@ class xmap_com_redshop
 
 		if ($params['include_products'])
 		{
-			$query =
-				"SELECT a.product_id,a.update_date, a.product_name,a.publish_date, a.product_thumb_image, a.product_full_image, b.category_id, d.category_pdate "
+			$query = "SELECT a.product_id,a.update_date, a.product_name,a.publish_date, a.product_thumb_image, a.product_full_image, b.category_id, d.category_pdate "
 					. "\n FROM #__redshop_product AS a, #__redshop_product_category_xref AS b, #__redshop_category AS  d"
 					. "\n WHERE a.published='1'"
 					. "\n AND b.category_id=$catid "
@@ -197,7 +203,7 @@ class xmap_com_redshop
 		}
 	}
 
-	function getProductTree(&$xmap, &$parent, &$params, $prod = 0, $category = 0, $manid = 0)
+	public function getProductTree(&$xmap, &$parent, &$params, $prod = 0, $category = 0, $manid = 0)
 	{
 		$database = & JFactory::getDBO();
 		$mainframe = JFactory::getApplication();
@@ -238,7 +244,7 @@ class xmap_com_redshop
 		$xmap->changeLevel(-1);
 	}
 
-	function &getManufacturerTree(&$xmap, &$parent, &$params, $manid = 0)
+	public function &getManufacturerTree(&$xmap, &$parent, &$params, $manid = 0)
 	{
 		$db = & JFactory::getDBO();
 
@@ -281,9 +287,8 @@ class xmap_com_redshop
 		}
 	}
 
-	function getParam($arr, $name, $def)
+	public function getParam($arr, $name, $def)
 	{
 		return JArrayHelper::getValue($arr, $name, $def, '');
 	}
-
 }

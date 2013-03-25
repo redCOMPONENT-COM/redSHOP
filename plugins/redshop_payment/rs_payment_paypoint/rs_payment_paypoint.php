@@ -93,7 +93,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 		}
 
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_paypoint' . DS . 'xmlrpc.php';
-		include($paymentpath);
+		include $paymentpath;
 
 		$f = new xmlrpcmsg('SECVPN.validateCardFull');
 		$order_total = $data['order_total'];

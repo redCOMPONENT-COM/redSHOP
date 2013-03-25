@@ -15,27 +15,30 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class plgrs_labels_GLSlabels_GLS extends JPlugin
 {
-	var $client = '';
-	var $errorMsg = '';
-	var $error = 0;
+	public $client = '';
+
+	public $errorMsg = '';
+
+	public $error = 0;
 
 	/**
 	 * specific redform plugin parameters
 	 *
 	 * @var JParameter object
 	 */
-	function plgrs_labels_GLSlabels_GLS(&$subject, $config = array())
+	public function plgrs_labels_GLSlabels_GLS(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 		$this->onlabels_GLSConnection();
 	}
 
-	function onlabels_GLSConnection()
+	public function onlabels_GLSConnection()
 	{
 		$url = 'http://www.gls.dk/webservices_v2/wsPakkeshop.asmx?WSDL';
+
 		try
 		{
-			$this->client = new SoapClient ($url, array("trace" => 1, "exceptions" => 1));
+			$this->client = new SoapClient($url, array("trace" => 1, "exceptions" => 1));
 		}
 		catch (Exception $exception)
 		{
@@ -45,22 +48,21 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 		}
 	}
 
-	function GetNearstParcelShops($values)
+	public function GetNearstParcelShops($values)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$d ['street'] = $values->address;
-			$d ['zipcode'] = $values->zipcode; //'5260';
+			$d ['zipcode'] = $values->zipcode;
 			$d ['Amount'] = 4;
-//		exit;
 			$Handle = $this->client->SearchNearestParcelShops(array('street' => $d ['street'], 'zipcode' => $d ['zipcode'], 'Amount' => $d ['Amount']))->SearchNearestParcelShopsResult;
 
 			return $this->ShopArray($Handle->parcelshops->PakkeshopData);
-
 		}
 		catch (Exception $exception)
 		{
@@ -69,7 +71,7 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 		}
 	}
 
-	function ShopArray($PakkeshopData)
+	public function ShopArray($PakkeshopData)
 	{
 		$j = 0;
 		$shippinghelper = new shipping;
@@ -87,7 +89,6 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 
 			$stropeningTime = $this->WeekdaysTime($PakkeshopData[$i]->OpeningHours->Weekday);
 
-			//$shop_id = $shippinghelper->encryptShipping	( $shopNUmber."|".$CompanyName."|".$Streetname."|".$ZipCode."|".$CountryCodeISO3166A2."|".$Telephone."|".$stropeningTime."|".$CityName) ;
 			$shop_id = $shopNUmber . "|" . $CompanyName . "|" . $Streetname . "|" . $ZipCode . "|" . $CountryCodeISO3166A2 . "|" . $Telephone . "|" . $stropeningTime . "|" . $CityName;
 			$returnArr[$j]->shop_id = $shop_id;
 			$returnArr[$j]->Number = $shopNUmber;
@@ -105,7 +106,7 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 		return $returnArr;
 	}
 
-	function WeekdaysTime($Weekday)
+	public function WeekdaysTime($Weekday)
 	{
 		$opningTime = Array();
 
@@ -115,27 +116,27 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 			{
 				$day = JText::_('MON');
 			}
-			else if ($Weekday[$i]->day == 'Tuesday')
+			elseif ($Weekday[$i]->day == 'Tuesday')
 			{
 				$day = JText::_('TUE');
 			}
-			else if ($Weekday[$i]->day == 'Wednesday')
+			elseif ($Weekday[$i]->day == 'Wednesday')
 			{
 				$day = JText::_('WED');
 			}
-			else if ($Weekday[$i]->day == 'Thursday')
+			elseif ($Weekday[$i]->day == 'Thursday')
 			{
 				$day = JText::_('THU');
 			}
-			else if ($Weekday[$i]->day == 'Friday')
+			elseif ($Weekday[$i]->day == 'Friday')
 			{
 				$day = JText::_('FRI');
 			}
-			else if ($Weekday[$i]->day == 'Saturday')
+			elseif ($Weekday[$i]->day == 'Saturday')
 			{
 				$day = JText::_('SAT');
 			}
-			else if ($Weekday[$i]->day == 'Sunday')
+			elseif ($Weekday[$i]->day == 'Sunday')
 			{
 				$day = JText::_('SUN');
 			}
@@ -151,6 +152,4 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 
 		return $stropeningTime;
 	}
-
 }
-?>

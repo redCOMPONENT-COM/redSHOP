@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_payone extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,9 +23,9 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_payone(&$subject)
+	public function plgRedshop_paymentrs_payment_payone(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payone');
@@ -37,7 +36,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_payone')
 		{
@@ -51,17 +50,17 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onNotifyPaymentrs_payment_epay($element, $request)
+	public function onNotifyPaymentrs_payment_epay($element, $request)
 	{
 		if ($element != 'rs_payment_epay')
 		{
-			break;
+			return false;
 		}
 
 		$db = jFactory::getDBO();
@@ -86,14 +85,10 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 		$values = new stdClass;
 
-		//
 		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
-		//
 		if ((@$order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
 		{
-			//
 			// Find the corresponding order in the database
-			//
 
 			$db = JFactory::getDBO();
 			$qv = "SELECT order_id, order_number FROM #__redshop_orders WHERE order_id='" . $order_id . "'";
@@ -104,15 +99,12 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 			{
 				$d['order_id'] = $order_detail->order_id;
 			}
-			//
+
 			// Switch on the order accept code
 			// accept = 1 (standard redirect) accept = 2 (callback)
-			//
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
-				//
 				// Only update the order information once
-				//
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
 					// UPDATE THE ORDER STATUS to 'VALID'
@@ -122,35 +114,36 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 
-					// add history callback info
+					// Add history callback info
 					if ($accept == "2")
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
 					}
 
-					// payment fee
+					// Payment fee
 					if ($request["transfee"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
 					}
 
-					// payment date
+					// Payment date
 					if ($request["date"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
 					}
 
-					// payment fraud control
+					// Payment fraud control
 					if (@$request["fraud"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
 					}
 
-					// card id
+					// Card id
 					if ($request["cardid"])
 					{
 						$cardname = "Unknown";
 						$cardimage = "c" . $_REQUEST["cardid"] . ".gif";
+
 						switch ($_REQUEST["cardid"])
 						{
 							case 1:
@@ -228,7 +221,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 					}
 
-					// creation information
+					// Creation information
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
 				}
@@ -265,7 +258,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -275,11 +268,12 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '"
+			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
 
@@ -291,9 +285,8 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_payone($element, $data)
+	public function onCapture_Paymentrs_payment_payone($element, $data)
 	{
 		return;
 	}
-
 }

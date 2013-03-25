@@ -26,7 +26,7 @@ class plgredshop_productstockroom_status extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stockroom_status');
 		$this->_params = new JRegistry($this->_plugin->params);

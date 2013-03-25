@@ -52,7 +52,7 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
 	function onNotifyPaymentrs_payment_worldpay($element, $request)

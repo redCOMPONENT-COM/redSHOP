@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_banktransfer' );
 class plgRedshop_paymentrs_payment_eantransfer extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -23,9 +21,9 @@ class plgRedshop_paymentrs_payment_eantransfer extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_eantransfer(&$subject)
+	public function plgRedshop_paymentrs_payment_eantransfer(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		JPluginHelper::getPlugin('redshop_payment', 'onPrePayment');
@@ -37,7 +35,7 @@ class plgRedshop_paymentrs_payment_eantransfer extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_eantransfer')
 		{
@@ -51,5 +49,4 @@ class plgRedshop_paymentrs_payment_eantransfer extends JPlugin
 
 		return true;
 	}
-
 }

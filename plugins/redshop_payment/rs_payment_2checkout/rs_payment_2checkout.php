@@ -16,7 +16,7 @@ $mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -26,20 +26,19 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_2checkout(&$subject)
+	public function plgRedshop_paymentrs_payment_2checkout(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_2checkout');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_2checkout')
 		{
@@ -53,10 +52,10 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_2checkout($element, $request)
+	public function onNotifyPaymentrs_payment_2checkout($element, $request)
 	{
 		if ($element != 'rs_payment_2checkout')
 		{
@@ -78,13 +77,13 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 		$Itemid = $request["Itemid"];
 		JPlugin::loadLanguage('com_redshop');
 
-		// get value from xml file
-		$string_to_hash = $secret_words; //$params->get("TWOCO_SECRETWORD");
+		// Get value from xml file
+		$string_to_hash = $secret_words;
 
-		// this should be YOUR vendor number
-		$string_to_hash .= $request['sid']; //$params->get("TWOCO_LOGIN");
+		// This should be YOUR vendor number
+		$string_to_hash .= $request['sid'];
 
-		// append the order number, in this script it will always be 1
+		// Append the order number, in this script it will always be 1
 		if ($is_test)
 		{
 			$string_to_hash .= 1;
@@ -94,15 +93,13 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 			$string_to_hash .= $request['order_number'];
 		}
 
-		// append the sale total
+		// Append the sale total
 		$string_to_hash .= $request["total"];
 
-		// get a md5 hash of the string, uppercase it to match the returned key
+		// Get a md5 hash of the string, uppercase it to match the returned key
 		$hash_to_check = strtoupper(md5($string_to_hash));
 
-		//
-		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
-		//
+		// Now validate on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
 		if ($order_ekey === $hash_to_check)
 		{
 			$transaction_id = $invoice_id;
@@ -125,12 +122,12 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 		return $values;
 	}
 
-	function onCapture_Paymentrs_payment_2checkout($element, $data)
+	public function onCapture_Paymentrs_payment_2checkout($element, $data)
 	{
 		return;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -145,5 +142,4 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 
 		return $res;
 	}
-
 }

@@ -27,7 +27,7 @@ class plgredshop_productattribute extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}

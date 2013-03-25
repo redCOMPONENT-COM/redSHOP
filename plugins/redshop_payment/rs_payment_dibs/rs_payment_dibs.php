@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_dibs extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,9 +23,9 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_dibs(&$subject)
+	public function plgRedshop_paymentrs_payment_dibs(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dibs');
@@ -37,7 +36,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_dibs')
 		{
@@ -51,10 +50,10 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_dibs($element, $request)
+	public function onNotifyPaymentrs_payment_dibs($element, $request)
 	{
 		if ($element != 'rs_payment_dibs')
 		{
@@ -102,7 +101,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -112,7 +111,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -128,12 +127,13 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_dibs($element, $data)
+	public function onCapture_Paymentrs_payment_dibs($element, $data)
 	{
 		if ($element != 'rs_payment_dibs')
 		{
 			return;
 		}
+
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
@@ -150,6 +150,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 
 		$data = $dibsurl;
 		$ch = curl_init($data);
+
 		// 	Execute
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$data = curl_exec($ch);
@@ -173,5 +174,4 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		return $values;
 
 	}
-
 }

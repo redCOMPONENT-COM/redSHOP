@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//JPlugin::loadLanguage( 'plg_telesearch_rs_telesearch');
 
 class plgtelesearchrs_telesearch extends JPlugin
 {
@@ -19,7 +18,7 @@ class plgtelesearchrs_telesearch extends JPlugin
 	 *
 	 * @var JParameter object
 	 */
-	function plgtelesearchrs_telesearch(&$subject, $config = array())
+	public function plgtelesearchrs_telesearch(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 	}
@@ -30,7 +29,7 @@ class plgtelesearchrs_telesearch extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function findByTelephoneNumber($tele)
+	public function findByTelephoneNumber($tele)
 	{
 		$returnarr = array();
 
@@ -56,6 +55,7 @@ class plgtelesearchrs_telesearch extends JPlugin
 				curl_setopt($CR, CURLOPT_POSTFIELDS, $query);
 				curl_setopt($CR, CURLOPT_POST, 1);
 			}
+
 			curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
 			$return = curl_exec($CR);
 			$error = curl_error($CR);
@@ -112,6 +112,5 @@ class plgtelesearchrs_telesearch extends JPlugin
 
 		return $returnarr;
 	}
-
 }
-?>
+

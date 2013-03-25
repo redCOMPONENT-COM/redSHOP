@@ -24,11 +24,5 @@ class plgrs_manufacaturerplg_manucaturer_excluding_category extends JPlugin
 	function plgrs_manufacaturerplg_manucaturer_excluding_category(&$subject)
 	{
 		parent::__construct($subject);
-
-		// Load plugin parameters
-//	    $this->_plugin = JPluginHelper::getPlugin( 'rs_manufacaturer', 'onPrepareProduct' );
-//	    $this->_params = new JRegistry( $this->_plugin->params );
 	}
 }
-
-?>
