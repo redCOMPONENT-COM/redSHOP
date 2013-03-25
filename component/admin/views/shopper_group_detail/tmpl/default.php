@@ -9,9 +9,9 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();    ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

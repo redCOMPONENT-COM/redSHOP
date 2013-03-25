@@ -15,10 +15,10 @@ class state_detailVIEWstate_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
-		$uri =& JFactory::getURI();
-		$user =& JFactory::getUser();
+		$uri = JFactory::getURI();
+		$user = JFactory::getUser();
 		$model = $this->getModel('state_detail');
 
 		JToolBarHelper::save();

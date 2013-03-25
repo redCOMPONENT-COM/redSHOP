@@ -17,7 +17,7 @@ class searchViewsearch extends JView
 	{
 		global $mainframe;
 
-		$doc = & JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$doc->addStyleSheet('components/com_redshop/assets/css/search.css');
 		$doc->addScript('components/com_redshop/assets/js/search.js');

@@ -17,8 +17,8 @@ class currency_detailVIEWcurrency_detail extends JView
 	{
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_currency_MANAGEMENT'), 'redshop_currencies_48');
-		$document = & JFactory::getDocument();
-		$uri =& JFactory::getURI();
+		$document = JFactory::getDocument();
+		$uri = JFactory::getURI();
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		$lists = array();

@@ -217,7 +217,7 @@ class quotation_detailModelquotation_detail extends JModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 
 			$items = $quotationHelper->getQuotationProduct($cids);
 

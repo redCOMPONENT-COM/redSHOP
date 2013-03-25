@@ -292,7 +292,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 			$stockroom_data['regular_stock'] = $quantity;
 			$stockroom_data['preorder_stock'] = $preorder_stock;
 			JPluginHelper::importPlugin('redshop_product');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$data = $dispatcher->trigger('afterUpdateStock', array($stockroom_data));
 		}
 	}

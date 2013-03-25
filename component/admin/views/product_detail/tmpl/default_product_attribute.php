@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die ('Restricted access');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 JHTML::_('behavior.tooltip');
 //$editor =& JFactory::getEditor();
@@ -417,7 +417,7 @@ if ($this->lists['attributes'] != '')
 												{
 												$is_img = false;
 												?> <span id="property_image_<?php echo $property->property_id; ?>">
-																								 
+
 																								<a class="modal"
 																								   title="<?php echo $property->property_image; ?>"
 																								   rel="{handler: 'image', size: {}}"

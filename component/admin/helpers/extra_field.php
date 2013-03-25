@@ -73,7 +73,7 @@ class extra_field
 	function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
 		$option = JRequest::getVar('option');
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section='" . $field_section . "' AND published=1 ";
 		if ($field_name != "")
@@ -192,8 +192,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 				case 8: // 8 :- Wysiwyg
-					$editor =& JFactory::getEditor();
-					$document =& JFactory::getDocument();
+					$editor = JFactory::getEditor();
+					$document = JFactory::getDocument();
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$extra_field_value = $editor->display($row_data[$i]->field_name, stripslashes($textarea_value), '200', '50', '100', '20');
@@ -818,7 +818,7 @@ class extra_field
 	{
 		$url = JURI::base();
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/attribute.js');
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "

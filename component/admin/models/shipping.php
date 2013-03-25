@@ -95,7 +95,7 @@ class shippingModelShipping extends JModel
 	{
 		global $mainframe;
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$row =& $this->getTable('shipping_detail');
 
 		$total = count($cid);

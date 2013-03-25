@@ -20,8 +20,8 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 
-		$uri =& JFactory::getURI();
-		$document = & JFactory::getDocument();
+		$uri = JFactory::getURI();
+		$document = JFactory::getDocument();
 		$option = JRequest::getVar('option');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$this->setLayout('default');

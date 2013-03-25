@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 JHTMLBehavior::modal();
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 
-$date =& JFactory::getDate();
+$date = JFactory::getDate();
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -59,7 +59,7 @@ $date =& JFactory::getDate();
 	<?php
 	}
 	//Get JPaneTabs instance
-	$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 	$output = '';
 
 	//Create Pane

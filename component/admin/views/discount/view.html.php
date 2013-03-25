@@ -17,7 +17,7 @@ class discountViewdiscount extends JView
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
 
 		$layout = JRequest::getVar('layout');
@@ -38,7 +38,7 @@ class discountViewdiscount extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		if (isset($layout) && $layout == 'product')
 		{

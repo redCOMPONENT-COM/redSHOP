@@ -20,12 +20,12 @@ class mail_detailVIEWmail_detail extends JView
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
@@ -73,7 +73,7 @@ class mail_detailVIEWmail_detail extends JView
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$pane = & JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 
 		$this->assignRef('pane', $pane);
 		$this->assignRef('lists', $lists);

@@ -23,7 +23,7 @@ class configurationViewconfiguration extends JView
 		$db = JFactory::getDBO();
 
 		$option = JRequest::getVar('option');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$layout = JRequest::getVar('layout');
 
 		if ($layout == "resettemplate")
@@ -48,7 +48,7 @@ class configurationViewconfiguration extends JView
 
 		// Load language file
 		$payment_lang_list = $redhelper->getallPlugins("redshop_payment");
-		$language =& JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 		$base_dir = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 
@@ -76,10 +76,10 @@ class configurationViewconfiguration extends JView
 		JToolBarHelper::cancel();
 
 		jimport('joomla.html.pane');
-		$pane = & JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 		$this->assignRef('pane', $pane);
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
 		$model = $this->getModel('configuration');

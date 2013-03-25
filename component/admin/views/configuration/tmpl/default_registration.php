@@ -77,9 +77,9 @@ defined('_JEXEC') or die ('Restricted access');
 		<td>
 			<?php
 
-			$doc =& JFactory::getDocument();
+			$doc = JFactory::getDocument();
 
-			$article =& JTable::getInstance('content');
+			$article = JTable::getInstance('content');
 			$article_id = TERMS_ARTICLE_ID;
 			if ($article_id)
 			{

@@ -21,9 +21,9 @@ class tax_detailVIEWtax_detail extends JView
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

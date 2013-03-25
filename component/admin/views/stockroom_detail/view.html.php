@@ -17,7 +17,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$layout =& JRequest::getVar('layout', '');
+		$layout = JRequest::getVar('layout', '');
 
 		if ($layout == 'default_product')
 		{
@@ -27,7 +27,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		}
 
 		$lists = array();
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$model = $this->getModel('stockroom_detail');
 
@@ -46,7 +46,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		}
 		else
 		{
-			$document = & JFactory::getDocument();
+			$document = JFactory::getDocument();
 			$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 			$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 			$document->addScript('components/com_redshop/assets/js/search.js');
@@ -133,7 +133,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		// Assign stock room product template
 		$this->setLayout('default_product');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		// Assign data to template
 		$this->assignRef('lists', $container);

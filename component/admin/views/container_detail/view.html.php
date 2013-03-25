@@ -22,7 +22,7 @@ class container_detailVIEWcontainer_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONTAINER_MANAGEMENT_DETAIL'), 'redshop_container48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
@@ -31,7 +31,7 @@ class container_detailVIEWcontainer_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$stock_data = JRequest::getVar('stockroom_data', array());
 

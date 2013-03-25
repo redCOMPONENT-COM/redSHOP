@@ -27,7 +27,7 @@ $model = $this->getModel('quotation_detail');
 $extra_field = new extra_field();
 $quotation = $this->quotation;
 
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id);    ?>

@@ -17,10 +17,10 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
 
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		jimport('joomla.html.pane');
-		$pane = & JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 		$this->assignRef('pane', $pane);
 
 		$this->setLayout('default');

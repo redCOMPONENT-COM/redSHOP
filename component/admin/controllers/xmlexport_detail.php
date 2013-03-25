@@ -36,7 +36,7 @@ class xmlexport_detailController extends JController
 
 	function save($export = 0)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$xmlhelper = new xmlHelper();
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -123,7 +123,7 @@ function setChildElement()
 
 	$xmlhelper = new xmlHelper();
 	$post = JRequest::get('post');
-	$session =& JFactory::getSession();
+	$session = JFactory::getSession();
 	$childelement = $session->get('childelement');
 
 	$model = $this->getModel('xmlexport_detail');
@@ -201,7 +201,7 @@ function setChildElement()
 	function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set('childelement', NULL);
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);

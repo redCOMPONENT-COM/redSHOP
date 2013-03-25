@@ -37,7 +37,7 @@ class Redtemplate
 	 */
 	function getTemplate($section = '', $tid = 0, $name = "")
 	{
-		$db = & JFactory :: getDBO();
+		$db = JFactory :: getDBO();
 		$and = "";
 		if ($tid != 0)
 		{
@@ -91,7 +91,7 @@ class Redtemplate
 	 */
 	function getTemplatefilepath($section, $filename, $is_admin = false)
 	{
-		$app =& JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$tempate_file = "";
 		$template_view = $this->getTemplateView($section);
 		$layout = JRequest::getVar('layout');
@@ -242,7 +242,7 @@ class Redtemplate
 		$o->text = $string;
 		JPluginHelper::importPlugin('content');
 
-		$dispatcher = & JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$x = array();
 

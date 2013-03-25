@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
 $extra_field = new extra_field();
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 $model = $this->getModel('template_detail');
 $showbuttons = JRequest::getVar('showbuttons');
 //echo $this->detail->template_section;

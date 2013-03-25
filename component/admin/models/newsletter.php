@@ -396,7 +396,7 @@ class newsletterModelnewsletter extends JModel
 		$db = JFactory::getDBO();
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 
 		$mailfrom = $jconfig->mailfrom;
@@ -428,7 +428,7 @@ class newsletterModelnewsletter extends JModel
 		$o = new stdClass;
 		$o->text = $newsletter_body;
 		JPluginHelper::importPlugin('content');
-		$dispatcher = & JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$x = array();
 		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 1));
 		$newsletter_template2 = $o->text;

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
@@ -17,7 +17,7 @@ JHTMLBehavior::modal();
 
 $stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
 
-$date =& JFactory::getDate();
+$date = JFactory::getDate();
 
 //echo $date->toFormat('%a %d %b %Y - %H:%M');
 
@@ -78,7 +78,7 @@ if ($this->detail->container_id)
 }
 
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 $output = '';
 
 //Create Pane

@@ -22,13 +22,13 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout');
 		$xmlhelper = new xmlHelper();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$childelement = $session->get('childelement');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
 		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$colvalue = array();
 		$model = $this->getModel();

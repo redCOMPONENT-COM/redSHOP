@@ -21,7 +21,7 @@ class quotation_detailVIEWquotation_detail extends JView
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout', 'default');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/order.js');
@@ -30,7 +30,7 @@ class quotation_detailVIEWquotation_detail extends JView
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/json.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$model = $this->getModel();
 

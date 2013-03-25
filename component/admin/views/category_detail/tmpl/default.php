@@ -9,9 +9,9 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 JHTML::_('behavior.calendar');
 jimport('joomla.html.pane');
@@ -44,7 +44,7 @@ $producthelper = new producthelper();?>
       enctype="multipart/form-data">
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 $output = '';
 
 //Create Pane

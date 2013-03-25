@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die ('Restricted access');
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $cat_path = "/components/com_redshop/assets/images/category/";
 $prod_path = "/components/com_redshop/assets/images/product/";
