@@ -17,6 +17,13 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 class category_detailVIEWcategory_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$redTemplate = new Redtemplate;
@@ -38,7 +45,7 @@ class category_detailVIEWcategory_detail extends JView
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/related.js');
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->category_id < 1);
 
 		// Assign default values for new categories
@@ -100,6 +107,7 @@ class category_detailVIEWcategory_detail extends JView
 
 		// Merging select option in the select box
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->template_id = 0;
 		$temps[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 		$templates = @array_merge($temps, $templates);
@@ -119,6 +127,7 @@ class category_detailVIEWcategory_detail extends JView
 		// Select box for ProductCompareTemplate
 		$comparetemplate = $redTemplate->getTemplate('compare_product');
 		$temp = array();
+		$temp[0] = new stdClass;
 		$temp[0]->template_id = 0;
 		$temp[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 		$comparetemplate = @array_merge($temp, $comparetemplate);
@@ -141,7 +150,7 @@ class category_detailVIEWcategory_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
