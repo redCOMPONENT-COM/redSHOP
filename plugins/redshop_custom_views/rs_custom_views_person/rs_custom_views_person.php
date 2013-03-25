@@ -12,7 +12,7 @@ jimport('joomla.plugin.plugin');
 
 class plgredshop_custom_viewsrs_custom_views_person extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -22,15 +22,15 @@ class plgredshop_custom_viewsrs_custom_views_person extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_custom_viewsrs_custom_views_person(&$subject)
+	public function plgredshop_custom_viewsrs_custom_views_person(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 
 	}
 
-	function getMenuLink()
+	public function getMenuLink()
 	{
 		$values = array();
 		$values['name'] = "rs_custom_views_person";
@@ -38,7 +38,4 @@ class plgredshop_custom_viewsrs_custom_views_person extends JPlugin
 
 		return $values;
 	}
-
 }
-
-?>
