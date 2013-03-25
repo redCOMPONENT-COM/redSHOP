@@ -23,7 +23,7 @@ class producttags_detailVIEWproducttags_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->tags_id < 1);
 

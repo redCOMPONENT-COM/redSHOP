@@ -27,7 +27,7 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->shipping_box_id < 1);
 

@@ -29,9 +29,9 @@ class fieldsViewfields extends JView
 		JToolBarHelper::unpublishList();
 
 		$uri = JFactory::getURI();
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$fields = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 		$optiontype = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 

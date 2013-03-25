@@ -27,7 +27,7 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->giftcard_id < 1);
 

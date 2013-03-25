@@ -39,9 +39,9 @@ class quotationViewquotation extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$quotation = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$quotation = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$optionsection = $quotationHelper->getQuotationStatusList();
 		$lists['filter_status'] = JHTML::_('select.genericlist', $optionsection, 'filter_status',

@@ -22,7 +22,7 @@ class currency_detailVIEWcurrency_detail extends JView
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->currency_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 

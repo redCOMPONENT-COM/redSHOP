@@ -42,9 +42,9 @@ class shopper_groupViewshopper_group extends JView
 		$groups = $shoppergroup->getshopperGroupListArray();
 		$total = count($groups);
 
-		$media = & $this->get('Data');
+		$media = $this->get('Data');
 
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('media', $groups);

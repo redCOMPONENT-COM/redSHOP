@@ -24,7 +24,7 @@ class discount_detailVIEWdiscount_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$layout = JRequest::getVar('layout');
 
@@ -58,7 +58,7 @@ class discount_detailVIEWdiscount_detail extends JView
 
 		$selectedShoppers = $model->selectedShoppers();
 
-		$shoppers =& $this->get('shoppers');
+		$shoppers = $this->get('shoppers');
 
 		$lists['shopper_group_id'] = JHTML::_('select.genericlist', $shoppers, 'shopper_group_id[]',
 			'class="inputbox" multiple="multiple" size="10"', 'value', 'text', $selectedShoppers

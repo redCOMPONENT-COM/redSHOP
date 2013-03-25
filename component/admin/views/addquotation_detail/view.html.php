@@ -37,7 +37,7 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$lists = array();
 		$billing = array();
 		$model = $this->getModel();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$Redconfiguration = new Redconfiguration;
 
 		$user_id = JRequest::getVar('user_id', 0);

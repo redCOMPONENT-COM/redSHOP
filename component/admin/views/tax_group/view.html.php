@@ -36,9 +36,9 @@ class tax_groupViewtax_group extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$total = & $this->get('Total');
-		$media = & $this->get('Data');
-		$pagination = & $this->get('Pagination');
+		$total = $this->get('Total');
+		$media = $this->get('Data');
+		$pagination = $this->get('Pagination');
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('media', $media);

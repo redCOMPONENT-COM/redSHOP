@@ -30,7 +30,7 @@ class coupon_detailVIEWcoupon_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->coupon_id < 1);
 

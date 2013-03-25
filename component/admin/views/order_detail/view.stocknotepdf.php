@@ -26,11 +26,11 @@ class order_detailVIEWorder_detail extends JView
 		$producthelper = new producthelper();
 		$model = $this->getModel();
 		$redTemplate = new Redtemplate();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$carthelper = new rsCarthelper();
 		$shippinghelper = new shipping();
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
-		$template =& $model->getStockNoteTemplate();
+		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")
 		{
 			$html_template = $template->template_desc;

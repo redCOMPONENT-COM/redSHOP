@@ -35,7 +35,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 		$uri = JFactory::getURI();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->newsletter_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
