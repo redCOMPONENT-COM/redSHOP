@@ -165,7 +165,7 @@ class Order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		$mainframe = JFactory::getApplication('site');
+		$mainframe = JFactory::getApplication();
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
