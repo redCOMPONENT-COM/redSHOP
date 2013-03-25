@@ -9,43 +9,40 @@
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
+
 class extra_field
 {
-
-///////
-
-	/*
-	 * field_type 	=   1 :- Text Field
-	 * 					2 :- Text Area
-	 * 					3 :- Check Box
-	 * 					4 :- Radio Button
-	 * 					5 :- Select Box (Single select)
-	 * 					6 :- Select Box (Multiple select)
-	 * 					7 :- Select country box
-	 * 					8 :- Wysiwyg
-	 * 					9 :- Media
-	 * 					10:- Documents
-	 * 					11:- Image
-	 * 	`				12:- Date Picker
-	 * 					13:- Image selection with Link And hover
-	 * 					14:- Dealer Code
-	 * 					15:- Product Data Range
-	 * 					17:- Productfinder Datapicker
+	/**
+	 * field_type    =   1 :- Text Field
+	 *                    2 :- Text Area
+	 *                    3 :- Check Box
+	 *                    4 :- Radio Button
+	 *                    5 :- Select Box (Single select)
+	 *                    6 :- Select Box (Multiple select)
+	 *                    7 :- Select country box
+	 *                    8 :- Wysiwyg
+	 *                    9 :- Media
+	 *                    10:- Documents
+	 *                    11:- Image
+	 *    `                12:- Date Picker
+	 *                    13:- Image selection with Link And hover
+	 *                    14:- Dealer Code
+	 *                    15:- Product Data Range
+	 *                    17:- Product-finder Date-picker
 	 *
-	 * field_section = 	1 :- Product
-	 * 					2 :- Category
-	 * 					3 :- Form
-	 * 					4 :- E-mail
-	 * 					5 :- Confirmation
-	 * 					6 :- Userinformations
-	 * 					7 :- Customer Address
-	 * 					8 :- Company Address
-	 * 					9 :- Color sample
-	 * 				   10 :- Manufacturer
-	 * 				   11 :- Shipping
+	 * field_section =    1 :- Product
+	 *                    2 :- Category
+	 *                    3 :- Form
+	 *                    4 :- E-mail
+	 *                    5 :- Confirmation
+	 *                    6 :- Userinformations
+	 *                    7 :- Customer Address
+	 *                    8 :- Company Address
+	 *                    9 :- Color sample
+	 *                   10 :- Manufacturer
+	 *                   11 :- Shipping
 	 *
 	 */
-
 
 	var $_data = null;
 	var $_table_prefix = null;
@@ -94,7 +91,7 @@ class extra_field
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 			$ex_field .= '<tr>';
 			$extra_field_value = "";
-			$extra_field_lable = JText::_($row_data[$i]->field_title);
+			$extra_field_label = JText::_($row_data[$i]->field_title);
 
 			$required = '';
 			$reqlbl = ' reqlbl="" ';
@@ -102,7 +99,7 @@ class extra_field
 			if ($field_section == 16 && $row_data[$i]->required == 1)
 			{
 				$required = ' required="1" ';
-				$reqlbl = ' reqlbl="' . $extra_field_lable . '" ';
+				$reqlbl = ' reqlbl="' . $extra_field_label . '" ';
 				$errormsg = ' errormsg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '" ';
 			}
 			switch ($type)
@@ -111,20 +108,20 @@ class extra_field
 					$text_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
 					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" ' . $required . $reqlbl . $errormsg . ' name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . htmlspecialchars($text_value) . '" size="' . $size . '" />';
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 				case 2: // 2 :- Text Area
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$extra_field_value = '<textarea class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" cols="' . $row_data[$i]->field_cols . '" rows="' . $row_data[$i]->field_rows . '" >' . htmlspecialchars($textarea_value) . '</textarea>';
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 				case 3: // 3 :- Check Box
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '';
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
@@ -137,7 +134,7 @@ class extra_field
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '';
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
@@ -150,7 +147,7 @@ class extra_field
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select name="' . $row_data[$i]->field_name . '">';
 					$extra_field_value .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 					for ($c = 0; $c < count($field_chk); $c++)
@@ -165,7 +162,7 @@ class extra_field
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select multiple size=10 name="' . $row_data[$i]->field_name . '[]">';
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
@@ -181,7 +178,7 @@ class extra_field
 					$field_chk = $this->_db->loadObjectlist();
 					$chk_data = @explode(",", $data_value->data_txt);
 
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select name="' . $row_data[$i]->field_name . '">';
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
@@ -194,13 +191,13 @@ class extra_field
 				case 8: // 8 :- Wysiwyg
 					$editor =& JFactory::getEditor();
 					$document =& JFactory::getDocument();
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$extra_field_value = $editor->display($row_data[$i]->field_name, stripslashes($textarea_value), '200', '50', '100', '20');
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 				case 9: // 9 :- Media
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" type="file" />';
 
 					$textarea_value = '';
@@ -234,55 +231,99 @@ class extra_field
 					}
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 10: // 10 :- Documents
-					$textarea_value = '';
-					$textarea_value_text = "";
+				case 10:
+					// 10 :- Documents
+
+					$document = JFactory::getDocument();
+					$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
+					$document->addStyleSheet('//code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css');
+					$document->addScriptDeclaration('
+						$(function(){
+							var remove_a = null;
+							$("a[id^=add_rs_]").click(function(){
+
+								var extra_field_name = $(this).attr(\'title\'), extra_field_doc_html = "";
+								var html_acceptor = $(\'#html_\'+extra_field_name);
+								var total_elm = html_acceptor.children(\'div\').length;
+
+								extra_field_doc_html = \'<div id="div_\'+extra_field_name+total_elm+\'" class="ui-helper-clearfix">\';
+									extra_field_doc_html += \'<input type="text" value="" id="text_\'+extra_field_name+total_elm+\'" errormsg="" reqlbl="" name="text_\'+extra_field_name+\'[]">\';
+									extra_field_doc_html += \'<input type="file" id="file_\'+extra_field_name+total_elm+\'" name="\'+extra_field_name+\'[]" class="">\';
+									extra_field_doc_html += \'<a href="#" style="float:left;" title="\'+extra_field_name+\'" id="remove_\'+extra_field_name+total_elm+\'">Remove</a>\';
+								extra_field_doc_html += \'</div>\';
+
+								html_acceptor.append(extra_field_doc_html);
+								$(\'#div_\'+extra_field_name+total_elm).effect( \'highlight\');
 
 
-					if ($data_value && $data_value->data_txt)
+								$("a[id^=\'remove_rs_\']").click(function(){
+									$(this).parent(\'div\').effect(\'highlight\',{},500,function(){
+										$(this).remove();
+									});
+								});
+							});
+						});
+					');
+
+					// Support Legacy string.
+					if (preg_match('/\n/', $data_value->data_txt))
 					{
-						$data_value->data_txt;
-						$text_value = explode("\n", $data_value->data_txt);
-						$textarea_value_text = $text_value[0];
-						$textarea_value = $text_value[1];
+
+						$document_explode = explode("\n", $data_value->data_txt);
+						$data_txt = array($document_explode[0] => $document_explode[1]);
 					}
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
-					$extra_field_value = '<input type="text" name="text_' . $row_data[$i]->field_name . '" ' . $required . $reqlbl . $errormsg . ' id="text_' . $row_data[$i]->field_name . '" value="' . $textarea_value_text . '" />&nbsp;';
-					$extra_field_value .= '<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" type="file"  />';
-
-					if ($data_value && $data_value->data_txt)
+					else
 					{
-						//$data_value->data_txt;
-						//$text_value = explode("\n",$data_value->data_txt);
-						//$textarea_value_text = $text_value[0];
-						//$textarea_value = $text_value[1];
+						// Support for multiple file upload using JSON for better string handling
+						$data_txt = json_decode($data_value->data_txt);
+					}
 
-						$dest_prefix = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/';
-						$dest_prefix_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/';
-						$dest_prefix_del = '/components/' . $option . '/assets/document/extrafields/';
-						$media_image = $dest_prefix_phy . $textarea_value;
-						if (is_file($media_image))
+					if (count($data_txt) > 0)
+					{
+						$extra_field_value = "";
+						$index = 0;
+						foreach ($data_txt as $text_area_value_text => $text_area_value)
 						{
-							$media_image = $dest_prefix . $textarea_value;
-							$media_type = strtolower(JFile::getExt($textarea_value));
-							if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
-							{
-								$extra_field_value .= '<div id="docdiv' . $i . '"><img width="100"  src="' . $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\'' . $textarea_value . '\', \'docdiv' . $i . '\',\'' . $dest_prefix_del . '\', \'' . $data_value->data_id . '\');"> Remove Media</a><input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . $textarea_value . '" type="hidden"  /><div>';
 
+							$extra_field_value .= '<div id="div_' . $row_data[$i]->field_name . $index . '">
+											<input type="text" name="text_' . $row_data[$i]->field_name . '[]" ' . $required . $reqlbl . $errormsg . ' id="text_' . $row_data[$i]->field_name . $index . '" value="' . $text_area_value_text . '" />&nbsp;';
+							$extra_field_value .= '<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="file_' . $row_data[$i]->field_name . $index . '" type="file"  />';
+
+							$destination_prefix = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/';
+							$destination_prefix_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/';
+							$destination_prefix_del = '/components/com_redshop/assets/document/extrafields/';
+							$media_image = $destination_prefix_phy . $text_area_value;
+
+							if (is_file($media_image))
+							{
+								$media_image = $destination_prefix . $text_area_value;
+								$media_type = strtolower(JFile::getExt($text_area_value));
+
+								if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
+								{
+									$extra_field_value .= '<div id="docdiv' . $index . '"><img width="100"  src="' . $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /><div>';
+
+								}
+								else
+								{
+									$extra_field_value .= '<div id="docdiv' . $index . '"><a href="' . $media_image . '" target="_blank">' . $text_area_value . '</a>&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /></div>';
+
+								}
 							}
 							else
 							{
-								$extra_field_value .= '<div id="docdiv' . $i . '"><a href="' . $media_image . '">' . $textarea_value . '</a>&nbsp;<a href="#123"   onclick="delimg(\'' . $textarea_value . '\', \'docdiv' . $i . '\',\'' . $dest_prefix_del . '\', \'' . $data_value->data_id . '\');"> Remove Media</a><input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . $textarea_value . '" type="hidden"  /></div>';
-
+								$extra_field_value .= JText::_('COM_REDSHOP_FILE_NOT_EXIST');
 							}
+							$extra_field_value .= '</div>';
+
+							$index++;
 						}
-						else
-						{
-							$extra_field_value .= JText::_('COM_REDSHOP_FILE_NOT_EXIST');
-						}
-						//$extra_field_value .='';
+
 					}
-					$ex_field .= '<td>' . $extra_field_value;
+
+					$ex_field .= '<td width="100" align="right" class="key">' . $extra_field_label . '</td>';
+					$ex_field .= '<td><a href="#" title="' . $row_data[$i]->field_name . '" id="add_' . $row_data[$i]->field_name . '">Add</a><div id="html_' . $row_data[$i]->field_name . '">' . $extra_field_value . '</div>';
 					break;
 				case 11: // 11 :- Image select
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
@@ -293,7 +334,7 @@ class extra_field
 						$value = $data_value->data_txt;
 					}
 					$chk_data = @explode(",", $data_value->data_txt);
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<table><tr>';
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
@@ -329,7 +370,7 @@ class extra_field
 						}
 					}
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = JHTML::_('calendar', $date, $row_data[$i]->field_name, $row_data[$i]->field_name, $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
@@ -357,7 +398,7 @@ class extra_field
 						$image_hover[$chk_data[$ch]] = $tmp_image_hover[$ch];
 					}
 
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<table>';
 					$c = 0;
 
@@ -425,7 +466,7 @@ class extra_field
 					{
 						$size = '20';
 					}
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_lable . '</td>';
+					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = 'Publish Date: ';
 
 					$extra_field_value .= "<input type='text' name='" . $row_data[$i]->field_name . "' value='" . $date_publish . "'>";
@@ -466,7 +507,7 @@ class extra_field
 				if (strstr($template_desc, "{" . $row_data[$i]->field_name . "}"))
 				{
 					$template_desc = str_replace("{" . $row_data[$i]->field_name . "}", $extra_field_value, $template_desc);
-					$template_desc = str_replace("{" . $row_data[$i]->field_name . "_lbl}", $extra_field_lable, $template_desc);
+					$template_desc = str_replace("{" . $row_data[$i]->field_name . "_lbl}", $extra_field_label, $template_desc);
 				}
 				$template_desc = str_replace("{" . $row_data[$i]->field_name . "}", "", $template_desc);
 				$template_desc = str_replace("{" . $row_data[$i]->field_name . "_lbl}", "", $template_desc);
@@ -509,42 +550,75 @@ class extra_field
 			$data_txt = '';
 			if (isset($data[$row_data[$i]->field_name]))
 			{
-				if ($row_data[$i]->field_type == 10 && isset($data['text_' . $row_data[$i]->field_name]))
-				{
-					$data_txt = $data['text_' . $row_data[$i]->field_name] . "\n" . $data[$row_data[$i]->field_name];
-				}
-				else if ($row_data[$i]->field_type == 8 || $row_data[$i]->field_type == 1 || $row_data[$i]->field_type == 2)
+				if ($row_data[$i]->field_type == 8 || $row_data[$i]->field_type == 1 || $row_data[$i]->field_type == 2)
 				{
 					$data_txt = JRequest::getVar($row_data[$i]->field_name, '', ' ', 'string', JREQUEST_ALLOWRAW);
-					//$data_txt = addslashes($data_txt);
 				}
 				else
 				{
 					$data_txt = $data[$row_data[$i]->field_name];
 				}
 			}
-			if ($row_data[$i]->field_type == 9 || $row_data[$i]->field_type == 10)
+
+			if ($row_data[$i]->field_type == 9)
 			{
-				if ($row_data[$i]->field_type == 9)
-					$dest_prefix = REDSHOP_FRONT_IMAGES_RELPATH . 'media/';
-				elseif ($row_data[$i]->field_type == 10)
-					$dest_prefix = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/';
+				$destination_prefix = REDSHOP_FRONT_IMAGES_RELPATH . 'media/';
 
 				if ($_FILES[$row_data[$i]->field_name]['name'] != "")
 				{
 					$data_txt = time() . $_FILES[$row_data[$i]->field_name]["name"];
 
 					$src = $_FILES[$row_data[$i]->field_name]['tmp_name'];
-					$dest = $dest_prefix . $data_txt;
-					JFile::upload($src, $dest);
-
-
-					if ($row_data[$i]->field_type == 10 && isset($data['text_' . $row_data[$i]->field_name]))
-					{
-						$data_txt = $data['text_' . $row_data[$i]->field_name] . "\n" . $data_txt;
-					}
+					$destination = $destination_prefix . $data_txt;
+					JFile::upload($src, $destination);
 				}
 			}
+
+			// Save Document Extra Field
+			if ($row_data[$i]->field_type == 10)
+			{
+				$files = $_FILES[$row_data[$i]->field_name]['name'];
+				$texts = $data['text_' . $row_data[$i]->field_name];
+
+				$documents_value = array();
+				if (isset($data[$row_data[$i]->field_name]))
+				{
+					$documents_value = $data[$row_data[$i]->field_name];
+				}
+
+				$total = count($files);
+
+				if (is_array($files) && $total > 0)
+				{
+					$documents = array();
+					for ($ij = 0; $ij < $total; $ij++)
+					{
+						$file = $files[$ij];
+
+						// Editing uploaded file
+						if (isset($documents_value[$ij]) && $documents_value[$ij] != "")
+						{
+							$documents[trim($texts[$ij])] = $documents_value[$ij];
+						}
+
+						if ($file != "")
+						{
+
+							$name = time() . $file;
+
+							$src = $_FILES[$row_data[$i]->field_name]['tmp_name'][$ij];
+							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
+
+							JFile::upload($src, $destination);
+							$documents[trim($texts[$ij])] = $name;
+						}
+					}
+
+					// Convert array into JSON string for better handler.
+					$data_txt = json_encode($documents);
+				}
+			}
+			// End
 
 			if ($row_data[$i]->field_type == 15)
 			{
@@ -560,8 +634,6 @@ class extra_field
 					}
 				}
 			}
-
-			//print_r($row_data);
 
 			if (is_array($data_txt))
 			{
@@ -689,16 +761,16 @@ class extra_field
 		{
 			$type = $row_data[$i]->field_type;
 			$extra_field_value = "";
-			$extra_field_lable = $row_data[$i]->field_title;
+			$extra_field_label = $row_data[$i]->field_title;
 			if ($flag == 1)
 			{
 				if ($i > 0)
 					$ex_field .= "<br />";
-				$ex_field .= JText::_($extra_field_lable) . ' : ';
+				$ex_field .= JText::_($extra_field_label) . ' : ';
 			}
 			else
 			{
-				$ex_field .= '<tr><td valign="top" align="left">' . JText::_($extra_field_lable) . ' : </td><td>';
+				$ex_field .= '<tr><td valign="top" align="left">' . JText::_($extra_field_label) . ' : </td><td>';
 			}
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id, $user_email);
 
@@ -801,7 +873,7 @@ class extra_field
 				if (strstr($template_desc, "{" . $row_data[$i]->field_name . "}"))
 				{
 					$template_desc = str_replace("{" . $row_data[$i]->field_name . "}", $extra_field_value, $template_desc);
-					$template_desc = str_replace("{" . $row_data[$i]->field_name . "_lbl}", $extra_field_lable, $template_desc);
+					$template_desc = str_replace("{" . $row_data[$i]->field_name . "_lbl}", $extra_field_label, $template_desc);
 				}
 				$template_desc = str_replace("{" . $row_data[$i]->field_name . "}", "", $template_desc);
 				$template_desc = str_replace("{" . $row_data[$i]->field_name . "_lbl}", "", $template_desc);
