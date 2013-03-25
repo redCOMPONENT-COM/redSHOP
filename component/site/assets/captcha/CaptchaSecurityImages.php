@@ -47,19 +47,19 @@ require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 // Set up the appropriate CMS framework
 
 // Create the mainframe object
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 // Load system plugin group
 JPluginHelper::importPlugin('system');
 
 // Create the mainframe object
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 
 // Trigger the onBeforeStart events
-$mainframe->triggerEvent('onBeforeStart');
+$app->triggerEvent('onBeforeStart');
 $lang           = JFactory::getLanguage();
 $mosConfig_lang = $GLOBALS['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 $session        = JFactory::getSession();

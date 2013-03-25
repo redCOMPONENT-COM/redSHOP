@@ -33,7 +33,7 @@ class RegistrationController extends JController
 	 */
 	public function newregistration()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$post = JRequest::get('post');
 

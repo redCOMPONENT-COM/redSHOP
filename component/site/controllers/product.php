@@ -235,7 +235,7 @@ class ProductController extends JController
 	public function addtowishlist()
 	{
 		ob_clean();
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$extraField = new extraField;
 		$section = 12;
 		$row_data = $extraField->getSectionFieldList($section);
@@ -342,25 +342,25 @@ class ProductController extends JController
 			{
 				if ($model->addToWishlist($post))
 				{
-					$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+					$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
 				}
 				else
 				{
-					$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
+					$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
 				}
 			}
 			else
 			{
-				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+				$app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
 			}
 		}
 		else
 		{
 			// User can store wishlist in session
 			if ($model->addtowishlist2session($post))
-				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+				$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
 			else
-				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+				$app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
 		}
 
 		if ($ajaxvar == 1)
@@ -401,7 +401,7 @@ class ProductController extends JController
 
 	public function addProductTags()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// GetVariables
 		$cid = JRequest::getInt('cid');
@@ -461,16 +461,16 @@ class ProductController extends JController
 				{
 					$model->addProductTagsXref($ntag, $tags);
 
-					$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
+					$app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
 				}
 				else
 				{
-					$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
+					$app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
 				}
 			}
 			else
 			{
-				$mainframe->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
+				$app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
 			}
 		}
 

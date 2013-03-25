@@ -17,7 +17,7 @@ class account_shiptoViewaccount_shipto extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$order_functions = new order_functions;
 
@@ -31,7 +31,7 @@ class account_shiptoViewaccount_shipto extends JView
 		// Preform security checks
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-		$params  = $mainframe->getParams('com_redshop');
+		$params  = $app->getParams('com_redshop');
 
 		if ($user->id)
 		{
@@ -44,7 +44,7 @@ class account_shiptoViewaccount_shipto extends JView
 		}
 		else
 		{
-			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 			exit;
 		}
 

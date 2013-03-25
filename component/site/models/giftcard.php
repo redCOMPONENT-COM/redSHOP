@@ -37,7 +37,7 @@ class GiftcardModelGiftcard extends JModel
 
 	public function __construct()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
@@ -54,7 +54,7 @@ class GiftcardModelGiftcard extends JModel
 
 	public function _buildQuery()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$and = "";
 
@@ -83,7 +83,7 @@ class GiftcardModelGiftcard extends JModel
 
 	public function getGiftcardTemplate()
 	{
-		global $mainframe, $context;
+		global $app, $context;
 
 		$redTemplate = new Redtemplate;
 

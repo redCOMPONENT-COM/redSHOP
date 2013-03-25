@@ -27,7 +27,7 @@ class rsUserhelper
 
 	public function __construct()
 	{
-		global $mainframe, $context;
+		global $app, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDBO();
@@ -228,7 +228,7 @@ class rsUserhelper
 			die;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$db  = JFactory::getDBO();
 		$me  = JFactory::getUser();
@@ -324,7 +324,7 @@ class rsUserhelper
 
 	public function createJoomlaUser($data, $createuser = 0)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
 
@@ -451,7 +451,7 @@ class rsUserhelper
 			$credentials['password'] = $data['password2'];
 
 			//preform the login action
-			$mainframe->login($credentials);
+			$app->login($credentials);
 
 			return $user;
 		}

@@ -18,7 +18,7 @@ class order_detailVieworder_detail extends JView
 {
 	function display ($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$order_functions = new order_functions;
 
@@ -33,7 +33,7 @@ class order_detailVieworder_detail extends JView
 	<?php
 	}
 
-		$params = $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
 		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
@@ -54,7 +54,7 @@ class order_detailVieworder_detail extends JView
 		{
 			if ($OrdersDetail->user_id != $user->id)
 			{
-				$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 
 				return;
 			}
@@ -77,7 +77,7 @@ class order_detailVieworder_detail extends JView
 			// Preform security checks
 			elseif (!$user->id)
 			{
-				$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 
 				return;
 			}

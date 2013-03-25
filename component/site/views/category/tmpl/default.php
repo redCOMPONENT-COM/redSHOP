@@ -43,8 +43,8 @@ if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($templa
 	$endlimit = $model->getProductPerPage();
 }
 
-$mainframe = JFactory::getApplication();
-$router    = $mainframe->getRouter();
+$app = JFactory::getApplication();
+$router    = $app->getRouter();
 $uri       = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
 
 // $router->setVars ( $uri->_vars );

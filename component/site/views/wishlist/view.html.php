@@ -15,11 +15,11 @@ class wishlistViewwishlist extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Request variables
 
-		$params = $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 		$task   = JRequest::getVar('task', 'com_redshop');
 
 		$option = JRequest::getVar('option', 'com_redshop');
@@ -32,7 +32,7 @@ class wishlistViewwishlist extends JView
 		$pageheadingtag = '';
 
 
-		$params   = $mainframe->getParams('com_redshop');
+		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 

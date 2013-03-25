@@ -15,9 +15,9 @@ class ordertrackerViewordertracker extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$params = $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
 		// Request variables
 		$option = JRequest::getVar('option');

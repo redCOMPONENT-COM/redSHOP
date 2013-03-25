@@ -105,10 +105,10 @@ class LoginController extends JController
 	 */
 	public function logout()
 	{
-		$mainframe = JFactory::getApplication();
-		$params = $mainframe->getParams('com_redshop');
+		$app = JFactory::getApplication();
+		$params = $app->getParams('com_redshop');
 		$logout_itemid = JRequest::getVar('logout');
-		/*$menu	= $mainframe->getMenu();
+		/*$menu	= $app->getMenu();
 		$item	= $menu->getActive();
 		$redconfig = $item->query;
 		$item = $menu->getItem($redconfig['logout']);*/
@@ -124,7 +124,7 @@ class LoginController extends JController
 			$link = JRoute::_('index.php?option=com_redshop');
 		}
 
-		$mainframe->logout();
+		$app->logout();
 		$this->setRedirect($link);
 	}
 }

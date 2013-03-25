@@ -28,12 +28,12 @@ class ratingsModelratings extends JModel
 
 	public function __construct()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$limit      = $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest('limitstart', 'limitstart', 0);
+		$limit      = $app->getUserStateFromRequest('limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest('limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);

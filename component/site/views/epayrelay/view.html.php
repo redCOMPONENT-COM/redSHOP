@@ -18,7 +18,7 @@ class epayrelayViewepayrelay extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		parent::display($tpl);
 	}

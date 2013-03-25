@@ -41,7 +41,7 @@ class CartController extends JController
 	 */
 	public function add()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$parent_accessory_productid = $post['product_id'];
@@ -82,7 +82,7 @@ class CartController extends JController
 				}
 
 				$link = JRoute::_("index.php?option=" . $option . "&view=product&pid=" . $post["product_id"] . "&Itemid=" . $prdItemid, false);
-				$mainframe->Redirect($link, $errmsg);
+				$app->Redirect($link, $errmsg);
 			}
 		}
 
@@ -157,7 +157,7 @@ class CartController extends JController
 								}
 
 								$link = JRoute::_("index.php?option=" . $option . "&view=product&pid=" . $post["product_id"] . "&Itemid=" . $prdItemid, false);
-								$mainframe->Redirect($link, $errmsg);
+								$app->Redirect($link, $errmsg);
 							}
 						}
 					}
@@ -187,14 +187,14 @@ class CartController extends JController
 			if (AJAX_CART_BOX == 1 && isset($post['ajax_cart_box']))
 			{
 				$link = JRoute::_('index.php?option=' . $option . '&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid, false);
-				$mainframe->Redirect($link);
+				$app->Redirect($link);
 			}
 			else
 			{
 				if (ADDTOCART_BEHAVIOUR == 1)
 				{
 					$link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
-					$mainframe->Redirect($link);
+					$app->Redirect($link);
 				}
 				else
 				{
@@ -206,14 +206,14 @@ class CartController extends JController
 					}
 
 					$msg .= JTEXT::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART');
-					$mainframe->Redirect($link, $msg);
+					$app->Redirect($link, $msg);
 				}
 			}
 		}
 		else
 		{
 			$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $post['p_id'] . '&Itemid=' . $Itemid, false);
-			$mainframe->Redirect($link);
+			$app->Redirect($link);
 		}
 	}
 
@@ -480,7 +480,7 @@ class CartController extends JController
 	 */
 	public function redmasscart()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -489,7 +489,7 @@ class CartController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
 			$rurl = base64_decode($post["rurl"]);
-			$mainframe->redirect($rurl, $msg);
+			$app->redirect($rurl, $msg);
 		}
 
 		$model = $this->getModel('cart');

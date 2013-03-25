@@ -28,7 +28,7 @@ class product_ratingModelproduct_rating extends JModel
 
 	public function __construct()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';

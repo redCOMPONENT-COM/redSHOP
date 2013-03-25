@@ -54,7 +54,7 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function orderplace()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$post            = JRequest::get('post');
 		$option          = JRequest::getVar('option');
 		$Itemid          = JRequest::getVar('Itemid');
@@ -124,7 +124,7 @@ class split_paymentModelsplit_payment extends JModel
 					. '&ccinfo=' . $ccinfo
 					. '&payment_method_id=' . $payment_method_id
 					. '&oid=' . $oid;
-				$mainframe->Redirect($link, $msg);
+				$app->Redirect($link, $msg);
 			}
 
 
@@ -141,7 +141,7 @@ class split_paymentModelsplit_payment extends JModel
 			{
 				$msg  = "Payment Failure" . $d ["order_payment_log"];
 				$link = 'index.php?option=' . $option . '&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
-				$mainframe->Redirect($link, $msg);
+				$app->Redirect($link, $msg);
 				JRequest::setVar('payment_status_log', '-' . $d ["order_payment_log"]);
 			}
 			else
@@ -203,7 +203,7 @@ class split_paymentModelsplit_payment extends JModel
 			}
 		}
 
-		$mainframe->Redirect($return, $msg);
+		$app->Redirect($return, $msg);
 	}
 
 	public function validatepaymentccinfo()
