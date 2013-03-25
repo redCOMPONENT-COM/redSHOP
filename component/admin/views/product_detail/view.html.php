@@ -32,7 +32,17 @@ class product_detailVIEWproduct_detail extends JView
 		$lists = array();
 
 		$model = $this->getModel('product_detail');
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
+
+		$isNew = ($detail->product_id < 1);
+
+		// Load new product default values
+		if ($isNew)
+		{
+			$detail->append_to_global_seo = '';
+			$detail->canonical_url        = '';
+		}
+
 		$user = JFactory::getUser();
 
 		// Fail if checked out not by 'me'
@@ -262,7 +272,11 @@ class product_detailVIEWproduct_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
+
+		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
+		{
+			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
+		}
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/related.js');
 
@@ -286,8 +300,6 @@ class product_detailVIEWproduct_detail extends JView
 		{
 			$this->setLayout('default');
 		}
-
-		$isNew = ($detail->product_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
 
@@ -385,7 +397,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
 		$lists['categories'] = $categories;
-		$detail->first_selected_category_id = $productcats[0];
+		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
 		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->manufacturer_id
