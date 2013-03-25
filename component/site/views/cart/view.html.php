@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 
 class cartViewcart extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Request variables
 		$redTemplate = new Redtemplate;

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * split payment Controller.
@@ -24,7 +24,7 @@ class Split_paymentController extends JController
 	{
 		parent::__construct($default);
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$model = $this->getModel('split_payment');
 	}
 
@@ -36,7 +36,7 @@ class Split_paymentController extends JController
 	 */
 	public function payremaining()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');

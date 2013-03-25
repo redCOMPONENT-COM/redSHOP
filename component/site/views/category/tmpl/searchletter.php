@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.application.module.helper');
+JLoader::import('joomla.application.module.helper');
 JHTMLBehavior::modal();
 $url       = JURI::base();
 $option    = JRequest::getVar('option');

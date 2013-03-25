@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class quotationViewquotation extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$redconfig = new Redconfiguration;
 		$uri       = JFactory::getURI();

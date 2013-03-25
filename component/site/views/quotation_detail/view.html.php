@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
 
 class quotation_detailViewquotation_detail extends JView
 {
 function display ($tpl = null)
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 
 	$quotationHelper = new quotationHelper;
 

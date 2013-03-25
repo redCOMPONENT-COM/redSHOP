@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class ratingsModelratings
@@ -28,7 +28,7 @@ class ratingsModelratings extends JModel
 
 	public function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
@@ -74,7 +74,7 @@ class ratingsModelratings extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
+			JLoader::import('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 

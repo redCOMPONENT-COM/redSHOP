@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class categoryViewcategory extends JView
 {
@@ -30,7 +30,7 @@ class categoryViewcategory extends JView
 		$layout = JRequest::getVar('layout');
 
 		$print = JRequest::getVar('print');
-		$params =& $mainframe->getParams($option);
+		$params = $mainframe->getParams($option);
 		$model = $this->getModel('category');
 
 		$category_template = (int) $params->get('category_template');

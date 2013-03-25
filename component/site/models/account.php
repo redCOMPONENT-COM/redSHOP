@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
@@ -75,8 +75,8 @@ class AccountModelaccount extends JModel
 
 	public function getMyDetail()
 	{
-		global $mainframe;
-		$redconfig = & $mainframe->getParams();
+		$mainframe = JFactory::getApplication();
+		$redconfig = $mainframe->getParams();
 		$start     = JRequest::getVar('limitstart', 0, '', 'int');
 		$limit     = $redconfig->get('maxcategory');
 
@@ -91,7 +91,7 @@ class AccountModelaccount extends JModel
 
 	public function _buildQuery()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$user   = JFactory::getUser();
 		$userid = $user->id;
@@ -160,9 +160,9 @@ class AccountModelaccount extends JModel
 
 	public function getPagination()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$redconfig = & $mainframe->getParams();
+		$redconfig = $mainframe->getParams();
 
 		$start = JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -170,7 +170,7 @@ class AccountModelaccount extends JModel
 
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
+			JLoader::import('joomla.html.pagination');
 
 			$this->_pagination = new redPagination($this->getTotal(), $start, $limit);
 		}
@@ -216,7 +216,7 @@ class AccountModelaccount extends JModel
 
 	public function removeWishlistProduct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$Itemid      = JRequest::getVar('Itemid');
 		$option      = JRequest::getVar('option');
@@ -259,7 +259,7 @@ class AccountModelaccount extends JModel
 
 	public function removeTag()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
@@ -343,7 +343,7 @@ class AccountModelaccount extends JModel
 
 	public function removeCompare()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$Itemid     = JRequest::getVar('Itemid');
 		$option     = JRequest::getVar('option');

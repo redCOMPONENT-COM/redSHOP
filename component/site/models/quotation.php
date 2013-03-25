@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
@@ -453,11 +453,11 @@ class quotationModelquotation extends JModel
 		$redshopMail     = new redshopMail;
 		$order_functions = new order_functions;
 		$Itemid          = JRequest::getVar('Itemid');
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
-		$pathway   =& $mainframe->getPathway();
+		$pathway   = $mainframe->getPathway();
 		$config    = JFactory::getConfig();
 		$authorize = JFactory::getACL();
 		$document  = JFactory::getDocument();
@@ -502,7 +502,7 @@ class quotationModelquotation extends JModel
 
 		if ($useractivation == '1')
 		{
-			jimport('joomla.user.helper');
+			JLoader::import('joomla.user.helper');
 
 			$user->set('block', '0');
 		}

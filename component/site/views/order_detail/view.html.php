@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
@@ -18,7 +18,7 @@ class order_detailVieworder_detail extends JView
 {
 	function display ($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$order_functions = new order_functions;
 
@@ -33,7 +33,7 @@ class order_detailVieworder_detail extends JView
 	<?php
 	}
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $mainframe->getParams('com_redshop');
 
 		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();

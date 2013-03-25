@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class LoginModelLogin
@@ -47,7 +47,7 @@ class LoginModelLogin extends JModel
 
 	public function ShopperGroupDetail($sid = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if ($sid == 0)
 			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__" . TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;

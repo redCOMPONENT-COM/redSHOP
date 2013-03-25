@@ -16,7 +16,7 @@ require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
 include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Order Detail Controller.

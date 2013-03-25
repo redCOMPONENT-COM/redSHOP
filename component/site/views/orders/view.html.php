@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class ordersVieworders extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$user = JFactory::getUser();
 
@@ -30,7 +30,7 @@ class ordersVieworders extends JView
 		$layout = JRequest::getCmd('layout', 'default');
 		$this->setLayout($layout);
 
-		$params        = & $mainframe->getParams($option);
+		$params        = $mainframe->getParams($option);
 		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 

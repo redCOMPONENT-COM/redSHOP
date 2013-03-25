@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
@@ -24,10 +24,10 @@ class Account_billtoViewaccount_billto extends JView
 	 */
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$extra_field = new extraField;
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $mainframe->getParams('com_redshop');
 
 		$billingaddresses = $GLOBALS['billingaddresses'];
 

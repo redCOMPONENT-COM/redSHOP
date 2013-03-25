@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
@@ -54,7 +54,7 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function orderplace()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$post            = JRequest::get('post');
 		$option          = JRequest::getVar('option');
 		$Itemid          = JRequest::getVar('Itemid');

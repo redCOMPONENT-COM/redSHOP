@@ -918,7 +918,7 @@ class redhelper
 
 	public function getsslLink($link, $applySSL)
 	{
-		$uri =& JURI::getInstance($link);
+		$uri = JURI::getInstance($link);
 
 		if ($applySSL)
 		{

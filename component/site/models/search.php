@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
@@ -33,16 +33,20 @@ class searchModelsearch extends JModel
 
 	public function __construct()
 	{
+		global $context;
+
 		parent::__construct();
-		global $mainframe, $context;
+
+		$app = JFactory::getApplication();
+
 		$context = 'search';
 
 		$this->_table_prefix = '#__redshop_';
-		$params              = & $mainframe->getParams('com_redshop');
-		$menu                =& $mainframe->getMenu();
-		$item                =& $menu->getActive();
+		$params              = $app->getParams('com_redshop');
+		$menu                = $app->getMenu();
+		$item                = $menu->getActive();
 
-		$layout         = $mainframe->getUserStateFromRequest($context . 'layout', 'layout', 'default');
+		$layout         = $app->getUserStateFromRequest($context . 'layout', 'layout', 'default');
 		$module         = JModuleHelper::getModule('redshop_search');
 		$module_params  = new JRegistry($module->params);
 		$perpageproduct = $module_params->get('productperpage', 5);
@@ -61,7 +65,7 @@ class searchModelsearch extends JModel
 		$limitstart = JRequest::getVar('limitstart', 0);
 		$this->setState('productperpage', $perpageproduct);
 		$this->setState('limit', $limit);
-		$productlimit = $mainframe->getUserStateFromRequest($context . 'productlimit', 'productlimit', $productlimit, 8);
+		$productlimit = $app->getUserStateFromRequest($context . 'productlimit', 'productlimit', $productlimit, 8);
 		$this->setState('productlimit', $productlimit);
 		$this->setState('limitstart', $limitstart);
 	}
@@ -129,8 +133,8 @@ class searchModelsearch extends JModel
 
 	public function getProductPerPage()
 	{
-		global $mainframe;
-		$redconfig   = & $mainframe->getParams();
+		$mainframe = JFactory::getApplication();
+		$redconfig   = $mainframe->getParams();
 		$redTemplate = new Redtemplate;
 		$template    = $this->getCategoryTemplet();
 
@@ -181,7 +185,7 @@ class searchModelsearch extends JModel
 
 	public function getTotal()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$context      = 'search';
 		$productlimit = $this->getstate('productlimit');
 
@@ -217,7 +221,7 @@ class searchModelsearch extends JModel
 
 	public function _buildQuery($manudata = 0)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$context = 'search';
 
 		$keyword = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
@@ -293,7 +297,7 @@ class searchModelsearch extends JModel
 			$defaultSearchType .= " OR (" . $product_s_desc_srch . ") ";
 		}
 
-		$redconfig  = & $mainframe->getParams();
+		$redconfig  = $mainframe->getParams();
 		$getorderby = JRequest::getVar('order_by', '');
 
 		$order_by = $getorderby;
@@ -340,8 +344,8 @@ class searchModelsearch extends JModel
 
 		$params = & JComponentHelper::getParams('com_redshop');
 
-		$menu =& $mainframe->getMenu();
-		$item =& $menu->getActive();
+		$menu = $mainframe->getMenu();
+		$item = $menu->getActive();
 
 		$days        = $item->query['newproduct'];
 		$today       = date('Y-m-d H:i:s', time());
@@ -502,10 +506,12 @@ class searchModelsearch extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe, $context;
+		global $context;
 
-		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$app = JFactory::getApplication();
+
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
@@ -514,15 +520,15 @@ class searchModelsearch extends JModel
 
 	public function getCategoryTemplet()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$context = 'search';
 
 		$layout     = $mainframe->getUserStateFromRequest($context . 'layout', 'layout', '');
 		$templateid = $mainframe->getUserStateFromRequest($context . 'templateid', 'templateid', '');
 
 		$params = & JComponentHelper::getParams('com_redshop');
-		$menu   =& $mainframe->getMenu();
-		$item   =& $menu->getActive();
+		$menu   = $mainframe->getMenu();
+		$item   = $menu->getActive();
 
 		if ($layout == 'newproduct')
 		{
@@ -626,7 +632,7 @@ class searchModelsearch extends JModel
 			$q = "SELECT a.product_id
 						  FROM #__redproductfinder_association_tag AS ta
 						  LEFT JOIN #__redproductfinder_associations AS a ON a.id = ta.association_id
-						  LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id 
+						  LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id
 						  LEFT JOIN #__redshop_product_category_xref x ON x.product_id = a.product_id ";
 
 			for ($i = 0; $i < count($main_sal_type); $i++)
@@ -1023,7 +1029,7 @@ class searchModelsearch extends JModel
 
 	public function getajaxData()
 	{
-		jimport('joomla.application.module.helper');
+		JLoader::import('joomla.application.module.helper');
 		$module      = JModuleHelper::getModule('redshop_search');
 		$params      = new JRegistry($module->params);
 		$limit       = $params->get('noofsearchresults');

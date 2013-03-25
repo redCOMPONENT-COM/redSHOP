@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
 
@@ -71,8 +71,8 @@ class CheckoutController extends JController
 	 */
 	public function checkoutnext()
 	{
-		global $mainframe;
-		$session = & JFactory::getSession();
+		$mainframe = JFactory::getApplication();
+		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$user = JFactory::getUser();
 		$cart = $session->get('cart');
@@ -178,7 +178,7 @@ class CheckoutController extends JController
 	{
 		$get = JRequest::get('get');
 		JPluginHelper::importPlugin('rs_labels_GLS');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$values = new stdClass;
 		$values->zipcode = $get['zipcode'];
 
@@ -375,9 +375,9 @@ class CheckoutController extends JController
 	 */
 	public function checkoutfinal()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');

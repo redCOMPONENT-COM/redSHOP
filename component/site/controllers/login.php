@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * login Controller.
@@ -30,7 +30,7 @@ class LoginController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$returnitemid = JRequest::getVar('returnitemid');
-		$menu =& JSite::getMenu();
+		$menu = JFactory::getApplication()->getMenu();
 		$mywishlist = JRequest::getVar('mywishlist');
 		$item = $menu->getItem($returnitemid);
 
@@ -106,13 +106,13 @@ class LoginController extends JController
 	public function logout()
 	{
 		$mainframe = JFactory::getApplication();
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $mainframe->getParams('com_redshop');
 		$logout_itemid = JRequest::getVar('logout');
-		/*$menu	=& $mainframe->getMenu();
-		$item	=& $menu->getActive();
+		/*$menu	= $mainframe->getMenu();
+		$item	= $menu->getActive();
 		$redconfig = $item->query;
 		$item = $menu->getItem($redconfig['logout']);*/
-		$menu =& JSite::getMenu();
+		$menu = JFactory::getApplication()->getMenu();
 		$item = $menu->getItem($logout_itemid);
 
 		if ($item)

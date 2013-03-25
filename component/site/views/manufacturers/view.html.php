@@ -8,13 +8,13 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class manufacturersViewmanufacturers extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$producthelper = new producthelper;
 		$redhelper     = new redhelper;
@@ -22,7 +22,7 @@ class manufacturersViewmanufacturers extends JView
 		$option        = JRequest::getVar('option');
 		$print         = JRequest::getVar('print');
 		$layout        = JRequest::getVar('layout', 'default');
-		$params        = & $mainframe->getParams($option);
+		$params        = $mainframe->getParams($option);
 
 		$mid    = 0;
 		$lists  = array();

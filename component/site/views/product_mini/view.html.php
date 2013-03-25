@@ -10,14 +10,16 @@
 defined('_JEXEC') or die;
 
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
 
 class product_miniViewproduct_mini extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
+
+		$app = JFactory::getApplication();
 
 		$redTemplate = new Redtemplate;
 
@@ -26,14 +28,14 @@ class product_miniViewproduct_mini extends JView
 
 		$uri = JFactory::getURI();
 
-		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$limitstart       = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit            = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$limitstart       = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit            = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$search_field = $mainframe->getUserStateFromRequest($context . 'search_field', 'search_field', '');
-		$keyword      = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
-		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
+		$search_field = $app->getUserStateFromRequest($context . 'search_field', 'search_field', '');
+		$keyword      = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+		$category_id  = $app->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 
 		$product_category = new product_category;
 		$categories       = $product_category->getCategoryListArray();

@@ -16,7 +16,7 @@ require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Order Detail Controller.
@@ -58,9 +58,9 @@ class Order_detailController extends JController
 	 */
 	public function process_payment()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$db = jFactory::getDBO();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$model = $this->getModel('order_detail');
 
 		$redconfig = new Redconfiguration;
@@ -133,7 +133,7 @@ class Order_detailController extends JController
 
 		// Call payment plugin
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
@@ -165,7 +165,7 @@ class Order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		$mainframe = & JFactory::getApplication('site');
+		$mainframe = JFactory::getApplication('site');
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
@@ -174,7 +174,7 @@ class Order_detailController extends JController
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
 
@@ -217,7 +217,7 @@ class Order_detailController extends JController
 	 */
 	public function copyorderitemtocart()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$order_item_id = JRequest::getInt('order_item_id');
 
 		$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
@@ -296,8 +296,8 @@ class Order_detailController extends JController
 	 */
 	public function reorder()
 	{
-		global $mainframe;
-		$session =& JFactory::getSession();
+		$mainframe = JFactory::getApplication();
+		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
 		$Itemid = JRequest::getVar('Itemid');
@@ -414,7 +414,7 @@ class Order_detailController extends JController
 	 */
 	public function payment()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$redconfig = new Redconfiguration;
 		$Itemid = JRequest::getVar('Itemid');
 		$order_id = JRequest::getInt('order_id');

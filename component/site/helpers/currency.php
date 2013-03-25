@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.utilities.simplexml');
+JLoader::import('joomla.utilities.simplexml');
 
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 
@@ -35,7 +35,7 @@ class convertPrice
 	 */
 	public function init()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if (!is_array(@$GLOBALS['converter_array']) && @$GLOBALS['converter_array'] !== -1)
 		{

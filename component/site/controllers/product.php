@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
 
@@ -179,7 +179,7 @@ class ProductController extends JController
 		$redview = $get['redview'];
 		$redlayout = $get['redlayout'];
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
 		$pluginResults = $dispatcher->trigger('onBeforeImageLoad', array($get));
 
@@ -235,7 +235,7 @@ class ProductController extends JController
 	public function addtowishlist()
 	{
 		ob_clean();
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$extraField = new extraField;
 		$section = 12;
 		$row_data = $extraField->getSectionFieldList($section);
@@ -243,7 +243,7 @@ class ProductController extends JController
 		// GetVariables
 		$cid = JRequest::getInt('cid');
 		$producthelper = new producthelper;
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$Itemid = JRequest::getVar('Itemid');
 
@@ -401,7 +401,7 @@ class ProductController extends JController
 
 	public function addProductTags()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// GetVariables
 		$cid = JRequest::getInt('cid');

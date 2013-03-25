@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class reddesignViewreddesign extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		JHTML::Script('jquery.js', 'components/com_reddesign/assets/js/', false);
 		JHTML::Script('ui.js', 'components/com_reddesign/assets/js/', false);

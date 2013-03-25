@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Account Controller.
@@ -27,7 +27,7 @@ class AccountController extends JController
 	 */
 	public function editTag()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
 
@@ -116,7 +116,7 @@ class AccountController extends JController
 	 */
 	public function newsletterUnsubscribe()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 

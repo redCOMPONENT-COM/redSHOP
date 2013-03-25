@@ -2368,7 +2368,7 @@ class producthelper
 	public function generateBreadcrumb($sectionid = 0)
 	{
 		$mainframe     = JFactory::getApplication();
-		$pathway       =& $mainframe->getPathway();
+		$pathway       = $mainframe->getPathway();
 		$view          = JRequest::getVar('view');
 		$layout        = JRequest::getVar('layout');
 		$Itemid        = JRequest::getInt('Itemid');

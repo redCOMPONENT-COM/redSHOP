@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Category Controller.
@@ -287,7 +287,7 @@ class CategoryController extends JController
 	 */
 	public function generateXMLExportFile()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
 

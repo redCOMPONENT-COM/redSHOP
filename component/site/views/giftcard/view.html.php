@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
 
@@ -17,11 +17,11 @@ class giftcardViewgiftcard extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		$app = JFactory::getApplication();
 
 		// Request variables
 		$option   = JRequest::getVar('option');
-		$params   = & $mainframe->getParams($option);
+		$params   = $app->getParams($option);
 		$document = JFactory::getDocument();
 		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);

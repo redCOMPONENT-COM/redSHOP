@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Quotation Controller.
@@ -41,7 +41,7 @@ class QuotationController extends JController
 		}
 
 		$model = $this->getModel('quotation');
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$cart['quotation_note'] = $post['quotation_note'];
 		$row = $model->store($cart, $post);
@@ -59,7 +59,7 @@ class QuotationController extends JController
 				$msg = JText::_('COM_REDSHOP_ERROR_SENDING_QUOTATION_MAIL');
 			}
 
-			$session = & JFactory::getSession();
+			$session = JFactory::getSession();
 			$session->set('cart', null);
 			$session->set('ccdata', null);
 			$session->set('issplit', null);

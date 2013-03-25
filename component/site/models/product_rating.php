@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class product_ratingModelproduct_rating
@@ -28,7 +28,7 @@ class product_ratingModelproduct_rating extends JModel
 
 	public function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';

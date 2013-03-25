@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class GiftcardModelGiftcard
@@ -37,7 +37,7 @@ class GiftcardModelGiftcard extends JModel
 
 	public function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
@@ -54,7 +54,7 @@ class GiftcardModelGiftcard extends JModel
 
 	public function _buildQuery()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$and = "";
 

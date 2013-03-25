@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 
 class product_ratingViewproduct_rating extends JView
 {
 	function display ($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$producthelper = new producthelper;
-		$pathway       = & $mainframe->getPathway();
+		$pathway       = $mainframe->getPathway();
 		$document      = JFactory::getDocument();
 
 		$user = JFactory::getUser();
@@ -34,7 +34,7 @@ class product_ratingViewproduct_rating extends JView
 		$option        = JRequest::getVar('option');
 		$model         = $this->getModel('product_rating');
 		$userinfo      = $model->getuserfullname($user->id);
-		$params        = & $mainframe->getParams('com_redshop');
+		$params        = $mainframe->getParams('com_redshop');
 		$Itemid        = JRequest::getVar('Itemid');
 		$product_id    = JRequest::getInt('product_id');
 		$category_id   = JRequest::getInt('category_id');

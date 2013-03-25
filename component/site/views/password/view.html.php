@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class PasswordViewPassword extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$layout = JRequest::getVar('layout');
 		$uid    = JRequest::getInt('uid', 0);
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $mainframe->getParams('com_redshop');
 
 		if ($uid != 0)
 		{

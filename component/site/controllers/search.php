@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * search Controller.
@@ -60,7 +60,7 @@ class SearchController extends JController
 		// Manufacture Select Id
 		$manufac_data = (JRequest::getInt('manufacture_id', 0));
 
-		jimport('joomla.application.module.helper');
+		JLoader::import('joomla.application.module.helper');
 		$module = JModuleHelper::getModule('redshop_search');
 		$params = new JRegistry($module->params);
 		$enableAjaxsearch = $params->get('enableAjaxsearch');

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Account Billing Address Controller.
@@ -41,7 +41,7 @@ class Account_billtoController extends JController
 	 */
 	public function edit()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$order_functions = new order_functions;
 		$billingaddresses = $order_functions->getBillingAddress($user->id);
 		$GLOBALS['billingaddresses'] = $billingaddresses;
@@ -63,7 +63,7 @@ class Account_billtoController extends JController
 	 */
 	public function save()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$post = JRequest::get('post');
 		$return = JRequest::getVar('return');
 		$option = JRequest::getVar('option');

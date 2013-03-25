@@ -20,7 +20,7 @@ $config = new Redconfiguration;
 $producthelper = new producthelper;
 $redhelper = new redhelper;
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');

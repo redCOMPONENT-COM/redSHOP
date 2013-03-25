@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class registrationViewregistration extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
@@ -29,7 +29,7 @@ class registrationViewregistration extends JView
 			$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
 		}
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $mainframe->getParams('com_redshop');
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
