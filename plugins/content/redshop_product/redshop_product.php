@@ -19,6 +19,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+
 class plgContentredshop_product extends JPlugin
 {
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
@@ -54,7 +55,6 @@ class plgContentredshop_product extends JPlugin
 			JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
 			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 			JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-			//JHTML::Stylesheet('scrollable-minimal.css', 'components/com_redshop/assets/css/');
 			JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 			$document->addScriptDeclaration("
 		                var site_url = '" . JURI::root() . "';
@@ -87,11 +87,15 @@ class plgContentredshop_product extends JPlugin
 			$extraField = new extraField;
 			$objhelper = new redhelper;
 			$lang =& JFactory::getLanguage();
-			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR); // or JPATH_ADMINISTRATOR if the template language file is only
+
+			// Or JPATH_ADMINISTRATOR if the template language file is only
+			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR);
 
 			$plugin =& JPluginHelper::getPlugin('content', 'redshop_product');
 			$red_params = new JRegistry($plugin->params);
-			$show_price = trim($red_params->get('show_price', 0)); // get show price yes/no option
+
+			// Get show price yes/no option
+			$show_price = trim($red_params->get('show_price', 0));
 			$show_price_with_vat = trim($red_params->get('show_price_with_vat', 1));
 			$show_discountpricelayout = trim($red_params->get('show_discountpricelayout', 1));
 			$redTemplate = new Redtemplate;
@@ -124,7 +128,8 @@ class plgContentredshop_product extends JPlugin
 					$row->text = str_replace($matches[$i], '', $row->text);
 					continue;
 				}
-				# changes for sh404sef duplicating url
+
+				// Changes for sh404sef duplicating url
 				$catid = $producthelper->getCategoryProduct($product->product_id);
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 
@@ -140,7 +145,7 @@ class plgContentredshop_product extends JPlugin
 					$defaultLink = 'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid;
 				$link = ($page == 1) ? $url . $defaultLink : JRoute::_($defaultLink);
 
-				# End changes for sh404sef duplicating url
+				// End changes for sh404sef duplicating url
 
 				if (strstr($prtemplate, "{product_thumb_image_3}"))
 				{
@@ -167,7 +172,9 @@ class plgContentredshop_product extends JPlugin
 					$pw_thumb = PRODUCT_MAIN_IMAGE;
 				}
 
-					$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
+					$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='"
+						. $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='"
+						. $ph_thumb . "'>";
 				$thum_image = $producthelper->getProductImage($product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 				$prtemplate = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $prtemplate);
 				$product_name = "<a href='" . $link . "' title=''>" . $product->product_name . "</a>";
@@ -201,10 +208,14 @@ class plgContentredshop_product extends JPlugin
 
 								if ($show_discountpricelayout)
 								{
-									$pr_price = "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
+									$pr_price = "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>"
+										. $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
 									$product_price = $product_price_discount;
-									$pr_price = "<div id='mod_redmainprice' class='mod_redmainprice'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-									$pr_price = "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
+									$pr_price = "<div id='mod_redmainprice' class='mod_redmainprice'>"
+										. $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
+									$pr_price = "<div id='mod_redsavedprice' class='mod_redsavedprice'>"
+										. JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' '
+										. $producthelper->getProductFormattedPrice($s_price) . "</div>";
 								}
 								else
 								{
@@ -312,6 +323,7 @@ class plgContentredshop_product extends JPlugin
 						$prtemplate = str_replace("{product_userfield end if}", "", $prtemplate);
 					}
 				}
+
 				// Product User Field End
 
 				$childproduct = $producthelper->getChildProduct($product->product_id);
@@ -324,7 +336,8 @@ class plgContentredshop_product extends JPlugin
 				else
 				{
 					$isChilds = false;
-					// get attributes
+
+					// Get attributes
 					$attributes_set = array();
 
 					if ($product->attribute_set_id > 0)
@@ -335,18 +348,23 @@ class plgContentredshop_product extends JPlugin
 					$attributes = $producthelper->getProductAttribute($product->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
-//				if(strstr($prtemplate,"{form_addtocart:add_to_cart1}"))
-//				{
-				$prtemplate = $producthelper->replaceCartTemplate($product->product_id, 0, 0, 0, $prtemplate, false, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id);
 
-				//$replacement .= "<div>".$addtocart.$hidden_userfield."</div>";
-//					$prtemplate = str_replace( "{form_addtocart:add_to_cart1}", $addtocart.$hidden_userfield, $prtemplate);
-//				}
-//				if(strstr($prtemplate,"{attribute_template:attributes}"))
-//				{
+				$prtemplate = $producthelper->replaceCartTemplate(
+					$product->product_id,
+					0,
+					0,
+					0,
+					$prtemplate,
+					false,
+					$userfieldArr,
+					$totalatt,
+					$totalAccessory,
+					$count_no_user_field,
+					$module_id
+				);
+
 				$attribute_template = $producthelper->getAttributeTemplate($prtemplate);
 				$prtemplate = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prtemplate, $attribute_template, $isChilds);
-//				}
 
 				$row->text = str_replace($matches[$i], $prtemplate, $row->text);
 			}
@@ -355,4 +373,3 @@ class plgContentredshop_product extends JPlugin
 		return true;
 	}
 }
-?>
