@@ -10,7 +10,6 @@
 defined('_JEXEC') or die ('Restricted access');
 
 $app = JFactory::getApplication();
-$app = JFactory::getApplication();
 JLoader::import('joomla.html.parameter');
 
 $option = JRequest::getCmd('option');
