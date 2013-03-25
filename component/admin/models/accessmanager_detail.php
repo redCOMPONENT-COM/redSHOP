@@ -67,7 +67,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 			{
 				foreach ($groups as $groupValue => $groupName)
 				{
-					$row =& $this->getTable('accessmanager_detail');
+					$row = $this->getTable('accessmanager_detail');
 					$row->gid = $groupValue;
 					$row->section_name = $data['section'];
 					$row->view = $data['groupaccess_' . $groupValue]['view'];

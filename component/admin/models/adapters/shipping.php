@@ -178,7 +178,7 @@ class JInstallerShipping extends JObject
 		else
 		{
 			//$row =& JTable::getTable('shipping_detail');
-			$row =& JTable::getInstance('shipping_detail', 'Table');
+			$row = JTable::getInstance('shipping_detail', 'Table');
 			$row->shipping_name = $this->get('name');
 			$row->shipping_class = $this->get('shipping_class');
 			$row->shipping_method_code = $this->get('shipping_method_code');
@@ -215,7 +215,7 @@ class JInstallerShipping extends JObject
 		$retval = true;
 		$db =& $this->parent->getDBO();
 
-		$row =& JTable::getInstance('shipping_detail', 'Table');
+		$row = JTable::getInstance('shipping_detail', 'Table');
 
 		if (!$row->load((int) $clientId))
 		{

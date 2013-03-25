@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-$editor =& JFactory::getEditor();
-$uri =& JURI::getInstance();
+$editor = JFactory::getEditor();
+$uri = JURI::getInstance();
 $url = $uri->root();
 ?>
 

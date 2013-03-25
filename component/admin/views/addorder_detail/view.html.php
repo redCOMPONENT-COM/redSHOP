@@ -24,7 +24,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$order_functions = new order_functions;
 		$Redconfiguration = new Redconfiguration;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
@@ -36,7 +36,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/order.js');
 		$document->addScript('components/' . $option . '/assets/js/common.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$billing = array();
 		$shippinginfo = array();
@@ -46,7 +46,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
-		$language =& JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 		$base_dir = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 

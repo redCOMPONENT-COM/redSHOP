@@ -18,13 +18,13 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		global $mainframe, $context;
 
 		$context = "wrapper";
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$detail =& $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');

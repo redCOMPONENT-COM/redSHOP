@@ -34,7 +34,7 @@ else
 {
 	$ip = 'unknown';
 }
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $session->set('ordertotal', 0);
 $billisshipcheck = ($this->shipping->billisship) ? "checked" : "";
 $shippingblock = ($this->shipping->billisship) ? "none" : "";

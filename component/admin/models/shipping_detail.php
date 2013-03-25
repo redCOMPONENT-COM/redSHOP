@@ -75,7 +75,7 @@ class shipping_detailModelshipping_detail extends JModel
 		}
 
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$payment = $dispatcher->trigger('onWriteconfig', array($data));
 
 		return true;
@@ -106,7 +106,7 @@ class shipping_detailModelshipping_detail extends JModel
 	{
 		global $mainframe;
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$row =& $this->getTable();
 
 		$total = count($cid);
@@ -156,7 +156,7 @@ class shipping_detailModelshipping_detail extends JModel
 	 */
 	public function move($direction)
 	{
-		$row =& JTable::getInstance('shipping_detail', 'Table');
+		$row = JTable::getInstance('shipping_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 ?>
 <script language="javascript" type="text/javascript">

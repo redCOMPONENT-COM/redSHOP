@@ -136,7 +136,7 @@ if ($this->pagination->limitstart > 0)
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<?php
-	$myTabs = & JPane::getInstance('tabs', array('startOffset' => $tab));
+	$myTabs = JPane::getInstance('tabs', array('startOffset' => $tab));
 
 	//Create Pane
 	echo $myTabs->startPane('pane');

@@ -17,7 +17,7 @@ class pricesViewprices extends JView
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
 		jimport('joomla.html.pagination');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
@@ -25,7 +25,7 @@ class pricesViewprices extends JView
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
 		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');

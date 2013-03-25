@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 $producthelper = new producthelper();    ?>
 
 <script language="javascript" type="text/javascript">
@@ -73,7 +73,7 @@ if ($this->shipper_location)
 else
 {
 //Get JPaneTabs instance
-	$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 	$output = '';
 //Create Pane
 	$output .= $myTabs->startPane('pane');

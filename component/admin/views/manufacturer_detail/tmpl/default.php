@@ -15,7 +15,7 @@ jimport('joomla.html.pane');
 
 JHTMLBehavior::modal();
 
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 $order_functions = new order_functions();
 $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 ?>
@@ -49,7 +49,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 
 $output = '';
 

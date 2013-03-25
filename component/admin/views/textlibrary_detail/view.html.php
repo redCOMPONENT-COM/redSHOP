@@ -15,10 +15,10 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

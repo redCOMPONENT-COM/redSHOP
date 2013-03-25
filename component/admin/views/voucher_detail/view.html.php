@@ -18,7 +18,7 @@ class voucher_detailVIEWvoucher_detail extends JView
 		$option = JRequest::getVar('option');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT_DETAIL'), 'redshop_voucher48');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 
@@ -26,7 +26,7 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

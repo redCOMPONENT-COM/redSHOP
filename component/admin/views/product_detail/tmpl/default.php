@@ -10,16 +10,16 @@ defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 $producthelper = new producthelper();
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $option = JRequest::getVar('option');
 jimport('joomla.html.pane');
 
 $container_id = JRequest::getVar('container_id', '', 'request', 'string');
 $stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
-$now =& JFactory::getDate();
+$now = JFactory::getDate();
 $model = $this->getModel('product_detail');
 /*$doc = JFactory :: getDocument();
 $doc->addScript(JURI::root().'administrator/components/com_redshop/assets/js/jquery.js');
@@ -164,7 +164,7 @@ if ($showbuttons == 1)
       enctype="multipart/form-data" onSubmit="return selectAll_related(this.elements['related_product[]'],this);">
 <?php
 //Get JPaneTabs instance
-$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 $output = '';
 
 //Create Pane

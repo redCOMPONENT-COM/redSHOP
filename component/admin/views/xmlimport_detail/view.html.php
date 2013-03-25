@@ -18,11 +18,11 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 	{
 		$option = JRequest::getVar('option');
 		$xmlhelper = new xmlHelper;
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
 		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$xmlimport_url = "";
 		$lists = array();
 		$resultarray = array();

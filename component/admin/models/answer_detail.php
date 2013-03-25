@@ -73,7 +73,7 @@ class answer_detailModelanswer_detail extends JModel
 
 	public function _initData()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if (empty($this->_data))
 		{

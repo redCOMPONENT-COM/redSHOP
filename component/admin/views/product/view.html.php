@@ -30,7 +30,7 @@ class productViewproduct extends JView
 
 		$list_in_products = $extra_field->list_all_field_in_product();
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 		$layout = JRequest::getVar('layout');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
@@ -53,7 +53,7 @@ class productViewproduct extends JView
 			JToolBarHelper::back();
 		}
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$category_id = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 

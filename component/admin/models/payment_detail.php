@@ -197,11 +197,11 @@ class payment_detailModelpayment_detail extends JModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
-		$installer = & JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 
 		// Uninstall the chosen extensions
 		foreach ($eid as $id => $clientId)
@@ -253,7 +253,7 @@ class payment_detailModelpayment_detail extends JModel
 			return false;
 		}
 
-		$installer =& JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 
 
 		if (!$installer->install($package['dir']))
@@ -276,7 +276,7 @@ class payment_detailModelpayment_detail extends JModel
 		// Cleanup the install files
 		if (!is_file($package['packagefile']))
 		{
-			$config =& JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
 		}
 
@@ -324,7 +324,7 @@ class payment_detailModelpayment_detail extends JModel
 		}
 
 		// Build the appropriate paths
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$tmp_dest = $config->getValue('config.tmp_path') . DS . $userfile['name'];
 		$tmp_src = $userfile['tmp_name'];
 
@@ -343,7 +343,7 @@ class payment_detailModelpayment_detail extends JModel
 	public function saveOrder(&$cid)
 	{
 		global $mainframe;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$row =& $this->getTable();
 
 		$total = count($cid);
@@ -394,7 +394,7 @@ class payment_detailModelpayment_detail extends JModel
 	 */
 	public function move($direction)
 	{
-		$row =& JTable::getInstance('payment_detail', 'Table');
+		$row = JTable::getInstance('payment_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{
@@ -466,7 +466,7 @@ class JInstaller extends JObject
 	 */
 	public function __construct()
 	{
-		$this->_db =& JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 
@@ -699,7 +699,7 @@ class JInstaller extends JObject
 		$root =& $this->_manifest->document;
 		$version = $root->attributes('version');
 		$rootName = $root->name();
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		$type = $root->attributes('type');
 
@@ -748,7 +748,7 @@ class JInstaller extends JObject
 		$root =& $this->_manifest->document;
 		$version = $root->attributes('version');
 		$rootName = $root->name();
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		$type = $root->attributes('type');
 
@@ -1201,7 +1201,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children()))
 		{
@@ -1291,7 +1291,7 @@ class JInstaller extends JObject
 	{
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
 
@@ -1360,7 +1360,7 @@ class JInstaller extends JObject
 	{
 		// Initialize variables
 		$null = null;
-		$xml =& JFactory::getXMLParser('Simple');
+		$xml = JFactory::getXMLParser('Simple');
 
 		// If we cannot load the xml file return null
 		if (!$xml->loadFile($file))
