@@ -31,7 +31,7 @@ class QuotationController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$return = JRequest::getVar('return');
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 
 		if (!$post['user_email'])
 		{
@@ -40,11 +40,11 @@ class QuotationController extends JController
 			die();
 		}
 
-		$model = $this->getModel('quotation');
-		$session = JFactory::getSession();
-		$cart = $session->get('cart');
+		$model                  = $this->getModel('quotation');
+		$session                = JFactory::getSession();
+		$cart                   = $session->get('cart');
 		$cart['quotation_note'] = $post['quotation_note'];
-		$row = $model->store($cart, $post);
+		$row                    = $model->store($cart, $post);
 
 		if ($row)
 		{
@@ -95,11 +95,9 @@ class QuotationController extends JController
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
-
 		$return = JRequest::getVar('return');
-		$model = $this->getModel('quotation');
-
-		$post = JRequest::get('post');
+		$model  = $this->getModel('quotation');
+		$post   = JRequest::get('post');
 
 		$model->usercreate($post);
 
@@ -117,7 +115,6 @@ class QuotationController extends JController
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
-
 		$return = JRequest::getVar('return');
 
 		if ($return != "")

@@ -20,14 +20,6 @@ JLoader::import('joomla.application.component.controller');
  */
 class Split_paymentController extends JController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-
-		$user = JFactory::getUser();
-		$model = $this->getModel('split_payment');
-	}
-
 	/**
 	 * payremaining function
 	 *
@@ -36,16 +28,9 @@ class Split_paymentController extends JController
 	 */
 	public function payremaining()
 	{
-		$app = JFactory::getApplication();
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$task = JRequest::getVar('task');
-		$model = $this->getModel('split_payment');
-
+		$model       = $this->getModel('split_payment');
 		$orderresult = $model->orderplace();
 
-		$view = & $this->getView('split_payment', 'result');
 		parent::display();
 	}
 }

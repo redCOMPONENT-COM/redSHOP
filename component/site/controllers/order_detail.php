@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
-require_once (JPATH_COMPONENT . '/helpers/product.php');
-require_once (JPATH_COMPONENT . '/helpers/extra_field.php');
-require_once (JPATH_COMPONENT . '/helpers/helper.php');
-include_once (JPATH_COMPONENT . '/helpers/cart.php');
-include_once (JPATH_COMPONENT . '/helpers/user.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
+include_once JPATH_COMPONENT . '/helpers/user.php';
 
 JLoader::import('joomla.application.component.controller');
 
@@ -35,13 +35,13 @@ class Order_detailController extends JController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_producthelper = new producthelper;
-		$this->_redshopMail = new redshopMail;
+		$this->_producthelper   = new producthelper;
+		$this->_redshopMail     = new redshopMail;
 		$this->_order_functions = new order_functions;
-		$this->_extraField = new extraField;
-		$this->_redhelper = new redhelper;
-		$this->_userhelper = new rsUserhelper;
-		$this->_carthelper = new rsCarthelper;
+		$this->_extraField      = new extraField;
+		$this->_redhelper       = new redhelper;
+		$this->_userhelper      = new rsUserhelper;
+		$this->_carthelper      = new rsCarthelper;
 	}
 
 	/**
@@ -55,13 +55,15 @@ class Order_detailController extends JController
 
 	/**
 	 * Process payment function for creditcard payment.
+	 *
+	 * @return  void
 	 */
 	public function process_payment()
 	{
-		$app = JFactory::getApplication();
-		$db = jFactory::getDBO();
+		$app     = JFactory::getApplication();
+		$db      = jFactory::getDBO();
 		$session = JFactory::getSession();
-		$model = $this->getModel('order_detail');
+		$model   = $this->getModel('order_detail');
 
 		$redconfig = new Redconfiguration;
 
@@ -71,12 +73,13 @@ class Order_detailController extends JController
 		$order = $this->_order_functions->getOrderDetails($request['order_id']);
 
 		// Get Billing and Shipping Info
-		$billingaddresses = $this->_order_functions->getBillingAddress($order->user_id);
-		$d['billingaddress'] = $billingaddresses;
+		$billingaddresses     = $this->_order_functions->getBillingAddress($order->user_id);
+		$d['billingaddress']  = $billingaddresses;
 
-		$shippingaddresses = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
+		$shippingaddresses    = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
 		$d['shippingaddress'] = $shippingaddresses;
-		$Itemid = JRequest::getVar('Itemid');
+
+		$Itemid               = JRequest::getVar('Itemid');
 
 		if (isset($billingaddresses))
 		{
@@ -109,27 +112,27 @@ class Order_detailController extends JController
 		}
 
 		// Get  data for credit card
-		$ccdata['order_payment_name'] = $request['order_payment_name'];
-		$ccdata['creditcard_code'] = $request['creditcard_code'];
-		$ccdata['order_payment_number'] = $request['order_payment_number'];
+		$ccdata['order_payment_name']         = $request['order_payment_name'];
+		$ccdata['creditcard_code']            = $request['creditcard_code'];
+		$ccdata['order_payment_number']       = $request['order_payment_number'];
 		$ccdata['order_payment_expire_month'] = $request['order_payment_expire_month'];
-		$ccdata['order_payment_expire_year'] = $request['order_payment_expire_year'];
-		$ccdata['credit_card_code'] = $request['credit_card_code'];
+		$ccdata['order_payment_expire_year']  = $request['order_payment_expire_year'];
+		$ccdata['credit_card_code']           = $request['credit_card_code'];
 
 		// Create session
 		$session->set('ccdata', $ccdata);
 		$ccdata = $session->get('ccdata');
 
 		$values['order_shipping'] = $order->order_shipping;
-		$values['order_number'] = $request['order_id'];
-		$values['order_tax'] = $order->order_tax;
-		$values['shippinginfo'] = $d ["shippingaddress"];
-		$values['billinginfo'] = $d ["billingaddress"];
-		$values['order_total'] = $order->order_total;
+		$values['order_number']   = $request['order_id'];
+		$values['order_tax']      = $order->order_tax;
+		$values['shippinginfo']   = $d ["shippingaddress"];
+		$values['billinginfo']    = $d ["billingaddress"];
+		$values['order_total']    = $order->order_total;
 		$values['order_subtotal'] = $order->order_subtotal;
-		$values["order_id"] = $request['order_id'];
+		$values["order_id"]       = $request['order_id'];
 		$values['payment_plugin'] = $request['payment_method_id'];
-		$values['order'] = $order;
+		$values['order']          = $order;
 
 		// Call payment plugin
 		JPluginHelper::importPlugin('redshop_payment');
@@ -162,15 +165,17 @@ class Order_detailController extends JController
 
 	/**
 	 * Notify payment function
+	 *
+	 * @return  void
 	 */
 	public function notify_payment()
 	{
-		$app = JFactory::getApplication();
-		$db = jFactory::getDBO();
-		$request = JRequest::get('request');
-
-		$Itemid = JRequest::getVar('Itemid');
 		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
+
+		$app     = JFactory::getApplication();
+		$db      = jFactory::getDBO();
+		$request = JRequest::get('request');
+		$Itemid  = JRequest::getVar('Itemid');
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
@@ -190,7 +195,7 @@ class Order_detailController extends JController
 		}
 
 		$objOrder->changeorderstatus($results[0]);
-		$model = $this->getModel('order_detail');
+		$model     = $this->getModel('order_detail');
 		$resetcart = $model->resetcart();
 
 		/*
@@ -214,10 +219,12 @@ class Order_detailController extends JController
 
 	/**
 	 * Copy order item to cart.
+	 *
+	 * @return  void
 	 */
 	public function copyorderitemtocart()
 	{
-		$app = JFactory::getApplication();
+		$app           = JFactory::getApplication();
 		$order_item_id = JRequest::getInt('order_item_id');
 
 		$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
@@ -247,11 +254,11 @@ class Order_detailController extends JController
 			$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
 			$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
 
-			$row['cart_attribute'] = $generateAttributeCart;
-			$row['cart_accessory'] = $generateAccessoryCart;
+			$row['cart_attribute']  = $generateAttributeCart;
+			$row['cart_accessory']  = $generateAccessoryCart;
 			$row['subscription_id'] = $subscription_id;
-			$row['sel_wrapper_id'] = $row['wrapper_id'];
-			$row['category_id'] = 0;
+			$row['sel_wrapper_id']  = $row['wrapper_id'];
+			$row['category_id']     = 0;
 		}
 
 		$result = $this->_carthelper->addProductToCart($row);
@@ -280,7 +287,7 @@ class Order_detailController extends JController
 
 			if (JError::isError(JError::getError()))
 			{
-				$error = JError::getError();
+				$error  = JError::getError();
 				$errmsg = $error->message;
 			}
 
@@ -296,12 +303,12 @@ class Order_detailController extends JController
 	 */
 	public function reorder()
 	{
-		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
-		$post = JRequest::get('post');
+		$app      = JFactory::getApplication();
+		$session  = JFactory::getSession();
+		$post     = JRequest::get('post');
 		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
-		$Itemid = JRequest::getVar('Itemid');
-		$Itemid = $this->_redhelper->getCartItemid($Itemid);
+		$Itemid   = JRequest::getVar('Itemid');
+		$Itemid   = $this->_redhelper->getCartItemid($Itemid);
 
 		$returnmsg = "";
 
@@ -321,8 +328,8 @@ class Order_detailController extends JController
 
 				if ($row['is_giftcard'] == 1)
 				{
-					$row['giftcard_id'] = $row['product_id'];
-					$row['reciver_name'] = $row['giftcard_user_name'];
+					$row['giftcard_id']   = $row['product_id'];
+					$row['reciver_name']  = $row['giftcard_user_name'];
 					$row['reciver_email'] = $row['giftcard_user_email'];
 				}
 				else
@@ -342,11 +349,11 @@ class Order_detailController extends JController
 					$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
 					$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
 
-					$row['cart_attribute'] = $generateAttributeCart;
-					$row['cart_accessory'] = $generateAccessoryCart;
+					$row['cart_attribute']  = $generateAttributeCart;
+					$row['cart_accessory']  = $generateAccessoryCart;
 					$row['subscription_id'] = $subscription_id;
-					$row['sel_wrapper_id'] = $row['wrapper_id'];
-					$row['category_id'] = 0;
+					$row['sel_wrapper_id']  = $row['wrapper_id'];
+					$row['category_id']     = 0;
 
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
 					{
@@ -383,7 +390,7 @@ class Order_detailController extends JController
 
 					if (JError::isError(JError::getError()))
 					{
-						$error = JError::getError();
+						$error  = JError::getError();
 						$errmsg = $error->message;
 					}
 
@@ -414,13 +421,13 @@ class Order_detailController extends JController
 	 */
 	public function payment()
 	{
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$redconfig = new Redconfiguration;
-		$Itemid = JRequest::getVar('Itemid');
-		$order_id = JRequest::getInt('order_id');
-		$option = JRequest::getVar('option');
+		$Itemid    = JRequest::getVar('Itemid');
+		$order_id  = JRequest::getInt('order_id');
+		$option    = JRequest::getVar('option');
 
-		$order = $this->_order_functions->getOrderDetails($order_id);
+		$order       = $this->_order_functions->getOrderDetails($order_id);
 		$paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);
 
 		if (count($paymentInfo) > 0)

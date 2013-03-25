@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php');
-//including extra fields helper file
-require_once(JPATH_COMPONENT_SITE . '/helpers/extra_field.php');
-//including extra fields helper file end
+
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
+
 
 /**
  * registration Controller.
@@ -33,22 +33,20 @@ class RegistrationController extends JController
 	 */
 	public function newregistration()
 	{
-		$app = JFactory::getApplication();
-
-		$post = JRequest::get('post');
-
+		$app    = JFactory::getApplication();
+		$post   = JRequest::get('post');
 		$option = JRequest::getCmd('option');
 		$Itemid = JRequest::getInt('Itemid', 0);
 
 		$prodhelperobj = new producthelper;
-		$redshopMail = new redshopMail;
+		$redshopMail   = new redshopMail;
 
-		$model = $this->getModel('registration');
+		$model   = $this->getModel('registration');
 		$success = $model->store($post);
 
 		if ($success)
 		{
-			if ($post[mywishlist] == 1)
+			if ($post['mywishlist'] == 1)
 			{
 				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
 				$this->setRedirect($wishreturn);
@@ -62,7 +60,7 @@ class RegistrationController extends JController
 					$msg = str_replace("{shopname}", SHOP_NAME, $msg);
 				}
 
-				# redirection settings
+				// Redirection settings
 				$link = JRoute::_('index.php?option=com_redshop&view=redshop&Itemid=' . $Itemid);
 
 				$menu = JFactory::getApplication()->getMenu();
@@ -74,8 +72,7 @@ class RegistrationController extends JController
 					$link = JRoute::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id);
 				}
 
-				# redirection settings End
-
+				// Redirection settings End
 				$this->setRedirect($link, $msg);
 			}
 		}
@@ -85,18 +82,28 @@ class RegistrationController extends JController
 		}
 	}
 
+	/**
+	 * captcha
+	 *
+	 * @return  void
+	 */
 	public function captcha()
 	{
-		require_once(JPATH_COMPONENT_SITE . '/helpers/captcha.php');
+		require_once JPATH_COMPONENT_SITE . '/helpers/captcha.php';
 
-		$width = JRequest::getInt('width', 120); //isset($_GET['width']) ? $_GET['width'] : '120';
-		$height = JRequest::getInt('height', 40); //isset($_GET['height']) ? $_GET['height'] : '40';
-		$characters = JRequest::getInt('characters', 6); //isset($_GET['characters']) && $_GET['characters'] > 1 ? $_GET['characters'] : '6';
-		$captchaname = JRequest::getCmd('captcha', 'security_code'); //isset($_GET['captcha']) ? $_GET['captcha'] : 'security_code';
+		$width       = JRequest::getInt('width', 120);
+		$height      = JRequest::getInt('height', 40);
+		$characters  = JRequest::getInt('characters', 6);
+		$captchaname = JRequest::getCmd('captcha', 'security_code');
 
 		$captcha = new CaptchaSecurityImages($width, $height, $characters, $captchaname);
 	}
 
+	/**
+	 * searchUserdetailByPhone
+	 *
+	 * @return  string
+	 */
 	public function searchUserdetailByPhone()
 	{
 		ob_clean();
@@ -105,8 +112,8 @@ class RegistrationController extends JController
 
 		JPluginHelper::importPlugin('telesearch', 'rs_telesearch');
 		$this->_dispatcher = JDispatcher::getInstance();
-		$tele['phone'] = $get['phone'];
-		$accountHandle = $this->_dispatcher->trigger('findByTelephoneNumber', array($tele));
+		$tele['phone']     = $get['phone'];
+		$accountHandle     = $this->_dispatcher->trigger('findByTelephoneNumber', array($tele));
 
 		if (count($accountHandle) > 0)
 		{
@@ -122,19 +129,26 @@ class RegistrationController extends JController
 		die();
 	}
 
+	/**
+	 * getCompanyOrCustomer
+	 *
+	 * @return  string
+	 */
 	public function getCompanyOrCustomer()
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate  = new Redtemplate;
 		$rsUserhelper = new rsUserhelper;
-		$extraField = new extraField;
+		$extraField   = new extraField;
+
 		$get = JRequest::get('get');
 		$template_id = $get['template_id'];
-		$is_company = $get['is_company'];
-		$lists['extra_field_user'] = $extraField->list_all_field(7); // field_section 6 : Customer Registration
-		$lists['extra_field_company'] = $extraField->list_all_field(8); // field_section 6 : Company Address
+		$is_company  = $get['is_company'];
+
+		$lists['extra_field_user']        = $extraField->list_all_field(7);
+		$lists['extra_field_company']     = $extraField->list_all_field(8);
 		$lists['shipping_customer_field'] = $extraField->list_all_field(14, 0, 'billingRequired valid');
-		$lists['shipping_company_field'] = $extraField->list_all_field(15, 0, 'billingRequired valid');
-		$lists['isAjax'] = 1;
+		$lists['shipping_company_field']  = $extraField->list_all_field(15, 0, 'billingRequired valid');
+		$lists['isAjax']                  = 1;
 
 		if ($is_company == 1)
 		{

@@ -28,13 +28,13 @@ class Product_ratingController extends JController
 	 */
 	function save()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$product_id = JRequest::getInt('product_id');
+		$post        = JRequest::get('post');
+		$option      = JRequest::getVar('option');
+		$Itemid      = JRequest::getVar('Itemid');
+		$product_id  = JRequest::getInt('product_id');
 		$category_id = JRequest::getInt('category_id');
-		$model = $this->getModel('product_rating');
-		$rate = JRequest::getVar('rate');
+		$model       = $this->getModel('product_rating');
+		$rate        = JRequest::getVar('rate');
 
 		if ($model->sendMailForReview($post))
 		{

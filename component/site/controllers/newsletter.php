@@ -29,14 +29,13 @@ class NewsletterController extends JController
 	 */
 	public function subscribe()
 	{
-		$post = JRequest::get('post');
-		$model = $this->getModel('newsletter');
-
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
+		$post             = JRequest::get('post');
+		$model            = $this->getModel('newsletter');
+		$option           = JRequest::getVar('option');
+		$Itemid           = JRequest::getVar('Itemid');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
-		$menu = JFactory::getApplication()->getMenu();
-		$item = $menu->getItem($newsletteritemid);
+		$menu             = JFactory::getApplication()->getMenu();
+		$item             = $menu->getItem($newsletteritemid);
 
 		if ($item)
 		{
@@ -63,9 +62,13 @@ class NewsletterController extends JController
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
 				if (NEWSLETTER_CONFIRMATION)
+				{
 					$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
+				}
 				else
+				{
 					$msg = JText::_('COM_REDSHOP_NEWSLEETER_SUBSCRIBE_SUCCESS');
+				}
 			}
 			else
 			{
@@ -83,15 +86,15 @@ class NewsletterController extends JController
 	 */
 	public function unsubscribe()
 	{
-		$post = JRequest::get('get');
+		$post  = JRequest::get('get');
 		$model = $this->getModel('newsletter');
 
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$email = JRequest::getVar('email1');
+		$option           = JRequest::getVar('option');
+		$Itemid           = JRequest::getVar('Itemid');
+		$email            = JRequest::getVar('email1');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
-		$menu = JFactory::getApplication()->getMenu();
-		$item = $menu->getItem($newsletteritemid);
+		$menu             = JFactory::getApplication()->getMenu();
+		$item             = $menu->getItem($newsletteritemid);
 
 		if ($item)
 		{

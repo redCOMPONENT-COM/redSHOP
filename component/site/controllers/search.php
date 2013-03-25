@@ -61,18 +61,20 @@ class SearchController extends JController
 		$manufac_data = (JRequest::getInt('manufacture_id', 0));
 
 		JLoader::import('joomla.application.module.helper');
-		$module = JModuleHelper::getModule('redshop_search');
-		$params = new JRegistry($module->params);
+		$module           = JModuleHelper::getModule('redshop_search');
+		$params           = new JRegistry($module->params);
 		$enableAjaxsearch = $params->get('enableAjaxsearch');
-		$javaFun = "";
+		$javaFun          = "";
 
 		if ($enableAjaxsearch)
+		{
 			$javaFun = "makeUrl();";
+		}
 
 		if (count($brands) > 0)
 		{
-			$manufac = array();
-			$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+			$manufac     = array();
+			$manufac[]   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
 			$manufacdata = @array_merge($manufac, $brands);
 
 			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
@@ -89,7 +91,7 @@ class SearchController extends JController
 	 */
 	public function ajaxsearch()
 	{
-		$model = $this->getModel();
+		$model  = $this->getModel();
 		$detail = $model->getajaxData();
 
 		$encoded = json_encode($detail);

@@ -27,13 +27,11 @@ class AccountController extends JController
 	 */
 	public function editTag()
 	{
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
-
-		$post = JRequest::get('post');
-
-		$model = $this->getModel('account');
+		$post   = JRequest::get('post');
+		$model  = $this->getModel('account');
 
 		if ($model->editTag($post))
 		{
@@ -55,14 +53,14 @@ class AccountController extends JController
 	public function sendWishlist()
 	{
 		$post = JRequest::get('post');
-
-		$emailto = $post['emailto'];
-		$sender = $post['sender'];
-		$email = $post['email'];
-		$subject = $post['subject'];
-		$Itemid = $post['Itemid'];
+		$emailto    = $post['emailto'];
+		$sender     = $post['sender'];
+		$email      = $post['email'];
+		$subject    = $post['subject'];
+		$Itemid     = $post['Itemid'];
 		$wishlis_id = $post['wishlist_id'];
-		$model = $this->getModel('account');
+
+		$model      = $this->getModel('account');
 
 		if ($emailto == "")
 		{
@@ -116,11 +114,11 @@ class AccountController extends JController
 	 */
 	public function newsletterUnsubscribe()
 	{
-		$user = JFactory::getUser();
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-
+		$user       = JFactory::getUser();
+		$option     = JRequest::getVar('option');
+		$Itemid     = JRequest::getVar('Itemid');
 		$userhelper = new rsUserhelper;
+
 		$userhelper->newsletterUnsubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
