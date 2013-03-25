@@ -12,7 +12,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 //JPlugin::loadLanguage( 'plg_telesearch_rs_telesearch');
 
