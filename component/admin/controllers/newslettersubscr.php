@@ -10,30 +10,17 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-
 jimport('joomla.filesystem.file');
 
 class newslettersubscrController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
+	public function importdata()
 	{
-
-		parent::display();
-	}
-
-	function importdata()
-	{
-
 		$post = JRequest::get('post');
 
 		$option = JRequest::getVar('option');
@@ -48,7 +35,6 @@ class newslettersubscrController extends JController
 
 		if ($filetype == 'csv')
 		{
-
 			$src = $file['tmp_name'];
 
 			$dest = JPATH_ADMINISTRATOR . DS . 'components/' . $option . '/assets' . DS . $file['name'];
@@ -61,7 +47,7 @@ class newslettersubscrController extends JController
 
 			$handle = fopen($dest, "r");
 
-			while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE)
+			while (($data = fgetcsv($handle, 1000, $separator)) !== false)
 			{
 				if ($data[0] != "" && $data[1] != "")
 				{
@@ -69,9 +55,9 @@ class newslettersubscrController extends JController
 					{
 						$success = $model->importdata($newsletter_id, $data[0], $data[1]);
 					}
+
 					$row++;
 				}
-
 			}
 
 			fclose($handle);
@@ -93,6 +79,5 @@ class newslettersubscrController extends JController
 			$msg = JText::_('COM_REDSHOP_FILE_EXTENTION_WRONG');
 			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg);
 		}
-
 	}
 }

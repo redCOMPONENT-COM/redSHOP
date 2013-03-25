@@ -29,7 +29,7 @@ class tax_detailVIEWtax_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->tax_rate_id < 1);
 

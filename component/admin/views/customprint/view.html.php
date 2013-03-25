@@ -26,7 +26,7 @@ class customprintViewcustomprint extends JView
 			$tpl = $layout;
 		}
 
-		$customviews = & $this->get('Data');
+		$customviews = $this->get('Data');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CUSTOM_VIEWS'), 'redshop_statistic48');
 
 		$this->assignRef('customviews', $customviews);

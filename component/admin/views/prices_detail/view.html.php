@@ -24,7 +24,7 @@ class prices_detailVIEWprices_detail extends JView
 		$this->setLayout('default');
 
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->price_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');

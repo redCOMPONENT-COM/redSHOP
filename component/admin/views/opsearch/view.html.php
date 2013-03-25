@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class opsearchViewopsearch extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -36,9 +43,9 @@ class opsearchViewopsearch extends JView
 		$filter_user = $mainframe->getUserStateFromRequest($context . 'filter_user', 'filter_user', 0);
 		$filter_status = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
 
-		$products = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$products = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$lists['filter_user'] = $model->getuserlist('filter_user', $filter_user, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
@@ -48,7 +55,7 @@ class opsearchViewopsearch extends JView
 		$this->assignRef('lists', $lists);
 		$this->assignRef('products', $products);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

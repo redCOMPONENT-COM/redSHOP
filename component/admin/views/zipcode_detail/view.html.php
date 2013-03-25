@@ -18,7 +18,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		$Redconfiguration = new Redconfiguration;
 		$uri = JFactory::getURI();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->zipcode_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -34,6 +34,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		{
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
+
 		$countryarray = $Redconfiguration->getCountryList((array) $detail);
 		$detail->country_code = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];

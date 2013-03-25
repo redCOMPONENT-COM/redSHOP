@@ -14,6 +14,13 @@ jimport('joomla.html.pane');
 
 class mail_detailVIEWmail_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT_DETAIL'), 'redshop_mailcenter48');
@@ -31,7 +38,7 @@ class mail_detailVIEWmail_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->mail_id < 1);
 
@@ -78,7 +85,7 @@ class mail_detailVIEWmail_detail extends JView
 		$this->assignRef('pane', $pane);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

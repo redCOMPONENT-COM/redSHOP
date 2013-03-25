@@ -40,7 +40,7 @@ class template_detailVIEWtemplate_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->template_id < 1);
 
