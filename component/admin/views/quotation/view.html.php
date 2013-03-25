@@ -15,6 +15,13 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.ph
 
 class quotationViewquotation extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -51,7 +58,7 @@ class quotationViewquotation extends JView
 		$this->assignRef('lists', $lists);
 		$this->assignRef('quotation', $quotation);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

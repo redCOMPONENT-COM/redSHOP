@@ -34,6 +34,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		{
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
+
 		$countryarray = $Redconfiguration->getCountryList((array) $detail);
 		$detail->country_code = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
