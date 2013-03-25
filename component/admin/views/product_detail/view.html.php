@@ -17,6 +17,15 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class product_detailVIEWproduct_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
+	public $productSerialDetail;
+
 	public function display($tpl = null)
 	{
 		global $mainframe;
@@ -241,18 +250,21 @@ class product_detailVIEWproduct_detail extends JView
 
 		// Merging select option in the select box
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->template_id = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 		$templates = @array_merge($temps, $templates);
 
 		// Merging select option in the select box
 		$supps = array();
+		$supps[0] = new stdClass;
 		$supps[0]->value = "0";
 		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$manufacturers = @array_merge($supps, $manufacturers);
 
 		// Merging select option in the select box
 		$supps = array();
+		$supps[0] = new stdClass;
 		$supps[0]->value = "0";
 		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$supplier = @array_merge($supps, $supplier);
@@ -387,6 +399,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		$product_tax = $model->gettax();
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = "0";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$product_tax = @array_merge($temps, $product_tax);
@@ -453,6 +466,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		$productVatGroup = $model->getVatGroup();
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = "";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$productVatGroup = @array_merge($temps, $productVatGroup);
@@ -487,6 +501,7 @@ class product_detailVIEWproduct_detail extends JView
 		$lists['attributes'] = $attributes;
 
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = "";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 
@@ -562,9 +577,9 @@ class product_detailVIEWproduct_detail extends JView
 		$this->assignRef('model', $model);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('productSerialDetail', $productSerialDetail);
+		$this->productSerialDetail = $productSerialDetail;
 		$this->assignRef('next_product', $next_product);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
