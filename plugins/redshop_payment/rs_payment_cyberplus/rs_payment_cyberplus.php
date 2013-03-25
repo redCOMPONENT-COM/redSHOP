@@ -15,7 +15,7 @@ $mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -25,9 +25,9 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_cyberplus(&$subject)
+	public function plgRedshop_paymentrs_payment_cyberplus(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_cyberplus');
@@ -38,7 +38,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_cyberplus')
 		{
@@ -52,10 +52,10 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_cyberplus($element, $request)
+	public function onNotifyPaymentrs_payment_cyberplus($element, $request)
 	{
 		if ($element != 'rs_payment_cyberplus')
 		{
@@ -67,14 +67,13 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 		$order_id = $request['orderid'];
 		$vads_trans_id = $request['vads_trans_id'];
 
-		// get params from plugin parameters
+		// Get params from plugin parameters
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
 		$site_id = $this->_params->get("site_id");
 		$certificate_number = $this->_params->get("certificate_number");
 		$key = $certificate_number;
 		$contenu_signature = "";
-		//	$params = $_POST;
 		ksort($request);
 
 		foreach ($request as $nom => $valeur)
@@ -90,14 +89,17 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 		}
 
 		$contenu_signature .= $key;
+
 		// The certifica
 		$signature_calculee = sha1($contenu_signature);
 
 		if (isset($request['signature']) && $signature_calculee == $request['signature'])
 		{
-			// Authenticated request
-			// Beware however to properly control the transmitted parameters
-			// In particular vads_site_id and vads_ctx_mode
+			/*
+			 * Authenticated request
+			 * Beware however to properly control the transmitted parameters
+			 * In particular vads_site_id and vads_ctx_mode
+			 */
 			if ($request['vads_result'] == "00")
 			{
 				// Payment ok
@@ -130,5 +132,4 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 
 		return $values;
 	}
-
 }

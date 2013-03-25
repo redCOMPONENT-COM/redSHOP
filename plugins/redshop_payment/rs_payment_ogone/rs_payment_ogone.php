@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-/*$mainframe =& JFactory::getApplication();
-$mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgRedshop_paymentrs_payment_ogone extends JPlugin
 {
 	var $_table_prefix = null;
@@ -27,7 +27,7 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_ogone(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ogone');
@@ -52,7 +52,7 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
 	function onNotifyPaymentrs_payment_ogone($element, $request)
@@ -82,7 +82,7 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		$tid = $request['PAYID'];
 
-		// get params from plugin
+		// Get params from plugin
 		$sha_out_pass_phrase = $this->_params->get("sha_out_pass_phrase");
 		$algo_used = $this->_params->get("algo_used");
 		$hash_string = $this->_params->get("hash_string");
@@ -95,7 +95,20 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		foreach ($request as $key => $value)
 		{
-			if ($key == "ACCEPTANCE" || $key == "AMOUNT" || $key == "CARDNO" || $key == "CN" || $key == "BRAND" || $key == "IP" || $key == "ED" || $key == "NCERROR" || $key == "PM" || $key == "PAYID" || $key == "STATUS" || $key == "TRXDATE" || $key == "CURRENCY" || $key == "ORDERID")
+			if ($key == "ACCEPTANCE"
+				|| $key == "AMOUNT"
+				|| $key == "CARDNO"
+				|| $key == "CN"
+				|| $key == "BRAND"
+				|| $key == "IP"
+				|| $key == "ED"
+				|| $key == "NCERROR"
+				|| $key == "PM"
+				|| $key == "PAYID"
+				|| $key == "STATUS"
+				|| $key == "TRXDATE"
+				|| $key == "CURRENCY"
+				|| $key == "ORDERID")
 			{
 				$secret_words .= $key . "=" . $value . $sha_out_pass_phrase;
 			}
@@ -142,5 +155,4 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 
 		return $values;
 	}
-
 }

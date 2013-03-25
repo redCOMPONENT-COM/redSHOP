@@ -10,13 +10,12 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
 class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -26,9 +25,9 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_dibspaymentmethod(&$subject)
+	public function plgRedshop_paymentrs_payment_dibspaymentmethod(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dibspaymentmethod');
@@ -39,7 +38,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_dibspaymentmethod')
 		{
@@ -53,10 +52,10 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_dibspaymentmethod($element, $request)
+	public function onNotifyPaymentrs_payment_dibspaymentmethod($element, $request)
 	{
 		$db = JFactory::getDBO();
 
@@ -109,7 +108,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -119,7 +118,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -135,12 +134,13 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_dibspaymentmethod($element, $data)
+	public function onCapture_Paymentrs_payment_dibspaymentmethod($element, $data)
 	{
 		if ($element != 'rs_payment_dibspaymentmethod')
 		{
 			return;
 		}
+
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions;
 		$db = JFactory::getDBO();
@@ -156,13 +156,21 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$formdata['amount'] = $currencyClass->convert($data['order_amount'], '', $this->_params->get("dibs_currency"));
 		$formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 
-		$md5key = md5($key2 . md5($key1 . 'merchant=' . $merchantid . '&orderid=' . $order_id . '&transact=' . $data["order_transactionid"] . '&amount=' . $formdata['amount']));
-		//$md5key=md5($key2.md5($key1.'merchant='.$merchantid.'&orderid='.$data['order_id'].'&currency='.$dibs_currency.'&amount='.$data['order_amount']));
+		$md5key = md5(
+			$key2 . md5(
+				$key1
+					. 'merchant=' . $merchantid
+					. '&orderid=' . $order_id
+					. '&transact=' . $data["order_transactionid"]
+					. '&amount=' . $formdata['amount']
+			)
+		);
 
 		$dibsurl .= "merchant=" . urlencode($this->_params->get("seller_id")) . "&amount=" . urlencode($formdata['amount']) . "&transact=" . $data["order_transactionid"] . "&orderid=" . $order_id . "&force=yes&textreply=yes&md5key=" . $md5key;
 
 		$data = $dibsurl;
 		$ch = curl_init($data);
+
 		// 	Execute
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$data = curl_exec($ch);
@@ -183,7 +191,5 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
-
 }

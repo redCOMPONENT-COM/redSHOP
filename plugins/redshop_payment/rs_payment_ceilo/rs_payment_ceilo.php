@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,7 +23,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_ceilo(&$subject)
+	public function plgRedshop_paymentrs_payment_ceilo(&$subject)
 	{
 		// load plugin parameters
 		parent::__construct($subject);
@@ -37,7 +36,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_ceilo($element, $data)
+	public function onPrePayment_rs_payment_ceilo($element, $data)
 	{
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
@@ -60,14 +59,19 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 			$plugin = $element;
 		}
 
-		// get params from plugin
+		// Get params from plugin
 		$ceilo_parameters = $this->getparameters('rs_payment_ceilo');
 		$paymentinfo = $ceilo_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', ''); // store number
-		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', ''); // key
-		$capturarAutomaticamente = $paymentparams->get('capturarAutomaticamente', ''); // auto capture
+		// Store number
+		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', '');
+
+		// Key
+		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', '');
+
+		// Auto capture
+		$capturarAutomaticamente = $paymentparams->get('capturarAutomaticamente', '');
 		$indicadorAutorizacao = $paymentparams->get('indicadorAutorizacao', '');
 		$tentarAutenticar = $paymentparams->get('tentarAutenticar', '');
 		$debug_mode = $paymentparams->get('debug_mode', 0);
@@ -89,30 +93,27 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-		// get Credit card Information
+		// Get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = strtolower($ccdata['creditcard_code']);
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
-		$credit_card_code = substr($ccdata['credit_card_code'], 0, 4); ////$_POST["cartaoCodigoSeguranca"]
+		$credit_card_code = substr($ccdata['credit_card_code'], 0, 4);
 		$order_payment_expire_month = substr($ccdata['order_payment_expire_month'], 0, 2);
 		$order_payment_expire_year = $ccdata['order_payment_expire_year'];
-		$formaPagamento = 1; //$ccdata['formaPagamento'];//$_POST["formaPagamento"]
+		$formaPagamento = 1;
 		$order_number = substr($data['order_number'], 0, 16);
 		$tax_exempt = false;
 
-//echo $creditcard_code;
-
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_ceilo' . DS . 'includes' . DS . 'include.php';
-		include($paymentpath);
+		include $paymentpath;
 
 		$Pedido = new Pedido;
 
-		// L� dados do $_POST
-		$Pedido->formaPagamentoBandeira = $creditcard_code; //$_POST["codigoBandeira"];
+		$Pedido->formaPagamentoBandeira = $creditcard_code;
 
-		if ($formaPagamento != "A" && $formaPagamento != "1") ////$_POST["formaPagamento"]
+		if ($formaPagamento != "A" && $formaPagamento != "1")
 		{
-			$Pedido->formaPagamentoProduto = $tipoParcelamento; //$_POST["tipoParcelamento"];
+			$Pedido->formaPagamentoProduto = $tipoParcelamento;
 			$Pedido->formaPagamentoParcelas = $formaPagamento;
 		}
 		else
@@ -121,22 +122,23 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 			$Pedido->formaPagamentoParcelas = 1;
 		}
 
-		$Pedido->dadosEcNumero = $ceilo_loja_id; //LOJA;
-		$Pedido->dadosEcChave = $ceilo_loja_chave; //LOJA_CHAVE;
+		$Pedido->dadosEcNumero = $ceilo_loja_id;
+		$Pedido->dadosEcChave = $ceilo_loja_chave;
 
-		$Pedido->capturar = $capturarAutomaticamente; //$_POST["capturarAutomaticamente"];
+		$Pedido->capturar = $capturarAutomaticamente;
 
-		$Pedido->autorizar = $indicadorAutorizacao; //$_POST["indicadorAutorizacao"];
+		$Pedido->autorizar = $indicadorAutorizacao;
 
-		$Pedido->dadosPortadorNumero = $order_payment_number; //$_POST["cartaoNumero"];
-		$Pedido->dadosPortadorVal = $order_payment_expire_year . str_pad($order_payment_expire_month, 2, "0", STR_PAD_LEFT); //$_POST["cartaoValidade"];
+		$Pedido->dadosPortadorNumero = $order_payment_number;
+		$Pedido->dadosPortadorVal = $order_payment_expire_year
+			. str_pad($order_payment_expire_month, 2, "0", STR_PAD_LEFT);
 
 		// Verifica se C�digo de Seguran�a foi informado e ajusta o indicador corretamente
 		if ($credit_card_code == null || $credit_card_code == "")
 		{
 			$Pedido->dadosPortadorInd = "0";
 		}
-		else if ($Pedido->formaPagamentoBandeira == "mastercard")
+		elseif ($Pedido->formaPagamentoBandeira == "mastercard")
 		{
 			$Pedido->dadosPortadorInd = "1";
 		}
@@ -148,18 +150,17 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$Pedido->dadosPortadorCodSeg = $credit_card_code;
 		$Pedido->dadosPedidoNumero = $data['order_number'];
 
-		//Assign Amount
+		// Assign Amount
 		$tot_amount = $order_total = $data['order_total'];
-		// $amount = $currencyClass->convert ( $tot_amount, '', 'USD' );
 		$amount = number_format($tot_amount, 2, '.', '') * 100;
-		$Pedido->dadosPedidoValor = 1000; //$_POST["produto"];
+		$Pedido->dadosPedidoValor = 1000;
 
-		if ($tentarAutenticar == "sim") // TRANSA��O
+		if ($tentarAutenticar == "sim")
 		{
 			$objResposta = $Pedido->RequisicaoTransacao(true);
 
 		}
-		else // AUTORIZA��O DIRETA
+		else
 		{
 			$objResposta = $Pedido->RequisicaoTid();
 
@@ -183,7 +184,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 		$ultimoPedido -= 1;
 
-		//$Pedido = new Pedido;
 		$Pedido->FromString($_SESSION["pedidos"]->offsetGet($ultimoPedido));
 
 		// Consulta situa��o da transa��o
@@ -205,8 +205,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 		if ($Pedido->status == '4' || $Pedido->status == '6')
 		{
-			//echo "order Success -----";
-
 			if ($debug_mode == "0")
 			{
 				$message = 'Success';
@@ -238,7 +236,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -248,35 +246,37 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		return $params;
 	}
 
-	function onCapture_Paymentrs_payment_ceilo($element, $data)
+	public function onCapture_Paymentrs_payment_ceilo($element, $data)
 	{
 		$db = JFactory::getDBO();
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		$objOrder = new order_functions;
 
-		// get params from plugin
+		// Get params from plugin
 		$ceilo_parameters = $this->getparameters('rs_payment_ceilo');
 		$paymentinfo = $ceilo_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', ''); // store number
-		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', ''); // key
+		// Store number
+		$ceilo_loja_id = $paymentparams->get('ceilo_loja_id', '');
+
+		// Key
+		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', '');
 
 		// Add request-specific fields to the request string.
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_ceilo' . DS . 'includes' . DS . 'include.php';
-		include($paymentpath);
+		include $paymentpath;
 
 		$objResposta = null;
 		$Pedido = new Pedido;
-		//$Pedido->FromString($_SESSION["pedidos"]->offsetGet($key));
+
 		$amount = number_format($data['order_amount'], 2, '.', '') * 100;
 
-		$Pedido->dadosEcNumero = $ceilo_loja_id; //LOJA;
-		$Pedido->dadosEcChave = $ceilo_loja_chave; //LOJA_CHAVE;
+		$Pedido->dadosEcNumero = $ceilo_loja_id;
+		$Pedido->dadosEcChave = $ceilo_loja_chave;
 		$Pedido->tid = $data['order_transactionid'];
 		$Pedido->dadosPedidoNumero = $data['order_number'];
 
-		//$Pedido->dadosPedidoData = $XML->$DadosPedido->$DataHora;
 		$Pedido->dadosPedidoValor = $amount;
 		$Pedido->formaPagamentoProduto = 1;
 		$Pedido->formaPagamentoParcelas = 1;
@@ -285,19 +285,16 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 		$Pedido->status = $objResposta->status;
 
-		// call function to post an order ------
+		// Call function to post an order ------
 
 		if ($Pedido->status == 6)
 		{
-			//echo "transaction Success -----";
 			$message = $message = $objResposta->captura->mensagem;
 			;
 			$values->responsestatus = 'Success';
-
 		}
 		else
 		{
-			//echo "transaction Fail -----";
 			$message = $message = $objResposta->captura->mensagem;
 			;
 			$values->responsestatus = 'Fail';
@@ -309,5 +306,4 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		return $values;
 
 	}
-
 }

@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-/*$mainframe =& JFactory::getApplication();
-$mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -25,7 +25,7 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_localcreditcard(&$subject)
+	public function plgRedshop_paymentrs_payment_localcreditcard(&$subject)
 	{
 		// load plugin parameters
 		parent::__construct($subject);
@@ -38,7 +38,7 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_localcreditcard($element, $data)
+	public function onPrePayment_rs_payment_localcreditcard($element, $data)
 	{
 		if ($element != 'rs_payment_localcreditcard')
 		{
@@ -54,9 +54,8 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 
 	}
 
-	function onCapture_Paymentrs_payment_localcreditcard($element, $data)
+	public function onCapture_Paymentrs_payment_localcreditcard($element, $data)
 	{
 		return;
 	}
-
 }

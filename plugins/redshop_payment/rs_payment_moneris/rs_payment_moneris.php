@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_moneris extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,9 +23,9 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_moneris(&$subject)
+	public function plgRedshop_paymentrs_payment_moneris(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_moneris');
@@ -37,7 +36,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_moneris($element, $data)
+	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
@@ -55,7 +54,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$plugin = $element;
 		}
 
-		// get params from plugin
+		// Get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_moneris');
 		$paymentinfo = $chase_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -70,7 +69,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 		if ($moneris_test_status == 1)
 		{
-			//$this->Globals['MONERIS_HOST'] = "esqa.moneris.com/mpg";
 			$moneris_api_host = "esqa.moneris.com";
 		}
 		else
@@ -88,7 +86,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-		// get Credit card Information
+		// Get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
@@ -100,20 +98,16 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 		$cvd_indicator = 0;
 
-		//die();
-		//$order_number	=	substr($data['order_number'],0,16);
 		$tax_exempt = false;
 
-//echo $creditcard_code;
-
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_moneris' . DS . 'rs_payment_moneris' . DS . 'moneris.helper.php';
-		include($paymentpath);
+		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_moneris' . DS
+			. 'rs_payment_moneris' . DS . 'moneris.helper.php';
+		include $paymentpath;
 
 		if ($moneris_test_status == 1)
 		{
 			$storeid = $moneris_test_store_id;
 			$apitoken = $moneris_test_api_token;
-			//$d["order_payment_log"] .= "Test Mode\n";
 			$ptoken = rand(1, 10);
 			$ptoken = number_format($ptoken, 0, "", "");
 
@@ -125,7 +119,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			{
 				$amount = "10.24";
 			}
-
 		}
 		else
 		{
@@ -141,23 +134,24 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$avs_zipcode = substr($data['billinginfo']->zipcode, 0, 20);
 		$order_number = $data['order_number'] . time();
 
-		$txnArray = array('type'       => 'purchase',
-		                  'order_id'   => $order_number,
-		                  'cust_id'    => $user_id,
-		                  'amount'     => sprintf('%01.2f', $amount),
-		                  'pan'        => $order_payment_number,
-		                  'expdate'    => $order_payment_expire_year,
-		                  'crypt_type' => $crypt);
+		$txnArray = array(
+			'type'       => 'purchase',
+			'order_id'   => $order_number,
+			'cust_id'    => $user_id,
+			'amount'     => sprintf('%01.2f', $amount),
+			'pan'        => $order_payment_number,
+			'expdate'    => $order_payment_expire_year,
+			'crypt_type' => $crypt
+		);
 
 		$cvdTemplate = array('cvd_indicator' => $cvd_indicator,
-		                     'cvd_value'     => $credit_card_code);
+		                     'cvd_value'     => $credit_card_code
+		);
 
-		$avsTemplate = array('avs_street_number' => $avs_street_number,
-		                     'avs_street_name'   => '',
-		                     'avs_zipcode'       => $avs_zipcode);
+		$avsTemplate = array('avs_street_number' => $avs_street_number,'avs_street_name' => '','avs_zipcode' => $avs_zipcode);
 
-		$mpgAvsInfo = new mpgAvsInfo ($avsTemplate);
-		$mpgCvdInfo = new mpgCvdInfo ($cvdTemplate);
+		$mpgAvsInfo = new mpgAvsInfo($avsTemplate);
+		$mpgCvdInfo = new mpgCvdInfo($cvdTemplate);
 
 		$mpgTxn = new mpgTransaction($txnArray);
 
@@ -170,8 +164,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		{
 			$mpgTxn->setCvdInfo($mpgCvdInfo);
 		}
-
-		//echo $apitoken;die();
 
 		$mpgRequest = new mpgRequest($mpgTxn);
 
@@ -210,13 +202,14 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 			}
 			else
+			{
 				if (intval($mpgRCode) >= 50)
 				{
 					$message = "\nA Message from the processor: " . $mpgMessage . "\n";
 					$values->responsestatus = 'Fail';
 					$values->transaction_id = $mpgTxnNumber;
 				}
-
+			}
 		}
 		else
 		{
@@ -231,7 +224,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -240,5 +233,4 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 		return $params;
 	}
-
 }

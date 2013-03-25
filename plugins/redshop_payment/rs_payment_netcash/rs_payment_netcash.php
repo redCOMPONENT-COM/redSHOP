@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_netcash extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,9 +23,9 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_netcash(&$subject)
+	public function plgRedshop_paymentrs_payment_netcash(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_netcash');
@@ -37,7 +36,7 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_netcash')
 		{
@@ -51,10 +50,10 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_netcash($element, $request)
+	public function onNotifyPaymentrs_payment_netcash($element, $request)
 	{
 		if ($element != 'rs_payment_netcash')
 		{
@@ -112,7 +111,7 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -122,7 +121,7 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -138,9 +137,8 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_netcash($element, $data)
+	public function onCapture_Paymentrs_payment_netcash($element, $data)
 	{
 		return;
 	}
-
 }

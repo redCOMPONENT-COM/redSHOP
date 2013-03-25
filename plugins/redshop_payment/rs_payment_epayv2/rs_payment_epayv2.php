@@ -13,7 +13,7 @@ jimport('joomla.plugin.plugin');
 
 class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -23,9 +23,9 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_epayv2(&$subject)
+	public function plgRedshop_paymentrs_payment_epayv2(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epayv2');
@@ -36,7 +36,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_epayv2')
 		{
@@ -50,17 +50,17 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onNotifyPaymentrs_payment_epayv2($element, $request)
+	public function onNotifyPaymentrs_payment_epayv2($element, $request)
 	{
 		if ($element != 'rs_payment_epayv2')
 		{
-			break;
+			return false;
 		}
 
 		$db = jFactory::getDBO();
@@ -99,6 +99,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 				$var .= $value;
 			}
 		}
+
 		// Generated Hash
 		$genstamp = md5($var . $epay_paymentkey);
 
@@ -122,35 +123,36 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 
-					// add history callback info
+					// Add history callback info
 					if ($accept == "2")
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
 					}
 
-					// payment fee
+					// Payment fee
 					if ($request["transfee"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
 					}
 
-					// payment date
+					// Payment date
 					if ($request["date"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
 					}
 
-					// payment fraud control
+					// Payment fraud control
 					if (@$request["fraud"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
 					}
 
-					// card id
+					// Card id
 					if ($request["cardid"])
 					{
 						$cardname = "Unknown";
 						$cardimage = "c" . $_REQUEST["cardid"] . ".gif";
+
 						switch ($_REQUEST["cardid"])
 						{
 							case 1:
@@ -228,7 +230,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 					}
 
-					// creation information
+					// Creation information
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
 				}
@@ -266,7 +268,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -276,7 +278,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -292,17 +294,17 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_epayv2($element, $data)
+	public function onCapture_Paymentrs_payment_epayv2($element, $data)
 	{
 		$epay_parameters = $this->getparameters('rs_payment_epayv2');
 		$paymentinfo = $epay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// get the class
+		// Get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
-		include($paymentpath);
+		include $paymentpath;
 
-		//Access the webservice
+		// Access the webservice
 		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
@@ -330,17 +332,17 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 	}
 
-	function onStatus_Paymentrs_payment_epayv2($element, $data)
+	public function onStatus_Paymentrs_payment_epayv2($element, $data)
 	{
 		$epay_parameters = $this->getparameters('rs_payment_epayv2');
 		$paymentinfo = $epay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// get the class
+		// Get the class
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
-		include($paymentpath);
+		include $paymentpath;
 
-		//Access the webservice
+		// Access the webservice
 		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
@@ -355,7 +357,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		{
 			$data_refund = $this->onCancel_Paymentrs_payment_epayv2($element, $data);
 		}
-		else if ($response['status'] == "PAYMENT_CAPTURED")
+		elseif ($response['status'] == "PAYMENT_CAPTURED")
 		{
 			$data_refund = $this->onRefund_Paymentrs_payment_epayv2($element, $data);
 		}
@@ -364,13 +366,13 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 	}
 
-	function onCancel_Paymentrs_payment_epayv2($element, $data)
+	public function onCancel_Paymentrs_payment_epayv2($element, $data)
 	{
 		$epay_parameters = $this->getparameters('rs_payment_epayv2');
 		$paymentinfo = $epay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		//Access the webservice
+		// Access the webservice
 		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
@@ -398,13 +400,13 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 	}
 
-	function onRefund_Paymentrs_payment_epayv2($element, $data)
+	public function onRefund_Paymentrs_payment_epayv2($element, $data)
 	{
 		$epay_parameters = $this->getparameters('rs_payment_epayv2');
 		$paymentinfo = $epay_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
 
-		//Access the webservice
+		// Access the webservice
 		$epay = new EpaySoap;
 		$merchantnumber = $paymentparams->get('merchant_id');
 
@@ -429,7 +431,5 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
-
 }

@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -25,9 +25,9 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_beanstream(&$subject)
+	public function plgRedshop_paymentrs_payment_beanstream(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_beanstream');
@@ -38,7 +38,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_beanstream($element, $data)
+	public function onPrePayment_rs_payment_beanstream($element, $data)
 	{
 		if ($element != 'rs_payment_beanstream')
 		{
@@ -57,7 +57,8 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$ccdata = $session->get('ccdata');
 		$cart = $session->get('cart');
 		$config = new Redconfiguration;
-		// for total amount 
+
+		// For total amount
 		$cal_no = 2;
 
 		if (defined('PRICE_DECIMAL'))
@@ -69,14 +70,15 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$CountryCode = $config->getCountryCode2($data['billinginfo']->country_code);
-		// get params from plugin
+
+		// Get params from plugin
 
 		$merchant_id = $this->_params->get("merchant_id");
 		$api_username = $this->_params->get("api_username");
 		$api_password = $this->_params->get("api_password");
 		$view_table_format = $this->_params->get("view_table_format");
 
-		//Authnet vars to send
+		// Authnet vars to send
 
 		$formdata = array(
 			'requestType'     => 'BACKEND',
@@ -100,7 +102,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			'ordCountry'      => $CountryCode,
 		);
 
-		//build the post string
+		// Build the post string
 		$poststring = '';
 
 		foreach ($formdata AS $key => $val)
@@ -108,28 +110,34 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			$poststring .= urlencode($key) . "=" . $val . "&";
 		}
 
-		// strip off trailing ampersand
+		// Strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 
 		// Initialize curl
 		$ch = curl_init();
+
 		// Get curl to POST
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
 		// Instruct curl to suppress the output from Beanstream, and to directly
 		// return the transfer instead. (Output will be stored in $txResult.)
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
 		// This is the location of the Beanstream payment gateway
 		curl_setopt($ch, CURLOPT_URL, "https://www.beanstream.com/scripts/process_transaction.asp");
+
 		// These are the transaction parameters that we will POST
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring);
+
 		// Now POST the transaction. $txResult will contain Beanstream's response
 		$txResult = curl_exec($ch);
 
 		curl_close($ch);
 
-		$arrResult = $this->explode_assoc("=", "&", $txResult); //built array
+		// Built array
+		$arrResult = $this->explode_assoc("=", "&", $txResult);
 
 		if ($arrResult['trnApproved'] == '1')
 		{
@@ -150,7 +158,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 
 	}
 
-	function explode_assoc($glue1, $glue2, $array)
+	public function explode_assoc($glue1, $glue2, $array)
 	{
 		$array2 = explode($glue2, $array);
 
@@ -163,5 +171,4 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 
 		return $array3;
 	}
-
 }

@@ -13,6 +13,7 @@ jimport('joomla.plugin.plugin');
 
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+
 class plgRedshop_paymentrs_payment_paymill extends JPlugin
 {
 	var $_table_prefix = null;
@@ -27,7 +28,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	 */
 	function plgRedshop_paymentrs_payment_paymill(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paymill');
@@ -50,7 +51,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
 
-		include($paymentpath);
+		include $paymentpath;
 	}
 
 	function getCredicardForm($element, $data)
@@ -180,11 +181,11 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$session = & JFactory::getSession();
 		$Itemid = JRequest::getVar('Itemid');
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'lib/Services/Paymill/Transactions.php';
-		include($paymentpath);
+		include $paymentpath;
 
 		if ($token = $data['paymillToken'])
 		{
-			// require "Services/Paymill/Transactions.php";
+			// Require "Services/Paymill/Transactions.php";
 			$transactionsObject = new Services_Paymill_Transactions($paymill_private_key, "https://api.paymill.com/v2/");
 			$params = array(
 				'amount'      => $order_amount, // E.g. "15" for 0.15 EUR!
@@ -261,7 +262,5 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	function onCapture_Paymentrs_payment_paymill($element, $data)
 	{
 		return;
-
 	}
-
 }

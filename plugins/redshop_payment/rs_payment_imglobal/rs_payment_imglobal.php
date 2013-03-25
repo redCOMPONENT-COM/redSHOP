@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
-/*$mainframe =& JFactory::getApplication();
-$mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -26,7 +25,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_imglobal(&$subject)
+	public function plgRedshop_paymentrs_payment_imglobal(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -39,7 +38,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_imglobal($element, $data)
+	public function onPrePayment_rs_payment_imglobal($element, $data)
 	{
 		if ($element != 'rs_payment_imglobal')
 		{
@@ -57,7 +56,10 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		$url = "https://secure.imglobalpayments.com/api/transact.php";
 		$urlParts = parse_url($url);
 
-		if (!isset($urlParts['scheme'])) $urlParts['scheme'] = 'http';
+		if (!isset($urlParts['scheme']))
+		{
+			$urlParts['scheme'] = 'http';
+		}
 
 		$formdata = array(
 			'type'     => 'sale',
@@ -87,6 +89,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 			curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
 			curl_setopt($CR, CURLOPT_POST, 1);
 		}
+
 		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
 
 		if ($urlParts['scheme'] == 'https')
@@ -130,9 +133,8 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		return $values;
 	}
 
-	function onCapture_Paymentrs_payment_imglobal($element, $data)
+	public function onCapture_Paymentrs_payment_imglobal($element, $data)
 	{
 		return;
 	}
-
 }

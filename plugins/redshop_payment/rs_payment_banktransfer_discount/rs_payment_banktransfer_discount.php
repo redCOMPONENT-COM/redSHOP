@@ -21,7 +21,7 @@ class plgRedshop_paymentrs_payment_banktransfer_discount extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_banktransfer_discount(&$subject)
+	public function plgRedshop_paymentrs_payment_banktransfer_discount(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -33,7 +33,7 @@ class plgRedshop_paymentrs_payment_banktransfer_discount extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_banktransfer_discount')
 		{

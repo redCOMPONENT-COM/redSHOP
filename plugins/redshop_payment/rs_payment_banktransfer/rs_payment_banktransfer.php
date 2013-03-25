@@ -13,19 +13,15 @@ jimport('joomla.plugin.plugin');
 
 class plgRedshop_paymentrs_payment_banktransfer extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
-	 * Constructor$mainframe =& JFactory::getApplication();
-	$paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.'extra_info.php';
-	include($paymentpath);
-	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for
 	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_banktransfer(&$subject)
+	public function plgRedshop_paymentrs_payment_banktransfer(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -38,7 +34,7 @@ class plgRedshop_paymentrs_payment_banktransfer extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		$tag = JFactory::getLanguage()->getTag();
 

@@ -13,7 +13,7 @@ jimport('joomla.plugin.plugin');
 
 class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -23,13 +23,12 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_googlecheckout(&$subject)
+	public function plgRedshop_paymentrs_payment_googlecheckout(&$subject)
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_table_prefix = '#__redshop_';
-		//    JPluginHelper::getPlugin( 'redshop', 'onPrePayment' );
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_googlecheckout');
 		$this->_params = new JRegistry($this->_plugin->params);
 
@@ -38,7 +37,7 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_googlecheckout')
 		{
@@ -52,8 +51,7 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_googlecheckout' . DS . 'rs_payment_googlecheckout' . DS . 'extra_info.php';
-		include_once($paymentpath);
+		include_once $paymentpath;
 	}
-
 }
 

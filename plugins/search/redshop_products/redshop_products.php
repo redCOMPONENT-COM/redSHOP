@@ -21,15 +21,14 @@ $Redconfiguration->defineDynamicVars();
 
 class plgSearchredshop_products extends JPlugin
 {
-	function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
 
 		$searchText = $text;
 
-		// load plugin params info
-		//$plugin =& JPluginHelper::getPlugin('search', 'redshop_products');
+		// Load plugin params info
 		$pluginParams = $this->params;
 
 		$limit = $pluginParams->def('search_limit', 50);
@@ -44,6 +43,7 @@ class plgSearchredshop_products extends JPlugin
 		$section = JText::_('COM_REDSHOP_Products');
 
 		$wheres = array();
+
 		switch ($phrase)
 		{
 			case 'exact':
@@ -132,4 +132,4 @@ class plgSearchredshop_products extends JPlugin
 
 		return $return;
 	}
-}	
+}

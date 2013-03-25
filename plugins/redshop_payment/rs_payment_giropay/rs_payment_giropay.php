@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrgiropayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_giropay extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,9 +23,9 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_giropay(&$subject)
+	public function plgRedshop_paymentrs_payment_giropay(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_giropay');
@@ -37,7 +36,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_giropay')
 		{
@@ -51,21 +50,21 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$class_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'gsGiropay.php';
-		include($class_path);
+		include $class_path;
 
 		$gsGiropay = new gsGiropay;
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onNotifyPaymentrs_payment_giropay($element, $request)
+	public function onNotifyPaymentrs_payment_giropay($element, $request)
 	{
 		if ($element != 'rs_payment_giropay')
 		{
-			break;
+			return false;
 		}
 
 		$db = jFactory::getDBO();
@@ -87,7 +86,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		$values = new stdClass;
 
 		$class_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'gsGiropay.php';
-		include($class_path);
+		include $class_path;
 
 		$gsGiropay = new gsGiropay;
 		$hash = $gsGiropay->generateHash($merchantId . $projectId . $transactionId . $gpCode, $secret_password);
@@ -102,7 +101,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			$values->msg = $message;
 		}
 
-		// neuen Bestellstatus ermitteln
+		// Neuen Bestellstatus ermitteln
 		if ($gsGiropay->codeIsOK($gpCode))
 		{
 			$values->order_status_code = $verify_status;
@@ -125,5 +124,4 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 
 		return $values;
 	}
-
 }

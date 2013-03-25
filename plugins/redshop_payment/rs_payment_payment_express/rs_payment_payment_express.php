@@ -10,11 +10,13 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php';
+
 class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -24,9 +26,9 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_payment_express(&$subject)
+	public function plgRedshop_paymentrs_payment_payment_express(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payment_express');
@@ -34,7 +36,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 	}
 
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_payment_express')
 		{
@@ -48,13 +50,13 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 		$mainframe =& JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_payment_express($element, $data)
+	public function onPrePayment_rs_payment_payment_express($element, $data)
 	{
 		if ($element != 'rs_payment_payment_express')
 		{
@@ -68,13 +70,14 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 		if ($this->_params->get("px_post_txnmethod") == 'PxPost')
 		{
-			// pxpost
+			// Pxpost
 			$cmdDoTxnTransaction = "";
+
 			// Get user billing information
 			$session =& JFactory::getSession();
 			$ccdata = $session->get('ccdata');
 
-			#Calculate AmountInput
+			// Calculate AmountInput
 
 			$amount = $data['order_total'];
 			$amount = sprintf("%9.2f", $amount); //convert .8 to .80
@@ -82,8 +85,13 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$currency = CURRENCY_CODE;
 			$merchRef = substr($data['billinginfo']->firstname, 0, 50) . " " . substr($data['billinginfo']->lastname, 0, 50);
 			$cmdDoTxnTransaction .= "<Txn>";
-			$cmdDoTxnTransaction .= "<PostUsername>" . $this->_params->get("px_post_username") . "</PostUsername>"; #Insert your DPS Username here
-			$cmdDoTxnTransaction .= "<PostPassword>" . $this->_params->get("px_post_password") . "</PostPassword>"; #Insert your DPS Password here
+			// Insert your DPS Username here
+			$cmdDoTxnTransaction .= "<PostUsername>" . $this->_params->get("px_post_username"
+				. "</PostUsername>";
+
+			// Insert your DPS Password here
+			$cmdDoTxnTransaction .= "<PostPassword>" . $this->_params->get("px_post_password")
+				. "</PostPassword>";
 			$cmdDoTxnTransaction .= "<Amount>" . $amount . "</Amount>";
 			$cmdDoTxnTransaction .= "<InputCurrency>$currency</InputCurrency>";
 			$cmdDoTxnTransaction .= "<CardHolderName>" . $ccdata['order_payment_name'] . "</CardHolderName>";
@@ -91,7 +99,8 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$cmdDoTxnTransaction .= "<DateExpiry>" . ($ccdata['order_payment_expire_month']) . substr($ccdata['order_payment_expire_year'], 2, 2) . "</DateExpiry>";
 			$cmdDoTxnTransaction .= "<Cvc2>" . $ccdata['credit_card_code'] . "</Cvc2>";
 			$cmdDoTxnTransaction .= "<TxnType>" . $this->_params->get("px_post_txntype") . "</TxnType>";
-			$cmdDoTxnTransaction .= "<TxnData1>" . JText::_('COM_REDSHOP_ORDER_ID') . " : " . $order_number . "</TxnData1>";
+			$cmdDoTxnTransaction .= "<TxnData1>" . JText::_('COM_REDSHOP_ORDER_ID') . " : "
+				. $order_number . "</TxnData1>";
 			$cmdDoTxnTransaction .= "<MerchantReference>$merchRef</MerchantReference>";
 			$cmdDoTxnTransaction .= "</Txn>";
 
@@ -103,7 +112,9 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $cmdDoTxnTransaction);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); //Needs to be included if no *.crt is available to verify SSL certificates
+
+			//Needs to be included if no *.crt is available to verify SSL certificates
+			//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($ch, CURLOPT_SSLVERSION, 3);
 			$result = curl_exec($ch);
 
@@ -137,12 +148,12 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		{
 			$mainframe =& JFactory::getApplication();
 			$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-			include($paymentpath);
+			include $paymentpath;
 		}
 
 	}
 
-	function parse_xml($data)
+	public function parse_xml($data)
 	{
 		$xml_parser = xml_parser_create();
 		xml_parse_into_struct($xml_parser, $data, $vals, $index);
@@ -184,7 +195,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		return $params;
 	}
 
-	function onCapture_Paymentrs_payment_payment_express($element, $data)
+	public function onCapture_Paymentrs_payment_payment_express($element, $data)
 	{
 		if ($element != 'rs_payment_payment_express')
 		{
