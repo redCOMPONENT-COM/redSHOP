@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+include_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
 /**
  * Cart Controller.
@@ -108,6 +108,7 @@ class CartController extends JController
 					$acc_attribute_data = explode("@@", $data['acc_attribute_data']);
 					$acc_property_data = explode("@@", $data['acc_property_data']);
 					$acc_subproperty_data = explode("@@", $data['acc_subproperty_data']);
+
 					for ($i = 0; $i < count($accessory_data); $i++)
 					{
 						$accessory = $producthelper->getProductAccessory($accessory_data[$i]);
@@ -404,7 +405,7 @@ class CartController extends JController
 		$Itemid = $redhelper->getCartItemid($Itemid);
 		$model = $this->getModel('cart');
 
-		// call update_all method of model to update all products info of cart
+		// Call update_all method of model to update all products info of cart
 		$model->update_all($post);
 		$this->_carthelper->cartFinalCalculation();
 		$this->_carthelper->carttodb();
@@ -506,7 +507,7 @@ class CartController extends JController
 	 */
 	public function getShippingrate()
 	{
-		include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
+		include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 		$shipping = new shipping;
 		echo $shipping->getShippingrate_calc();
 		exit;

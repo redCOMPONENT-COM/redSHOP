@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Text library
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 $texts = new text_library;
 
 // Get product helper
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 

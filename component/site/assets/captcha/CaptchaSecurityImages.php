@@ -35,14 +35,14 @@ $absolute_path = realpath($absolute_path);
 define('_JEXEC', 1);
 define('JPATH_BASE', $absolute_path);
 define('DS', DIRECTORY_SEPARATOR);
-define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop');
-define('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
+define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . '/administrator/components/com_redshop');
+define('JPATH_COMPONENT', JPATH_BASE . '/components/com_redshop');
 
 
 // Load the framework
 
-require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
-require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
+require_once $absolute_path . '/includes/defines.php';
+require_once $absolute_path . '/includes/framework.php';
 
 // Set up the appropriate CMS framework
 

@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php');
+require_once(JPATH_COMPONENT . '/helpers/product.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php');
 
 /**
  * Product Controller.
@@ -486,7 +486,7 @@ class ProductController extends JController
 	public function addtocompare()
 	{
 		ob_clean();
-		require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+		require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 		$producthelper = new producthelper ();
 
@@ -777,7 +777,7 @@ class ProductController extends JController
 	 */
 	public function ajaxupload()
 	{
-		$uploaddir = JPATH_COMPONENT_SITE . DS . 'assets' . DS . 'document' . DS . 'product' . DS;
+		$uploaddir = JPATH_COMPONENT_SITE . '/assets/document/product' . DS;
 		$name = JRequest::getVar('mname');
 		$filename = time() . '_' . basename($_FILES[$name]['name']);
 		$uploadfile = $uploaddir . $filename;

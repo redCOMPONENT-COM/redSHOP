@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

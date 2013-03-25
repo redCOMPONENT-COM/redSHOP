@@ -122,7 +122,7 @@ class accountViewaccount extends JView
 
 		if ($layout == "default" && $helper->isredCRM())
 		{
-			$tmplPath = JPATH_BASE . DS . 'components' . DS . 'com_redcrm' . DS . 'views' . DS . 'account' . DS . 'tmpl';
+			$tmplPath = JPATH_BASE . '/components/com_redcrm/views/account/tmpl';
 
 			$this->addTemplatePath($tmplPath);
 

@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+include_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 $quotationHelper = new quotationHelper;

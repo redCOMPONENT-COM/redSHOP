@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 
 class quotation_detailViewquotation_detail extends JView
 {

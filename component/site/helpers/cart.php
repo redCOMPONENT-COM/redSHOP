@@ -8,11 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class rsCarthelper
 {
@@ -38,7 +38,6 @@ class rsCarthelper
 
 	public function __construct()
 	{
-		global $app, $context;
 		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
 		$this->_db              = Jfactory::getDBO();
 		$this->_session         = JFactory::getSession();
@@ -2859,7 +2858,7 @@ class rsCarthelper
 				$area_property .= urldecode($allarea [3]);
 			}
 
-			$reddesign_attachment [$i] = JPATH_SITE . DS . 'components' . DS . 'com_reddesign' . DS . 'assets' . DS . 'order' . DS . 'pdf' . DS . $reddesignitem->reddesignfile . ".pdf";
+			$reddesign_attachment [$i] = JPATH_SITE . '/components/com_reddesign/assets/order/pdf' . DS . $reddesignitem->reddesignfile . ".pdf";
 			$cart .= str_replace("{design_area_property}", $area_property, $datamessage);
 		}
 
@@ -3220,7 +3219,7 @@ class rsCarthelper
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
 	{
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
-		$adminpath            = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
 		$d['user_id']         = $user_id;
 		$d['users_info_id']   = $users_info_id;
@@ -3433,7 +3432,7 @@ class rsCarthelper
 
 		$cardinfo = "";
 
-		if (file_exists(JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . DS . $paymentmethod->element . '.php'))
+		if (file_exists(JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . DS . $paymentmethod->element . '.php'))
 		{
 			$paymentparams = new JRegistry($paymentmethod->params);
 			$is_creditcard = $paymentparams->get('is_creditcard', 0);
@@ -3577,9 +3576,9 @@ class rsCarthelper
 				$cardinfo        = "";
 				$display_payment = "";
 
-				if (file_exists(JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod[$p]->element . DS . $paymentmethod[$p]->element . '.php'))
+				if (file_exists(JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod[$p]->element . DS . $paymentmethod[$p]->element . '.php'))
 				{
-					$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod[$p]->element . DS . $paymentmethod[$p]->element . '.php';
+					$paymentpath = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod[$p]->element . DS . $paymentmethod[$p]->element . '.php';
 					include_once($paymentpath);
 
 					$paymentparams  = new JRegistry($paymentmethod[$p]->params);

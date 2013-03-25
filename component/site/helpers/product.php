@@ -8,14 +8,14 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'quotation.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
 
 class producthelper
 {
@@ -42,7 +42,6 @@ class producthelper
 
 	function __construct()
 	{
-		global $context;
 		$this->_db           = JFactory::getDBO();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper   = new rsUserhelper();

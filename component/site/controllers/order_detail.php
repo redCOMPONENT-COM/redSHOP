@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once (JPATH_COMPONENT . '/helpers/product.php');
+require_once (JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once (JPATH_COMPONENT . '/helpers/helper.php');
+include_once (JPATH_COMPONENT . '/helpers/cart.php');
+include_once (JPATH_COMPONENT . '/helpers/user.php');
 
 JLoader::import('joomla.application.component.controller');
 
@@ -170,7 +170,7 @@ class Order_detailController extends JController
 		$request = JRequest::get('request');
 
 		$Itemid = JRequest::getVar('Itemid');
-		require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
@@ -350,8 +350,8 @@ class Order_detailController extends JController
 
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
 					{
-						$new_media = JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets/images/mergeImages' . DS . $row['attribute_image'];
-						$old_media = JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets/images/orderMergeImages' . DS . $row['attribute_image'];
+						$new_media = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages' . DS . $row['attribute_image'];
+						$old_media = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . DS . $row['attribute_image'];
 						copy($old_media, $new_media);
 					}
 

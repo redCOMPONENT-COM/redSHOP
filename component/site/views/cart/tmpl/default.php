@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
-$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
-include_once $adminpath . DS . 'helpers' . DS . 'shipping.php';
+include_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
+$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
+include_once $adminpath . '/helpers/shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

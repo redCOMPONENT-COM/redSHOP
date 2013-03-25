@@ -21,14 +21,23 @@ JLoader::import('joomla.application.component.model');
 class CategoryModelCategory extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_product = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
+
 	public $_limit = null;
+
 	public $_slidercount = 0;
+
 	public $count_no_user_field = 0;
+
 	public $minmaxArr = array(0, 0);
+
 	public $_context = null;
 
 	public function __construct()
@@ -98,7 +107,6 @@ class CategoryModelCategory extends JModel
 		return $query;
 	}
 
-
 	public function _buildContentOrderBy()
 	{
 		$app = JFactory::getApplication();
@@ -160,7 +168,7 @@ class CategoryModelCategory extends JModel
 			}
 		}
 
-			if (strstr($this->_template[0]->template_desc, "{product_display_limit}"))
+		if (strstr($this->_template[0]->template_desc, "{product_display_limit}"))
 		{
 			$endlimit = JRequest::getInt('limit', 0, '', 'int');
 		}
@@ -170,12 +178,12 @@ class CategoryModelCategory extends JModel
 
 	public function getCategorylistProduct($category_id = 0)
 	{
-		global $context, $app;
+		$app   = JFactory::getApplication();
 		$menu  = $app->getMenu();
 		$item  = $menu->getActive();
 		$limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
 
-		//	$order_by = $this->_buildProductOrderBy();
+		// $order_by = $this->_buildProductOrderBy();
 		$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "product AS p "
@@ -194,8 +202,7 @@ class CategoryModelCategory extends JModel
 
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
-		// $minmax = 0 (all products), $minmax=1 (min/max product)
-		global $app, $context;
+		$app             = JFactory::getApplication();
 		$menu            = $app->getMenu();
 		$item            = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
@@ -207,10 +214,7 @@ class CategoryModelCategory extends JModel
 		$sort = "";
 		$and  = "";
 
-
 		// Shopper group - choose from manufactures Start
-
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -226,7 +230,7 @@ class CategoryModelCategory extends JModel
 			$and .= " AND p.manufacturer_id='" . $manufacturer_id . "' ";
 		}
 
-			if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
+		if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
 		{
 			$order_by = " ORDER BY p.product_price ASC";
 		}
@@ -339,28 +343,32 @@ class CategoryModelCategory extends JModel
 
 		if ($sort == "ASC")
 		{
-			for ($i = 0; $i < sizeof($sorted) - 1; $i++)
+			for ($i = 0; $i < count($sorted) - 1; $i++)
 			{
-				for ($j = 0; $j < sizeof($sorted) - 1 - $i; $j++)
+				for ($j = 0; $j < count($sorted) - 1 - $i; $j++)
+				{
 					if ($sorted[$j]->$column > $sorted[$j + 1]->$column)
 					{
 						$tmp            = $sorted[$j];
 						$sorted[$j]     = $sorted[$j + 1];
 						$sorted[$j + 1] = $tmp;
 					}
+				}
 			}
 		}
 		else
 		{
-			for ($i = 0; $i < sizeof($sorted) - 1; $i++)
+			for ($i = 0; $i < count($sorted) - 1; $i++)
 			{
-				for ($j = 0; $j < sizeof($sorted) - 1 - $i; $j++)
+				for ($j = 0; $j < count($sorted) - 1 - $i; $j++)
+				{
 					if ($sorted[$j]->$column < $sorted[$j + 1]->$column)
 					{
 						$tmp            = $sorted[$j];
 						$sorted[$j]     = $sorted[$j + 1];
 						$sorted[$j + 1] = $tmp;
 					}
+				}
 			}
 		}
 
@@ -369,7 +377,7 @@ class CategoryModelCategory extends JModel
 
 	public function _buildProductOrderBy()
 	{
-		global $app, $context;
+		$app      = JFactory::getApplication();
 		$params   = $app->getParams("com_redshop");
 		$menu     = $app->getMenu();
 		$item     = $menu->getActive();
@@ -387,7 +395,9 @@ class CategoryModelCategory extends JModel
 
 	public function getData()
 	{
-		global $app, $context;
+		$app = JFactory::getApplication();
+
+		global $context;
 		$endlimit   = $this->getProductPerPage();
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$layout     = JRequest::getVar('layout');
@@ -435,20 +445,20 @@ class CategoryModelCategory extends JModel
 	{
 		$endlimit          = $this->getProductPerPage();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->_pagination = new redPagination ($this->getTotal(), $limitstart, $endlimit);
+		$this->_pagination = new redPagination($this->getTotal(), $limitstart, $endlimit);
 
 		return $this->_pagination;
 	}
 
 	public function getCategoryProductPagination()
 	{
-		global $app, $context;
+		$app = JFactoy::getApplication();
 		$menu     = $app->getMenu();
 		$item     = $menu->getActive();
 		$endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
 
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->_pagination = new redPagination ($this->getTotal(), $limitstart, $endlimit);
+		$this->_pagination = new redPagination($this->getTotal(), $limitstart, $endlimit);
 
 		return $this->_pagination;
 	}
@@ -496,7 +506,7 @@ class CategoryModelCategory extends JModel
 
 	public function loadCategoryTemplate()
 	{
-		global $app, $context;
+		$app = JFactory::getApplication();
 
 		$params            = $app->getParams('com_redshop');
 		$category_template = (int) $this->getState('category_template');
@@ -565,12 +575,11 @@ class CategoryModelCategory extends JModel
 		return $this->minmaxArr;
 	}
 
-	/*
-	 * function to get Product List Array with searched Letter
+	/**
+	 * Function to get Product List Array with searched Letter
 	 *
-	 * @return: array
+	 * @return array
 	 */
-
 	public function getAllproductArrayListwithfirst($letter, $fieldid)
 	{
 		$endlimit = $this->getProductPerPage();

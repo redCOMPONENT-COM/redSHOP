@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 $url       = JURI::base();
 $pagetitle = JText::_('COM_REDSHOP_WELCOME_TO_REDDESIGN');
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+include_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper   = new producthelper;
 $Itemid          = JRequest::getVar('Itemid');
 $redhelper       = new redhelper;

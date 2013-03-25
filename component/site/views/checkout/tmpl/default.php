@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+include_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

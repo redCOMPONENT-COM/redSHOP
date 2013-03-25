@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
 /**
  * Class searchModelsearch
