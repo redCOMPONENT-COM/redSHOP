@@ -32,13 +32,13 @@ class Quotation_detailController extends JController
 	 */
 	public function updatestatus()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
-		$encr = JRequest::getVar('encr');
+		$encr   = JRequest::getVar('encr');
 
 		$quotationHelper = new quotationHelper;
-		$redshopMail = new redshopMail;
+		$redshopMail     = new redshopMail;
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
 
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
@@ -58,13 +58,13 @@ class Quotation_detailController extends JController
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
-		$post = JRequest::get('post');
-		$encr = JRequest::getVar('encr');
+		$post   = JRequest::get('post');
+		$encr   = JRequest::getVar('encr');
 
 		$quotationHelper = new quotationHelper;
-		$model = $this->getmodel();
-		$session = JFactory::getSession();
-		$redhelper = new redhelper;
+		$model           = $this->getmodel();
+		$session         = JFactory::getSession();
+		$redhelper       = new redhelper;
 
 		$cart = array();
 		$cart['idx'] = 0;
@@ -81,9 +81,9 @@ class Quotation_detailController extends JController
 
 		$quotationDetail = $quotationHelper->getQuotationDetail($post['quotation_id']);
 		$cart['customer_note'] = $quotationDetail->quotation_note;
-		$cart['quotation_id'] = $quotationDetail->quotation_id;
+		$cart['quotation_id']  = $quotationDetail->quotation_id;
 		$cart['cart_discount'] = $quotationDetail->quotation_discount;
-		$cart['quotation'] = 1;
+		$cart['quotation']     = 1;
 		$session->set('cart', $cart);
 
 		$model->modifyQuotation($quotationDetail->user_id);

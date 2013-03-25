@@ -27,13 +27,13 @@ class CatalogController extends JController
 	 */
 	public function catalog_send()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$model = $this->getModel('catalog');
+		$model  = $this->getModel('catalog');
 		$post["registerDate"] = time();
-		$post["email"] = $post["email_address"];
-		$post["name"] = $post["name_2"];
+		$post["email"]        = $post["email_address"];
+		$post["name"]         = $post["name_2"];
 
 		if ($row = $model->catalogStore($post))
 		{
@@ -56,10 +56,10 @@ class CatalogController extends JController
 	 */
 	public function catalogsample_send()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$model = $this->getModel('catalog');
+		$model  = $this->getModel('catalog');
 
 		if (isset($post["sample_code"]))
 		{
@@ -68,8 +68,8 @@ class CatalogController extends JController
 		}
 
 		$post["registerdate"] = time();
-		$post["email"] = $post["email_address"];
-		$post["name"] = $post["name_2"];
+		$post["email"]        = $post["email_address"];
+		$post["name"]         = $post["name_2"];
 
 		if ($row = $model->catalogSampleStore($post))
 		{
