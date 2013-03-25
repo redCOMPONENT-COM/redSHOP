@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class plgAcymailingRedshop extends JPlugin
 {
-	function plgAcymailingRedshop(&$subject, $config)
+	public function plgAcymailingRedshop(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -26,7 +26,7 @@ class plgAcymailingRedshop extends JPlugin
 		}
 	}
 
-	function acymailing_getPluginType()
+	public function acymailing_getPluginType()
 	{
 		$onePlugin = null;
 		$onePlugin->name = JText::_('COM_REDSHOP_redSHOP');
@@ -36,7 +36,7 @@ class plgAcymailingRedshop extends JPlugin
 		return $onePlugin;
 	}
 
-	function acymailingredSHOP_show()
+	public function acymailingredSHOP_show()
 	{
 		$db =& JFactory::getDBO();
 		$query = "SELECT p.product_id,p.product_name,c.category_id,c.category_name FROM "
@@ -63,12 +63,12 @@ class plgAcymailingRedshop extends JPlugin
 		echo $text;
 	}
 
-	function acymailing_replaceusertagspreview(&$email)
+	public function acymailing_replaceusertagspreview(&$email)
 	{
 		return $this->acymailing_replaceusertags($email);
 	}
 
-	function acymailing_replaceusertags(&$email)
+	public function acymailing_replaceusertags(&$email)
 	{
 		$match = '#{product:?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
@@ -125,7 +125,7 @@ class plgAcymailingRedshop extends JPlugin
 	 *
 	 * @return mixed  Product Main Image,Product Name,Product Formatted Price
 	 */
-	function getProduct($product_id)
+	public function getProduct($product_id)
 	{
 		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
 		$redTemplate = new producthelper;
