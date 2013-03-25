@@ -15,7 +15,7 @@
  */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';

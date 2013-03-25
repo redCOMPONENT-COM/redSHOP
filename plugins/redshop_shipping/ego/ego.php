@@ -5,7 +5,7 @@
  * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 

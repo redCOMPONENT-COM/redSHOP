@@ -15,7 +15,7 @@
  */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 class plgRedshop_product_navigationrs_product_navigation extends JPlugin
