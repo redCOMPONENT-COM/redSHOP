@@ -47,7 +47,7 @@ require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 // Set up the appropriate CMS framework
 
 // Create the mainframe object
-$mainframe = JFactory::getApplication('site');
+$mainframe = JFactory::getApplication();
 
 // Initialize the framework
 $mainframe->initialise();
@@ -56,7 +56,7 @@ $mainframe->initialise();
 JPluginHelper::importPlugin('system');
 
 // Create the mainframe object
-$mainframe = JFactory::getApplication('site');
+$mainframe = JFactory::getApplication();
 
 // Trigger the onBeforeStart events
 $mainframe->triggerEvent('onBeforeStart');
