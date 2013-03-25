@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="plugin" group="redshop_shippinglabel" method="upgrade">
-	<name>Consignor shipping Label</name>
-	<version>1.1.1</version>
-	<creationDate>10-04-2012</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>This plugin allows to gnerate Shipping Label using Consignor Integration</description>
-	
-	<files>
-		<filename plugin="rs_shippinglabel_consignor">rs_shippinglabel_consignor.php</filename>
-		
-			 
-	</files>
-		<config addfieldpath="/administrator/components/com_redshop/elements"><fields name="params"><fieldset name="basic">
-			<field name="shippingmethod"  type="shippingmethod" default="0" label="" description="Assign Numbers to Shipping Methods" />
-			<field name="consignornumber"  type="consignornumber" default="0" label="Consignor Number" description="Assign Numbers to Shipping Methods" />
-			<field name="ftp_host" type="text"   default="" label="Ftp Host" />
-			<field name="ftp_username" type="text"   default="" label="Ftp Username" />
-			<field name="ftp_password" type="text"   default="" label="Ftp password" />
-			<field name="ftp_port" type="text"   default="" label="Ftp Port" />
-			<field name="path_for_sharing_folder" type="text"   default="" label="Path for sharing folder of Consignor" />
+    <name>Consignor shipping Label</name>
+    <version>1.1.1</version>
+    <creationDate>10-04-2012</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>This plugin allows to gnerate Shipping Label using Consignor Integration</description>
 
-	</fieldset>
-	<fieldset name="advanced">
-		</fieldset>
-	</fields>
-	</config>
+    <files>
+        <filename plugin="rs_shippinglabel_consignor">rs_shippinglabel_consignor.php</filename>
+
+
+    </files>
+    <config addfieldpath="/administrator/components/com_redshop/elements">
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="shippingmethod" type="shippingmethod" default="0" label=""
+                       description="Assign Numbers to Shipping Methods"/>
+                <field name="consignornumber" type="consignornumber" default="0" label="Consignor Number"
+                       description="Assign Numbers to Shipping Methods"/>
+                <field name="ftp_host" type="text" default="" label="Ftp Host"/>
+                <field name="ftp_username" type="text" default="" label="Ftp Username"/>
+                <field name="ftp_password" type="text" default="" label="Ftp password"/>
+                <field name="ftp_port" type="text" default="" label="Ftp Port"/>
+                <field name="path_for_sharing_folder" type="text" default=""
+                       label="Path for sharing folder of Consignor"/>
+
+            </fieldset>
+            <fieldset name="advanced">
+            </fieldset>
+        </fields>
+    </config>
 </extension>

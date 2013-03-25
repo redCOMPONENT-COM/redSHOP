@@ -23,113 +23,133 @@
  */
 class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
 {
-    private $_errors = array();
-    private $_nested = array();
+	private $_errors = array();
+	private $_nested = array();
 
-    /**
-     * @ignore
-     */
-    public function  __construct($data)
-    {
-        foreach($data AS $key => $errorData)
-            // map errors to new collections recursively
-            if ($key == 'errors') {
-                foreach ($errorData AS $error) {
-                    $this->_errors[] = new Braintree_Error_Validation($error);
-                }
-            } else {
-                $this->_nested[$key] = new Braintree_Error_ValidationErrorCollection($errorData);
-            }
+	/**
+	 * @ignore
+	 */
+	public function  __construct($data)
+	{
+		foreach ($data AS $key => $errorData)
+			// map errors to new collections recursively
+			if ($key == 'errors')
+			{
+				foreach ($errorData AS $error)
+				{
+					$this->_errors[] = new Braintree_Error_Validation($error);
+				}
+			}
+			else
+			{
+				$this->_nested[$key] = new Braintree_Error_ValidationErrorCollection($errorData);
+			}
 
-    }
+	}
 
-    public function deepAll()
-    {
-        $validationErrors = array_merge(array(), $this->_errors);
-        foreach($this->_nested as $nestedErrors)
-        {
-            $validationErrors = array_merge($validationErrors, $nestedErrors->deepAll());
-        }
-        return $validationErrors;
-    }
+	public function deepAll()
+	{
+		$validationErrors = array_merge(array(), $this->_errors);
 
-    public function deepSize()
-    {
-        $total = sizeof($this->_errors);
-        foreach($this->_nested as $_nestedErrors)
-        {
-            $total = $total + $_nestedErrors->deepSize();
-        }
-        return $total;
-    }
+		foreach ($this->_nested as $nestedErrors)
+		{
+			$validationErrors = array_merge($validationErrors, $nestedErrors->deepAll());
+		}
 
-    public function forIndex($index)
-    {
-        return $this->forKey("index" . $index);
-    }
+		return $validationErrors;
+	}
 
-    public function forKey($key)
-    {
-        return isset($this->_nested[$key]) ? $this->_nested[$key] : null;
-    }
+	public function deepSize()
+	{
+		$total = sizeof($this->_errors);
 
-    public function onAttribute($attribute)
-    {
-        $matches = array();
-        foreach ($this->_errors AS $key => $error) {
-           if($error->attribute == $attribute) {
-               $matches[] = $error;
-           }
-        }
-        return $matches;
-    }
+		foreach ($this->_nested as $_nestedErrors)
+		{
+			$total = $total + $_nestedErrors->deepSize();
+		}
 
+		return $total;
+	}
 
-    public function shallowAll()
-    {
-        return $this->_errors;
-    }
+	public function forIndex($index)
+	{
+		return $this->forKey("index" . $index);
+	}
 
-    /**
-     *
-     * @ignore
-     */
-    public function  __get($name)
-    {
-        $varName = "_$name";
-        return isset($this->$varName) ? $this->$varName : null;
-    }
+	public function forKey($key)
+	{
+		return isset($this->_nested[$key]) ? $this->_nested[$key] : null;
+	}
 
-    /**
-     * @ignore
-     */
-    public function __toString()
-    {
-        $output = array();
+	public function onAttribute($attribute)
+	{
+		$matches = array();
 
-        // TODO: implement scope
-        if (!empty($this->_errors)) {
-            $output[] = $this->_inspect($this->_errors);
-        }
-        if (!empty($this->_nested)) {
-            foreach ($this->_nested AS $key => $values) {
-                $output[] = $this->_inspect($this->_nested);
-            }
-        }
-        return join(', ', $output);
-    }
+		foreach ($this->_errors AS $key => $error)
+		{
+			if ($error->attribute == $attribute)
+			{
+				$matches[] = $error;
+			}
+		}
 
-    /**
-     * @ignore
-     */
-    private function _inspect($errors, $scope = null)
-    {
-        $eOutput = '[' . __CLASS__ . '/errors:[';
-        foreach($errors AS $error => $errorObj) {
-            $outputErrs[] = "({$errorObj->error['code']} {$errorObj->error['message']})";
-        }
-        $eOutput .= join(', ', $outputErrs) . ']]';
+		return $matches;
+	}
 
-        return $eOutput;
-    }
+	public function shallowAll()
+	{
+		return $this->_errors;
+	}
+
+	/**
+	 *
+	 * @ignore
+	 */
+	public function  __get($name)
+	{
+		$varName = "_$name";
+
+		return isset($this->$varName) ? $this->$varName : null;
+	}
+
+	/**
+	 * @ignore
+	 */
+	public function __toString()
+	{
+		$output = array();
+
+		// TODO: implement scope
+		if (!empty($this->_errors))
+		{
+			$output[] = $this->_inspect($this->_errors);
+		}
+
+		if (!empty($this->_nested))
+		{
+			foreach ($this->_nested AS $key => $values)
+			{
+				$output[] = $this->_inspect($this->_nested);
+			}
+		}
+
+		return join(', ', $output);
+	}
+
+	/**
+	 * @ignore
+	 */
+	private function _inspect($errors, $scope = null)
+	{
+		$eOutput = '[' . __CLASS__ . '/errors:[';
+
+		foreach ($errors AS $error => $errorObj)
+		{
+			$outputErrs[] = "({$errorObj->error['code']} {$errorObj->error['message']})";
+		}
+
+		$eOutput .= join(', ', $outputErrs) . ']]';
+
+		return $eOutput;
+	}
 }

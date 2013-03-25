@@ -60,12 +60,11 @@ class zipfile
 			$timearray['hours']   = 0;
 			$timearray['minutes'] = 0;
 			$timearray['seconds'] = 0;
-		} // end if
+		}
 
 		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) |
 			($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
-	} // end of the 'unix2DosTime()' method
-
+	}
 
 	/**
 	 * Adds "file" to archive
@@ -88,64 +87,114 @@ class zipfile
 		eval('$hexdtime = "' . $hexdtime . '";');
 
 		$fr = "\x50\x4b\x03\x04";
-		$fr .= "\x14\x00"; // ver needed to extract
-		$fr .= "\x00\x00"; // gen purpose bit flag
-		$fr .= "\x08\x00"; // compression method
-		$fr .= $hexdtime; // last mod time and date
 
-		// "local file header" segment
+		// Ver needed to extract
+		$fr .= "\x14\x00";
+
+		// Gen purpose bit flag
+		$fr .= "\x00\x00";
+
+		// Compression method
+		$fr .= "\x08\x00";
+
+		// Last mod time and date
+		$fr .= $hexdtime;
+
+		// "Local file header" segment
 		$unc_len = strlen($data);
 		$crc     = crc32($data);
 		$zdata   = gzcompress($data);
-		$zdata   = substr(substr($zdata, 0, strlen($zdata) - 4), 2); // fix crc bug
+
+		// Fix crc bug
+		$zdata   = substr(substr($zdata, 0, strlen($zdata) - 4), 2);
 		$c_len   = strlen($zdata);
-		$fr .= pack('V', $crc); // crc32
-		$fr .= pack('V', $c_len); // compressed filesize
-		$fr .= pack('V', $unc_len); // uncompressed filesize
-		$fr .= pack('v', strlen($name)); // length of filename
-		$fr .= pack('v', 0); // extra field length
+
+		// Crc32
+		$fr .= pack('V', $crc);
+
+		// Compressed filesize
+		$fr .= pack('V', $c_len);
+
+		// Uncompressed filesize
+		$fr .= pack('V', $unc_len);
+
+		// Length of filename
+		$fr .= pack('v', strlen($name));
+
+		// Extra field length
+		$fr .= pack('v', 0);
 		$fr .= $name;
 
-		// "file data" segment
+		// "File data" segment
 		$fr .= $zdata;
 
-		// "data descriptor" segment (optional but necessary if archive is not
-		// served as file)
-		// nijel(2004-10-19): this seems not to be needed at all and causes
-		// problems in some cases (bug #1037737)
-		//$fr .= pack('V', $crc);                 // crc32
-		//$fr .= pack('V', $c_len);               // compressed filesize
-		//$fr .= pack('V', $unc_len);             // uncompressed filesize
+		/*
+		 * "data descriptor" segment (optional but necessary if archive is not
+		 * served as file) nijel(2004-10-19): this seems not to be needed at all and causes
+		 * problems in some cases (bug #1037737)
+		 * $fr .= pack('V', $crc);                 // Crc32
+		 * $fr .= pack('V', $c_len);               // Compressed filesize
+		 * $fr .= pack('V', $unc_len);             // Uncompressed filesize
+		 */
 
-		// add this entry to array
+		// Add this entry to array
 		$this->datasec[] = $fr;
 
-		// now add to central directory record
+		// Now add to central directory record
 		$cdrec = "\x50\x4b\x01\x02";
-		$cdrec .= "\x00\x00"; // version made by
-		$cdrec .= "\x14\x00"; // version needed to extract
-		$cdrec .= "\x00\x00"; // gen purpose bit flag
-		$cdrec .= "\x08\x00"; // compression method
-		$cdrec .= $hexdtime; // last mod time & date
-		$cdrec .= pack('V', $crc); // crc32
-		$cdrec .= pack('V', $c_len); // compressed filesize
-		$cdrec .= pack('V', $unc_len); // uncompressed filesize
-		$cdrec .= pack('v', strlen($name)); // length of filename
-		$cdrec .= pack('v', 0); // extra field length
-		$cdrec .= pack('v', 0); // file comment length
-		$cdrec .= pack('v', 0); // disk number start
-		$cdrec .= pack('v', 0); // internal file attributes
-		$cdrec .= pack('V', 32); // external file attributes - 'archive' bit set
 
-		$cdrec .= pack('V', $this->old_offset); // relative offset of local header
+		// Version made by
+		$cdrec .= "\x00\x00";
+
+		// Version needed to extract
+		$cdrec .= "\x14\x00";
+
+		// Gen purpose bit flag
+		$cdrec .= "\x00\x00";
+
+		// Compression method
+		$cdrec .= "\x08\x00";
+
+		// Last mod time & date
+		$cdrec .= $hexdtime;
+
+		// Crc32
+		$cdrec .= pack('V', $crc);
+
+		// Compressed filesize
+		$cdrec .= pack('V', $c_len);
+
+		// Uncompressed filesize
+		$cdrec .= pack('V', $unc_len);
+
+		// Length of filename
+		$cdrec .= pack('v', strlen($name));
+
+		// Extra field length
+		$cdrec .= pack('v', 0);
+
+		// File comment length
+		$cdrec .= pack('v', 0);
+
+		// Disk number start
+		$cdrec .= pack('v', 0);
+
+		// Internal file attributes
+		$cdrec .= pack('v', 0);
+
+		// External file attributes - 'archive' bit set
+		$cdrec .= pack('V', 32);
+
+		// Relative offset of local header
+		$cdrec .= pack('V', $this->old_offset);
 		$this->old_offset += strlen($fr);
 
 		$cdrec .= $name;
 
-		// optional extra field, file comment goes here
-		// save to central directory
+		// Optional extra field, file comment goes here
+		// Save to central directory
 		$this->ctrl_dir[] = $cdrec;
-	} // end of the 'addFile()' method
+	}
 
 
 	/**
@@ -164,13 +213,12 @@ class zipfile
 			$data .
 			$ctrldir .
 			$this->eof_ctrl_dir .
-			pack('v', sizeof($this->ctrl_dir)) . // total # of entries "on this disk"
-			pack('v', sizeof($this->ctrl_dir)) . // total # of entries overall
-			pack('V', strlen($ctrldir)) . // size of central dir
-			pack('V', strlen($data)) . // offset to start of central dir
-			"\x00\x00"; // .zip file comment length
-	} // end of the 'file()' method
-
+			pack('v', sizeof($this->ctrl_dir)) .
+			pack('v', sizeof($this->ctrl_dir)) .
+			pack('V', strlen($ctrldir)) .
+			pack('V', strlen($data)) .
+			"\x00\x00";
+	}
 }
 
 
