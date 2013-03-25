@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Ask Question Controller.
@@ -27,13 +27,12 @@ class Ask_questionController extends JController
 	 */
 	function sendaskquestionmail()
 	{
-		$post = JRequest::get('post');
-		$product_id = $post['pid'];
-		$Itemid = $post['Itemid'];
-		$ask = JRequest::getVar('ask');
+		$post        = JRequest::get('post');
+		$product_id  = $post['pid'];
+		$Itemid      = $post['Itemid'];
+		$ask         = JRequest::getVar('ask');
 		$category_id = JRequest::getVar('category_id');
-
-		$model = $this->getModel('ask_question');
+		$model       = $this->getModel('ask_question');
 
 		if ($model->sendMailForAskQuestion($post))
 		{

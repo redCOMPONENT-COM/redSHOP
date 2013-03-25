@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.utilities.simplexml');
+JLoader::import('joomla.utilities.simplexml');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
 
 /**
  * price converter
@@ -35,7 +35,7 @@ class convertPrice
 	 */
 	public function init()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		if (!is_array(@$GLOBALS['converter_array']) && @$GLOBALS['converter_array'] !== -1)
 		{
@@ -102,7 +102,7 @@ class convertPrice
 
 				if (!$contents)
 				{
-					$mainframe->enqueuemessage("ERROR_RESOLVING_HOST");
+					$app->enqueuemessage("ERROR_RESOLVING_HOST");
 				}
 				else
 				{

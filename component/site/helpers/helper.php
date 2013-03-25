@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
 
 class redhelper
 {
@@ -21,7 +21,6 @@ class redhelper
 
 	public function __construct()
 	{
-		global $mainframe, $context;
 		$this->_table_prefix = '#__redshop_';
 		$this->_db           = JFactory::getDBO();
 	}
@@ -31,7 +30,7 @@ class redhelper
  	 */
 	public function dbtocart()
 	{
-		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = JFactory::getUser();
@@ -585,7 +584,7 @@ class redhelper
 	*/
 	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
 	{
-		require_once JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'images.php';
+		require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
 		$url    = JURI::root();
 		$option = 'com_redshop';
@@ -598,10 +597,10 @@ class redhelper
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
-				$file_path          = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'images' . DS . $mtype . DS . $Imagename;
+				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images' . DS . $mtype . DS . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . DS . 'thumb' . DS . $filename_path_info['basename'];
+				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb' . DS . $filename_path_info['basename'];
 			}
 			else
 			{
@@ -618,12 +617,12 @@ class redhelper
 		{
 			if ($thumb_width != '' && $thumb_height != '')
 			{
-				$file_path    = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'images' . DS . 'product' . DS . WATERMARK_IMAGE;
+				$file_path    = JPATH_SITE . '/components/com_redshop/assets/images/product' . DS . WATERMARK_IMAGE;
 				$filename     = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . DS . 'thumb' . DS . $filename_path_info['basename'];
+				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb' . DS . $filename_path_info['basename'];
 
-				$file_path          = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'images' . DS . $mtype . DS . $Imagename;
+				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images' . DS . $mtype . DS . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . DS . $mtype . DS . $filename_path_info['basename'];
@@ -918,7 +917,7 @@ class redhelper
 
 	public function getsslLink($link, $applySSL)
 	{
-		$uri =& JURI::getInstance($link);
+		$uri = JURI::getInstance($link);
 
 		if ($applySSL)
 		{
@@ -981,7 +980,7 @@ class redhelper
 		$query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
 		$this->_db->setQuery($query);
 		$redproductfinder      = $this->_db->loadobject();
-		$redproductfinder_path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redproductfinder';
+		$redproductfinder_path = JPATH_ADMINISTRATOR . '/components/com_redproductfinder';
 
 		if (!is_dir($redproductfinder_path) || $redproductfinder->enabled == 0)
 		{
@@ -1017,7 +1016,7 @@ class redhelper
 			$this->_isredCRM = $this->_db->loadResult();
 		}
 
-		$redcrm_path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm';
+		$redcrm_path = JPATH_ADMINISTRATOR . '/components/com_redcrm';
 
 		if (!is_dir($redcrm_path) && !$this->_isredCRM)
 		{
@@ -1026,14 +1025,14 @@ class redhelper
 		else
 		{
 			$user = JFactory::getUser();
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'configuration.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/configuration.php';
 			$crmConfig = new crmConfig;
 			$crmConfig->config();
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'helper.php';
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'debitor.php';
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'product.php';
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'supplier_order.php';
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'helpers' . DS . 'order.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/helper.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/debitor.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/product.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/supplier_order.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/order.php';
 
 			$crmHelper = new crmHelper;
 

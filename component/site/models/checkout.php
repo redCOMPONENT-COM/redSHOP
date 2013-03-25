@@ -9,21 +9,21 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'user.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/user.php';
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 
 /**
  * Class checkoutModelcheckout
@@ -136,7 +136,7 @@ class CheckoutModelCheckout extends JModel
 
 	public function orderplace()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$redconfig       = new Redconfiguration;
 		$quotationHelper = new quotationHelper;
@@ -169,7 +169,7 @@ class CheckoutModelCheckout extends JModel
 
 		$db      = JFactory::getDBO();
 		$issplit = $session->get('issplit');
-		$url     =& JURI::root();
+		$url     = JURI::root();
 
 		// If user subscribe for the newsletter
 		if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
@@ -225,7 +225,7 @@ class CheckoutModelCheckout extends JModel
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$mainframe->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
+			$app->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
 		}
 
 		$ccdata           = $session->get('ccdata');
@@ -309,7 +309,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod->element);
 			$paymentmethod = $paymentmethod[0];
-			$paymentpath   = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
+			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
 
 			$paymentparams = new JRegistry($paymentmethod->params);
 
@@ -352,7 +352,7 @@ class CheckoutModelCheckout extends JModel
 		if (isset($cart['payment_oprand']))
 			$payment_oprand = $cart['payment_oprand'];
 
-		$xmlpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
+		$xmlpath = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
 		$params  = new JRegistry($paymentmethod->params, $xmlpath);
 
 		$economic_payment_terms_id = $params->get('economic_payment_terms_id');
@@ -408,7 +408,7 @@ class CheckoutModelCheckout extends JModel
 		$row->referral_code      = $referral_code;
 		$db                      = JFactory::getDBO();
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		// For credit card payment gateway page will redirect to order detail page from plugin
 		if ($is_creditcard == 1 && $is_redirected == 1)
@@ -459,7 +459,7 @@ class CheckoutModelCheckout extends JModel
 
 		if ($order_total <= 0)
 		{
-			$paymentpath       = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
+			$paymentpath       = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
 			$paymentparams     = new JRegistry($paymentmethod->params);
 			$order_main_status = $paymentparams->get('verify_status', '');
 
@@ -726,8 +726,8 @@ class CheckoutModelCheckout extends JModel
 			if ($cart[$i]['attributeImage'])
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
-				$old_media                = JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets/images/mergeImages' . DS . $cart[$i]['attributeImage'];
-				$new_media                = JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets/images/orderMergeImages' . DS . $rowitem->attribute_image;
+				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages' . DS . $cart[$i]['attributeImage'];
+				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . DS . $rowitem->attribute_image;
 				copy($old_media, $new_media);
 			}
 			else
@@ -1227,7 +1227,7 @@ class CheckoutModelCheckout extends JModel
 
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentmethod->element, array($paymentmethod->element, $order_id));
 
 		$GLOBALS['shippingaddresses'] = $shippingaddresses;
@@ -1365,7 +1365,7 @@ class CheckoutModelCheckout extends JModel
 
 	public function sendGiftCard($order_id)
 	{
-		$url               =& JURI::root();
+		$url               = JURI::root();
 		$giftcardmail_body = '';
 
 		$giftcardmail = $this->_redshopMail->getMailtemplate(0, "giftcard_mail");
@@ -1465,11 +1465,11 @@ class CheckoutModelCheckout extends JModel
 			$giftcardmail_body = str_replace("{giftcard_image}", $pdfImage, $giftcardmail_body);
 			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
 			$g_pdfName = time();
-			$pdf->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . $g_pdfName . ".pdf", "F");
+			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders' . DS . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
 			$from                = $config->getValue('mailfrom');
 			$fromname            = $config->getValue('fromname');
-			$giftcard_attachment = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . $g_pdfName . ".pdf";
+			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders' . DS . $g_pdfName . ".pdf";
 
 			//echo $from."<br>". $eachorders->giftcard_user_email;exit;
 			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
@@ -2094,7 +2094,7 @@ class CheckoutModelCheckout extends JModel
 		$paymentinfo = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentinfo = $paymentinfo[0];
 
-		$paymentpath                 = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentinfo->element . '.xml';
+		$paymentpath                 = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentinfo->element . '.xml';
 		$paymentparams               = new JRegistry($paymentinfo->params);
 		$is_creditcard               = $paymentparams->get('is_creditcard', '');
 		$payment_oprand              = $paymentparams->get('payment_oprand', '');

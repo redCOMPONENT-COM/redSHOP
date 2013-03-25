@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+JLoader::import('joomla.application.component.view');
+require_once JPATH_COMPONENT . '/helpers/product.php';
 
 class cartViewcart extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Request variables
 		$redTemplate = new Redtemplate;
@@ -34,7 +34,7 @@ class cartViewcart extends JView
 
 		if (JRequest::getVar('quotemsg') != "")
 		{
-			$mainframe->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
+			$app->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
 		}
 
 		$document = JFactory::getDocument();

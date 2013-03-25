@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class product_miniModelproduct_mini
@@ -30,15 +30,17 @@ class product_miniModelproduct_mini extends JModel
 
 	public function __construct()
 	{
+		global $context;
+
 		parent::__construct();
 
-		global $mainframe, $context;
+		$app = JFactory::getApplication();
 
 		$context             = 'product_id';
 		$this->_table_prefix = '#__redshop_';
 
-		$limit      = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', 0);
+		$limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -57,12 +59,14 @@ class product_miniModelproduct_mini extends JModel
 
 	public function getTotal()
 	{
-		global $mainframe, $context;
+		global $context;
+
+		$app = JFactory::getApplication();
 
 		$orderby      = $this->_buildContentOrderBy();
-		$search_field = $mainframe->getUserStateFromRequest($context . 'search_field', 'search_field', '');
-		$keyword      = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
-		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
+		$search_field = $app->getUserStateFromRequest($context . 'search_field', 'search_field', '');
+		$keyword      = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+		$category_id  = $app->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
 
 		$where = '';
 
@@ -111,12 +115,14 @@ class product_miniModelproduct_mini extends JModel
 
 	public function _buildQuery()
 	{
-		global $mainframe, $context;
+		global $context;
+
+		$app = JFactory::getApplication();
 
 		$orderby      = $this->_buildContentOrderBy();
-		$search_field = $mainframe->getUserStateFromRequest($context . 'search_field', 'search_field', '');
-		$keyword      = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
-		$category_id  = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
+		$search_field = $app->getUserStateFromRequest($context . 'search_field', 'search_field', '');
+		$keyword      = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+		$category_id  = $app->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
 
 		$where = '';
 
@@ -159,11 +165,13 @@ class product_miniModelproduct_mini extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe, $context;
+		global $context;
 
-		$category_id      = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
-		$filter_order     = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$app = JFactory::getApplication();
+
+		$category_id      = $app->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 

@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
 $config = new Redconfiguration;
 $producthelper = new producthelper;
 $redhelper = new redhelper;
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
@@ -51,7 +51,7 @@ $auth = $session->get('auth');
 	if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 	{
 		$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
-		$mainframe->Redirect($wishreturn);
+		$app->Redirect($wishreturn);
 	}
 	else
 	{

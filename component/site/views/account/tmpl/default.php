@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+include_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 $quotationHelper = new quotationHelper;
@@ -28,8 +28,8 @@ $user = JFactory::getUser();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 
-global $mainframe;
-$params = & $mainframe->getParams($option);
+$app = JFactory::getApplication();
+$params = $app->getParams($option);
 $returnitemid = $params->get('logout', $Itemid);
 
 $accountbillto_link = JRoute::_("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
