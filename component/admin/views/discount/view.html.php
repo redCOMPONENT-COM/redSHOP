@@ -55,9 +55,9 @@ class discountViewdiscount extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$discounts = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$discounts = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$spgrpdis_filter = $mainframe->getUserStateFromRequest($context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
 		$userhelper = new rsUserhelper;

@@ -46,10 +46,10 @@ class mailViewmail extends JView
 			'value', 'text', $filter_section
 		);
 
-		$total = & $this->get('Total');
-		$media = & $this->get('Data');
+		$total = $this->get('Total');
+		$media = $this->get('Data');
 
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);

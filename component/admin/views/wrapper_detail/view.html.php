@@ -20,7 +20,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		$context = "wrapper";
 		$uri = JFactory::getURI();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');

@@ -47,7 +47,7 @@ class container_detailVIEWcontainer_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->container_id < 1);
 

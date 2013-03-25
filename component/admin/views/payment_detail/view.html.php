@@ -36,7 +36,7 @@ class payment_detailViewpayment_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->payment_method_id < 1);
 

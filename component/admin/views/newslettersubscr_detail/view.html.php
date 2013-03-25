@@ -33,7 +33,7 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->subscription_id < 1);
 

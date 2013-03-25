@@ -25,7 +25,7 @@ class supplier_detailVIEWsupplier_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$model = $this->getModel('supplier_detail');
 

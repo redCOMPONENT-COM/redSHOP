@@ -38,8 +38,8 @@ class attribute_setViewattribute_set extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$products = & $this->get('Data');
-		$pagination = & $this->get('Pagination');
+		$products = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('products', $products);

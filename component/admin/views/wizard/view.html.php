@@ -266,7 +266,7 @@ class wizardViewwizard extends JView
 			$no = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'), '', 'BT', 'ST'
 		);
 
-		$this->taxrates =& $this->get('TaxRates');
+		$this->taxrates = $this->get('TaxRates');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('request_url', $uri->toString());
