@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
@@ -63,7 +63,7 @@ class Quotation_detailController extends JController
 
 		$quotationHelper = new quotationHelper;
 		$model = $this->getmodel();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$redhelper = new redhelper;
 
 		$cart = array();

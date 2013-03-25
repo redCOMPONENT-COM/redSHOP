@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
@@ -49,7 +49,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public function addtocart($data = array())
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$Itemid  = JRequest::getVar("Itemid");
 		$session = JFactory::getSession();

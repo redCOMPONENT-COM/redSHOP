@@ -42,7 +42,7 @@ $order_functions = new order_functions;
 $redhelper = new redhelper;
 $userhelper = new rsUserhelper;
 $redTemplate = new Redtemplate;
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 
 $user = JFactory::getUser();
 $session = JFactory::getSession();

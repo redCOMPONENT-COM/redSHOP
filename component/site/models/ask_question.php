@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
 require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
 

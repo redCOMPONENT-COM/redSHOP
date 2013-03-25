@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
@@ -41,7 +41,7 @@ class CartController extends JController
 	 */
 	public function add()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$parent_accessory_productid = $post['product_id'];
@@ -86,7 +86,7 @@ class CartController extends JController
 			}
 		}
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 
 		if (isset($cart['AccessoryAsProduct']))
@@ -222,7 +222,7 @@ class CartController extends JController
 		$producthelper = new producthelper;
 		$calArr = $this->_carthelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$discount_amount = 0;
 		$voucherDiscount = 0;
 		$couponDiscount = 0;
@@ -296,7 +296,7 @@ class CartController extends JController
 	 */
 	public function coupon()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -337,7 +337,7 @@ class CartController extends JController
 	 */
 	public function voucher()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -480,7 +480,7 @@ class CartController extends JController
 	 */
 	public function redmasscart()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$option = JRequest::getVar('option');
 		$post = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
@@ -521,13 +521,13 @@ class CartController extends JController
 	{
 		$post = JRequest::get('post');
 		$model = $this->getModel('cart');
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$user_id = $user->id;
 
 		$cart = $model->changeAttribute($post);
 		$cart = $this->_carthelper->modifyCart($cart, $user_id);
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set('cart', $cart);
 		$this->_carthelper->cartFinalCalculation();        ?>
 

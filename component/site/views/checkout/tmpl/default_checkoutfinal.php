@@ -140,7 +140,7 @@ if ($preloader)
 		else
 		{
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 			$key = array_search(true, $results);

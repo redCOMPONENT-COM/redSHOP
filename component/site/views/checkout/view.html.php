@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
 
@@ -18,7 +18,7 @@ class checkoutViewcheckout extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$model     = $this->getModel('checkout');
 		$option    = JRequest::getVar('option');
 		$Itemid    = JRequest::getVar('Itemid');

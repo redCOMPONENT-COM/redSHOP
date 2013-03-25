@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 class checkoutViewcheckout extends JView

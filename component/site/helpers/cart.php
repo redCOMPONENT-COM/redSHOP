@@ -856,7 +856,7 @@ class rsCarthelper
 
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$option     = JRequest::getVar('option', 'com_redshop');
 		$Itemid     = $this->_redhelper->getCheckoutItemid();
@@ -1368,7 +1368,7 @@ class rsCarthelper
 
 	public function repalceOrderItems($data, $rowitem = array())
 	{
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$mainview   = JRequest::getVar('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
@@ -3176,7 +3176,7 @@ class rsCarthelper
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
 			JPluginHelper::importPlugin('rs_labels_GLS');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id='" . $users_info_id . "'";
 			$this->_db->setQuery($sql);
 			$values = $this->_db->loadObject();
@@ -3255,7 +3255,7 @@ class rsCarthelper
 			if ($template_middle != "" && count($shippingmethod) > 0)
 			{
 				JPluginHelper::importPlugin('redshop_shipping');
-				$dispatcher   =& JDispatcher::getInstance();
+				$dispatcher   = JDispatcher::getInstance();
 				$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
 				for ($s = 0; $s < count($shippingmethod); $s++)
@@ -4505,7 +4505,7 @@ class rsCarthelper
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
 		{
-			jimport('joomla.html.parameter');
+			JLoader::import('joomla.html.parameter');
 			$cart_param        = JModuleHelper::getModule('redshop_cart');
 			$cart_param_main   = new JParameter($cart_param->params);
 			$use_cookies_value = $cart_param_main->get('use_cookies_value', '');
@@ -4770,7 +4770,7 @@ class rsCarthelper
 
 		if (!$cart_id)
 		{
-			$row          =& JTable::getInstance('usercart', 'Table');
+			$row          = JTable::getInstance('usercart', 'Table');
 			$row->user_id = $user->id;
 			$row->cdate   = time();
 			$row->mdate   = time();
@@ -4786,7 +4786,7 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$rowItem =& JTable::getInstance('usercart_item', 'Table');
+			$rowItem = JTable::getInstance('usercart_item', 'Table');
 
 			$rowItem->cart_idx                = $i;
 			$rowItem->cart_id                 = $cart_id;
@@ -4810,7 +4810,7 @@ class rsCarthelper
 
 			for ($j = 0; $j < count($cart_accessory); $j++)
 			{
-				$rowAcc                     =& JTable::getInstance('usercart_accessory_item', 'Table');
+				$rowAcc                     = JTable::getInstance('usercart_accessory_item', 'Table');
 				$rowAcc->accessory_id       = $cart_accessory[$j]['accessory_id'];
 				$rowAcc->accessory_quantity = $cart[$i]['quantity']; // store product quantity as accessory quantity...
 
@@ -4834,7 +4834,7 @@ class rsCarthelper
 
 		for ($j = 0; $j < count($attribute); $j++)
 		{
-			$rowAtt =& JTable::getInstance('usercart_attribute_item', 'Table');
+			$rowAtt = JTable::getInstance('usercart_attribute_item', 'Table');
 
 			$rowAtt->section_id        = $attribute[$j]['attribute_id'];
 			$rowAtt->section           = 'attribute';
@@ -4850,7 +4850,7 @@ class rsCarthelper
 
 			for ($k = 0; $k < count($attribute_childs); $k++)
 			{
-				$rowProp =& JTable::getInstance('usercart_attribute_item', 'Table');
+				$rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
 
 				$rowProp->section_id        = $attribute_childs[$k]['property_id'];
 				$rowProp->section           = 'property';
@@ -4868,7 +4868,7 @@ class rsCarthelper
 				{
 					for ($i = 0; $i < count($property_childs); $i++)
 					{
-						$rowProp =& JTable::getInstance('usercart_attribute_item', 'Table');
+						$rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
 
 						$rowProp->section_id        = $property_childs[$i]['subproperty_id'];
 						$rowProp->section           = 'subproperty';
@@ -5274,7 +5274,7 @@ class rsCarthelper
 
 	public function addProductToCart($data = array())
 	{
-		$dispatcher   =& JDispatcher::getInstance();
+		$dispatcher   = JDispatcher::getInstance();
 		$rsUserhelper = new rsUserhelper();
 		$redTemplate  = new Redtemplate ();
 		$user         = JFactory::getUser();
@@ -5940,7 +5940,7 @@ class rsCarthelper
 		$accessory_total_price = $retAccArr[1];
 		$accessory_vat_price   = $retAccArr[2];
 
-		
+
 
 		if ($cart[$cartElement]['wrapper_id'])
 		{
@@ -6734,7 +6734,7 @@ class rsCarthelper
 					}
 				}
 			}
-			
+
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 

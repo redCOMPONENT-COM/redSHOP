@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Password Controller.

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
@@ -136,7 +136,7 @@ class CheckoutModelCheckout extends JModel
 
 	public function orderplace()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$redconfig       = new Redconfiguration;
 		$quotationHelper = new quotationHelper;
@@ -169,7 +169,7 @@ class CheckoutModelCheckout extends JModel
 
 		$db      = JFactory::getDBO();
 		$issplit = $session->get('issplit');
-		$url     =& JURI::root();
+		$url     = JURI::root();
 
 		// If user subscribe for the newsletter
 		if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
@@ -408,7 +408,7 @@ class CheckoutModelCheckout extends JModel
 		$row->referral_code      = $referral_code;
 		$db                      = JFactory::getDBO();
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		// For credit card payment gateway page will redirect to order detail page from plugin
 		if ($is_creditcard == 1 && $is_redirected == 1)
@@ -1227,7 +1227,7 @@ class CheckoutModelCheckout extends JModel
 
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentmethod->element, array($paymentmethod->element, $order_id));
 
 		$GLOBALS['shippingaddresses'] = $shippingaddresses;
@@ -1365,7 +1365,7 @@ class CheckoutModelCheckout extends JModel
 
 	public function sendGiftCard($order_id)
 	{
-		$url               =& JURI::root();
+		$url               = JURI::root();
 		$giftcardmail_body = '';
 
 		$giftcardmail = $this->_redshopMail->getMailtemplate(0, "giftcard_mail");

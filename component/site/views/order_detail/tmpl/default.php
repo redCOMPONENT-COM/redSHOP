@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-$uri         =& JURI::getInstance();
+$uri         = JURI::getInstance();
 $url         = JURI::base();
 $redconfig   = new Redconfiguration;
 $extra_field = new extra_field;

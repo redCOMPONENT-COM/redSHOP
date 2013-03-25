@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-//jimport('joomla.user.helper');
+//JLoader::import('joomla.user.helper');
 //
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
@@ -228,7 +228,7 @@ class rsUserhelper
 			die;
 		}
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db  = JFactory::getDBO();
 		$me  = JFactory::getUser();
@@ -324,7 +324,7 @@ class rsUserhelper
 
 	public function createJoomlaUser($data, $createuser = 0)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
 
@@ -708,7 +708,7 @@ class rsUserhelper
 		if ($isNew)
 		{
 			JPluginHelper::importPlugin('highrise');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array($post));
 		}
 
@@ -851,7 +851,7 @@ class rsUserhelper
 		}
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS . "tables");
-		$row =& JTable::getInstance('newslettersubscr_detail', 'Table');
+		$row = JTable::getInstance('newslettersubscr_detail', 'Table');
 
 		if (!$row->bind($data))
 		{

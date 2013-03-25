@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $url = JURI::base();
 $user = JFactory::getUser();
-global $mainframe;
+$mainframe = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 

@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class ordertrackerViewordertracker extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $mainframe->getParams('com_redshop');
 
 		// Request variables
 		$option = JRequest::getVar('option');

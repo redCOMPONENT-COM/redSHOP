@@ -432,7 +432,7 @@ class Cron
 
 					if ($sent == 1)
 					{
-						$couponItems                   =& JTable::getInstance('coupon_detail', 'Table');
+						$couponItems                   = JTable::getInstance('coupon_detail', 'Table');
 						$couponItems->coupon_code      = $token;
 						$couponItems->percent_or_total = DISCOUPON_PERCENT_OR_TOTAL;
 						$couponItems->coupon_value     = DISCOUPON_VALUE;

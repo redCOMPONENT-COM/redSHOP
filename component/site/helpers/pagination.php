@@ -13,7 +13,7 @@ class redPagination extends JPagination
 {
 	public function getPagesLinks()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$lang = JFactory::getLanguage();
 

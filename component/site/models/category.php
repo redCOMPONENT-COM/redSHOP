@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class categoryModelcategory
@@ -33,13 +33,13 @@ class CategoryModelCategory extends JModel
 
 	public function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
 		$this->producthelper = new producthelper;
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $mainframe->getParams('com_redshop');
 		$layout = JRequest::getVar('layout');
 		$print  = JRequest::getVar('print');
 		$Id     = JRequest::getInt('cid', 0);
@@ -67,9 +67,9 @@ class CategoryModelCategory extends JModel
 
 	public function _buildQuery()
 	{
-		global $mainframe;
-		$menu            =& $mainframe->getMenu();
-		$item            =& $menu->getActive();
+		$mainframe = JFactory::getApplication();
+		$menu            = $mainframe->getMenu();
+		$item            = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 		$manufacturer_id = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
 
@@ -101,9 +101,9 @@ class CategoryModelCategory extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe;
-		$menu =& $mainframe->getMenu();
-		$item =& $menu->getActive();
+		$mainframe = JFactory::getApplication();
+		$menu = $mainframe->getMenu();
+		$item = $menu->getActive();
 
 		if (DEFAULT_CATEGORY_ORDERING_METHOD)
 		{
@@ -133,9 +133,9 @@ class CategoryModelCategory extends JModel
 
 	public function getProductPerPage()
 	{
-		global $mainframe;
-		$menu =& $mainframe->getMenu();
-		$item =& $menu->getActive();
+		$mainframe = JFactory::getApplication();
+		$menu = $mainframe->getMenu();
+		$item = $menu->getActive();
 
 		if (isset($this->_template[0]->template_desc) && !strstr($this->_template[0]->template_desc, "{show_all_products_in_category}") && strstr($this->_template[0]->template_desc, "{pagination}") && strstr($this->_template[0]->template_desc, "perpagelimit:"))
 		{
@@ -171,8 +171,8 @@ class CategoryModelCategory extends JModel
 	public function getCategorylistProduct($category_id = 0)
 	{
 		global $context, $mainframe;
-		$menu  =& $mainframe->getMenu();
-		$item  =& $menu->getActive();
+		$menu  = $mainframe->getMenu();
+		$item  = $menu->getActive();
 		$limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
 
 		//	$order_by = $this->_buildProductOrderBy();
@@ -196,8 +196,8 @@ class CategoryModelCategory extends JModel
 	{
 		// $minmax = 0 (all products), $minmax=1 (min/max product)
 		global $mainframe, $context;
-		$menu            =& $mainframe->getMenu();
-		$item            =& $menu->getActive();
+		$menu            = $mainframe->getMenu();
+		$item            = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 
 		$setproductfinderobj = new redhelper;
@@ -370,9 +370,9 @@ class CategoryModelCategory extends JModel
 	public function _buildProductOrderBy()
 	{
 		global $mainframe, $context;
-		$params   = & $mainframe->getParams("com_redshop");
-		$menu     =& $mainframe->getMenu();
-		$item     =& $menu->getActive();
+		$params   = $mainframe->getParams("com_redshop");
+		$menu     = $mainframe->getMenu();
+		$item     = $menu->getActive();
 		$order_by = urldecode(JRequest::getVar('order_by', ''));
 
 		if ($order_by == '')
@@ -395,8 +395,8 @@ class CategoryModelCategory extends JModel
 
 		if ($layout == "categoryproduct")
 		{
-			$menu        =& $mainframe->getMenu();
-			$item        =& $menu->getActive();
+			$menu        = $mainframe->getMenu();
+			$item        = $menu->getActive();
 			$endlimit    = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
 			$limit       = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $endlimit, 5);
 			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
@@ -443,8 +443,8 @@ class CategoryModelCategory extends JModel
 	public function getCategoryProductPagination()
 	{
 		global $mainframe, $context;
-		$menu     =& $mainframe->getMenu();
-		$item     =& $menu->getActive();
+		$menu     = $mainframe->getMenu();
+		$item     = $menu->getActive();
 		$endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
 
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
@@ -463,9 +463,9 @@ class CategoryModelCategory extends JModel
 
 	public function getCategoryTemplate()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$params            = & $mainframe->getParams('com_redshop');
+		$params            = $mainframe->getParams('com_redshop');
 		$category_template = $this->getState('category_template');
 
 		$redTemplate = new Redtemplate;
@@ -498,7 +498,7 @@ class CategoryModelCategory extends JModel
 	{
 		global $mainframe, $context;
 
-		$params            = & $mainframe->getParams('com_redshop');
+		$params            = $mainframe->getParams('com_redshop');
 		$category_template = (int) $this->getState('category_template');
 		$redTemplate       = new Redtemplate;
 
@@ -621,7 +621,9 @@ class CategoryModelCategory extends JModel
 
 	public function getredproductfindertags()
 	{
-		global $mainframe, $context;
+		global $context;
+
+		$mainframe = JFactory::getApplication();
 
 		$setproductfinderobj = new redhelper;
 		$setproductfinder    = $setproductfinderobj->isredProductfinder();

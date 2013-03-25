@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 //including extra fields helper file
@@ -33,7 +33,7 @@ class RegistrationController extends JController
 	 */
 	public function newregistration()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$post = JRequest::get('post');
 
@@ -65,7 +65,7 @@ class RegistrationController extends JController
 				# redirection settings
 				$link = JRoute::_('index.php?option=com_redshop&view=redshop&Itemid=' . $Itemid);
 
-				$menu = JSite::getMenu();
+				$menu = JFactory::getApplication()->getMenu();
 				$retMenuItem = array();
 				$retMenuItem = $menu->getItem($menu->getParams($Itemid)->get('registrationredirect'));
 
@@ -104,7 +104,7 @@ class RegistrationController extends JController
 		$return = "";
 
 		JPluginHelper::importPlugin('telesearch', 'rs_telesearch');
-		$this->_dispatcher =& JDispatcher::getInstance();
+		$this->_dispatcher = JDispatcher::getInstance();
 		$tele['phone'] = $get['phone'];
 		$accountHandle = $this->_dispatcher->trigger('findByTelephoneNumber', array($tele));
 

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
@@ -21,11 +21,11 @@ class checkoutViewcheckout extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$shippinghelper  = new shipping;
 		$order_functions = new order_functions;
 
-		$params  = & $mainframe->getParams('com_redshop');
+		$params  = $mainframe->getParams('com_redshop');
 		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getVar('Itemid');
 		$issplit = JRequest::getVar('issplit');

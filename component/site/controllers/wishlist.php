@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * wishlist Controller.
@@ -28,7 +28,7 @@ class WishlistController extends JController
 	 */
 	public function createsave()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$model = & $this->getModel("wishlist");
 		$post ['wishlist_name'] = JRequest::getVar('txtWishlistname');
 		$post ['user_id'] = $user->id;
@@ -66,7 +66,7 @@ class WishlistController extends JController
 	 */
 function savewishlist()
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 	$cid = JRequest::getInt('cid');
 	$model = & $this->getModel("wishlist");
 	$option = JRequest::getVar('option');
@@ -90,9 +90,9 @@ function savewishlist()
 	 */
 	public function delwishlist()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$post = JRequest::get('post');
 		$model = & $this->getModel("wishlist");
 

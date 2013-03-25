@@ -20,7 +20,7 @@ include_once $adminpath . DS . 'helpers' . DS . 'shipping.php';
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 $producthelper = new producthelper;
 $objshipping = new shipping;
 $redhelper = new redhelper;
@@ -118,7 +118,7 @@ else
 {
 	$checkout = '';
 	JPluginHelper::importPlugin('redshop_payment');
-	$dispatcher   =& JDispatcher::getInstance();
+	$dispatcher   = JDispatcher::getInstance();
 	$pluginButton = $dispatcher->trigger('onPaymentCheckoutButton', array($cart));
 	$pluginButton = implode("<br>", $pluginButton);
 
@@ -128,7 +128,7 @@ else
 
 	if (SSL_ENABLE_IN_CHECKOUT)
 	{
-		$uri    =& JURI::getInstance();
+		$uri    = JURI::getInstance();
 		$c_link = new JURI;
 		$c_link->setScheme('https');
 		$c_link->setHost($uri->getHost());

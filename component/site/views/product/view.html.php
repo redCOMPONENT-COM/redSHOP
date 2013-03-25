@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'configuration.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
@@ -21,7 +21,7 @@ class productViewproduct extends JView
 {
 	public function display($tpl = null)
 	{
-//   		global $mainframe;
+//   		$mainframe = JFactory::getApplication();
 
 		// Request variables
 		$mainframe     = JFactory::getApplication();
@@ -29,7 +29,7 @@ class productViewproduct extends JView
 		$redTemplate   = new Redtemplate;
 		$redhelper     = new redhelper;
 		$texts         = new text_library;
-		$dispatcher    =& JDispatcher::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 
 		$option   = JRequest::getVar('option', 'com_redshop');
 		$Itemid   = JRequest::getVar('Itemid');
@@ -40,7 +40,7 @@ class productViewproduct extends JView
 
 		$pageheadingtag        = '';
 		$document              = JFactory::getDocument();
-		$params                = & $mainframe->getParams($option);
+		$params                = $mainframe->getParams($option);
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');

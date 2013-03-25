@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-global $mainframe;
 $mainframe = JFactory::getApplication();
-jimport('joomla.html.parameter');
+$mainframe = JFactory::getApplication();
+JLoader::import('joomla.html.parameter');
 
 $option = JRequest::getCmd('option');
 $view   = JRequest::getVar('view');
@@ -26,7 +26,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'help
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-jimport('joomla.html.pagination');
+JLoader::import('joomla.html.pagination');
 
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cron.php';
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'statistic.php';
@@ -44,7 +44,7 @@ $helper->isredCRM();
 $print = JRequest::getCmd('print');
 
 // Adding Redshop CSS
-$doc = & JFactory::getDocument();
+$doc = JFactory::getDocument();
 
 // Use diffrent CSS for print layout
 if (!$print)
@@ -66,7 +66,7 @@ $task   = JRequest::getCmd('task');
 $format = JRequest::getWord('format', '');
 $layout = JRequest::getWord('layout', '');
 
-$params = & $mainframe->getParams('com_redshop');
+$params = $mainframe->getParams('com_redshop');
 
 // Add product in cart from db
 $helper->dbtocart();

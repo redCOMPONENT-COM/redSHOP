@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 
@@ -17,7 +17,7 @@ class account_shiptoViewaccount_shipto extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$order_functions = new order_functions;
 
@@ -31,7 +31,7 @@ class account_shiptoViewaccount_shipto extends JView
 		// Preform security checks
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-		$params  = & $mainframe->getParams('com_redshop');
+		$params  = $mainframe->getParams('com_redshop');
 
 		if ($user->id)
 		{

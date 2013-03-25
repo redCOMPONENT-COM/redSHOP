@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php');
 
@@ -33,7 +33,7 @@ class NewsletterController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
-		$menu =& JSite::getMenu();
+		$menu = JFactory::getApplication()->getMenu();
 		$item = $menu->getItem($newsletteritemid);
 
 		if ($item)
@@ -86,7 +86,7 @@ class NewsletterController extends JController
 		$Itemid = JRequest::getVar('Itemid');
 		$email = JRequest::getVar('email1');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
-		$menu =& JSite::getMenu();
+		$menu = JFactory::getApplication()->getMenu();
 		$item = $menu->getItem($newsletteritemid);
 
 		if ($item)
