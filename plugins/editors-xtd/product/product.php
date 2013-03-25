@@ -1,14 +1,10 @@
 <?php
 /**
- * @version        $Id: pagebreak.php 10709 2008-08-21 09:58:52Z eddieajau $
- * @package        Joomla
- * @copyright      Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license        GNU/GPL, see LICENSE.php
- *                 Joomla! is free software. This version may have been modified pursuant
- *                 to the GNU General Public License, and as distributed it includes or
- *                 is derivative of works licensed under the GNU General Public License or
- *                 other free or open source software licenses.
- *                 See COPYRIGHT.php for copyright notices and details.
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
