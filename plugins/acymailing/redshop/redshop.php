@@ -46,13 +46,16 @@ class plgAcymailingRedshop extends JPlugin
 
 		$rs = $db->loadObjectlist();
 		$text = '<table class="adminlist" cellpadding="1">';
-		$text .= '<tr style="cursor:pointer" ><th>' . JText::_('COM_REDSHOP_PRODUCT_NAME') . '</th><th>' . JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
+		$text .= '<tr style="cursor:pointer" ><th>' . JText::_('COM_REDSHOP_PRODUCT_NAME') . '</th><th>'
+			. JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
 		$k = 0;
 
 		for ($i = 0; $i < count($rs); $i++)
 		{
 			$row = & $rs[$i];
-			$text .= '<tr style="cursor:pointer" class="row' . $k . '" onclick="setTag(\'{product:' . $row->product_id . '}\');insertTag();" ><td>' . $row->product_name . '</td><td>' . $row->category_name . '</td></tr>';
+			$text .= '<tr style="cursor:pointer" class="row' . $k . '" onclick="setTag(\'{product:'
+				. $row->product_id . '}\');insertTag();" ><td>' . $row->product_name . '</td><td>'
+				. $row->category_name . '</td></tr>';
 			$k = 1 - $k;
 		}
 
@@ -73,13 +76,23 @@ class plgAcymailingRedshop extends JPlugin
 
 		foreach ($variables as $var)
 		{
-			if (empty($email->$var)) continue;
+			if (empty($email->$var))
+			{
+				continue;
+			}
+
 			$found = preg_match_all($match, $email->$var, $results[$var]) || $found;
 
-			if (empty($results[$var][0])) unset($results[$var]);
+			if (empty($results[$var][0]))
+			{
+				unset($results[$var]);
+			}
 		}
 
-		if (!$found) return;
+		if (!$found)
+		{
+			return;
+		}
 
 		$tags = array();
 
@@ -87,7 +100,10 @@ class plgAcymailingRedshop extends JPlugin
 		{
 			foreach ($allresults[0] as $i => $oneTag)
 			{
-				if (isset($tags[$oneTag])) continue;
+				if (isset($tags[$oneTag]))
+				{
+					continue;
+				}
 
 				if (is_numeric($allresults[1][$i]))
 				{
@@ -102,13 +118,12 @@ class plgAcymailingRedshop extends JPlugin
 		}
 	}
 
-	/*
-	 * get redSHOP product information for Tag Replacement
-	 * @params: $product_id
-	 * @return: string
+	/**
+	 * Get redSHOP product information for Tag Replacement.
 	 *
-	 * @return value: product Main Image,Product Name,Product Formatted Price
+	 * @param   int  $product_id  The product ID
 	 *
+	 * @return mixed  Product Main Image,Product Name,Product Formatted Price
 	 */
 	function getProduct($product_id)
 	{
@@ -128,7 +143,6 @@ class plgAcymailingRedshop extends JPlugin
 		$producthelper = new producthelper;
 
 		// Get Product Formatted price as per redshop configuration
-		//$price = $producthelper->getProductNetPrice($product_id);
 		$productArr = $producthelper->getProductNetPrice($product_id);
 		$price = $productArr['productPrice'] + $productArr['productVat'];
 		$price = $producthelper->getProductFormattedPrice($price);
@@ -151,13 +165,13 @@ class plgAcymailingRedshop extends JPlugin
 			$text = str_replace("{read_more}", "", $text);
 			$text = str_replace("{product_desc}", "", $text);
 
-			# replace attribute template to null
+			// Replace attribute template to null
 			$attribute_tag_arr = explode("attribute_template:", $text);
 			$attribute_tag_arr = explode("}", $attribute_tag_arr[1]);
 			$attribute_tag = "{attribute_template:" . $attribute_tag_arr[0] . "}";
 			$text = str_replace($attribute_tag, "", $text);
 
-			# replace add to cart template to null
+			// Replace add to cart template to null
 			$cart_tag_arr = explode("form_addtocart:", $text);
 			$cart_tag_arr = explode("}", $cart_tag_arr[1]);
 			$cart_tag = "{form_addtocart:" . $cart_tag_arr[0] . "}";
@@ -166,4 +180,4 @@ class plgAcymailingRedshop extends JPlugin
 
 		return $text;
 	}
-}//endclass
+}
