@@ -32,7 +32,7 @@ class rating_detailVIEWrating_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->rating_id < 1);
 

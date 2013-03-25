@@ -24,7 +24,7 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->textlibrary_id < 1);
 

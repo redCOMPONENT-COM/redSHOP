@@ -52,7 +52,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 			$document->addScript('components/com_redshop/assets/js/search.js');
 
 			$this->setLayout('default');
-			$detail =& $this->get('data');
+			$detail = $this->get('data');
 
 			$isNew = ($detail->stockroom_id < 1);
 			$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');

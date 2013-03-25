@@ -38,11 +38,11 @@ class quotation_detailVIEWquotation_detail extends JView
 		{
 			$this->setLayout($layout);
 		}
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$redconfig = new Redconfiguration;
 
 		$isNew = ($detail->quotation_id < 1);
-		$userarr = & $this->get('userdata');
+		$userarr = $this->get('userdata');
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 

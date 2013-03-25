@@ -22,15 +22,15 @@ class wrapperViewwrapper extends JView
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
-		$total = & $this->get('Total');
-		$data = & $this->get('Data');
+		$total = $this->get('Total');
+		$data = $this->get('Data');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
 
 		JToolBarHelper::addNewX();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 		$uri = JFactory::getURI();
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);

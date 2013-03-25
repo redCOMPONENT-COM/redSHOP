@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class voucher_detailVIEWvoucher_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -32,7 +39,7 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->voucher_id < 1);
 
@@ -48,9 +55,9 @@ class voucher_detailVIEWvoucher_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
+
 		$voucher_type = array(JHTML::_('select.option', 'Total', JText::_('COM_REDSHOP_TOTAL')),
 			JHTML::_('select.option', 'Percentage', JText::_('COM_REDSHOP_PERCENTAGE'))
 		);
@@ -86,7 +93,7 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class deliveryViewdelivery extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -32,7 +39,7 @@ class deliveryViewdelivery extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

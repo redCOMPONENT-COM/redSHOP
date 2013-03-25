@@ -29,7 +29,7 @@ class fields_detailVIEWfields_detail extends JView
 		$this->setLayout('default');
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$model = $this->getModel('fields_detail');
 
 		$filed_data = $extra_field->getFieldValue($detail->field_id);

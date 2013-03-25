@@ -40,7 +40,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 		$updatestocktag = array();
 		$model = $this->getModel();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$detail->section_type = JRequest::getVar('section_type', $detail->section_type);
 

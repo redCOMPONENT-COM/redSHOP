@@ -33,13 +33,13 @@ class taxViewtax extends JView
 		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
 		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$tax_group_id =& $this->get('ProductId');
+		$tax_group_id = $this->get('ProductId');
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['tax_group_id'] = $tax_group_id;
 
-		$total = & $this->get('Total');
-		$media = & $this->get('Data');
+		$total = $this->get('Total');
+		$media = $this->get('Data');
 
 		$pagination = new JPagination($total, $limitstart, $limit);
 

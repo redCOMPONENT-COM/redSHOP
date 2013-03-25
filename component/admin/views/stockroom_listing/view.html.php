@@ -62,12 +62,12 @@ class stockroom_listingViewstockroom_listing extends JView
 
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$resultlisting = & $this->get('Data');
-		$stockroom = & $this->get('Stockroom');
+		$resultlisting = $this->get('Data');
+		$stockroom = $this->get('Stockroom');
 
-		$total = & $this->get('Total');
+		$total = $this->get('Total');
 
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('keyword', $keyword);

@@ -38,10 +38,10 @@ class templateViewtemplate extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$templates = & $this->get('Data');
+		$templates = $this->get('Data');
 
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$redtemplate = new Redtemplate;
 		$optionsection = $redtemplate->getTemplateSections();
