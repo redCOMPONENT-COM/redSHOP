@@ -66,7 +66,7 @@ class WishlistController extends JController
 	 */
 function savewishlist()
 {
-	$mainframe = JFactory::getApplication();
+	$app = JFactory::getApplication();
 	$cid = JRequest::getInt('cid');
 	$model = & $this->getModel("wishlist");
 	$option = JRequest::getVar('option');
@@ -90,7 +90,7 @@ function savewishlist()
 	 */
 	public function delwishlist()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$user = JFactory::getUser();
 		$post = JRequest::get('post');
@@ -115,7 +115,7 @@ function savewishlist()
 			$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 		}
 
-		$mainframe->redirect($link, $msg);
+		$app->redirect($link, $msg);
 	}
 
 	/**

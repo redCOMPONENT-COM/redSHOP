@@ -15,11 +15,11 @@ class newsletterViewnewsletter extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$params = $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
-		$pathway  = $mainframe->getPathway();
+		$pathway  = $app->getPathway();
 		$document = JFactory::getDocument();
 
 		$pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');

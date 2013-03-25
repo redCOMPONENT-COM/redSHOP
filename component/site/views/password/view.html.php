@@ -15,11 +15,11 @@ class PasswordViewPassword extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$layout = JRequest::getVar('layout');
 		$uid    = JRequest::getInt('uid', 0);
-		$params = $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
 		if ($uid != 0)
 		{

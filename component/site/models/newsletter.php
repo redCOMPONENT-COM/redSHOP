@@ -40,7 +40,7 @@ class newsletterModelnewsletter extends JModel
 
 	public function checksubscriptionbymail($email)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$and  = "";
 
@@ -76,18 +76,18 @@ class newsletterModelnewsletter extends JModel
 		}
 		else
 		{
-			$mainframe->redirect($link, JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+			$app->redirect($link, JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
 		}
 	}
 
 	public function confirmsubscribe($sub_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . $sub_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		$url  = JURI::root();
 		$link = $url . 'index.php?option=com_redshop&view=newsletter';
-		$mainframe->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
+		$app->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
 	}
 }

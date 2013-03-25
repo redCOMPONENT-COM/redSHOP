@@ -35,7 +35,7 @@ class convertPrice
 	 */
 	public function init()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if (!is_array(@$GLOBALS['converter_array']) && @$GLOBALS['converter_array'] !== -1)
 		{
@@ -102,7 +102,7 @@ class convertPrice
 
 				if (!$contents)
 				{
-					$mainframe->enqueuemessage("ERROR_RESOLVING_HOST");
+					$app->enqueuemessage("ERROR_RESOLVING_HOST");
 				}
 				else
 				{

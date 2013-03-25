@@ -287,7 +287,7 @@ class CategoryController extends JController
 	 */
 	public function generateXMLExportFile()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
 
@@ -300,7 +300,7 @@ class CategoryController extends JController
 
 			$row = $xmlHelper->getXMLExportInfo($xmlexport_id);
 			$link = JURI::root() . 'index.php?option=com_redshop&view=category&tmpl=component&task=download&file=' . $row->filename;
-			$mainframe->redirect($link);
+			$app->redirect($link);
 		}
 	}
 }

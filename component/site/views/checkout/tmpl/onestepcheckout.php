@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $url = JURI::base();
 $user = JFactory::getUser();
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
@@ -43,7 +43,7 @@ $billingaddresses = $model->billingaddresses();
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
+	$app->Redirect("index.php?option=" . $option . "&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
 }
 
 $paymentmethod = $redhelper->getPlugins('redshop_payment');

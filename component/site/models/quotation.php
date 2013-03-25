@@ -453,18 +453,18 @@ class quotationModelquotation extends JModel
 		$redshopMail     = new redshopMail;
 		$order_functions = new order_functions;
 		$Itemid          = JRequest::getVar('Itemid');
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
-		$pathway   = $mainframe->getPathway();
+		$pathway   = $app->getPathway();
 		$config    = JFactory::getConfig();
 		$authorize = JFactory::getACL();
 		$document  = JFactory::getDocument();
 
-		$MailFrom = $mainframe->getCfg('mailfrom');
-		$FromName = $mainframe->getCfg('fromname');
-		$SiteName = $mainframe->getCfg('sitename');
+		$MailFrom = $app->getCfg('mailfrom');
+		$FromName = $app->getCfg('fromname');
+		$SiteName = $app->getCfg('sitename');
 
 		$usersConfig = & JComponentHelper::getParams('com_users');
 		$usersConfig->set('allowUserRegistration', 1);

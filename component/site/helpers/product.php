@@ -2367,8 +2367,8 @@ class producthelper
 
 	public function generateBreadcrumb($sectionid = 0)
 	{
-		$mainframe     = JFactory::getApplication();
-		$pathway       = $mainframe->getPathway();
+		$app     = JFactory::getApplication();
+		$pathway       = $app->getPathway();
 		$view          = JRequest::getVar('view');
 		$layout        = JRequest::getVar('layout');
 		$Itemid        = JRequest::getInt('Itemid');
@@ -8225,13 +8225,13 @@ class producthelper
 
 	public function getJcommentEditor($product = array(), $data_add = "")
 	{
-		$mainframe       = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$product_reviews = "";
 		$product_id      = $product->product_id;
 
 		if ($product_id && !strstr($data_add, "{jcomments off}") && strstr($data_add, "{jcomments on}"))
 		{
-			$comments = $mainframe->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
+			$comments = $app->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
 
 			if (file_exists($comments))
 			{

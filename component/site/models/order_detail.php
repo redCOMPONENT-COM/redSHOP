@@ -61,7 +61,7 @@ class Order_detailModelOrder_detail extends JModel
 	 */
 	public function billingaddresses()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$order_functions = new order_functions;
 		$user            = JFactory::getUser();
 		$session         = JFactory::getSession();

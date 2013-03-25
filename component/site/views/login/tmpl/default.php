@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $loginlink = 'index.php?option=' . $option . '&view=login&Itemid=' . $Itemid;
@@ -21,7 +21,7 @@ else
 	$newuser_link = 'index.php?option=' . $option . '&view=registration&Itemid=' . $Itemid;
 $forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $Itemid;
 
-$params = $mainframe->getParams($option);
+$params = $app->getParams($option);
 $returnitemid = $params->get('login', $Itemid);
 
 

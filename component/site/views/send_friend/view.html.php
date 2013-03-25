@@ -17,7 +17,7 @@ class send_friendViewsend_friend extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Request variables
 		$id     = JRequest::getVar('id', null, '', 'int');
@@ -25,9 +25,9 @@ class send_friendViewsend_friend extends JView
 		$Itemid = JRequest::getVar('Itemid');
 		$pid    = JRequest::getInt('pid');
 
-		$params = $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
-		$pathway  = $mainframe->getPathway();
+		$pathway  = $app->getPathway();
 		$document = JFactory::getDocument();
 
 		// Include Javascript

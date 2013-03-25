@@ -133,8 +133,8 @@ class searchModelsearch extends JModel
 
 	public function getProductPerPage()
 	{
-		$mainframe = JFactory::getApplication();
-		$redconfig   = $mainframe->getParams();
+		$app = JFactory::getApplication();
+		$redconfig   = $app->getParams();
 		$redTemplate = new Redtemplate;
 		$template    = $this->getCategoryTemplet();
 
@@ -185,7 +185,7 @@ class searchModelsearch extends JModel
 
 	public function getTotal()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$context      = 'search';
 		$productlimit = $this->getstate('productlimit');
 
@@ -221,10 +221,10 @@ class searchModelsearch extends JModel
 
 	public function _buildQuery($manudata = 0)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$context = 'search';
 
-		$keyword = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+		$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
 		$defaultSearchType = '';
 
@@ -297,7 +297,7 @@ class searchModelsearch extends JModel
 			$defaultSearchType .= " OR (" . $product_s_desc_srch . ") ";
 		}
 
-		$redconfig  = $mainframe->getParams();
+		$redconfig  = $app->getParams();
 		$getorderby = JRequest::getVar('order_by', '');
 
 		$order_by = $getorderby;
@@ -344,7 +344,7 @@ class searchModelsearch extends JModel
 
 		$params = & JComponentHelper::getParams('com_redshop');
 
-		$menu = $mainframe->getMenu();
+		$menu = $app->getMenu();
 		$item = $menu->getActive();
 
 		$days        = $item->query['newproduct'];
@@ -520,14 +520,14 @@ class searchModelsearch extends JModel
 
 	public function getCategoryTemplet()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$context = 'search';
 
-		$layout     = $mainframe->getUserStateFromRequest($context . 'layout', 'layout', '');
-		$templateid = $mainframe->getUserStateFromRequest($context . 'templateid', 'templateid', '');
+		$layout     = $app->getUserStateFromRequest($context . 'layout', 'layout', '');
+		$templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
 
 		$params = & JComponentHelper::getParams('com_redshop');
-		$menu   = $mainframe->getMenu();
+		$menu   = $app->getMenu();
 		$item   = $menu->getActive();
 
 		if ($layout == 'newproduct')
@@ -550,7 +550,7 @@ class searchModelsearch extends JModel
 
 			if ($templateid == 0 && $cid == 0)
 			{
-				$templateid = $mainframe->getUserStateFromRequest($context . 'templateid', 'templateid', '');
+				$templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
 			}
 		}
 

@@ -27,7 +27,7 @@ class AccountController extends JController
 	 */
 	public function editTag()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
 
@@ -37,11 +37,11 @@ class AccountController extends JController
 
 		if ($model->editTag($post))
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
 		}
 		else
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);

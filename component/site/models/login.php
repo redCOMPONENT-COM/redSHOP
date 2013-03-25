@@ -27,21 +27,21 @@ class LoginModelLogin extends JModel
 
 	public function setlogin($username, $password)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$credentials             = array();
 		$credentials['username'] = $username;
 		$credentials['password'] = $password;
 
 		//preform the login action
-		$error = $mainframe->login($credentials);
+		$error = $app->login($credentials);
 
 		if (isset($error->message))
 		{
 			$Itemid         = JRequest::getVar('Itemid');
 			$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
 			$msg            = "<a href='" . JRoute::_($forgotpwd_link) . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
-			$mainframe->enqueuemessage($msg);
+			$app->enqueuemessage($msg);
 		}
 	}
 

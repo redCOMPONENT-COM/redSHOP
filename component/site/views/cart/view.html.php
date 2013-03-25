@@ -14,7 +14,7 @@ class cartViewcart extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Request variables
 		$redTemplate = new Redtemplate;
@@ -34,7 +34,7 @@ class cartViewcart extends JView
 
 		if (JRequest::getVar('quotemsg') != "")
 		{
-			$mainframe->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
+			$app->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
 		}
 
 		$document = JFactory::getDocument();

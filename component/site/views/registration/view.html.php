@@ -15,7 +15,7 @@ class registrationViewregistration extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
@@ -26,10 +26,10 @@ class registrationViewregistration extends JView
 
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
-			$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
+			$app->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
 		}
 
-		$params = $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);

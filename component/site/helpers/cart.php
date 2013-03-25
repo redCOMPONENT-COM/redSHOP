@@ -38,7 +38,7 @@ class rsCarthelper
 
 	public function __construct()
 	{
-		global $mainframe, $context;
+		global $app, $context;
 		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
 		$this->_db              = Jfactory::getDBO();
 		$this->_session         = JFactory::getSession();

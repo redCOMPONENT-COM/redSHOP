@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-$mainframe = JFactory::getApplication();
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
+$app = JFactory::getApplication();
 JLoader::import('joomla.html.parameter');
 
 $option = JRequest::getCmd('option');
@@ -66,7 +66,7 @@ $task   = JRequest::getCmd('task');
 $format = JRequest::getWord('format', '');
 $layout = JRequest::getWord('layout', '');
 
-$params = $mainframe->getParams('com_redshop');
+$params = $app->getParams('com_redshop');
 
 // Add product in cart from db
 $helper->dbtocart();
@@ -115,7 +115,7 @@ if (PORTAL_SHOP == 1)
 			$controller = 'login';
 			JRequest::setVar('view', 'login');
 			JRequest::setVar('layout', 'portal');
-			$mainframe->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
 	elseif ($controller == 'category' && $categoryid > 0 && $user->id > 0)
@@ -127,7 +127,7 @@ if (PORTAL_SHOP == 1)
 			$controller = 'login';
 			JRequest::setVar('view', 'login');
 			JRequest::setVar('layout', 'portal');
-			$mainframe->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
 	else
@@ -148,7 +148,7 @@ else
 			$controller = 'login';
 			JRequest::setVar('view', 'login');
 			JRequest::setVar('layout', 'portal');
-			$mainframe->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
 
@@ -161,7 +161,7 @@ else
 			$controller = 'login';
 			JRequest::setVar('view', 'login');
 			JRequest::setVar('layout', 'portal');
-			$mainframe->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
 

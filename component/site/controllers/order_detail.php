@@ -58,7 +58,7 @@ class Order_detailController extends JController
 	 */
 	public function process_payment()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = jFactory::getDBO();
 		$session = JFactory::getSession();
 		$model = $this->getModel('order_detail');
@@ -156,7 +156,7 @@ class Order_detailController extends JController
 		$model->resetcart();
 
 		$link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
-		$mainframe->redirect($link, $paymentResponse->message);
+		$app->redirect($link, $paymentResponse->message);
 
 	}
 
@@ -165,7 +165,7 @@ class Order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
@@ -217,7 +217,7 @@ class Order_detailController extends JController
 	 */
 	public function copyorderitemtocart()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$order_item_id = JRequest::getInt('order_item_id');
 
 		$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
@@ -261,7 +261,7 @@ class Order_detailController extends JController
 			$Itemid = JRequest::getVar('Itemid');
 			$Itemid = $this->_redhelper->getCartItemid($Itemid);
 			$this->_carthelper->cartFinalCalculation();
-			$mainframe->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 		}
 		else
 		{
@@ -285,7 +285,7 @@ class Order_detailController extends JController
 			}
 
 			$returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
-			$mainframe->redirect($returnlink, $errmsg);
+			$app->redirect($returnlink, $errmsg);
 		}
 	}
 
@@ -296,7 +296,7 @@ class Order_detailController extends JController
 	 */
 	public function reorder()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
@@ -399,11 +399,11 @@ class Order_detailController extends JController
 
 		if (!$cart || !array_key_exists("idx", $cart) || ($cart && $cart['idx'] <= 0))
 		{
-			$mainframe->redirect($returnlink);
+			$app->redirect($returnlink);
 		}
 		else
 		{
-			$mainframe->redirect("index.php?option=com_redshop&view=cart&Itemid=" . $Itemid, $returnmsg);
+			$app->redirect("index.php?option=com_redshop&view=cart&Itemid=" . $Itemid, $returnmsg);
 		}
 	}
 
@@ -414,7 +414,7 @@ class Order_detailController extends JController
 	 */
 	public function payment()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$redconfig = new Redconfiguration;
 		$Itemid = JRequest::getVar('Itemid');
 		$order_id = JRequest::getInt('order_id');

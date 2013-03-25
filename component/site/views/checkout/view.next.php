@@ -21,11 +21,11 @@ class checkoutViewcheckout extends JView
 
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$shippinghelper  = new shipping;
 		$order_functions = new order_functions;
 
-		$params  = $mainframe->getParams('com_redshop');
+		$params  = $app->getParams('com_redshop');
 		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getVar('Itemid');
 		$issplit = JRequest::getVar('issplit');
@@ -59,7 +59,7 @@ class checkoutViewcheckout extends JView
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$mainframe->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
+			$app->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
 		}
 
 		if (SHIPPING_METHOD_ENABLE)
@@ -68,14 +68,14 @@ class checkoutViewcheckout extends JView
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_ADDRESS');
 				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
-				$mainframe->Redirect($link, $msg);
+				$app->Redirect($link, $msg);
 			}
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_METHOD');
 				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
-				$mainframe->Redirect($link, $msg);
+				$app->Redirect($link, $msg);
 			}
 		}
 
@@ -83,7 +83,7 @@ class checkoutViewcheckout extends JView
 		{
 			$msg  = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
 			$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
-			$mainframe->Redirect($link, $msg);
+			$app->Redirect($link, $msg);
 		}
 
 		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);

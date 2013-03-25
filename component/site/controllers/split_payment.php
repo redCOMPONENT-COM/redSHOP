@@ -36,7 +36,7 @@ class Split_paymentController extends JController
 	 */
 	public function payremaining()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');

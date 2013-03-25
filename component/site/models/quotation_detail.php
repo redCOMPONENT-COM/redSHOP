@@ -49,7 +49,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public function addtocart($data = array())
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$Itemid  = JRequest::getVar("Itemid");
 		$session = JFactory::getSession();

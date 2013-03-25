@@ -136,7 +136,7 @@ class CheckoutModelCheckout extends JModel
 
 	public function orderplace()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$redconfig       = new Redconfiguration;
 		$quotationHelper = new quotationHelper;
@@ -225,7 +225,7 @@ class CheckoutModelCheckout extends JModel
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$mainframe->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
+			$app->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
 		}
 
 		$ccdata           = $session->get('ccdata');
