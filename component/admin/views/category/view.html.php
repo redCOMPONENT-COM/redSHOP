@@ -15,6 +15,20 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class categoryViewcategory extends JView
 {
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -45,9 +59,9 @@ class categoryViewcategory extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 		$GLOBALS['catlist'] = array();
 		$catid = JRequest::getVar('category_id', 0, '');
-		$categories = & $this->get('Data');
+		$categories = $this->get('Data');
 
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 		$category_main_filter = $mainframe->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -57,6 +71,7 @@ class categoryViewcategory extends JView
 		$categories_parent = $category->getParentCategories();
 
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->category_id = "0";
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
 		$categories_parent = @array_merge($temps, $categories_parent);
@@ -71,6 +86,7 @@ class categoryViewcategory extends JView
 	    */
 		$templates = $redTemplate->getTemplate('category');
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->template_id = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
 		$templates = @array_merge($temps, $templates);
@@ -81,11 +97,11 @@ class categoryViewcategory extends JView
 		);
 
 		$this->assignRef('category_main_filter', $category_main_filter);
-		$this->assignRef('user', JFactory::getUser());
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('categories', $categories);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
