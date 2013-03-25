@@ -27,7 +27,7 @@ class newsletterController extends JController
 
 	public function send_newsletter()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -51,7 +51,7 @@ class newsletterController extends JController
 
 	public function sendRecursiveNewsletter()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$newsletter_id = JRequest::getVar('newsletter_id');
 		$option = JRequest::getVar('option');
 

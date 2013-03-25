@@ -202,7 +202,7 @@ class orderModelorder extends JModel
 		$redhelper = new redhelper;
 		$order_helper = new order_functions;
 		$shipping = new shipping;
-		$plugin = & JPluginHelper::getPlugin('rs_labels_GLS');
+		$plugin = JPluginHelper::getPlugin('rs_labels_GLS');
 		$glsparams = new JParameter($plugin[0]->params);
 		$normal_parcel_weight_start = $glsparams->get('normal_parcel_weight_start', '');
 		$normal_parcel_weight_end = $glsparams->get('normal_parcel_weight_end', '');
@@ -252,7 +252,7 @@ class orderModelorder extends JModel
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();
@@ -375,7 +375,7 @@ class orderModelorder extends JModel
 		{
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();

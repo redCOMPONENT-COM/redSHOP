@@ -15,7 +15,7 @@ class orderstatus_detailVIEWorderstatus_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

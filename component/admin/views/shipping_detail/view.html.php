@@ -15,7 +15,7 @@ class shipping_detailViewshipping_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$this->setLayout('default');
 		$lists = array();
 		$detail =& $this->get('data');

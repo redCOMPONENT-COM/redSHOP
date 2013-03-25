@@ -13,7 +13,7 @@ $producthelper = new producthelper();
 $showall = JRequest::getVar('showall', '0');
 $page = "";
 $option = JRequest::getVar('option', '', 'request', 'string');
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

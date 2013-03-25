@@ -113,7 +113,7 @@ class quotationHelper
 
 	function getQuotationUserList()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$and = "";
 		if ($user->id)
 		{

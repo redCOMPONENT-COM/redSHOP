@@ -77,14 +77,14 @@ class redshopMail
 		$redconfig = new Redconfiguration ();
 		$producthelper = new producthelper ();
 		$extra_field = new extra_field ();
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		// Set the e-mail parameters
 
 		$from = $config->getValue('mailfrom');
 		$fromname = $config->getValue('fromname');
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		if (USE_AS_CATALOG)
 		{
 			$mailinfo = $this->getMailtemplate(0, "catalogue_order");
@@ -317,7 +317,7 @@ class redshopMail
 		$redconfig = new Redconfiguration ();
 		$producthelper = new producthelper ();
 		$extra_field = new extra_field ();
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$mailbcc = array();
 		$mailinfo = $this->getMailtemplate(0, "order_special_discount");
 		if (count($mailinfo) > 0)
@@ -629,7 +629,7 @@ class redshopMail
 				$product_quantity = '<div class="product_quantity">' . $OrderProducts [$i]->product_quantity . '</div>';
 
 				$cart_mdata = '';
-				$uri =& JURI::getInstance();
+				$uri = JURI::getInstance();
 				$url = $uri->root();
 				if ($product->product_full_image)
 				{
@@ -866,7 +866,7 @@ class redshopMail
 		$redconfig = new Redconfiguration ();
 		$producthelper = new producthelper ();
 		$extra_field = new extra_field ();
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$redTemplate = new Redtemplate();
 		$message = "";
 		$subject = "";
@@ -931,7 +931,7 @@ class redshopMail
 
 
 			$message = $this->imginmail($message);
-			$user = & JFactory::getUser();
+			$user = JFactory::getUser();
 			//$billingaddresses=$this->_order_functions->getBillingAddress ( $user->id );
 			$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
 			$email = $billingaddresses->user_email;
@@ -973,7 +973,7 @@ class redshopMail
 		$redconfig = new Redconfiguration ();
 		$producthelper = new producthelper ();
 		$extra_field = new extra_field ();
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$message = "";
 		$subject = "";
 		$cart = '';
@@ -1031,7 +1031,7 @@ class redshopMail
 
 		$message = str_replace($search, $replace, $message);
 		$message = $this->imginmail($message);
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		//$billingaddresses=$this->_order_functions->getBillingAddress ( $user->id );
 		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
 		$email = $billingaddresses->user_email;
@@ -1108,9 +1108,9 @@ class redshopMail
 	{
 		global $mainframe;
 
-		$acl = & JFactory::getACL();
-		$db = & JFactory::getDBO();
-		$me = & JFactory::getUser();
+		$acl = JFactory::getACL();
+		$db = JFactory::getDBO();
+		$me = JFactory::getUser();
 
 		$mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
@@ -1360,7 +1360,7 @@ class redshopMail
 	function imginmail($message)
 	{
 
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$url = $uri->root();
 
@@ -1407,7 +1407,7 @@ class redshopMail
 	function sendQuotationMail($quotation_id, $status = 0)
 	{
 
-		$uri = & JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -1419,7 +1419,7 @@ class redshopMail
 
 		$quotationHelper = new quotationHelper ();
 
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		$mailinfo = $this->getMailtemplate(0, "quotation_mail");
 		$mailbcc = array();
@@ -1742,8 +1742,8 @@ class redshopMail
 	{
 		if (NEWSLETTER_CONFIRMATION)
 		{
-			$config = & JFactory::getConfig();
-			$url = & JURI::root();
+			$config = JFactory::getConfig();
+			$url = JURI::root();
 			$option = JRequest::getVar('option', '', 'request');
 			$mailbcc = NULL;
 			$mailinfo = $this->getMailtemplate(0, "newsletter_confirmation");
@@ -1807,7 +1807,7 @@ class redshopMail
 
 	function sendNewsletterCancellationMail($email = "")
 	{
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$mailinfo = $this->getMailtemplate(0, "newsletter_cancellation");
 		$mailbcc = NULL;
 		if (count($mailinfo) > 0)
@@ -1848,7 +1848,7 @@ class redshopMail
 	function sendAskQuestionMail($ansid)
 	{
 		$producthelper = new producthelper ();
-		$uri = & JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$option = JRequest::getVar('option');
 		$subject = "";
@@ -1880,7 +1880,7 @@ class redshopMail
 				$qdetail = $producthelper->getQuestionAnswer($ans->parent_id);
 				if (count($qdetail) > 0)
 				{
-					$config = & JFactory::getConfig();
+					$config = JFactory::getConfig();
 					$from = $config->getValue('mailfrom');
 					$fromname = $config->getValue('fromname');
 
@@ -1927,7 +1927,7 @@ class redshopMail
 
 		$redconfig = new Redconfiguration ();
 
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$from = $config->getValue('mailfrom');
 		$fromname = $config->getValue('fromname');
 
@@ -2012,7 +2012,7 @@ class redshopMail
 				}
 			}
 
-			$config = & JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$from = $config->getValue('mailfrom');
 			$fromname = $config->getValue('fromname');
 
@@ -2049,7 +2049,7 @@ class redshopMail
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 		}
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$from = $config->getValue('mailfrom');
 		$fromname = $config->getValue('fromname');
 
@@ -2079,7 +2079,7 @@ class redshopMail
 
 	function sendResetPasswordMail($email)
 	{
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$from = $config->getValue('mailfrom');
 		$fromname = $config->getValue('fromname');
 

@@ -39,7 +39,7 @@ jimport('joomla.html.pane');
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<?php
 	//Get JPaneTabs instance
-	$myTabs = & JPane::getInstance('tabs', array('startOffset' => 0));
+	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 	$output = $myTabs->startPane('pane');
 	//Create 1st Tab
 	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');
@@ -82,7 +82,7 @@ jimport('joomla.html.pane');
 	?>
 	<div align="left"><?php
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$payment = $dispatcher->trigger('onShowconfig', array($this->detail));
 		?>
 	</div>

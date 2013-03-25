@@ -17,7 +17,7 @@ class mediaViewmedia extends JView
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_MEDIA'));
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
@@ -28,7 +28,7 @@ class mediaViewmedia extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 		$context = 'media';
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'media_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

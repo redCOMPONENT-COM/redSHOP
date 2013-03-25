@@ -30,7 +30,7 @@ class payment_detailViewpayment_detail extends JView
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_SHIPPING'), 'index.php?option=com_redshop&view=shipping');
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_TEMPLATES'), 'index.php?option=com_redshop&view=template');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

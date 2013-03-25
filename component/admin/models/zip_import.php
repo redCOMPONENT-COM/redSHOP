@@ -130,7 +130,7 @@ class zip_importModelzip_import extends JModel
 		}
 
 		// Get an installer instance
-		$installer =& JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 
 		// Install the package
 		if (!$installer->install($package['dir']))
@@ -158,7 +158,7 @@ class zip_importModelzip_import extends JModel
 		// Cleanup the install files
 		if (!is_file($package['packagefile']))
 		{
-			$config =& JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
 		}
 
@@ -183,7 +183,7 @@ class zip_importModelzip_import extends JModel
 	{
 		// Get a database connector
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$tempno = $_SESSION['zipno'];
 
 		// Get the URL of the package to install
@@ -217,7 +217,7 @@ class zip_importModelzip_import extends JModel
 		<?php
 		}
 
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$tmp_dest = $config->getValue('config.tmp_path');
 
 		// Unpack the downloaded package file

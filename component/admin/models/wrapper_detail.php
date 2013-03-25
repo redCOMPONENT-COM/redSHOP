@@ -195,7 +195,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 			return false;
 		}
 
-		$wrapperfile =& JRequest::getVar('wrapper_image', '', 'files', 'array');
+		$wrapperfile = JRequest::getVar('wrapper_image', '', 'files', 'array');
 		$wrapperimg = "";
 
 		if ($wrapperfile['name'] != "")

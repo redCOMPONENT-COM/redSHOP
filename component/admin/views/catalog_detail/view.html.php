@@ -19,7 +19,7 @@ class catalog_detailVIEWcatalog_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATALOG_MANAGEMENT_DETAIL'), 'redshop_catalogmanagement48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
 		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
@@ -32,7 +32,7 @@ class catalog_detailVIEWcatalog_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/utils.js');
 		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 

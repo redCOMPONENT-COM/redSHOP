@@ -21,7 +21,7 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$option = JRequest::getVar('option');
 		$extra_field = new extra_field;
 		$order_functions = new order_functions;
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
 		$document->addScript('components/' . $option . '/assets/js/json.js');
@@ -31,8 +31,8 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
-		$session =& JFactory::getSession();
-		$uri =& JFactory::getURI();
+		$session = JFactory::getSession();
+		$uri = JFactory::getURI();
 
 		$lists = array();
 		$billing = array();

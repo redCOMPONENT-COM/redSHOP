@@ -19,7 +19,7 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT_DETAIL'), 'redshop_discountmanagmenet48');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
@@ -33,7 +33,7 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 
 		$isNew = ($detail->mass_discount_id < 1);
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');

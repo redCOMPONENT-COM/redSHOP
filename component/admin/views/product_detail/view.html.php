@@ -33,7 +33,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		$model = $this->getModel('product_detail');
 		$detail =& $this->get('data');
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
@@ -249,7 +249,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'redshop_products48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScriptDeclaration("
 
@@ -266,7 +266,7 @@ class product_detailVIEWproduct_detail extends JView
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/related.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$layout = JRequest::getVar('layout');
 

@@ -148,7 +148,7 @@ class order_detailModelorder_detail extends JModel
 				}
 			}
 			$cids = implode(',', $cid);
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$order_item = $order_functions->getOrderItemDetail($cids);
 
 			for ($i = 0; $i < count($order_item); $i++)
@@ -1240,7 +1240,7 @@ class order_detailModelorder_detail extends JModel
 	{
 		$db = JFactory::getDBO();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		$order_payment_code = $ccdata['creditcard_code'];

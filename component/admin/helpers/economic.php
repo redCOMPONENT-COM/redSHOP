@@ -36,7 +36,7 @@ class economic
 		$this->_stockroomhelper = new rsstockroomhelper();
 
 		JPluginHelper::importPlugin('economic', 'economic');
-		$this->_dispatcher =& JDispatcher::getInstance();
+		$this->_dispatcher = JDispatcher::getInstance();
 	}
 
 	/**

@@ -13,7 +13,7 @@ JHTMLBehavior::modal();
 jimport('joomla.filesystem.file');
 
 $producthelper = new producthelper();
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 //--------- For Add Media Detail ---------------
 $option = JRequest::getVar('option');

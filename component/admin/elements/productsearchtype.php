@@ -28,7 +28,7 @@ class JFormFieldproductsearchtype extends JFormField
 
 	protected function getInput()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$searchType = array();
 

@@ -43,7 +43,7 @@
 <div id="editcell">
 	<?php
 	JPluginHelper::importPlugin('redshop_custom_views');
-	$dispatcher =& JDispatcher::getInstance();
+	$dispatcher = JDispatcher::getInstance();
 
 
 	if (JRequest::getVar('printoption') != "" && JRequest::getVar('task') == "")

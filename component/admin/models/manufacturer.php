@@ -118,7 +118,7 @@ class manufacturerModelmanufacturer extends JModel
 	{
 		global $mainframe;
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$row =& $this->getTable('manufacturer_detail');
 
 		$total = count($cid);
