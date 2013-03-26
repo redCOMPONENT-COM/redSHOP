@@ -1,36 +1,28 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 
-//JPlugin::loadLanguage( 'plg_search_redshop_categories' );
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+
 class plgSearchredshop_categories extends JPlugin
 {
-	function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 
 		$searchText = $text;
 
-		// load plugin params info
-		//$plugin =& JPluginHelper::getPlugin('search', 'redshop_categories');
+		// Load plugin params info
 		$pluginParams = $this->params;
 
 		$limit = $pluginParams->def('search_limit', 50);
@@ -45,6 +37,7 @@ class plgSearchredshop_categories extends JPlugin
 		$section = JText::_('COM_REDSHOP_Categories');
 
 		$wheres = array();
+
 		switch ($phrase)
 		{
 			case 'exact':
@@ -122,4 +115,4 @@ class plgSearchredshop_categories extends JPlugin
 
 		return $return;
 	}
-}	
+}

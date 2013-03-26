@@ -1,15 +1,21 @@
 <?php
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
 class plgSystemRedlightbox_slideshow extends JPlugin
 {
-	var $plg_name = "redlightbox_slideshow";
+	public $plg_name = "redlightbox_slideshow";
 
-	function onBeforeRender()
+	public function onBeforeRender()
 	{
 		$app = JFactory::getApplication();
 
@@ -22,7 +28,10 @@ class plgSystemRedlightbox_slideshow extends JPlugin
 		$view = JRequest::getCmd('view');
 
 		if ($view != 'product')
+		{
 			return;
+		}
+
 		// Requests
 		$option = JRequest::getCmd('option');
 		$tmpl = JRequest::getCmd('tmpl');
@@ -32,11 +41,14 @@ class plgSystemRedlightbox_slideshow extends JPlugin
 		$siteUrl = JURI::base(true);
 
 		// Check if plugin is enabled
-		if (JPluginHelper::isEnabled('system', $this->plg_name) == false) return;
+		if (JPluginHelper::isEnabled('system', $this->plg_name) == false)
+		{
+			return;
+		}
 
 		if ($option == "com_redshop" && $tmpl != "component")
 		{
-			$document =& JFactory::getDocument();
+			$document = JFactory::getDocument();
 			$headerstuff = $document->getHeadData();
 			$scripts = $headerstuff['scripts'];
 			$jqueryfound = false;
@@ -71,5 +83,5 @@ class plgSystemRedlightbox_slideshow extends JPlugin
 			);
 		}
 	}
-} // End class
+}
 
