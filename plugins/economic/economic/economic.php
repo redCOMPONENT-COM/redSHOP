@@ -871,8 +871,7 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$currentInvoiceHandle = new stdclass;
 				$currentInvoiceHandle->Id = $cmax;
-				$invoiceData = $this
-					->client
+				$invoiceData = $this->client
 					->CurrentInvoice_GetOtherReference(array('currentInvoiceHandle' => $currentInvoiceHandle))
 					->CurrentInvoice_GetOtherReferenceResult;
 
@@ -1423,8 +1422,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if ($d ['address_ST'] != '')
 			{
-				$this
-					->client
+				$this->client
 					->CurrentInvoice_SetDeliveryAddress(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['address_ST']));
 			}
 
@@ -1434,8 +1432,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if ($d ['city_ST'] != '')
 			{
-				$this
-					->client
+				$this->client
 					->CurrentInvoice_SetDeliveryCity(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['city_ST']));
 			}
 
@@ -1515,14 +1512,12 @@ class plgEconomicEconomic extends JPlugin
 
 			if (isset($d['updateInvoice']) && $d['updateInvoice'] == 1)
 			{
-				$invoiceLineNumber = $this
-					->client
+				$invoiceLineNumber = $this->client
 					->CurrentInvoiceLine_UpdateFromData(array('data' => $info))->CurrentInvoiceLine_UpdateFromDataResult;
 			}
 			else
 			{
-				$invoiceLineNumber = $this
-					->client
+				$invoiceLineNumber = $this->client
 					->CurrentInvoiceLine_CreateFromData(array('data' => $info))->CurrentInvoiceLine_CreateFromDataResult;
 			}
 
@@ -1597,14 +1592,12 @@ class plgEconomicEconomic extends JPlugin
 
 			if (isset($d['updateInvoice']) && $d['updateInvoice'] == 1)
 			{
-				$invoiceLineNumber = $this
-					->client
+				$invoiceLineNumber = $this->client
 					->CurrentInvoiceLine_UpdateFromDataArray(array('dataArray' => $info))->CurrentInvoiceLine_UpdateFromDataArrayResult;
 			}
 			else
 			{
-				$invoiceLineNumber = $this
-					->client
+				$invoiceLineNumber = $this->client
 					->CurrentInvoiceLine_CreateFromDataArray(array('dataArray' => $info))->CurrentInvoiceLine_CreateFromDataArrayResult;
 			}
 
@@ -1937,8 +1930,7 @@ class plgEconomicEconomic extends JPlugin
 
 			$this->client->CashBookEntry_SetDebtorInvoiceNumber(array('cashBookEntryHandle' => $cashBookEntryHandle, 'value' => $bookHandle->Number));
 
-			$this
-				->client
+			$this->client
 				->CashBookEntry_SetText(
 					array(
 						'cashBookEntryHandle' => $cashBookEntryHandle,
