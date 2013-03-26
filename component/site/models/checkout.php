@@ -1800,7 +1800,7 @@ class CheckoutModelCheckout extends JModel
 				// If the result is in two digits add 1 to the checksum total
 				if ($calc > 9)
 				{
-					$checksum = $checksum++;
+					$checksum++;
 					$calc     = $calc - 10;
 				}
 
