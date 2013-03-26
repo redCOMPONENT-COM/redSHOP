@@ -7,36 +7,33 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class textlibrary_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'textlibrary_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
-		//$post = JRequest::get ( 'post' );
-
 		$post = JRequest::get('post');
 		$text_field = JRequest::getVar('text_field', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["text_field"] = $text_field;
@@ -51,18 +48,15 @@ class textlibrary_detailController extends JController
 
 		if ($row = $model->store($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_TEXTLIBRARY_DETAIL_SAVED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TEXTLIBRARY_DETAIL');
 		}
 
 		if ($apply == 1)
-		{ //&view=textlibrary_detail&task=edit&cid[]=1
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id, $msg);
 		}
 		else
@@ -71,9 +65,8 @@ class textlibrary_detailController extends JController
 		}
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -84,17 +77,18 @@ class textlibrary_detailController extends JController
 		}
 
 		$model = $this->getModel('textlibrary_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -105,17 +99,18 @@ class textlibrary_detailController extends JController
 		}
 
 		$model = $this->getModel('textlibrary_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_PUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -126,25 +121,25 @@ class textlibrary_detailController extends JController
 		}
 
 		$model = $this->getModel('textlibrary_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
 	}
 
-	function copy()
+	public function copy()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -153,17 +148,13 @@ class textlibrary_detailController extends JController
 
 		if ($model->copy($cid))
 		{
-
 			$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_COPIED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_TEXTLIBRARY_DETAIL');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=textlibrary', $msg);
 	}
-
 }

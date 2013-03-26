@@ -23,7 +23,6 @@ class productController extends JController
 	 */
 	public function element()
 	{
-
 		JRequest::setVar('layout', 'element');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
@@ -52,7 +51,7 @@ class productController extends JController
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic();
+			$economic = new economic;
 			$db = JFactory::getDBO();
 			$incNo = $cnt;
 			$query = 'SELECT p.* FROM #__redshop_product AS p '
@@ -84,6 +83,7 @@ class productController extends JController
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
 				}
+
 				$responcemsg .= "</div>";
 			}
 
@@ -151,6 +151,7 @@ class productController extends JController
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
 				}
+
 				$responcemsg .= "</div>";
 			}
 

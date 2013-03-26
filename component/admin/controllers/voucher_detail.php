@@ -6,19 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class voucher_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'voucher_detail');
 		JRequest::setVar('layout', 'default');
@@ -28,12 +29,12 @@ class voucher_detailController extends JController
 		parent::display();
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		global $mainframe;
 		$post = JRequest::get('post');
@@ -42,13 +43,17 @@ class voucher_detailController extends JController
 		$post['start_date'] = strtotime($post['start_date']);
 
 		if ($post ['end_date'])
+		{
 			$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
+		}
 
 		$post ['voucher_id'] = $cid[0];
 		$model = $this->getModel('voucher_detail');
+
 		if ($post['old_voucher_code'] != $post['voucher_code'])
 		{
 			$code = $model->checkduplicate($post['voucher_code']);
+
 			if ($code)
 			{
 				$msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
@@ -74,12 +79,10 @@ class voucher_detailController extends JController
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
 		}
-
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -90,17 +93,18 @@ class voucher_detailController extends JController
 		}
 
 		$model = $this->getModel('voucher_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -111,17 +115,18 @@ class voucher_detailController extends JController
 		}
 
 		$model = $this->getModel('voucher_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_PUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -132,20 +137,20 @@ class voucher_detailController extends JController
 		}
 
 		$model = $this->getModel('voucher_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
 	}
-
 }

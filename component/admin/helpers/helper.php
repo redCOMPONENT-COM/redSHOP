@@ -28,6 +28,7 @@ class reddesignhelper
 		$db = JFactory::getDBO();
 		$query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
 		$db->setQuery($query);
+
 		return $db->loadResult();
 	}
 
@@ -73,6 +74,7 @@ class reddesignhelper
 		{
 			return $usershopper;
 		}
+
 		else
 		{
 			return 1;

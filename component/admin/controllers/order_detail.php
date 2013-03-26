@@ -15,28 +15,25 @@ require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 
-
 class order_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'order_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
-	function save()
+	public function save()
 	{
 		$post = JRequest::get('post');
-
 
 		$text_field = JRequest::getVar('text_field', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["text_field"] = $text_field;
@@ -51,26 +48,22 @@ class order_detailController extends JController
 
 		if ($model->store($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
-
 		}
+
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -78,37 +71,41 @@ class order_detailController extends JController
 		}
 
 		$model = $this->getModel('order_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
-	function neworderitem()
+	public function neworderitem()
 	{
-		$adminproducthelper = new adminproducthelper();
-		$stockroomhelper = new rsstockroomhelper();
+		$adminproducthelper = new adminproducthelper;
+		$stockroomhelper = new rsstockroomhelper;
 		$post = JRequest::get('post');
 		$tmpl = "";
+
 		if (isset($post['tmpl']))
 		{
 			$tmpl = $post['tmpl'];
 		}
+
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$order_item_id = JRequest::getVar('order_item_id', 0, 'post', '');
 
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 
 		$model = $this->getModel('order_detail');
 
@@ -117,10 +114,12 @@ class order_detailController extends JController
 
 		$product_id = $orderItem[0]->product_id;
 		$finalquantity = $quantity = $orderItem[0]->quantity;
-		// check product Quantity
+
+		// Check product Quantity
 		if (USE_STOCKROOM == 1)
 		{
 			$currentStock = $stockroomhelper->getStockroomTotalAmount($product_id);
+
 			if ($currentStock >= $quantity)
 			{
 				$finalquantity = (int) $quantity;
@@ -130,39 +129,50 @@ class order_detailController extends JController
 				$finalquantity = (int) $currentStock;
 			}
 		}
+
 		if ($finalquantity > 0)
 		{
 			if ($model->neworderitem($post, $finalquantity, $order_item_id))
 			{
 				if ($order_item_id == 0)
+				{
 					$msg = JText::_('COM_REDSHOP_ORDER_ITEM_ADDED');
+				}
 				else
+				{
 					$msg = JText::_('COM_REDSHOP_QUANTITY_UPDATED');
+				}
 			}
 			else
 			{
 				if ($order_item_id == 0)
+				{
 					$msg = JText::_('COM_REDSHOP_ERROR_ADDING_ORDER_ITEM');
+				}
+
 				else
+				{
 					$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_QUANTITY');
+				}
 			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
 		}
+
 		if ($tmpl)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
 		}
+
 		else
 		{
-
 			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 		}
 	}
 
-	function delete_item()
+	public function delete_item()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -174,14 +184,16 @@ class order_detailController extends JController
 
 		$model = $this->getModel('order_detail');
 
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$orderItem = $order_functions->getOrderItemDetail($cid[0]);
+
 		if (count($orderItem) == 1 && $orderItem[0]->order_item_id == $post['order_item_id'])
 		{
 			$model->delete($cid);
 			$msg = JText::_('COM_REDSHOP_ORDER_DELETED_SUCCESSFULLY');
 
 			$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+
 			return;
 		}
 
@@ -197,7 +209,7 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
-	function updateItem()
+	public function updateItem()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -213,21 +225,19 @@ class order_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PRICE');
 		}
+
 		if ($tmpl)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
 		}
 		else
 		{
-
 			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 		}
-
 	}
 
-	function update_discount()
+	public function update_discount()
 	{
-
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -246,9 +256,8 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
-	function special_discount()
+	public function special_discount()
 	{
-
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -267,10 +276,8 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
-	// update shipping rates
-	function update_shippingrates()
+	public function update_shippingrates()
 	{
-
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -289,15 +296,11 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
-	// update shipping address information
-	function updateShippingAdd()
+	public function updateShippingAdd()
 	{
-
 		global $mainframe;
 
 		$post = JRequest::get('post');
-
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$suboption = JRequest::getVar('suboption', 'com_redshop', 'request', 'string');
 		$view = ($suboption == 'com_redshop') ? 'order_detail' : 'order';
@@ -306,12 +309,10 @@ class order_detailController extends JController
 
 		$post['order_id'] = $cid[0];
 
-
 		$model = $this->getModel();
 
 		if ($model->updateShippingAdd($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_UPDATED');
 		}
 		else
@@ -330,26 +331,20 @@ class order_detailController extends JController
 		exit;
 	}
 
-// update billing address information
-	function updateBillingAdd()
+	public function updateBillingAdd()
 	{
-
 		global $mainframe;
 
 		$post = JRequest::get('post');
-
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['order_id'] = $cid[0];
 
-
 		$model = $this->getModel();
 
 		if ($model->updateBillingAdd($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_UPDATED');
 		}
 		else
@@ -368,25 +363,19 @@ class order_detailController extends JController
 		exit;
 	}
 
-	function createpdf()
+	public function createpdf()
 	{
 		$view = & $this->getView('order_detail', 'tcpdf');
 		parent::display();
 	}
 
-	function createpdfstocknote()
+	public function createpdfstocknote()
 	{
-
 		$view = & $this->getView('order_detail', 'stocknotepdf');
 		parent::display();
 	}
 
-	function ccdetail()
-	{
-		parent::display();
-	}
-
-	function send_downloadmail()
+	public function send_downloadmail()
 	{
 		global $mainframe;
 
@@ -403,6 +392,7 @@ class order_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
 		}
+
 		if ($tmpl)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
@@ -413,10 +403,10 @@ class order_detailController extends JController
 		}
 	}
 
-	function displayProductItemInfo()
+	public function displayProductItemInfo()
 	{
-		$producthelper = new producthelper();
-		$adminproducthelper = new adminproducthelper();
+		$producthelper = new producthelper;
+		$adminproducthelper = new adminproducthelper;
 		$get = JRequest::get('get');
 
 		$product_id = $get['product'];
@@ -430,32 +420,30 @@ class order_detailController extends JController
 		exit;
 	}
 
-	function checkoutnext()
+	public function checkoutnext()
 	{
-
 		global $mainframe;
 		$session = JFactory::getSession();
-		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
-		$redconfig = new Redconfiguration();
+		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+
+		$redconfig = new Redconfiguration;
 		$model = $this->getModel();
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
+
 		$request = JRequest::get('request');
 
 		if ($request['ccinfo'] == 0)
 		{
-
 			$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']);
 		}
 
-
 		$order = $order_functions->getOrderDetails($request['order_id']);
 
-		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-		$objorder = new order_functions();
+		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+		$objorder = new order_functions;
 		$user = JFactory::getUser();
 
-		//$userbillinginfo=$order_functions->getBillingAddress();
 		$userbillinginfo = $order_functions->getOrderBillingUserInfo($request['order_id']);
 		$users_info_id = JRequest::getInt('users_info_id');
 
@@ -467,13 +455,11 @@ class order_detailController extends JController
 
 		if (isset($shippingaddresses))
 		{
-
 			$shippingaddress = $shippingaddresses;
 
 			$shippingaddress->country_2_code = $redconfig->getCountryCode2($shippingaddress->country_code);
 
 			$shippingaddress->state_2_code = $redconfig->getCountryCode2($shippingaddress->state_code);
-
 		}
 
 		if (isset($shippingaddresses))
@@ -484,11 +470,12 @@ class order_detailController extends JController
 
 			$shippingaddresses->country_2_code = $redconfig->getCountryCode2($d ["shippingaddress"]->country_code);
 			$shippingaddresses->state_2_code = $redconfig->getCountryCode2($d ["shippingaddress"]->state_code);
-
 		}
+
 		if (isset($userbillinginfo))
 		{
 			$d ["billingaddress"] = $userbillinginfo;
+
 			if (isset($userbillinginfo->country_code))
 			{
 				$d ["billingaddress"]->country_2_code = $redconfig->getCountryCode2($userbillinginfo->country_code);
@@ -502,7 +489,6 @@ class order_detailController extends JController
 			}
 		}
 
-
 		$ccdata['order_payment_name'] = $request['order_payment_name'];
 		$ccdata['creditcard_code'] = $request['creditcard_code'];
 		$ccdata['order_payment_number'] = $request['order_payment_number'];
@@ -512,7 +498,6 @@ class order_detailController extends JController
 		$session->set('ccdata', $ccdata);
 
 		$ccdata = $session->get('ccdata');
-
 
 		$values['order_shipping'] = $order->order_shipping;
 		$values['order_number'] = $request['order_id'];
@@ -541,10 +526,9 @@ class order_detailController extends JController
 			$paymentResponse->order_id = $request['order_id'];
 
 			$order_functions->changeorderstatus($paymentResponse);
-
 		}
 
-		// update order payment table with  credit card details
+		// Update order payment table with  credit card details
 
 		$model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 
@@ -555,38 +539,34 @@ class order_detailController extends JController
 	/*
 	 * Notify payment function
 	 */
-	function notify_payment()
+	public function notify_payment()
 	{
 		$mainframe = JFactory::getApplication('site');
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
-
-		require_once (JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-		$objOrder = new order_functions();
+		require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = JDispatcher::getInstance();
 
 		$results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
-		//$mainframe->registerEvent( 'onNotifyPayment', 'onNotifyPayment'.$request['payment_plugin'] );
 
-		//echo "<pre>"; print_r($request); exit;
 		$msg = $results[0]->msg;
 		$objOrder->changeorderstatus($results[0]);
 		$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['orderid']);
 		$mainframe->redirect($redirect_url, $msg);
 	}
 
-	function send_invoicemail()
+	public function send_invoicemail()
 	{
 		global $mainframe;
-		$redshopMail = new redshopMail ();
+		$redshopMail = new redshopMail;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
 		$tmpl = JRequest::getVar('tmpl', '', 'request', 'string');
-
 
 		if ($redshopMail->sendInvoiceMail($cid[0]))
 		{
@@ -596,6 +576,7 @@ class order_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
 		}
+
 		if ($tmpl)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
@@ -606,5 +587,3 @@ class order_detailController extends JController
 		}
 	}
 }
-
-?>

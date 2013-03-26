@@ -7,24 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
 
 class Redaccesslevel
 {
-
-
 	/**
 	 * define default path
 	 *
 	 */
-
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	function checkaccessofuser($group_id)
+	public function checkaccessofuser($group_id)
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -34,36 +31,35 @@ class Redaccesslevel
 			. " WHERE `view`=1 and `gid` = '" . $group_id . "'";
 		$db->setQuery($query);
 		$access_section = $db->loadResultArray();
+
 		return $access_section;
 	}
 
-	function checkgroup_access($view, $task, $group_id)
+	public function checkgroup_access($view, $task, $group_id)
 	{
-
-
 		if ($task == '')
 		{
 			$this->getgroup_access($view, $group_id);
 		}
+
 		else
 		{
 			if ($task == 'add')
 			{
 				$this->getgroup_accesstaskadd($view, $task, $group_id);
 			}
-			else if ($task == 'edit')
+			elseif ($task == 'edit')
 			{
 				$this->getgroup_accesstaskedit($view, $task, $group_id);
 			}
-			else if ($task == 'remove')
+			elseif ($task == 'remove')
 			{
 				$this->getgroup_accesstaskdelete($view, $task, $group_id);
 			}
 		}
-
 	}
 
-	function getgroup_access($view, $group_id)
+	public function getgroup_access($view, $group_id)
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -74,31 +70,38 @@ class Redaccesslevel
 		{
 			$view = "shipping";
 		}
-		else if ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
+
+		elseif ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
 		{
 			$view = "tax_group";
 		}
-		else if ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
 		{
 			$view = "product";
 		}
-		else if ($view == "addorder_detail")
+
+		elseif ($view == "addorder_detail")
 		{
 			$view = "order";
 		}
-		else if ($view == "user_detail")
+
+		elseif ($view == "user_detail")
 		{
 			$view = "user";
 		}
-		else if ($view == "export")
+
+		elseif ($view == "export")
 		{
 			$view = "import";
 		}
-		else if ($view == "voucher_detail")
+
+		elseif ($view == "voucher_detail")
 		{
 			$view = "voucher";
 		}
-		else if ($view == "coupon_detail")
+
+		elseif ($view == "coupon_detail")
 		{
 			$view = "coupon";
 		}
@@ -116,7 +119,7 @@ class Redaccesslevel
 		}
 	}
 
-	function getgroup_accesstaskadd($view, $task, $group_id)
+	public function getgroup_accesstaskadd($view, $task, $group_id)
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -125,34 +128,42 @@ class Redaccesslevel
 		{
 			$view = "shipping";
 		}
-		else if ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
+
+		elseif ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
 		{
 			$view = "tax_group";
 		}
-		else if ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
 		{
 			$view = "product";
 		}
-		else if ($view == "addorder_detail")
+
+		elseif ($view == "addorder_detail")
 		{
 			$view = "order";
 		}
-		else if ($view == "user_detail")
+
+		elseif ($view == "user_detail")
 		{
 			$view = "user";
 		}
-		else if ($view == "export")
+
+		elseif ($view == "export")
 		{
 			$view = "import";
 		}
-		else if ($view == "voucher_detail")
+
+		elseif ($view == "voucher_detail")
 		{
 			$view = "voucher";
 		}
-		else if ($view == "coupon_detail")
+
+		elseif ($view == "coupon_detail")
 		{
 			$view = "coupon";
 		}
+
 		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
 			. " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
 		$db->setQuery($query);
@@ -165,9 +176,8 @@ class Redaccesslevel
 		}
 	}
 
-	function getgroup_accesstaskedit($view, $task, $group_id)
+	public function getgroup_accesstaskedit($view, $task, $group_id)
 	{
-
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
@@ -175,44 +185,42 @@ class Redaccesslevel
 		{
 			$view = "shipping";
 		}
-		else if ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
+
+		elseif ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
 		{
 			$view = "tax_group";
 		}
-		else if ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
 		{
 			$view = "product";
 		}
-		else if ($view == "addorder_detail")
+		elseif ($view == "addorder_detail")
 		{
 			$view = "order";
 		}
-		else if ($view == "user_detail")
+		elseif ($view == "user_detail")
 		{
 			$view = "user";
 		}
-		else if ($view == "export")
+		elseif ($view == "export")
 		{
 			$view = "import";
 		}
-		else if ($view == "voucher_detail")
+		elseif ($view == "voucher_detail")
 		{
 			$view = "voucher";
 		}
-		else if ($view == "coupon_detail")
+		elseif ($view == "coupon_detail")
 		{
 			$view = "coupon";
 		}
-		//tax_group_detail
+
+		// Tax_group_detail
 		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
 			. " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
 
-		/*	$query = "SELECT *  FROM  ".$this->_table_prefix."accessmanager"
-					." WHERE `gid` = '".$group_id."'";*/
-
 		$db->setQuery($query);
 		$accessview = $db->loadObjectList();
-
 
 		if ($accessview[0]->edit != 1)
 		{
@@ -221,43 +229,43 @@ class Redaccesslevel
 		}
 	}
 
-	function getgroup_accesstaskdelete($view, $task, $group_id)
+	public function getgroup_accesstaskdelete($view, $task, $group_id)
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
+
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
 			$view = "shipping";
 		}
-		else if ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
+		elseif ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
 		{
 			$view = "tax_group";
 		}
-		else if ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
 		{
 			$view = "product";
 		}
-		else if ($view == "addorder_detail")
+		elseif ($view == "addorder_detail")
 		{
 			$view = "order";
 		}
-		else if ($view == "user_detail")
+		elseif ($view == "user_detail")
 		{
 			$view = "user";
 		}
-		else if ($view == "export")
+		elseif ($view == "export")
 		{
 			$view = "import";
 		}
-		else if ($view == "voucher_detail")
+		elseif ($view == "voucher_detail")
 		{
 			$view = "voucher";
 		}
-		else if ($view == "coupon_detail")
+		elseif ($view == "coupon_detail")
 		{
 			$view = "coupon";
 		}
-
 
 		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
 			. " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
@@ -271,5 +279,3 @@ class Redaccesslevel
 		}
 	}
 }
-
-?>

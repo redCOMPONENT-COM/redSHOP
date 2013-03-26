@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -32,7 +32,7 @@ class fields_detailController extends JController
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 		$field_desc = JRequest::getVar('field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -135,6 +135,7 @@ class fields_detailController extends JController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_FIELD_PUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
 	}
@@ -168,7 +169,7 @@ class fields_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
 	}
 
-	function saveorder()
+	public function saveorder()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
