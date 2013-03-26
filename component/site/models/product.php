@@ -65,7 +65,6 @@ class productModelproduct extends JModel
 		$and = "";
 
 		// Shopper group - choose from manufactures Start
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -75,8 +74,6 @@ class productModelproduct extends JModel
 		}
 
 		// Shopper group - choose from manufactures End
-
-
 		if (isset ($this->_catid) && $this->_catid != 0)
 		{
 			$and .= "AND pcx.category_id='" . $this->_catid . "' ";
@@ -197,7 +194,6 @@ class productModelproduct extends JModel
 		$data['product_id']  = $data['product_id'];
 		$data['published']   = 0;
 		$data['time']        = $data['time'];
-
 
 		$row = & $this->getTable('rating_detail');
 
@@ -620,4 +616,3 @@ class productModelproduct extends JModel
 		return true;
 	}
 }
-

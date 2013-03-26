@@ -26,16 +26,32 @@ include_once JPATH_COMPONENT . '/helpers/user.php';
 class CartModelCart extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
-	public $_product = null; /// Product data
+
+	/**
+	 *  Product data
+	 *
+	 * @var  [type]
+	 */
+	public $_product = null;
+
 	public $_table_prefix = null;
+
 	public $_template = null;
+
 	public $_r_voucher = 0;
+
 	public $_c_remain = 0;
+
 	public $_globalvoucher = 0;
+
 	public $_producthelper = null;
+
 	public $_carthelper = null;
+
 	public $_userhelper = null;
+
 	public $_objshipping = null;
 
 	public function __construct()
@@ -91,8 +107,11 @@ class CartModelCart extends JModel
 				{
 					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);
 					$cart['user_shopper_group_id'] = $shopperGroupId;
+
 					if ($task != 'coupon' && $task != 'voucher')
+					{
 						$cart = $this->_carthelper->modifyDiscount($cart);
+					}
 				}
 			}
 
@@ -149,8 +168,10 @@ class CartModelCart extends JModel
 		}
 	}
 
-	/*
+	/**
 	 * Empty cart
+	 *
+	 * @return  void
 	 */
 	public function empty_cart()
 	{
@@ -178,9 +199,13 @@ class CartModelCart extends JModel
 			else
 			{
 				if (!USE_AS_CATALOG)
+				{
 					$this->_data = $redTemplate->getTemplate("cart");
+				}
 				else
+				{
 					$this->_data = $redTemplate->getTemplate("catalogue_cart");
+				}
 			}
 		}
 
@@ -261,15 +286,14 @@ class CartModelCart extends JModel
 				$subscription_price  = $subscription_detail->subscription_price;
 
 				if ($subscription_price)
+				{
 					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+				}
+
 				$product_vat_price += $subscription_vat;
 				$product_price = $product_price + $subscription_price;
 
 				$product_old_price_excl_vat += $subscription_price;
-			}
-			else
-			{
-				// Return ;
 			}
 
 			$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
@@ -357,8 +381,12 @@ class CartModelCart extends JModel
 				{
 					$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
 					$subscription_price  = $subscription_detail->subscription_price;
+
 					if ($subscription_price)
+					{
 						$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+					}
+
 					$product_vat_price += $subscription_vat;
 					$product_price = $product_price + $subscription_price;
 
@@ -419,7 +447,6 @@ class CartModelCart extends JModel
 		return $this->_carthelper->voucher();
 	}
 
-
 	public function redmasscart($post)
 	{
 		$data            = array();
@@ -428,7 +455,9 @@ class CartModelCart extends JModel
 		for ($i = 0; $i < count($products_number); $i++)
 		{
 			if ($products_number[$i] == "")
+			{
 				continue;
+			}
 
 			$query = "SELECT product_id,published, not_for_sale, expired,product_name FROM `" . $this->_table_prefix . "product`
 					WHERE `product_number` = '" . addslashes(trim($products_number[$i])) . "' ";
@@ -438,7 +467,9 @@ class CartModelCart extends JModel
 			$product_id = $product->product_id;
 
 			if ($product_id == "")
+			{
 				continue;
+			}
 
 			if ($product->published == 0)
 			{
@@ -464,9 +495,13 @@ class CartModelCart extends JModel
 			$data["product_id"] = $product_id;
 
 			if (isset($post["mod_quantity"]) && $post["mod_quantity"] != "")
+			{
 				$data["quantity"] = $post["mod_quantity"];
+			}
 			else
+			{
 				$data["quantity"] = 1;
+			}
 
 			$this->_carthelper->addProductToCart($data);
 		}
@@ -488,7 +523,6 @@ class CartModelCart extends JModel
 
 		$db->setQuery($q);
 		$row_data = $db->loadResult();
-
 
 		$template              = $redTemplate->getTemplate("product", $row_data);
 		$product_template_desc = $template[0]->template_desc;

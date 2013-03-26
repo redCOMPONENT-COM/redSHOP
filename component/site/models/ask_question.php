@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
+
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
@@ -80,6 +81,7 @@ class ask_questionModelask_question extends JModel
 	 * Method to get max ordering
 	 *
 	 * @access public
+	 *
 	 * @return boolean
 	 */
 	public function MaxOrdering()

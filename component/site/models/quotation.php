@@ -550,10 +550,8 @@ class quotationModelquotation extends JModel
 		}
 
 		// Creating Joomla user end
-
 		$row          =& $this->getTable('user_detail');
 		$row->user_id = $user_id;
-
 
 		if (!$row->bind($data))
 		{
@@ -561,7 +559,6 @@ class quotationModelquotation extends JModel
 
 			return false;
 		}
-
 
 		if ($data['is_company'] == 1)
 		{
@@ -639,7 +636,6 @@ class quotationModelquotation extends JModel
 		$quotationDetail      = $this->store($cart);
 
 		$this->sendQuotationMail($quotationDetail->quotation_id);
-
 
 		$link = "<a href='" . $quotationdetailurl . "'>" . JText::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
 

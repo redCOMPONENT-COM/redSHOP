@@ -21,7 +21,9 @@ JLoader::import('joomla.application.component.model');
 class Account_billtoModelaccount_billto extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
