@@ -32,7 +32,7 @@ $manufacturer = $this->detail[0];
 $limit = $model->getProductLimit(); //( JRequest::getVar( 'limit', 0, '', 'int' ) );
 
 $app = JFactory::getApplication();
-$router = & $app->getRouter();
+$router = $app->getRouter();
 $uri = new JURI('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
 
 // $router->setVars ( $uri->_vars );
