@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
@@ -19,7 +26,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stock_notifyemail');
 		$this->_params = new JRegistry($this->_plugin->params);

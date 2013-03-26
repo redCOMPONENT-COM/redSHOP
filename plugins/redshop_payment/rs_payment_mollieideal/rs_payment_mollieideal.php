@@ -1,28 +1,20 @@
 <?php
-
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 
 class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,7 +24,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_mollieideal(&$subject)
+	public function plgRedshop_paymentrs_payment_mollieideal(&$subject)
 	{
 		// load plugin parameters
 		parent::__construct($subject);
@@ -45,7 +37,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_mollieideal')
 		{
@@ -57,19 +49,20 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		echo $this->show_mollie_ideal($data['order_id']);
 		/* 		$paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
-				include($paymentpath);
+				include $paymentpath;
 		*/
 	}
 
-	function onNotifyPaymentrs_payment_mollieideal($element, $request)
+	public function onNotifyPaymentrs_payment_mollieideal($element, $request)
 	{
 		if ($element != 'rs_payment_mollieideal')
 		{
 			return;
 		}
+
 		global $mainframe;
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
@@ -77,7 +70,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		$url = $uri->root();
 		$Itemid = JRequest::getInt('Itemid');
-		$msg = JText ::_('IDEAL_PAYMENT_SUCCESSFUL');
+		$msg = JText::_('IDEAL_PAYMENT_SUCCESSFUL');
 		$tid = $request['transaction_id'];
 
 		$quickpay_parameters = $this->getparameters('rs_payment_mollieideal');
@@ -89,8 +82,9 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$cancel_status = $paymentparams->get('cancel_status', '');
 
 		// Check Payment True/False
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS . 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
-		include($paymentpath);
+		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS
+			. 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
+		include $paymentpath;
 
 		$mideal = new ideal;
 		$response = $mideal->checkPayment($paymentparams->get("mollieideal_partner_id"), $tid, $paymentparams->get("mollieideal_is_test"));
@@ -109,7 +103,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			//$values->msg=$response->message;
 		}
 		else
 		{
@@ -117,8 +110,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-			//$values->msg=$response->message;
-
 		}
 
 		$values->transaction_id = $tid;
@@ -127,7 +118,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -137,15 +128,18 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		return $params;
 	}
 
-	function show_mollie_ideal($order_id)
+	public function show_mollie_ideal($order_id)
 	{
 		// Valid order_id?
 		$request = JRequest::get('request');
 
 		if (!is_numeric($order_id))
+		{
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_MOLLIEIDEAL_ORDER_ERROR') . '"');
+		}
 
-		require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS . 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
+		require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS
+			. 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
 
 		$db = jFactory::getDBO();
 
@@ -160,17 +154,22 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			if (count($podata) > 0)
 				return $this->_show_div('<b>' . JText::_('COM_REDSHOP_MOLLIEIDEAL_PAID_ERROR') . ' <img src="http://www.mollie.nl/images/icons/ideal-25x22.gif" alt="" />.</b>');
 		}
+
 		// Does order?
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'orders WHERE order_id = "' . (int) $order_id . '"';
 		$db->setQuery($query);
 		$odata = $db->loadObject();
 
 		if (count($odata) <= 0)
+		{
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_MOLLIEIDEAL_ORDER_ERROR') . '"');
+		}
 
 		// Choose the right step to give back:
 		if (!isset($request['stap']))
+		{
 			$request['stap'] = 1;
+		}
 
 		if (isset($request['mideal']) and $request['mideal'] == 3)
 		{
@@ -192,17 +191,17 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		}
 	}
 
-	function _show_div($content)
+	public function _show_div($content)
 	{
 		return '<div style="width:300px;text-align:center;border:1px solid #000;background:#f9f9f9 url(http://www.mollie.nl/partners/images/betaalscherm-bg-1.jpg) bottom right;padding:30px 30px 60px 30px">' . $content . '</div><br />';
 	}
 
-	function _show_error($content)
+	public function _show_error($content)
 	{
 		return $this->_show_div('<b style="color:red">' . $content . '</b>');
 	}
 
-	function show_bank_form($order_id)
+	public function show_bank_form($order_id)
 	{
 		// Question bank list:
 		$mideal = new ideal;
@@ -210,9 +209,12 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$mideal->setTestMode($this->_params->get("mollieideal_is_test"));
 		$mbanks = $mideal->fetchBanks();
 		$Itemid = JRequest::getInt('Itemid');
+
 		// Valid bank list?
 		if (!$mbanks)
+		{
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_BANKLIST_ERROR') . '"');
+		}
 
 		// Genereer formulier om bank te selecteren:
 		$form = '<b>Step 1 - ' . JText::_('COM_REDSHOP_MOLLIEIDEAL_STEP_HEADER') . ' <img src="http://www.mollie.nl/images/icons/ideal-25x22.gif" alt="" /></b><br /><br />' .
@@ -220,7 +222,9 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			'<label>' . JText::_('COM_REDSHOP_MOLLIEIDEAL_SELECT_BANK') . '</label> <select name="bankid">';
 
 		foreach ($mbanks as $mbankid => $mbankname)
+		{
 			$form .= '<option value="' . $mbankid . '">' . $mbankname . '</option>';
+		}
 
 		$form .= '</select><br /><br /><input type="hidden" name="payment_method_id" value="' . JRequest::getVar('payment_method_id') . '" />
 			<input type="submit" value="' . JText::_('COM_REDSHOP_MOLLIEIDEAL_NEXTBUTTON') . '" /></form>';
@@ -228,12 +232,15 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		return $this->_show_div($form);
 	}
 
-	function go_to_bank($order_id)
+	public function go_to_bank($order_id)
 	{
 		$request = JRequest::get('request');
+
 		// Valid bankid?
 		if (!isset($request['bankid']) or !is_numeric($request['bankid']))
+		{
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_SELECTBANK_ERROR') . '"');
+		}
 
 		$db = jFactory::getDBO();
 
@@ -248,17 +255,15 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$mideal->setAmount($odata->order_total);
 		$mideal->setDescription('Order ' . sprintf('%08d', $order_id) . ' - ' . substr($this->_params->get("mollieideal_company_name"), 0, 12));
 		$mideal->setReturnUrl(JURI::base() . "index.php?option=com_redshop&view=order_detail&Itemid=$Itemid&oid=" . $order_id);
-		//$mideal->setReturnUrl(($_SERVER['SERVER_PORT'] == 443 ? 'https://': 'http://').$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'&mideal=3');
 		$mideal->setReportUrl(JURI::base() . "index2.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_mollieideal&orderid=" . $order_id);
 
 		$mideal->setTestMode($this->_params->get("mollieideal_is_test"));
 		$created = $mideal->createPayment();
 
 		// Transaction request?
-		if (!$created or
-			!$mideal->transaction_id or
-			!$mideal->bankurl
-		)
+		if (!$created
+			|| !$mideal->transaction_id
+			|| !$mideal->bankurl)
 		{
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_MOLLIEIDEAL_TRANSACTION_ERROR') . '"');
 		}
@@ -276,9 +281,8 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		return $this->_show_div($form);
 	}
 
-	function onCapture_Paymentrs_payment_mollieideal($element, $data)
+	public function onCapture_Paymentrs_payment_mollieideal($element, $data)
 	{
 		return;
 	}
-
 }

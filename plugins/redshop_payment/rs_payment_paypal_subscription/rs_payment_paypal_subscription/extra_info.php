@@ -18,7 +18,7 @@ require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_r
 $objOrder = new order_functions;
 
 $objconfiguration = new Redconfiguration;
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 $Itemid = $_REQUEST['Itemid'];
@@ -28,7 +28,7 @@ $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $layout = JRequest::getVar('layout');
-$mainframe =& JFactory::getApplication();
+$mainframe = JFactory::getApplication();
 
 if ($this->_params->get("currency") != "")
 {

@@ -1,28 +1,20 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-/*$mainframe =& JFactory::getApplication();
-$mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_paypal' );*/
+
 class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,7 +24,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_paypal_subscription(&$subject)
+	public function plgRedshop_paymentrs_payment_paypal_subscription(&$subject)
 	{
 		// load plugin parameters
 		parent::__construct($subject);
@@ -44,7 +36,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_paypal_subscription')
 		{
@@ -56,12 +48,12 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_paypal_subscription($element, $request)
+	public function onNotifyPaymentrs_payment_paypal_subscription($element, $request)
 	{
 		if ($element != 'rs_payment_paypal_subscription')
 		{
@@ -222,7 +214,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 								for ($ac = 0; $ac < count($OrderItemAccessoryDetail); $ac++)
 								{
 									$accdata = JTable::getInstance('accessory_detail', 'Table');
-									//$accdata->order_item_acc_id= $OrderItemAccessoryDetail[$ac]->order_item_acc_id;
 									$accdata->order_item_id = $rowitem->order_item_id;
 									$accdata->order_acc_item_sku = $OrderItemAccessoryDetail[$ac]->order_acc_item_sku;
 									$accdata->order_acc_item_name = $OrderItemAccessoryDetail[$ac]->order_acc_item_name;
@@ -243,7 +234,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 								for ($at = 0; $at < count($OrderItemAttrDetail); $at++)
 								{
 									$attdata = JTable::getInstance('order_attribute_item', 'Table');
-									//$accdata->order_att_item_id= $orderItemdata[$ac]->order_att_item_id;
 									$attdata->order_item_id = $rowitem->order_item_id;
 									$attdata->section_id = $orderItemdata[$at]->section_id;
 									$attdata->section = $orderItemdata[$at]->section;
@@ -256,13 +246,10 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 									$attdata->store();
 								}
 							}
-
 						}
-
 					}
 
-					// for order Payment
-
+					// For order Payment
 					$paymentmethod = $order_functions->getPaymentMethodInfo('rs_payment_paypal_subscription');
 					$paymentmethod = $paymentmethod[0];
 
@@ -282,9 +269,8 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$rowpayment->authorize_status = "";
 
 					$rowpayment->store();
-					// end Payment
 
-					# add billing Info
+					// Add billing Info
 					$userrow = & JTable::getInstance('user_detail', 'Table');
 					$userrow->load($main_order_detail->users_info_id);
 					$orderuserrow = JTable::getInstance('order_user_detail', 'Table');
@@ -292,9 +278,8 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$orderuserrow->order_id = $new_oid;
 					$orderuserrow->address_type = 'BT';
 					$orderuserrow->store();
-					// End
 
-					# add shipping Info
+					// Add shipping Info
 					$userrow = & JTable::getInstance('user_detail', 'Table');
 					$userrow->load($main_order_detail->users_info_id);
 					$orderuserrow = JTable::getInstance('order_user_detail', 'Table');
@@ -302,7 +287,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$orderuserrow->order_id = $new_oid;
 					$orderuserrow->address_type = 'ST';
 					$orderuserrow->store();
-					// End
 
 					// Economic Integration start for invoice generate and book current invoice
 					if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
@@ -339,6 +323,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 							}
 						}
 					}
+
 					// End Economic
 
 					// Send the Order mail
@@ -367,14 +352,11 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 				$values->order_id = $new_oid;
 
 				return $values;
-
 			}
-
 		}
-
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__plugins WHERE `element`='" . $payment . "'";
@@ -384,7 +366,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		return $params;
 	}
 
-	function checkFirstRecurringPayment($db, $order_id, $subscr_id)
+	public function checkFirstRecurringPayment($db, $order_id, $subscr_id)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -401,7 +383,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		return $res;
 	}
 
-	function updateFirstRecurringPayment($db, $order_id, $subscr_id)
+	public function updateFirstRecurringPayment($db, $order_id, $subscr_id)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -411,7 +393,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;

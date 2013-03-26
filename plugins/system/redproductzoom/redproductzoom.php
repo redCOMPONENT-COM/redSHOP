@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright      Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license        GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -15,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class plgSystemredproductzoom extends JPlugin
 {
-function onBeforeRender()
+public function onBeforeRender()
 {
 	$app = JFactory::getApplication();
 
@@ -33,17 +35,25 @@ function onBeforeRender()
 	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 	require_once JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'ajax' . DS . 'helper.php';
 
-	if (JRequest::getCmd("option", "") != 'com_redshop') return;
+	if (JRequest::getCmd("option", "") != 'com_redshop')
+	{
+		return;
+	}
 
-	if (JRequest::getCmd("view", "") != 'product') return;
+	if (JRequest::getCmd("view", "") != 'product')
+	{
+		return;
+	}
 
 	$pid = JRequest::getInt("pid", 0);
 
-	if ($pid <= 0) return;
+	if ($pid <= 0)
+	{
+		return;
+	}
 
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 
-	//$document->addScript(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'redproductzoom'.DS.'js'.DS.'jquery-1.6.js');
 	$document->addScript('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'js' . DS . 'jquery.jqzoom-core.js');
 	$document->addStyleSheet('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'css' . DS . 'jquery.jqzoom.css');
 
@@ -54,27 +64,32 @@ function onBeforeRender()
 
 	$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $pid);
 
-	//Preselection Start
+	// Preselection Start
 	$preselection_result = $this->checkforpreselection($pid);
-	$product_data = $this->getProductData($pid);
+	$product_data        = $this->getProductData($pid);
 
-	# get Product Main Image functionality
+	// Get Product Main Image functionality
 	if (count($preselection_result) > 0)
+	{
 		$mainimage = $zoomproducthelper->replaceProductImage($product_data, "", "", "", $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX, 0, $preselection_result);
+	}
 	else
+	{
 		$mainimage = $zoomproducthelper->getProductImage($pid, $link, $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX);
-	# End
+	}
 
 	$moreimage_response = $preselection_result['response'];
 
 	if ($moreimage_response != "")
+	{
 		$additionalImage = $moreimage_response;
+	}
 	else
+	{
 		$additionalImage = $zoomproducthelper->getAdditionalImageforZoom($pid);
+	}
 
-	//Preselection End
-	# Get product Additioanl Image
-	//$additionalImage = $zoomproducthelper->getAdditionalImageforZoom($pid);
+	// Preselection End
 
 	ob_clean();
 	ob_start();
@@ -188,7 +203,6 @@ function onBeforeRender()
 					if (document.getElementById('hidden_attribute_cartimage' + product_id)) {
 						document.getElementById('hidden_attribute_cartimage' + product_id).value = arrResponse[12];
 					}
-//						alert(arrResponse[6]);
 
 					if (document.getElementById('stockImage' + product_id) && arrResponse[5] != "") {
 						document.getElementById('stockImage' + product_id).src = arrResponse[5];
@@ -232,20 +246,21 @@ function onBeforeRender()
 	ob_end_clean();
 	$document->addCustomTag($output);
 }
-	//Preselection Start
-	function checkforpreselection($pid)
+
+	// Preselection Start
+	public function checkforpreselection($pid)
 	{
 		$zoomproducthelper = new zoomproducthelper;
-		$childproduct = $zoomproducthelper->getChildProduct($pid);
-		$product_data = $this->getProductData($pid);
-		$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-		$pw_thumb = PRODUCT_MAIN_IMAGE;
+		$childproduct      = $zoomproducthelper->getChildProduct($pid);
+		$product_data      = $this->getProductData($pid);
+		$ph_thumb          = PRODUCT_MAIN_IMAGE_HEIGHT;
+		$pw_thumb          = PRODUCT_MAIN_IMAGE;
 
 		if (count($childproduct) > 0)
 		{
 			if (PURCHASE_PARENT_WITH_CHILD == 1)
 			{
-				$isChilds = false;
+				$isChilds       = false;
 				$attributes_set = array();
 
 				if ($product_data->attribute_set_id > 0)
@@ -258,13 +273,13 @@ function onBeforeRender()
 			}
 			else
 			{
-				$isChilds = true;
+				$isChilds   = true;
 				$attributes = array();
 			}
 		}
 		else
 		{
-			$isChilds = false;
+			$isChilds       = false;
 			$attributes_set = array();
 
 			if ($product_data->attribute_set_id > 0)
@@ -278,13 +293,13 @@ function onBeforeRender()
 
 		if (count($attributes) > 0)
 		{
-			$selectedpropertyId = 0;
+			$selectedpropertyId    = 0;
 			$selectedsubpropertyId = 0;
 
 			for ($a = 0; $a < count($attributes); $a++)
 			{
 				$selectedId = array();
-				$property = $zoomproducthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+				$property   = $zoomproducthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
 				if ($attributes[$a]->text != "" && count($property) > 0)
 				{
@@ -299,8 +314,8 @@ function onBeforeRender()
 					if (count($selectedId) > 0)
 					{
 						$selectedpropertyId = $selectedId[count($selectedId) - 1];
-						$subproperty = $zoomproducthelper->getAttibuteSubProperty(0, $selectedpropertyId);
-						$selectedId = array();
+						$subproperty        = $zoomproducthelper->getAttibuteSubProperty(0, $selectedpropertyId);
+						$selectedId         = array();
 
 						for ($sp = 0; $sp < count($subproperty); $sp++)
 						{
@@ -326,14 +341,13 @@ function onBeforeRender()
 
 	}
 
-	function getProductData($pid)
+	public function getProductData($pid)
 	{
-		$db = JFactory::getDBO();
+		$db  = JFactory::getDBO();
 		$sql = "SELECT * FROM #__redshop_product WHERE product_id=" . $pid;
 		$db->setQuery($sql);
 		$products = $db->loadObject();
 
 		return $products;
 	}
-	//Preselection End
 }
