@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
 /**
  * Class accountModelaccount
@@ -75,8 +75,8 @@ class AccountModelaccount extends JModel
 
 	public function getMyDetail()
 	{
-		global $mainframe;
-		$redconfig = & $mainframe->getParams();
+		$app = JFactory::getApplication();
+		$redconfig = $app->getParams();
 		$start     = JRequest::getVar('limitstart', 0, '', 'int');
 		$limit     = $redconfig->get('maxcategory');
 
@@ -91,7 +91,7 @@ class AccountModelaccount extends JModel
 
 	public function _buildQuery()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$user   = JFactory::getUser();
 		$userid = $user->id;
@@ -160,9 +160,9 @@ class AccountModelaccount extends JModel
 
 	public function getPagination()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$redconfig = & $mainframe->getParams();
+		$redconfig = $app->getParams();
 
 		$start = JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -170,7 +170,7 @@ class AccountModelaccount extends JModel
 
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
+			JLoader::import('joomla.html.pagination');
 
 			$this->_pagination = new redPagination($this->getTotal(), $start, $limit);
 		}
@@ -216,7 +216,7 @@ class AccountModelaccount extends JModel
 
 	public function removeWishlistProduct()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$Itemid      = JRequest::getVar('Itemid');
 		$option      = JRequest::getVar('option');
@@ -242,24 +242,24 @@ class AccountModelaccount extends JModel
 
 			if ($this->_db->Query())
 			{
-				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
+				$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
 			}
 			else
 			{
-				$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_WISHLIST_PRODUCT'));
+				$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_WISHLIST_PRODUCT'));
 			}
 		}
 		else
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
 
-		$mainframe->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
 	}
 
 	public function removeTag()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
@@ -267,14 +267,14 @@ class AccountModelaccount extends JModel
 
 		if ($this->removeTags($tagid))
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_TAG_DELETED_SUCCESSFULLY'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_TAG_DELETED_SUCCESSFULLY'));
 		}
 		else
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
 
-		$mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
 	public function removeTags($tagid)
@@ -343,7 +343,7 @@ class AccountModelaccount extends JModel
 
 	public function removeCompare()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$Itemid     = JRequest::getVar('Itemid');
 		$option     = JRequest::getVar('option');
@@ -357,14 +357,14 @@ class AccountModelaccount extends JModel
 
 		if ($this->_db->Query())
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
 		}
 		else
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
 
-		$mainframe->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
 	}
 
 	public function sendWishlist($post)

@@ -9,27 +9,27 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'configuration.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php';
+JLoader::import('joomla.application.component.view');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/configuration.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
 
 class productViewproduct extends JView
 {
 	public function display($tpl = null)
 	{
-//   		global $mainframe;
+//   		$app = JFactory::getApplication();
 
 		// Request variables
-		$mainframe     = JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$prodhelperobj = new producthelper;
 		$redTemplate   = new Redtemplate;
 		$redhelper     = new redhelper;
 		$texts         = new text_library;
-		$dispatcher    =& JDispatcher::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 
 		$option   = JRequest::getVar('option', 'com_redshop');
 		$Itemid   = JRequest::getVar('Itemid');
@@ -40,7 +40,7 @@ class productViewproduct extends JView
 
 		$pageheadingtag        = '';
 		$document              = JFactory::getDocument();
-		$params                = & $mainframe->getParams($option);
+		$params                = $app->getParams($option);
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
@@ -75,7 +75,7 @@ class productViewproduct extends JView
 
 			if ($chkprodesign)
 			{
-				$mainframe->Redirect('index.php?option=' . $option . '&view=reddesign&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $Itemid);
+				$app->Redirect('index.php?option=' . $option . '&view=reddesign&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $Itemid);
 			}
 		}
 
@@ -214,8 +214,8 @@ class productViewproduct extends JView
 				}
 				else
 				{
-					$document->setTitle($data->product_name . " | " . $data->category_name . " | " . $mainframe->getCfg('sitename') . " | " . $data->product_number);
-					$document->setMetaData("og:title", $data->product_name . " | " . $data->category_name . " | " . $mainframe->getCfg('sitename') . " | " . $data->product_number);
+					$document->setTitle($data->product_name . " | " . $data->category_name . " | " . $app->getCfg('sitename') . " | " . $data->product_number);
+					$document->setMetaData("og:title", $data->product_name . " | " . $data->category_name . " | " . $app->getCfg('sitename') . " | " . $data->product_number);
 				}
 			}
 

@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
+JLoader::import('joomla.application.component.view');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 
 class quotation_detailViewquotation_detail extends JView
 {
 function display ($tpl = null)
 {
-	global $mainframe;
+	$app = JFactory::getApplication();
 
 	$quotationHelper = new quotationHelper;
 
@@ -40,7 +40,7 @@ if ($print)
 
 	if (!$quoid)
 	{
-		$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
 	}
 
 	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
@@ -70,7 +70,7 @@ if ($print)
 		}
 		else
 		{
-			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 
 			return;
 		}

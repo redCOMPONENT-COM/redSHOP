@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 
 // Event
 $task = JRequest::getVar('task');

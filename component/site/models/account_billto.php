@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class Account_billtoModelaccount_billto
@@ -35,7 +35,7 @@ class Account_billtoModelaccount_billto extends JModel
 	{
 		if (empty($GLOBALS['billingaddresses']))
 		{
-			$session =& JFactory::getSession();
+			$session = JFactory::getSession();
 			$auth    = $session->get('auth');
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])

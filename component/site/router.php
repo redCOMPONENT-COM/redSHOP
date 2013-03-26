@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.parameter');
+JLoader::import('joomla.html.parameter');
 
 /**
  * @param    array
@@ -27,9 +27,9 @@ function RedshopBuildRoute(&$query)
 	$manufacturer_id = '';
 
 	$segments = array();
-	$db       = & JFactory::getDBO();
-	$menu     =& JSite::getMenu();
-	$item     =& $menu->getActive();
+	$db       = JFactory::getDBO();
+	$menu     = JFactory::getApplication()->getMenu();
+	$item     = $menu->getActive();
 	$Itemid   = $item->id;
 	require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
 	require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php');
@@ -642,7 +642,7 @@ function RedshopParseRoute($segments)
 	$vars = array();
 	require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
 
-	$db           = & JFactory::getDBO();
+	$db           = JFactory::getDBO();
 	$firstSegment = $segments[0];
 	switch ($firstSegment)
 	{
@@ -838,8 +838,8 @@ function RedshopParseRoute($segments)
 								$vars['manufacturer_id'] = $man_id;
 							}
 
-							$menu           =& JSite::getMenu();
-							$item           =& $menu->getActive();
+							$menu           = JFactory::getApplication()->getMenu();
+							$item           = $menu->getActive();
 							$vars['Itemid'] = $item->id;
 						}
 
@@ -849,8 +849,8 @@ function RedshopParseRoute($segments)
 
 						$vars['view'] = "category";
 
-						$menu           =& JSite::getMenu();
-						$item           =& $menu->getActive();
+						$menu           = JFactory::getApplication()->getMenu();
+						$item           = $menu->getActive();
 						$vars['Itemid'] = $item->id;
 
 						if (isset($segments[0]) && $segments[0] != $item->id)
@@ -893,8 +893,8 @@ function RedshopParseRoute($segments)
 							$vars['pid'] = $product_id;
 						}
 
-						$menu           =& JSite::getMenu();
-						$item           =& $menu->getActive();
+						$menu           = JFactory::getApplication()->getMenu();
+						$item           = $menu->getActive();
 						$vars['Itemid'] = $item->id;
 
 					}

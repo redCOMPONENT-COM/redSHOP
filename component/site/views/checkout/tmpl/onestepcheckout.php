@@ -11,15 +11,15 @@ defined('_JEXEC') or die;
 
 $url = JURI::base();
 $user = JFactory::getUser();
-global $mainframe;
+$app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/cart.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 
 $carthelper = new rsCarthelper;
 $producthelper = new producthelper;
@@ -43,7 +43,7 @@ $billingaddresses = $model->billingaddresses();
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
+	$app->Redirect("index.php?option=" . $option . "&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
 }
 
 $paymentmethod = $redhelper->getPlugins('redshop_payment');

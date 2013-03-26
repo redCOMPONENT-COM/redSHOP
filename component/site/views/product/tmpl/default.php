@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $url = JURI::base();
-$u =& JURI::getInstance();
+$u = JURI::getInstance();
 $Scheme = $u->getScheme();
 
 $option = JRequest::getVar('option');
@@ -23,7 +23,7 @@ $model = $this->getModel('product');
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $document = JFactory::getDocument();
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 
 $extraField = new extraField;
 $texts = new text_library;

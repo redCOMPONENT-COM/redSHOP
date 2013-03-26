@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class wishlistViewwishlist extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Request variables
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 		$task   = JRequest::getVar('task', 'com_redshop');
 
 		$option = JRequest::getVar('option', 'com_redshop');
@@ -32,7 +32,7 @@ class wishlistViewwishlist extends JView
 		$pageheadingtag = '';
 
 
-		$params   = & $mainframe->getParams('com_redshop');
+		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 

@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
 /**
  * Class split_paymentModelsplit_payment
@@ -54,7 +54,7 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function orderplace()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$post            = JRequest::get('post');
 		$option          = JRequest::getVar('option');
 		$Itemid          = JRequest::getVar('Itemid');
@@ -62,7 +62,7 @@ class split_paymentModelsplit_payment extends JModel
 		$user            = JFactory::getUser();
 		$order_functions = new order_functions;
 
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$user      = JFactory::getUser();
 		/*$users_info_id = JRequest::getVar ( 'users_info_id' );
 		$shipping_rate_id = JRequest::getVar ( 'shipping_rate_id' );*/
@@ -124,11 +124,11 @@ class split_paymentModelsplit_payment extends JModel
 					. '&ccinfo=' . $ccinfo
 					. '&payment_method_id=' . $payment_method_id
 					. '&oid=' . $oid;
-				$mainframe->Redirect($link, $msg);
+				$app->Redirect($link, $msg);
 			}
 
 
-			$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
+			$paymentpath = $adminpath . '/helpers/payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
 			include_once $paymentpath;
 
 			$payment_class = new $paymentmethod->payment_class;
@@ -141,7 +141,7 @@ class split_paymentModelsplit_payment extends JModel
 			{
 				$msg  = "Payment Failure" . $d ["order_payment_log"];
 				$link = 'index.php?option=' . $option . '&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
-				$mainframe->Redirect($link, $msg);
+				$app->Redirect($link, $msg);
 				JRequest::setVar('payment_status_log', '-' . $d ["order_payment_log"]);
 			}
 			else
@@ -203,7 +203,7 @@ class split_paymentModelsplit_payment extends JModel
 			}
 		}
 
-		$mainframe->Redirect($return, $msg);
+		$app->Redirect($return, $msg);
 	}
 
 	public function validatepaymentccinfo()

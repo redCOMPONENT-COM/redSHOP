@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+JLoader::import('joomla.application.component.view');
+require_once JPATH_COMPONENT . '/helpers/product.php';
 
 class product_ratingViewproduct_rating extends JView
 {
 	function display ($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$producthelper = new producthelper;
-		$pathway       = & $mainframe->getPathway();
+		$pathway       = $app->getPathway();
 		$document      = JFactory::getDocument();
 
 		$user = JFactory::getUser();
@@ -34,7 +34,7 @@ class product_ratingViewproduct_rating extends JView
 		$option        = JRequest::getVar('option');
 		$model         = $this->getModel('product_rating');
 		$userinfo      = $model->getuserfullname($user->id);
-		$params        = & $mainframe->getParams('com_redshop');
+		$params        = $app->getParams('com_redshop');
 		$Itemid        = JRequest::getVar('Itemid');
 		$product_id    = JRequest::getInt('product_id');
 		$category_id   = JRequest::getInt('category_id');
@@ -49,7 +49,7 @@ class product_ratingViewproduct_rating extends JView
 		{
 			$msg  = JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
 			$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
-			$mainframe->redirect($link, $msg);
+			$app->redirect($link, $msg);
 		}
 		else
 		{

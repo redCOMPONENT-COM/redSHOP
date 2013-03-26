@@ -8,12 +8,12 @@
  */
 
 defined('_JEXEC') or die;
-//jimport('joomla.user.helper');
+//JLoader::import('joomla.user.helper');
 //
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 
 class rsUserhelper
 {
@@ -27,7 +27,6 @@ class rsUserhelper
 
 	public function __construct()
 	{
-		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDBO();
@@ -228,7 +227,7 @@ class rsUserhelper
 			die;
 		}
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$db  = JFactory::getDBO();
 		$me  = JFactory::getUser();
@@ -324,7 +323,7 @@ class rsUserhelper
 
 	public function createJoomlaUser($data, $createuser = 0)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
 
@@ -451,7 +450,7 @@ class rsUserhelper
 			$credentials['password'] = $data['password2'];
 
 			//preform the login action
-			$mainframe->login($credentials);
+			$app->login($credentials);
 
 			return $user;
 		}
@@ -708,7 +707,7 @@ class rsUserhelper
 		if ($isNew)
 		{
 			JPluginHelper::importPlugin('highrise');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array($post));
 		}
 
@@ -851,7 +850,7 @@ class rsUserhelper
 		}
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS . "tables");
-		$row =& JTable::getInstance('newslettersubscr_detail', 'Table');
+		$row = JTable::getInstance('newslettersubscr_detail', 'Table');
 
 		if (!$row->bind($data))
 		{
@@ -1311,7 +1310,7 @@ class rsUserhelper
 
 		if (DEBITOR_NUMBER_AUTO_GENERATE == 1 && $row->users_info_id <= 0)
 		{
-			JModel::addIncludePath(REDCRM_ADMIN . DS . 'models');
+			JModel::addIncludePath(REDCRM_ADMIN . '/models');
 
 			$crmmodel = JModel::getInstance('debitor', 'redCRMModel');
 
@@ -1332,7 +1331,7 @@ class rsUserhelper
 		}
 
 		// Set redshop user detail table path
-		JTable::addIncludePath(REDCRM_ADMIN . DS . 'tables');
+		JTable::addIncludePath(REDCRM_ADMIN . '/tables');
 		$debtor = JTable::getInstance('debitors', 'Table');
 		$debtor->bind($row);
 		$debtor->store();
