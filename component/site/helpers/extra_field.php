@@ -41,11 +41,11 @@ class extraField
 	 * 				   12 :- Product_UserField
 	 *
 	 */
-	private $_data         = null;
+	public $_data         = null;
 
-	private $_table_prefix = null;
+	public $_table_prefix = null;
 
-	private $_db           = null;
+	public $_db           = null;
 
 	public function __construct()
 	{
