@@ -1,26 +1,19 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 
 class plgRedshop_paymentrs_payment_payer extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -30,9 +23,9 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_payer(&$subject)
+	public function plgRedshop_paymentrs_payment_payer(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payer');
@@ -43,7 +36,7 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_payer')
 		{
@@ -55,21 +48,21 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	/*
+	/**
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onNotifyPaymentrs_payment_payer($element, $request)
+	public function onNotifyPaymentrs_payment_payer($element, $request)
 	{
 		ob_clean();
 
 		if ($element != 'rs_payment_payer')
 		{
-			break;
+			return false;
 		}
 
 		$order_id = $request['orderid'];
@@ -77,17 +70,21 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		$invalid_status = $this->_params->get('invalid_status', '');
 		$values = new stdClass;
 
-		include(JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'payread_post_api.php'); //Loads Payers API.
-		$postAPI = new payread_post_api; //Creates an object from Payers API.
+		// Loads Payers API.
+		include JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'payread_post_api.php';
+
+		// Creates an object from Payers API.
+		$postAPI = new payread_post_api;
 
 		$postAPI->setAgent($this->_params->get("agent_id"));
 		$postAPI->setKeys($this->_params->get("payer_key1"), $this->_params->get("payer_key2"));
 
 		if ($postAPI->is_valid_ip())
-		{ //Checks if the IP address comes from Payer else return false!
+		{
+			// Checks if the IP address comes from Payer else return false!
 			if ($postAPI->is_valid_callback())
-			{ //Check if the keys match (the hash) else return false!
-
+			{
+				// Check if the keys match (the hash) else return false!
 				$values->order_status_code = $verify_status;
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -107,7 +104,5 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		$values->order_id = $order_id;
 
 		return $values;
-
 	}
-
 }

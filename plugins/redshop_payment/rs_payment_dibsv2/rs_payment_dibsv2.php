@@ -1,25 +1,18 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -29,9 +22,9 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_dibsv2(&$subject)
+	public function plgRedshop_paymentrs_payment_dibsv2(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dibsv2');
@@ -41,7 +34,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_dibsv2')
 		{
@@ -53,12 +46,12 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_dibsv2($element, $request)
+	public function onNotifyPaymentrs_payment_dibsv2($element, $request)
 	{
 		if ($element != 'rs_payment_dibsv2')
 		{
@@ -66,7 +59,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		}
 
 		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
-		include($api_path);
+		include $api_path;
 		$dibs_hmac = new dibs_hmac;
 
 		JPlugin::loadLanguage('com_redshop');
@@ -78,9 +71,11 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];
 		$Itemid = $request['Itemid'];
+
 		// Put your HMAC key below.
 		$HmacKey = $this->_params->get('hmac_key');
 		$values = new stdClass;
+
 		// Calculate the MAC for the form key-values posted from DIBS.
 		if (sizeof($request) > 0)
 		{
@@ -114,11 +109,12 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		return $values;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` WHERE `order_id` = '"
+			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
 
@@ -130,7 +126,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_dibsv2($element, $data)
+	public function onCapture_Paymentrs_payment_dibsv2($element, $data)
 	{
 		if ($element != 'rs_payment_dibsv2')
 		{
@@ -145,7 +141,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$hmac_key = $this->_params->get("hmac_key");
 
 		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
-		include($api_path);
+		include $api_path;
 		$dibs_hmac = new dibs_hmac;
 
 		$formdata = array(
@@ -159,6 +155,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$dibsurl .= "merchant=" . urlencode($this->_params->get("seller_id")) . "&amount=" . urlencode($data['order_amount']) . "&transact=" . $data["order_transactionid"] . "&orderid=" . $data['order_id'] . "&force=yes&textreply=yes&mac=" . $mac_key;
 		$data = $dibsurl;
 		$ch = curl_init($data);
+
 		// 	Execute
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$data = curl_exec($ch);
