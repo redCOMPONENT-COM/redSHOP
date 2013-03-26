@@ -31,7 +31,7 @@ $paymentmethod = $paymentmethod[0];
 
 
 
-$paymentpath = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . DS . $paymentmethod->element . '.xml';
+$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
 $paymentparams = new JRegistry($paymentmethod->params);
 
 

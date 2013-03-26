@@ -280,9 +280,9 @@ class searchViewsearch extends JView
 			/* replace redproductfilder filter tag */
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
-				if (file_exists(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php"))
+				if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php'))
 				{
-					include_once JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php";
+					include_once JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php';
 					$redproductfinder_helper = new redproductfinder_helper;
 					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
 					$hide_filter_flag        = false;
