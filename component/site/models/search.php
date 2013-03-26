@@ -341,7 +341,7 @@ class searchModelsearch extends JModel
 			$cat_group = $category_id;
 		}
 
-		$params = & JComponentHelper::getParams('com_redshop');
+		$params = JComponentHelper::getParams('com_redshop');
 
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
@@ -517,7 +517,7 @@ class searchModelsearch extends JModel
 		$layout     = $app->getUserStateFromRequest($context . 'layout', 'layout', '');
 		$templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
 
-		$params = & JComponentHelper::getParams('com_redshop');
+		$params = JComponentHelper::getParams('com_redshop');
 		$menu   = $app->getMenu();
 		$item   = $menu->getActive();
 
