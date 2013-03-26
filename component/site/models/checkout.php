@@ -155,9 +155,11 @@ class CheckoutModelCheckout extends JModel
 		$customer_message = JRequest::getVar('rs_customer_message_ta');
 		$referral_code    = JRequest::getVar('txt_referral_code');
 
-
 		if ($gls_mobile)
+		{
 			$shop_id = $shop_id . '###' . $gls_mobile;
+		}
+
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
@@ -232,7 +234,10 @@ class CheckoutModelCheckout extends JModel
 		$shipping_rate_id = '';
 
 		if ($cart['free_shipping'] != 1)
+		{
 			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
+		}
+
 		$payment_method_id = JRequest::getVar('payment_method_id');
 		$ccinfo            = JRequest::getVar('ccinfo');
 
@@ -345,12 +350,16 @@ class CheckoutModelCheckout extends JModel
 		$payment_amount = 0;
 
 		if (isset($cart['payment_amount']))
+		{
 			$payment_amount = $cart['payment_amount'];
+		}
 
 		$payment_oprand = "";
 
 		if (isset($cart['payment_oprand']))
+		{
 			$payment_oprand = $cart['payment_oprand'];
+		}
 
 		$xmlpath = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
 		$params  = new JRegistry($paymentmethod->params, $xmlpath);
@@ -456,7 +465,6 @@ class CheckoutModelCheckout extends JModel
 
 		}
 
-
 		if ($order_total <= 0)
 		{
 			$paymentpath       = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
@@ -473,12 +481,10 @@ class CheckoutModelCheckout extends JModel
 			$order_paymentstatus = 'Unpaid';
 		}
 
-
 		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
 
 		// End
-
 
 		$row->order_discount       = $odiscount;
 		$row->order_discount_vat   = $odiscount_vat;
@@ -501,7 +507,8 @@ class CheckoutModelCheckout extends JModel
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
-			# Start code to track duplicate order number checking by parth
+
+			// Start code to track duplicate order number checking by parth
 			$this->deleteOrdernumberTrack();
 
 			// End code to track duplicate order number checking by parth
@@ -510,6 +517,7 @@ class CheckoutModelCheckout extends JModel
 
 		// Start code to track duplicate order number checking by parth
 		$this->deleteOrdernumberTrack();
+
 		// End code to track duplicate order number checking by parth
 
 		$order_id = $row->order_id;
@@ -535,12 +543,14 @@ class CheckoutModelCheckout extends JModel
 		}
 
 		if ($row->order_status == CLICKATELL_ORDER_STATUS)
+		{
 			$helper->clickatellSMS($order_id);
+		}
 
 		$session->set('order_id', $order_id);
 
-		# add order status log
-		$rowOrderStatus                = & $this->getTable('order_status_log');
+		// Add order status log
+		$rowOrderStatus                = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id      = $order_id;
 		$rowOrderStatus->order_status  = $order_status;
 		$rowOrderStatus->date_changed  = time();
@@ -553,9 +563,10 @@ class CheckoutModelCheckout extends JModel
 		JRequest::setVar('order_id', $row->order_id);
 		JRequest::setVar('order_number', $row->order_number);
 
-
 		if (!isset($order_shipping [5]))
+		{
 			$order_shipping [5] = "";
+		}
 
 		if ($order_shipping [5] == 'regular')
 		{
@@ -617,7 +628,7 @@ class CheckoutModelCheckout extends JModel
 		$product_quantity    = "";
 		$product_total_price = "";
 
-		//reddesign varialble
+		// Reddesign varialble
 		$reddesign = false;
 
 		for ($i = 0; $i < $idx; $i++)
@@ -633,7 +644,7 @@ class CheckoutModelCheckout extends JModel
 			$product    = $this->_producthelper->getProductById($product_id);
 			$rowitem    = & $this->getTable('order_item_detail');
 
-			# redCRM product purchase price
+			// The redCRM product purchase price
 			if ($helper->isredCRM())
 			{
 				$crmProductHelper = new crmProductHelper;
@@ -681,6 +692,7 @@ class CheckoutModelCheckout extends JModel
 				$crmOrderHelper = new crmOrderHelper;
 				$crmOrderHelper->storeCRMOrder($crmdata);
 			}
+
 			// End
 
 			if (!$rowitem->bind($post))
@@ -709,7 +721,6 @@ class CheckoutModelCheckout extends JModel
 			}
 
 			// Product stockroom update
-
 			if (!$is_giftcard)
 			{
 				$updatestock                 = $stockroomhelper->updateStockroomQuantity($product_id, $cart [$i] ['quantity']);
@@ -814,7 +825,6 @@ class CheckoutModelCheckout extends JModel
 				return false;
 			}
 
-
 			// Add plugin support
 			$results = $dispatcher->trigger('afterOrderItemSave', array($cart, $rowitem, $i));
 
@@ -831,7 +841,7 @@ class CheckoutModelCheckout extends JModel
 
 			$this->_producthelper->insertProdcutUserfield($i, $cart, $rowitem->order_item_id, $section_id);
 
-			// my accessory save in table start
+			// My accessory save in table start
 			if (count($cart [$i] ['cart_accessory']) > 0)
 			{
 				$setPropEqual    = true;
@@ -889,6 +899,7 @@ class CheckoutModelCheckout extends JModel
 							$prooprand[$k] = $propArr[$k]['property_oprand'];
 							$proprice[$k]  = $propArr[$k]['property_price'];
 							$section_vat   = 0;
+
 							if ($propArr[$k]['property_price'] > 0)
 							{
 								$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
@@ -922,6 +933,7 @@ class CheckoutModelCheckout extends JModel
 							for ($l = 0; $l < count($subpropArr); $l++)
 							{
 								$section_vat = 0;
+
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
 									$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
@@ -952,7 +964,8 @@ class CheckoutModelCheckout extends JModel
 								}
 							}
 						}
-						/// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
+
+						// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
 						if ($setPropEqual && $setSubpropEqual)
 						{
 							$accessory_priceArr = $this->_producthelper->makeTotalPriceByOprand($accessory_price, $prooprand, $proprice);
@@ -979,10 +992,12 @@ class CheckoutModelCheckout extends JModel
 								$accessory_price    = $accessory_priceArr[1];
 							}
 						}
-						/// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
+
+						// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
 					}
 
 					$accdata = & $this->getTable('accessory_detail');
+
 					if ($accessory_id > 0)
 					{
 						$accdata->load($accessory_id);
@@ -1001,6 +1016,7 @@ class CheckoutModelCheckout extends JModel
 					$rowaccitem->product_acc_item_price  = $accessory_price;
 					$rowaccitem->product_acc_final_price = ($accessory_price * $accessory_quantity);
 					$rowaccitem->product_attribute       = $accessory_attribute;
+
 					if ($accessory_id > 0)
 					{
 						if (!$rowaccitem->store())
@@ -1013,7 +1029,7 @@ class CheckoutModelCheckout extends JModel
 				}
 			}
 
-			// my attribute save in table start
+			// My attribute save in table start
 			if (count($cart [$i] ['cart_attribute']) > 0)
 			{
 				$attchildArr = $cart [$i] ['cart_attribute'];
@@ -1041,19 +1057,21 @@ class CheckoutModelCheckout extends JModel
 					}
 
 					$propArr = $attchildArr[$j]['attribute_childs'];
+
 					if (count($propArr) > 0)
 					{
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$section_vat = 0;
+
 							if ($propArr[$k]['property_price'] > 0)
 							{
 								$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
 							$property_id = $propArr[$k]['property_id'];
-							/** product property STOCKROOM update start */
 
+							//  Product property STOCKROOM update start
 							$updatestock_att             = $stockroomhelper->updateStockroomQuantity($property_id, $cart [$i] ['quantity'], "property", $product_id);
 							$stockroom_att_id_list       = $updatestock_att['stockroom_list'];
 							$stockroom_att_quantity_list = $updatestock_att['stockroom_quantity_list'];
@@ -1087,14 +1105,15 @@ class CheckoutModelCheckout extends JModel
 							for ($l = 0; $l < count($subpropArr); $l++)
 							{
 								$section_vat = 0;
+
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
 									$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
-								/** product subproperty STOCKROOM update start */
 
+								// Product subproperty STOCKROOM update start
 								$updatestock_subatt             = $stockroomhelper->updateStockroomQuantity($subproperty_id, $cart [$i] ['quantity'], "subproperty", $product_id);
 								$stockroom_subatt_id_list       = $updatestock_subatt['stockroom_list'];
 								$stockroom_subatt_quantity_list = $updatestock_subatt['stockroom_quantity_list'];
@@ -1112,7 +1131,6 @@ class CheckoutModelCheckout extends JModel
 								$rowattitem->is_accessory_att   = 0;
 								$rowattitem->stockroom_id       = $stockroom_subatt_id_list;
 								$rowattitem->stockroom_quantity = $stockroom_subatt_quantity_list;
-
 
 								if ($subproperty_id > 0)
 								{
@@ -1210,7 +1228,9 @@ class CheckoutModelCheckout extends JModel
 		$rowpayment->order_payment_code     = $ccdata['creditcard_code'];
 		$rowpayment->order_payment_cardname = base64_encode($ccdata['order_payment_name']);
 		$rowpayment->order_payment_number   = base64_encode($ccdata['order_payment_number']);
-		$rowpayment->order_payment_ccv      = base64_encode($ccdata['credit_card_code']); // This is ccv code
+
+		// This is ccv code
+		$rowpayment->order_payment_ccv      = base64_encode($ccdata['credit_card_code']);
 		$rowpayment->order_payment_amount   = $order_total;
 		$rowpayment->order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
 		$rowpayment->order_payment_name     = $paymentmethod->name;
@@ -1231,8 +1251,8 @@ class CheckoutModelCheckout extends JModel
 		$data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentmethod->element, array($paymentmethod->element, $order_id));
 
 		$GLOBALS['shippingaddresses'] = $shippingaddresses;
-		# add billing Info
 
+		// Add billing Info
 		$userrow = & $this->getTable('user_detail');
 		$userrow->load($billingaddresses->users_info_id);
 		$userrow->thirdparty_email = $post['thirdparty_email'];
@@ -1254,7 +1274,8 @@ class CheckoutModelCheckout extends JModel
 
 			return false;
 		}
-		# add shipping Info
+
+		// Add shipping Info
 		$userrow = & $this->getTable('user_detail');
 
 		if (isset($shippingaddresses->users_info_id))
@@ -1348,7 +1369,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
-				# Supplier order helper object
+				// Supplier order helper object
 				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 				$getStatus                  = array();
@@ -1382,7 +1403,6 @@ class CheckoutModelCheckout extends JModel
 
 		foreach ($orders as $eachorders)
 		{
-
 			$giftcardmailsub = $giftcardmail->mail_subject;
 			$giftcardData    = $this->_producthelper->getGiftcardData($eachorders->product_id);
 			$thum_image      = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "giftcard/" . $giftcardData->giftcard_image . "'  title='" . $giftcardData->giftcard_name . "' alt='" . $giftcardData->giftcard_name . "'></a>";
@@ -1411,10 +1431,9 @@ class CheckoutModelCheckout extends JModel
 			$gift_code         = $this->_order_functions->random_gen_enc_key(12);
 			$couponItems       = & $this->getTable('coupon_detail');
 
-
 			if ($giftcardData->customer_amount)
 			{
-				$giftcardData->giftcard_value = $eachorders->product_final_price; // $cart[$i]['customer_amount'];
+				$giftcardData->giftcard_value = $eachorders->product_final_price;
 			}
 
 			$couponItems->coupon_code      = $gift_code;
@@ -1440,10 +1459,13 @@ class CheckoutModelCheckout extends JModel
 			ob_clean();
 			echo "<div id='redshopcomponent' class='redshop'>";
 			$is_giftcard = 1;
-			$pdf         = new MYPDF (PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+			$pdf         = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage) && $giftcardData->giftcard_bgimage)
+			{
 				$pdf->img_file = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage;
+			}
+
 			$pdf->SetCreator(PDF_CREATOR);
 			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -1471,7 +1493,6 @@ class CheckoutModelCheckout extends JModel
 			$fromname            = $config->getValue('fromname');
 			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders' . DS . $g_pdfName . ".pdf";
 
-			//echo $from."<br>". $eachorders->giftcard_user_email;exit;
 			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
 
@@ -1546,9 +1567,9 @@ class CheckoutModelCheckout extends JModel
 		$validpayment [0] = 1;
 		$validpayment [1] = '';
 
-		// The Data should be in the session
+		// The Data should be in the session.
 		if (!isset($ccdata))
-		{ //Not? Then Error
+		{
 			$validpayment [0] = 0;
 			$validpayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCDATA');
 
@@ -1609,19 +1630,103 @@ class CheckoutModelCheckout extends JModel
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
-		// Define the cards we support. You may add additional card types.
+		/**
+		 * Define the cards we support. You may add additional card types.
+		 *
+		 * Name:      As in the selection box of the form - must be same as user's
+		 * Length:    List of possible valid lengths of the card number for the card
+		 * Prefixes:  List of possible prefixes for the card
+		 *
+		 * Checkdigit Boolean to say whether there is a check digit
+		 * Don't forget - all but the last array definition needs a comma separator!
+		 */
 
-		// Name:      As in the selection box of the form - must be same as user's
-		// Length:    List of possible valid lengths of the card number for the card
-		// Prefixes:  List of possible prefixes for the card
+		$cards = array(
 
-		// Checkdigit Boolean to say whether there is a check digit
-		// Don't forget - all but the last array definition needs a comma separator!
-		$cards = array(array('name'   => 'amex', //American Express
+			// American Express
+			array(
+				'name'   => 'amex',
+				'length' => '15',
+				'prefixes' => '34,37',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Diners Club Carte Blanche',
+				'length' => '14',
+				'prefixes' => '300,301,302,303,304,305',
+				'checkdigit' => true
+			),
 
-		                     'length' => '15', 'prefixes' => '34,37', 'checkdigit' => true), array('name' => 'Diners Club Carte Blanche', 'length' => '14', 'prefixes' => '300,301,302,303,304,305', 'checkdigit' => true), array('name'   => 'diners', //Diners Club
-		                                                                                                                                                                                                                          'length' => '14,16', 'prefixes' => '36,54,55', 'checkdigit' => true), array('name' => 'Discover', 'length' => '16', 'prefixes' => '6011,622,64,65', 'checkdigit' => true), array('name' => 'Diners Club Enroute', 'length' => '15', 'prefixes' => '2014,2149', 'checkdigit' => true), array('name' => 'JCB', 'length' => '16', 'prefixes' => '35', 'checkdigit' => true), array('name' => 'Maestro', 'length' => '12,13,14,15,16,18,19', 'prefixes' => '5018,5020,5038,6304,6759,6761', 'checkdigit' => true), array('name'   => 'MC', //MasterCard
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               'length' => '16', 'prefixes' => '51,52,53,54,55', 'checkdigit' => true), array('name' => 'Solo', 'length' => '16,18,19', 'prefixes' => '6334,6767', 'checkdigit' => true), array('name' => 'Switch', 'length' => '16,18,19', 'prefixes' => '4903,4905,4911,4936,564182,633110,6333,6759', 'checkdigit' => true), array('name' => 'Visa', 'length' => '13,16', 'prefixes' => '4', 'checkdigit' => true), array('name' => 'Visa Electron', 'length' => '16', 'prefixes' => '417500,4917,4913,4508,4844', 'checkdigit' => true), array('name' => 'LaserCard', 'length' => '16,17,18,19', 'prefixes' => '6304,6706,6771,6709', 'checkdigit' => true));
+			// Diners Club
+			array(
+				'name'   => 'diners',
+				'length' => '14,16',
+				'prefixes' => '36,54,55',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Discover',
+				'length' => '16',
+				'prefixes' => '6011,622,64,65',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Diners Club Enroute',
+				'length' => '15',
+				'prefixes' => '2014,2149',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'JCB',
+				'length' => '16',
+				'prefixes' => '35',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Maestro',
+				'length' => '12,13,14,15,16,18,19',
+				'prefixes' => '5018,5020,5038,6304,6759,6761',
+				'checkdigit' => true
+			),
+
+			// MasterCard
+			array(
+				'name'   => 'MC',
+				'length' => '16',
+				'prefixes' => '51,52,53,54,55',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Solo',
+				'length' => '16,18,19',
+				'prefixes' => '6334,6767',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Switch',
+				'length' => '16,18,19',
+				'prefixes' => '4903,4905,4911,4936,564182,633110,6333,6759',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Visa',
+				'length' => '13,16',
+				'prefixes' => '4',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'Visa Electron',
+				'length' => '16',
+				'prefixes' => '417500,4917,4913,4508,4844',
+				'checkdigit' => true
+			),
+			array(
+				'name' => 'LaserCard',
+				'length' => '16,17,18,19',
+				'prefixes' => '6304,6706,6771,6709',
+				'checkdigit' => true
+			)
+		);
 
 		$ccErrorNo = 0;
 
@@ -1634,7 +1739,7 @@ class CheckoutModelCheckout extends JModel
 		// Establish card type
 		$cardType = -1;
 
-		for ($i = 0; $i < sizeof($cards); $i++)
+		for ($i = 0; $i < count($cards); $i++)
 		{
 			// See if it is this card (ignoring the case of the string)
 			if (strtolower($cardname) == strtolower($cards [$i] ['name']))
@@ -1677,9 +1782,14 @@ class CheckoutModelCheckout extends JModel
 		// Now check the modulus 10 check digit - if required
 		if ($cards [$cardType] ['checkdigit'])
 		{
-			$checksum = 0; // Running checksum total
-			$mychar   = ""; // Next char to process
-			$j        = 1; // Takes value of 1 or 2
+			// Running checksum total
+			$checksum = 0;
+
+			// Next char to process
+			$mychar = "";
+
+			// Takes value of 1 or 2
+			$j = 1;
 
 			// Process each digit one by one starting at the right
 			for ($i = strlen($cardNo) - 1; $i >= 0; $i--)
@@ -1690,7 +1800,7 @@ class CheckoutModelCheckout extends JModel
 				// If the result is in two digits add 1 to the checksum total
 				if ($calc > 9)
 				{
-					$checksum = $checksum + 1;
+					$checksum = $checksum++;
 					$calc     = $calc - 10;
 				}
 
@@ -1706,7 +1816,6 @@ class CheckoutModelCheckout extends JModel
 				{
 					$j = 1;
 				}
-				;
 			}
 
 			// All done - if checksum is divisible by 10, it is a valid modulus 10.
@@ -1723,13 +1832,13 @@ class CheckoutModelCheckout extends JModel
 		// The following are the card-specific checks we undertake.
 
 		// Load an array with the valid prefixes for this card
-		$prefix = split(',', $cards [$cardType] ['prefixes']);
+		$prefix = split(',', $cards[$cardType]['prefixes']);
 
 		// Now see if any of them match what we have in the card number
 
 		$PrefixValid = false;
 
-		for ($i = 0; $i < sizeof($prefix); $i++)
+		for ($i = 0; $i < count($prefix); $i++)
 		{
 			$exp = '^' . $prefix [$i];
 
@@ -1751,9 +1860,9 @@ class CheckoutModelCheckout extends JModel
 
 		// See if the length is valid for this card
 		$LengthValid = false;
-		$lengths     = split(',', $cards [$cardType] ['length']);
+		$lengths     = split(',', $cards[$cardType]['length']);
 
-		for ($j = 0; $j < sizeof($lengths); $j++)
+		for ($j = 0; $j < count($lengths); $j++)
 		{
 			if (strlen($cardNo) == $lengths [$j])
 			{
@@ -1770,7 +1879,6 @@ class CheckoutModelCheckout extends JModel
 
 			return false;
 		}
-		;
 
 		// The credit card is in the required format.
 		return true;
@@ -1799,9 +1907,11 @@ class CheckoutModelCheckout extends JModel
 			$denum = "Visa";
 		}
 
+		// American Express
 		if ($type == "American")
 		{
-			$pattern = "/^([34|37]{2})([0-9]{13})$/"; //American Express
+			$pattern = "/^([34|37]{2})([0-9]{13})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -1810,11 +1920,13 @@ class CheckoutModelCheckout extends JModel
 			{
 				$verified = false;
 			}
-
 		}
+
+		// Diner's Club
 		elseif ($type == "Dinners")
 		{
-			$pattern = "/^([30|36|38]{2})([0-9]{12})$/"; //Diner's Club
+			$pattern = "/^([30|36|38]{2})([0-9]{12})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -1825,9 +1937,12 @@ class CheckoutModelCheckout extends JModel
 			}
 
 		}
+
+		// Discover Card
 		elseif ($type == "Discover")
 		{
-			$pattern = "/^([6011]{4})([0-9]{12})$/"; //Discover Card
+			$pattern = "/^([6011]{4})([0-9]{12})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -1838,9 +1953,12 @@ class CheckoutModelCheckout extends JModel
 			}
 
 		}
+
+		// Mastercard
 		elseif ($type == "Master")
 		{
-			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/"; //Mastercard
+			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -1851,9 +1969,12 @@ class CheckoutModelCheckout extends JModel
 			}
 
 		}
+
+		// Visa
 		elseif ($type == "Visa")
 		{
-			$pattern = "/^([4]{1})([0-9]{12,15})$/"; //Visa
+			$pattern = "/^([4]{1})([0-9]{12,15})$/";
+
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
@@ -1867,11 +1988,12 @@ class CheckoutModelCheckout extends JModel
 
 		if ($verified == false)
 		{
-			//Do something here in case the validation fails
+			// Do something here in case the validation fails
 			echo "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
 		}
+		// If it will pass...do something
 		else
-		{ //if it will pass...do something
+		{
 			echo "Your <em>" . $denum . "</em> credit card is valid";
 		}
 	}
@@ -1931,7 +2053,6 @@ class CheckoutModelCheckout extends JModel
 		$user        = JFactory::getUser();
 		$vouchertype = array();
 
-
 		if (isset($cart['voucher']))
 		{
 			if ($this->discount_type)
@@ -1951,6 +2072,7 @@ class CheckoutModelCheckout extends JModel
 				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
 				{
 					$rowvoucher =& $this->getTable('transaction_voucher_detail');
+
 					if (!$rowvoucher->bind($cart))
 					{
 						$this->setError($this->_db->getErrorMsg());
@@ -1997,8 +2119,9 @@ class CheckoutModelCheckout extends JModel
 		if (isset($cart['coupon']))
 		{
 			if ($this->discount_type)
+			{
 				$this->discount_type .= '@';
-
+			}
 
 			for ($i = 0; $i < count($cart['coupon']); $i++)
 			{
@@ -2016,6 +2139,7 @@ class CheckoutModelCheckout extends JModel
 				if ($cart['coupon'][$i]['remaining_coupon_discount'] > 0)
 				{
 					$rowcoupon =& $this->getTable('transaction_coupon_detail');
+
 					if (!$rowcoupon->bind($cart))
 					{
 						$this->setError($this->_db->getErrorMsg());
@@ -2131,9 +2255,7 @@ class CheckoutModelCheckout extends JModel
 		$cart['payment_oprand'] = $payment_oprand;
 		$cart['payment_amount'] = $payment_amount;
 
-
 		$template_desc = $this->_carthelper->replaceTemplate($cart, $template_desc, 1);
-
 
 		$thirdparty_emailvalue = "";
 
@@ -2152,7 +2274,6 @@ class CheckoutModelCheckout extends JModel
 			$template_desc   = str_replace("{thirdparty_email}", $thirdpartyemail, $template_desc);
 			$template_desc   = str_replace("{thirdparty_email_lbl}", JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL'), $template_desc);
 		}
-
 
 		$customernotevalue = "";
 
@@ -2201,7 +2322,6 @@ class CheckoutModelCheckout extends JModel
 			$req_number_lbl = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 			$req_number     = '<input name="requisition_number" id="requisition_number" value="' . $requisition_number . '" />';
 
-
 			$template_desc = str_replace("{requisition_number}", $req_number, $template_desc);
 			$template_desc = str_replace("{requisition_number_lbl}", $req_number_lbl, $template_desc);
 		}
@@ -2226,20 +2346,13 @@ class CheckoutModelCheckout extends JModel
 			$checkout_back = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_BACK_BUTTON') . '" onclick="javascript: history.go(-1);">';
 			$template_desc = str_replace("{checkout_back_button}", $checkout_back, $template_desc);
 		}
-		//calculatePayment
+
+		// CalculatePayment
 		if (strstr($template_desc, '{if payment_discount}') && strstr($template_desc, '{payment_discount end if}'))
 		{
 			$template_desc = $this->_carthelper->replacePayment($template_desc, $payment_amount, 0, $payment_oprand);
 		}
-		/*if(strstr($template_desc,'{if discount}') && strstr($template_desc,'{discount end if}'))
-		{
-			$total_for_discount = (APPLY_VAT_ON_DISCOUNT)? $subtotal : $subtotal_excl_vat;
-			$template_desc = $this->_carthelper->replaceDiscount($template_desc,$cart['coupon_discount'] + $cart['voucher_discount'] + $cart['cart_discount'],$total_for_discount);
-		}*/
-		/*if(strstr($template_desc,'{if vat}') && strstr($template_desc,'{vat end if}'))
-		{
-			$template_desc = $this->_carthelper->replaceTax($template_desc,$tmp_tax+$cart['shipping_vat'],$discount_amount + $tmp_discount);
-		}*/
+
 		$shippinPrice        = '';
 		$shippinPriceWithVat = '';
 
@@ -2301,8 +2414,6 @@ class CheckoutModelCheckout extends JModel
 
 		return $template_desc;
 	}
-
-// Start code to track duplicate order number checking by parth*/
 
 	/**
 	 * Delete order number track
@@ -2395,8 +2506,7 @@ class CheckoutModelCheckout extends JModel
 
 class MYPDF extends TCPDF
 {
-
-	//Page header
+	// Page header
 	public $img_file;
 
 	public function Header()
@@ -2414,4 +2524,3 @@ class MYPDF extends TCPDF
 		$this->SetAutoPageBreak($auto_page_break);
 	}
 }
-
