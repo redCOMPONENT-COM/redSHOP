@@ -86,7 +86,6 @@ class manufacturersModelmanufacturers extends JModel
 		$and     = "";
 
 		// Shopper group - choose from manufactures Start
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -96,7 +95,6 @@ class manufacturersModelmanufacturers extends JModel
 		}
 
 		// Shopper group - choose from manufactures End
-
 		if ($this->_id)
 		{
 			$and .= " AND mn.manufacturer_id='" . $this->_id . "' ";
@@ -128,7 +126,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		if ($layout == "products")
 		{
-			$this->_data = $this->_getList($query); //, $this->getState('limitstart'), $this->getState('limit') );
+			$this->_data = $this->_getList($query);
 		}
 		else
 		{
@@ -140,7 +138,6 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $app, $context;
 		$layout  = JRequest::getVar('layout');
 		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
 
@@ -199,7 +196,6 @@ class manufacturersModelmanufacturers extends JModel
 		$and       = '';
 
 		// Shopper group - choose from manufactures Start
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -209,7 +205,6 @@ class manufacturersModelmanufacturers extends JModel
 		}
 
 		// Shopper group - choose from manufactures End
-
 		if ($filter_by != '0')
 		{
 			$and .= " AND c.category_id = " . $filter_by;

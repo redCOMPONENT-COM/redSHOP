@@ -66,9 +66,8 @@ class quotation_detailModelquotation_detail extends JModel
 		$row_data           = $quotationHelper->getQuotationUserfield($data->quotation_item_id);
 		$quotation_acc_data = $quotationHelper->getQuotationItemAccessoryDetail($data->quotation_item_id);
 		$quotation_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "attribute", $data->product_id);
-		/*
-		 * set session for giftcard
-		 */
+
+		// Set session for giftcard
 		if ($data->is_giftcard == 1)
 		{
 			if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))
