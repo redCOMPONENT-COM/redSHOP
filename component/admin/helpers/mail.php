@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
 
-defined('_JEXEC') or die ('Restricted access');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
 require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
@@ -22,23 +22,23 @@ require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS 
 
 class redshopMail
 {
+	public $_table_prefix = null;
 
-	var $_table_prefix = null;
-	var $db = null;
-	var $_carthelper = null;
-	var $_redhelper = null;
+	public $db = null;
 
-	function __construct()
+	public $_carthelper = null;
+
+	public $_redhelper = null;
+
+	public function __construct()
 	{
-
 		global $mainframe, $context;
 		$db = JFactory::getDbo();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_db = $db;
-		$this->_carthelper = new rsCarthelper();
-		$this->_redhelper = new redhelper();
-		$this->_order_functions = new order_functions();
-
+		$this->_carthelper = new rsCarthelper;
+		$this->_redhelper = new redhelper;
+		$this->_order_functions = new order_functions;
 	}
 
 	/**
@@ -48,31 +48,34 @@ class redshopMail
 	 * @return array
 	 */
 
-	function getMailtemplate($tid = 0, $section = "", $extracond = "")
+	public function getMailtemplate($tid = 0, $section = "", $extracond = "")
 	{
 		$str = '';
 		if ($tid != 0)
 		{
 			$str .= ' AND mail_id = ' . $tid;
 		}
+
 		if ($section != "")
 		{
 			$str .= ' AND mail_section = "' . $section . '" ';
 		}
+
 		if ($extracond != "")
 		{
 			$str .= 'AND ' . $extracond . ' ';
 		}
+
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'mail '
 			. 'WHERE published=1 '
 			. $str;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
-		return $list;
 
+		return $list;
 	}
 
-	function sendOrderMail($order_id, $reddesign = 0)
+	public function sendOrderMail($order_id, $reddesign = 0)
 	{
 		$redconfig = new Redconfiguration ();
 		$producthelper = new producthelper ();
@@ -85,6 +88,7 @@ class redshopMail
 		$from = $config->getValue('mailfrom');
 		$fromname = $config->getValue('fromname');
 		$user = JFactory::getUser();
+
 		if (USE_AS_CATALOG)
 		{
 			$mailinfo = $this->getMailtemplate(0, "catalogue_order");
@@ -112,9 +116,8 @@ class redshopMail
 
 		$paymentmethod = $paymentmethod [0];
 
-		# by Gunjan
-		# it is necessory to take billing info from order user info table
-		# "Order mail output should reflect the checkout process"
+		// It is necessory to take billing info from order user info table
+		// Order mail output should reflect the checkout process"
 
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
@@ -132,9 +135,9 @@ class redshopMail
 
 		for ($i = 0; $i < count($rowitem); $i++)
 		{
-
 			$product = $producthelper->getProductById($rowitem[$i]->product_id);
 			$manufacturerData = $producthelper->getSection("manufacturer", $product->manufacturer_id);
+
 			if (count($manufacturerData) > 0)
 			{
 				if ($manufacturerData->manufacturer_email != '')
@@ -142,7 +145,9 @@ class redshopMail
 					$manufacturer_email[$i] = $manufacturerData->manufacturer_email;
 				}
 			}
+
 			$supplierData = $producthelper->getSection("supplier", $product->supplier_id);
+
 			if (count($supplierData) > 0)
 			{
 				if ($supplierData->supplier_email != '')
@@ -150,23 +155,30 @@ class redshopMail
 					$supplier_email[$i] = $supplierData->supplier_email;
 				}
 			}
-
 		}
 
 		$arr_discount_type = array();
 		$arr_discount = explode('@', $row->discount_type);
 		$discount_type = '';
+
 		for ($d = 0; $d < count($arr_discount); $d++)
 		{
 			if ($arr_discount [$d])
 			{
 				$arr_discount_type = explode(':', $arr_discount [$d]);
+
 				if ($arr_discount_type [0] == 'c')
+				{
 					$discount_type .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arr_discount_type [1] . '<br>';
+				}
+
 				if ($arr_discount_type [0] == 'v')
+				{
 					$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type [1] . '<br>';
+				}
 			}
 		}
+
 		if (!$discount_type)
 		{
 			$discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
@@ -174,16 +186,19 @@ class redshopMail
 
 		$search [] = "{discount_type}";
 		$replace [] = $discount_type;
-		$split_amount = 0; //($cart['total']+JRequest::getVar('order_ship')) / 2;
+		$split_amount = 0;
 
 		$issplitdisplay = '';
 		$issplitdisplay2 = '';
 
 		if ($row->split_payment)
 		{
-			$issplitdisplay = "<br/>" . JText::_('COM_REDSHOP_RECEIPT_PARTIALLY_PAID_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($split_amount);
-			$issplitdisplay2 = "<br/>" . JText::_('COM_REDSHOP_REMAINING_PARTIALLY_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($split_amount);
+			$issplitdisplay = "<br/>" . JText::_('COM_REDSHOP_RECEIPT_PARTIALLY_PAID_AMOUNT') . ": "
+				. $producthelper->getProductFormattedPrice($split_amount);
+			$issplitdisplay2 = "<br/>" . JText::_('COM_REDSHOP_REMAINING_PARTIALLY_AMOUNT') . ": "
+				. $producthelper->getProductFormattedPrice($split_amount);
 		}
+
 		$orderdetailurl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $order_id . '&encr=' . $row->encr_key;
 		$search  [] = "{order_detail_link}";
 		$replace [] = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
@@ -192,6 +207,7 @@ class redshopMail
 		$message = str_replace($search, $replace, $message);
 		$message = $this->imginmail($message);
 		$thirdpartyemail = $billingaddresses->thirdparty_email;
+
 		if ($session->get('isredcrmuser'))
 		{
 			$email = $user->email;
@@ -212,28 +228,32 @@ class redshopMail
 		$replace_sub [] = SHOP_NAME;
 		$search_sub[] = "{order_date}";
 		$replace_sub[] = $redconfig->convertDateFormat($row->cdate);
-		//$body = $message;
 		$subject = str_replace($search_sub, $replace_sub, $subject);
+
 		if ($reddesign)
 		{
 			$mailbcc = NULL;
 			$mailinfo = $this->getMailtemplate(0, "redDesign_mail");
 			$message = $mailinfo [0]->mail_body;
 			$subject = html_entity_decode($mailinfo [0]->mail_subject, ENT_QUOTES);
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo [0]->mail_bcc);
 			}
 			$message = $this->_carthelper->replaceredDesignmail($order_id, $message, $reddesign_attachment);
 			$subject = str_replace("{order_id}", $order_id, $subject);
-			//	get all super administrator
+
+			// Get all super administrator
 			$rowsadminlist = $this->_redhelper->getselectedAdminlist();
-//			$message = $loopmessage_start . implode ( "<br>", $reddesign_msg ) . $loopmessage_end;
+
 			for ($ri = 0; $ri < count($rowsadminlist); $ri++)
 			{
 				if ($rowsadminlist [$ri]->email != "")
 				{
-					JUtility::sendMail($from, $fromname, $rowsadminlist [$ri]->email, $subject, $message, 1, NULL, $mailbcc, $reddesign_attachment);
+					JUtility::sendMail($from, $fromname, $rowsadminlist [$ri]->email, $subject, $message, 1,
+						NULL, $mailbcc, $reddesign_attachment
+					);
 				}
 			}
 		}
@@ -242,17 +262,21 @@ class redshopMail
 		if ($email != "")
 		{
 			$mailbcc = array();
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
+
 			$bcc = (trim(ADMINISTRATOR_EMAIL) != '') ? explode(",", trim(ADMINISTRATOR_EMAIL)) : NULL;
 			$bcc = array_merge($bcc, $mailbcc);
 			$fullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
+
 			if ($billingaddresses->is_company == 1 && $billingaddresses->company_name != "")
 			{
 				$fullname = $billingaddresses->company_name;
 			}
+
 			$subject = str_replace("{fullname}", $fullname, $subject);
 			$subject = str_replace("{firstname}", $billingaddresses->firstname, $subject);
 			$subject = str_replace("{lastname}", $billingaddresses->lastname, $subject);
@@ -284,6 +308,7 @@ class redshopMail
 		if (MANUFACTURER_MAIL_ENABLE)
 		{
 			sort($manufacturer_email);
+
 			for ($man = 0; $man < count($manufacturer_email); $man++)
 			{
 				if (!JUtility::sendMail($from, $fromname, $manufacturer_email [$man], $subject, $body, 1))
@@ -296,6 +321,7 @@ class redshopMail
 		if (SUPPLIER_MAIL_ENABLE)
 		{
 			sort($supplier_email);
+
 			for ($sup = 0; $sup < count($supplier_email); $sup++)
 			{
 				if (!JUtility::sendMail($from, $fromname, $supplier_email [$sup], $subject, $body, 1))
@@ -304,26 +330,31 @@ class redshopMail
 				}
 			}
 		}
-		// INVOICE MAIL SEND
+
+		// Invoice mail send
 		if (INVOICE_MAIL_ENABLE && $row->order_payment_status == "Paid")
 		{
 			$this->sendInvoiceMail($order_id);
 		}
+
 		return true;
 	}
 
-	function sendOrderSpecialDiscountMail($order_id)
+	public function sendOrderSpecialDiscountMail($order_id)
 	{
-		$redconfig = new Redconfiguration ();
-		$producthelper = new producthelper ();
-		$extra_field = new extra_field ();
+		$redconfig = new Redconfiguration;
+		$producthelper = new producthelper;
+		$extra_field = new extra_field;
+
 		$config = JFactory::getConfig();
 		$mailbcc = array();
 		$mailinfo = $this->getMailtemplate(0, "order_special_discount");
+
 		if (count($mailinfo) > 0)
 		{
 			$message = $mailinfo [0]->mail_body;
 			$subject = $mailinfo [0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
@@ -346,8 +377,7 @@ class redshopMail
 		$partialpayment = $this->_order_functions->getOrderPartialPayment($order_id);
 		$message = $this->_carthelper->replaceOrderTemplate($row, $message);
 
-		// set order paymethod name
-
+		// Set order paymethod name
 		$search  [] = "{shopname}";
 		$replace [] = SHOP_NAME;
 		$search  [] = "{payment_lbl}";
@@ -365,7 +395,9 @@ class redshopMail
 		$search [] = "{order_detail_link}";
 		$replace [] = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount"
+			|| $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3"
+			|| $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5")
 		{
 			$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
 			$paymentparams = new JRegistry($paymentmethod->params);
@@ -374,6 +406,7 @@ class redshopMail
 			$search  [] = "{payment_extrainfo}";
 			$replace [] = $txtextra_info;
 		}
+
 		$message = str_replace($search, $replace, $message);
 		$message = $this->imginmail($message);
 
@@ -386,9 +419,14 @@ class redshopMail
 		if ($email != "")
 		{
 			$bcc = NULL;
+
 			if (trim(ADMINISTRATOR_EMAIL) != '')
+			{
 				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+			}
+
 			$bcc = array_merge($bcc, $mailbcc);
+
 			if (SPECIAL_DISCOUNT_MAIL_SEND == '1')
 			{
 				if (!JUtility::sendMail($from, $fromname, $email, $subject, $body, 1, NULL, $bcc))
@@ -401,6 +439,7 @@ class redshopMail
 		if (MANUFACTURER_MAIL_ENABLE)
 		{
 			sort($manufacturer_email);
+
 			for ($man = 0; $man < count($manufacturer_email); $man++)
 			{
 				if (!JUtility::sendMail($from, $fromname, $manufacturer_email [$man], $subject, $body, 1))
@@ -409,23 +448,22 @@ class redshopMail
 				}
 			}
 		}
+
 		return true;
 	}
 
-
-	function createMultiprintInvoicePdf($oid)
+	public function createMultiprintInvoicePdf($oid)
 	{
 		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config' . DS . 'lang' . DS . 'eng.php');
 		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
-		$order_functions = new order_functions();
-		$shippinghelper = new shipping();
-		$carthelper = new rsCarthelper();
-		$extra_field = new extra_field();
-		$redconfig = new Redconfiguration();
-		$redTemplate = new Redtemplate();
-		$producthelper = new producthelper ();
+		$order_functions = new order_functions;
+		$shippinghelper = new shipping;
+		$carthelper = new rsCarthelper;
+		$extra_field = new extra_field;
+		$redconfig = new Redconfiguration;
+		$redTemplate = new Redtemplate;
+		$producthelper = new producthelper;
 		$message = "";
-
 
 		$pdfObj = new TCPDF (PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
 		$pdfObj->SetTitle('Shipped');
@@ -438,7 +476,6 @@ class redshopMail
 		$pdfObj->SetFont($font, "", 6);
 
 		$order_id = "";
-
 
 		for ($o = 0; $o < count($oid); $o++)
 		{
@@ -454,28 +491,55 @@ class redshopMail
 			$shipping = $order_functions->getOrderShippingUserInfo($OrdersDetail[0]->order_id);
 
 			$is_company = $billing->is_company;
+
 			if (!$shipping)
 			{
-
 				$shipping = $billing;
 			}
 
 			$paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
 			$paymentmethod = $paymentmethod[0];
 
-
 			$order_print_template = $redTemplate->getTemplate("order_print");
+
 			if (count($order_print_template) > 0 && $order_print_template[0]->template_desc != "")
 			{
 				$ordersprint_template = $order_print_template[0]->template_desc;
 			}
 			else
 			{
-				$ordersprint_template = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0"><tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;"><th align="left">{order_information_lbl}{print}</th></tr><tr></tr><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr><td>{order_date_lbl} : {order_date}</td></tr><tr><td>{order_status_lbl} : {order_status}</td></tr><tr><td>{shipping_method_lbl} : {shipping_method} : {shipping_rate_name}</td></tr><tr><td>{payment_lbl} : {payment_method}</td></tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;"><th align="left">{billing_address_information_lbl}</th></tr><tr></tr><tr><td>{billing_address}</td></tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;"><th align="left">{shipping_address_info_lbl}</th></tr><tr></tr><tr><td>{shipping_address}</td></tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;"><th align="left">{order_detail_lbl}</th></tr><tr></tr><tr><td><table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody><tr><td>{product_name_lbl}</td><td>{note_lbl}</td><td>{price_lbl}</td><td>{quantity_lbl}</td><td align="right">Total Price</td></tr>{product_loop_start}<tr><td><p>{product_name}<br />{product_attribute}{product_accessory}{product_userfields}</p></td><td>{product_wrapper}{product_thumb_image}</td><td>{product_price}</td><td>{product_quantity}</td><td align="right">{product_total_price}</td></tr>{product_loop_end}</tbody></table></td></tr><tr><td></td></tr><tr><td><table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody><tr align="left"><td align="left"><strong>{order_subtotal_lbl} : </strong></td><td align="right">{order_subtotal}</td></tr>{if vat}<tr align="left"><td align="left"><strong>{vat_lbl} : </strong></td><td align="right">{order_tax}</td></tr>{vat end if}{if discount}<tr align="left"><td align="left"><strong>{discount_lbl} : </strong></td><td align="right">{order_discount}</td></tr>{discount end if}<tr align="left"><td align="left"><strong>{shipping_lbl} : </strong></td><td align="right">{order_shipping}</td></tr><tr align="left"><td colspan="2" align="left"><hr /></td></tr><tr align="left"><td align="left"><strong>{total_lbl} :</strong></td><td align="right">{order_total}</td></tr><tr align="left"><td colspan="2" align="left"><hr /><br /> <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
+				$ordersprint_template = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0">
+				<tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody>
+				<tr style="background-color: #cccccc;"><th align="left">{order_information_lbl}{print}</th></tr><tr></tr
+				><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr>
+				<td>{order_date_lbl} : {order_date}</td></tr><tr><td>{order_status_lbl} : {order_status}</td></tr><tr>
+				<td>{shipping_method_lbl} : {shipping_method} : {shipping_rate_name}</td></tr><tr><td>{payment_lbl} : {payment_method}</td>
+				</tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
+				<tbody><tr style="background-color: #cccccc;"><th align="left">{billing_address_information_lbl}</th>
+				</tr><tr></tr><tr><td>{billing_address}</td></tr></tbody></table></td></tr><tr><td colspan="2">
+				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;">
+				<th align="left">{shipping_address_info_lbl}</th></tr><tr></tr><tr><td>{shipping_address}</td></tr></tbody>
+				</table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
+				<tbody><tr style="background-color: #cccccc;"><th align="left">{order_detail_lbl}</th></tr><tr></tr><tr><td>
+				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody><tr><td>{product_name_lbl}</td><td>{note_lbl}</td>
+				<td>{price_lbl}</td><td>{quantity_lbl}</td><td align="right">Total Price</td></tr>{product_loop_start}<tr>
+				<td><p>{product_name}<br />{product_attribute}{product_accessory}{product_userfields}</p></td>
+				<td>{product_wrapper}{product_thumb_image}</td><td>{product_price}</td><td>{product_quantity}</td>
+				<td align="right">{product_total_price}</td></tr>{product_loop_end}</tbody></table></td></tr><tr>
+				<td></td></tr><tr><td><table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody>
+				<tr align="left"><td align="left"><strong>{order_subtotal_lbl} : </strong></td><td align="right">{order_subtotal}</td>
+				</tr>{if vat}<tr align="left"><td align="left"><strong>{vat_lbl} : </strong></td><td align="right">{order_tax}</td>
+				</tr>{vat end if}{if discount}<tr align="left"><td align="left"><strong>{discount_lbl} : </strong></td>
+				<td align="right">{order_discount}</td></tr>{discount end if}<tr align="left"><td align="left">
+				<strong>{shipping_lbl} : </strong></td><td align="right">{order_shipping}</td></tr><tr align="left">
+				<td colspan="2" align="left"><hr /></td></tr><tr align="left"><td align="left"><strong>{total_lbl} :</strong>
+				</td><td align="right">{order_total}</td></tr><tr align="left"><td colspan="2" align="left"><hr /><br />
+				 <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
 			}
 
 			$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
-				. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='" . JText::_('COM_REDSHOP_PRINT') . "' /></a>";
+				. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='"
+				. JText::_('COM_REDSHOP_PRINT') . "' /></a>";
 
 			$search[] = "{print}";
 			$replace[] = $print_tag;
@@ -493,7 +557,7 @@ class redshopMail
 			$search[] = "{customer_note}";
 			$replace[] = $OrdersDetail[0]->customer_note;
 
-			// set order paymethod name
+			// Set order paymethod name
 			$search[] = "{payment_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD');
 
@@ -509,11 +573,13 @@ class redshopMail
 			{
 				$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 			}
-			else if (trim($OrdersDetail[0]->order_payment_status) == 'Unpaid')
+
+			elseif (trim($OrdersDetail[0]->order_payment_status) == 'Unpaid')
 			{
 				$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 			}
-			else if (trim($OrdersDetail[0]->order_payment_status) == 'Partial Paid')
+
+			elseif (trim($OrdersDetail[0]->order_payment_status) == 'Partial Paid')
 			{
 				$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
 			}
@@ -526,42 +592,41 @@ class redshopMail
 
 			$search [] = "{order_status_order_only}";
 			$replace [] = $statustext;
-
-
 			$search [] = "{order_status_payment_only}";
 			$replace [] = $orderPaymentStatus;
-
 			$search[] = "{customer_note_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_COMMENT');
 			$search[] = "{customer_note}";
 			$replace[] = $OrdersDetail->customer_note;
 			$search[] = "{shipping_method_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL');
-
-
 			$shipping_method = '';
 			$shipping_rate_name = '';
+
 			if ($OrdersDetail[0]->ship_method_id != '')
 			{
 				$ship_method = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $OrdersDetail[0]->ship_method_id)));
+
 				if (count($ship_method) <= 1)
 				{
 					$ship_method = explode("|", $OrdersDetail[0]->ship_method_id);
 				}
+
 				$shipping_method = "";
 				$shipping_rate_name = "";
+
 				if (count($ship_method) > 0)
 				{
 					if (array_key_exists(1, $ship_method))
 					{
 						$shipping_method = $ship_method[1];
 					}
+
 					if (array_key_exists(2, $ship_method))
 					{
 						$shipping_rate_name = $ship_method[2];
 					}
 				}
-
 			}
 
 			$search[] = "{shipping_method}";
@@ -584,6 +649,7 @@ class redshopMail
 			$template_start = "";
 			$template_middle = "";
 			$template_end = "";
+
 			if (strstr($ordersprint_template, "{product_loop_start}"))
 			{
 				$template_sdata = explode('{product_loop_start}', $ordersprint_template);
@@ -592,32 +658,31 @@ class redshopMail
 				$template_end = $template_edata [1];
 				$template_middle = $template_edata [0];
 			}
-			$cart_tr = '';
 
+			$cart_tr = '';
 
 			for ($i = 0; $i < count($OrderProducts); $i++)
 			{
-
 				$wrapper_name = "";
+
 				if ($OrderProducts[$i]->wrapper_id)
 				{
 					$wrapper = $producthelper->getWrapper($OrderProducts[$i]->product_id, $OrderProducts[$i]->wrapper_id);
+
 					if (count($wrapper) > 0)
 					{
-						$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "(" . $producthelper->getProductFormattedPrice($OrderProducts[$i]->wrapper_price) . ")";
+						$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "("
+							. $producthelper->getProductFormattedPrice($OrderProducts[$i]->wrapper_price) . ")";
 					}
 				}
+
 				if ($OrderProducts [$i]->is_giftcard == 1)
 				{
-
 					$product_userfields = $producthelper->getuserfield($OrderProducts [$i]->order_item_id, 13);
-
 				}
 				else
 				{
-
 					$product_userfields = $producthelper->getuserfield($OrderProducts [$i]->order_item_id);
-
 				}
 
 				$product_name = "<div  class='product_name'>" . $OrderProducts [$i]->order_item_name . "</div>";
@@ -631,32 +696,48 @@ class redshopMail
 				$cart_mdata = '';
 				$uri = JURI::getInstance();
 				$url = $uri->root();
+
 				if ($product->product_full_image)
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
-						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
+					{
+						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
+							. $product->product_full_image;
+					}
 
 					else
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+						{
 							$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+						}
 						else
+						{
 							$product_image_path = "";
+						}
 					}
-
 				}
 				else
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+					{
 						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+					}
 					else
+					{
 						$product_image_path = "";
+					}
 				}
-				//echo $product_image_path;die();
+
 				if ($product_image_path)
-					$product_image = '<div  class="product_image"><img src="' . $product_image_path . '&newxsize=' . CART_THUMB_WIDTH . '&newysize=' . CART_THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING . '"></div>';
+				{
+					$product_image = '<div  class="product_image"><img src="' . $product_image_path . '&newxsize='
+						. CART_THUMB_WIDTH . '&newysize=' . CART_THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING . '"></div>';
+				}
 				else
+				{
 					$product_image = "<div  class='product_image'></div>";
+				}
 
 				$cart_mdata = str_replace("{product_name}", $product_name, $template_middle);
 				$cart_mdata = str_replace("{product_thumb_image}", $product_image, $cart_mdata);
@@ -668,9 +749,13 @@ class redshopMail
 				$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
 
 				$user_subscribe_detail = $producthelper->getUserProductSubscriptionDetail($OrderProducts[$i]->order_item_id);
+
 				if (count($user_subscribe_detail) > 0 && $user_subscribe_detail->subscription_id)
 				{
-					$subscription_detail = $producthelper->getProductSubscriptionDetail($OrderProducts [$i]->product_id, $user_subscribe_detail->subscription_id);
+					$subscription_detail = $producthelper->getProductSubscriptionDetail(
+						$OrderProducts [$i]->product_id,
+						$user_subscribe_detail->subscription_id
+					);
 					$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
 
 					$cart_mdata = str_replace("{product_subscription_lbl}", JText::_('COM_REDSHOP_SUBSCRIPTION'), $cart_mdata);
@@ -682,27 +767,18 @@ class redshopMail
 					$cart_mdata = str_replace("{product_subscription}", "", $cart_mdata);
 				}
 
-
 				$cart_mdata = str_replace("{product_userfields}", $product_userfields, $cart_mdata);
-
 				$cart_mdata = str_replace("{product_wrapper}", $product_note, $cart_mdata);
-
 				$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
-
 				$cart_mdata = str_replace("{product_quantity}", $product_quantity, $cart_mdata);
-
 				$cart_mdata = str_replace("{product_total_price}", $product_total_price, $cart_mdata);
-
 				$cart_tr .= $cart_mdata;
-
 			}
 
 			$ordersprint_template = $template_start . $cart_tr . $template_end;
 
-
 			$search[] = "{order_subtotal}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_subtotal);
-
 
 			if ($OrdersDetail[0]->order_tax <= 0)
 			{
@@ -840,7 +916,6 @@ class redshopMail
 			$search[] = "{order_total}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_total);
 
-
 			$message = str_replace($search, $replace, $ordersprint_template);
 
 			$search = "";
@@ -849,11 +924,11 @@ class redshopMail
 
 			$pdfObj->AddPage();
 			$pdfObj->WriteHTML($body, true, false, true, false, '');
-
 		}
 
 		$invoice_pdfName = "multiprintorder";
-		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
+		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
+			. DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
 
 		return $invoice_pdfName;
 	}
@@ -861,17 +936,19 @@ class redshopMail
 
 	function createShippedInvoicePdf($oid)
 	{
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config' . DS . 'lang' . DS . 'eng.php');
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
-		$redconfig = new Redconfiguration ();
-		$producthelper = new producthelper ();
-		$extra_field = new extra_field ();
+		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf'
+			. DS . 'config' . DS . 'lang' . DS . 'eng.php';
+		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf'
+			. DS . 'tcpdf.php';
+
+		$redconfig = new Redconfiguration;
+		$producthelper = new producthelper;
+		$extra_field = new extra_field;
 		$config = JFactory::getConfig();
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 		$message = "";
 		$subject = "";
 		$cart = '';
-
 
 		$pdfObj = new TCPDF (PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
 		$pdfObj->SetTitle('Shipped');
@@ -886,14 +963,13 @@ class redshopMail
 		$order_id = "";
 		for ($o = 0; $o < count($oid); $o++)
 		{
-
 			$order_id = $oid[$o];
 			$arr_discount_type = array();
 			$mailinfo = $redTemplate->getTemplate("shippment_invoice_template");
+
 			if (count($mailinfo) > 0)
 			{
 				$message = $mailinfo [0]->template_desc;
-				//$subject = $mailinfo [0]->mail_subject;
 			}
 			else
 			{
@@ -911,10 +987,14 @@ class redshopMail
 				{
 					$arr_discount_type = explode(':', $arr_discount [$d]);
 					if ($arr_discount_type [0] == 'c')
+					{
 						$discount_type .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arr_discount_type [1] . '<br>';
+					}
 
 					if ($arr_discount_type [0] == 'v')
+					{
 						$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type [1] . '<br>';
+					}
 				}
 			}
 
@@ -926,13 +1006,9 @@ class redshopMail
 			$search [] = "{discount_type}";
 			$replace [] = $discount_type;
 
-
 			$message = str_replace($search, $replace, $message);
-
-
 			$message = $this->imginmail($message);
 			$user = JFactory::getUser();
-			//$billingaddresses=$this->_order_functions->getBillingAddress ( $user->id );
 			$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
 			$email = $billingaddresses->user_email;
 			$userfullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
@@ -952,27 +1028,29 @@ class redshopMail
 				}
 
 			}
+
 			$body = $message;
 			$pdfObj->AddPage();
 			$pdfObj->WriteHTML($body, true, false, true, false, '');
-
 		}
-
 
 		$rand = rand();
 		$invoice_pdfName = "shipped_" . $rand;
-		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
+		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
+			. DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
 
 		return $invoice_pdfName;
 	}
 
-	function sendInvoiceMail($order_id)
+	public function sendInvoiceMail($order_id)
 	{
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config' . DS . 'lang' . DS . 'eng.php');
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
-		$redconfig = new Redconfiguration ();
-		$producthelper = new producthelper ();
-		$extra_field = new extra_field ();
+		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config'
+			. DS . 'lang' . DS . 'eng.php';
+		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php';
+		$redconfig = new Redconfiguration;
+		$producthelper = new producthelper;
+		$extra_field = new extra_field;
+
 		$config = JFactory::getConfig();
 		$message = "";
 		$subject = "";
@@ -981,10 +1059,12 @@ class redshopMail
 		$arr_discount_type = array();
 
 		$mailinfo = $this->getMailtemplate(0, "invoice_mail");
+
 		if (count($mailinfo) > 0)
 		{
 			$message = $mailinfo [0]->mail_body;
 			$subject = $mailinfo [0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
@@ -1021,7 +1101,7 @@ class redshopMail
 		$search [] = "{discount_type}";
 		$replace [] = $discount_type;
 
-		// set order paymethod name
+		// Set order paymethod name
 		$search_sub [] = "{order_id}";
 		$replace_sub [] = $row->order_id;
 		$search_sub [] = "{order_number}";
@@ -1032,7 +1112,6 @@ class redshopMail
 		$message = str_replace($search, $replace, $message);
 		$message = $this->imginmail($message);
 		$user = JFactory::getUser();
-		//$billingaddresses=$this->_order_functions->getBillingAddress ( $user->id );
 		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
 		$email = $billingaddresses->user_email;
 		$userfullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
@@ -1053,12 +1132,13 @@ class redshopMail
 		$img_url1 = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
 		$img_url = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
 
-// for pdf
+		// For pdf
 		if (function_exists("curl_init"))
 		{
 			$bar_codeIMG = '<img src="' . $img_url . '" alt="Barcode"  border="0" />';
 			$body = str_replace("{barcode}", $bar_codeIMG, $body);
-// for mail
+
+			// For mail
 			$bar_codeIMG1 = '<img src="' . $img_url1 . '" alt="Barcode"  border="0" />';
 			$body1 = str_replace("{barcode}", $bar_codeIMG1, $body1);
 		}
@@ -1083,11 +1163,13 @@ class redshopMail
 
 		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
 		$invoice_attachment = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf";
+
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{
-			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body1, 1, NULL, $mailbcc, $invoice_attachment))
+			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+
 				return false;
 			}
 		}
@@ -1095,16 +1177,19 @@ class redshopMail
 		if ((INVOICE_MAIL_SEND_OPTION == 1 || INVOICE_MAIL_SEND_OPTION == 3) && ADMINISTRATOR_EMAIL != '')
 		{
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
-			if (!JUtility::sendMail($from, $fromname, $sendto, $subject, $body1, 1, NULL, $mailbcc, $invoice_attachment))
+
+			if (!JUtility::sendMail($from, $fromname, $sendto, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
-	function sendRegistrationMail(&$data)
+	public function sendRegistrationMail(&$data)
 	{
 		global $mainframe;
 
@@ -1127,10 +1212,12 @@ class redshopMail
 		$mailsubject = "";
 		$mailbcc = array();
 		$mailtemplate = $this->getMailtemplate(0, "register");
+
 		if (count($mailtemplate) > 0)
 		{
-			$maildata = $mailtemplate[0]->mail_body; //html_entity_decode ( $mailtemplate[0]->mail_body, ENT_QUOTES );
-			$mailsubject = $mailtemplate[0]->mail_subject; //html_entity_decode ( $mailtemplate[0]->mail_subject, ENT_QUOTES );
+			$maildata = $mailtemplate[0]->mail_body;
+			$mailsubject = $mailtemplate[0]->mail_subject;
+
 			if (trim($mailtemplate[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailtemplate[0]->mail_bcc);
@@ -1140,6 +1227,7 @@ class redshopMail
 		{
 			return false;
 		}
+
 		$search = array();
 		$replace = array();
 		$search [] = "{shopname}";
@@ -1160,7 +1248,6 @@ class redshopMail
 		$replace [] = $mainpassword;
 		$replace [] = $data['email'];
 
-
 		$mailbody = str_replace($search, $replace, $maildata);
 		$mailsubject = str_replace($search, $replace, $mailsubject);
 
@@ -1169,29 +1256,30 @@ class redshopMail
 			$adminName = $FromName;
 			$adminEmail = $MailFrom;
 		}
-		$bcc = array();
 
+		$bcc = array();
 
 		if ($mailbody && $data['email'] != "")
 		{
-
 			if (trim(ADMINISTRATOR_EMAIL) != '')
 			{
 				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
 			}
+
 			$bcc = array_merge($bcc, $mailbcc);
 			JUtility::sendMail($MailFrom, $FromName, $data['email'], $mailsubject, $mailbody, 1, NULL, $bcc);
 		}
-		//tax exempt waiting approval mail
+
+		// Tax exempt waiting approval mail
 		if (USE_TAX_EXEMPT && $post['tax_exempt'] == 1)
 		{
 			$this->sendTaxExemptMail("tax_exempt_waiting_approval_mail", $post, $bcc);
 		}
-		//tax exempt waiting approval mail
+
 		return true;
 	}
 
-	function sendTaxExemptMail($section, $userinfo = array(), $email = "")
+	public function sendTaxExemptMail($section, $userinfo = array(), $email = "")
 	{
 		if (USE_TAX_EXEMPT)
 		{
@@ -1203,15 +1291,18 @@ class redshopMail
 			$maildata = $section;
 			$mailsubject = $section;
 			$mailtemplate = $this->getMailtemplate(0, $section);
+
 			if (count($mailtemplate) > 0)
 			{
 				$maildata = html_entity_decode($mailtemplate[0]->mail_body, ENT_QUOTES);
 				$mailsubject = html_entity_decode($mailtemplate[0]->mail_subject, ENT_QUOTES);
+
 				if (trim($mailtemplate[0]->mail_bcc) != "")
 				{
 					$mailbcc = explode(",", $mailtemplate[0]->mail_bcc);
 				}
 			}
+
 			$search = array();
 			$replace = array();
 
@@ -1227,16 +1318,16 @@ class redshopMail
 			$replace [] = $userinfo['username'];
 			$replace [] = SHOP_NAME;
 			$replace [] = $userinfo['firstname'] . ' ' . $userinfo['lastname'];
+
 			if ($userinfo['is_company'] == 1)
 			{
-
 				$replace [] = $userinfo['company_name'];
 			}
 			else
 			{
-
 				$replace [] = "";
 			}
+
 			$replace [] = $userinfo['address'];
 			$replace [] = $userinfo['city'];
 			$replace [] = $userinfo['zipcode'];
@@ -1244,39 +1335,31 @@ class redshopMail
 			$replace [] = $userinfo['phone'];
 
 			$maildata = str_replace($search, $replace, $maildata);
-//			$mailsubject = str_replace ( $search, $replace, $mailsubject );
 
 			if ($email != "")
 			{
 				JUtility::sendMail($MailFrom, $FromName, $email, $mailsubject, $maildata, 1, NULL, $mailbcc);
 			}
 		}
+
 		return true;
 	}
 
 	function sendSubscriptionRenewalMail($data = array())
 	{
-
 		global $mainframe;
 
-		$producthelper = new producthelper ();
-
-		$redconfig = new Redconfiguration ();
+		$producthelper = new producthelper;
+		$redconfig = new Redconfiguration;
 
 		$MailFrom = $mainframe->getCfg('mailfrom');
-
 		$FromName = $mainframe->getCfg('fromname');
-
 		$SiteName = $mainframe->getCfg('sitename');
 
 		$user_email = "";
-
 		$firstname = "";
-
 		$lastname = "";
-
 		$maildata = "";
-
 		$mailsubject = "";
 		$mailbcc = NULL;
 		$mailtemplate = $this->getMailtemplate(0, "subscription_renewal_mail");
@@ -1286,6 +1369,7 @@ class redshopMail
 			$mailtemplate = $mailtemplate [0];
 			$maildata = $mailtemplate->mail_body;
 			$mailsubject = $mailtemplate->mail_subject;
+
 			if (trim($mailtemplate->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailtemplate->mail_bcc);
@@ -1297,6 +1381,7 @@ class redshopMail
 		}
 
 		$userdata = $this->_order_functions->getBillingAddress($data->user_id);
+
 		if (count($userdata) > 0)
 		{
 			$user_email = $userdata->user_email;
@@ -1308,37 +1393,22 @@ class redshopMail
 		$productSubscription = $producthelper->getProductSubscriptionDetail($data->product_id, $data->subscription_id);
 
 		$search = array();
-
 		$replace = array();
-
 		$search [] = "{shopname}";
-
 		$search [] = "{firstname}";
-
 		$search [] = "{lastname}";
-
 		$search [] = "{product_name}";
-
 		$search [] = "{subsciption_enddate}";
-
 		$search [] = "{subscription_period}";
-
 		$search [] = "{subscription_price}";
-
 		$search [] = "{product_link}";
 
 		$replace [] = SHOP_NAME;
-
 		$replace [] = $firstname;
-
 		$replace [] = $lastname;
-
 		$replace [] = $product->product_name;
-
 		$replace [] = $redconfig->convertDateFormat($data->end_date);
-
 		$replace [] = $productSubscription->subscription_period . " " . $productSubscription->period_type;
-
 		$replace [] = $producthelper->getProductFormattedPrice($productSubscription->subscription_price);
 
 		$producturl = JURI::root() . 'index.php?option=com_redshop&view=product&pid=' . $data->product_id;
@@ -1357,9 +1427,8 @@ class redshopMail
 		return true;
 	}
 
-	function imginmail($message)
+	public function imginmail($message)
 	{
-
 		$uri = JFactory::getURI();
 
 		$url = $uri->root();
@@ -1370,7 +1439,6 @@ class redshopMail
 
 		foreach ($matches [0] as $match)
 		{
-
 			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
 
 			$images [] = array_combine($m [1], $m [2]);
@@ -1378,35 +1446,26 @@ class redshopMail
 			$imagescur = array_combine($m [1], $m [2]);
 
 			$imagescurarray [] = $imagescur ['src'];
-
 		}
 
 		$imagescurarray = @array_unique($imagescurarray);
 
 		if ($imagescurarray)
 		{
-
 			foreach ($imagescurarray as $change)
 			{
-
 				if (strpos($change, 'http') === false)
 				{
-
 					$data1 = str_replace($change, $url . $change, $data1);
-
 				}
-
 			}
-
 		}
 
 		return $data1;
-
 	}
 
-	function sendQuotationMail($quotation_id, $status = 0)
+	public function sendQuotationMail($quotation_id, $status = 0)
 	{
-
 		$uri = JURI::getInstance();
 
 		$url = $uri->root();
@@ -1423,15 +1482,18 @@ class redshopMail
 
 		$mailinfo = $this->getMailtemplate(0, "quotation_mail");
 		$mailbcc = array();
+
 		if (count($mailinfo) > 0)
 		{
 			$message = $mailinfo [0]->mail_body;
 			$subject = $mailinfo [0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 		}
+
 		else
 		{
 			return false;
@@ -1452,12 +1514,10 @@ class redshopMail
 
 		if (count($template_sdata) > 0)
 		{
-
 			$template_start = $template_sdata [0];
 
 			if (count($template_sdata) > 1)
 			{
-
 				$template_edata = explode('{product_loop_end}', $template_sdata [1]);
 
 				if (count($template_edata) > 1)
@@ -1469,9 +1529,7 @@ class redshopMail
 				{
 					$template_middle = $template_edata [0];
 				}
-
 			}
-
 		}
 
 		$row = $quotationHelper->getQuotationDetail($quotation_id);
@@ -1494,17 +1552,21 @@ class redshopMail
 
 			$cart_mdata = $template_middle;
 			$wrapper_name = "";
+
 			if ($rowitem[$i]->product_wrapperid)
 			{
 				$wrapper = $producthelper->getWrapper($product_id, $rowitem[$i]->product_wrapperid);
+
 				if (count($wrapper) > 0)
 				{
 					$wrapper_name = $wrapper[0]->wrapper_name;
 				}
+
 				$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper_name;
 			}
 
 			$product_image_path = "";
+
 			if ($product->product_full_image)
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
@@ -1544,68 +1606,49 @@ class redshopMail
 			$product_userfields = $quotationHelper->displayQuotationUserfield($rowitem[$i]->quotation_item_id, 12);
 
 			$cart_mdata = str_replace("{product_userfields}", $product_userfields, $cart_mdata);
-
 			$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
-
 			$cart_mdata = str_replace("{product_number}", $product->product_number, $cart_mdata);
+			$cart_mdata = str_replace("{product_attribute}", $producthelper->makeAttributeQuotation($rowitem[$i]->quotation_item_id, 0,
+				$rowitem[$i]->product_id, $row->quotation_status), $cart_mdata
+			);
 
-			$cart_mdata = str_replace("{product_attribute}", $producthelper->makeAttributeQuotation($rowitem[$i]->quotation_item_id, 0, $rowitem[$i]->product_id, $row->quotation_status), $cart_mdata);
-
-			$cart_mdata = str_replace("{product_accessory}", $producthelper->makeAccessoryQuotation($rowitem[$i]->quotation_item_id, $row->quotation_status), $cart_mdata);
+			$cart_mdata = str_replace("{product_accessory}", $producthelper->makeAccessoryQuotation($rowitem[$i]->quotation_item_id,
+				$row->quotation_status), $cart_mdata
+			);
 
 			// ProductFinderDatepicker Extra Field Start
-
-
 			$cart_mdata = $producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray);
 
 			// ProductFinderDatepicker Extra Field End
-
-
 			if ($row->quotation_status == 1 && !SHOW_QUOTATION_PRICE)
 			{
 				$cart_mdata = str_replace("{product_price}", " ", $cart_mdata);
 				$cart_mdata = str_replace("{product_total_price}", " ", $cart_mdata);
 			}
+
 			else
 			{
 				$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
 				$cart_mdata = str_replace("{product_total_price}", $product_total_price, $cart_mdata);
 			}
+
 			$cart_mdata = str_replace("{product_quantity}", $product_quantity, $cart_mdata);
 			$cart .= $cart_mdata;
 		}
 
-//		$cartArr = array();
-//		$cartArr = $this->_carthelper->repalceOrderItems($template_middle,$rowitem);
-//		$cart= $cartArr[0];
-
 		$message = $template_start . $cart . $template_end;
 
-		// set order paymethod name
-
 		$search [] = "{quotation_note}";
-
 		$replace [] = $row->quotation_note;
-
 		$search [] = "{shopname}";
-
 		$replace [] = SHOP_NAME;
-
-
 		$search [] = "{quotation_id}";
-
 		$replace [] = $row->quotation_id;
-
 		$search [] = "{quotation_number}";
-
 		$replace [] = $row->quotation_number;
-
 		$search [] = "{quotation_date}";
-
 		$replace [] = $redconfig->convertDateFormat($row->quotation_cdate);
-
 		$search [] = "{quotation_status}";
-
 		$replace [] = $quotationHelper->getQuotationStatusName($row->quotation_status);
 
 		$billadd = '';
@@ -1617,11 +1660,11 @@ class redshopMail
 		{
 			if ($row->quotation_email != "")
 			{
-
 				$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $row->quotation_email . '<br />';
-
 			}
+
 			$message = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $message);
+
 			if (strstr($message, "{quotation_custom_field_list}"))
 			{
 				$billadd .= $extra_field->list_all_field_display(16, $row->user_info_id, 1, $row->quotation_email);
@@ -1634,13 +1677,11 @@ class redshopMail
 		}
 
 		$search [] = "{billing_address}";
-
 		$replace [] = $billadd;
-
-//		echo $row->quotation_status;exit;
 		$total_lbl = '';
 		$subtotal_lbl = '';
 		$vat_lbl = '';
+
 		if ($row->quotation_status != 1 || ($row->quotation_status == 1 && SHOW_QUOTATION_PRICE))
 		{
 			$total_lbl = JText::_('COM_REDSHOP_TOTAL_LBL');
@@ -1659,7 +1700,6 @@ class redshopMail
 
 		if ($row->quotation_status == 1 && !SHOW_QUOTATION_PRICE)
 		{
-
 			$quotation_subtotal = " ";
 			$quotation_total = " ";
 			$quotation_discount = " ";
@@ -1668,31 +1708,23 @@ class redshopMail
 		}
 		else
 		{
-
 			$quotation_subtotal = $producthelper->getProductFormattedPrice($row->quotation_subtotal);
 			$quotation_total = $producthelper->getProductFormattedPrice($row->quotation_total);
 			$quotation_discount = $producthelper->getProductFormattedPrice($row->quotation_discount);
 			$quotation_vat = $producthelper->getProductFormattedPrice($row->quotation_tax);
-
 		}
 
 		$search [] = "{quotation_subtotal}";
-
 		$replace [] = $quotation_subtotal;
-
 		$search [] = "{quotation_total}";
-
 		$replace [] = $quotation_total;
-
 		$search [] = "{quotation_discount}";
-
 		$replace [] = $quotation_discount;
-
 		$search [] = "{quotation_vat}";
-
 		$replace [] = $quotation_vat;
 
-		$quotationdetailurl = JURI::root() . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr=' . $row->quotation_encrkey;
+		$quotationdetailurl = JURI::root() . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr='
+			. $row->quotation_encrkey;
 
 		$search [] = "{quotation_detail_link}";
 
@@ -1705,10 +1737,7 @@ class redshopMail
 		$email = $row->quotation_email;
 
 		// Set the e-mail parameters
-
-
 		$from = $config->getValue('mailfrom');
-
 		$fromname = $config->getValue('fromname');
 
 		$body = $message;
@@ -1717,14 +1746,16 @@ class redshopMail
 
 		// Send the e-mail
 
-
 		if ($email != "")
 		{
-
 			$bcc = NULL;
 			if (trim(ADMINISTRATOR_EMAIL) != '')
+			{
 				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+			}
+
 			$bcc = array_merge($bcc, $mailbcc);
+
 			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body, 1, NULL, $bcc))
 			{
 				$this->setError('ERROR_SENDING_QUOTATION_MAIL');
@@ -1735,10 +1766,11 @@ class redshopMail
 		{
 			$quotationHelper->updateQuotationStatus($quotation_id, $status);
 		}
+
 		return true;
 	}
 
-	function sendNewsletterConfirmationMail($subscription_id)
+	public function sendNewsletterConfirmationMail($subscription_id)
 	{
 		if (NEWSLETTER_CONFIRMATION)
 		{
@@ -1747,21 +1779,24 @@ class redshopMail
 			$option = JRequest::getVar('option', '', 'request');
 			$mailbcc = NULL;
 			$mailinfo = $this->getMailtemplate(0, "newsletter_confirmation");
+
 			if (count($mailinfo) > 0)
 			{
 				$message = $mailinfo [0]->mail_body;
 				$subject = $mailinfo [0]->mail_subject;
+
 				if (trim($mailinfo[0]->mail_bcc) != "")
 				{
 					$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 				}
 			}
+
 			else
 			{
 				return false;
 			}
-			$query = "SELECT * FROM " . $this->_table_prefix . "newsletter_subscription " .
 
+			$query = "SELECT * FROM " . $this->_table_prefix . "newsletter_subscription " .
 				"WHERE subscription_id='" . $subscription_id . "' ";
 
 			$this->_db->setQuery($query);
@@ -1793,7 +1828,6 @@ class redshopMail
 			$fromname = $config->getValue('fromname');
 
 			// Send the e-mail
-
 			if ($email != "")
 			{
 				if (!JUtility::sendMail($from, $fromname, $email, $subject, $message, 1, NULL, $mailbcc))
@@ -1802,18 +1836,21 @@ class redshopMail
 				}
 			}
 		}
+
 		return true;
 	}
 
-	function sendNewsletterCancellationMail($email = "")
+	public function sendNewsletterCancellationMail($email = "")
 	{
 		$config = JFactory::getConfig();
 		$mailinfo = $this->getMailtemplate(0, "newsletter_cancellation");
 		$mailbcc = NULL;
+
 		if (count($mailinfo) > 0)
 		{
 			$message = $mailinfo [0]->mail_body;
 			$subject = $mailinfo [0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
@@ -1837,17 +1874,17 @@ class redshopMail
 		$fromname = $config->getValue('fromname');
 
 		// Send the e-mail
-
 		if ($email != "")
 		{
 			JUtility::sendMail($from, $fromname, $email, $subject, $message, 1, NULL, $mailbcc);
 		}
+
 		return true;
 	}
 
-	function sendAskQuestionMail($ansid)
+	public function sendAskQuestionMail($ansid)
 	{
-		$producthelper = new producthelper ();
+		$producthelper = new producthelper;
 		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$option = JRequest::getVar('option');
@@ -1857,12 +1894,14 @@ class redshopMail
 
 		$mailinfo = $this->getMailtemplate(0, "ask_question_mail");
 		$ans = $producthelper->getQuestionAnswer($ansid);
+
 		if (count($mailinfo) > 0)
 		{
 			$data_add = $mailinfo [0]->mail_body;
 			$subject = $mailinfo [0]->mail_subject;
 			$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 		}
+
 		if (count($ans) > 0)
 		{
 			$ans = $ans [0];
@@ -1874,10 +1913,12 @@ class redshopMail
 			$telephone = "";
 			$address = "";
 			$product_id = $ans->product_id;
+
 			if ($ans->parent_id)
 			{
 				$answer = $ans->question;
 				$qdetail = $producthelper->getQuestionAnswer($ans->parent_id);
+
 				if (count($qdetail) > 0)
 				{
 					$config = JFactory::getConfig();
@@ -1892,6 +1933,7 @@ class redshopMail
 					$telephone = $qdetail->telephone;
 				}
 			}
+
 			$product = $producthelper->getProductById($product_id);
 
 			$link = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id);
@@ -1907,6 +1949,7 @@ class redshopMail
 			$subject = str_replace("{user_question}", $question, $subject);
 			$subject = str_replace("{shopname}", SHOP_NAME, $subject);
 			$subject = str_replace("{product_name}", $product->product_name, $subject);
+
 			if ($email)
 			{
 				if (JUtility::sendMail($from, $fromname, $email, $subject, $data_add, $mode = 1, NULL, $mailbcc))
@@ -1915,10 +1958,11 @@ class redshopMail
 				}
 			}
 		}
+
 		return false;
 	}
 
-	function sendEconomicBookInvoiceMail($order_id = 0, $bookinvoicepdf = "")
+	public function sendEconomicBookInvoiceMail($order_id = 0, $bookinvoicepdf = "")
 	{
 		if ($order_id == 0)
 		{
@@ -1935,10 +1979,12 @@ class redshopMail
 		$data_add = "economic inoice";
 		$subject = "economic_inoice";
 		$mailbcc = NULL;
+
 		if (count($mailinfo) > 0)
 		{
 			$data_add = $mailinfo [0]->mail_body;
 			$subject = $mailinfo [0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
@@ -1975,15 +2021,17 @@ class redshopMail
 		{
 			JUtility::sendMail($from, $fromname, $user_billinginfo->user_email, $subject, $data_add, 1, NULL, $mailbcc, $attachment);
 		}
+
 		if (ADMINISTRATOR_EMAIL != '')
 		{
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
 			JUtility::sendMail($from, $fromname, $sendto, $subject, $data_add, 1, NULL, $mailbcc, $attachment);
 		}
+
 		return true;
 	}
 
-	function getReddesignOrderItem($order_item_id)
+	public function getReddesignOrderItem($order_item_id)
 	{
 		$query = 'SELECT * ' .
 			'FROM #__reddesign_order ' .
@@ -1991,10 +2039,11 @@ class redshopMail
 
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
+
 		return $list;
 	}
 
-	function sendRequestTaxExemptMail($data, $username = "")
+	public function sendRequestTaxExemptMail($data, $username = "")
 	{
 		if (ADMINISTRATOR_EMAIL != '')
 		{
@@ -2002,10 +2051,12 @@ class redshopMail
 			$data_add = "";
 			$subject = "";
 			$mailbcc = NULL;
+
 			if (count($mailinfo) > 0)
 			{
 				$data_add = $mailinfo [0]->mail_body;
 				$subject = $mailinfo [0]->mail_subject;
+
 				if (trim($mailinfo[0]->mail_bcc) != "")
 				{
 					$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
@@ -2034,16 +2085,18 @@ class redshopMail
 		}
 	}
 
-	function sendCatalogRequest($catalog = array())
+	public function sendCatalogRequest($catalog = array())
 	{
 		$maildata = $this->getMailtemplate(0, "catalog");
 		$data_add = "";
 		$subject = "";
 		$mailbcc = NULL;
+
 		if (count($mailinfo) > 0)
 		{
 			$data_add = $mailinfo [0]->mail_body;
 			$subject = $mailinfo [0]->mail_subject;
+
 			if (trim($mailinfo[0]->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
@@ -2058,26 +2111,30 @@ class redshopMail
 			. "AND media_type='document' "
 			. "AND section_id = '" . $catalog->catalog_id . "' "
 			. "AND published = 1 ";
+
 		$this->_db->setQuery($query);
 		$catalog_data = $this->_db->loadObjectlist();
 		$attachment = array();
+
 		for ($p = 0; $p < count($catalog_data); $p++)
 		{
 			$attachment[] = REDSHOP_FRONT_DOCUMENT_RELPATH . 'catalog/' . $catalog_data[$p]->media_name;
 		}
 
 		$data_add = str_replace("{name}", $catalog->name, $data_add);
+
 		if (JUtility::sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, NULL, $mailbcc, $attachment))
 		{
 			return true;
 		}
+
 		else
 		{
 			return false;
 		}
 	}
 
-	function sendResetPasswordMail($email)
+	public function sendResetPasswordMail($email)
 	{
 		$config = JFactory::getConfig();
 		$from = $config->getValue('mailfrom');
@@ -2094,16 +2151,19 @@ class redshopMail
 		$subject = "";
 		$mailbcc = NULL;
 		$mailinfo = $this->getMailtemplate(0, "status_of_password_reset");
+
 		if (count($mailinfo) > 0)
 		{
 			$mailinfo = $mailinfo[0];
 			$message = $mailinfo->mail_body;
 			$subject = $mailinfo->mail_subject;
+
 			if (trim($mailinfo->mail_bcc) != "")
 			{
 				$mailbcc = explode(",", $mailinfo->mail_bcc);
 			}
 		}
+
 		$search[] = "{username}";
 		$search[] = "{reset_token}";
 		$search[] = "{password_complete_url}";
@@ -2131,5 +2191,3 @@ class redshopMail
 		return false;
 	}
 }
-
-?>
