@@ -8,13 +8,13 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'user.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
+include_once JPATH_COMPONENT . '/helpers/user.php';
 
 /**
  * Class cartModelcart.

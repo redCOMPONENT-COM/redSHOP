@@ -35,31 +35,31 @@ $absolute_path = realpath($absolute_path);
 define('_JEXEC', 1);
 define('JPATH_BASE', $absolute_path);
 define('DS', DIRECTORY_SEPARATOR);
-define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop');
-define('JPATH_COMPONENT', JPATH_BASE . DS . 'components' . DS . 'com_redshop');
+define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . '/administrator/components/com_redshop');
+define('JPATH_COMPONENT', JPATH_BASE . '/components/com_redshop');
 
 
 // Load the framework
 
-require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
-require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
+require_once $absolute_path . '/includes/defines.php';
+require_once $absolute_path . '/includes/framework.php';
 
 // Set up the appropriate CMS framework
 
 // Create the mainframe object
-$mainframe = & JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 // Load system plugin group
 JPluginHelper::importPlugin('system');
 
 // Create the mainframe object
-$mainframe = & JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Trigger the onBeforeStart events
-$mainframe->triggerEvent('onBeforeStart');
+$app->triggerEvent('onBeforeStart');
 $lang           = JFactory::getLanguage();
 $mosConfig_lang = $GLOBALS['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 $session        = JFactory::getSession();

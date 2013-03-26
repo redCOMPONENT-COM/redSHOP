@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-jimport('joomla.html.pagination');
+JLoader::import('joomla.application.component.model');
+JLoader::import('joomla.html.pagination');
 
 /**
  * Class manufacturersModelmanufacturers
@@ -33,12 +33,14 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function __construct()
 	{
-		global $mainframe, $context;
+		global $context;
+
+		$app = JFactory::getApplication();
 
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$params              = & $mainframe->getParams('com_redshop');
+		$params              = $app->getParams('com_redshop');
 
 		if ($params->get('manufacturerid') != "")
 		{
@@ -51,7 +53,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		$this->setId($manid);
 
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
+		$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -138,7 +140,7 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe, $context;
+		global $app, $context;
 		$layout  = JRequest::getVar('layout');
 		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
 

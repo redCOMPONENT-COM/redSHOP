@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class ratingsViewratings extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
 		$detail     =& $this->get('data');
 		$pagination =& $this->get('pagination');

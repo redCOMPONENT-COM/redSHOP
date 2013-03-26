@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class loginViewlogin extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
 		$model = $this->getModel();
 
@@ -49,8 +49,8 @@ class loginViewlogin extends JView
 			}
 			else
 			{
-				$mainframe->enqueuemessage(JText::_('COM_REDSHOP_SHOPPER_GROUP_PORTAL_IS_DISABLE'));
-				$mainframe->Redirect('index.php?option=com_redshop');
+				$app->enqueuemessage(JText::_('COM_REDSHOP_SHOPPER_GROUP_PORTAL_IS_DISABLE'));
+				$app->Redirect('index.php?option=com_redshop');
 			}
 		}
 		else

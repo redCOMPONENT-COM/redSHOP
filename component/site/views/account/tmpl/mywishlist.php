@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 // Get product helper
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper;
 $configobj = new Redconfiguration;
 $redTemplate = new Redtemplate;
@@ -368,8 +368,8 @@ if ($mail == 0)
 		$my = "<form name='frm' method='POST' action=''>";
 
 		$my .= "<input type='hidden' name='product_id' id='product_id' value='" . $mainid . "' >
-			
-			
+
+
 			<input type='hidden' name='totacc_id' id='totacc_id' value='" . $totattid . "' >
 			<input type='hidden' name='totcount_no_user_field' id='totcount_no_user_field' value='" . $totcount_no_user_field . "' >
 			<input type='button' name='submit' onclick='return productalladdprice();' value='" . JText::_('COM_REDSHOP_ADD_TO_CART') . "'>

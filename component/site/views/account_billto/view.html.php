@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 class Account_billtoViewaccount_billto extends JView
 {
@@ -24,10 +24,10 @@ class Account_billtoViewaccount_billto extends JView
 	 */
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$extra_field = new extraField;
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
 		$billingaddresses = $GLOBALS['billingaddresses'];
 
@@ -58,7 +58,7 @@ class Account_billtoViewaccount_billto extends JView
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{
-			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 			exit;
 		}
 

@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+include_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
 $producthelper = new producthelper;
 $carthelper    = new rsCarthelper;

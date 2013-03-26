@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
 
 class send_friendViewsend_friend extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Request variables
 		$id     = JRequest::getVar('id', null, '', 'int');
@@ -25,9 +25,9 @@ class send_friendViewsend_friend extends JView
 		$Itemid = JRequest::getVar('Itemid');
 		$pid    = JRequest::getInt('pid');
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
-		$pathway  =& $mainframe->getPathway();
+		$pathway  = $app->getPathway();
 		$document = JFactory::getDocument();
 
 		// Include Javascript

@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+include_once JPATH_COMPONENT . '/helpers/helper.php';
 
 $configobj = new Redconfiguration;
 $order_functions = new order_functions;
@@ -31,7 +31,7 @@ $paymentmethod = $paymentmethod[0];
 
 
 
-$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . DS . $paymentmethod->element . '.xml';
+$paymentpath = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . DS . $paymentmethod->element . '.xml';
 $paymentparams = new JRegistry($paymentmethod->params);
 
 
@@ -68,7 +68,7 @@ if ($preloader)
 
 	if (!$is_creditcard || $is_redirected == 1)
 	{
-		$adminpath        = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath        = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
@@ -140,23 +140,23 @@ if ($preloader)
 		else
 		{
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 			$key = array_search(true, $results);
 
 			if (is_array($results) && $key !== false)
 			{
-				$mainframe = JFactory::getApplication();
-				$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+				$app = JFactory::getApplication();
+				$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
 			}
 		}
 	}
 	}
 	else
 	{
-		$mainframe = JFactory::getApplication();
-		$mainframe->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+		$app = JFactory::getApplication();
+		$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
 	}
 	?>
 </div>

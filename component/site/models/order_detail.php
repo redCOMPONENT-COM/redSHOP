@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class Order_detailModelOrder_detail
@@ -61,7 +61,7 @@ class Order_detailModelOrder_detail extends JModel
 	 */
 	public function billingaddresses()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$order_functions = new order_functions;
 		$user            = JFactory::getUser();
 		$session         = JFactory::getSession();
