@@ -50,7 +50,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 			$plugin = $element;
 		}
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Get merchant Information

@@ -42,7 +42,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 */
 	function onPrepareProduct(&$template, &$params, $product)
 	{
-		$app = & JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$user_id = $user->id;
 		$rsUserhelper = new rsUserhelper;

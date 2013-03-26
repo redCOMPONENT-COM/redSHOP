@@ -43,9 +43,9 @@ class plgButtonproduct extends JPlugin
 	 */
 	function onDisplay($name)
 	{
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$doc = & JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$js = "
 		function jSelectProduct(id, title, object) {

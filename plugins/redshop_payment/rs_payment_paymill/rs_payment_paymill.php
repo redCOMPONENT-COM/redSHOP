@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
 
 		include $paymentpath;
@@ -164,7 +164,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	 */
 	function getOrderAndCcdata($element, $data)
 	{
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		if ($element != 'rs_payment_paymill')
 		{
@@ -178,7 +178,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$orderDetails = $order_functions->getOrderDetails($data['order_id']);
 		$order_amount = number_format($orderDetails->order_total, 2, '.', '') * 100;
 
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$Itemid = JRequest::getVar('Itemid');
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'lib/Services/Paymill/Transactions.php';
 		include $paymentpath;
@@ -221,7 +221,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$Itemid = $request["Itemid"];
 		$order_id = $request['orderid'];
 
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$paymillresult = $session->get('paymillresult');
 		$tid = $paymillresult['id'];
 

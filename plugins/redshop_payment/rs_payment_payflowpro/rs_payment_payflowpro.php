@@ -49,10 +49,10 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Get Payment Params

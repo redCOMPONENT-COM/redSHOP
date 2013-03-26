@@ -50,10 +50,10 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$user = JFActory::getUser();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 		$cart = $session->get('cart');
 
@@ -252,7 +252,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$order_id = $data['order_id'];
 		$order_number = $data['order_number'];

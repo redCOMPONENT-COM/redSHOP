@@ -40,13 +40,13 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	{
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$url = $uri->root();
 		$user = JFactory::getUser();
 		$sessionid = session_id();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		if ($element != 'rs_payment_ceilo')

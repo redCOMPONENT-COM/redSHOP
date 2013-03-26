@@ -52,7 +52,7 @@ public function onBeforeRender()
 		return;
 	}
 
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 
 	$document->addScript('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'js' . DS . 'jquery.jqzoom-core.js');
 	$document->addStyleSheet('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'css' . DS . 'jquery.jqzoom.css');

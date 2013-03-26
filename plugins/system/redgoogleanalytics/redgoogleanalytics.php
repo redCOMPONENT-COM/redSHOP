@@ -45,7 +45,7 @@ class plgSystemredgoogleanalytics extends JPlugin
 
 		$googleFile = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'google_analytics.php';
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$requesturlBase = $uri->base();
 		$view = JRequest::getVar('view');
 		$format = JRequest::getWord('format', '');

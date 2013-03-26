@@ -12,7 +12,7 @@ $redhelper = new redhelper;
 $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
-$mainframe =& JFactory::getApplication();
+$mainframe = JFactory::getApplication();
 $Itemid = $_REQUEST['Itemid'];
 //Authnet vars to send
 $formdata = array(

@@ -43,7 +43,7 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$mainframe = & JFactory::getApplication('site');
+$mainframe = JFactory::getApplication('site');
 
 // Initialize the framework
 $mainframe->initialise();
@@ -53,7 +53,7 @@ JPluginHelper::importPlugin('system');
 
 // trigger the onBeforeStart events
 $mainframe->triggerEvent('onBeforeStart');
-$lang = & JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 // Adjust the live site path
 
@@ -126,7 +126,7 @@ switch ($_REQUEST ['_type'])
 // google giving redSHOP order id for the first time
 // we need it back from transaction id
 
-$db =& JFactory::getDBO();
+$db = JFactory::getDBO();
 
 if (!isset ($order_id))
 {

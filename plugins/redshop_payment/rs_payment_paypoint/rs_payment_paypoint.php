@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
+//$mainframe = JFactory::getApplication();
 //$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 {
@@ -53,7 +53,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 			$plugin = $element;
 		}
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Additional Customer Data

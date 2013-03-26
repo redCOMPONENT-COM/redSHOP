@@ -47,7 +47,7 @@ class plgContentredshop_product extends JPlugin
 				$currency_convert = $convertPrice->convert(1);
 			}
 
-					$document = & JFactory::getDocument();
+					$document = JFactory::getDocument();
 			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
@@ -86,7 +86,7 @@ class plgContentredshop_product extends JPlugin
 			$producthelper = new producthelper;
 			$extraField = new extraField;
 			$objhelper = new redhelper;
-			$lang =& JFactory::getLanguage();
+			$lang = JFactory::getLanguage();
 
 			// Or JPATH_ADMINISTRATOR if the template language file is only
 			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR);
