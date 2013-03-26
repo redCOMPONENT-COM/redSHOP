@@ -88,7 +88,7 @@ class checkoutViewcheckout extends JView
 
 		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentinfo     = $paymentinfo[0];
-		$paymentpath     = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentinfo->element . DS . $paymentinfo->element . '.xml';
+		$paymentpath     = JPATH_SITE . '/plugins/redshop_payment/' . $paymentinfo->element . '/' . $paymentinfo->element . '.xml';
 		$paymentparams   = new JRegistry($paymentinfo->params);
 		$is_creditcard   = $paymentparams->get('is_creditcard', '');
 		$is_subscription = $paymentparams->get('is_subscription', 0);

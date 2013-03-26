@@ -71,7 +71,7 @@ $is_creditcard = 0;
 
 			for ($p = 0; $p < count($paymentmethod); $p++)
 			{
-				$paymentpath = $adminpath . '/helpers/payments' . DS . $paymentmethod[$p]->plugin . DS . $paymentmethod[$p]->plugin . '.php';
+				$paymentpath = $adminpath . '/helpers/payments/' . $paymentmethod[$p]->plugin . '/' . $paymentmethod[$p]->plugin . '.php';
 				include_once $paymentpath;
 
 				// $payment_class = new $paymentmethod[$p]->payment_class;

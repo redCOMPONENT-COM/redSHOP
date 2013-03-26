@@ -76,9 +76,9 @@ $model = $this->getModel('category');
 /* replace redproductfilder filter tag */
 if (strstr($template_desc, "{redproductfinderfilter:"))
 {
-	if (file_exists(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php"))
+	if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php'))
 	{
-		include_once JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php";
+		include_once JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
 		$redproductfinder_helper = new redproductfinder_helper;
 		$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $category_template);
 		$hide_filter_flag        = false;
@@ -529,7 +529,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 					$alttext = $media_documents[$m]->media_name;
 				}
 
-				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product" . DS . $media_documents[$m]->media_name))
+				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
 					$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 					$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
