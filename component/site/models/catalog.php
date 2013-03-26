@@ -31,7 +31,7 @@ class CatalogModelCatalog extends JModel
 
 	public function catalogStore($data)
 	{
-		$row =& $this->getTable('catalog_request');
+		$row = $this->getTable('catalog_request');
 
 		if (!$row->bind($data))
 		{
@@ -52,7 +52,7 @@ class CatalogModelCatalog extends JModel
 
 	public function catalogSampleStore($data)
 	{
-		$row =& $this->getTable('sample_request');
+		$row = $this->getTable('sample_request');
 
 		if (!$row->bind($data))
 		{

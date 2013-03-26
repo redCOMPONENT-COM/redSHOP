@@ -314,7 +314,7 @@ class CheckoutModelCheckout extends JModel
 		{
 			$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod->element);
 			$paymentmethod = $paymentmethod[0];
-			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
+			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 
 			$paymentparams = new JRegistry($paymentmethod->params);
 
@@ -361,7 +361,7 @@ class CheckoutModelCheckout extends JModel
 			$payment_oprand = $cart['payment_oprand'];
 		}
 
-		$xmlpath = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
+		$xmlpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 		$params  = new JRegistry($paymentmethod->params, $xmlpath);
 
 		$economic_payment_terms_id = $params->get('economic_payment_terms_id');
@@ -384,7 +384,7 @@ class CheckoutModelCheckout extends JModel
 			$ip = 'unknown';
 		}
 
-		$row = & $this->getTable('order_detail');
+		$row = $this->getTable('order_detail');
 
 		if (!$row->bind($post))
 		{
@@ -467,7 +467,7 @@ class CheckoutModelCheckout extends JModel
 
 		if ($order_total <= 0)
 		{
-			$paymentpath       = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . '.xml';
+			$paymentpath       = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 			$paymentparams     = new JRegistry($paymentmethod->params);
 			$order_main_status = $paymentparams->get('verify_status', '');
 
@@ -642,7 +642,7 @@ class CheckoutModelCheckout extends JModel
 
 			$product_id = $cart [$i] ['product_id'];
 			$product    = $this->_producthelper->getProductById($product_id);
-			$rowitem    = & $this->getTable('order_item_detail');
+			$rowitem    = $this->getTable('order_item_detail');
 
 			// The redCRM product purchase price
 			if ($helper->isredCRM())
@@ -737,8 +737,8 @@ class CheckoutModelCheckout extends JModel
 			if ($cart[$i]['attributeImage'])
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
-				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages' . DS . $cart[$i]['attributeImage'];
-				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . DS . $rowitem->attribute_image;
+				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
+				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
 			}
 			else
@@ -873,7 +873,7 @@ class CheckoutModelCheckout extends JModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem                    = & $this->getTable('order_attribute_item');
+						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
 						$rowattitem->order_item_id     = $rowitem->order_item_id;
 						$rowattitem->section_id        = $attribute_id;
@@ -908,7 +908,7 @@ class CheckoutModelCheckout extends JModel
 							$property_id = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $this->_producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr                    = $propArr[$k]['property_childs'];
-							$rowattitem                    =& $this->getTable('order_attribute_item');
+							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
 							$rowattitem->order_item_id     = $rowitem->order_item_id;
 							$rowattitem->section_id        = $property_id;
@@ -941,7 +941,7 @@ class CheckoutModelCheckout extends JModel
 
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $this->_producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
-								$rowattitem                    = & $this->getTable('order_attribute_item');
+								$rowattitem                    = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
 								$rowattitem->order_item_id     = $rowitem->order_item_id;
 								$rowattitem->section_id        = $subproperty_id;
@@ -996,7 +996,7 @@ class CheckoutModelCheckout extends JModel
 						// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
 					}
 
-					$accdata = & $this->getTable('accessory_detail');
+					$accdata = $this->getTable('accessory_detail');
 
 					if ($accessory_id > 0)
 					{
@@ -1004,7 +1004,7 @@ class CheckoutModelCheckout extends JModel
 					}
 
 					$accProductinfo                      = $this->_producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem                          =& $this->getTable('order_acc_item');
+					$rowaccitem                          = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id       = 0;
 					$rowaccitem->order_item_id           = $rowitem->order_item_id;
 					$rowaccitem->product_id              = $accessory_id;
@@ -1037,7 +1037,7 @@ class CheckoutModelCheckout extends JModel
 				for ($j = 0; $j < count($attchildArr); $j++)
 				{
 					$attribute_id                  = $attchildArr[$j]['attribute_id'];
-					$rowattitem                    =& $this->getTable('order_attribute_item');
+					$rowattitem                    = $this->getTable('order_attribute_item');
 					$rowattitem->order_att_item_id = 0;
 					$rowattitem->order_item_id     = $rowitem->order_item_id;
 					$rowattitem->section_id        = $attribute_id;
@@ -1076,7 +1076,7 @@ class CheckoutModelCheckout extends JModel
 							$stockroom_att_id_list       = $updatestock_att['stockroom_list'];
 							$stockroom_att_quantity_list = $updatestock_att['stockroom_quantity_list'];
 
-							$rowattitem                     = & $this->getTable('order_attribute_item');
+							$rowattitem                     = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id  = 0;
 							$rowattitem->order_item_id      = $rowitem->order_item_id;
 							$rowattitem->section_id         = $property_id;
@@ -1118,7 +1118,7 @@ class CheckoutModelCheckout extends JModel
 								$stockroom_subatt_id_list       = $updatestock_subatt['stockroom_list'];
 								$stockroom_subatt_quantity_list = $updatestock_subatt['stockroom_quantity_list'];
 
-								$rowattitem                     =& $this->getTable('order_attribute_item');
+								$rowattitem                     = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id  = 0;
 								$rowattitem->order_item_id      = $rowitem->order_item_id;
 								$rowattitem->section_id         = $subproperty_id;
@@ -1158,7 +1158,7 @@ class CheckoutModelCheckout extends JModel
 			// Store user product subscription detail
 			if ($product->product_type == 'subscription')
 			{
-				$subscribe           = & $this->getTable('product_subscribe_detail');
+				$subscribe           = $this->getTable('product_subscribe_detail');
 				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
 
 				$add_day                    = $subscription_detail->period_type == 'days' ? $subscription_detail->subscription_period : 0;
@@ -1193,7 +1193,7 @@ class CheckoutModelCheckout extends JModel
 			}
 		}
 
-		$rowpayment = & $this->getTable('order_payment');
+		$rowpayment = $this->getTable('order_payment');
 
 		if (!$rowpayment->bind($post))
 		{
@@ -1253,10 +1253,10 @@ class CheckoutModelCheckout extends JModel
 		$GLOBALS['shippingaddresses'] = $shippingaddresses;
 
 		// Add billing Info
-		$userrow = & $this->getTable('user_detail');
+		$userrow = $this->getTable('user_detail');
 		$userrow->load($billingaddresses->users_info_id);
 		$userrow->thirdparty_email = $post['thirdparty_email'];
-		$orderuserrow              = & $this->getTable('order_user_detail');
+		$orderuserrow              = $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
 		{
@@ -1276,14 +1276,14 @@ class CheckoutModelCheckout extends JModel
 		}
 
 		// Add shipping Info
-		$userrow = & $this->getTable('user_detail');
+		$userrow = $this->getTable('user_detail');
 
 		if (isset($shippingaddresses->users_info_id))
 		{
 			$userrow->load($shippingaddresses->users_info_id);
 		}
 
-		$orderuserrow = & $this->getTable('order_user_detail');
+		$orderuserrow = $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
 		{
@@ -1429,7 +1429,7 @@ class CheckoutModelCheckout extends JModel
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
 			$gift_code         = $this->_order_functions->random_gen_enc_key(12);
-			$couponItems       = & $this->getTable('coupon_detail');
+			$couponItems       = $this->getTable('coupon_detail');
 
 			if ($giftcardData->customer_amount)
 			{
@@ -1771,7 +1771,7 @@ class CheckoutModelCheckout extends JModel
 		$cardNo = str_replace(' ', '', $cardnumber);
 
 		// Check that the number is numeric and of the right sort of length.
-		if (!eregi('^[0-9]{13,19}$', $cardNo))
+		if (!preg_match("/^[0-9]{13,19}$/i", $cardNo))
 		{
 			$errornumber = 2;
 			$errortext   = $ccErrors [$errornumber];
@@ -2071,7 +2071,7 @@ class CheckoutModelCheckout extends JModel
 
 				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
 				{
-					$rowvoucher =& $this->getTable('transaction_voucher_detail');
+					$rowvoucher = $this->getTable('transaction_voucher_detail');
 
 					if (!$rowvoucher->bind($cart))
 					{
@@ -2130,7 +2130,7 @@ class CheckoutModelCheckout extends JModel
 				$transaction_coupon_id = 0;
 				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
 
-				$rowcouponDetail =& $this->getTable('coupon_detail');
+				$rowcouponDetail = $this->getTable('coupon_detail');
 				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left=coupon_left-'" . $coupon_volume . "' "
 					. "WHERE coupon_id  = '" . $coupon_id . "'";
 				$this->_db->setQuery($sql);
@@ -2138,7 +2138,7 @@ class CheckoutModelCheckout extends JModel
 
 				if ($cart['coupon'][$i]['remaining_coupon_discount'] > 0)
 				{
-					$rowcoupon =& $this->getTable('transaction_coupon_detail');
+					$rowcoupon = $this->getTable('transaction_coupon_detail');
 
 					if (!$rowcoupon->bind($cart))
 					{
