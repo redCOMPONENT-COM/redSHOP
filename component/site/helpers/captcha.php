@@ -69,7 +69,7 @@ class CaptchaSecurityImages
 		$y = ($height - $textbox[5]) / 2;
 		imagettftext($image, $font_size, 0, $x, $y, $text_color, $this->font, $code) or die('Error in imagettftext function');
 
-		// output captcha image to browser
+		// Output captcha image to browser
 		ob_clean();
 		header('Content-Type: image/jpeg');
 		imagejpeg($image);
