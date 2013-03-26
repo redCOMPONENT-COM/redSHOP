@@ -710,7 +710,7 @@ class searchViewsearch extends JView
 			}
 
 			$app    = JFactory::getApplication();
-			$router = & $app->getRouter();
+			$router = $app->getRouter();
 
 			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 

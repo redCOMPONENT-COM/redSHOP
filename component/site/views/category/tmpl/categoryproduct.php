@@ -40,7 +40,7 @@ else
 }
 
 $app    = JFactory::getApplication();
-$router = & $app->getRouter();
+$router = $app->getRouter();
 $uri    = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
 
 

@@ -30,7 +30,7 @@ $pagetitle = $this->pageheadingtag;
 $detail = $this->detail;
 
 $app = JFactory::getApplication();
-$router = & $app->getRouter();
+$router = $app->getRouter();
 
 if (count($this->template) > 0)
 {
