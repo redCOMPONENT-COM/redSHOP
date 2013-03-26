@@ -83,8 +83,6 @@ class GiftcardModelGiftcard extends JModel
 
 	public function getGiftcardTemplate()
 	{
-		global $app, $context;
-
 		$redTemplate = new Redtemplate;
 
 		if (!$this->_id)

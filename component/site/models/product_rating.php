@@ -51,7 +51,7 @@ class product_ratingModelproduct_rating extends JModel
 		$data['published']   = 0;
 		$data['time']        = $data['time'];
 
-		$row =& $this->getTable('rating_detail');
+		$row = $this->getTable('rating_detail');
 
 		if (!$row->bind($data))
 		{

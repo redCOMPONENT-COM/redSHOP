@@ -152,7 +152,7 @@ class split_paymentModelsplit_payment extends JModel
 				if ($d ["order_payment_log"] == 'SUCCESS')
 				{
 					// If partial payment success, then update the payment and status
-					$rowpayment = & $this->getTable('order_payment');
+					$rowpayment = $this->getTable('order_payment');
 
 					if (!$rowpayment->bind($post))
 					{
@@ -390,7 +390,7 @@ class split_paymentModelsplit_payment extends JModel
 		$cardNo = str_replace(' ', '', $cardnumber);
 
 		// Check that the number is numeric and of the right sort of length.
-		if (!eregi('^[0-9]{13,19}$', $cardNo))
+		if (!preg_match("/^[0-9]{13,19}$/i", $cardNo))
 		{
 			$errornumber = 2;
 			$errortext   = $ccErrors [$errornumber];
