@@ -7,35 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class supplier_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'supplier_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
-	function save()
+	public function save()
 	{
-
 		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
 		$supplier_desc = JRequest::getVar('supplier_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["supplier_desc"] = $supplier_desc;
-
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -46,20 +42,17 @@ class supplier_detailController extends JController
 
 		if ($row = $model->store($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_SAVED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SUPPLIER_DETAIL');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
 
 		$option = JRequest::getVar('option');
@@ -72,17 +65,18 @@ class supplier_detailController extends JController
 		}
 
 		$model = $this->getModel('supplier_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -93,17 +87,18 @@ class supplier_detailController extends JController
 		}
 
 		$model = $this->getModel('supplier_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_PUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -114,25 +109,25 @@ class supplier_detailController extends JController
 		}
 
 		$model = $this->getModel('supplier_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
-	function copy()
+	public function copy()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -141,17 +136,13 @@ class supplier_detailController extends JController
 
 		if ($model->copy($cid))
 		{
-
 			$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_COPIED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_SUPPLIER_DETAIL');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
-
 }

@@ -7,19 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class stockimage_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'stockimage_detail');
 		JRequest::setVar('layout', 'default');
@@ -27,7 +27,7 @@ class stockimage_detailController extends JController
 		parent::display();
 	}
 
-	function save()
+	public function save()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
@@ -44,60 +44,35 @@ class stockimage_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKIMAGE_DETAIL');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
+
 		$model = $this->getModel('stockimage_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
 	}
 
-	/*function publish()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH' ) );
-		}
-		$model = $this->getModel ( 'stockimage_detail' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_PUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockimage',$msg );
-	}
-	function unpublish()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar ( 'cid', array (0 ), 'post', 'array' );
-		if (! is_array ( $cid ) || count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
-		}
-		$model = $this->getModel ( 'stockimage_detail' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>\n";
-		}
-		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_UNPUBLISHED_SUCCESSFULLY' );
-		$this->setRedirect ( 'index.php?option='.$option.'&view=stockimage',$msg );
-	}*/
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
 	}
 }
-
-

@@ -57,6 +57,7 @@ class mediaController extends JController
 				$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 			}
 		}
+
 		for ($i = 0; $i < $totalFile; $i++)
 		{
 			$errors = $file['error'][$i];
@@ -113,7 +114,10 @@ class mediaController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_FILE_DELETING');
 		}
-		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=' . $media_id . '&showbuttons=1', $msg);
+
+		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=' . $media_id
+			. '&showbuttons=1', $msg
+		);
 	}
 
 	public function saveorder()
@@ -132,6 +136,7 @@ class mediaController extends JController
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
+
 		$model = $this->getModel('media');
 
 		if (!$model->saveorder($cid, $order))
@@ -162,5 +167,3 @@ class mediaController extends JController
 		}
 	}
 }
-
-

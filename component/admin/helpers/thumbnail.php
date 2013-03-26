@@ -6,26 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+
+defined('_JEXEC') or die;
 
 class thumbnail
 {
-
-//---------Parameter Description -------------------
-
-// $filetype = original File type
-// $tsrc = where thumbnail will generate
-// $dest = from where image taken
-// $n_width = thumbnail output width
-// $n_height = thumbnail output height
-
-
 	function CreatThumb($filetype, $tsrc, $dest, $n_width, $n_height)
 	{
-
 		if ($filetype == "gif")
 		{
-
 			$im = ImageCreateFromGIF($dest);
 			$width = ImageSx($im); // Original picture width is stored
 			$height = ImageSy($im); // Original picture height is stored
@@ -34,8 +23,8 @@ class thumbnail
 
 			ImageGIF($newimage, $tsrc);
 			chmod("$tsrc", 0755);
-
 		}
+
 		if ($filetype == "jpg")
 		{
 			$im = ImageCreateFromJPEG($dest);
@@ -45,8 +34,8 @@ class thumbnail
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 			ImageJpeg($newimage, $tsrc);
 			chmod("$tsrc", 0755);
-
 		}
+
 		if ($filetype == "png")
 		{
 			$im = ImageCreateFromPNG($dest);
@@ -56,12 +45,8 @@ class thumbnail
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 			imagepng($newimage, $tsrc);
 			chmod("$tsrc", 0755);
-
 		}
-
 	}
-
-
 }
 
 ///////////////// New thumbnail generate
