@@ -48,7 +48,7 @@ class plgSystemRedlightbox_slideshow extends JPlugin
 
 		if ($option == "com_redshop" && $tmpl != "component")
 		{
-			$document =& JFactory::getDocument();
+			$document = JFactory::getDocument();
 			$headerstuff = $document->getHeadData();
 			$scripts = $headerstuff['scripts'];
 			$jqueryfound = false;

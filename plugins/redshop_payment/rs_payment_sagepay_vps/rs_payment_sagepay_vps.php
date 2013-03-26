@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
+//$mainframe = JFactory::getApplication();
 //$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 {
@@ -74,7 +74,7 @@ function onPrePayment($element, $data)
 		$currency_main = "USD";
 	}
 
-	$session =& JFactory::getSession();
+	$session = JFactory::getSession();
 	$redirect_ccdata = $session->get('redirect_ccdata');
 
 	// Additional Customer Data

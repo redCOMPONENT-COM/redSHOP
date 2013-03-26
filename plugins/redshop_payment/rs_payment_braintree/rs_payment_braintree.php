@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
 
 		include $paymentpath;
@@ -79,7 +79,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		if ($new_user)
 		{
 			$cart_data = '<form action="index.php?option=com_redshop&view=checkout&format=final&stap=2&oid=' . (int) $data['order_id'] . '&Itemid=' . $Itemid . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
-			$session = & JFactory::getSession();
+			$session = JFactory::getSession();
 			$ccdata = $session->get('ccdata');
 
 			$url = JURI::base(true);
@@ -220,7 +220,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	 */
 	public function getOrderAndCcdata($element, $data)
 	{
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$order_functions = new order_functions;
 		$configobj = new Redconfiguration;
 
@@ -401,7 +401,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		$data['braintree_token'] = $braintree_data;
 		$data['new_user'] = $new_user;
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}

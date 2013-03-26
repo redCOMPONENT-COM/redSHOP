@@ -50,10 +50,10 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$user = JFActory::getUser();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 		$cart = $session->get('cart');
 		$config = new Redconfiguration;

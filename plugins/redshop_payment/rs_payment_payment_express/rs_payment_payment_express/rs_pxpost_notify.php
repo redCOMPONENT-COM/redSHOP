@@ -46,7 +46,7 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
  *
  * NOTE :
  */
-$mainframe =& JFactory::getApplication('site');
+$mainframe = JFactory::getApplication('site');
 
 // Initialize the framework
 $mainframe->initialise();

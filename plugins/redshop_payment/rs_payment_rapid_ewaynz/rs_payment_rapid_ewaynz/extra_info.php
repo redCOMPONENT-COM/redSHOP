@@ -19,7 +19,7 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $mainframe = JFactory::getApplication();
 
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $redirect_ccdata = $session->get('redirect_ccdata');
 
 $eWAYcustomer_id = $this->_params->get("customer_id");

@@ -13,7 +13,7 @@ jimport('joomla.plugin.plugin');
 $heading = JText::_('COM_REDSHOP_PRODUCT_ORDERED_COMPANY');
 $gobtn = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
 $option = JRequest::getVar('option');
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
 $document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
 $cur_date = date('d-m-Y');

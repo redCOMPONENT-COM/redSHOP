@@ -50,8 +50,8 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
-		$session =& JFactory::getSession();
+		$mainframe = JFactory::getApplication();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 		$url = "https://secure.imglobalpayments.com/api/transact.php";
 		$urlParts = parse_url($url);

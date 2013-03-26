@@ -115,7 +115,7 @@ class plgredshop_shippingshipwire extends JPlugin
 			return $shippingrate;
 		}
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$idx = $cart['idx'];
 		$Item = '';

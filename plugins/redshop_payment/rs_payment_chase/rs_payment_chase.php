@@ -67,7 +67,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$chase_transaction_type = $paymentparams->get('chase_transaction_type', '');
 		$debug_mode = $paymentparams->get('debug_mode', 0);
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Additional Customer Data

@@ -56,7 +56,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			$this->authorizeData($element, $data);
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}
@@ -73,7 +73,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$Itemid = JRequest::getVar('Itemid');
 
 		$trans_id = $this->_params->get("transaction_id");

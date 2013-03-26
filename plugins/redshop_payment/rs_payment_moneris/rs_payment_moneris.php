@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$moneris_api_host = "www3.moneris.com";
 		}
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Additional Customer Data

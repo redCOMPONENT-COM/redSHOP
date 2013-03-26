@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
+//$mainframe = JFactory::getApplication();
 //$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 {
@@ -51,7 +51,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 
 		$session =& Jfactory::getSession();
 		$ccdata = $session->get('ccdata');
-		/*$mainframe =& JFactory::getApplication();
+		/*$mainframe = JFactory::getApplication();
 		 $paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
 		include($paymentpath);*/
 		$merchantid = $this->_params->get("realex_merchant_id");

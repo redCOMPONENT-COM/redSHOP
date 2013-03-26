@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-/*$mainframe =& JFactory::getApplication();
+/*$mainframe = JFactory::getApplication();
 $mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_payson' );*/
 class plgRedshop_paymentrs_payment_payson extends JPlugin
 {
@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_payson extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}

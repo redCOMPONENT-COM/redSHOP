@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$class_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'gsGiropay.php';
 		include $class_path;
 

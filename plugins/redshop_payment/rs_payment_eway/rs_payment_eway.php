@@ -53,7 +53,7 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 			$plugin = $element;
 		}
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Collecting user Information ( Billing Information )

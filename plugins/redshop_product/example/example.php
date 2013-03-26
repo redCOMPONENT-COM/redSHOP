@@ -42,7 +42,7 @@ class plgredshop_productexample extends JPlugin
 	 */
 	function onPrepareProduct(&$template, &$params, $product)
 	{
-		$app = & JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$template = str_replace("{product_template_plugin_example_demo}", "Product Template Plugin Demo Content...", $template);
 

@@ -123,7 +123,7 @@ class xmap_com_redshop
 
 	public function getCategoryTree(&$xmap, &$parent, &$params, $catid = 0)
 	{
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		static $urlBase;
 
@@ -205,7 +205,7 @@ class xmap_com_redshop
 
 	public function getProductTree(&$xmap, &$parent, &$params, $prod = 0, $category = 0, $manid = 0)
 	{
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 		$mainframe = JFactory::getApplication();
 
 		if ($manid > 0)
@@ -246,7 +246,7 @@ class xmap_com_redshop
 
 	public function &getManufacturerTree(&$xmap, &$parent, &$params, $manid = 0)
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$whereBy = ($manid > 0) ? " AND manufacturer_id = " . $manid : "";
 
