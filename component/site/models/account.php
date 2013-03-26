@@ -29,6 +29,9 @@ class AccountModelaccount extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -76,6 +79,7 @@ class AccountModelaccount extends JModel
 	public function getMyDetail()
 	{
 		$app = JFactory::getApplication();
+
 		$redconfig = $app->getParams();
 		$start     = JRequest::getVar('limitstart', 0, '', 'int');
 		$limit     = $redconfig->get('maxcategory');
@@ -106,18 +110,24 @@ class AccountModelaccount extends JModel
 				$query = "SELECT DISTINCT pt.* ";
 
 				if ($tagid != 0)
+				{
 					$query .= " ,ptx.product_id,p.*";
+				}
 
 				$query .= "\n FROM " . $this->_table_prefix . "product_tags as pt"
 					. "\n left join " . $this->_table_prefix . "product_tags_xref as ptx on pt.tags_id = ptx.tags_id ";
 
 				if ($tagid != 0)
+				{
 					$query .= "\n , " . $this->_table_prefix . "product as p ";
+				}
 
 				$query .= "\n WHERE ptx.users_id =" . $userid . " and pt.published = 1";
 
 				if ($tagid != 0)
+				{
 					$query .= "\n AND p.product_id = ptx.product_id AND pt.tags_id =" . $tagid;
+				}
 
 				break;
 			case 'mywishlist':
@@ -137,11 +147,12 @@ class AccountModelaccount extends JModel
 					if (isset($_SESSION["no_of_prod"]))
 					{
 						for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
-
+						{
 							if ($_SESSION['wish_' . $add_i]->product_id != '')
 							{
 								$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
 							}
+						}
 
 						$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
 					}
@@ -229,7 +240,7 @@ class AccountModelaccount extends JModel
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE user_id='" . $user->id . "' AND wishlist_id='" . $wishlist_id . "' ";
 		echo "<pre>";
-		print_r($query);
+
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadResult();
 

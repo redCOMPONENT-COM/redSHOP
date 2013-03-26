@@ -33,7 +33,7 @@ class LoginModelLogin extends JModel
 		$credentials['username'] = $username;
 		$credentials['password'] = $password;
 
-		//preform the login action
+		// Perform the login action
 		$error = $app->login($credentials);
 
 		if (isset($error->message))
@@ -50,9 +50,14 @@ class LoginModelLogin extends JModel
 		$user = JFactory::getUser();
 
 		if ($sid == 0)
-			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__" . TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;
+		{
+			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__"
+			. TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;
+		}
 		else
+		{
 			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg WHERE sg.`shopper_group_id`= " . $sid;
+		}
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
