@@ -57,7 +57,7 @@ class ask_questionModelask_question extends JModel
 		$data['published']     = 1;
 		$data['question_date'] = time();
 
-		$row              = & $this->getTable('question_detail');
+		$row              = $this->getTable('question_detail');
 		$data['ordering'] = $this->MaxOrdering();
 
 		if (!$row->bind($data))

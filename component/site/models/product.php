@@ -195,7 +195,7 @@ class productModelproduct extends JModel
 		$data['published']   = 0;
 		$data['time']        = $data['time'];
 
-		$row = & $this->getTable('rating_detail');
+		$row = $this->getTable('rating_detail');
 
 		if (!$row->bind($data))
 		{
@@ -293,7 +293,7 @@ class productModelproduct extends JModel
 
 	public function addProductTags($data)
 	{
-		$tags = & $this->getTable('product_tags');
+		$tags = $this->getTable('product_tags');
 
 		if (!$tags->bind($data))
 		{
@@ -314,7 +314,7 @@ class productModelproduct extends JModel
 
 	public function addtowishlist($data)
 	{
-		$row = & $this->getTable('wishlist');
+		$row = $this->getTable('wishlist');
 
 		if (!$row->bind($data))
 		{
@@ -597,7 +597,7 @@ class productModelproduct extends JModel
 		$data['property_id']    = $property_id;
 		$data['subproperty_id'] = $subproperty_id;
 		$data['user_id']        = $user_id;
-		$row                    =& $this->getTable('notifystock_user');
+		$row                    = $this->getTable('notifystock_user');
 
 		if (!$row->bind($data))
 		{
