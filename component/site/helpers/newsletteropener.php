@@ -29,8 +29,8 @@ define('JPATH_BASE', $absolute_path);
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
-require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
+require_once JPATH_BASE . '/includes/defines.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
@@ -47,7 +47,7 @@ $query      = "UPDATE `#__redshop_newsletter_tracker` SET `read` = '1' WHERE tra
 $db->setQuery($query);
 $db->query();
 
-$uri        =& JURI::getInstance();
+$uri        = JURI::getInstance();
 $requesturl = $uri->toString();
 $url        = parse_url($requesturl);
 

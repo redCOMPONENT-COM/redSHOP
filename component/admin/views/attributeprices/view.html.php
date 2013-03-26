@@ -21,7 +21,7 @@ class attributepricesViewattributeprices extends JView
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'), 'redshop_vatrates48');
@@ -29,13 +29,13 @@ class attributepricesViewattributeprices extends JView
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
 		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$total = & $this->get('Total');
-		$data = & $this->get('Data');
+		$total = $this->get('Total');
+		$data = $this->get('Data');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->assignRef('user', JFactory::getUser());

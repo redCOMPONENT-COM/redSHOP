@@ -12,7 +12,7 @@ $option = JRequest::getVar('option');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 ?>

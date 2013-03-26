@@ -29,7 +29,7 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL'), 'redshop_attribute_bank48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScriptDeclaration("
 			var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
@@ -39,9 +39,9 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->attribute_set_id < 1);
 

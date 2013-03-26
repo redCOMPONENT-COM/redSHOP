@@ -24,13 +24,13 @@ $extra_field = new extra_field();
 $shippinghelper = new shipping();
 $config = new Redconfiguration();
 
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $option = JRequest::getVar('option');
 $tmpl = JRequest::getVar('tmpl');
 $model = $this->getModel('order_detail');
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $billing = $this->billing;
 $shipping = $this->shipping;
 $is_company = $billing->is_company;

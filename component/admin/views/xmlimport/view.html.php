@@ -17,7 +17,7 @@ class xmlimportViewxmlimport extends JView
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
 		$model = $this->getModel('xmlimport');
 
@@ -28,16 +28,16 @@ class xmlimportViewxmlimport extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'xmlimport_date');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$data = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$data = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('data', $data);

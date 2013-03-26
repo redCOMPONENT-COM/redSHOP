@@ -17,7 +17,7 @@ class attribute_setViewattribute_set extends JView
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_SET'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET'), 'redshop_attribute_bank48');
@@ -29,7 +29,7 @@ class attribute_setViewattribute_set extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'attribute_set_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -38,8 +38,8 @@ class attribute_setViewattribute_set extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$products = & $this->get('Data');
-		$pagination = & $this->get('Pagination');
+		$products = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('products', $products);

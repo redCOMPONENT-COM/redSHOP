@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class ordersModelorders
@@ -34,12 +34,15 @@ class ordersModelorders extends JModel
 
 	public function __construct()
 	{
+		global $context;
+
 		parent::__construct();
-		global $mainframe, $option;
+
+		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
 		$this->_limitstart   = JRequest::getVar('limitstart', 0);
-		$this->_limit        = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
+		$this->_limit        = $app->getUserStateFromRequest($context . 'limit', 'limit', 10, 'int');
 	}
 
 	public function _buildQuery()
@@ -63,7 +66,7 @@ class ordersModelorders extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
+			JLoader::import('joomla.html.pagination');
 			$this->_pagination = new redPagination($this->getTotal(), $this->_limitstart, $this->_limit);
 		}
 

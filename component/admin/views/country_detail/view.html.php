@@ -17,12 +17,12 @@ class country_detailVIEWcountry_detail extends JView
 	{
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
-		$document = & JFactory::getDocument();
-		$uri =& JFactory::getURI();
+		$document = JFactory::getDocument();
+		$uri = JFactory::getURI();
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->country_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 

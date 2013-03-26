@@ -9,22 +9,22 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 
 class searchViewsearch extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$redTemplate = new Redtemplate;
 		$lists       = array();
 
 		$uri = JFactory::getURI();
 
-		$params   = & $mainframe->getParams('com_redshop');
+		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 
 		$layout = JRequest::getVar('layout', '');
@@ -98,7 +98,7 @@ class searchViewsearch extends JView
 			{
 				$mypid = JRequest::getVar('pid', 0);
 
-				$mainframe->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
+				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 
 			}
 
@@ -136,15 +136,14 @@ class searchViewsearch extends JView
 	{
 		if (count($this->search) > 0)
 		{
-			global $mainframe, $context;
+			$app = JFactory::getApplication();
 
+			require_once JPATH_COMPONENT . '/helpers/product.php';
+			require_once JPATH_COMPONENT . '/helpers/pagination.php';
+			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 
-			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'pagination.php';
-			require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
-			require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
-
-			$dispatcher       =& JDispatcher::getInstance();
+			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;
 			$Redconfiguration = new Redconfiguration;
 			$producthelper    = new producthelper;

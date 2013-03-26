@@ -13,11 +13,25 @@ jimport('joomla.application.component.view');
 
 class newsletterViewnewsletter extends JView
 {
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 		$context = 'newsletter_id';
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'redshop_newsletter48');
@@ -39,21 +53,21 @@ class newsletterViewnewsletter extends JView
 			JToolBarHelper::unpublishList();
 		}
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$newsletters = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$newsletters = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('newsletters', $newsletters);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

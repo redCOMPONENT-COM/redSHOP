@@ -8,13 +8,13 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class manufacturersViewmanufacturers extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$producthelper = new producthelper;
 		$redhelper     = new redhelper;
@@ -22,7 +22,7 @@ class manufacturersViewmanufacturers extends JView
 		$option        = JRequest::getVar('option');
 		$print         = JRequest::getVar('print');
 		$layout        = JRequest::getVar('layout', 'default');
-		$params        = & $mainframe->getParams($option);
+		$params        = $app->getParams($option);
 
 		$mid    = 0;
 		$lists  = array();
@@ -84,8 +84,8 @@ class manufacturersViewmanufacturers extends JView
 					}
 					else
 					{
-						$pagetitletag = $mainframe->getCfg('sitename');
-						$document->setTitle($mainframe->getCfg('sitename'));
+						$pagetitletag = $app->getCfg('sitename');
+						$document->setTitle($app->getCfg('sitename'));
 					}
 				}
 
@@ -206,9 +206,9 @@ class manufacturersViewmanufacturers extends JView
 			}
 			else
 			{
-				$document->setMetaData('keywords', $mainframe->getCfg('sitename'));
-				$document->setMetaData('description', $mainframe->getCfg('sitename'));
-				$document->setMetaData('robots', $mainframe->getCfg('sitename'));
+				$document->setMetaData('keywords', $app->getCfg('sitename'));
+				$document->setMetaData('description', $app->getCfg('sitename'));
+				$document->setMetaData('robots', $app->getCfg('sitename'));
 			}
 
 			$this->setLayout($layout);

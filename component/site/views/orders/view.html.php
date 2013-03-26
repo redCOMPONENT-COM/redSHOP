@@ -9,20 +9,20 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class ordersVieworders extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$user = JFactory::getUser();
 
 		// Preform security checks
 		if ($user->id == 0)
 		{
-			$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
 			exit;
 		}
 
@@ -30,12 +30,12 @@ class ordersVieworders extends JView
 		$layout = JRequest::getCmd('layout', 'default');
 		$this->setLayout($layout);
 
-		$params        = & $mainframe->getParams($option);
+		$params        = $app->getParams($option);
 		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		// Request variables
-		$limit      = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
+		$limit      = $app->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
 		$detail           =& $this->get('data');

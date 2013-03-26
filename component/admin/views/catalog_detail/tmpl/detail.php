@@ -10,11 +10,11 @@ defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option');
 JHTML::_('behavior.tooltip');
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 JHTML::_('behavior.modal');
 
-$editor =& JFactory::getEditor();
-$uri =& JURI::getInstance();
+$editor = JFactory::getEditor();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 ?>

@@ -6,30 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
 require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-//require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'order.php');
 
 class adminproducthelper
 {
+	public $_data = null;
 
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_product_level = 0;
+	public $_table_prefix = null;
 
-	function __construct()
+	public $_product_level = 0;
+
+	public function __construct()
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 	}
 
-	function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
+	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
 	{
-		$uri = & JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
-		$redconfig = new Redconfiguration();
-		$producthelper = new producthelper();
+		$redconfig = new Redconfiguration;
+		$producthelper = new producthelper;
 
 		$product = $producthelper->getProductById($product_id);
 		$totalAccessory = count($accessory);
@@ -49,26 +51,33 @@ class adminproducthelper
 				$accessorypricelist = $producthelper->getAccessoryPrice($product_id, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price);
 				$accessory_price = $accessorypricelist[0];
 
-				$accessoryprice_withoutvat = $producthelper->getAccessoryPrice($product_id, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price, 1);
+				$accessoryprice_withoutvat = $producthelper->getAccessoryPrice($product_id, $accessory[$a]->newaccessory_price,
+					$accessory[$a]->accessory_main_price, 1);
 				$accessory_price_withoutvat = $accessoryprice_withoutvat[0];
 				$accessory_price_vat = $accessory_price - $accessory_price_withoutvat;
 
 				$commonid = $product_id . '_' . $accessory [$a]->accessory_id . $uniqueid;
 
-				/////////////////////////////////// Accessory attribute  Start ///////////////////////////////
+				// Accessory attribute  Start
 				$attributes_set = array();
+
 				if ($c_p_data->attribute_set_id > 0)
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $c_p_data->attribute_set_id);
 				}
+
 				$attributes = $producthelper->getProductAttribute($ac_id);
 				$attributes = array_merge($attributes, $attributes_set);
 
-				$accessory_checkbox = "<input onClick='calculateOfflineTotalPrice(\"" . $uniqueid . "\");' type='checkbox' name='accessory_id_" . $product_id . $uniqueid . "[]' totalattributs='" . count($attributes) . "' accessoryprice='" . $accessory_price . "' accessorypricevat='" . $accessory_price_vat . "' id='accessory_id_" . $commonid . "' value='" . $accessory [$a]->accessory_id . "' />";
-				$accessorylist .= "<tr><td>" . $accessory_checkbox . "&nbsp;" . $accessory_name . ' : ' . $producthelper->getProductFormattedPrice($accessory_price) . "</td></tr>";
+				$accessory_checkbox = "<input onClick='calculateOfflineTotalPrice(\"" . $uniqueid . "\");' type='checkbox' name='accessory_id_"
+					. $product_id . $uniqueid . "[]' totalattributs='" . count($attributes) . "' accessoryprice='"
+					. $accessory_price . "' accessorypricevat='" . $accessory_price_vat . "' id='accessory_id_"
+					. $commonid . "' value='" . $accessory [$a]->accessory_id . "' />";
+
+				$accessorylist .= "<tr><td>" . $accessory_checkbox . "&nbsp;" . $accessory_name . ' : '
+					. $producthelper->getProductFormattedPrice($accessory_price) . "</td></tr>";
 
 				$accessorylist .= $this->replaceAttributeData($product_id, $accessory [$a]->accessory_id, $attributes, $user_id, $uniqueid);
-				/////////////////////////////////// Accessory attribute  End /////////////////////////////////
 			}
 		}
 		return $accessorylist;
@@ -76,7 +85,7 @@ class adminproducthelper
 
 	function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
 	{
-		$uri = & JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$producthelper = new producthelper();
 		$attributelist = "";
@@ -272,7 +281,7 @@ class adminproducthelper
 			$shippingmethod = $order_functions->getShippingMethodInfo();
 
 			JPluginHelper::importPlugin('redshop_shipping');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
 			$ratearr = array();
@@ -421,26 +430,42 @@ class adminproducthelper
 	function getProductrBySortedList()
 	{
 		$product_data = array();
+		$product_data[0] = new stdClass;
 		$product_data[0]->value = "0";
 		$product_data[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$product_data[1] = new stdClass;
 		$product_data[1]->value = "p.published";
 		$product_data[1]->text = JText::_('COM_REDSHOP_PRODUCT_PUBLISHED');
+
+		$product_data[2] = new stdClass;
 		$product_data[2]->value = "p.unpublished";
 		$product_data[2]->text = JText::_('COM_REDSHOP_PRODUCT_UNPUBLISHED');
+
+		$product_data[3] = new stdClass;
 		$product_data[3]->value = "p.product_on_sale";
 		$product_data[3]->text = JText::_('COM_REDSHOP_PRODUCT_ON_SALE');
+
+		$product_data[4] = new stdClass;
 		$product_data[4]->value = "p.product_not_on_sale";
 		$product_data[4]->text = JText::_('COM_REDSHOP_PRODUCT_NOT_ON_SALE');
+
+		$product_data[5] = new stdClass;
 		$product_data[5]->value = "p.product_special";
 		$product_data[5]->text = JText::_('COM_REDSHOP_PRODUCT_SPECIAL');
+
+		$product_data[6] = new stdClass;
 		$product_data[6]->value = "p.expired";
 		$product_data[6]->text = JText::_('COM_REDSHOP_PRODUCT_EXPIRED');
+
+		$product_data[7] = new stdClass;
 		$product_data[7]->value = "p.not_for_sale";
 		$product_data[7]->text = JText::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE');
+
+		$product_data[8] = new stdClass;
 		$product_data[8]->value = "p.sold_out";
 		$product_data[8]->text = JText::_('COM_REDSHOP_PRODUCT_SOLD_OUT');
+
 		return $product_data;
 	}
 }
-
-?>

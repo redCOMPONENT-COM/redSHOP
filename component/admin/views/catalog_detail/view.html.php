@@ -13,13 +13,20 @@ jimport('joomla.application.component.view');
 
 class catalog_detailVIEWcatalog_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATALOG_MANAGEMENT_DETAIL'), 'redshop_catalogmanagement48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
 		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
@@ -32,13 +39,13 @@ class catalog_detailVIEWcatalog_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/utils.js');
 		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$layout = JRequest::getVar('layout', 'default');
 
@@ -60,7 +67,6 @@ class catalog_detailVIEWcatalog_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -68,7 +74,7 @@ class catalog_detailVIEWcatalog_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

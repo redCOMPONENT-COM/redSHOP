@@ -18,7 +18,7 @@ class fieldsViewfields extends JView
 		global $mainframe, $context;
 		$context = 'field_id';
 		$redtemplate = new Redtemplate;
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT'), 'redshop_fields48');
@@ -28,10 +28,10 @@ class fieldsViewfields extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$uri = JFactory::getURI();
+		$fields = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 		$optiontype = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 

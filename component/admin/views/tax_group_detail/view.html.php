@@ -21,15 +21,15 @@ class tax_group_detailVIEWtax_group_detail extends JView
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->tax_group_id < 1);
 

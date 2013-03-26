@@ -17,7 +17,7 @@ class producttagsViewproducttags extends JView
 	{
 		global $mainframe, $context;
 		$context = 't.tags_id';
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_TAGS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT'), 'redshop_textlibrary48');
@@ -26,16 +26,16 @@ class producttagsViewproducttags extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tags_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$tags = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$tags = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);

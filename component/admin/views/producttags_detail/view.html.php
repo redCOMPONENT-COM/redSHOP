@@ -17,13 +17,13 @@ class producttags_detailVIEWproducttags_detail extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL'), 'redshop_textlibrary48');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->tags_id < 1);
 

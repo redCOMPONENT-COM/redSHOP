@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$url = & JURI :: root();
+$url = JURI :: root();
 $xml_path = $url . "components" . DS . "com_redshop" . DS . "assets" . DS . "document" . DS . "gbase" . DS . "product.xml";
 ?>
 <table class="adminlist">

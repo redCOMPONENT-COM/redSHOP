@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class coupon_detailVIEWcoupon_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -20,17 +27,17 @@ class coupon_detailVIEWcoupon_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUPON_MANAGEMENT_DETAIL'), 'redshop_coupon48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->coupon_id < 1);
 
@@ -73,7 +80,7 @@ class coupon_detailVIEWcoupon_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

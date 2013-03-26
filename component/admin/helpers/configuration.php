@@ -13,26 +13,33 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class Redconfiguration
 {
+	public $_def_array = null;
 
-	var $_def_array = null;
-	var $_configpath = null;
-	var $_config_dist_path = null;
-	var $_config_bkp_path = null;
-	var $_config_tmp_path = null;
-	var $_cfgdata = null;
-	var $_country_list = null;
-	var $_table_prefix = null;
-	var $_db = null;
+	public $_configpath = null;
+
+	public $_config_dist_path = null;
+
+	public $_config_bkp_path = null;
+
+	public $_config_tmp_path = null;
+
+	public $_cfgdata = null;
+
+	public $_country_list = null;
+
+	public $_table_prefix = null;
+
+	public $_db = null;
 
 	/**
 	 * define default path
 	 *
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_db = & JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 		$this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
 		$this->_config_dist_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.dist.php";
 		$this->_config_bkp_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "wizard" . DS . "redshop.cfg.bkp.php";
@@ -41,27 +48,32 @@ class Redconfiguration
 
 		if (!defined('JSYSTEM_IMAGES_PATH'))
 		{
-			define ('JSYSTEM_IMAGES_PATH', JURI::root() . 'media/system/images/');
+			define('JSYSTEM_IMAGES_PATH', JURI::root() . 'media/system/images/');
 		}
+
 		if (!defined('REDSHOP_ADMIN_IMAGES_ABSPATH'))
 		{
-			define ('REDSHOP_ADMIN_IMAGES_ABSPATH', JURI::root() . 'administrator/components/com_redshop/assets/images/');
+			define('REDSHOP_ADMIN_IMAGES_ABSPATH', JURI::root() . 'administrator/components/com_redshop/assets/images/');
 		}
+
 		if (!defined('REDSHOP_FRONT_IMAGES_ABSPATH'))
 		{
-			define ('REDSHOP_FRONT_IMAGES_ABSPATH', JURI::root() . 'components/com_redshop/assets/images/');
+			define('REDSHOP_FRONT_IMAGES_ABSPATH', JURI::root() . 'components/com_redshop/assets/images/');
 		}
+
 		if (!defined('REDSHOP_FRONT_IMAGES_RELPATH'))
 		{
-			define ('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/images/');
+			define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/images/');
 		}
+
 		if (!defined('REDSHOP_FRONT_DOCUMENT_ABSPATH'))
 		{
 			define ('REDSHOP_FRONT_DOCUMENT_ABSPATH', JURI::root() . 'components/com_redshop/assets/document/');
 		}
+
 		if (!defined('REDSHOP_FRONT_DOCUMENT_RELPATH'))
 		{
-			define ('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/document/');
+			define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/document/');
 		}
 	}
 
@@ -70,13 +82,15 @@ class Redconfiguration
 	 *
 	 * @return boolean
 	 */
-	function isCFGFile()
+	public function isCFGFile()
 	{
 		if (!file_exists($this->_configpath))
 		{
 			return false;
 		}
-		require_once ($this->_configpath);
+
+		require_once $this->_configpath;
+
 		return true;
 	}
 
@@ -126,19 +140,26 @@ class Redconfiguration
 	 *
 	 * @return boolean
 	 */
-	function loadDefaultCFGFile()
+	public function loadDefaultCFGFile()
 	{
 		if ($this->isCFGFile())
 		{
 			if (copy($this->_configpath, $this->_config_bkp_path))
+			{
 				if (!copy($this->_config_dist_path, $this->_configpath))
+				{
 					return false;
+				}
+			}
 		}
 		else
 		{
 			if (!copy($this->_config_dist_path, $this->_configpath))
+			{
 				return false;
+			}
 		}
+
 		return true;
 	}
 
@@ -173,24 +194,32 @@ class Redconfiguration
 		return true;
 	}
 
-	function WriteDefFile($def = array())
+	public function WriteDefFile($def = array())
 	{
 		if (count($def) <= 0)
+		{
 			$def = $this->_def_array;
+		}
 
 		$html = "<?php \n";
 		$html .= 'global $defaultarray;' . "\n" . '$defaultarray = array();' . "\n";
+
 		foreach ($def as $key => $val)
 		{
 			$html .= '$defaultarray["' . $key . '"] = \'' . addslashes($val) . "';\n";
 		}
 		$html .= "?>";
+
 		if (!$this->isDEFFile())
+		{
 			return false;
+		}
+
 		if ($fp = fopen($this->_config_def_path, "w"))
 		{
 			fwrite($fp, $html, strlen($html));
 			fclose($fp);
+
 			return true;
 		}
 		else
@@ -203,12 +232,17 @@ class Redconfiguration
 	{
 		$this->_cfgdata = "";
 		$this->_cfgdata .= "<?php\n";
+
 		foreach ($data as $key => $value)
 		{
 			if (!defined($key) || $bypass)
+			{
 				$this->_cfgdata .= "define ('" . $key . "', '" . addslashes($value) . "');\n";
+			}
 		}
+
 		$this->_cfgdata .= '?>';
+
 		return;
 	}
 
@@ -486,7 +520,7 @@ class Redconfiguration
 
 	function showPrice()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$userhelper = new rsUserhelper();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 		if ($user->id)
@@ -520,7 +554,7 @@ class Redconfiguration
 
 	function getCatalog()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$userhelper = new rsUserhelper();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 		if ($user->id)
@@ -554,7 +588,7 @@ class Redconfiguration
 
 	function setQuotationMode()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$userhelper = new rsUserhelper();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 		if ($user->id)
@@ -766,10 +800,10 @@ class Redconfiguration
 	 */
 	function convertDateFormat($date)
 	{
-		$JApp =& JFactory::getApplication();
+		$JApp = JFactory::getApplication();
 		if ($date <= 0)
 			$date = time();
-		$dateobj =& JFactory::getDate($date);
+		$dateobj = JFactory::getDate($date);
 		$dateobj->setOffset($JApp->getCfg('offset'));
 		//$date = strtotime($dateobj->toFormat());
 		if (DEFAULT_DATEFORMAT)
@@ -874,7 +908,7 @@ class Redconfiguration
 		if (empty($this->_country_list))
 		{
 			require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-			$redhelper = new redhelper();
+			$redhelper = new redhelper;
 
 			$countries = array();
 			if (COUNTRY_LIST)
@@ -911,6 +945,7 @@ class Redconfiguration
 			$post['country_code' . $address_type] = SHOP_COUNTRY;
 		}
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = '';
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$temps = array_merge($temps, $countries);
@@ -986,6 +1021,7 @@ class Redconfiguration
 				if ($prev_country != $country_3_code)
 				{
 					$script .= "states" . $address_type . "[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_SELECT") . "' );\n";
+					$varState[0] = new stdClass;
 					$varState[0]->value = '';
 					$varState[0]->text = JText::_("COM_REDSHOP_SELECT");
 				}
@@ -994,6 +1030,7 @@ class Redconfiguration
 				$script .= "states" . $address_type . "[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes($state->state_name) . "' );\n";
 				if ($country_3_code == $selected_country_code)
 				{
+					$varState[$i] = new stdClass;
 					$varState[$i]->value = $state->state_2_code;
 					$varState[$i]->text = JText::_($state->state_name);
 				}

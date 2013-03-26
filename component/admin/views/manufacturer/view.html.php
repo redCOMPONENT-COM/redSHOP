@@ -13,12 +13,26 @@ jimport('joomla.application.component.view');
 
 class manufacturerViewmanufacturer extends JView
 {
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
 		$context = 'manufacturer_id';
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_MANUFACTURER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT'), 'redshop_manufact48');
@@ -29,22 +43,22 @@ class manufacturerViewmanufacturer extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$manufacturer = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$manufacturer = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('manufacturer', $manufacturer);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

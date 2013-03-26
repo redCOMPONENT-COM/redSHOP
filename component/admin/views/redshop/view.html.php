@@ -33,7 +33,7 @@ class redshopViewredshop extends JView
 			JToolBarHelper::help('redshop', true);
 		}
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if (ENABLE_BACKENDACCESS)
 		{
@@ -54,7 +54,7 @@ class redshopViewredshop extends JView
 		$statsticmodel = JModel::getInstance('statistic', 'statisticModel');
 		$this->turnover = $statsticmodel->getTotalTurnover();
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('http://www.google.com/jsapi');
 
 		$lists = array();
@@ -92,7 +92,7 @@ class redshopViewredshop extends JView
 	public function quickiconButton($link, $image, $text, $modal = 0)
 	{
 		// Initialise variables
-		$lang = & JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		?>
 
 		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">

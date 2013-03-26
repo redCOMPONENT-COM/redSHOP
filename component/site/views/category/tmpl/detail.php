@@ -30,7 +30,7 @@ $print = JRequest::getInt('print');
 $slide = JRequest::getInt('ajaxslide');
 $filter_by = JRequest::getInt('manufacturer_id', $this->params->get('manufacturer_id'), '', 'int');
 $category_template = JRequest::getInt('category_template', 0, '', 'int');
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 
 $minmax = $model->getMaxMinProductPrice();
 $texpricemin = $minmax[0];

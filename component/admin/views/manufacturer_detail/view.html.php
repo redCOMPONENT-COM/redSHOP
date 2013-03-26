@@ -14,21 +14,28 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class manufacturer_detailVIEWmanufacturer_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 
-		$uri =& JFactory::getURI();
-		$document = & JFactory::getDocument();
+		$uri = JFactory::getURI();
+		$document = JFactory::getDocument();
 		$option = JRequest::getVar('option');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$model = $this->getModel('manufacturer_detail');
 
@@ -75,7 +82,7 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

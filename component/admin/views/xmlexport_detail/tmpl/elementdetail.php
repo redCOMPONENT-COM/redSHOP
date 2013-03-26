@@ -14,7 +14,7 @@ $option = JRequest::getVar('option');
 $section_type = JRequest::getVar('section_type');
 $parentsection = JRequest::getVar('parentsection');
 $model = $this->getModel('xmlexport_detail');
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();    ?>
 
 <script language="javascript" type="text/javascript">

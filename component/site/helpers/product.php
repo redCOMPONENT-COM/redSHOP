@@ -8,14 +8,14 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'quotation.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
 
 class producthelper
 {
@@ -42,7 +42,6 @@ class producthelper
 
 	function __construct()
 	{
-		global $context;
 		$this->_db           = JFactory::getDBO();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper   = new rsUserhelper();
@@ -2367,8 +2366,8 @@ class producthelper
 
 	public function generateBreadcrumb($sectionid = 0)
 	{
-		$mainframe     = JFactory::getApplication();
-		$pathway       =& $mainframe->getPathway();
+		$app     = JFactory::getApplication();
+		$pathway       = $app->getPathway();
 		$view          = JRequest::getVar('view');
 		$layout        = JRequest::getVar('layout');
 		$Itemid        = JRequest::getInt('Itemid');
@@ -8225,13 +8224,13 @@ class producthelper
 
 	public function getJcommentEditor($product = array(), $data_add = "")
 	{
-		$mainframe       = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$product_reviews = "";
 		$product_id      = $product->product_id;
 
 		if ($product_id && !strstr($data_add, "{jcomments off}") && strstr($data_add, "{jcomments on}"))
 		{
-			$comments = $mainframe->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
+			$comments = $app->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
 
 			if (file_exists($comments))
 			{

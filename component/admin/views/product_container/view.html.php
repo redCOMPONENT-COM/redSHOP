@@ -18,7 +18,7 @@ class product_containerViewproduct_container extends JView
 		global $mainframe, $context;
 
 		$model = $this->getModel('product_container');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$container = JRequest::getVar('container', '', 'request', 0);
 
@@ -49,7 +49,7 @@ class product_containerViewproduct_container extends JView
 			JToolBarHelper::custom('addcontainer', 'new.png', 'new_f2.png', 'Add new container', false);
 		}
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -59,9 +59,9 @@ class product_containerViewproduct_container extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$products = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$products = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$lists['filter_supplier'] = $model->getsupplierlist('filter_supplier', $filter_supplier,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'

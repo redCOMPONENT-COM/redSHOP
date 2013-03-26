@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Category Controller.
@@ -27,9 +27,9 @@ class CategoryController extends JController
 	 */
 	public function download()
 	{
-		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
+		$option   = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
-		$db = JFactory::getDBO();
+		$db       = JFactory::getDBO();
 		$this->_table_prefix = "#__redshop_";
 
 		session_cache_limiter('public');
@@ -287,20 +287,20 @@ class CategoryController extends JController
 	 */
 	public function generateXMLExportFile()
 	{
-		global $mainframe;
-		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
+		$app          = JFactory::getApplication();
+		$option       = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
 
 		if ($xmlexport_id)
 		{
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
 
 			$xmlHelper = new xmlHelper;
 			$xmlHelper->writeXMLExportFile($xmlexport_id);
 
 			$row = $xmlHelper->getXMLExportInfo($xmlexport_id);
 			$link = JURI::root() . 'index.php?option=com_redshop&view=category&tmpl=component&task=download&file=' . $row->filename;
-			$mainframe->redirect($link);
+			$app->redirect($link);
 		}
 	}
 }

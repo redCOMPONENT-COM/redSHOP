@@ -15,7 +15,7 @@ class stateViewstate extends JView
 {
 	public function display($tpl = null)
 	{
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_MANAGEMENT'), 'redshop_region_48');
@@ -27,7 +27,7 @@ class stateViewstate extends JView
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'state_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -60,9 +60,9 @@ class stateViewstate extends JView
 
 		$country_main_filter = $mainframe->getUserStateFromRequest($context . 'country_main_filter', 'country_main_filter', '');
 
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$fields = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 		$this->assignRef('country_main_filter', $country_main_filter);
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('pagination', $pagination);

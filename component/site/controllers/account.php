@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Account Controller.
@@ -27,21 +27,19 @@ class AccountController extends JController
 	 */
 	public function editTag()
 	{
-		global $mainframe;
+		$app    = JFactory::getApplication();
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
-
-		$post = JRequest::get('post');
-
-		$model = $this->getModel('account');
+		$post   = JRequest::get('post');
+		$model  = $this->getModel('account');
 
 		if ($model->editTag($post))
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
 		}
 		else
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
@@ -55,14 +53,14 @@ class AccountController extends JController
 	public function sendWishlist()
 	{
 		$post = JRequest::get('post');
-
-		$emailto = $post['emailto'];
-		$sender = $post['sender'];
-		$email = $post['email'];
-		$subject = $post['subject'];
-		$Itemid = $post['Itemid'];
+		$emailto    = $post['emailto'];
+		$sender     = $post['sender'];
+		$email      = $post['email'];
+		$subject    = $post['subject'];
+		$Itemid     = $post['Itemid'];
 		$wishlis_id = $post['wishlist_id'];
-		$model = $this->getModel('account');
+
+		$model      = $this->getModel('account');
 
 		if ($emailto == "")
 		{
@@ -116,11 +114,11 @@ class AccountController extends JController
 	 */
 	public function newsletterUnsubscribe()
 	{
-		$user =& JFactory::getUser();
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-
+		$user       = JFactory::getUser();
+		$option     = JRequest::getVar('option');
+		$Itemid     = JRequest::getVar('Itemid');
 		$userhelper = new rsUserhelper;
+
 		$userhelper->newsletterUnsubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 

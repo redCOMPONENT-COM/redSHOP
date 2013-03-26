@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
 $carthelper = new rsCarthelper;
 $redconfig = new Redconfiguration;
@@ -122,7 +122,7 @@ $order_payment = $order_functions->getOrderPaymentDetail($order_id);
 
 $payment_method_class = $order_payment[0]->payment_method_class;
 
-jimport('joomla.plugin.helper');
+JLoader::import('joomla.plugin.helper');
 
 $plugin = JPluginHelper::getPlugin('redshop_payment', $payment_method_class);
 $params = new JParameter($plugin->params);
@@ -166,7 +166,7 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
+require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
 $googleanalytics = new googleanalytics;
 
 $analytics_status = $order->analytics_status;

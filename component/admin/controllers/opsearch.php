@@ -9,18 +9,9 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.controller');
 
 class opsearchController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
 
-	function display()
-	{
-		parent::display();
-	}
 }

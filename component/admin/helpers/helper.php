@@ -6,15 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 class reddesignhelper
 {
-
 	/**
 	 *   reddesign
 	 */
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -23,7 +23,7 @@ class reddesignhelper
 	/**
 	 * Check That reddesign is installed or not
 	 */
-	function CheckIfRedDesign()
+	public function CheckIfRedDesign()
 	{
 		$db = JFactory::getDBO();
 		$query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
@@ -34,9 +34,10 @@ class reddesignhelper
 	/**
 	 * Check That reddesigh is assigned to product or not & only redirect if user belongs to that shopper.
 	 */
-	function CheckIfRedProduct($product_id)
+	public function CheckIfRedProduct($product_id)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
+
 		if (!$user->guest)
 		{
 			$db = JFactory::getDBO();
@@ -56,11 +57,12 @@ class reddesignhelper
 				}
 			}
 		}
+
 		return false;
 	}
 
 	/*  get shopper group for logged in user */
-	function GetUserShopperGroup($uid)
+	public function GetUserShopperGroup($uid)
 	{
 		$db = JFactory::getDBO();
 		$query = "SELECT shopper_group_id FROM `#__redshop_users_info` WHERE `user_id` = '" . $uid . "'";
@@ -77,19 +79,18 @@ class reddesignhelper
 		}
 	}
 
-	function CheckRedDesignpro($order_id)
+	public function CheckRedDesignpro($order_id)
 	{
 		$db = JFactory::getDBO();
-		$query = "SELECT o.*,image_name FROM  #__reddesign_order AS o LEFT JOIN #__reddesign_image AS i ON (o.image_id=i.image_id) WHERE o.order_id=" . $order_id;
+		$query = "SELECT o.*,image_name FROM  #__reddesign_order AS o LEFT JOIN #__reddesign_image AS i
+		ON (o.image_id=i.image_id) WHERE o.order_id=" . $order_id;
 		$db->setQuery($query);
 		$orderdesign = $db->loadObjectlist();
 
 		return $orderdesign;
 	}
 
-	// for dashboard icons
-
-	function geticonarray()
+	public function geticonarray()
 	{
 		$icon_array = array("products" => array('product', 'category', 'manufacturer', 'media'),
 			"orders" => array('order', 'quotation', 'stockroom', 'container'),
@@ -132,9 +133,5 @@ class reddesignhelper
 			"populartxt" => array());
 
 		return $icon_array;
-
-
 	}
 }
-
-?>

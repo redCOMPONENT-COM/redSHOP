@@ -17,17 +17,17 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_templates48');
 
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		jimport('joomla.html.pane');
-		$pane = & JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 		$this->assignRef('pane', $pane);
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->shipping_box_id < 1);
 

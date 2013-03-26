@@ -79,12 +79,12 @@ class SubInstaller extends JObject
 		// Since we are running from within the current installation,
 		// we can use getInstance() to fetch the current installer and
 		// thus get access to our own manifest.
-		$parent =& JInstaller::getInstance();
-		$manifest =& $parent->getManifest();
+		$parent = JInstaller::getInstance();
+		$manifest = $parent->getManifest();
 		$this->_mainDb =& $parent->getDBO();
 		$this->_mainSource = $parent->getPath('source');
 		$this->_mysection =& $manifest->document->getElementByPath('subinstall');
-		$this->_app =& JFactory::getApplication();
+		$this->_app = JFactory::getApplication();
 	}
 
 	/**

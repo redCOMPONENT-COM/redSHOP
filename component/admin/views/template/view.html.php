@@ -17,7 +17,7 @@ class templateViewtemplate extends JView
 	{
 		global $mainframe, $context;
 		$context = 'template_id';
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_TEMPLATES'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMENT'), 'redshop_templates48');
@@ -29,7 +29,7 @@ class templateViewtemplate extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$context = 'template';
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -38,10 +38,10 @@ class templateViewtemplate extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$templates = & $this->get('Data');
+		$templates = $this->get('Data');
 
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$redtemplate = new Redtemplate;
 		$optionsection = $redtemplate->getTemplateSections();

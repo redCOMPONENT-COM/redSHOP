@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+JLoader::import('joomla.application.component.view');
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 // $language = JFactory::getLanguage();
 class checkoutViewcheckout extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$model     = $this->getModel('checkout');
 		$option    = JRequest::getVar('option');
 		$Itemid    = JRequest::getVar('Itemid');
@@ -72,7 +72,7 @@ class checkoutViewcheckout extends JView
 		{
 			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');
 			$link = 'index.php?option=' . $option . '&Itemid=' . $Itemid;
-			$mainframe->Redirect($link, $msg);
+			$app->Redirect($link, $msg);
 		}
 
 		if ($task != '')
@@ -87,7 +87,7 @@ class checkoutViewcheckout extends JView
 
 				if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
 				{
-					$mainframe->Redirect('index.php?option=' . $option . '&view=quotation&Itemid=' . $Itemid);
+					$app->Redirect('index.php?option=' . $option . '&view=quotation&Itemid=' . $Itemid);
 				}
 
 				$users_info_id     = JRequest::getInt('users_info_id');
@@ -106,7 +106,7 @@ class checkoutViewcheckout extends JView
 					}
 					else
 					{
-						$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
+						$app->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
 					}
 				}
 

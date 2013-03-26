@@ -13,11 +13,25 @@ jimport('joomla.application.component.view');
 
 class discountViewdiscount extends JView
 {
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
 
 		$layout = JRequest::getVar('layout');
@@ -38,7 +52,7 @@ class discountViewdiscount extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		if (isset($layout) && $layout == 'product')
 		{
@@ -55,14 +69,16 @@ class discountViewdiscount extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$discounts = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$discounts = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$spgrpdis_filter = $mainframe->getUserStateFromRequest($context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
 		$userhelper = new rsUserhelper;
 		$shopper_groups = $userhelper->getShopperGroupList();
+
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$shopper_groups = array_merge($temps, $shopper_groups);
@@ -70,11 +86,11 @@ class discountViewdiscount extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrpdis_filter
 		);
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('discounts', $discounts);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

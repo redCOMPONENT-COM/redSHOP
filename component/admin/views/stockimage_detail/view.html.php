@@ -19,13 +19,13 @@ class stockimage_detailVIEWstockimage_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');
 
-		$document = & JFactory::getDocument();
-		$uri =& JFactory::getURI();
+		$document = JFactory::getDocument();
+		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->stock_amount_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');

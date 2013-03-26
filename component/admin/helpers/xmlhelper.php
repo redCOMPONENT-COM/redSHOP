@@ -21,7 +21,7 @@ class xmlHelper
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__redshop_';
-		$this->_db =& JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 	function getSectionTypeList()
@@ -343,7 +343,7 @@ class xmlHelper
 	{
 		$config = new Redconfiguration();
 		$shipping = new shipping();
-		$uri = & JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$xmlarray = array();
 		$xmlexportdata = $this->getXMLExportInfo($xmlexport_id);
