@@ -40,6 +40,9 @@ class CategoryModelCategory extends JModel
 
 	public $_context = null;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$app = JFactory::getApplication();

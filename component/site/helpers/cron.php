@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php');
+
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
 
 /**
  *  cron class
@@ -31,7 +32,6 @@ class Cron
 		{
 			cron::after_purchased_order_mail();
 		}
-
 
 		// Move Container to Stockroom start
 		$fdate = date('Y-m-d', $today);

@@ -24,6 +24,9 @@ class newsletterModelnewsletter extends JModel
 
 	public $_db = null;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();

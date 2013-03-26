@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
@@ -20,24 +21,43 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.ph
 class producthelper
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_db = null;
+
 	public $_userdata = null;
+
 	public $_table_prefix = null;
+
 	public $_product_level = 0;
+
 	public $_userhelper = null;
+
 	public $_session = null;
+
 	public $_cartTemplateData = null;
+
 	public $_ajaxdetail_templatedata = null;
+
 	public $_vatCountry = null;
+
 	public $_vatState = null;
+
 	public $_vatGroup = null;
+
 	public $_taxData = array();
+
 	public $_cart_template = null;
+
 	public $_acc_template = null;
+
 	public $_attribute_template = null;
+
 	public $_attributewithcart_template = null;
+
 	public $_shopper_group_id = null;
+
 	public $_discount_product_data = null;
 
 	function __construct()
@@ -108,7 +128,7 @@ class producthelper
 	{
 		$leftjoin = "";
 		$userArr  = $this->_session->get('rs_user');
-		$helper   = new redhelper();
+		$helper = new redhelper;
 
 		if (empty($userArr))
 		{
@@ -121,7 +141,7 @@ class producthelper
 		{
 			if ($this->_session->get('isredcrmuser'))
 			{
-				$crmDebitorHelper = new crmDebitorHelper();
+				$crmDebitorHelper = new crmDebitorHelper;
 				$debitor_id_tot   = $crmDebitorHelper->getContactPersons(0, 0, 0, $userid);
 				$debitor_id       = $debitor_id_tot[0]->section_id;
 				$details          = $crmDebitorHelper->getDebitor($debitor_id);
@@ -173,8 +193,7 @@ class producthelper
 
 		$where           = ' WHERE 1=1';
 		$categoryProduct = '';
-		//if ($discount_product_id)
-		//{
+
 		if ($product_id)
 			$categoryProduct = $this->getCategoryProduct($product_id);
 
@@ -301,20 +320,8 @@ class producthelper
 		if ($userArr['rs_is_user_login'] == 0 && $user_id != 0)
 		{
 			$userArr = $this->_userhelper->createUserSession($user_id);
-//			unset($userArr['rs_tax_rate']);
 		}
 
-		/*if(array_key_exists("rs_tax_rate",$userArr) ){
-			$tax_rate = $userArr['rs_tax_rate'];
-		}else{
-			$vatrates_data = $this->getVatRates($product_id,$user_id);
-			if($vatrates_data){
-				$tax_rate 						= $vatrates_data->tax_rate;
-			}
-
-			$userArr['rs_tax_rate'] 		= $tax_rate;
-			$userArr = $this->_session->set('rs_user',$userArr);
-		}*/
 		$vatrates_data = $this->getVatRates($product_id, $user_id);
 
 		if ($vatrates_data)
@@ -333,7 +340,6 @@ class producthelper
 		{
 			$protax = $product_price * $tax_rate;
 
-//            $protax = $this->productPriceRound($protax);
 			return $protax;
 		}
 
@@ -345,13 +351,6 @@ class producthelper
 
 				if (count($userinfo) > 0)
 				{
-					/*if(SHOPPER_GROUP_DEFAULT_TAX_EXEMPT>0)
-					{
-						$shop_group = SHOPPER_GROUP_DEFAULT_TAX_EXEMPT;
-					}else{
-						$shop_group = 3;
-					}*/
-
 					if ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved)
 					{
 						$protax = $protax;
