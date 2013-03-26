@@ -1441,15 +1441,13 @@ class plgEconomicEconomic extends JPlugin
 
 			if ($d ['country_ST'] != '')
 			{
-				$this
-					->client
+				$this->client
 					->CurrentInvoice_SetDeliveryCountry(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['country_ST']));
 			}
 
 			if ($d ['zipcode_ST'] != '')
 			{
-				$this
-					->client
+				$this->client
 					->CurrentInvoice_SetDeliveryPostalCode(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['zipcode_ST']));
 			}
 		}

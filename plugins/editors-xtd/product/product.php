@@ -56,8 +56,6 @@ class plgButtonproduct extends JPlugin
 		}";
 		$doc->addScriptDeclaration($js);
 
-		//$doc->addStyleSheet( JURI::root( true ).'/plugins/editors-xtd/product/css/product.css' );
-
 		$template = $mainframe->getTemplate();
 		$link = 'index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
 
