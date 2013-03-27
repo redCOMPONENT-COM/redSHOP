@@ -27,7 +27,6 @@ $post = JRequest::get('post');
 
 $detail = $this->detail;
 
-
 $firstname = $detail->firstname;
 $lastname = $detail->lastname;
 $address = $detail->address;
@@ -37,7 +36,6 @@ $country = JText::_($order_functions->getCountryName($detail->country_code));
 $state = $order_functions->getStateName($detail->state_code, $detail->country_code);
 $phone = $detail->phone;
 $user_email = $detail->user_email;
-
 
 $field = new extra_field;
 
@@ -76,7 +74,6 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_USERNAME')?>");
 			return false;
 		}
-
 
 		<?php
 		if ($regtype == 1)

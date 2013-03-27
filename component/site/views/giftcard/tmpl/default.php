@@ -93,7 +93,6 @@ if ($gid != 0)
 	$template = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail->giftcard_value), $template);
 	$template = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
-
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
@@ -111,7 +110,6 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_price}", '', $template);
 	}
-
 
 	$reciver_email = '<input type="text" name="reciver_email" id="reciver_email" value="' . @$cart['reciver_email'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_email.value = f_value;">';
 	$reciver_name  = '<input type="text" name="reciver_name" id="reciver_name" value="' . @$cart['reciver_name'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_name.value = f_value;">';
@@ -175,7 +173,6 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_validity}", '', $template);
 	}
-
 
 	$template = $producthelper->getValidityDate($detail->giftcard_validity, $template);
 
@@ -300,7 +297,6 @@ else
 			{
 				$data_add = str_replace("{giftcard_validity}", '', $data_add);
 			}
-
 
 			$data_add = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_value), $data_add);

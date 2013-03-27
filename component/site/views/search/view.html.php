@@ -64,7 +64,6 @@ class searchViewsearch extends JView
 			$cntproduct   = JRequest::getVar('cnt', 0);
 			$getredfilter = $session->get('redfilter');
 
-
 			if (count($getredfilter) == 0)
 				$redfilter = array();
 			else

@@ -270,6 +270,5 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
 
-
 	}
 </script>

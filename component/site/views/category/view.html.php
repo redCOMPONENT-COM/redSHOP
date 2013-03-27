@@ -55,7 +55,6 @@ class categoryViewcategory extends JView
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 
-
 		JHTML::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
 
 		// Start Code for fixes IE9 issue

@@ -36,7 +36,6 @@ $router = $app->getRouter();
 $uri = new JURI('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
 
 
-
 // Page Title
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS');
 
@@ -85,7 +84,6 @@ else
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
-
 
 $template_start  = $template_desc;
 $template_middle = "";
@@ -219,7 +217,6 @@ if ($template_middle != "")
 		}
 
 		$cart_mdata = $producthelper->replaceWishlistButton($product_id, $cart_mdata);
-
 
 		if (strstr($cart_mdata, '{product_thumb_image_2}'))
 		{

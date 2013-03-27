@@ -42,7 +42,6 @@ if ($user->id != 0)
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 
-
 			?>
 			<div>&nbsp;</div>
 			<form id="tags_name" name="tags_name" action="<?php echo $link; ?>" method="post">
@@ -79,7 +78,6 @@ if ($user->id != 0)
 			$link_remove = 'index.php?option=com_redshop&view=account&layout=mytags&remove=1&tagid=' . $tagid . '&Itemid=' . $Itemid;
 			?>
 			<!-- tag detail-->
-
 
 			<table border="0" cellpadding="5" cellspacing="0" width="100%">
 				<tr>

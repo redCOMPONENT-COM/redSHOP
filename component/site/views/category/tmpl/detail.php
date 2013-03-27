@@ -443,7 +443,6 @@ if (!$slide)
 	}
 }
 
-
 if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{product_loop_end}"))
 {
 	$template_d1      = explode("{product_loop_start}", $template_desc);
@@ -480,9 +479,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
 		$totacc        = count($accessorylist);
 
-
 		$data_add = $template_product;
-
 
 		// ProductFinderDatepicker Extra Field Start
 
@@ -824,7 +821,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		// Front-back image tag end
 
-
 		// Product preview image.
 		if (strstr($data_add, '{product_preview_img}'))
 		{
@@ -896,7 +892,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		// Replace compare product button
 		$data_add = $producthelper->replaceCompareProductsButton($product->product_id, $catid, $data_add);
 
-
 		if (strstr($data_add, "{stockroom_detail}"))
 		{
 			$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
@@ -904,7 +899,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		// Checking for child products
 		$childproduct = $producthelper->getChildProduct($product->product_id);
-
 
 		if (count($childproduct) > 0)
 		{

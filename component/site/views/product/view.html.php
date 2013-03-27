@@ -16,7 +16,6 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
-
 class productViewproduct extends JView
 {
 	public function display($tpl = null)

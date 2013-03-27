@@ -33,7 +33,6 @@ $post['state_code_ST'] = $post['state_code'];
 
 		var frm = document.adminForm;
 
-
 		if (frm.firstname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
 			return false;
@@ -43,7 +42,6 @@ $post['state_code_ST'] = $post['state_code'];
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
 			return false;
 		}
-
 
 		if (frm.address.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS')?>");

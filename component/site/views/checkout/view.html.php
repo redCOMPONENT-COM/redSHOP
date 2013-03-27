@@ -33,7 +33,6 @@ class checkoutViewcheckout extends JView
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
-
 		for ($l = 0; $l < count($payment_lang_list); $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
