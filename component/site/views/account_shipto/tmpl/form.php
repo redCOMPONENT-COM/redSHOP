@@ -30,7 +30,6 @@ $post['state_code_ST'] = $post['state_code'];
 		frm.submit();
 	}
 	function validateInfo() {
-
 		var frm = document.adminForm;
 
 		if (frm.firstname.value == '') {

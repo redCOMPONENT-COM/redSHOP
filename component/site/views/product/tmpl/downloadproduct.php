@@ -20,14 +20,10 @@ $model  = $this->getModel();
 	<script language="javascript" type="text/javascript">
 
 		function mainProductSet(el) {
-
 			if (document.getElementById('mainindex')) {
-
 				if (el.id == "main") {
-
 					document.getElementById('mainindex').value = "main";
 				} else if (el.id == "additional") {
-
 					document.getElementById('mainindex').value = "additional";
 				}
 			}
