@@ -20,7 +20,9 @@ $redhelper = new redhelper;
 $Itemid = $redhelper->getCheckoutItemid();
 
 if ($Itemid == 0)
+{
 	$Itemid = JRequest::getVar('Itemid');
+}
 
 $session = JFactory::getSession();
 

@@ -137,26 +137,6 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{category_heading_end}", "", $cart_mdata);
 		}
 
-//		if($cname != $manufacturer_products[$i]->category_name)
-//		{
-//			if($i>0)
-//			{
-//				$cart_mdata .= "</div>";
-
-//			}
-
-//			$cart_mdata .= "<div  style='clear: both;' class='manufacturer_category_seperator'>";
-
-//			$cart_mdata .= str_replace("{category_name}","<div id='".ereg_replace("[^A-Za-z0-9_]", "_", $manufacturer_products[$i]->category_name)."' class='manufacturercategoryproducts'>".$manufacturer_products[$i]->category_name."</div>", $template_middle);
-
-//		}
-
-//		else
-//		{
-//			$cart_mdata .= str_replace("{category_name}","",$template_middle);
-
-//		}
-
 		$link         = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $manufacturer_products[$i]->product_id);
 		$product_name = "<a href='" . $link . "'>" . $manufacturer_products[$i]->product_name . "</a>";
 		$cart_mdata   = str_replace("{product_name}", $product_name, $cart_mdata);
