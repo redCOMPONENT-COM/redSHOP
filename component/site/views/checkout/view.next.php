@@ -18,7 +18,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php
 
 class checkoutViewcheckout extends JView
 {
-
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
@@ -45,7 +44,10 @@ class checkoutViewcheckout extends JView
 		$auth              = $session->get('auth');
 
 		if (empty($users_info_id))
+		{
 			$users_info_id = $auth['users_info_id'];
+		}
+
 		$shipping_rate_id = JRequest::getVar('shipping_rate_id');
 		$shippingdetail   = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
 
@@ -67,14 +69,18 @@ class checkoutViewcheckout extends JView
 			if ($users_info_id < 1)
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_ADDRESS');
-				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
+				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+					. $payment_method_id;
 				$app->Redirect($link, $msg);
 			}
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_METHOD');
-				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
+				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+					. $payment_method_id;
 				$app->Redirect($link, $msg);
 			}
 		}
@@ -82,7 +88,9 @@ class checkoutViewcheckout extends JView
 		if ($payment_method_id == '')
 		{
 			$msg  = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
+			$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+				. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+				. $payment_method_id;
 			$app->Redirect($link, $msg);
 		}
 
