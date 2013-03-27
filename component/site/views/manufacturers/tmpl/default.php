@@ -22,8 +22,6 @@ $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $redhelper = new redhelper;
 
-// $document = JFactory::getDocument();
-
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER');
 

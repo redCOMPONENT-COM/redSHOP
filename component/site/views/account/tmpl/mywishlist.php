@@ -347,12 +347,6 @@ if ($mail == 0)
 			// Extra field display
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
 
-			// Check product for not for sale
-			// $wishlist_data = $producthelper->getProductNotForSaleComment($row->product_id,$wishlist_data);
-
-			// $wishlist_data = $producthelper->getProductOnSaleComment($row->product_id,$wishlist_data);
-
-			// $wishlist_data = $producthelper->replaceCartTemplate($row->product_id,0,0,0,$wishlist_data);
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
 

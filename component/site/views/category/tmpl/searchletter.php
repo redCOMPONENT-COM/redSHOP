@@ -76,7 +76,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	$attribute_template = $producthelper->getAttributeTemplate($template_product);
 
-	// $extraFieldName = $extraField->getSectionFieldNameArray(1,1,1);
 	$product_data = '';
 	$prddata_add  = "";
 
@@ -373,7 +372,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
 
-	// $template_desc = str_replace ( $template_product, $product_data, $template_desc );
 	$template_desc = str_replace($template_product, $prddata_add, $template_desc);
 
 }

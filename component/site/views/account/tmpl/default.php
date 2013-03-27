@@ -92,7 +92,6 @@ if ($this->userdata->firstname != "")
 	$customer_fullname     = $this->userdata->firstname . ' ' . $this->userdata->lastname;
 }
 
-// $returnArr = $producthelper->getProductUserfieldFromTemplate($template_desc);
 $template_desc = str_replace('{fullname_lbl}', $customer_fullname_lbl, $template_desc);
 $template_desc = str_replace('{fullname}', $customer_fullname, $template_desc);
 
