@@ -41,8 +41,6 @@ class checkoutViewcheckout extends JView
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
-		// End
-
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('validate.js', 'media/system/js/', false);
 		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
