@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -93,6 +93,7 @@ class newsletter_detailController extends JController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		if ($val == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_NEWSLETTER_CAN_NOT_BE_DELETED');
@@ -108,7 +109,6 @@ class newsletter_detailController extends JController
 
 	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -131,7 +131,6 @@ class newsletter_detailController extends JController
 
 	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -142,10 +141,12 @@ class newsletter_detailController extends JController
 		}
 
 		$model = $this->getModel('newsletter_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_UNPUBLISHED_SUCCESFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
 	}
@@ -176,5 +177,3 @@ class newsletter_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
 	}
 }
-
-
