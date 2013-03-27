@@ -29,13 +29,11 @@ $filter_by_select = JRequest::getVar('filter_by', 0);
 
 $document = JFactory::getDocument();
 $manufacturer = $this->detail[0];
-$limit = $model->getProductLimit(); //( JRequest::getVar( 'limit', 0, '', 'int' ) );
+$limit = $model->getProductLimit();
 
 $app = JFactory::getApplication();
-$router = & $app->getRouter();
+$router = $app->getRouter();
 $uri = new JURI('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
-
-// $router->setVars ( $uri->_vars );
 
 
 // Page Title
@@ -86,7 +84,6 @@ else
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
-
 
 $template_start  = $template_desc;
 $template_middle = "";
@@ -139,26 +136,6 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{category_heading_start}", "", $cart_mdata);
 			$cart_mdata = str_replace("{category_heading_end}", "", $cart_mdata);
 		}
-
-//		if($cname != $manufacturer_products[$i]->category_name)
-//		{
-//			if($i>0)
-//			{
-//				$cart_mdata .= "</div>";
-
-//			}
-
-//			$cart_mdata .= "<div  style='clear: both;' class='manufacturer_category_seperator'>";
-
-//			$cart_mdata .= str_replace("{category_name}","<div id='".ereg_replace("[^A-Za-z0-9_]", "_", $manufacturer_products[$i]->category_name)."' class='manufacturercategoryproducts'>".$manufacturer_products[$i]->category_name."</div>", $template_middle);
-
-//		}
-
-//		else
-//		{
-//			$cart_mdata .= str_replace("{category_name}","",$template_middle);
-
-//		}
 
 		$link         = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $manufacturer_products[$i]->product_id);
 		$product_name = "<a href='" . $link . "'>" . $manufacturer_products[$i]->product_name . "</a>";
@@ -220,7 +197,6 @@ if ($template_middle != "")
 		}
 
 		$cart_mdata = $producthelper->replaceWishlistButton($product_id, $cart_mdata);
-
 
 		if (strstr($cart_mdata, '{product_thumb_image_2}'))
 		{

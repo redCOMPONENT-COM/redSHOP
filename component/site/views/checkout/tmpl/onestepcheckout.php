@@ -212,7 +212,6 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 
 			$edit_addlink = JRoute::_('index.php?option=' . $option . '&view=account_shipto&tmpl=component&for=true&task=addshipping&return=checkout&Itemid=' . $Itemid . '&infoid=' . $shipinfo->users_info_id);
 
-			// $delete_addlink = JRoute::_( 'index.php?option='.$option.'&view=account_shipto&task=remove&return=checkout&infoid='.$shipinfo->users_info_id );
 			$delete_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
 			$ship_check     = ($users_info_id == $shipinfo->users_info_id) ? 'checked="checked"' : '';
 
@@ -270,7 +269,6 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
-
 
 	}
 </script>

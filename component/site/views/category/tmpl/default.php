@@ -47,8 +47,6 @@ $app = JFactory::getApplication();
 $router    = $app->getRouter();
 $uri       = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
 
-// $router->setVars ( $uri->_vars );
-
 if ($this->params->get('show_page_heading', 0))
 {
 	if (!$catid)

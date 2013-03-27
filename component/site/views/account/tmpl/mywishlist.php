@@ -120,7 +120,6 @@ if ($mail == 0)
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 
-
 			$pname         = "<a href='" . $link . "' >" . $row->product_name . "</a>";
 			$wishlist_data = str_replace($tag, $thum_image, $wishlist_desc);
 			$wishlist_data = str_replace('{product_number}', $row->product_number, $wishlist_data);
@@ -132,7 +131,6 @@ if ($mail == 0)
 			$wishlist_data = str_replace('{product_price}', $producthelper->getProductFormattedPrice($product_price) , $wishlist_data);
 			}*/
 			$wishlist_data = str_replace('{product_s_desc}', $row->product_s_desc, $wishlist_data);
-
 
 			// Checking for child products start
 			if (strstr($wishlist_data, "{child_products}"))
@@ -158,8 +156,7 @@ if ($mail == 0)
 						$childproducts = array_merge(array($productInfo), $childproducts);
 
 						$cld_name = array();
-						/*$cld_name[0]->product_id="0";
-						$cld_name[0]->product_name=JText::_('COM_REDSHOP_SELECT');*/
+
 						if (count($childproducts) > 0)
 						{
 							$parentid = 0;
@@ -186,7 +183,6 @@ if ($mail == 0)
 							$cld_name = @array_merge($cld_name, $childproducts);
 						}
 
-
 						$selected                  = array($row->product_id);
 						$lists['product_child_id'] = JHTML::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmChild.submit();"', 'product_id', 'product_name', $selected);
 
@@ -202,7 +198,6 @@ if ($mail == 0)
 
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
-
 
 			$childproduct = $producthelper->getChildProduct($row->product_id);
 
@@ -347,12 +342,6 @@ if ($mail == 0)
 			// Extra field display
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
 
-			// Check product for not for sale
-			// $wishlist_data = $producthelper->getProductNotForSaleComment($row->product_id,$wishlist_data);
-
-			// $wishlist_data = $producthelper->getProductOnSaleComment($row->product_id,$wishlist_data);
-
-			// $wishlist_data = $producthelper->replaceCartTemplate($row->product_id,0,0,0,$wishlist_data);
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
 
@@ -361,7 +350,6 @@ if ($mail == 0)
 			$totattid .= $totalatt . ",";
 			$totcount_no_user_field .= $count_no_user_field . ",";
 
-
 			$temp_template .= $wishlist_data;
 		}
 
@@ -369,14 +357,16 @@ if ($mail == 0)
 
 		$my .= "<input type='hidden' name='product_id' id='product_id' value='" . $mainid . "' >
 
-
 			<input type='hidden' name='totacc_id' id='totacc_id' value='" . $totattid . "' >
 			<input type='hidden' name='totcount_no_user_field' id='totcount_no_user_field' value='" . $totcount_no_user_field . "' >
 			<input type='button' name='submit' onclick='return productalladdprice();' value='" . JText::_('COM_REDSHOP_ADD_TO_CART') . "'>
 			</form>";
 	}
 	else
+	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
+	}
+
 	$data = $template_d1[0] . $temp_template . $template_d2[1];
 
 	$back_link = '<a href="' . JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid) . '" title="' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '">' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '</a>';
