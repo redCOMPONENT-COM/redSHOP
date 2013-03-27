@@ -13,7 +13,6 @@ JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
-// $language = JFactory::getLanguage();
 class checkoutViewcheckout extends JView
 {
 	public function display($tpl = null)

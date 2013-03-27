@@ -23,8 +23,6 @@ $detail = $this->detail;
 $user = JFactory::getUser();
 $extra_field = new extra_field;
 
-// $idx =  $cart['idx'];
-
 $quotation_template = $redTemplate->getTemplate("quotation_request");
 
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
@@ -118,47 +116,6 @@ $template_desc = str_replace("{order_detail_lbl}", JText::_('COM_REDSHOP_ORDER_D
 $template_desc = str_replace("{customer_note_lbl}", JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'), $template_desc);
 $template_desc = str_replace("{customer_note}", '<textarea name="quotation_note" id="quotation_note"></textarea>', $template_desc);
 
-
-// $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
-
-// $template_desc	=	$texts->replace_texts($template_desc);
-
 $template_desc = '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">' . $template_desc . '</form>';
 
 echo eval("?>" . $template_desc . "<?php ");?>
-
-
-<script type="text/javascript">
-	/*function changeDynaList( listname, source, key, orig_key, orig_val ) {
-	 var list = eval( 'document.adminForm.' + listname );
-
-	 // Empty the list
-	 for (i in list.options.length) {
-	 list.options[i] = null;
-	 }
-	 i = 0;
-	 for (x in source) {
-	 if (source[x][0] == key) {
-	 opt = new Option;
-	 opt.value = source[x][1];
-	 opt.text = source[x][2];
-
-	 if ((orig_key == key && orig_val == opt.value) || i == 0) {
-	 opt.selected = true;
-	 }
-	 list.options[i++] = opt;
-	 }
-	 }
-	 list.length = i;
-	 if(list.length <=0 )
-	 {
-	 //		document.getElementById('div_state_lbl').style.display='none';
-	 document.getElementById('div_state_txt').style.display='none';
-	 }
-	 else
-	 {
-	 //		document.getElementById('div_state_lbl').style.display='block';
-	 document.getElementById('div_state_txt').style.display='block';
-	 }
-	 }***/
-</script>

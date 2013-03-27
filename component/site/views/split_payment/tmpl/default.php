@@ -74,7 +74,6 @@ $is_creditcard = 0;
 				$paymentpath = $adminpath . '/helpers/payments/' . $paymentmethod[$p]->plugin . '/' . $paymentmethod[$p]->plugin . '.php';
 				include_once $paymentpath;
 
-				// $payment_class = new $paymentmethod[$p]->payment_class;
 				?>
 				<input type="radio" name="payment_method_id"
 				       value="<?php echo $paymentmethod[$p]->payment_method_id; ?>"  <?php

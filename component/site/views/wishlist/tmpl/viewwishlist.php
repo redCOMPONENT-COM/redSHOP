@@ -262,21 +262,9 @@ function display_products($rows)
 
 		for ($i = 0; $i < count($rows); $i++)
 		{
-
 			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
 
-			// $pname ="<a href='".$link."' >".$row->product_name."</a>";
-
-			// $thum_image = $producthelper->getProductImage($row->product_id,$link,"100","100");
-
-			// $wishlist_data = str_replace('{product_thumb_image}', $thum_image , $wishlist_data);
-
-			// $wishlist_data = str_replace('{product_name}', $pname , $wishlist_data);
-
-			// $temp_template .= $wishlist_data ;
-
-			//echo "<pre>";print_r($row);exit;
 			$Itemid = $redhelper->getItemid($rows[$i]->product_id);
 			$link   = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
 
@@ -284,7 +272,6 @@ function display_products($rows)
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 			if ($row->product_full_image)
 			{
-
 				$thum_image    = $producthelper->getProductImage($row->product_id, $link, $pw_thumb, $ph_thumb);
 				$wishlist_data = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
 			}
@@ -303,6 +290,7 @@ function display_products($rows)
 			if (strstr($wishlist_data, "{child_products}"))
 			{
 				$parentproductid = $row->product_id;
+
 				if ($this->data->product_parent_id != 0)
 				{
 					$parentproductid = $producthelper->getMainParentProduct($row->product_id);
@@ -316,6 +304,7 @@ function display_products($rows)
 
 					// Get child products
 					$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
+
 					if (count($childproducts) > 0)
 					{
 						$childproducts = array_merge(array($productInfo), $childproducts);
@@ -337,7 +326,7 @@ function display_products($rows)
 								{
 									if ($parentid != $childproducts[$c]->product_parent_id)
 									{
-										$level = $level; //."_";
+										$level = $level;
 									}
 								}
 
@@ -346,7 +335,6 @@ function display_products($rows)
 								$childproducts[$c]->product_name = $level . $childproducts[$c]->product_name;
 							}
 
-							//	print_r($childproducts);
 							$cld_name = @array_merge($cld_name, $childproducts);
 						}
 
@@ -378,6 +366,7 @@ function display_products($rows)
 				{
 					$isChilds       = false;
 					$attributes_set = array();
+
 					if ($row->attribute_set_id > 0)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
@@ -394,9 +383,9 @@ function display_products($rows)
 			}
 			else
 			{
-
 				$isChilds       = false;
 				$attributes_set = array();
+
 				if ($row->attribute_set_id > 0)
 				{
 					$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
@@ -431,8 +420,6 @@ function display_products($rows)
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 							$product_price     = $product_price_discount;
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price_discount);
-
-							// $mainproduct_price .="<div id='mod_redsavedprice' class='mod_redsavedprice'>".JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED').' '.$producthelper->getProductFormattedPrice($s_price)."</div>";
 
 						}
 						else

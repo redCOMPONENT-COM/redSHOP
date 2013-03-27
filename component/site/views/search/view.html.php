@@ -101,8 +101,6 @@ class searchViewsearch extends JView
 				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 
 			}
-
-			// $this->setLayout('redfilter');
 		}
 
 		$order_data            = redhelper::getOrderByList();
@@ -129,9 +127,9 @@ class searchViewsearch extends JView
 		parent::display($tpl);
 	}
 
-	/*
-	   * generate product search output
-	   */
+	/**
+	 * Generate product search output
+	 */
 	function onRSProductSearch()
 	{
 		if (count($this->search) > 0)
@@ -156,11 +154,12 @@ class searchViewsearch extends JView
 			$search_type = JRequest::getCmd('search_type');
 			$cid         = JRequest::getInt('category_id');
 
-			// $manufacture_id = JRequest::getInt('manufacture_id');
 			$manisrch       = $this->search;
 			$manufacture_id = $manisrch[0]->manufacturer_id;
 			$templateid     = JRequest::getInt('templateid');
-			$keyword        = JRequest::getVar('keyword'); // Cmd removes space between to words
+
+			// Cmd removes space between to words
+			$keyword        = JRequest::getVar('keyword');
 			$layout         = JRequest::getCmd('layout', 'default');
 
 			$db    = jFactory::getDBO();
@@ -274,10 +273,7 @@ class searchViewsearch extends JView
 			$template_org = str_replace("{redproductfinderfilter:rp_myfilter}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter_formend}", '', $template_org);
 
-			// $template_org =str_replace("{product_display_limit}",'',$template_org);
-
-			//	$template_org =str_replace("{related_product_lightbox:related_products_for_light_box}",'', $template_org);
-			/* replace redproductfilder filter tag */
+			// Replace redproductfilder filter tag
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
 				if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php'))
@@ -714,9 +710,6 @@ class searchViewsearch extends JView
 
 			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 
-			// $uri = new JURI( 'index.php?option='.$option.'&view=search&layout='.$layout.'&keyword='.$keyword.'&manufacture_id='.$manufacture_id.'&order_by='.$getorderby.'&category_id='.$cid.'&Itemid='.$Itemid.'&limit='.$limit);
-
-			// $router->setVars ( $uri->_vars );
 			$vars = array(
 				'option'         => 'com_redshop',
 				'view'           => 'search',

@@ -48,10 +48,6 @@ else
 	}
 }
 
-// $uri = new JURI( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
-
-// $router->setVars ( $uri->_vars );
-
 if ($this->params->get('show_page_heading', 1))
 {
 	if (!$gid)
@@ -316,7 +312,6 @@ else
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
 	}
 
-	// $template = $redTemplate->parseredSHOPplugin($template);
 	echo eval("?>" . $template . "<?php ");
 }
 ?>
