@@ -31,7 +31,6 @@ class wishlistViewwishlist extends JView
 
 		$pageheadingtag = '';
 
-
 		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
@@ -39,7 +38,6 @@ class wishlistViewwishlist extends JView
 		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
 
-		//JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);

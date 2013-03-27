@@ -16,14 +16,18 @@ $loginlink = 'index.php?option=' . $option . '&view=login&Itemid=' . $Itemid;
 $mywishlist = JRequest::getVar('wishlist');
 
 if ($mywishlist != '')
+{
 	$newuser_link = 'index.php?wishlist=' . $mywishlist . '&option=' . $option . '&view=registration&Itemid=' . $Itemid;
+}
 else
+{
 	$newuser_link = 'index.php?option=' . $option . '&view=registration&Itemid=' . $Itemid;
+}
+
 $forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $Itemid;
 
 $params = $app->getParams($option);
 $returnitemid = $params->get('login', $Itemid);
-
 
 ?>
 <form action="<?php echo JRoute::_($loginlink); ?>" method="post">

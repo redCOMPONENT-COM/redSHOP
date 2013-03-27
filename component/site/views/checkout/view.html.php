@@ -13,7 +13,6 @@ JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
-// $language = JFactory::getLanguage();
 class checkoutViewcheckout extends JView
 {
 	public function display($tpl = null)
@@ -34,14 +33,11 @@ class checkoutViewcheckout extends JView
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
-
 		for ($l = 0; $l < count($payment_lang_list); $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
-
-		// End
 
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('validate.js', 'media/system/js/', false);

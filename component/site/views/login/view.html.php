@@ -28,8 +28,6 @@ class loginViewlogin extends JView
 
 		$layout = JRequest::getVar('layout', '');
 
-		$user = JFactory::getUser();
-
 		$check = $model->CheckShopperGroup($user->username, $shoppergroupid);
 
 		if ($layout == 'portal' || PORTAL_SHOP == 1)

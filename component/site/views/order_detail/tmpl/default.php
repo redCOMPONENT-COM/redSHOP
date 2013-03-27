@@ -121,7 +121,6 @@ for ($d = 0; $d < count($arr_discount); $d++)
 $search[]  = "{discount_type_lbl}";
 $replace[] = JText::_('COM_REDSHOP_CART_DISCOUNT_CODE_TBL');
 
-
 if ($discount_type)
 {
 	$search[]  = "{discount_type}";
@@ -202,7 +201,6 @@ if (strstr($orderslist_template, "{order_status_payment_only}"))
 	$search []  = "{order_status_payment_only}";
 	$replace [] = $orderPaymentStatus;
 }
-
 
 $search []  = "{reorder_button}";
 $replace [] = $reorder;

@@ -24,15 +24,13 @@ class reddesignViewreddesign extends JView
 		$document->addCustomTag('<script type="text/javascript">jQuery.noConflict();</script>');
 
 		// Css files
-		$cssfile = "components" . DS . "com_reddesign" . DS . "assets" . DS . "css" . DS . "style.css";
+		$cssfile = "components/com_reddesign/assets/css/style.css";
 
 		$html = "<link href=\"$cssfile\" rel=\"stylesheet\" type=\"text/css\" />";
 		$app->addCustomHeadTag($html);
 
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
-
-		// $product_id = JRequest :: getVar('productid');
 
 		// Redshop product detail
 		$pid = JRequest::getInt('pid');

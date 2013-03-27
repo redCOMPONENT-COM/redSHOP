@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 $dispatcher = JDispatcher::getInstance();
 
 // Event
@@ -18,7 +17,6 @@ $task = JRequest::getVar('task');
 // Group
 $type = JRequest::getVar('type');
 $post = JRequest::get('request');
-
 
 JPluginHelper::importPlugin($type);
 
