@@ -87,7 +87,6 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 	$template_desc = $template_start . $cart_mdata . $template_end;
 }
 
-
 if (strstr($template_desc, "{manufacturer_image}"))
 {
 	$mh_thumb    = MANUFACTURER_THUMB_HEIGHT;
@@ -125,7 +124,6 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			{
 				$thumbtype = "manufacturer/";
 			}
-
 
 			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $maintype . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $url . "/components/" . $option . "/helpers/thumb.php?filename=" . $thumbtype . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a>";

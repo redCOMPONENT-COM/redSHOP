@@ -16,7 +16,6 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 
-
 $url = JURI::base();
 $user = JFactory::getUser();
 $session = JFactory::getSession();
@@ -149,7 +148,6 @@ else
 			/>
 		<label for="mytogglermycheckerregister"><?php echo JText::_('COM_REDSHOP_NEW_CUSTOMERS');?></label></h4><?php
 	}
-
 
 	// Toggler settings
 	$open_to_stretcher = 0;
@@ -368,7 +366,6 @@ else
 
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
-
 
 	}
 </script>

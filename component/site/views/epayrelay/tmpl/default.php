@@ -14,11 +14,9 @@ require_once JPATH_COMPONENT . '/helpers/product.php';
 include_once JPATH_COMPONENT . '/helpers/helper.php';
 include_once JPATH_COMPONENT . '/helpers/cart.php';
 
-
 $db  = JFactory::getDBO();
 $url = JURI::base();
 
-// $Itemid = $redhelper->getCheckoutItemid();
 $option = JRequest::getVar('option');
 
 $post = JRequest::get('post');

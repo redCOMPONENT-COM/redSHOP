@@ -16,7 +16,6 @@ $billingaddresses = $model->billingaddresses();    ?>
 <table class="admintable">
 	<?php
 
-
 	if ($billingaddresses->is_company == 1)
 	{
 		?>

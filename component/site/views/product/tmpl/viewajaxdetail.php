@@ -188,7 +188,6 @@ if (count($ajaxdetal_template) > 0)
 
 	// Product attribute  End
 
-
 	// Product accessory Start /////////////////////////////////
 	$accessory      = $producthelper->getProductAccessory(0, $this->data->product_id);
 	$totalAccessory = count($accessory);
@@ -197,12 +196,10 @@ if (count($ajaxdetal_template) > 0)
 
 	// Product accessory End /////////////////////////////////
 
-
 	// Cart
 	$data_add = $producthelper->replaceCartTemplate($this->data->product_id, $this->data->category_id, 0, $relatedprd_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 	$data_add = $data_add . "<input type='hidden' name='isAjaxBoxOpen' id='isAjaxBoxOpen' value='" . $layout . "' />";
-
 
 	echo eval("?>" . $data_add . "<?php ");
 }

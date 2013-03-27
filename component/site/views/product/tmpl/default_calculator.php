@@ -19,14 +19,12 @@ $url    = JURI::base();
 // Get Model
 $model = $this->getModel('product');
 
-
 // Check that we need to use discount calculator
 
 // Default calculation method
 $calcMethod = $this->data->discount_calc_method;
 
 // Default calculation unit
-// $globalUnit = $this->data->discount_calc_unit;
 
 // Calculation prices as per various area
 $discount_calc_data = $rsCarthelper->getDiscountCalcData(0, $this->data->product_id);

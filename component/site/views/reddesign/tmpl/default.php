@@ -17,7 +17,7 @@ $producthelper   = new producthelper;
 $Itemid          = JRequest::getVar('Itemid');
 $redhelper       = new redhelper;
 $Itemid          = $redhelper->getCartItemid($Itemid);
-$image_path      = $url . "components" . DS . "com_reddesign" . DS . "assets" . DS . "images" . DS . "designtype" . DS;
+$image_path      = $url . "components/com_reddesign/assets/images/designtype" . DS;
 $default_imageId = $this->image_id;
 ?>
 	<script language='javascript'>
