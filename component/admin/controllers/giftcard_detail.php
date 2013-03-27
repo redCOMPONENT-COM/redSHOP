@@ -55,6 +55,7 @@ class giftcard_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_GIFTCARD');
 		}
+
 		if (!$showbuttons)
 		{
 			if ($apply == 1)

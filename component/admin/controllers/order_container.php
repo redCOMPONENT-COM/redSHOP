@@ -6,38 +6,29 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class order_containerController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
-	{
-		parent::display();
-	}
-
-	function update_status()
+	public function update_status()
 	{
 		$model = $this->getModel('order_container');
 		$model->update_status();
 	}
 
-	function export_data()
+	public function export_data()
 	{
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php';
 
-		$order_function = new order_functions();
+		$order_function = new order_functions;
 
 		$model = $this->getModel('order_container');
 
@@ -51,7 +42,6 @@ class order_containerController extends JController
 
 		echo "Order id,Fullname,Order Status,Order Date,Total\n\n";
 
-
 		for ($i = 0; $i < count($data); $i++)
 		{
 			echo $data[$i]->order_id . ",";
@@ -61,6 +51,7 @@ class order_containerController extends JController
 			echo date('d-m-Y H:i', $data[$i]->cdate) . ",";
 			echo REDCURRENCY_SYMBOL . $data[$i]->order_total . "\n";
 		}
+
 		exit;
 	}
 }

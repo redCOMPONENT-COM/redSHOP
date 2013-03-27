@@ -6,11 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.folder');
-//Import filesystem libraries. Perhaps not necessary, but does not hurt
 jimport('joomla.filesystem.file');
+
 class Redtemplate
 {
 	var $redshop_template_path;
