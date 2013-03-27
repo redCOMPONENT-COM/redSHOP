@@ -65,13 +65,16 @@ class searchViewsearch extends JView
 			$getredfilter = $session->get('redfilter');
 
 			if (count($getredfilter) == 0)
+			{
 				$redfilter = array();
+			}
 			else
+			{
 				$redfilter = $getredfilter;
+			}
 
 			if ($tagid != 0 && $typeid != 0 && !array_key_exists($typeid, $redfilter))
 			{
-
 				$redfilter[$typeid] = $tagid;
 			}
 
@@ -88,7 +91,9 @@ class searchViewsearch extends JView
 					echo $model->mod_redProductfilter($Itemid, $typeid) . '~';
 				}
 				else
+				{
 					$session->destroy('redfilter');
+				}
 			}
 
 			$session->set('redfilter', $redfilter);
@@ -129,7 +134,7 @@ class searchViewsearch extends JView
 	/**
 	 * Generate product search output
 	 */
-	function onRSProductSearch()
+	public function onRSProductSearch()
 	{
 		if (count($this->search) > 0)
 		{
@@ -241,7 +246,8 @@ class searchViewsearch extends JView
 				$print_url = $url . "index.php?option=com_redshop&view=search&print=1&tmpl=component";
 				$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
 			}
-			/* skip html if nosubcategory  */
+
+			// Skip html if nosubcategory
 			if (strstr($template_org, "{if subcats}"))
 			{
 				$template_d1  = explode("{if subcats}", $template_org);
@@ -249,7 +255,7 @@ class searchViewsearch extends JView
 				$template_org = $template_d1[0] . $template_d2[1];
 			}
 
-			/* End skip html if nosubcategory  */
+			// End skip html if nosubcategory
 			$template_org = str_replace("{print}", $print_tag, $template_org);
 			$template_org = str_replace("{product_price_slider}", '', $template_org);
 			$template_org = str_replace("{filter_by}", '', $template_org);
@@ -293,8 +299,8 @@ class searchViewsearch extends JView
 					$template_org = $redproductfinder_helper->replaceProductfinder_tag($template_org, $hdnFields, $hide_filter_flag);
 				}
 			}
-			/* replace redproductfilder filter tag end here */
 
+			// Replace redproductfilder filter tag end here
 			$template_d1       = explode("{product_loop_start}", $template_org);
 			$template_d2       = explode("{product_loop_end}", $template_d1[1]);
 			$template_tmp_desc = $template_d2[0];
@@ -447,8 +453,6 @@ class searchViewsearch extends JView
 					$rtlnheighttag = (isset($rtlnthree[2])) ? ":" . $rtlnthree[2] : "";
 
 					$rtlntag = "{related_product_lightbox:$rtln$rtlnwidthtag$rtlnheighttag}";
-
-					//echo count($related_product);die();
 
 					if (count($related_product) > 0)
 					{

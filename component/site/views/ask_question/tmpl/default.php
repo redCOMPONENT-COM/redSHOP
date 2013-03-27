@@ -47,7 +47,6 @@ else
 <script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>
 <script type="text/javascript" language="javascript">
 	function validateQuestion() {
-
 		var frm = document.frmaskquestion;
 
 		if (frm.your_name.value == '') {

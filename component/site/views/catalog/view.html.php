@@ -13,7 +13,6 @@ JLoader::import('joomla.application.component.view');
 
 class catalogViewcatalog extends JView
 {
-
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();

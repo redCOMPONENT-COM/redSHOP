@@ -275,12 +275,12 @@ else
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
-/* associate_tag display update nayan panchal start */
+
+// Associate_tag display update nayan panchal start
 $ass_tag = '';
 
 if ($redhelper->isredProductfinder())
 {
-
 	$associate_tag = $producthelper->getassociatetag($this->data->product_id);
 
 	for ($k = 0; $k < count($associate_tag); $k++)
@@ -291,7 +291,7 @@ if ($redhelper->isredProductfinder())
 		}
 	}
 }
-/* associate_tag display update nayan panchal end */
+// Associate_tag display update nayan panchal end
 $template_desc = $producthelper->replaceVatinfo($template_desc);
 $template_desc = str_replace("{associate_tag}", $ass_tag, $template_desc);
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
@@ -678,6 +678,7 @@ if (strstr($template_desc, "{navigator_products}"))
 	$template_desc = str_replace("{navigator_products}", $frmChild, $template_desc);
 	$template_desc = str_replace("{navigator_products_lbl}", $navigator_products_lbl, $template_desc);
 }
+
 /************************PRODUCT WRAPPER END***************************/
 
 if (strstr($template_desc, "{child_products}"))
@@ -703,8 +704,7 @@ if (strstr($template_desc, "{child_products}"))
 			$childproducts = array_merge(array($productInfo), $childproducts);
 
 			$cld_name = array();
-			/*$cld_name[0]->product_id="0";
-			$cld_name[0]->product_name=JText::_('COM_REDSHOP_SELECT');*/
+
 			if (count($childproducts) > 0)
 			{
 				$parentid = 0;
@@ -868,7 +868,6 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 }
 else
 {
-
 	if (strstr($template_desc, "{product_availability_date}") || strstr($template_desc, "{stock_notify_flag}") || strstr($template_desc, "{stock_status"))
 	{
 		$attributeproductStockStatus = $producthelper->getproductStockStatus($this->data->product_id, $totalatt);
@@ -880,50 +879,16 @@ else
 
 $template_desc = $producthelper->replaceProductStockdata($this->data->product_id, $selectedpropertyId, $selectedsubpropertyId, $template_desc, $attributeproductStockStatus);
 
-/*
-	if(strstr($template_desc,"{product_availability_date}") || strstr($template_desc,"{stock_notify_flag}"))
-	{
-
-		$userArr 	= $session->get('rs_user');
-		$is_login 	= $userArr['rs_is_user_login'];
-		$users_info_id 	= $userArr['rs_user_info_id'];
-
-		if(!$attributeproductStockStatus['regular_stock'] && $attributeproductStockStatus['preorder'])
-		{
-			if($this->data->product_availability_date)
-			{
-				$template_desc = str_replace ( "{product_availability_date_lbl}", "<span id='stock_availability_date_lbl".$this->data->product_id."'>".JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL').": </span>", $template_desc );
-				$template_desc = str_replace ( "{product_availability_date}", "<span id='stock_availability_date".$this->data->product_id."'>".$redshopconfig->convertDateFormat($this->data->product_availability_date)."</span>", $template_desc );
-			} else {
-				$template_desc = str_replace ( "{product_availability_date_lbl}", "<span id='stock_availability_date_lbl".$this->data->product_id."'></span>", $template_desc );
-				$template_desc = str_replace ( "{product_availability_date}", "<span id='stock_availability_date".$this->data->product_id."'></span>", $template_desc );
-			}
-
-			if($is_login && $users_info_id)
-			{
-				$template_desc = str_replace ( "{stock_notify_flag}", '<div id="notify_stock'.$this->data->product_id.'"><span onclick="getStocknotify(\''.$this->data->product_id.'\',\''.$selectedpropertyId.'\', \''.$selectedsubpropertyId.'\');">FLAG</span></div>', $template_desc );
-			} else {
-				$template_desc = str_replace ( "{stock_notify_flag}", "<div id='notify_stock".$this->data->product_id."'></div>", $template_desc );
-			}
-		} else {
-			$template_desc = str_replace ( "{product_availability_date_lbl}", "<span id='stock_availability_date_lbl".$this->data->product_id."'></span>", $template_desc );
-			$template_desc = str_replace ( "{product_availability_date}", "<span id='stock_availability_date".$this->data->product_id."'></span>", $template_desc );
-			$template_desc = str_replace ( "{stock_notify_flag}", "<div id='notify_stock".$this->data->product_id."'></div>", $template_desc );
-		}
-	}
-
-/// End */
-
 $product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $pr_number . '</span>';
 $template_desc = str_replace("{product_number}", $product_number_output, $template_desc);
 
-/////////////////////////////////// Product accessory Start /////////////////////////////////
+// Product accessory Start
 $accessory = $producthelper->getProductAccessory(0, $this->data->product_id);
 $totalAccessory = count($accessory);
 
 $template_desc = $producthelper->replaceAccessoryData($this->data->product_id, 0, $accessory, $template_desc, $isChilds);
 
-/////////////////////////////////// Product accessory End /////////////////////////////////
+// Product accessory End
 
 if (strstr($template_desc, $mpimg_tag))
 {
@@ -984,6 +949,7 @@ if (strstr($template_desc, $mpimg_tag))
 						{
 							$img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 						}
+
 						$hovermore_images = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
 
 						$filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->product_full_image;
@@ -1176,7 +1142,7 @@ else
 
 if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_img_link}"))
 {
-	//front-back image tag...
+	// Front-back image tag...
 	if ($this->data->product_thumb_image)
 	{
 		$mainsrcPath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_thumb_image;
@@ -1228,9 +1194,9 @@ if (strstr($template_desc, "{product_preview_img}"))
 	}
 }
 
-// 	product preview image end.
+// Product preview image end.
 
-//front-back preview image tag...
+// Front-back preview image tag...
 if (strstr($template_desc, "{front_preview_img_link}") || strstr($template_desc, "{back_preview_img_link}"))
 {
 	if ($this->data->product_preview_image)
@@ -1276,7 +1242,7 @@ if (count($ajaxdetail_templatedata) > 0)
 	$template_desc = str_replace("{ajaxdetail_template:" . $ajaxdetail_templatedata->template_name . "}", "", $template_desc);
 }
 
-//checking if user logged in then only enabling review button
+// Checking if user logged in then only enabling review button
 $reviewform = "";
 
 if ($user->id)
@@ -1284,16 +1250,6 @@ if ($user->id)
 	// Write Review link with the products
 	if (strstr($template_desc, "{form_rating_without_lightbox}"))
 	{
-		/*$reviewform .= "<form name='writereview' action='' method='post'>";
-		$reviewform .= "<div style='clear:both;'>";
-		$reviewform .= "<a href='javascript:void(0);' onclick='document.writereview.submit();'>".JText::_('COM_REDSHOP_WRITE_REVIEW' )."</a>";
-		$reviewform .= "<input type='hidden' value='".$this->data->product_id."' name='product_id'>";
-		$reviewform .= "<input type='hidden' value='".$this->data->category_id."' name='category_id'>";
-		$reviewform .= "<input type='hidden' name='view' value='product_rating'>";
-		$reviewform .= "<input type='hidden' name='task' value='add'>";
-		$reviewform .= "<input type='hidden' name='Itemid' value='".$Itemid."'>";
-		$reviewform .= "</div>";
-		$reviewform .= "</form>";*/
 		$reviewlink    = JURI::root() . 'index.php?option=' . $option . '&view=product_rating&rate=1&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
 		$reviewform    = '<a href="' . $reviewlink . '">' . JText::_('WRITE_REVIEW') . '</a>';
 		$template_desc = str_replace("{form_rating_without_lightbox}", $reviewform, $template_desc);
@@ -1312,7 +1268,6 @@ if ($user->id)
 }
 else
 {
-
 	$reviewform = JText::_('COM_REDSHOP_YOU_NEED_TO_LOGIN_TO_POST_A_REVIEW');
 
 	if (strstr($template_desc, "{form_rating_without_lightbox}"))
@@ -1579,12 +1534,12 @@ if (strstr($template_desc, "{product_rating}"))
 	$template_desc = str_replace("{product_rating}", $main_template, $template_desc);
 }
 
-////////////// Send to friend ////////////////
+// Send to friend
 $rlink = JURI::root() . 'index.php?option=' . $option . '&view=send_friend&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
 $send_friend_link = '<a class="redcolorproductimg" href="' . $rlink . '" >' . JText::_('COM_REDSHOP_SEND_FRIEND') . '</a>';
 $template_desc = str_replace("{send_to_friend}", $send_friend_link, $template_desc);
 
-////////////// Ask question about this product ////////////////
+// Ask question about this product
 if (strstr($template_desc, "{ask_question_about_product}"))
 {
 	$asklink           = JURI::root() . 'index.php?option=' . $option . '&view=ask_question&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
@@ -1594,9 +1549,6 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 
 if (strstr($template_desc, "{ask_question_about_product_without_lightbox}"))
 {
-	/*$asklink = JURI::root().'index.php?option='.$option.'&view=ask_question&ask=1&pid='.$this->data->product_id.'&category_id='.$this->data->category_id.'&Itemid='.$Itemid;
-	$ask_question_link = '<a href="'.$asklink.'">'.JText::_('ASK_QUESTION_ABOUT_PRODUCT').'</a>';
-	$template_desc = str_replace ( "{ask_question_about_product_without_lightbox}", $ask_question_link, $template_desc );*/
 	$template_desc = str_replace("{ask_question_about_product_without_lightbox}", $this->loadTemplate('askquestion'), $template_desc);
 }
 
@@ -1630,7 +1582,7 @@ if (strstr($template_desc, "subscription"))
 
 // Product subscription type ene here
 
-/************************PRODUCT QUESTION START***************************/
+// PRODUCT QUESTION START
 if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{question_loop_end}"))
 {
 	$qstart         = $template_desc;
@@ -1696,7 +1648,8 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 
 	$template_desc = $qstart . $questionloop . $qend;
 }
-/************************PRODUCT QUESTION END***************************/
+
+// PRODUCT QUESTION END
 
 $my_tags = '';
 

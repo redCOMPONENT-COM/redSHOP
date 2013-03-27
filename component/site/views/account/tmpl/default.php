@@ -265,7 +265,7 @@ else
 	$template_desc = str_replace('{edit_shipping_link}', '', $template_desc);
 }
 
-/* for redCRM user bulk order functionality */
+// For redCRM user bulk order functionality
 if (isset($this->userdata->debitor_id) && $this->userdata->debitor_id != "" && $this->userdata->debitor_id != 0)
 {
 	$bulkorder_link  = "<a href='" . JRoute::_('index.php?option=com_redcrm&view=bulk_order&Itemid=' . $Itemid) . "'>" . JText::_('COM_REDSHOP_BULK_ORDER_LINK') . "</a>";

@@ -269,9 +269,6 @@ else
 
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
 				{
-					/*$thum_image = "<a class=\"modal\" href='".$linkimage."' title='".$detail[$i]->giftcard_name."' rel=\"{handler: 'image', size: {}}\">";
-					$thum_image .= "<img src='".$product_img."' title='".$detail[$i]->giftcard_name."' alt='".$detail[$i]->giftcard_name."'>";
-					$thum_image .= "</a>";*/
 					$thum_image = "<a href='" . $link . "'><img src='" . $product_img . "' title='" . $detail[$i]->giftcard_name . "' alt='" . $detail[$i]->giftcard_name . "'></a>";
 					$data_add   = str_replace("{giftcard_image}", $thum_image, $data_add);
 				}

@@ -777,10 +777,11 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 		$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
-		/* product image flying addwishlist time start*/
+
+		// Product image flying addwishlist time start
 		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
 
-		/* product image flying addwishlist time end*/
+		// Product image flying addwishlist time end
 		$data_add = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
 		// Front-back image tag...
@@ -946,7 +947,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
-	// Echo $data_add;die();
 		$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
 
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);

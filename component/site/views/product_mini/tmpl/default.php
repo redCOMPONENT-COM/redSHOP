@@ -18,11 +18,9 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 		submitbutton(pressbutton);
 	}
 	submitbutton = function (pressbutton) {
-
 		var form = document.adminForm;
 
 		if (pressbutton) {
-
 			form.task.value = pressbutton;
 
 		}
@@ -31,7 +29,6 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 	}
 
 	function insertProduct(pid) {
-
 		//	var alt = document.getElementById("alt").value;
 
 		var tag = "{redshop:" + pid + "}";

@@ -156,8 +156,7 @@ if ($mail == 0)
 						$childproducts = array_merge(array($productInfo), $childproducts);
 
 						$cld_name = array();
-						/*$cld_name[0]->product_id="0";
-						$cld_name[0]->product_name=JText::_('COM_REDSHOP_SELECT');*/
+
 						if (count($childproducts) > 0)
 						{
 							$parentid = 0;
@@ -364,7 +363,10 @@ if ($mail == 0)
 			</form>";
 	}
 	else
+	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
+	}
+
 	$data = $template_d1[0] . $temp_template . $template_d2[1];
 
 	$back_link = '<a href="' . JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid) . '" title="' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '">' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '</a>';

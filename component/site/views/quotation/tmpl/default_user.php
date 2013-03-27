@@ -53,7 +53,6 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 <script>
 
 	function validateInfo() {
-
 		var frm = document.adminForm;
 
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
