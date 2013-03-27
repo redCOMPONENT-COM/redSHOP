@@ -52,9 +52,7 @@ $document = JFactory::getDocument();
 
 $is_creditcard = 0;
 
-
 ?>
-
 
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_REDSHOP_PAYMENT_METHOD'); ?></legend>
@@ -62,7 +60,6 @@ $is_creditcard = 0;
 
 		<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=split_payment') ?>" method="post"
 		      name="adminForm" id="adminForm">
-
 
 			<?php
 			$paymentmethod = $order_functions->getPaymentMethodInfo();
@@ -102,7 +99,6 @@ $is_creditcard = 0;
 					</tr>
 					<tr>
 						<td colspan="2" align="right" nowrap="nowrap">
-
 
 							<table width="100%" border="0" cellspacing="2" cellpadding="2">
 								<tr>
@@ -297,10 +293,8 @@ $is_creditcard = 0;
 												echo $_SESSION['ccdata']['credit_card_code'] ?>"
 							       autocomplete="off" type="text">
 
-
 						</td>
 					</tr>
-
 
 					<tr valign="top">
 						<td align="right" nowrap="nowrap" width="10%">

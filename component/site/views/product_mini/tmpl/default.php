@@ -9,7 +9,6 @@
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 
-
 $eName = JRequest::getVar('e_name');
 $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 ?>
@@ -31,7 +30,6 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 		form.submit();
 	}
 
-
 	function insertProduct(pid) {
 
 		//	var alt = document.getElementById("alt").value;
@@ -43,7 +41,6 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 		return false;
 	}
 </script>
-
 
 <form action="index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=<?php echo $eName; ?>"
       method="post" name="adminForm">

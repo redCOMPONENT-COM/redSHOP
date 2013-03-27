@@ -49,7 +49,6 @@ if (!$user->id)
 
 	$rows = & $this->wish_session;
 
-
 	echo "<div class='mod_redshop_wishlist'>";
 	if (count($rows) > 0)
 	{
@@ -259,7 +258,6 @@ function display_products($rows)
 		$temp_template  = '';
 		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 
-
 		for ($i = 0; $i < count($rows); $i++)
 		{
 			$row           = $rows[$i];
@@ -338,7 +336,6 @@ function display_products($rows)
 							$cld_name = @array_merge($cld_name, $childproducts);
 						}
 
-
 						$selected                  = array($row->product_id);
 						$lists['product_child_id'] = JHTML::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmChild.submit();"', 'product_id', 'product_name', $selected);
 
@@ -350,13 +347,11 @@ function display_products($rows)
 						$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
 						$frmChild .= "</form>";
 
-
 					}
 				}
 
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
-
 
 			$childproduct = $producthelper->getChildProduct($row->product_id);
 
@@ -444,7 +439,6 @@ function display_products($rows)
 				$wishlist_data = str_replace('{product_price}', $mainproduct_price, $wishlist_data);
 			}
 
-
 			// Product User Field Start
 			$count_no_user_field = 0;
 			$returnArr           = $producthelper->getProductUserfieldFromTemplate($wishlist_data);
@@ -518,7 +512,6 @@ function display_products($rows)
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $wishlist_data);
 					}
 
-
 				}
 
 				$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
@@ -548,7 +541,6 @@ function display_products($rows)
 			$wishlist_data = str_replace('{product_name}', $pname, $wishlist_data);
 			$wishlist_data = str_replace('{product_number}', $pnumber, $wishlist_data);
 			$wishlist_data = str_replace('{product_s_desc}', $pdesc, $wishlist_data);
-
 
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
 			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
@@ -583,7 +575,6 @@ function display_products($rows)
 		$my = "<form name='frm' method='POST' action=''>";
 
 		$my .= "<input type='hidden' name='product_id' id='product_id' value='" . $mainid . "' >
-
 
 			<input type='hidden' name='totacc_id' id='totacc_id' value='" . $totattid . "' >
 			<input type='hidden' name='totcount_no_user_field' id='totcount_no_user_field' value='" . $totcount_no_user_field . "' >

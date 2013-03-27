@@ -128,7 +128,6 @@ $cancelbutton = "<input type='button' name='cancel' value='" . JText::_('COM_RED
 $template_desc = str_replace("{apply_button}", "<span id='" . $stockaddtocart . "'></span><span id='" . $pdaddtocart . "'>" . $applybutton . "</span>", $template_desc);
 $template_desc = str_replace("{cancel_button}", $cancelbutton, $template_desc);
 
-
 $template_desc = '<form name="frmchngAttribute" id="frmchngAttribute" method="post">' . $template_desc . '</form>';
 
 if ($totalatt > 0)

@@ -30,10 +30,8 @@ $paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payme
 $paymentmethod = $paymentmethod[0];
 
 
-
 $paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
 $paymentparams = new JRegistry($paymentmethod->params);
-
 
 $preloader = $paymentparams->get('preloader', 1);
 

@@ -447,7 +447,6 @@ if (strstr($template_desc, "{googleplus1}"))
 	$template_desc = str_replace("{googleplus1}", $google_like, $template_desc);
 }
 
-
 if (strstr($template_desc, "{bookmark}"))
 {
 	$bookmark = '<script type="text/javascript">addthis_pub = "AddThis";</script>';
@@ -631,7 +630,6 @@ if (strstr($template_desc, "{wrapper_template:"))
 	}
 }
 
-
 if (strstr($template_desc, "{navigator_products}"))
 {
 	$parentproductid = $this->data->product_id;
@@ -642,7 +640,6 @@ if (strstr($template_desc, "{navigator_products}"))
 	if ($parentproductid != 0 && JPluginHelper::isEnabled('redshop_product_navigation', 'rs_product_navigation'))
 	{
 		$productInfo = $producthelper->getProductById($parentproductid);
-
 
 		// Get child products
 		$childproducts = $producthelper->getProductNavigator(0, $parentproductid);
@@ -674,7 +671,6 @@ if (strstr($template_desc, "{navigator_products}"))
 			$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
 			$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
 			$frmChild .= "</form>";
-
 
 		}
 	}
@@ -749,7 +745,6 @@ if (strstr($template_desc, "{child_products}"))
 			$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
 			$frmChild .= "</form>";
 
-
 		}
 	}
 
@@ -796,7 +791,6 @@ else
 
 $attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
-
 // Check product for not for sale
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
 
@@ -805,7 +799,6 @@ $totalatt = count($attributes);
 $template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
 
 // Product attribute  End
-
 
 $pr_number = $this->data->product_number;
 $preselectedresult = array();
@@ -855,12 +848,10 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 
 	$preselectedresult = $producthelper->displayAdditionalImage($this->data->product_id, 0, 0, $selectedpropertyId, $selectedsubpropertyId, $pw_thumb, $ph_thumb, $redview = 'product');
 
-
 	if (strstr($template_desc, "{product_availability_date}") || strstr($template_desc, "{stock_notify_flag}") || strstr($template_desc, "{stock_status"))
 	{
 		$attributeproductStockStatus = $producthelper->getproductStockStatus($this->data->product_id, $totalatt, $selectedpropertyId, $selectedsubpropertyId);
 	}
-
 
 	$moreimage_response  = $preselectedresult['response'];
 	$aHrefImageResponse  = $preselectedresult['aHrefImageResponse'];
@@ -922,7 +913,6 @@ $template_desc = $producthelper->replaceProductStockdata($this->data->product_id
 	}
 
 /// End */
-
 
 $product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $pr_number . '</span>';
 $template_desc = str_replace("{product_number}", $product_number_output, $template_desc);
@@ -1065,7 +1055,6 @@ if (strstr($template_desc, "{more_documents}"))
 }
 
 // More documents end
-
 
 $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 $link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->data->product_id);
@@ -1320,7 +1309,6 @@ if ($user->id)
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 	}
 
-
 }
 else
 {
@@ -1418,7 +1406,6 @@ if (strstr($template_desc, "{form_rating_without_link}"))
 	$reviewform .= "</td>";
 	$reviewform .= "</tr>";
 
-
 	$reviewform .= "<tr>";
 	$reviewform .= "<td valign=\"top\" align=\"left\">";
 	$reviewform .= "<label for=\"rating_title\">";
@@ -1471,7 +1458,6 @@ if (strstr($template_desc, "{form_rating_without_link}"))
 	$reviewform .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
 	$reviewform .= "</div>";
 	$reviewform .= "</form>";
-
 
 	$template_desc = str_replace("{form_rating_without_link}", $reviewform, $template_desc);
 }
@@ -1644,7 +1630,6 @@ if (strstr($template_desc, "subscription"))
 
 // Product subscription type ene here
 
-
 /************************PRODUCT QUESTION START***************************/
 if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{question_loop_end}"))
 {
@@ -1713,7 +1698,6 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 }
 /************************PRODUCT QUESTION END***************************/
 
-
 $my_tags = '';
 
 if (MY_TAGS != 0 && $user->id && strstr($template_desc, "{my_tags_button}"))
@@ -1764,5 +1748,4 @@ $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->d
 $dispatcher->trigger('onAfterDisplayProduct', array(& $template_desc, & $this->params, $this->data));
 
 echo eval("?>" . $template_desc . "<?php ");
-
 

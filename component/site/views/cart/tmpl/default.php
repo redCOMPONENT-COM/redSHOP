@@ -75,7 +75,6 @@ $print_tag .= "</a>";
 
 $cart_data = str_replace("{print}", $print_tag, $cart_data);
 
-
 $q_id = '';
 $pr_id = '';
 

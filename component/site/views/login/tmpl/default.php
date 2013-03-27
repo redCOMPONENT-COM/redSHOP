@@ -24,7 +24,6 @@ $forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $It
 $params = $app->getParams($option);
 $returnitemid = $params->get('login', $Itemid);
 
-
 ?>
 <form action="<?php echo JRoute::_($loginlink); ?>" method="post">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">

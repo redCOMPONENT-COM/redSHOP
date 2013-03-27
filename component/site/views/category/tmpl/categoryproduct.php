@@ -43,7 +43,6 @@ $app    = JFactory::getApplication();
 $router = $app->getRouter();
 $uri    = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
 
-
 if ($print)
 {
 	$onclick       = "onclick='window.print();'";
@@ -97,7 +96,6 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		$h_thumb = THUMB_HEIGHT;
 		$w_thumb = THUMB_WIDTH;
 	}
-
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
 	$data_add       = "";
