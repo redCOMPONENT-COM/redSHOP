@@ -41,7 +41,7 @@ class reddesignViewreddesign extends JView
 
 		$chkprodesign = $redhelper->CheckIfRedProduct($pid);
 
-		$model =& $this->getModel("reddesign");
+		$model = $this->getModel("reddesign");
 
 		$product_detail = $model->getProductDetail($pid);
 		$product_design = $model->getProductDesign($pid);

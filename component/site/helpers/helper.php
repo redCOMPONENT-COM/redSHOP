@@ -597,10 +597,10 @@ class redhelper
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
-				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images' . DS . $mtype . DS . $Imagename;
+				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb' . DS . $filename_path_info['basename'];
+				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
 			}
 			else
 			{
@@ -617,15 +617,15 @@ class redhelper
 		{
 			if ($thumb_width != '' && $thumb_height != '')
 			{
-				$file_path    = JPATH_SITE . '/components/com_redshop/assets/images/product' . DS . WATERMARK_IMAGE;
+				$file_path    = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
 				$filename     = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb' . DS . $filename_path_info['basename'];
+				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb/' . $filename_path_info['basename'];
 
-				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images' . DS . $mtype . DS . $Imagename;
+				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . DS . $mtype . DS . $filename_path_info['basename'];
+				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . '/' . $mtype . '/' . $filename_path_info['basename'];
 
 				if ($add_img == 2)
 				{

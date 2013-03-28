@@ -57,9 +57,9 @@ class cartViewcart extends JView
 			return false;
 		}
 
-		$Discount = & $this->get('DiscountId');
+		$Discount = $this->get('DiscountId');
 
-		$data =& $this->get('data');
+		$data = $this->get('data');
 
 		if ($layout == 'change_attribute')
 		{

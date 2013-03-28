@@ -93,7 +93,7 @@ class categoryViewcategory extends JView
 
 			if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
 			{
-				$limit_product =& $model->getCategoryProduct(1);
+				$limit_product = $model->getCategoryProduct(1);
 				$minmax[0] = $limit_product[0]->minprice;
 				$minmax[1] = $limit_product[0]->maxprice;
 
@@ -103,7 +103,7 @@ class categoryViewcategory extends JView
 				$model->setMaxMinProductPrice(array($texpricemin, $texpricemax));
 			}
 
-			$product =& $model->getCategoryProduct(0, $isSlider);
+			$product = $model->getCategoryProduct(0, $isSlider);
 
 			$document->setMetaData('keywords', $maincat->metakey);
 			$document->setMetaData('description', $maincat->metadesc);

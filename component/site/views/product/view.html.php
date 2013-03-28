@@ -91,7 +91,7 @@ class productViewproduct extends JView
 		elseif ($layout == "viewajaxdetail")
 		{
 			$this->setLayout('viewajaxdetail');
-			$data =& $this->get('data');
+			$data = $this->get('data');
 		}
 		elseif ($layout == "searchletter")
 		{
@@ -110,7 +110,7 @@ class productViewproduct extends JView
 				$this->setLayout('default');
 			}
 
-			$data                     =& $this->get('data');
+			$data = $this->get('data');
 			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($data->product_id);
 
 			if ($data->published == 0)
@@ -142,7 +142,7 @@ class productViewproduct extends JView
 				}
 			}
 
-			$productTemplate =& $model->getProductTemplate();
+			$productTemplate = $model->getProductTemplate();
 
 			/*
 			 * Process the prepare Product plugins
