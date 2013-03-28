@@ -64,15 +64,17 @@ class searchViewsearch extends JView
 			$cntproduct   = JRequest::getVar('cnt', 0);
 			$getredfilter = $session->get('redfilter');
 
-
 			if (count($getredfilter) == 0)
+			{
 				$redfilter = array();
+			}
 			else
+			{
 				$redfilter = $getredfilter;
+			}
 
 			if ($tagid != 0 && $typeid != 0 && !array_key_exists($typeid, $redfilter))
 			{
-
 				$redfilter[$typeid] = $tagid;
 			}
 
@@ -89,7 +91,9 @@ class searchViewsearch extends JView
 					echo $model->mod_redProductfilter($Itemid, $typeid) . '~';
 				}
 				else
+				{
 					$session->destroy('redfilter');
+				}
 			}
 
 			$session->set('redfilter', $redfilter);
@@ -101,8 +105,6 @@ class searchViewsearch extends JView
 				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 
 			}
-
-			// $this->setLayout('redfilter');
 		}
 
 		$order_data            = redhelper::getOrderByList();
@@ -129,10 +131,10 @@ class searchViewsearch extends JView
 		parent::display($tpl);
 	}
 
-	/*
-	   * generate product search output
-	   */
-	function onRSProductSearch()
+	/**
+	 * Generate product search output
+	 */
+	public function onRSProductSearch()
 	{
 		if (count($this->search) > 0)
 		{
@@ -156,11 +158,12 @@ class searchViewsearch extends JView
 			$search_type = JRequest::getCmd('search_type');
 			$cid         = JRequest::getInt('category_id');
 
-			// $manufacture_id = JRequest::getInt('manufacture_id');
 			$manisrch       = $this->search;
 			$manufacture_id = $manisrch[0]->manufacturer_id;
 			$templateid     = JRequest::getInt('templateid');
-			$keyword        = JRequest::getVar('keyword'); // Cmd removes space between to words
+
+			// Cmd removes space between to words
+			$keyword        = JRequest::getVar('keyword');
 			$layout         = JRequest::getCmd('layout', 'default');
 
 			$db    = jFactory::getDBO();
@@ -243,7 +246,8 @@ class searchViewsearch extends JView
 				$print_url = $url . "index.php?option=com_redshop&view=search&print=1&tmpl=component";
 				$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
 			}
-			/* skip html if nosubcategory  */
+
+			// Skip html if nosubcategory
 			if (strstr($template_org, "{if subcats}"))
 			{
 				$template_d1  = explode("{if subcats}", $template_org);
@@ -251,7 +255,7 @@ class searchViewsearch extends JView
 				$template_org = $template_d1[0] . $template_d2[1];
 			}
 
-			/* End skip html if nosubcategory  */
+			// End skip html if nosubcategory
 			$template_org = str_replace("{print}", $print_tag, $template_org);
 			$template_org = str_replace("{product_price_slider}", '', $template_org);
 			$template_org = str_replace("{filter_by}", '', $template_org);
@@ -274,15 +278,12 @@ class searchViewsearch extends JView
 			$template_org = str_replace("{redproductfinderfilter:rp_myfilter}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter_formend}", '', $template_org);
 
-			// $template_org =str_replace("{product_display_limit}",'',$template_org);
-
-			//	$template_org =str_replace("{related_product_lightbox:related_products_for_light_box}",'', $template_org);
-			/* replace redproductfilder filter tag */
+			// Replace redproductfilder filter tag
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
-				if (file_exists(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php"))
+				if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php'))
 				{
-					include_once JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php";
+					include_once JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php';
 					$redproductfinder_helper = new redproductfinder_helper;
 					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
 					$hide_filter_flag        = false;
@@ -298,8 +299,8 @@ class searchViewsearch extends JView
 					$template_org = $redproductfinder_helper->replaceProductfinder_tag($template_org, $hdnFields, $hide_filter_flag);
 				}
 			}
-			/* replace redproductfilder filter tag end here */
 
+			// Replace redproductfilder filter tag end here
 			$template_d1       = explode("{product_loop_start}", $template_org);
 			$template_d2       = explode("{product_loop_end}", $template_d1[1]);
 			$template_tmp_desc = $template_d2[0];
@@ -452,8 +453,6 @@ class searchViewsearch extends JView
 					$rtlnheighttag = (isset($rtlnthree[2])) ? ":" . $rtlnthree[2] : "";
 
 					$rtlntag = "{related_product_lightbox:$rtln$rtlnwidthtag$rtlnheighttag}";
-
-					//echo count($related_product);die();
 
 					if (count($related_product) > 0)
 					{
@@ -710,13 +709,10 @@ class searchViewsearch extends JView
 			}
 
 			$app    = JFactory::getApplication();
-			$router = & $app->getRouter();
+			$router = $app->getRouter();
 
 			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 
-			// $uri = new JURI( 'index.php?option='.$option.'&view=search&layout='.$layout.'&keyword='.$keyword.'&manufacture_id='.$manufacture_id.'&order_by='.$getorderby.'&category_id='.$cid.'&Itemid='.$Itemid.'&limit='.$limit);
-
-			// $router->setVars ( $uri->_vars );
 			$vars = array(
 				'option'         => 'com_redshop',
 				'view'           => 'search',

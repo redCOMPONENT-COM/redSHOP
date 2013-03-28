@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
@@ -42,7 +42,6 @@ class attribute_set_detailController extends JController
 
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		//$post ['attribute_set_id'] = $cid [0];
 
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 

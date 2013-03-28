@@ -18,4 +18,3 @@ class supplierController extends JController
 		$this->setRedirect('index.php');
 	}
 }
-

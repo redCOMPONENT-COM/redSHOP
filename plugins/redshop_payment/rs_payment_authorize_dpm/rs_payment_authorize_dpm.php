@@ -1,29 +1,23 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 
 require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
 require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
 require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
+
 class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -33,7 +27,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_authorize_dpm(&$subject)
+	public function plgRedshop_paymentrs_payment_authorize_dpm(&$subject)
 	{
 		// load plugin parameters
 		parent::__construct($subject);
@@ -43,7 +37,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 	}
 
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_authorize_dpm')
 		{
@@ -62,12 +56,12 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			$this->authorizeData($element, $data);
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function authorizeData($element, $data)
+	public function authorizeData($element, $data)
 	{
 		if ($element != 'rs_payment_authorize_dpm')
 		{
@@ -79,15 +73,20 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$Itemid = JRequest::getVar('Itemid');
 
 		$trans_id = $this->_params->get("transaction_id");
 		$is_test = $this->_params->get("is_test");
 
-		$redirect_url = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_authorize_dpm&Itemid=$Itemid&orderid=" . $data['order_id']; // Where the user will end up.
+		// Where the user will end up.
+		$redirect_url = JURI::base()
+			. "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_authorize_dpm&Itemid=$Itemid&orderid="
+			. $data['order_id'];
 		$api_login_id = $this->_params->get("access_id");
-		$md5_setting = $this->_params->get("md5_key"); // Your MD5 Setting
+
+		// Your MD5 Setting
+		$md5_setting = $this->_params->get("md5_key");
 		$response = new AuthorizeNetSIM($api_login_id, $md5_setting);
 
 		if ($response->isAuthorizeNet())
@@ -101,7 +100,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			{
 				$redirect_url .= '&response_code=' . $response->response_code . '&response_reason_text=' . $response->response_reason_text;
 			}
-
 		}
 		else
 		{
@@ -112,7 +110,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 	}
 
-	function onNotifyPaymentrs_payment_authorize_dpm($element, $request)
+	public function onNotifyPaymentrs_payment_authorize_dpm($element, $request)
 	{
 		if ($element != 'rs_payment_authorize_dpm')
 		{
@@ -129,6 +127,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		$Itemid = $request["Itemid"];
 		$user = JFActory::getUser();
 		$user_id = $user->id;
+
 		// Result Response
 
 		$tid = $request['transaction_id'];
@@ -168,7 +167,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -177,6 +176,4 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 		return $params;
 	}
-
 }
-

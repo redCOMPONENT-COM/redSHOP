@@ -57,7 +57,6 @@ $producthelper = new producthelper;?>
 
 					echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
 
-					// $product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 					$productArr = $producthelper->getProductNetPrice($row->product_id);
 					$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 

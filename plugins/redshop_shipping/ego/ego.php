@@ -1,11 +1,13 @@
 <?php
 /**
- * Written by Andrew Meaden and Noven Purnell-Webb of MageData
- * Based on RedComponents Aus Post code - thanks guys :)
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// No direct access
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 

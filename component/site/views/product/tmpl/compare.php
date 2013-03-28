@@ -31,7 +31,6 @@ $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 $config  = new Redconfiguration;
 $compare = $producthelper->getCompare();
 
-
 $redTemplate     = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
 

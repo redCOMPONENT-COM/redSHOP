@@ -303,9 +303,9 @@ class Img2Thumb
 	/**
 	 *  Private function - do not call
 	 *
-	 * @param $new_img
-	 * @param $fileout
-	 * @param $type
+	 * @param   $new_img
+	 * @param   $fileout
+	 * @param   $type
 	 *
 	 * @return bool
 	 */

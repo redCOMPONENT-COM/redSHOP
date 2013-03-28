@@ -134,7 +134,7 @@ class quotationModelquotation extends JModel
 		$totalitem      = $data['idx'];
 		$quotation_item = array();
 
-		$row =& $this->getTable('quotation_detail');
+		$row = $this->getTable('quotation_detail');
 
 		if (!$row->bind($data))
 		{
@@ -152,7 +152,7 @@ class quotationModelquotation extends JModel
 
 		for ($i = 0; $i < $totalitem; $i++)
 		{
-			$rowitem                          = & $this->getTable('quotation_item_detail');
+			$rowitem                          = $this->getTable('quotation_item_detail');
 			$quotation_item[$i]->quotation_id = $row->quotation_id;
 
 			if (isset($data[$i]['giftcard_id']) && $data[$i]['giftcard_id'] != 0)
@@ -232,7 +232,7 @@ class quotationModelquotation extends JModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem                        = & $this->getTable('quotation_attribute_item');
+						$rowattitem                        = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
 						$rowattitem->section_id            = $attribute_id;
@@ -264,7 +264,7 @@ class quotationModelquotation extends JModel
 								. ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							$rowattitem                        = & $this->getTable('quotation_attribute_item');
+							$rowattitem                        = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
 							$rowattitem->section_id            = $property_id;
@@ -294,7 +294,7 @@ class quotationModelquotation extends JModel
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem                        = & $this->getTable('quotation_attribute_item');
+								$rowattitem                        = $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
 								$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
 								$rowattitem->section_id            = $subproperty_id;
@@ -319,7 +319,7 @@ class quotationModelquotation extends JModel
 						}
 					}
 
-					$accdata = & $this->getTable('accessory_detail');
+					$accdata = $this->getTable('accessory_detail');
 
 					if ($accessory_id > 0)
 					{
@@ -327,7 +327,7 @@ class quotationModelquotation extends JModel
 					}
 
 					$accProductinfo                    = $producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem                        = & $this->getTable('quotation_accessory_item');
+					$rowaccitem                        = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id     = $rowitem->quotation_item_id;
 					$rowaccitem->accessory_id          = $accessory_id;
@@ -361,7 +361,7 @@ class quotationModelquotation extends JModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem                        = & $this->getTable('quotation_attribute_item');
+					$rowattitem                        = $this->getTable('quotation_attribute_item');
 					$rowattitem->quotation_att_item_id = 0;
 					$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
 					$rowattitem->section_id            = $attribute_id;
@@ -387,7 +387,7 @@ class quotationModelquotation extends JModel
 						$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 						$property_id = $propArr[$k]['property_id'];
 
-						$rowattitem                        = & $this->getTable('quotation_attribute_item');
+						$rowattitem                        = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
 						$rowattitem->section_id            = $property_id;
@@ -416,7 +416,7 @@ class quotationModelquotation extends JModel
 							$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 
-							$rowattitem                        = & $this->getTable('quotation_attribute_item');
+							$rowattitem                        = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
 							$rowattitem->section_id            = $subproperty_id;
@@ -466,7 +466,7 @@ class quotationModelquotation extends JModel
 		$FromName = $app->getCfg('fromname');
 		$SiteName = $app->getCfg('sitename');
 
-		$usersConfig = & JComponentHelper::getParams('com_users');
+		$usersConfig = JComponentHelper::getParams('com_users');
 		$usersConfig->set('allowUserRegistration', 1);
 
 		if ($usersConfig->get('allowUserRegistration') == '0')
@@ -550,10 +550,8 @@ class quotationModelquotation extends JModel
 		}
 
 		// Creating Joomla user end
-
-		$row          =& $this->getTable('user_detail');
+		$row          = $this->getTable('user_detail');
 		$row->user_id = $user_id;
-
 
 		if (!$row->bind($data))
 		{
@@ -561,7 +559,6 @@ class quotationModelquotation extends JModel
 
 			return false;
 		}
-
 
 		if ($data['is_company'] == 1)
 		{
@@ -639,7 +636,6 @@ class quotationModelquotation extends JModel
 		$quotationDetail      = $this->store($cart);
 
 		$this->sendQuotationMail($quotationDetail->quotation_id);
-
 
 		$link = "<a href='" . $quotationdetailurl . "'>" . JText::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
 

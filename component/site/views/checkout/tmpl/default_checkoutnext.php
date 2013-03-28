@@ -93,9 +93,7 @@ else
 	}
 }
 
-/*
- * Process the product plugin for cart item
- */
+// Process the product plugin for cart item
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
 

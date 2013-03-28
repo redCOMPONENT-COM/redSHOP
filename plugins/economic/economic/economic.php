@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     RedSHOP.Frontend
+ * @package     RedSHOP
  * @subpackage  Plugin
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.event.plugin');
 JPlugin::loadLanguage('plg_economic_economic');
 
@@ -18,19 +18,29 @@ class plgEconomicEconomic extends JPlugin
 	 *
 	 * @var JParameter object
 	 */
-	var $_conn = false;
-	var $error = 0;
-	var $errorMsg = null;
-	var $client = '';
-	var $termofpayment = null;
-	var $contraAccount = 0;
-	var $cashbook = 0;
-	var $LayoutHandle = null;
-	var $UnitHandle;
-	var $debtorGroupHandles = null;
-	var $ecoparams = null;
+	public $_conn = false;
 
-	function __construct(&$subject, $config = array())
+	public $error = 0;
+
+	public $errorMsg = null;
+
+	public $client = '';
+
+	public $termofpayment = null;
+
+	public $contraAccount = 0;
+
+	public $cashbook = 0;
+
+	public $LayoutHandle = null;
+
+	public $UnitHandle;
+
+	public $debtorGroupHandles = null;
+
+	public $ecoparams = null;
+
+	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 		$isEnabled =& JPluginHelper::isEnabled('economic');
@@ -52,26 +62,27 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function onEconomicConnection()
+	public function onEconomicConnection()
 	{
 		// Get plugin info
 		$plugin =& JPluginHelper::getPlugin('economic', 'economic');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->ecoparams = $pluginParams;
+
 		// Check whether plugin has been unpublished
 		if (count($pluginParams) > 0)
 		{
 			$url = 'https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
+
 			try
 			{
-				$this->client = new SoapClient ($url, array("trace" => 1, "exceptions" => 1));
+				$this->client = new SoapClient($url, array("trace" => 1, "exceptions" => 1));
 			}
 			catch (Exception $exception)
 			{
 				$this->error = 1;
 				echo $this->errorMsg = "Unable to connect soap client";
 				JError::raiseWarning(21, $exception->getMessage());
-//				exit;
 			}
 			try
 			{
@@ -80,14 +91,12 @@ class plgEconomicEconomic extends JPlugin
 					'userName'        => $pluginParams->get('economic_username', ''),
 					'password'        => $pluginParams->get('economic_password', '')
 				);
-//				print_r($conn);
 				$this->_conn = $this->client->Connect($conn);
 			}
 			catch (Exception $exception)
 			{
 				$this->error = 1;
 				echo $this->errorMsg = "e-conomic user is not authenticated. Access denied";
-//				JError::raiseWarning(21,$exception->getMessage());
 
 				if (DETAIL_ERROR_MESSAGE_ON)
 				{
@@ -97,7 +106,6 @@ class plgEconomicEconomic extends JPlugin
 				{
 					JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 				}
-//				exit;
 			}
 		}
 	}
@@ -108,7 +116,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function Debtor_FindByNumber($d)
+	public function Debtor_FindByNumber($d)
 	{
 		if ($this->error)
 		{
@@ -123,7 +131,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>error msg in Debtor_FindByNumber" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -133,22 +140,22 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//		  	exit;
 		}
 	}
 
 	/**
-	 * Method to find debtor email in economic
+	 * Method to find debtor email in economic.
 	 *
 	 * @access public
 	 * @return array
 	 */
-	function Debtor_FindByEmail($d)
+	public function Debtor_FindByEmail($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$Handle = $this->client->Debtor_FindByEmail(array('email' => $d ['email']))->Debtor_FindByEmailResult;
@@ -158,7 +165,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>Debtor_FindByEmail:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -168,22 +174,22 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//		  	exit;
 		}
 	}
 
 	/**
-	 * Method to get debtor group in economic
+	 * Method to get debtor group in economic.
 	 *
 	 * @access public
 	 * @return array
 	 */
-	function Debtor_GetDebtorGroup($d)
+	public function Debtor_GetDebtorGroup($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$debtorHandle = new stdclass;
@@ -195,7 +201,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>Debtor_GetDebtorGroup:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -205,7 +210,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//		  	exit;
 		}
 	}
 
@@ -215,7 +219,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function getDebtorGroup()
+	public function getDebtorGroup()
 	{
 		if ($this->error)
 		{
@@ -275,7 +279,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function getTermOfPayment($d)
+	public function getTermOfPayment($d)
 	{
 		if ($this->error)
 		{
@@ -333,7 +337,7 @@ class plgEconomicEconomic extends JPlugin
 		return $this->termofpayment;
 	}
 
-	function getTermOfPaymentContraAccount($d)
+	public function getTermOfPaymentContraAccount($d)
 	{
 		if ($this->error)
 		{
@@ -344,6 +348,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			$this->termofpayment = $this->getTermOfPayment($d);
 		}
+
 		try
 		{
 			$this->contraAccount = 0;
@@ -355,7 +360,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (isset($contra_account->Number))
 			{
-				$this->contraAccount = $contra_account->Number; //$this->ecoparams->get( 'economic_contra_account', 1200 );
+				$this->contraAccount = $contra_account->Number;
 			}
 
 			return $this->contraAccount;
@@ -372,11 +377,10 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
-	function getCashBookAll()
+	public function getCashBookAll()
 	{
 		if ($this->error)
 		{
@@ -426,7 +430,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>getCashBookAll:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -436,7 +439,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -446,7 +448,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function getLayoutTemplate($d)
+	public function getLayoutTemplate($d)
 	{
 		if ($this->error)
 		{
@@ -516,7 +518,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function storeDebtor($d)
+	public function storeDebtor($d)
 	{
 		if ($this->error)
 		{
@@ -544,7 +546,7 @@ class plgEconomicEconomic extends JPlugin
 		$CurrencyHandle = new stdclass;
 		$CurrencyHandle->Code = $d ['currency_code'];
 
-		# changes for store debtor error
+		// Changes for store debtor error
 		$d ['user_info_id'] = ($d ['eco_user_number'] != "") ? $d ['eco_user_number'] : $d ['user_info_id'];
 
 		if ($d['newuserFlag'])
@@ -552,7 +554,6 @@ class plgEconomicEconomic extends JPlugin
 			$maxDebtor = $this->getMaxDebtor();
 			$d ['user_info_id'] = $maxDebtor + 1;
 		}
-		# End
 
 		$Handle = new stdclass;
 		$Handle->Number = $d ['user_info_id'];
@@ -605,7 +606,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>storeDebtor:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -615,16 +615,16 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
-	function ProductGroup_FindByNumber($d)
+	public function ProductGroup_FindByNumber($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$productGroup = $this->client->ProductGroup_FindByNumber(array('number' => $d['productgroup_id']))->ProductGroup_FindByNumberResult;
@@ -634,7 +634,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>ProductGroup_FindByNumber:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -644,7 +643,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -654,12 +652,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function Product_FindByNumber($d)
+	public function Product_FindByNumber($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$Handle = $this->client->Product_FindByNumber(array('number' => $d ['product_number']))->Product_FindByNumberResult;
@@ -669,7 +668,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>Product_FindByNumber:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -679,7 +677,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -689,12 +686,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function getProductStock($d)
+	public function getProductStock($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$productHandle = new stdclass;
@@ -706,7 +704,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>getProductStock:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -716,7 +713,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//		  	exit;
 		}
 	}
 
@@ -726,7 +722,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function getProductGroup($d)
+	public function getProductGroup($d)
 	{
 		if ($this->error)
 		{
@@ -752,12 +748,13 @@ class plgEconomicEconomic extends JPlugin
 		return $productGroupHandles;
 	}
 
-	function getMaxDebtor()
+	public function getMaxDebtor()
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$debtors = $this->client->Debtor_GetAll()->Debtor_GetAllResult;
@@ -778,7 +775,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>getMaxDebtor:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -788,16 +784,16 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
-	function getMaxInvoiceNumber()
+	public function getMaxInvoiceNumber()
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$inv = array();
@@ -827,7 +823,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>getMaxInvoiceNumber: " . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -837,16 +832,16 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
-	function getMaxDraftInvoiceNumber()
+	public function getMaxDraftInvoiceNumber()
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$max = 0;
@@ -876,7 +871,9 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$currentInvoiceHandle = new stdclass;
 				$currentInvoiceHandle->Id = $cmax;
-				$invoiceData = $this->client->CurrentInvoice_GetOtherReference(array('currentInvoiceHandle' => $currentInvoiceHandle))->CurrentInvoice_GetOtherReferenceResult;
+				$invoiceData = $this->client
+					->CurrentInvoice_GetOtherReference(array('currentInvoiceHandle' => $currentInvoiceHandle))
+					->CurrentInvoice_GetOtherReferenceResult;
 
 				if ($invoiceData && is_numeric($invoiceData))
 				{
@@ -889,7 +886,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>getMaxDraftInvoiceNumber: " . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -899,11 +895,10 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
-	function getUnitGroup()
+	public function getUnitGroup()
 	{
 		if ($this->error)
 		{
@@ -914,6 +909,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->UnitHandle;
 		}
+
 		try
 		{
 			$UnitHandle = new stdclass;
@@ -959,7 +955,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>getUnitGroup:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -969,7 +964,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -979,12 +973,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function storeProduct($d)
+	public function storeProduct($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			if (isset($d['product_group']))
@@ -1039,7 +1034,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>storeProduct:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1049,7 +1043,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1059,12 +1052,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function storeProductGroup($d)
+	public function storeProductGroup($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$accountHandle = new stdclass;
@@ -1109,7 +1103,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1119,12 +1112,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function getDebtorContactHandle($d)
+	public function getDebtorContactHandle($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$contacts = $this->client->DebtorContact_FindByExternalId(array('externalId' => $d ['user_info_id']))->DebtorContact_FindByExternalIdResult->DebtorContactHandle;
@@ -1160,7 +1154,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>error msg in getDebtorContactHandle::" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1170,7 +1163,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1180,34 +1172,22 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function DebtorContact_GetData($d)
+	public function DebtorContact_GetData($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$entityHandle = new stdclass;
 			$entityHandle->Id = $d ['updateDebtorContact'];
 			$contacts = $this->client->DebtorContact_GetData(array('entityHandle' => $entityHandle))->DebtorContact_GetDataResult;
-
-			// Commented becase it's resulting infinite loop
-			/* if(count($contacts)>0 && isset($contacts->DebtorHandle))
-			{
-				$deletecontact = $contacts->DebtorHandle;
-				if($deletecontact->Number!=$d ['user_info_id'])
-				{
-					$this->DebtorContact_Delete($d);
-					$d['updateDebtorContact']="";
-					$this->getDebtorContactHandle($d);
-				}
-			} */
 		}
 		catch (Exception $exception)
 		{
 			print("<p><i>error msg in DebtorContact_GetData::" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1217,7 +1197,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1227,12 +1206,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function DebtorContact_Delete($d)
+	public function DebtorContact_Delete($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$debtorContactHandle = new stdclass;
@@ -1242,7 +1222,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>error msg in DebtorContact_Delete::" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1252,7 +1231,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1262,12 +1240,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function storeDebtorContact($d)
+	public function storeDebtorContact($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			if (isset($d['updateDebtorContact']) && $d['updateDebtorContact'] != "")
@@ -1313,7 +1292,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>storeDebtorContact:: " . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1323,7 +1301,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1333,7 +1310,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function createInvoice($d)
+	public function createInvoice($d)
 	{
 		if ($this->error)
 		{
@@ -1348,6 +1325,7 @@ class plgEconomicEconomic extends JPlugin
 
 		$debtorHandle = new stdclass;
 		$debtorHandle->Number = $d['debtorHandle'];
+
 		try
 		{
 			if (isset($d['setAttname']) && $d['setAttname'] == 1)
@@ -1388,16 +1366,11 @@ class plgEconomicEconomic extends JPlugin
 
 			$this->client->CurrentInvoice_SetTextLine1(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $reference));
 
-//			$this->client->CurrentInvoice_SetOurReference2(array('currentInvoiceHandle' => $invoiceHandle, 'value' => ''));
-
-//			$this->client->CurrentInvoice_SetHeading(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['shop_name']));
-
 			return $invoiceHandle;
 		}
 		catch (Exception $exception)
 		{
 			print("<p><i>createInvoice:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1407,11 +1380,10 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
-	function deleteInvoice($d)
+	public function deleteInvoice($d)
 	{
 		if ($this->error)
 		{
@@ -1427,12 +1399,6 @@ class plgEconomicEconomic extends JPlugin
 		}
 		catch (Exception $exception)
 		{
-//			print("<p><i>deleteInvoice:" . $exception->getMessage() . "</i></p>");
-//			if(DETAIL_ERROR_MESSAGE_ON){
-//				JError::raiseWarning(21,"deleteInvoice:".$exception->getMessage());
-//			}else{
-//				JError::raiseWarning(21,JText::_('DETAIL_ERROR_MESSAGE_LBL'));
-//			}
 		}
 	}
 
@@ -1442,12 +1408,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function setDeliveryAddress($d)
+	public function setDeliveryAddress($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$invoiceHandle = new stdclass;
@@ -1455,33 +1422,35 @@ class plgEconomicEconomic extends JPlugin
 
 			if ($d ['address_ST'] != '')
 			{
-				$this->client->CurrentInvoice_SetDeliveryAddress(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['address_ST'])); //->CurrentInvoice_SetDeliveryAddressResult;
+				$this->client
+					->CurrentInvoice_SetDeliveryAddress(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['address_ST']));
 			}
 
 			if ($d ['name_ST'] != '')
 			{
-//				$this->client->CurrentInvoice_SetDebtorName ( array ('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['name_ST'] ) );//->CurrentInvoice_SetDebtorNameResult;
 			}
 
 			if ($d ['city_ST'] != '')
 			{
-				$this->client->CurrentInvoice_SetDeliveryCity(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['city_ST'])); //->CurrentInvoice_SetDeliveryCityResult;
+				$this->client
+					->CurrentInvoice_SetDeliveryCity(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['city_ST']));
 			}
 
 			if ($d ['country_ST'] != '')
 			{
-				$this->client->CurrentInvoice_SetDeliveryCountry(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['country_ST'])); //->CurrentInvoice_SetDeliveryCountryResult;
+				$this->client
+					->CurrentInvoice_SetDeliveryCountry(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['country_ST']));
 			}
 
 			if ($d ['zipcode_ST'] != '')
 			{
-				$this->client->CurrentInvoice_SetDeliveryPostalCode(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['zipcode_ST'])); //->CurrentInvoice_SetDeliveryPostalCodeResult;
+				$this->client
+					->CurrentInvoice_SetDeliveryPostalCode(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['zipcode_ST']));
 			}
 		}
 		catch (Exception $exception)
 		{
 			print("<p><i>setDeliveryAddress:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1491,7 +1460,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1501,7 +1469,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function createInvoiceLine($d)
+	public function createInvoiceLine($d)
 	{
 		if ($this->error)
 		{
@@ -1520,6 +1488,7 @@ class plgEconomicEconomic extends JPlugin
 
 		$ProductHandle = new stdclass;
 		$ProductHandle->Number = $d ['product_number'];
+
 		try
 		{
 			$info = array
@@ -1543,11 +1512,13 @@ class plgEconomicEconomic extends JPlugin
 
 			if (isset($d['updateInvoice']) && $d['updateInvoice'] == 1)
 			{
-				$invoiceLineNumber = $this->client->CurrentInvoiceLine_UpdateFromData(array('data' => $info))->CurrentInvoiceLine_UpdateFromDataResult;
+				$invoiceLineNumber = $this->client
+					->CurrentInvoiceLine_UpdateFromData(array('data' => $info))->CurrentInvoiceLine_UpdateFromDataResult;
 			}
 			else
 			{
-				$invoiceLineNumber = $this->client->CurrentInvoiceLine_CreateFromData(array('data' => $info))->CurrentInvoiceLine_CreateFromDataResult;
+				$invoiceLineNumber = $this->client
+					->CurrentInvoiceLine_CreateFromData(array('data' => $info))->CurrentInvoiceLine_CreateFromDataResult;
 			}
 
 			return $invoiceLineNumber;
@@ -1555,7 +1526,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>createInvoiceLine:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1565,17 +1535,18 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
 	/**
-	 * Method to create invoice Array in economic
+	 * Method to create invoice Array in economic.
 	 *
-	 * @access public
-	 * @return array
+	 * @param $d
+	 * @param $darray
+	 *
+	 * @return null|string
 	 */
-	function createInvoiceLineArray($d, $darray)
+	public function createInvoiceLineArray($d, $darray)
 	{
 		if ($this->error)
 		{
@@ -1591,6 +1562,7 @@ class plgEconomicEconomic extends JPlugin
 		$Handle->Number = $order_item_id;
 
 		$UnitHandle = $this->getUnitGroup();
+
 		try
 		{
 			for ($i = 0; $i < count($darray); $i++)
@@ -1620,11 +1592,13 @@ class plgEconomicEconomic extends JPlugin
 
 			if (isset($d['updateInvoice']) && $d['updateInvoice'] == 1)
 			{
-				$invoiceLineNumber = $this->client->CurrentInvoiceLine_UpdateFromDataArray(array('dataArray' => $info))->CurrentInvoiceLine_UpdateFromDataArrayResult;
+				$invoiceLineNumber = $this->client
+					->CurrentInvoiceLine_UpdateFromDataArray(array('dataArray' => $info))->CurrentInvoiceLine_UpdateFromDataArrayResult;
 			}
 			else
 			{
-				$invoiceLineNumber = $this->client->CurrentInvoiceLine_CreateFromDataArray(array('dataArray' => $info))->CurrentInvoiceLine_CreateFromDataArrayResult;
+				$invoiceLineNumber = $this->client
+					->CurrentInvoiceLine_CreateFromDataArray(array('dataArray' => $info))->CurrentInvoiceLine_CreateFromDataArrayResult;
 			}
 
 			return $invoiceLineNumber;
@@ -1632,7 +1606,7 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>createInvoiceLineArray:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
+
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1642,7 +1616,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1652,7 +1625,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function checkDraftInvoice($d)
+	public function checkDraftInvoice($d)
 	{
 		if ($this->error)
 		{
@@ -1661,6 +1634,7 @@ class plgEconomicEconomic extends JPlugin
 
 		$invoiceHandle = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
+
 		try
 		{
 			$invoiceData = $this->client->CurrentInvoice_GetData(array('entityHandle' => $invoiceHandle))->CurrentInvoice_GetDataResult;
@@ -1670,7 +1644,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>checkDraftInvoice:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1680,7 +1653,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1690,12 +1662,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function checkBookInvoice($d)
+	public function checkBookInvoice($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$bookInvoiceData = $this->client->Invoice_FindByOtherReference(array('otherReference' => $d['order_number']))->Invoice_FindByOtherReferenceResult;
@@ -1705,7 +1678,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>checkBookInvoice:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1715,7 +1687,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1725,7 +1696,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function updateInvoiceDate($d)
+	public function updateInvoiceDate($d)
 	{
 		if ($this->error)
 		{
@@ -1734,6 +1705,7 @@ class plgEconomicEconomic extends JPlugin
 
 		$invoiceHandle = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
+
 		try
 		{
 			$invoiceNumber = $this->client->CurrentInvoice_SetDate(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['invoiceDate']))->CurrentInvoice_SetDateResponse;
@@ -1743,7 +1715,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>updateInvoiceDate:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1753,7 +1724,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1763,13 +1733,14 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function bookInvoice($d)
+	public function bookInvoice($d)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
-		# send pdf from economic
+
+		// Send pdf from economic
 		$pdf = '';
 
 		$bookHandle = new stdclass;
@@ -1778,7 +1749,8 @@ class plgEconomicEconomic extends JPlugin
 		if ($bookHandle)
 		{
 			$pdf = $this->Invoice_GetPdf($bookHandle);
-			# cashbook entry
+
+			// Cashbook entry
 			if ($d['amount'] > 0)
 			{
 				$this->createCashbookEntry($d, $bookHandle);
@@ -1789,12 +1761,13 @@ class plgEconomicEconomic extends JPlugin
 	}
 
 	/**
-	 * Method to find current book invoice number in economic
+	 * Method to find current book invoice number in economic.
 	 *
-	 * @access public
-	 * @return array
+	 * @param $d
+	 *
+	 * @return null|string
 	 */
-	function CurrentInvoice_BookWithNumber($d)
+	public function CurrentInvoice_BookWithNumber($d)
 	{
 		if ($this->error)
 		{
@@ -1803,6 +1776,7 @@ class plgEconomicEconomic extends JPlugin
 
 		$invoiceHandle = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
+
 		try
 		{
 			$info = array(
@@ -1817,7 +1791,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>CurrentInvoice_BookWithNumber:" . $exception->getMessage() . "</i></p>");
-// 			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1827,8 +1800,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			return false;
-// 			exit;
 		}
 	}
 
@@ -1838,7 +1809,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function CurrentInvoice_Book($d)
+	public function CurrentInvoice_Book($d)
 	{
 		if ($this->error)
 		{
@@ -1847,6 +1818,7 @@ class plgEconomicEconomic extends JPlugin
 
 		$invoiceHandle = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
+
 		try
 		{
 			$info = array(
@@ -1860,7 +1832,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>CurrentInvoice_Book:" . $exception->getMessage() . "</i></p>");
-// 			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1870,8 +1841,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			return false;
-// 			exit;
 		}
 	}
 
@@ -1881,12 +1850,13 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function Invoice_GetPdf($invoiceHandle)
+	public function Invoice_GetPdf($invoiceHandle)
 	{
 		if ($this->error)
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$pdf = $this->client->Invoice_GetPdf(array('invoiceHandle' => $invoiceHandle))->Invoice_GetPdfResult;
@@ -1896,7 +1866,6 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 			print("<p><i>Invoice_GetPdf:" . $exception->getMessage() . "</i></p>");
-//			JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
@@ -1906,7 +1875,6 @@ class plgEconomicEconomic extends JPlugin
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//			exit;
 		}
 	}
 
@@ -1916,7 +1884,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	function createCashbookEntry($d, $bookHandle)
+	public function createCashbookEntry($d, $bookHandle)
 	{
 		if ($this->error)
 		{
@@ -1931,9 +1899,6 @@ class plgEconomicEconomic extends JPlugin
 
 		$debtorHandle = new stdclass;
 		$debtorHandle->Number = $d['debtorHandle'];
-
-//		$accountHandle = new stdclass;
-//		$accountHandle->Number = 6;
 
 		$contraAccountHandle = new stdclass;
 		$contraAccountHandle->Number = $contraaccount;
@@ -1965,7 +1930,13 @@ class plgEconomicEconomic extends JPlugin
 
 			$this->client->CashBookEntry_SetDebtorInvoiceNumber(array('cashBookEntryHandle' => $cashBookEntryHandle, 'value' => $bookHandle->Number));
 
-			$this->client->CashBookEntry_SetText(array('cashBookEntryHandle' => $cashBookEntryHandle, 'value' => 'INV (' . $bookHandle->Number . ') ORDERID (' . $d ['order_id'] . ') CUST (' . $d['name'] . ')'));
+			$this->client
+				->CashBookEntry_SetText(
+					array(
+						'cashBookEntryHandle' => $cashBookEntryHandle,
+						'value' => 'INV (' . $bookHandle->Number . ') ORDERID (' . $d ['order_id'] . ') CUST (' . $d['name'] . ')'
+					)
+				);
 
 			$this->client->CashBookEntry_SetCurrency(array('cashBookEntryHandle' => $cashBookEntryHandle, 'valueHandle' => $CurrencyHandle));
 
@@ -1973,19 +1944,14 @@ class plgEconomicEconomic extends JPlugin
 		}
 		catch (Exception $exception)
 		{
-//	 		print("<p><i>createCashbookEntry:" . $exception->getMessage() . "</i></p>");
-//	 		JError::raiseWarning(21,$exception->getMessage());
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
-//				JError::raiseWarning(21,"createCashbookEntry:".$exception->getMessage());
 			}
 			else
 			{
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
-//	 		exit;
 		}
 	}
 }
-?>

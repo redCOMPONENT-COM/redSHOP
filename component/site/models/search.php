@@ -143,7 +143,6 @@ class searchModelsearch extends JModel
 			$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
 		}
 
-
 		if (isset($template[0]->template_desc) && !strstr($template[0]->template_desc, "{show_all_products_in_category}")
 			&& strstr($template[0]->template_desc, "{pagination}")
 			&& strstr($template[0]->template_desc, "perpagelimit:"))
@@ -342,7 +341,7 @@ class searchModelsearch extends JModel
 			$cat_group = $category_id;
 		}
 
-		$params = & JComponentHelper::getParams('com_redshop');
+		$params = JComponentHelper::getParams('com_redshop');
 
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
@@ -355,7 +354,6 @@ class searchModelsearch extends JModel
 		$whereaclProduct = "";
 
 		// Shopper group - choose from manufactures Start
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -365,7 +363,6 @@ class searchModelsearch extends JModel
 		}
 
 		// Shopper group - choose from manufactures End
-
 		if ($aclProducts != "")
 		{
 			$whereaclProduct .= " AND p.product_id IN (" . $aclProducts . ")  ";
@@ -402,8 +399,6 @@ class searchModelsearch extends JModel
 				. "AND p.product_parent_id=0 "
 				. $whereaclProduct . $cat_array
 				. "order by " . $order_by;
-
-
 		}
 		elseif ($layout == 'featuredproduct')
 		{
@@ -495,14 +490,10 @@ class searchModelsearch extends JModel
 			$query .= " AND " . $defaultSearchType
 				. " AND p.published = 1"
 				. " order by " . $order_by;
-
-
 		}
-
 
 		return $query;
 	}
-
 
 	public function _buildContentOrderBy()
 	{
@@ -526,7 +517,7 @@ class searchModelsearch extends JModel
 		$layout     = $app->getUserStateFromRequest($context . 'layout', 'layout', '');
 		$templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
 
-		$params = & JComponentHelper::getParams('com_redshop');
+		$params = JComponentHelper::getParams('com_redshop');
 		$menu   = $app->getMenu();
 		$item   = $menu->getActive();
 
@@ -599,14 +590,12 @@ class searchModelsearch extends JModel
 
 		$type_id_main = explode('.', JRequest::getVar('tagid'));
 
-
 		// Initialise variables
 		$lstproduct_id = array();
 		$lasttypeid    = 0;
 		$lasttagid     = 0;
 		$productid     = 0;
 		$products      = "";
-
 
 		if (count($getredfilter) != 0)
 		{
@@ -648,7 +637,7 @@ class searchModelsearch extends JModel
 			{
 				$chk_q = "";
 
-				//Search for checkboxes
+				// Search for checkboxes
 				if ($i != 0)
 					$chk_q .= "t" . $i . ".tag_id='" . $main_sal_tag[$i] . "' ";
 				else
@@ -661,7 +650,6 @@ class searchModelsearch extends JModel
 			if (count($dep_cond) <= 0)
 				$dep_cond[] = "1=1";
 			$q .= implode(" AND ", $dep_cond);
-
 
 			$q .= ") AND p.published = '1' AND x.category_id='" . JRequest::getVar('cid') . "' order by p.product_name ";
 			$product = $this->_getList($q);
@@ -741,7 +729,6 @@ class searchModelsearch extends JModel
 
 					$query .= "AND  rat.`tag_id` IN (" . $lasttagid . ") ";
 
-
 					$product = $this->_getList($query);
 
 					$products = array();
@@ -754,7 +741,6 @@ class searchModelsearch extends JModel
 					$productids = implode(",", $products);
 				}
 
-
 				$q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
 			FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
 			LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
@@ -762,11 +748,9 @@ class searchModelsearch extends JModel
 			WHERE j.tag_id = t.id
 			AND j.type_id = " . $id . "  ";
 
-
 				if ($productids != "")
 					$q .= " AND ra.product_id  IN ( " . $productids . " ) ";
 				$q .= " GROUP BY t.id ORDER BY t.ordering  ";
-
 
 				$tags = $this->_getList($q);
 
@@ -1094,4 +1078,3 @@ class searchModelsearch extends JModel
 		return $this->_data;
 	}
 }
-

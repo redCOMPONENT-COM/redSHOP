@@ -40,6 +40,9 @@ class CategoryModelCategory extends JModel
 
 	public $_context = null;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$app = JFactory::getApplication();
@@ -131,7 +134,7 @@ class CategoryModelCategory extends JModel
 
 		if ($this->_id)
 		{
-			$maincat = & $this->getTable('category_detail');
+			$maincat = $this->getTable('category_detail');
 			$maincat->load($this->_id);
 			$this->_maincat = $maincat;
 		}

@@ -43,7 +43,6 @@ $auth = $session->get('auth');
 
 	<div>&nbsp;</div>
 
-
 </div>
 
 <div id="wishlist" class="wishlist_prompt_text">

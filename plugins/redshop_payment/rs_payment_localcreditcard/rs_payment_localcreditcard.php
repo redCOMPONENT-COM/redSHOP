@@ -1,28 +1,21 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-/*$mainframe =& JFactory::getApplication();
-$mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,7 +25,7 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_localcreditcard(&$subject)
+	public function plgRedshop_paymentrs_payment_localcreditcard(&$subject)
 	{
 		// load plugin parameters
 		parent::__construct($subject);
@@ -45,7 +38,7 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_localcreditcard($element, $data)
+	public function onPrePayment_rs_payment_localcreditcard($element, $data)
 	{
 		if ($element != 'rs_payment_localcreditcard')
 		{
@@ -61,9 +54,8 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 
 	}
 
-	function onCapture_Paymentrs_payment_localcreditcard($element, $data)
+	public function onCapture_Paymentrs_payment_localcreditcard($element, $data)
 	{
 		return;
 	}
-
 }

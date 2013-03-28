@@ -39,7 +39,7 @@ define('IMG_WIDTH', 50);
 
 define('BASE_PATH', "../assets/images/");
 
-include JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
+include JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 
 $tracker_id = @basename(urldecode($_REQUEST['tracker_id']));
 $db         = JFactory::getDBO();

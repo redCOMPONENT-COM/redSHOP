@@ -7,19 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class newslettersubscr_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'newslettersubscr_detail');
 		JRequest::setVar('layout', 'default');
@@ -28,7 +28,8 @@ class newslettersubscr_detailController extends JController
 		$model = $this->getModel('newslettersubscr_detail');
 
 		$userlist = $model->getuserlist();
-		//merging select option in the select box
+
+		// Merging select option in the select box
 		$temps = array();
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
@@ -39,14 +40,13 @@ class newslettersubscr_detailController extends JController
 		parent::display();
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
-
 		$post = JRequest::get('post');
 		$body = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["body"] = $body;
@@ -56,34 +56,36 @@ class newslettersubscr_detailController extends JController
 		$post ['subscription_id'] = $cid [0];
 		$model = $this->getModel('newslettersubscr_detail');
 		$userinfo = $model->getUserFromEmail($post['email']);
+
 		if (count($userinfo) > 0)
 		{
 			$post['email'] = $userinfo->user_email;
-//			$post['name'] = $userinfo->firstname." ".$userinfo->lastname;
 			$post['user_id'] = $userinfo->user_id;
 		}
+
 		$post ['name'] = $post['username'];
+
 		if ($row = $model->store($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_SAVED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_NEWSLETTER_SUBSCR_DETAIL');
 		}
 
 		if ($apply == 1)
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id, $msg);
+		}
 		else
+		{
 			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+		}
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -94,17 +96,18 @@ class newslettersubscr_detailController extends JController
 		}
 
 		$model = $this->getModel('newslettersubscr_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -115,17 +118,18 @@ class newslettersubscr_detailController extends JController
 		}
 
 		$model = $this->getModel('newslettersubscr_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_PUBLISHED_SUCCESFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -136,27 +140,29 @@ class newslettersubscr_detailController extends JController
 		}
 
 		$model = $this->getModel('newslettersubscr_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_UNPUBLISHED_SUCCESFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
 	}
 
-	function export_data()
+	public function export_data()
 	{
-
 		$model = $this->getModel('newslettersubscr_detail');
-		while (@ob_end_clean()) ;
+
+		while (@ob_end_clean());
+
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
 		header("Content-type: text/csv");
@@ -169,7 +175,7 @@ class newslettersubscr_detailController extends JController
 		for ($i = 0; $i < count($data); $i++)
 		{
 			$subname = $model->getuserfullname($data[$i]->user_id);
-			//echo $fullname = $subname->firstname." ".$subname->lastname;
+
 			if ($data[$i]->user_id != 0)
 			{
 				echo utf8_decode($subname->firstname) . " " . utf8_decode($subname->lastname);
@@ -178,8 +184,10 @@ class newslettersubscr_detailController extends JController
 			{
 				echo utf8_decode($data[$i]->subscribername);
 			}
+
 			echo ",";
 			echo $data[$i]->name . ",";
+
 			if ($data[$i]->user_id != 0)
 			{
 				echo $subname->email . ",";
@@ -188,18 +196,19 @@ class newslettersubscr_detailController extends JController
 			{
 				echo $data[$i]->email . ",";
 			}
+
 			echo "\n";
 		}
 
 		exit;
 	}
 
-	function export_acy_data()
+	public function export_acy_data()
 	{
 		ob_clean();
 		$model = $this->getModel('newslettersubscr_detail');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order_function = new order_functions();
+		$order_function = new order_functions;
 		$data = $model->getnewslettersbsc($cid);
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -213,8 +222,8 @@ class newslettersubscr_detailController extends JController
 
 		for ($i = 0; $i < count($data); $i++)
 		{
-
 			echo '"' . $data[$i]->email . '","';
+
 			if ($data[$i]->user_id != 0)
 			{
 				$subname = $order_function->getUserFullname($data[$i]->user_id);
@@ -224,6 +233,7 @@ class newslettersubscr_detailController extends JController
 			{
 				echo $data[$i]->subscribername;
 			}
+
 			echo '","';
 			echo $data[$i]->published . '"';
 			echo "\n";
