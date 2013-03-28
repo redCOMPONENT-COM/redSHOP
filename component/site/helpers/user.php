@@ -725,7 +725,7 @@ class rsUserhelper
 		{
 			JPluginHelper::importPlugin('highrise');
 			$dispatcher = JDispatcher::getInstance();
-			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array($post));
+			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array());
 		}
 
 		/**
