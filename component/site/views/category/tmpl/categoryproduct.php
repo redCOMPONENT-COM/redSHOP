@@ -12,20 +12,20 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$objhelper       = new redhelper;
-$config          = new Redconfiguration;
-$producthelper   = new producthelper;
-$extraField      = new extraField;
-$redTemplate     = new Redtemplate;
+$objhelper = new redhelper;
+$config = new Redconfiguration;
+$producthelper = new producthelper;
+$extraField = new extraField;
+$redTemplate = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
 
-$url    = JURI::base();
+$url = JURI::base();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
-$catid  = JRequest::getVar('cid', 0, '', 'int');
-$print  = JRequest::getVar('print');
+$catid = JRequest::getVar('cid', 0, '', 'int');
+$print = JRequest::getVar('print');
 
-$model                = $this->getModel('category');
+$model = $this->getModel('category');
 $loadCategorytemplate = $redTemplate->getTemplate('categoryproduct');
 
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
@@ -39,13 +39,13 @@ else
 {product_loop_end}</div></div><p>{category_loop_end}</p><div class='category_pagination'>{pagination}</div></div>";
 }
 
-$app    = JFactory::getApplication();
+$app = JFactory::getApplication();
 $router = $app->getRouter();
-$uri    = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
+$uri = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
 
 if ($print)
 {
-	$onclick       = "onclick='window.print();'";
+	$onclick = "onclick='window.print();'";
 	$template_desc = str_replace("{product_price_slider}", "", $template_desc);
 	$template_desc = str_replace("{pagination}", "", $template_desc);
 }
@@ -67,38 +67,38 @@ $template_desc = str_replace("{category_frontpage_introtext}", CATEGORY_FRONTPAG
 if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{category_loop_end}"))
 {
 	$cattemplate_desc = explode('{category_loop_start}', $template_desc);
-	$catheader        = $cattemplate_desc [0];
+	$catheader = $cattemplate_desc [0];
 
-	$cattemplate_desc    = explode('{category_loop_end}', $cattemplate_desc [1]);
+	$cattemplate_desc = explode('{category_loop_end}', $cattemplate_desc [1]);
 	$middletemplate_desc = $cattemplate_desc[0];
 
 	if (strstr($middletemplate_desc, '{category_thumb_image_2}'))
 	{
-		$tag     = '{category_thumb_image_2}';
+		$tag = '{category_thumb_image_2}';
 		$h_thumb = THUMB_HEIGHT_2;
 		$w_thumb = THUMB_WIDTH_2;
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
 	{
-		$tag     = '{category_thumb_image_3}';
+		$tag = '{category_thumb_image_3}';
 		$h_thumb = THUMB_HEIGHT_3;
 		$w_thumb = THUMB_WIDTH_3;
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
 	{
-		$tag     = '{category_thumb_image_1}';
+		$tag = '{category_thumb_image_1}';
 		$h_thumb = THUMB_HEIGHT;
 		$w_thumb = THUMB_WIDTH;
 	}
 	else
 	{
-		$tag     = '{category_thumb_image}';
+		$tag = '{category_thumb_image}';
 		$h_thumb = THUMB_HEIGHT;
 		$w_thumb = THUMB_WIDTH;
 	}
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
-	$data_add       = "";
+	$data_add = "";
 
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
@@ -117,22 +117,22 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$tmpItemid = $Itemid;
 		}
 
-		$link        = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
-		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title       = " title='" . $row->category_name . "' ";
-		$alt         = " alt='" . $row->category_name . "' ";
+		$link = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
+		$middlepath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
+		$title = " title='" . $row->category_name . "' ";
+		$alt = " alt='" . $row->category_name . "' ";
 		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
-		$linkimage   = $product_img;
+		$linkimage = $product_img;
 
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
 			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+			$linkimage = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
 		elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 		{
 			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+			$linkimage = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
 
 		if (CAT_IS_LIGHTBOX)
@@ -169,7 +169,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		if (strstr($data_add, '{category_short_desc}'))
 		{
 			$cat_s_desc = $config->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
-			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
+			$data_add = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
 
 		if (strstr($data_add, '{category_total_product}'))
@@ -187,14 +187,14 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		if (strstr($data_add, "{product_loop_start}") && strstr($data_add, "{product_loop_end}"))
 		{
-			$template_d1      = explode("{product_loop_start}", $data_add);
-			$template_d2      = explode("{product_loop_end}", $template_d1 [1]);
+			$template_d1 = explode("{product_loop_start}", $data_add);
+			$template_d2 = explode("{product_loop_end}", $template_d1 [1]);
 			$template_product = $template_d2 [0];
 
 			$attribute_template = $producthelper->getAttributeTemplate($template_product);
-			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
-			$product_data       = '';
-			$prddata_add        = "";
+			$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+			$product_data = '';
+			$prddata_add = "";
 
 			$this->product = $model->getCategorylistProduct($row->category_id);
 
@@ -211,15 +211,15 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				// Counting accessory
 				$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
-				$totacc        = count($accessorylist);
+				$totacc = count($accessorylist);
 
 				$prddata_add .= $template_product;
 
 				// Product User Field Start
-				$hidden_userfield   = "";
-				$returnArr          = $producthelper->getProductUserfieldFromTemplate($prddata_add);
+				$hidden_userfield = "";
+				$returnArr = $producthelper->getProductUserfieldFromTemplate($prddata_add);
 				$template_userfield = $returnArr[0];
-				$userfieldArr       = $returnArr[1];
+				$userfieldArr = $returnArr[1];
 
 				if ($template_userfield != "")
 				{
@@ -255,16 +255,16 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				elseif (AJAX_CART_BOX)
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
+					$ajax_detail_template = $producthelper->getAjaxDetailboxTemplate($product);
 
 					if (count($ajax_detail_template) > 0)
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
 
-					$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
+					$returnArr = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
 					$template_userfield = $returnArr[0];
-					$userfieldArr       = $returnArr[1];
+					$userfieldArr = $returnArr[1];
 
 					if ($template_userfield != "")
 					{
@@ -308,32 +308,32 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$prddata_add = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $prddata_add);
 				$prddata_add = str_replace("{product_id}", $product->product_id, $prddata_add);
 
-				$prddata_add           = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $prddata_add);
+				$prddata_add = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $prddata_add);
 				$product_number_output = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
-				$prddata_add           = str_replace("{product_number}", $product_number_output, $prddata_add);
+				$prddata_add = str_replace("{product_number}", $product_number_output, $prddata_add);
 
 				$product_volume_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . "3" . '</span>';
-				$prddata_add         = str_replace("{product_size}", $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit, $prddata_add);
+				$prddata_add = str_replace("{product_size}", $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit, $prddata_add);
 
 				$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
-				$prddata_add  = str_replace("{product_length}", $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit, $prddata_add);
-				$prddata_add  = str_replace("{product_width}", $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $prddata_add);
-				$prddata_add  = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $prddata_add);
+				$prddata_add = str_replace("{product_length}", $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit, $prddata_add);
+				$prddata_add = str_replace("{product_width}", $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $prddata_add);
+				$prddata_add = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $prddata_add);
 
 				$prddata_add = $producthelper->replaceVatinfo($prddata_add);
-				$catid       = $row->category_id;
-				$link        = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
+				$catid = $row->category_id;
+				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
 
 				if (strstr($prddata_add, '{product_name}'))
 				{
-					$pname       = $config->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
-					$pname       = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
+					$pname = $config->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+					$pname = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
 					$prddata_add = str_replace("{product_name}", $pname, $prddata_add);
 				}
 
 				if (strstr($prddata_add, '{read_more}'))
 				{
-					$rmore       = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+					$rmore = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 					$prddata_add = str_replace("{read_more}", $rmore, $prddata_add);
 				}
 
@@ -344,13 +344,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{product_s_desc}'))
 				{
-					$p_s_desc    = $config->maxchar($product->product_s_desc, CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS, CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX);
+					$p_s_desc = $config->maxchar($product->product_s_desc, CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS, CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX);
 					$prddata_add = str_replace("{product_s_desc}", $p_s_desc, $prddata_add);
 				}
 
 				if (strstr($prddata_add, '{product_desc}'))
 				{
-					$p_desc      = $config->maxchar($product->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+					$p_desc = $config->maxchar($product->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
 					$prddata_add = str_replace("{product_desc}", $p_desc, $prddata_add);
 				}
 
@@ -358,14 +358,14 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				{
 					// Product Review/Rating Fetching reviews
 					$final_avgreview_data = $producthelper->getProductRating($product->product_id);
-					$prddata_add          = str_replace("{product_rating_summary}", $final_avgreview_data, $prddata_add);
+					$prddata_add = str_replace("{product_rating_summary}", $final_avgreview_data, $prddata_add);
 				}
 
 				if (strstr($prddata_add, '{manufacturer_link}'))
 				{
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id . '&Itemid=' . ktemid);
-					$manufacturer_link      = '<a href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' . $product->manufacturer_name . '</a>';
-					$prddata_add            = str_replace("{manufacturer_link}", $manufacturer_link, $prddata_add);
+					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' . $product->manufacturer_name . '</a>';
+					$prddata_add = str_replace("{manufacturer_link}", $manufacturer_link, $prddata_add);
 
 					if (strstr($prddata_add, "{manufacturer_link}"))
 					{
@@ -376,7 +376,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				if (strstr($prddata_add, '{manufacturer_product_link}'))
 				{
 					$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name . "</a>";
-					$prddata_add       = str_replace("{manufacturer_product_link}", $manufacturerPLink, $prddata_add);
+					$prddata_add = str_replace("{manufacturer_product_link}", $manufacturerPLink, $prddata_add);
 				}
 
 				if (strstr($prddata_add, '{manufacturer_name}'))
@@ -410,7 +410,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
-				$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
+				$thum_image = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 
 				// Product image flying addwishlist time start
 				$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
@@ -455,7 +455,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (count($childproduct) > 0)
 				{
-					$isChilds   = true;
+					$isChilds = true;
 					$attributes = array();
 				}
 				else
@@ -525,7 +525,7 @@ if (strstr($template_desc, "{order_by}"))
 
 if (strstr($template_desc, "{pagination}"))
 {
-	$pagination    = $model->getCategoryProductPagination();
+	$pagination = $model->getCategoryProductPagination();
 	$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
 }
 

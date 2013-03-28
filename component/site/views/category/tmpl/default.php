@@ -12,19 +12,19 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$objhelper     = new redhelper;
-$config        = new Redconfiguration;
+$objhelper = new redhelper;
+$config = new Redconfiguration;
 $producthelper = new producthelper;
-$extraField    = new extraField;
-$redTemplate   = new Redtemplate;
+$extraField = new extraField;
+$redTemplate = new Redtemplate;
 
-$url    = JURI::base();
+$url = JURI::base();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
-$catid  = JRequest::getVar('cid', 0, '', 'int');
-$print  = JRequest::getVar('print');
+$catid = JRequest::getVar('cid', 0, '', 'int');
+$print = JRequest::getVar('print');
 
-$model                = $this->getModel('category');
+$model = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
 
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
@@ -44,8 +44,8 @@ if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($templa
 }
 
 $app = JFactory::getApplication();
-$router    = $app->getRouter();
-$uri       = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
+$router = $app->getRouter();
+$uri = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
 
 if ($this->params->get('show_page_heading', 0))
 {
@@ -80,7 +80,7 @@ if ($print)
 else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $Itemid;
-	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
+	$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
@@ -93,38 +93,38 @@ $template_desc = str_replace("{category_frontpage_introtext}", CATEGORY_FRONTPAG
 if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($template_desc, "{category_frontpage_loop_end}"))
 {
 	$cattemplate_desc = explode('{category_frontpage_loop_start}', $template_desc);
-	$catheader        = $cattemplate_desc [0];
+	$catheader = $cattemplate_desc [0];
 
-	$cattemplate_desc    = explode('{category_frontpage_loop_end}', $cattemplate_desc [1]);
+	$cattemplate_desc = explode('{category_frontpage_loop_end}', $cattemplate_desc [1]);
 	$middletemplate_desc = $cattemplate_desc[0];
 
 	if (strstr($middletemplate_desc, '{category_thumb_image_2}'))
 	{
-		$tag     = '{category_thumb_image_2}';
+		$tag = '{category_thumb_image_2}';
 		$h_thumb = THUMB_HEIGHT_2;
 		$w_thumb = THUMB_WIDTH_2;
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
 	{
-		$tag     = '{category_thumb_image_3}';
+		$tag = '{category_thumb_image_3}';
 		$h_thumb = THUMB_HEIGHT_3;
 		$w_thumb = THUMB_WIDTH_3;
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
 	{
-		$tag     = '{category_thumb_image_1}';
+		$tag = '{category_thumb_image_1}';
 		$h_thumb = THUMB_HEIGHT;
 		$w_thumb = THUMB_WIDTH;
 	}
 	else
 	{
-		$tag     = '{category_thumb_image}';
+		$tag = '{category_thumb_image}';
 		$h_thumb = THUMB_HEIGHT;
 		$w_thumb = THUMB_WIDTH;
 	}
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
-	$cat_detail     = "";
+	$cat_detail = "";
 
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
@@ -145,21 +145,21 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		$link = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
 
-		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title       = " title='" . $row->category_name . "' ";
-		$alt         = " alt='" . $row->category_name . "' ";
+		$middlepath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
+		$title = " title='" . $row->category_name . "' ";
+		$alt = " alt='" . $row->category_name . "' ";
 		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
-		$linkimage   = $product_img;
+		$linkimage = $product_img;
 
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
 			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+			$linkimage = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
 		elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 		{
 			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+			$linkimage = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
 
 		if (CAT_IS_LIGHTBOX)
@@ -196,7 +196,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		if (strstr($data_add, '{category_short_desc}'))
 		{
 			$cat_s_desc = $config->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
-			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
+			$data_add = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
 
 		if (strstr($data_add, '{category_total_product}'))
@@ -216,9 +216,9 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
 
 		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
-		$data_add  = str_replace("{read_more}", $read_more, $data_add);
-		$sgportal  = $objhelper->getShopperGroupPortal();
-		$portal    = 0;
+		$data_add = str_replace("{read_more}", $read_more, $data_add);
+		$sgportal = $objhelper->getShopperGroupPortal();
+		$portal = 0;
 
 		if (count($sgportal) > 0)
 		{
@@ -282,14 +282,14 @@ if (strstr($template_desc, "{show_all_products_in_category}"))
 
 if (strstr($template_desc, "{pagination}"))
 {
-	$pagination    = $model->getCategoryPagination();
+	$pagination = $model->getCategoryPagination();
 	$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
 }
 
 if (strstr($template_desc, "perpagelimit:"))
 {
-	$perpage       = explode('{perpagelimit:', $template_desc);
-	$perpage       = explode('}', $perpage[1]);
+	$perpage = explode('{perpagelimit:', $template_desc);
+	$perpage = explode('}', $perpage[1]);
 	$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
 }
 

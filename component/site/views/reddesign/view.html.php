@@ -55,7 +55,7 @@ class reddesignViewreddesign extends JView
 		$list = array();
 
 		// Temporary product id treat as design id....
-		$images      = $model->getDesignTypeImages($product_id);
+		$images = $model->getDesignTypeImages($product_id);
 		$optionimage = array();
 
 		for ($i = 0; $i < count($images); $i++)

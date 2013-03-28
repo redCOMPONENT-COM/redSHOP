@@ -13,9 +13,9 @@ JHTML::_('behavior.tooltip');
 
 class text_library
 {
-	public  $_data = null;
-	public  $_table_prefix = null;
-	public  $_db = null;
+	public $_data = null;
+	public $_table_prefix = null;
+	public $_db = null;
 
 	public function __construct()
 	{

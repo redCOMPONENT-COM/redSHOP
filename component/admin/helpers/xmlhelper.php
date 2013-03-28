@@ -923,7 +923,8 @@ class xmlHelper
 							}
 						}
 						elseif (strtolower($mainkey) == strtolower($data->stock_element_name)
-							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->stock_element_name)) // Stock element Array Start
+							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->stock_element_name)
+						) // Stock element Array Start
 						{
 							$subelement = $data->stock_element_name;
 							$l = 0;
@@ -951,7 +952,8 @@ class xmlHelper
 							}
 						}
 						elseif (strtolower($mainkey) == strtolower($data->prdextrafield_element_name)
-							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->prdextrafield_element_name)) // Product Extra field element Array Start
+							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->prdextrafield_element_name)
+						) // Product Extra field element Array Start
 						{
 							$subelement = $data->prdextrafield_element_name;
 							$l = 0;

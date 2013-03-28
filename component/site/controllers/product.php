@@ -31,46 +31,46 @@ class ProductController extends JController
 	{
 		ob_clean();
 
-		$get  = JRequest::get('get');
+		$get = JRequest::get('get');
 
-		$producthelper   = new producthelper;
-		$carthelper      = new rsCarthelper;
+		$producthelper = new producthelper;
+		$carthelper = new rsCarthelper;
 		$total_attribute = 0;
 
 		$product_id = $get['product_id'];
-		$quantity   = $get['qunatity'];
+		$quantity = $get['qunatity'];
 
 		$data = array();
-		$data['attribute_data']       = str_replace("::", "##", $get['attribute_data']);
-		$data['property_data']        = str_replace("::", "##", $get['property_data']);
-		$data['subproperty_data']     = str_replace("::", "##", $get['subproperty_data']);
-		$data['accessory_data']       = $get['accessory_data'];
-		$data['acc_quantity_data']    = $get['acc_quantity_data'];
-		$data['acc_attribute_data']   = str_replace("::", "##", $get['acc_attribute_data']);
-		$data['acc_property_data']    = str_replace("::", "##", $get['acc_property_data']);
+		$data['attribute_data'] = str_replace("::", "##", $get['attribute_data']);
+		$data['property_data'] = str_replace("::", "##", $get['property_data']);
+		$data['subproperty_data'] = str_replace("::", "##", $get['subproperty_data']);
+		$data['accessory_data'] = $get['accessory_data'];
+		$data['acc_quantity_data'] = $get['acc_quantity_data'];
+		$data['acc_attribute_data'] = str_replace("::", "##", $get['acc_attribute_data']);
+		$data['acc_property_data'] = str_replace("::", "##", $get['acc_property_data']);
 		$data['acc_subproperty_data'] = str_replace("::", "##", $get['acc_subproperty_data']);
-		$data['quantity']             = $quantity;
+		$data['quantity'] = $quantity;
 
-		$cartdata  = $carthelper->generateAttributeArray($data);
+		$cartdata = $carthelper->generateAttributeArray($data);
 		$retAttArr = $producthelper->makeAttributeCart($cartdata, $product_id, 0, '', $quantity);
 
 		$ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);
 
-		$acccartdata     = $carthelper->generateAccessoryArray($data);
-		$retAccArr       = $producthelper->makeAccessoryCart($acccartdata, $product_id);
+		$acccartdata = $carthelper->generateAccessoryArray($data);
+		$retAccArr = $producthelper->makeAccessoryCart($acccartdata, $product_id);
 		$accessory_price = $retAccArr[1];
-		$accessory_vat   = $retAccArr[2];
+		$accessory_vat = $retAccArr[2];
 
-		$product_price          = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
-		$product_main_price     = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
-		$product_old_price      = $ProductPriceArr['product_old_price'] * $quantity;
-		$product_price_saving   = $ProductPriceArr['product_price_saving'] * $quantity;
+		$product_price = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
+		$product_main_price = (($retAttArr[1] + $retAttArr[2]) * $quantity) + $accessory_price + $accessory_vat;
+		$product_old_price = $ProductPriceArr['product_old_price'] * $quantity;
+		$product_price_saving = $ProductPriceArr['product_price_saving'] * $quantity;
 		$product_discount_price = $ProductPriceArr['product_discount_price'] * $quantity;
-		$product_price_novat    = ($retAttArr[1] * $quantity) + $accessory_price;
+		$product_price_novat = ($retAttArr[1] * $quantity) + $accessory_price;
 		$product_price_incl_vat = ($ProductPriceArr['product_price_incl_vat'] * $quantity) + $accessory_price + $accessory_vat;
-		$price_excluding_vat    = ($retAttArr[1] * $quantity) + $accessory_price;
-		$seoProductPrice        = $ProductPriceArr['seoProductPrice'] * $quantity;
-		$seoProductSavingPrice  = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
+		$price_excluding_vat = ($retAttArr[1] * $quantity) + $accessory_price;
+		$seoProductPrice = $ProductPriceArr['seoProductPrice'] * $quantity;
+		$seoProductSavingPrice = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
 
 		echo $product_price . ":" . $product_main_price . ":" . $product_old_price . ":" . $product_price_saving . ":" . $product_discount_price . ":" . $product_price_novat . ":" . $product_price_incl_vat . ":" . $price_excluding_vat . ":" . $seoProductPrice . ":" . $seoProductSavingPrice;
 		exit;
@@ -78,18 +78,18 @@ class ProductController extends JController
 
 	public function writeReview()
 	{
-		$post           = JRequest::get('post');
-		$option         = JRequest::getVar('option');
-		$Itemid         = JRequest::getVar('Itemid');
-		$product_id     = JRequest::getInt('product_id');
-		$category_id    = JRequest::getInt('category_id');
-		$model          = $this->getModel('product');
-		$rate           = JRequest::getVar('rate');
+		$post = JRequest::get('post');
+		$option = JRequest::getVar('option');
+		$Itemid = JRequest::getVar('Itemid');
+		$product_id = JRequest::getInt('product_id');
+		$category_id = JRequest::getInt('category_id');
+		$model = $this->getModel('product');
+		$rate = JRequest::getVar('rate');
 		$review_captcha = JRequest::getInt('review_captcha', -1, 'post');
 
 		$session = JFactory::getSession();
-		$hash    = JRequest::getCmd('review_captcha_hash', null, 'post');
-		$res     = $session->get('session.simplemath' . $hash);
+		$hash = JRequest::getCmd('review_captcha_hash', null, 'post');
+		$res = $session->get('session.simplemath' . $hash);
 		$session->set('session.simplemath' . $hash, null);
 
 		if ($res == $review_captcha)
@@ -123,15 +123,15 @@ class ProductController extends JController
 	 */
 	public function displaySubProperty()
 	{
-		$propid        = $subpropid = array();
-		$get           = JRequest::get('get');
+		$propid = $subpropid = array();
+		$get = JRequest::get('get');
 		$producthelper = new producthelper;
 
-		$product_id    = $get['product_id'];
-		$accessory_id  = $get['accessory_id'];
+		$product_id = $get['product_id'];
+		$accessory_id = $get['accessory_id'];
 		$relatedprd_id = $get['relatedprd_id'];
-		$attribute_id  = $get['attribute_id'];
-		$isAjaxBox     = $get['isAjaxBox'];
+		$attribute_id = $get['attribute_id'];
+		$isAjaxBox = $get['isAjaxBox'];
 
 		if (isset($get['property_id']) && $get['property_id'])
 		{
@@ -164,21 +164,21 @@ class ProductController extends JController
 	 */
 	public function displayAdditionImage()
 	{
-		$url           = JURI::base();
-		$get           = JRequest::get('get');
-		$option        = JRequest::getVar('option');
+		$url = JURI::base();
+		$get = JRequest::get('get');
+		$option = JRequest::getVar('option');
 		$producthelper = new producthelper;
 
-		$property_id    = urldecode($get['property_id']);
+		$property_id = urldecode($get['property_id']);
 		$subproperty_id = urldecode($get['subproperty_id']);
 
-		$product_id     = $get['product_id'];
-		$accessory_id   = $get['accessory_id'];
-		$relatedprd_id  = $get['relatedprd_id'];
-		$main_imgwidth  = $get['main_imgwidth'];
+		$product_id = $get['product_id'];
+		$accessory_id = $get['accessory_id'];
+		$relatedprd_id = $get['relatedprd_id'];
+		$main_imgwidth = $get['main_imgwidth'];
 		$main_imgheight = $get['main_imgheight'];
-		$redview        = $get['redview'];
-		$redlayout      = $get['redlayout'];
+		$redview = $get['redview'];
+		$redlayout = $get['redlayout'];
 
 		$dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
@@ -187,28 +187,28 @@ class ProductController extends JController
 		if (!empty($pluginResults))
 		{
 			$mainImageResponse = $pluginResults[0]['mainImageResponse'];
-			$result            = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id);
+			$result = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id);
 		}
 		else
 		{
-			$result            = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id, $main_imgwidth, $main_imgheight, $redview, $redlayout);
+			$result = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id, $main_imgwidth, $main_imgheight, $redview, $redlayout);
 			$mainImageResponse = $result['mainImageResponse'];
 		}
 
-		$response                      = $result['response'];
-		$aHrefImageResponse            = $result['aHrefImageResponse'];
-		$aTitleImageResponse           = $result['aTitleImageResponse'];
-		$stockamountSrc                = $result['stockamountSrc'];
-		$stockamountTooltip            = $result['stockamountTooltip'];
-		$ProductAttributeDelivery      = $result['ProductAttributeDelivery'];
-		$attrbimg                      = $result['attrbimg'];
-		$pr_number                     = $result['pr_number'];
-		$productinstock                = $result['productinstock'];
-		$stock_status                  = $result['stock_status'];
-		$ImageName                     = $result['ImageName'];
-		$notifyStock                   = $result['notifyStock'];
+		$response = $result['response'];
+		$aHrefImageResponse = $result['aHrefImageResponse'];
+		$aTitleImageResponse = $result['aTitleImageResponse'];
+		$stockamountSrc = $result['stockamountSrc'];
+		$stockamountTooltip = $result['stockamountTooltip'];
+		$ProductAttributeDelivery = $result['ProductAttributeDelivery'];
+		$attrbimg = $result['attrbimg'];
+		$pr_number = $result['pr_number'];
+		$productinstock = $result['productinstock'];
+		$stock_status = $result['stock_status'];
+		$ImageName = $result['ImageName'];
+		$notifyStock = $result['notifyStock'];
 		$product_availability_date_lbl = $result['product_availability_date_lbl'];
-		$product_availability_date     = $result['product_availability_date'];
+		$product_availability_date = $result['product_availability_date'];
 
 		echo "`_`" . $response
 			. "`_`" . $aHrefImageResponse
@@ -237,28 +237,28 @@ class ProductController extends JController
 	public function addtowishlist()
 	{
 		ob_clean();
-		$app        = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$extraField = new extraField;
-		$section    = 12;
-		$row_data   = $extraField->getSectionFieldList($section);
+		$section = 12;
+		$row_data = $extraField->getSectionFieldList($section);
 
 		// GetVariables
 		$producthelper = new producthelper;
-		$cid           = JRequest::getInt('cid');
-		$user          = JFactory::getUser();
-		$Itemid        = JRequest::getVar('Itemid');
-		$option        = JRequest::getVar('option');
-		$ajaxvar       = JRequest::getVar('ajaxon');
-		$mywid         = JRequest::getVar('wid');
+		$cid = JRequest::getInt('cid');
+		$user = JFactory::getUser();
+		$Itemid = JRequest::getVar('Itemid');
+		$option = JRequest::getVar('option');
+		$ajaxvar = JRequest::getVar('ajaxon');
+		$mywid = JRequest::getVar('wid');
 
 		if ($ajaxvar == 1 && ($mywid == 1 || $mywid == 2))
 		{
 			$post = JRequest::get('post');
 
 			$post['product_id'] = JRequest::getVar('product_id');
-			$proname            = $producthelper->getProductById($post['product_id']);
-			$post['view']       = JRequest::getVar('view');
-			$post['task']       = JRequest::getVar('task');
+			$proname = $producthelper->getProductById($post['product_id']);
+			$post['view'] = JRequest::getVar('view');
+			$post['task'] = JRequest::getVar('task');
 
 			for ($i = 0; $i < count($row_data); $i++)
 			{
@@ -280,8 +280,8 @@ class ProductController extends JController
 				if ($tmpstr)
 				{
 					$tmparray = explode('`', $data_txt);
-					$tmp      = new stdClass;
-					$tmp      = @array_merge($tmp, $tmparray);
+					$tmp = new stdClass;
+					$tmp = @array_merge($tmp, $tmparray);
 
 					if (is_array($tmparray))
 					{
@@ -728,8 +728,8 @@ class ProductController extends JController
 	/**
 	 * File read function
 	 *
-	 * @param   string  $filename  file name
-	 * @param   bool    $retbytes  retbytes
+	 * @param   string $filename  file name
+	 * @param   bool   $retbytes  retbytes
 	 *
 	 * @return bool|int
 	 */

@@ -30,7 +30,7 @@ class accountViewaccount extends JView
 		$document = JFactory::getDocument();
 
 		$model = $this->getModel();
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$userdata = $model->getuseraccountinfo($user->id);
 
@@ -41,7 +41,7 @@ class accountViewaccount extends JView
 		}
 
 		$layout = JRequest::getVar('layout', 'default');
-		$mail   = JRequest::getVar('mail');
+		$mail = JRequest::getVar('mail');
 
 		// Preform security checks
 		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
@@ -64,10 +64,10 @@ class accountViewaccount extends JView
 			}
 
 			$maxcategory = $params->get('maxcategory', 5);
-			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
-			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
-			$total       = $this->get('total');
-			$pagination  = new redPagination($total, $limitstart, $limit);
+			$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
+			$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+			$total = $this->get('total');
+			$pagination = new redPagination($total, $limitstart, $limit);
 			$this->assignRef('pagination', $pagination);
 		}
 
@@ -91,10 +91,10 @@ class accountViewaccount extends JView
 			}
 
 			$maxcategory = $params->get('maxcategory', 5);
-			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
-			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
-			$total       = $this->get('total');
-			$pagination  = new redPagination($total, $limitstart, $limit);
+			$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
+			$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+			$total = $this->get('total');
+			$pagination = new redPagination($total, $limitstart, $limit);
 			$this->assignRef('pagination', $pagination);
 		}
 

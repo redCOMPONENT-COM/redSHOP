@@ -20,18 +20,18 @@ class wishlistViewwishlist extends JView
 		// Request variables
 
 		$params = $app->getParams('com_redshop');
-		$task   = JRequest::getVar('task', 'com_redshop');
+		$task = JRequest::getVar('task', 'com_redshop');
 
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
-		$pid    = JRequest::getInt('product_id');
+		$pid = JRequest::getInt('product_id');
 		$layout = JRequest::getVar('layout');
 
 		$config = new Redconfiguration;
 
 		$pageheadingtag = '';
 
-		$params   = $app->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
@@ -43,8 +43,8 @@ class wishlistViewwishlist extends JView
 		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 		$model = $this->getModel("wishlist");
 
-		$wishlist          = $model->getUserWishlist();
-		$wish_products     = $model->getWishlistProduct();
+		$wishlist = $model->getUserWishlist();
+		$wish_products = $model->getWishlistProduct();
 		$session_wishlists = $model->getWishlistProductFromSession();
 
 		if ($task == 'viewwishlist')

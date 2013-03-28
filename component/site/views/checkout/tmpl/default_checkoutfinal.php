@@ -65,7 +65,7 @@ if ($preloader)
 
 	if (!$is_creditcard || $is_redirected == 1)
 	{
-		$adminpath        = JPATH_ADMINISTRATOR . '/components/com_redshop';
+		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
@@ -106,21 +106,21 @@ if ($preloader)
 			$cart_quantity += $orderitem[$i]->product_quantity;
 		}
 
-		$values['shippinginfo']   = $shippingaddresses;
-		$values['billinginfo']    = $billingaddresses;
-		$values['carttotal']      = $order->order_total;
+		$values['shippinginfo'] = $shippingaddresses;
+		$values['billinginfo'] = $billingaddresses;
+		$values['carttotal'] = $order->order_total;
 		$values['order_subtotal'] = $order->order_subtotal;
-		$values["order_id"]       = $order_id;
+		$values["order_id"] = $order_id;
 		$values["order_quantity"] = $cart_quantity;
 		$values['payment_plugin'] = $paymentmethod->element;
-		$values['odiscount']      = $order->order_discount;
-		$values['order']          = $order;
+		$values['odiscount'] = $order->order_discount;
+		$values['order'] = $order;
 
 		if ($values['payment_plugin'] == "rs_payment_epayrelay")
 		{
-			$epay_url  = "https://relay.ditonlinebetalingssystem.dk/relay/v2/relay.cgi/";
+			$epay_url = "https://relay.ditonlinebetalingssystem.dk/relay/v2/relay.cgi/";
 			$actionurl = $url . 'index.php?option=com_redshop&view=epayrelay&oid=' . $order_id . '&Itemid=' . $Itemid;
-			$results   = "<form method='post' action='" . $actionurl . "' name='epayrelayfrm' id='epayrelayfrm'>";
+			$results = "<form method='post' action='" . $actionurl . "' name='epayrelayfrm' id='epayrelayfrm'>";
 			$results .= "<input type='hidden' name='order_id' value='" . $values["order_id"] . "'>";
 			$results .= "<table width='100%' border='0'><tr><td align='right' style='padding-right:50px'> <input type='submit' name='paynowbtn' value='Pay Now'></td></tr></table>";
 			$results .= "<input type='hidden' name='payment_plugin' value='" . $values['payment_plugin'] . "'>";
@@ -138,7 +138,7 @@ if ($preloader)
 		{
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher = JDispatcher::getInstance();
-			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
+			$results = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 			$key = array_search(true, $results);
 

@@ -23,28 +23,28 @@ class productViewproduct extends JView
 //   		$app = JFactory::getApplication();
 
 		// Request variables
-		$app     = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$prodhelperobj = new producthelper;
-		$redTemplate   = new Redtemplate;
-		$redhelper     = new redhelper;
-		$texts         = new text_library;
-		$dispatcher    = JDispatcher::getInstance();
+		$redTemplate = new Redtemplate;
+		$redhelper = new redhelper;
+		$texts = new text_library;
+		$dispatcher = JDispatcher::getInstance();
 
-		$option   = JRequest::getVar('option', 'com_redshop');
-		$Itemid   = JRequest::getVar('Itemid');
-		$pid      = JRequest::getInt('pid');
-		$cid      = JRequest::getVar('cid');
-		$layout   = JRequest::getVar('layout');
+		$option = JRequest::getVar('option', 'com_redshop');
+		$Itemid = JRequest::getVar('Itemid');
+		$pid = JRequest::getInt('pid');
+		$cid = JRequest::getVar('cid');
+		$layout = JRequest::getVar('layout');
 		$template = JRequest::getVar('r_template');
 
-		$pageheadingtag        = '';
-		$document              = JFactory::getDocument();
-		$params                = $app->getParams($option);
-		$menu_meta_keywords    = $params->get('menu-meta_keywords');
+		$pageheadingtag = '';
+		$document = JFactory::getDocument();
+		$params = $app->getParams($option);
+		$menu_meta_keywords = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
-		$menu_robots           = $params->get('robots');
+		$menu_robots = $params->get('robots');
 
-		$model   = $this->getModel('product');
+		$model = $this->getModel('product');
 		$session = JFactory::getSession();
 
 		if (!$pid)
@@ -120,7 +120,7 @@ class productViewproduct extends JView
 
 			if ($data->canonical_url != "")
 			{
-				$main_url  = JURI::root() . $data->canonical_url;
+				$main_url = JURI::root() . $data->canonical_url;
 				$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 				$document->addCustomTag($canonical);
 			}
@@ -130,13 +130,13 @@ class productViewproduct extends JView
 
 				if ($product_parent_data->canonical_url != "")
 				{
-					$main_url  = JURI::root() . $product_parent_data->canonical_url;
+					$main_url = JURI::root() . $product_parent_data->canonical_url;
 					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 					$document->addCustomTag($canonical);
 				}
 				else
 				{
-					$main_url  = substr_replace(JURI::root(), "", -1) . JRoute::_('index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $Itemid . '&pid=' . $data->product_parent_id, false);
+					$main_url = substr_replace(JURI::root(), "", -1) . JRoute::_('index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $Itemid . '&pid=' . $data->product_parent_id, false);
 					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 					$document->addCustomTag($canonical);
 				}
@@ -165,13 +165,13 @@ class productViewproduct extends JView
 				$pagetitletag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagetitletag);
 
 				$parentcat = "";
-				$parentid  = $prodhelperobj->getParentCategory($data->category_id);
+				$parentid = $prodhelperobj->getParentCategory($data->category_id);
 
 				while ($parentid != 0)
 				{
 					$parentdetail = $prodhelperobj->getSection("category", $parentid);
-					$parentcat    = $parentdetail->category_name . "  " . $parentcat;
-					$parentid     = $prodhelperobj->getParentCategory($parentdetail->category_id);
+					$parentcat = $parentdetail->category_name . "  " . $parentcat;
+					$parentid = $prodhelperobj->getParentCategory($parentdetail->category_id);
 				}
 
 				$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
@@ -218,9 +218,9 @@ class productViewproduct extends JView
 				}
 			}
 
-			$uri    = JFactory::getURI();
+			$uri = JFactory::getURI();
 			$scheme = $uri->getScheme();
-			$host   = $uri->getHost();
+			$host = $uri->getHost();
 
 			if ($data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_thumb_image))
 			{
@@ -394,8 +394,8 @@ class productViewproduct extends JView
 			 * Trigger event onAfterDisplayProduct
 			 * Show content return by plugin directly into product page after display product title
 			 */
-			$data->event                    = new stdClass;
-			$results                        = $dispatcher->trigger('onAfterDisplayProductTitle', array(& $productTemplate->template_desc, & $params, $data));
+			$data->event = new stdClass;
+			$results = $dispatcher->trigger('onAfterDisplayProductTitle', array(& $productTemplate->template_desc, & $params, $data));
 			$data->event->afterDisplayTitle = trim(implode("\n", $results));
 
 			/**
@@ -403,7 +403,7 @@ class productViewproduct extends JView
 			 *
 			 * Trigger event onBeforeDisplayProduct will display content before product display
 			 */
-			$results                           = $dispatcher->trigger('onBeforeDisplayProduct', array(& $productTemplate->template_desc, & $params, $data));
+			$results = $dispatcher->trigger('onBeforeDisplayProduct', array(& $productTemplate->template_desc, & $params, $data));
 			$data->event->beforeDisplayProduct = trim(implode("\n", $results));
 
 			// For page heading
@@ -439,7 +439,7 @@ class productViewproduct extends JView
 
 			if ($pid && !(in_array($pid, $visited)))
 			{
-				$visit     = $model->updateVisited($pid);
+				$visit = $model->updateVisited($pid);
 				$visited[] = $pid;
 				$session->set('visited', $visited);
 			}

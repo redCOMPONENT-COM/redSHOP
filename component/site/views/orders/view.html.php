@@ -30,15 +30,15 @@ class ordersVieworders extends JView
 		$layout = JRequest::getCmd('layout', 'default');
 		$this->setLayout($layout);
 
-		$params        = $app->getParams($option);
+		$params = $app->getParams($option);
 		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
 		// Request variables
-		$limit      = $app->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
+		$limit = $app->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
-		$detail           = $this->get('data');
+		$detail = $this->get('data');
 		$this->pagination = $this->get('Pagination');
 
 		$this->assignRef('detail', $detail);

@@ -52,12 +52,12 @@ $manufacturerdetail_template = $redTemplate->getTemplate("manufacturer_detail");
 if (count($manufacturerdetail_template) > 0 && $manufacturerdetail_template[0]->template_desc != "")
 {
 	$template_desc = $manufacturerdetail_template[0]->template_desc;
-	$template_id   = $manufacturerdetail_template[0]->template_id;
+	$template_id = $manufacturerdetail_template[0]->template_id;
 }
 else
 {
 	$template_desc = "<div style=\"clear: both;\"></div>\r\n<div class=\"manufacturer_name\">{manufacturer_name}</div>\r\n<div class=\"manufacturer_image\">{manufacturer_image}</div>\r\n<div class=\"manufacturer_description\">{manufacturer_description}</div>\r\n<div class=\"manufacturer_product_link\"><a href=\"{manufacturer_allproductslink}\">{manufacturer_allproductslink_lbl}</a></div>\r\n<div style=\"clear: both;\"></div>";
-	$template_id   = 0;
+	$template_id = 0;
 }
 
 $row = $this->detail[0];
@@ -65,10 +65,10 @@ $category = $model->getmanufacturercategory($row->manufacturer_id, $row);
 
 if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{category_loop_end}'))
 {
-	$template_sdata  = explode('{category_loop_start}', $template_desc);
-	$template_start  = $template_sdata[0];
-	$template_edata  = explode('{category_loop_end}', $template_sdata[1]);
-	$template_end    = $template_edata[1];
+	$template_sdata = explode('{category_loop_start}', $template_desc);
+	$template_start = $template_sdata[0];
+	$template_edata = explode('{category_loop_end}', $template_sdata[1]);
+	$template_end = $template_edata[1];
 	$template_middle = $template_edata[0];
 
 	if ($template_middle != "")
@@ -76,8 +76,8 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 		for ($i = 0; $i < count($category); $i++)
 		{
 			$cart_mdata .= $template_middle;
-			$catlink    = JRoute::_('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $category[$i]->category_id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
-			$alink      = "<a href='" . $catlink . "'>" . $category[$i]->category_name . "</a>";
+			$catlink = JRoute::_('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $category[$i]->category_id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$alink = "<a href='" . $catlink . "'>" . $category[$i]->category_name . "</a>";
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->category_description, $cart_mdata);
 			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
@@ -89,9 +89,9 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 
 if (strstr($template_desc, "{manufacturer_image}"))
 {
-	$mh_thumb    = MANUFACTURER_THUMB_HEIGHT;
-	$mw_thumb    = MANUFACTURER_THUMB_WIDTH;
-	$thum_image  = "";
+	$mh_thumb = MANUFACTURER_THUMB_HEIGHT;
+	$mw_thumb = MANUFACTURER_THUMB_WIDTH;
+	$thum_image = "";
 	$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
 
 	for ($m = 0; $m < count($media_image); $m++)
@@ -108,7 +108,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			if (WATERMARK_MANUFACTURER_IMAGE)
 			{
 				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_IMAGE);
-				$maintype         = "watermarked/main";
+				$maintype = "watermarked/main";
 			}
 			else
 			{
@@ -118,7 +118,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			if (WATERMARK_MANUFACTURER_THUMB_IMAGE)
 			{
 				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_THUMB_IMAGE);
-				$thumbtype        = "watermarked/main";
+				$thumbtype = "watermarked/main";
 			}
 			else
 			{
@@ -143,7 +143,7 @@ $template_desc = str_replace("{manufacturer_name}", $row->manufacturer_name, $te
 if (strstr($template_desc, "{manufacturer_url}"))
 {
 	$manufacturer_url = "<a href='" . $row->manufacturer_url . "'>" . $row->manufacturer_url . "</a>";
-	$template_desc    = str_replace("{manufacturer_url}", $manufacturer_url, $template_desc);
+	$template_desc = str_replace("{manufacturer_url}", $manufacturer_url, $template_desc);
 }
 
 // Extra field display
@@ -154,7 +154,7 @@ $template_desc = str_replace("{manufacturer_description}", $row->manufacturer_de
 if (strstr($template_desc, "{manufacturer_extra_fields}"))
 {
 	$manufacturer_extra_fields = $extra_field->list_all_field_display(10, $row->manufacturer_id);
-	$template_desc             = str_replace("{manufacturer_extra_fields}", $manufacturer_extra_fields, $template_desc);
+	$template_desc = str_replace("{manufacturer_extra_fields}", $manufacturer_extra_fields, $template_desc);
 }
 
 $template_desc = str_replace("{manufacturer_link}", $manlink, $template_desc);
