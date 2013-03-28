@@ -518,7 +518,7 @@ class plgredshop_shippingbring extends JPlugin
 	 * Show all configuration parameters for this Shipping method
 	 * @returns boolean False when the Shipping method has no configration
 	 */
-	function show_configuration()
+	public function show_configuration()
 	{
 		?>
 

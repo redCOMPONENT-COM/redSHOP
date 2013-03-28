@@ -25,7 +25,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
+	public function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -37,7 +37,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onChangeStatusToShipped($order_id, $order_status, $paymentstatus)
+	public function onChangeStatusToShipped($order_id, $order_status, $paymentstatus)
 	{
 		if ($order_status == "S" && $paymentstatus == "Paid")
 		{
