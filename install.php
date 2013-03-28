@@ -291,6 +291,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the ordering column
 			if (!array_key_exists('ordering', $cols))
 			{
@@ -629,6 +630,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the xmlexport_orderitemtag column
 			if (array_key_exists('xmlexport_orderitemtag', $cols) && !array_key_exists('xmlimport_orderitemtag', $cols))
 			{
@@ -1204,6 +1206,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the discount_price column
 			if (array_key_exists('discount_price', $cols))
 			{
@@ -1211,6 +1214,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the product_price column
 			if (array_key_exists('product_price', $cols))
 			{
@@ -1218,6 +1222,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the price_quantity_end column
 			if (array_key_exists('price_quantity_end', $cols))
 			{
@@ -1225,6 +1230,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Change if we have the discount_start_date column
 			if (!array_key_exists('discount_start_date', $cols))
 			{
@@ -1232,6 +1238,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the discount_end_date column
 			if (!array_key_exists('discount_end_date', $cols))
 			{
@@ -1670,6 +1677,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the `product_diameter` column
 			if (!array_key_exists('product_diameter', $cols))
 			{
@@ -1677,6 +1685,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the `use_range` column
 			if (!array_key_exists('use_range', $cols))
 			{
@@ -1732,6 +1741,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the `product_preview_back_image` column
 			if (!array_key_exists('product_preview_back_image', $cols))
 			{
@@ -2213,6 +2223,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+
 			// Check if we have the `is_logged_in` column
 			if (array_key_exists('is_logged_in', $cols))
 			{
@@ -2960,6 +2971,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 		}
+
 		// Get the current columns for redshop product_category_xref
 		$q = "SHOW COLUMNS FROM #__redshop_product_category_xref";
 		$db->setQuery($q);
@@ -3169,6 +3181,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 		}
+
 		// Add ordering field
 
 		// Wishlist start
@@ -3186,6 +3199,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 		}
+
 		// End
 
 		// Mail start
@@ -3203,6 +3217,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 		}
+
 		// End
 		// wishlist start
 		$q = "SHOW COLUMNS FROM #__redshop_country";
@@ -3854,6 +3869,7 @@ class Com_RedshopInstallerScript
 
 			}
 		}
+
 		// TEMPLATE MOVE DB TO  FILE END
 
 		// For Blank component id in menu table-admin menu error solution
