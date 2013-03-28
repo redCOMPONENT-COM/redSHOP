@@ -27,12 +27,11 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_firstdata(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_firstdata');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**

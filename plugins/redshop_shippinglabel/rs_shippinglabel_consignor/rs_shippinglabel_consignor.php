@@ -27,7 +27,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	 */
 	function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_shippinglabel', 'redshop_shippinglabel_consignor');
