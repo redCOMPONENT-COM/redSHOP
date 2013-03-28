@@ -780,7 +780,7 @@ class ProductController extends JController
 	 */
 	public function ajaxupload()
 	{
-		$uploaddir = JPATH_COMPONENT_SITE . '/assets/document/product' . DS;
+		$uploaddir = JPATH_COMPONENT_SITE . '/assets/document/product/';
 		$name = JRequest::getVar('mname');
 		$filename = time() . '_' . basename($_FILES[$name]['name']);
 		$uploadfile = $uploaddir . $filename;

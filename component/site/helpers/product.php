@@ -5118,7 +5118,7 @@ class producthelper
 		$attribute_table = "";
 		$subproperty     = array();
 		$document        = JFactory::getDocument();
-		//$document->addScript("components".DS."com_redshop".DS."assets".DS."js".DS."thumbscroller.js");
+
 		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
 		$chkvatArr = $this->_session->get('chkvat');
 		$chktag    = $chkvatArr['chkvat'];
@@ -8486,7 +8486,7 @@ class producthelper
 				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $product_id . '">'
 					. $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
 				$stockamountImage .= '<img src="' . JURI::base()
-					. 'components/com_redshop/helpers/thumb.php?filename=stockroom' . DS
+					. 'components/com_redshop/helpers/thumb.php?filename=stockroom/'
 					. $stockamountList[0]->stock_amount_image . '&newxsize=' . DEFAULT_STOCKAMOUNT_THUMB_WIDTH
 					. '&newysize=' . DEFAULT_STOCKAMOUNT_THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING . '" alt="'
 					. $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $product_id . '" /></a>';
@@ -9327,7 +9327,7 @@ class producthelper
 			if (count($stockamountList) > 0)
 			{
 				$stockamountTooltip = $stockamountList[0]->stock_amount_image_tooltip;
-				$stockamountSrc     = REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom' . DS
+				$stockamountSrc     = REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/'
 					. $stockamountList[0]->stock_amount_image;
 			}
 		}
