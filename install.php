@@ -145,7 +145,6 @@ class Com_RedshopInstallerScript
 	 */
 	private function handleCSSFile()
 	{
-
 		$categoryTemplate = JPATH_SITE . '/components/com_redshop/views/category/tmpl/category/category_template_column.php';
 
 		if (file_exists($categoryTemplate))
@@ -176,7 +175,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			// Check if we have the user_email column
 			if (!array_key_exists('user_email', $cols))
 			{
@@ -986,7 +984,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the coupon_left column */
 			if (!array_key_exists('coupon_left', $cols))
 			{
@@ -1027,7 +1024,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the ordering column */
 			if (!array_key_exists('ordering', $cols))
 			{
@@ -1076,7 +1072,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the attribute_published column */
 			if (!array_key_exists('attribute_published', $cols))
 			{
@@ -1141,7 +1136,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the ordering column */
 			if (!array_key_exists('ordering', $cols))
 			{
@@ -1207,7 +1201,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the discount_price column */
 			if (!array_key_exists('discount_price', $cols))
 			{
@@ -1259,7 +1252,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the attribute_required column */
 			if (array_key_exists('media_mimetype', $cols))
 			{
@@ -1332,7 +1324,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the voucher_left column */
 			if (!array_key_exists('voucher_left', $cols))
 			{
@@ -1358,7 +1349,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the voucher_code column */
 			if (array_key_exists('voucher_code', $cols))
 			{
@@ -1384,7 +1374,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the price_quantity_start column */
 			if (!array_key_exists('price_quantity_start', $cols))
 			{
@@ -1448,7 +1437,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the checked_out column */
 			if (!array_key_exists('checked_out', $cols))
 			{
@@ -1482,7 +1470,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the quantity_selectbox_value column */
 			if (!array_key_exists('quantity_selectbox_value', $cols))
 			{
@@ -1800,7 +1787,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the area_start column */
 			if (array_key_exists('area_start', $cols))
 			{
@@ -1861,7 +1847,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the shipping_rate_weight_start column */
 			if (!array_key_exists('shipping_rate_weight_start', $cols))
 			{
@@ -2062,7 +2047,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the shopper_group_customer_type column */
 			if (!array_key_exists('shopper_group_customer_type', $cols))
 			{
@@ -2261,7 +2245,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the start_date column */
 			if (!array_key_exists('start_date', $cols))
 			{
@@ -2294,7 +2277,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the checkout column */
 			if (!array_key_exists('checkout', $cols))
 			{
@@ -2311,7 +2293,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the category_id column */
 			if (!array_key_exists('category_id', $cols))
 			{
@@ -2328,7 +2309,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the required column */
 			if (!array_key_exists('required', $cols))
 			{
@@ -2370,7 +2350,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the mail1_status column */
 			if (!array_key_exists('mail1_status', $cols))
 			{
@@ -2579,7 +2558,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the order_acc_price column */
 			if (!array_key_exists('order_acc_price', $cols))
 			{
@@ -2604,7 +2582,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the order_acc_price column */
 			if (!array_key_exists('stockroom_id', $cols))
 			{
@@ -2629,7 +2606,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the stockroom_id column */
 			if (!array_key_exists('stockroom_id', $cols))
 			{
@@ -2759,7 +2735,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the delivery_time column */
 			if (!array_key_exists('delivery_time', $cols))
 			{
@@ -2798,7 +2773,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the delivery_time column */
 			if (!array_key_exists('preorder_stock', $cols))
 			{
@@ -2823,7 +2797,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the delivery_time column */
 			if (!array_key_exists('preorder_stock', $cols))
 			{
@@ -2846,7 +2819,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the phone column */
 			if (!array_key_exists('phone', $cols))
 			{
@@ -2967,7 +2939,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the wrapper_use_to_all column */
 			if (!array_key_exists('wrapper_use_to_all', $cols))
 			{
@@ -3008,7 +2979,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the voucher_left column */
 			if (!array_key_exists('ordering', $cols))
 			{
@@ -3147,7 +3117,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the order_payment_cardname */
 			if (!array_key_exists('order_payment_cardname', $cols))
 			{
@@ -3196,7 +3165,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the discount_amount column */
 			if (array_key_exists('discount_amount', $cols))
 			{
@@ -3223,7 +3191,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the discount_amount column */
 			if (array_key_exists('product_id', $cols))
 			{
@@ -3257,7 +3224,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the discount_amount column */
 			if (!array_key_exists('country_jtext', $cols))
 			{
@@ -3312,7 +3278,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the discount_product column */
 			if (!array_key_exists('discount_product', $cols))
 			{
@@ -3338,7 +3303,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the product_serial_number column */
 			if (!array_key_exists('product_serial_number', $cols))
 			{
@@ -3354,7 +3318,6 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-
 			/* Check if we have the order_status column */
 			if (!array_key_exists('order_status', $cols))
 			{
@@ -3929,7 +3892,6 @@ class Com_RedshopInstallerScript
 
 		foreach ($index_to as $key => $val)
 		{
-
 			$db->setQuery('SHOW INDEXES FROM ' . $key . ' where Column_name="' . $val . '"');
 			$redshop_users_info             = $db->query();
 			$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
@@ -3985,7 +3947,6 @@ class Com_RedshopInstallerScript
 							//window.onload = gotoconfigwizard();
 
 							function gotoconfigwizard() {
-
 								if (ind == 5) {
 									submitWizard('save');
 								} else {
@@ -3997,7 +3958,6 @@ class Com_RedshopInstallerScript
 							}
 
 							function submitWizard(task) {
-
 								if (task == 'save') {
 									document.installDemoContent.wizard.value = 1;
 								}
