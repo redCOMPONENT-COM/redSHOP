@@ -245,7 +245,6 @@ class EwayPayment
 			if ($debug_mode == 1)
 			{
 				$message = $xml->ewayTrxnError;
-
 			}
 			else
 			{
@@ -264,7 +263,6 @@ class EwayPayment
 			if ($debug_mode == 1)
 			{
 				$message = isset($xml->ewayTrxnError) ? $xml->ewayTrxnError : $xml->Result->ewayTrxnError;
-
 			}
 			else
 			{
@@ -327,7 +325,6 @@ class EwayPayment
 	function setCurlPreferences($field, $value)
 	{
 		$this->myCurlPreferences[$field] = $value;
-
 	}
 
 	//obtain visitor IP even if is under a proxy

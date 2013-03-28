@@ -349,7 +349,6 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		{
 			$values->responsestatus = 'Success';
 			$message = JText::_('ORDER_CAPTURED');
-
 		}
 
 		$values->message = $message;

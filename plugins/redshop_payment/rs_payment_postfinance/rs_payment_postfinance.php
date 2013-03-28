@@ -96,7 +96,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->transaction_id = $transaction_id;
 				$values->order_id = $order_id;
-
 			}
 			else
 			{
@@ -106,7 +105,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 				$values->order_id = $order_id;
-
 			}
 		}
 		else
@@ -117,7 +115,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 			$values->order_id = $order_id;
-
 		}
 
 		return $values;

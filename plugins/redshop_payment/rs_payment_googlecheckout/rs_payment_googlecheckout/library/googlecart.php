@@ -967,7 +967,6 @@ class GoogleCart
 				"" . $this->merchant_id . "&w=" . $width . "&h=" . $height . "&style=" . $style .
 				"&variant=" . $this->variant . "&loc=" . $loc . "\" height=\"" . $height . "\"" .
 				" width=\"" . $width . "\" /></div>";
-
 		}
 
 		$data .= "</div>";
@@ -1174,7 +1173,6 @@ class GoogleCart
 		$data .= "</div>";
 
 		return $data;
-
 	}
 
 	function xml2html($data, $path = '', &$rta)

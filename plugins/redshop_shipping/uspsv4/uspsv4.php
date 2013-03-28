@@ -611,7 +611,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					$xmlPost .= "<Girth>" . ceil($girth) . "</Girth>";
 					$xmlPost .= "<CommercialFlag>N</CommercialFlag>";
 					$xmlPost .= '</Package></IntlRateV2Request>';
-
 				}
 
 				$html = "";

@@ -217,7 +217,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 						}
 
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
-
 					}
 
 					// Creation information

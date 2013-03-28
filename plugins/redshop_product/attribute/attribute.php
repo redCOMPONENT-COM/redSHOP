@@ -158,7 +158,6 @@ function onPrepareProduct(&$template, &$params, $product)
 		$property_subattribute = $this->getattribute_property($attributes[$i]->attribute_id);
 		$proper_val = count($property_subattribute);
 		$total += $proper_val;
-
 	}
 
 	if ($total_attributes > 0 && strstr($template, "{start_if_attribute}") && strstr($template, "{end_if_attribute}"))

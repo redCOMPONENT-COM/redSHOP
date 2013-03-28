@@ -85,7 +85,6 @@ class plgredshop_productcustomprice extends JPlugin
 
 		// set product custom price
 		$cart['product_custom_price'][$cart[$i]['product_id']] = $data['product_custom_price'];
-
 	}
 
 	/**

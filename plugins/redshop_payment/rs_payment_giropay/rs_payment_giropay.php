@@ -107,7 +107,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = $message;
 			$values->msg = $message;
-
 		}
 		else
 		{
@@ -115,7 +114,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = $message;
 			$values->msg = $message;
-
 		}
 
 		$values->transaction_id = $transactionId;

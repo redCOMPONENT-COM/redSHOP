@@ -196,12 +196,10 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$transaction = $transactionsObject->create($params);
 
 			$session->set('paymillresult', $transaction);
-
 		}
 
 		$redirect_url = JRoute::_("index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paymill&Itemid=" . $Itemid . "&orderid=" . $data['order_id']);
 		$mainframe->Redirect($redirect_url);
-
 	}
 
 	function onNotifyPaymentrs_payment_paymill($element, $request)
@@ -240,7 +238,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$values->msg = $error_message;
-
 		}
 		else
 		{
@@ -248,14 +245,12 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
-
 		}
 
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 
 		return $values;
-
 	}
 
 	function onCapture_Paymentrs_payment_paymill($element, $data)

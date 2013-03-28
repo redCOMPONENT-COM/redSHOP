@@ -155,7 +155,6 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 
 			$values->responsestatus = 'Success';
 			$values->transaction_id = $response['TxRefNum'];
-
 		}
 		else
 		{
@@ -171,13 +170,11 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 			$tid = 0;
 			$values->transaction_id = 0;
 			$values->responsestatus = 'Fail';
-
 		}
 
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function getparameters($payment)
@@ -248,18 +245,15 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		{
 			$message = $response->StatusMsg;
 			$values->responsestatus = 'Success';
-
 		}
 		else
 		{
 			$message = $response->StatusMsg;
 			$values->responsestatus = 'Fail';
-
 		}
 
 		$values->message = $message;
 
 		return $values;
-
 	}
 }

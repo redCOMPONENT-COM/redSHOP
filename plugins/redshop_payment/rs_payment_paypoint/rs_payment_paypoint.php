@@ -155,7 +155,6 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 			$key1 = explode("=", $key);
 
 			$newk[$key1[0]] .= $key1[1];
-
 		}
 
 		if ($newk['valid'] == 'true')
@@ -169,7 +168,6 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 				else
 					$payment_messsge = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->responsestatus = 'Success';
-
 			}
 			else
 			{
@@ -190,14 +188,12 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 				$payment_messsge = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 			$tid = 0;
 			$values->responsestatus = 'Fail';
-
 		}
 
 		$values->transaction_id = $tid;
 		$values->message = $payment_messsge;
 
 		return $values;
-
 	}
 
 }

@@ -35,7 +35,6 @@ class plgButtonproduct extends JPlugin
 			var tag = '{redshop:'+id+'}';
 			window.parent.jInsertEditorText(tag, object);
 			window.parent.SqueezeBox.close();
-
 		}";
 		$doc->addScriptDeclaration($js);
 

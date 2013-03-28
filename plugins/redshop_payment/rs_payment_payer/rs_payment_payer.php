@@ -88,7 +88,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-
 			}
 		}
 		else
@@ -97,7 +96,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-
 		}
 
 		$values->order_id = $order_id;

@@ -66,7 +66,6 @@ class plgredshop_productstock_notifyemail extends JPlugin
 					else
 					{
 						return;
-
 					}
 
 					$message = str_replace("{stocknotify_intro_text}", JText::_('COM_REDSHOP_STOCK_NOTIFY_INTRO_TEXT'), $message);
@@ -139,13 +138,11 @@ class plgredshop_productstock_notifyemail extends JPlugin
 			if (count($property_data) > 0)
 			{
 				$productDetail .= "<br/>" . $property_data['property_name'];
-
 			}
 
 			if (count($subproperty_data) > 0)
 			{
 				$productDetail .= "<br/>" . $subproperty_data['subproperty_name'];
-
 			}
 
 			$productData['product_name'] = $product_data->product_name;

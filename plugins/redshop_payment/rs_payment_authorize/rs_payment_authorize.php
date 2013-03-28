@@ -229,7 +229,6 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
 
 			curl_setopt($CR, CURLOPT_POST, 1);
-
 		}
 
 		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
@@ -237,7 +236,6 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		if ($urlParts['scheme'] == 'https')
 		{
 			curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
-
 		}
 
 		$result = curl_exec($CR);

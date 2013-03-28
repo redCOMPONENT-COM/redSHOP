@@ -106,7 +106,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		}
 
 		echo AuthorizeNetDPM::getRelayResponseSnippet($redirect_url);
-
 	}
 
 	public function onNotifyPaymentrs_payment_authorize_dpm($element, $request)
@@ -149,7 +148,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
-
 		}
 		else
 		{
@@ -163,7 +161,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		$values->order_id = $order_id;
 
 		return $values;
-
 	}
 
 	public function getparameters($payment)

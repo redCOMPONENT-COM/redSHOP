@@ -220,7 +220,6 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 						}
 
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
-
 					}
 
 					// Creation information
@@ -356,7 +355,6 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		}
 
 		return $data_refund;
-
 	}
 
 	public function onCancel_Paymentrs_payment_epay($element, $data)
@@ -390,7 +388,6 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function onRefund_Paymentrs_payment_epay($element, $data)

@@ -50,7 +50,6 @@ class plgRedshop_paymentrs_payment_localcreditcard extends JPlugin
 		}
 
 		return;
-
 	}
 
 	public function onCapture_Paymentrs_payment_localcreditcard($element, $data)

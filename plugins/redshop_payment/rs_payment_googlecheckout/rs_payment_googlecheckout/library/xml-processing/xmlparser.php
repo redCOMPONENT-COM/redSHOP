@@ -152,7 +152,6 @@ class xmlParser
 
 				$cv['_p'] =& $ary;
 				$ary =& $cv;
-
 			}
 			else if ($r['type'] == 'complete')
 			{
@@ -183,7 +182,6 @@ class xmlParser
 				}
 
 				$cv['VALUE'] = (isset($r['value']) ? $r['value'] : '');
-
 			}
 			elseif ($r['type'] == 'close')
 			{

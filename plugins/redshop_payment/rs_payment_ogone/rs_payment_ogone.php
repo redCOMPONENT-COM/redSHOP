@@ -127,7 +127,6 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 				$values->msg = JTEXT::_('ORDER_PLACED');
 
 				$values->order_id = $order_id;
-
 			}
 			else
 			{
@@ -137,7 +136,6 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 				$values->msg = JTEXT::_('ORDER_NOT_PLACED');
 				$msg = JText::_('PHPSHOP_PAYMENT_ERROR');
 				$values->order_id = $order_id;
-
 			}
 		}
 		else
@@ -149,7 +147,6 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 			$values->msg = JTEXT::_('ORDER_NOT_PLACED');
 			$msg = JText::_('PHPSHOP_PAYMENT_ERROR');
 			$values->order_id = $order_id;
-
 		}
 
 		return $values;

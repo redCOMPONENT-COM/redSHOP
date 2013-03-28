@@ -198,7 +198,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function sendTransactionToGateway($url, $parameters, $headers = null)
@@ -338,7 +337,6 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function onStatus_Paymentrs_payment_payflowpro($element, $data)

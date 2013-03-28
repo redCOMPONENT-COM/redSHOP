@@ -125,7 +125,6 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 				echo "<input type='hidden' name='veis_status' value='Invalid' id='veis_status'>";
 				echo "</td>";
 				echo "</tr>";
-
 			}
 		}
 
