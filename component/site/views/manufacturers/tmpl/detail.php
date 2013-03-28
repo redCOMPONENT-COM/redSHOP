@@ -60,7 +60,7 @@ else
 	$template_id   = 0;
 }
 
-$row = & $this->detail[0];
+$row = $this->detail[0];
 $category = $model->getmanufacturercategory($row->manufacturer_id, $row);
 
 if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{category_loop_end}'))

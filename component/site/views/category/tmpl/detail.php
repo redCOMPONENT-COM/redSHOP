@@ -286,7 +286,7 @@ if (!$slide)
 
 		for ($i = 0; $i < count($this->detail); $i++)
 		{
-			$row = & $this->detail[$i];
+			$row = $this->detail[$i];
 
 			$data_add = $subcat_template;
 
@@ -465,7 +465,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	for ($i = $start; $i < ($start + $final_endlimit); $i++)
 	{
-		$product = & $this->product[$i];
+		$product = $this->product[$i];
 
 		if (!is_object($product))
 		{

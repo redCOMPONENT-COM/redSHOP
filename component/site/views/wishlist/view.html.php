@@ -41,7 +41,7 @@ class wishlistViewwishlist extends JView
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-		$model =& $this->getModel("wishlist");
+		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();
 		$wish_products     = $model->getWishlistProduct();

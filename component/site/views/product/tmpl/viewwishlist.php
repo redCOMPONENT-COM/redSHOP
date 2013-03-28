@@ -28,7 +28,7 @@ $user       = JFactory::getUser();
 
 if (!$user->id)
 {
-	$rows = & $this->wish_products;
+	$rows = $this->wish_products;
 	echo "<div class='mod_redshop_wishlist'>";
 
 	if (count($rows) > 0)
@@ -64,7 +64,7 @@ else // If user logged in than display this code.
 
 	if (count($wishlists) > 0)
 	{
-		$wish_products = & $this->wish_products;
+		$wish_products = $this->wish_products;
 
 		// Send mail link
 		for ($j = 0; $j < count($wishlists); $j++)

@@ -417,7 +417,7 @@ class rsUserhelper
 			$user = clone(JFactory::getUser());
 
 			// If user registration is not allowed, show 403 not authorized.
-			$usersConfig = & JComponentHelper::getParams('com_users');
+			$usersConfig = JComponentHelper::getParams('com_users');
 
 			$usersConfig->set('allowUserRegistration', 1);
 
@@ -502,7 +502,7 @@ class rsUserhelper
 		$data['name']         = $name = $data['firstname'];
 		$data['address_type'] = 'BT';
 
-		$row = & JTable::getInstance('user_detail', 'Table');
+		$row = JTable::getInstance('user_detail', 'Table');
 
 		if (isset($data['users_info_id']) && $data['users_info_id'] != 0)
 		{
@@ -635,7 +635,7 @@ class rsUserhelper
 
 					if ($row->user_id)
 					{
-						$user =& JUser::getInstance((int) $row->user_id);
+						$user = JUser::getInstance((int) $row->user_id);
 
 						// Delete user
 						$user->delete();
@@ -743,7 +743,7 @@ class rsUserhelper
 	{
 		$extra_field = new extra_field;
 
-		$rowShip = & JTable::getInstance('user_detail', 'Table');
+		$rowShip = JTable::getInstance('user_detail', 'Table');
 
 		if (!$rowShip->bind($data))
 		{
