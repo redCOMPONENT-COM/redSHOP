@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class CategoryController extends JControllerLegacy
+class CategoryController extends JController
 {
 	/**
 	 *  Method to Export XML file
