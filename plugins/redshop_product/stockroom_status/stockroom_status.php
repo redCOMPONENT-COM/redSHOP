@@ -22,7 +22,7 @@ class plgredshop_productstockroom_status extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productstockroom_status(&$subject)
+	public function plgredshop_productstockroom_status(&$subject)
 	{
 		parent::__construct($subject);
 
@@ -41,7 +41,7 @@ class plgredshop_productstockroom_status extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-	function getStockroomStatus($order_id)
+	public function getStockroomStatus($order_id)
 	{
 		$db = JFactory::getDBO();
 		//$order_id= $order->order_id;

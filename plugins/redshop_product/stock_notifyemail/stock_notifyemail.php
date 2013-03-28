@@ -22,7 +22,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productstock_notifyemail(&$subject)
+	public function plgredshop_productstock_notifyemail(&$subject)
 	{
 		parent::__construct($subject);
 
@@ -41,7 +41,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-	function afterUpdateStock($stockroom_data)
+	public function afterUpdateStock($stockroom_data)
 	{
 		$redshopMail = new redshopMail;
 

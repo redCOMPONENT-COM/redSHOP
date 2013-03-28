@@ -21,7 +21,7 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_veis_registrationrs_veis_registration(&$subject)
+	public function plgRedshop_veis_registrationrs_veis_registration(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -33,7 +33,7 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function checkVeisValidation($element, $data)
+	public function checkVeisValidation($element, $data)
 	{
 		$db = JFactory::getDBO();
 		$query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $element['country_code'] . '"';
