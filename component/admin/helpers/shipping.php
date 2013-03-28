@@ -1623,6 +1623,7 @@ class shipping
 	public function getShippingRateError(&$d)
 	{
 		$bool = $this->isCartDimentionMatch($d);
+
 		if ($bool)
 		{
 			$bool = $this->isUserInfoMatch($d);
@@ -1665,6 +1666,7 @@ class shipping
 		$volumeShipping = $this->getProductVolumeShipping();
 
 		$whereShippingVolume = "";
+
 		if (count($volumeShipping) > 0)
 		{
 			$whereShippingVolume .= " AND ( ";
@@ -1972,6 +1974,7 @@ class shipping
 				$text = JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
 			}
 		}
+
 		return $text;
 	}
 }
