@@ -10,7 +10,7 @@ class EwayPayment
 	/***********************************************************************
 	 *** SET values to send to eWAY                                      ***
 	 ***********************************************************************/
-	function setCustomerID($customerID)
+	public function setCustomerID($customerID)
 	{
 		$this->myCustomerID = $customerID;
 	}
@@ -103,7 +103,7 @@ class EwayPayment
 	/***********************************************************************
 	 *** GET values returned by eWAY                                     ***
 	 ***********************************************************************/
-	function getTrxnStatus()
+	public function getTrxnStatus()
 	{
 		return $this->myResultTrxnStatus;
 	}

@@ -1146,7 +1146,7 @@ class nusoap_base
  *
  * @access   public
  */
-function timestamp_to_iso8601($timestamp, $utc = true)
+ public function timestamp_to_iso8601($timestamp, $utc = true)
 {
 	$datestr = date('Y-m-d\TH:i:sO', $timestamp);
 
@@ -1183,7 +1183,7 @@ function timestamp_to_iso8601($timestamp, $utc = true)
  *
  * @access   public
  */
-function iso8601_to_timestamp($datestr)
+ public function iso8601_to_timestamp($datestr)
 {
 	$pattern = '/' .
 		'([0-9]{4})-' . // Centuries & years CCYY-
@@ -1234,7 +1234,7 @@ function iso8601_to_timestamp($datestr)
  * @access   public
  * @deprecated
  */
-function usleepWindows($usec)
+ public function usleepWindows($usec)
 {
 	$start = gettimeofday();
 
