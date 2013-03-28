@@ -1396,7 +1396,7 @@ class rsCarthelper
 				$userfield_section = 12;
 			}
 
-			$dirname = JPATH_COMPONENT_SITE . DS . "assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image;
+			$dirname = JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image;
 
 			if (is_file($dirname))
 			{
@@ -1405,7 +1405,7 @@ class rsCarthelper
 			}
 			else
 			{
-				if (is_file(JPATH_COMPONENT_SITE . DS . "assets/images/product_attributes/" . $rowitem [$i]->attribute_image))
+				if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image))
 				{
 					$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product_attributes/" . $rowitem [$i]->attribute_image . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 					$attrib_img           = "<img src='" . $attribute_image_path . "'>";
@@ -2834,7 +2834,7 @@ class rsCarthelper
 		{
 			$reddesignitem = $this->getReddesignOrderItem($rowitem [$i]->order_item_id);
 			$product       = $this->_producthelper->getProductById($rowitem[$i]->product_id);
-			$imgPath       = JURI::base() . DS . "components" . DS . "com_reddesign" . DS . "assets" . DS . "order" . DS . "design" . DS . $reddesignitem->reddesignfile . ".jpeg";
+			$imgPath       = JURI::base() . "/components/com_reddesign/assets/order/design/" . $reddesignitem->reddesignfile . ".jpeg";
 			$imgreplate    = "<img src='" . $imgPath . "'>";
 			$bgimg         = "<span>" . $this->_redhelper->getImagePath($reddesignitem->image_id) . "</span>";
 
@@ -2865,7 +2865,7 @@ class rsCarthelper
 				$area_property .= urldecode($allarea [3]);
 			}
 
-			$reddesign_attachment [$i] = JPATH_SITE . '/components/com_reddesign/assets/order/pdf' . DS . $reddesignitem->reddesignfile . ".pdf";
+			$reddesign_attachment [$i] = JPATH_SITE . '/components/com_reddesign/assets/order/pdf/' . $reddesignitem->reddesignfile . ".pdf";
 			$cart .= str_replace("{design_area_property}", $area_property, $datamessage);
 		}
 
@@ -3443,7 +3443,7 @@ class rsCarthelper
 
 		$cardinfo = "";
 
-		if (file_exists(JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentmethod->element . DS . $paymentmethod->element . '.php'))
+		if (file_exists(JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.php'))
 		{
 			$paymentparams = new JRegistry($paymentmethod->params);
 			$is_creditcard = $paymentparams->get('is_creditcard', 0);

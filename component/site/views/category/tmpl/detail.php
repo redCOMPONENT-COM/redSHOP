@@ -91,7 +91,6 @@ if (strstr($template_desc, "{redproductfinderfilter:"))
 		}
 
 		$template_desc = $redproductfinder_helper->replaceProductfinder_tag($template_desc, $hdnFields, $hide_filter_flag);
-
 	}
 }
 

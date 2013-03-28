@@ -1008,7 +1008,7 @@ if (strstr($template_desc, "{more_documents}"))
 			$alttext = $media_documents[$m]->media_name;
 		}
 
-		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product" . DS . $media_documents[$m]->media_name))
+		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
 			$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 			$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";

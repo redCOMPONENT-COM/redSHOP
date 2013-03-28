@@ -127,7 +127,7 @@ class split_paymentModelsplit_payment extends JModel
 			}
 
 
-			$paymentpath = $adminpath . '/helpers/payments' . DS . $paymentmethod->plugin . DS . $paymentmethod->plugin . '.php';
+			$paymentpath = $adminpath . '/helpers/payments/' . $paymentmethod->plugin . '/' . $paymentmethod->plugin . '.php';
 			include_once $paymentpath;
 
 			$payment_class = new $paymentmethod->payment_class;
