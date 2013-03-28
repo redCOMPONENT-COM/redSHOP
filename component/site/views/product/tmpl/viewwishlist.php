@@ -16,15 +16,15 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
-$config        = new Redconfiguration;
+$config = new Redconfiguration;
 $producthelper = new producthelper;
-$redhelper     = new redhelper;
+$redhelper = new redhelper;
 
-$url        = JURI::base();
-$option     = JRequest::getVar('option');
-$wishlists  = $this->wishlists;
+$url = JURI::base();
+$option = JRequest::getVar('option');
+$wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
-$user       = JFactory::getUser();
+$user = JFactory::getUser();
 
 if (!$user->id)
 {
@@ -69,7 +69,7 @@ else // If user logged in than display this code.
 		// Send mail link
 		for ($j = 0; $j < count($wishlists); $j++)
 		{
-			$rows  = $wish_products[$wishlists[$j]->wishlist_id];
+			$rows = $wish_products[$wishlists[$j]->wishlist_id];
 			$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlists[$j]->wishlist_id;
 			echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" >' . $wishlists[$j]->wishlist_name . '</a></div>';
 
@@ -87,21 +87,21 @@ else // If user logged in than display this code.
 
 function display_products($rows)
 {
-	$url        = JURI::base();
-	$option     = JRequest::getVar('option');
+	$url = JURI::base();
+	$option = JRequest::getVar('option');
 	$extra_data = new producthelper;
 
 	$producthelper = new producthelper;
-	$redhelper     = new redhelper;
+	$redhelper = new redhelper;
 
 	for ($i = 0; $i < count($rows); $i++)
 	{
-		$row           = $rows[$i];
-		$Itemid        = $redhelper->getItemid($row->product_id);
-		$link          = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+		$row = $rows[$i];
+		$Itemid = $redhelper->getItemid($row->product_id);
+		$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 		$product_price = $producthelper->getProductPrice($row->product_id);
 
-		$productArr             = $producthelper->getProductNetPrice($row->product_id);
+		$productArr = $producthelper->getProductNetPrice($row->product_id);
 		$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
 		if ($row->product_full_image)

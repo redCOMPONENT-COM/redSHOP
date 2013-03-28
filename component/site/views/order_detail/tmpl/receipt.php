@@ -37,7 +37,7 @@ $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEI
 <?php
 if ($this->params->get('show_page_title', 1))
 {
-?>
+	?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
 	</div>
@@ -92,7 +92,7 @@ if ($print)
 else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=order_detail&layout=receipt&oid=" . $order_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
-	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
+	$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
@@ -135,11 +135,11 @@ $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
  * trigger content plugin
  */
 $dispatcher = JDispatcher::getInstance();
-$o          = new stdClass;
-$o->text    = $ReceiptTemplate;
+$o = new stdClass;
+$o->text = $ReceiptTemplate;
 JPluginHelper::importPlugin('content');
-$x               = array();
-$results         = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
+$x = array();
+$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 $ReceiptTemplate = $o->text;
 
 // End
@@ -152,7 +152,7 @@ $issplit = $session->get('issplit');
 
 if ($issplit)
 {
-	$split_amount       = ($order->order_total) / 2;
+	$split_amount = ($order->order_total) / 2;
 	$order->order_total = $split_amount;
 }
 
@@ -168,13 +168,13 @@ $analytics_status = $order->analytics_status;
 
 if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 {
-	$orderTrans                   = array();
-	$orderTrans['order_id']       = $order->order_id;
-	$orderTrans['shopname']       = SHOP_NAME;
-	$orderTrans['order_total']    = $order->order_total;
-	$orderTrans['order_tax']      = $order->order_tax;
+	$orderTrans = array();
+	$orderTrans['order_id'] = $order->order_id;
+	$orderTrans['shopname'] = SHOP_NAME;
+	$orderTrans['order_total'] = $order->order_total;
+	$orderTrans['order_tax'] = $order->order_tax;
 	$orderTrans['order_shipping'] = $order->order_shipping;
-	$orderTrans['city']           = $billingaddresses->city;
+	$orderTrans['city'] = $billingaddresses->city;
 
 	if (isset($billingaddresses->country_code))
 		$orderTrans['state'] = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
@@ -196,11 +196,11 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 	{
 		$orderaddItem = array();
 
-		$orderaddItem['order_id']         = $orderitem[$k]->order_id;
-		$orderaddItem['product_number']   = $orderitem[$k]->order_item_sku;
-		$orderaddItem['product_name']     = $orderitem[$k]->order_item_name;
+		$orderaddItem['order_id'] = $orderitem[$k]->order_id;
+		$orderaddItem['product_number'] = $orderitem[$k]->order_item_sku;
+		$orderaddItem['product_name'] = $orderitem[$k]->order_item_name;
 		$orderaddItem['product_category'] = $model->getCategoryNameByProductId($orderitem[$k]->product_id);
-		$orderaddItem['product_price']    = $orderitem[$k]->product_item_price;
+		$orderaddItem['product_price'] = $orderitem[$k]->product_item_price;
 		$orderaddItem['product_quantity'] = $orderitem[$k]->product_quantity;
 
 		$analyticsData['addItem'][] = $orderaddItem;

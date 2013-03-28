@@ -158,7 +158,7 @@ $billingaddresses = $model->billingaddresses();
 		<?php
 		if (SHOW_TAX_EXEMPT_INFRONT)
 		{
-		?>
+			?>
 			<tr>
 				<td width="100" align="left"><label for="tax_exempt"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT');?>
 						:</label></td>

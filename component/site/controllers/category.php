@@ -27,9 +27,9 @@ class CategoryController extends JController
 	 */
 	public function download()
 	{
-		$option   = JRequest::getVar('option', 'com_redshop', 'request', 'string');
+		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
-		$db       = JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$this->_table_prefix = "#__redshop_";
 
 		session_cache_limiter('public');
@@ -144,8 +144,8 @@ class CategoryController extends JController
 	/**
 	 * Logic for download
 	 *
-	 * @param   string  $fil  path
-	 * @param   null    $p    null variable not used
+	 * @param   string $fil  path
+	 * @param   null   $p    null variable not used
 	 *
 	 * @return bool
 	 */
@@ -287,8 +287,8 @@ class CategoryController extends JController
 	 */
 	public function generateXMLExportFile()
 	{
-		$app          = JFactory::getApplication();
-		$option       = JRequest::getVar('option', 'com_redshop', 'request', 'string');
+		$app = JFactory::getApplication();
+		$option = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
 
 		if ($xmlexport_id)

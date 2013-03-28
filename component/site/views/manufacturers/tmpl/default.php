@@ -64,27 +64,27 @@ if ($print)
 else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&print=1&tmpl=component&Itemid=" . $Itemid;
-	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
+	$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
-$template_start  = $template_desc;
+$template_start = $template_desc;
 $template_middle = "";
-$template_end    = "";
+$template_end = "";
 
 if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc, '{manufacturer_loop_end}'))
 {
-	$template_sdata  = explode('{manufacturer_loop_start}', $template_desc);
-	$template_start  = $template_sdata[0];
-	$template_edata  = explode('{manufacturer_loop_end}', $template_sdata[1]);
-	$template_end    = $template_edata[1];
+	$template_sdata = explode('{manufacturer_loop_start}', $template_desc);
+	$template_start = $template_sdata[0];
+	$template_edata = explode('{manufacturer_loop_end}', $template_sdata[1]);
+	$template_end = $template_edata[1];
 	$template_middle = $template_edata[0];
 }
 
-$extraFieldName     = $extraField->getSectionFieldNameArray(10, 1, 1);
+$extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
 $replace_middledata = '';
 
 if ($template_middle != "")
@@ -101,11 +101,11 @@ if ($template_middle != "")
 
 			$link = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
-			$manproducts       = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$manproducts = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 			$manufacturer_name = "<a href='" . $manproducts . "'><b>" . $row->manufacturer_name . "</b></a>";
 
 			$middledata = $template_middle;
-			$manu_name  = $config->maxchar($manufacturer_name, MANUFACTURER_TITLE_MAX_CHARS, MANUFACTURER_TITLE_END_SUFFIX);
+			$manu_name = $config->maxchar($manufacturer_name, MANUFACTURER_TITLE_MAX_CHARS, MANUFACTURER_TITLE_END_SUFFIX);
 			$middledata = str_replace("{manufacturer_name}", $manu_name, $middledata);
 
 			// Extra field display
@@ -113,7 +113,7 @@ if ($template_middle != "")
 
 			if (strstr($middledata, $mimg_tag))
 			{
-				$thum_image  = "";
+				$thum_image = "";
 				$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
 
 				for ($m = 0; $m < count($media_image); $m++)
@@ -169,7 +169,7 @@ $template_desc = str_replace("{print}", $print_tag, $template_desc);
 
 if (strstr($template_desc, '{order_by}'))
 {
-	$orderby_form  = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'] . "</form>";
+	$orderby_form = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'] . "</form>";
 	$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
 }
 

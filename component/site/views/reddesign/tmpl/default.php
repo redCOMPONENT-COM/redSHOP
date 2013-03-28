@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-$url       = JURI::base();
+$url = JURI::base();
 $pagetitle = JText::_('COM_REDSHOP_WELCOME_TO_REDDESIGN');
 include_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper   = new producthelper;
-$Itemid          = JRequest::getVar('Itemid');
-$redhelper       = new redhelper;
-$Itemid          = $redhelper->getCartItemid($Itemid);
-$image_path      = $url . "components/com_reddesign/assets/images/designtype/";
+$producthelper = new producthelper;
+$Itemid = JRequest::getVar('Itemid');
+$redhelper = new redhelper;
+$Itemid = $redhelper->getCartItemid($Itemid);
+$image_path = $url . "components/com_reddesign/assets/images/designtype/";
 $default_imageId = $this->image_id;
 ?>
 	<script language='javascript'>

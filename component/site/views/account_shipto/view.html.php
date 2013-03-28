@@ -22,16 +22,16 @@ class account_shiptoViewaccount_shipto extends JView
 		$order_functions = new order_functions;
 
 		// Extra_field;
-		$extra_field     = new extraField;
+		$extra_field = new extraField;
 
 		$task = JRequest::getVar('task');
 		$user = JFactory::getUser();
-		$uri  = JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		// Preform security checks
 		$session = JFactory::getSession();
-		$auth    = $session->get('auth');
-		$params  = $app->getParams('com_redshop');
+		$auth = $session->get('auth');
+		$params = $app->getParams('com_redshop');
 
 		if ($user->id)
 		{
@@ -39,7 +39,7 @@ class account_shiptoViewaccount_shipto extends JView
 		}
 		elseif (isset($auth['users_info_id']) && $auth['users_info_id'])
 		{
-			$model            = $this->getModel('account_shipto');
+			$model = $this->getModel('account_shipto');
 			$billingaddresses = $model->_loadData($auth['users_info_id']);
 		}
 		else
@@ -66,7 +66,7 @@ class account_shiptoViewaccount_shipto extends JView
 			}
 
 			$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shippingaddresses->users_info_id);
-			$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shippingaddresses->users_info_id);
+			$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shippingaddresses->users_info_id);
 
 			$this->setLayout('form');
 		}

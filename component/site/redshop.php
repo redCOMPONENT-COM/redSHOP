@@ -13,7 +13,7 @@ $app = JFactory::getApplication();
 JLoader::import('joomla.html.parameter');
 
 $option = JRequest::getCmd('option');
-$view   = JRequest::getVar('view');
+$view = JRequest::getVar('view');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/redshop.cfg.php';
@@ -61,7 +61,7 @@ require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
 
 $controller = JRequest::getCmd('view', 'category');
 
-$task   = JRequest::getCmd('task');
+$task = JRequest::getCmd('task');
 $format = JRequest::getWord('format', '');
 $layout = JRequest::getWord('layout', '');
 
@@ -71,10 +71,10 @@ $params = $app->getParams('com_redshop');
 $helper->dbtocart();
 
 $categoryid = JRequest::getInt('cid', $params->get('categoryid'));
-$productid  = JRequest::getInt('pid', 0);
+$productid = JRequest::getInt('pid', 0);
 
 $sgportal = $helper->getShopperGroupPortal();
-$portal   = 0;
+$portal = 0;
 if (count($sgportal) > 0)
 	$portal = $sgportal->shopper_group_portal;
 

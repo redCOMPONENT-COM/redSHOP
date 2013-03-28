@@ -17,18 +17,18 @@ class manufacturersViewmanufacturers extends JView
 		$app = JFactory::getApplication();
 
 		$producthelper = new producthelper;
-		$redhelper     = new redhelper;
-		$document      = JFactory::getDocument();
-		$option        = JRequest::getVar('option');
-		$print         = JRequest::getVar('print');
-		$layout        = JRequest::getVar('layout', 'default');
-		$params        = $app->getParams($option);
+		$redhelper = new redhelper;
+		$document = JFactory::getDocument();
+		$option = JRequest::getVar('option');
+		$print = JRequest::getVar('print');
+		$layout = JRequest::getVar('layout', 'default');
+		$params = $app->getParams($option);
 
-		$mid    = 0;
-		$lists  = array();
-		$model  = $this->getModel('manufacturers');
+		$mid = 0;
+		$lists = array();
+		$model = $this->getModel('manufacturers');
 		$detail = $this->get('data');
-		$limit  = $params->get('maxproduct');
+		$limit = $params->get('maxproduct');
 
 		if (!$limit)
 		{
@@ -37,7 +37,7 @@ class manufacturersViewmanufacturers extends JView
 
 		$model->setProductLimit($limit);
 		$pageheadingtag = '';
-		$disabled       = "";
+		$disabled = "";
 
 		if ($print)
 		{
@@ -52,7 +52,7 @@ class manufacturersViewmanufacturers extends JView
 		if ($layout != 'default')
 		{
 			$manufacturer = $detail[0];
-			$mid          = $manufacturer->manufacturer_id;
+			$mid = $manufacturer->manufacturer_id;
 
 			if ($manufacturer->manufacturer_id)
 			{
@@ -201,8 +201,8 @@ class manufacturersViewmanufacturers extends JView
 
 					$manufacturer_products_url = substr_replace(JURI::root(), "", -1)
 						. JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
-					$canonicalurl_content      = '<link rel="canonical" href="' . $manufacturer_products_url . '" />';
-					$canonicalurl              = str_replace("{manufacturerproductslink}", $canonicalurl_content, $canonicalurl);
+					$canonicalurl_content = '<link rel="canonical" href="' . $manufacturer_products_url . '" />';
+					$canonicalurl = str_replace("{manufacturerproductslink}", $canonicalurl_content, $canonicalurl);
 					$document->addCustomTag($canonicalurl);
 				}
 			}
@@ -224,22 +224,22 @@ class manufacturersViewmanufacturers extends JView
 		if ($layout == "products")
 		{
 			$order_by_select = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
-			$order_data      = $redhelper->getOrderByList();
+			$order_data = $redhelper->getOrderByList();
 		}
 		else
 		{
 			$order_by_select = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
-			$order_data      = $redhelper->getManufacturerOrderByList();
+			$order_data = $redhelper->getManufacturerOrderByList();
 		}
 
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ' . $disabled . ' ', 'value', 'text', $order_by_select);
 
-		$categorylist           = $model->getCategoryList();
-		$temps                  = array();
-		$temps[0]->value        = "0";
-		$temps[0]->text         = JText::_('COM_REDSHOP_SELECT');
-		$categorylist           = array_merge($temps, $categorylist);
-		$filter_by_select       = JRequest::getVar('filter_by', 0);
+		$categorylist = $model->getCategoryList();
+		$temps = array();
+		$temps[0]->value = "0";
+		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$categorylist = array_merge($temps, $categorylist);
+		$filter_by_select = JRequest::getVar('filter_by', 0);
 		$lists['filter_select'] = JHTML::_('select.genericlist', $categorylist, 'filter_by', 'class="inputbox" size="1" onchange="document.filter_form.submit();" ' . $disabled . ' ', 'value', 'text', $filter_by_select);
 
 		$pagination = $this->get('Pagination');
