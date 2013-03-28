@@ -1487,11 +1487,11 @@ class CheckoutModelCheckout extends JModel
 			$giftcardmail_body = str_replace("{giftcard_image}", $pdfImage, $giftcardmail_body);
 			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
 			$g_pdfName = time();
-			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders' . DS . $g_pdfName . ".pdf", "F");
+			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
 			$from                = $config->getValue('mailfrom');
 			$fromname            = $config->getValue('fromname');
-			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders' . DS . $g_pdfName . ".pdf";
+			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
 
 			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
@@ -2218,7 +2218,7 @@ class CheckoutModelCheckout extends JModel
 		$paymentinfo = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentinfo = $paymentinfo[0];
 
-		$paymentpath                 = JPATH_SITE . '/plugins/redshop_payment' . DS . $paymentinfo->element . '.xml';
+		$paymentpath                 = JPATH_SITE . '/plugins/redshop_payment/' . $paymentinfo->element . '.xml';
 		$paymentparams               = new JRegistry($paymentinfo->params);
 		$is_creditcard               = $paymentparams->get('is_creditcard', '');
 		$payment_oprand              = $paymentparams->get('payment_oprand', '');

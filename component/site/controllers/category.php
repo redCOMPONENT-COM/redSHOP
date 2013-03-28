@@ -112,7 +112,7 @@ class CategoryController extends JController
 
 		if ($filename != "")
 		{
-			$filepath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/export" . DS . $filename;
+			$filepath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" . $filename;
 
 			if (!JFile::exists($filepath))
 			{

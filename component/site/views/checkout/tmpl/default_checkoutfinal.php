@@ -29,7 +29,6 @@ $paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
 $paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
 $paymentmethod = $paymentmethod[0];
 
-
 $paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
 $paymentparams = new JRegistry($paymentmethod->params);
 
