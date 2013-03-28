@@ -89,7 +89,6 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-
 		}
 		else
 		{

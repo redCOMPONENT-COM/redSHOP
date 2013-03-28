@@ -91,7 +91,6 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 			"expdate"        => $expdate,
 			"autosettleflag" => "1",
 		));
-
 	}
 
 	function onNotifyPaymentrs_payment_realex_redirect($element, $request)

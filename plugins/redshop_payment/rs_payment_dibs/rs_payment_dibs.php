@@ -171,6 +171,5 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 }

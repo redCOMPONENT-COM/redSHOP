@@ -158,7 +158,6 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 			// There is a connection-problem
 			$values->responsestatus = 'Fail';
 			$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-
 		}
 
 		$values->transaction_id = $TransactionID;

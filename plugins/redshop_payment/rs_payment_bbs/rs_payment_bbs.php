@@ -32,7 +32,6 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_bbs');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**

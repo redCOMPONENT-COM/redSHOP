@@ -38,7 +38,6 @@ if ($live_mode == "1")
 {
 	$customer_id = $this->_params->get("eway_3dsecure");
 	$gatewayurl = $this->_params->get("eway_3dsecure_liveurl");
-
 }
 else
 {

@@ -213,7 +213,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$values->order_id = $request['orderid'];
-
 			}
 			else
 			{

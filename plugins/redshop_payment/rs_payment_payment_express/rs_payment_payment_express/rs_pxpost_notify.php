@@ -132,7 +132,6 @@ if ($rsp->getSuccess() == "1")
 
 	$values->order_id = $order_id;
 	$values->transaction_id = $DpsTxnRef;
-
 }
 else
 {

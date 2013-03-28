@@ -111,7 +111,6 @@ if ($order->order_shipping > 0)
 
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_shipping . ";Shipping;Shipping;" . $shipping_price . ";" . ($p + 1) . ";" . $shipping_vat;
 	$p++;
-
 }
 
 $payment_price = $order->payment_discount;
@@ -126,17 +125,14 @@ if ($payment_price > 0)
 	if ($order->payment_oprand == '-')
 	{
 		$discount_payment_price = -$payment_price;
-
 	}
 	else
 	{
 		$discount_payment_price = $payment_price;
-
 	}
 
 	$payment_vat = 0;
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_payment . ";Payment Handling;Payment Handling;" . $discount_payment_price . ";" . ($p + 1) . ";" . $payment_vat;
-
 }
 
 $api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'dibs_hmac.php';

@@ -37,7 +37,6 @@ class Braintree_Xml_Parser
 
 		// return the mapped array with the root element as the header
 		return array($xmlRoot => self::_iteratorToArray($iterator));
-
 	}
 
 	/**

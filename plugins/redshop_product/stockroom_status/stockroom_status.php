@@ -94,7 +94,6 @@ class plgredshop_productstockroom_status extends JPlugin
 							<td>" . $stock_details[0]->stockroom_name . "</td>
 							<td>" . $stock_status . "</td>
 						</tr>";
-
 				}
 			}
 
@@ -107,7 +106,6 @@ class plgredshop_productstockroom_status extends JPlugin
 		if (ADMINISTRATOR_EMAIL != "" && $stock_flag == 1)
 		{
 			JUtility::sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
-
 		}
 
 	}

@@ -51,7 +51,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
-
 	}
 
 	function onNotifyPaymentrs_payment_sagepay($element, $request)
@@ -139,7 +138,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->transaction_id = $strVPSTxId;
 			$values->order_id = $request['orderid'];
-
 		}
 		else
 		{
@@ -231,7 +229,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 
 		// Return the output
 		return $output;
-
 	} // END function requestPost()
 
 	function getToken($thisString)
