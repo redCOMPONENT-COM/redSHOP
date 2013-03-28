@@ -23,9 +23,9 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  */
 class CheckoutController extends JController
 {
-	var $_order_functions = null;
+	public $_order_functions = null;
 
-	var $_shippinghelper = null;
+	public $_shippinghelper = null;
 
 	/**
 	 * Constructor.
