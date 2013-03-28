@@ -456,7 +456,8 @@ class nusoap_base
 
 			return $xml;
 		}
-		// force valid name if necessary
+
+		// Force valid name if necessary
 		if (is_numeric($name))
 		{
 			$name = '__numeric_' . $name;
@@ -474,7 +475,7 @@ class nusoap_base
 			$name = $prefix . ':' . $name;
 			$xmlns .= " xmlns:$prefix=\"$name_ns\"";
 		}
-		// if type is prefixed, create type prefix
+		// If type is prefixed, create type prefix
 		if ($type_ns != '' && $type_ns == $this->namespaces['xsd'])
 		{
 			// need to fix this. shouldn't default to xsd if no ns specified
@@ -486,7 +487,7 @@ class nusoap_base
 			$type_prefix = 'ns' . rand(1000, 9999);
 			$xmlns .= " xmlns:$type_prefix=\"$type_ns\"";
 		}
-		// serialize attributes if present
+		// Serialize attributes if present
 		$atts = '';
 
 		if ($attributes)
@@ -496,7 +497,7 @@ class nusoap_base
 				$atts .= " $k=\"" . $this->expandEntities($v) . '"';
 			}
 		}
-		// serialize null value
+		// Serialize null value
 		if (is_null($val))
 		{
 			$this->debug("serialize_val: serialize null");
