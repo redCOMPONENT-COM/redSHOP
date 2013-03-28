@@ -112,7 +112,7 @@ if ($flage) :
 
 				for ($i = 0, $n = count($wishlist); $i < $n; $i++)
 				{
-					$row = & $wishlist[$i];
+					$row = $wishlist[$i];
 					?>
 					<tr class="<?php echo "row$k"; ?>">
 						<td align="center">

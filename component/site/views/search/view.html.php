@@ -118,8 +118,8 @@ class searchViewsearch extends JView
 			$templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
 		}
 
-		$search     = & $this->get('Data');
-		$pagination = & $this->get('Pagination');
+		$search     = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('params', $params);
 		$this->assignRef('limit', $model->getState('limit'));
@@ -281,9 +281,10 @@ class searchViewsearch extends JView
 			// Replace redproductfilder filter tag
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
-				if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php'))
+				$redProductFinerHelper = JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
+				if (file_exists($redProductFinerHelper))
 				{
-					include_once JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php';
+					include_once $redProductFinerHelper;
 					$redproductfinder_helper = new redproductfinder_helper;
 					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
 					$hide_filter_flag        = false;
@@ -523,7 +524,7 @@ class searchViewsearch extends JView
 							$alttext = $media_documents[$m]->media_name;
 						}
 
-						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product" . DS . $media_documents[$m]->media_name))
+						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 						{
 							$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";

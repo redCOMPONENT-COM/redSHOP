@@ -91,7 +91,7 @@ if ($template_middle != "")
 {
 	for ($i = 0; $i < $this->params->get('maxmanufacturer'); $i++)
 	{
-		$row = & $this->detail[$i];
+		$row = $this->detail[$i];
 
 		if ($row != '')
 		{

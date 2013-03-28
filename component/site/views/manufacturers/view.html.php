@@ -27,7 +27,7 @@ class manufacturersViewmanufacturers extends JView
 		$mid    = 0;
 		$lists  = array();
 		$model  = $this->getModel('manufacturers');
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$limit  = $params->get('maxproduct');
 
 		if (!$limit)

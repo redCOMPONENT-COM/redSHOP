@@ -94,7 +94,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
 			for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			{
-				$row     = & $this->products[$i];
+				$row     = $this->products[$i];
 				$row->id = $row->product_id;
 				$link    = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 

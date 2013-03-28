@@ -16,11 +16,11 @@ $option = JRequest::getCmd('option');
 $view   = JRequest::getVar('view');
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/template.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/economic.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/template.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/stockroom.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/economic.php';
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
@@ -173,13 +173,13 @@ else
 
 
 // Set the controller page
-if (!file_exists(JPATH_COMPONENT . '/controllers' . DS . $controller . '.php'))
+if (!file_exists(JPATH_COMPONENT . '/controllers/' . $controller . '.php'))
 {
 	$controller = 'category';
 	JRequest::setVar('view', 'category');
 }
 
-require_once JPATH_COMPONENT . '/controllers' . DS . $controller . '.php';
+require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
 
 // Set the controller page
 
