@@ -3776,6 +3776,7 @@ class Com_RedshopInstallerScript
 						$template_desc = str_replace("{subtotal}", "{product_subtotal}", $template_desc);
 						$template_desc = str_replace("{order_subtotal}", "{product_subtotal}", $template_desc);
 					}
+
 					if (strstr($template_desc, '{subtotal_excl_vat}') || strstr($template_desc, '{order_subtotal_excl_vat}'))
 					{
 						$template_desc = str_replace("{subtotal_excl_vat}", "{product_subtotal_excl_vat}", $template_desc);
@@ -3790,6 +3791,7 @@ class Com_RedshopInstallerScript
 					{
 						$template_desc = str_replace('{shipping}', '{shipping_excl_vat}', $template_desc);
 					}
+
 					if (strstr($template_desc, '{shipping_with_vat}'))
 					{
 						$template_desc = str_replace('{shipping_with_vat}', '{shipping}', $template_desc);
@@ -3830,6 +3832,7 @@ class Com_RedshopInstallerScript
 					$mail_body = str_replace("{subtotal}", "{product_subtotal}", $mail_body);
 					$mail_body = str_replace("{order_subtotal}", "{product_subtotal}", $mail_body);
 				}
+
 				if (strstr($mail_body, '{subtotal_excl_vat}') || strstr($mail_body, '{order_subtotal_excl_vat}'))
 				{
 					$mail_body = str_replace("{subtotal_excl_vat}", "{product_subtotal_excl_vat}", $mail_body);
@@ -3842,16 +3845,19 @@ class Com_RedshopInstallerScript
 				$db->setQuery($uquery);
 				$db->query();
 			}
+
 			if (!strstr($mail_body, '{shipping_excl_vat}'))
 			{
 				if (strstr($mail_body, '{shipping}') || strstr($mail_body, '{order_shipping}'))
 				{
 					$mail_body = str_replace("{shipping}", "{shipping_excl_vat}", $mail_body);
 				}
+
 				if (strstr($mail_body, '{order_shipping}'))
 				{
 					$mail_body = str_replace("{order_shipping}", "{shipping_excl_vat}", $mail_body);
 				}
+
 				if (strstr($mail_body, '{shipping_with_vat}'))
 				{
 					$mail_body = str_replace("{shipping_with_vat}", "{shipping}", $mail_body);
@@ -3994,10 +4000,12 @@ class Com_RedshopInstallerScript
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_EXTENSION_PLUGIN_FILE');
 			}
+
 			if (!JFile::copy($redadmin . '/sh404sef/meta_ext/com_redshop.php', $sh404sefmeta . '/com_redshop.php'))
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_META_PLUGIN_FILE');
 			}
+
 			if (!JFile::copy($redadmin . '/sh404sef/language/com_redshop.php', $sh404sefadmin . '/language/plugins/com_redshop.php'))
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
@@ -4138,6 +4146,7 @@ class Com_RedshopInstallerScript
 		{
 			$cfgarr["DEFAULT_QUOTATION_MODE_PRE"] = '0';
 		}
+
 		if (!defined("SHOW_PRICE_PRE"))
 		{
 			$cfgarr["SHOW_PRICE_PRE"] = '1';
@@ -4392,18 +4401,22 @@ class Com_RedshopInstallerScript
 		{
 			$cfgarr["SEND_MAIL_TO_CUSTOMER"] = 1;
 		}
+
 		if (!defined("AJAX_DETAIL_BOX_WIDTH"))
 		{
 			$cfgarr["AJAX_DETAIL_BOX_WIDTH"] = 500;
 		}
+
 		if (!defined("AJAX_DETAIL_BOX_HEIGHT"))
 		{
 			$cfgarr["AJAX_DETAIL_BOX_HEIGHT"] = 600;
 		}
+
 		if (!defined("AJAX_BOX_WIDTH"))
 		{
 			$cfgarr["AJAX_BOX_WIDTH"] = 500;
 		}
+
 		if (!defined("AJAX_BOX_HEIGHT"))
 		{
 			$cfgarr["AJAX_BOX_HEIGHT"] = 150;
