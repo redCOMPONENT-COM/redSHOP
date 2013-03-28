@@ -4495,6 +4495,7 @@ class Com_RedshopInstallerScript
 				$extName = $node->attributes()->name;
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
+
 				if (is_dir($extPath))
 				{
 					$result = $installer->install($extPath);
@@ -4526,6 +4527,7 @@ class Com_RedshopInstallerScript
 				$extClient = $node->attributes()->client;
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
+
 				if (is_dir($extPath))
 				{
 					$result = $installer->install($extPath);
@@ -4557,6 +4559,7 @@ class Com_RedshopInstallerScript
 				$extGroup = $node->attributes()->group;
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
+
 				if (is_dir($extPath))
 				{
 					$result = $installer->install($extPath);
