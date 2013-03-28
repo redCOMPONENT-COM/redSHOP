@@ -63,7 +63,7 @@ class productViewproduct extends JView
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 			JToolBarHelper::addNewX();
 			JToolBarHelper::editListX();
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
