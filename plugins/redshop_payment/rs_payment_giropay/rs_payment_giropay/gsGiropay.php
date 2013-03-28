@@ -40,7 +40,7 @@ class gsGiropay
 	 *
 	 * @return string generierter Hash-Code
 	 */
-	function generateHash($data, $key)
+	public function generateHash($data, $key)
 	{
 		// Hash_hmac Funktion ist erst seit PHP Version 5.1.2 verf�gbar
 		if (function_exists('hash_hmac'))
@@ -69,7 +69,7 @@ class gsGiropay
 	 *
 	 * @return string Fehlerbeschreibung
 	 */
-	function getCodeDescription($gpCode)
+	public function getCodeDescription($gpCode)
 	{
 		switch ($gpCode)
 		{
@@ -103,7 +103,7 @@ class gsGiropay
 	 *
 	 * @return string Meldung f�r den Benutzer
 	 */
-	function getCodeText($gpCode)
+	public function getCodeText($gpCode)
 	{
 		switch ($gpCode)
 		{
@@ -135,7 +135,7 @@ class gsGiropay
 	 *
 	 * @return boolean
 	 */
-	function codeIsOK($gpCode)
+	public function codeIsOK($gpCode)
 	{
 		if (in_array($gpCode, $this->CodesOK))
 			return true;
@@ -150,7 +150,7 @@ class gsGiropay
 	 *
 	 * @return boolean
 	 */
-	function codeIsUnbekannt($gpCode)
+	public function codeIsUnbekannt($gpCode)
 	{
 		if (in_array($gpCode, $this->CodesUnbekannt))
 			return true;
@@ -165,7 +165,7 @@ class gsGiropay
 	 *
 	 * @return boolean
 	 */
-	function codeIsFehler($gpCode)
+	public function codeIsFehler($gpCode)
 	{
 		if (!in_array($gpCode, $this->CodesOK) && !in_array($gpCode, $this->CodesUnbekannt))
 			return true;

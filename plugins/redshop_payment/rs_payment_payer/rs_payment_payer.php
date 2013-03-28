@@ -30,7 +30,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payer');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -89,7 +88,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-
 			}
 		}
 		else
@@ -98,7 +96,6 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-
 		}
 
 		$values->order_id = $order_id;

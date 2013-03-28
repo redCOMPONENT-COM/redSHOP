@@ -25,20 +25,19 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_worldpay(&$subject)
+	public function plgRedshop_paymentrs_payment_worldpay(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_worldpay');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_worldpay')
 		{
@@ -84,7 +83,6 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->transaction_id = $transId;
 			$values->order_id = $order_id;
-
 		}
 		else
 		{
@@ -94,7 +92,6 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 			$values->order_id = $order_id;
-
 		}
 
 		return $values;

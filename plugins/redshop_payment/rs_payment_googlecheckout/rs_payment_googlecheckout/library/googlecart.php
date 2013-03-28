@@ -239,7 +239,7 @@ class GoogleCart
 	'shipping-country-code')
 	 *                             More info http://code.google.com/apis/checkout/developer/checkout_pixel_tracking.html#googleCheckout_tag_url-parameter
 	 */
-	function AddThirdPartyTracking($url, $tracking_param_types = array())
+	public function AddThirdPartyTracking($url, $tracking_param_types = array())
 	{
 		$this->thirdPartyTackingUrl = $url;
 		$this->thirdPartyTackingParams = $tracking_param_types;
@@ -967,7 +967,6 @@ class GoogleCart
 				"" . $this->merchant_id . "&w=" . $width . "&h=" . $height . "&style=" . $style .
 				"&variant=" . $this->variant . "&loc=" . $loc . "\" height=\"" . $height . "\"" .
 				" width=\"" . $width . "\" /></div>";
-
 		}
 
 		$data .= "</div>";
@@ -1174,7 +1173,6 @@ class GoogleCart
 		$data .= "</div>";
 
 		return $data;
-
 	}
 
 	function xml2html($data, $path = '', &$rta)
@@ -1246,7 +1244,7 @@ class GoogleCart
 	  *   Values 1, 2 or 3
 	  * More info: http://checkout.google.com/seller/acceptance_logos.html
 	  */
-	function CheckoutAcceptanceLogo($type = 1)
+	public function CheckoutAcceptanceLogo($type = 1)
 	{
 		switch ($type)
 		{

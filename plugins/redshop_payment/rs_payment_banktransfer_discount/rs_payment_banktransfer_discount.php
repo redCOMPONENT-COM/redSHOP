@@ -27,7 +27,6 @@ class plgRedshop_paymentrs_payment_banktransfer_discount extends JPlugin
 		parent::__construct($subject);
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_banktransfer_discount');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**

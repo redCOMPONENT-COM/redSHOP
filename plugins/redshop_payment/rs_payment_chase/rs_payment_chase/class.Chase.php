@@ -298,7 +298,6 @@ class Chase
 					}
 					default    :
 						break; //$this->error[] = 'CVV2RespCode Code - '.$parsedResArr['CVV2RespCode'];
-
 				}
 			}
 

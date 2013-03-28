@@ -173,7 +173,6 @@ class Braintree_Util
 		foreach ($array AS $key => $value)
 		{
 			$tmpArray[] = $key . $separator . $value;
-
 		}
 
 		// implode and return the new array

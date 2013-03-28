@@ -18,18 +18,16 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
-
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
 
 class plgredshop_shippingfedex extends JPlugin
 {
-	var $payment_code = "fedex";
-	var $classname = "fedex";
+	public $payment_code = "fedex";
+	public $classname = "fedex";
 
-	function onShowconfig($ps)
+	public function onShowconfig($ps)
 	{
 		if ($ps->element == $this->classname)
 		{
@@ -220,7 +218,7 @@ class plgredshop_shippingfedex extends JPlugin
 		}
 	}
 
-	function onWriteconfig($d)
+	public function onWriteconfig($d)
 	{
 		if ($d['element'] == $this->classname)
 		{
@@ -268,22 +266,22 @@ class plgredshop_shippingfedex extends JPlugin
 		}
 	}
 
-	function onListRates(&$d)
+	public function onListRates(&$d)
 	{
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;
-		include_once (JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php');
+		include_once JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php';
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$itemparams = new JParameter($shipping->params);
 
-		$fedex_accountnumber = FEDEX_ACCOUNT_NUMBER; //$itemparams->get("fedex_accountnumber");
-		$fedex_meternumber = FEDEX_METER_NUMBER; //$itemparams->get("fedex_meternumber");
-		$fedex_carriercode = FEDEX_CARRIERCODE; //$itemparams->get("fedex_carriercode");
-		$fedex_servicetype = unserialize(FEDEX_SERVICETYPE); //$itemparams->get("fedex_servicetype");
-		$fedex_dropofftype = FEDEX_DROPOFFTYPE; //$itemparams->get("fedex_dropofftype");
-		$fedex_packagingtype = FEDEX_PACKAGINGTYPE; //$itemparams->get("fedex_packagingtype");
-		$fedex_weightunits = FEDEX_WEIGHTUNITS; //$itemparams->get("fedex_weightunits");
+		$fedex_accountnumber = FEDEX_ACCOUNT_NUMBER;
+		$fedex_meternumber = FEDEX_METER_NUMBER;
+		$fedex_carriercode = FEDEX_CARRIERCODE;
+		$fedex_servicetype = unserialize(FEDEX_SERVICETYPE);
+		$fedex_dropofftype = FEDEX_DROPOFFTYPE;
+		$fedex_packagingtype = FEDEX_PACKAGINGTYPE;
+		$fedex_weightunits = FEDEX_WEIGHTUNITS;
 		$fedex_key = FEDEX_KEY;
 		$fedex_pass = FEDEX_PASSWORD;
 		$shippingrate = array();
@@ -305,12 +303,12 @@ class plgredshop_shippingfedex extends JPlugin
 		$carttotalQnt = $totaldimention['totalquantity'];
 		$carttotalWeight = $totaldimention['totalweight'];
 
-		// check for not zero
+		// Check for not zero
 		if ($unitRatio != 0)
 		{
 			$carttotalWeight = $carttotalWeight * $unitRatio; // converting weight in kg
 		}
-		//echo $unitRatio;exit;
+
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
 
 		if (count($shippinginfo) < 1)
@@ -333,9 +331,9 @@ class plgredshop_shippingfedex extends JPlugin
 
 		if (is_array($whereShippingBoxes) && count($whereShippingBoxes) > 0 && $unitRatioVolume > 0)
 		{
-			$shipping_length = ( int ) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
-			$shipping_width = ( int ) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
-			$shipping_height = ( int ) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
+			$shipping_length = (int) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
+			$shipping_width = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
+			$shipping_height = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
 		}
 		else
 		{
@@ -388,12 +386,11 @@ class plgredshop_shippingfedex extends JPlugin
 
 		// The XML that will be posted to UPS
 		if (FEDEX_DEVELOPMENT == 1)
-		{ //$path_to_wsdl='RateService_v9_test.wsdl';
+		{
 			$path_to_wsdl = JURI::root() . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . DS . 'RateService_v9_test.wsdl';
 		}
 		else
-		{ /*(JPATH_ROOT.DS.'plugins'.DS.'redshop_shipping'.DS.$this->classname.'.cfg.php')*/
-			;
+		{
 			$path_to_wsdl = JURI::root() . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . DS . 'RateService_v9.wsdl';
 		}
 
@@ -426,7 +423,9 @@ class plgredshop_shippingfedex extends JPlugin
 		$request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Available Services Request v10 using PHP ***');
 		$request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
 		$request['ReturnTransitAndCommit'] = true;
-		$request['RequestedShipment']['DropoffType'] = $fedex_dropofftype; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+
+		// valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+		$request['RequestedShipment']['DropoffType'] = $fedex_dropofftype;
 		$request['RequestedShipment']['ShipTimestamp'] = date('c');
 
 		// Service Type and Packaging Type are not passed in the request
@@ -466,6 +465,7 @@ class plgredshop_shippingfedex extends JPlugin
 				{
 					$str = "<b>Fed ex " . $response->Notifications->Severity . "</b> : " . $response->Notifications->Message;
 				}
+
 				echo $str;
 			}
 
@@ -496,7 +496,6 @@ class plgredshop_shippingfedex extends JPlugin
 			{
 				$error = "1";
 			}
-
 		}
 		catch (SoapFault $exception)
 		{
@@ -506,12 +505,10 @@ class plgredshop_shippingfedex extends JPlugin
 		return $shippingrate;
 	}
 
-	function setEndpoint($var)
+	public function setEndpoint($var)
 	{
 		if ($var == 'changeEndpoint') Return false;
 
 		if ($var == 'endpoint') Return '';
 	}
 }
-
-?>

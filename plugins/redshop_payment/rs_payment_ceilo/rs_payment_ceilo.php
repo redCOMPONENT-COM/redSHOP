@@ -25,12 +25,11 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_ceilo(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ceilo');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -158,7 +157,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		if ($tentarAutenticar == "sim")
 		{
 			$objResposta = $Pedido->RequisicaoTransacao(true);
-
 		}
 		else
 		{
@@ -211,18 +209,15 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 			}
 
 			$values['responsestatus'] = 'Success';
-
 		}
 		else
 		{
 			if ($debug_mode == "0")
 			{
 				$message = 'Fail';
-
 			}
 
 			$values['responsestatus'] = 'Fail';
-
 		}
 
 		$values['message'] = $message;
@@ -233,7 +228,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		unset($_SESSION["pedidos"]);
 
 		return $values;
-
 	}
 
 	public function getparameters($payment)
@@ -298,12 +292,10 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 			$message = $message = $objResposta->captura->mensagem;
 			;
 			$values->responsestatus = 'Fail';
-
 		}
 
 		$values->message = $message;
 
 		return $values;
-
 	}
 }
