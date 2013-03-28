@@ -61,23 +61,23 @@ else
 }
 ?>
 
-<div class="product">
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-		<?php
-		if (count($this->data) > 0)
-		{
-			if ($this->data->pageheading != "")
+	<div class="product">
+		<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+			<?php
+			if (count($this->data) > 0)
 			{
-				echo $this->escape($this->data->pageheading);
-			}
-			else
-			{
-				echo $this->escape($this->pageheadingtag);
-			}
-		}?>
+				if ($this->data->pageheading != "")
+				{
+					echo $this->escape($this->data->pageheading);
+				}
+				else
+				{
+					echo $this->escape($this->pageheadingtag);
+				}
+			}?>
+		</div>
 	</div>
-</div>
-<div style="clear:both"></div>
+	<div style="clear:both"></div>
 
 <?php
 // Display after title data
@@ -106,18 +106,18 @@ $template_desc = str_replace('{component_heading}', $this->escape($this->data->p
 
 if (strstr($template_desc, '{back_link}'))
 {
-	$back_link     = '<a href="' . htmlentities($_SERVER['HTTP_REFERER']) . '">' . JText::_('COM_REDSHOP_BACK') . '</a>';
+	$back_link = '<a href="' . htmlentities($_SERVER['HTTP_REFERER']) . '">' . JText::_('COM_REDSHOP_BACK') . '</a>';
 	$template_desc = str_replace('{back_link}', $back_link, $template_desc);
 }
 
 if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, '{returntocategory_name}') || strstr($template_desc, '{returntocategory}'))
 {
-	$returncatlink    = '';
+	$returncatlink = '';
 	$returntocategory = '';
 
 	if ($this->data->category_id)
 	{
-		$returncatlink    = JRoute::_('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
+		$returncatlink = JRoute::_('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
 		$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . " " . $this->data->category_name . '</a>';
 	}
 
@@ -269,7 +269,7 @@ if ($print)
 else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=product&pid=" . $this->data->product_id . "&cid=" . $this->data->category_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
-	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
+	$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
 $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
@@ -306,15 +306,15 @@ $template_desc = str_replace("{view_full_size_image_lbl}", JText::_('COM_REDSHOP
 
 if (strstr($template_desc, "{zoom_image}"))
 {
-	$sendlink      = $url . 'components/com_redshop/assets/images/product/' . $this->data->product_full_image;
-	$send_image    = "<a  onclick=\"setZoomImagepath(this)\" title='" . $this->data->product_name . "' id='rsZoom_image" . $this->data->product_id . "' href='" . $sendlink . "' rel=\"lightbox[gallery]\">
+	$sendlink = $url . 'components/com_redshop/assets/images/product/' . $this->data->product_full_image;
+	$send_image = "<a  onclick=\"setZoomImagepath(this)\" title='" . $this->data->product_name . "' id='rsZoom_image" . $this->data->product_id . "' href='" . $sendlink . "' rel=\"lightbox[gallery]\">
 			<div class='zoom_image' id='rsDiv_zoom_image'>" . JText::_('SEND_MAIL_IMAGE_LBL') . "</div></a>";
 	$template_desc = str_replace("{zoom_image}", $send_image, $template_desc);
 }
 
 if (strstr($template_desc, "{product_category_list}"))
 {
-	$pcats    = "";
+	$pcats = "";
 	$prodCats = $producthelper->getProductCaterories($this->data->product_id);
 
 	foreach ($prodCats as $prodCat)
@@ -329,15 +329,15 @@ if (strstr($template_desc, "{product_category_list}"))
 
 if (strstr($template_desc, "{manufacturer_image}"))
 {
-	$mh_thumb    = MANUFACTURER_THUMB_HEIGHT;
-	$mw_thumb    = MANUFACTURER_THUMB_WIDTH;
-	$thum_image  = "";
+	$mh_thumb = MANUFACTURER_THUMB_HEIGHT;
+	$mw_thumb = MANUFACTURER_THUMB_WIDTH;
+	$thum_image = "";
 	$media_image = $producthelper->getAdditionMediaImage($this->data->manufacturer_id, "manufacturer");
-	$m           = 0;
+	$m = 0;
 
 	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
-		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE);
+		$wimg = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE);
 		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE);
 
 		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
@@ -425,12 +425,12 @@ if (strstr($template_desc, "{product_delivery_time}"))
 // Facebook I like Button
 if (strstr($template_desc, "{facebook_like_button}"))
 {
-	$uri           = JFactory::getURI();
+	$uri = JFactory::getURI();
 	$facebook_link = urlencode($uri->toString());
 	$facebook_like = '<iframe src="' . $Scheme . '://www.facebook.com/plugins/like.php?href=' . $facebook_link . '&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>';
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
-	$jconfig  = JFactory::getConfig();
+	$jconfig = JFactory::getConfig();
 	$sitename = $jconfig->getValue('config.sitename');
 
 	$document->setMetaData("og:url", $uri->toString());
@@ -442,8 +442,8 @@ if (strstr($template_desc, "{facebook_like_button}"))
 if (strstr($template_desc, "{googleplus1}"))
 {
 	JHTML::Script('plusone.js', 'https://apis.google.com/js/', false);
-	$uri           = JFactory::getURI();
-	$google_like   = '<g:plusone></g:plusone>';
+	$uri = JFactory::getURI();
+	$google_like = '<g:plusone></g:plusone>';
 	$template_desc = str_replace("{googleplus1}", $google_like, $template_desc);
 }
 
@@ -522,20 +522,20 @@ if (strstr($template_desc, "{wrapper_template:"))
 		if (strstr($template_desc, "{wrapper_template:" . $wrappertemplate [$w]->template_name . "}"))
 		{
 			$wrappertemplate_data = $wrappertemplate [$w]->template_desc;
-			$wrapper_start        = explode("{product_wrapper_start}", $wrappertemplate_data);
+			$wrapper_start = explode("{product_wrapper_start}", $wrappertemplate_data);
 
 			if (isset ($wrapper_start [1]))
 			{
-				$wrapper_start        = explode("{product_wrapper_end}", $wrapper_start [1]);
+				$wrapper_start = explode("{product_wrapper_end}", $wrapper_start [1]);
 				$wrappertemplate_data = $wrapper_start [0];
 			}
 
 			$wrappertemplate_data .= "<input type='hidden' name='wrapper_price' id='wrapper_price' value='0' />";
 			$wrappertemplate_data .= "<input type='hidden' name='wrapper_price_withoutvat' id='wrapper_price_withoutvat' value='0' />";
-			$warray                   = array();
-			$warray [0]->wrapper_id   = 0;
+			$warray = array();
+			$warray [0]->wrapper_id = 0;
 			$warray [0]->wrapper_name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
-			$wrapperimage_div         = "";
+			$wrapperimage_div = "";
 
 			if (AUTO_SCROLL_WRAPPER)
 			{
@@ -553,12 +553,12 @@ if (strstr($template_desc, "{wrapper_template:"))
 					$wrapper_vat = $producthelper->getProducttax($this->data->product_id, $wrapper[$i]->wrapper_price);
 				}
 
-				$wp            = $wrapper [$i]->wrapper_price + $wrapper_vat;
+				$wp = $wrapper [$i]->wrapper_price + $wrapper_vat;
 				$wp_withoutvat = $wrapper [$i]->wrapper_price;
 
-				$wid   = $wrapper [$i]->wrapper_id;
+				$wid = $wrapper [$i]->wrapper_id;
 				$title = " title='" . $wrapper [$i]->wrapper_name . "' ";
-				$alt   = " alt='" . $wrapper [$i]->wrapper_name . "' ";
+				$alt = " alt='" . $wrapper [$i]->wrapper_name . "' ";
 
 				if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
 				{
@@ -612,15 +612,15 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 			if (count($wrapper) > 0)
 			{
-				$wrapper              = array_merge($warray, $wrapper);
+				$wrapper = array_merge($warray, $wrapper);
 				$lists ['wrapper_id'] = JHTML::_('select.genericlist', $wrapper, 'wrapper_id', 'class="inputbox" onchange="calculateTotalPrice(\'' . $this->data->product_id . '\',0);" ', 'wrapper_id', 'wrapper_name', 0);
 
 				$wrappertemplate_data = str_replace("{wrapper_dropdown}", $lists ['wrapper_id'], $wrappertemplate_data);
 				$wrappertemplate_data = str_replace("{wrapper_image}", $wrapperimage_div, $wrappertemplate_data);
 				$wrappertemplate_data = str_replace("{wrapper_price}", "", $wrappertemplate_data);
-				$wrapper_checkbox     = JText::_('COM_REDSHOP_Add_WRAPPER') . ": <input type='checkbox' name='wrapper_check' onclick='calculateTotalPrice(\"" . $this->data->product_id . "\",0);' id='wrapper_check' />";
+				$wrapper_checkbox = JText::_('COM_REDSHOP_Add_WRAPPER') . ": <input type='checkbox' name='wrapper_check' onclick='calculateTotalPrice(\"" . $this->data->product_id . "\",0);' id='wrapper_check' />";
 				$wrappertemplate_data = str_replace("{wrapper_add_checkbox}", $wrapper_checkbox, $wrappertemplate_data);
-				$template_desc        = str_replace("{wrapper_template:" . $wrappertemplate [$w]->template_name . "}", $wrappertemplate_data, $template_desc);
+				$template_desc = str_replace("{wrapper_template:" . $wrappertemplate [$w]->template_name . "}", $wrappertemplate_data, $template_desc);
 			}
 			else
 			{
@@ -634,7 +634,7 @@ if (strstr($template_desc, "{navigator_products}"))
 {
 	$parentproductid = $this->data->product_id;
 
-	$frmChild               = "";
+	$frmChild = "";
 	$navigator_products_lbl = "";
 
 	if ($parentproductid != 0 && JPluginHelper::isEnabled('redshop_product_navigation', 'rs_product_navigation'))
@@ -647,7 +647,7 @@ if (strstr($template_desc, "{navigator_products}"))
 		if (count($childproducts) > 0)
 		{
 			$navigator_products_lbl = JText::_('COM_REDSHOP_NAVIGATOR_PRODUCTS') . ": ";
-			$cld_name               = array();
+			$cld_name = array();
 
 			if (count($childproducts) > 0)
 			{
@@ -734,7 +734,7 @@ if (strstr($template_desc, "{child_products}"))
 
 			$display_text = (CHILDPRODUCT_DROPDOWN == "product_number") ? "product_number" : "product_name";
 
-			$selected                  = array($this->data->product_id);
+			$selected = array($this->data->product_id);
 			$lists['product_child_id'] = JHTML::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmChild.submit();"', 'product_id', $display_text, $selected);
 
 			$frmChild .= "<form name='frmChild' method='post' action=''>";
@@ -758,7 +758,7 @@ if (count($childproduct) > 0)
 {
 	if (PURCHASE_PARENT_WITH_CHILD == 1)
 	{
-		$isChilds       = false;
+		$isChilds = false;
 		$attributes_set = array();
 
 		if ($this->data->attribute_set_id > 0)
@@ -771,13 +771,13 @@ if (count($childproduct) > 0)
 	}
 	else
 	{
-		$isChilds   = true;
+		$isChilds = true;
 		$attributes = array();
 	}
 }
 else
 {
-	$isChilds       = false;
+	$isChilds = false;
 	$attributes_set = array();
 
 	if ($this->data->attribute_set_id > 0)
@@ -806,13 +806,13 @@ $moreimage_response = '';
 
 if (count($attributes) > 0 && count($attribute_template) > 0)
 {
-	$selectedpropertyId    = 0;
+	$selectedpropertyId = 0;
 	$selectedsubpropertyId = 0;
 
 	for ($a = 0; $a < count($attributes); $a++)
 	{
 		$selectedId = array();
-		$property   = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+		$property = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
 		if ($attributes[$a]->text != "" && count($property) > 0)
 		{
@@ -827,8 +827,8 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 			if (count($selectedId) > 0)
 			{
 				$selectedpropertyId = $selectedId[count($selectedId) - 1];
-				$subproperty        = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
-				$selectedId         = array();
+				$subproperty = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
+				$selectedId = array();
 
 				for ($sp = 0; $sp < count($subproperty); $sp++)
 				{
@@ -853,8 +853,8 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 		$attributeproductStockStatus = $producthelper->getproductStockStatus($this->data->product_id, $totalatt, $selectedpropertyId, $selectedsubpropertyId);
 	}
 
-	$moreimage_response  = $preselectedresult['response'];
-	$aHrefImageResponse  = $preselectedresult['aHrefImageResponse'];
+	$moreimage_response = $preselectedresult['response'];
+	$aHrefImageResponse = $preselectedresult['aHrefImageResponse'];
 	$aTitleImageResponse = $preselectedresult['aTitleImageResponse'];
 
 	$mainImageResponse = $preselectedresult['product_mainimg'];
@@ -920,21 +920,21 @@ if (strstr($template_desc, $mpimg_tag))
 
 					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
 					{
-						$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
-						$linkimage     = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
+						$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
+						$linkimage = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
 						$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
 					}
 					else
 					{
-						$pimg          = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$linkimage     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
+						$pimg = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+						$linkimage = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
 						$hoverimg_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize=" . ADDITIONAL_HOVER_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 					}
 
 					if (PRODUCT_ADDIMG_IS_LIGHTBOX)
 					{
 						$more_images_div_start = "<div class='additional_image'><a href='" . $linkimage . "' title='" . $alttext . "' rel=\"myallimg\">";
-						$more_images_div_end   = "</a></div>";
+						$more_images_div_end = "</a></div>";
 						$more_images .= $more_images_div_start;
 						$more_images .= "<img src='" . $pimg . "' alt='" . $alttext . "' title='" . $alttext . "'>";
 						$more_images_hrefend = "";
@@ -967,10 +967,10 @@ if (strstr($template_desc, $mpimg_tag))
 							$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 						else
 							$img_path_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$hovermore_org         = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$oimg_path             = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+						$hovermore_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+						$oimg_path = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 						$more_images_div_start = "<div class='additional_image' onmouseover='display_image(\"" . $img_path . "\"," . $this->data->product_id . ",\"" . $hovermore_images . "\");' onmouseout='display_image_out(\"" . $img_path_org . "\"," . $this->data->product_id . ",\"" . $img_path_org . "\");'>";
-						$more_images_div_end   = "</div>";
+						$more_images_div_end = "</div>";
 						$more_images .= $more_images_div_start;
 						$more_images .= '<a href="javascript:void(0)" >' . "<img src='" . $pimg . "' title='" . $alttext . "' style='cursor: auto;'>";
 						$more_images_hrefend = "</a>";
@@ -997,7 +997,7 @@ if (strstr($template_desc, $mpimg_tag))
 if (strstr($template_desc, "{more_documents}"))
 {
 	$media_documents = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "document");
-	$more_doc        = '';
+	$more_doc = '';
 
 	for ($m = 0; $m < count($media_documents); $m++)
 	{
@@ -1008,7 +1008,7 @@ if (strstr($template_desc, "{more_documents}"))
 			$alttext = $media_documents[$m]->media_name;
 		}
 
-		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product" . DS . $media_documents[$m]->media_name))
+		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
 			$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 			$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
@@ -1057,14 +1057,14 @@ $userfieldArr = $returnArr[1];
 if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "{product_userfield end if}") && $template_userfield != "")
 {
 	$ufield = "";
-	$cart   = $session->get('cart');
+	$cart = $session->get('cart');
 
 	if (isset($cart['idx']))
 	{
 		$idx = (int) ($cart['idx']);
 	}
 
-	$idx     = 0;
+	$idx = 0;
 	$cart_id = '';
 
 	for ($j = 0; $j < $idx; $j++)
@@ -1117,11 +1117,11 @@ if (strstr($template_desc, "{category_product_img}"))
 	$mainsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=category/" . $this->data->category_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 	$backsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=category/" . $this->data->category_back_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 
-	$ahrefpath     = REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $this->data->category_full_image;
+	$ahrefpath = REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $this->data->category_full_image;
 	$ahrefbackpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->category_back_full_image;
 
 	$product_front_image_link = "<a href='#' onClick='javascript:changeproductImage(" . $this->data->product_id . ",\"" . $mainsrcPath . "\",\"" . $ahrefpath . "\");'>" . JText::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
-	$product_back_image_link  = "<a href='#' onClick='javascript:changeproductImage(" . $this->data->product_id . ",\"" . $backsrcPath . "\",\"" . $ahrefbackpath . "\");'>" . JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
+	$product_back_image_link = "<a href='#' onClick='javascript:changeproductImage(" . $this->data->product_id . ",\"" . $backsrcPath . "\",\"" . $ahrefbackpath . "\");'>" . JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
 
 	$template_desc = str_replace("{category_front_img_link}", $product_front_image_link, $template_desc);
 	$template_desc = str_replace("{category_back_img_link}", $product_back_image_link, $template_desc);
@@ -1161,11 +1161,11 @@ if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_
 		$backsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_back_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 	}
 
-	$ahrefpath     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_full_image;
+	$ahrefpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_full_image;
 	$ahrefbackpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_back_full_image;
 
 	$product_front_image_link = "<a href='#' onClick='javascript:changeproductImage(" . $this->data->product_id . ",\"" . $mainsrcPath . "\",\"" . $ahrefpath . "\");'>" . JText::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
-	$product_back_image_link  = "<a href='#' onClick='javascript:changeproductImage(" . $this->data->product_id . ",\"" . $backsrcPath . "\",\"" . $ahrefbackpath . "\");'>" . JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
+	$product_back_image_link = "<a href='#' onClick='javascript:changeproductImage(" . $this->data->product_id . ",\"" . $backsrcPath . "\",\"" . $ahrefbackpath . "\");'>" . JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
 
 	$template_desc = str_replace("{front_img_link}", $product_front_image_link, $template_desc);
 	$template_desc = str_replace("{back_img_link}", $product_back_image_link, $template_desc);
@@ -1185,7 +1185,7 @@ if (strstr($template_desc, "{product_preview_img}"))
 	{
 		$previewsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_preview_image . "&newxsize=" . PRODUCT_PREVIEW_IMAGE_WIDTH . "&newysize=" . PRODUCT_PREVIEW_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 
-		$previewImg    = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
+		$previewImg = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
 		$template_desc = str_replace("{product_preview_img}", $previewImg, $template_desc);
 	}
 	else
@@ -1210,7 +1210,7 @@ if (strstr($template_desc, "{front_preview_img_link}") || strstr($template_desc,
 	}
 
 	$product_front_image_link = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $this->data->product_id . ",\"" . $mainpreviewsrcPath . "\");'>" . JText::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
-	$product_back_image_link  = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $this->data->product_id . ",\"" . $backpreviewsrcPath . "\");'>" . JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
+	$product_back_image_link = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $this->data->product_id . ",\"" . $backpreviewsrcPath . "\");'>" . JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
 
 	$template_desc = str_replace("{front_preview_img_link}", $product_front_image_link, $template_desc);
 	$template_desc = str_replace("{back_preview_img_link}", $product_back_image_link, $template_desc);
@@ -1250,18 +1250,18 @@ if ($user->id)
 	// Write Review link with the products
 	if (strstr($template_desc, "{form_rating_without_lightbox}"))
 	{
-		$reviewlink    = JURI::root() . 'index.php?option=' . $option . '&view=product_rating&rate=1&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
-		$reviewform    = '<a href="' . $reviewlink . '">' . JText::_('WRITE_REVIEW') . '</a>';
+		$reviewlink = JURI::root() . 'index.php?option=' . $option . '&view=product_rating&rate=1&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
+		$reviewform = '<a href="' . $reviewlink . '">' . JText::_('WRITE_REVIEW') . '</a>';
 		$template_desc = str_replace("{form_rating_without_lightbox}", $reviewform, $template_desc);
 
 	}
 
 	if (strstr($template_desc, "{form_rating}"))
 	{
-		$reviewlink    = "";
-		$reviewform    = "";
-		$reviewlink    = JURI::root() . 'index.php?option=' . $option . '&view=product_rating&tmpl=component&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
-		$reviewform    = '<a class="redbox" rel="{handler:\'iframe\',size:{x:620,y:420}}" href="' . $reviewlink . '">' . JText::_('COM_REDSHOP_WRITE_REVIEW') . '</a>';
+		$reviewlink = "";
+		$reviewform = "";
+		$reviewlink = JURI::root() . 'index.php?option=' . $option . '&view=product_rating&tmpl=component&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
+		$reviewform = '<a class="redbox" rel="{handler:\'iframe\',size:{x:620,y:420}}" href="' . $reviewlink . '">' . JText::_('COM_REDSHOP_WRITE_REVIEW') . '</a>';
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 	}
 
@@ -1454,26 +1454,26 @@ if (strstr($template_desc, "{product_rating}"))
 
 	//Fetching reviews
 
-	$reviews          = $producthelper->getProductReviewList($this->data->product_id);
+	$reviews = $producthelper->getProductReviewList($this->data->product_id);
 	$reviews_template = "";
 	$product_template = "";
 
 	if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{product_loop_end}"))
 	{
-		$product_start    = explode("{product_loop_start}", $main_template);
-		$product_end      = explode("{product_loop_end}", $product_start [1]);
+		$product_start = explode("{product_loop_start}", $main_template);
+		$product_end = explode("{product_loop_end}", $product_start [1]);
 		$product_template = $product_end [0];
 
 		if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{product_loop_end}"))
 		{
-			$review_start     = explode("{review_loop_start}", $product_template);
-			$review_end       = explode("{review_loop_end}", $review_start [1]);
+			$review_start = explode("{review_loop_start}", $product_template);
+			$review_end = explode("{review_loop_end}", $review_start [1]);
 			$reviews_template = $review_end [0];
 		}
 	}
 
 	$product_data = '';
-	$reviews_all  = '';
+	$reviews_all = '';
 
 	if ($product_template != "" && $reviews_template != "" && count($reviews) > 0)
 	{
@@ -1481,11 +1481,11 @@ if (strstr($template_desc, "{product_rating}"))
 
 		$reviews_data1 = "";
 		$reviews_data2 = "";
-		$reviews_data  = "";
+		$reviews_data = "";
 
 		for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)
 		{
-			$fullname  = $reviews[$j]->username;
+			$fullname = $reviews[$j]->username;
 			$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
 
 			$reviews_data1 = str_replace("{fullname}", $fullname, $reviews_template);
@@ -1510,10 +1510,10 @@ if (strstr($template_desc, "{product_rating}"))
 
 		for ($k = $mainblock; $k < count($reviews); $k++)
 		{
-			$fullname2  = $reviews [$k]->firstname . " " . $reviews [$k]->lastname;
+			$fullname2 = $reviews [$k]->firstname . " " . $reviews [$k]->lastname;
 			$starimage2 = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
 
-			$fullname2     = $reviews[$k]->username;
+			$fullname2 = $reviews[$k]->username;
 			$reviews_data2 = str_replace("{fullname}", '', $reviews_template);
 			$reviews_data2 = str_replace("{email}", $reviews[$k]->email, $reviews_data2);
 			$reviews_data2 = str_replace("{company_name}", $reviews[$k]->company_name, $reviews_data2);
@@ -1528,7 +1528,7 @@ if (strstr($template_desc, "{product_rating}"))
 		$reviews_all .= $reviews_data;
 	}
 
-	$product_data  = str_replace("{review_loop_start}" . $reviews_template . "{review_loop_end}", $reviews_all, $product_data);
+	$product_data = str_replace("{review_loop_start}" . $reviews_template . "{review_loop_end}", $reviews_all, $product_data);
 	$main_template = str_replace("{product_loop_start}" . $product_template . "{product_loop_end}", $product_data, $main_template);
 
 	$template_desc = str_replace("{product_rating}", $main_template, $template_desc);
@@ -1542,9 +1542,9 @@ $template_desc = str_replace("{send_to_friend}", $send_friend_link, $template_de
 // Ask question about this product
 if (strstr($template_desc, "{ask_question_about_product}"))
 {
-	$asklink           = JURI::root() . 'index.php?option=' . $option . '&view=ask_question&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
+	$asklink = JURI::root() . 'index.php?option=' . $option . '&view=ask_question&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
 	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:280}}" href="' . $asklink . '" >' . JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT') . '</a>';
-	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);
+	$template_desc = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);
 }
 
 if (strstr($template_desc, "{ask_question_about_product_without_lightbox}"))
@@ -1557,7 +1557,7 @@ if (strstr($template_desc, "subscription"))
 {
 	if ($this->data->product_type == 'subscription')
 	{
-		$subscription      = $producthelper->getSubscription($this->data->product_id);
+		$subscription = $producthelper->getSubscription($this->data->product_id);
 		$subscription_data = "<table>";
 		$subscription_data .= "<tr><th>" . JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD') . "</th><th>" . JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE') . "</th>";
 		$subscription_data .= "<th>" . JText::_('COM_REDSHOP_SUBSCRIBE') . "</th></tr>";
@@ -1585,25 +1585,25 @@ if (strstr($template_desc, "subscription"))
 // PRODUCT QUESTION START
 if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{question_loop_end}"))
 {
-	$qstart         = $template_desc;
-	$qmiddle        = "";
-	$qend           = "";
+	$qstart = $template_desc;
+	$qmiddle = "";
+	$qend = "";
 	$question_start = explode("{question_loop_start}", $template_desc);
 
 	if (count($question_start) > 0)
 	{
-		$qstart       = $question_start [0];
+		$qstart = $question_start [0];
 		$question_end = explode("{question_loop_end}", $question_start [1]);
 
 		if (count($question_end) > 1)
 		{
 			$qmiddle = $question_end [0];
-			$qend    = $question_end [1];
+			$qend = $question_end [1];
 		}
 	}
 
 	$product_question = $producthelper->getQuestionAnswer(0, $this->data->product_id, 0, 1);
-	$questionloop     = "";
+	$questionloop = "";
 
 	if ($qmiddle != "")
 	{
@@ -1613,25 +1613,25 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 			$qloop = str_replace("{question_date}", $config->convertDateFormat($product_question [$q]->question_date), $qloop);
 			$qloop = str_replace("{question_owner}", $product_question [$q]->user_name, $qloop);
 
-			$astart       = $qloop;
-			$amiddle      = "";
-			$aend         = "";
+			$astart = $qloop;
+			$amiddle = "";
+			$aend = "";
 			$answer_start = @explode("{answer_loop_start}", $qloop);
 
 			if (count($answer_start) > 0)
 			{
-				$astart     = $answer_start [0];
+				$astart = $answer_start [0];
 				$answer_end = @explode("{answer_loop_end}", $answer_start [1]);
 
 				if (count($answer_end) > 0)
 				{
 					$amiddle = $answer_end [0];
-					$aend    = $answer_end [1];
+					$aend = $answer_end [1];
 				}
 			}
 
 			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->question_id, 0, 1, 1);
-			$answerloop     = "";
+			$answerloop = "";
 
 			for ($a = 0; $a < count($product_answer); $a++)
 			{

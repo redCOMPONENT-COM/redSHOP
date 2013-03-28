@@ -22,24 +22,24 @@ $producthelper = new producthelper;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
-$print  = JRequest::getVar('print');
-$model  = $this->getModel('product');
-$user   = JFactory::getUser();
+$print = JRequest::getVar('print');
+$model = $this->getModel('product');
+$user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 
-$config  = new Redconfiguration;
+$config = new Redconfiguration;
 $compare = $producthelper->getCompare();
 
-$redTemplate     = new Redtemplate;
+$redTemplate = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
 
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
-	$session         = JFactory::getSession();
+	$session = JFactory::getSession();
 	$compare_product = $session->get('compare_product');
-	$catid           = $compare_product[0]['category_id'];
-	$cid             = JRequest::getInt('cid');
+	$catid = $compare_product[0]['category_id'];
+	$cid = JRequest::getInt('cid');
 
 	if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
 	{
@@ -95,7 +95,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{returntocategory_link}', $returnlink, $template);
 
 	// Make extrafield object..
-	$field    = new extraField;
+	$field = new extraField;
 
 	$product_tag = array();
 
@@ -111,22 +111,22 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		if ($i == ($compare['idx'] - 1))
 		{
 			$td_start = "";
-			$td_end   = "";
+			$td_end = "";
 		}
 		else
 		{
 			$td_start = "<td>";
-			$td_end   = "</td>";
+			$td_end = "</td>";
 		}
 
 		$exp_div = "<div name='exp_" . $product->product_id . "'>";
 		$div_end = "</div>";
 
-		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $Itemid);
+		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $Itemid);
 		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $Itemid);
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
-		$img    = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image . "&newxsize=" . COMPARE_PRODUCT_THUMB_WIDTH . "&newysize=" . COMPARE_PRODUCT_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+		$img = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image . "&newxsize=" . COMPARE_PRODUCT_THUMB_WIDTH . "&newysize=" . COMPARE_PRODUCT_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
 
 		$expand = "<a href='javascript:void(0)' onClick='expand_collapse(this," . $product->product_id . ")' style='font-size:18px;text-decoration:none;' >-</a>";
 
@@ -145,7 +145,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		if (strstr($template, "{manufacturer_name}"))
 		{
 			$manufacturer = $producthelper->getSection('manufacturer', $product->manufacturer_id);
-			$template     = str_replace('{manufacturer_name}', $exp_div . $manufacturer->manufacturer_name . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
+			$template = str_replace('{manufacturer_name}', $exp_div . $manufacturer->manufacturer_name . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
 		}
 
 		if (strstr($template, "{discount_start_date}"))
@@ -176,18 +176,18 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$template = str_replace('{product_desc}', $exp_div . $product->product_desc . $div_end . $td_end . $td_start . "{product_desc}", $template);
 
 		$product_number_output = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
-		$template              = str_replace('{product_number}', $exp_div . $product->product_number . $div_end . $td_end . $td_start . "{product_number}", $template);
+		$template = str_replace('{product_number}', $exp_div . $product->product_number . $div_end . $td_end . $td_start . "{product_number}", $template);
 
 		$product_weight_unit = '<span class="product_unit_variable">' . DEFAULT_WEIGHT_UNIT . '</span>';
-		$template            = str_replace('{product_weight}', $exp_div . $producthelper->redunitDecimal($product->weight) . "&nbsp;" . $product_weight_unit . $div_end . $td_end . $td_start . "{product_weight}", $template);
+		$template = str_replace('{product_weight}', $exp_div . $producthelper->redunitDecimal($product->weight) . "&nbsp;" . $product_weight_unit . $div_end . $td_end . $td_start . "{product_weight}", $template);
 
 		$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
-		$template     = str_replace('{product_length}', $exp_div . $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_length}", $template);
-		$template     = str_replace('{product_height}', $exp_div . $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_height}", $template);
-		$template     = str_replace('{product_width}', $exp_div . $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_width}", $template);
+		$template = str_replace('{product_length}', $exp_div . $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_length}", $template);
+		$template = str_replace('{product_height}', $exp_div . $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_height}", $template);
+		$template = str_replace('{product_width}', $exp_div . $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_width}", $template);
 
 		$product_volume_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . "3" . '</span>';
-		$template            = str_replace('{product_volume}', $exp_div . $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit . $div_end . $td_end . $td_start . "{product_volume}", $template);
+		$template = str_replace('{product_volume}', $exp_div . $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit . $div_end . $td_end . $td_start . "{product_volume}", $template);
 
 		if (strstr($template, "{product_price}"))
 		{
@@ -204,15 +204,15 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		if (strstr($template, "{product_rating_summary}"))
 		{
 			$final_avgreview_data = $producthelper->getProductRating($compare[$i]["product_id"]);
-			$template             = str_replace('{product_rating_summary}', $exp_div . $final_avgreview_data . $div_end . $td_end . $td_start . "{product_rating_summary}", $template);
+			$template = str_replace('{product_rating_summary}', $exp_div . $final_avgreview_data . $div_end . $td_end . $td_start . "{product_rating_summary}", $template);
 		}
 
 		if (strstr($template, "{products_in_stock}") || strstr($template, "{product_stock_amount_image}"))
 		{
 			$product_stock = $stockroomhelper->getStockAmountwithReserve($compare[$i]["product_id"]);
-			$template      = str_replace('{products_in_stock}', $exp_div . $product_stock . $div_end . $td_end . $td_start . "{products_in_stock}", $template);
+			$template = str_replace('{products_in_stock}', $exp_div . $product_stock . $div_end . $td_end . $td_start . "{products_in_stock}", $template);
 
-			$stockamountList  = $stockroomhelper->getStockAmountImage($compare[$i]["product_id"], "product", $product_stock);
+			$stockamountList = $stockroomhelper->getStockAmountImage($compare[$i]["product_id"], "product", $product_stock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
@@ -220,7 +220,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 				$stockamountImage = '<a class="imgtooltip"><span>';
 				$stockamountImage .= '<div class="spnheader">' . JText::_('COM_REDSHOP_STOCK_AMOUNT') . '</div>';
 				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $compare[$i]["product_id"] . '">' . $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
-				$stockamountImage .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom' . DS . $stockamountList[0]->stock_amount_image . '" width="150px" height="90px" alt="' . $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $compare[$i]["product_id"] . '" /></a>';
+				$stockamountImage .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/' . $stockamountList[0]->stock_amount_image . '" width="150px" height="90px" alt="' . $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $compare[$i]["product_id"] . '" /></a>';
 			}
 
 			$template = str_replace('{product_stock_amount_image}', $exp_div . $stockamountImage . $div_end . $td_end . $td_start . "{product_stock_amount_image}", $template);
@@ -229,7 +229,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		if (strstr($template, "{product_delivery_time}"))
 		{
 			$product_delivery_time = $producthelper->getProductMinDeliveryTime($compare[$i]["product_id"]);
-			$template              = str_replace('{product_delivery_time}', $exp_div . $product_delivery_time . $div_end . $td_end . $td_start . "{product_delivery_time}", $template);
+			$template = str_replace('{product_delivery_time}', $exp_div . $product_delivery_time . $div_end . $td_end . $td_start . "{product_delivery_time}", $template);
 		}
 
 		if (strstr($template, "{product_availability_date}"))
@@ -255,7 +255,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		if (strstr($template, "{add_to_cart}"))
 		{
 			$addtocart = $producthelper->replaceCartTemplate($compare[$i]["product_id"]);
-			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
+			$template = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 
 		// Extra field display

@@ -13,14 +13,14 @@ $app = JFactory::getApplication();
 JLoader::import('joomla.html.parameter');
 
 $option = JRequest::getCmd('option');
-$view   = JRequest::getVar('view');
+$view = JRequest::getVar('view');
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/template.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components' . DS . $option . '/helpers/economic.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/template.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/stockroom.php';
+require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/economic.php';
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
@@ -61,7 +61,7 @@ require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
 
 $controller = JRequest::getCmd('view', 'category');
 
-$task   = JRequest::getCmd('task');
+$task = JRequest::getCmd('task');
 $format = JRequest::getWord('format', '');
 $layout = JRequest::getWord('layout', '');
 
@@ -71,10 +71,10 @@ $params = $app->getParams('com_redshop');
 $helper->dbtocart();
 
 $categoryid = JRequest::getInt('cid', $params->get('categoryid'));
-$productid  = JRequest::getInt('pid', 0);
+$productid = JRequest::getInt('pid', 0);
 
 $sgportal = $helper->getShopperGroupPortal();
-$portal   = 0;
+$portal = 0;
 if (count($sgportal) > 0)
 	$portal = $sgportal->shopper_group_portal;
 
@@ -173,13 +173,13 @@ else
 
 
 // Set the controller page
-if (!file_exists(JPATH_COMPONENT . '/controllers' . DS . $controller . '.php'))
+if (!file_exists(JPATH_COMPONENT . '/controllers/' . $controller . '.php'))
 {
 	$controller = 'category';
 	JRequest::setVar('view', 'category');
 }
 
-require_once JPATH_COMPONENT . '/controllers' . DS . $controller . '.php';
+require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
 
 // Set the controller page
 

@@ -22,18 +22,18 @@ class redhelper
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$this->_db           = JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 	/**
- 	 * add item to cart from db ...
- 	 */
+	 * add item to cart from db ...
+	 */
 	public function dbtocart()
 	{
 		require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$user    = JFactory::getUser();
+		$cart = $session->get('cart');
+		$user = JFactory::getUser();
 
 		if ($user->id && !isset($cart['idx']))
 		{
@@ -93,7 +93,7 @@ class redhelper
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$res   = false;
+		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` "
 			. "WHERE `order_id` = '" . $this->_db->getEscaped($order_id) . "' "
 			. "AND order_payment_trans_id = '" . $this->_db->getEscaped($tid) . "' ";
@@ -213,7 +213,7 @@ class redhelper
 	{
 		for ($i = 0; $i < count($arr); $i++)
 		{
-			$txt   = $arr[$i]->text;
+			$txt = $arr[$i]->text;
 			$ltext = JText::_($txt);
 
 			if ($ltext != $txt)
@@ -230,8 +230,8 @@ class redhelper
 
 		for ($i = 0; $i < count($arr); $i++)
 		{
-			$txt            = $arr[$i]->text;
-			$val            = $arr[$i]->value;
+			$txt = $arr[$i]->text;
+			$val = $arr[$i]->value;
 			$tmpArray[$val] = $txt;
 		}
 
@@ -240,7 +240,7 @@ class redhelper
 
 		foreach ($tmpArray AS $val => $txt)
 		{
-			$arr[$x]->text  = $txt;
+			$arr[$x]->text = $txt;
 			$arr[$x]->value = $val;
 			$x++;
 		}
@@ -309,11 +309,11 @@ class redhelper
 			. "WHERE p.product_id='" . $pid . "' ";
 		$this->_db->setQuery($query);
 		$prodctcat = $this->_db->loadObjectList();
-		$catflag   = false;
+		$catflag = false;
 
 		for ($i = 0; $i < count($prodctcat); $i++)
 		{
-			$cid            = $prodctcat[$i]->category_id;
+			$cid = $prodctcat[$i]->category_id;
 			$shoppercatdata = $this->getShopperGroupCategory($cid);
 
 			if (count($shoppercatdata) <= 0 && $catflag == false)
@@ -328,83 +328,83 @@ class redhelper
 	// 	Order by list
 	public function getOrderByList()
 	{
-		$order_data           = array();
+		$order_data = array();
 		$order_data[0]->value = "p.product_name ASC";
-		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
+		$order_data[0]->text = JText::_('COM_REDSHOP_PRODUCT_NAME');
 		$order_data[1]->value = "p.product_price ASC";
-		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
+		$order_data[1]->text = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
 		$order_data[2]->value = "p.product_price DESC";
-		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
+		$order_data[2]->text = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
 		$order_data[3]->value = "p.product_number ASC";
-		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
+		$order_data[3]->text = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
 		$order_data[4]->value = "p.product_id DESC";
-		$order_data[4]->text  = JText::_('COM_REDSHOP_NEWEST');
+		$order_data[4]->text = JText::_('COM_REDSHOP_NEWEST');
 		$order_data[5]->value = "pc.ordering ASC";
-		$order_data[5]->text  = JText::_('COM_REDSHOP_ORDERING');
+		$order_data[5]->text = JText::_('COM_REDSHOP_ORDERING');
 
 		return $order_data;
 	}
 
 	public function getManufacturerOrderByList()
 	{
-		$order_data           = array();
+		$order_data = array();
 		$order_data[0]->value = "mn.manufacturer_name ASC";
-		$order_data[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
+		$order_data[0]->text = JText::_('COM_REDSHOP_ALPHABETICALLY');
 		$order_data[1]->value = "mn.manufacturer_id DESC";
-		$order_data[1]->text  = JText::_('COM_REDSHOP_NEWEST');
+		$order_data[1]->text = JText::_('COM_REDSHOP_NEWEST');
 		$order_data[2]->value = "mn.ordering ASC";
-		$order_data[2]->text  = JText::_('COM_REDSHOP_ORDERING');
+		$order_data[2]->text = JText::_('COM_REDSHOP_ORDERING');
 
 		return $order_data;
 	}
 
 	public function getRelatedOrderByList()
 	{
-		$order_data           = array();
+		$order_data = array();
 		$order_data[0]->value = "p.product_name ASC";
-		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_ASC');
+		$order_data[0]->text = JText::_('COM_REDSHOP_PRODUCT_NAME_ASC');
 		$order_data[1]->value = "p.product_name DESC";
-		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_DESC');
+		$order_data[1]->text = JText::_('COM_REDSHOP_PRODUCT_NAME_DESC');
 		$order_data[2]->value = "p.product_price ASC";
-		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
+		$order_data[2]->text = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
 		$order_data[3]->value = "p.product_price DESC";
-		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
+		$order_data[3]->text = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
 		$order_data[4]->value = "p.product_number ASC";
-		$order_data[4]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC');
+		$order_data[4]->text = JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC');
 		$order_data[5]->value = "p.product_number DESC";
-		$order_data[5]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC');
+		$order_data[5]->text = JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC');
 
 		$order_data[6]->value = "r.ordering ASC";
-		$order_data[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
+		$order_data[6]->text = JText::_('COM_REDSHOP_ORDERING_ASC');
 		$order_data[7]->value = "r.ordering DESC";
-		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
+		$order_data[7]->text = JText::_('COM_REDSHOP_ORDERING_DESC');
 		$order_data[8]->value = "e.data_txt ASC";
-		$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
+		$order_data[8]->text = JText::_('COM_REDSHOP_DATEPICKER_ASC');
 		$order_data[9]->value = "e.data_txt DESC";
-		$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+		$order_data[9]->text = JText::_('COM_REDSHOP_DATEPICKER_DESC');
 
 		return $order_data;
 	}
 
 	public function getAccessoryOrderByList()
 	{
-		$order_data           = array();
+		$order_data = array();
 		$order_data[0]->value = "child_product_id ASC";
-		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_ASC');
+		$order_data[0]->text = JText::_('COM_REDSHOP_PRODUCT_ID_ASC');
 		$order_data[1]->value = "child_product_id DESC";
-		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_DESC');
+		$order_data[1]->text = JText::_('COM_REDSHOP_PRODUCT_ID_DESC');
 		$order_data[2]->value = "accessory_id ASC";
-		$order_data[2]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_ASC');
+		$order_data[2]->text = JText::_('COM_REDSHOP_ACCESSORY_ID_ASC');
 		$order_data[3]->value = "accessory_id DESC";
-		$order_data[3]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_DESC');
+		$order_data[3]->text = JText::_('COM_REDSHOP_ACCESSORY_ID_DESC');
 		$order_data[4]->value = "newaccessory_price ASC";
-		$order_data[4]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_ASC');
+		$order_data[4]->text = JText::_('COM_REDSHOP_ACCESSORY_PRICE_ASC');
 		$order_data[5]->value = "newaccessory_price DESC";
-		$order_data[5]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_DESC');
+		$order_data[5]->text = JText::_('COM_REDSHOP_ACCESSORY_PRICE_DESC');
 		$order_data[6]->value = "ordering ASC";
-		$order_data[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
+		$order_data[6]->text = JText::_('COM_REDSHOP_ORDERING_ASC');
 		$order_data[7]->value = "ordering DESC";
-		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
+		$order_data[7]->text = JText::_('COM_REDSHOP_ORDERING_DESC');
 
 		return $order_data;
 	}
@@ -415,15 +415,15 @@ class redhelper
 		$preorder_data = array();
 		$preorder_data[0] = new stdClass;
 		$preorder_data[0]->value = "global";
-		$preorder_data[0]->text  = JText::_('COM_REDSHOP_GLOBAL');
+		$preorder_data[0]->text = JText::_('COM_REDSHOP_GLOBAL');
 
 		$preorder_data[1] = new stdClass;
 		$preorder_data[1]->value = "yes";
-		$preorder_data[1]->text  = JText::_('COM_REDSHOP_YES');
+		$preorder_data[1]->text = JText::_('COM_REDSHOP_YES');
 
 		$preorder_data[2] = new stdClass;
 		$preorder_data[2]->value = "no";
-		$preorder_data[2]->text  = JText::_('COM_REDSHOP_NO');
+		$preorder_data[2]->text = JText::_('COM_REDSHOP_NO');
 
 		return $preorder_data;
 	}
@@ -434,11 +434,11 @@ class redhelper
 		$childproduct_data = array();
 		$childproduct_data[0] = new stdClass;
 		$childproduct_data[0]->value = "product_name";
-		$childproduct_data[0]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NAME');
+		$childproduct_data[0]->text = JText::_('COM_REDSHOP_CHILD_PRODUCT_NAME');
 
 		$childproduct_data[1] = new stdClass;
 		$childproduct_data[1]->value = "product_number";
-		$childproduct_data[1]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NUMBER');
+		$childproduct_data[1]->text = JText::_('COM_REDSHOP_CHILD_PRODUCT_NUMBER');
 
 		return $childproduct_data;
 	}
@@ -446,11 +446,11 @@ class redhelper
 	//  function to get state abbrivation option list
 	public function getStateAbbrivationByList()
 	{
-		$state_data           = array();
+		$state_data = array();
 		$state_data[0]->value = "2";
-		$state_data[0]->text  = JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
+		$state_data[0]->text = JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
 		$state_data[1]->value = "3";
-		$state_data[1]->text  = JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
+		$state_data[1]->text = JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
 
 		return $state_data;
 	}
@@ -458,8 +458,8 @@ class redhelper
 	// Get checkout Itemid
 	public function getCheckoutItemid()
 	{
-		$userhelper         = new rsUserhelper;
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$userhelper = new rsUserhelper;
+		$Itemid = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_checkout_itemid != 0)
@@ -478,8 +478,8 @@ class redhelper
 	// Get cart Itemid
 	public function getCartItemid($Itemid)
 	{
-		$userhelper         = new rsUserhelper;
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$userhelper = new rsUserhelper;
+		$Itemid = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_itemid != 0)
@@ -529,7 +529,7 @@ class redhelper
 		if (count($redproinfo) > 0)
 		{
 			$progrouplist = explode(",", $redproinfo[0]->shoppergroups);
-			$usershopper  = $userhelper->getShopperGroup();
+			$usershopper = $userhelper->getShopperGroup();
 
 			if (in_array($usershopper, $progrouplist))
 			{
@@ -586,7 +586,7 @@ class redhelper
 	{
 		require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
-		$url    = JURI::root();
+		$url = JURI::root();
 		$option = 'com_redshop';
 
 		/*
@@ -597,10 +597,10 @@ class redhelper
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
-				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images' . DS . $mtype . DS . $Imagename;
-				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
+				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb' . DS . $filename_path_info['basename'];
+				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
 			}
 			else
 			{
@@ -613,19 +613,20 @@ class redhelper
 		if ($Imagename
 			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
 			&& (WATERMARK_IMAGE
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
+				&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
+		)
 		{
 			if ($thumb_width != '' && $thumb_height != '')
 			{
-				$file_path    = JPATH_SITE . '/components/com_redshop/assets/images/product' . DS . WATERMARK_IMAGE;
-				$filename     = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
+				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb' . DS . $filename_path_info['basename'];
+				$watermark = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb/' . $filename_path_info['basename'];
 
-				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images' . DS . $mtype . DS . $Imagename;
-				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
+				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . DS . $mtype . DS . $filename_path_info['basename'];
+				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $mtype . '/' . $filename_path_info['basename'];
 
 				if ($add_img == 2)
 				{
@@ -642,8 +643,8 @@ class redhelper
 			}
 			else
 			{
-				$watermark   = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE;
-				$filename    = REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename;
+				$watermark = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE;
+				$filename = REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename;
 				$gnImagename = 'main' . $Imagename;
 
 				if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename))
@@ -653,13 +654,13 @@ class redhelper
 			}
 
 			$DestinationFile = REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename;
-			$filetype        = JFile::getExt(WATERMARK_IMAGE);
+			$filetype = JFile::getExt(WATERMARK_IMAGE);
 
 			switch ($filetype)
 			{
 				case "gif":
 					$dest = @imagecreatefromjpeg($filename);
-					$src  = @imagecreatefromgif($watermark);
+					$src = @imagecreatefromgif($watermark);
 
 					list($width, $height, $type, $attr) = @getimagesize($filename);
 
@@ -675,11 +676,11 @@ class redhelper
 					return $DestinationFile;
 
 				case "png":
-					$im    = imagecreatefrompng($watermark);
+					$im = imagecreatefrompng($watermark);
 					$exten = JFile::getExt($filename);
 
 					$extARRAY = @ explode('&', $exten);
-					$ext      = $extARRAY[0];
+					$ext = $extARRAY[0];
 
 					if (strtolower($ext) == "gif")
 					{
@@ -711,7 +712,7 @@ class redhelper
 
 					imagecopy($im2, $im, (imagesx($im2) / 2) - (imagesx($im) / 2), (imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im));
 					$waterless = imagesx($im2) - imagesx($im);
-					$rest      = ceil($waterless / imagesx($im) / 2);
+					$rest = ceil($waterless / imagesx($im) / 2);
 
 					for ($n = 1; $n <= $rest; $n++)
 					{
@@ -783,14 +784,14 @@ class redhelper
 			. "LEFT JOIN " . $this->_table_prefix . "payment_method AS p ON p.payment_method_id = oy.payment_method_id "
 			. "WHERE oy.order_id = '" . $order_id . "' ";
 		$this->_db->setQuery($query);
-		$paymentData       = $this->_db->loadobject();
-		$paymentName       = $paymentData->payment_method_name;
+		$paymentData = $this->_db->loadobject();
+		$paymentName = $paymentData->payment_method_name;
 		$payment_method_id = $paymentData->payment_method_id;
-		$redTemplate       = new Redtemplate;
-		$TemplateDetail    = $redTemplate->getTemplate("clicktell_sms_message");
+		$redTemplate = new Redtemplate;
+		$TemplateDetail = $redTemplate->getTemplate("clicktell_sms_message");
 
 		$order_shipping_class = 0;
-		$order_shipping       = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
+		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
 
 		if (isset($order_shipping[0]))
 		{
@@ -801,13 +802,13 @@ class redhelper
 		$s_where = " AND (FIND_IN_SET( '" . $order_shipping_class . "', shipping_methods ))";
 
 		$orderby = " ORDER BY `template_id` DESC LIMIT 0,1";
-		$query   = "SELECT * FROM " . $this->_table_prefix . "template AS t "
+		$query = "SELECT * FROM " . $this->_table_prefix . "template AS t "
 			. "WHERE t.template_section = 'clicktell_sms_message' "
 			. "AND (FIND_IN_SET( '" . $orderData->order_status . "', order_status )) ";
-		$to      = $orderData->phone;
+		$to = $orderData->phone;
 		$this->_db->setQuery($query . $p_where . $orderby);
 		$payment_methods = $this->_db->loadobject();
-		$message         = $this->replaceMessage($payment_methods->template_desc, $orderData, $paymentName);
+		$message = $this->replaceMessage($payment_methods->template_desc, $orderData, $paymentName);
 
 		if ($message)
 		{
@@ -838,20 +839,20 @@ class redhelper
 	public function sendmessage($text, $to)
 	{
 		// Clickatell_username
-		$user     = CLICKATELL_USERNAME;
+		$user = CLICKATELL_USERNAME;
 
 		// Clickatell_password
 		$password = CLICKATELL_PASSWORD;
 
 		// Clickatell_api_id
-		$api_id   = CLICKATELL_API_ID;
-		$baseurl  = "http://api.clickatell.com";
+		$api_id = CLICKATELL_API_ID;
+		$baseurl = "http://api.clickatell.com";
 
 		// Auth call
-		$url  = "$baseurl/http/auth?user=$user&password=$password&api_id=$api_id";
+		$url = "$baseurl/http/auth?user=$user&password=$password&api_id=$api_id";
 
 		// Do auth call
-		$ret  = file($url);
+		$ret = file($url);
 
 		// Split our response. return string is on first line of the data returned
 		$sess = explode(":", $ret[0]);
@@ -860,10 +861,10 @@ class redhelper
 		{
 			// Remove any whitespace
 			$sess_id = trim($sess[1]);
-			$url     = "$baseurl/http/sendmsg?session_id=$sess_id&to=$to&text=$text";
+			$url = "$baseurl/http/sendmsg?session_id=$sess_id&to=$to&text=$text";
 
 			// Do sendmsg call
-			$ret  = file($url);
+			$ret = file($url);
 			$send = explode(":", $ret[0]);
 
 			if ($send[0] == "ID")
@@ -884,9 +885,9 @@ class redhelper
 
 	public function replaceMessage($message, $orderData, $paymentName)
 	{
-		$shippinghelper  = new shipping;
+		$shippinghelper = new shipping;
 		$shipping_method = '';
-		$details         = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
+		$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
 
 		if (count($details) > 1)
 		{
@@ -941,7 +942,7 @@ class redhelper
 		}
 		else
 		{
-			$url  = JURI::base();
+			$url = JURI::base();
 			$link = $url . $link;
 			$link = $this->getsslLink($link, $applySSL);
 		}
@@ -979,7 +980,7 @@ class redhelper
 		// Get redshop from joomla component table
 		$query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
 		$this->_db->setQuery($query);
-		$redproductfinder      = $this->_db->loadobject();
+		$redproductfinder = $this->_db->loadobject();
 		$redproductfinder_path = JPATH_ADMINISTRATOR . '/components/com_redproductfinder';
 
 		if (!is_dir($redproductfinder_path) || $redproductfinder->enabled == 0)
