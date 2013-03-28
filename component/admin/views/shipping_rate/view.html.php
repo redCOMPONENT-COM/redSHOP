@@ -42,7 +42,7 @@ class shipping_rateViewshipping_rate extends JView
 
 		if ($is_shipper)
 		{
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
 		JToolBarHelper::deleteList();
