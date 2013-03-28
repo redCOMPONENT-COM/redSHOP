@@ -531,7 +531,7 @@ class rsUserhelper
 			}
 			else
 			{
-				if ($is_admin && $data['shopper_group_id'] != 0)
+				if ($is_admin && isset($data['shopper_group_id']) && $data['shopper_group_id'] != 0)
 				{
 					$data['shopper_group_id'] = $data['shopper_group_id'];
 				}
