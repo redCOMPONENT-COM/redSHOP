@@ -30,7 +30,6 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epay');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
