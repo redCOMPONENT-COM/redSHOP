@@ -409,7 +409,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		// Get the current columns Total Price excl price
@@ -879,7 +878,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the current columns for fields_data */
@@ -914,7 +912,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the current columns */
@@ -1191,7 +1188,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the current columns for #__redshop_product_attribute_price */
@@ -1339,7 +1335,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the current columns for redshop product_voucher */
@@ -1364,7 +1359,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the current columns for redshop product_price */
@@ -1460,7 +1454,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the current columns */
@@ -2235,7 +2228,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the current columns */
@@ -2340,7 +2332,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the redshop_orders */
@@ -2763,7 +2754,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the product_stockroom_xref  */
@@ -2787,7 +2777,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		/* Get the product_stockroom_xref  */
@@ -2970,7 +2959,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 		/* Get the current columns for redshop product_category_xref */
 		$q = "SHOW COLUMNS FROM #__redshop_product_category_xref";
@@ -3180,7 +3168,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 		// Add ordering field
 
@@ -3293,7 +3280,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-
 		}
 
 		// Product_download
@@ -3782,7 +3768,6 @@ class Com_RedshopInstallerScript
 						$template_desc = str_replace("{subtotal_excl_vat}", "{product_subtotal_excl_vat}", $template_desc);
 						$template_desc = str_replace("{order_subtotal_excl_vat}", "{product_subtotal_excl_vat}", $template_desc);
 					}
-
 				}
 
 				if (!strstr($template_desc, '{shipping_excl_vat}'))
@@ -3796,7 +3781,6 @@ class Com_RedshopInstallerScript
 					{
 						$template_desc = str_replace('{shipping_with_vat}', '{shipping}', $template_desc);
 					}
-
 				}
 				$fp = fopen($tempate_file, "w");
 				fwrite($fp, $template_desc);
@@ -4011,7 +3995,6 @@ class Com_RedshopInstallerScript
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
 			}
 		}
-
 	}
 
 	/**
@@ -4503,7 +4486,6 @@ class Com_RedshopInstallerScript
 				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
-
 	}
 
 	/**
@@ -4582,7 +4564,6 @@ class Com_RedshopInstallerScript
 				}
 			}
 		}
-
 	}
 
 	/**
