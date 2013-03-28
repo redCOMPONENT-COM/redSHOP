@@ -79,13 +79,16 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			// Calculate AmountInput
 
 			$amount = $data['order_total'];
-			$amount = sprintf("%9.2f", $amount); //convert .8 to .80
+
+			// Convert .8 to .80
+			$amount = sprintf("%9.2f", $amount);
 
 			$currency = CURRENCY_CODE;
 			$merchRef = substr($data['billinginfo']->firstname, 0, 50) . " " . substr($data['billinginfo']->lastname, 0, 50);
 			$cmdDoTxnTransaction .= "<Txn>";
+
 			// Insert your DPS Username here
-			$cmdDoTxnTransaction .= "<PostUsername>" . $this->_params->get("px_post_username"
+			$cmdDoTxnTransaction .= "<PostUsername>" . $this->_params->get("px_post_username")
 				. "</PostUsername>";
 
 			// Insert your DPS Password here
@@ -104,7 +107,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$cmdDoTxnTransaction .= "</Txn>";
 
 			$URL = "sec2.paymentexpress.com/pxpost.aspx";
-			//echo "\n\n\n\nSENT:\n$cmdDoTxnTransaction\n\n\n\n\n$";
 
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, "https://" . $URL);
@@ -112,8 +114,8 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $cmdDoTxnTransaction);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-			//Needs to be included if no *.crt is available to verify SSL certificates
-			//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			// Needs to be included if no *.crt is available to verify SSL certificates
+			// Curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($ch, CURLOPT_SSLVERSION, 3);
 			$result = curl_exec($ch);
 
@@ -128,6 +130,9 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 			$response = $params['TXN']['SUCCESS'];
 			$authorized = $params['TXN'][$response]['AUTHORIZED'];
+
+			$values = new stdClass;
+
 			// Approved - Success!
 			if ($authorized == '1')
 			{
@@ -212,9 +217,10 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$orderDetail = $objOrder->getOrderPaymentDetail($data['order_id']);
 			$cmdDoTxnTransaction = "";
 			$db = JFactory::getDBO();
+
 			// Get user billing information
 
-			#Calculate AmountInput
+			// Calculate AmountInput
 			$amount = $order_total;
 
 			$order_payment_amount = $orderDetail[0]->order_payment_amount;
@@ -222,8 +228,12 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 			$currency = CURRENCY_CODE;
 			$cmdDoTxnTransaction .= "<Txn>";
-			$cmdDoTxnTransaction .= "<PostUsername>" . $this->_params->get("px_post_username") . "</PostUsername>"; #Insert your DPS Username here
-			$cmdDoTxnTransaction .= "<PostPassword>" . $this->_params->get("px_post_password") . "</PostPassword>"; #Insert your DPS Password here
+
+			// Insert your DPS Username here
+			$cmdDoTxnTransaction .= "<PostUsername>" . $this->_params->get("px_post_username") . "</PostUsername>";
+
+			// Insert your DPS Password here
+			$cmdDoTxnTransaction .= "<PostPassword>" . $this->_params->get("px_post_password") . "</PostPassword>";
 			$cmdDoTxnTransaction .= "<Amount>$order_payment_amount</Amount>";
 			$cmdDoTxnTransaction .= "<InputCurrency>$currency</InputCurrency>";
 			$cmdDoTxnTransaction .= "<DpsTxnRef>$order_payment_trans_id</DpsTxnRef>";
@@ -231,14 +241,16 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$cmdDoTxnTransaction .= "</Txn>";
 
 			$URL = "sec2.paymentexpress.com/pxpost.aspx";
-			//echo "\n\n\n\nSENT:\n$cmdDoTxnTransaction\n\n\n\n\n$";
 
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, "https://" . $URL);
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $cmdDoTxnTransaction);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); //Needs to be included if no *.crt is available to verify SSL certificates
+
+			// Needs to be included if no *.crt is available to verify SSL certificates
+			// curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
 			curl_setopt($ch, CURLOPT_SSLVERSION, 3);
 			$result = curl_exec($ch);
 
@@ -254,7 +266,10 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$PX_msg = $params['TXN']['RESPONSETEXT'];
 			$authorized = $params['TXN']['SUCCESS'];
 			$message = $params['TXN'][$response]['CARDHOLDERHELPTEXT'];
+
 			// Approved - Success!
+
+			$values = new stdClass;
 
 			if ($authorized == '1' || $authorized == 1)
 			{
