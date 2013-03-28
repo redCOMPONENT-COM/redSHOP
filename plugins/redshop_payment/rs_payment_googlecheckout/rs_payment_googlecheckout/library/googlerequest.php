@@ -263,7 +263,7 @@ class GoogleRequest
 	 * @param $proxy: Array('host' => 'proxy-host', 'port' => 'proxy-port');
 	 *
 	 */
-	function SetProxy($proxy = array())
+	public function SetProxy($proxy = array())
 	{
 		if (is_array($proxy) && count($proxy))
 		{

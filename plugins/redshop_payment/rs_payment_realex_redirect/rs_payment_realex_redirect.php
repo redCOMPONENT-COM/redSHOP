@@ -24,7 +24,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_realex_redirect(&$subject)
+	public function plgRedshop_paymentrs_payment_realex_redirect(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -36,7 +36,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_realex_redirect($element, $data)
+	public function onPrePayment_rs_payment_realex_redirect($element, $data)
 	{
 		if ($element != 'rs_payment_realex_redirect')
 		{

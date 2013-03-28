@@ -38,7 +38,7 @@ class _ctpexmlpost
 	/*
 	  using HTTP/POST send message to ctpe server
 	*/
-	function sendToCTPE($host, $path, $data)
+	public function sendToCTPE($host, $path, $data)
 	{
 		$cpt = curl_init();
 
@@ -194,7 +194,7 @@ class _ctpexmlpost
 	/*
 	  Parser XML message returned by CTPE server.
 	*/
-	function parserResult($resultURL)
+	public function parserResult($resultURL)
 	{
 		$resultXML = urldecode($resultURL);
 		$processingResult = array();

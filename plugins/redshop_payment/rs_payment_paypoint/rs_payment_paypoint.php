@@ -24,7 +24,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_paypoint(&$subject)
+	public function plgRedshop_paymentrs_payment_paypoint(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -36,7 +36,7 @@ class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_paypoint($element, $data)
+	public function onPrePayment_rs_payment_paypoint($element, $data)
 	{
 		$config = new Redconfiguration;
 		// Get user billing information

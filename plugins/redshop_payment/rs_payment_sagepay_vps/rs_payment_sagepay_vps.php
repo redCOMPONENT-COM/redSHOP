@@ -23,7 +23,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_sagepay_vps(&$subject)
+	public function plgRedshop_paymentrs_payment_sagepay_vps(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -35,7 +35,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-function onPrePayment($element, $data)
+public function onPrePayment($element, $data)
 {
 	$config = new Redconfiguration;
 	$currencyClass = new convertPrice;

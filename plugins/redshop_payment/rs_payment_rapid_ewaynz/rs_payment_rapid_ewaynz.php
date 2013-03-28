@@ -24,7 +24,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_rapid_ewaynz(&$subject)
+	public function plgRedshop_paymentrs_payment_rapid_ewaynz(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -36,7 +36,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_rapid_ewaynz')
 		{
